@@ -43,7 +43,7 @@ STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
 // STUB(void glEvalCoord());
 // STUB(void glEvalPoint());
 STUB(GLint glRenderMode(GLenum mode))
-STUB(void glArrayElement(GLint i))
+//STUB(void glArrayElement(GLint i))
 #ifndef USE_ES2
 STUB(void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha))
 #endif
