@@ -39,10 +39,10 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
 }
 
 static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
-                                     GLenum format, GLenum type,
+                                     GLenum *format, GLenum *type,
                                      const GLvoid *data) {
     bool convert = false;
-    switch (format) {
+    switch (*format) {
         case GL_ALPHA:
         case GL_RGB:
         case GL_RGBA:
@@ -53,7 +53,7 @@ static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
             convert = true;
             break;
     }
-    switch (type) {
+    switch (*type) {
         case GL_FLOAT:
         case GL_UNSIGNED_BYTE:
         case GL_UNSIGNED_SHORT_5_6_5:
@@ -61,7 +61,7 @@ static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
         case GL_UNSIGNED_SHORT_5_5_5_1:
             break;
         case GL_UNSIGNED_INT_8_8_8_8_REV:
-            type = GL_UNSIGNED_BYTE;
+            *type = GL_UNSIGNED_BYTE;
             break;
         default:
             convert = true;
@@ -71,13 +71,13 @@ static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
     if (convert) {
         GLvoid *pixels = (GLvoid *)data;
         if (! pixel_convert(data, &pixels, width, height,
-                            format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                            *format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
             printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
                 format, type);
             return NULL;
         }
-        type = GL_UNSIGNED_BYTE;
-        format = GL_RGBA;
+        *type = GL_UNSIGNED_BYTE;
+        *format = GL_RGBA;
         return pixels;
     }
     return data;
@@ -107,7 +107,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         }
 
         GLvoid *old = pixels;
-        pixels = (GLvoid *)swizzle_texture(width, height, format, type, data);
+        pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, data);
         if (old != pixels && old != data)
             free(old);
 
@@ -185,7 +185,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
               GLint, GLsizei, GLsizei,
               GLenum, GLenum, const GLvoid *);
 
-    const GLvoid *pixels = swizzle_texture(width, height, format, type, data);
+    const GLvoid *pixels = swizzle_texture(width, height, &format, &type, data);
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
                          width, height, format, type, pixels);
     if (pixels != data)
