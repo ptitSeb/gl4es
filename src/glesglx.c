@@ -1,6 +1,8 @@
 #include <glesglx.h>
 #include <stdio.h>
 
+#define maxConfigs 20
+
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -25,6 +27,27 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
     printf("glXChooseVisual\n");
+
+    EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
+    int configsFound;
+    eglChooseConfig(display, attributes, configs, maxConfigs, &configsFound);
+
+    XVisualInfo *visuals = (XVisualInfo *)malloc(sizeof(XVisualInfo) * configsFound);
+    for (int i = 0; i < configsFound; i++) {
+        XVisualInfo *visual = (visuals+i);
+        EGLConfig *config = (configs+i);
+
+        // maybe bad if this is ever called more than once and cached
+        visual->visualid = i;
+        visual->screen = screen;
+
+        // http://tronche.com/gui/x/xlib/window/visual-types.html
+        // hope this is good enough :)
+        eglGetConfigAttrib(display, config, EGL_DEPTH_SIZE, &visual->depth);
+        visual->class = TrueColor;
+    }
+
+    return visuals;
 }
 
 Bool glXMakeCurrent(Display *display,

@@ -1,7 +1,8 @@
 #include <EGL/egl.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <stdbool.h>
 
 typedef struct {
     Display *currentDpy;
