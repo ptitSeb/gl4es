@@ -22,6 +22,9 @@ bool glwEnableVertex;
 bool glwEnableColor;
 bool glwEnableTexCoord;
 
+void *gles;
+void (*glesColor4f)(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+
 // immediate mode functions
 
 void glBegin(GLenum mode) {
@@ -111,7 +114,7 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     glwPos++;
 }
 
-void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (glwImmediate) {
         GLfloat color[] = {r, g, b, a};
         if (!glwEnableColor) {
@@ -125,12 +128,18 @@ void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             memcpy(glwColor, color, sizeof(GLfloat) * 4);
         }
     } else {
-        // TODO: run unmangled version
-        // glColor4f(r, g, b, a);
+        // load upstream glColor4f if necessary
+        if (glesColor4f == NULL) {
+            if (gles == NULL) {
+                gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
+            }
+            glesColor4f = dlsym(gles, "glColor4f");
+        }
+        glesColor4f(r, g, b, a);
     }
 }
 
-void glwTexCoord2f(GLfloat s, GLfloat t) {
+void glTexCoord2f(GLfloat s, GLfloat t) {
     if (glwImmediate) {
         GLfloat tex[] = {s, t};
         if (!glwEnableTexCoord) {
@@ -143,8 +152,6 @@ void glwTexCoord2f(GLfloat s, GLfloat t) {
         }
 
         memcpy(glwTexCoord, tex, sizeof(GLfloat) * 4);
-    } else {
-        // does this need to call upstream version?
     }
 }
 

@@ -1,4 +1,5 @@
 #include <GLES/gl.h>
+#include <dlfcn.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -26,18 +27,17 @@ typedef struct {
 void glBegin(GLenum mode);
 void glEnd();
 
-// TODO: dlsym or whatever and allow passthrough of identical calls
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
 void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
 }
 
-void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-void glColor3f(GLfloat r, GLFloat g, GLFloat b) {
+void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glColor4f(r, g, b, 1.0f);
 }
 
-void glwTexCoord2f(GLfloat s, GLfloat t);
+void glTexCoord2f(GLfloat s, GLfloat t);
 GLuint glGenLists(GLsizei range);
 void glNewList(GLuint list);
 void glEndList(GLuint list);
