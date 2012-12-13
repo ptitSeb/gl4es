@@ -4,7 +4,7 @@
 
 typedef struct __GLXcontextRec {
     Display *currentDpy;
-    GLboolean isDirect;
+    unsigned char isDirect;
     int currentDrawable;
     int currentReadable;
     XID xid;
