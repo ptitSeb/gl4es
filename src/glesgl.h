@@ -22,7 +22,6 @@ typedef struct {
 } glwList;
 
 #define GLW_LIST_SIZE sizeof(GLfloat)*12*256
-// o_O silly syntax highlighting
 
 void glBegin(GLenum mode);
 void glEnd();
