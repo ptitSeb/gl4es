@@ -7,6 +7,12 @@ set(CMAKE_OSX_ARCHITECTURES i386 CACHE STRING "do not build for 64-bit" FORCE)
 include_directories(src include)
 link_directories(lib)
 
-add_library(GL SHARED src/glesgl.c)
+add_library(GL SHARED src/glesgl.c src/glesglx.c)
 target_link_libraries(GL GLES_CM)
+target_link_libraries(GL EGL)
 
+find_package(X11)
+if (X11_FOUND)
+    include_directories(${X11_INCLUDE_DIRS})
+    target_link_libraries (GL ${X11_LIBRARIES})
+endif (X11_FOUND)
