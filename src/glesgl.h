@@ -2,6 +2,7 @@
 #include <dlfcn.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -22,7 +23,7 @@ typedef struct {
     glwListData *data;
 } glwList;
 
-#define GLW_LIST_SIZE 12*256*sizeof(GLFloat)
+#define GLW_LIST_SIZE 12*256*sizeof(GLfloat)
 
 void glBegin(GLenum mode);
 void glEnd();

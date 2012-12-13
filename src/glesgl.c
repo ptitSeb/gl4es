@@ -1,5 +1,4 @@
 #include <glesgl.h>
-#include <stdio.h>
 
 // ugly global variables
 
