@@ -27,13 +27,15 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
     printf("glXChooseVisual\n");
+    int configsFound;
 
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
-    int configsFound;
     eglChooseConfig(display, attributes, configs, maxConfigs, &configsFound);
+    printf("%i configs found\n", configsFound);
 
     XVisualInfo *visuals = (XVisualInfo *)malloc(sizeof(XVisualInfo) * configsFound);
     for (int i = 0; i < configsFound; i++) {
+        printf("config %i\n", i);
         XVisualInfo *visual = (visuals+i);
         EGLConfig *config = (configs+i);
 
@@ -47,6 +49,7 @@ XVisualInfo *glXChooseVisual(Display *display,
         visual->class = TrueColor;
     }
 
+    printf("exiting function\n");
     return visuals;
 }
 
