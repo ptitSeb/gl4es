@@ -11,8 +11,8 @@ typedef struct {
 } GLXContext;
 
 GLXContext glXCreateContext(Display *dpy,
-                            XVisualInfo *Visual,
-                            GLXContext ShareList,
-                            Bool Direct);
+                            XVisualInfo *visual,
+                            GLXContext shareList,
+                            Bool direct);
 
-void glXDestroyContext(Display *display, GLXContext *context);
+void glXDestroyContext(Display *display, GLXContext ctx);
