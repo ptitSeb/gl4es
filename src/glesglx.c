@@ -27,10 +27,15 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
     printf("glXChooseVisual\n");
-    int configsFound;
+    int configsFound = 0;
+    EGLBoolean result;
 
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
-    eglChooseConfig(display, attributes, configs, maxConfigs, &configsFound);
+    result = eglChooseConfig(display, attributes, configs, maxConfigs, &configsFound);
+    if (result != EGL_TRUE || configsFound == 0) {
+        printf("No EGL configs found.\n");
+        return NULL;
+    }
     printf("%i configs found\n", configsFound);
 
     XVisualInfo *visuals = (XVisualInfo *)malloc(sizeof(XVisualInfo) * configsFound);
