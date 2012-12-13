@@ -66,7 +66,7 @@ void glEnd() {
         if (size > glwListSize) {
             GLuint difference = size - glwListSize;
             GLuint newSize = glwListSize + ((difference / GLW_LIST_SIZE) + 1) * GLW_LIST_SIZE;
-            realloc(l, sizeof(glwListData) + newSize);
+            l = realloc(l, sizeof(glwListData) + newSize);
             printf("realloc'd to %d\n", newSize);
         }
 
