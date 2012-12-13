@@ -21,12 +21,22 @@ typedef struct {
     glwListData *data;
 } glwList;
 
-#define GLW_LIST_SIZE sizeof(GLfloat)*12*256
+#define GLW_LIST_SIZE 12*256*sizeof(GLFloat)
 
 void glBegin(GLenum mode);
 void glEnd();
+
+// TODO: dlsym or whatever and allow passthrough of identical calls
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
+void glVertex2f(GLfloat x, GLfloat y) {
+    glVertex3f(x, y, 0);
+}
+
 void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+void glColor3f(GLfloat r, GLFloat g, GLFloat b) {
+    glColor4f(r, g, b, 1.0f);
+}
+
 void glwTexCoord2f(GLfloat s, GLfloat t);
 GLuint glGenLists(GLsizei range);
 void glNewList(GLuint list);

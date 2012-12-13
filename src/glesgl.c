@@ -110,7 +110,6 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
 
     glwPos++;
 }
-#define glVertex2f(x, y) glVertex3f(x, y, 0)
 
 void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (glwImmediate) {
@@ -126,11 +125,10 @@ void glwColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             memcpy(glwColor, color, sizeof(GLfloat) * 4);
         }
     } else {
-        glColor4f(r, g, b, a);
+        // TODO: run unmangled version
+        // glColor4f(r, g, b, a);
     }
 }
-#define glColor4f glwColor4f
-#define glColor3f(r, g, b) glColor4f(r, g, b, 1.0f);
 
 void glwTexCoord2f(GLfloat s, GLfloat t) {
     if (glwImmediate) {
@@ -145,9 +143,10 @@ void glwTexCoord2f(GLfloat s, GLfloat t) {
         }
 
         memcpy(glwTexCoord, tex, sizeof(GLfloat) * 4);
+    } else {
+        // does this need to call upstream version?
     }
 }
-#define glTexCoord2f glwTexCoord2f
 
 // display lists
 
