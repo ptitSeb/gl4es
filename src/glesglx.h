@@ -2,13 +2,13 @@
 #include <X11/Xutil.h>
 #include <EGL/egl.h>
 
-typedef struct __GLXcontextRec {
+typedef struct {
     Display *currentDpy;
     unsigned char isDirect;
     int currentDrawable;
     int currentReadable;
     XID xid;
-} __GLXcontext;
+} GLXContext;
 
 GLXContext glXCreateContext(Display *dpy,
                             XVisualInfo *Visual,
