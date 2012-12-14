@@ -4,6 +4,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct {
     Display *currentDpy;
@@ -19,17 +20,11 @@ GLXContext glXCreateContext(Display *dpy,
                             Bool direct);
 
 void glXDestroyContext(Display *display, GLXContext ctx);
-
-#define GLX_BUFFER_SIZE         2
-#define GLX_LEVEL               3
-#define GLX_RGBA                4
-#define GLX_RED_SIZE            8
-#define GLX_GREEN_SIZE          9
-#define GLX_BLUE_SIZE           10
-#define GLX_ALPHA_SIZE          11
-#define GLX_DEPTH_SIZE          12
-#define GLX_STENCIL_SIZE        13
-#define GLX_NONE                0x8000
+XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes);
+Bool glXMakeCurrent(Display *display, int drawable, GLXContext context);
+void glXSwapBuffers(Display *display, int drawable);
+int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
+const char *glXQueryExtensionsString(Display *display, int screen);
 
 int8_t CheckEGLErrors() {
     EGLenum error;

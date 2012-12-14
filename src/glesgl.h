@@ -28,19 +28,22 @@ typedef struct {
 void glBegin(GLenum mode);
 void glEnd();
 
-void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
-void glVertex2f(GLfloat x, GLfloat y) {
-    glVertex3f(x, y, 0);
-}
+void glClearDepth(GLclampf depth);
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
-    glColor4f(r, g, b, 1.0f);
-}
+void glColor3f(GLfloat r, GLfloat g, GLfloat b);
+
+void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
+void glVertex2f(GLfloat x, GLfloat y);
+void glVertex2i(GLint x, GLint y);
 
 void glTexCoord2f(GLfloat s, GLfloat t);
+
 GLuint glGenLists(GLsizei range);
-void glNewList(GLuint list);
-void glEndList(GLuint list);
 void glCallList(GLuint list);
 void glDeleteList(GLuint list);
+void glEndList(GLuint list);
+void glNewList(GLuint list);
+
+// stubs
+void glClearDepth(GLfloat depth);

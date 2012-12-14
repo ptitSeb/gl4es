@@ -7,6 +7,9 @@ EGLDisplay eglDisplay;
 EGLSurface eglSurface;
 EGLConfig eglConfig;
 
+// hmm...
+EGLContext eglContext;
+
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -17,8 +20,8 @@ GLXContext glXCreateContext(Display *display,
 
     // make an egl context here...
     EGLBoolean result;
-    if (!eglDisplay) {
-        eglDisplay = eglGetDisplay(display);
+    if (!eglDisplay || eglDisplay == EGL_NO_DISPLAY) {
+        eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
             return fake;
@@ -27,12 +30,12 @@ GLXContext glXCreateContext(Display *display,
 
     // first time?
     if (eglInitialized == false) {
-        eglInitialized = true;
         result = eglInitialize(eglDisplay, NULL, NULL);
         if (result != EGL_TRUE) {
             printf("Unable to initialize EGL display.\n");
             return fake;
         }
+        eglInitialized = true;
     }
 
     EGLint eglAttrs[] = {
@@ -48,22 +51,25 @@ GLXContext glXCreateContext(Display *display,
     int configsFound;
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
     result = eglChooseConfig(eglDisplay, eglAttrs, configs, maxConfigs, &configsFound);
+    printf("eglChooseConfig\n");
+    CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
     eglConfig = configs[0];
-    EGLContext egl = eglCreateContext(display, eglConfig, NULL, eglAttrs);
+    eglContext = eglCreateContext(display, eglConfig, NULL, eglAttrs);
+    CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    return (GLXContext){display, true, &egl, 0, 0};;
+    return (GLXContext){display, true, 0, 0, 0};;
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
     printf("glXDestroyContext\n");
     display = XOpenDisplay(NULL);
-    if (ctx.egl != NULL) {
-        EGLBoolean result = eglDestroyContext(display, *ctx.egl);
+    if (eglContext) {
+        EGLBoolean result = eglDestroyContext(display, eglContext);
         if (eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
@@ -73,11 +79,6 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
         }
     }
     return;
-}
-
-void *glXGetProcAddressARB(const char *name) {
-    printf("glXGetProcAddressARB\n");
-    return NULL;
 }
 
 XVisualInfo *glXChooseVisual(Display *display,
@@ -91,25 +92,34 @@ XVisualInfo *glXChooseVisual(Display *display,
     return visual;
 }
 
+/*
+EGL_BAD_MATCH is generated if draw or read are not compatible with context
+or if context is set to EGL_NO_CONTEXT and draw or read are not set to
+EGL_NO_SURFACE, or if draw or read are set to EGL_NO_SURFACE and context is
+not set to EGL_NO_CONTEXT.
+*/
+
 Bool glXMakeCurrent(Display *display,
                     int drawable,
                     GLXContext context) {
     printf("glXMakeCurrent\n");
-    EGLContext *ctx = context.egl;
     eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, NULL);
-    printf("here\n");
-    EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, *ctx);
+    CheckEGLErrors();
+
+    if (eglContext == EGL_NO_CONTEXT) {
+        printf("no context\n");
+    }
+    EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+    CheckEGLErrors();
     if (result) {
         printf("seems to have worked.\n");
         return true;
     }
-    CheckEGLErrors();
     return false;
 }
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
-    printf("glXSwapBuffers\n");
     eglSwapBuffers(eglDisplay, eglSurface);
 }
 
