@@ -9,7 +9,7 @@
 typedef struct {
     Display *currentDpy;
     unsigned char isDirect;
-    EGLContext *egl;
+    int currentWritable;
     int currentReadable;
     XID xid;
 } GLXContext;

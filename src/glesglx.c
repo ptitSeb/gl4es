@@ -14,14 +14,26 @@ GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
+    display = XOpenDisplay(NULL);
+
     printf("glXCreateContext\n");
     GLXContext fake = {0, 0, NULL, 0, 0};
-    display = XOpenDisplay(NULL);
+    if (eglDisplay != NULL) {
+        eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+        if (eglContext != NULL) {
+            eglDestroyContext(eglDisplay, eglContext);
+            eglContext = NULL;
+        }
+        if (eglSurface != NULL) {
+            eglDestroySurface(eglDisplay, eglSurface);
+            eglSurface = NULL;
+        }
+    }
 
     // make an egl context here...
     EGLBoolean result;
-    if (!eglDisplay || eglDisplay == EGL_NO_DISPLAY) {
-        eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
+        eglDisplay = eglGetDisplay(display);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
             return fake;
@@ -30,6 +42,7 @@ GLXContext glXCreateContext(Display *display,
 
     // first time?
     if (eglInitialized == false) {
+        eglBindAPI(EGL_OPENGL_ES_API);
         result = eglInitialize(eglDisplay, NULL, NULL);
         if (result != EGL_TRUE) {
             printf("Unable to initialize EGL display.\n");
@@ -44,32 +57,29 @@ GLXContext glXCreateContext(Display *display,
         EGL_BLUE_SIZE, 5,
         EGL_DEPTH_SIZE, 16,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
-        EGL_NONE,
+        EGL_NONE
     };
 
     int configsFound;
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
     result = eglChooseConfig(eglDisplay, eglAttrs, configs, maxConfigs, &configsFound);
-    printf("eglChooseConfig\n");
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
     eglConfig = configs[0];
-    eglContext = eglCreateContext(display, eglConfig, NULL, eglAttrs);
+    eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    return (GLXContext){display, true, 0, 0, 0};;
+    return (GLXContext){display, true, 0, 0, 1};;
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
     printf("glXDestroyContext\n");
-    display = XOpenDisplay(NULL);
     if (eglContext) {
-        EGLBoolean result = eglDestroyContext(display, eglContext);
+        EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);
         if (eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
@@ -112,7 +122,6 @@ Bool glXMakeCurrent(Display *display,
     EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
     CheckEGLErrors();
     if (result) {
-        printf("seems to have worked.\n");
         return true;
     }
     return false;
@@ -134,7 +143,7 @@ int glXGetConfig(Display *display,
 const char *glXQueryExtensionsString(Display *display,
                                      int screen) {
     printf("glXQueryExtensionsString\n");
-    return 0;
+    return "";
 }
 void glXSwapIntervalSGI() {}
 void glXSwapIntervalMESA() {}
