@@ -1,4 +1,5 @@
 #include <glesglx.h>
+#include <GLES/gl.h>
 
 #define maxConfigs 20
 
@@ -16,8 +17,8 @@ GLXContext glXCreateContext(Display *display,
                             Bool isDirect) {
     display = XOpenDisplay(NULL);
 
-    printf("glXCreateContext\n");
-    GLXContext fake = {0, 0, NULL, 0, 0};
+    printf("glXCreateContext()\n");
+    GLXContext fake = {NULL, 0, 0, 0, 0};
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
         if (eglContext != NULL) {
@@ -51,24 +52,26 @@ GLXContext glXCreateContext(Display *display,
         eglInitialized = true;
     }
 
-    EGLint eglAttrs[] = {
+    EGLint configAttribs[] = {
         EGL_RED_SIZE, 5,
         EGL_GREEN_SIZE, 6,
         EGL_BLUE_SIZE, 5,
         EGL_DEPTH_SIZE, 16,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
         EGL_NONE
     };
 
     int configsFound;
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
-    result = eglChooseConfig(eglDisplay, eglAttrs, configs, maxConfigs, &configsFound);
+    result = eglChooseConfig(eglDisplay, configAttribs, configs, maxConfigs, &configsFound);
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
     eglConfig = configs[0];
+
     eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
     CheckEGLErrors();
 
@@ -77,7 +80,7 @@ GLXContext glXCreateContext(Display *display,
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
-    printf("glXDestroyContext\n");
+    printf("glXDestroyContext()\n");
     if (eglContext) {
         EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);
         if (eglSurface != NULL) {
@@ -94,10 +97,10 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
 XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
-    printf("glXChooseVisual\n");
-    XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
+    printf("glXChooseVisual()\n");
     // apparently can't trust the Display I'm passed?
     display = XOpenDisplay(NULL);
+    XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     XMatchVisualInfo(display, screen, 16, TrueColor, visual);
     return visual;
 }
@@ -112,13 +115,22 @@ not set to EGL_NO_CONTEXT.
 Bool glXMakeCurrent(Display *display,
                     int drawable,
                     GLXContext context) {
-    printf("glXMakeCurrent\n");
-    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, NULL);
+    printf("glXMakeCurrent()\n");
+
+    if (eglDisplay != NULL) {
+        eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+        if (eglSurface != NULL) {
+            eglDestroySurface(eglDisplay, eglSurface);
+        }
+    }
+
+    if (!drawable) {
+        return false;
+    }
+
+    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, 0);
     CheckEGLErrors();
 
-    if (eglContext == EGL_NO_CONTEXT) {
-        printf("no context\n");
-    }
     EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
     CheckEGLErrors();
     if (result) {
@@ -129,20 +141,22 @@ Bool glXMakeCurrent(Display *display,
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
+    printf("glxSwapBuffers()\n");
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     eglSwapBuffers(eglDisplay, eglSurface);
+    CheckEGLErrors();
 }
 
 int glXGetConfig(Display *display,
                  XVisualInfo *visual,
                  int attribute,
                  int *value) {
-    printf("glXGetConfig\n");
+    printf("glXGetConfig()\n");
     return 0;
 }
 
 const char *glXQueryExtensionsString(Display *display,
                                      int screen) {
-    printf("glXQueryExtensionsString\n");
     return "";
 }
 void glXSwapIntervalSGI() {}

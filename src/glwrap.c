@@ -5,6 +5,11 @@ void glClearDepth(GLclampf depth) {
     glClearDepthf(depth);
 }
 
+void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
+             GLfloat top, GLfloat near, GLfloat far) {
+    glOrthof(left, right, bottom, top, near, far);
+}
+
 void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
 }

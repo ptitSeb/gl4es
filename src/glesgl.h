@@ -23,12 +23,18 @@ typedef struct {
     glwListData *data;
 } glwList;
 
+#define GL_QUADS 7
+#define GL_QUAD_STRIP 8
+#define GL_POLYGON 9
+
 #define GLW_LIST_SIZE 12*256*sizeof(GLfloat)
 
 void glBegin(GLenum mode);
 void glEnd();
 
 void glClearDepth(GLclampf depth);
+void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
+             GLfloat top, GLfloat near, GLfloat far);
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void glColor3f(GLfloat r, GLfloat g, GLfloat b);
