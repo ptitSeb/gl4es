@@ -1,6 +1,10 @@
 #include <glesgl.h>
 // naive wrappers
 
+void glActiveTextureARB(GLenum texture) {
+    glActiveTexture(texture);
+}
+
 void glClearDepth(GLclampf depth) {
     glClearDepthf(depth);
 }
@@ -8,6 +12,10 @@ void glClearDepth(GLclampf depth) {
 void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
              GLfloat top, GLfloat near, GLfloat far) {
     glOrthof(left, right, bottom, top, near, far);
+}
+
+void glFogi(GLenum pname, GLint param) {
+    glFogf(pname, param);
 }
 
 void glVertex2f(GLfloat x, GLfloat y) {

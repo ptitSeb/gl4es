@@ -116,7 +116,7 @@ Bool glXMakeCurrent(Display *display,
                     int drawable,
                     GLXContext context) {
     printf("glXMakeCurrent()\n");
-
+    
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
         if (eglSurface != NULL) {
@@ -142,7 +142,6 @@ Bool glXMakeCurrent(Display *display,
 void glXSwapBuffers(Display *display,
                     int drawable) {
     printf("glxSwapBuffers()\n");
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 }

@@ -72,8 +72,8 @@ void glEnd() {
         GLuint size = glwListPos + (3 + (glwEnableColor ? 4 : 0) + (glwEnableTexCoord ? 2 : 0) * glwPos);
 
         if (size > glwListSize) {
-            GLuint difference = size - glwListSize;
-            GLuint newSize = glwListSize + ((difference / GLW_LIST_SIZE) + 1) * GLW_LIST_SIZE;
+            GLuint newSize = glwListSize + GLW_LIST_SIZE;
+            printf("realloc'ing to %d\n", newSize);
             l = realloc(l, sizeof(glwListData) + newSize);
             printf("realloc'd to %d\n", newSize);
         }
@@ -249,4 +249,11 @@ void glDeleteList(GLuint list) {
     }
 
     free(l-l->pos);
+}
+
+void glDeleteLists(GLuint list, GLsizei range) {
+    int i;
+    for (i = 0; i < range; i++) {
+        glDeleteList(list+i);
+    }
 }

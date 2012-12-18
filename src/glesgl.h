@@ -32,6 +32,11 @@ typedef struct {
 void glBegin(GLenum mode);
 void glEnd();
 
+void glActiveTextureARB(GLenum texture);
+void glFogi(GLenum pname, GLint param);
+void glTexGeni(GLenum coord, GLenum pname, GLint param);
+void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
+
 void glClearDepth(GLclampf depth);
 void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
              GLfloat top, GLfloat near, GLfloat far);
@@ -48,6 +53,7 @@ void glTexCoord2f(GLfloat s, GLfloat t);
 GLuint glGenLists(GLsizei range);
 void glCallList(GLuint list);
 void glDeleteList(GLuint list);
+void glDeleteLists(GLuint list, GLsizei range);
 void glEndList(GLuint list);
 void glNewList(GLuint list);
 
