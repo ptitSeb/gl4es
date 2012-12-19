@@ -11,11 +11,12 @@ EGLConfig eglConfig;
 // hmm...
 EGLContext eglContext;
 
+Display *xDisplay;
+
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-    display = XOpenDisplay(NULL);
 
     GLXContext fake = {NULL, 0, 0, 0, 0};
     if (eglDisplay != NULL) {
@@ -33,7 +34,10 @@ GLXContext glXCreateContext(Display *display,
     // make an egl context here...
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        eglDisplay = eglGetDisplay(display);
+        if (xDisplay == NULL) {
+            xDisplay = XOpenDisplay(NULL);
+        }
+        eglDisplay = eglGetDisplay(xDisplay);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
             return fake;
@@ -75,7 +79,7 @@ GLXContext glXCreateContext(Display *display,
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    return (GLXContext){display, true, 0, 0, 1};;
+    return (GLXContext){display, true, 0, 0, 1};
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
@@ -97,7 +101,9 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int *attributes) {
 
     // apparently can't trust the Display I'm passed?
-    display = XOpenDisplay(NULL);
+    if (xDisplay == NULL) {
+        xDisplay = XOpenDisplay(NULL);
+    }
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     XMatchVisualInfo(display, screen, 16, TrueColor, visual);
     return visual;
