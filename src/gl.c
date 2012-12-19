@@ -1,4 +1,4 @@
-#include <glesgl.h>
+#include <gl.h>
 
 // ugly global variables
 

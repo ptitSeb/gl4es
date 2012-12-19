@@ -1,4 +1,4 @@
-#include <glesglx.h>
+#include <glx.h>
 #include <GLES/gl.h>
 
 #define maxConfigs 20

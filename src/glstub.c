@@ -1,4 +1,4 @@
-#include <glesgl.h>
+#include <gl.h>
 
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     return;

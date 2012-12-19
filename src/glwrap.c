@@ -1,4 +1,4 @@
-#include <glesgl.h>
+#include <gl.h>
 // naive wrappers
 
 void glActiveTextureARB(GLenum texture) {

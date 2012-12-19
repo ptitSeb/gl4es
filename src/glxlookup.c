@@ -1,4 +1,4 @@
-#include <glesgl.h>
+#include <gl.h>
 
 #define EX(func_name)\
     if (strcmp(name, #func_name) == 0) return func_name
