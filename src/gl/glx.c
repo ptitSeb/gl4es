@@ -73,7 +73,10 @@ GLXContext glXCreateContext(Display *display,
         printf("No EGL configs found.\n");
         return fake;
     }
-    eglConfig = configs[0];
+    if (eglConfig) free(eglConfig);
+    eglConfig = malloc(sizeof(EGLConfig));
+    memcpy(&eglConfig, configs, sizeof(EGLConfig));
+    free(configs);
 
     eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
     CheckEGLErrors();
