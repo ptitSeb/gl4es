@@ -5,12 +5,12 @@ void glActiveTextureARB(GLenum texture) {
     glActiveTexture(texture);
 }
 
-void glClearDepth(GLclampf depth) {
+void glClearDepth(double depth) {
     glClearDepthf(depth);
 }
 
-void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
-             GLfloat top, GLfloat near, GLfloat far) {
+void glOrtho(double left, double right, double bottom,
+             double top, double near, double far) {
     glOrthof(left, right, bottom, top, near, far);
 }
 

@@ -37,9 +37,9 @@ void glFogi(GLenum pname, GLint param);
 void glTexGeni(GLenum coord, GLenum pname, GLint param);
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
 
-void glClearDepth(GLclampf depth);
-void glOrtho(GLfloat left, GLfloat right, GLfloat bottom,
-             GLfloat top, GLfloat near, GLfloat far);
+void glClearDepth(double depth);
+void glOrtho(double left, double right, double bottom,
+             double top, double near, double far);
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void glColor3f(GLfloat r, GLfloat g, GLfloat b);
@@ -56,6 +56,3 @@ void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
 void glEndList(GLuint list);
 void glNewList(GLuint list);
-
-// stubs
-void glClearDepth(GLfloat depth);
