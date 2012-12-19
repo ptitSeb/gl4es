@@ -30,7 +30,6 @@ void glBegin(GLenum mode) {
     if (mode == GL_QUADS) mode = GL_TRIANGLE_FAN;
     if (mode == GL_QUAD_STRIP) mode = GL_TRIANGLE_STRIP;
     if (mode == GL_POLYGON) mode = GL_TRIANGLE_FAN;
-    printf("glBegin(%i)\n", mode);
 
     glwPos = 0;
     glwDrawMode = mode;
@@ -41,7 +40,6 @@ void glBegin(GLenum mode) {
 }
 
 void glEnd() {
-    printf("glEnd()\n");
     glwImmediate = false;
 
     // are we in the middle of a display list?
@@ -106,7 +104,6 @@ void glEnd() {
 }
 
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
-    printf("glVertex3f(%.2f, %.2f, %.2f)\n", x, y, z);
     glwEnableVertex = true;
     if (glwEnableColor) {
         memcpy(&glwColors[glwPos][0], glwColor, sizeof(GLfloat) * 4);
@@ -122,7 +119,6 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-    printf("glColor4f(%.2f, %.2f, %.2f, %.2f)\n", r, g, b, a);
     if (glwImmediate) {
         GLfloat color[] = {r, g, b, a};
         if (!glwEnableColor) {
@@ -148,7 +144,6 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 }
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
-    printf("glTexCoord2f(%.2f, %.2f)\n", s, t);
     if (glwImmediate) {
         GLfloat tex[] = {s, t};
         if (!glwEnableTexCoord) {

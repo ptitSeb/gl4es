@@ -17,7 +17,6 @@ GLXContext glXCreateContext(Display *display,
                             Bool isDirect) {
     display = XOpenDisplay(NULL);
 
-    printf("glXCreateContext()\n");
     GLXContext fake = {NULL, 0, 0, 0, 0};
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -80,7 +79,6 @@ GLXContext glXCreateContext(Display *display,
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
-    printf("glXDestroyContext()\n");
     if (eglContext) {
         EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);
         if (eglSurface != NULL) {
@@ -97,7 +95,7 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
 XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
-    printf("glXChooseVisual()\n");
+
     // apparently can't trust the Display I'm passed?
     display = XOpenDisplay(NULL);
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
@@ -115,8 +113,7 @@ not set to EGL_NO_CONTEXT.
 Bool glXMakeCurrent(Display *display,
                     int drawable,
                     GLXContext context) {
-    printf("glXMakeCurrent()\n");
-    
+
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
         if (eglSurface != NULL) {
@@ -141,7 +138,6 @@ Bool glXMakeCurrent(Display *display,
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
-    printf("glxSwapBuffers()\n");
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 }
