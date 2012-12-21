@@ -173,6 +173,7 @@ GLuint glGenLists(GLsizei range) {
 }
 
 void glNewList(GLuint list) {
+    printf("glNewList(%i);\n", list);
     glwList *l = (glwList *)(list * 8);
 
     l->created = true;
@@ -185,6 +186,7 @@ void glNewList(GLuint list) {
 }
 
 void glEndList(GLuint list) {
+    printf("glEndList(%i);\n", list);
     glwActiveList = NULL;
 }
 
@@ -225,11 +227,13 @@ void glCallList(GLuint list) {
 
         if (ld->isLast) break;
         ld = next;
+        if (!ld->len) break;
     }
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void glDeleteList(GLuint list) {
+    printf("glDeleteList(%i);\n", list);
     glwList *l = (glwList *)(list * 8);
     l->free = true;
     if (l->created) {
