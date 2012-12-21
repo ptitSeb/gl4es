@@ -14,6 +14,11 @@ void glOrtho(double left, double right, double bottom,
     glOrthof(left, right, bottom, top, near, far);
 }
 
+void glFrustum(double left, double right, double bottom,
+             double top, double near, double far) {
+    glFrustumf(left, right, bottom, top, near, far);
+}
+
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }

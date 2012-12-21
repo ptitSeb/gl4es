@@ -27,32 +27,29 @@ typedef struct {
 #define GL_QUAD_STRIP 8
 #define GL_POLYGON 9
 
-#define GLW_LIST_SIZE 12*256*sizeof(GLfloat)
+#define GLW_LIST_SIZE 12*10240*sizeof(GLfloat)
 
-void glBegin(GLenum mode);
-void glEnd();
-
-void glActiveTextureARB(GLenum texture);
-void glFogi(GLenum pname, GLint param);
-void glTexGeni(GLenum coord, GLenum pname, GLint param);
-void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
-
-void glClearDepth(double depth);
-void glOrtho(double left, double right, double bottom,
-             double top, double near, double far);
-
-void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-void glColor3f(GLfloat r, GLfloat g, GLfloat b);
-
-void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
-void glVertex2f(GLfloat x, GLfloat y);
-void glVertex2i(GLint x, GLint y);
-
-void glTexCoord2f(GLfloat s, GLfloat t);
+#define GLdouble double
 
 GLuint glGenLists(GLsizei range);
+void glActiveTextureARB(GLenum texture);
+void glBegin(GLenum mode);
 void glCallList(GLuint list);
+void glClearDepth(GLdouble depth);
+void glColor3f(GLfloat r, GLfloat g, GLfloat b);
+void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
+void glEnd();
 void glEndList(GLuint list);
+void glFogi(GLenum pname, GLint param);
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void glLineStipple(GLuint factor, GLushort pattern);
 void glNewList(GLuint list);
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void glTexCoord2f(GLfloat s, GLfloat t);
+void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
+void glTexGeni(GLenum coord, GLenum pname, GLint param);
+void glVertex2f(GLfloat x, GLfloat y);
+void glVertex2i(GLint x, GLint y);
+void glVertex3f(GLfloat x, GLfloat y, GLfloat z);

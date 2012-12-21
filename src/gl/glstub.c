@@ -7,3 +7,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params) {
     return;
 }
+
+void glLineStipple(GLuint factor, GLushort pattern) {
+    return;
+}
