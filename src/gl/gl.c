@@ -12,7 +12,7 @@ GLfloat glwTexCoords[10240][2];
 GLfloat glwColors[10240][4];
 
 GLfloat glwColor[4];
-GLfloat glwTexCoord[4];
+GLfloat glwTexCoord[2];
 
 GLuint glwPos;
 GLenum glwDrawMode;
@@ -21,8 +21,94 @@ bool glwEnableVertex;
 bool glwEnableColor;
 bool glwEnableTexCoord;
 
+bool bTexGenS;
+bool bTexGenT;
+
 void *gles;
 void (*glesColor4f)(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+void (*glesEnable)(GLenum cap);
+void (*glesDisable)(GLenum cap);
+
+// config functions
+
+void glEnable(GLenum cap) {
+    switch (cap) {
+        case GL_TEXTURE_GEN_S: bTexGenS = true; break;
+        case GL_TEXTURE_GEN_T: bTexGenT = true; break;
+        default:
+            if (glesColor4f == NULL) {
+                if (gles == NULL) {
+                    gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
+                }
+                glesEnable = dlsym(gles, "glEnable");
+            }
+            glesEnable(cap);
+            break;
+    }
+}
+
+void glDisable(GLenum cap) {
+    switch (cap) {
+        case GL_TEXTURE_GEN_S: bTexGenS = false; break;
+        case GL_TEXTURE_GEN_T: bTexGenT = false; break;
+        default:
+            if (glesColor4f == NULL) {
+                if (gles == NULL) {
+                    gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
+                }
+                glesDisable = dlsym(gles, "glDisable");
+            }
+            glesDisable(cap);
+            break;
+    }
+}
+
+// texture generation
+
+void glTexGeni(GLenum coord, GLenum pname, GLint param) {
+    // coord is in: GL_S, GL_T, GL_R, GL_Q
+    // pname == GL_TEXTURE_GEN_MODE
+    /* param is in:
+        GL_OBJECT_LINEAR, GL_EYE_LINEAR,
+        GL_SPHERE_MAP, GL_NORMAL_MAP, or GL_REFLECTION_MAP
+    */
+
+    /*
+    texGen[coord].type = param;
+    */
+}
+
+void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
+    // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
+
+    /*
+    if (pname == GL_TEXTURE_GEN_MODE) {
+        texGen[coord].type = param;
+        texGen[coord].param = 0;
+    } else {
+        texGen[coord].type = pname;
+        texGen[coord].param = param;
+    }
+    */
+
+    /*
+    If pname is GL_TEXTURE_GEN_MODE, then the array must contain
+    a single symbolic constant, one of
+    GL_OBJECT_LINEAR, GL_EYE_LINEAR, GL_SPHERE_MAP, GL_NORMAL_MAP,
+    or GL_REFLECTION_MAP.
+    Otherwise, params holds the coefficients for the texture-coordinate
+    generation function specified by pname.
+    */
+}
+
+void genTexCoords(GLfloat *verts, GLint count) {
+    // do some stuff.
+    int i, s = 1, t = 2;
+    for (i = 0; i < count; i++) {
+        GLfloat tex[] = {s, t};
+        memcpy(&glwTexCoords[i], tex, sizeof(GLfloat) * 2);
+    }
+}
 
 // immediate mode functions
 
@@ -126,7 +212,7 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             // catch up
             int i;
             for (i = 0; i < glwPos; i++) {
-                memcpy(&glwColors[i][0], color, sizeof(GLfloat) * 4);
+                memcpy(&glwColors[i], color, sizeof(GLfloat) * 4);
             }
 
             memcpy(glwColor, color, sizeof(GLfloat) * 4);
@@ -151,11 +237,11 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
             // catch up
             int i;
             for (i = 0; i < glwPos; i++) {
-                memcpy(&glwTexCoords[i][0], tex, sizeof(GLfloat) * 4);
+                memcpy(&glwTexCoords[i], tex, sizeof(GLfloat) * 2);
             }
         }
 
-        memcpy(glwTexCoord, tex, sizeof(GLfloat) * 4);
+        memcpy(glwTexCoord, tex, sizeof(GLfloat) * 2);
     }
 }
 

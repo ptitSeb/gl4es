@@ -23,9 +23,18 @@ typedef struct {
     glwListData *data;
 } glwList;
 
-#define GL_QUADS 7
+#define GL_QUADS      7
 #define GL_QUAD_STRIP 8
-#define GL_POLYGON 9
+#define GL_POLYGON    9
+
+#define GL_TEXTURE_GEN_S    0x0C60
+#define GL_TEXTURE_GEN_T    0x0C61
+#define GL_TEXTURE_GEN_MODE 0x2500
+
+#define GL_S 0x2000
+#define GL_T 0x2001
+#define GL_R 0x2002
+#define GL_Q 0x2003
 
 #define GLW_LIST_SIZE 12*10240*sizeof(GLfloat)
 
@@ -41,6 +50,8 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
 void glEnd();
+void glEnable(GLenum cap);
+void glDisable(GLenum cap);
 void glEndList(GLuint list);
 void glFogi(GLenum pname, GLint param);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
