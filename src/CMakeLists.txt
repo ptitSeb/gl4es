@@ -11,6 +11,9 @@ aux_source_directory(glu GLU_SOURCES)
 add_library(GLU SHARED ${GLU_SOURCES})
 target_link_libraries(GLU GLES_CM)
 
+aux_source_directory(preload PRELOAD_SOURCES)
+add_library(preload SHARED ${PRELOAD_SOURCES})
+
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
 endif()
