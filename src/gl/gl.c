@@ -65,6 +65,7 @@ void glDisable(GLenum cap) {
 
 // texture generation
 
+#if 0
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     // coord is in: GL_S, GL_T, GL_R, GL_Q
     // pname == GL_TEXTURE_GEN_MODE
@@ -77,6 +78,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     texGen[coord].type = param;
     */
 }
+
 
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
@@ -100,6 +102,7 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     generation function specified by pname.
     */
 }
+#endif
 
 void genTexCoords(GLfloat *verts, GLint count) {
     // do some stuff.
