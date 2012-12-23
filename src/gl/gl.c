@@ -22,7 +22,15 @@ bool glwEnableColor;
 bool glwEnableTexCoord;
 
 bool bTexGenS;
+GLenum texGenS;
+GLfloat texGenSv[4];
+
 bool bTexGenT;
+GLenum texGenT;
+GLfloat texGenTv[4];
+
+bool bLineStipple;
+GLenum lineStipple;
 
 void *gles;
 void (*glesColor4f)(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
@@ -31,41 +39,38 @@ void (*glesDisable)(GLenum cap);
 
 // config functions
 
-void glEnable(GLenum cap) {
+void glwEnable(GLenum cap, bool enable) {
     switch (cap) {
-        case GL_TEXTURE_GEN_S: bTexGenS = true; break;
-        case GL_TEXTURE_GEN_T: bTexGenT = true; break;
+        case GL_TEXTURE_GEN_S: bTexGenS = enable; break;
+        case GL_TEXTURE_GEN_T: bTexGenT = enable; break;
+        case GL_LINE_STIPPLE: bLineStipple = enable; break;
         default:
-            if (glesColor4f == NULL) {
+            if (glesEnable == NULL || glesDisable == NULL) {
                 if (gles == NULL) {
                     gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
                 }
                 glesEnable = dlsym(gles, "glEnable");
+                glesDisable = dlsym(gles, "glDisable");
             }
-            glesEnable(cap);
+            if (enable) {
+                glesEnable(cap);
+            } else {
+                glesDisable(cap);
+            }
             break;
     }
 }
 
+void glEnable(GLenum cap) {
+    glwEnable(cap, true);
+}
+
 void glDisable(GLenum cap) {
-    switch (cap) {
-        case GL_TEXTURE_GEN_S: bTexGenS = false; break;
-        case GL_TEXTURE_GEN_T: bTexGenT = false; break;
-        default:
-            if (glesColor4f == NULL) {
-                if (gles == NULL) {
-                    gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
-                }
-                glesDisable = dlsym(gles, "glDisable");
-            }
-            glesDisable(cap);
-            break;
-    }
+    glwEnable(cap, false);
 }
 
 // texture generation
 
-#if 0
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     // coord is in: GL_S, GL_T, GL_R, GL_Q
     // pname == GL_TEXTURE_GEN_MODE
@@ -73,25 +78,33 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
         GL_OBJECT_LINEAR, GL_EYE_LINEAR,
         GL_SPHERE_MAP, GL_NORMAL_MAP, or GL_REFLECTION_MAP
     */
-
-    /*
-    texGen[coord].type = param;
-    */
+    switch (coord) {
+        case GL_S: texGenS = param; break;
+        case GL_T: texGenT = param; break;
+    }
 }
 
 
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
 
-    /*
     if (pname == GL_TEXTURE_GEN_MODE) {
-        texGen[coord].type = param;
-        texGen[coord].param = 0;
+        switch (coord) {
+            case GL_S: texGenS = *param; break;
+            case GL_T: texGenT = *param; break;
+        }
     } else {
-        texGen[coord].type = pname;
-        texGen[coord].param = param;
+        switch (coord) {
+            case GL_S:
+                // texGenS = pname;
+                memcpy(texGenSv, param, 4 * sizeof(GLfloat));
+                break;
+            case GL_T:
+                // texGenT = pname;
+                memcpy(texGenTv, param, 4 * sizeof(GLfloat));
+                break;
+        }
     }
-    */
 
     /*
     If pname is GL_TEXTURE_GEN_MODE, then the array must contain
@@ -102,14 +115,28 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     generation function specified by pname.
     */
 }
-#endif
 
-void genTexCoords(GLfloat *verts, GLint count) {
-    // do some stuff.
-    int i, s = 1, t = 2;
+// TODO: put these in a lib
+GLfloat dot(GLfloat *a, GLfloat *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]+b[2] + a[3]+b[3];
+}
+
+GLfloat genTexCoord(GLfloat *vert, GLenum type, GLfloat *params) {
+    switch (type) {
+        case GL_OBJECT_LINEAR:
+        case GL_SPHERE_MAP:
+            return dot(vert, params);
+            break;
+    }
+    return 0;
+}
+
+void genTexCoords(GLfloat *verts, GLfloat *coords, GLint count) {
+    int i;
     for (i = 0; i < count; i++) {
-        GLfloat tex[] = {s, t};
-        memcpy(&glwTexCoords[i], tex, sizeof(GLfloat) * 2);
+        GLfloat *tex = &coords[i];
+        if (bTexGenS) tex[0] = genTexCoord(&verts[i], texGenS, texGenSv);
+        if (bTexGenT) tex[1] = genTexCoord(&verts[i], texGenT, texGenTv);
     }
 }
 
@@ -141,7 +168,10 @@ void glEnd() {
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4, GL_FLOAT, 0, *glwColors);
         }
-        if (glwEnableTexCoord) {
+        if (bTexGenS || bTexGenT) {
+            genTexCoords(*glwVerts, *glwTexCoords, glwPos);
+        }
+        if (glwEnableTexCoord || bTexGenS || bTexGenT) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2, GL_FLOAT, 0, *glwTexCoords);
         }
@@ -281,6 +311,7 @@ void glEndList(GLuint list) {
 
 void glCallList(GLuint list) {
     GLfloat *data, *vert, *color, *tex;
+    bool freeTex;
     glwListData *next, *ld;
 
     glwList *l = (glwList *)(list * 8);
@@ -301,7 +332,22 @@ void glCallList(GLuint list) {
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4, GL_FLOAT, 0, color);
         }
-        if (ld->useTex) {
+        if (bTexGenS || bTexGenT) {
+            if (!ld->useColor) {
+                glColor4f(1.0f, 0, 0, 1.0f);
+            }
+            if (ld->useTex) {
+                freeTex = false;
+                tex = (GLfloat *)next;
+                next = (glwListData *)(tex + (ld->len * 2));
+            } else {
+                freeTex = true;
+                tex = (GLfloat *)malloc(ld->len * sizeof(GLfloat));
+            }
+            genTexCoords(vert, tex, ld->len);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_FLOAT, 0, tex);
+        } else if (ld->useTex) {
             tex = (GLfloat *)next;
             next = (glwListData *)(tex + (ld->len * 2));
 
@@ -313,6 +359,9 @@ void glCallList(GLuint list) {
 
         glDisableClientState(GL_COLOR_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        if (freeTex && false) {
+            free(tex);
+        }
 
         if (ld->isLast) break;
         ld = next;
