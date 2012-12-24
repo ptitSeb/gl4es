@@ -30,7 +30,8 @@ GLenum texGenT;
 GLfloat texGenTv[4];
 
 bool bLineStipple;
-GLenum lineStipple;
+GLint stippleFactor = 1;
+GLushort stipplePattern = 0xFFFF;
 
 void *gles;
 void (*glesColor4f)(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
@@ -41,8 +42,10 @@ void (*glesDisable)(GLenum cap);
 
 void glwEnable(GLenum cap, bool enable) {
     switch (cap) {
+        /*
         case GL_TEXTURE_GEN_S: bTexGenS = enable; break;
         case GL_TEXTURE_GEN_T: bTexGenT = enable; break;
+        */
         case GL_LINE_STIPPLE: bLineStipple = enable; break;
         default:
             if (glesEnable == NULL || glesDisable == NULL) {
@@ -86,6 +89,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 
 
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
+    return;
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
 
     if (pname == GL_TEXTURE_GEN_MODE) {
@@ -132,12 +136,86 @@ GLfloat genTexCoord(GLfloat *vert, GLenum type, GLfloat *params) {
 }
 
 void genTexCoords(GLfloat *verts, GLfloat *coords, GLint count) {
+    return;
     int i;
     for (i = 0; i < count; i++) {
         GLfloat *tex = &coords[i];
         if (bTexGenS) tex[0] = genTexCoord(&verts[i], texGenS, texGenSv);
         if (bTexGenT) tex[1] = genTexCoord(&verts[i], texGenT, texGenTv);
     }
+}
+
+// drawing
+
+void glwDrawArrays(GLfloat *vert,
+                   GLfloat *color, GLfloat *tex,
+                   GLenum mode, GLuint length) {
+    if (vert != NULL) {
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_FLOAT, 0, vert);
+    }
+
+    if (color != NULL) {
+        glEnableClientState(GL_COLOR_ARRAY);
+        glColorPointer(4, GL_FLOAT, 0, color);
+    }
+
+/*
+    if (bTexGenS || bTexGenT) {
+        genTexCoords(*vert, *tex, length);
+    }
+*/
+    GLuint texture;
+    GLubyte *data = NULL;
+    if (bLineStipple) {
+        data = (GLubyte *)malloc(32 * sizeof(GLubyte));
+        GLubyte *dataPos = data;
+        // generate our texture
+        for (int i = 0; i < 16; i++) {
+            GLubyte bit = (stipplePattern >> i) & 1 ? 255 : 0;
+            *dataPos++ = bit;
+        }
+
+        // generate our texture coords
+        tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
+        GLfloat *texPos = tex;
+        for (int i = 0; i < length; i++) {
+            *texPos++ = 0; // TODO: generate texture X coordinates
+            *texPos++ = 0;
+        }
+
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
+            16, 2, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+    }
+
+    if (tex != NULL) {
+        printf("tex\n");
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glTexCoordPointer(2, GL_FLOAT, 0, tex);
+    }
+
+    glDrawArrays(mode, 0, length);
+
+    if (texture) {
+        free(data);
+        glDeleteTextures(1, &texture);
+    }
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+// misc functions
+
+void glLineStipple(GLuint factor, GLushort pattern) {
+    stippleFactor = factor;
+    stipplePattern = pattern;
 }
 
 // immediate mode functions
@@ -158,36 +236,19 @@ void glBegin(GLenum mode) {
 void glEnd() {
     glwImmediate = false;
 
-    // are we in the middle of a display list?
+    // are we not in a display list?
     if (glwActiveList == NULL) {
-        if (glwEnableVertex) {
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(3, GL_FLOAT, 0, *glwVerts);
-        }
-        if (glwEnableColor) {
-            glEnableClientState(GL_COLOR_ARRAY);
-            glColorPointer(4, GL_FLOAT, 0, *glwColors);
-        }
-        if (bTexGenS || bTexGenT) {
-            genTexCoords(*glwVerts, *glwTexCoords, glwPos);
-        }
-        if (glwEnableTexCoord || bTexGenS || bTexGenT) {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, 0, *glwTexCoords);
-        }
+        GLfloat *vert = NULL, *color = NULL, *tex = NULL;
+        if (glwEnableVertex) vert = *glwVerts;
+        if (glwEnableColor) color = *glwColors;
+        if (glwEnableTexCoord) tex = *glwTexCoords;
 
-        glDrawArrays(glwDrawMode, 0, glwPos);
-
-        if (glwEnableVertex)
-            glDisableClientState(GL_VERTEX_ARRAY);
-        if (glwEnableColor)
-            glDisableClientState(GL_COLOR_ARRAY);
-        if (glwEnableTexCoord)
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glwDrawArrays(vert, color, tex, glwDrawMode, glwPos);
     } else {
         glwListData *l = glwActiveList->data;
         GLuint size = glwListPos + (3 + (glwEnableColor ? 4 : 0) + (glwEnableTexCoord ? 2 : 0) * glwPos);
 
+        if (!size) return;
         if (size > glwListSize) {
             GLuint newSize = glwListSize + GLW_LIST_SIZE;
             printf("realloc'ing to %d\n", newSize);
@@ -317,57 +378,23 @@ void glCallList(GLuint list) {
     glwList *l = (glwList *)(list * 8);
     ld = l->data;
 
-    glEnableClientState(GL_VERTEX_ARRAY);
-
     while (true) {
         vert = &ld->data;
-
-        glVertexPointer(3, GL_FLOAT, 0, vert);
-
         next = (glwListData *)(vert + (ld->len*3));
         if (ld->useColor) {
             color = (GLfloat *)next;
             next = (glwListData *)(color + (ld->len * 4));
-
-            glEnableClientState(GL_COLOR_ARRAY);
-            glColorPointer(4, GL_FLOAT, 0, color);
         }
-        if (bTexGenS || bTexGenT) {
-            if (!ld->useColor) {
-                glColor4f(1.0f, 0, 0, 1.0f);
-            }
-            if (ld->useTex) {
-                freeTex = false;
-                tex = (GLfloat *)next;
-                next = (glwListData *)(tex + (ld->len * 2));
-            } else {
-                freeTex = true;
-                tex = (GLfloat *)malloc(ld->len * sizeof(GLfloat));
-            }
-            genTexCoords(vert, tex, ld->len);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, 0, tex);
-        } else if (ld->useTex) {
+        if (ld->useTex) {
             tex = (GLfloat *)next;
             next = (glwListData *)(tex + (ld->len * 2));
-
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, 0, tex);
         }
 
-        glDrawArrays(ld->mode, 0, ld->len);
+        glwDrawArrays(vert, color, tex, ld->mode, ld->len);
 
-        glDisableClientState(GL_COLOR_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        if (freeTex && false) {
-            free(tex);
-        }
-
-        if (ld->isLast) break;
+        if (ld->isLast || !next->len) break;
         ld = next;
-        if (!ld->len) break;
     }
-    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void glDeleteList(GLuint list) {
