@@ -175,10 +175,10 @@ void glwDrawArrays(GLfloat *vert,
         for (int i = 0; i < length / 2; i++) {
             x1 = *vertPos++;
             y1 = *vertPos++;
-            *vertPos++; // z
+            vertPos++; // z
             x2 = *vertPos++;
             y2 = *vertPos++;
-            *vertPos++;
+            vertPos++;
 
             len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor;
 
