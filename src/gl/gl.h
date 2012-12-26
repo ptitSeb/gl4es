@@ -1,4 +1,5 @@
 #include <GLES/gl.h>
+#include <glconst.h>
 #include <dlfcn.h>
 #include <inttypes.h>
 #include <stdbool.h>
@@ -34,33 +35,6 @@ typedef struct {
     GLubyte free;
     glwListData *data;
 } glwList;
-
-#define GL_QUADS      7
-#define GL_QUAD_STRIP 8
-#define GL_POLYGON    9
-
-#define GL_TEXTURE_GEN_S    0x0C60
-#define GL_TEXTURE_GEN_T    0x0C61
-#define GL_TEXTURE_GEN_MODE 0x2500
-
-#define GL_LINE_SMOOTH            0x0B20
-#define GL_LINE_STIPPLE           0x0B24
-#define GL_LINE_STIPPLE_PATTERN   0x0B25
-#define GL_LINE_STIPPLE_REPEAT    0x0B26
-#define GL_LINE_WIDTH             0x0B21
-#define GL_LINE_WIDTH_GRANULARITY 0x0B23
-#define GL_LINE_WIDTH_RANGE       0x0B22
-
-#define GL_OBJECT_LINEAR    0x2401
-#define GL_OBJECT_PLANE     0x2501
-#define GL_EYE_LINEAR       0x2400
-#define GL_EYE_PLANE        0x2502
-#define GL_SPHERE_MAP       0x2402
-
-#define GL_S 0x2000
-#define GL_T 0x2001
-#define GL_R 0x2002
-#define GL_Q 0x2003
 
 #define GLW_LIST_SIZE 12*10240*sizeof(GLfloat)
 
