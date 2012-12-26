@@ -1,4 +1,5 @@
 #include <gl.h>
+#include <math.h>
 
 // ugly global variables
 
@@ -139,6 +140,8 @@ void genTexCoords(GLfloat *verts, GLfloat *coords, GLint count) {
 void glwDrawArrays(GLfloat *vert,
                    GLfloat *color, GLfloat *tex,
                    GLenum mode, GLuint length) {
+    if (! length) return;
+
     if (vert != NULL) {
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3, GL_FLOAT, 0, vert);
@@ -155,44 +158,61 @@ void glwDrawArrays(GLfloat *vert,
     }
 */
     GLuint texture;
-    GLubyte *data = NULL;
     if (bLineStipple) {
-        data = (GLubyte *)malloc(32 * sizeof(GLubyte));
-        GLubyte *dataPos = data;
+        GLubyte data[16];
         // generate our texture
         for (int i = 0; i < 16; i++) {
-            GLubyte bit = (stipplePattern >> i) & 1 ? 255 : 0;
-            *dataPos++ = bit;
+            data[i] = (stipplePattern >> i) & 1 ? 255 : 0;
         }
 
         // generate our texture coords
         tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
         GLfloat *texPos = tex;
-        for (int i = 0; i < length; i++) {
-            *texPos++ = 0; // TODO: generate texture X coordinates
+        GLfloat *vertPos = vert;
+
+        GLfloat x1, x2, y1, y2;
+        GLfloat len;
+        for (int i = 0; i < length / 2; i++) {
+            x1 = *vertPos++;
+            y1 = *vertPos++;
+            *vertPos++; // z
+            x2 = *vertPos++;
+            y2 = *vertPos++;
+            *vertPos++;
+
+            len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor;
+
+            *texPos++ = 0;
+            *texPos++ = 0;
+            *texPos++ = len;
             *texPos++ = 0;
         }
+
+        // TODO: *disable* this afterward?
+        // maybe implement glPush/PopAttrib
+        glEnable(GL_BLEND);
+        glEnable(GL_TEXTURE_2D);
+        // restore this after?
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-            16, 2, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+            16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
     }
 
     if (tex != NULL) {
-        printf("tex\n");
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_FLOAT, 0, tex);
     }
 
     glDrawArrays(mode, 0, length);
 
-    if (texture) {
-        free(data);
+    if (texture) { // TODO: separate flag for this?
         glDeleteTextures(1, &texture);
     }
     glDisableClientState(GL_VERTEX_ARRAY);
