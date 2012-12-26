@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #ifndef M_PI
-#define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846264338327950288
 #endif
 
 void gluPerspective(double fovy, double aspect, double near, double far) {
