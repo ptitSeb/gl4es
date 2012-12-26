@@ -29,13 +29,14 @@
 #define GL_PIXEL_MODE_BIT       0x00020
 #define GL_LIGHTING_BIT         0x00040
 #define GL_FOG_BIT              0x00080
-#define GL_DEPTH_BUFFER_BIT     0x00100
+// some of these are already defined in GLES
+// #define GL_DEPTH_BUFFER_BIT     0x00100
 #define GL_ACCUM_BUFFER_BIT     0x00200
-#define GL_STENCIL_BUFFER_BIT   0x00400
+// #define GL_STENCIL_BUFFER_BIT   0x00400
 #define GL_VIEWPORT_BIT         0x00800
 #define GL_TRANSFORM_BIT        0x01000
 #define GL_ENABLE_BIT           0x02000
-#define GL_COLOR_BUFFER_BIT     0x04000
+// #define GL_COLOR_BUFFER_BIT     0x04000
 #define GL_HINT_BIT             0x08000
 #define GL_EVAL_BIT             0x10000
 #define GL_LIST_BIT             0x20000
