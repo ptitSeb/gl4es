@@ -14,6 +14,10 @@ typedef struct {
     XID xid;
 } GLXContext;
 
+#define GLX_VENDOR              1
+#define GLX_VERSION             2
+#define GLX_EXTENSIONS          3
+
 GLXContext glXCreateContext(Display *dpy,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -25,6 +29,9 @@ Bool glXMakeCurrent(Display *display, int drawable, GLXContext context);
 void glXSwapBuffers(Display *display, int drawable);
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 const char *glXQueryExtensionsString(Display *display, int screen);
+Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase);
+Bool glXQueryVersion(Display *display, int *major, int *minor);
+const char *glXGetClientString(Display *display, int name);
 
 int8_t CheckEGLErrors() {
     EGLenum error;

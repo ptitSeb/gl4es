@@ -159,10 +159,31 @@ int glXGetConfig(Display *display,
     return 0;
 }
 
-const char *glXQueryExtensionsString(Display *display,
-                                     int screen) {
+const char *glXQueryExtensionsString(Display *display, int screen) {
     return "";
 }
+
+Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
+    // TODO: figure out which extensions we support?
+    return false;
+}
+
+Bool glXQueryVersion(Display *display, int *major, int *minor) {
+    // TODO: figure out which version we want to pretend to implement
+    *major = 1;
+    *minor = 0;
+}
+
+const char *glXGetClientString(Display *display, int name) {
+    // TODO: return actual data here
+    switch (name) {
+        case GLX_VENDOR: break;
+        case GLX_VERSION: break;
+        case GLX_EXTENSIONS: break;
+    }
+    return "";
+}
+
 void glXSwapIntervalSGI() {}
 void glXSwapIntervalMESA() {}
 // glXCreatePixmap()?
