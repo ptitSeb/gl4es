@@ -33,43 +33,32 @@ bool bLineStipple;
 GLint stippleFactor = 1;
 GLushort stipplePattern = 0xFFFF;
 
-void *gles;
-void (*glesColor4f)(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-void (*glesEnable)(GLenum cap);
-void (*glesDisable)(GLenum cap);
+bool bBlend;
+bool bTexture2d;
 
 // config functions
 
-void glwEnable(GLenum cap, bool enable) {
+void glwEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     switch (cap) {
         /*
         case GL_TEXTURE_GEN_S: bTexGenS = enable; break;
         case GL_TEXTURE_GEN_T: bTexGenT = enable; break;
         */
+        case GL_BLEND: bBlend = enable; next(cap); break;
+        case GL_TEXTURE_2D: bTexture2d = enable; next(cap); break;
         case GL_LINE_STIPPLE: bLineStipple = enable; break;
-        default:
-            if (glesEnable == NULL || glesDisable == NULL) {
-                if (gles == NULL) {
-                    gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
-                }
-                glesEnable = dlsym(gles, "glEnable");
-                glesDisable = dlsym(gles, "glDisable");
-            }
-            if (enable) {
-                glesEnable(cap);
-            } else {
-                glesDisable(cap);
-            }
-            break;
+        default: next(cap); break;
     }
 }
 
 void glEnable(GLenum cap) {
-    glwEnable(cap, true);
+    LOAD_REAL(void, glEnable, GLenum);
+    glwEnable(cap, true, real_glEnable);
 }
 
 void glDisable(GLenum cap) {
-    glwEnable(cap, false);
+    LOAD_REAL(void, glDisable, GLenum);
+    glwEnable(cap, false, real_glDisable);
 }
 
 // texture generation
@@ -312,14 +301,8 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             memcpy(glwColor, color, sizeof(GLfloat) * 4);
         }
     } else {
-        // load upstream glColor4f if necessary
-        if (glesColor4f == NULL) {
-            if (gles == NULL) {
-                gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);
-            }
-            glesColor4f = dlsym(gles, "glColor4f");
-        }
-        glesColor4f(r, g, b, a);
+        LOAD_REAL(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
+        real_glColor4f(r, g, b, a);
     }
 }
 

@@ -6,6 +6,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+// will become a reference to dlopen'd gles
+void *gles;
+
+#define LOAD_REAL(type, name, args...)\
+    static type (*real_##name)(args);\
+    if (real_##name == NULL) {\
+        if (gles == NULL) {\
+            gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);\
+        }\
+        real_##name = dlsym(gles, #name);\
+    }
+
 typedef struct {
     GLuint isLast;
     GLuint len;
