@@ -1,7 +1,7 @@
 include_directories(gl)
 aux_source_directory(gl GL_SOURCES)
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include_directories(glx)
     aux_source_directory(glx GLX_SOURCES)
     list(APPEND GL_SOURCES ${GLX_SOURCES})
@@ -13,7 +13,7 @@ add_library(GL SHARED ${GL_SOURCES})
 target_link_libraries(GL GLES_CM)
 target_link_libraries(GL EGL)
 
-if(HAVE_X11)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(GL X11)
 endif()
 
