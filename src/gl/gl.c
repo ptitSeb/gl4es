@@ -1,26 +1,9 @@
 #include <gl.h>
 #include <math.h>
 
-// ugly global variables
-
-glwList *glwActiveList;
-glwListData *glwLastListData;
-GLuint glwListPos;
-GLuint glwListSize;
-
-GLfloat glwVerts[10240][3];
-GLfloat glwTexCoords[10240][2];
-GLfloat glwColors[10240][4];
-
-GLfloat glwColor[4];
-GLfloat glwTexCoord[2];
-
-GLuint glwPos;
-GLenum glwDrawMode;
-bool glwImmediate;
-bool glwEnableVertex;
-bool glwEnableColor;
-bool glwEnableTexCoord;
+RenderList *activeList = NULL;
+GLfloat lastColor[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+bool inDisplayList = false;
 
 bool bTexGenS;
 GLenum texGenS;
@@ -76,7 +59,6 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
         case GL_T: texGenT = param; break;
     }
 }
-
 
 void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     return;
@@ -135,91 +117,6 @@ void genTexCoords(GLfloat *verts, GLfloat *coords, GLint count) {
     }
 }
 
-// drawing
-
-void glwDrawArrays(GLfloat *vert,
-                   GLfloat *color, GLfloat *tex,
-                   GLenum mode, GLuint length) {
-    if (! length) return;
-
-    if (vert != NULL) {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vert);
-    }
-
-    if (color != NULL) {
-        glEnableClientState(GL_COLOR_ARRAY);
-        glColorPointer(4, GL_FLOAT, 0, color);
-    }
-
-/*
-    if (bTexGenS || bTexGenT) {
-        genTexCoords(*vert, *tex, length);
-    }
-*/
-    GLuint texture;
-    if (bLineStipple) {
-        GLubyte data[16];
-        // generate our texture
-        for (int i = 0; i < 16; i++) {
-            data[i] = (stipplePattern >> i) & 1 ? 255 : 0;
-        }
-
-        // generate our texture coords
-        tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
-        GLfloat *texPos = tex;
-        GLfloat *vertPos = vert;
-
-        GLfloat x1, x2, y1, y2;
-        GLfloat len;
-        for (int i = 0; i < length / 2; i++) {
-            x1 = *vertPos++;
-            y1 = *vertPos++;
-            vertPos++; // z
-            x2 = *vertPos++;
-            y2 = *vertPos++;
-            vertPos++;
-
-            len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor;
-
-            *texPos++ = 0;
-            *texPos++ = 0;
-            *texPos++ = len;
-            *texPos++ = 0;
-        }
-
-        // TODO: *disable* this afterward?
-        // maybe implement glPush/PopAttrib
-        glEnable(GL_BLEND);
-        glEnable(GL_TEXTURE_2D);
-        // restore this after?
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-            16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
-    }
-
-    if (tex != NULL) {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glTexCoordPointer(2, GL_FLOAT, 0, tex);
-    }
-
-    glDrawArrays(mode, 0, length);
-
-    if (texture) { // TODO: separate flag for this?
-        glDeleteTextures(1, &texture);
-    }
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
-
 // misc functions
 
 void glLineStipple(GLuint factor, GLushort pattern) {
@@ -230,115 +127,47 @@ void glLineStipple(GLuint factor, GLushort pattern) {
 // immediate mode functions
 
 void glBegin(GLenum mode) {
-    if (mode == GL_QUADS) mode = GL_TRIANGLE_FAN;
-    if (mode == GL_QUAD_STRIP) mode = GL_TRIANGLE_STRIP;
-    if (mode == GL_POLYGON) mode = GL_TRIANGLE_FAN;
-
-    glwPos = 0;
-    glwDrawMode = mode;
-    glwEnableVertex = false;
-    glwEnableColor = false;
-    glwEnableTexCoord = false;
-    glwImmediate = true;
+    if (! inDisplayList) {
+        activeList = allocRenderList();
+    }
+    memcpy(activeList->lastColor, lastColor, sizeof(GLfloat) * 4);
+    activeList->mode = mode;
 }
 
 void glEnd() {
-    glwImmediate = false;
+    // render if we're not in a display list
+    if (! activeList) return;
 
-    // are we not in a display list?
-    if (glwActiveList == NULL) {
-        GLfloat *vert = NULL, *color = NULL, *tex = NULL;
-        if (glwEnableVertex) vert = *glwVerts;
-        if (glwEnableColor) color = *glwColors;
-        if (glwEnableTexCoord) tex = *glwTexCoords;
-
-        glwDrawArrays(vert, color, tex, glwDrawMode, glwPos);
+    endRenderList(activeList);
+    if (! inDisplayList) {
+        drawRenderList(activeList);
+        freeRenderList(activeList);
+        activeList = NULL;
     } else {
-        glwListData *l = glwActiveList->data;
-        GLuint size = glwListPos + (3 + (glwEnableColor ? 4 : 0) + (glwEnableTexCoord ? 2 : 0) * glwPos);
-
-        if (!size) return;
-        if (size > glwListSize) {
-            GLuint newSize = glwListSize + GLW_LIST_SIZE;
-            printf("realloc'ing to %d\n", newSize);
-            l = realloc(l, sizeof(glwListData) + newSize);
-            printf("realloc'd to %d\n", newSize);
-        }
-
-        if (glwLastListData != NULL) {
-            glwLastListData->isLast = false;
-        }
-
-        char *start = (char *)l;
-
-        glwListData cur = {true, glwPos, glwDrawMode, glwEnableColor, glwEnableTexCoord, 0};
-        memcpy(start + glwListPos, &cur, sizeof(glwListData));
-
-        glwLastListData = (glwListData *)(start + glwListPos);
-        glwListPos += sizeof(glwListData) - sizeof(GLfloat);
-        
-        memcpy(start + glwListPos, *glwVerts, glwPos * sizeof(GLfloat) * 3);
-        glwListPos += glwPos * sizeof(GLfloat) * 3;
-
-        if (glwEnableColor) {
-            memcpy(start + glwListPos, *glwColors, glwPos * sizeof(GLfloat) * 4);
-            glwListPos += glwPos * sizeof(GLfloat) * 4;
-        }
-
-        if (glwEnableTexCoord) {
-            memcpy(start + glwListPos, *glwTexCoords, glwPos * sizeof(GLfloat) * 2);
-            glwListPos += glwPos * sizeof(GLfloat) * 2;
-        }
+        activeList = extendRenderList(activeList);
     }
 }
 
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
-    glwEnableVertex = true;
-    if (glwEnableColor) {
-        memcpy(&glwColors[glwPos][0], glwColor, sizeof(GLfloat) * 4);
+    if (activeList) {
+        lVertex3f(activeList, x, y, z);
     }
-    if (glwEnableTexCoord) {
-        memcpy(&glwTexCoords[glwPos][0], glwTexCoord, sizeof(GLfloat) * 2);
-    }
-
-    GLfloat vert[] = {x, y, z};
-    memcpy(&glwVerts[glwPos][0], vert, sizeof(GLfloat) * 3);
-
-    glwPos++;
 }
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-    if (glwImmediate) {
-        GLfloat color[] = {r, g, b, a};
-        if (!glwEnableColor) {
-            glwEnableColor = true;
-            // catch up
-            int i;
-            for (i = 0; i < glwPos; i++) {
-                memcpy(&glwColors[i], color, sizeof(GLfloat) * 4);
-            }
-
-            memcpy(glwColor, color, sizeof(GLfloat) * 4);
-        }
+    if (activeList) {
+        lColor4f(activeList, r, g, b, a);
     } else {
         LOAD_REAL(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
         real_glColor4f(r, g, b, a);
+        lastColor[0] = r; lastColor[1] = g;
+        lastColor[2] = b; lastColor[3] = a;
     }
 }
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
-    if (glwImmediate) {
-        GLfloat tex[] = {s, t};
-        if (!glwEnableTexCoord) {
-            glwEnableTexCoord = true;
-            // catch up
-            int i;
-            for (i = 0; i < glwPos; i++) {
-                memcpy(&glwTexCoords[i], tex, sizeof(GLfloat) * 2);
-            }
-        }
-
-        memcpy(glwTexCoord, tex, sizeof(GLfloat) * 2);
+    if (activeList) {
+        lTexCoord2f(activeList, s, t);
     }
 }
 
@@ -356,56 +185,31 @@ GLuint glGenLists(GLsizei range) {
 }
 
 void glNewList(GLuint list) {
-    printf("glNewList(%i);\n", list);
+    // TODO: if activeList is defined, we probably need to clean up here
     glwList *l = (glwList *)(list * 8);
 
     l->created = true;
-    l->data = (glwListData *)malloc(sizeof(glwListData) + GLW_LIST_SIZE);
-
-    glwActiveList = l;
-    glwLastListData = NULL;
-    glwListPos = 0;
-    glwListSize = sizeof(glwListData) + GLW_LIST_SIZE;
+    inDisplayList = true;
+    activeList = l->list = allocRenderList();
 }
 
 void glEndList(GLuint list) {
-    printf("glEndList(%i);\n", list);
-    glwActiveList = NULL;
-}
-
-void glCallList(GLuint list) {
-    GLfloat *data, *vert, *color, *tex;
-    bool freeTex;
-    glwListData *next, *ld;
-
-    glwList *l = (glwList *)(list * 8);
-    ld = l->data;
-
-    while (true) {
-        vert = &ld->data;
-        next = (glwListData *)(vert + (ld->len*3));
-        if (ld->useColor) {
-            color = (GLfloat *)next;
-            next = (glwListData *)(color + (ld->len * 4));
-        }
-        if (ld->useTex) {
-            tex = (GLfloat *)next;
-            next = (glwListData *)(tex + (ld->len * 2));
-        }
-
-        glwDrawArrays(vert, color, tex, ld->mode, ld->len);
-
-        if (ld->isLast || !next->len) break;
-        ld = next;
+    if (inDisplayList) {
+        inDisplayList = false;
+        activeList = NULL;
     }
 }
 
+void glCallList(GLuint list) {
+    glwList *l = (glwList *)(list * 8);
+    drawRenderList(l->list);
+}
+
 void glDeleteList(GLuint list) {
-    printf("glDeleteList(%i);\n", list);
     glwList *l = (glwList *)(list * 8);
     l->free = true;
     if (l->created) {
-        free(l->data);
+        freeRenderList(l->list);
     }
 
     // only free if the display list group is empty

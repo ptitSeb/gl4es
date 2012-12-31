@@ -44,10 +44,10 @@
 #define GL_SCISSOR_BIT          0x80000
 #define GL_ALL_ATTRIB_BITS      0xFFFFF
 
-#define GL_S 0x2000
-#define GL_T 0x2001
-#define GL_R 0x2002
-#define GL_Q 0x2003
+#define GL_S                    0x2000
+#define GL_T                    0x2001
+#define GL_R                    0x2002
+#define GL_Q                    0x2003
 
 #define GL_BGR                  0x80E0
 #define GL_BGRA                 0x80E1

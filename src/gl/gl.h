@@ -1,11 +1,14 @@
-#include <GLES/gl.h>
-#include <glconst.h>
 #include <dlfcn.h>
+#include <GLES/gl.h>
 #include <inttypes.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <glconst.h>
+#include <list.h>
 
 // will become a reference to dlopen'd gles
 void *gles;
@@ -20,23 +23,12 @@ void *gles;
     }
 
 typedef struct {
-    GLuint isLast;
-    GLuint len;
-    GLenum mode;
-    GLuint useColor;
-    GLuint useTex;
-    GLfloat data;
-} glwListData;
-
-typedef struct {
     GLubyte pos;
     GLubyte len;
     GLubyte created;
     GLubyte free;
-    glwListData *data;
+    RenderList *list;
 } glwList;
-
-#define GLW_LIST_SIZE 12*10240*sizeof(GLfloat)
 
 #define GLdouble double
 
