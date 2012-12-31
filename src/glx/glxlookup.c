@@ -42,5 +42,6 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glPushAttrib);
     STUB(glPushClientAttrib);
 
+    printf("glXGetProcAddressARB(%s); (not found)\n", name);
     return NULL;
 }
