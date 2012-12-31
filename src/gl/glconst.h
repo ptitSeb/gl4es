@@ -49,3 +49,5 @@
 #define GL_R 0x2002
 #define GL_Q 0x2003
 
+#define GL_BGR                  0x80E0
+#define GL_BGRA                 0x80E1
