@@ -47,6 +47,7 @@ void *gles;
 
 #include "glstub.h"
 #include "glwrap.h"
+#include "line.h"
 #include "raster.h"
 #include "texture.h"
 

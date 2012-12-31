@@ -13,7 +13,7 @@ bool bTexGenT;
 GLenum texGenT;
 GLfloat texGenTv[4];
 
-bool bLineStipple;
+bool bLineStipple = false;
 GLint stippleFactor = 1;
 GLushort stipplePattern = 0xFFFF;
 

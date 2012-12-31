@@ -186,8 +186,15 @@ void drawRenderList(RenderList *list) {
             }
         }
 
-        // TODO: copy over stipple code
         GLfloat *tex = list->tex;
+        GLfloat *pixels = NULL;
+        GLuint texture = 0;
+        // TODO: generate this somewhere smarter?
+        // TODO: do we need to support GL_LINE_STRIP?
+        if (list->mode == GL_LINES && bLineStipple) {
+            texture = genStippleTex(stippleFactor, stipplePattern,
+                                    pixels, list->vert, &tex, list->len);
+        }
 
         if (tex) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -199,6 +206,11 @@ void drawRenderList(RenderList *list) {
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        if (pixels) {
+            free(pixels);
+            free(tex);
+            glDeleteTextures(1, &texture);
+        }
     } while ((list = list->next));
 }
 
