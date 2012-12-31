@@ -187,13 +187,13 @@ void drawRenderList(RenderList *list) {
         }
 
         GLfloat *tex = list->tex;
-        GLfloat *pixels = NULL;
+        GLubyte *pixels = NULL;
         GLuint texture = 0;
         // TODO: generate this somewhere smarter?
         // TODO: do we need to support GL_LINE_STRIP?
         if (list->mode == GL_LINES && bLineStipple) {
             texture = genStippleTex(stippleFactor, stipplePattern,
-                                    pixels, list->vert, &tex, list->len);
+                                    list->vert, &pixels, &tex, list->len);
         }
 
         if (tex) {

@@ -1,11 +1,11 @@
 #include <line.h>
 
-GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *pixels,
-                     GLfloat *vert, GLfloat **tex, int length) {
-    pixels = (GLfloat *)malloc(sizeof(GLfloat) * 16);
+GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *vert,
+                     GLubyte **pixels, GLfloat **tex, int length) {
+    *pixels = (GLubyte *)malloc(sizeof(GLfloat) * 16);
     // generate our texture
     for (int i = 0; i < 16; i++) {
-        pixels[i] = (stipplePattern >> i) & 1 ? 255 : 0;
+        (*pixels)[i] = (stipplePattern >> i) & 1 ? 255 : 0;
     }
 
     // generate our texture coords
@@ -45,7 +45,7 @@ GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *pixels,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, pixels);
+        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, *pixels);
 
     return texture;
 }
