@@ -52,11 +52,20 @@ GLenum convertPixels(const GLvoid *data, GLvoid **out,
     return newFormat;
 }
 
+// expand non-power-of-two sizes
+// TODO: what does this do to repeating textures?
+int npot(int n) {
+    if (n == 0) return 0;
+
+    int i = 1;
+    while (i < n) i <<= 1;
+    return i;
+}
+
 void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    // TODO: need to take GLenum type into account
     GLvoid *pixels;
     switch (format) {
         case GL_ALPHA:
@@ -67,17 +76,44 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             pixels = (GLvoid *)data;
             break;
         default:
+            printf("unknown format?\n");
             format = convertPixels(data, &pixels, width, height, format, type);
             break;
     }
 
+    /* TODO:
+    GL_INVALID_VALUE is generated if border is not 0.
+    GL_INVALID_OPERATION is generated if type is
+    GL_UNSIGNED_SHORT_5_6_5 and format is not GL_RGB.
+    
+    GL_INVALID_OPERATION is generated if type is one of
+    GL_UNSIGNED_SHORT_4_4_4_4, or GL_UNSIGNED_SHORT_5_5_5_1
+    and format is not GL_RGBA.
+    */
+
     LOAD_REAL(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
-    real_glTexImage2D(target, level, format, width, height, border,
+    real_glTexImage2D(target, level, format, 2, 2, border,
                       format, type, pixels);
 
     if (pixels != data) {
         free((GLvoid *)pixels);
     }
+}
+
+void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
+                  GLsizei width, GLint border,
+                  GLenum format, GLenum type, const GLvoid *data) {
+
+    // TODO: maybe too naive to force GL_TEXTURE_2D here?
+    glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, 1,
+                 border, format, type, data);
+}
+
+void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
+    LOAD_REAL(void, glTexEnvf, GLenum, GLenum, GLfloat);
+    glGetError();
+    real_glTexEnvf(target, pname, param);
+    printf("glTexEnvf(%i, %i, %i) -> %i\n", target, pname, param, glGetError());
 }
