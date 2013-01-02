@@ -68,6 +68,61 @@ THUNK(ub, GLubyte);
 THUNK(ui, GLuint);
 THUNK(us, GLushort);
 
+#undef THUNK
+
+// glGet
+
+#define THUNK(suffix, type)\
+void glGet##suffix##v(GLenum pname, type *params) {\
+    int i, n = 1;\
+    switch (pname) {\
+        /* two values */\
+        case GL_ALIASED_POINT_SIZE_RANGE:\
+        case GL_ALIASED_LINE_WIDTH_RANGE:\
+        case GL_MAX_VIEWPORT_DIMS:\
+            n = 2;\
+            break;\
+        /* three values */\
+        case GL_CURRENT_NORMAL:\
+        case GL_POINT_DISTANCE_ATTENUATION:\
+            n = 3;\
+            break;\
+        /* four values */\
+        case GL_COLOR_CLEAR_VALUE:\
+        case GL_COLOR_WRITEMASK:\
+        case GL_CURRENT_COLOR:\
+        case GL_CURRENT_TEXTURE_COORDS:\
+        case GL_DEPTH_RANGE:\
+        case GL_FOG_COLOR:\
+        case GL_LIGHT_MODEL_AMBIENT:\
+        case GL_SCISSOR_BOX:\
+        case GL_SMOOTH_LINE_WIDTH_RANGE:\
+        case GL_SMOOTH_POINT_SIZE_RANGE:\
+        case GL_VIEWPORT:\
+            n = 4;\
+            break;\
+        /* GL_NUM_COMPRESSED_TEXTURE_FORMATS values */\
+        case GL_COMPRESSED_TEXTURE_FORMATS:\
+            n = GL_NUM_COMPRESSED_TEXTURE_FORMATS;\
+            break;\
+        /* sixteen values */\
+        case GL_MODELVIEW_MATRIX:\
+        case GL_PROJECTION_MATRIX:\
+        case GL_TEXTURE_MATRIX:\
+            n = 16;\
+            break;\
+    }\
+    GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n);\
+    glGetFloatv(pname, p);\
+    for (i = 0; i < n; i++) {\
+        params[i] = (type)p[i];\
+    }\
+}
+
+THUNK(Double, GLdouble);
+
+#undef THUNK
+
 void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
 }
@@ -75,8 +130,6 @@ void glVertex2f(GLfloat x, GLfloat y) {
 void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glColor4f(r, g, b, 1.0f);
 }
-
-#undef THUNK
 
 void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     glTranslatef(x, y, z);
@@ -91,48 +144,6 @@ void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
     glNormal3f(nx, ny, nz);
 }
 
-void glGetDoublev(GLenum pname, GLdouble *params) {
-    int i, n = 1;
-    switch (pname) {
-        // two values
-        case GL_ALIASED_POINT_SIZE_RANGE:
-        case GL_ALIASED_LINE_WIDTH_RANGE:
-        case GL_MAX_VIEWPORT_DIMS:
-            n = 2;
-            break;
-        // three values:
-        case GL_CURRENT_NORMAL:
-        case GL_POINT_DISTANCE_ATTENUATION:
-            n = 3;
-            break;
-        // four values
-        case GL_COLOR_CLEAR_VALUE:
-        case GL_COLOR_WRITEMASK:
-        case GL_CURRENT_COLOR:
-        case GL_CURRENT_TEXTURE_COORDS:
-        case GL_DEPTH_RANGE:
-        case GL_FOG_COLOR:
-        case GL_LIGHT_MODEL_AMBIENT:
-        case GL_SCISSOR_BOX:
-        case GL_SMOOTH_LINE_WIDTH_RANGE:
-        case GL_SMOOTH_POINT_SIZE_RANGE:
-        case GL_VIEWPORT:
-            n = 4;
-            break;
-        // GL_NUM_COMPRESSED_TEXTURE_FORMATS values
-        case GL_COMPRESSED_TEXTURE_FORMATS:
-            n = GL_NUM_COMPRESSED_TEXTURE_FORMATS;
-            break;
-        // sixteen values
-        case GL_MODELVIEW_MATRIX:
-        case GL_PROJECTION_MATRIX:
-        case GL_TEXTURE_MATRIX:
-            n = 16;
-            break;
-    }
-    GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n);
-    glGetFloatv(pname, p);
-    for (i = 0; i < n; i++) {
-        *params++ = (GLdouble)*p++;
-    }
+void glNormal3dv(const GLdouble *n) {
+    glNormal3f(n[0], n[1], n[2]);
 }
