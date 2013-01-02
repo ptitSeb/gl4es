@@ -38,6 +38,18 @@ void glColor3##suffix##v(const type *v) {\
 void glColor4##suffix##v(const type *v) {\
     glColor4f(v[0], v[1], v[2], v[3]);\
 }\
+void glIndex##suffix(type c) {\
+    glIndexf(c);\
+}\
+void glIndex##suffix##v(const type *c) {\
+    glIndexf(c[0]);\
+}\
+void glSecondaryColor3##suffix(type r, type g, type b) {\
+    glSecondaryColor3f(r, g, b);\
+}\
+void glSecondaryColor3##suffix##v(const type *v) {\
+    glSecondaryColor3f(v[0], v[1], v[2]);\
+}\
 void glVertex2##suffix(type x, type y) {\
     glVertex2f(x, y);\
 }\
@@ -46,14 +58,15 @@ void glVertex3##suffix(type x, type y, type z) {\
 }
 
 // TODO: we don't handle glVertex4f anywhere
+// TODO: glVertex3fv?
 
 THUNK(b, GLbyte);
-THUNK(s, GLshort);
-THUNK(i, GLint);
 THUNK(d, GLdouble);
+THUNK(i, GLint);
+THUNK(s, GLshort);
 THUNK(ub, GLubyte);
-THUNK(us, GLushort);
 THUNK(ui, GLuint);
+THUNK(us, GLushort);
 
 void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
