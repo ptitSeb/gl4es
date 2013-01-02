@@ -17,6 +17,8 @@ bool bLineStipple;
 GLint stippleFactor = 1;
 GLushort stipplePattern = 0xFFFF;
 
+GLuint listBase = 0;
+
 bool bBlend;
 bool bTexture2d;
 
@@ -205,6 +207,42 @@ void glCallList(GLuint list) {
     drawRenderList(l->list);
 }
 
+void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
+    #define call(name, type)\
+        case name: glCallList(*(((type *)lists + i) + listBase)); break
+
+    // seriously wtf
+    #define call_bytes(name, stride)\
+        case name:\
+            l = (GLubyte *)lists;\
+            list = 0;\
+            for (j = 0; j < stride; j++) {\
+                list += *(l + (i * stride + j)) << (stride - j);\
+            }\
+            glCallList(list + listBase);\
+            break
+
+    unsigned int i, j;
+    GLuint list;
+    GLubyte *l;
+    for (i = 0; i < n; i++) {
+        switch (type) {
+            call(GL_BYTE, GLbyte);
+            call(GL_UNSIGNED_BYTE, GLubyte);
+            call(GL_SHORT, GLshort);
+            call(GL_UNSIGNED_SHORT, GLushort);
+            call(GL_INT, GLint);
+            call(GL_UNSIGNED_INT, GLuint);
+            call(GL_FLOAT, GLfloat);
+            call_bytes(GL_2_BYTES, 2);
+            call_bytes(GL_3_BYTES, 3);
+            call_bytes(GL_4_BYTES, 4);
+        }
+    }
+    #undef call
+    #undef call_bytes
+}
+
 void glDeleteList(GLuint list) {
     glwList *l = (glwList *)(list * 8);
     l->free = true;
@@ -227,4 +265,8 @@ void glDeleteLists(GLuint list, GLsizei range) {
     for (i = 0; i < range; i++) {
         glDeleteList(list+i);
     }
+}
+
+void glListBase(GLuint base) {
+    listBase = base;
 }
