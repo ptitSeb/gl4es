@@ -50,6 +50,7 @@ void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLd
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);
 void glLineStipple(GLuint factor, GLushort pattern);
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glListBase(GLuint base);
 void glNewList(GLuint list);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
