@@ -7,6 +7,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef GL_H
+#define GL_H
+
+#define checkError(code)\
+    {int error; while (error = glGetError()) {}\
+    code\
+    if (error = glGetError())\
+        printf(#code " -> %i\n", error);}
+
+#define printError(file, line)\
+    {int error; if (error = glGetError())\
+        printf(file ":%i -> %i\n", line, error);}
+
+#define GLdouble double
+
 #include <glconst.h>
 #include <list.h>
 
@@ -22,6 +37,10 @@ void *gles;
         real_##name = dlsym(gles, #name);\
     }
 
+#include "glstub.h"
+#include "glwrap.h"
+#include "texture.h"
+
 typedef struct {
     GLubyte pos;
     GLubyte len;
@@ -29,8 +48,6 @@ typedef struct {
     GLubyte free;
     RenderList *list;
 } glwList;
-
-#define GLdouble double
 
 GLuint glGenLists(GLsizei range);
 void glActiveTextureARB(GLenum texture);
@@ -60,3 +77,5 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param);
 void glVertex2f(GLfloat x, GLfloat y);
 void glVertex2i(GLint x, GLint y);
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
+
+#endif
