@@ -1,8 +1,8 @@
 #!/bin/bash -u
 cd "$(dirname "$0")"
 
-base=../src/gl/
+base=../src/
 
-./gen.py yml/gles-1.1.yml template/wrapper.mustache gleswrap.h > "$base/"gleswrap.c
-./gen.py yml/gles-1.1.yml template/header.mustache gl.h > "$base/"gleswrap.h
-./gen.py yml/gles-1.1.yml template/header.mustache gl.h > "$base/"glxfuncs.inc
+./gen.py yml/gles-1.1.yml template/wrapper.mustache gleswrap.h > "$base/gl/gleswrap.c"
+./gen.py yml/gles-1.1.yml template/header.mustache gl.h > "$base/gl/gleswrap.h"
+./gen.py yml/gles-1.1.yml template/glxfuncs.mustache gl.h > "$base/glx/glxfuncs.inc"

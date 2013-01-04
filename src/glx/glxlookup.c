@@ -14,39 +14,25 @@ void glXStub(void *x, ...) {
 }
 
 void *glXGetProcAddressARB(const char *name) {
+    // generated gles wrappers
+    #include "glxfuncs.inc"
+
     // passthrough
     EX(glActiveTextureARB);
     EX(glBegin);
-    EX(glBindTexture);
-    EX(glBlendFunc);
     EX(glClearDepth);
-    EX(glColor4f);
     EX(glDisable);
     EX(glEnable);
     EX(glEnd);
-    EX(glFlush);
     EX(glFogi);
     EX(glFrustum);
-    EX(glGenTextures);
     EX(glGetDoublev);
-    EX(glGetString);
-    EX(glLoadIdentity);
-    EX(glMatrixMode);
-    EX(glMultMatrixf);
     EX(glNormal3d);
     EX(glOrtho);
-    EX(glPixelStorei);
-    EX(glPopMatrix);
-    EX(glPushMatrix);
     EX(glTexCoord2d);
     EX(glTexCoord2f);
-    EX(glTexEnvf);
     EX(glTexImage1D);
-    EX(glTexImage2D);
-    EX(glTexParameteri);
-    EX(glTexSubImage2D);
     EX(glTranslated);
-    EX(glViewport);
     EX(glVertex3f);
     // batch thunking!
 
@@ -87,34 +73,6 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glFogCoordfv);
     EX(glArrayElement);
     EX(glEdgeFlag);
-
-    // tmp
-    EX(glClear);
-    EX(glClearColor);
-    EX(glColorPointer);
-    EX(glCopyTexImage2D);
-    EX(glCopyTexSubImage2D);
-    EX(glDeleteTextures);
-    EX(glDisableClientState);
-    EX(glDrawArrays);
-    EX(glDrawElements);
-    EX(glEnableClientState);
-    EX(glFinish);
-    EX(glGetError);
-    EX(glGetFloatv);
-    EX(glGetTexParameterfv);
-    EX(glHint);
-    EX(glLightfv);
-    EX(glLineWidth);
-    EX(glPointSize);
-    EX(glReadPixels);
-    EX(glRotatef);
-    EX(glScalef);
-    EX(glTexCoordPointer);
-    EX(glTexParameterf);
-    EX(glTranslatef);
-    EX(glVertexPointer);
-    EX(glScissor);
     EX(glEndList);
     EX(glCallList);
     EX(glDeleteLists);
