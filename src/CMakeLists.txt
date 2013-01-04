@@ -10,7 +10,6 @@ else()
 endif()
 
 add_library(GL SHARED ${GL_SOURCES})
-target_link_libraries(GL GLES_CM)
 target_link_libraries(GL EGL)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
