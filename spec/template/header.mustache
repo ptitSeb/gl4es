@@ -1,0 +1,8 @@
+{{#headers}}
+#include "{{.}}"
+{{/headers}}
+
+{{#functions}}
+{{return}}{{^return}}void{{/return}} {{name}}({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
+
+{{/functions}}

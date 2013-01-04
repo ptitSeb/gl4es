@@ -1,0 +1,4 @@
+#!/bin/bash -u
+
+./gen.py yml/gles-1.1.yml template/wrapper.mustache gleswrap.h > gleswrap.c
+./gen.py yml/gles-1.1.yml template/header.mustache gl.h > gleswrap.h
