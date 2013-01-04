@@ -57,17 +57,24 @@ typedef struct {
     RenderList *list;
 } glwList;
 
+// don't auto-wrap these functions
+#define skip_glColor4f
+#define skip_glColor4ub
+#define skip_glDisable
+#define skip_glEnable
+#define skip_glGetFixedv
+#define skip_glGetIntegerv
+#define skip_glTexImage2D
+
+// newly-defined GL functions
 GLuint glGenLists(GLsizei range);
 void glActiveTextureARB(GLenum texture);
 void glBegin(GLenum mode);
 void glCallList(GLuint list);
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
 void glClearDepth(GLdouble depth);
-void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
-void glDisable(GLenum cap);
-void glEnable(GLenum cap);
 void glEnd();
 void glEndList(GLuint list);
 void glFogi(GLenum pname, GLint param);
