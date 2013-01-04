@@ -10,14 +10,16 @@
 #ifndef GL_H
 #define GL_H
 
+#include "gleswrap.h"
+
 #define checkError(code)\
-    {int error; while (error = glGetError()) {}\
+    {int error; while ((error = glGetError())) {}\
     code\
-    if (error = glGetError())\
+    if ((error = glGetError()))\
         printf(#code " -> %i\n", error);}
 
 #define printError(file, line)\
-    {int error; if (error = glGetError())\
+    {int error; if ((error = glGetError()))\
         printf(file ":%i -> %i\n", line, error);}
 
 #define GLdouble double
