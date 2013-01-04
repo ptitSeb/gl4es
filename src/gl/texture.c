@@ -110,10 +110,3 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
     glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, 1,
                  border, format, type, data);
 }
-
-void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
-    LOAD_REAL(void, glTexEnvf, GLenum, GLenum, GLfloat);
-    glGetError();
-    real_glTexEnvf(target, pname, param);
-    printf("glTexEnvf(%i, %i, %i) -> %i\n", target, pname, param, glGetError());
-}
