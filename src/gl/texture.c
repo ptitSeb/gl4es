@@ -94,7 +94,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
-    gles_glTexImage2D(target, level, format, 2, 2, border,
+    gles_glTexImage2D(target, level, format, width, height, border,
                       format, type, pixels);
 
     if (pixels != data) {
