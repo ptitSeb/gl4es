@@ -2,21 +2,27 @@
 // naive wrappers
 
 void glActiveTextureARB(GLenum texture) {
-    glActiveTexture(texture);
+    LOAD_GLES(void, glActiveTexture, GLenum);
+    gles_glActiveTexture(texture);
 }
 
-void glClearDepth(double depth) {
-    glClearDepthf(depth);
+void glClearDepth(GLdouble depth) {
+    LOAD_GLES(void, glClearDepthf, GLfloat depth);
+    gles_glClearDepthf(depth);
 }
 
-void glOrtho(double left, double right, double bottom,
-             double top, double near, double far) {
-    glOrthof(left, right, bottom, top, near, far);
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
+             GLdouble top, GLdouble near, GLdouble far) {
+    LOAD_GLES(void, glOrthof, GLfloat, GLfloat, GLfloat,
+                              GLfloat, GLfloat, GLfloat)
+    gles_glOrthof(left, right, bottom, top, near, far);
 }
 
-void glFrustum(double left, double right, double bottom,
-             double top, double near, double far) {
-    glFrustumf(left, right, bottom, top, near, far);
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
+             GLdouble top, GLdouble near, GLdouble far) {
+    LOAD_GLES(void, glFrustumf, GLfloat, GLfloat, GLfloat,
+                               GLfloat, GLfloat, GLfloat)
+    gles_glFrustumf(left, right, bottom, top, near, far);
 }
 
 void glFogi(GLenum pname, GLint param) {

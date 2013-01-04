@@ -62,8 +62,6 @@ typedef struct {
 #define skip_glColor4ub
 #define skip_glDisable
 #define skip_glEnable
-#define skip_glGetFixedv
-#define skip_glGetIntegerv
 #define skip_glTexImage2D
 
 // newly-defined GL functions

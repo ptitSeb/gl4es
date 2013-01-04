@@ -38,13 +38,13 @@ void glwEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 void glEnable(GLenum cap) {
-    LOAD_REAL(void, glEnable, GLenum);
-    glwEnable(cap, true, real_glEnable);
+    LOAD_GLES(void, glEnable, GLenum);
+    glwEnable(cap, true, gles_glEnable);
 }
 
 void glDisable(GLenum cap) {
-    LOAD_REAL(void, glDisable, GLenum);
-    glwEnable(cap, false, real_glDisable);
+    LOAD_GLES(void, glDisable, GLenum);
+    glwEnable(cap, false, gles_glDisable);
 }
 
 // texture generation
@@ -160,8 +160,8 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (activeList) {
         lColor4f(activeList, r, g, b, a);
     } else {
-        LOAD_REAL(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
-        real_glColor4f(r, g, b, a);
+        LOAD_GLES(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
+        gles_glColor4f(r, g, b, a);
         lastColor[0] = r; lastColor[1] = g;
         lastColor[2] = b; lastColor[3] = a;
     }
