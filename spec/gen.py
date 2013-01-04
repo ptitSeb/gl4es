@@ -13,7 +13,7 @@ def split_arg(arg):
 
 def gen(data, template, headers):
     funcs = []
-    for name, args in data.items():
+    for name, args in sorted(data.items()):
         props = {}
         if args:
             props['return'] = args.pop(0)
