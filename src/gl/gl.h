@@ -30,14 +30,20 @@
 // will become a reference to dlopen'd gles
 void *gles;
 
-#define LOAD_REAL(type, name, args...)\
-    static type (*real_##name)(args);\
-    if (real_##name == NULL) {\
+#define LOAD_GLES(type, name, args...)\
+    static type (*gles_##name)(args);\
+    if (gles_##name == NULL) {\
         if (gles == NULL) {\
             gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);\
         }\
-        real_##name = dlsym(gles, #name);\
+        gles_##name = dlsym(gles, #name);\
     }
+
+#define WRAP_GLES(type, name, args...)\
+    type name(args) {\
+        LOAD_GLES(type, name, args);
+
+#define END_WRAP }
 
 #include "glstub.h"
 #include "glwrap.h"
