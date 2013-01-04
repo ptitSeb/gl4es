@@ -5,7 +5,7 @@
 {{#functions}}
 #ifndef skip_{{name}}
 WRAP_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}})
-    return {{name}}({{#args}}{{name}}{{^last}}, {{/last}}{{/args}});
+    return gles_{{name}}({{#args}}{{name}}{{^last}}, {{/last}}{{/args}});
 END_WRAP
 #endif
 
