@@ -18,6 +18,7 @@ RenderList *allocRenderList() {
     list->normal = NULL;
     list->color = NULL;
     list->tex = NULL;
+    list->material = NULL;
 
     list->next = NULL;
     return list;
@@ -35,6 +36,7 @@ void freeRenderList(RenderList *list) {
         if (list->normal) free(list->normal);
         if (list->color) free(list->color);
         if (list->tex) free(list->tex);
+        if (list->material) free(list->material);
         next = list->next;
         free(list);
     } while ((list = next));
@@ -153,6 +155,8 @@ void endRenderList(RenderList *list) {
 }
 
 void drawRenderList(RenderList *list) {
+    if (!list) return;
+
     do {
         // optimize zero-length segments out earlier?
         if (! list->len)
@@ -171,6 +175,15 @@ void drawRenderList(RenderList *list) {
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4, GL_FLOAT, 0, list->color);
+        }
+
+        if (list->material) {
+            RenderMaterial *m = list->material;
+            int i, pos = 0;
+            for (i = 0; i < list->material->count; i++) {
+                m = list->material + i;
+                glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
+            }
         }
 
         // TODO: copy over stipple code
@@ -247,6 +260,21 @@ void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 
     GLfloat *color = list->lastColor;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
+}
+
+void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params) {
+    int *count;
+    if (! list->material) {
+        // TODO: fixed size is a hack
+        list->material = malloc(20 * sizeof(RenderMaterial));
+        list->material->count = 0;
+    }
+    RenderMaterial *m = list->material + list->material->count;
+    m->face = face;
+    m->pname = pname;
+    memcpy(m->color, params, sizeof(GLfloat) * 4);
+
+    list->material->count++;
 }
 
 void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {

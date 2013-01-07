@@ -60,7 +60,6 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glColor3f);
     #undef THUNK
     // stubs we actually define
-    EX(glColorMaterial);
     EX(glPopAttrib);
     EX(glPushAttrib);
     EX(glPopClientAttrib);

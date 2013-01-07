@@ -1,6 +1,13 @@
 #ifndef DISPLAY_LIST_H
 #define DISPLAY_LIST_H
 
+typedef struct {
+    int face;
+    int pname;
+    GLfloat color[4];
+    int count;
+} RenderMaterial;
+
 typedef struct RenderListT {
     unsigned long len;
     unsigned long cap;
@@ -13,6 +20,7 @@ typedef struct RenderListT {
     GLfloat *normal;
     GLfloat *color;
     GLfloat *tex;
+    RenderMaterial *material;
     struct RenderListT *next;
 } RenderList;
 
@@ -29,6 +37,7 @@ void endRenderList(RenderList *list);
 void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
 void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
 
 #endif
