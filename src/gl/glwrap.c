@@ -29,6 +29,18 @@ void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
 
+#define GL_RECT(suffix, type)\
+    void glRect##suffix(type x1, type y1, type x2, type y2) {\
+        glBegin(GL_POLYGON);\
+        glVertex2##suffix(x1, y1);\
+        glVertex2##suffix(x2, y1);\
+        glVertex2##suffix(x2, y2);\
+        glVertex2##suffix(x1, y2);\
+    }
+
+GL_RECT(f, GLfloat);
+GL_RECT(i, GLint);
+
 // basic thunking
 
 #define THUNK(suffix, type)\
