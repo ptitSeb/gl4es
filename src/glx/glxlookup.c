@@ -1,3 +1,4 @@
+#include "glx.h"
 #include <gl.h>
 
 #define EX(func_name)\

@@ -1,5 +1,5 @@
-#include <glx.h>
 #include <GLES/gl.h>
+#include "glx.h"
 
 #define maxConfigs 20
 
@@ -8,9 +8,41 @@ EGLDisplay eglDisplay;
 EGLSurface eglSurface;
 EGLConfig eglConfig;
 
+int8_t CheckEGLErrors() {
+    EGLenum error;
+    char *errortext;
+
+    error = eglGetError();
+
+    if (error != EGL_SUCCESS && error != 0)
+    {
+        switch (error)
+        {
+            case EGL_NOT_INITIALIZED:     errortext = "EGL_NOT_INITIALIZED"; break;
+            case EGL_BAD_ACCESS:          errortext = "EGL_BAD_ACCESS"; break;
+            case EGL_BAD_ALLOC:           errortext = "EGL_BAD_ALLOC"; break;
+            case EGL_BAD_ATTRIBUTE:       errortext = "EGL_BAD_ATTRIBUTE"; break;
+            case EGL_BAD_CONTEXT:         errortext = "EGL_BAD_CONTEXT"; break;
+            case EGL_BAD_CONFIG:          errortext = "EGL_BAD_CONFIG"; break;
+            case EGL_BAD_CURRENT_SURFACE: errortext = "EGL_BAD_CURRENT_SURFACE"; break;
+            case EGL_BAD_DISPLAY:         errortext = "EGL_BAD_DISPLAY"; break;
+            case EGL_BAD_SURFACE:         errortext = "EGL_BAD_SURFACE"; break;
+            case EGL_BAD_MATCH:           errortext = "EGL_BAD_MATCH"; break;
+            case EGL_BAD_PARAMETER:       errortext = "EGL_BAD_PARAMETER"; break;
+            case EGL_BAD_NATIVE_PIXMAP:   errortext = "EGL_BAD_NATIVE_PIXMAP"; break;
+            case EGL_BAD_NATIVE_WINDOW:   errortext = "EGL_BAD_NATIVE_WINDOW"; break;
+            default:                      errortext = "unknown"; break;
+        }
+
+        printf("ERROR: EGL Error detected: %s (0x%X)\n", errortext, error);
+        return 1;
+    }
+
+    return 0;
+}
+
 // hmm...
 EGLContext eglContext;
-
 Display *xDisplay;
 
 GLXContext glXCreateContext(Display *display,
