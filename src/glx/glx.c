@@ -35,7 +35,7 @@ GLXContext glXCreateContext(Display *display,
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
         if (xDisplay == NULL) {
-            xDisplay = XOpenDisplay(NULL);
+            xDisplay = display;
         }
         eglDisplay = eglGetDisplay(xDisplay);
         if (eglDisplay == EGL_NO_DISPLAY) {
@@ -99,13 +99,20 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
     return;
 }
 
+Display *glXGetCurrentDisplay() {
+    if (xDisplay && eglContext) {
+        return xDisplay;
+    }
+    return NULL;
+}
+
 XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
 
     // apparently can't trust the Display I'm passed?
     if (xDisplay == NULL) {
-        xDisplay = XOpenDisplay(NULL);
+        xDisplay = display;
     }
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     XMatchVisualInfo(display, screen, 16, TrueColor, visual);
