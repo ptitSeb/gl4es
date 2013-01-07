@@ -22,6 +22,9 @@ target_link_libraries(GLU GLES_CM)
 
 aux_source_directory(preload PRELOAD_SOURCES)
 add_library(preload SHARED ${PRELOAD_SOURCES})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(preload X11)
+endif()
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
