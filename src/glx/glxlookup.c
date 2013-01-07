@@ -18,6 +18,16 @@ void *glXGetProcAddressARB(const char *name) {
     // generated gles wrappers
     #include "glxfuncs.inc"
 
+    // glX calls
+    EX(glXChooseVisual);
+    EX(glXCreateContext);
+    EX(glXDestroyContext);
+    EX(glXMakeCurrent);
+    EX(glXSwapBuffers);
+    EX(glXGetConfig);
+    EX(glXQueryExtensionsString);
+    EX(glXGetCurrentDisplay);
+
     // passthrough
     EX(glActiveTextureARB);
     EX(glBegin);
@@ -83,12 +93,19 @@ void *glXGetProcAddressARB(const char *name) {
     // stubs
     STUB(glBitmap);
     STUB(glCopyPixels);
-    STUB(glPixelTransferi);
-    STUB(glPixelTransferf);
-    STUB(glPixelZoom);
-    STUB(glGetTexLevelParameterfv);
     STUB(glDrawPixels);
-
+    STUB(glGetTexImage);
+    STUB(glGetTexLevelParameterfv);
+    STUB(glGetTexLevelParameteriv);
+    STUB(glPixelTransferf);
+    STUB(glPixelTransferi);
+    STUB(glPixelZoom);
+    STUB(glRasterPos2i);
+    STUB(glTexImage3D);
     printf("%s not found.\n", name);
-    return glXStub;
+    return NULL;
+}
+
+void *glXGetProcAddress(const char *name) {
+    return glXGetProcAddressARB(name);
 }
