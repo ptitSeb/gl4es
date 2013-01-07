@@ -174,21 +174,37 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
 }
 
 // display lists
+glwList **displayLists = NULL;
+int listCount = 0;
+int listCap = 0;
 
 GLuint glGenLists(GLsizei range) {
-    glwList *lists = (glwList *)malloc(range * sizeof(glwList));
+    int start = listCount;
+    if (displayLists == NULL) {
+        listCap += range + 100;
+        displayLists = (glwList **)malloc(listCap * sizeof(glwList *));
+    } else if (listCount + range > listCap) {
+        listCap += range + 100;
+        displayLists = (glwList **)realloc(displayLists, listCap * sizeof(glwList *));
+    }
+    listCount += range;
+
     int i;
+    glwList *lists = (glwList *)malloc(range * sizeof(glwList));
     for (i = 0; i < range; i++) {
         glwList list = {i, range, 0, 0, NULL};
-        lists[i] = list;
+        memcpy(lists+i, &list, sizeof(glwList));
+        displayLists[start+i] = lists + i;
     }
 
-    return (uintptr_t)lists / 8;
+    return start;
 }
 
 void glNewList(GLuint list) {
+    if (list >= listCount) return;
+
+    glwList *l = displayLists[list];
     // TODO: if activeList is defined, we probably need to clean up here
-    glwList *l = (glwList *)(list * 8);
 
     l->created = true;
     inDisplayList = true;
@@ -203,7 +219,9 @@ void glEndList(GLuint list) {
 }
 
 void glCallList(GLuint list) {
-    glwList *l = (glwList *)(list * 8);
+    if (list >= listCount) return;
+
+    glwList *l = displayLists[list];
     drawRenderList(l->list);
 }
 
@@ -244,7 +262,9 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 }
 
 void glDeleteList(GLuint list) {
-    glwList *l = (glwList *)(list * 8);
+    if (list >= listCount) return;
+
+    glwList *l = displayLists[list];
     l->free = true;
     if (l->created) {
         freeRenderList(l->list);
@@ -269,4 +289,9 @@ void glDeleteLists(GLuint list, GLsizei range) {
 
 void glListBase(GLuint base) {
     listBase = base;
+}
+
+GLboolean glIsList(GLuint list) {
+    if (list < listCount) return true;
+    return false;
 }
