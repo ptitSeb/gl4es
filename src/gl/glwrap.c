@@ -71,12 +71,17 @@ void glSecondaryColor3##suffix##v(const type *v) {\
 void glVertex2##suffix(type x, type y) {\
     glVertex2f(x, y);\
 }\
+void glVertex2##suffix##v(type *v) {\
+    glVertex2f(v[0], v[1]);\
+}\
 void glVertex3##suffix(type x, type y, type z) {\
     glVertex3f(x, y, z);\
+}\
+void glVertex3##suffix##v(type *v) {\
+    glVertex3f(v[0], v[1], v[2]);\
 }
 
 // TODO: we don't handle glVertex4f anywhere
-// TODO: glVertex3fv?
 
 THUNK(b, GLbyte);
 THUNK(d, GLdouble);
@@ -145,6 +150,10 @@ void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
 }
 
+void glVertex2fv(GLfloat *v) {
+    glVertex3f(v[0], v[1], 0);
+}
+
 void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glColor4f(r, g, b, 1.0f);
 }
@@ -153,12 +162,66 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     glTranslatef(x, y, z);
 }
 
+void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
+    glRotatef(angle, x, y, z);
+}
+
 void glTexCoord2d(GLdouble s, GLdouble t) {
     glTexCoord2f(s, t);
 }
 
+void glTexCoord2fv(GLfloat *t) {
+    glTexCoord2f(t[0], t[1]);
+}
+
+void glNormal3fv(GLfloat *n) {
+    glNormal3f(n[0], n[1], n[2]);
+}
+
+void glVertex3fv(GLfloat *v) {
+    glVertex3f(v[0], v[1], v[2]);
+}
+
+void glColor4fv(GLfloat *c) {
+    glColor4f(c[0], c[1], c[2], c[3]);
+}
+
+void glColor3fv(GLfloat *c) {
+    glColor4f(c[0], c[1], c[2], 1.0f);
+}
+
+void glMateriali(GLenum face, GLenum pname, GLint param) {
+    glMaterialf(face, pname, param);
+}
+
+void glDepthRange(GLdouble nearVal, GLdouble farVal) {
+    glDepthRangef(nearVal, farVal);
+}
+
+#define copyMatrix\
+    GLfloat s[16];\
+    int i;\
+    for (i = 0; i < 16; i++) {\
+        s[i] = m[i];\
+    }
+
+void glMultMatrixd(const GLdouble *m) {
+    copyMatrix(m);
+    glMultMatrixf(s);
+}
+
+void glLoadMatrixd(const GLdouble *m) {
+    copyMatrix(m);
+    glLoadMatrixf(s);
+}
+
+#undef copyMatrix
+
+void glScaled(GLdouble x, GLdouble y, GLdouble z) {
+    glScalef(x, y, z);
+}
+
 void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
-    // TODO: needs to be added to glDrawArrays too
     glNormal3f(nx, ny, nz);
 }
 
