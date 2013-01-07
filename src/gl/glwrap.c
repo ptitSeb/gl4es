@@ -198,24 +198,29 @@ void glDepthRange(GLdouble nearVal, GLdouble farVal) {
     glDepthRangef(nearVal, farVal);
 }
 
-#define copyMatrix\
-    GLfloat s[16];\
+#define constDoubleToFloat(a, size)\
+    GLfloat s[size];\
     int i;\
-    for (i = 0; i < 16; i++) {\
-        s[i] = m[i];\
+    for (i = 0; i < size; i++) {\
+        s[i] = a[i];\
     }
 
 void glMultMatrixd(const GLdouble *m) {
-    copyMatrix(m);
+    constDoubleToFloat(m, 16);
     glMultMatrixf(s);
 }
 
 void glLoadMatrixd(const GLdouble *m) {
-    copyMatrix(m);
+    constDoubleToFloat(m, 16);
     glLoadMatrixf(s);
 }
 
-#undef copyMatrix
+void glClipPlane(GLenum plane, const GLdouble *equation) {
+    constDoubleToFloat(equation, 4);
+    glClipPlanef(plane, s);
+}
+
+#undef constDoubleToFLoat
 
 void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     glScalef(x, y, z);

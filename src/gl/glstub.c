@@ -22,7 +22,6 @@ STUB(void glFogCoordfv(const GLfloat *coord));
 // STUB(void glEvalCoord());
 // STUB(void glEvalPoint());
 STUB(void glArrayElement(GLint i));
-STUB(void glClipPlane(GLenum plane, const GLdouble *equation));
 STUB(void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data));
 STUB(void glEdgeFlag(GLboolean flag));
 STUB(void glLightModeli(GLenum pname, GLint param));
