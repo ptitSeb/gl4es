@@ -14,6 +14,15 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
 void glTexCoord2d(GLdouble s, GLdouble t);
 void glTranslated(GLdouble x, GLdouble y, GLdouble z);
 
+// OES wrappers
+
+void glClearDepthfOES(GLfloat depth);
+void glClipPlanefOES(GLenum plane, const GLfloat *equation);
+void glDepthRangefOES(GLclampf near, GLclampf far);
+void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
+void glGetClipPlanefOES(GLenum plane, const GLfloat *equation);
+void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
+
 // basic thunking
 
 #define THUNK(suffix, type)\

@@ -28,6 +28,14 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXQueryExtensionsString);
     EX(glXGetCurrentDisplay);
 
+    // OES wrapper
+    EX(glClearDepthfOES);
+    EX(glClipPlanefOES);
+    EX(glDepthRangefOES);
+    EX(glFrustumfOES);
+    EX(glGetClipPlanefOES);
+    EX(glOrthofOES);
+
     // passthrough
     EX(glActiveTextureARB);
     EX(glBegin);

@@ -1,33 +1,62 @@
 #include <gl.h>
+
 // naive wrappers
 
 void glActiveTextureARB(GLenum texture) {
-    LOAD_GLES(void, glActiveTexture, GLenum);
-    gles_glActiveTexture(texture);
+    glActiveTexture(texture);
 }
 
 void glClearDepth(GLdouble depth) {
-    LOAD_GLES(void, glClearDepthf, GLfloat depth);
-    gles_glClearDepthf(depth);
+    glClearDepthf(depth);
 }
 
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
-    LOAD_GLES(void, glOrthof, GLfloat, GLfloat, GLfloat,
-                              GLfloat, GLfloat, GLfloat)
-    gles_glOrthof(left, right, bottom, top, near, far);
+    glOrthof(left, right, bottom, top, near, far);
 }
 
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
-    LOAD_GLES(void, glFrustumf, GLfloat, GLfloat, GLfloat,
-                               GLfloat, GLfloat, GLfloat)
-    gles_glFrustumf(left, right, bottom, top, near, far);
+    glFrustumf(left, right, bottom, top, near, far);
 }
 
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
+
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t) {
+    glMultiTexCoord4f(target, s, t, 0.0f, 0.0f);
+}
+
+// OES wrappers
+
+void glClearDepthfOES(GLfloat depth) {
+    glClearDepthf(depth);
+}
+
+void glClipPlanefOES(GLenum plane, const GLfloat *equation) {
+    glClipPlanef(plane, equation);
+}
+
+void glDepthRangefOES(GLclampf near, GLclampf far) {
+    glDepthRangef(near, far);
+}
+
+void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
+                   GLfloat top, GLfloat near, GLfloat far) {
+    glFrustumf(left, right, bottom, top, near, far);
+}
+
+void glGetClipPlanefOES(GLenum plane, const GLfloat *equation) {
+    glGetClipPlanef(plane, equation);
+}
+
+void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
+                 GLfloat top, GLfloat near, GLfloat far) {
+    glOrthof(left, right, bottom, top, near, far);
+}
+
+// glRect
 
 #define GL_RECT(suffix, type)\
     void glRect##suffix(type x1, type y1, type x2, type y2) {\
