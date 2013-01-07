@@ -213,8 +213,9 @@ void glNewList(GLuint list) {
     if (list >= listCount) return;
 
     glwList *l = displayLists[list];
-    // TODO: if activeList is defined, we probably need to clean up here
+    if (l->created) return;
 
+    // TODO: if activeList is defined, we probably need to clean up here
     l->created = true;
     inDisplayList = true;
     activeList = l->list = allocRenderList();
@@ -231,7 +232,8 @@ void glCallList(GLuint list) {
     if (list >= listCount) return;
 
     glwList *l = displayLists[list];
-    drawRenderList(l->list);
+    if (l->created)
+        drawRenderList(l->list);
 }
 
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
@@ -277,16 +279,10 @@ void glDeleteList(GLuint list) {
     l->free = true;
     if (l->created) {
         freeRenderList(l->list);
+        l->created = false;
     }
 
-    // only free if the display list group is empty
-    int i;
-    for (i = 0; i < l->len; i++) {
-        if (! (l-l->pos+i)->free)
-            return;
-    }
-
-    free(l-l->pos);
+    // lists just grow upwards, maybe use a better storage mechanism?
 }
 
 void glDeleteLists(GLuint list, GLsizei range) {
@@ -301,6 +297,10 @@ void glListBase(GLuint base) {
 }
 
 GLboolean glIsList(GLuint list) {
-    if (list < listCount) return true;
+    if (list < listCount) {
+        glwList *l = displayLists[list];
+        if (l->created)
+            return true;
+    }
     return false;
 }
