@@ -28,7 +28,6 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     viewport.y = y;
     viewport.width = width;
     viewport.height = height;
-    raster = (GLubyte *)malloc(4 * width * height * sizeof(GLubyte));
 }
 
 void initRaster() {
@@ -114,7 +113,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 }
 
 void renderRaster() {
-    if (!viewport.width || !viewport.height)
+    if (!viewport.width || !viewport.height || !raster)
         return;
 
     glMatrixMode(GL_PROJECTION);
