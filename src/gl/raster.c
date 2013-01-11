@@ -52,7 +52,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // copy to pixel data
     // TODO: strip blank lines and mirror vertically?
     for (y = 0; y < height; y++) {
-        to = raster + 4 * (GLuint)(rPos.x + ((height - y - 1 + rPos.y) * viewport.width));
+        to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
         from = bitmap + (y * ((width + 7) / 8));
         for (x = 0; x < (width + 7 / 8); x++) {
             // TODO: wasteful, unroll this?
