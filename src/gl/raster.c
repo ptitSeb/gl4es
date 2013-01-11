@@ -31,6 +31,14 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     raster = (GLubyte *)malloc(4 * width * height * sizeof(GLubyte));
 }
 
+void initRaster() {
+    if (!viewport.width || !viewport.height) {
+        glGetIntegerv(GL_VIEWPORT, (GLint *)&viewport);
+    }
+    if (!raster)
+        raster = (GLubyte *)malloc(4 * viewport.width * viewport.height * sizeof(GLubyte));
+}
+
 void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
@@ -40,11 +48,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         rPos.y += ymove;
         return;
     }
-    if (!viewport.width || !viewport.height) {
-        glGetIntegerv(GL_VIEWPORT, (GLint *)&viewport);
-    }
-    if (!raster)
-        raster = (GLubyte *)malloc(4 * viewport.width * viewport.height * sizeof(GLubyte));
+    initRaster();
 
     const GLubyte *from;
     GLubyte *to;
@@ -69,6 +73,44 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 
     rPos.x += xmove;
     rPos.y += ymove;
+}
+
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+                  GLenum type, const GLvoid *data) {
+    initRaster();
+
+    // TODO: finish implementing and get rid of this debug code
+/*
+    FILE *f = fopen("/tmp/out", "w");
+    fprintf(f, "glDrawPixels(%i, %i, %i, %i);\n", width, height, format, type);
+    fclose(f);
+*/
+
+    int x, y;
+    GLubyte *to;
+    switch (format) {
+        case GL_RGB:
+            break;
+        case GL_RGBA:
+            // TODO: macro/abstract this
+            if (type == GL_UNSIGNED_BYTE) {
+                GLubyte *pixels = (GLubyte *)data;
+                GLubyte *from;
+                for (y = 0; y < height; y++) {
+                    to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
+                    from = pixels + 4 * (y * width);
+                    for (x = 0; x < width; x++) {
+                        *to++ = *from++;
+                        *to++ = *from++;
+                        *to++ = *from++;
+                        *to++ = *from++;
+                    }
+                }
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 void renderRaster() {
