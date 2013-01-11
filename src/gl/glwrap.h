@@ -35,7 +35,13 @@ void glIndex##suffix##v(const type *c);\
 void glSecondaryColor3##suffix(type r, type g, type b);\
 void glSecondaryColor3##suffix##v(const type *v);\
 void glVertex2##suffix(type x, type y);\
-void glVertex3##suffix(type x, type y, type z);
+void glVertex2##suffix##v(type *v);\
+void glVertex3##suffix(type x, type y, type z);\
+void glVertex3##suffix##v(type *v);\
+void glRasterPos2##suffix(type x, type y);\
+void glRasterPos2##suffix##v(type *v);\
+void glRasterPos3##suffix(type x, type y, type z);\
+void glRasterPos3##suffix##v(type *v);
 
 // TODO: we don't handle glVertex4f anywhere
 // TODO: glVertex3fv?

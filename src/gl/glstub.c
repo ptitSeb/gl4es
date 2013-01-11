@@ -29,7 +29,6 @@ STUB(void glPixelTransferf(GLenum pname, GLfloat param));
 STUB(void glPixelTransferi(GLenum pname, GLint param));
 STUB(void glPolygonMode(GLenum face, GLenum mode));
 STUB(void glPolygonStipple(const GLubyte *mask));
-STUB(void glRasterPos2f(GLfloat x, GLfloat y));
 STUB(void glReadBuffer(GLenum mode));
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer));
