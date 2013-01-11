@@ -2,7 +2,7 @@
 
 #define STUB(def)\
 def {\
-    printf("stub: %s;\n", #def);\
+    /*printf("stub: %s;\n", #def);*/\
 }
 
 STUB(void glPopAttrib());

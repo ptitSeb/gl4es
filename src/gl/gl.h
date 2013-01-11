@@ -47,6 +47,7 @@ void *gles;
 
 #include "glstub.h"
 #include "glwrap.h"
+#include "raster.h"
 #include "texture.h"
 
 typedef struct {
@@ -64,6 +65,7 @@ typedef struct {
 #define skip_glEnable
 #define skip_glMaterialfv
 #define skip_glTexImage2D
+#define skip_glViewport
 
 // newly-defined GL functions
 GLuint glGenLists(GLsizei range);

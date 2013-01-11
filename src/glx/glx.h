@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "gl.h"
+
 typedef struct {
     Display *currentDpy;
     unsigned char isDirect;

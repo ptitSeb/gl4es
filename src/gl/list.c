@@ -1,5 +1,5 @@
-#include <gl.h>
-#include <list.h>
+#include "gl.h"
+#include "list.h"
 
 #define alloc_sublist(n, cap)\
     (GLfloat *)malloc(n * sizeof(GLfloat) * cap)

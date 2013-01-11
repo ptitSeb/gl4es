@@ -108,6 +108,18 @@ void glVertex3##suffix(type x, type y, type z) {\
 }\
 void glVertex3##suffix##v(type *v) {\
     glVertex3f(v[0], v[1], v[2]);\
+}\
+void glRasterPos2##suffix(type x, type y) {\
+    glRasterPos3f(x, y, 0);\
+}\
+void glRasterPos2##suffix##v(type *v) {\
+    glRasterPos3f(v[0], v[1], 0);\
+}\
+void glRasterPos3##suffix(type x, type y, type z) {\
+    glRasterPos3f(x, y, z);\
+}\
+void glRasterPos3##suffix##v(type *v) {\
+    glRasterPos3f(v[0], v[1], v[2]);\
 }
 
 // TODO: we don't handle glVertex4f anywhere
@@ -169,6 +181,7 @@ void glGet##suffix##v(GLenum pname, type *params) {\
     for (i = 0; i < n; i++) {\
         params[i] = (type)p[i];\
     }\
+    free(p);\
 }
 
 THUNK(Double, GLdouble);

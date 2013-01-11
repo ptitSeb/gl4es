@@ -186,6 +186,7 @@ Bool glXMakeCurrent(Display *display,
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
+    renderRaster();
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 }

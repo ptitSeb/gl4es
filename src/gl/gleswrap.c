@@ -869,5 +869,3 @@ WRAP_GLES(void, glViewport, GLint x, GLint y, GLsizei width, GLsizei height)
     return gles_glViewport(x, y, width, height);
 END_WRAP
 #endif
-
-
