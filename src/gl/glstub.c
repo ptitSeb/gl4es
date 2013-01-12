@@ -21,21 +21,22 @@ STUB(void glFogCoordfv(const GLfloat *coord));
 // STUB(void glVertexAttrib());
 // STUB(void glEvalCoord());
 // STUB(void glEvalPoint());
+STUB(GLint glRenderMode(GLenum mode));
 STUB(void glArrayElement(GLint i));
+STUB(void glDrawBuffer(GLenum mode));
 STUB(void glEdgeFlag(GLboolean flag));
+STUB(void glInitNames());
 STUB(void glLightModeli(GLenum pname, GLint param));
 STUB(void glLoadName(GLuint name));
 STUB(void glPixelTransferf(GLenum pname, GLfloat param));
 STUB(void glPixelTransferi(GLenum pname, GLint param));
+STUB(void glPixelZoom(GLfloat xfactor, GLfloat yfactor));
 STUB(void glPolygonMode(GLenum face, GLenum mode));
 STUB(void glPolygonStipple(const GLubyte *mask));
+STUB(void glPopName());
+STUB(void glPushName());
 STUB(void glReadBuffer(GLenum mode));
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer));
-STUB(GLint glRenderMode(GLenum mode));
-STUB(void glInitNames());
-STUB(void glPushName());
-STUB(void glPopName());
-STUB(void glPixelZoom(GLfloat xfactor, GLfloat yfactor));
 
 #undef STUB
