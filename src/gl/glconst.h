@@ -43,6 +43,7 @@
 #define GL_TEXTURE_BIT          0x40000
 #define GL_SCISSOR_BIT          0x80000
 #define GL_ALL_ATTRIB_BITS      0xFFFFF
+#define GL_MULTISAMPLE_BIT      0x20000000
 
 #define GL_S                    0x2000
 #define GL_T                    0x2001
