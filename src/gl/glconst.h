@@ -1,4 +1,3 @@
-
 #define GL_QUADS      7
 #define GL_QUAD_STRIP 8
 #define GL_POLYGON    9
@@ -44,6 +43,11 @@
 #define GL_SCISSOR_BIT          0x80000
 #define GL_ALL_ATTRIB_BITS      0xFFFFF
 #define GL_MULTISAMPLE_BIT      0x20000000
+
+#define GL_CLIENT_PIXEL_STORE_BIT  0x00000001
+#define GL_CLIENT_VERTEX_ARRAY_BIT 0x00000002
+#define GL_ALL_CLIENT_ATTRIB_BITS  0xFFFFFFFF
+#define GL_CLIENT_ALL_ATTRIB_BITS  0xFFFFFFFF
 
 #define GL_S                    0x2000
 #define GL_T                    0x2001

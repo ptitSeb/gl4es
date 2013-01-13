@@ -5,8 +5,6 @@ def {\
     /*printf("stub: %s;\n", #def);*/\
 }
 
-STUB(void glPopClientAttrib());
-STUB(void glPushClientAttrib(GLbitfield mask));
 STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b));
 STUB(void glIndexf(GLfloat c));
 

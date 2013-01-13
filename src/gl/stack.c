@@ -1,6 +1,7 @@
 #include "stack.h"
 
 GLstack *stack = NULL;
+GLclientStack *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
     if (stack == NULL) {
@@ -169,6 +170,36 @@ void glPushAttrib(GLbitfield mask) {
     stack->len++;
 }
 
+void glPushClientAttrib(GLbitfield mask) {
+    if (clientStack == NULL) {
+        clientStack = (GLclientStack *)malloc(STACK_SIZE * sizeof(GLclientStack));
+        clientStack->len = 0;
+        clientStack->cap = STACK_SIZE;
+    } else if (clientStack->len == clientStack->cap) {
+        int size = clientStack->cap * sizeof(GLclientStack) + STACK_SIZE * sizeof(GLclientStack);
+        clientStack = (GLclientStack *)realloc(clientStack, size);
+    }
+
+    GLclientStack *cur = clientStack + clientStack->len;
+    cur->mask = mask;
+
+    if (mask & GL_CLIENT_PIXEL_STORE_BIT) {
+        glGetIntegerv(GL_PACK_ALIGNMENT, &cur->pack_align);
+        glGetIntegerv(GL_UNPACK_ALIGNMENT, &cur->unpack_align);
+    }
+
+    if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
+        cur->vert_enable = glIsEnabled(GL_VERTEX_ARRAY);
+        cur->normal_enable = glIsEnabled(GL_NORMAL_ARRAY);
+        cur->color_enable = glIsEnabled(GL_COLOR_ARRAY);
+        cur->tex_enable = glIsEnabled(GL_TEXTURE_COORD_ARRAY);
+
+        // TODO: track local pointer state
+    }
+
+    clientStack->len++;
+}
+
 #define maybe_free(x)\
     if (x) free(x)
 
@@ -296,6 +327,31 @@ void glPopAttrib() {
     maybe_free(cur->lights_enabled);
     maybe_free(cur->lights);
     stack->len--;
+}
+
+#undef enable_disable
+#define enable_disable(x, c)\
+    if (x) glEnableClientState(c);\
+    else glDisableClientState(c)
+
+void glPopClientAttrib() {
+    if (clientStack == NULL || clientStack->len == 0)
+        return;
+
+    GLclientStack *cur = clientStack + clientStack->len-1;
+    if (cur->mask & GL_CLIENT_PIXEL_STORE_BIT) {
+        glPixelStorei(GL_PACK_ALIGNMENT, cur->pack_align);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, cur->unpack_align);
+    }
+
+    if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
+        enable_disable(GL_VERTEX_ARRAY, cur->vert_enable);
+        enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
+        enable_disable(GL_COLOR_ARRAY, cur->color_enable);
+        enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable);
+
+        // TODO: need to track this locally?
+    }
 }
 
 #undef maybe_free

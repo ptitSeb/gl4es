@@ -105,3 +105,24 @@ typedef struct {
     unsigned int len;
     unsigned int cap;
 } GLstack;
+
+typedef struct {
+    GLbitfield mask;
+
+    // GL_CLIENT_PIXEL_STORE_BIT
+    GLint pack_align;
+    GLint unpack_align;
+
+    // GL_CLIENT_VERTEX_ARRAY_BIT
+    GLboolean vert_enable;
+    GLboolean color_enable;
+    GLboolean tex_enable;
+    GLboolean normal_enable;
+    GLfloat *verts;
+    GLfloat *color;
+    GLfloat *tex;
+    GLfloat *normal;
+
+    unsigned int len;
+    unsigned int cap;
+} GLclientStack;
