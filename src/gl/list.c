@@ -157,6 +157,7 @@ void endRenderList(RenderList *list) {
 void drawRenderList(RenderList *list) {
     if (!list) return;
 
+    glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
         // optimize zero-length segments out earlier?
         if (! list->len)
@@ -187,13 +188,17 @@ void drawRenderList(RenderList *list) {
         }
 
         GLfloat *tex = list->tex;
-        GLubyte *pixels = NULL;
-        GLuint texture = 0;
-        // TODO: generate this somewhere smarter?
+        GLuint texture;
+        bool stipple = false;
         // TODO: do we need to support GL_LINE_STRIP?
         if (list->mode == GL_LINES && bLineStipple) {
-            texture = genStippleTex(stippleFactor, stipplePattern,
-                                    list->vert, &pixels, &tex, list->len);
+            stipple = true;
+            glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
+            glEnable(GL_BLEND);
+            glEnable(GL_TEXTURE_2D);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+            texture = genStippleTex(list->vert, &tex, list->len);
+            // TODO: cache this for display list on first render?
         }
 
         if (tex) {
@@ -206,12 +211,14 @@ void drawRenderList(RenderList *list) {
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        if (pixels) {
-            free(pixels);
+
+        if (stipple) {
             free(tex);
             glDeleteTextures(1, &texture);
+            glPopAttrib();
         }
     } while ((list = list->next));
+    glPopClientAttrib();
 }
 
 void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {

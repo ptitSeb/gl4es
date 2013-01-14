@@ -14,8 +14,6 @@ GLenum texGenT;
 GLfloat texGenTv[4];
 
 bool bLineStipple = false;
-GLint stippleFactor = 1;
-GLushort stipplePattern = 0xFFFF;
 
 GLuint listBase = 0;
 
@@ -117,13 +115,6 @@ void genTexCoords(GLfloat *verts, GLfloat *coords, GLint count) {
         if (bTexGenS) tex[0] = genTexCoord(&verts[i], texGenS, texGenSv);
         if (bTexGenT) tex[1] = genTexCoord(&verts[i], texGenT, texGenTv);
     }
-}
-
-// misc functions
-
-void glLineStipple(GLuint factor, GLushort pattern) {
-    stippleFactor = factor;
-    stipplePattern = pattern;
 }
 
 // immediate mode functions

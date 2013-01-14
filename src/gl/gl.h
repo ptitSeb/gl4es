@@ -59,6 +59,8 @@ typedef struct {
     RenderList *list;
 } glwList;
 
+bool bLineStipple;
+
 // don't auto-wrap these functions
 #define skip_glColor4f
 #define skip_glColor4ub
@@ -83,7 +85,6 @@ void glFogi(GLenum pname, GLint param);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);
-void glLineStipple(GLuint factor, GLushort pattern);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glListBase(GLuint base);
 void glNewList(GLuint list);

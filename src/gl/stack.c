@@ -352,6 +352,8 @@ void glPopClientAttrib() {
 
         // TODO: need to track this locally?
     }
+
+    clientStack->len--;
 }
 
 #undef maybe_free

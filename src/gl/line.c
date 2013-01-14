@@ -1,13 +1,22 @@
 #include <line.h>
 
-GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *vert,
-                     GLubyte **pixels, GLfloat **tex, int length) {
-    *pixels = (GLubyte *)malloc(sizeof(GLfloat) * 16);
-    // generate our texture
-    for (int i = 0; i < 16; i++) {
-        (*pixels)[i] = (stipplePattern >> i) & 1 ? 255 : 0;
-    }
+GLint stippleFactor = 1;
+GLushort stipplePattern = 0xFFFF;
+GLubyte *stippleTex = NULL;
 
+void glLineStipple(GLuint factor, GLushort pattern) {
+    stippleFactor = factor;
+    stipplePattern = pattern;
+    if (stippleTex != NULL) {
+        free(stippleTex);
+    }
+    stippleTex = (GLubyte *)malloc(sizeof(GLubyte) * 16);
+    for (int i = 0; i < 16; i++) {
+        stippleTex[i] = (stipplePattern >> i) & 1 ? 255 : 0;
+    }
+}
+
+GLuint genStippleTex(GLfloat *vert, GLfloat **tex, int length) {
     // generate our texture coords
     *tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
     GLfloat *texPos = *tex;
@@ -31,11 +40,6 @@ GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *vert,
         *texPos++ = 0;
     }
 
-    // TODO: this really shouldn't go here, and should be restored after render
-    glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
     GLuint texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -45,7 +49,7 @@ GLuint genStippleTex(GLint factor, GLint pattern, GLfloat *vert,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, *pixels);
+        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, stippleTex);
 
     return texture;
 }
