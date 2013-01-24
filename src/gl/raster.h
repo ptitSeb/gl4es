@@ -18,6 +18,8 @@ typedef struct {
 
 void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+                  GLenum type, const GLvoid *data);
 void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void renderRaster();
