@@ -78,37 +78,40 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glVertex2f);
     EX(glColor3f);
     #undef THUNK
-    // stubs we actually define
-    EX(glPopAttrib);
-    EX(glPushAttrib);
-    EX(glPopClientAttrib);
-    EX(glPushClientAttrib);
-    EX(glSecondaryColor3f);
-    EX(glIndexf);
-    EX(glFogCoordd);
-    EX(glFogCoordf);
-    EX(glFogCoorddv);
-    EX(glFogCoordfv);
+
+    // functions we actually define
     EX(glArrayElement);
-    EX(glEdgeFlag);
-    EX(glEndList);
+    EX(glBitmap);
     EX(glCallList);
     EX(glDeleteLists);
+    EX(glDrawPixels);
+    EX(glEdgeFlag);
+    EX(glEndList);
+    EX(glFogCoordd);
+    EX(glFogCoorddv);
+    EX(glFogCoordf);
+    EX(glFogCoordfv);
     EX(glGenLists);
+    EX(glIndexf);
     EX(glNewList);
     EX(glNormal3dv);
+    EX(glPopAttrib);
+    EX(glPopClientAttrib);
+    EX(glPushAttrib);
+    EX(glPushClientAttrib);
+    EX(glRasterPos2i);
+    EX(glSecondaryColor3f);
 
     // stubs
-    STUB(glBitmap);
+    STUB(glBlendFuncSeparate);
+    STUB(glBlendEquationSeparate);
     STUB(glCopyPixels);
-    STUB(glDrawPixels);
     STUB(glGetTexImage);
     STUB(glGetTexLevelParameterfv);
     STUB(glGetTexLevelParameteriv);
     STUB(glPixelTransferf);
     STUB(glPixelTransferi);
     STUB(glPixelZoom);
-    STUB(glRasterPos2i);
     STUB(glTexImage3D);
     printf("%s not found.\n", name);
     return NULL;
