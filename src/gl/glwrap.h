@@ -3,16 +3,43 @@
 #ifndef GL_WRAP_H
 #define GL_WRAP_H
 
+// misc naive wrappers
 void glActiveTextureARB(GLenum texture);
 void glClearDepth(GLdouble depth);
+void glClipPlane(GLenum plane, const GLdouble *equation);
+void glDepthRange(GLdouble nearVal, GLdouble farVal);
 void glFogi(GLenum pname, GLint param);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
-void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz);
-void glNormal3dv(const GLdouble *n);
+void glMateriali(GLenum face, GLenum pname, GLint param);
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+
+// color
+void glColor3f(GLfloat r, GLfloat g, GLfloat b);
+void glColor3fv(GLfloat *c);
+void glColor4fv(GLfloat *c);
+
+// matrix
+void glLoadMatrixd(const GLdouble *m);
+void glMultMatrixd(const GLdouble *m);
+
+// normal
+void glNormal3fv(GLfloat *v);
+
+// textures
 void glTexCoord2d(GLdouble s, GLdouble t);
+void glTexCoord2fv(GLfloat *t);
+
+// transforms
+void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z);
+void glScaled(GLdouble x, GLdouble y, GLdouble z);
 void glTranslated(GLdouble x, GLdouble y, GLdouble z);
+
+// vertex
+void glVertex2f(GLfloat x, GLfloat y);
+void glVertex2fv(GLfloat *v);
+void glVertex3fv(GLfloat *v);
 
 // OES wrappers
 
@@ -26,25 +53,26 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLflo
 // basic thunking
 
 #define THUNK(suffix, type)\
-void glColor3##suffix(type r, type g, type b);\
-void glColor4##suffix(type r, type g, type b, type a);\
 void glColor3##suffix##v(const type *v);\
+void glColor3##suffix(type r, type g, type b);\
 void glColor4##suffix##v(const type *v);\
-void glIndex##suffix(type c);\
-void glIndex##suffix##v(const type *c);\
-void glSecondaryColor3##suffix(type r, type g, type b);\
+void glColor4##suffix(type r, type g, type b, type a);\
 void glSecondaryColor3##suffix##v(const type *v);\
-void glVertex2##suffix(type x, type y);\
-void glVertex2##suffix##v(type *v);\
-void glVertex3##suffix(type x, type y, type z);\
-void glVertex3##suffix##v(type *v);\
-void glRasterPos2##suffix(type x, type y);\
+void glSecondaryColor3##suffix(type r, type g, type b);\
+void glIndex##suffix##v(const type *c);\
+void glIndex##suffix(type c);\
+void glNormal3##suffix##v(const type *v);\
+void glNormal3##suffix(type x, type y, type z);\
 void glRasterPos2##suffix##v(type *v);\
+void glRasterPos2##suffix(type x, type y);\
+void glRasterPos3##suffix##v(type *v);\
 void glRasterPos3##suffix(type x, type y, type z);\
-void glRasterPos3##suffix##v(type *v);
-
-// TODO: we don't handle glVertex4f anywhere
-// TODO: glVertex3fv?
+void glVertex2##suffix##v(type *v);\
+void glVertex2##suffix(type x, type y);\
+void glVertex3##suffix##v(type *v);\
+void glVertex3##suffix(type x, type y, type z);\
+void glVertex4##suffix(type r, type g, type b, type w);\
+void glVertex4##suffix##v(type *v);
 
 THUNK(b, GLbyte);
 THUNK(d, GLdouble);
@@ -54,9 +82,6 @@ THUNK(ub, GLubyte);
 THUNK(ui, GLuint);
 THUNK(us, GLushort);
 #undef THUNK
-
-void glVertex2f(GLfloat x, GLfloat y);
-void glColor3f(GLfloat r, GLfloat g, GLfloat b);
 
 #define THUNK(suffix, type)\
 extern void glGet##suffix##v(GLenum pname, type *params);
