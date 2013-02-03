@@ -47,7 +47,7 @@ void glClearDepthfOES(GLfloat depth);
 void glClipPlanefOES(GLenum plane, const GLfloat *equation);
 void glDepthRangefOES(GLclampf near, GLclampf far);
 void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
-void glGetClipPlanefOES(GLenum plane, const GLfloat *equation);
+void glGetClipPlanefOES(GLenum plane, GLfloat equation[4]);
 void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
 
 // basic thunking

@@ -1,4 +1,12 @@
 #include <gl.h>
+#include <GLES/glext.h>
+
+#define constDoubleToFloat(a, size)\
+    GLfloat s[size];\
+    int i;\
+    for (i = 0; i < size; i++) {\
+        s[i] = a[i];\
+    }
 
 // naive wrappers
 
@@ -8,6 +16,11 @@ void glActiveTextureARB(GLenum texture) {
 
 void glClearDepth(GLdouble depth) {
     glClearDepthf(depth);
+}
+
+void glClipPlane(GLenum plane, const GLdouble *equation) {
+    constDoubleToFloat(equation, 4);
+    glClipPlanef(plane, s);
 }
 
 void glDepthRange(GLdouble nearVal, GLdouble farVal) {
@@ -55,8 +68,8 @@ void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
     glFrustumf(left, right, bottom, top, near, far);
 }
 
-void glGetClipPlanefOES(GLenum plane, const GLfloat *equation) {
-    glGetClipPlanef(plane, (GLfloat *)equation);
+void glGetClipPlanefOES(GLenum pname, GLfloat equation[4]) {
+    glGetClipPlanef(pname, equation);
 }
 
 void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
@@ -228,12 +241,6 @@ void glColor4fv(GLfloat *c) {
 }
 
 // matrix
-#define constDoubleToFloat(a, size)\
-    GLfloat s[size];\
-    int i;\
-    for (i = 0; i < size; i++) {\
-        s[i] = a[i];\
-    }
 
 void glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
@@ -244,13 +251,6 @@ void glMultMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
     glMultMatrixf(s);
 }
-
-void glClipPlane(GLenum plane, const GLdouble *equation) {
-    constDoubleToFloat(equation, 4);
-    glClipPlanef(plane, s);
-}
-
-#undef constDoubleToFLoat
 
 // normal
 void glNormal3fv(GLfloat *v) {
@@ -291,3 +291,5 @@ void glVertex2fv(GLfloat *v) {
 void glVertex3fv(GLfloat *v) {
     glVertex3f(v[0], v[1], v[2]);
 }
+
+#undef constDoubleToFloat
