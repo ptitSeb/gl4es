@@ -143,4 +143,3 @@ EX(glTranslatef);
 EX(glTranslatex);
 EX(glVertexPointer);
 EX(glViewport);
-

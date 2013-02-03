@@ -2,7 +2,9 @@
 cd "$(dirname "$0")"
 
 base=../src/
+spec=$(ls -1 yml/*.yml | tr '\n' ',' | sed -e 's/,$//')
 
-./gen.py yml/gles-1.1.yml template/wrapper.mustache gleswrap.h > "$base/gl/gleswrap.c"
-./gen.py yml/gles-1.1.yml template/header.mustache gl.h > "$base/gl/gleswrap.h"
-./gen.py yml/gles-1.1.yml template/glxfuncs.mustache gl.h > "$base/glx/glxfuncs.inc"
+./gen.py "$spec" template/wrapper.mustache gleswrap.h > "$base/gl/gleswrap.c"
+./gen.py "$spec" template/header.mustache gl.h > "$base/gl/gleswrap.h"
+./gen.py "$spec" template/glxfuncs.mustache gl.h > "$base/glx/glxfuncs.inc"
+
