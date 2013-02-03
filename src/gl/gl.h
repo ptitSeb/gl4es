@@ -25,7 +25,7 @@
 #define GLdouble double
 
 #include <glconst.h>
-#include <list.h>
+#include "list.h"
 
 // will become a reference to dlopen'd gles
 void *gles;
@@ -49,6 +49,7 @@ void *gles;
 #include "glwrap.h"
 #include "line.h"
 #include "raster.h"
+#include "stack.h"
 #include "texture.h"
 
 typedef struct {

@@ -1,5 +1,8 @@
 #include "gl.h"
 
+#ifndef GL_STACK_H
+#define GL_STACK_H
+
 #define STACK_SIZE 16
 
 typedef struct {
@@ -126,3 +129,10 @@ typedef struct {
     unsigned int len;
     unsigned int cap;
 } GLclientStack;
+
+void glPushClientAttrib(GLbitfield mask);
+void glPopClientAttrib();
+void glPushAttrib(GLbitfield mask);
+void glPopAttrib();
+
+#endif
