@@ -25,7 +25,6 @@
 #define GLdouble double
 
 #include <glconst.h>
-#include "list.h"
 
 // will become a reference to dlopen'd gles
 void *gles;
@@ -48,8 +47,10 @@ void *gles;
 #include "glstub.h"
 #include "glwrap.h"
 #include "line.h"
+#include "list.h"
 #include "raster.h"
 #include "stack.h"
+#include "texgen.h"
 #include "texture.h"
 
 typedef struct {
@@ -61,6 +62,8 @@ typedef struct {
 } glwList;
 
 bool bLineStipple;
+bool bTexGenS;
+bool bTexGenT;
 
 // don't auto-wrap these functions
 #define skip_glColor4f
@@ -91,8 +94,6 @@ void glListBase(GLuint base);
 void glNewList(GLuint list);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glTexCoord2f(GLfloat s, GLfloat t);
-void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
-void glTexGeni(GLenum coord, GLenum pname, GLint param);
 void glVertex2f(GLfloat x, GLfloat y);
 void glVertex2i(GLint x, GLint y);
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z);

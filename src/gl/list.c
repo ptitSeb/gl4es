@@ -189,16 +189,23 @@ void drawRenderList(RenderList *list) {
 
         GLfloat *tex = list->tex;
         GLuint texture;
+
         bool stipple = false;
-        // TODO: do we need to support GL_LINE_STRIP?
-        if (list->mode == GL_LINES && bLineStipple) {
-            stipple = true;
-            glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
-            glEnable(GL_BLEND);
-            glEnable(GL_TEXTURE_2D);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-            texture = genStippleTex(list->vert, &tex, list->len);
-            // TODO: cache this for display list on first render?
+        if (! tex) {
+            // TODO: do we need to support GL_LINE_STRIP?
+            if (list->mode == GL_LINES && bLineStipple && false) {
+                stipple = true;
+                glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
+                glEnable(GL_BLEND);
+                glEnable(GL_TEXTURE_2D);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+                texture = genStippleTex(list->vert, &tex, list->len);
+                // TODO: cache this for display list on first render?
+            }
+
+            if (bTexGenS || bTexGenT) {
+                genTexCoords(list->vert, &tex, list->len);
+            }
         }
 
         if (tex) {
@@ -213,9 +220,15 @@ void drawRenderList(RenderList *list) {
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         if (stipple) {
-            free(tex);
             glDeleteTextures(1, &texture);
             glPopAttrib();
+        }
+
+        if (tex && tex != list->tex) {
+            if (list->tex)
+                free(list->tex);
+
+            list->tex = tex;
         }
     } while ((list = list->next));
     glPopClientAttrib();
