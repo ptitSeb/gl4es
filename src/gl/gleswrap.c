@@ -1,5 +1,31 @@
 #include "gleswrap.h"
 
+enum formats {
+    TYPE_GLenum_GLclampf,
+};
+
+typedef void (*FUNC_GLenum_GLclampf)(GLenum, GLclampf);
+typedef struct {
+    GLenum a;
+    GLclampf b;
+} ARGS_GLenum_GLclampf;
+typedef struct {
+    int format;
+    FUNC_GLenum_GLclampf func;
+    ARGS_GLenum_GLclampf *args;
+} PACKED_GLenum_GLclampf;
+
+void delayedCall(const void *packed) {
+    int format = *(int *)packed;
+    switch (format) {
+        case TYPE_GLenum_GLclampf: {
+            PACKED_GLenum_GLclampf *unpacked = (PACKED_GLenum_GLclampf *)packed;
+            unpacked->func(unpacked->args->a, unpacked->args->b);
+            return;
+        }
+    }
+}
+
 #ifndef skip_glActiveTexture
 WRAP_GLES(void, glActiveTexture, GLenum texture)
     return gles_glActiveTexture(texture);
@@ -8,7 +34,23 @@ END_WRAP
 
 #ifndef skip_glAlphaFunc
 WRAP_GLES(void, glAlphaFunc, GLenum func, GLclampf ref)
-    return gles_glAlphaFunc(func, ref);
+    if (inDisplayList) {
+        FUNC_GLenum_GLclampf *self.
+    } else {
+        // TODO: COMPILE_AND_EXECUTE?
+        return gles_glAlphaFunc(func, ref);
+    }
+END_WRAP
+#endif
+
+#ifndef skip_glAlphaFunc
+WRAP_GLES(void, glAlphaFunc, GLenum func, GLclampf ref)
+    if (inDisplayList) {
+        FUNC_GLenum_GLclampf *self.
+    } else {
+        // TODO: COMPILE_AND_EXECUTE?
+        return gles_glAlphaFunc(func, ref);
+    }
 END_WRAP
 #endif
 

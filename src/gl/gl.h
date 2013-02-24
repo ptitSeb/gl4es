@@ -64,6 +64,7 @@ typedef struct {
 bool bLineStipple;
 bool bTexGenS;
 bool bTexGenT;
+bool inDisplayList;
 
 // don't auto-wrap these functions
 #define skip_glColor4f
