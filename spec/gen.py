@@ -13,28 +13,43 @@ def split_arg(arg):
 
 def gen(files, template, headers):
     funcs = []
+    formats = []
+    unique_formats = set()
     for data in files:
         for name, args in sorted(data.items()):
             props = {}
             if args:
-                props['return'] = args.pop(0)
+                ret = args.pop(0)
             else:
-                props['return'] = 'void'
+                ret = 'void'
 
             args = [split_arg(arg) for arg in args if not arg == 'void']
             if args:
                 args[0]['first'] = True
                 args[-1]['last'] = True
 
+            for i, arg in enumerate(args):
+                arg['index'] = i
+
+            types = '_'.join(
+                arg['type'].replace(' ', '_').replace('*', '__GENPT__')
+                for arg in [{'type': ret}] + args)
+
             props.update({
+                'return': ret,
                 'name': name,
                 'args': args,
+                'types': types,
+                'void': ret == 'void',
             })
+            if not types in unique_formats:
+                unique_formats.add(types)
+                formats.append(props)
 
             funcs.append(props)
 
     return pystache.render(template,
-        {'functions': funcs, 'headers': headers}
+        {'functions': funcs, 'formats': formats, 'headers': headers}
     ).rstrip('\n')
 
 if __name__ == '__main__':

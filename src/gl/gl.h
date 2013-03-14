@@ -75,6 +75,30 @@ bool inDisplayList;
 #define skip_glTexImage2D
 #define skip_glViewport
 
+// don't compile these into display lists
+#define direct_glColorPointer
+#define direct_glDeleteLists
+#define direct_glDisableClientState
+#define direct_glEdgeFlagPointer
+#define direct_glEnableClientState
+#define direct_glFeedbackBuffer
+#define direct_glFinish
+#define direct_glFlush
+#define direct_glGenLists
+#define direct_glIndexPointer
+#define direct_glInterleavedArrays
+#define direct_glIsEnabled
+#define direct_glIsList
+#define direct_glNormalPointer
+#define direct_glPopClientAttrib
+#define direct_glPixelStore
+#define direct_glPushClientAttrib
+#define direct_glReadPixels
+#define direct_glRenderMode
+#define direct_glSelectBuffer
+#define direct_glTexCoordPointer
+#define direct_glVertexPointer
+
 // newly-defined GL functions
 GLuint glGenLists(GLsizei range);
 void glActiveTextureARB(GLenum texture);

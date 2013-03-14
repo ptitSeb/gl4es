@@ -2,10 +2,39 @@
 #include "{{.}}"
 {{/headers}}
 
+void glPackedCall(const void *packed) {
+    int format = *(int *)packed;
+    switch (format) {
+        {{#formats}}
+        case FORMAT_{{types}}: {
+            PACKED_{{types}} *unpacked = (PACKED_{{types}} *) packed;
+            ARGS_{{types}} args = unpacked->args;
+            unpacked->func({{#args}}args.a{{index}}{{^last}}, {{/last}}{{/args}});
+        }
+        {{/formats}}
+    }
+}
+
 {{#functions}}
 #ifndef skip_{{name}}
 WRAP_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}})
-    return gles_{{name}}({{#args}}{{name}}{{^last}}, {{/last}}{{/args}});
+#ifndef direct_{{name}}
+    if (inDisplayList) {
+        PACKED_{{types}} *data = malloc(sizeof(PACKED_{{types}}));
+        data->format = FORMAT_{{types}};
+        data->func = {{name}};
+        {{#args}}
+        data->args.a{{index}} = {{name}};
+        {{/args}}
+{{^void}}
+        return 0;
+{{/void}}
+    } else {
+#endif
+    {{^void}}return {{/void}}gles_{{name}}({{#args}}{{name}}{{^last}}, {{/last}}{{/args}});
+#ifndef direct_{{name}}
+    }
+#endif
 END_WRAP
 #endif
 

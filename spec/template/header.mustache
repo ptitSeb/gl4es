@@ -2,6 +2,30 @@
 #include "{{.}}"
 {{/headers}}
 
+#ifndef GLESWRAP_H
+#define GLESWRAP_H
+
+enum FORMAT {
+{{#formats}}
+    FORMAT_{{types}},
+{{/formats}}
+};
+{{#formats}}
+typedef {{return}} (*FUNC_{{types}})({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
+typedef struct {
+    {{#args}}
+    {{type}} a{{index}};
+    {{/args}}
+} ARGS_{{types}};
+typedef struct {
+    int format;
+    FUNC_{{types}} func;
+    ARGS_{{types}} args;
+} PACKED_{{types}};
+{{/formats}}
+
 {{#functions}}
 {{return}}{{^return}}void{{/return}} {{name}}({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
 {{/functions}}
+
+#endif
