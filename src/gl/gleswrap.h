@@ -3,6 +3,12 @@
 #ifndef GLESWRAP_H
 #define GLESWRAP_H
 
+typedef struct {
+    int format;
+    void *func;
+    void *args;
+} UnknownCall;
+
 enum FORMAT {
     FORMAT_void_GLenum,
     FORMAT_void_GLenum_GLclampf,
@@ -908,7 +914,7 @@ typedef struct {
     ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ args;
 } PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 
-void glPackedCall(const void *packed);
+void glPackedCall(const UnknownCall *packed);
 void glActiveTexture(GLenum texture);
 void glAlphaFunc(GLenum func, GLclampf ref);
 void glAlphaFuncx(GLenum func, GLclampx ref);

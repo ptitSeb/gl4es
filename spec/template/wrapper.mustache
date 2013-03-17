@@ -2,24 +2,28 @@
 #include "{{.}}"
 {{/headers}}
 
-void glPackedCall(const void *packed) {
-    int format = *(int *)packed;
-    switch (format) {
+void glPackedCall(const UnknownCall *packed) {
+    switch (packed->format) {
         {{#formats}}
         case FORMAT_{{types}}: {
-            PACKED_{{types}} *unpacked = (PACKED_{{types}} *) packed;
+            PACKED_{{types}} *unpacked = (PACKED_{{types}} *)packed;
             ARGS_{{types}} args = unpacked->args;
             unpacked->func({{#args}}args.a{{index}}{{^last}}, {{/last}}{{/args}});
+            break;
         }
         {{/formats}}
+        default:
+            printf("fell through :(\n");
+            break;
     }
 }
 
 {{#functions}}
 #ifndef skip_{{name}}
-WRAP_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}})
+{{return}} {{name}}({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}}) {
+    LOAD_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
 #ifndef direct_{{name}}
-    if (inDisplayList) {
+    if (listCompiling) {
         PACKED_{{types}} *data = malloc(sizeof(PACKED_{{types}}));
         data->format = FORMAT_{{types}};
         data->func = {{name}};
@@ -36,7 +40,7 @@ WRAP_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{
 #ifndef direct_{{name}}
     }
 #endif
-END_WRAP
+}
 #endif
 
 {{/functions}}

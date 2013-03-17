@@ -12,8 +12,10 @@ RenderList *allocRenderList() {
     RenderList *list = (RenderList *)malloc(sizeof(RenderList));
     list->len = 0;
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
+
     list->calls.len = 0;
     list->calls.cap = 0;
+    list->calls.calls = NULL;
 
     list->mode = 0;
     list->vert = NULL;
@@ -36,9 +38,10 @@ void freeRenderList(RenderList *list) {
     do {
         if (list->calls.len > 0) {
             for (int i = 0; i < list->calls.len; i++) {
-                uintptr_t *calls = (uintptr_t *)list->calls.calls;
-                free(calls+i);
+                // causes a segfault :<
+                // free(list->calls.calls+i);
             }
+            free(list->calls.calls);
         }
         if (list->vert) free(list->vert);
         if (list->normal) free(list->normal);
@@ -171,10 +174,10 @@ void drawRenderList(RenderList *list) {
         if (! list->len)
             continue;
 
-        if (list->calls.len > 0) {
-            uintptr_t *calls = list->calls.calls;
-            for (int i = 0; i < list->calls.len; i++) {
-                glPackedCall(calls+i);
+        CallList *cl = &list->calls;
+        if (cl->len > 0) {
+            for (int i = 0; i < cl->len; i++) {
+                glPackedCall(cl->calls[i]);
             }
         }
 
@@ -341,15 +344,16 @@ void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
     }
 }
 
-void lPushCall(RenderList *list, void *data) {
-    uintptr_t **calls = (uintptr_t **)&(list->calls.calls);
-    if (!*calls) {
-        *calls = (uintptr_t *)malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(uintptr_t));
-    } else if (list->calls.len > list->calls.cap) {
-        list->calls.cap += DEFAULT_CALL_LIST_CAPACITY;
-        *calls = realloc(*calls, list->calls.cap * sizeof(uintptr_t));
+void lPushCall(RenderList *list, UnknownCall *data) {
+    CallList *cl = &list->calls;
+    if (!cl->calls) {
+        cl->cap = DEFAULT_CALL_LIST_CAPACITY;
+        cl->calls = malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(uintptr_t));
+    } else if (list->calls.len == list->calls.cap) {
+        cl->cap += DEFAULT_CALL_LIST_CAPACITY;
+        cl->calls = realloc(cl->calls, cl->cap * sizeof(uintptr_t));
     }
-    *(*calls + list->calls.len++) = (uintptr_t)data;
+    cl->calls[cl->len++] = data;
 }
 
 #undef alloc_sublist

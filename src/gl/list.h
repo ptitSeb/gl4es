@@ -14,7 +14,7 @@ typedef struct {
 typedef struct CallListT {
     unsigned long len;
     unsigned long cap;
-    void *calls;
+    UnknownCall **calls;
 } CallList;
 
 typedef struct RenderListT {
@@ -48,7 +48,7 @@ void endRenderList(RenderList *list);
 void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
 void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
-void lPushCall(RenderList *list, void *data);
+void lPushCall(RenderList *list, UnknownCall *data);
 void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
 void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 

@@ -5,6 +5,12 @@
 #ifndef GLESWRAP_H
 #define GLESWRAP_H
 
+typedef struct {
+    int format;
+    void *func;
+    void *args;
+} UnknownCall;
+
 enum FORMAT {
 {{#formats}}
     FORMAT_{{types}},
@@ -24,7 +30,7 @@ typedef struct {
 } PACKED_{{types}};
 {{/formats}}
 
-void glPackedCall(const void *packed);
+void glPackedCall(const UnknownCall *packed);
 {{#functions}}
 {{return}}{{^return}}void{{/return}} {{name}}({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
 {{/functions}}
