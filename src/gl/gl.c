@@ -2,7 +2,8 @@
 
 RenderList *activeList = NULL;
 GLfloat lastColor[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-bool inDisplayList = false;
+bool listCompiling = false;
+bool listMode = 0;
 
 bool bTexGenS = false;
 bool bTexGenT = false;
@@ -39,7 +40,7 @@ void glDisable(GLenum cap) {
 // immediate mode functions
 
 void glBegin(GLenum mode) {
-    if (! inDisplayList) {
+    if (! listCompiling) {
         activeList = allocRenderList();
     }
     memcpy(activeList->lastColor, lastColor, sizeof(GLfloat) * 4);
@@ -51,7 +52,7 @@ void glEnd() {
     if (! activeList) return;
 
     endRenderList(activeList);
-    if (! inDisplayList) {
+    if (! listCompiling) {
         drawRenderList(activeList);
         freeRenderList(activeList);
         activeList = NULL;
@@ -119,26 +120,31 @@ GLuint glGenLists(GLsizei range) {
     return start;
 }
 
-void glNewList(GLuint list) {
+void glNewList(GLuint list, GLenum mode) {
     if (list >= listCount) return;
+    listMode = mode;
 
     glwList *l = displayLists[list];
     if (l->created) return;
 
     // TODO: if activeList is defined, we probably need to clean up here
     l->created = true;
-    inDisplayList = true;
+    listCompiling = true;
     activeList = l->list = allocRenderList();
 }
 
 void glEndList(GLuint list) {
-    if (inDisplayList) {
-        inDisplayList = false;
+    if (listCompiling) {
+        listCompiling = false;
         activeList = NULL;
+        if (listMode == GL_COMPILE_AND_EXECUTE) {
+            glCallList(list);
+        }
     }
 }
 
 void glCallList(GLuint list) {
+    // TODO: this can be compiled into another display list
     if (list >= listCount) return;
 
     glwList *l = displayLists[list];
@@ -147,7 +153,7 @@ void glCallList(GLuint list) {
 }
 
 void glPushCall(void *call) {
-    if (inDisplayList && activeList) {
+    if (listCompiling && activeList) {
         lPushCall(activeList, call);
     }
 }

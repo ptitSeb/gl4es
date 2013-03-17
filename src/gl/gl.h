@@ -64,7 +64,8 @@ typedef struct {
 bool bLineStipple;
 bool bTexGenS;
 bool bTexGenT;
-bool inDisplayList;
+bool listCompiling;
+bool listMode;
 
 // don't auto-wrap these functions
 #define skip_glColor4f
@@ -116,7 +117,7 @@ void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glListBase(GLuint base);
-void glNewList(GLuint list);
+void glNewList(GLuint list, GLenum mode);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glTexCoord2f(GLfloat s, GLfloat t);
 void glVertex2f(GLfloat x, GLfloat y);
