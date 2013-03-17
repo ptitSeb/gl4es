@@ -37,35 +37,29 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glOrthofOES);
 
     // passthrough
-    EX(glActiveTextureARB);
-    EX(glBegin);
-    EX(glClearDepth);
-    EX(glDisable);
-    EX(glEnable);
-    EX(glEnd);
-    EX(glFogi);
-    EX(glFrustum);
-    EX(glGetDoublev);
-    EX(glNormal3d);
-    EX(glOrtho);
-    EX(glTexCoord2d);
-    EX(glTexCoord2f);
-    EX(glTexImage1D);
-    EX(glTranslated);
-    EX(glVertex3f);
     // batch thunking!
 
     #define THUNK(suffix, type)\
-    EX(glColor3##suffix);\
-    EX(glColor4##suffix);\
     EX(glColor3##suffix##v);\
+    EX(glColor3##suffix);\
     EX(glColor4##suffix##v);\
-    EX(glIndex##suffix);\
-    EX(glIndex##suffix##v);\
-    EX(glSecondaryColor3##suffix);\
+    EX(glColor4##suffix);\
     EX(glSecondaryColor3##suffix##v);\
+    EX(glSecondaryColor3##suffix);\
+    EX(glIndex##suffix##v);\
+    EX(glIndex##suffix);\
+    EX(glNormal3##suffix##v);\
+    EX(glNormal3##suffix);\
+    EX(glRasterPos2##suffix##v);\
+    EX(glRasterPos2##suffix);\
+    EX(glRasterPos3##suffix##v);\
+    EX(glRasterPos3##suffix);\
+    EX(glVertex2##suffix##v);\
     EX(glVertex2##suffix);\
-    EX(glVertex3##suffix);
+    EX(glVertex3##suffix##v);\
+    EX(glVertex3##suffix);\
+    EX(glVertex4##suffix);\
+    EX(glVertex4##suffix##v);\
 
     THUNK(b, GLbyte);
     THUNK(d, GLdouble);
@@ -74,40 +68,50 @@ void *glXGetProcAddressARB(const char *name) {
     THUNK(ub, GLubyte);
     THUNK(ui, GLuint);
     THUNK(us, GLushort);
-
-    EX(glVertex2f);
-    EX(glColor3f);
+    THUNK(us, GLfloat);
     #undef THUNK
 
     // functions we actually define
+    EX(glActiveTextureARB);
     EX(glArrayElement);
+    EX(glBegin);
     EX(glBitmap);
     EX(glBlendEquationSeparatei);
     EX(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
     EX(glCallList);
+    EX(glClearDepth);
+    EX(glClipPlane);
     EX(glCopyPixels);
     EX(glDeleteLists);
+    EX(glDepthRange);
+    EX(glDisable);
     EX(glDrawBuffer);
     EX(glDrawPixels);
     EX(glEdgeFlag);
-    EX(glEdgeFlag);
+    EX(glEnable);
+    EX(glEnd);
     EX(glEndList);
     EX(glFogCoordd);
     EX(glFogCoorddv);
     EX(glFogCoordf);
     EX(glFogCoordfv);
+    EX(glFogi);
+    EX(glFrustum);
     EX(glGenLists);
+    EX(glGetDoublev);
+    EX(glGetIntegerv);
     EX(glGetTexImage);
     EX(glGetTexLevelParameterfv);
-    EX(glGetTexLevelParameteriv);
-    EX(glIndexf);
-    EX(glIndexf);
     EX(glInitNames);
     EX(glLightModeli);
+    EX(glLoadMatrixd);
     EX(glLoadName);
+    EX(glMateriali);
+    EX(glMultiTexCoord2f);
+    EX(glMultMatrixd);
     EX(glNewList);
-    EX(glNormal3dv);
+    EX(glOrtho);
     EX(glPixelTransferf);
     EX(glPixelTransferi);
     EX(glPixelZoom);
@@ -122,11 +126,16 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRasterPos2i);
     EX(glReadBuffer);
     EX(glRenderMode);
-    EX(glSecondaryColor3f);
-    EX(glSecondaryColor3f);
+    EX(glRotated);
+    EX(glScaled);
+    EX(glTexCoord2d);
+    EX(glTexCoord2f);
+    EX(glTexCoord2fv);
+    EX(glTexImage1D);
     EX(glTexImage3D);
+    EX(glTranslated);
 
-    printf("%s not found.\n", name);
+    printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }
 

@@ -1,18 +1,21 @@
 #include "gl.h"
 
-void glFogCoordd(GLdouble coord);
-void glFogCoordf(GLfloat coord);
-void glFogCoorddv(const GLdouble *coord);
-void glFogCoordfv(const GLfloat *coord);
-
 GLint glRenderMode(GLenum mode);
 void glArrayElement(GLint i);
 void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
 void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
 void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);
 void glDrawBuffer(GLenum mode);
 void glEdgeFlag(GLboolean flag);
+void glFogCoordd(GLdouble coord);
+void glFogCoorddv(const GLdouble *coord);
+void glFogCoordf(GLfloat coord);
+void glFogCoordfv(const GLfloat *coord);
+void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
+void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
+void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glIndexf(GLfloat c);
 void glInitNames();
 void glLightModeli(GLenum pname, GLint param);
@@ -26,5 +29,6 @@ void glPopName();
 void glPushName();
 void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
+void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data);
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 void glSelectBuffer(GLsizei size, GLuint *buffer);
