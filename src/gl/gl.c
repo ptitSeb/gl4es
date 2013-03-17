@@ -146,6 +146,12 @@ void glCallList(GLuint list) {
         drawRenderList(l->list);
 }
 
+void glPushCall(void *call) {
+    if (inDisplayList && activeList) {
+        lPushCall(activeList, call);
+    }
+}
+
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type)\
         case name: glCallList(*(((type *)lists + i) + listBase)); break

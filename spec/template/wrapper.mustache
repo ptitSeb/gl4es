@@ -26,7 +26,7 @@ WRAP_GLES({{return}}, {{name}}{{#args}}{{#first}}, {{/first}}{{type}} {{name}}{{
         {{#args}}
         data->args.a{{index}} = {{name}};
         {{/args}}
-        lPushCall((void *)data);
+        glPushCall((void *)data);
 {{^void}}
         return 0;
 {{/void}}
