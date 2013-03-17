@@ -68,7 +68,7 @@ void *glXGetProcAddressARB(const char *name) {
     THUNK(ub, GLubyte);
     THUNK(ui, GLuint);
     THUNK(us, GLushort);
-    THUNK(us, GLfloat);
+    THUNK(f, GLfloat);
     #undef THUNK
 
     // functions we actually define
@@ -103,6 +103,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glGetIntegerv);
     EX(glGetTexImage);
     EX(glGetTexLevelParameterfv);
+    EX(glGetTexLevelParameteriv);
     EX(glInitNames);
     EX(glLightModeli);
     EX(glLoadMatrixd);

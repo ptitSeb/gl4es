@@ -153,7 +153,7 @@ void glVertex3##suffix(type x, type y, type z) {\
 void glVertex3##suffix##v(type *v) {\
     glVertex3f(v[0], v[1], v[2]);\
 }\
-void glVertex4##suffix(type r, type g, type b, type w) {\
+extern void glVertex4##suffix(type r, type g, type b, type w) {\
     glVertex3f(r/w, g/w, b/w);\
 }\
 void glVertex4##suffix##v(type *v) {\
@@ -240,8 +240,28 @@ void glColor4fv(GLfloat *c) {
     glColor4f(c[0], c[1], c[2], c[3]);
 }
 
-// matrix
+void glIndexfv(const GLfloat *c) {
+    glIndexf(*c);
+}
 
+void glSecondaryColor3fv(const GLfloat *v) {
+    glSecondaryColor3f(v[0], v[1], v[2]);
+}
+
+// raster
+void glRasterPos2fv(const GLfloat *v) {
+    glRasterPos2i(v[0], v[1]);
+}
+
+void glRasterPos2f(GLfloat x, GLfloat y) {
+    glRasterPos2i(x, y);
+}
+
+void glRasterPos3fv(GLfloat x, GLfloat y, GLfloat z) {
+    glRasterPos3i(x, y, z);
+}
+
+// matrix
 void glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
     glLoadMatrixf(s);
@@ -290,6 +310,14 @@ void glVertex2fv(GLfloat *v) {
 
 void glVertex3fv(GLfloat *v) {
     glVertex3f(v[0], v[1], v[2]);
+}
+
+void glVertex4f(GLfloat r, GLfloat g, GLfloat b, GLfloat w) {
+    glVertex3f(r/w, g/w, b/w);
+}
+
+void glVertex4fv(GLfloat *v) {
+    glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);
 }
 
 #undef constDoubleToFloat

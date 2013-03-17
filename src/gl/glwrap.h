@@ -19,6 +19,13 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
 void glColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glColor3fv(GLfloat *c);
 void glColor4fv(GLfloat *c);
+void glIndexfv(const GLfloat *c);
+void glSecondaryColor3fv(const GLfloat *v);
+
+// raster
+void glRasterPos2fv(const GLfloat *v);
+void glRasterPos2f(GLfloat x, GLfloat y);
+void glRasterPos3fv(GLfloat x, GLfloat y, GLfloat z);
 
 // matrix
 void glLoadMatrixd(const GLdouble *m);
@@ -40,6 +47,8 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z);
 void glVertex2f(GLfloat x, GLfloat y);
 void glVertex2fv(GLfloat *v);
 void glVertex3fv(GLfloat *v);
+void glVertex4f(GLfloat r, GLfloat g, GLfloat b, GLfloat w);
+void glVertex4fv(GLfloat *v);
 
 // OES wrappers
 
