@@ -82,9 +82,15 @@ void *glXGetProcAddressARB(const char *name) {
     // functions we actually define
     EX(glArrayElement);
     EX(glBitmap);
+    EX(glBlendEquationSeparatei);
+    EX(glBlendFuncSeparate);
+    EX(glBlendFuncSeparatei);
     EX(glCallList);
+    EX(glCopyPixels);
     EX(glDeleteLists);
+    EX(glDrawBuffer);
     EX(glDrawPixels);
+    EX(glEdgeFlag);
     EX(glEdgeFlag);
     EX(glEndList);
     EX(glFogCoordd);
@@ -92,27 +98,34 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glFogCoordf);
     EX(glFogCoordfv);
     EX(glGenLists);
+    EX(glGetTexImage);
+    EX(glGetTexLevelParameterfv);
+    EX(glGetTexLevelParameteriv);
     EX(glIndexf);
+    EX(glIndexf);
+    EX(glInitNames);
+    EX(glLightModeli);
+    EX(glLoadName);
     EX(glNewList);
     EX(glNormal3dv);
+    EX(glPixelTransferf);
+    EX(glPixelTransferi);
+    EX(glPixelZoom);
+    EX(glPolygonMode);
+    EX(glPolygonStipple);
     EX(glPopAttrib);
     EX(glPopClientAttrib);
+    EX(glPopName);
     EX(glPushAttrib);
     EX(glPushClientAttrib);
+    EX(glPushName);
     EX(glRasterPos2i);
+    EX(glReadBuffer);
+    EX(glRenderMode);
     EX(glSecondaryColor3f);
+    EX(glSecondaryColor3f);
+    EX(glTexImage3D);
 
-    // stubs
-    STUB(glBlendFuncSeparate);
-    STUB(glBlendEquationSeparate);
-    STUB(glCopyPixels);
-    STUB(glGetTexImage);
-    STUB(glGetTexLevelParameterfv);
-    STUB(glGetTexLevelParameteriv);
-    STUB(glPixelTransferf);
-    STUB(glPixelTransferi);
-    STUB(glPixelZoom);
-    STUB(glTexImage3D);
     printf("%s not found.\n", name);
     return NULL;
 }
