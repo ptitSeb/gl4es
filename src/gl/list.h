@@ -11,6 +11,12 @@ typedef struct {
     int count;
 } RenderMaterial;
 
+typedef struct CallListT {
+    unsigned long len;
+    unsigned long cap;
+    void *calls;
+} CallList;
+
 typedef struct RenderListT {
     unsigned long len;
     unsigned long cap;
@@ -19,6 +25,7 @@ typedef struct RenderListT {
     GLfloat lastColor[4];
     GLfloat lastTex[2];
 
+    CallList calls;
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
@@ -27,7 +34,8 @@ typedef struct RenderListT {
     struct RenderListT *next;
 } RenderList;
 
-#define DEFAULT_RENDER_LIST_CAPACITY 100
+#define DEFAULT_CALL_LIST_CAPACITY 20
+#define DEFAULT_RENDER_LIST_CAPACITY 20
 
 RenderList *allocRenderList();
 RenderList *extendRenderList(RenderList *list);
@@ -37,10 +45,11 @@ void drawRenderList(RenderList *list);
 void swizzleRenderList(RenderList *list);
 void endRenderList(RenderList *list);
 
-void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
-void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
+void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
+void lPushCall(RenderList *list, void *data);
 void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
+void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 
 #endif

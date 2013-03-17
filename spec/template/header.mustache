@@ -24,6 +24,7 @@ typedef struct {
 } PACKED_{{types}};
 {{/formats}}
 
+void glPackedCall(const void *packed);
 {{#functions}}
 {{return}}{{^return}}void{{/return}} {{name}}({{#args}}{{type}} {{name}}{{^last}}, {{/last}}{{/args}});
 {{/functions}}

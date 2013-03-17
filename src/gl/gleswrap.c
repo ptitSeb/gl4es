@@ -389,6 +389,7 @@ WRAP_GLES(void, glActiveTexture, GLenum texture)
         data->format = FORMAT_void_GLenum;
         data->func = glActiveTexture;
         data->args.a0 = texture;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glActiveTexture(texture);
@@ -407,6 +408,7 @@ WRAP_GLES(void, glAlphaFunc, GLenum func, GLclampf ref)
         data->func = glAlphaFunc;
         data->args.a0 = func;
         data->args.a1 = ref;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glAlphaFunc(func, ref);
@@ -425,6 +427,7 @@ WRAP_GLES(void, glAlphaFuncx, GLenum func, GLclampx ref)
         data->func = glAlphaFuncx;
         data->args.a0 = func;
         data->args.a1 = ref;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glAlphaFuncx(func, ref);
@@ -443,6 +446,7 @@ WRAP_GLES(void, glBindBuffer, GLenum target, GLuint buffer)
         data->func = glBindBuffer;
         data->args.a0 = target;
         data->args.a1 = buffer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glBindBuffer(target, buffer);
@@ -461,6 +465,7 @@ WRAP_GLES(void, glBindTexture, GLenum target, GLuint texture)
         data->func = glBindTexture;
         data->args.a0 = target;
         data->args.a1 = texture;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glBindTexture(target, texture);
@@ -479,6 +484,7 @@ WRAP_GLES(void, glBlendFunc, GLenum sfactor, GLenum dfactor)
         data->func = glBlendFunc;
         data->args.a0 = sfactor;
         data->args.a1 = dfactor;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glBlendFunc(sfactor, dfactor);
@@ -499,6 +505,7 @@ WRAP_GLES(void, glBufferData, GLenum target, GLsizeiptr size, const GLvoid * dat
         data->args.a1 = size;
         data->args.a2 = data;
         data->args.a3 = usage;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glBufferData(target, size, data, usage);
@@ -519,6 +526,7 @@ WRAP_GLES(void, glBufferSubData, GLenum target, GLintptr offset, GLsizeiptr size
         data->args.a1 = offset;
         data->args.a2 = size;
         data->args.a3 = data;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glBufferSubData(target, offset, size, data);
@@ -536,6 +544,7 @@ WRAP_GLES(void, glClear, GLbitfield mask)
         data->format = FORMAT_void_GLbitfield;
         data->func = glClear;
         data->args.a0 = mask;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClear(mask);
@@ -556,6 +565,7 @@ WRAP_GLES(void, glClearColor, GLclampf red, GLclampf green, GLclampf blue, GLcla
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClearColor(red, green, blue, alpha);
@@ -576,6 +586,7 @@ WRAP_GLES(void, glClearColorx, GLclampx red, GLclampx green, GLclampx blue, GLcl
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClearColorx(red, green, blue, alpha);
@@ -593,6 +604,7 @@ WRAP_GLES(void, glClearDepthf, GLclampf depth)
         data->format = FORMAT_void_GLclampf;
         data->func = glClearDepthf;
         data->args.a0 = depth;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClearDepthf(depth);
@@ -610,6 +622,7 @@ WRAP_GLES(void, glClearDepthx, GLclampx depth)
         data->format = FORMAT_void_GLclampx;
         data->func = glClearDepthx;
         data->args.a0 = depth;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClearDepthx(depth);
@@ -627,6 +640,7 @@ WRAP_GLES(void, glClearStencil, GLint s)
         data->format = FORMAT_void_GLint;
         data->func = glClearStencil;
         data->args.a0 = s;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClearStencil(s);
@@ -644,6 +658,7 @@ WRAP_GLES(void, glClientActiveTexture, GLenum texture)
         data->format = FORMAT_void_GLenum;
         data->func = glClientActiveTexture;
         data->args.a0 = texture;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClientActiveTexture(texture);
@@ -662,6 +677,7 @@ WRAP_GLES(void, glClipPlanef, GLenum plane, const GLfloat * equation)
         data->func = glClipPlanef;
         data->args.a0 = plane;
         data->args.a1 = equation;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClipPlanef(plane, equation);
@@ -680,6 +696,7 @@ WRAP_GLES(void, glClipPlanex, GLenum plane, const GLfixed * equation)
         data->func = glClipPlanex;
         data->args.a0 = plane;
         data->args.a1 = equation;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glClipPlanex(plane, equation);
@@ -700,6 +717,7 @@ WRAP_GLES(void, glColor4f, GLfloat red, GLfloat green, GLfloat blue, GLfloat alp
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glColor4f(red, green, blue, alpha);
@@ -720,6 +738,7 @@ WRAP_GLES(void, glColor4ub, GLubyte red, GLubyte green, GLubyte blue, GLubyte al
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glColor4ub(red, green, blue, alpha);
@@ -740,6 +759,7 @@ WRAP_GLES(void, glColor4x, GLfixed red, GLfixed green, GLfixed blue, GLfixed alp
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glColor4x(red, green, blue, alpha);
@@ -760,6 +780,7 @@ WRAP_GLES(void, glColorMask, GLboolean red, GLboolean green, GLboolean blue, GLb
         data->args.a1 = green;
         data->args.a2 = blue;
         data->args.a3 = alpha;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glColorMask(red, green, blue, alpha);
@@ -780,6 +801,7 @@ WRAP_GLES(void, glColorPointer, GLint size, GLenum type, GLsizei stride, const G
         data->args.a1 = type;
         data->args.a2 = stride;
         data->args.a3 = pointer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glColorPointer(size, type, stride, pointer);
@@ -804,6 +826,7 @@ WRAP_GLES(void, glCompressedTexImage2D, GLenum target, GLint level, GLenum inter
         data->args.a5 = border;
         data->args.a6 = imageSize;
         data->args.a7 = data;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
@@ -829,6 +852,7 @@ WRAP_GLES(void, glCompressedTexSubImage2D, GLenum target, GLint level, GLint xof
         data->args.a6 = format;
         data->args.a7 = imageSize;
         data->args.a8 = data;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
@@ -853,6 +877,7 @@ WRAP_GLES(void, glCopyTexImage2D, GLenum target, GLint level, GLenum internalfor
         data->args.a5 = width;
         data->args.a6 = height;
         data->args.a7 = border;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
@@ -877,6 +902,7 @@ WRAP_GLES(void, glCopyTexSubImage2D, GLenum target, GLint level, GLint xoffset, 
         data->args.a5 = y;
         data->args.a6 = width;
         data->args.a7 = height;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
@@ -894,6 +920,7 @@ WRAP_GLES(void, glCullFace, GLenum mode)
         data->format = FORMAT_void_GLenum;
         data->func = glCullFace;
         data->args.a0 = mode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glCullFace(mode);
@@ -912,6 +939,7 @@ WRAP_GLES(void, glDeleteBuffers, GLsizei n, const GLuint * buffers)
         data->func = glDeleteBuffers;
         data->args.a0 = n;
         data->args.a1 = buffers;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDeleteBuffers(n, buffers);
@@ -930,6 +958,7 @@ WRAP_GLES(void, glDeleteTextures, GLsizei n, const GLuint * textures)
         data->func = glDeleteTextures;
         data->args.a0 = n;
         data->args.a1 = textures;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDeleteTextures(n, textures);
@@ -947,6 +976,7 @@ WRAP_GLES(void, glDepthFunc, GLenum func)
         data->format = FORMAT_void_GLenum;
         data->func = glDepthFunc;
         data->args.a0 = func;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDepthFunc(func);
@@ -964,6 +994,7 @@ WRAP_GLES(void, glDepthMask, GLboolean flag)
         data->format = FORMAT_void_GLboolean;
         data->func = glDepthMask;
         data->args.a0 = flag;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDepthMask(flag);
@@ -982,6 +1013,7 @@ WRAP_GLES(void, glDepthRangef, GLclampf near, GLclampf far)
         data->func = glDepthRangef;
         data->args.a0 = near;
         data->args.a1 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDepthRangef(near, far);
@@ -1000,6 +1032,7 @@ WRAP_GLES(void, glDepthRangex, GLclampx near, GLclampx far)
         data->func = glDepthRangex;
         data->args.a0 = near;
         data->args.a1 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDepthRangex(near, far);
@@ -1017,6 +1050,7 @@ WRAP_GLES(void, glDisable, GLenum cap)
         data->format = FORMAT_void_GLenum;
         data->func = glDisable;
         data->args.a0 = cap;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDisable(cap);
@@ -1034,6 +1068,7 @@ WRAP_GLES(void, glDisableClientState, GLenum array)
         data->format = FORMAT_void_GLenum;
         data->func = glDisableClientState;
         data->args.a0 = array;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDisableClientState(array);
@@ -1053,6 +1088,7 @@ WRAP_GLES(void, glDrawArrays, GLenum mode, GLint first, GLsizei count)
         data->args.a0 = mode;
         data->args.a1 = first;
         data->args.a2 = count;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDrawArrays(mode, first, count);
@@ -1073,6 +1109,7 @@ WRAP_GLES(void, glDrawElements, GLenum mode, GLsizei count, GLenum type, const G
         data->args.a1 = count;
         data->args.a2 = type;
         data->args.a3 = indices;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glDrawElements(mode, count, type, indices);
@@ -1090,6 +1127,7 @@ WRAP_GLES(void, glEnable, GLenum cap)
         data->format = FORMAT_void_GLenum;
         data->func = glEnable;
         data->args.a0 = cap;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glEnable(cap);
@@ -1107,6 +1145,7 @@ WRAP_GLES(void, glEnableClientState, GLenum array)
         data->format = FORMAT_void_GLenum;
         data->func = glEnableClientState;
         data->args.a0 = array;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glEnableClientState(array);
@@ -1123,6 +1162,7 @@ WRAP_GLES(void, glFinish)
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glFinish;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFinish();
@@ -1139,6 +1179,7 @@ WRAP_GLES(void, glFlush)
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glFlush;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFlush();
@@ -1157,6 +1198,7 @@ WRAP_GLES(void, glFogf, GLenum pname, GLfloat param)
         data->func = glFogf;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFogf(pname, param);
@@ -1175,6 +1217,7 @@ WRAP_GLES(void, glFogfv, GLenum pname, const GLfloat * params)
         data->func = glFogfv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFogfv(pname, params);
@@ -1193,6 +1236,7 @@ WRAP_GLES(void, glFogx, GLenum pname, GLfixed param)
         data->func = glFogx;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFogx(pname, param);
@@ -1211,6 +1255,7 @@ WRAP_GLES(void, glFogxv, GLenum pname, const GLfixed * params)
         data->func = glFogxv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFogxv(pname, params);
@@ -1228,6 +1273,7 @@ WRAP_GLES(void, glFrontFace, GLenum mode)
         data->format = FORMAT_void_GLenum;
         data->func = glFrontFace;
         data->args.a0 = mode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFrontFace(mode);
@@ -1250,6 +1296,7 @@ WRAP_GLES(void, glFrustumf, GLfloat left, GLfloat right, GLfloat bottom, GLfloat
         data->args.a3 = top;
         data->args.a4 = near;
         data->args.a5 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFrustumf(left, right, bottom, top, near, far);
@@ -1272,6 +1319,7 @@ WRAP_GLES(void, glFrustumx, GLfixed left, GLfixed right, GLfixed bottom, GLfixed
         data->args.a3 = top;
         data->args.a4 = near;
         data->args.a5 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glFrustumx(left, right, bottom, top, near, far);
@@ -1290,6 +1338,7 @@ WRAP_GLES(void, glGenBuffers, GLsizei n, GLuint * buffers)
         data->func = glGenBuffers;
         data->args.a0 = n;
         data->args.a1 = buffers;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGenBuffers(n, buffers);
@@ -1308,6 +1357,7 @@ WRAP_GLES(void, glGenTextures, GLsizei n, GLuint * textures)
         data->func = glGenTextures;
         data->args.a0 = n;
         data->args.a1 = textures;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGenTextures(n, textures);
@@ -1326,6 +1376,7 @@ WRAP_GLES(void, glGetBooleanv, GLenum pname, GLboolean * params)
         data->func = glGetBooleanv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetBooleanv(pname, params);
@@ -1345,6 +1396,7 @@ WRAP_GLES(void, glGetBufferParameteriv, GLenum target, GLenum pname, GLint * par
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetBufferParameteriv(target, pname, params);
@@ -1363,6 +1415,7 @@ WRAP_GLES(void, glGetClipPlanef, GLenum plane, GLfloat * equation)
         data->func = glGetClipPlanef;
         data->args.a0 = plane;
         data->args.a1 = equation;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetClipPlanef(plane, equation);
@@ -1381,6 +1434,7 @@ WRAP_GLES(void, glGetClipPlanex, GLenum plane, GLfixed * equation)
         data->func = glGetClipPlanex;
         data->args.a0 = plane;
         data->args.a1 = equation;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetClipPlanex(plane, equation);
@@ -1397,6 +1451,7 @@ WRAP_GLES(GLenum, glGetError)
         PACKED_GLenum *data = malloc(sizeof(PACKED_GLenum));
         data->format = FORMAT_GLenum;
         data->func = glGetError;
+        lPushCall((void *)data);
         return 0;
     } else {
 #endif
@@ -1416,6 +1471,7 @@ WRAP_GLES(void, glGetFixedv, GLenum pname, GLfixed * params)
         data->func = glGetFixedv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetFixedv(pname, params);
@@ -1434,6 +1490,7 @@ WRAP_GLES(void, glGetFloatv, GLenum pname, GLfloat * params)
         data->func = glGetFloatv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetFloatv(pname, params);
@@ -1452,6 +1509,7 @@ WRAP_GLES(void, glGetIntegerv, GLenum pname, GLint * params)
         data->func = glGetIntegerv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetIntegerv(pname, params);
@@ -1471,6 +1529,7 @@ WRAP_GLES(void, glGetLightfv, GLenum light, GLenum pname, GLfloat * params)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetLightfv(light, pname, params);
@@ -1490,6 +1549,7 @@ WRAP_GLES(void, glGetLightxv, GLenum light, GLenum pname, GLfixed * params)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetLightxv(light, pname, params);
@@ -1509,6 +1569,7 @@ WRAP_GLES(void, glGetMaterialfv, GLenum face, GLenum pname, GLfloat * params)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetMaterialfv(face, pname, params);
@@ -1528,6 +1589,7 @@ WRAP_GLES(void, glGetMaterialxv, GLenum face, GLenum pname, GLfixed * params)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetMaterialxv(face, pname, params);
@@ -1546,6 +1608,7 @@ WRAP_GLES(void, glGetPointerv, GLenum pname, GLvoid ** params)
         data->func = glGetPointerv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetPointerv(pname, params);
@@ -1563,6 +1626,7 @@ WRAP_GLES(const GLubyte *, glGetString, GLenum name)
         data->format = FORMAT_const_GLubyte___GENPT___GLenum;
         data->func = glGetString;
         data->args.a0 = name;
+        lPushCall((void *)data);
         return 0;
     } else {
 #endif
@@ -1583,6 +1647,7 @@ WRAP_GLES(void, glGetTexEnvfv, GLenum target, GLenum pname, GLfloat * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexEnvfv(target, pname, params);
@@ -1602,6 +1667,7 @@ WRAP_GLES(void, glGetTexEnviv, GLenum target, GLenum pname, GLint * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexEnviv(target, pname, params);
@@ -1621,6 +1687,7 @@ WRAP_GLES(void, glGetTexEnvxv, GLenum target, GLenum pname, GLfixed * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexEnvxv(target, pname, params);
@@ -1640,6 +1707,7 @@ WRAP_GLES(void, glGetTexParameterfv, GLenum target, GLenum pname, GLfloat * para
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexParameterfv(target, pname, params);
@@ -1659,6 +1727,7 @@ WRAP_GLES(void, glGetTexParameteriv, GLenum target, GLenum pname, GLint * params
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexParameteriv(target, pname, params);
@@ -1678,6 +1747,7 @@ WRAP_GLES(void, glGetTexParameterxv, GLenum target, GLenum pname, GLfixed * para
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glGetTexParameterxv(target, pname, params);
@@ -1696,6 +1766,7 @@ WRAP_GLES(void, glHint, GLenum target, GLenum mode)
         data->func = glHint;
         data->args.a0 = target;
         data->args.a1 = mode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glHint(target, mode);
@@ -1713,6 +1784,7 @@ WRAP_GLES(GLboolean, glIsBuffer, GLuint buffer)
         data->format = FORMAT_GLboolean_GLuint;
         data->func = glIsBuffer;
         data->args.a0 = buffer;
+        lPushCall((void *)data);
         return 0;
     } else {
 #endif
@@ -1731,6 +1803,7 @@ WRAP_GLES(GLboolean, glIsEnabled, GLenum cap)
         data->format = FORMAT_GLboolean_GLenum;
         data->func = glIsEnabled;
         data->args.a0 = cap;
+        lPushCall((void *)data);
         return 0;
     } else {
 #endif
@@ -1749,6 +1822,7 @@ WRAP_GLES(GLboolean, glIsTexture, GLuint texture)
         data->format = FORMAT_GLboolean_GLuint;
         data->func = glIsTexture;
         data->args.a0 = texture;
+        lPushCall((void *)data);
         return 0;
     } else {
 #endif
@@ -1768,6 +1842,7 @@ WRAP_GLES(void, glLightModelf, GLenum pname, GLfloat param)
         data->func = glLightModelf;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightModelf(pname, param);
@@ -1786,6 +1861,7 @@ WRAP_GLES(void, glLightModelfv, GLenum pname, const GLfloat * params)
         data->func = glLightModelfv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightModelfv(pname, params);
@@ -1804,6 +1880,7 @@ WRAP_GLES(void, glLightModelx, GLenum pname, GLfixed param)
         data->func = glLightModelx;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightModelx(pname, param);
@@ -1822,6 +1899,7 @@ WRAP_GLES(void, glLightModelxv, GLenum pname, const GLfixed * params)
         data->func = glLightModelxv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightModelxv(pname, params);
@@ -1841,6 +1919,7 @@ WRAP_GLES(void, glLightf, GLenum light, GLenum pname, GLfloat param)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightf(light, pname, param);
@@ -1860,6 +1939,7 @@ WRAP_GLES(void, glLightfv, GLenum light, GLenum pname, const GLfloat * params)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightfv(light, pname, params);
@@ -1879,6 +1959,7 @@ WRAP_GLES(void, glLightx, GLenum light, GLenum pname, GLfixed param)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightx(light, pname, param);
@@ -1898,6 +1979,7 @@ WRAP_GLES(void, glLightxv, GLenum light, GLenum pname, const GLfixed * params)
         data->args.a0 = light;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLightxv(light, pname, params);
@@ -1915,6 +1997,7 @@ WRAP_GLES(void, glLineWidth, GLfloat width)
         data->format = FORMAT_void_GLfloat;
         data->func = glLineWidth;
         data->args.a0 = width;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLineWidth(width);
@@ -1932,6 +2015,7 @@ WRAP_GLES(void, glLineWidthx, GLfixed width)
         data->format = FORMAT_void_GLfixed;
         data->func = glLineWidthx;
         data->args.a0 = width;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLineWidthx(width);
@@ -1948,6 +2032,7 @@ WRAP_GLES(void, glLoadIdentity)
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glLoadIdentity;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLoadIdentity();
@@ -1965,6 +2050,7 @@ WRAP_GLES(void, glLoadMatrixf, const GLfloat * m)
         data->format = FORMAT_void_const_GLfloat___GENPT__;
         data->func = glLoadMatrixf;
         data->args.a0 = m;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLoadMatrixf(m);
@@ -1982,6 +2068,7 @@ WRAP_GLES(void, glLoadMatrixx, const GLfixed * m)
         data->format = FORMAT_void_const_GLfixed___GENPT__;
         data->func = glLoadMatrixx;
         data->args.a0 = m;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLoadMatrixx(m);
@@ -1999,6 +2086,7 @@ WRAP_GLES(void, glLogicOp, GLenum opcode)
         data->format = FORMAT_void_GLenum;
         data->func = glLogicOp;
         data->args.a0 = opcode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glLogicOp(opcode);
@@ -2018,6 +2106,7 @@ WRAP_GLES(void, glMaterialf, GLenum face, GLenum pname, GLfloat param)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMaterialf(face, pname, param);
@@ -2037,6 +2126,7 @@ WRAP_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat * params)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMaterialfv(face, pname, params);
@@ -2056,6 +2146,7 @@ WRAP_GLES(void, glMaterialx, GLenum face, GLenum pname, GLfixed param)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMaterialx(face, pname, param);
@@ -2075,6 +2166,7 @@ WRAP_GLES(void, glMaterialxv, GLenum face, GLenum pname, const GLfixed * params)
         data->args.a0 = face;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMaterialxv(face, pname, params);
@@ -2092,6 +2184,7 @@ WRAP_GLES(void, glMatrixMode, GLenum mode)
         data->format = FORMAT_void_GLenum;
         data->func = glMatrixMode;
         data->args.a0 = mode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMatrixMode(mode);
@@ -2109,6 +2202,7 @@ WRAP_GLES(void, glMultMatrixf, const GLfloat * m)
         data->format = FORMAT_void_const_GLfloat___GENPT__;
         data->func = glMultMatrixf;
         data->args.a0 = m;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMultMatrixf(m);
@@ -2126,6 +2220,7 @@ WRAP_GLES(void, glMultMatrixx, const GLfixed * m)
         data->format = FORMAT_void_const_GLfixed___GENPT__;
         data->func = glMultMatrixx;
         data->args.a0 = m;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMultMatrixx(m);
@@ -2147,6 +2242,7 @@ WRAP_GLES(void, glMultiTexCoord4f, GLenum target, GLfloat s, GLfloat t, GLfloat 
         data->args.a2 = t;
         data->args.a3 = r;
         data->args.a4 = q;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMultiTexCoord4f(target, s, t, r, q);
@@ -2168,6 +2264,7 @@ WRAP_GLES(void, glMultiTexCoord4x, GLenum target, GLfixed s, GLfixed t, GLfixed 
         data->args.a2 = t;
         data->args.a3 = r;
         data->args.a4 = q;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glMultiTexCoord4x(target, s, t, r, q);
@@ -2187,6 +2284,7 @@ WRAP_GLES(void, glNormal3f, GLfloat nx, GLfloat ny, GLfloat nz)
         data->args.a0 = nx;
         data->args.a1 = ny;
         data->args.a2 = nz;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glNormal3f(nx, ny, nz);
@@ -2206,6 +2304,7 @@ WRAP_GLES(void, glNormal3x, GLfixed nx, GLfixed ny, GLfixed nz)
         data->args.a0 = nx;
         data->args.a1 = ny;
         data->args.a2 = nz;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glNormal3x(nx, ny, nz);
@@ -2225,6 +2324,7 @@ WRAP_GLES(void, glNormalPointer, GLenum type, GLsizei stride, const GLvoid * poi
         data->args.a0 = type;
         data->args.a1 = stride;
         data->args.a2 = pointer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glNormalPointer(type, stride, pointer);
@@ -2247,6 +2347,7 @@ WRAP_GLES(void, glOrthof, GLfloat left, GLfloat right, GLfloat bottom, GLfloat t
         data->args.a3 = top;
         data->args.a4 = near;
         data->args.a5 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glOrthof(left, right, bottom, top, near, far);
@@ -2269,6 +2370,7 @@ WRAP_GLES(void, glOrthox, GLfixed left, GLfixed right, GLfixed bottom, GLfixed t
         data->args.a3 = top;
         data->args.a4 = near;
         data->args.a5 = far;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glOrthox(left, right, bottom, top, near, far);
@@ -2287,6 +2389,7 @@ WRAP_GLES(void, glPixelStorei, GLenum pname, GLint param)
         data->func = glPixelStorei;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPixelStorei(pname, param);
@@ -2305,6 +2408,7 @@ WRAP_GLES(void, glPointParameterf, GLenum pname, GLfloat param)
         data->func = glPointParameterf;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointParameterf(pname, param);
@@ -2323,6 +2427,7 @@ WRAP_GLES(void, glPointParameterfv, GLenum pname, const GLfloat * params)
         data->func = glPointParameterfv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointParameterfv(pname, params);
@@ -2341,6 +2446,7 @@ WRAP_GLES(void, glPointParameterx, GLenum pname, GLfixed param)
         data->func = glPointParameterx;
         data->args.a0 = pname;
         data->args.a1 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointParameterx(pname, param);
@@ -2359,6 +2465,7 @@ WRAP_GLES(void, glPointParameterxv, GLenum pname, const GLfixed * params)
         data->func = glPointParameterxv;
         data->args.a0 = pname;
         data->args.a1 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointParameterxv(pname, params);
@@ -2376,6 +2483,7 @@ WRAP_GLES(void, glPointSize, GLfloat size)
         data->format = FORMAT_void_GLfloat;
         data->func = glPointSize;
         data->args.a0 = size;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointSize(size);
@@ -2395,6 +2503,7 @@ WRAP_GLES(void, glPointSizePointerOES, GLenum type, GLsizei stride, const GLvoid
         data->args.a0 = type;
         data->args.a1 = stride;
         data->args.a2 = pointer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointSizePointerOES(type, stride, pointer);
@@ -2412,6 +2521,7 @@ WRAP_GLES(void, glPointSizex, GLfixed size)
         data->format = FORMAT_void_GLfixed;
         data->func = glPointSizex;
         data->args.a0 = size;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPointSizex(size);
@@ -2430,6 +2540,7 @@ WRAP_GLES(void, glPolygonOffset, GLfloat factor, GLfloat units)
         data->func = glPolygonOffset;
         data->args.a0 = factor;
         data->args.a1 = units;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPolygonOffset(factor, units);
@@ -2448,6 +2559,7 @@ WRAP_GLES(void, glPolygonOffsetx, GLfixed factor, GLfixed units)
         data->func = glPolygonOffsetx;
         data->args.a0 = factor;
         data->args.a1 = units;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPolygonOffsetx(factor, units);
@@ -2464,6 +2576,7 @@ WRAP_GLES(void, glPopMatrix)
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glPopMatrix;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPopMatrix();
@@ -2480,6 +2593,7 @@ WRAP_GLES(void, glPushMatrix)
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glPushMatrix;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glPushMatrix();
@@ -2503,6 +2617,7 @@ WRAP_GLES(void, glReadPixels, GLint x, GLint y, GLsizei width, GLsizei height, G
         data->args.a4 = format;
         data->args.a5 = type;
         data->args.a6 = pixels;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glReadPixels(x, y, width, height, format, type, pixels);
@@ -2523,6 +2638,7 @@ WRAP_GLES(void, glRotatef, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
         data->args.a1 = x;
         data->args.a2 = y;
         data->args.a3 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glRotatef(angle, x, y, z);
@@ -2543,6 +2659,7 @@ WRAP_GLES(void, glRotatex, GLfixed angle, GLfixed x, GLfixed y, GLfixed z)
         data->args.a1 = x;
         data->args.a2 = y;
         data->args.a3 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glRotatex(angle, x, y, z);
@@ -2561,6 +2678,7 @@ WRAP_GLES(void, glSampleCoverage, GLclampf value, GLboolean invert)
         data->func = glSampleCoverage;
         data->args.a0 = value;
         data->args.a1 = invert;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glSampleCoverage(value, invert);
@@ -2579,6 +2697,7 @@ WRAP_GLES(void, glSampleCoveragex, GLclampx value, GLboolean invert)
         data->func = glSampleCoveragex;
         data->args.a0 = value;
         data->args.a1 = invert;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glSampleCoveragex(value, invert);
@@ -2598,6 +2717,7 @@ WRAP_GLES(void, glScalef, GLfloat x, GLfloat y, GLfloat z)
         data->args.a0 = x;
         data->args.a1 = y;
         data->args.a2 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glScalef(x, y, z);
@@ -2617,6 +2737,7 @@ WRAP_GLES(void, glScalex, GLfixed x, GLfixed y, GLfixed z)
         data->args.a0 = x;
         data->args.a1 = y;
         data->args.a2 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glScalex(x, y, z);
@@ -2637,6 +2758,7 @@ WRAP_GLES(void, glScissor, GLint x, GLint y, GLsizei width, GLsizei height)
         data->args.a1 = y;
         data->args.a2 = width;
         data->args.a3 = height;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glScissor(x, y, width, height);
@@ -2654,6 +2776,7 @@ WRAP_GLES(void, glShadeModel, GLenum mode)
         data->format = FORMAT_void_GLenum;
         data->func = glShadeModel;
         data->args.a0 = mode;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glShadeModel(mode);
@@ -2673,6 +2796,7 @@ WRAP_GLES(void, glStencilFunc, GLenum func, GLint ref, GLuint mask)
         data->args.a0 = func;
         data->args.a1 = ref;
         data->args.a2 = mask;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glStencilFunc(func, ref, mask);
@@ -2690,6 +2814,7 @@ WRAP_GLES(void, glStencilMask, GLuint mask)
         data->format = FORMAT_void_GLuint;
         data->func = glStencilMask;
         data->args.a0 = mask;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glStencilMask(mask);
@@ -2709,6 +2834,7 @@ WRAP_GLES(void, glStencilOp, GLenum fail, GLenum zfail, GLenum zpass)
         data->args.a0 = fail;
         data->args.a1 = zfail;
         data->args.a2 = zpass;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glStencilOp(fail, zfail, zpass);
@@ -2729,6 +2855,7 @@ WRAP_GLES(void, glTexCoordPointer, GLint size, GLenum type, GLsizei stride, cons
         data->args.a1 = type;
         data->args.a2 = stride;
         data->args.a3 = pointer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexCoordPointer(size, type, stride, pointer);
@@ -2748,6 +2875,7 @@ WRAP_GLES(void, glTexEnvf, GLenum target, GLenum pname, GLfloat param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnvf(target, pname, param);
@@ -2767,6 +2895,7 @@ WRAP_GLES(void, glTexEnvfv, GLenum target, GLenum pname, const GLfloat * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnvfv(target, pname, params);
@@ -2786,6 +2915,7 @@ WRAP_GLES(void, glTexEnvi, GLenum target, GLenum pname, GLint param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnvi(target, pname, param);
@@ -2805,6 +2935,7 @@ WRAP_GLES(void, glTexEnviv, GLenum target, GLenum pname, const GLint * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnviv(target, pname, params);
@@ -2824,6 +2955,7 @@ WRAP_GLES(void, glTexEnvx, GLenum target, GLenum pname, GLfixed param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnvx(target, pname, param);
@@ -2843,6 +2975,7 @@ WRAP_GLES(void, glTexEnvxv, GLenum target, GLenum pname, const GLfixed * params)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexEnvxv(target, pname, params);
@@ -2868,6 +3001,7 @@ WRAP_GLES(void, glTexImage2D, GLenum target, GLint level, GLint internalformat, 
         data->args.a6 = format;
         data->args.a7 = type;
         data->args.a8 = pixels;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
@@ -2887,6 +3021,7 @@ WRAP_GLES(void, glTexParameterf, GLenum target, GLenum pname, GLfloat param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameterf(target, pname, param);
@@ -2906,6 +3041,7 @@ WRAP_GLES(void, glTexParameterfv, GLenum target, GLenum pname, const GLfloat * p
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameterfv(target, pname, params);
@@ -2925,6 +3061,7 @@ WRAP_GLES(void, glTexParameteri, GLenum target, GLenum pname, GLint param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameteri(target, pname, param);
@@ -2944,6 +3081,7 @@ WRAP_GLES(void, glTexParameteriv, GLenum target, GLenum pname, const GLint * par
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameteriv(target, pname, params);
@@ -2963,6 +3101,7 @@ WRAP_GLES(void, glTexParameterx, GLenum target, GLenum pname, GLfixed param)
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = param;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameterx(target, pname, param);
@@ -2982,6 +3121,7 @@ WRAP_GLES(void, glTexParameterxv, GLenum target, GLenum pname, const GLfixed * p
         data->args.a0 = target;
         data->args.a1 = pname;
         data->args.a2 = params;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexParameterxv(target, pname, params);
@@ -3007,6 +3147,7 @@ WRAP_GLES(void, glTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLin
         data->args.a6 = format;
         data->args.a7 = type;
         data->args.a8 = pixels;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
@@ -3026,6 +3167,7 @@ WRAP_GLES(void, glTranslatef, GLfloat x, GLfloat y, GLfloat z)
         data->args.a0 = x;
         data->args.a1 = y;
         data->args.a2 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTranslatef(x, y, z);
@@ -3045,6 +3187,7 @@ WRAP_GLES(void, glTranslatex, GLfixed x, GLfixed y, GLfixed z)
         data->args.a0 = x;
         data->args.a1 = y;
         data->args.a2 = z;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glTranslatex(x, y, z);
@@ -3065,6 +3208,7 @@ WRAP_GLES(void, glVertexPointer, GLint size, GLenum type, GLsizei stride, const 
         data->args.a1 = type;
         data->args.a2 = stride;
         data->args.a3 = pointer;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glVertexPointer(size, type, stride, pointer);
@@ -3085,6 +3229,7 @@ WRAP_GLES(void, glViewport, GLint x, GLint y, GLsizei width, GLsizei height)
         data->args.a1 = y;
         data->args.a2 = width;
         data->args.a3 = height;
+        lPushCall((void *)data);
     } else {
 #endif
     gles_glViewport(x, y, width, height);

@@ -12,6 +12,8 @@ RenderList *allocRenderList() {
     RenderList *list = (RenderList *)malloc(sizeof(RenderList));
     list->len = 0;
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
+    list->calls.len = 0;
+    list->calls.cap = 0;
 
     list->mode = 0;
     list->vert = NULL;
@@ -32,6 +34,12 @@ RenderList *extendRenderList(RenderList *list) {
 void freeRenderList(RenderList *list) {
     RenderList *next;
     do {
+        if (list->calls.len > 0) {
+            for (int i = 0; i < list->calls.len; i++) {
+                uintptr_t *calls = (uintptr_t *)list->calls.calls;
+                free(calls+i);
+            }
+        }
         if (list->vert) free(list->vert);
         if (list->normal) free(list->normal);
         if (list->color) free(list->color);
@@ -162,6 +170,13 @@ void drawRenderList(RenderList *list) {
         // optimize zero-length segments out earlier?
         if (! list->len)
             continue;
+
+        if (list->calls.len > 0) {
+            uintptr_t *calls = list->calls.calls;
+            for (int i = 0; i < list->calls.len; i++) {
+                glPackedCall(calls+i);
+            }
+        }
 
         if (list->vert) {
             glEnableClientState(GL_VERTEX_ARRAY);
@@ -324,6 +339,17 @@ void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
     } else {
         ensureRenderListSize(list);
     }
+}
+
+void lPushCall(RenderList *list, void *data) {
+    uintptr_t **calls = (uintptr_t **)&(list->calls.calls);
+    if (!*calls) {
+        *calls = (uintptr_t *)malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(uintptr_t));
+    } else if (list->calls.len > list->calls.cap) {
+        list->calls.cap += DEFAULT_CALL_LIST_CAPACITY;
+        *calls = realloc(*calls, list->calls.cap * sizeof(uintptr_t));
+    }
+    *(*calls + list->calls.len++) = (uintptr_t)data;
 }
 
 #undef alloc_sublist

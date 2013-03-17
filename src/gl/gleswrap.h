@@ -908,6 +908,7 @@ typedef struct {
     ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ args;
 } PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 
+void glPackedCall(const void *packed);
 void glActiveTexture(GLenum texture);
 void glAlphaFunc(GLenum func, GLclampf ref);
 void glAlphaFuncx(GLenum func, GLclampx ref);
