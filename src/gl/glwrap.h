@@ -37,6 +37,17 @@ void glMultMatrixd(const GLdouble *m);
 // normal
 void glNormal3fv(GLfloat *v);
 
+// rect
+#define GL_RECT(suffix, type)\
+    void glRect##suffix(type x1, type y1, type x2, type y2);\
+    void glRect##suffix##v(const type *v);
+
+GL_RECT(d, GLdouble)
+GL_RECT(f, GLfloat)
+GL_RECT(i, GLint)
+GL_RECT(s, GLshort)
+#undef GL_RECT
+
 // textures
 void glTexCoord1f(GLfloat s);
 void glTexCoord1fv(GLfloat *t);

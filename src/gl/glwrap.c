@@ -73,10 +73,16 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
         glVertex2##suffix(x2, y1);\
         glVertex2##suffix(x2, y2);\
         glVertex2##suffix(x1, y2);\
+    }\
+    void glRect##suffix##v(const type *v) {\
+        glRect##suffix(v[0], v[1], v[2], v[3]);\
     }
 
+GL_RECT(d, GLdouble)
 GL_RECT(f, GLfloat)
 GL_RECT(i, GLint)
+GL_RECT(s, GLshort)
+#undef GL_RECT
 
 // basic thunking
 
