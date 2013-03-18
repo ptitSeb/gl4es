@@ -54,20 +54,22 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRasterPos2##suffix);\
     EX(glRasterPos3##suffix##v);\
     EX(glRasterPos3##suffix);\
+    EX(glRasterPos4##suffix##v);\
+    EX(glRasterPos4##suffix);\
     EX(glVertex2##suffix##v);\
     EX(glVertex2##suffix);\
     EX(glVertex3##suffix##v);\
     EX(glVertex3##suffix);\
-    EX(glVertex4##suffix);\
     EX(glVertex4##suffix##v);\
+    EX(glVertex4##suffix);\
     EX(glTexCoord1##suffix##v);\
     EX(glTexCoord1##suffix);\
     EX(glTexCoord2##suffix##v);\
     EX(glTexCoord2##suffix);\
     EX(glTexCoord3##suffix##v);\
     EX(glTexCoord3##suffix);\
-    EX(glTexCoord4##suffix);\
-    EX(glTexCoord4##suffix##v);
+    EX(glTexCoord4##suffix##v);\
+    EX(glTexCoord4##suffix);
 
     THUNK(b, GLbyte);
     THUNK(d, GLdouble);
@@ -134,6 +136,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glPushName);
     EX(glRasterPos2i);
     EX(glReadBuffer);
+    EX(glRectd);
+    EX(glRectf);
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);

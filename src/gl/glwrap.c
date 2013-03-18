@@ -13,37 +13,29 @@
 void glActiveTextureARB(GLenum texture) {
     glActiveTexture(texture);
 }
-
 void glClearDepth(GLdouble depth) {
     glClearDepthf(depth);
 }
-
 void glClipPlane(GLenum plane, const GLdouble *equation) {
     constDoubleToFloat(equation, 4);
     glClipPlanef(plane, s);
 }
-
 void glDepthRange(GLdouble nearVal, GLdouble farVal) {
     glDepthRangef(nearVal, farVal);
 }
-
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
-
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glFrustumf(left, right, bottom, top, near, far);
 }
-
 void glMateriali(GLenum face, GLenum pname, GLint param) {
     glMaterialf(face, pname, param);
 }
-
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t) {
     glMultiTexCoord4f(target, s, t, 0.0f, 0.0f);
 }
-
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glOrthof(left, right, bottom, top, near, far);
@@ -54,24 +46,19 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
 void glClearDepthfOES(GLfloat depth) {
     glClearDepthf(depth);
 }
-
 void glClipPlanefOES(GLenum plane, const GLfloat *equation) {
     glClipPlanef(plane, equation);
 }
-
 void glDepthRangefOES(GLclampf near, GLclampf far) {
     glDepthRangef(near, far);
 }
-
 void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
                    GLfloat top, GLfloat near, GLfloat far) {
     glFrustumf(left, right, bottom, top, near, far);
 }
-
 void glGetClipPlanefOES(GLenum pname, GLfloat equation[4]) {
     glGetClipPlanef(pname, equation);
 }
-
 void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
                  GLfloat top, GLfloat near, GLfloat far) {
     glOrthof(left, right, bottom, top, near, far);
@@ -140,6 +127,12 @@ void glRasterPos3##suffix(type x, type y, type z) {\
 void glRasterPos3##suffix##v(type *v) {\
     glRasterPos3f(v[0], v[1], v[2]);\
 }\
+void glRasterPos4##suffix(type x, type y, type z, type w) {\
+    glRasterPos4f(x, y, z, w);\
+}\
+void glRasterPos4##suffix##v(type *v) {\
+    glRasterPos4f(v[0], v[1], v[2], v[3]);\
+}\
 /* vertex */\
 void glVertex2##suffix(type x, type y) {\
     glVertex2f(x, y);\
@@ -153,11 +146,11 @@ void glVertex3##suffix(type x, type y, type z) {\
 void glVertex3##suffix##v(type *v) {\
     glVertex3f(v[0], v[1], v[2]);\
 }\
-extern void glVertex4##suffix(type r, type g, type b, type w) {\
-    glVertex3f(r/w, g/w, b/w);\
+void glVertex4##suffix(type r, type g, type b, type w) {\
+    glVertex4f(r, g, b, w);\
 }\
 void glVertex4##suffix##v(type *v) {\
-    glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);\
+    glVertex4f(v[0], v[1], v[2], v[3]);\
 }\
 /* texture */\
 void glTexCoord1##suffix(type s) {\
@@ -256,34 +249,34 @@ THUNK(Double, GLdouble)
 void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glColor4f(r, g, b, 1.0f);
 }
-
 void glColor3fv(GLfloat *c) {
     glColor4f(c[0], c[1], c[2], 1.0f);
 }
-
 void glColor4fv(GLfloat *c) {
     glColor4f(c[0], c[1], c[2], c[3]);
 }
-
 void glIndexfv(const GLfloat *c) {
     glIndexf(*c);
 }
-
 void glSecondaryColor3fv(const GLfloat *v) {
     glSecondaryColor3f(v[0], v[1], v[2]);
 }
 
 // raster
+void glRasterPos2f(GLfloat x, GLfloat y) {
+    glRasterPos3f(x, y, 0);
+}
 void glRasterPos2fv(const GLfloat *v) {
     glRasterPos2i(v[0], v[1]);
 }
-
-void glRasterPos2f(GLfloat x, GLfloat y) {
-    glRasterPos2i(x, y);
+void glRasterPos3fv(const GLfloat *v) {
+    glRasterPos3f(v[0], v[1], v[2]);
 }
-
-void glRasterPos3fv(GLfloat x, GLfloat y, GLfloat z) {
-    glRasterPos3i(x, y, z);
+void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+    glRasterPos3f(x/w, y/w, z/w);
+}
+void glRasterPos4fv(const GLfloat *v) {
+    glRasterPos4f(v[0], v[1], v[2], v[3]);
 }
 
 // matrix
@@ -291,7 +284,6 @@ void glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
     glLoadMatrixf(s);
 }
-
 void glMultMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
     glMultMatrixf(s);
@@ -346,11 +338,9 @@ void glTexGeniv(GLenum coord, GLenum pname, GLint *params) {
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     glRotatef(angle, x, y, z);
 }
-
 void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     glScalef(x, y, z);
 }
-
 void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     glTranslatef(x, y, z);
 }
@@ -359,19 +349,15 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
 void glVertex2f(GLfloat x, GLfloat y) {
     glVertex3f(x, y, 0);
 }
-
 void glVertex2fv(GLfloat *v) {
     glVertex3f(v[0], v[1], 0);
 }
-
 void glVertex3fv(GLfloat *v) {
     glVertex3f(v[0], v[1], v[2]);
 }
-
 void glVertex4f(GLfloat r, GLfloat g, GLfloat b, GLfloat w) {
     glVertex3f(r/w, g/w, b/w);
 }
-
 void glVertex4fv(GLfloat *v) {
     glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);
 }

@@ -23,9 +23,12 @@ void glIndexfv(const GLfloat *c);
 void glSecondaryColor3fv(const GLfloat *v);
 
 // raster
-void glRasterPos2fv(const GLfloat *v);
 void glRasterPos2f(GLfloat x, GLfloat y);
-void glRasterPos3fv(GLfloat x, GLfloat y, GLfloat z);
+void glRasterPos2fv(const GLfloat *v);
+void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
+void glRasterPos3fv(const GLfloat *v);
+void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void glRasterPos4fv(const GLfloat *v);
 
 // matrix
 void glLoadMatrixd(const GLdouble *m);
@@ -89,6 +92,8 @@ void glRasterPos2##suffix##v(type *v);\
 void glRasterPos2##suffix(type x, type y);\
 void glRasterPos3##suffix##v(type *v);\
 void glRasterPos3##suffix(type x, type y, type z);\
+void glRasterPos4##suffix##v(type *v);\
+void glRasterPos4##suffix(type x, type y, type z, type w);\
 void glVertex2##suffix##v(type *v);\
 void glVertex2##suffix(type x, type y);\
 void glVertex3##suffix##v(type *v);\
