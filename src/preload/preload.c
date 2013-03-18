@@ -9,16 +9,13 @@ SDL_GrabMode SDL_WM_GrabInput(SDL_GrabMode mode) {
     printf("SDL_WM_GrabInput\n");
     return mode;
 }
-
 int SDL_ShowCursor(int toggle) {
     printf("SDL_ShowCursor(%i)\n", toggle);
     return toggle;
 }
-
 void SDL_WarpMouse(Uint16 x, Uint16 y) {
     printf("SDL_WM_WarpMouse\n");
 }
-
 int SDL_PollEvent(SDL_Event *event) {
     return 0;
 }
@@ -28,10 +25,40 @@ int SDL_SetGamma(float r, float g, float b) {
     return 0;
 }
 
-typedef int (*XSYNCPTR)(Display *, Bool);
+static Display *g_display;
+static int displayRefs = 0;
+typedef Display *(*XOPENDISPLAYPTR)(const char *);
+Display *XOpenDisplay(const char *display_name) {
+    static XOPENDISPLAYPTR real_XOpenDisplay;
+    if (!real_XOpenDisplay) {
+        real_XOpenDisplay = (XOPENDISPLAYPTR)dlsym(RTLD_NEXT, "XOpenDisplay");
+    }
+    if (!g_display) {
+        g_display = real_XOpenDisplay(display_name);
+    }
+    displayRefs++;
+    return g_display;
+}
 
+typedef int (*XCLOSEDISPLAYPTR)(Display *);
+int XCloseDisplay(Display *display) {
+    static XCLOSEDISPLAYPTR real_XCloseDisplay;
+    if (!real_XCloseDisplay) {
+        real_XCloseDisplay = (XCLOSEDISPLAYPTR)dlsym(RTLD_NEXT, "XCloseDisplay");
+    }
+    if (g_display == display && displayRefs > 0) {
+        if (displayRefs-- == 0) {
+            g_display = NULL;
+            return real_XCloseDisplay(display);
+        }
+    }
+    return 0;
+}
+
+/*
+typedef int (*XSYNCPTR)(Display *, Bool);
 int XSync(Display *display, Bool discard) {
-    discard = 1;
+    // discard = 1;
 
     static XSYNCPTR real_XSync;
     if (!real_XSync) {
@@ -39,3 +66,4 @@ int XSync(Display *display, Bool discard) {
     }
     return real_XSync(display, discard);
 }
+*/
