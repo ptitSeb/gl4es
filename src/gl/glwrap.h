@@ -35,8 +35,13 @@ void glMultMatrixd(const GLdouble *m);
 void glNormal3fv(GLfloat *v);
 
 // textures
-void glTexCoord2d(GLdouble s, GLdouble t);
+void glTexCoord1f(GLfloat s);
+void glTexCoord1fv(GLfloat *t);
 void glTexCoord2fv(GLfloat *t);
+void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r);
+void glTexCoord3fv(GLfloat *t);
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glTexCoord4fv(GLfloat *t);
 
 // transforms
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z);
@@ -80,8 +85,16 @@ void glVertex2##suffix##v(type *v);\
 void glVertex2##suffix(type x, type y);\
 void glVertex3##suffix##v(type *v);\
 void glVertex3##suffix(type x, type y, type z);\
-void glVertex4##suffix(type r, type g, type b, type w);\
-void glVertex4##suffix##v(type *v);
+void glVertex4##suffix(type x, type y, type z, type w);\
+void glVertex4##suffix##v(type *v);\
+void glTexCoord1##suffix##v(type *t);\
+void glTexCoord1##suffix(type s, type t);\
+void glTexCoord2##suffix##v(type *t);\
+void glTexCoord2##suffix(type s, type t);\
+void glTexCoord3##suffix##v(type *t);\
+void glTexCoord3##suffix(type s, type t, type r);\
+void glTexCoord4##suffix(type s, type t, type r, type q);\
+void glTexCoord4##suffix##v(type *t);
 
 THUNK(b, GLbyte);
 THUNK(d, GLdouble);

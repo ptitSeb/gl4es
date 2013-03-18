@@ -158,6 +158,31 @@ extern void glVertex4##suffix(type r, type g, type b, type w) {\
 }\
 void glVertex4##suffix##v(type *v) {\
     glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);\
+}\
+/* texture */\
+void glTexCoord1##suffix(type s) {\
+    glTexCoord2f(s, 0);\
+}\
+void glTexCoord1##suffix##v(type *t) {\
+    glTexCoord2f(t[0], 0);\
+}\
+void glTexCoord2##suffix(type s, type t) {\
+    glTexCoord2f(s, t);\
+}\
+void glTexCoord2##suffix##v(type *t) {\
+    glTexCoord2f(t[0], t[1]);\
+}\
+void glTexCoord3##suffix(type s, type t, type r) {\
+    glTexCoord2f(s, t);\
+}\
+void glTexCoord3##suffix##v(type *t) {\
+    glTexCoord2f(t[0], t[1]);\
+}\
+void glTexCoord4##suffix(type s, type t, type r, type q) {\
+    glTexCoord2f(s, t);\
+}\
+void glTexCoord4##suffix##v(type *t) {\
+    glTexCoord2f(t[0], t[1]);\
 }
 
 THUNK(b, GLbyte)
@@ -278,11 +303,25 @@ void glNormal3fv(GLfloat *v) {
 }
 
 // textures
-void glTexCoord2d(GLdouble s, GLdouble t) {
+void glTexCoord1f(GLfloat s) {
+    glTexCoord2f(s, 0);
+}
+void glTexCoord1fv(GLfloat *t) {
+    glTexCoord2f(t[0], 0);
+}
+void glTexCoord2fv(GLfloat *t) {
+    glTexCoord2f(t[0], t[1]);
+}
+void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     glTexCoord2f(s, t);
 }
-
-void glTexCoord2fv(GLfloat *t) {
+void glTexCoord3fv(GLfloat *t) {
+    glTexCoord2f(t[0], t[1]);
+}
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+    glTexCoord2f(s, t);
+}
+void glTexCoord4fv(GLfloat *t) {
     glTexCoord2f(t[0], t[1]);
 }
 
