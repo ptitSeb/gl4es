@@ -87,12 +87,12 @@ void glVertex3##suffix##v(type *v);\
 void glVertex3##suffix(type x, type y, type z);\
 void glVertex4##suffix(type x, type y, type z, type w);\
 void glVertex4##suffix##v(type *v);\
+void glTexCoord1##suffix(type s);\
 void glTexCoord1##suffix##v(type *t);\
-void glTexCoord1##suffix(type s, type t);\
-void glTexCoord2##suffix##v(type *t);\
 void glTexCoord2##suffix(type s, type t);\
-void glTexCoord3##suffix##v(type *t);\
+void glTexCoord2##suffix##v(type *t);\
 void glTexCoord3##suffix(type s, type t, type r);\
+void glTexCoord3##suffix##v(type *t);\
 void glTexCoord4##suffix(type s, type t, type r, type q);\
 void glTexCoord4##suffix##v(type *t);
 
