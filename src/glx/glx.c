@@ -45,11 +45,17 @@ int8_t CheckEGLErrors() {
 EGLContext eglContext;
 Display *xDisplay;
 
+static int g_directfb = 0;
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
 
+    char *env_direct = getenv("LIBGL_DIRECTFB");
+    if (env_direct && strcmp(env_direct, "1") == 0) {
+        printf("libGL: direct framebuffer output enabled\n");
+        g_directfb = 1;
+    }
     GLXContext fake = {NULL, 0, 0, 0, 0};
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -69,7 +75,11 @@ GLXContext glXCreateContext(Display *display,
         if (xDisplay == NULL) {
             xDisplay = display;
         }
-        eglDisplay = eglGetDisplay(xDisplay);
+        if (g_directfb) {
+            eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        } else {
+            eglDisplay = eglGetDisplay(xDisplay);
+        }
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
             return fake;
@@ -173,6 +183,8 @@ Bool glXMakeCurrent(Display *display,
         return false;
     }
 
+    if (g_directfb)
+        drawable = 0;
     eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, 0);
     CheckEGLErrors();
 
