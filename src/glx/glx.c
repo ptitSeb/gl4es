@@ -114,7 +114,7 @@ GLXContext glXCreateContext(Display *display,
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    return (GLXContext){display, true, 0, 0, 1};
+    return (GLXContext){xDisplay, true, 0, 0, 1};
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
