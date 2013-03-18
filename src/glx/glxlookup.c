@@ -137,6 +137,12 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);
+    EX(glTexGend);
+    EX(glTexGendv);
+    EX(glTexGenf);
+    EX(glTexGenfv);
+    EX(glTexGeni);
+    EX(glTexGeniv);
     EX(glTexImage1D);
     EX(glTexImage3D);
     EX(glTranslated);

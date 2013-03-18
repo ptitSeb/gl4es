@@ -325,6 +325,23 @@ void glTexCoord4fv(GLfloat *t) {
     glTexCoord2f(t[0], t[1]);
 }
 
+// texgen
+void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
+    glTexGeni(coord, pname, param);
+}
+void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
+    // TODO: this is gross/lossy.
+    glTexGeni(coord, pname, param);
+}
+void glTexGendv(GLenum coord, GLenum pname, GLdouble *params) {
+    // TODO: stub
+    // glTexGenfv(coord, pname, thunked_params);
+}
+void glTexGeniv(GLenum coord, GLenum pname, GLint *params) {
+    // TODO: stub
+    // glTexGenfv(coord, pname, thunked_params);
+}
+
 // transforms
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     glRotatef(angle, x, y, z);
