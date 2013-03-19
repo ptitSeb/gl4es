@@ -38,8 +38,7 @@ void freeRenderList(RenderList *list) {
     do {
         if (list->calls.len > 0) {
             for (int i = 0; i < list->calls.len; i++) {
-                // causes a segfault :<
-                // free(list->calls.calls+i);
+                free(list->calls.calls[i]);
             }
             free(list->calls.calls);
         }
