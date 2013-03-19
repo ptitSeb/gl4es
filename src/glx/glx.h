@@ -121,13 +121,14 @@
 #define GLX_SAMPLE_BUFFERS              0x186a0 /*100000*/
 #define GLX_SAMPLES                     0x186a1 /*100001*/
 
-typedef struct {
-    Display *currentDpy;
-    unsigned char isDirect;
+struct __GLXContextRec {
+    Display *display;
+    unsigned char direct;
     int currentWritable;
     int currentReadable;
     XID xid;
-} GLXContext;
+};
+typedef struct __GLXContextRec *GLXContext;
 
 struct __GLXFBConfigRec {
     int visualType;
@@ -213,6 +214,7 @@ XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes);
 Display *glXGetCurrentDisplay();
 
 // GLX 1.3
+GLXContext glXGetCurrentContext();
 XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config);
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count);
 GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count);

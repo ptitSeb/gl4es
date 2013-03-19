@@ -6,7 +6,7 @@
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
-EGLConfig eglConfig;
+EGLConfig eglConfig = NULL;
 
 int8_t CheckEGLErrors() {
     EGLenum error;
@@ -98,6 +98,7 @@ static int get_config_default(int attribute, int *value) {
 
 // hmm...
 EGLContext eglContext;
+GLXContext glxContext;
 Display *xDisplay;
 
 static int g_directfb = 0;
@@ -111,7 +112,7 @@ GLXContext glXCreateContext(Display *display,
         printf("libGL: direct framebuffer output enabled\n");
         g_directfb = 1;
     }
-    GLXContext fake = {NULL, 0, 0, 0, 0};
+    GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
         if (eglContext != NULL) {
@@ -170,8 +171,7 @@ GLXContext glXCreateContext(Display *display,
         printf("No EGL configs found.\n");
         return fake;
     }
-    if (eglConfig) free(eglConfig);
-    eglConfig = malloc(sizeof(EGLConfig));
+    if (!eglConfig) eglConfig = malloc(sizeof(EGLConfig));
     memcpy(&eglConfig, configs, sizeof(EGLConfig));
     free(configs);
 
@@ -179,7 +179,10 @@ GLXContext glXCreateContext(Display *display,
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    return (GLXContext){xDisplay, true, 0, 0, 1};
+    fake->display = xDisplay;
+    fake->direct = true;
+    fake->xid = 1;
+    return fake;
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
@@ -281,7 +284,7 @@ Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
 Bool glXQueryVersion(Display *display, int *major, int *minor) {
     // TODO: figure out which version we want to pretend to implement
     *major = 1;
-    *minor = 3;
+    *minor = 2;
 }
 
 const char *glXGetClientString(Display *display, int name) {
@@ -295,6 +298,10 @@ const char *glXGetClientString(Display *display, int name) {
 }
 
 // stubs for glfw (GLX 1.3)
+GLXContext glXGetCurrentContext() {
+    return glxContext;
+}
+
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
                        const int *attrib_list, int *count) {
     *count = 1;
