@@ -4,15 +4,23 @@ RenderList *activeList = NULL;
 GLfloat lastColor[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 bool listCompiling = false;
 bool listMode = 0;
+GLuint listBase = 0;
 
 bool bTexGenS = false;
 bool bTexGenT = false;
 bool bLineStipple = false;
+bool bBlend = false;
+bool bTexture2d = false;
 
-GLuint listBase = 0;
-
-bool bBlend;
-bool bTexture2d;
+// glDrawArrays
+static bool bVertexArray = false;
+static bool bColorArray = false;
+static bool bNormalArray = false;
+static bool bTexCoordArray = false;
+static glwPointer aVertexPointer;
+static glwPointer aColorPointer;
+static glwPointer aNormalPointer;
+static glwPointer aTexCoordPointer;
 
 // config functions
 
@@ -23,6 +31,12 @@ void glwEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         case GL_BLEND: bBlend = enable; next(cap); break;
         case GL_TEXTURE_2D: bTexture2d = enable; next(cap); break;
         case GL_LINE_STIPPLE: bLineStipple = enable; break;
+
+        // for glDrawArrays
+        case GL_VERTEX_ARRAY: bVertexArray = enable; next(cap); break;
+        case GL_NORMAL_ARRAY: bNormalArray = enable; next(cap); break;
+        case GL_COLOR_ARRAY: bColorArray = enable; next(cap); break;
+        case GL_TEXTURE_COORD_ARRAY: bTexCoordArray = enable; next(cap); break;
         default: next(cap); break;
     }
 }
@@ -36,6 +50,80 @@ void glDisable(GLenum cap) {
     LOAD_GLES(void, glDisable, GLenum);
     glwEnable(cap, false, gles_glDisable);
 }
+
+// glDrawArrays
+void glEnableClientState(GLenum cap) {
+    LOAD_GLES(void, glEnableClientState, GLenum);
+    if (cap == GL_POINT_SIZE_ARRAY_OES) printf("point size\n");
+    glwEnable(cap, true, gles_glEnableClientState);
+}
+
+void glDisableClientState(GLenum cap) {
+    LOAD_GLES(void, glDisableClientState, GLenum);
+    glwEnable(cap, false, gles_glDisableClientState);
+}
+
+void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    glBegin(mode);
+    for (int i = first; i < count; i++) {
+        if (bVertexArray) {
+            GLfloat *vp = (GLfloat *)aVertexPointer.pointer;
+            if (vp) {
+                GLfloat *v = &vp[i*3];
+                glVertex3fv(v);
+            }
+        }
+        if (bColorArray) {
+            GLfloat *cp = (GLfloat *)aColorPointer.pointer;
+            if (cp) {
+                GLfloat *c = &cp[i*4];
+                glColor4fv(c);
+            }
+        }
+        if (bNormalArray) {
+            GLfloat *np = (GLfloat *)aNormalPointer.pointer;
+            if (np) {
+                GLfloat *n = &np[i*3];
+                glNormal3fv(n);
+            }
+        }
+        if (bTexCoordArray) {
+            GLfloat *tp = (GLfloat *)aTexCoordPointer.pointer;
+            if (tp) {
+                GLfloat *t = &tp[i*2];
+                glTexCoord2fv(t);
+            }
+        }
+    }
+    glEnd();
+}
+
+#define copy_gl_pointer(t, s)\
+    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
+void glVertexPointer(GLint size, GLenum type,
+                     GLsizei stride, const GLvoid *pointer) {
+    LOAD_GLES(void, glVertexPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    copy_gl_pointer(aVertexPointer, size);
+    gles_glVertexPointer(size, type, stride, pointer);
+}
+void glColorPointer(GLint size, GLenum type,
+                     GLsizei stride, const GLvoid *pointer) {
+    LOAD_GLES(void, glColorPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    copy_gl_pointer(aColorPointer, size);
+    gles_glColorPointer(size, type, stride, pointer);
+}
+void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    LOAD_GLES(void, glNormalPointer, GLenum, GLsizei, const GLvoid *);
+    copy_gl_pointer(aNormalPointer, 3);
+    gles_glNormalPointer(type, stride, pointer);
+}
+void glTexCoordPointer(GLint size, GLenum type,
+                     GLsizei stride, const GLvoid *pointer) {
+    LOAD_GLES(void, glTexCoordPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    copy_gl_pointer(aTexCoordPointer, size);
+    gles_glTexCoordPointer(size, type, stride, pointer);
+}
+#undef copy_gl_pointer
 
 // immediate mode functions
 

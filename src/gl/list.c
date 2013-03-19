@@ -64,10 +64,10 @@ void ensureRenderListSize(RenderList *list) {
 
 void swizzleRenderList(RenderList *list) {
     if (!list->len || !list->vert) return;
-    GLfloat *newVert, *newVertPos, *vertPos, *vert;
-    GLfloat *newNormal, *newNormalPos, *normalPos, *normal;
-    GLfloat *newColor, *newColorPos, *colorPos, *color;
-    GLfloat *newTex, *newTexPos, *texPos, *tex;
+    GLfloat *newVertPos, *vertPos, *vert;
+    GLfloat *newNormalPos, *normalPos, *normal;
+    GLfloat *newColorPos, *colorPos, *color;
+    GLfloat *newTexPos, *texPos, *tex;
 
     vertPos = vert = list->vert;
     normalPos = normal = list->normal;
@@ -166,6 +166,7 @@ void endRenderList(RenderList *list) {
 
 void drawRenderList(RenderList *list) {
     if (!list) return;
+    LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
@@ -183,16 +184,22 @@ void drawRenderList(RenderList *list) {
         if (list->vert) {
             glEnableClientState(GL_VERTEX_ARRAY);
             glVertexPointer(3, GL_FLOAT, 0, list->vert);
+        } else {
+            glDisableClientState(GL_VERTEX_ARRAY);
         }
 
         if (list->normal) {
             glEnableClientState(GL_NORMAL_ARRAY);
             glNormalPointer(GL_FLOAT, 0, list->normal);
+        } else {
+            glDisableClientState(GL_NORMAL_ARRAY);
         }
 
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4, GL_FLOAT, 0, list->color);
+        } else {
+            glDisableClientState(GL_COLOR_ARRAY);
         }
 
         if (list->material) {
@@ -228,14 +235,11 @@ void drawRenderList(RenderList *list) {
         if (tex) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2, GL_FLOAT, 0, tex);
+        } else {
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
 
-        glDrawArrays(list->mode, 0, list->len);
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_NORMAL_ARRAY);
-        glDisableClientState(GL_COLOR_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
+        gles_glDrawArrays(list->mode, 0, list->len);
         if (stipple) {
             glDeleteTextures(1, &texture);
             glPopAttrib();
@@ -332,12 +336,6 @@ void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
 
     if (list->tex == NULL) {
         list->tex = alloc_sublist(2, list->cap);
-        // catch up
-        int i;
-        for (i = 0; i < list->len; i++) {
-            GLfloat *color = (list->color + (i * 4));
-            memcpy(color, list->lastColor, sizeof(GLfloat) * 4);
-        }
     } else {
         ensureRenderListSize(list);
     }

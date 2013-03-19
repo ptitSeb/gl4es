@@ -61,6 +61,13 @@ typedef struct {
     RenderList *list;
 } glwList;
 
+typedef struct {
+    GLint size;
+    GLenum type;
+    GLsizei stride;
+    const GLvoid *pointer;
+} glwPointer;
+
 bool bLineStipple;
 bool bTexGenS;
 bool bTexGenT;
@@ -75,6 +82,15 @@ bool listMode;
 #define skip_glMaterialfv
 #define skip_glTexImage2D
 #define skip_glViewport
+
+// glDrawArrays
+#define skip_glDrawArrays
+#define skip_glVertexPointer
+#define skip_glColorPointer
+#define skip_glNormalPointer
+#define skip_glTexCoordPointer
+#define skip_glDisableClientState
+#define skip_glEnableClientState
 
 // don't compile these into display lists
 #define direct_glColorPointer
@@ -109,16 +125,17 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
 void glClearDepth(GLdouble depth);
 void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
+void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 void glEnd();
 void glEndList(GLuint list);
 void glFogi(GLenum pname, GLint param);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);
-void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glListBase(GLuint base);
 void glNewList(GLuint list, GLenum mode);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glTexCoord2f(GLfloat s, GLfloat t);
 void glVertex2f(GLfloat x, GLfloat y);
 void glVertex2i(GLint x, GLint y);
