@@ -41,6 +41,61 @@ int8_t CheckEGLErrors() {
     return 0;
 }
 
+static int get_config_default(int attribute, int *value) {
+    switch (attribute) {
+        case GLX_USE_GL:
+        case GLX_RGBA:
+        case GLX_DOUBLEBUFFER:
+            *value = 1;
+            break;
+        case GLX_STEREO:
+            *value = 0;
+            break;
+        case GLX_AUX_BUFFERS:
+            *value = 0;
+            break;
+        case GLX_RED_SIZE:
+            *value = 5;
+            break;
+        case GLX_GREEN_SIZE:
+            *value = 5;
+            break;
+        case GLX_BLUE_SIZE:
+            *value = 6;
+            break;
+        case GLX_ALPHA_SIZE:
+            *value = 8;
+            break;
+        case GLX_DEPTH_SIZE:
+            *value = 16;
+            break;
+        case GLX_STENCIL_SIZE:
+        case GLX_ACCUM_RED_SIZE:
+        case GLX_ACCUM_GREEN_SIZE:
+        case GLX_ACCUM_BLUE_SIZE:
+        case GLX_ACCUM_ALPHA_SIZE:
+            *value = 0;
+            break;
+        case GLX_RENDER_TYPE:
+            *value = GLX_RGBA_BIT | GLX_COLOR_INDEX_BIT;
+            break;
+        case GLX_VISUAL_ID:
+            *value = 1;
+            break;
+        case GLX_FBCONFIG_ID:
+            *value = 1;
+            break;
+        case GLX_DRAWABLE_TYPE:
+            *value = GLX_WINDOW_BIT;
+            break;
+        default:
+            printf("unknown attrib: %i\n", attribute);
+            *value = 0;
+            return 1;
+    }
+    return 0;
+}
+
 // hmm...
 EGLContext eglContext;
 Display *xDisplay;
@@ -179,10 +234,6 @@ Bool glXMakeCurrent(Display *display,
         }
     }
 
-    if (!drawable) {
-        return false;
-    }
-
     if (g_directfb)
         drawable = 0;
     eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, 0);
@@ -207,15 +258,22 @@ int glXGetConfig(Display *display,
                  XVisualInfo *visual,
                  int attribute,
                  int *value) {
-    printf("glXGetConfig()\n");
-    return 0;
+    return get_config_default(attribute, value);
 }
 
 const char *glXQueryExtensionsString(Display *display, int screen) {
     return "";
 }
 
+const char *glXQueryServerString(Display *display, int screen, int name) {
+    return "";
+}
+
 Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
+    // GLFW queries a null extension and expects true
+    if (!errorBase && !eventBase) {
+        return true;
+    }
     // TODO: figure out which extensions we support?
     return false;
 }
@@ -223,7 +281,7 @@ Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
 Bool glXQueryVersion(Display *display, int *major, int *minor) {
     // TODO: figure out which version we want to pretend to implement
     *major = 1;
-    *minor = 2;
+    *minor = 3;
 }
 
 const char *glXGetClientString(Display *display, int name) {
@@ -236,6 +294,47 @@ const char *glXGetClientString(Display *display, int name) {
     return "";
 }
 
-void glXSwapIntervalSGI() {}
-void glXSwapIntervalMESA() {}
-// glXCreatePixmap()?
+// stubs for glfw (GLX 1.3)
+GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
+                       const int *attrib_list, int *count) {
+    *count = 1;
+    GLXFBConfig *configs = malloc(sizeof(GLXFBConfig) * *count);
+    return configs;
+}
+
+GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count) {
+    *count = 1;
+    GLXFBConfig *configs = malloc(sizeof(GLXFBConfig) * *count);
+    return configs;
+}
+
+int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value) {
+    return get_config_default(attribute, value);
+}
+
+XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
+    if (xDisplay == NULL) {
+        xDisplay = display;
+    }
+    XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
+    XMatchVisualInfo(display, 0, 16, TrueColor, visual); 
+    return visual;
+}
+
+GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
+                               int render_type, GLXContext share_list,
+                               Bool is_direct) {
+    return glXCreateContext(display, 0, share_list, is_direct);
+}
+
+// misc stubs
+void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask) {}
+void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {} // should return GLXPixmap
+void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
+void glXGetCurrentDrawable() {} // this should actually return GLXDrawable. Good luck.
+Bool glXIsDirect(Display * display, GLXContext ctx) {
+    return true;
+}
+void glXUseXFont(Font font, int first, int count, int listBase) {}
+void glXWaitGL() {}
+void glXWaitX() {}

@@ -20,13 +20,22 @@ void *glXGetProcAddressARB(const char *name) {
 
     // glX calls
     EX(glXChooseVisual);
+    EX(glXCopyContext);
     EX(glXCreateContext);
+    EX(glXCreateGLXPixmap);
     EX(glXDestroyContext);
-    EX(glXMakeCurrent);
-    EX(glXSwapBuffers);
+    EX(glXDestroyGLXPixmap);
     EX(glXGetConfig);
-    EX(glXQueryExtensionsString);
     EX(glXGetCurrentDisplay);
+    EX(glXGetCurrentDrawable);
+    EX(glXIsDirect);
+    EX(glXMakeCurrent);
+    EX(glXQueryExtensionsString);
+    EX(glXQueryServerString);
+    EX(glXSwapBuffers);
+    EX(glXUseXFont);
+    EX(glXWaitGL);
+    EX(glXWaitX);
 
     // OES wrapper
     EX(glClearDepthfOES);
