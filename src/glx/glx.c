@@ -1,3 +1,6 @@
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/fb.h>
 #include <GLES/gl.h>
 #include "glx.h"
 
@@ -101,7 +104,12 @@ EGLContext eglContext;
 GLXContext glxContext;
 Display *xDisplay;
 
+#ifndef FBIO_WAITFORVSYNC
+#define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
+#endif
 static int g_usefb = 0;
+static int fbdev = -1;
+
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -111,6 +119,14 @@ GLXContext glXCreateContext(Display *display,
     if (env_direct && strcmp(env_direct, "1") == 0) {
         printf("libGL: framebuffer output forced\n");
         g_usefb = 1;
+    }
+    char *env_vsync = getenv("LIBGL_VSYNC");
+    if (env_vsync && strcmp(env_vsync, "1") == 0) {
+        printf("libGL: enabling vsync\n");
+        fbdev = open("/dev/fb0", O_RDONLY);
+        if (fbdev < 0) {
+            fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
+        }
     }
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
@@ -195,6 +211,10 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
         if (result != EGL_TRUE) {
             printf("Failed to destroy EGL context.\n");
         }
+        if (fbdev >= 0) {
+            fclose(fbdev);
+            fbdev = -1;
+        }
     }
     return;
 }
@@ -253,6 +273,10 @@ Bool glXMakeCurrent(Display *display,
 void glXSwapBuffers(Display *display,
                     int drawable) {
     renderRaster();
+    if (fbdev >= 0) {
+        int arg = 0;
+        ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
+    }
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 }
