@@ -3,6 +3,7 @@
 #include <linux/fb.h>
 #include <GLES/gl.h>
 #include "glx.h"
+#include <sys/time.h>
 
 #define maxConfigs 20
 
@@ -279,6 +280,20 @@ void glXSwapBuffers(Display *display,
     }
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
+
+    // framerate counter
+    static int firstFrame = 0, lastFrame = 0;
+    static int frames = 0;
+    struct timeval out;
+    gettimeofday(&out, NULL);
+    frames++;
+    if (!firstFrame) {
+        lastFrame = firstFrame = out.tv_sec;
+    } else if (out.tv_sec > lastFrame) {
+        lastFrame = out.tv_sec;
+        float fps = frames / (float)(lastFrame - firstFrame);
+        printf("fps: %.2f\n", fps);
+    }
 }
 
 int glXGetConfig(Display *display,
