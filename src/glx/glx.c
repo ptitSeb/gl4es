@@ -285,6 +285,7 @@ Bool glXQueryVersion(Display *display, int *major, int *minor) {
     // TODO: figure out which version we want to pretend to implement
     *major = 1;
     *minor = 2;
+    return true;
 }
 
 const char *glXGetClientString(Display *display, int name) {
