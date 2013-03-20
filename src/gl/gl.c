@@ -81,27 +81,51 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         list->len = count;
         list->cap = count;
 
+        #define type_case(magic, type, code) \
+            case magic: {                    \
+                type *next = (type *)src;    \
+                code                         \
+                break;                       \
+            }
+
+        #define type_switch(type, code)                                  \
+            switch (type) {                                              \
+                type_case(GL_FLOAT, GLfloat, code)                       \
+                type_case(GL_UNSIGNED_BYTE, GLubyte, code)               \
+                default:                                                 \
+                    printf("unsupported glDrawArrays type: %i\n", type); \
+                    break;                                               \
+            }
+
         #define copy_gl_pointer(ptr, arr)\
-            if (ptr.pointer) {\
-                int stride, width;\
-                stride = width = ptr.size;\
-                if (ptr.stride)\
-                    stride = ptr.stride;\
-                \
-                arr = malloc(sizeof(GLfloat) * width * count);\
-                uintptr_t src = (uintptr_t)ptr.pointer;\
-                GLfloat *dst = arr;\
-                \
-                src += stride * first;\
-                if (stride == width) {\
-                    memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * count);\
-                } else {\
-                    for (int i = 0; i < count; i++) {\
-                        memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);\
-                        dst += width;\
-                        src += stride;\
-                    }\
-                }\
+            if (ptr.pointer) {                                                   \
+                int stride, width;                                               \
+                width = ptr.size;                                                \
+                stride = (ptr.stride ? ptr.stride : width);                      \
+                arr = malloc(sizeof(GLfloat) * width * count);                   \
+                uintptr_t src = (uintptr_t)ptr.pointer;                          \
+                GLfloat *dst = arr;                                              \
+                                                                                 \
+                src += stride * first;                                           \
+                if (stride == width) {                                           \
+                    memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width * count); \
+                } else if (ptr.type == GL_FLOAT) {                               \
+                    for (int i = 0; i < count; i++) {                            \
+                        memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);     \
+                        dst += width;                                            \
+                        src += stride;                                           \
+                    }                                                            \
+                } else {                                                         \
+                    type_switch(ptr.type,                                        \
+                        for (int i = 0; i < count; i++) {                        \
+                            for (int k = 0; k < width; k++) {                    \
+                                dst[k] = next[k];                                \
+                            }                                                    \
+                            dst += width;                                        \
+                            src += stride;                                       \
+                        }                                                        \
+                    )                                                            \
+                }                                                                \
             }
 
         if (bVertexArray) {
@@ -117,6 +141,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             copy_gl_pointer(aTexCoordPointer, list->tex)
         }
         #undef copy_gl_pointer
+        #undef type_switch
+        #undef type_case
         endRenderList(list);
         drawRenderList(list);
         freeRenderList(list);
