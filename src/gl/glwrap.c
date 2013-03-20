@@ -1,11 +1,11 @@
 #include <gl.h>
 #include <GLES/glext.h>
 
-#define constDoubleToFloat(a, size)\
-    GLfloat s[size];\
-    int i;\
-    for (i = 0; i < size; i++) {\
-        s[i] = a[i];\
+#define constDoubleToFloat(a, size) \
+    GLfloat s[size];                \
+    int i;                          \
+    for (i = 0; i < size; i++) {    \
+        s[i] = a[i];                \
     }
 
 // naive wrappers
@@ -140,16 +140,16 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
 
 // glRect
 
-#define GL_RECT(suffix, type)\
-    void glRect##suffix(type x1, type y1, type x2, type y2) {\
-        glBegin(GL_POLYGON);\
-        glVertex2##suffix(x1, y1);\
-        glVertex2##suffix(x2, y1);\
-        glVertex2##suffix(x2, y2);\
-        glVertex2##suffix(x1, y2);\
-    }\
-    void glRect##suffix##v(const type *v) {\
-        glRect##suffix(v[0], v[1], v[2], v[3]);\
+#define GL_RECT(suffix, type)                                 \
+    void glRect##suffix(type x1, type y1, type x2, type y2) { \
+        glBegin(GL_POLYGON);                                  \
+        glVertex2##suffix(x1, y1);                            \
+        glVertex2##suffix(x2, y1);                            \
+        glVertex2##suffix(x2, y2);                            \
+        glVertex2##suffix(x1, y2);                            \
+    }                                                         \
+    void glRect##suffix##v(const type *v) {                   \
+        glRect##suffix(v[0], v[1], v[2], v[3]);               \
     }
 
 GL_RECT(d, GLdouble)
@@ -160,102 +160,102 @@ GL_RECT(s, GLshort)
 
 // basic thunking
 
-#define THUNK(suffix, type)\
-/* colors */\
-void glColor3##suffix(type r, type g, type b) {\
-    glColor4f(r, g, b, 1.0f);\
-}\
-void glColor4##suffix(type r, type g, type b, type a) {\
-    glColor4f(r, g, b, a);\
-}\
-void glColor3##suffix##v(const type *v) {\
-    glColor4f(v[0], v[1], v[2], 1.0f);\
-}\
-void glColor4##suffix##v(const type *v) {\
-    glColor4f(v[0], v[1], v[2], v[3]);\
-}\
-void glSecondaryColor3##suffix(type r, type g, type b) {\
-    glSecondaryColor3f(r, g, b);\
-}\
-void glSecondaryColor3##suffix##v(const type *v) {\
-    glSecondaryColor3f(v[0], v[1], v[2]);\
-}\
-/* index */\
-void glIndex##suffix(type c) {\
-    glIndexf(c);\
-}\
-void glIndex##suffix##v(const type *c) {\
-    glIndexf(c[0]);\
-}\
-/* normal */\
-void glNormal3##suffix(type x, type y, type z) {\
-    glNormal3f(x, y, z);\
-}\
-void glNormal3##suffix##v(const type *v) {\
-    glNormal3f(v[0], v[1], v[2]);\
-}\
-/* raster */\
-void glRasterPos2##suffix(type x, type y) {\
-    glRasterPos3f(x, y, 0);\
-}\
-void glRasterPos2##suffix##v(type *v) {\
-    glRasterPos3f(v[0], v[1], 0);\
-}\
-void glRasterPos3##suffix(type x, type y, type z) {\
-    glRasterPos3f(x, y, z);\
-}\
-void glRasterPos3##suffix##v(type *v) {\
-    glRasterPos3f(v[0], v[1], v[2]);\
-}\
-void glRasterPos4##suffix(type x, type y, type z, type w) {\
-    glRasterPos4f(x, y, z, w);\
-}\
-void glRasterPos4##suffix##v(type *v) {\
-    glRasterPos4f(v[0], v[1], v[2], v[3]);\
-}\
-/* vertex */\
-void glVertex2##suffix(type x, type y) {\
-    glVertex2f(x, y);\
-}\
-void glVertex2##suffix##v(type *v) {\
-    glVertex2f(v[0], v[1]);\
-}\
-void glVertex3##suffix(type x, type y, type z) {\
-    glVertex3f(x, y, z);\
-}\
-void glVertex3##suffix##v(type *v) {\
-    glVertex3f(v[0], v[1], v[2]);\
-}\
-void glVertex4##suffix(type r, type g, type b, type w) {\
-    glVertex4f(r, g, b, w);\
-}\
-void glVertex4##suffix##v(type *v) {\
-    glVertex4f(v[0], v[1], v[2], v[3]);\
-}\
-/* texture */\
-void glTexCoord1##suffix(type s) {\
-    glTexCoord2f(s, 0);\
-}\
-void glTexCoord1##suffix##v(type *t) {\
-    glTexCoord2f(t[0], 0);\
-}\
-void glTexCoord2##suffix(type s, type t) {\
-    glTexCoord2f(s, t);\
-}\
-void glTexCoord2##suffix##v(type *t) {\
-    glTexCoord2f(t[0], t[1]);\
-}\
-void glTexCoord3##suffix(type s, type t, type r) {\
-    glTexCoord2f(s, t);\
-}\
-void glTexCoord3##suffix##v(type *t) {\
-    glTexCoord2f(t[0], t[1]);\
-}\
-void glTexCoord4##suffix(type s, type t, type r, type q) {\
-    glTexCoord2f(s, t);\
-}\
-void glTexCoord4##suffix##v(type *t) {\
-    glTexCoord2f(t[0], t[1]);\
+#define THUNK(suffix, type)                                 \
+/* colors */                                                \
+void glColor3##suffix(type r, type g, type b) {             \
+    glColor4f(r, g, b, 1.0f);                               \
+}                                                           \
+void glColor4##suffix(type r, type g, type b, type a) {     \
+    glColor4f(r, g, b, a);                                  \
+}                                                           \
+void glColor3##suffix##v(const type *v) {                   \
+    glColor4f(v[0], v[1], v[2], 1.0f);                      \
+}                                                           \
+void glColor4##suffix##v(const type *v) {                   \
+    glColor4f(v[0], v[1], v[2], v[3]);                      \
+}                                                           \
+void glSecondaryColor3##suffix(type r, type g, type b) {    \
+    glSecondaryColor3f(r, g, b);                            \
+}                                                           \
+void glSecondaryColor3##suffix##v(const type *v) {          \
+    glSecondaryColor3f(v[0], v[1], v[2]);                   \
+}                                                           \
+/* index */                                                 \
+void glIndex##suffix(type c) {                              \
+    glIndexf(c);                                            \
+}                                                           \
+void glIndex##suffix##v(const type *c) {                    \
+    glIndexf(c[0]);                                         \
+}                                                           \
+/* normal */                                                \
+void glNormal3##suffix(type x, type y, type z) {            \
+    glNormal3f(x, y, z);                                    \
+}                                                           \
+void glNormal3##suffix##v(const type *v) {                  \
+    glNormal3f(v[0], v[1], v[2]);                           \
+}                                                           \
+/* raster */                                                \
+void glRasterPos2##suffix(type x, type y) {                 \
+    glRasterPos3f(x, y, 0);                                 \
+}                                                           \
+void glRasterPos2##suffix##v(type *v) {                     \
+    glRasterPos3f(v[0], v[1], 0);                           \
+}                                                           \
+void glRasterPos3##suffix(type x, type y, type z) {         \
+    glRasterPos3f(x, y, z);                                 \
+}                                                           \
+void glRasterPos3##suffix##v(type *v) {                     \
+    glRasterPos3f(v[0], v[1], v[2]);                        \
+}                                                           \
+void glRasterPos4##suffix(type x, type y, type z, type w) { \
+    glRasterPos4f(x, y, z, w);                              \
+}                                                           \
+void glRasterPos4##suffix##v(type *v) {                     \
+    glRasterPos4f(v[0], v[1], v[2], v[3]);                  \
+}                                                           \
+/* vertex */                                                \
+void glVertex2##suffix(type x, type y) {                    \
+    glVertex2f(x, y);                                       \
+}                                                           \
+void glVertex2##suffix##v(type *v) {                        \
+    glVertex2f(v[0], v[1]);                                 \
+}                                                           \
+void glVertex3##suffix(type x, type y, type z) {            \
+    glVertex3f(x, y, z);                                    \
+}                                                           \
+void glVertex3##suffix##v(type *v) {                        \
+    glVertex3f(v[0], v[1], v[2]);                           \
+}                                                           \
+void glVertex4##suffix(type r, type g, type b, type w) {    \
+    glVertex4f(r, g, b, w);                                 \
+}                                                           \
+void glVertex4##suffix##v(type *v) {                        \
+    glVertex4f(v[0], v[1], v[2], v[3]);                     \
+}                                                           \
+/* texture */                                               \
+void glTexCoord1##suffix(type s) {                          \
+    glTexCoord2f(s, 0);                                     \
+}                                                           \
+void glTexCoord1##suffix##v(type *t) {                      \
+    glTexCoord2f(t[0], 0);                                  \
+}                                                           \
+void glTexCoord2##suffix(type s, type t) {                  \
+    glTexCoord2f(s, t);                                     \
+}                                                           \
+void glTexCoord2##suffix##v(type *t) {                      \
+    glTexCoord2f(t[0], t[1]);                               \
+}                                                           \
+void glTexCoord3##suffix(type s, type t, type r) {          \
+    glTexCoord2f(s, t);                                     \
+}                                                           \
+void glTexCoord3##suffix##v(type *t) {                      \
+    glTexCoord2f(t[0], t[1]);                               \
+}                                                           \
+void glTexCoord4##suffix(type s, type t, type r, type q) {  \
+    glTexCoord2f(s, t);                                     \
+}                                                           \
+void glTexCoord4##suffix##v(type *t) {                      \
+    glTexCoord2f(t[0], t[1]);                               \
 }
 
 THUNK(b, GLbyte)
@@ -270,52 +270,52 @@ THUNK(us, GLushort)
 
 // glGet
 
-#define THUNK(suffix, type)\
-void glGet##suffix##v(GLenum pname, type *params) {\
-    int i, n = 1;\
-    switch (pname) {\
-        /* two values */\
-        case GL_ALIASED_POINT_SIZE_RANGE:\
-        case GL_ALIASED_LINE_WIDTH_RANGE:\
-        case GL_MAX_VIEWPORT_DIMS:\
-            n = 2;\
-            break;\
-        /* three values */\
-        case GL_CURRENT_NORMAL:\
-        case GL_POINT_DISTANCE_ATTENUATION:\
-            n = 3;\
-            break;\
-        /* four values */\
-        case GL_COLOR_CLEAR_VALUE:\
-        case GL_COLOR_WRITEMASK:\
-        case GL_CURRENT_COLOR:\
-        case GL_CURRENT_TEXTURE_COORDS:\
-        case GL_DEPTH_RANGE:\
-        case GL_FOG_COLOR:\
-        case GL_LIGHT_MODEL_AMBIENT:\
-        case GL_SCISSOR_BOX:\
-        case GL_SMOOTH_LINE_WIDTH_RANGE:\
-        case GL_SMOOTH_POINT_SIZE_RANGE:\
-        case GL_VIEWPORT:\
-            n = 4;\
-            break;\
-        /* GL_NUM_COMPRESSED_TEXTURE_FORMATS values */\
-        case GL_COMPRESSED_TEXTURE_FORMATS:\
-            n = GL_NUM_COMPRESSED_TEXTURE_FORMATS;\
-            break;\
-        /* sixteen values */\
-        case GL_MODELVIEW_MATRIX:\
-        case GL_PROJECTION_MATRIX:\
-        case GL_TEXTURE_MATRIX:\
-            n = 16;\
-            break;\
-    }\
-    GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n);\
-    glGetFloatv(pname, p);\
-    for (i = 0; i < n; i++) {\
-        params[i] = (type)p[i];\
-    }\
-    free(p);\
+#define THUNK(suffix, type)                              \
+void glGet##suffix##v(GLenum pname, type *params) {      \
+    int i, n = 1;                                        \
+    switch (pname) {                                     \
+        /* two values */                                 \
+        case GL_ALIASED_POINT_SIZE_RANGE:                \
+        case GL_ALIASED_LINE_WIDTH_RANGE:                \
+        case GL_MAX_VIEWPORT_DIMS:                       \
+            n = 2;                                       \
+            break;                                       \
+        /* three values */                               \
+        case GL_CURRENT_NORMAL:                          \
+        case GL_POINT_DISTANCE_ATTENUATION:              \
+            n = 3;                                       \
+            break;                                       \
+        /* four values */                                \
+        case GL_COLOR_CLEAR_VALUE:                       \
+        case GL_COLOR_WRITEMASK:                         \
+        case GL_CURRENT_COLOR:                           \
+        case GL_CURRENT_TEXTURE_COORDS:                  \
+        case GL_DEPTH_RANGE:                             \
+        case GL_FOG_COLOR:                               \
+        case GL_LIGHT_MODEL_AMBIENT:                     \
+        case GL_SCISSOR_BOX:                             \
+        case GL_SMOOTH_LINE_WIDTH_RANGE:                 \
+        case GL_SMOOTH_POINT_SIZE_RANGE:                 \
+        case GL_VIEWPORT:                                \
+            n = 4;                                       \
+            break;                                       \
+        /* GL_NUM_COMPRESSED_TEXTURE_FORMATS values */   \
+        case GL_COMPRESSED_TEXTURE_FORMATS:              \
+            n = GL_NUM_COMPRESSED_TEXTURE_FORMATS;       \
+            break;                                       \
+        /* sixteen values */                             \
+        case GL_MODELVIEW_MATRIX:                        \
+        case GL_PROJECTION_MATRIX:                       \
+        case GL_TEXTURE_MATRIX:                          \
+            n = 16;                                      \
+            break;                                       \
+    }                                                    \
+    GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n); \
+    glGetFloatv(pname, p);                               \
+    for (i = 0; i < n; i++) {                            \
+        params[i] = (type)p[i];                          \
+    }                                                    \
+    free(p);                                             \
 }
 
 THUNK(Double, GLdouble)

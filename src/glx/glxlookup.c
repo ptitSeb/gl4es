@@ -1,16 +1,16 @@
 #include "glx.h"
 #include <gl.h>
 
-#define EX(func_name)\
+#define EX(func_name) \
     if (strcmp(name, #func_name) == 0) return func_name
 
-#define MAP(func_name, func)\
+#define MAP(func_name, func) \
     if (strcmp(name, #func_name) == 0) return func
 
-#define STUB(func_name)\
-    if (strcmp(name, #func_name) == 0) {\
-        printf("glX stub: %s\n", #func_name);\
-        return glXStub;\
+#define STUB(func_name)                       \
+    if (strcmp(name, #func_name) == 0) {      \
+        printf("glX stub: %s\n", #func_name); \
+        return glXStub;                       \
     }
 
 void glXStub(void *x, ...) {
@@ -50,36 +50,36 @@ void *glXGetProcAddressARB(const char *name) {
 
     // passthrough
     // batch thunking!
-    #define THUNK(suffix, type)\
-    EX(glColor3##suffix##v);\
-    EX(glColor3##suffix);\
-    EX(glColor4##suffix##v);\
-    EX(glColor4##suffix);\
-    EX(glSecondaryColor3##suffix##v);\
-    EX(glSecondaryColor3##suffix);\
-    EX(glIndex##suffix##v);\
-    EX(glIndex##suffix);\
-    EX(glNormal3##suffix##v);\
-    EX(glNormal3##suffix);\
-    EX(glRasterPos2##suffix##v);\
-    EX(glRasterPos2##suffix);\
-    EX(glRasterPos3##suffix##v);\
-    EX(glRasterPos3##suffix);\
-    EX(glRasterPos4##suffix##v);\
-    EX(glRasterPos4##suffix);\
-    EX(glVertex2##suffix##v);\
-    EX(glVertex2##suffix);\
-    EX(glVertex3##suffix##v);\
-    EX(glVertex3##suffix);\
-    EX(glVertex4##suffix##v);\
-    EX(glVertex4##suffix);\
-    EX(glTexCoord1##suffix##v);\
-    EX(glTexCoord1##suffix);\
-    EX(glTexCoord2##suffix##v);\
-    EX(glTexCoord2##suffix);\
-    EX(glTexCoord3##suffix##v);\
-    EX(glTexCoord3##suffix);\
-    EX(glTexCoord4##suffix##v);\
+    #define THUNK(suffix, type)       \
+    EX(glColor3##suffix##v);          \
+    EX(glColor3##suffix);             \
+    EX(glColor4##suffix##v);          \
+    EX(glColor4##suffix);             \
+    EX(glSecondaryColor3##suffix##v); \
+    EX(glSecondaryColor3##suffix);    \
+    EX(glIndex##suffix##v);           \
+    EX(glIndex##suffix);              \
+    EX(glNormal3##suffix##v);         \
+    EX(glNormal3##suffix);            \
+    EX(glRasterPos2##suffix##v);      \
+    EX(glRasterPos2##suffix);         \
+    EX(glRasterPos3##suffix##v);      \
+    EX(glRasterPos3##suffix);         \
+    EX(glRasterPos4##suffix##v);      \
+    EX(glRasterPos4##suffix);         \
+    EX(glVertex2##suffix##v);         \
+    EX(glVertex2##suffix);            \
+    EX(glVertex3##suffix##v);         \
+    EX(glVertex3##suffix);            \
+    EX(glVertex4##suffix##v);         \
+    EX(glVertex4##suffix);            \
+    EX(glTexCoord1##suffix##v);       \
+    EX(glTexCoord1##suffix);          \
+    EX(glTexCoord2##suffix##v);       \
+    EX(glTexCoord2##suffix);          \
+    EX(glTexCoord3##suffix##v);       \
+    EX(glTexCoord3##suffix);          \
+    EX(glTexCoord4##suffix##v);       \
     EX(glTexCoord4##suffix);
 
     THUNK(b, GLbyte);

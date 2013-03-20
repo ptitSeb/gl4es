@@ -12,14 +12,14 @@
 
 #include "gleswrap.h"
 
-#define checkError(code)\
-    {int error; while ((error = glGetError())) {}\
-    code\
-    if ((error = glGetError()))\
+#define checkError(code)                          \
+    {int error; while ((error = glGetError())) {} \
+    code                                          \
+    if ((error = glGetError()))                   \
         printf(#code " -> %i\n", error);}
 
-#define printError(file, line)\
-    {int error; if ((error = glGetError()))\
+#define printError(file, line)              \
+    {int error; if ((error = glGetError())) \
         printf(file ":%i -> %i\n", line, error);}
 
 #define GLdouble double
@@ -29,17 +29,17 @@
 // will become a reference to dlopen'd gles
 void *gles;
 
-#define LOAD_GLES(type, name, args...)\
-    static type (*gles_##name)(args);\
-    if (gles_##name == NULL) {\
-        if (gles == NULL) {\
-            gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY);\
-        }\
-        gles_##name = dlsym(gles, #name);\
+#define LOAD_GLES(type, name, args...)                              \
+    static type (*gles_##name)(args);                               \
+    if (gles_##name == NULL) {                                      \
+        if (gles == NULL) {                                         \
+            gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY); \
+        }                                                           \
+        gles_##name = dlsym(gles, #name);                           \
     }
 
-#define WRAP_GLES(type, name, args...)\
-    type name(args) {\
+#define WRAP_GLES(type, name, args...) \
+    type name(args) {                  \
         LOAD_GLES(type, name, args);
 
 #define END_WRAP }

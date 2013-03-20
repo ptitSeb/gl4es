@@ -1,11 +1,11 @@
 #include "gl.h"
 #include "list.h"
 
-#define alloc_sublist(n, cap)\
+#define alloc_sublist(n, cap) \
     (GLfloat *)malloc(n * sizeof(GLfloat) * cap)
 
-#define realloc_sublist(ref, n, cap)\
-    if (ref)\
+#define realloc_sublist(ref, n, cap) \
+    if (ref)                         \
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
 RenderList *allocRenderList() {

@@ -25,20 +25,20 @@ GLenum convertPixels(const GLvoid *data, GLvoid **out,
             return format;
     }
 
-#define convert(constant, type)\
-    case constant:\
-        {\
-            int size = width * height * w;\
-            type *src = (type *)data;\
-            type *dst = (type *)malloc(sizeof(type) * size);\
-            for (int i = 0; i < size; i += w) {\
-                dst[i]   = src[i+m0];\
-                dst[i+1] = src[i+m1];\
-                dst[i+2] = src[i+m2];\
-                if (width == 4) dst[i+3] = src[i+m3];\
-            }\
-            *out = (GLvoid *)dst;\
-        }\
+#define convert(constant, type)                              \
+    case constant:                                           \
+        {                                                    \
+            int size = width * height * w;                   \
+            type *src = (type *)data;                        \
+            type *dst = (type *)malloc(sizeof(type) * size); \
+            for (int i = 0; i < size; i += w) {              \
+                dst[i]   = src[i+m0];                        \
+                dst[i+1] = src[i+m1];                        \
+                dst[i+2] = src[i+m2];                        \
+                if (width == 4) dst[i+3] = src[i+m3];        \
+            }                                                \
+            *out = (GLvoid *)dst;                            \
+        }                                                    \
         break;
 
     switch (type) {
