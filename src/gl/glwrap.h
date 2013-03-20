@@ -9,6 +9,7 @@ void glClearDepth(GLdouble depth);
 void glClipPlane(GLenum plane, const GLdouble *equation);
 void glDepthRange(GLdouble nearVal, GLdouble farVal);
 void glFogi(GLenum pname, GLint param);
+void glFogiv(GLenum pname, GLint *params);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glMateriali(GLenum face, GLenum pname, GLint param);

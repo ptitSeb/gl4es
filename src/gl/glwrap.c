@@ -26,6 +26,27 @@ void glDepthRange(GLdouble nearVal, GLdouble farVal) {
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
+void glFogv(GLenum pname, GLint *iparams) {
+    switch (pname) {
+        case GL_FOG_DENSITY:
+        case GL_FOG_START:
+        case GL_FOG_END:
+        case GL_FOG_INDEX: {
+            GLfloat param = *iparams;
+            glFogf(pname, param);
+            break;
+        }
+        case GL_FOG_MODE:
+        case GL_FOG_COLOR: {
+            GLfloat params[4];
+            for (int i = 0; i < 4; i++) {
+                params[i] = iparams[i];
+            }
+            glFogfv(pname, params);
+            break;
+        }
+    }
+}
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glFrustumf(left, right, bottom, top, near, far);
