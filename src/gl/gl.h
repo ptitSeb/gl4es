@@ -44,6 +44,28 @@ void *gles;
 
 #define END_WRAP }
 
+typedef struct {
+    GLint size;
+    GLenum type;
+    GLsizei stride;
+    const GLvoid *pointer;
+} glwPointer;
+
+bool bLineStipple;
+bool bTexGenS;
+bool bTexGenT;
+bool listCompiling;
+bool listMode;
+
+extern bool bVertexArray;
+extern bool bColorArray;
+extern bool bNormalArray;
+extern bool bTexCoordArray;
+extern glwPointer aVertexPointer;
+extern glwPointer aColorPointer;
+extern glwPointer aNormalPointer;
+extern glwPointer aTexCoordPointer;
+
 #include "glstub.h"
 #include "glwrap.h"
 #include "line.h"
@@ -60,19 +82,6 @@ typedef struct {
     GLubyte free;
     RenderList *list;
 } glwList;
-
-typedef struct {
-    GLint size;
-    GLenum type;
-    GLsizei stride;
-    const GLvoid *pointer;
-} glwPointer;
-
-bool bLineStipple;
-bool bTexGenS;
-bool bTexGenT;
-bool listCompiling;
-bool listMode;
 
 // don't auto-wrap these functions
 #define skip_glColor4f

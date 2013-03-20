@@ -13,14 +13,14 @@ bool bBlend = false;
 bool bTexture2d = false;
 
 // glDrawArrays
-static bool bVertexArray = false;
-static bool bColorArray = false;
-static bool bNormalArray = false;
-static bool bTexCoordArray = false;
-static glwPointer aVertexPointer;
-static glwPointer aColorPointer;
-static glwPointer aNormalPointer;
-static glwPointer aTexCoordPointer;
+bool bVertexArray = false;
+bool bColorArray = false;
+bool bNormalArray = false;
+bool bTexCoordArray = false;
+glwPointer aVertexPointer;
+glwPointer aColorPointer;
+glwPointer aNormalPointer;
+glwPointer aTexCoordPointer;
 
 // config functions
 

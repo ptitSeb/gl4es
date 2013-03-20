@@ -121,10 +121,10 @@ typedef struct {
     GLboolean color_enable;
     GLboolean tex_enable;
     GLboolean normal_enable;
-    GLfloat *verts;
-    GLfloat *color;
-    GLfloat *tex;
-    GLfloat *normal;
+    glwPointer verts;
+    glwPointer color;
+    glwPointer normal;
+    glwPointer tex;
 
     unsigned int len;
     unsigned int cap;

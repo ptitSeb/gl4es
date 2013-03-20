@@ -189,12 +189,15 @@ void glPushClientAttrib(GLbitfield mask) {
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        cur->vert_enable = glIsEnabled(GL_VERTEX_ARRAY);
-        cur->normal_enable = glIsEnabled(GL_NORMAL_ARRAY);
-        cur->color_enable = glIsEnabled(GL_COLOR_ARRAY);
-        cur->tex_enable = glIsEnabled(GL_TEXTURE_COORD_ARRAY);
+        cur->vert_enable = bVertexArray;
+        cur->normal_enable = bColorArray;
+        cur->color_enable = bNormalArray;
+        cur->tex_enable = bTexCoordArray;
 
-        // TODO: track local pointer state
+        memcpy(&cur->verts, &aVertexPointer, sizeof(glwPointer));
+        memcpy(&cur->color, &aColorPointer, sizeof(glwPointer));
+        memcpy(&cur->normal, &aNormalPointer, sizeof(glwPointer));
+        memcpy(&cur->tex, &aTexCoordPointer, sizeof(glwPointer));
     }
 
     clientStack->len++;
@@ -350,7 +353,10 @@ void glPopClientAttrib() {
         enable_disable(GL_COLOR_ARRAY, cur->color_enable);
         enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable);
 
-        // TODO: need to track this locally?
+        memcpy(&aVertexPointer, &cur->verts, sizeof(glwPointer));
+        memcpy(&aColorPointer, &cur->color, sizeof(glwPointer));
+        memcpy(&aNormalPointer, &cur->normal, sizeof(glwPointer));
+        memcpy(&aTexCoordPointer, &cur->tex, sizeof(glwPointer));
     }
 
     clientStack->len--;
