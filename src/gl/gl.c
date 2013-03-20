@@ -24,6 +24,16 @@ static glwPointer aTexCoordPointer;
 
 // config functions
 
+const GLubyte *glGetString(GLenum name) {
+    LOAD_GLES(const GLubyte *, glGetString, GLenum);
+    switch (name) {
+        case GL_VERSION:
+            return (GLubyte *)"1.4 Narwhal 0.5";
+        default:
+            return gles_glGetString(name);
+    }
+}
+
 void glwEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     switch (cap) {
         case GL_TEXTURE_GEN_S: bTexGenS = enable; break;

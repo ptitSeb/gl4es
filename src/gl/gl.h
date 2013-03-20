@@ -79,6 +79,7 @@ bool listMode;
 #define skip_glColor4ub
 #define skip_glDisable
 #define skip_glEnable
+#define skip_glGetString
 #define skip_glMaterialfv
 #define skip_glTexImage2D
 #define skip_glViewport
