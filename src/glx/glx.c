@@ -108,27 +108,36 @@ Display *xDisplay;
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
-static int g_usefb = 0;
+static bool g_usefb = false;
+static bool g_vsync = false;
+static bool g_showfps = false;
 static int fbdev = -1;
+
+static void scan_env() {
+    #define env(name, global, message)                    \
+        char *env_##name = getenv(#name);                 \
+        if (env_##name && strcmp(env_##name, "1") == 0) { \
+            printf("libGL: " message "\n");               \
+            global = true;                                \
+        }
+
+    env(LIBGL_FB, g_usefb, "framebuffer output enabled");
+    env(LIBGL_VSYNC, g_vsync, "vsync enabled");
+    env(LIBGL_FPS, g_showfps, "fps counter enabled");
+    if (g_vsync) {
+        fbdev = open("/dev/fb0", O_RDONLY);
+        if (fbdev < 0) {
+            fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
+        }
+    }
+}
 
 GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
 
-    char *env_direct = getenv("LIBGL_FB");
-    if (env_direct && strcmp(env_direct, "1") == 0) {
-        printf("libGL: framebuffer output forced\n");
-        g_usefb = 1;
-    }
-    char *env_vsync = getenv("LIBGL_VSYNC");
-    if (env_vsync && strcmp(env_vsync, "1") == 0) {
-        printf("libGL: enabling vsync\n");
-        fbdev = open("/dev/fb0", O_RDONLY);
-        if (fbdev < 0) {
-            fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
-        }
-    }
+    scan_env();
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -281,18 +290,20 @@ void glXSwapBuffers(Display *display,
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 
-    // framerate counter
-    static int firstFrame = 0, lastFrame = 0;
-    static int frames = 0;
-    struct timeval out;
-    gettimeofday(&out, NULL);
-    frames++;
-    if (!firstFrame) {
-        lastFrame = firstFrame = out.tv_sec;
-    } else if (out.tv_sec > lastFrame) {
-        lastFrame = out.tv_sec;
-        float fps = frames / (float)(lastFrame - firstFrame);
-        printf("fps: %.2f\n", fps);
+    if (g_showfps) {
+        // framerate counter
+        static int firstFrame = 0, lastFrame = 0;
+        static int frames = 0;
+        struct timeval out;
+        gettimeofday(&out, NULL);
+        frames++;
+        if (!firstFrame) {
+            lastFrame = firstFrame = out.tv_sec;
+        } else if (out.tv_sec > lastFrame) {
+            lastFrame = out.tv_sec;
+            float fps = frames / (float)(lastFrame - firstFrame);
+            printf("fps: %.2f\n", fps);
+        }
     }
 }
 
