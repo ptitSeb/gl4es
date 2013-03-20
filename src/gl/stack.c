@@ -190,8 +190,8 @@ void glPushClientAttrib(GLbitfield mask) {
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
         cur->vert_enable = bVertexArray;
-        cur->normal_enable = bColorArray;
-        cur->color_enable = bNormalArray;
+        cur->color_enable = bColorArray;
+        cur->normal_enable = bNormalArray;
         cur->tex_enable = bTexCoordArray;
 
         memcpy(&cur->verts, &aVertexPointer, sizeof(glwPointer));
