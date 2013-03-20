@@ -74,67 +74,84 @@ void glDisableClientState(GLenum cap) {
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    // TODO: support more types/sizes
-    glBegin(mode);
-    for (int i = first; i < count; i++) {
-        if (bVertexArray) {
-            GLfloat *vp = (GLfloat *)aVertexPointer.pointer;
-            if (vp) {
-                GLfloat *v = &vp[i*3];
-                glVertex3fv(v);
+    if (mode == GL_QUADS) {
+        // TODO: support more types/sizes
+        RenderList *list = allocRenderList();
+        list->mode = mode;
+        list->len = count;
+        list->cap = count;
+
+        #define copy_gl_pointer(ptr, arr)\
+            if (ptr.pointer) {\
+                int stride, width;\
+                stride = width = ptr.size;\
+                if (ptr.stride)\
+                    stride = ptr.stride;\
+                \
+                arr = malloc(sizeof(GLfloat) * width * count);\
+                uintptr_t src = (uintptr_t)ptr.pointer;\
+                GLfloat *dst = arr;\
+                \
+                src += stride * first;\
+                if (stride == width) {\
+                    memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * count);\
+                } else {\
+                    for (int i = 0; i < count; i++) {\
+                        memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);\
+                        dst += width;\
+                        src += stride;\
+                    }\
+                }\
             }
+
+        if (bVertexArray) {
+            copy_gl_pointer(aVertexPointer, list->vert)
         }
         if (bColorArray) {
-            GLfloat *cp = (GLfloat *)aColorPointer.pointer;
-            if (cp) {
-                GLfloat *c = &cp[i*4];
-                glColor4fv(c);
-            }
+            copy_gl_pointer(aColorPointer, list->color)
         }
         if (bNormalArray) {
-            GLfloat *np = (GLfloat *)aNormalPointer.pointer;
-            if (np) {
-                GLfloat *n = &np[i*3];
-                glNormal3fv(n);
-            }
+            copy_gl_pointer(aNormalPointer, list->normal)
         }
         if (bTexCoordArray) {
-            GLfloat *tp = (GLfloat *)aTexCoordPointer.pointer;
-            if (tp) {
-                GLfloat *t = &tp[i*2];
-                glTexCoord2fv(t);
-            }
+            copy_gl_pointer(aTexCoordPointer, list->tex)
         }
+        #undef copy_gl_pointer
+        endRenderList(list);
+        drawRenderList(list);
+        freeRenderList(list);
+    } else {
+        LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
+        gles_glDrawArrays(mode, first, count);
     }
-    glEnd();
 }
 
-#define copy_gl_pointer(t, s)\
+#define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glVertexPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    copy_gl_pointer(aVertexPointer, size);
+    clone_gl_pointer(aVertexPointer, size);
     gles_glVertexPointer(size, type, stride, pointer);
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glColorPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    copy_gl_pointer(aColorPointer, size);
+    clone_gl_pointer(aColorPointer, size);
     gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glNormalPointer, GLenum, GLsizei, const GLvoid *);
-    copy_gl_pointer(aNormalPointer, 3);
+    clone_gl_pointer(aNormalPointer, 3);
     gles_glNormalPointer(type, stride, pointer);
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glTexCoordPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    copy_gl_pointer(aTexCoordPointer, size);
+    clone_gl_pointer(aTexCoordPointer, size);
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
-#undef copy_gl_pointer
+#undef clone_gl_pointer
 
 // immediate mode functions
 
