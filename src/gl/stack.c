@@ -330,7 +330,7 @@ void glPopAttrib() {
 }
 
 #undef enable_disable
-#define enable_disable(x, c)\
+#define enable_disable(c, x)\
     if (x) glEnableClientState(c);\
     else glDisableClientState(c)
 
