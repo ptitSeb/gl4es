@@ -8,7 +8,10 @@
     if (strcmp(name, #func_name) == 0) return func
 
 #define STUB(func_name)\
-    if (strcmp(name, #func_name) == 0) return glXStub
+    if (strcmp(name, #func_name) == 0) {\
+        printf("glX stub: %s\n", #func_name);\
+        return glXStub;\
+    }
 
 void glXStub(void *x, ...) {
     return;
@@ -47,7 +50,6 @@ void *glXGetProcAddressARB(const char *name) {
 
     // passthrough
     // batch thunking!
-
     #define THUNK(suffix, type)\
     EX(glColor3##suffix##v);\
     EX(glColor3##suffix);\
@@ -99,6 +101,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
     EX(glCallList);
+    EX(glCallLists);
     EX(glClearDepth);
     EX(glClipPlane);
     EX(glCopyPixels);
@@ -116,6 +119,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glFogCoordf);
     EX(glFogCoordfv);
     EX(glFogi);
+    EX(glFogiv);
     EX(glFrustum);
     EX(glGenLists);
     EX(glGetDoublev);
@@ -124,7 +128,14 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glGetTexLevelParameterfv);
     EX(glGetTexLevelParameteriv);
     EX(glInitNames);
+    EX(glIsList);
+    EX(glLighti);
+    EX(glLightiv);
     EX(glLightModeli);
+    EX(glLightModeli);
+    EX(glLightModeliv);
+    EX(glLineStipple);
+    EX(glListBase);
     EX(glLoadMatrixd);
     EX(glLoadName);
     EX(glMateriali);
@@ -147,6 +158,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glReadBuffer);
     EX(glRectd);
     EX(glRectf);
+    EX(glRecti);
+    EX(glRects);
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);
@@ -159,6 +172,56 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexImage1D);
     EX(glTexImage3D);
     EX(glTranslated);
+
+    // stubs for unimplemented functions
+    STUB(glAccum);
+    STUB(glAreTexturesResident);
+    STUB(glClearAccum);
+    STUB(glColorMaterial);
+    STUB(glCopyTexImage1D);
+    STUB(glCopyTexSubImage1D);
+    STUB(glEdgeFlagPointer);
+    STUB(glEvalCoord1d);
+    STUB(glEvalCoord1f);
+    STUB(glEvalCoord2d);
+    STUB(glEvalCoord2f);
+    STUB(glEvalMesh1);
+    STUB(glEvalMesh2);
+    STUB(glEvalPoint1);
+    STUB(glEvalPoint2);
+    STUB(glFeedbackBuffer);
+    STUB(glGetClipPlane);
+    STUB(glGetLightiv);
+    STUB(glGetMapdv);
+    STUB(glGetMapfv);
+    STUB(glGetMapiv);
+    STUB(glGetMaterialiv);
+    STUB(glGetPixelMapfv);
+    STUB(glGetPixelMapuiv);
+    STUB(glGetPixelMapusv);
+    STUB(glGetPolygonStipple);
+    STUB(glGetStringi);
+    STUB(glGetTexGendv);
+    STUB(glGetTexGenfv);
+    STUB(glGetTexGeniv);
+    STUB(glInterleavedArrays);
+    STUB(glMap1d);
+    STUB(glMap1f);
+    STUB(glMap2d);
+    STUB(glMap2f);
+    STUB(glMapGrid1d);
+    STUB(glMapGrid1f);
+    STUB(glMapGrid2d);
+    STUB(glMapGrid2f);
+    STUB(glMaterialiv);
+    STUB(glPassThrough);
+    STUB(glPixelMapfv);
+    STUB(glPixelMapuiv);
+    STUB(glPixelMapusv);
+    STUB(glPixelStoref);
+    STUB(glPrioritizeTextures);
+    STUB(glSelectBuffer);
+    STUB(glTexSubImage1D);
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

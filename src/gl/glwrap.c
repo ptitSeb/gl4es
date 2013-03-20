@@ -32,8 +32,7 @@ void glFogv(GLenum pname, GLint *iparams) {
         case GL_FOG_START:
         case GL_FOG_END:
         case GL_FOG_INDEX: {
-            GLfloat param = *iparams;
-            glFogf(pname, param);
+            glFogf(pname, *iparams);
             break;
         }
         case GL_FOG_MODE:
@@ -50,6 +49,60 @@ void glFogv(GLenum pname, GLint *iparams) {
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glFrustumf(left, right, bottom, top, near, far);
+}
+void glLighti(GLenum light, GLenum pname, GLint param) {
+    glLightf(light, pname, param);
+}
+void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
+    switch (pname) {
+        case GL_AMBIENT:
+        case GL_DIFFUSE:
+        case GL_SPECULAR:
+        case GL_POSITION: {
+            GLfloat params[4];
+            for (int i = 0; i < 4; i++) {
+                params[i] = iparams[i];
+            }
+            glLightfv(light, pname, params);
+            break;
+        }
+        case GL_SPOT_DIRECTION: {
+            GLfloat params[3];
+            for (int i = 0; i < 4; i++) {
+                params[i] = iparams[i];
+            }
+            glLightfv(light, pname, params);
+            break;
+        }
+        case GL_SPOT_EXPONENT:
+        case GL_SPOT_CUTOFF:
+        case GL_CONSTANT_ATTENUATION:
+        case GL_LINEAR_ATTENUATION:
+        case GL_QUADRATIC_ATTENUATION: {
+            glLightf(light, pname, *iparams);
+            break;
+        }
+    }
+}
+void glLightModeli(GLenum pname, GLint param) {
+    glLightModelf(pname, param);
+}
+void glLightModeliv(GLenum pname, GLint *iparams) {
+    switch (pname) {
+        case GL_LIGHT_MODEL_AMBIENT: {
+            GLfloat params[4];
+            for (int i = 0; i < 4; i++) {
+                params[i] = iparams[i];
+            }
+            break;
+        }
+        case GL_LIGHT_MODEL_LOCAL_VIEWER:
+        case GL_LIGHT_MODEL_TWO_SIDE: {
+            glLightModelf(pname, *iparams);
+            break;
+        }
+    }
+    // glLightModelfv(pname, params);
 }
 void glMateriali(GLenum face, GLenum pname, GLint param) {
     glMaterialf(face, pname, param);

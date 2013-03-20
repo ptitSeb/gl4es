@@ -117,6 +117,7 @@ bool listMode;
 #define direct_glVertexPointer
 
 // newly-defined GL functions
+GLboolean glIsList(GLuint list);
 GLuint glGenLists(GLsizei range);
 void glActiveTextureARB(GLenum texture);
 void glBegin(GLenum mode);

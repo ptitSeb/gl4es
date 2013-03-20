@@ -12,7 +12,12 @@ void glFogi(GLenum pname, GLint param);
 void glFogiv(GLenum pname, GLint *params);
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
+void glLighti(GLenum light, GLenum pname, GLint param);
+void glLightiv(GLenum light, GLenum pname, GLint *iparams);
+void glLightModeli(GLenum pname, GLint param);
+void glLightModeliv(GLenum pname, GLint *iparams);
 void glMateriali(GLenum face, GLenum pname, GLint param);
+void glMaterialiv(GLenum face, GLenum pname, GLint param);
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 

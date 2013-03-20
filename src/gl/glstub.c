@@ -28,7 +28,6 @@ STUB(void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLf
 STUB(void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params))
 STUB(void glIndexf(GLfloat c))
 STUB(void glInitNames())
-STUB(void glLightModeli(GLenum pname, GLint param))
 STUB(void glLoadName(GLuint name))
 STUB(void glPixelTransferf(GLenum pname, GLfloat param))
 STUB(void glPixelTransferi(GLenum pname, GLint param))
