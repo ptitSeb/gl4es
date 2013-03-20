@@ -81,6 +81,7 @@ bool listMode;
 #define skip_glEnable
 #define skip_glGetString
 #define skip_glMaterialfv
+#define skip_glPixelStorei
 #define skip_glTexImage2D
 #define skip_glViewport
 

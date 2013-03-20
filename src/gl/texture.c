@@ -1,5 +1,7 @@
 #include <texture.h>
 
+GLuint tUnpackRowLength = 0;
+
 GLenum convertPixels(const GLvoid *data, GLvoid **out,
                             GLsizei width, GLsizei height,
                             GLenum format, GLenum type) {
@@ -66,6 +68,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
+    if (tUnpackRowLength && tUnpackRowLength != width) {
+        printf("unimplemented GL_UNPACK_ROW_LENGTH != width\n");
+    }
     GLvoid *pixels;
     switch (format) {
         case GL_ALPHA:
@@ -109,4 +114,16 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
     // TODO: maybe too naive to force GL_TEXTURE_2D here?
     glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, 1,
                  border, format, type, data);
+}
+
+void glPixelStorei(GLenum pname, GLint param) {
+    LOAD_GLES(void, glPixelStorei, GLenum, GLint);
+    switch (pname) {
+        case GL_UNPACK_ROW_LENGTH:
+            tUnpackRowLength = param;
+            break;
+        default:
+            gles_glPixelStorei(pname, param);
+            break;
+    }
 }
