@@ -74,6 +74,7 @@ void glDisableClientState(GLenum cap) {
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    // TODO: support more types/sizes
     glBegin(mode);
     for (int i = first; i < count; i++) {
         if (bVertexArray) {
