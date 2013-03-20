@@ -26,7 +26,7 @@ void glDepthRange(GLdouble nearVal, GLdouble farVal) {
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
-void glFogv(GLenum pname, GLint *iparams) {
+void glFogiv(GLenum pname, GLint *iparams) {
     switch (pname) {
         case GL_FOG_DENSITY:
         case GL_FOG_START:
