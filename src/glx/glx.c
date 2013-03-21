@@ -225,7 +225,7 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
             printf("Failed to destroy EGL context.\n");
         }
         if (fbdev >= 0) {
-            fclose(fbdev);
+            close(fbdev);
             fbdev = -1;
         }
     }
