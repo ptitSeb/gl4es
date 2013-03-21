@@ -1,9 +1,11 @@
 #include <fcntl.h>
-#include <sys/ioctl.h>
 #include <linux/fb.h>
-#include <GLES/gl.h>
-#include "glx.h"
+#include <sys/ioctl.h>
 #include <sys/time.h>
+#include <unistd.h>
+
+#include "glx.h"
+#include <GLES/gl.h>
 
 #define maxConfigs 20
 
@@ -108,9 +110,10 @@ Display *xDisplay;
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
+static bool g_fbdouble = false;
+static bool g_showfps = false;
 static bool g_usefb = false;
 static bool g_vsync = false;
-static bool g_showfps = false;
 static int fbdev = -1;
 
 static void scan_env() {
@@ -122,8 +125,8 @@ static void scan_env() {
         }
 
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
-    env(LIBGL_VSYNC, g_vsync, "vsync enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
+    env(LIBGL_VSYNC, g_vsync, "vsync enabled");
     if (g_vsync) {
         fbdev = open("/dev/fb0", O_RDONLY);
         if (fbdev < 0) {
