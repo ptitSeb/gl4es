@@ -113,7 +113,6 @@ Display *xDisplay;
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
-static bool g_fbdouble = false;
 static bool g_showfps = false;
 static bool g_usefb = false;
 static bool g_vsync = false;
