@@ -64,10 +64,10 @@ static int get_config_default(int attribute, int *value) {
             *value = 5;
             break;
         case GLX_GREEN_SIZE:
-            *value = 5;
+            *value = 6;
             break;
         case GLX_BLUE_SIZE:
-            *value = 6;
+            *value = 5;
             break;
         case GLX_ALPHA_SIZE:
             *value = 8;
@@ -94,8 +94,11 @@ static int get_config_default(int attribute, int *value) {
         case GLX_DRAWABLE_TYPE:
             *value = GLX_WINDOW_BIT;
             break;
+        case 2: // apparently this is bpp
+            *value = 16;
+            return 0;
         default:
-            printf("unknown attrib: %i\n", attribute);
+            printf("libGL: unknown attrib %i\n", attribute);
             *value = 0;
             return 1;
     }
