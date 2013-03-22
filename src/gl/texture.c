@@ -1,6 +1,8 @@
 #include <texture.h>
 
 GLuint tUnpackRowLength = 0;
+GLuint tUnpackSkipPixels = 0;
+GLuint tUnpackSkipRows = 0;
 
 GLenum convertPixels(const GLvoid *data, GLvoid **out,
                             GLsizei width, GLsizei height,
@@ -20,9 +22,9 @@ GLenum convertPixels(const GLvoid *data, GLvoid **out,
             newFormat = GL_RGBA;
             break;
         default:
-            printf("unsupported pixel format: %i\n", format);
+            printf("Unsupported pixel conversion format: %i\n", format);
             *out = (GLvoid *)data;
-            return format;
+            return 0;
     }
 
 #define convert(constant, type)                              \
@@ -45,7 +47,7 @@ GLenum convertPixels(const GLvoid *data, GLvoid **out,
         convert(GL_UNSIGNED_BYTE, GLubyte);
         convert(GL_FLOAT, GLfloat);
         default:
-            printf("unsupported pixel depth: %i\n", type);
+            printf("Unsupported pixel packing(2): %i\n", type);
             *out = (GLvoid *)data;
             return format;
             break;
@@ -68,10 +70,32 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    if (tUnpackRowLength && tUnpackRowLength != width) {
-        printf("unimplemented GL_UNPACK_ROW_LENGTH != width\n");
-    }
     GLvoid *pixels;
+    // implements GL_UNPACK_ROW_LENGTH
+    if (tUnpackRowLength && tUnpackRowLength != width) {
+        int imgWidth, pixelSize;
+        pixelSize = gl_sizeof(type);
+        imgWidth = tUnpackRowLength * pixelSize;
+        GLubyte *dst = malloc(imgWidth * height);
+        const GLubyte *src = data;
+        src += tUnpackSkipPixels + tUnpackSkipRows * imgWidth;
+        for (int y = tUnpackSkipRows; y < height; y += 1) {
+            memcpy(dst+imgWidth, src, width * pixelSize);
+            src += imgWidth;
+        }
+        pixels = (GLvoid *)dst;
+    }
+
+    switch (type) {
+        case GL_UNSIGNED_BYTE:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+            break;
+        default:
+            printf("Unsupported pixel type: %i\n", type);
+            return;
+    }
     switch (format) {
         case GL_ALPHA:
         case GL_RGB:
@@ -81,7 +105,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             pixels = (GLvoid *)data;
             break;
         default:
-            printf("unknown format?\n");
+            printf("Unsupported pixel format? %i\n", format);
             format = convertPixels(data, &pixels, width, height, format, type);
             break;
     }
@@ -121,6 +145,12 @@ void glPixelStorei(GLenum pname, GLint param) {
     switch (pname) {
         case GL_UNPACK_ROW_LENGTH:
             tUnpackRowLength = param;
+            break;
+        case GL_UNPACK_SKIP_PIXELS:
+            tUnpackSkipPixels = param;
+            break;
+        case GL_UNPACK_SKIP_ROWS:
+            tUnpackSkipRows = param;
             break;
         default:
             gles_glPixelStorei(pname, param);
