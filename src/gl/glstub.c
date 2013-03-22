@@ -2,7 +2,8 @@
 
 #define STUB(def)\
 def {\
-    /*printf("stub: %s;\n", #def);*/\
+    if (strcmp(getenv("LIBGL_DEBUG"), "1") == 0)\
+        printf("stub: %s;\n", #def);\
 }
 
 STUB(void glFogCoordd(GLdouble coord))
