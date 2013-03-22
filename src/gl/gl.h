@@ -154,5 +154,6 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
 
 // custom functions
 void glPushCall(void *call);
+GLsizei gl_sizeof(GLenum type);
 
 #endif

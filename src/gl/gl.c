@@ -99,17 +99,16 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
         #define copy_gl_pointer(ptr, arr)\
             if (ptr.pointer) {                                                   \
-                int stride, width;                                               \
+                int stride, width, size;                                         \
                 width = ptr.size;                                                \
-                stride = (ptr.stride ? ptr.stride : width);                      \
+                size = gl_sizeof(ptr.type);                                      \
+                stride = (ptr.stride ? ptr.stride : width * size);               \
                 arr = malloc(sizeof(GLfloat) * width * count);                   \
                 uintptr_t src = (uintptr_t)ptr.pointer;                          \
                 GLfloat *dst = arr;                                              \
                                                                                  \
-                src += stride * first;                                           \
-                if (stride == width) {                                           \
-                    memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width * count); \
-                } else if (ptr.type == GL_FLOAT) {                               \
+                src += first * stride;                                           \
+                if (ptr.type == GL_FLOAT) {                                      \
                     for (int i = 0; i < count; i++) {                            \
                         memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);     \
                         dst += width;                                            \
@@ -123,6 +122,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                             }                                                    \
                             dst += width;                                        \
                             src += stride;                                       \
+                            next = (void *)src;                                  \
                         }                                                        \
                     )                                                            \
                 }                                                                \
@@ -367,4 +367,29 @@ GLboolean glIsList(GLuint list) {
             return true;
     }
     return false;
+}
+
+GLsizei gl_sizeof(GLenum type) {
+    switch (type) {
+        case GL_DOUBLE:
+            return 8;
+        case GL_FLOAT:
+        case GL_INT:
+        case GL_UNSIGNED_INT:
+        case GL_4_BYTES:
+            return 4;
+        case GL_3_BYTES:
+            return 3;
+        case GL_UNSIGNED_SHORT:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+        case GL_2_BYTES:
+            return 2;
+        case GL_UNSIGNED_BYTE:
+            return 1;
+        default:
+            printf("libGL: Unsupported pixel data type: %i\n", type);
+            return 0;
+    }
 }
