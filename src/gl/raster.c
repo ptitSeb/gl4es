@@ -22,6 +22,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     if (raster) {
         renderRaster();
         free(raster);
+        raster = NULL;
     }
     gles_glViewport(x, y, width, height);
     viewport.x = x;
