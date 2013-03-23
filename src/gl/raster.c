@@ -80,7 +80,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // TODO: strip blank lines and mirror vertically?
     for (y = 0; y < height; y++) {
         to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
-        from = bitmap + (y * ((width + 7) / 8));
+        from = bitmap + (y * 2);
         for (x = 0; x < (width + 7 / 8); x++) {
             // TODO: wasteful, unroll this?
             GLubyte b = from[(x / 8)];
