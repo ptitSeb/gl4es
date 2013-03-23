@@ -171,15 +171,14 @@ void drawRenderList(RenderList *list) {
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
         // optimize zero-length segments out earlier?
-        if (! list->len)
-            continue;
-
         CallList *cl = &list->calls;
         if (cl->len > 0) {
             for (int i = 0; i < cl->len; i++) {
                 glPackedCall(cl->calls[i]);
             }
         }
+        if (! list->len)
+            continue;
 
         if (list->vert) {
             glEnableClientState(GL_VERTEX_ARRAY);
