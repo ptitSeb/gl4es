@@ -185,10 +185,13 @@ GLXContext glXCreateContext(Display *display,
     }
 
     EGLint configAttribs[] = {
+#ifdef PANDORA
         EGL_RED_SIZE, 5,
         EGL_GREEN_SIZE, 6,
         EGL_BLUE_SIZE, 5,
+#endif
         EGL_DEPTH_SIZE, 16,
+        EGL_BUFFER_SIZE, 16,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
         EGL_NONE
