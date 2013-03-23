@@ -11,10 +11,33 @@ GLubyte *raster = NULL;
     then let the other function do their thing
 */
 
+typedef int (*GLUPROJECTPTR)(GLdouble, GLdouble, GLdouble,
+                             const GLdouble *,
+                             const GLdouble *,
+                             const GLint *,
+                             GLdouble *, GLdouble *, GLdouble *);
+
 void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
-    rPos.x = x;
-    rPos.y = y;
-    rPos.z = z;
+    static GLUPROJECTPTR gluProject;
+    if (gluProject == NULL) {
+        void *glu = dlopen("libGLU.so.1", RTLD_LOCAL | RTLD_LAZY);
+        gluProject = (GLUPROJECTPTR)dlsym(gles, "gluProject");
+    }
+    if (gluProject) {
+        GLdouble model[16], proj[16], out[3];
+        glGetDoublev(GL_MODELVIEW_MATRIX, model);
+        glGetDoublev(GL_PROJECTION_MATRIX, proj);
+        gluProject(x, y, z,
+                   model, proj, (const GLint *)&viewport,
+                   out, out+1, out+2);
+        rPos.x = out[0];
+        rPos.y = out[1];
+        rPos.z = out[2];
+    } else {
+        rPos.x = x;
+        rPos.y = y;
+        rPos.z = z;
+    }
 }
 
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
