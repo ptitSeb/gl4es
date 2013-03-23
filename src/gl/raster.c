@@ -82,6 +82,8 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
         from = bitmap + (y * 2);
         for (x = 0; x < (width + 7 / 8); x++) {
+            if (rPos.x + x > viewport.width || rPos.y + y > viewport.height)
+                continue;
             // TODO: wasteful, unroll this?
             GLubyte b = from[(x / 8)];
             int p = (b & (1 << 7 - (x % 8))) ? 1 : 0;
