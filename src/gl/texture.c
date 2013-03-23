@@ -141,6 +141,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
 }
 
 void glPixelStorei(GLenum pname, GLint param) {
+    // TODO: add to glGetIntegerv?
     LOAD_GLES(void, glPixelStorei, GLenum, GLint);
     switch (pname) {
         case GL_UNPACK_ROW_LENGTH:

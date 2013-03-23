@@ -115,6 +115,9 @@ typedef struct {
     // GL_CLIENT_PIXEL_STORE_BIT
     GLint pack_align;
     GLint unpack_align;
+    GLuint unpack_row_length;
+    GLuint unpack_skip_pixels;
+    GLuint unpack_skip_rows;
 
     // GL_CLIENT_VERTEX_ARRAY_BIT
     GLboolean vert_enable;
