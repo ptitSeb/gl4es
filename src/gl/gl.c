@@ -236,7 +236,7 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
 }
 
 // display lists
-glwList **displayLists = NULL;
+RenderList **displayLists = NULL;
 int listCount = 0;
 int listCap = 0;
 
@@ -244,21 +244,16 @@ GLuint glGenLists(GLsizei range) {
     int start = listCount;
     if (displayLists == NULL) {
         listCap += range + 100;
-        displayLists = (glwList **)malloc(listCap * sizeof(glwList *));
+        displayLists = malloc(listCap * sizeof(uintptr_t));
     } else if (listCount + range > listCap) {
         listCap += range + 100;
-        displayLists = (glwList **)realloc(displayLists, listCap * sizeof(glwList *));
+        displayLists = realloc(displayLists, listCap * sizeof(uintptr_t));
     }
     listCount += range;
 
-    int i;
-    glwList *lists = (glwList *)malloc(range * sizeof(glwList));
-    for (i = 0; i < range; i++) {
-        glwList list = {i, range, 0, 0, NULL};
-        memcpy(lists+i, &list, sizeof(glwList));
-        displayLists[start+i] = lists + i;
+    for (int i = 0; i < range; i++) {
+        displayLists[start+i] = NULL;
     }
-
     return start;
 }
 
@@ -266,13 +261,17 @@ void glNewList(GLuint list, GLenum mode) {
     if (list >= listCount) return;
     listMode = mode;
 
-    glwList *l = displayLists[list];
-    if (l->created) return;
-
-    // TODO: if activeList is defined, we probably need to clean up here
-    l->created = true;
-    listCompiling = true;
-    activeList = l->list = allocRenderList();
+    RenderList *l = displayLists[list];
+    if (l) {
+        printf("newList already exists: %i. not implemented.\n", list);
+        // TODO: what do we do if the list already exists?
+        // iirc it's in the GL spec
+        return;
+    } else {
+        // TODO: if activeList is already defined, we probably need to clean up here
+        activeList = displayLists[list] = allocRenderList();
+        listCompiling = true;
+    }
 }
 
 void glEndList(GLuint list) {
@@ -286,12 +285,12 @@ void glEndList(GLuint list) {
 }
 
 void glCallList(GLuint list) {
-    // TODO: this can be compiled into another display list
+    // TODO: this call can be compiled into another display list
     if (list >= listCount) return;
 
-    glwList *l = displayLists[list];
-    if (l->created)
-        drawRenderList(l->list);
+    RenderList *l = displayLists[list];
+    if (l)
+        drawRenderList(l);
 }
 
 void glPushCall(void *call) {
@@ -302,7 +301,7 @@ void glPushCall(void *call) {
 
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type)\
-        case name: glCallList(*(((type *)lists + i) + listBase)); break
+        case name: glCallList(((type *)lists)[i] + listBase); break
 
     // seriously wtf
     #define call_bytes(name, stride)\
@@ -339,11 +338,10 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 void glDeleteList(GLuint list) {
     if (list >= listCount) return;
 
-    glwList *l = displayLists[list];
-    l->free = true;
-    if (l->created) {
-        freeRenderList(l->list);
-        l->created = false;
+    RenderList *l = displayLists[list];
+    if (l) {
+        freeRenderList(l);
+        displayLists[list] = NULL;
     }
 
     // lists just grow upwards, maybe use a better storage mechanism?
@@ -362,8 +360,7 @@ void glListBase(GLuint base) {
 
 GLboolean glIsList(GLuint list) {
     if (list < listCount) {
-        glwList *l = displayLists[list];
-        if (l->created)
+        if (displayLists[list])
             return true;
     }
     return false;

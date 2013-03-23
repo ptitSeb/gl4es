@@ -75,14 +75,6 @@ extern glwPointer aTexCoordPointer;
 #include "texgen.h"
 #include "texture.h"
 
-typedef struct {
-    GLubyte pos;
-    GLubyte len;
-    GLubyte created;
-    GLubyte free;
-    RenderList *list;
-} glwList;
-
 // don't auto-wrap these functions
 #define skip_glColor4f
 #define skip_glColor4ub
