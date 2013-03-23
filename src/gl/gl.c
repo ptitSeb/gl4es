@@ -240,6 +240,14 @@ RenderList **displayLists = NULL;
 int listCount = 0;
 int listCap = 0;
 
+static RenderList *glGetList(GLuint list) {
+    list -= 1;
+    if (list < listCount) {
+        return displayLists[list];
+    }
+    return NULL;
+}
+
 GLuint glGenLists(GLsizei range) {
     int start = listCount;
     if (displayLists == NULL) {
@@ -254,14 +262,14 @@ GLuint glGenLists(GLsizei range) {
     for (int i = 0; i < range; i++) {
         displayLists[start+i] = NULL;
     }
-    return start;
+    return start + 1;
 }
 
 void glNewList(GLuint list, GLenum mode) {
-    if (list >= listCount) return;
+    if (list > listCount) return;
     listMode = mode;
 
-    RenderList *l = displayLists[list];
+    RenderList *l = glGetList(list);
     if (l) {
         printf("newList already exists: %i. not implemented.\n", list);
         // TODO: what do we do if the list already exists?
@@ -269,7 +277,7 @@ void glNewList(GLuint list, GLenum mode) {
         return;
     } else {
         // TODO: if activeList is already defined, we probably need to clean up here
-        activeList = displayLists[list] = allocRenderList();
+        activeList = displayLists[list-1] = allocRenderList();
         listCompiling = true;
     }
 }
@@ -286,9 +294,7 @@ void glEndList(GLuint list) {
 
 void glCallList(GLuint list) {
     // TODO: this call can be compiled into another display list
-    if (list >= listCount) return;
-
-    RenderList *l = displayLists[list];
+    RenderList *l = glGetList(list);
     if (l)
         drawRenderList(l);
 }
@@ -336,12 +342,10 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 }
 
 void glDeleteList(GLuint list) {
-    if (list >= listCount) return;
-
-    RenderList *l = displayLists[list];
+    RenderList *l = glGetList(list);
     if (l) {
         freeRenderList(l);
-        displayLists[list] = NULL;
+        displayLists[list-1] = NULL;
     }
 
     // lists just grow upwards, maybe use a better storage mechanism?
@@ -359,9 +363,8 @@ void glListBase(GLuint base) {
 }
 
 GLboolean glIsList(GLuint list) {
-    if (list < listCount) {
-        if (displayLists[list])
-            return true;
+    if (glGetList(list)) {
+        return true;
     }
     return false;
 }
