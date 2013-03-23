@@ -2,7 +2,8 @@
 
 #define STUB(def)\
 def {\
-    if (strcmp(getenv("LIBGL_DEBUG"), "1") == 0)\
+    char *debug = getenv("LIBGL_DEBUG");\
+    if (debug && strcmp(debug, "1") == 0)\
         printf("stub: %s;\n", #def);\
 }
 
