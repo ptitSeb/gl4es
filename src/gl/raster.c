@@ -66,14 +66,15 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // TODO: negative width/height mirrors bitmap?
     if (!width && !height) {
         rPos.x += xmove;
-        rPos.y += ymove;
+        rPos.y -= ymove;
         return;
     }
     initRaster();
 
     const GLubyte *from;
     GLubyte *to;
-    int x, y, n;
+    int x, y;
+
     // copy to pixel data
     // TODO: strip blank lines and mirror vertically?
     for (y = 0; y < height; y++) {
