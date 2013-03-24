@@ -53,8 +53,12 @@
 #define GL_T                    0x2001
 #define GL_R                    0x2002
 #define GL_Q                    0x2003
+#define GL_PROXY_TEXTURE_1D     0x8063
+#define GL_PROXY_TEXTURE_2D     0x8064
 
 // pixel formats
+#define GL_RED                         0x1903
+#define GL_RG                          0x8227
 #define GL_BGR                         0x80E0
 #define GL_BGRA                        0x80E1
 #define GL_UNSIGNED_BYTE_3_3_2         0x8032

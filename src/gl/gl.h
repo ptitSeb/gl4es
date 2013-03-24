@@ -44,6 +44,53 @@ void *gles;
 
 #define END_WRAP }
 
+static const GLsizei gl_sizeof(GLenum type) {
+    // types
+    switch (type) {
+        case GL_DOUBLE:
+            return 8;
+        case GL_FLOAT:
+        case GL_INT:
+        case GL_UNSIGNED_INT:
+        case GL_UNSIGNED_INT_10_10_10_2:
+        case GL_UNSIGNED_INT_2_10_10_10_REV:
+        case GL_UNSIGNED_INT_8_8_8_8:
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_4_BYTES:
+            return 4;
+        case GL_3_BYTES:
+            return 3;
+        case GL_UNSIGNED_SHORT:
+        case GL_UNSIGNED_SHORT_1_5_5_5_REV:
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_4_4_4_4_REV:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        case GL_UNSIGNED_SHORT_5_6_5_REV:
+        case GL_2_BYTES:
+            return 2;
+        case GL_UNSIGNED_BYTE:
+        case GL_UNSIGNED_BYTE_2_3_3_REV:
+        case GL_UNSIGNED_BYTE_3_3_2:
+            return 1;
+    }
+    // formats
+    switch (type) {
+        case GL_RED:
+            return 1;
+        case GL_RG:
+            return 2;
+        case GL_RGB:
+        case GL_BGR:
+            return 3;
+        case GL_RGBA:
+        case GL_BGRA:
+            return 4;
+    }
+    printf("libGL: Unsupported pixel data type: %i\n", type);
+    return 0;
+}
+
 typedef struct {
     GLint size;
     GLenum type;
@@ -70,6 +117,7 @@ extern glwPointer aTexCoordPointer;
 #include "glwrap.h"
 #include "line.h"
 #include "list.h"
+#include "pixel.h"
 #include "raster.h"
 #include "stack.h"
 #include "texgen.h"
@@ -146,6 +194,5 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
 
 // custom functions
 void glPushCall(void *call);
-GLsizei gl_sizeof(GLenum type);
 
 #endif

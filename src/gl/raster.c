@@ -102,39 +102,25 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 
 void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
+    GLubyte *pixels, *from, *to;
+    GLvoid *dst = NULL;
+
     initRaster();
+    if (! pixels_to_pixels(data, &dst, width, height,
+                           format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+        return;
+    }
+    pixels = dst;
 
-    // TODO: finish implementing and get rid of this debug code
-/*
-    FILE *f = fopen("/tmp/out", "w");
-    fprintf(f, "glDrawPixels(%i, %i, %i, %i);\n", width, height, format, type);
-    fclose(f);
-*/
-
-    int x, y;
-    GLubyte *to;
-    switch (format) {
-        case GL_RGB:
-            break;
-        case GL_RGBA:
-            // TODO: macro/abstract this
-            if (type == GL_UNSIGNED_BYTE) {
-                GLubyte *pixels = (GLubyte *)data;
-                GLubyte *from;
-                for (y = 0; y < height; y++) {
-                    to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
-                    from = pixels + 4 * (y * width);
-                    for (x = 0; x < width; x++) {
-                        *to++ = *from++;
-                        *to++ = *from++;
-                        *to++ = *from++;
-                        *to++ = *from++;
-                    }
-                }
-            }
-            break;
-        default:
-            break;
+    for (int y = 0; y < height; y++) {
+        to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));
+        from = pixels + 4 * (y * width);
+        for (int x = 0; x < width; x++) {
+            *to++ = *from++;
+            *to++ = *from++;
+            *to++ = *from++;
+            *to++ = *from++;
+        }
     }
 }
 

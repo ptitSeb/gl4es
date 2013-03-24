@@ -368,28 +368,3 @@ GLboolean glIsList(GLuint list) {
     }
     return false;
 }
-
-GLsizei gl_sizeof(GLenum type) {
-    switch (type) {
-        case GL_DOUBLE:
-            return 8;
-        case GL_FLOAT:
-        case GL_INT:
-        case GL_UNSIGNED_INT:
-        case GL_4_BYTES:
-            return 4;
-        case GL_3_BYTES:
-            return 3;
-        case GL_UNSIGNED_SHORT:
-        case GL_UNSIGNED_SHORT_5_6_5:
-        case GL_UNSIGNED_SHORT_4_4_4_4:
-        case GL_UNSIGNED_SHORT_5_5_5_1:
-        case GL_2_BYTES:
-            return 2;
-        case GL_UNSIGNED_BYTE:
-            return 1;
-        default:
-            printf("libGL: Unsupported pixel data type: %i\n", type);
-            return 0;
-    }
-}

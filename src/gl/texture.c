@@ -4,58 +4,6 @@ GLuint tUnpackRowLength = 0;
 GLuint tUnpackSkipPixels = 0;
 GLuint tUnpackSkipRows = 0;
 
-GLenum convertPixels(const GLvoid *data, GLvoid **out,
-                            GLsizei width, GLsizei height,
-                            GLenum format, GLenum type) {
-    unsigned int w;
-    int m0, m1, m2, m3;
-    GLenum newFormat = format;
-    switch (format) {
-        case GL_BGR:
-            w = 3;
-            m0 = 2; m1 = 1; m2 = 0;
-            newFormat = GL_RGB;
-            break;
-        case GL_BGRA:
-            w = 4;
-            m0 = 2; m1 = 1; m2 = 0; m3 = 3;
-            newFormat = GL_RGBA;
-            break;
-        default:
-            printf("Unsupported pixel conversion format: %i\n", format);
-            *out = (GLvoid *)data;
-            return 0;
-    }
-
-#define convert(constant, type)                              \
-    case constant:                                           \
-        {                                                    \
-            int size = width * height * w;                   \
-            type *src = (type *)data;                        \
-            type *dst = (type *)malloc(sizeof(type) * size); \
-            for (int i = 0; i < size; i += w) {              \
-                dst[i]   = src[i+m0];                        \
-                dst[i+1] = src[i+m1];                        \
-                dst[i+2] = src[i+m2];                        \
-                if (width == 4) dst[i+3] = src[i+m3];        \
-            }                                                \
-            *out = (GLvoid *)dst;                            \
-        }                                                    \
-        break;
-
-    switch (type) {
-        convert(GL_UNSIGNED_BYTE, GLubyte);
-        convert(GL_FLOAT, GLfloat);
-        default:
-            printf("Unsupported pixel packing(2): %i\n", type);
-            *out = (GLvoid *)data;
-            return format;
-            break;
-    }
-#undef convert
-    return newFormat;
-}
-
 // expand non-power-of-two sizes
 // TODO: what does this do to repeating textures?
 int npot(int n) {
@@ -86,16 +34,17 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         pixels = (GLvoid *)dst;
     }
 
-    switch (type) {
-        case GL_UNSIGNED_BYTE:
-        case GL_UNSIGNED_SHORT_5_6_5:
-        case GL_UNSIGNED_SHORT_4_4_4_4:
-        case GL_UNSIGNED_SHORT_5_5_5_1:
-            break;
-        default:
-            printf("Unsupported pixel type: %i\n", type);
-            return;
+    // TODO: put in a util module
+    static int endian = 0;
+    if (!endian) {
+        uint16_t i = 1;
+        if (*(char *)&i) {
+            endian = 1;
+        } else {
+            endian = 2;
+        }
     }
+
     switch (format) {
         case GL_ALPHA:
         case GL_RGB:
@@ -104,10 +53,34 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         case GL_LUMINANCE_ALPHA:
             pixels = (GLvoid *)data;
             break;
-        default:
-            printf("Unsupported pixel format? %i\n", format);
-            format = convertPixels(data, &pixels, width, height, format, type);
+        default: {
+            const GLvoid *src = pixels ? pixels : data;
+            if (! pixels_to_pixels(src, &pixels, width, height,
+                                   format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                return;
+            }
             break;
+        }
+    }
+    switch (type) {
+        case GL_FLOAT:
+        case GL_UNSIGNED_BYTE:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+            break;
+        case GL_UNSIGNED_INT_8_8_8_8:
+            type = GL_UNSIGNED_BYTE;
+            break;
+        default: {
+            const GLvoid *src = pixels ? pixels : data;
+            if (! pixels_to_pixels(src, &pixels, width, height,
+                                   format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                return;
+            }
+            type = GL_UNSIGNED_BYTE;
+            format = GL_RGBA;
+        }
     }
 
     /* TODO:
@@ -123,8 +96,14 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
-    gles_glTexImage2D(target, level, format, width, height, border,
-                      format, type, pixels);
+    switch (target) {
+        case GL_PROXY_TEXTURE_1D:
+        case GL_PROXY_TEXTURE_2D:
+            break;
+        default:
+            gles_glTexImage2D(target, level, format, width, height, border,
+                              format, type, pixels);
+    }
 
     if (pixels != data) {
         free((GLvoid *)pixels);
