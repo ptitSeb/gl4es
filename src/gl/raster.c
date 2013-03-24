@@ -44,8 +44,6 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glViewport, GLint, GLint, GLsizei, GLsizei);
     if (raster) {
         renderRaster();
-        free(raster);
-        raster = NULL;
     }
     gles_glViewport(x, y, width, height);
     viewport.x = x;
