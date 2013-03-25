@@ -11,6 +11,7 @@
 #define GL_H
 
 #include "gleswrap.h"
+#include "glconst.h"
 
 #define checkError(code)                          \
     {int error; while ((error = glGetError())) {} \
@@ -23,8 +24,6 @@
         printf(file ":%i -> %i\n", line, error);}
 
 #define GLdouble double
-
-#include <glconst.h>
 
 // will become a reference to dlopen'd gles
 void *gles;
@@ -91,28 +90,6 @@ static const GLsizei gl_sizeof(GLenum type) {
     return 0;
 }
 
-typedef struct {
-    GLint size;
-    GLenum type;
-    GLsizei stride;
-    const GLvoid *pointer;
-} glwPointer;
-
-bool bLineStipple;
-bool bTexGenS;
-bool bTexGenT;
-bool listCompiling;
-bool listMode;
-
-extern bool bVertexArray;
-extern bool bColorArray;
-extern bool bNormalArray;
-extern bool bTexCoordArray;
-extern glwPointer aVertexPointer;
-extern glwPointer aColorPointer;
-extern glwPointer aNormalPointer;
-extern glwPointer aTexCoordPointer;
-
 #include "glstub.h"
 #include "glwrap.h"
 #include "line.h"
@@ -122,6 +99,9 @@ extern glwPointer aTexCoordPointer;
 #include "stack.h"
 #include "texgen.h"
 #include "texture.h"
+
+#include "state.h"
+extern GLstate state;
 
 // don't auto-wrap these functions
 #define skip_glColor4f

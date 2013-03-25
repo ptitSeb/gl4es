@@ -14,8 +14,8 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
         GL_SPHERE_MAP, GL_NORMAL_MAP, or GL_REFLECTION_MAP
     */
     switch (coord) {
-        case GL_S: texGenS = param; break;
-        case GL_T: texGenT = param; break;
+        case GL_S: state.texgen.S = param; break;
+        case GL_T: state.texgen.T = param; break;
     }
 }
 
@@ -24,8 +24,8 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
 
     if (pname == GL_TEXTURE_GEN_MODE) {
         switch (coord) {
-            case GL_S: texGenS = *param; break;
-            case GL_T: texGenT = *param; break;
+            case GL_S: state.texgen.S = *param; break;
+            case GL_T: state.texgen.T = *param; break;
         }
     } else {
         switch (coord) {
@@ -67,7 +67,10 @@ void genTexCoords(GLfloat *verts, GLfloat **coords, GLint count) {
     int i;
     for (i = 0; i < count; i++) {
         GLfloat *tex = &(*coords)[i];
-        if (bTexGenS) tex[0] = genTexCoord(&verts[i], texGenS, texGenSv);
-        if (bTexGenT) tex[1] = genTexCoord(&verts[i], texGenT, texGenTv);
+        if (state.enable.texgen_s)
+            tex[0] = genTexCoord(&verts[i], state.texgen.S, state.texgen.Sv);
+
+        if (state.enable.texgen_t)
+            tex[1] = genTexCoord(&verts[i], state.texgen.T, state.texgen.Tv);
     }
 }

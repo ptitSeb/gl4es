@@ -462,7 +462,7 @@ void glPackedCall(const UnknownCall *packed) {
 void glActiveTexture(GLenum texture) {
     LOAD_GLES(void, glActiveTexture, GLenum texture);
 #ifndef direct_glActiveTexture
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glActiveTexture;
@@ -481,7 +481,7 @@ void glActiveTexture(GLenum texture) {
 void glAlphaFunc(GLenum func, GLclampf ref) {
     LOAD_GLES(void, glAlphaFunc, GLenum func, GLclampf ref);
 #ifndef direct_glAlphaFunc
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLclampf *data = malloc(sizeof(PACKED_void_GLenum_GLclampf));
         data->format = FORMAT_void_GLenum_GLclampf;
         data->func = glAlphaFunc;
@@ -501,7 +501,7 @@ void glAlphaFunc(GLenum func, GLclampf ref) {
 void glAlphaFuncx(GLenum func, GLclampx ref) {
     LOAD_GLES(void, glAlphaFuncx, GLenum func, GLclampx ref);
 #ifndef direct_glAlphaFuncx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLclampx *data = malloc(sizeof(PACKED_void_GLenum_GLclampx));
         data->format = FORMAT_void_GLenum_GLclampx;
         data->func = glAlphaFuncx;
@@ -521,7 +521,7 @@ void glAlphaFuncx(GLenum func, GLclampx ref) {
 void glBindBuffer(GLenum target, GLuint buffer) {
     LOAD_GLES(void, glBindBuffer, GLenum target, GLuint buffer);
 #ifndef direct_glBindBuffer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLuint *data = malloc(sizeof(PACKED_void_GLenum_GLuint));
         data->format = FORMAT_void_GLenum_GLuint;
         data->func = glBindBuffer;
@@ -541,7 +541,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
 void glBindTexture(GLenum target, GLuint texture) {
     LOAD_GLES(void, glBindTexture, GLenum target, GLuint texture);
 #ifndef direct_glBindTexture
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLuint *data = malloc(sizeof(PACKED_void_GLenum_GLuint));
         data->format = FORMAT_void_GLenum_GLuint;
         data->func = glBindTexture;
@@ -561,7 +561,7 @@ void glBindTexture(GLenum target, GLuint texture) {
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     LOAD_GLES(void, glBlendFunc, GLenum sfactor, GLenum dfactor);
 #ifndef direct_glBlendFunc
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum *data = malloc(sizeof(PACKED_void_GLenum_GLenum));
         data->format = FORMAT_void_GLenum_GLenum;
         data->func = glBlendFunc;
@@ -581,7 +581,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
     LOAD_GLES(void, glBufferData, GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
 #ifndef direct_glBufferData
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum *data = malloc(sizeof(PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum));
         data->format = FORMAT_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum;
         data->func = glBufferData;
@@ -603,7 +603,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
     LOAD_GLES(void, glBufferSubData, GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
 #ifndef direct_glBufferSubData
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__;
         data->func = glBufferSubData;
@@ -625,7 +625,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
 void glClear(GLbitfield mask) {
     LOAD_GLES(void, glClear, GLbitfield mask);
 #ifndef direct_glClear
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLbitfield *data = malloc(sizeof(PACKED_void_GLbitfield));
         data->format = FORMAT_void_GLbitfield;
         data->func = glClear;
@@ -644,7 +644,7 @@ void glClear(GLbitfield mask) {
 void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     LOAD_GLES(void, glClearColor, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 #ifndef direct_glClearColor
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf *data = malloc(sizeof(PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf));
         data->format = FORMAT_void_GLclampf_GLclampf_GLclampf_GLclampf;
         data->func = glClearColor;
@@ -666,7 +666,7 @@ void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
 void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) {
     LOAD_GLES(void, glClearColorx, GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha);
 #ifndef direct_glClearColorx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx *data = malloc(sizeof(PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx));
         data->format = FORMAT_void_GLclampx_GLclampx_GLclampx_GLclampx;
         data->func = glClearColorx;
@@ -688,7 +688,7 @@ void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) 
 void glClearDepthf(GLclampf depth) {
     LOAD_GLES(void, glClearDepthf, GLclampf depth);
 #ifndef direct_glClearDepthf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampf *data = malloc(sizeof(PACKED_void_GLclampf));
         data->format = FORMAT_void_GLclampf;
         data->func = glClearDepthf;
@@ -707,7 +707,7 @@ void glClearDepthf(GLclampf depth) {
 void glClearDepthx(GLclampx depth) {
     LOAD_GLES(void, glClearDepthx, GLclampx depth);
 #ifndef direct_glClearDepthx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampx *data = malloc(sizeof(PACKED_void_GLclampx));
         data->format = FORMAT_void_GLclampx;
         data->func = glClearDepthx;
@@ -726,7 +726,7 @@ void glClearDepthx(GLclampx depth) {
 void glClearStencil(GLint s) {
     LOAD_GLES(void, glClearStencil, GLint s);
 #ifndef direct_glClearStencil
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint *data = malloc(sizeof(PACKED_void_GLint));
         data->format = FORMAT_void_GLint;
         data->func = glClearStencil;
@@ -745,7 +745,7 @@ void glClearStencil(GLint s) {
 void glClientActiveTexture(GLenum texture) {
     LOAD_GLES(void, glClientActiveTexture, GLenum texture);
 #ifndef direct_glClientActiveTexture
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glClientActiveTexture;
@@ -764,7 +764,7 @@ void glClientActiveTexture(GLenum texture) {
 void glClipPlanef(GLenum plane, const GLfloat * equation) {
     LOAD_GLES(void, glClipPlanef, GLenum plane, const GLfloat * equation);
 #ifndef direct_glClipPlanef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfloat___GENPT__;
         data->func = glClipPlanef;
@@ -784,7 +784,7 @@ void glClipPlanef(GLenum plane, const GLfloat * equation) {
 void glClipPlanex(GLenum plane, const GLfixed * equation) {
     LOAD_GLES(void, glClipPlanex, GLenum plane, const GLfixed * equation);
 #ifndef direct_glClipPlanex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfixed___GENPT__;
         data->func = glClipPlanex;
@@ -804,7 +804,7 @@ void glClipPlanex(GLenum plane, const GLfixed * equation) {
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     LOAD_GLES(void, glColor4f, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 #ifndef direct_glColor4f
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat;
         data->func = glColor4f;
@@ -826,7 +826,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     LOAD_GLES(void, glColor4ub, GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha);
 #ifndef direct_glColor4ub
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte *data = malloc(sizeof(PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte));
         data->format = FORMAT_void_GLubyte_GLubyte_GLubyte_GLubyte;
         data->func = glColor4ub;
@@ -848,7 +848,7 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
 void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
     LOAD_GLES(void, glColor4x, GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
 #ifndef direct_glColor4x
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed;
         data->func = glColor4x;
@@ -870,7 +870,7 @@ void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
     LOAD_GLES(void, glColorMask, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
 #ifndef direct_glColorMask
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean *data = malloc(sizeof(PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean));
         data->format = FORMAT_void_GLboolean_GLboolean_GLboolean_GLboolean;
         data->func = glColorMask;
@@ -892,7 +892,7 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glColorPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
 #ifndef direct_glColorPointer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glColorPointer;
@@ -914,7 +914,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
     LOAD_GLES(void, glCompressedTexImage2D, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
 #ifndef direct_glCompressedTexImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__;
         data->func = glCompressedTexImage2D;
@@ -940,7 +940,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
     LOAD_GLES(void, glCompressedTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data);
 #ifndef direct_glCompressedTexSubImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glCompressedTexSubImage2D;
@@ -967,7 +967,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
     LOAD_GLES(void, glCopyTexImage2D, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
 #ifndef direct_glCopyTexImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint));
         data->format = FORMAT_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint;
         data->func = glCopyTexImage2D;
@@ -993,7 +993,7 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glCopyTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
 #ifndef direct_glCopyTexSubImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei));
         data->format = FORMAT_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei;
         data->func = glCopyTexSubImage2D;
@@ -1019,7 +1019,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 void glCullFace(GLenum mode) {
     LOAD_GLES(void, glCullFace, GLenum mode);
 #ifndef direct_glCullFace
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glCullFace;
@@ -1038,7 +1038,7 @@ void glCullFace(GLenum mode) {
 void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     LOAD_GLES(void, glDeleteBuffers, GLsizei n, const GLuint * buffers);
 #ifndef direct_glDeleteBuffers
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLsizei_const_GLuint___GENPT__ *data = malloc(sizeof(PACKED_void_GLsizei_const_GLuint___GENPT__));
         data->format = FORMAT_void_GLsizei_const_GLuint___GENPT__;
         data->func = glDeleteBuffers;
@@ -1058,7 +1058,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 void glDeleteTextures(GLsizei n, const GLuint * textures) {
     LOAD_GLES(void, glDeleteTextures, GLsizei n, const GLuint * textures);
 #ifndef direct_glDeleteTextures
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLsizei_const_GLuint___GENPT__ *data = malloc(sizeof(PACKED_void_GLsizei_const_GLuint___GENPT__));
         data->format = FORMAT_void_GLsizei_const_GLuint___GENPT__;
         data->func = glDeleteTextures;
@@ -1078,7 +1078,7 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
 void glDepthFunc(GLenum func) {
     LOAD_GLES(void, glDepthFunc, GLenum func);
 #ifndef direct_glDepthFunc
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glDepthFunc;
@@ -1097,7 +1097,7 @@ void glDepthFunc(GLenum func) {
 void glDepthMask(GLboolean flag) {
     LOAD_GLES(void, glDepthMask, GLboolean flag);
 #ifndef direct_glDepthMask
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLboolean *data = malloc(sizeof(PACKED_void_GLboolean));
         data->format = FORMAT_void_GLboolean;
         data->func = glDepthMask;
@@ -1116,7 +1116,7 @@ void glDepthMask(GLboolean flag) {
 void glDepthRangef(GLclampf near, GLclampf far) {
     LOAD_GLES(void, glDepthRangef, GLclampf near, GLclampf far);
 #ifndef direct_glDepthRangef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampf_GLclampf *data = malloc(sizeof(PACKED_void_GLclampf_GLclampf));
         data->format = FORMAT_void_GLclampf_GLclampf;
         data->func = glDepthRangef;
@@ -1136,7 +1136,7 @@ void glDepthRangef(GLclampf near, GLclampf far) {
 void glDepthRangex(GLclampx near, GLclampx far) {
     LOAD_GLES(void, glDepthRangex, GLclampx near, GLclampx far);
 #ifndef direct_glDepthRangex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampx_GLclampx *data = malloc(sizeof(PACKED_void_GLclampx_GLclampx));
         data->format = FORMAT_void_GLclampx_GLclampx;
         data->func = glDepthRangex;
@@ -1156,7 +1156,7 @@ void glDepthRangex(GLclampx near, GLclampx far) {
 void glDisable(GLenum cap) {
     LOAD_GLES(void, glDisable, GLenum cap);
 #ifndef direct_glDisable
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glDisable;
@@ -1175,7 +1175,7 @@ void glDisable(GLenum cap) {
 void glDisableClientState(GLenum array) {
     LOAD_GLES(void, glDisableClientState, GLenum array);
 #ifndef direct_glDisableClientState
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glDisableClientState;
@@ -1194,7 +1194,7 @@ void glDisableClientState(GLenum array) {
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     LOAD_GLES(void, glDrawArrays, GLenum mode, GLint first, GLsizei count);
 #ifndef direct_glDrawArrays
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLsizei *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLsizei));
         data->format = FORMAT_void_GLenum_GLint_GLsizei;
         data->func = glDrawArrays;
@@ -1215,7 +1215,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
     LOAD_GLES(void, glDrawElements, GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
 #ifndef direct_glDrawElements
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__;
         data->func = glDrawElements;
@@ -1237,7 +1237,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
 void glEnable(GLenum cap) {
     LOAD_GLES(void, glEnable, GLenum cap);
 #ifndef direct_glEnable
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glEnable;
@@ -1256,7 +1256,7 @@ void glEnable(GLenum cap) {
 void glEnableClientState(GLenum array) {
     LOAD_GLES(void, glEnableClientState, GLenum array);
 #ifndef direct_glEnableClientState
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glEnableClientState;
@@ -1275,7 +1275,7 @@ void glEnableClientState(GLenum array) {
 void glFinish() {
     LOAD_GLES(void, glFinish);
 #ifndef direct_glFinish
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glFinish;
@@ -1293,7 +1293,7 @@ void glFinish() {
 void glFlush() {
     LOAD_GLES(void, glFlush);
 #ifndef direct_glFlush
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glFlush;
@@ -1311,7 +1311,7 @@ void glFlush() {
 void glFogf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glFogf, GLenum pname, GLfloat param);
 #ifndef direct_glFogf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLfloat;
         data->func = glFogf;
@@ -1331,7 +1331,7 @@ void glFogf(GLenum pname, GLfloat param) {
 void glFogfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glFogfv, GLenum pname, const GLfloat * params);
 #ifndef direct_glFogfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfloat___GENPT__;
         data->func = glFogfv;
@@ -1351,7 +1351,7 @@ void glFogfv(GLenum pname, const GLfloat * params) {
 void glFogx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glFogx, GLenum pname, GLfixed param);
 #ifndef direct_glFogx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLfixed;
         data->func = glFogx;
@@ -1371,7 +1371,7 @@ void glFogx(GLenum pname, GLfixed param) {
 void glFogxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glFogxv, GLenum pname, const GLfixed * params);
 #ifndef direct_glFogxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfixed___GENPT__;
         data->func = glFogxv;
@@ -1391,7 +1391,7 @@ void glFogxv(GLenum pname, const GLfixed * params) {
 void glFrontFace(GLenum mode) {
     LOAD_GLES(void, glFrontFace, GLenum mode);
 #ifndef direct_glFrontFace
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glFrontFace;
@@ -1410,7 +1410,7 @@ void glFrontFace(GLenum mode) {
 void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
     LOAD_GLES(void, glFrustumf, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
 #ifndef direct_glFrustumf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat;
         data->func = glFrustumf;
@@ -1434,7 +1434,7 @@ void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloa
 void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
     LOAD_GLES(void, glFrustumx, GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far);
 #ifndef direct_glFrustumx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed;
         data->func = glFrustumx;
@@ -1458,7 +1458,7 @@ void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixe
 void glGenBuffers(GLsizei n, GLuint * buffers) {
     LOAD_GLES(void, glGenBuffers, GLsizei n, GLuint * buffers);
 #ifndef direct_glGenBuffers
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLsizei_GLuint___GENPT__ *data = malloc(sizeof(PACKED_void_GLsizei_GLuint___GENPT__));
         data->format = FORMAT_void_GLsizei_GLuint___GENPT__;
         data->func = glGenBuffers;
@@ -1478,7 +1478,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
 void glGenTextures(GLsizei n, GLuint * textures) {
     LOAD_GLES(void, glGenTextures, GLsizei n, GLuint * textures);
 #ifndef direct_glGenTextures
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLsizei_GLuint___GENPT__ *data = malloc(sizeof(PACKED_void_GLsizei_GLuint___GENPT__));
         data->format = FORMAT_void_GLsizei_GLuint___GENPT__;
         data->func = glGenTextures;
@@ -1498,7 +1498,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
 void glGetBooleanv(GLenum pname, GLboolean * params) {
     LOAD_GLES(void, glGetBooleanv, GLenum pname, GLboolean * params);
 #ifndef direct_glGetBooleanv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLboolean___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLboolean___GENPT__));
         data->format = FORMAT_void_GLenum_GLboolean___GENPT__;
         data->func = glGetBooleanv;
@@ -1518,7 +1518,7 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
 void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetBufferParameteriv, GLenum target, GLenum pname, GLint * params);
 #ifndef direct_glGetBufferParameteriv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLint___GENPT__;
         data->func = glGetBufferParameteriv;
@@ -1539,7 +1539,7 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
 void glGetClipPlanef(GLenum plane, GLfloat * equation) {
     LOAD_GLES(void, glGetClipPlanef, GLenum plane, GLfloat * equation);
 #ifndef direct_glGetClipPlanef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLfloat___GENPT__;
         data->func = glGetClipPlanef;
@@ -1559,7 +1559,7 @@ void glGetClipPlanef(GLenum plane, GLfloat * equation) {
 void glGetClipPlanex(GLenum plane, GLfixed * equation) {
     LOAD_GLES(void, glGetClipPlanex, GLenum plane, GLfixed * equation);
 #ifndef direct_glGetClipPlanex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLfixed___GENPT__;
         data->func = glGetClipPlanex;
@@ -1579,7 +1579,7 @@ void glGetClipPlanex(GLenum plane, GLfixed * equation) {
 GLenum glGetError() {
     LOAD_GLES(GLenum, glGetError);
 #ifndef direct_glGetError
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_GLenum *data = malloc(sizeof(PACKED_GLenum));
         data->format = FORMAT_GLenum;
         data->func = glGetError;
@@ -1598,7 +1598,7 @@ GLenum glGetError() {
 void glGetFixedv(GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetFixedv, GLenum pname, GLfixed * params);
 #ifndef direct_glGetFixedv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLfixed___GENPT__;
         data->func = glGetFixedv;
@@ -1618,7 +1618,7 @@ void glGetFixedv(GLenum pname, GLfixed * params) {
 void glGetFloatv(GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetFloatv, GLenum pname, GLfloat * params);
 #ifndef direct_glGetFloatv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLfloat___GENPT__;
         data->func = glGetFloatv;
@@ -1638,7 +1638,7 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
 void glGetIntegerv(GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetIntegerv, GLenum pname, GLint * params);
 #ifndef direct_glGetIntegerv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLint___GENPT__;
         data->func = glGetIntegerv;
@@ -1658,7 +1658,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetLightfv, GLenum light, GLenum pname, GLfloat * params);
 #ifndef direct_glGetLightfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat___GENPT__;
         data->func = glGetLightfv;
@@ -1679,7 +1679,7 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
 void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetLightxv, GLenum light, GLenum pname, GLfixed * params);
 #ifndef direct_glGetLightxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed___GENPT__;
         data->func = glGetLightxv;
@@ -1700,7 +1700,7 @@ void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
 void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetMaterialfv, GLenum face, GLenum pname, GLfloat * params);
 #ifndef direct_glGetMaterialfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat___GENPT__;
         data->func = glGetMaterialfv;
@@ -1721,7 +1721,7 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
 void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetMaterialxv, GLenum face, GLenum pname, GLfixed * params);
 #ifndef direct_glGetMaterialxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed___GENPT__;
         data->func = glGetMaterialxv;
@@ -1742,7 +1742,7 @@ void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
 void glGetPointerv(GLenum pname, GLvoid ** params) {
     LOAD_GLES(void, glGetPointerv, GLenum pname, GLvoid ** params);
 #ifndef direct_glGetPointerv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLvoid___GENPT____GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLvoid___GENPT____GENPT__));
         data->format = FORMAT_void_GLenum_GLvoid___GENPT____GENPT__;
         data->func = glGetPointerv;
@@ -1762,7 +1762,7 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
 const GLubyte * glGetString(GLenum name) {
     LOAD_GLES(const GLubyte *, glGetString, GLenum name);
 #ifndef direct_glGetString
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_const_GLubyte___GENPT___GLenum *data = malloc(sizeof(PACKED_const_GLubyte___GENPT___GLenum));
         data->format = FORMAT_const_GLubyte___GENPT___GLenum;
         data->func = glGetString;
@@ -1782,7 +1782,7 @@ const GLubyte * glGetString(GLenum name) {
 void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetTexEnvfv, GLenum target, GLenum pname, GLfloat * params);
 #ifndef direct_glGetTexEnvfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat___GENPT__;
         data->func = glGetTexEnvfv;
@@ -1803,7 +1803,7 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetTexEnviv, GLenum target, GLenum pname, GLint * params);
 #ifndef direct_glGetTexEnviv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLint___GENPT__;
         data->func = glGetTexEnviv;
@@ -1824,7 +1824,7 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
 void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetTexEnvxv, GLenum target, GLenum pname, GLfixed * params);
 #ifndef direct_glGetTexEnvxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed___GENPT__;
         data->func = glGetTexEnvxv;
@@ -1845,7 +1845,7 @@ void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetTexParameterfv, GLenum target, GLenum pname, GLfloat * params);
 #ifndef direct_glGetTexParameterfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat___GENPT__;
         data->func = glGetTexParameterfv;
@@ -1866,7 +1866,7 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetTexParameteriv, GLenum target, GLenum pname, GLint * params);
 #ifndef direct_glGetTexParameteriv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLint___GENPT__;
         data->func = glGetTexParameteriv;
@@ -1887,7 +1887,7 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
 void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetTexParameterxv, GLenum target, GLenum pname, GLfixed * params);
 #ifndef direct_glGetTexParameterxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed___GENPT__;
         data->func = glGetTexParameterxv;
@@ -1908,7 +1908,7 @@ void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
 void glHint(GLenum target, GLenum mode) {
     LOAD_GLES(void, glHint, GLenum target, GLenum mode);
 #ifndef direct_glHint
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum *data = malloc(sizeof(PACKED_void_GLenum_GLenum));
         data->format = FORMAT_void_GLenum_GLenum;
         data->func = glHint;
@@ -1928,7 +1928,7 @@ void glHint(GLenum target, GLenum mode) {
 GLboolean glIsBuffer(GLuint buffer) {
     LOAD_GLES(GLboolean, glIsBuffer, GLuint buffer);
 #ifndef direct_glIsBuffer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_GLboolean_GLuint *data = malloc(sizeof(PACKED_GLboolean_GLuint));
         data->format = FORMAT_GLboolean_GLuint;
         data->func = glIsBuffer;
@@ -1948,7 +1948,7 @@ GLboolean glIsBuffer(GLuint buffer) {
 GLboolean glIsEnabled(GLenum cap) {
     LOAD_GLES(GLboolean, glIsEnabled, GLenum cap);
 #ifndef direct_glIsEnabled
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_GLboolean_GLenum *data = malloc(sizeof(PACKED_GLboolean_GLenum));
         data->format = FORMAT_GLboolean_GLenum;
         data->func = glIsEnabled;
@@ -1968,7 +1968,7 @@ GLboolean glIsEnabled(GLenum cap) {
 GLboolean glIsTexture(GLuint texture) {
     LOAD_GLES(GLboolean, glIsTexture, GLuint texture);
 #ifndef direct_glIsTexture
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_GLboolean_GLuint *data = malloc(sizeof(PACKED_GLboolean_GLuint));
         data->format = FORMAT_GLboolean_GLuint;
         data->func = glIsTexture;
@@ -1988,7 +1988,7 @@ GLboolean glIsTexture(GLuint texture) {
 void glLightModelf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glLightModelf, GLenum pname, GLfloat param);
 #ifndef direct_glLightModelf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLfloat;
         data->func = glLightModelf;
@@ -2008,7 +2008,7 @@ void glLightModelf(GLenum pname, GLfloat param) {
 void glLightModelfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glLightModelfv, GLenum pname, const GLfloat * params);
 #ifndef direct_glLightModelfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfloat___GENPT__;
         data->func = glLightModelfv;
@@ -2028,7 +2028,7 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
 void glLightModelx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glLightModelx, GLenum pname, GLfixed param);
 #ifndef direct_glLightModelx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLfixed;
         data->func = glLightModelx;
@@ -2048,7 +2048,7 @@ void glLightModelx(GLenum pname, GLfixed param) {
 void glLightModelxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glLightModelxv, GLenum pname, const GLfixed * params);
 #ifndef direct_glLightModelxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfixed___GENPT__;
         data->func = glLightModelxv;
@@ -2068,7 +2068,7 @@ void glLightModelxv(GLenum pname, const GLfixed * params) {
 void glLightf(GLenum light, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glLightf, GLenum light, GLenum pname, GLfloat param);
 #ifndef direct_glLightf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat;
         data->func = glLightf;
@@ -2089,7 +2089,7 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
 void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glLightfv, GLenum light, GLenum pname, const GLfloat * params);
 #ifndef direct_glLightfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__;
         data->func = glLightfv;
@@ -2110,7 +2110,7 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
 void glLightx(GLenum light, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glLightx, GLenum light, GLenum pname, GLfixed param);
 #ifndef direct_glLightx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed;
         data->func = glLightx;
@@ -2131,7 +2131,7 @@ void glLightx(GLenum light, GLenum pname, GLfixed param) {
 void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glLightxv, GLenum light, GLenum pname, const GLfixed * params);
 #ifndef direct_glLightxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__;
         data->func = glLightxv;
@@ -2152,7 +2152,7 @@ void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
 void glLineWidth(GLfloat width) {
     LOAD_GLES(void, glLineWidth, GLfloat width);
 #ifndef direct_glLineWidth
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat));
         data->format = FORMAT_void_GLfloat;
         data->func = glLineWidth;
@@ -2171,7 +2171,7 @@ void glLineWidth(GLfloat width) {
 void glLineWidthx(GLfixed width) {
     LOAD_GLES(void, glLineWidthx, GLfixed width);
 #ifndef direct_glLineWidthx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed));
         data->format = FORMAT_void_GLfixed;
         data->func = glLineWidthx;
@@ -2190,7 +2190,7 @@ void glLineWidthx(GLfixed width) {
 void glLoadIdentity() {
     LOAD_GLES(void, glLoadIdentity);
 #ifndef direct_glLoadIdentity
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glLoadIdentity;
@@ -2208,7 +2208,7 @@ void glLoadIdentity() {
 void glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(void, glLoadMatrixf, const GLfloat * m);
 #ifndef direct_glLoadMatrixf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_const_GLfloat___GENPT__));
         data->format = FORMAT_void_const_GLfloat___GENPT__;
         data->func = glLoadMatrixf;
@@ -2227,7 +2227,7 @@ void glLoadMatrixf(const GLfloat * m) {
 void glLoadMatrixx(const GLfixed * m) {
     LOAD_GLES(void, glLoadMatrixx, const GLfixed * m);
 #ifndef direct_glLoadMatrixx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_const_GLfixed___GENPT__));
         data->format = FORMAT_void_const_GLfixed___GENPT__;
         data->func = glLoadMatrixx;
@@ -2246,7 +2246,7 @@ void glLoadMatrixx(const GLfixed * m) {
 void glLogicOp(GLenum opcode) {
     LOAD_GLES(void, glLogicOp, GLenum opcode);
 #ifndef direct_glLogicOp
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glLogicOp;
@@ -2265,7 +2265,7 @@ void glLogicOp(GLenum opcode) {
 void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glMaterialf, GLenum face, GLenum pname, GLfloat param);
 #ifndef direct_glMaterialf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat;
         data->func = glMaterialf;
@@ -2286,7 +2286,7 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat * params);
 #ifndef direct_glMaterialfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__;
         data->func = glMaterialfv;
@@ -2307,7 +2307,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
 void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glMaterialx, GLenum face, GLenum pname, GLfixed param);
 #ifndef direct_glMaterialx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed;
         data->func = glMaterialx;
@@ -2328,7 +2328,7 @@ void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
 void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glMaterialxv, GLenum face, GLenum pname, const GLfixed * params);
 #ifndef direct_glMaterialxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__;
         data->func = glMaterialxv;
@@ -2349,7 +2349,7 @@ void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
 void glMatrixMode(GLenum mode) {
     LOAD_GLES(void, glMatrixMode, GLenum mode);
 #ifndef direct_glMatrixMode
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glMatrixMode;
@@ -2368,7 +2368,7 @@ void glMatrixMode(GLenum mode) {
 void glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(void, glMultMatrixf, const GLfloat * m);
 #ifndef direct_glMultMatrixf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_const_GLfloat___GENPT__));
         data->format = FORMAT_void_const_GLfloat___GENPT__;
         data->func = glMultMatrixf;
@@ -2387,7 +2387,7 @@ void glMultMatrixf(const GLfloat * m) {
 void glMultMatrixx(const GLfixed * m) {
     LOAD_GLES(void, glMultMatrixx, const GLfixed * m);
 #ifndef direct_glMultMatrixx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_const_GLfixed___GENPT__));
         data->format = FORMAT_void_const_GLfixed___GENPT__;
         data->func = glMultMatrixx;
@@ -2406,7 +2406,7 @@ void glMultMatrixx(const GLfixed * m) {
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     LOAD_GLES(void, glMultiTexCoord4f, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 #ifndef direct_glMultiTexCoord4f
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat;
         data->func = glMultiTexCoord4f;
@@ -2429,7 +2429,7 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
 void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
     LOAD_GLES(void, glMultiTexCoord4x, GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q);
 #ifndef direct_glMultiTexCoord4x
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed;
         data->func = glMultiTexCoord4x;
@@ -2452,7 +2452,7 @@ void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     LOAD_GLES(void, glNormal3f, GLfloat nx, GLfloat ny, GLfloat nz);
 #ifndef direct_glNormal3f
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat;
         data->func = glNormal3f;
@@ -2473,7 +2473,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
     LOAD_GLES(void, glNormal3x, GLfixed nx, GLfixed ny, GLfixed nz);
 #ifndef direct_glNormal3x
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed;
         data->func = glNormal3x;
@@ -2494,7 +2494,7 @@ void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glNormalPointer, GLenum type, GLsizei stride, const GLvoid * pointer);
 #ifndef direct_glNormalPointer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glNormalPointer;
@@ -2515,7 +2515,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
 void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
     LOAD_GLES(void, glOrthof, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
 #ifndef direct_glOrthof
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat;
         data->func = glOrthof;
@@ -2539,7 +2539,7 @@ void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat 
 void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
     LOAD_GLES(void, glOrthox, GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far);
 #ifndef direct_glOrthox
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed;
         data->func = glOrthox;
@@ -2563,7 +2563,7 @@ void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed 
 void glPixelStorei(GLenum pname, GLint param) {
     LOAD_GLES(void, glPixelStorei, GLenum pname, GLint param);
 #ifndef direct_glPixelStorei
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint *data = malloc(sizeof(PACKED_void_GLenum_GLint));
         data->format = FORMAT_void_GLenum_GLint;
         data->func = glPixelStorei;
@@ -2583,7 +2583,7 @@ void glPixelStorei(GLenum pname, GLint param) {
 void glPointParameterf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glPointParameterf, GLenum pname, GLfloat param);
 #ifndef direct_glPointParameterf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLfloat;
         data->func = glPointParameterf;
@@ -2603,7 +2603,7 @@ void glPointParameterf(GLenum pname, GLfloat param) {
 void glPointParameterfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glPointParameterfv, GLenum pname, const GLfloat * params);
 #ifndef direct_glPointParameterfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfloat___GENPT__;
         data->func = glPointParameterfv;
@@ -2623,7 +2623,7 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
 void glPointParameterx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glPointParameterx, GLenum pname, GLfixed param);
 #ifndef direct_glPointParameterx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLfixed;
         data->func = glPointParameterx;
@@ -2643,7 +2643,7 @@ void glPointParameterx(GLenum pname, GLfixed param) {
 void glPointParameterxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glPointParameterxv, GLenum pname, const GLfixed * params);
 #ifndef direct_glPointParameterxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_const_GLfixed___GENPT__;
         data->func = glPointParameterxv;
@@ -2663,7 +2663,7 @@ void glPointParameterxv(GLenum pname, const GLfixed * params) {
 void glPointSize(GLfloat size) {
     LOAD_GLES(void, glPointSize, GLfloat size);
 #ifndef direct_glPointSize
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat));
         data->format = FORMAT_void_GLfloat;
         data->func = glPointSize;
@@ -2682,7 +2682,7 @@ void glPointSize(GLfloat size) {
 void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glPointSizePointerOES, GLenum type, GLsizei stride, const GLvoid * pointer);
 #ifndef direct_glPointSizePointerOES
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glPointSizePointerOES;
@@ -2703,7 +2703,7 @@ void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) 
 void glPointSizex(GLfixed size) {
     LOAD_GLES(void, glPointSizex, GLfixed size);
 #ifndef direct_glPointSizex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed));
         data->format = FORMAT_void_GLfixed;
         data->func = glPointSizex;
@@ -2722,7 +2722,7 @@ void glPointSizex(GLfixed size) {
 void glPolygonOffset(GLfloat factor, GLfloat units) {
     LOAD_GLES(void, glPolygonOffset, GLfloat factor, GLfloat units);
 #ifndef direct_glPolygonOffset
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat;
         data->func = glPolygonOffset;
@@ -2742,7 +2742,7 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
 void glPolygonOffsetx(GLfixed factor, GLfixed units) {
     LOAD_GLES(void, glPolygonOffsetx, GLfixed factor, GLfixed units);
 #ifndef direct_glPolygonOffsetx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed;
         data->func = glPolygonOffsetx;
@@ -2762,7 +2762,7 @@ void glPolygonOffsetx(GLfixed factor, GLfixed units) {
 void glPopMatrix() {
     LOAD_GLES(void, glPopMatrix);
 #ifndef direct_glPopMatrix
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glPopMatrix;
@@ -2780,7 +2780,7 @@ void glPopMatrix() {
 void glPushMatrix() {
     LOAD_GLES(void, glPushMatrix);
 #ifndef direct_glPushMatrix
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void *data = malloc(sizeof(PACKED_void));
         data->format = FORMAT_void;
         data->func = glPushMatrix;
@@ -2798,7 +2798,7 @@ void glPushMatrix() {
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
     LOAD_GLES(void, glReadPixels, GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels);
 #ifndef direct_glReadPixels
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__));
         data->format = FORMAT_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__;
         data->func = glReadPixels;
@@ -2823,7 +2823,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glRotatef, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 #ifndef direct_glRotatef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat;
         data->func = glRotatef;
@@ -2845,7 +2845,7 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
 void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glRotatex, GLfixed angle, GLfixed x, GLfixed y, GLfixed z);
 #ifndef direct_glRotatex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed;
         data->func = glRotatex;
@@ -2867,7 +2867,7 @@ void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
 void glSampleCoverage(GLclampf value, GLboolean invert) {
     LOAD_GLES(void, glSampleCoverage, GLclampf value, GLboolean invert);
 #ifndef direct_glSampleCoverage
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampf_GLboolean *data = malloc(sizeof(PACKED_void_GLclampf_GLboolean));
         data->format = FORMAT_void_GLclampf_GLboolean;
         data->func = glSampleCoverage;
@@ -2887,7 +2887,7 @@ void glSampleCoverage(GLclampf value, GLboolean invert) {
 void glSampleCoveragex(GLclampx value, GLboolean invert) {
     LOAD_GLES(void, glSampleCoveragex, GLclampx value, GLboolean invert);
 #ifndef direct_glSampleCoveragex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLclampx_GLboolean *data = malloc(sizeof(PACKED_void_GLclampx_GLboolean));
         data->format = FORMAT_void_GLclampx_GLboolean;
         data->func = glSampleCoveragex;
@@ -2907,7 +2907,7 @@ void glSampleCoveragex(GLclampx value, GLboolean invert) {
 void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glScalef, GLfloat x, GLfloat y, GLfloat z);
 #ifndef direct_glScalef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat;
         data->func = glScalef;
@@ -2928,7 +2928,7 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
 void glScalex(GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glScalex, GLfixed x, GLfixed y, GLfixed z);
 #ifndef direct_glScalex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed;
         data->func = glScalex;
@@ -2949,7 +2949,7 @@ void glScalex(GLfixed x, GLfixed y, GLfixed z) {
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glScissor, GLint x, GLint y, GLsizei width, GLsizei height);
 #ifndef direct_glScissor
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLint_GLsizei_GLsizei *data = malloc(sizeof(PACKED_void_GLint_GLint_GLsizei_GLsizei));
         data->format = FORMAT_void_GLint_GLint_GLsizei_GLsizei;
         data->func = glScissor;
@@ -2971,7 +2971,7 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
 void glShadeModel(GLenum mode) {
     LOAD_GLES(void, glShadeModel, GLenum mode);
 #ifndef direct_glShadeModel
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
         data->format = FORMAT_void_GLenum;
         data->func = glShadeModel;
@@ -2990,7 +2990,7 @@ void glShadeModel(GLenum mode) {
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     LOAD_GLES(void, glStencilFunc, GLenum func, GLint ref, GLuint mask);
 #ifndef direct_glStencilFunc
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLuint *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLuint));
         data->format = FORMAT_void_GLenum_GLint_GLuint;
         data->func = glStencilFunc;
@@ -3011,7 +3011,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
 void glStencilMask(GLuint mask) {
     LOAD_GLES(void, glStencilMask, GLuint mask);
 #ifndef direct_glStencilMask
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLuint *data = malloc(sizeof(PACKED_void_GLuint));
         data->format = FORMAT_void_GLuint;
         data->func = glStencilMask;
@@ -3030,7 +3030,7 @@ void glStencilMask(GLuint mask) {
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     LOAD_GLES(void, glStencilOp, GLenum fail, GLenum zfail, GLenum zpass);
 #ifndef direct_glStencilOp
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLenum *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLenum));
         data->format = FORMAT_void_GLenum_GLenum_GLenum;
         data->func = glStencilOp;
@@ -3051,7 +3051,7 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glTexCoordPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
 #ifndef direct_glTexCoordPointer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glTexCoordPointer;
@@ -3073,7 +3073,7 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
 void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glTexEnvf, GLenum target, GLenum pname, GLfloat param);
 #ifndef direct_glTexEnvf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat;
         data->func = glTexEnvf;
@@ -3094,7 +3094,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glTexEnvfv, GLenum target, GLenum pname, const GLfloat * params);
 #ifndef direct_glTexEnvfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__;
         data->func = glTexEnvfv;
@@ -3115,7 +3115,7 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
 void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(void, glTexEnvi, GLenum target, GLenum pname, GLint param);
 #ifndef direct_glTexEnvi
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLint *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLint));
         data->format = FORMAT_void_GLenum_GLenum_GLint;
         data->func = glTexEnvi;
@@ -3136,7 +3136,7 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
 void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     LOAD_GLES(void, glTexEnviv, GLenum target, GLenum pname, const GLint * params);
 #ifndef direct_glTexEnviv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLint___GENPT__;
         data->func = glTexEnviv;
@@ -3157,7 +3157,7 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
 void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glTexEnvx, GLenum target, GLenum pname, GLfixed param);
 #ifndef direct_glTexEnvx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed;
         data->func = glTexEnvx;
@@ -3178,7 +3178,7 @@ void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
 void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glTexEnvxv, GLenum target, GLenum pname, const GLfixed * params);
 #ifndef direct_glTexEnvxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__;
         data->func = glTexEnvxv;
@@ -3199,7 +3199,7 @@ void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
     LOAD_GLES(void, glTexImage2D, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
 #ifndef direct_glTexImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
         data->func = glTexImage2D;
@@ -3226,7 +3226,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glTexParameterf, GLenum target, GLenum pname, GLfloat param);
 #ifndef direct_glTexParameterf
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfloat *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfloat));
         data->format = FORMAT_void_GLenum_GLenum_GLfloat;
         data->func = glTexParameterf;
@@ -3247,7 +3247,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glTexParameterfv, GLenum target, GLenum pname, const GLfloat * params);
 #ifndef direct_glTexParameterfv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__;
         data->func = glTexParameterfv;
@@ -3268,7 +3268,7 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(void, glTexParameteri, GLenum target, GLenum pname, GLint param);
 #ifndef direct_glTexParameteri
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLint *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLint));
         data->format = FORMAT_void_GLenum_GLenum_GLint;
         data->func = glTexParameteri;
@@ -3289,7 +3289,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     LOAD_GLES(void, glTexParameteriv, GLenum target, GLenum pname, const GLint * params);
 #ifndef direct_glTexParameteriv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLint___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLint___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLint___GENPT__;
         data->func = glTexParameteriv;
@@ -3310,7 +3310,7 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glTexParameterx, GLenum target, GLenum pname, GLfixed param);
 #ifndef direct_glTexParameterx
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_GLfixed *data = malloc(sizeof(PACKED_void_GLenum_GLenum_GLfixed));
         data->format = FORMAT_void_GLenum_GLenum_GLfixed;
         data->func = glTexParameterx;
@@ -3331,7 +3331,7 @@ void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
 void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glTexParameterxv, GLenum target, GLenum pname, const GLfixed * params);
 #ifndef direct_glTexParameterxv
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__));
         data->format = FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__;
         data->func = glTexParameterxv;
@@ -3352,7 +3352,7 @@ void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
     LOAD_GLES(void, glTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
 #ifndef direct_glTexSubImage2D
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
         data->func = glTexSubImage2D;
@@ -3379,7 +3379,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
 void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glTranslatef, GLfloat x, GLfloat y, GLfloat z);
 #ifndef direct_glTranslatef
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfloat_GLfloat_GLfloat *data = malloc(sizeof(PACKED_void_GLfloat_GLfloat_GLfloat));
         data->format = FORMAT_void_GLfloat_GLfloat_GLfloat;
         data->func = glTranslatef;
@@ -3400,7 +3400,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
 void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glTranslatex, GLfixed x, GLfixed y, GLfixed z);
 #ifndef direct_glTranslatex
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLfixed_GLfixed_GLfixed *data = malloc(sizeof(PACKED_void_GLfixed_GLfixed_GLfixed));
         data->format = FORMAT_void_GLfixed_GLfixed_GLfixed;
         data->func = glTranslatex;
@@ -3421,7 +3421,7 @@ void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glVertexPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
 #ifndef direct_glVertexPointer
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *data = malloc(sizeof(PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__));
         data->format = FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__;
         data->func = glVertexPointer;
@@ -3443,7 +3443,7 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glViewport, GLint x, GLint y, GLsizei width, GLsizei height);
 #ifndef direct_glViewport
-    if (listCompiling) {
+    if (state.list.compiling) {
         PACKED_void_GLint_GLint_GLsizei_GLsizei *data = malloc(sizeof(PACKED_void_GLint_GLint_GLsizei_GLsizei));
         data->format = FORMAT_void_GLint_GLint_GLsizei_GLsizei;
         data->func = glViewport;

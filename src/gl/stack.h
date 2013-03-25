@@ -1,4 +1,5 @@
 #include "gl.h"
+#include "state.h"
 
 #ifndef GL_STACK_H
 #define GL_STACK_H
@@ -124,10 +125,10 @@ typedef struct {
     GLboolean color_enable;
     GLboolean tex_enable;
     GLboolean normal_enable;
-    glwPointer verts;
-    glwPointer color;
-    glwPointer normal;
-    glwPointer tex;
+    PointerState verts;
+    PointerState color;
+    PointerState normal;
+    PointerState tex;
 
     unsigned int len;
     unsigned int cap;

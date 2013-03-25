@@ -186,21 +186,21 @@ void glPushClientAttrib(GLbitfield mask) {
     if (mask & GL_CLIENT_PIXEL_STORE_BIT) {
         glGetIntegerv(GL_PACK_ALIGNMENT, &cur->pack_align);
         glGetIntegerv(GL_UNPACK_ALIGNMENT, &cur->unpack_align);
-        cur->unpack_row_length = tUnpackRowLength;
-        cur->unpack_skip_pixels = tUnpackSkipPixels;
-        cur->unpack_skip_rows = tUnpackSkipRows;
+        cur->unpack_row_length = state.texture.unpack_row_length;
+        cur->unpack_skip_pixels = state.texture.unpack_skip_pixels;
+        cur->unpack_skip_rows = state.texture.unpack_skip_rows;
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        cur->vert_enable = bVertexArray;
-        cur->color_enable = bColorArray;
-        cur->normal_enable = bNormalArray;
-        cur->tex_enable = bTexCoordArray;
+        cur->vert_enable = state.enable.vertex_array;
+        cur->color_enable = state.enable.color_array;
+        cur->normal_enable = state.enable.normal_array;
+        cur->tex_enable = state.enable.tex_coord_array;
 
-        memcpy(&cur->verts, &aVertexPointer, sizeof(glwPointer));
-        memcpy(&cur->color, &aColorPointer, sizeof(glwPointer));
-        memcpy(&cur->normal, &aNormalPointer, sizeof(glwPointer));
-        memcpy(&cur->tex, &aTexCoordPointer, sizeof(glwPointer));
+        memcpy(&cur->verts, &state.pointers.vertex, sizeof(PointerState));
+        memcpy(&cur->color, &state.pointers.color, sizeof(PointerState));
+        memcpy(&cur->normal, &state.pointers.normal, sizeof(PointerState));
+        memcpy(&cur->tex, &state.pointers.tex_coord, sizeof(PointerState));
     }
 
     clientStack->len++;
@@ -359,10 +359,10 @@ void glPopClientAttrib() {
         enable_disable(GL_COLOR_ARRAY, cur->color_enable);
         enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable);
 
-        memcpy(&aVertexPointer, &cur->verts, sizeof(glwPointer));
-        memcpy(&aColorPointer, &cur->color, sizeof(glwPointer));
-        memcpy(&aNormalPointer, &cur->normal, sizeof(glwPointer));
-        memcpy(&aTexCoordPointer, &cur->tex, sizeof(glwPointer));
+        memcpy(&state.pointers.vertex, &cur->verts, sizeof(PointerState));
+        memcpy(&state.pointers.color, &cur->color, sizeof(PointerState));
+        memcpy(&state.pointers.normal, &cur->normal, sizeof(PointerState));
+        memcpy(&state.pointers.tex_coord, &cur->tex, sizeof(PointerState));
     }
 
     clientStack->len--;

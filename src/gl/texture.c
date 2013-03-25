@@ -1,8 +1,4 @@
-#include <texture.h>
-
-GLuint tUnpackRowLength = 0;
-GLuint tUnpackSkipPixels = 0;
-GLuint tUnpackSkipRows = 0;
+#include "texture.h"
 
 // expand non-power-of-two sizes
 // TODO: what does this do to repeating textures?
@@ -20,14 +16,14 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 
     GLvoid *pixels;
     // implements GL_UNPACK_ROW_LENGTH
-    if (tUnpackRowLength && tUnpackRowLength != width) {
+    if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
         int imgWidth, pixelSize;
         pixelSize = gl_sizeof(type);
-        imgWidth = tUnpackRowLength * pixelSize;
+        imgWidth = state.texture.unpack_row_length * pixelSize;
         GLubyte *dst = malloc(imgWidth * height);
         const GLubyte *src = data;
-        src += tUnpackSkipPixels + tUnpackSkipRows * imgWidth;
-        for (int y = tUnpackSkipRows; y < height; y += 1) {
+        src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
+        for (int y = state.texture.unpack_skip_rows; y < height; y += 1) {
             memcpy(dst+imgWidth, src, width * pixelSize);
             src += imgWidth;
         }
@@ -124,13 +120,13 @@ void glPixelStorei(GLenum pname, GLint param) {
     LOAD_GLES(void, glPixelStorei, GLenum, GLint);
     switch (pname) {
         case GL_UNPACK_ROW_LENGTH:
-            tUnpackRowLength = param;
+            state.texture.unpack_row_length = param;
             break;
         case GL_UNPACK_SKIP_PIXELS:
-            tUnpackSkipPixels = param;
+            state.texture.unpack_skip_pixels = param;
             break;
         case GL_UNPACK_SKIP_ROWS:
-            tUnpackSkipRows = param;
+            state.texture.unpack_skip_rows = param;
             break;
         default:
             gles_glPixelStorei(pname, param);

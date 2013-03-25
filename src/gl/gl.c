@@ -1,29 +1,8 @@
-#include <gl.h>
+#include "gl.h"
 
-RenderList *activeList = NULL;
-GLfloat lastColor[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-bool listCompiling = false;
-bool listMode = 0;
-GLuint listBase = 0;
-
-bool bTexGenS = false;
-bool bTexGenT = false;
-bool bLineStipple = false;
-bool bBlend = false;
-bool bTexture2d = false;
-
-// glDrawArrays
-bool bVertexArray = false;
-bool bColorArray = false;
-bool bNormalArray = false;
-bool bTexCoordArray = false;
-glwPointer aVertexPointer;
-glwPointer aColorPointer;
-glwPointer aNormalPointer;
-glwPointer aTexCoordPointer;
+GLstate state = {.color = {1.0f, 1.0f, 1.0f, 1.0f}};
 
 // config functions
-
 const GLubyte *glGetString(GLenum name) {
     LOAD_GLES(const GLubyte *, glGetString, GLenum);
     switch (name) {
@@ -34,43 +13,48 @@ const GLubyte *glGetString(GLenum name) {
     }
 }
 
-void glwEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
+static void _glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
+    #define proxy_enable(constant, name) \
+        case constant: state.enable.name = enable; next(cap); break
+    #define enable(constant, name) \
+        case constant: state.enable.name = enable; break;
+
     switch (cap) {
-        case GL_TEXTURE_GEN_S: bTexGenS = enable; break;
-        case GL_TEXTURE_GEN_T: bTexGenT = enable; break;
-        case GL_BLEND: bBlend = enable; next(cap); break;
-        case GL_TEXTURE_2D: bTexture2d = enable; next(cap); break;
-        case GL_LINE_STIPPLE: bLineStipple = enable; break;
+        proxy_enable(GL_BLEND, blend);
+        proxy_enable(GL_TEXTURE_2D, texture_2d);
+        enable(GL_TEXTURE_GEN_S, texgen_s);
+        enable(GL_TEXTURE_GEN_T, texgen_t);
+        enable(GL_LINE_STIPPLE, line_stipple);
 
         // for glDrawArrays
-        case GL_VERTEX_ARRAY: bVertexArray = enable; next(cap); break;
-        case GL_NORMAL_ARRAY: bNormalArray = enable; next(cap); break;
-        case GL_COLOR_ARRAY: bColorArray = enable; next(cap); break;
-        case GL_TEXTURE_COORD_ARRAY: bTexCoordArray = enable; next(cap); break;
+        proxy_enable(GL_VERTEX_ARRAY, vertex_array);
+        proxy_enable(GL_NORMAL_ARRAY, normal_array);
+        proxy_enable(GL_COLOR_ARRAY, color_array);
+        proxy_enable(GL_TEXTURE_COORD_ARRAY, tex_coord_array);
         default: next(cap); break;
     }
+    #undef proxy_enable
+    #undef enable
 }
 
 void glEnable(GLenum cap) {
     LOAD_GLES(void, glEnable, GLenum);
-    glwEnable(cap, true, gles_glEnable);
+    _glEnable(cap, true, gles_glEnable);
 }
 
 void glDisable(GLenum cap) {
     LOAD_GLES(void, glDisable, GLenum);
-    glwEnable(cap, false, gles_glDisable);
+    _glEnable(cap, false, gles_glDisable);
 }
 
-// glDrawArrays
 void glEnableClientState(GLenum cap) {
     LOAD_GLES(void, glEnableClientState, GLenum);
-    if (cap == GL_POINT_SIZE_ARRAY_OES) printf("point size\n");
-    glwEnable(cap, true, gles_glEnableClientState);
+    _glEnable(cap, true, gles_glEnableClientState);
 }
 
 void glDisableClientState(GLenum cap) {
     LOAD_GLES(void, glDisableClientState, GLenum);
-    glwEnable(cap, false, gles_glDisableClientState);
+    _glEnable(cap, false, gles_glDisableClientState);
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -128,17 +112,17 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                 }                                                                \
             }
 
-        if (bVertexArray) {
-            copy_gl_pointer(aVertexPointer, list->vert)
+        if (state.enable.vertex_array) {
+            copy_gl_pointer(state.pointers.vertex, list->vert)
         }
-        if (bColorArray) {
-            copy_gl_pointer(aColorPointer, list->color)
+        if (state.enable.color_array) {
+            copy_gl_pointer(state.pointers.color, list->color)
         }
-        if (bNormalArray) {
-            copy_gl_pointer(aNormalPointer, list->normal)
+        if (state.enable.normal_array) {
+            copy_gl_pointer(state.pointers.normal, list->normal)
         }
-        if (bTexCoordArray) {
-            copy_gl_pointer(aTexCoordPointer, list->tex)
+        if (state.enable.tex_coord_array) {
+            copy_gl_pointer(state.pointers.tex_coord, list->tex)
         }
         #undef copy_gl_pointer
         #undef type_switch
@@ -157,24 +141,24 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glVertexPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    clone_gl_pointer(aVertexPointer, size);
+    clone_gl_pointer(state.pointers.vertex, size);
     gles_glVertexPointer(size, type, stride, pointer);
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glColorPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    clone_gl_pointer(aColorPointer, size);
+    clone_gl_pointer(state.pointers.color, size);
     gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glNormalPointer, GLenum, GLsizei, const GLvoid *);
-    clone_gl_pointer(aNormalPointer, 3);
+    clone_gl_pointer(state.pointers.normal, 3);
     gles_glNormalPointer(type, stride, pointer);
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glTexCoordPointer, GLint, GLenum, GLsizei, const GLvoid *);
-    clone_gl_pointer(aTexCoordPointer, size);
+    clone_gl_pointer(state.pointers.tex_coord, size);
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
 #undef clone_gl_pointer
@@ -182,56 +166,56 @@ void glTexCoordPointer(GLint size, GLenum type,
 // immediate mode functions
 
 void glBegin(GLenum mode) {
-    if (! listCompiling) {
-        activeList = allocRenderList();
+    if (! state.list.compiling) {
+        state.list.active = allocRenderList();
     }
-    memcpy(activeList->lastColor, lastColor, sizeof(GLfloat) * 4);
-    activeList->mode = mode;
+    memcpy(state.list.active->lastColor, state.color, sizeof(GLfloat) * 4);
+    state.list.active->mode = mode;
 }
 
 void glEnd() {
     // render if we're not in a display list
-    if (! activeList) return;
+    if (! state.list.compiling) return;
 
-    endRenderList(activeList);
-    if (! listCompiling) {
-        drawRenderList(activeList);
-        freeRenderList(activeList);
-        activeList = NULL;
+    endRenderList(state.list.active);
+    if (! state.list.compiling) {
+        drawRenderList(state.list.active);
+        freeRenderList(state.list.active);
+        state.list.active = NULL;
     } else {
-        activeList = extendRenderList(activeList);
+        state.list.active = extendRenderList(state.list.active);
     }
 }
 
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
-    if (activeList) {
-        lVertex3f(activeList, x, y, z);
+    if (state.list.active) {
+        lVertex3f(state.list.active, x, y, z);
     }
 }
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-    if (activeList) {
-        lColor4f(activeList, r, g, b, a);
+    if (state.list.active) {
+        lColor4f(state.list.active, r, g, b, a);
     } else {
         LOAD_GLES(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
         gles_glColor4f(r, g, b, a);
-        lastColor[0] = r; lastColor[1] = g;
-        lastColor[2] = b; lastColor[3] = a;
+        state.color[0] = r; state.color[1] = g;
+        state.color[2] = b; state.color[3] = a;
     }
 }
 
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat *params);
-    if (activeList) {
-        lMaterialfv(activeList, face, pname, params);
+    if (state.list.active) {
+        lMaterialfv(state.list.active, face, pname, params);
     } else {
         gles_glMaterialfv(face, pname, params);
     }
 }
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
-    if (activeList) {
-        lTexCoord2f(activeList, s, t);
+    if (state.list.active) {
+        lTexCoord2f(state.list.active, s, t);
     }
 }
 
@@ -267,7 +251,7 @@ GLuint glGenLists(GLsizei range) {
 
 void glNewList(GLuint list, GLenum mode) {
     if (list > listCount) return;
-    listMode = mode;
+    state.list.mode = mode;
 
     RenderList *l = glGetList(list);
     if (l) {
@@ -276,17 +260,17 @@ void glNewList(GLuint list, GLenum mode) {
         // iirc it's in the GL spec
         return;
     } else {
-        // TODO: if activeList is already defined, we probably need to clean up here
-        activeList = displayLists[list-1] = allocRenderList();
-        listCompiling = true;
+        // TODO: if state.list.active is already defined, we probably need to clean up here
+        state.list.active = displayLists[list-1] = allocRenderList();
+        state.list.compiling = true;
     }
 }
 
 void glEndList(GLuint list) {
-    if (listCompiling) {
-        listCompiling = false;
-        activeList = NULL;
-        if (listMode == GL_COMPILE_AND_EXECUTE) {
+    if (state.list.compiling) {
+        state.list.compiling = false;
+        state.list.active = NULL;
+        if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);
         }
     }
@@ -300,14 +284,14 @@ void glCallList(GLuint list) {
 }
 
 void glPushCall(void *call) {
-    if (listCompiling && activeList) {
-        lPushCall(activeList, call);
+    if (state.list.compiling && state.list.active) {
+        lPushCall(state.list.active, call);
     }
 }
 
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type)\
-        case name: glCallList(((type *)lists)[i] + listBase); break
+        case name: glCallList(((type *)lists)[i] + state.list.base); break
 
     // seriously wtf
     #define call_bytes(name, stride)\
@@ -317,7 +301,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
             for (j = 0; j < stride; j++) {\
                 list += *(l + (i * stride + j)) << (stride - j);\
             }\
-            glCallList(list + listBase);\
+            glCallList(list + state.list.base);\
             break
 
     unsigned int i, j;
@@ -359,7 +343,7 @@ void glDeleteLists(GLuint list, GLsizei range) {
 }
 
 void glListBase(GLuint base) {
-    listBase = base;
+    state.list.base = base;
 }
 
 GLboolean glIsList(GLuint list) {

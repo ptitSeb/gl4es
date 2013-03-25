@@ -216,7 +216,7 @@ void drawRenderList(RenderList *list) {
         bool stipple = false;
         if (! tex) {
             // TODO: do we need to support GL_LINE_STRIP?
-            if (list->mode == GL_LINES && bLineStipple && false) {
+            if (list->mode == GL_LINES && state.enable.line_stipple && false) {
                 stipple = true;
                 glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
                 glEnable(GL_BLEND);
@@ -226,7 +226,7 @@ void drawRenderList(RenderList *list) {
                 // TODO: cache this for display list on first render?
             }
 
-            if (bTexGenS || bTexGenT) {
+            if (state.enable.texgen_s || state.enable.texgen_t) {
                 genTexCoords(list->vert, &tex, list->len);
             }
         }

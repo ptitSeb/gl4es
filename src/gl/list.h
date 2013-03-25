@@ -1,5 +1,4 @@
-#include <gl.h>
-#include <line.h>
+#include "gl.h"
 
 #ifndef DISPLAY_LIST_H
 #define DISPLAY_LIST_H

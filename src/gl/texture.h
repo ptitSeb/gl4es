@@ -9,7 +9,3 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
                   GLenum format, GLenum type, const GLvoid *data);
 
 int npot(int n);
-
-extern GLuint tUnpackRowLength;
-extern GLuint tUnpackSkipPixels;
-extern GLuint tUnpackSkipRows;
