@@ -1,0 +1,137 @@
+#include "pixel.h"
+
+static const ColorLayout *get_color_map(GLenum format) {
+    #define map(fmt, ...) case fmt: return &(ColorLayout){fmt, __VA_ARGS__}
+    switch (format) {
+        map(GL_RED, 0, -1, -1, -1);
+        map(GL_RG, 0, 1, -1, -1);
+        map(GL_RGBA, 0, 1, 2, 3);
+        map(GL_RGB, 0, 1, 2, -1);
+        map(GL_BGRA, 2, 1, 0, 3);
+        map(GL_BGR, 2, 1, 0, -1);
+        default:
+            printf("libGL: unknown pixel format %i\n", format);
+            break;
+    }
+    return NULL;
+    #undef map
+}
+
+static inline
+bool pixel_to_pixel(const GLvoid *src, GLvoid *dst,
+                    const ColorLayout *src_color, GLenum src_type,
+                    const ColorLayout *dst_color, GLenum dst_type) {
+
+    #define type_case(constant, type, ...)        \
+        case constant: {                          \
+            const type *s = (const type *)src;    \
+            type *d = (type *)dst;                \
+            type v = *s;                          \
+            __VA_ARGS__                           \
+            break;                                \
+        }
+
+    #define default(arr, amod, key, def) \
+        key >= 0 ? arr[amod key] : def
+
+    #define carefully(arr, amod, key, value) \
+        if (key >= 0) d[amod key] = value;
+
+    #define read_each(amod, vmod)                           \
+        pixel.r = default(s, amod, src_color->red, 0);      \
+        pixel.g = default(s, amod, src_color->green, 0);    \
+        pixel.b = default(s, amod, src_color->blue, 0);     \
+        pixel.a = default(s, amod, src_color->alpha, 1.0f);
+
+    #define write_each(amod, vmod)                         \
+        carefully(d, amod, dst_color->red, pixel.r vmod)   \
+        carefully(d, amod, dst_color->green, pixel.g vmod) \
+        carefully(d, amod, dst_color->blue, pixel.b vmod)  \
+        carefully(d, amod, dst_color->alpha, pixel.a vmod)
+
+    GLsizei src_size = gl_sizeof(src_type);
+    GLsizei dst_size = gl_sizeof(dst_type);
+
+    // this pixel stores our intermediate color
+    // it will be RGBA and normalized to between (0.0 - 1.0f)
+    Pixel pixel;
+    switch (src_type) {
+        type_case(GL_DOUBLE, GLdouble, read_each(,))
+        type_case(GL_FLOAT, GLfloat, read_each(,))
+        type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(, / 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, read_each(4 - , / 255.0))
+        type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
+            s = (GLushort[]){
+                v & 31,
+                (v & 0x03e0 >> 5) / 31.0,
+                (v & 0x7c00 >> 10) / 31.0,
+                (v & 0x8000 >> 15) / 31.0,
+            };
+            read_each(,);
+        )
+        default:
+            // TODO: add glSetError?
+            printf("libGL: Unsupported source data type: %i\n", src_type);
+            return false;
+            break;
+    }
+
+    switch (dst_type) {
+        type_case(GL_FLOAT, GLfloat, write_each(,))
+        type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
+        // TODO: force 565 to RGB? then we can change [4] -> 3
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            GLfloat color[4];
+            color[dst_color->red] = pixel.r;
+            color[dst_color->green] = pixel.g;
+            color[dst_color->blue] = pixel.b;
+            *d = ((GLuint)(color[0] * 31) & 0x1f << 11) |
+                 ((GLuint)(color[1] * 63) & 0x3f << 5) |
+                 ((GLuint)(color[2] * 31) & 0x1f);
+        )
+        default:
+            printf("libGL: Unsupported target data type: %i\n", dst_type);
+            return false;
+            break;
+    }
+    return true;
+
+    #undef type_case
+    #undef default
+    #undef carefully
+    #undef read_each
+    #undef write_each
+}
+
+bool pixels_to_pixels(const GLvoid *src, GLvoid **dst,
+                      GLuint width, GLuint height,
+                      GLenum src_format, GLenum src_type,
+                      GLenum dst_format, GLenum dst_type) {
+    const ColorLayout *src_color, *dst_color;
+    GLuint pixels = width * height;
+    GLuint dst_size = pixels * gl_sizeof(dst_type) * gl_sizeof(dst_format);
+
+    // printf("pixel conversion: %ix%i - %i, %i -> %i, %i\n", width, height, src_format, src_type, dst_format, dst_type);
+    src_color = get_color_map(src_format);
+    dst_color = get_color_map(dst_format);
+    if (src_type == dst_type && src_color->type == dst_color->type) {
+        if (*dst != src) {
+            GLvoid *test = *dst = malloc(dst_size);
+            memcpy(test, src, dst_size);
+            fflush(stdout);
+            return true;
+        }
+    } else {
+        *dst = malloc(dst_size);
+        for (int i = 0; i < pixels; i++) {
+            if (! pixel_to_pixel(src, *dst, src_color, src_type, dst_color, dst_type)) {
+                // checking a boolean for each pixel like this might be a slowdown?
+                // probably depends on how well branch prediction performs
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
