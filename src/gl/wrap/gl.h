@@ -1,5 +1,5 @@
 #include "../gl.h"
-#include <glext.h>
+#include <GLES/glext.h>
 
 #ifndef GL_WRAP_H
 #define GL_WRAP_H
