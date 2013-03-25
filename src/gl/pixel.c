@@ -18,7 +18,7 @@ static const ColorLayout *get_color_map(GLenum format) {
 }
 
 static inline
-bool pixel_to_pixel(const GLvoid *src, GLvoid *dst,
+bool remap_pixel(const GLvoid *src, GLvoid *dst,
                     const ColorLayout *src_color, GLenum src_type,
                     const ColorLayout *dst_color, GLenum dst_type) {
 
@@ -104,10 +104,10 @@ bool pixel_to_pixel(const GLvoid *src, GLvoid *dst,
     #undef write_each
 }
 
-bool pixels_to_pixels(const GLvoid *src, GLvoid **dst,
-                      GLuint width, GLuint height,
-                      GLenum src_format, GLenum src_type,
-                      GLenum dst_format, GLenum dst_type) {
+bool pixel_convert(const GLvoid *src, GLvoid **dst,
+                   GLuint width, GLuint height,
+                   GLenum src_format, GLenum src_type,
+                   GLenum dst_format, GLenum dst_type) {
     const ColorLayout *src_color, *dst_color;
     GLuint pixels = width * height;
     GLuint dst_size = pixels * gl_sizeof(dst_type) * gl_sizeof(dst_format);
@@ -125,7 +125,7 @@ bool pixels_to_pixels(const GLvoid *src, GLvoid **dst,
     } else {
         *dst = malloc(dst_size);
         for (int i = 0; i < pixels; i++) {
-            if (! pixel_to_pixel(src, *dst, src_color, src_type, dst_color, dst_type)) {
+            if (! remap_pixel(src, *dst, src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
                 // probably depends on how well branch prediction performs
                 return false;

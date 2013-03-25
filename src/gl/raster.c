@@ -105,8 +105,8 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     GLvoid *dst = NULL;
 
     initRaster();
-    if (! pixels_to_pixels(data, &dst, width, height,
-                           format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+    if (! pixel_convert(data, &dst, width, height,
+                        format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
         return;
     }
     pixels = dst;

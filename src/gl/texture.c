@@ -51,8 +51,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             break;
         default: {
             const GLvoid *src = pixels ? pixels : data;
-            if (! pixels_to_pixels(src, &pixels, width, height,
-                                   format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+            if (! pixel_convert(src, &pixels, width, height,
+                                format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
                 return;
             }
             break;
@@ -70,8 +70,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             break;
         default: {
             const GLvoid *src = pixels ? pixels : data;
-            if (! pixels_to_pixels(src, &pixels, width, height,
-                                   format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+            if (! pixel_convert(src, &pixels, width, height,
+                                format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
                 return;
             }
             type = GL_UNSIGNED_BYTE;

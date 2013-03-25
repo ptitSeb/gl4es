@@ -12,9 +12,9 @@ typedef struct {
     GLfloat r, g, b, a;
 } Pixel;
 
-bool pixels_to_pixels(const GLvoid *src, GLvoid **dst,
-                      GLuint width, GLuint height,
-                      GLenum src_format, GLenum src_type,
-                      GLenum dst_format, GLenum dst_type);
+bool pixel_convert(const GLvoid *src, GLvoid **dst,
+                   GLuint width, GLuint height,
+                   GLenum src_format, GLenum src_type,
+                   GLenum dst_format, GLenum dst_type);
 
 #endif
