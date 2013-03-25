@@ -81,21 +81,26 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     break;                                               \
             }
 
-        #define copy_gl_pointer(ptr, arr)\
+        #define copy_gl_pointer(ptr, arr, element_size) \
             if (ptr.pointer) {                                                   \
                 int stride, width, size;                                         \
+                uintptr_t src;                                                   \
+                GLfloat *dst;                                                    \
                 width = ptr.size;                                                \
                 size = gl_sizeof(ptr.type);                                      \
                 stride = (ptr.stride ? ptr.stride : width * size);               \
-                arr = malloc(sizeof(GLfloat) * width * count);                   \
-                uintptr_t src = (uintptr_t)ptr.pointer;                          \
-                GLfloat *dst = arr;                                              \
+                arr = malloc(sizeof(GLfloat) * element_size * count);            \
+                src = (uintptr_t)ptr.pointer;                                    \
+                dst = arr;                                                       \
                                                                                  \
                 src += first * stride;                                           \
                 if (ptr.type == GL_FLOAT) {                                      \
                     for (int i = 0; i < count; i++) {                            \
                         memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);     \
-                        dst += width;                                            \
+                        for (int j = width; j < element_size; j++) {             \
+                            dst[j] = 0;                                          \
+                        }                                                        \
+                        dst += element_size;                                     \
                         src += stride;                                           \
                     }                                                            \
                 } else {                                                         \
@@ -104,7 +109,10 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                             for (int k = 0; k < width; k++) {                    \
                                 dst[k] = next[k];                                \
                             }                                                    \
-                            dst += width;                                        \
+                            for (int j = width; j < element_size; j++) {         \
+                                dst[j] = 0;                                      \
+                            }                                                    \
+                            dst += element_size;                                 \
                             src += stride;                                       \
                             next = (void *)src;                                  \
                         }                                                        \
@@ -113,16 +121,16 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             }
 
         if (state.enable.vertex_array) {
-            copy_gl_pointer(state.pointers.vertex, list->vert)
+            copy_gl_pointer(state.pointers.vertex, list->vert, 3)
         }
         if (state.enable.color_array) {
-            copy_gl_pointer(state.pointers.color, list->color)
+            copy_gl_pointer(state.pointers.color, list->color, 4)
         }
         if (state.enable.normal_array) {
-            copy_gl_pointer(state.pointers.normal, list->normal)
+            copy_gl_pointer(state.pointers.normal, list->normal, 3)
         }
         if (state.enable.tex_coord_array) {
-            copy_gl_pointer(state.pointers.tex_coord, list->tex)
+            copy_gl_pointer(state.pointers.tex_coord, list->tex, 2)
         }
         #undef copy_gl_pointer
         #undef type_switch
