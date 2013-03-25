@@ -19,6 +19,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 
 bool pixel_scale(const GLvoid *src, GLvoid **dst,
                   GLuint width, GLuint height,
-                  GLuint new_width, GLuint new_height,
+                  GLfloat ratio,
                   GLenum format, GLenum type);
 #endif

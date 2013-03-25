@@ -69,13 +69,16 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 
     char *env_shrink = getenv("LIBGL_SHRINK");
     if (env_shrink && strcmp(env_shrink, "1") == 0) {
-        GLvoid *out;
-        pixel_scale(pixels, &out, width, height, width / 2, height / 2, format, type);
-        if (pixels != data)
-            free(pixels);
-        pixels = out;
-        width /= 2;
-        height /= 2;
+        if (width > 1 && height > 1) {
+            GLvoid *out;
+            GLfloat ratio = 0.5;
+            pixel_scale(pixels, &out, width, height, ratio, format, type);
+            if (pixels != data)
+                free(pixels);
+            pixels = out;
+            width *= ratio;
+            height *= ratio;
+        }
     }
 
     /* TODO:

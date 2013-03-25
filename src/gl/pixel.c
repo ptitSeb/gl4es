@@ -140,22 +140,23 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 
 bool pixel_scale(const GLvoid *old, GLvoid **new,
                   GLuint width, GLuint height,
-                  GLuint new_width, GLuint new_height,
+                  GLfloat ratio,
                   GLenum format, GLenum type) {
+    GLuint pixel_size, new_width, new_height;
+    new_width = width * ratio;
+    new_height = height * ratio;
     printf("scaling %ux%u -> %ux%u\n", width, height, new_width, new_height);
-    GLuint pixel_size;
     GLvoid *dst;
     uintptr_t src, pos, pixel;
 
     pixel_size = gl_sizeof(format) * gl_sizeof(type);
-    dst = malloc(pixel_size * width * height);
+    dst = malloc(pixel_size * new_width * new_height);
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
-    uintptr_t max = pos + (pixel_size * new_width * new_height);
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            pixel = src + (x / (GLfloat)new_width * width) +
-                          (y / (GLfloat)new_height * height) * width;
+    for (int x = 0; x < new_width; x++) {
+        for (int y = 0; y < new_height; y++) {
+            pixel = src + (x / ratio) +
+                          (y / ratio) * width;
             memcpy((GLvoid *)pos, (GLvoid *)pixel, pixel_size);
             pos += pixel_size;
         }
