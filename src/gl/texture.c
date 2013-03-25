@@ -81,6 +81,11 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         }
     }
 
+    char *env_dump = getenv("LIBGL_TEXDUMP");
+    if (env_dump && strcmp(env_dump, "1") == 0) {
+        pixel_to_ppm(pixels, width, height, format, type);
+    }
+
     /* TODO:
     GL_INVALID_VALUE is generated if border is not 0.
     GL_INVALID_OPERATION is generated if type is

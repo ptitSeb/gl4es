@@ -164,3 +164,22 @@ bool pixel_scale(const GLvoid *old, GLvoid **new,
     *new = dst;
     return true;
 }
+
+bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum format, GLenum type) {
+    static int count = 0;
+    const GLvoid *src;
+    char filename[64];
+    int size = gl_sizeof(format) * gl_sizeof(type) * width * height;
+    if (format == GL_RGB && type == GL_UNSIGNED_BYTE) {
+        src = pixels;
+    } else {
+        pixel_convert(pixels, (GLvoid **)&src, width, height, format, type, GL_RGB, GL_UNSIGNED_BYTE);
+    }
+
+    snprintf(filename, 64, "/tmp/tex.%d.ppm", count++);
+    FILE *fd = fopen(filename, "w");
+    fprintf(fd, "P6 %d %d %d\n", width, height, 255);
+    fwrite(src, 1, size, fd);
+    fclose(fd);
+    return true;
+}
