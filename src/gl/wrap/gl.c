@@ -1,5 +1,4 @@
-#include <gl.h>
-#include <GLES/glext.h>
+#include "gl.h"
 
 #define constDoubleToFloat(a, size) \
     GLfloat s[size];                \

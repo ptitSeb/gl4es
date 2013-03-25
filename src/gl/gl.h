@@ -10,8 +10,8 @@
 #ifndef GL_H
 #define GL_H
 
-#include "gleswrap.h"
-#include "glconst.h"
+#include "wrap/gles.h"
+#include "const.h"
 
 #define checkError(code)                          \
     {int error; while ((error = glGetError())) {} \
@@ -90,8 +90,8 @@ static const GLsizei gl_sizeof(GLenum type) {
     return 0;
 }
 
-#include "glstub.h"
-#include "glwrap.h"
+#include "wrap/stub.h"
+#include "wrap/gl.h"
 #include "line.h"
 #include "list.h"
 #include "pixel.h"

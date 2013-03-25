@@ -1,4 +1,4 @@
-#include <gl.h>
+#include "stub.h"
 
 #define STUB(def)\
 def {\

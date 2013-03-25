@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "../gl.h"
 
 GLint glRenderMode(GLenum mode);
 void glArrayElement(GLint i);

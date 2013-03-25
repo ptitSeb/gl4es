@@ -1,4 +1,4 @@
-#include <line.h>
+#include "line.h"
 
 GLint stippleFactor = 1;
 GLushort stipplePattern = 0xFFFF;

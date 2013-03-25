@@ -1,5 +1,4 @@
-include_directories(gl)
-aux_source_directory(gl GL_SOURCES)
+file(GLOB_RECURSE GL_SOURCES gl/*.c)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include_directories(glx)
