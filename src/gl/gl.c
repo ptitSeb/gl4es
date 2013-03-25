@@ -174,10 +174,10 @@ void glBegin(GLenum mode) {
 }
 
 void glEnd() {
-    // render if we're not in a display list
-    if (! state.list.compiling) return;
+    if (! state.list.active) return;
 
     endRenderList(state.list.active);
+    // render if we're not in a display list
     if (! state.list.compiling) {
         drawRenderList(state.list.active);
         freeRenderList(state.list.active);
