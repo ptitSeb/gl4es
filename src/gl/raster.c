@@ -121,6 +121,8 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
             *to++ = *from++;
         }
     }
+    if (pixels != data)
+        free(pixels);
 }
 
 void renderRaster() {

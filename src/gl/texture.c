@@ -20,25 +20,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         int imgWidth, pixelSize;
         pixelSize = gl_sizeof(type);
         imgWidth = state.texture.unpack_row_length * pixelSize;
-        GLubyte *dst = malloc(imgWidth * height);
+        GLubyte *dst = malloc(width * height * pixelSize);
         const GLubyte *src = data;
         src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
-        for (int y = state.texture.unpack_skip_rows; y < height; y += 1) {
-            memcpy(dst+imgWidth, src, width * pixelSize);
+        for (int y = 0; y < height; y += 1) {
+            memcpy(dst, src, width * pixelSize);
             src += imgWidth;
+            dst += width;
         }
         pixels = (GLvoid *)dst;
-    }
-
-    // TODO: put in a util module
-    static int endian = 0;
-    if (!endian) {
-        uint16_t i = 1;
-        if (*(char *)&i) {
-            endian = 1;
-        } else {
-            endian = 2;
-        }
     }
 
     switch (format) {
@@ -47,11 +37,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         case GL_RGBA:
         case GL_LUMINANCE:
         case GL_LUMINANCE_ALPHA:
-            pixels = (GLvoid *)data;
             break;
         default: {
-            const GLvoid *src = pixels ? pixels : data;
-            if (! pixel_convert(src, &pixels, width, height,
+            if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
                                 format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
                 return;
             }
@@ -64,19 +52,30 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         case GL_UNSIGNED_SHORT_5_6_5:
         case GL_UNSIGNED_SHORT_4_4_4_4:
         case GL_UNSIGNED_SHORT_5_5_5_1:
+            pixels = (GLvoid *)data;
             break;
         case GL_UNSIGNED_INT_8_8_8_8:
             type = GL_UNSIGNED_BYTE;
             break;
         default: {
-            const GLvoid *src = pixels ? pixels : data;
-            if (! pixel_convert(src, &pixels, width, height,
+            if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
                                 format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
                 return;
             }
             type = GL_UNSIGNED_BYTE;
             format = GL_RGBA;
         }
+    }
+
+    char *env_shrink = getenv("LIBGL_SHRINK");
+    if (env_shrink && strcmp(env_shrink, "1") == 0) {
+        GLvoid *out;
+        pixel_scale(pixels, &out, width, height, width / 2, height / 2, format, type);
+        if (pixels != data)
+            free(pixels);
+        pixels = out;
+        width /= 2;
+        height /= 2;
     }
 
     /* TODO:
@@ -92,6 +91,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
+    if (pixels != data)
+        pixels = (GLvoid *)data;
+
     switch (target) {
         case GL_PROXY_TEXTURE_1D:
         case GL_PROXY_TEXTURE_2D:
