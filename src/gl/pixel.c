@@ -1,7 +1,9 @@
 #include "pixel.h"
 
 static const ColorLayout *get_color_map(GLenum format) {
-    #define map(fmt, ...) case fmt: return &(ColorLayout){fmt, __VA_ARGS__}
+    #define map(fmt, ...) case fmt: {\
+        static ColorLayout layout = {fmt, __VA_ARGS__}; \
+        return &layout; }
     switch (format) {
         map(GL_RED, 0, -1, -1, -1);
         map(GL_RG, 0, 1, -1, -1);
@@ -13,7 +15,8 @@ static const ColorLayout *get_color_map(GLenum format) {
             printf("libGL: unknown pixel format %i\n", format);
             break;
     }
-    return NULL;
+    static ColorLayout null = {0};
+    return &null;
     #undef map
 }
 
@@ -115,17 +118,19 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     // printf("pixel conversion: %ix%i - %i, %i -> %i, %i\n", width, height, src_format, src_type, dst_format, dst_type);
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
+    if (!dst_size || !gl_sizeof(src_type) || !gl_sizeof(src_format)
+        || !src_color->type || dst_color->type)
+        return false;
+
     if (src_type == dst_type && src_color->type == dst_color->type) {
         if (*dst != src) {
-            if (! *dst)
-                *dst = malloc(dst_size);
+            *dst = malloc(dst_size);
             memcpy(*dst, src, dst_size);
             fflush(stdout);
             return true;
         }
     } else {
-        if (! *dst)
-            *dst = malloc(dst_size);
+        *dst = malloc(dst_size);
         for (int i = 0; i < pixels; i++) {
             if (! remap_pixel(src, *dst, src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
@@ -169,11 +174,13 @@ bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum form
     static int count = 0;
     const GLvoid *src;
     char filename[64];
-    int size = gl_sizeof(format) * gl_sizeof(type) * width * height;
+    int size = 4 * 3 * width * height;
     if (format == GL_RGB && type == GL_UNSIGNED_BYTE) {
         src = pixels;
     } else {
-        pixel_convert(pixels, (GLvoid **)&src, width, height, format, type, GL_RGB, GL_UNSIGNED_BYTE);
+        if (! pixel_convert(pixels, (GLvoid **)&src, width, height, format, type, GL_RGB, GL_UNSIGNED_BYTE)) {
+            return false;
+        }
     }
 
     snprintf(filename, 64, "/tmp/tex.%d.ppm", count++);

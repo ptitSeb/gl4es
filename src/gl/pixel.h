@@ -5,7 +5,7 @@
 
 typedef struct {
     GLenum type;
-    GLubyte red, green, blue, alpha;
+    GLint red, green, blue, alpha;
 } ColorLayout;
 
 typedef struct {
