@@ -358,7 +358,8 @@ const char *glXGetClientString(Display *display, int name) {
 
 // stubs for glfw (GLX 1.3)
 GLXContext glXGetCurrentContext() {
-    return glxContext;
+    // hack to make some games start
+    return glxContext ? glxContext : (void *)1;
 }
 
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
