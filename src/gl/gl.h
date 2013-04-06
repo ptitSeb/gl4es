@@ -30,12 +30,13 @@
 void *gles;
 
 #define LOAD_GLES(type, name, args...)                              \
-    static type (*gles_##name)(args);                               \
+    typedef type (*glesptr_##name)(args);                           \
+    static glesptr_##name gles_##name;                              \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
             gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY); \
         }                                                           \
-        gles_##name = dlsym(gles, #name);                           \
+        gles_##name = (glesptr_##name)dlsym(gles, #name);           \
     }
 
 #define WRAP_GLES(type, name, args...) \

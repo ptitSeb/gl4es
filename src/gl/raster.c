@@ -109,7 +109,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                         format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
         return;
     }
-    pixels = dst;
+    pixels = (GLubyte *)dst;
 
     for (int y = 0; y < height; y++) {
         to = raster + 4 * (GLuint)(rPos.x + ((rPos.y - y) * viewport.width));

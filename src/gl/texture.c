@@ -20,8 +20,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         int imgWidth, pixelSize;
         pixelSize = gl_sizeof(type);
         imgWidth = state.texture.unpack_row_length * pixelSize;
-        GLubyte *dst = malloc(width * height * pixelSize);
-        const GLubyte *src = data;
+        GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+        const GLubyte *src = (GLubyte *)data;
         src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
         for (int y = 0; y < height; y += 1) {
             memcpy(dst, src, width * pixelSize);
