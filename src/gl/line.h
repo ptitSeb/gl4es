@@ -1,4 +1,4 @@
 #include "gl.h"
 
-void glLineStipple(GLuint factor, GLushort pattern);
-GLuint genStippleTex(GLfloat *vert, GLfloat **tex, int length);
+extern void glLineStipple(GLuint factor, GLushort pattern);
+extern GLuint gen_stipple_tex(GLfloat *vert, GLfloat **tex, int length);

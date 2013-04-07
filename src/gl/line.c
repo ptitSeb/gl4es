@@ -16,7 +16,7 @@ void glLineStipple(GLuint factor, GLushort pattern) {
     }
 }
 
-GLuint genStippleTex(GLfloat *vert, GLfloat **tex, int length) {
+GLuint gen_stipple_tex(GLfloat *vert, GLfloat **tex, int length) {
     // generate our texture coords
     *tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
     GLfloat *texPos = *tex;

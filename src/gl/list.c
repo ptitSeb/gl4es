@@ -224,7 +224,7 @@ void draw_renderlist(RenderList *list) {
                 glEnable(GL_BLEND);
                 glEnable(GL_TEXTURE_2D);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-                texture = genStippleTex(list->vert, &tex, list->len);
+                texture = gen_stipple_tex(list->vert, &tex, list->len);
                 // TODO: cache this for display list on first render?
             }
 
