@@ -290,7 +290,7 @@ Bool glXMakeCurrent(Display *display,
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
-    renderRaster();
+    render_raster();
     if (fbdev >= 0) {
         int arg = 0;
         ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);

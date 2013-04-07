@@ -43,7 +43,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glViewport, GLint, GLint, GLsizei, GLsizei);
     if (raster) {
-        renderRaster();
+        render_raster();
     }
     gles_glViewport(x, y, width, height);
     viewport.x = x;
@@ -52,7 +52,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     viewport.height = height;
 }
 
-void initRaster() {
+void init_raster() {
     if (!viewport.width || !viewport.height) {
         glGetIntegerv(GL_VIEWPORT, (GLint *)&viewport);
     }
@@ -69,7 +69,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         rPos.y -= ymove;
         return;
     }
-    initRaster();
+    init_raster();
 
     const GLubyte *from;
     GLubyte *to;
@@ -104,7 +104,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
 
-    initRaster();
+    init_raster();
     if (! pixel_convert(data, &dst, width, height,
                         format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
         return;
@@ -125,7 +125,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
         free(pixels);
 }
 
-void renderRaster() {
+void render_raster() {
     if (!viewport.width || !viewport.height || !raster)
         return;
 

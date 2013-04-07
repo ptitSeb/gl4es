@@ -16,12 +16,12 @@ typedef struct {
     GLsizei height;
 } viewportT;
 
-void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
-              GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
-void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
-                  GLenum type, const GLvoid *data);
-void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
-void renderRaster();
+extern void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
+                     GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
+extern void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+                         GLenum type, const GLvoid *data);
+extern void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
+extern void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+extern void render_raster();
 
 #endif
