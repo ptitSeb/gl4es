@@ -36,19 +36,19 @@ typedef struct RenderListT {
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 20
 
-RenderList *allocRenderList();
-RenderList *extendRenderList(RenderList *list);
-void freeRenderList(RenderList *list);
-void ensureRenderListSize(RenderList *list);
-void drawRenderList(RenderList *list);
-void swizzleRenderList(RenderList *list);
-void endRenderList(RenderList *list);
+extern RenderList *alloc_renderlist();
+extern RenderList *extend_renderlist(RenderList *list);
+extern void free_renderlist(RenderList *list);
+static void resize_renderlist(RenderList *list);
+extern void draw_renderlist(RenderList *list);
+extern void q2t_renderlist(RenderList *list);
+extern void end_renderlist(RenderList *list);
 
-void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
-void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
-void lPushCall(RenderList *list, UnknownCall *data);
-void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
-void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+extern void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
+extern void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlPushCall(RenderList *list, UnknownCall *data);
+extern void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
+extern void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
 
 #endif

@@ -8,7 +8,7 @@
     if (ref)                         \
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
-RenderList *allocRenderList() {
+RenderList *alloc_renderlist() {
     RenderList *list = (RenderList *)malloc(sizeof(RenderList));
     list->len = 0;
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
@@ -28,12 +28,12 @@ RenderList *allocRenderList() {
     return list;
 }
 
-RenderList *extendRenderList(RenderList *list) {
-    list->next = allocRenderList();
+RenderList *extend_renderlist(RenderList *list) {
+    list->next = alloc_renderlist();
     return list->next;
 }
 
-void freeRenderList(RenderList *list) {
+void free_renderlist(RenderList *list) {
     RenderList *next;
     do {
         if (list->calls.len > 0) {
@@ -52,7 +52,8 @@ void freeRenderList(RenderList *list) {
     } while ((list = next));
 }
 
-void ensureRenderListSize(RenderList *list) {
+static inline
+void resize_renderlist(RenderList *list) {
     if (list->len >= list->cap) {
         list->cap += DEFAULT_RENDER_LIST_CAPACITY;
         realloc_sublist(list->vert, 3, list->cap);
@@ -62,7 +63,8 @@ void ensureRenderListSize(RenderList *list) {
     }
 }
 
-void swizzleRenderList(RenderList *list) {
+void q2t_renderlist(RenderList *list) {
+    // TODO: this has too much duplicate code
     if (!list->len || !list->vert) return;
     GLfloat *newVertPos, *vertPos, *vert;
     GLfloat *newNormalPos, *normalPos, *normal;
@@ -149,11 +151,11 @@ void swizzleRenderList(RenderList *list) {
     if (tex) free(tex);
 }
 
-void endRenderList(RenderList *list) {
+void end_renderlist(RenderList *list) {
     switch (list->mode) {
         case GL_QUADS:
             list->mode = GL_TRIANGLES;
-            swizzleRenderList(list);
+            q2t_renderlist(list);
             break;
         case GL_POLYGON:
             list->mode = GL_TRIANGLE_FAN;
@@ -164,7 +166,7 @@ void endRenderList(RenderList *list) {
     }
 }
 
-void drawRenderList(RenderList *list) {
+void draw_renderlist(RenderList *list) {
     if (!list) return;
     LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
 
@@ -254,11 +256,13 @@ void drawRenderList(RenderList *list) {
     glPopClientAttrib();
 }
 
-void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
+// gl function wrappers
+
+void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     if (list->vert == NULL) {
         list->vert = alloc_sublist(3, list->cap);
     } else {
-        ensureRenderListSize(list);
+        resize_renderlist(list);
     }
 
     if (list->normal) {
@@ -280,7 +284,7 @@ void lVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     vert[0] = x; vert[1] = y; vert[2] = z;
 }
 
-void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
+void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     GLfloat *normal = list->lastNormal;
     normal[0] = x; normal[1] = y; normal[2] = z;
 
@@ -293,11 +297,11 @@ void lNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
             memcpy(normal, list->lastNormal, sizeof(GLfloat) * 4);
         }
     } else {
-        ensureRenderListSize(list);
+        resize_renderlist(list);
     }
 }
 
-void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (list->color == NULL) {
         list->color = alloc_sublist(4, list->cap);
         // catch up
@@ -307,14 +311,14 @@ void lColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             memcpy(color, list->lastColor, sizeof(GLfloat) * 4);
         }
     } else {
-        ensureRenderListSize(list);
+        resize_renderlist(list);
     }
 
     GLfloat *color = list->lastColor;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
-void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params) {
+void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params) {
     int *count;
     if (! list->material) {
         // TODO: fixed size is a hack
@@ -329,18 +333,18 @@ void lMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * pa
     list->material->count++;
 }
 
-void lTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
+void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
     GLfloat *tex = list->lastTex;
     tex[0] = s; tex[1] = t;
 
     if (list->tex == NULL) {
         list->tex = alloc_sublist(2, list->cap);
     } else {
-        ensureRenderListSize(list);
+        resize_renderlist(list);
     }
 }
 
-void lPushCall(RenderList *list, UnknownCall *data) {
+void rlPushCall(RenderList *list, UnknownCall *data) {
     CallList *cl = &list->calls;
     if (!cl->calls) {
         cl->cap = DEFAULT_CALL_LIST_CAPACITY;

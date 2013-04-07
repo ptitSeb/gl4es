@@ -13,7 +13,7 @@ const GLubyte *glGetString(GLenum name) {
     }
 }
 
-static void _glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
+static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_enable(constant, name) \
         case constant: state.enable.name = enable; next(cap); break
     #define enable(constant, name) \
@@ -39,28 +39,28 @@ static void _glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     LOAD_GLES(void, glEnable, GLenum);
-    _glEnable(cap, true, gles_glEnable);
+    proxy_glEnable(cap, true, gles_glEnable);
 }
 
 void glDisable(GLenum cap) {
     LOAD_GLES(void, glDisable, GLenum);
-    _glEnable(cap, false, gles_glDisable);
+    proxy_glEnable(cap, false, gles_glDisable);
 }
 
 void glEnableClientState(GLenum cap) {
     LOAD_GLES(void, glEnableClientState, GLenum);
-    _glEnable(cap, true, gles_glEnableClientState);
+    proxy_glEnable(cap, true, gles_glEnableClientState);
 }
 
 void glDisableClientState(GLenum cap) {
     LOAD_GLES(void, glDisableClientState, GLenum);
-    _glEnable(cap, false, gles_glDisableClientState);
+    proxy_glEnable(cap, false, gles_glDisableClientState);
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUADS) {
         // TODO: support more types/sizes
-        RenderList *list = allocRenderList();
+        RenderList *list = alloc_renderlist();
         list->mode = mode;
         list->len = count;
         list->cap = count;
@@ -135,9 +135,9 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         #undef copy_gl_pointer
         #undef type_switch
         #undef type_case
-        endRenderList(list);
-        drawRenderList(list);
-        freeRenderList(list);
+        end_renderlist(list);
+        draw_renderlist(list);
+        free_renderlist(list);
     } else {
         LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
         gles_glDrawArrays(mode, first, count);
@@ -175,7 +175,7 @@ void glTexCoordPointer(GLint size, GLenum type,
 
 void glBegin(GLenum mode) {
     if (! state.list.compiling) {
-        state.list.active = allocRenderList();
+        state.list.active = alloc_renderlist();
     }
     memcpy(state.list.active->lastColor, state.color, sizeof(GLfloat) * 4);
     state.list.active->mode = mode;
@@ -184,26 +184,26 @@ void glBegin(GLenum mode) {
 void glEnd() {
     if (! state.list.active) return;
 
-    endRenderList(state.list.active);
+    end_renderlist(state.list.active);
     // render if we're not in a display list
     if (! state.list.compiling) {
-        drawRenderList(state.list.active);
-        freeRenderList(state.list.active);
+        draw_renderlist(state.list.active);
+        free_renderlist(state.list.active);
         state.list.active = NULL;
     } else {
-        state.list.active = extendRenderList(state.list.active);
+        state.list.active = extend_renderlist(state.list.active);
     }
 }
 
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     if (state.list.active) {
-        lVertex3f(state.list.active, x, y, z);
+        rlVertex3f(state.list.active, x, y, z);
     }
 }
 
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (state.list.active) {
-        lColor4f(state.list.active, r, g, b, a);
+        rlColor4f(state.list.active, r, g, b, a);
     } else {
         LOAD_GLES(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
         gles_glColor4f(r, g, b, a);
@@ -215,7 +215,7 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat *params);
     if (state.list.active) {
-        lMaterialfv(state.list.active, face, pname, params);
+        rlMaterialfv(state.list.active, face, pname, params);
     } else {
         gles_glMaterialfv(face, pname, params);
     }
@@ -223,7 +223,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
     if (state.list.active) {
-        lTexCoord2f(state.list.active, s, t);
+        rlTexCoord2f(state.list.active, s, t);
     }
 }
 
@@ -269,7 +269,7 @@ void glNewList(GLuint list, GLenum mode) {
         return;
     } else {
         // TODO: if state.list.active is already defined, we probably need to clean up here
-        state.list.active = displayLists[list-1] = allocRenderList();
+        state.list.active = displayLists[list-1] = alloc_renderlist();
         state.list.compiling = true;
     }
 }
@@ -288,12 +288,12 @@ void glCallList(GLuint list) {
     // TODO: this call can be compiled into another display list
     RenderList *l = glGetList(list);
     if (l)
-        drawRenderList(l);
+        draw_renderlist(l);
 }
 
 void glPushCall(void *call) {
     if (state.list.compiling && state.list.active) {
-        lPushCall(state.list.active, call);
+        rlPushCall(state.list.active, call);
     }
 }
 
@@ -336,7 +336,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 void glDeleteList(GLuint list) {
     RenderList *l = glGetList(list);
     if (l) {
-        freeRenderList(l);
+        free_renderlist(l);
         displayLists[list-1] = NULL;
     }
 
