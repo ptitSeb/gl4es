@@ -229,7 +229,7 @@ void draw_renderlist(RenderList *list) {
             }
 
             if (state.enable.texgen_s || state.enable.texgen_t) {
-                genTexCoords(list->vert, &tex, list->len);
+                gen_tex_coords(list->vert, &tex, list->len);
             }
         }
 

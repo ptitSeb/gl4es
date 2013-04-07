@@ -1,6 +1,6 @@
 #include "gl.h"
 #include <math.h>
 
-void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
-void glTexGeni(GLenum coord, GLenum pname, GLint param);
-void genTexCoords(GLfloat *verts, GLfloat **coords, GLint count);
+extern void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
+extern void glTexGeni(GLenum coord, GLenum pname, GLint param);
+extern void gen_tex_coords(GLfloat *verts, GLfloat **coords, GLint count);

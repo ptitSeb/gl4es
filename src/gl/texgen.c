@@ -52,7 +52,7 @@ GLfloat dot(GLfloat *a, GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
 }
 
-GLfloat genTexCoord(GLfloat *vert, GLenum type, GLfloat *params) {
+GLfloat gen_tex_coord(GLfloat *vert, GLenum type, GLfloat *params) {
     switch (type) {
         case GL_OBJECT_LINEAR:
         case GL_SPHERE_MAP:
@@ -62,15 +62,15 @@ GLfloat genTexCoord(GLfloat *vert, GLenum type, GLfloat *params) {
     return 0;
 }
 
-void genTexCoords(GLfloat *verts, GLfloat **coords, GLint count) {
+void gen_tex_coords(GLfloat *verts, GLfloat **coords, GLint count) {
     *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     int i;
     for (i = 0; i < count; i++) {
         GLfloat *tex = &(*coords)[i];
         if (state.enable.texgen_s)
-            tex[0] = genTexCoord(&verts[i], state.texgen.S, state.texgen.Sv);
+            tex[0] = gen_tex_coord(&verts[i], state.texgen.S, state.texgen.Sv);
 
         if (state.enable.texgen_t)
-            tex[1] = genTexCoord(&verts[i], state.texgen.T, state.texgen.Tv);
+            tex[1] = gen_tex_coord(&verts[i], state.texgen.T, state.texgen.Tv);
     }
 }
