@@ -1,6 +1,4 @@
-{% for header in headers %}
-#include "{{ header }}"
-{%- endfor %}
+{% include "headers.j2" %}
 
 {% set guard = name.upper().replace('.', '_') -%}
 #ifndef {{ guard }}

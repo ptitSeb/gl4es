@@ -1,5 +1,5 @@
+#include "../gl.h
 
-#include "../gl.h"
 
 #ifndef GLESWRAP_H
 #define GLESWRAP_H
