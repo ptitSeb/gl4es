@@ -1,0 +1,173 @@
+3DL_stereo_control:
+  SetStereoEmitterState3DL: [BOOL, HDC hDC, UINT uState]
+AMD_gpu_association:
+  BlitContextFramebufferAMD: [VOID, HGLRC dstCtx, GLint srcX0, GLint srcY0, GLint
+      srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield
+      mask, GLenum filter]
+  CreateAssociatedContextAMD: [HGLRC, UINT id]
+  CreateAssociatedContextAttribsAMD: [HGLRC, UINT id, HGLRC hShareContext, int attribList]
+  DeleteAssociatedContextAMD: [BOOL, HGLRC hglrc]
+  GetContextGPUIDAMD: [UINT, HGLRC hglrc]
+  GetCurrentAssociatedContextAMD: [HGLRC]
+  GetGPUIDsAMD: [UINT, UINT maxCount, UINT ids]
+  GetGPUInfoAMD: [INT, UINT id, int property, GLenum dataType, UINT size, void *data]
+  MakeAssociatedContextCurrentAMD: [BOOL, HGLRC hglrc]
+ARB_buffer_region:
+  CreateBufferRegionARB: [HANDLE, HDC hDC, int iLayerPlane, UINT uType]
+  DeleteBufferRegionARB: [VOID, HANDLE hRegion]
+  RestoreBufferRegionARB: [BOOL, HANDLE hRegion, int x, int y, int width, int height,
+    int xSrc, int ySrc]
+  SaveBufferRegionARB: [BOOL, HANDLE hRegion, int x, int y, int width, int height]
+ARB_create_context:
+  CreateContextAttribsARB: [HGLRC, HDC hDC, HGLRC hShareContext, int attribList]
+ARB_extensions_string:
+  GetExtensionsStringARB: [String, HDC hdc]
+ARB_make_current_read:
+  GetCurrentReadDCARB: [HDC]
+  MakeContextCurrentARB: [BOOL, HDC hDrawDC, HDC hReadDC, HGLRC hglrc]
+ARB_pbuffer:
+  CreatePbufferARB: [HPBUFFERARB, HDC hDC, int iPixelFormat, int iWidth, int iHeight,
+    int piAttribList]
+  DestroyPbufferARB: [BOOL, HPBUFFERARB hPbuffer]
+  GetPbufferDCARB: [HDC, HPBUFFERARB hPbuffer]
+  QueryPbufferARB: [BOOL, HPBUFFERARB hPbuffer, int iAttribute, int piValue]
+  ReleasePbufferDCARB: [int, HPBUFFERARB hPbuffer, HDC hDC]
+ARB_pixel_format:
+  ChoosePixelFormatARB: [BOOL, HDC hdc, int piAttribIList, FLOAT pfAttribFList, UINT
+      nMaxFormats, int piFormats, UINT nNumFormats]
+  GetPixelFormatAttribfvARB: [BOOL, HDC hdc, int iPixelFormat, int iLayerPlane, UINT
+      nAttributes, int piAttributes, FLOAT pfValues]
+  GetPixelFormatAttribivARB: [BOOL, HDC hdc, int iPixelFormat, int iLayerPlane, UINT
+      nAttributes, int piAttributes, int piValues]
+ARB_render_texture:
+  BindTexImageARB: [BOOL, HPBUFFERARB hPbuffer, int iBuffer]
+  ReleaseTexImageARB: [BOOL, HPBUFFERARB hPbuffer, int iBuffer]
+  SetPbufferAttribARB: [BOOL, HPBUFFERARB hPbuffer, int piAttribList]
+EXT_display_color_table:
+  BindDisplayColorTableEXT: [GLboolean, GLushort id]
+  CreateDisplayColorTableEXT: [GLboolean, GLushort id]
+  DestroyDisplayColorTableEXT: [VOID, GLushort id]
+  LoadDisplayColorTableEXT: [GLboolean, GLushort table, GLuint length]
+EXT_extensions_string:
+  GetExtensionsStringEXT: [String]
+EXT_make_current_read:
+  GetCurrentReadDCEXT: [HDC]
+  MakeContextCurrentEXT: [BOOL, HDC hDrawDC, HDC hReadDC, HGLRC hglrc]
+EXT_pbuffer:
+  CreatePbufferEXT: [HPBUFFEREXT, HDC hDC, int iPixelFormat, int iWidth, int iHeight,
+    int piAttribList]
+  DestroyPbufferEXT: [BOOL, HPBUFFEREXT hPbuffer]
+  GetPbufferDCEXT: [HDC, HPBUFFEREXT hPbuffer]
+  QueryPbufferEXT: [BOOL, HPBUFFEREXT hPbuffer, int iAttribute, int piValue]
+  ReleasePbufferDCEXT: [int, HPBUFFEREXT hPbuffer, HDC hDC]
+EXT_pixel_format:
+  ChoosePixelFormatEXT: [BOOL, HDC hdc, int piAttribIList, FLOAT pfAttribFList, UINT
+      nMaxFormats, int piFormats, UINT nNumFormats]
+  GetPixelFormatAttribfvEXT: [BOOL, HDC hdc, int iPixelFormat, int iLayerPlane, UINT
+      nAttributes, int piAttributes, FLOAT pfValues]
+  GetPixelFormatAttribivEXT: [BOOL, HDC hdc, int iPixelFormat, int iLayerPlane, UINT
+      nAttributes, int piAttributes, int piValues]
+EXT_swap_control:
+  GetSwapIntervalEXT: [int]
+  SwapIntervalEXT: [BOOL, int interval]
+I3D_digital_video_control:
+  GetDigitalVideoParametersI3D: [BOOL, HDC hDC, int iAttribute, int piValue]
+  SetDigitalVideoParametersI3D: [BOOL, HDC hDC, int iAttribute, int piValue]
+I3D_gamma:
+  GetGammaTableI3D: [BOOL, HDC hDC, int iEntries, USHORT puRed, USHORT puGreen, USHORT
+      puBlue]
+  GetGammaTableParametersI3D: [BOOL, HDC hDC, int iAttribute, int piValue]
+  SetGammaTableI3D: [BOOL, HDC hDC, int iEntries, USHORT puRed, USHORT puGreen, USHORT
+      puBlue]
+  SetGammaTableParametersI3D: [BOOL, HDC hDC, int iAttribute, int piValue]
+I3D_genlock:
+  DisableGenlockI3D: [BOOL, HDC hDC]
+  EnableGenlockI3D: [BOOL, HDC hDC]
+  GenlockSampleRateI3D: [BOOL, HDC hDC, UINT uRate]
+  GenlockSourceDelayI3D: [BOOL, HDC hDC, UINT uDelay]
+  GenlockSourceEdgeI3D: [BOOL, HDC hDC, UINT uEdge]
+  GenlockSourceI3D: [BOOL, HDC hDC, UINT uSource]
+  GetGenlockSampleRateI3D: [BOOL, HDC hDC, UINT uRate]
+  GetGenlockSourceDelayI3D: [BOOL, HDC hDC, UINT uDelay]
+  GetGenlockSourceEdgeI3D: [BOOL, HDC hDC, UINT uEdge]
+  GetGenlockSourceI3D: [BOOL, HDC hDC, UINT uSource]
+  IsEnabledGenlockI3D: [BOOL, HDC hDC, BOOL pFlag]
+  QueryGenlockMaxSourceDelayI3D: [BOOL, HDC hDC, UINT uMaxLineDelay, UINT uMaxPixelDelay]
+I3D_image_buffer:
+  AssociateImageBufferEventsI3D: [BOOL, HDC hDC, HANDLE pEvent, LPVOID pAddress, DWORD
+      pSize, UINT count]
+  CreateImageBufferI3D: [LPVOID, HDC hDC, DWORD dwSize, UINT uFlags]
+  DestroyImageBufferI3D: [BOOL, HDC hDC, LPVOID pAddress]
+  ReleaseImageBufferEventsI3D: [BOOL, HDC hDC, LPVOID pAddress, UINT count]
+I3D_swap_frame_lock:
+  DisableFrameLockI3D: [BOOL]
+  EnableFrameLockI3D: [BOOL]
+  IsEnabledFrameLockI3D: [BOOL, BOOL pFlag]
+  QueryFrameLockMasterI3D: [BOOL, BOOL pFlag]
+I3D_swap_frame_usage:
+  BeginFrameTrackingI3D: [BOOL]
+  EndFrameTrackingI3D: [BOOL]
+  GetFrameUsageI3D: [BOOL, float pUsage]
+  QueryFrameTrackingI3D: [BOOL, DWORD pFrameCount, DWORD pMissedFrames, float pLastMissedUsage]
+NV_DX_interop:
+  DXCloseDeviceNV: [BOOL, HANDLE hDevice]
+  DXLockObjectsNV: [BOOL, HANDLE hDevice, GLint count, HANDLE hObjects]
+  DXObjectAccessNV: [BOOL, HANDLE hObject, GLenum access]
+  DXOpenDeviceNV: [HANDLE, void *dxDevice]
+  DXRegisterObjectNV: [HANDLE, HANDLE hDevice, void *dxObject, GLuint name, GLenum
+      type, GLenum access]
+  DXSetResourceShareHandleNV: [BOOL, void *dxObject, HANDLE shareHandle]
+  DXUnlockObjectsNV: [BOOL, HANDLE hDevice, GLint count, HANDLE hObjects]
+  DXUnregisterObjectNV: [BOOL, HANDLE hDevice, HANDLE hObject]
+NV_copy_image:
+  CopyImageSubDataNV: [BOOL, HGLRC hSrcRC, GLuint srcName, GLenum srcTarget, GLint
+      srcLevel, GLint srcX, GLint srcY, GLint srcZ, HGLRC hDstRC, GLuint dstName,
+    GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei
+      width, GLsizei height, GLsizei depth]
+NV_gpu_affinity:
+  CreateAffinityDCNV: [HDC, HGPUNV phGpuList]
+  DeleteDCNV: [BOOL, HDC hdc]
+  EnumGpuDevicesNV: [BOOL, HGPUNV hGpu, UINT iDeviceIndex, PGPU_DEVICE lpGpuDevice]
+  EnumGpusFromAffinityDCNV: [BOOL, HDC hAffinityDC, UINT iGpuIndex, HGPUNV hGpu]
+  EnumGpusNV: [BOOL, UINT iGpuIndex, HGPUNV phGpu]
+NV_present_video:
+  BindVideoDeviceNV: [BOOL, HDC hDC, unsigned int uVideoSlot, HVIDEOOUTPUTDEVICENV
+      hVideoDevice, int piAttribList]
+  EnumerateVideoDevicesNV: [int, HDC hDC, HVIDEOOUTPUTDEVICENV phDeviceList]
+  QueryCurrentContextNV: [BOOL, int iAttribute, int piValue]
+NV_swap_group:
+  BindSwapBarrierNV: [BOOL, GLuint group, GLuint barrier]
+  JoinSwapGroupNV: [BOOL, HDC hDC, GLuint group]
+  QueryFrameCountNV: [BOOL, HDC hDC, GLuint count]
+  QueryMaxSwapGroupsNV: [BOOL, HDC hDC, GLuint maxGroups, GLuint maxBarriers]
+  QuerySwapGroupNV: [BOOL, HDC hDC, GLuint group, GLuint barrier]
+  ResetFrameCountNV: [BOOL, HDC hDC]
+NV_vertex_array_range:
+  AllocateMemoryNV: [VoidPointer, GLsizei size, GLfloat readfreq, GLfloat writefreq,
+    GLfloat priority]
+  FreeMemoryNV: [void, void *pointer]
+NV_video_capture:
+  BindVideoCaptureDeviceNV: [BOOL, UINT uVideoSlot, HVIDEOINPUTDEVICENV hDevice]
+  EnumerateVideoCaptureDevicesNV: [UINT, HDC hDc, HVIDEOINPUTDEVICENV phDeviceList]
+  LockVideoCaptureDeviceNV: [BOOL, HDC hDc, HVIDEOINPUTDEVICENV hDevice]
+  QueryVideoCaptureDeviceNV: [BOOL, HDC hDc, HVIDEOINPUTDEVICENV hDevice, int iAttribute,
+    int piValue]
+  ReleaseVideoCaptureDeviceNV: [BOOL, HDC hDc, HVIDEOINPUTDEVICENV hDevice]
+NV_video_output:
+  BindVideoImageNV: [BOOL, HPVIDEODEV hVideoDevice, HPBUFFERARB hPbuffer, int iVideoBuffer]
+  GetVideoDeviceNV: [BOOL, HDC hDC, int numDevices, HPVIDEODEV hVideoDevice]
+  GetVideoInfoNV: [BOOL, HPVIDEODEV hpVideoDevice, unsigned long pulCounterOutputPbuffer,
+    unsigned long pulCounterOutputVideo]
+  ReleaseVideoDeviceNV: [BOOL, HPVIDEODEV hVideoDevice]
+  ReleaseVideoImageNV: [BOOL, HPBUFFERARB hPbuffer, int iVideoBuffer]
+  SendPbufferToVideoNV: [BOOL, HPBUFFERARB hPbuffer, int iBufferType, unsigned long
+      pulCounterPbuffer, BOOL bBlock]
+OML_sync_control:
+  GetMscRateOML: [BOOL, HDC hdc, INT32 numerator, INT32 denominator]
+  GetSyncValuesOML: [BOOL, HDC hdc, INT64 ust, INT64 msc, INT64 sbc]
+  SwapBuffersMscOML: [INT64, HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder]
+  SwapLayerBuffersMscOML: [INT64, HDC hdc, int fuPlanes, INT64 target_msc, INT64 divisor,
+    INT64 remainder]
+  WaitForMscOML: [BOOL, HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder,
+    INT64 ust, INT64 msc, INT64 sbc]
+  WaitForSbcOML: [BOOL, HDC hdc, INT64 target_sbc, INT64 ust, INT64 msc, INT64 sbc]
