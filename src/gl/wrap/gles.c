@@ -1,5 +1,4 @@
 #include "gles.h"
-
 void glPackedCall(const UnknownCall *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum: {
@@ -454,8 +453,6 @@ void glPackedCall(const UnknownCall *packed) {
         }
     }
 }
-
-
 #ifndef skip_glActiveTexture
 void glActiveTexture(GLenum texture) {
     LOAD_GLES(void, glActiveTexture, GLenum texture);
@@ -468,13 +465,13 @@ void glActiveTexture(GLenum texture) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glActiveTexture(texture);
+        gles_glActiveTexture(texture);
+
 #ifndef direct_glActiveTexture
     }
 #endif
 }
 #endif
-
 #ifndef skip_glAlphaFunc
 void glAlphaFunc(GLenum func, GLclampf ref) {
     LOAD_GLES(void, glAlphaFunc, GLenum func, GLclampf ref);
@@ -488,13 +485,13 @@ void glAlphaFunc(GLenum func, GLclampf ref) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glAlphaFunc(func, ref);
+        gles_glAlphaFunc(func, ref);
+
 #ifndef direct_glAlphaFunc
     }
 #endif
 }
 #endif
-
 #ifndef skip_glAlphaFuncx
 void glAlphaFuncx(GLenum func, GLclampx ref) {
     LOAD_GLES(void, glAlphaFuncx, GLenum func, GLclampx ref);
@@ -508,13 +505,13 @@ void glAlphaFuncx(GLenum func, GLclampx ref) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glAlphaFuncx(func, ref);
+        gles_glAlphaFuncx(func, ref);
+
 #ifndef direct_glAlphaFuncx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glBindBuffer
 void glBindBuffer(GLenum target, GLuint buffer) {
     LOAD_GLES(void, glBindBuffer, GLenum target, GLuint buffer);
@@ -528,13 +525,13 @@ void glBindBuffer(GLenum target, GLuint buffer) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glBindBuffer(target, buffer);
+        gles_glBindBuffer(target, buffer);
+
 #ifndef direct_glBindBuffer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glBindTexture
 void glBindTexture(GLenum target, GLuint texture) {
     LOAD_GLES(void, glBindTexture, GLenum target, GLuint texture);
@@ -548,13 +545,13 @@ void glBindTexture(GLenum target, GLuint texture) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glBindTexture(target, texture);
+        gles_glBindTexture(target, texture);
+
 #ifndef direct_glBindTexture
     }
 #endif
 }
 #endif
-
 #ifndef skip_glBlendFunc
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     LOAD_GLES(void, glBlendFunc, GLenum sfactor, GLenum dfactor);
@@ -568,13 +565,13 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glBlendFunc(sfactor, dfactor);
+        gles_glBlendFunc(sfactor, dfactor);
+
 #ifndef direct_glBlendFunc
     }
 #endif
 }
 #endif
-
 #ifndef skip_glBufferData
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
     LOAD_GLES(void, glBufferData, GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
@@ -590,13 +587,13 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glBufferData(target, size, data, usage);
+        gles_glBufferData(target, size, data, usage);
+
 #ifndef direct_glBufferData
     }
 #endif
 }
 #endif
-
 #ifndef skip_glBufferSubData
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
     LOAD_GLES(void, glBufferSubData, GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
@@ -612,13 +609,13 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glBufferSubData(target, offset, size, data);
+        gles_glBufferSubData(target, offset, size, data);
+
 #ifndef direct_glBufferSubData
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClear
 void glClear(GLbitfield mask) {
     LOAD_GLES(void, glClear, GLbitfield mask);
@@ -631,13 +628,13 @@ void glClear(GLbitfield mask) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClear(mask);
+        gles_glClear(mask);
+
 #ifndef direct_glClear
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClearColor
 void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     LOAD_GLES(void, glClearColor, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
@@ -653,13 +650,13 @@ void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClearColor(red, green, blue, alpha);
+        gles_glClearColor(red, green, blue, alpha);
+
 #ifndef direct_glClearColor
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClearColorx
 void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) {
     LOAD_GLES(void, glClearColorx, GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha);
@@ -675,13 +672,13 @@ void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) 
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClearColorx(red, green, blue, alpha);
+        gles_glClearColorx(red, green, blue, alpha);
+
 #ifndef direct_glClearColorx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClearDepthf
 void glClearDepthf(GLclampf depth) {
     LOAD_GLES(void, glClearDepthf, GLclampf depth);
@@ -694,13 +691,13 @@ void glClearDepthf(GLclampf depth) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClearDepthf(depth);
+        gles_glClearDepthf(depth);
+
 #ifndef direct_glClearDepthf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClearDepthx
 void glClearDepthx(GLclampx depth) {
     LOAD_GLES(void, glClearDepthx, GLclampx depth);
@@ -713,13 +710,13 @@ void glClearDepthx(GLclampx depth) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClearDepthx(depth);
+        gles_glClearDepthx(depth);
+
 #ifndef direct_glClearDepthx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClearStencil
 void glClearStencil(GLint s) {
     LOAD_GLES(void, glClearStencil, GLint s);
@@ -732,13 +729,13 @@ void glClearStencil(GLint s) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClearStencil(s);
+        gles_glClearStencil(s);
+
 #ifndef direct_glClearStencil
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClientActiveTexture
 void glClientActiveTexture(GLenum texture) {
     LOAD_GLES(void, glClientActiveTexture, GLenum texture);
@@ -751,13 +748,13 @@ void glClientActiveTexture(GLenum texture) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClientActiveTexture(texture);
+        gles_glClientActiveTexture(texture);
+
 #ifndef direct_glClientActiveTexture
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClipPlanef
 void glClipPlanef(GLenum plane, const GLfloat * equation) {
     LOAD_GLES(void, glClipPlanef, GLenum plane, const GLfloat * equation);
@@ -771,13 +768,13 @@ void glClipPlanef(GLenum plane, const GLfloat * equation) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClipPlanef(plane, equation);
+        gles_glClipPlanef(plane, equation);
+
 #ifndef direct_glClipPlanef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glClipPlanex
 void glClipPlanex(GLenum plane, const GLfixed * equation) {
     LOAD_GLES(void, glClipPlanex, GLenum plane, const GLfixed * equation);
@@ -791,13 +788,13 @@ void glClipPlanex(GLenum plane, const GLfixed * equation) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glClipPlanex(plane, equation);
+        gles_glClipPlanex(plane, equation);
+
 #ifndef direct_glClipPlanex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glColor4f
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     LOAD_GLES(void, glColor4f, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
@@ -813,13 +810,13 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glColor4f(red, green, blue, alpha);
+        gles_glColor4f(red, green, blue, alpha);
+
 #ifndef direct_glColor4f
     }
 #endif
 }
 #endif
-
 #ifndef skip_glColor4ub
 void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     LOAD_GLES(void, glColor4ub, GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha);
@@ -835,13 +832,13 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glColor4ub(red, green, blue, alpha);
+        gles_glColor4ub(red, green, blue, alpha);
+
 #ifndef direct_glColor4ub
     }
 #endif
 }
 #endif
-
 #ifndef skip_glColor4x
 void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
     LOAD_GLES(void, glColor4x, GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
@@ -857,13 +854,13 @@ void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glColor4x(red, green, blue, alpha);
+        gles_glColor4x(red, green, blue, alpha);
+
 #ifndef direct_glColor4x
     }
 #endif
 }
 #endif
-
 #ifndef skip_glColorMask
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
     LOAD_GLES(void, glColorMask, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
@@ -879,13 +876,13 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glColorMask(red, green, blue, alpha);
+        gles_glColorMask(red, green, blue, alpha);
+
 #ifndef direct_glColorMask
     }
 #endif
 }
 #endif
-
 #ifndef skip_glColorPointer
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glColorPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
@@ -901,13 +898,13 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glColorPointer(size, type, stride, pointer);
+        gles_glColorPointer(size, type, stride, pointer);
+
 #ifndef direct_glColorPointer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glCompressedTexImage2D
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
     LOAD_GLES(void, glCompressedTexImage2D, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
@@ -927,13 +924,13 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+        gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+
 #ifndef direct_glCompressedTexImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glCompressedTexSubImage2D
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
     LOAD_GLES(void, glCompressedTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data);
@@ -954,13 +951,13 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
+        gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
+
 #ifndef direct_glCompressedTexSubImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glCopyTexImage2D
 void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
     LOAD_GLES(void, glCopyTexImage2D, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
@@ -980,13 +977,13 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+        gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+
 #ifndef direct_glCopyTexImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glCopyTexSubImage2D
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glCopyTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
@@ -1006,13 +1003,13 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+        gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+
 #ifndef direct_glCopyTexSubImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glCullFace
 void glCullFace(GLenum mode) {
     LOAD_GLES(void, glCullFace, GLenum mode);
@@ -1025,13 +1022,13 @@ void glCullFace(GLenum mode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glCullFace(mode);
+        gles_glCullFace(mode);
+
 #ifndef direct_glCullFace
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDeleteBuffers
 void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     LOAD_GLES(void, glDeleteBuffers, GLsizei n, const GLuint * buffers);
@@ -1045,13 +1042,13 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDeleteBuffers(n, buffers);
+        gles_glDeleteBuffers(n, buffers);
+
 #ifndef direct_glDeleteBuffers
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDeleteTextures
 void glDeleteTextures(GLsizei n, const GLuint * textures) {
     LOAD_GLES(void, glDeleteTextures, GLsizei n, const GLuint * textures);
@@ -1065,13 +1062,13 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDeleteTextures(n, textures);
+        gles_glDeleteTextures(n, textures);
+
 #ifndef direct_glDeleteTextures
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDepthFunc
 void glDepthFunc(GLenum func) {
     LOAD_GLES(void, glDepthFunc, GLenum func);
@@ -1084,13 +1081,13 @@ void glDepthFunc(GLenum func) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDepthFunc(func);
+        gles_glDepthFunc(func);
+
 #ifndef direct_glDepthFunc
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDepthMask
 void glDepthMask(GLboolean flag) {
     LOAD_GLES(void, glDepthMask, GLboolean flag);
@@ -1103,13 +1100,13 @@ void glDepthMask(GLboolean flag) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDepthMask(flag);
+        gles_glDepthMask(flag);
+
 #ifndef direct_glDepthMask
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDepthRangef
 void glDepthRangef(GLclampf near, GLclampf far) {
     LOAD_GLES(void, glDepthRangef, GLclampf near, GLclampf far);
@@ -1123,13 +1120,13 @@ void glDepthRangef(GLclampf near, GLclampf far) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDepthRangef(near, far);
+        gles_glDepthRangef(near, far);
+
 #ifndef direct_glDepthRangef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDepthRangex
 void glDepthRangex(GLclampx near, GLclampx far) {
     LOAD_GLES(void, glDepthRangex, GLclampx near, GLclampx far);
@@ -1143,13 +1140,13 @@ void glDepthRangex(GLclampx near, GLclampx far) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDepthRangex(near, far);
+        gles_glDepthRangex(near, far);
+
 #ifndef direct_glDepthRangex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDisable
 void glDisable(GLenum cap) {
     LOAD_GLES(void, glDisable, GLenum cap);
@@ -1162,13 +1159,13 @@ void glDisable(GLenum cap) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDisable(cap);
+        gles_glDisable(cap);
+
 #ifndef direct_glDisable
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDisableClientState
 void glDisableClientState(GLenum array) {
     LOAD_GLES(void, glDisableClientState, GLenum array);
@@ -1181,13 +1178,13 @@ void glDisableClientState(GLenum array) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDisableClientState(array);
+        gles_glDisableClientState(array);
+
 #ifndef direct_glDisableClientState
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDrawArrays
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     LOAD_GLES(void, glDrawArrays, GLenum mode, GLint first, GLsizei count);
@@ -1202,13 +1199,13 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDrawArrays(mode, first, count);
+        gles_glDrawArrays(mode, first, count);
+
 #ifndef direct_glDrawArrays
     }
 #endif
 }
 #endif
-
 #ifndef skip_glDrawElements
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
     LOAD_GLES(void, glDrawElements, GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
@@ -1224,13 +1221,13 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glDrawElements(mode, count, type, indices);
+        gles_glDrawElements(mode, count, type, indices);
+
 #ifndef direct_glDrawElements
     }
 #endif
 }
 #endif
-
 #ifndef skip_glEnable
 void glEnable(GLenum cap) {
     LOAD_GLES(void, glEnable, GLenum cap);
@@ -1243,13 +1240,13 @@ void glEnable(GLenum cap) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glEnable(cap);
+        gles_glEnable(cap);
+
 #ifndef direct_glEnable
     }
 #endif
 }
 #endif
-
 #ifndef skip_glEnableClientState
 void glEnableClientState(GLenum array) {
     LOAD_GLES(void, glEnableClientState, GLenum array);
@@ -1262,13 +1259,13 @@ void glEnableClientState(GLenum array) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glEnableClientState(array);
+        gles_glEnableClientState(array);
+
 #ifndef direct_glEnableClientState
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFinish
 void glFinish() {
     LOAD_GLES(void, glFinish);
@@ -1280,13 +1277,13 @@ void glFinish() {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFinish();
+        gles_glFinish();
+
 #ifndef direct_glFinish
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFlush
 void glFlush() {
     LOAD_GLES(void, glFlush);
@@ -1298,13 +1295,13 @@ void glFlush() {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFlush();
+        gles_glFlush();
+
 #ifndef direct_glFlush
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFogf
 void glFogf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glFogf, GLenum pname, GLfloat param);
@@ -1318,13 +1315,13 @@ void glFogf(GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFogf(pname, param);
+        gles_glFogf(pname, param);
+
 #ifndef direct_glFogf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFogfv
 void glFogfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glFogfv, GLenum pname, const GLfloat * params);
@@ -1338,13 +1335,13 @@ void glFogfv(GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFogfv(pname, params);
+        gles_glFogfv(pname, params);
+
 #ifndef direct_glFogfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFogx
 void glFogx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glFogx, GLenum pname, GLfixed param);
@@ -1358,13 +1355,13 @@ void glFogx(GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFogx(pname, param);
+        gles_glFogx(pname, param);
+
 #ifndef direct_glFogx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFogxv
 void glFogxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glFogxv, GLenum pname, const GLfixed * params);
@@ -1378,13 +1375,13 @@ void glFogxv(GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFogxv(pname, params);
+        gles_glFogxv(pname, params);
+
 #ifndef direct_glFogxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFrontFace
 void glFrontFace(GLenum mode) {
     LOAD_GLES(void, glFrontFace, GLenum mode);
@@ -1397,13 +1394,13 @@ void glFrontFace(GLenum mode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFrontFace(mode);
+        gles_glFrontFace(mode);
+
 #ifndef direct_glFrontFace
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFrustumf
 void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
     LOAD_GLES(void, glFrustumf, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
@@ -1421,13 +1418,13 @@ void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloa
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFrustumf(left, right, bottom, top, near, far);
+        gles_glFrustumf(left, right, bottom, top, near, far);
+
 #ifndef direct_glFrustumf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glFrustumx
 void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
     LOAD_GLES(void, glFrustumx, GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far);
@@ -1445,13 +1442,13 @@ void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixe
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glFrustumx(left, right, bottom, top, near, far);
+        gles_glFrustumx(left, right, bottom, top, near, far);
+
 #ifndef direct_glFrustumx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGenBuffers
 void glGenBuffers(GLsizei n, GLuint * buffers) {
     LOAD_GLES(void, glGenBuffers, GLsizei n, GLuint * buffers);
@@ -1465,13 +1462,13 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGenBuffers(n, buffers);
+        gles_glGenBuffers(n, buffers);
+
 #ifndef direct_glGenBuffers
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGenTextures
 void glGenTextures(GLsizei n, GLuint * textures) {
     LOAD_GLES(void, glGenTextures, GLsizei n, GLuint * textures);
@@ -1485,13 +1482,13 @@ void glGenTextures(GLsizei n, GLuint * textures) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGenTextures(n, textures);
+        gles_glGenTextures(n, textures);
+
 #ifndef direct_glGenTextures
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetBooleanv
 void glGetBooleanv(GLenum pname, GLboolean * params) {
     LOAD_GLES(void, glGetBooleanv, GLenum pname, GLboolean * params);
@@ -1505,13 +1502,13 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetBooleanv(pname, params);
+        gles_glGetBooleanv(pname, params);
+
 #ifndef direct_glGetBooleanv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetBufferParameteriv
 void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetBufferParameteriv, GLenum target, GLenum pname, GLint * params);
@@ -1526,13 +1523,13 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetBufferParameteriv(target, pname, params);
+        gles_glGetBufferParameteriv(target, pname, params);
+
 #ifndef direct_glGetBufferParameteriv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetClipPlanef
 void glGetClipPlanef(GLenum plane, GLfloat * equation) {
     LOAD_GLES(void, glGetClipPlanef, GLenum plane, GLfloat * equation);
@@ -1546,13 +1543,13 @@ void glGetClipPlanef(GLenum plane, GLfloat * equation) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetClipPlanef(plane, equation);
+        gles_glGetClipPlanef(plane, equation);
+
 #ifndef direct_glGetClipPlanef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetClipPlanex
 void glGetClipPlanex(GLenum plane, GLfixed * equation) {
     LOAD_GLES(void, glGetClipPlanex, GLenum plane, GLfixed * equation);
@@ -1566,13 +1563,13 @@ void glGetClipPlanex(GLenum plane, GLfixed * equation) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetClipPlanex(plane, equation);
+        gles_glGetClipPlanex(plane, equation);
+
 #ifndef direct_glGetClipPlanex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetError
 GLenum glGetError() {
     LOAD_GLES(GLenum, glGetError);
@@ -1585,13 +1582,13 @@ GLenum glGetError() {
         return 0;
     } else {
 #endif
-    return gles_glGetError();
+        return gles_glGetError();
+
 #ifndef direct_glGetError
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetFixedv
 void glGetFixedv(GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetFixedv, GLenum pname, GLfixed * params);
@@ -1605,13 +1602,13 @@ void glGetFixedv(GLenum pname, GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetFixedv(pname, params);
+        gles_glGetFixedv(pname, params);
+
 #ifndef direct_glGetFixedv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetFloatv
 void glGetFloatv(GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetFloatv, GLenum pname, GLfloat * params);
@@ -1625,13 +1622,13 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetFloatv(pname, params);
+        gles_glGetFloatv(pname, params);
+
 #ifndef direct_glGetFloatv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetIntegerv
 void glGetIntegerv(GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetIntegerv, GLenum pname, GLint * params);
@@ -1645,13 +1642,13 @@ void glGetIntegerv(GLenum pname, GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetIntegerv(pname, params);
+        gles_glGetIntegerv(pname, params);
+
 #ifndef direct_glGetIntegerv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetLightfv
 void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetLightfv, GLenum light, GLenum pname, GLfloat * params);
@@ -1666,13 +1663,13 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetLightfv(light, pname, params);
+        gles_glGetLightfv(light, pname, params);
+
 #ifndef direct_glGetLightfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetLightxv
 void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetLightxv, GLenum light, GLenum pname, GLfixed * params);
@@ -1687,13 +1684,13 @@ void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetLightxv(light, pname, params);
+        gles_glGetLightxv(light, pname, params);
+
 #ifndef direct_glGetLightxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetMaterialfv
 void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetMaterialfv, GLenum face, GLenum pname, GLfloat * params);
@@ -1708,13 +1705,13 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetMaterialfv(face, pname, params);
+        gles_glGetMaterialfv(face, pname, params);
+
 #ifndef direct_glGetMaterialfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetMaterialxv
 void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetMaterialxv, GLenum face, GLenum pname, GLfixed * params);
@@ -1729,13 +1726,13 @@ void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetMaterialxv(face, pname, params);
+        gles_glGetMaterialxv(face, pname, params);
+
 #ifndef direct_glGetMaterialxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetPointerv
 void glGetPointerv(GLenum pname, GLvoid ** params) {
     LOAD_GLES(void, glGetPointerv, GLenum pname, GLvoid ** params);
@@ -1749,13 +1746,13 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetPointerv(pname, params);
+        gles_glGetPointerv(pname, params);
+
 #ifndef direct_glGetPointerv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetString
 const GLubyte * glGetString(GLenum name) {
     LOAD_GLES(const GLubyte *, glGetString, GLenum name);
@@ -1769,13 +1766,13 @@ const GLubyte * glGetString(GLenum name) {
         return 0;
     } else {
 #endif
-    return gles_glGetString(name);
+        return gles_glGetString(name);
+
 #ifndef direct_glGetString
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexEnvfv
 void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetTexEnvfv, GLenum target, GLenum pname, GLfloat * params);
@@ -1790,13 +1787,13 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexEnvfv(target, pname, params);
+        gles_glGetTexEnvfv(target, pname, params);
+
 #ifndef direct_glGetTexEnvfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexEnviv
 void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetTexEnviv, GLenum target, GLenum pname, GLint * params);
@@ -1811,13 +1808,13 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexEnviv(target, pname, params);
+        gles_glGetTexEnviv(target, pname, params);
+
 #ifndef direct_glGetTexEnviv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexEnvxv
 void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetTexEnvxv, GLenum target, GLenum pname, GLfixed * params);
@@ -1832,13 +1829,13 @@ void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexEnvxv(target, pname, params);
+        gles_glGetTexEnvxv(target, pname, params);
+
 #ifndef direct_glGetTexEnvxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexParameterfv
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     LOAD_GLES(void, glGetTexParameterfv, GLenum target, GLenum pname, GLfloat * params);
@@ -1853,13 +1850,13 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexParameterfv(target, pname, params);
+        gles_glGetTexParameterfv(target, pname, params);
+
 #ifndef direct_glGetTexParameterfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexParameteriv
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES(void, glGetTexParameteriv, GLenum target, GLenum pname, GLint * params);
@@ -1874,13 +1871,13 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexParameteriv(target, pname, params);
+        gles_glGetTexParameteriv(target, pname, params);
+
 #ifndef direct_glGetTexParameteriv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glGetTexParameterxv
 void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
     LOAD_GLES(void, glGetTexParameterxv, GLenum target, GLenum pname, GLfixed * params);
@@ -1895,13 +1892,13 @@ void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glGetTexParameterxv(target, pname, params);
+        gles_glGetTexParameterxv(target, pname, params);
+
 #ifndef direct_glGetTexParameterxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glHint
 void glHint(GLenum target, GLenum mode) {
     LOAD_GLES(void, glHint, GLenum target, GLenum mode);
@@ -1915,13 +1912,13 @@ void glHint(GLenum target, GLenum mode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glHint(target, mode);
+        gles_glHint(target, mode);
+
 #ifndef direct_glHint
     }
 #endif
 }
 #endif
-
 #ifndef skip_glIsBuffer
 GLboolean glIsBuffer(GLuint buffer) {
     LOAD_GLES(GLboolean, glIsBuffer, GLuint buffer);
@@ -1935,13 +1932,13 @@ GLboolean glIsBuffer(GLuint buffer) {
         return 0;
     } else {
 #endif
-    return gles_glIsBuffer(buffer);
+        return gles_glIsBuffer(buffer);
+
 #ifndef direct_glIsBuffer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glIsEnabled
 GLboolean glIsEnabled(GLenum cap) {
     LOAD_GLES(GLboolean, glIsEnabled, GLenum cap);
@@ -1955,13 +1952,13 @@ GLboolean glIsEnabled(GLenum cap) {
         return 0;
     } else {
 #endif
-    return gles_glIsEnabled(cap);
+        return gles_glIsEnabled(cap);
+
 #ifndef direct_glIsEnabled
     }
 #endif
 }
 #endif
-
 #ifndef skip_glIsTexture
 GLboolean glIsTexture(GLuint texture) {
     LOAD_GLES(GLboolean, glIsTexture, GLuint texture);
@@ -1975,13 +1972,13 @@ GLboolean glIsTexture(GLuint texture) {
         return 0;
     } else {
 #endif
-    return gles_glIsTexture(texture);
+        return gles_glIsTexture(texture);
+
 #ifndef direct_glIsTexture
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightModelf
 void glLightModelf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glLightModelf, GLenum pname, GLfloat param);
@@ -1995,13 +1992,13 @@ void glLightModelf(GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightModelf(pname, param);
+        gles_glLightModelf(pname, param);
+
 #ifndef direct_glLightModelf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightModelfv
 void glLightModelfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glLightModelfv, GLenum pname, const GLfloat * params);
@@ -2015,13 +2012,13 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightModelfv(pname, params);
+        gles_glLightModelfv(pname, params);
+
 #ifndef direct_glLightModelfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightModelx
 void glLightModelx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glLightModelx, GLenum pname, GLfixed param);
@@ -2035,13 +2032,13 @@ void glLightModelx(GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightModelx(pname, param);
+        gles_glLightModelx(pname, param);
+
 #ifndef direct_glLightModelx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightModelxv
 void glLightModelxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glLightModelxv, GLenum pname, const GLfixed * params);
@@ -2055,13 +2052,13 @@ void glLightModelxv(GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightModelxv(pname, params);
+        gles_glLightModelxv(pname, params);
+
 #ifndef direct_glLightModelxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightf
 void glLightf(GLenum light, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glLightf, GLenum light, GLenum pname, GLfloat param);
@@ -2076,13 +2073,13 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightf(light, pname, param);
+        gles_glLightf(light, pname, param);
+
 #ifndef direct_glLightf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightfv
 void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glLightfv, GLenum light, GLenum pname, const GLfloat * params);
@@ -2097,13 +2094,13 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightfv(light, pname, params);
+        gles_glLightfv(light, pname, params);
+
 #ifndef direct_glLightfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightx
 void glLightx(GLenum light, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glLightx, GLenum light, GLenum pname, GLfixed param);
@@ -2118,13 +2115,13 @@ void glLightx(GLenum light, GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightx(light, pname, param);
+        gles_glLightx(light, pname, param);
+
 #ifndef direct_glLightx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLightxv
 void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glLightxv, GLenum light, GLenum pname, const GLfixed * params);
@@ -2139,13 +2136,13 @@ void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLightxv(light, pname, params);
+        gles_glLightxv(light, pname, params);
+
 #ifndef direct_glLightxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLineWidth
 void glLineWidth(GLfloat width) {
     LOAD_GLES(void, glLineWidth, GLfloat width);
@@ -2158,13 +2155,13 @@ void glLineWidth(GLfloat width) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLineWidth(width);
+        gles_glLineWidth(width);
+
 #ifndef direct_glLineWidth
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLineWidthx
 void glLineWidthx(GLfixed width) {
     LOAD_GLES(void, glLineWidthx, GLfixed width);
@@ -2177,13 +2174,13 @@ void glLineWidthx(GLfixed width) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLineWidthx(width);
+        gles_glLineWidthx(width);
+
 #ifndef direct_glLineWidthx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLoadIdentity
 void glLoadIdentity() {
     LOAD_GLES(void, glLoadIdentity);
@@ -2195,13 +2192,13 @@ void glLoadIdentity() {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLoadIdentity();
+        gles_glLoadIdentity();
+
 #ifndef direct_glLoadIdentity
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLoadMatrixf
 void glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(void, glLoadMatrixf, const GLfloat * m);
@@ -2214,13 +2211,13 @@ void glLoadMatrixf(const GLfloat * m) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLoadMatrixf(m);
+        gles_glLoadMatrixf(m);
+
 #ifndef direct_glLoadMatrixf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLoadMatrixx
 void glLoadMatrixx(const GLfixed * m) {
     LOAD_GLES(void, glLoadMatrixx, const GLfixed * m);
@@ -2233,13 +2230,13 @@ void glLoadMatrixx(const GLfixed * m) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLoadMatrixx(m);
+        gles_glLoadMatrixx(m);
+
 #ifndef direct_glLoadMatrixx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glLogicOp
 void glLogicOp(GLenum opcode) {
     LOAD_GLES(void, glLogicOp, GLenum opcode);
@@ -2252,13 +2249,13 @@ void glLogicOp(GLenum opcode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glLogicOp(opcode);
+        gles_glLogicOp(opcode);
+
 #ifndef direct_glLogicOp
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMaterialf
 void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glMaterialf, GLenum face, GLenum pname, GLfloat param);
@@ -2273,13 +2270,13 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMaterialf(face, pname, param);
+        gles_glMaterialf(face, pname, param);
+
 #ifndef direct_glMaterialf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMaterialfv
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat * params);
@@ -2294,13 +2291,13 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMaterialfv(face, pname, params);
+        gles_glMaterialfv(face, pname, params);
+
 #ifndef direct_glMaterialfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMaterialx
 void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glMaterialx, GLenum face, GLenum pname, GLfixed param);
@@ -2315,13 +2312,13 @@ void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMaterialx(face, pname, param);
+        gles_glMaterialx(face, pname, param);
+
 #ifndef direct_glMaterialx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMaterialxv
 void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glMaterialxv, GLenum face, GLenum pname, const GLfixed * params);
@@ -2336,13 +2333,13 @@ void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMaterialxv(face, pname, params);
+        gles_glMaterialxv(face, pname, params);
+
 #ifndef direct_glMaterialxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMatrixMode
 void glMatrixMode(GLenum mode) {
     LOAD_GLES(void, glMatrixMode, GLenum mode);
@@ -2355,13 +2352,13 @@ void glMatrixMode(GLenum mode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMatrixMode(mode);
+        gles_glMatrixMode(mode);
+
 #ifndef direct_glMatrixMode
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMultMatrixf
 void glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(void, glMultMatrixf, const GLfloat * m);
@@ -2374,13 +2371,13 @@ void glMultMatrixf(const GLfloat * m) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMultMatrixf(m);
+        gles_glMultMatrixf(m);
+
 #ifndef direct_glMultMatrixf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMultMatrixx
 void glMultMatrixx(const GLfixed * m) {
     LOAD_GLES(void, glMultMatrixx, const GLfixed * m);
@@ -2393,13 +2390,13 @@ void glMultMatrixx(const GLfixed * m) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMultMatrixx(m);
+        gles_glMultMatrixx(m);
+
 #ifndef direct_glMultMatrixx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMultiTexCoord4f
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     LOAD_GLES(void, glMultiTexCoord4f, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
@@ -2416,13 +2413,13 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMultiTexCoord4f(target, s, t, r, q);
+        gles_glMultiTexCoord4f(target, s, t, r, q);
+
 #ifndef direct_glMultiTexCoord4f
     }
 #endif
 }
 #endif
-
 #ifndef skip_glMultiTexCoord4x
 void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
     LOAD_GLES(void, glMultiTexCoord4x, GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q);
@@ -2439,13 +2436,13 @@ void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glMultiTexCoord4x(target, s, t, r, q);
+        gles_glMultiTexCoord4x(target, s, t, r, q);
+
 #ifndef direct_glMultiTexCoord4x
     }
 #endif
 }
 #endif
-
 #ifndef skip_glNormal3f
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     LOAD_GLES(void, glNormal3f, GLfloat nx, GLfloat ny, GLfloat nz);
@@ -2460,13 +2457,13 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glNormal3f(nx, ny, nz);
+        gles_glNormal3f(nx, ny, nz);
+
 #ifndef direct_glNormal3f
     }
 #endif
 }
 #endif
-
 #ifndef skip_glNormal3x
 void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
     LOAD_GLES(void, glNormal3x, GLfixed nx, GLfixed ny, GLfixed nz);
@@ -2481,13 +2478,13 @@ void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glNormal3x(nx, ny, nz);
+        gles_glNormal3x(nx, ny, nz);
+
 #ifndef direct_glNormal3x
     }
 #endif
 }
 #endif
-
 #ifndef skip_glNormalPointer
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glNormalPointer, GLenum type, GLsizei stride, const GLvoid * pointer);
@@ -2502,13 +2499,13 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glNormalPointer(type, stride, pointer);
+        gles_glNormalPointer(type, stride, pointer);
+
 #ifndef direct_glNormalPointer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glOrthof
 void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
     LOAD_GLES(void, glOrthof, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
@@ -2526,13 +2523,13 @@ void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat 
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glOrthof(left, right, bottom, top, near, far);
+        gles_glOrthof(left, right, bottom, top, near, far);
+
 #ifndef direct_glOrthof
     }
 #endif
 }
 #endif
-
 #ifndef skip_glOrthox
 void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
     LOAD_GLES(void, glOrthox, GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far);
@@ -2550,13 +2547,13 @@ void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed 
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glOrthox(left, right, bottom, top, near, far);
+        gles_glOrthox(left, right, bottom, top, near, far);
+
 #ifndef direct_glOrthox
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPixelStorei
 void glPixelStorei(GLenum pname, GLint param) {
     LOAD_GLES(void, glPixelStorei, GLenum pname, GLint param);
@@ -2570,13 +2567,13 @@ void glPixelStorei(GLenum pname, GLint param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPixelStorei(pname, param);
+        gles_glPixelStorei(pname, param);
+
 #ifndef direct_glPixelStorei
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointParameterf
 void glPointParameterf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glPointParameterf, GLenum pname, GLfloat param);
@@ -2590,13 +2587,13 @@ void glPointParameterf(GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointParameterf(pname, param);
+        gles_glPointParameterf(pname, param);
+
 #ifndef direct_glPointParameterf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointParameterfv
 void glPointParameterfv(GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glPointParameterfv, GLenum pname, const GLfloat * params);
@@ -2610,13 +2607,13 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointParameterfv(pname, params);
+        gles_glPointParameterfv(pname, params);
+
 #ifndef direct_glPointParameterfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointParameterx
 void glPointParameterx(GLenum pname, GLfixed param) {
     LOAD_GLES(void, glPointParameterx, GLenum pname, GLfixed param);
@@ -2630,13 +2627,13 @@ void glPointParameterx(GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointParameterx(pname, param);
+        gles_glPointParameterx(pname, param);
+
 #ifndef direct_glPointParameterx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointParameterxv
 void glPointParameterxv(GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glPointParameterxv, GLenum pname, const GLfixed * params);
@@ -2650,13 +2647,13 @@ void glPointParameterxv(GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointParameterxv(pname, params);
+        gles_glPointParameterxv(pname, params);
+
 #ifndef direct_glPointParameterxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointSize
 void glPointSize(GLfloat size) {
     LOAD_GLES(void, glPointSize, GLfloat size);
@@ -2669,13 +2666,13 @@ void glPointSize(GLfloat size) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointSize(size);
+        gles_glPointSize(size);
+
 #ifndef direct_glPointSize
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointSizePointerOES
 void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glPointSizePointerOES, GLenum type, GLsizei stride, const GLvoid * pointer);
@@ -2690,13 +2687,13 @@ void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) 
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointSizePointerOES(type, stride, pointer);
+        gles_glPointSizePointerOES(type, stride, pointer);
+
 #ifndef direct_glPointSizePointerOES
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPointSizex
 void glPointSizex(GLfixed size) {
     LOAD_GLES(void, glPointSizex, GLfixed size);
@@ -2709,13 +2706,13 @@ void glPointSizex(GLfixed size) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPointSizex(size);
+        gles_glPointSizex(size);
+
 #ifndef direct_glPointSizex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPolygonOffset
 void glPolygonOffset(GLfloat factor, GLfloat units) {
     LOAD_GLES(void, glPolygonOffset, GLfloat factor, GLfloat units);
@@ -2729,13 +2726,13 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPolygonOffset(factor, units);
+        gles_glPolygonOffset(factor, units);
+
 #ifndef direct_glPolygonOffset
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPolygonOffsetx
 void glPolygonOffsetx(GLfixed factor, GLfixed units) {
     LOAD_GLES(void, glPolygonOffsetx, GLfixed factor, GLfixed units);
@@ -2749,13 +2746,13 @@ void glPolygonOffsetx(GLfixed factor, GLfixed units) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPolygonOffsetx(factor, units);
+        gles_glPolygonOffsetx(factor, units);
+
 #ifndef direct_glPolygonOffsetx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPopMatrix
 void glPopMatrix() {
     LOAD_GLES(void, glPopMatrix);
@@ -2767,13 +2764,13 @@ void glPopMatrix() {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPopMatrix();
+        gles_glPopMatrix();
+
 #ifndef direct_glPopMatrix
     }
 #endif
 }
 #endif
-
 #ifndef skip_glPushMatrix
 void glPushMatrix() {
     LOAD_GLES(void, glPushMatrix);
@@ -2785,13 +2782,13 @@ void glPushMatrix() {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glPushMatrix();
+        gles_glPushMatrix();
+
 #ifndef direct_glPushMatrix
     }
 #endif
 }
 #endif
-
 #ifndef skip_glReadPixels
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
     LOAD_GLES(void, glReadPixels, GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels);
@@ -2810,13 +2807,13 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glReadPixels(x, y, width, height, format, type, pixels);
+        gles_glReadPixels(x, y, width, height, format, type, pixels);
+
 #ifndef direct_glReadPixels
     }
 #endif
 }
 #endif
-
 #ifndef skip_glRotatef
 void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glRotatef, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
@@ -2832,13 +2829,13 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glRotatef(angle, x, y, z);
+        gles_glRotatef(angle, x, y, z);
+
 #ifndef direct_glRotatef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glRotatex
 void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glRotatex, GLfixed angle, GLfixed x, GLfixed y, GLfixed z);
@@ -2854,13 +2851,13 @@ void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glRotatex(angle, x, y, z);
+        gles_glRotatex(angle, x, y, z);
+
 #ifndef direct_glRotatex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glSampleCoverage
 void glSampleCoverage(GLclampf value, GLboolean invert) {
     LOAD_GLES(void, glSampleCoverage, GLclampf value, GLboolean invert);
@@ -2874,13 +2871,13 @@ void glSampleCoverage(GLclampf value, GLboolean invert) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glSampleCoverage(value, invert);
+        gles_glSampleCoverage(value, invert);
+
 #ifndef direct_glSampleCoverage
     }
 #endif
 }
 #endif
-
 #ifndef skip_glSampleCoveragex
 void glSampleCoveragex(GLclampx value, GLboolean invert) {
     LOAD_GLES(void, glSampleCoveragex, GLclampx value, GLboolean invert);
@@ -2894,13 +2891,13 @@ void glSampleCoveragex(GLclampx value, GLboolean invert) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glSampleCoveragex(value, invert);
+        gles_glSampleCoveragex(value, invert);
+
 #ifndef direct_glSampleCoveragex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glScalef
 void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glScalef, GLfloat x, GLfloat y, GLfloat z);
@@ -2915,13 +2912,13 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glScalef(x, y, z);
+        gles_glScalef(x, y, z);
+
 #ifndef direct_glScalef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glScalex
 void glScalex(GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glScalex, GLfixed x, GLfixed y, GLfixed z);
@@ -2936,13 +2933,13 @@ void glScalex(GLfixed x, GLfixed y, GLfixed z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glScalex(x, y, z);
+        gles_glScalex(x, y, z);
+
 #ifndef direct_glScalex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glScissor
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glScissor, GLint x, GLint y, GLsizei width, GLsizei height);
@@ -2958,13 +2955,13 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glScissor(x, y, width, height);
+        gles_glScissor(x, y, width, height);
+
 #ifndef direct_glScissor
     }
 #endif
 }
 #endif
-
 #ifndef skip_glShadeModel
 void glShadeModel(GLenum mode) {
     LOAD_GLES(void, glShadeModel, GLenum mode);
@@ -2977,13 +2974,13 @@ void glShadeModel(GLenum mode) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glShadeModel(mode);
+        gles_glShadeModel(mode);
+
 #ifndef direct_glShadeModel
     }
 #endif
 }
 #endif
-
 #ifndef skip_glStencilFunc
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     LOAD_GLES(void, glStencilFunc, GLenum func, GLint ref, GLuint mask);
@@ -2998,13 +2995,13 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glStencilFunc(func, ref, mask);
+        gles_glStencilFunc(func, ref, mask);
+
 #ifndef direct_glStencilFunc
     }
 #endif
 }
 #endif
-
 #ifndef skip_glStencilMask
 void glStencilMask(GLuint mask) {
     LOAD_GLES(void, glStencilMask, GLuint mask);
@@ -3017,13 +3014,13 @@ void glStencilMask(GLuint mask) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glStencilMask(mask);
+        gles_glStencilMask(mask);
+
 #ifndef direct_glStencilMask
     }
 #endif
 }
 #endif
-
 #ifndef skip_glStencilOp
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     LOAD_GLES(void, glStencilOp, GLenum fail, GLenum zfail, GLenum zpass);
@@ -3038,13 +3035,13 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glStencilOp(fail, zfail, zpass);
+        gles_glStencilOp(fail, zfail, zpass);
+
 #ifndef direct_glStencilOp
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexCoordPointer
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glTexCoordPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
@@ -3060,13 +3057,13 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexCoordPointer(size, type, stride, pointer);
+        gles_glTexCoordPointer(size, type, stride, pointer);
+
 #ifndef direct_glTexCoordPointer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnvf
 void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glTexEnvf, GLenum target, GLenum pname, GLfloat param);
@@ -3081,13 +3078,13 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnvf(target, pname, param);
+        gles_glTexEnvf(target, pname, param);
+
 #ifndef direct_glTexEnvf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnvfv
 void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glTexEnvfv, GLenum target, GLenum pname, const GLfloat * params);
@@ -3102,13 +3099,13 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnvfv(target, pname, params);
+        gles_glTexEnvfv(target, pname, params);
+
 #ifndef direct_glTexEnvfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnvi
 void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(void, glTexEnvi, GLenum target, GLenum pname, GLint param);
@@ -3123,13 +3120,13 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnvi(target, pname, param);
+        gles_glTexEnvi(target, pname, param);
+
 #ifndef direct_glTexEnvi
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnviv
 void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     LOAD_GLES(void, glTexEnviv, GLenum target, GLenum pname, const GLint * params);
@@ -3144,13 +3141,13 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnviv(target, pname, params);
+        gles_glTexEnviv(target, pname, params);
+
 #ifndef direct_glTexEnviv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnvx
 void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glTexEnvx, GLenum target, GLenum pname, GLfixed param);
@@ -3165,13 +3162,13 @@ void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnvx(target, pname, param);
+        gles_glTexEnvx(target, pname, param);
+
 #ifndef direct_glTexEnvx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexEnvxv
 void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glTexEnvxv, GLenum target, GLenum pname, const GLfixed * params);
@@ -3186,13 +3183,13 @@ void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexEnvxv(target, pname, params);
+        gles_glTexEnvxv(target, pname, params);
+
 #ifndef direct_glTexEnvxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexImage2D
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
     LOAD_GLES(void, glTexImage2D, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
@@ -3213,13 +3210,13 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+        gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+
 #ifndef direct_glTexImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameterf
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     LOAD_GLES(void, glTexParameterf, GLenum target, GLenum pname, GLfloat param);
@@ -3234,13 +3231,13 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameterf(target, pname, param);
+        gles_glTexParameterf(target, pname, param);
+
 #ifndef direct_glTexParameterf
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameterfv
 void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     LOAD_GLES(void, glTexParameterfv, GLenum target, GLenum pname, const GLfloat * params);
@@ -3255,13 +3252,13 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameterfv(target, pname, params);
+        gles_glTexParameterfv(target, pname, params);
+
 #ifndef direct_glTexParameterfv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameteri
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(void, glTexParameteri, GLenum target, GLenum pname, GLint param);
@@ -3276,13 +3273,13 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameteri(target, pname, param);
+        gles_glTexParameteri(target, pname, param);
+
 #ifndef direct_glTexParameteri
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameteriv
 void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     LOAD_GLES(void, glTexParameteriv, GLenum target, GLenum pname, const GLint * params);
@@ -3297,13 +3294,13 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameteriv(target, pname, params);
+        gles_glTexParameteriv(target, pname, params);
+
 #ifndef direct_glTexParameteriv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameterx
 void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
     LOAD_GLES(void, glTexParameterx, GLenum target, GLenum pname, GLfixed param);
@@ -3318,13 +3315,13 @@ void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameterx(target, pname, param);
+        gles_glTexParameterx(target, pname, param);
+
 #ifndef direct_glTexParameterx
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexParameterxv
 void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
     LOAD_GLES(void, glTexParameterxv, GLenum target, GLenum pname, const GLfixed * params);
@@ -3339,13 +3336,13 @@ void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexParameterxv(target, pname, params);
+        gles_glTexParameterxv(target, pname, params);
+
 #ifndef direct_glTexParameterxv
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTexSubImage2D
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
     LOAD_GLES(void, glTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
@@ -3366,13 +3363,13 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+        gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+
 #ifndef direct_glTexSubImage2D
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTranslatef
 void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     LOAD_GLES(void, glTranslatef, GLfloat x, GLfloat y, GLfloat z);
@@ -3387,13 +3384,13 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTranslatef(x, y, z);
+        gles_glTranslatef(x, y, z);
+
 #ifndef direct_glTranslatef
     }
 #endif
 }
 #endif
-
 #ifndef skip_glTranslatex
 void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
     LOAD_GLES(void, glTranslatex, GLfixed x, GLfixed y, GLfixed z);
@@ -3408,13 +3405,13 @@ void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glTranslatex(x, y, z);
+        gles_glTranslatex(x, y, z);
+
 #ifndef direct_glTranslatex
     }
 #endif
 }
 #endif
-
 #ifndef skip_glVertexPointer
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(void, glVertexPointer, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
@@ -3430,13 +3427,13 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glVertexPointer(size, type, stride, pointer);
+        gles_glVertexPointer(size, type, stride, pointer);
+
 #ifndef direct_glVertexPointer
     }
 #endif
 }
 #endif
-
 #ifndef skip_glViewport
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     LOAD_GLES(void, glViewport, GLint x, GLint y, GLsizei width, GLsizei height);
@@ -3452,7 +3449,8 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
         glPushCall((void *)data);
     } else {
 #endif
-    gles_glViewport(x, y, width, height);
+        gles_glViewport(x, y, width, height);
+
 #ifndef direct_glViewport
     }
 #endif

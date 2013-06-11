@@ -6,7 +6,11 @@ import re
 from yaml import load
 
 split_re = re.compile(r'^(?P<type>.*?)\s*(?P<name>\w+)$')
-env = jinja2.Environment(loader=jinja2.FileSystemLoader('template'))
+env = jinja2.Environment(
+    trim_blocks=True,
+    lstrip_blocks=True,
+    loader=jinja2.FileSystemLoader('template'),
+)
 
 def args(args, add_type=True):
     return ', '.join(

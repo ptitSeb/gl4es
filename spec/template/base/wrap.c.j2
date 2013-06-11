@@ -5,9 +5,9 @@
 #ifndef skip_{{ func.name }}
 {{ func.return }} {{ func.name }}({{ func.args|args }}) {
     {% block load scoped %}{% endblock %}
-    {%- block call scoped %}
+    {% block call scoped %}
     {% if not func.void %}return {% endif %}{% block prefix %}wrap{% endblock %}_{{ func.name }}({{ func.args|args(0) }});
-    {%- endblock -%}
+    {% endblock %}
 }
 #endif
 {% endfor %}

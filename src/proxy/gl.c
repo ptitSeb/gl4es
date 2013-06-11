@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "gl.h"
 
 void glPackedCall(const UnknownCall *packed) {
@@ -4774,18743 +4775,13388 @@ void glPackedCall(const UnknownCall *packed) {
         }
     }
 }
-
-
-#ifndef skip_Accum
-void Accum(GLenum op, GLfloat value) {
-    
+#ifndef skip_glAccum
+void glAccum(GLenum op, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AccumxOES
-void AccumxOES(GLenum op, GLfixed value) {
-    
+#ifndef skip_glAccumxOES
+void glAccumxOES(GLenum op, GLfixed value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveProgramEXT
-void ActiveProgramEXT(GLuint program) {
-    
+#ifndef skip_glActiveProgramEXT
+void glActiveProgramEXT(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveShaderProgram
-void ActiveShaderProgram(GLuint pipeline, GLuint program) {
-    
+#ifndef skip_glActiveShaderProgram
+void glActiveShaderProgram(GLuint pipeline, GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveStencilFaceEXT
-void ActiveStencilFaceEXT(GLenum face) {
-    
+#ifndef skip_glActiveStencilFaceEXT
+void glActiveStencilFaceEXT(GLenum face) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveTexture
-void ActiveTexture(GLenum texture) {
-    
+#ifndef skip_glActiveTexture
+void glActiveTexture(GLenum texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveTextureARB
-void ActiveTextureARB(GLenum texture) {
-    
+#ifndef skip_glActiveTextureARB
+void glActiveTextureARB(GLenum texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ActiveVaryingNV
-void ActiveVaryingNV(GLuint program, GLchar name) {
-    
+#ifndef skip_glActiveVaryingNV
+void glActiveVaryingNV(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AlphaFragmentOp1ATI
-void AlphaFragmentOp1ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod) {
-    
+#ifndef skip_glAlphaFragmentOp1ATI
+void glAlphaFragmentOp1ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AlphaFragmentOp2ATI
-void AlphaFragmentOp2ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod) {
-    
+#ifndef skip_glAlphaFragmentOp2ATI
+void glAlphaFragmentOp2ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AlphaFragmentOp3ATI
-void AlphaFragmentOp3ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod) {
-    
+#ifndef skip_glAlphaFragmentOp3ATI
+void glAlphaFragmentOp3ATI(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AlphaFunc
-void AlphaFunc(GLenum func, GLfloat ref) {
-    
+#ifndef skip_glAlphaFunc
+void glAlphaFunc(GLenum func, GLfloat ref) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AlphaFuncxOES
-void AlphaFuncxOES(GLenum func, GLfixed ref) {
-    
+#ifndef skip_glAlphaFuncxOES
+void glAlphaFuncxOES(GLenum func, GLfixed ref) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ApplyTextureEXT
-void ApplyTextureEXT(GLenum mode) {
-    
+#ifndef skip_glApplyTextureEXT
+void glApplyTextureEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AreProgramsResidentNV
-Boolean AreProgramsResidentNV(GLsizei n, GLuint programs, GLboolean residences) {
-    
+#ifndef skip_glAreProgramsResidentNV
+Boolean glAreProgramsResidentNV(GLsizei n, GLuint programs, GLboolean residences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AreTexturesResident
-Boolean AreTexturesResident(GLsizei n, GLuint textures, GLboolean residences) {
-    
+#ifndef skip_glAreTexturesResident
+Boolean glAreTexturesResident(GLsizei n, GLuint textures, GLboolean residences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AreTexturesResidentEXT
-Boolean AreTexturesResidentEXT(GLsizei n, GLuint textures, GLboolean residences) {
-    
+#ifndef skip_glAreTexturesResidentEXT
+Boolean glAreTexturesResidentEXT(GLsizei n, GLuint textures, GLboolean residences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ArrayElement
-void ArrayElement(GLint i) {
-    
+#ifndef skip_glArrayElement
+void glArrayElement(GLint i) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ArrayElementEXT
-void ArrayElementEXT(GLint i) {
-    
+#ifndef skip_glArrayElementEXT
+void glArrayElementEXT(GLint i) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ArrayObjectATI
-void ArrayObjectATI(GLenum array, GLint size, GLenum type, GLsizei stride, GLuint buffer, GLuint offset) {
-    
+#ifndef skip_glArrayObjectATI
+void glArrayObjectATI(GLenum array, GLint size, GLenum type, GLsizei stride, GLuint buffer, GLuint offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AsyncMarkerSGIX
-void AsyncMarkerSGIX(GLuint marker) {
-    
+#ifndef skip_glAsyncMarkerSGIX
+void glAsyncMarkerSGIX(GLuint marker) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AttachObjectARB
-void AttachObjectARB(GLhandleARB containerObj, GLhandleARB obj) {
-    
+#ifndef skip_glAttachObjectARB
+void glAttachObjectARB(GLhandleARB containerObj, GLhandleARB obj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AttachShader
-void AttachShader(GLuint program, GLuint shader) {
-    
+#ifndef skip_glAttachShader
+void glAttachShader(GLuint program, GLuint shader) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Begin
-void Begin(GLenum mode) {
-    
+#ifndef skip_glBegin
+void glBegin(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginConditionalRender
-void BeginConditionalRender(GLuint id, GLenum mode) {
-    
+#ifndef skip_glBeginConditionalRender
+void glBeginConditionalRender(GLuint id, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginConditionalRenderNV
-void BeginConditionalRenderNV(GLuint id, GLenum mode) {
-    
+#ifndef skip_glBeginConditionalRenderNV
+void glBeginConditionalRenderNV(GLuint id, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginConditionalRenderNVX
-void BeginConditionalRenderNVX(GLuint id) {
-    
+#ifndef skip_glBeginConditionalRenderNVX
+void glBeginConditionalRenderNVX(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginFragmentShaderATI
-void BeginFragmentShaderATI() {
-    
+#ifndef skip_glBeginFragmentShaderATI
+void glBeginFragmentShaderATI() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginOcclusionQueryNV
-void BeginOcclusionQueryNV(GLuint id) {
-    
+#ifndef skip_glBeginOcclusionQueryNV
+void glBeginOcclusionQueryNV(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginPerfMonitorAMD
-void BeginPerfMonitorAMD(GLuint monitor) {
-    
+#ifndef skip_glBeginPerfMonitorAMD
+void glBeginPerfMonitorAMD(GLuint monitor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginQuery
-void BeginQuery(GLenum target, GLuint id) {
-    
+#ifndef skip_glBeginQuery
+void glBeginQuery(GLenum target, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginQueryARB
-void BeginQueryARB(GLenum target, GLuint id) {
-    
+#ifndef skip_glBeginQueryARB
+void glBeginQueryARB(GLenum target, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginQueryIndexed
-void BeginQueryIndexed(GLenum target, GLuint index, GLuint id) {
-    
+#ifndef skip_glBeginQueryIndexed
+void glBeginQueryIndexed(GLenum target, GLuint index, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginTransformFeedback
-void BeginTransformFeedback(GLenum primitiveMode) {
-    
+#ifndef skip_glBeginTransformFeedback
+void glBeginTransformFeedback(GLenum primitiveMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginTransformFeedbackEXT
-void BeginTransformFeedbackEXT(GLenum primitiveMode) {
-    
+#ifndef skip_glBeginTransformFeedbackEXT
+void glBeginTransformFeedbackEXT(GLenum primitiveMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginTransformFeedbackNV
-void BeginTransformFeedbackNV(GLenum primitiveMode) {
-    
+#ifndef skip_glBeginTransformFeedbackNV
+void glBeginTransformFeedbackNV(GLenum primitiveMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginVertexShaderEXT
-void BeginVertexShaderEXT() {
-    
+#ifndef skip_glBeginVertexShaderEXT
+void glBeginVertexShaderEXT() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BeginVideoCaptureNV
-void BeginVideoCaptureNV(GLuint video_capture_slot) {
-    
+#ifndef skip_glBeginVideoCaptureNV
+void glBeginVideoCaptureNV(GLuint video_capture_slot) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindAttribLocation
-void BindAttribLocation(GLuint program, GLuint index, GLchar name) {
-    
+#ifndef skip_glBindAttribLocation
+void glBindAttribLocation(GLuint program, GLuint index, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindAttribLocationARB
-void BindAttribLocationARB(GLhandleARB programObj, GLuint index, GLcharARB name) {
-    
+#ifndef skip_glBindAttribLocationARB
+void glBindAttribLocationARB(GLhandleARB programObj, GLuint index, GLcharARB name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBuffer
-void BindBuffer(GLenum target, GLuint buffer) {
-    
+#ifndef skip_glBindBuffer
+void glBindBuffer(GLenum target, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferARB
-void BindBufferARB(GLenum target, GLuint buffer) {
-    
+#ifndef skip_glBindBufferARB
+void glBindBufferARB(GLenum target, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferBase
-void BindBufferBase(GLenum target, GLuint index, GLuint buffer) {
-    
+#ifndef skip_glBindBufferBase
+void glBindBufferBase(GLenum target, GLuint index, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferBaseEXT
-void BindBufferBaseEXT(GLenum target, GLuint index, GLuint buffer) {
-    
+#ifndef skip_glBindBufferBaseEXT
+void glBindBufferBaseEXT(GLenum target, GLuint index, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferBaseNV
-void BindBufferBaseNV(GLenum target, GLuint index, GLuint buffer) {
-    
+#ifndef skip_glBindBufferBaseNV
+void glBindBufferBaseNV(GLenum target, GLuint index, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferOffsetEXT
-void BindBufferOffsetEXT(GLenum target, GLuint index, GLuint buffer, GLintptr offset) {
-    
+#ifndef skip_glBindBufferOffsetEXT
+void glBindBufferOffsetEXT(GLenum target, GLuint index, GLuint buffer, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferOffsetNV
-void BindBufferOffsetNV(GLenum target, GLuint index, GLuint buffer, GLintptr offset) {
-    
+#ifndef skip_glBindBufferOffsetNV
+void glBindBufferOffsetNV(GLenum target, GLuint index, GLuint buffer, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferRange
-void BindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glBindBufferRange
+void glBindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferRangeEXT
-void BindBufferRangeEXT(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glBindBufferRangeEXT
+void glBindBufferRangeEXT(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindBufferRangeNV
-void BindBufferRangeNV(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glBindBufferRangeNV
+void glBindBufferRangeNV(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFragDataLocation
-void BindFragDataLocation(GLuint program, GLuint color, GLchar name) {
-    
+#ifndef skip_glBindFragDataLocation
+void glBindFragDataLocation(GLuint program, GLuint color, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFragDataLocationEXT
-void BindFragDataLocationEXT(GLuint program, GLuint color, GLchar name) {
-    
+#ifndef skip_glBindFragDataLocationEXT
+void glBindFragDataLocationEXT(GLuint program, GLuint color, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFragDataLocationIndexed
-void BindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, GLchar name) {
-    
+#ifndef skip_glBindFragDataLocationIndexed
+void glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFragmentShaderATI
-void BindFragmentShaderATI(GLuint id) {
-    
+#ifndef skip_glBindFragmentShaderATI
+void glBindFragmentShaderATI(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFramebuffer
-void BindFramebuffer(GLenum target, GLuint framebuffer) {
-    
+#ifndef skip_glBindFramebuffer
+void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindFramebufferEXT
-void BindFramebufferEXT(GLenum target, GLuint framebuffer) {
-    
+#ifndef skip_glBindFramebufferEXT
+void glBindFramebufferEXT(GLenum target, GLuint framebuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindImageTexture
-void BindImageTexture(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format) {
-    
+#ifndef skip_glBindImageTexture
+void glBindImageTexture(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindImageTextureEXT
-void BindImageTextureEXT(GLuint index, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLint format) {
-    
+#ifndef skip_glBindImageTextureEXT
+void glBindImageTextureEXT(GLuint index, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLint format) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindLightParameterEXT
-UInt32 BindLightParameterEXT(GLenum light, GLenum value) {
-    
+#ifndef skip_glBindLightParameterEXT
+UInt32 glBindLightParameterEXT(GLenum light, GLenum value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindMaterialParameterEXT
-UInt32 BindMaterialParameterEXT(GLenum face, GLenum value) {
-    
+#ifndef skip_glBindMaterialParameterEXT
+UInt32 glBindMaterialParameterEXT(GLenum face, GLenum value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindMultiTextureEXT
-void BindMultiTextureEXT(GLenum texunit, GLenum target, GLuint texture) {
-    
+#ifndef skip_glBindMultiTextureEXT
+void glBindMultiTextureEXT(GLenum texunit, GLenum target, GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindParameterEXT
-UInt32 BindParameterEXT(GLenum value) {
-    
+#ifndef skip_glBindParameterEXT
+UInt32 glBindParameterEXT(GLenum value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindProgramARB
-void BindProgramARB(GLenum target, GLuint program) {
-    
+#ifndef skip_glBindProgramARB
+void glBindProgramARB(GLenum target, GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindProgramNV
-void BindProgramNV(GLenum target, GLuint id) {
-    
+#ifndef skip_glBindProgramNV
+void glBindProgramNV(GLenum target, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindProgramPipeline
-void BindProgramPipeline(GLuint pipeline) {
-    
+#ifndef skip_glBindProgramPipeline
+void glBindProgramPipeline(GLuint pipeline) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindRenderbuffer
-void BindRenderbuffer(GLenum target, GLuint renderbuffer) {
-    
+#ifndef skip_glBindRenderbuffer
+void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindRenderbufferEXT
-void BindRenderbufferEXT(GLenum target, GLuint renderbuffer) {
-    
+#ifndef skip_glBindRenderbufferEXT
+void glBindRenderbufferEXT(GLenum target, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindSampler
-void BindSampler(GLuint unit, GLuint sampler) {
-    
+#ifndef skip_glBindSampler
+void glBindSampler(GLuint unit, GLuint sampler) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTexGenParameterEXT
-UInt32 BindTexGenParameterEXT(GLenum unit, GLenum coord, GLenum value) {
-    
+#ifndef skip_glBindTexGenParameterEXT
+UInt32 glBindTexGenParameterEXT(GLenum unit, GLenum coord, GLenum value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTexture
-void BindTexture(GLenum target, GLuint texture) {
-    
+#ifndef skip_glBindTexture
+void glBindTexture(GLenum target, GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTextureEXT
-void BindTextureEXT(GLenum target, GLuint texture) {
-    
+#ifndef skip_glBindTextureEXT
+void glBindTextureEXT(GLenum target, GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTextureUnitParameterEXT
-UInt32 BindTextureUnitParameterEXT(GLenum unit, GLenum value) {
-    
+#ifndef skip_glBindTextureUnitParameterEXT
+UInt32 glBindTextureUnitParameterEXT(GLenum unit, GLenum value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTransformFeedback
-void BindTransformFeedback(GLenum target, GLuint id) {
-    
+#ifndef skip_glBindTransformFeedback
+void glBindTransformFeedback(GLenum target, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTransformFeedbackNV
-void BindTransformFeedbackNV(GLenum target, GLuint id) {
-    
+#ifndef skip_glBindTransformFeedbackNV
+void glBindTransformFeedbackNV(GLenum target, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVertexArray
-void BindVertexArray(GLuint array) {
-    
+#ifndef skip_glBindVertexArray
+void glBindVertexArray(GLuint array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVertexArrayAPPLE
-void BindVertexArrayAPPLE(GLuint array) {
-    
+#ifndef skip_glBindVertexArrayAPPLE
+void glBindVertexArrayAPPLE(GLuint array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVertexBuffer
-void BindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride) {
-    
+#ifndef skip_glBindVertexBuffer
+void glBindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVertexShaderEXT
-void BindVertexShaderEXT(GLuint id) {
-    
+#ifndef skip_glBindVertexShaderEXT
+void glBindVertexShaderEXT(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVideoCaptureStreamBufferNV
-void BindVideoCaptureStreamBufferNV(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLintptrARB offset) {
-    
+#ifndef skip_glBindVideoCaptureStreamBufferNV
+void glBindVideoCaptureStreamBufferNV(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLintptrARB offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVideoCaptureStreamTextureNV
-void BindVideoCaptureStreamTextureNV(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLenum target, GLuint texture) {
-    
+#ifndef skip_glBindVideoCaptureStreamTextureNV
+void glBindVideoCaptureStreamTextureNV(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLenum target, GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3bEXT
-void Binormal3bEXT(GLbyte bx, GLbyte by, GLbyte bz) {
-    
+#ifndef skip_glBinormal3bEXT
+void glBinormal3bEXT(GLbyte bx, GLbyte by, GLbyte bz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3bvEXT
-void Binormal3bvEXT(GLbyte v) {
-    
+#ifndef skip_glBinormal3bvEXT
+void glBinormal3bvEXT(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3dEXT
-void Binormal3dEXT(GLdouble bx, GLdouble by, GLdouble bz) {
-    
+#ifndef skip_glBinormal3dEXT
+void glBinormal3dEXT(GLdouble bx, GLdouble by, GLdouble bz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3dvEXT
-void Binormal3dvEXT(GLdouble v) {
-    
+#ifndef skip_glBinormal3dvEXT
+void glBinormal3dvEXT(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3fEXT
-void Binormal3fEXT(GLfloat bx, GLfloat by, GLfloat bz) {
-    
+#ifndef skip_glBinormal3fEXT
+void glBinormal3fEXT(GLfloat bx, GLfloat by, GLfloat bz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3fvEXT
-void Binormal3fvEXT(GLfloat v) {
-    
+#ifndef skip_glBinormal3fvEXT
+void glBinormal3fvEXT(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3iEXT
-void Binormal3iEXT(GLint bx, GLint by, GLint bz) {
-    
+#ifndef skip_glBinormal3iEXT
+void glBinormal3iEXT(GLint bx, GLint by, GLint bz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3ivEXT
-void Binormal3ivEXT(GLint v) {
-    
+#ifndef skip_glBinormal3ivEXT
+void glBinormal3ivEXT(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3sEXT
-void Binormal3sEXT(GLshort bx, GLshort by, GLshort bz) {
-    
+#ifndef skip_glBinormal3sEXT
+void glBinormal3sEXT(GLshort bx, GLshort by, GLshort bz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Binormal3svEXT
-void Binormal3svEXT(GLshort v) {
-    
+#ifndef skip_glBinormal3svEXT
+void glBinormal3svEXT(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BinormalPointerEXT
-void BinormalPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glBinormalPointerEXT
+void glBinormalPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Bitmap
-void Bitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, GLubyte bitmap) {
-    
+#ifndef skip_glBitmap
+void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, GLubyte bitmap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BitmapxOES
-void BitmapxOES(GLsizei width, GLsizei height, GLfixed xorig, GLfixed yorig, GLfixed xmove, GLfixed ymove, GLubyte bitmap) {
-    
+#ifndef skip_glBitmapxOES
+void glBitmapxOES(GLsizei width, GLsizei height, GLfixed xorig, GLfixed yorig, GLfixed xmove, GLfixed ymove, GLubyte bitmap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendColor
-void BlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    
+#ifndef skip_glBlendColor
+void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendColorEXT
-void BlendColorEXT(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    
+#ifndef skip_glBlendColorEXT
+void glBlendColorEXT(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendColorxOES
-void BlendColorxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
-    
+#ifndef skip_glBlendColorxOES
+void glBlendColorxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquation
-void BlendEquation(GLenum mode) {
-    
+#ifndef skip_glBlendEquation
+void glBlendEquation(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationEXT
-void BlendEquationEXT(GLenum mode) {
-    
+#ifndef skip_glBlendEquationEXT
+void glBlendEquationEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationIndexedAMD
-void BlendEquationIndexedAMD(GLuint buf, GLenum mode) {
-    
+#ifndef skip_glBlendEquationIndexedAMD
+void glBlendEquationIndexedAMD(GLuint buf, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationSeparate
-void BlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) {
-    
+#ifndef skip_glBlendEquationSeparate
+void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationSeparateEXT
-void BlendEquationSeparateEXT(GLenum modeRGB, GLenum modeAlpha) {
-    
+#ifndef skip_glBlendEquationSeparateEXT
+void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationSeparateIndexedAMD
-void BlendEquationSeparateIndexedAMD(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
-    
+#ifndef skip_glBlendEquationSeparateIndexedAMD
+void glBlendEquationSeparateIndexedAMD(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationSeparatei
-void BlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
-    
+#ifndef skip_glBlendEquationSeparatei
+void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationSeparateiARB
-void BlendEquationSeparateiARB(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
-    
+#ifndef skip_glBlendEquationSeparateiARB
+void glBlendEquationSeparateiARB(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationi
-void BlendEquationi(GLuint buf, GLenum mode) {
-    
+#ifndef skip_glBlendEquationi
+void glBlendEquationi(GLuint buf, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendEquationiARB
-void BlendEquationiARB(GLuint buf, GLenum mode) {
-    
+#ifndef skip_glBlendEquationiARB
+void glBlendEquationiARB(GLuint buf, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFunc
-void BlendFunc(GLenum sfactor, GLenum dfactor) {
-    
+#ifndef skip_glBlendFunc
+void glBlendFunc(GLenum sfactor, GLenum dfactor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncIndexedAMD
-void BlendFuncIndexedAMD(GLuint buf, GLenum src, GLenum dst) {
-    
+#ifndef skip_glBlendFuncIndexedAMD
+void glBlendFuncIndexedAMD(GLuint buf, GLenum src, GLenum dst) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparate
-void BlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
-    
+#ifndef skip_glBlendFuncSeparate
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparateEXT
-void BlendFuncSeparateEXT(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
-    
+#ifndef skip_glBlendFuncSeparateEXT
+void glBlendFuncSeparateEXT(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparateINGR
-void BlendFuncSeparateINGR(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
-    
+#ifndef skip_glBlendFuncSeparateINGR
+void glBlendFuncSeparateINGR(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparateIndexedAMD
-void BlendFuncSeparateIndexedAMD(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
-    
+#ifndef skip_glBlendFuncSeparateIndexedAMD
+void glBlendFuncSeparateIndexedAMD(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparatei
-void BlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
-    
+#ifndef skip_glBlendFuncSeparatei
+void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFuncSeparateiARB
-void BlendFuncSeparateiARB(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
-    
+#ifndef skip_glBlendFuncSeparateiARB
+void glBlendFuncSeparateiARB(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFunci
-void BlendFunci(GLuint buf, GLenum src, GLenum dst) {
-    
+#ifndef skip_glBlendFunci
+void glBlendFunci(GLuint buf, GLenum src, GLenum dst) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlendFunciARB
-void BlendFunciARB(GLuint buf, GLenum src, GLenum dst) {
-    
+#ifndef skip_glBlendFunciARB
+void glBlendFunciARB(GLuint buf, GLenum src, GLenum dst) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlitFramebuffer
-void BlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
-    
+#ifndef skip_glBlitFramebuffer
+void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BlitFramebufferEXT
-void BlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
-    
+#ifndef skip_glBlitFramebufferEXT
+void glBlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferAddressRangeNV
-void BufferAddressRangeNV(GLenum pname, GLuint index, GLuint64EXT address, GLsizeiptr length) {
-    
+#ifndef skip_glBufferAddressRangeNV
+void glBufferAddressRangeNV(GLenum pname, GLuint index, GLuint64EXT address, GLsizeiptr length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferData
-void BufferData(GLenum target, GLsizeiptr size, GLvoid data, GLenum usage) {
-    
+#ifndef skip_glBufferData
+void glBufferData(GLenum target, GLsizeiptr size, GLvoid data, GLenum usage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferDataARB
-void BufferDataARB(GLenum target, GLsizeiptrARB size, GLvoid data, GLenum usage) {
-    
+#ifndef skip_glBufferDataARB
+void glBufferDataARB(GLenum target, GLsizeiptrARB size, GLvoid data, GLenum usage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferParameteriAPPLE
-void BufferParameteriAPPLE(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glBufferParameteriAPPLE
+void glBufferParameteriAPPLE(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferSubData
-void BufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid data) {
-    
+#ifndef skip_glBufferSubData
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BufferSubDataARB
-void BufferSubDataARB(GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid data) {
-    
+#ifndef skip_glBufferSubDataARB
+void glBufferSubDataARB(GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CallList
-void CallList(GLuint list) {
-    
+#ifndef skip_glCallList
+void glCallList(GLuint list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CallLists
-void CallLists(GLsizei n, GLenum type, GLvoid lists) {
-    
+#ifndef skip_glCallLists
+void glCallLists(GLsizei n, GLenum type, GLvoid lists) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CheckFramebufferStatus
-GLenum CheckFramebufferStatus(GLenum target) {
-    
+#ifndef skip_glCheckFramebufferStatus
+GLenum glCheckFramebufferStatus(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CheckFramebufferStatusEXT
-GLenum CheckFramebufferStatusEXT(GLenum target) {
-    
+#ifndef skip_glCheckFramebufferStatusEXT
+GLenum glCheckFramebufferStatusEXT(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CheckNamedFramebufferStatusEXT
-FramebufferStatus CheckNamedFramebufferStatusEXT(GLuint framebuffer, GLenum target) {
-    
+#ifndef skip_glCheckNamedFramebufferStatusEXT
+FramebufferStatus glCheckNamedFramebufferStatusEXT(GLuint framebuffer, GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClampColor
-void ClampColor(GLenum target, GLenum clamp) {
-    
+#ifndef skip_glClampColor
+void glClampColor(GLenum target, GLenum clamp) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClampColorARB
-void ClampColorARB(GLenum target, GLenum clamp) {
-    
+#ifndef skip_glClampColorARB
+void glClampColorARB(GLenum target, GLenum clamp) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Clear
-void Clear(GLbitfield mask) {
-    
+#ifndef skip_glClear
+void glClear(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearAccum
-void ClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    
+#ifndef skip_glClearAccum
+void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearAccumxOES
-void ClearAccumxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
-    
+#ifndef skip_glClearAccumxOES
+void glClearAccumxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferData
-void ClearBufferData(GLenum target, GLenum internalformat, GLenum format, GLenum type, void * data) {
-    
+#ifndef skip_glClearBufferData
+void glClearBufferData(GLenum target, GLenum internalformat, GLenum format, GLenum type, void * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferSubData
-void ClearBufferSubData(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, void * data) {
-    
+#ifndef skip_glClearBufferSubData
+void glClearBufferSubData(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, void * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferfi
-void ClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
-    
+#ifndef skip_glClearBufferfi
+void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferfv
-void ClearBufferfv(GLenum buffer, GLint drawbuffer, GLfloat value) {
-    
+#ifndef skip_glClearBufferfv
+void glClearBufferfv(GLenum buffer, GLint drawbuffer, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferiv
-void ClearBufferiv(GLenum buffer, GLint drawbuffer, GLint value) {
-    
+#ifndef skip_glClearBufferiv
+void glClearBufferiv(GLenum buffer, GLint drawbuffer, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearBufferuiv
-void ClearBufferuiv(GLenum buffer, GLint drawbuffer, GLuint value) {
-    
+#ifndef skip_glClearBufferuiv
+void glClearBufferuiv(GLenum buffer, GLint drawbuffer, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearColor
-void ClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    
+#ifndef skip_glClearColor
+void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearColorIiEXT
-void ClearColorIiEXT(GLint red, GLint green, GLint blue, GLint alpha) {
-    
+#ifndef skip_glClearColorIiEXT
+void glClearColorIiEXT(GLint red, GLint green, GLint blue, GLint alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearColorIuiEXT
-void ClearColorIuiEXT(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
-    
+#ifndef skip_glClearColorIuiEXT
+void glClearColorIuiEXT(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearColorxOES
-void ClearColorxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
-    
+#ifndef skip_glClearColorxOES
+void glClearColorxOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearDepth
-void ClearDepth(GLdouble depth) {
-    
+#ifndef skip_glClearDepth
+void glClearDepth(GLdouble depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearDepthdNV
-void ClearDepthdNV(GLdouble depth) {
-    
+#ifndef skip_glClearDepthdNV
+void glClearDepthdNV(GLdouble depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearDepthf
-void ClearDepthf(GLfloat d) {
-    
+#ifndef skip_glClearDepthf
+void glClearDepthf(GLfloat d) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearDepthfOES
-void ClearDepthfOES(GLclampf depth) {
-    
+#ifndef skip_glClearDepthfOES
+void glClearDepthfOES(GLclampf depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearDepthxOES
-void ClearDepthxOES(GLfixed depth) {
-    
+#ifndef skip_glClearDepthxOES
+void glClearDepthxOES(GLfixed depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearIndex
-void ClearIndex(GLfloat c) {
-    
+#ifndef skip_glClearIndex
+void glClearIndex(GLfloat c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearNamedBufferDataEXT
-void ClearNamedBufferDataEXT(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, void * data) {
-    
+#ifndef skip_glClearNamedBufferDataEXT
+void glClearNamedBufferDataEXT(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, void * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearNamedBufferSubDataEXT
-void ClearNamedBufferSubDataEXT(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, GLsizeiptr offset, GLsizeiptr size, void * data) {
-    
+#ifndef skip_glClearNamedBufferSubDataEXT
+void glClearNamedBufferSubDataEXT(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, GLsizeiptr offset, GLsizeiptr size, void * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClearStencil
-void ClearStencil(GLint s) {
-    
+#ifndef skip_glClearStencil
+void glClearStencil(GLint s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClientActiveTexture
-void ClientActiveTexture(GLenum texture) {
-    
+#ifndef skip_glClientActiveTexture
+void glClientActiveTexture(GLenum texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClientActiveTextureARB
-void ClientActiveTextureARB(GLenum texture) {
-    
+#ifndef skip_glClientActiveTextureARB
+void glClientActiveTextureARB(GLenum texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClientActiveVertexStreamATI
-void ClientActiveVertexStreamATI(GLenum stream) {
-    
+#ifndef skip_glClientActiveVertexStreamATI
+void glClientActiveVertexStreamATI(GLenum stream) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClientAttribDefaultEXT
-void ClientAttribDefaultEXT(GLbitfield mask) {
-    
+#ifndef skip_glClientAttribDefaultEXT
+void glClientAttribDefaultEXT(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClientWaitSync
-GLenum ClientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) {
-    
+#ifndef skip_glClientWaitSync
+GLenum glClientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClipPlane
-void ClipPlane(GLenum plane, GLdouble equation) {
-    
+#ifndef skip_glClipPlane
+void glClipPlane(GLenum plane, GLdouble equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClipPlanefOES
-void ClipPlanefOES(GLenum plane, GLfloat equation) {
-    
+#ifndef skip_glClipPlanefOES
+void glClipPlanefOES(GLenum plane, GLfloat equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ClipPlanexOES
-void ClipPlanexOES(GLenum plane, GLfixed equation) {
-    
+#ifndef skip_glClipPlanexOES
+void glClipPlanexOES(GLenum plane, GLfixed equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3b
-void Color3b(GLbyte red, GLbyte green, GLbyte blue) {
-    
+#ifndef skip_glColor3b
+void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3bv
-void Color3bv(GLbyte v) {
-    
+#ifndef skip_glColor3bv
+void glColor3bv(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3d
-void Color3d(GLdouble red, GLdouble green, GLdouble blue) {
-    
+#ifndef skip_glColor3d
+void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3dv
-void Color3dv(GLdouble v) {
-    
+#ifndef skip_glColor3dv
+void glColor3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3f
-void Color3f(GLfloat red, GLfloat green, GLfloat blue) {
-    
+#ifndef skip_glColor3f
+void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3fVertex3fSUN
-void Color3fVertex3fSUN(GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glColor3fVertex3fSUN
+void glColor3fVertex3fSUN(GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3fVertex3fvSUN
-void Color3fVertex3fvSUN(GLfloat c, GLfloat v) {
-    
+#ifndef skip_glColor3fVertex3fvSUN
+void glColor3fVertex3fvSUN(GLfloat c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3fv
-void Color3fv(GLfloat v) {
-    
+#ifndef skip_glColor3fv
+void glColor3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3hNV
-void Color3hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue) {
-    
+#ifndef skip_glColor3hNV
+void glColor3hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3hvNV
-void Color3hvNV(GLhalfNV v) {
-    
+#ifndef skip_glColor3hvNV
+void glColor3hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3i
-void Color3i(GLint red, GLint green, GLint blue) {
-    
+#ifndef skip_glColor3i
+void glColor3i(GLint red, GLint green, GLint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3iv
-void Color3iv(GLint v) {
-    
+#ifndef skip_glColor3iv
+void glColor3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3s
-void Color3s(GLshort red, GLshort green, GLshort blue) {
-    
+#ifndef skip_glColor3s
+void glColor3s(GLshort red, GLshort green, GLshort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3sv
-void Color3sv(GLshort v) {
-    
+#ifndef skip_glColor3sv
+void glColor3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3ub
-void Color3ub(GLubyte red, GLubyte green, GLubyte blue) {
-    
+#ifndef skip_glColor3ub
+void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3ubv
-void Color3ubv(GLubyte v) {
-    
+#ifndef skip_glColor3ubv
+void glColor3ubv(GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3ui
-void Color3ui(GLuint red, GLuint green, GLuint blue) {
-    
+#ifndef skip_glColor3ui
+void glColor3ui(GLuint red, GLuint green, GLuint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3uiv
-void Color3uiv(GLuint v) {
-    
+#ifndef skip_glColor3uiv
+void glColor3uiv(GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3us
-void Color3us(GLushort red, GLushort green, GLushort blue) {
-    
+#ifndef skip_glColor3us
+void glColor3us(GLushort red, GLushort green, GLushort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3usv
-void Color3usv(GLushort v) {
-    
+#ifndef skip_glColor3usv
+void glColor3usv(GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3xOES
-void Color3xOES(GLfixed red, GLfixed green, GLfixed blue) {
-    
+#ifndef skip_glColor3xOES
+void glColor3xOES(GLfixed red, GLfixed green, GLfixed blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color3xvOES
-void Color3xvOES(GLfixed components) {
-    
+#ifndef skip_glColor3xvOES
+void glColor3xvOES(GLfixed components) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4b
-void Color4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
-    
+#ifndef skip_glColor4b
+void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4bv
-void Color4bv(GLbyte v) {
-    
+#ifndef skip_glColor4bv
+void glColor4bv(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4d
-void Color4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
-    
+#ifndef skip_glColor4d
+void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4dv
-void Color4dv(GLdouble v) {
-    
+#ifndef skip_glColor4dv
+void glColor4dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4f
-void Color4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    
+#ifndef skip_glColor4f
+void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4fNormal3fVertex3fSUN
-void Color4fNormal3fVertex3fSUN(GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glColor4fNormal3fVertex3fSUN
+void glColor4fNormal3fVertex3fSUN(GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4fNormal3fVertex3fvSUN
-void Color4fNormal3fVertex3fvSUN(GLfloat c, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glColor4fNormal3fVertex3fvSUN
+void glColor4fNormal3fVertex3fvSUN(GLfloat c, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4fv
-void Color4fv(GLfloat v) {
-    
+#ifndef skip_glColor4fv
+void glColor4fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4hNV
-void Color4hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue, GLhalfNV alpha) {
-    
+#ifndef skip_glColor4hNV
+void glColor4hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue, GLhalfNV alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4hvNV
-void Color4hvNV(GLhalfNV v) {
-    
+#ifndef skip_glColor4hvNV
+void glColor4hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4i
-void Color4i(GLint red, GLint green, GLint blue, GLint alpha) {
-    
+#ifndef skip_glColor4i
+void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4iv
-void Color4iv(GLint v) {
-    
+#ifndef skip_glColor4iv
+void glColor4iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4s
-void Color4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
-    
+#ifndef skip_glColor4s
+void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4sv
-void Color4sv(GLshort v) {
-    
+#ifndef skip_glColor4sv
+void glColor4sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ub
-void Color4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
-    
+#ifndef skip_glColor4ub
+void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ubVertex2fSUN
-void Color4ubVertex2fSUN(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glColor4ubVertex2fSUN
+void glColor4ubVertex2fSUN(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ubVertex2fvSUN
-void Color4ubVertex2fvSUN(GLubyte c, GLfloat v) {
-    
+#ifndef skip_glColor4ubVertex2fvSUN
+void glColor4ubVertex2fvSUN(GLubyte c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ubVertex3fSUN
-void Color4ubVertex3fSUN(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glColor4ubVertex3fSUN
+void glColor4ubVertex3fSUN(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ubVertex3fvSUN
-void Color4ubVertex3fvSUN(GLubyte c, GLfloat v) {
-    
+#ifndef skip_glColor4ubVertex3fvSUN
+void glColor4ubVertex3fvSUN(GLubyte c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ubv
-void Color4ubv(GLubyte v) {
-    
+#ifndef skip_glColor4ubv
+void glColor4ubv(GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4ui
-void Color4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
-    
+#ifndef skip_glColor4ui
+void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4uiv
-void Color4uiv(GLuint v) {
-    
+#ifndef skip_glColor4uiv
+void glColor4uiv(GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4us
-void Color4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
-    
+#ifndef skip_glColor4us
+void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4usv
-void Color4usv(GLushort v) {
-    
+#ifndef skip_glColor4usv
+void glColor4usv(GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4xOES
-void Color4xOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
-    
+#ifndef skip_glColor4xOES
+void glColor4xOES(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Color4xvOES
-void Color4xvOES(GLfixed components) {
-    
+#ifndef skip_glColor4xvOES
+void glColor4xvOES(GLfixed components) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorFormatNV
-void ColorFormatNV(GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glColorFormatNV
+void glColorFormatNV(GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorFragmentOp1ATI
-void ColorFragmentOp1ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod) {
-    
+#ifndef skip_glColorFragmentOp1ATI
+void glColorFragmentOp1ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorFragmentOp2ATI
-void ColorFragmentOp2ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod) {
-    
+#ifndef skip_glColorFragmentOp2ATI
+void glColorFragmentOp2ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorFragmentOp3ATI
-void ColorFragmentOp3ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod) {
-    
+#ifndef skip_glColorFragmentOp3ATI
+void glColorFragmentOp3ATI(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorMask
-void ColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
-    
+#ifndef skip_glColorMask
+void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorMaskIndexedEXT
-void ColorMaskIndexedEXT(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a) {
-    
+#ifndef skip_glColorMaskIndexedEXT
+void glColorMaskIndexedEXT(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorMaski
-void ColorMaski(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a) {
-    
+#ifndef skip_glColorMaski
+void glColorMaski(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorMaterial
-void ColorMaterial(GLenum face, GLenum mode) {
-    
+#ifndef skip_glColorMaterial
+void glColorMaterial(GLenum face, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorP3ui
-void ColorP3ui(GLenum type, GLuint color) {
-    
+#ifndef skip_glColorP3ui
+void glColorP3ui(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorP3uiv
-void ColorP3uiv(GLenum type, GLuint color) {
-    
+#ifndef skip_glColorP3uiv
+void glColorP3uiv(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorP4ui
-void ColorP4ui(GLenum type, GLuint color) {
-    
+#ifndef skip_glColorP4ui
+void glColorP4ui(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorP4uiv
-void ColorP4uiv(GLenum type, GLuint color) {
-    
+#ifndef skip_glColorP4uiv
+void glColorP4uiv(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorPointer
-void ColorPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glColorPointer
+void glColorPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorPointerEXT
-void ColorPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
-    
+#ifndef skip_glColorPointerEXT
+void glColorPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorPointerListIBM
-void ColorPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glColorPointerListIBM
+void glColorPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorPointervINTEL
-void ColorPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
-    
+#ifndef skip_glColorPointervINTEL
+void glColorPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorSubTable
-void ColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, GLvoid data) {
-    
+#ifndef skip_glColorSubTable
+void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorSubTableEXT
-void ColorSubTableEXT(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, GLvoid data) {
-    
+#ifndef skip_glColorSubTableEXT
+void glColorSubTableEXT(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTable
-void ColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
-    
+#ifndef skip_glColorTable
+void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableEXT
-void ColorTableEXT(GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
-    
+#ifndef skip_glColorTableEXT
+void glColorTableEXT(GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableParameterfv
-void ColorTableParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glColorTableParameterfv
+void glColorTableParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableParameterfvSGI
-void ColorTableParameterfvSGI(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glColorTableParameterfvSGI
+void glColorTableParameterfvSGI(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableParameteriv
-void ColorTableParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glColorTableParameteriv
+void glColorTableParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableParameterivSGI
-void ColorTableParameterivSGI(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glColorTableParameterivSGI
+void glColorTableParameterivSGI(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ColorTableSGI
-void ColorTableSGI(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
-    
+#ifndef skip_glColorTableSGI
+void glColorTableSGI(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerInputNV
-void CombinerInputNV(GLenum stage, GLenum portion, GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage) {
-    
+#ifndef skip_glCombinerInputNV
+void glCombinerInputNV(GLenum stage, GLenum portion, GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerOutputNV
-void CombinerOutputNV(GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct, GLboolean cdDotProduct, GLboolean muxSum) {
-    
+#ifndef skip_glCombinerOutputNV
+void glCombinerOutputNV(GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct, GLboolean cdDotProduct, GLboolean muxSum) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerParameterfNV
-void CombinerParameterfNV(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glCombinerParameterfNV
+void glCombinerParameterfNV(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerParameterfvNV
-void CombinerParameterfvNV(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glCombinerParameterfvNV
+void glCombinerParameterfvNV(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerParameteriNV
-void CombinerParameteriNV(GLenum pname, GLint param) {
-    
+#ifndef skip_glCombinerParameteriNV
+void glCombinerParameteriNV(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerParameterivNV
-void CombinerParameterivNV(GLenum pname, GLint params) {
-    
+#ifndef skip_glCombinerParameterivNV
+void glCombinerParameterivNV(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CombinerStageParameterfvNV
-void CombinerStageParameterfvNV(GLenum stage, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glCombinerStageParameterfvNV
+void glCombinerStageParameterfvNV(GLenum stage, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompileShader
-void CompileShader(GLuint shader) {
-    
+#ifndef skip_glCompileShader
+void glCompileShader(GLuint shader) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompileShaderARB
-void CompileShaderARB(GLhandleARB shaderObj) {
-    
+#ifndef skip_glCompileShaderARB
+void glCompileShaderARB(GLhandleARB shaderObj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompileShaderIncludeARB
-void CompileShaderIncludeARB(GLuint shader, GLsizei count, GLchar * path, GLint length) {
-    
+#ifndef skip_glCompileShaderIncludeARB
+void glCompileShaderIncludeARB(GLuint shader, GLsizei count, GLchar * path, GLint length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexImage1DEXT
-void CompressedMultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexImage1DEXT
+void glCompressedMultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexImage2DEXT
-void CompressedMultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexImage2DEXT
+void glCompressedMultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexImage3DEXT
-void CompressedMultiTexImage3DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexImage3DEXT
+void glCompressedMultiTexImage3DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexSubImage1DEXT
-void CompressedMultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexSubImage1DEXT
+void glCompressedMultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexSubImage2DEXT
-void CompressedMultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexSubImage2DEXT
+void glCompressedMultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedMultiTexSubImage3DEXT
-void CompressedMultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedMultiTexSubImage3DEXT
+void glCompressedMultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage1D
-void CompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage1D
+void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage1DARB
-void CompressedTexImage1DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage1DARB
+void glCompressedTexImage1DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage2D
-void CompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage2D
+void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage2DARB
-void CompressedTexImage2DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage2DARB
+void glCompressedTexImage2DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage3D
-void CompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage3D
+void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexImage3DARB
-void CompressedTexImage3DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexImage3DARB
+void glCompressedTexImage3DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage1D
-void CompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage1D
+void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage1DARB
-void CompressedTexSubImage1DARB(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage1DARB
+void glCompressedTexSubImage1DARB(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage2D
-void CompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage2D
+void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage2DARB
-void CompressedTexSubImage2DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage2DARB
+void glCompressedTexSubImage2DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage3D
-void CompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage3D
+void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTexSubImage3DARB
-void CompressedTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid data) {
-    
+#ifndef skip_glCompressedTexSubImage3DARB
+void glCompressedTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureImage1DEXT
-void CompressedTextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureImage1DEXT
+void glCompressedTextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureImage2DEXT
-void CompressedTextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureImage2DEXT
+void glCompressedTextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureImage3DEXT
-void CompressedTextureImage3DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureImage3DEXT
+void glCompressedTextureImage3DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureSubImage1DEXT
-void CompressedTextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureSubImage1DEXT
+void glCompressedTextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureSubImage2DEXT
-void CompressedTextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureSubImage2DEXT
+void glCompressedTextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CompressedTextureSubImage3DEXT
-void CompressedTextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid bits) {
-    
+#ifndef skip_glCompressedTextureSubImage3DEXT
+void glCompressedTextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, GLvoid bits) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionFilter1D
-void ConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glConvolutionFilter1D
+void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionFilter1DEXT
-void ConvolutionFilter1DEXT(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glConvolutionFilter1DEXT
+void glConvolutionFilter1DEXT(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionFilter2D
-void ConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glConvolutionFilter2D
+void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionFilter2DEXT
-void ConvolutionFilter2DEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glConvolutionFilter2DEXT
+void glConvolutionFilter2DEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterf
-void ConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glConvolutionParameterf
+void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterfEXT
-void ConvolutionParameterfEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glConvolutionParameterfEXT
+void glConvolutionParameterfEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterfv
-void ConvolutionParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glConvolutionParameterfv
+void glConvolutionParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterfvEXT
-void ConvolutionParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glConvolutionParameterfvEXT
+void glConvolutionParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameteri
-void ConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glConvolutionParameteri
+void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameteriEXT
-void ConvolutionParameteriEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glConvolutionParameteriEXT
+void glConvolutionParameteriEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameteriv
-void ConvolutionParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glConvolutionParameteriv
+void glConvolutionParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterivEXT
-void ConvolutionParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glConvolutionParameterivEXT
+void glConvolutionParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterxOES
-void ConvolutionParameterxOES(GLenum target, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glConvolutionParameterxOES
+void glConvolutionParameterxOES(GLenum target, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ConvolutionParameterxvOES
-void ConvolutionParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glConvolutionParameterxvOES
+void glConvolutionParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyBufferSubData
-void CopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size) {
-    
+#ifndef skip_glCopyBufferSubData
+void glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyColorSubTable
-void CopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyColorSubTable
+void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyColorSubTableEXT
-void CopyColorSubTableEXT(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyColorSubTableEXT
+void glCopyColorSubTableEXT(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyColorTable
-void CopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyColorTable
+void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyColorTableSGI
-void CopyColorTableSGI(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyColorTableSGI
+void glCopyColorTableSGI(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyConvolutionFilter1D
-void CopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyConvolutionFilter1D
+void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyConvolutionFilter1DEXT
-void CopyConvolutionFilter1DEXT(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyConvolutionFilter1DEXT
+void glCopyConvolutionFilter1DEXT(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyConvolutionFilter2D
-void CopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyConvolutionFilter2D
+void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyConvolutionFilter2DEXT
-void CopyConvolutionFilter2DEXT(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyConvolutionFilter2DEXT
+void glCopyConvolutionFilter2DEXT(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyImageSubData
-void CopyImageSubData(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth) {
-    
+#ifndef skip_glCopyImageSubData
+void glCopyImageSubData(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyImageSubDataNV
-void CopyImageSubDataNV(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth) {
-    
+#ifndef skip_glCopyImageSubDataNV
+void glCopyImageSubDataNV(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyMultiTexImage1DEXT
-void CopyMultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
-    
+#ifndef skip_glCopyMultiTexImage1DEXT
+void glCopyMultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyMultiTexImage2DEXT
-void CopyMultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
-    
+#ifndef skip_glCopyMultiTexImage2DEXT
+void glCopyMultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyMultiTexSubImage1DEXT
-void CopyMultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyMultiTexSubImage1DEXT
+void glCopyMultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyMultiTexSubImage2DEXT
-void CopyMultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyMultiTexSubImage2DEXT
+void glCopyMultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyMultiTexSubImage3DEXT
-void CopyMultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyMultiTexSubImage3DEXT
+void glCopyMultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyPathNV
-void CopyPathNV(GLuint resultPath, GLuint srcPath) {
-    
+#ifndef skip_glCopyPathNV
+void glCopyPathNV(GLuint resultPath, GLuint srcPath) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyPixels
-void CopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) {
-    
+#ifndef skip_glCopyPixels
+void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexImage1D
-void CopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
-    
+#ifndef skip_glCopyTexImage1D
+void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexImage1DEXT
-void CopyTexImage1DEXT(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
-    
+#ifndef skip_glCopyTexImage1DEXT
+void glCopyTexImage1DEXT(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexImage2D
-void CopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
-    
+#ifndef skip_glCopyTexImage2D
+void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexImage2DEXT
-void CopyTexImage2DEXT(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
-    
+#ifndef skip_glCopyTexImage2DEXT
+void glCopyTexImage2DEXT(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage1D
-void CopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyTexSubImage1D
+void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage1DEXT
-void CopyTexSubImage1DEXT(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyTexSubImage1DEXT
+void glCopyTexSubImage1DEXT(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage2D
-void CopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTexSubImage2D
+void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage2DEXT
-void CopyTexSubImage2DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTexSubImage2DEXT
+void glCopyTexSubImage2DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage3D
-void CopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTexSubImage3D
+void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTexSubImage3DEXT
-void CopyTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTexSubImage3DEXT
+void glCopyTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTextureImage1DEXT
-void CopyTextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
-    
+#ifndef skip_glCopyTextureImage1DEXT
+void glCopyTextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTextureImage2DEXT
-void CopyTextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
-    
+#ifndef skip_glCopyTextureImage2DEXT
+void glCopyTextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTextureSubImage1DEXT
-void CopyTextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
-    
+#ifndef skip_glCopyTextureSubImage1DEXT
+void glCopyTextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTextureSubImage2DEXT
-void CopyTextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTextureSubImage2DEXT
+void glCopyTextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyTextureSubImage3DEXT
-void CopyTextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glCopyTextureSubImage3DEXT
+void glCopyTextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CoverFillPathInstancedNV
-void CoverFillPathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum coverMode, GLenum transformType, GLfloat transformValues) {
-    
+#ifndef skip_glCoverFillPathInstancedNV
+void glCoverFillPathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum coverMode, GLenum transformType, GLfloat transformValues) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CoverFillPathNV
-void CoverFillPathNV(GLuint path, GLenum coverMode) {
-    
+#ifndef skip_glCoverFillPathNV
+void glCoverFillPathNV(GLuint path, GLenum coverMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CoverStrokePathInstancedNV
-void CoverStrokePathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum coverMode, GLenum transformType, GLfloat transformValues) {
-    
+#ifndef skip_glCoverStrokePathInstancedNV
+void glCoverStrokePathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum coverMode, GLenum transformType, GLfloat transformValues) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CoverStrokePathNV
-void CoverStrokePathNV(GLuint path, GLenum coverMode) {
-    
+#ifndef skip_glCoverStrokePathNV
+void glCoverStrokePathNV(GLuint path, GLenum coverMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateProgram
-UInt32 CreateProgram() {
-    
+#ifndef skip_glCreateProgram
+UInt32 glCreateProgram() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateProgramObjectARB
-handleARB CreateProgramObjectARB() {
-    
+#ifndef skip_glCreateProgramObjectARB
+handleARB glCreateProgramObjectARB() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateShader
-UInt32 CreateShader(GLenum type) {
-    
+#ifndef skip_glCreateShader
+UInt32 glCreateShader(GLenum type) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateShaderObjectARB
-handleARB CreateShaderObjectARB(GLenum shaderType) {
-    
+#ifndef skip_glCreateShaderObjectARB
+handleARB glCreateShaderObjectARB(GLenum shaderType) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateShaderProgramEXT
-UInt32 CreateShaderProgramEXT(GLenum type, GLchar string) {
-    
+#ifndef skip_glCreateShaderProgramEXT
+UInt32 glCreateShaderProgramEXT(GLenum type, GLchar string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateShaderProgramv
-UInt32 CreateShaderProgramv(GLenum type, GLsizei count, GLchar*const strings) {
-    
+#ifndef skip_glCreateShaderProgramv
+UInt32 glCreateShaderProgramv(GLenum type, GLsizei count, GLchar*const strings) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateSyncFromCLeventARB
-sync CreateSyncFromCLeventARB(struct _cl_context * context, struct _cl_event * event, GLbitfield flags) {
-    
+#ifndef skip_glCreateSyncFromCLeventARB
+sync glCreateSyncFromCLeventARB(struct _cl_context * context, struct _cl_event * event, GLbitfield flags) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CullFace
-void CullFace(GLenum mode) {
-    
+#ifndef skip_glCullFace
+void glCullFace(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CullParameterdvEXT
-void CullParameterdvEXT(GLenum pname, GLdouble params) {
-    
+#ifndef skip_glCullParameterdvEXT
+void glCullParameterdvEXT(GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CullParameterfvEXT
-void CullParameterfvEXT(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glCullParameterfvEXT
+void glCullParameterfvEXT(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CurrentPaletteMatrixARB
-void CurrentPaletteMatrixARB(GLint index) {
-    
+#ifndef skip_glCurrentPaletteMatrixARB
+void glCurrentPaletteMatrixARB(GLint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageCallback
-void DebugMessageCallback(GLDEBUGPROC callback, void * userParam) {
-    
+#ifndef skip_glDebugMessageCallback
+void glDebugMessageCallback(GLDEBUGPROC callback, void * userParam) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageCallbackAMD
-void DebugMessageCallbackAMD(GLDEBUGPROCAMD callback, GLvoid userParam) {
-    
+#ifndef skip_glDebugMessageCallbackAMD
+void glDebugMessageCallbackAMD(GLDEBUGPROCAMD callback, GLvoid userParam) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageCallbackARB
-void DebugMessageCallbackARB(GLDEBUGPROCARB callback, GLvoid userParam) {
-    
+#ifndef skip_glDebugMessageCallbackARB
+void glDebugMessageCallbackARB(GLDEBUGPROCARB callback, GLvoid userParam) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageControl
-void DebugMessageControl(GLenum source, GLenum type, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
-    
+#ifndef skip_glDebugMessageControl
+void glDebugMessageControl(GLenum source, GLenum type, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageControlARB
-void DebugMessageControlARB(GLenum source, GLenum type, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
-    
+#ifndef skip_glDebugMessageControlARB
+void glDebugMessageControlARB(GLenum source, GLenum type, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageEnableAMD
-void DebugMessageEnableAMD(GLenum category, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
-    
+#ifndef skip_glDebugMessageEnableAMD
+void glDebugMessageEnableAMD(GLenum category, GLenum severity, GLsizei count, GLuint ids, GLboolean enabled) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageInsert
-void DebugMessageInsert(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar buf) {
-    
+#ifndef skip_glDebugMessageInsert
+void glDebugMessageInsert(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar buf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageInsertAMD
-void DebugMessageInsertAMD(GLenum category, GLenum severity, GLuint id, GLsizei length, GLchar buf) {
-    
+#ifndef skip_glDebugMessageInsertAMD
+void glDebugMessageInsertAMD(GLenum category, GLenum severity, GLuint id, GLsizei length, GLchar buf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DebugMessageInsertARB
-void DebugMessageInsertARB(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar buf) {
-    
+#ifndef skip_glDebugMessageInsertARB
+void glDebugMessageInsertARB(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar buf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeformSGIX
-void DeformSGIX(GLbitfield mask) {
-    
+#ifndef skip_glDeformSGIX
+void glDeformSGIX(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeformationMap3dSGIX
-void DeformationMap3dSGIX(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble w1, GLdouble w2, GLint wstride, GLint worder, GLdouble points) {
-    
+#ifndef skip_glDeformationMap3dSGIX
+void glDeformationMap3dSGIX(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble w1, GLdouble w2, GLint wstride, GLint worder, GLdouble points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeformationMap3fSGIX
-void DeformationMap3fSGIX(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat w1, GLfloat w2, GLint wstride, GLint worder, GLfloat points) {
-    
+#ifndef skip_glDeformationMap3fSGIX
+void glDeformationMap3fSGIX(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat w1, GLfloat w2, GLint wstride, GLint worder, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteAsyncMarkersSGIX
-void DeleteAsyncMarkersSGIX(GLuint marker, GLsizei range) {
-    
+#ifndef skip_glDeleteAsyncMarkersSGIX
+void glDeleteAsyncMarkersSGIX(GLuint marker, GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteBuffers
-void DeleteBuffers(GLsizei n, GLuint buffers) {
-    
+#ifndef skip_glDeleteBuffers
+void glDeleteBuffers(GLsizei n, GLuint buffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteBuffersARB
-void DeleteBuffersARB(GLsizei n, GLuint buffers) {
-    
+#ifndef skip_glDeleteBuffersARB
+void glDeleteBuffersARB(GLsizei n, GLuint buffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteFencesAPPLE
-void DeleteFencesAPPLE(GLsizei n, GLuint fences) {
-    
+#ifndef skip_glDeleteFencesAPPLE
+void glDeleteFencesAPPLE(GLsizei n, GLuint fences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteFencesNV
-void DeleteFencesNV(GLsizei n, GLuint fences) {
-    
+#ifndef skip_glDeleteFencesNV
+void glDeleteFencesNV(GLsizei n, GLuint fences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteFragmentShaderATI
-void DeleteFragmentShaderATI(GLuint id) {
-    
+#ifndef skip_glDeleteFragmentShaderATI
+void glDeleteFragmentShaderATI(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteFramebuffers
-void DeleteFramebuffers(GLsizei n, GLuint framebuffers) {
-    
+#ifndef skip_glDeleteFramebuffers
+void glDeleteFramebuffers(GLsizei n, GLuint framebuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteFramebuffersEXT
-void DeleteFramebuffersEXT(GLsizei n, GLuint framebuffers) {
-    
+#ifndef skip_glDeleteFramebuffersEXT
+void glDeleteFramebuffersEXT(GLsizei n, GLuint framebuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteLists
-void DeleteLists(GLuint list, GLsizei range) {
-    
+#ifndef skip_glDeleteLists
+void glDeleteLists(GLuint list, GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteNamedStringARB
-void DeleteNamedStringARB(GLint namelen, GLchar name) {
-    
+#ifndef skip_glDeleteNamedStringARB
+void glDeleteNamedStringARB(GLint namelen, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteNamesAMD
-void DeleteNamesAMD(GLenum identifier, GLuint num, GLuint names) {
-    
+#ifndef skip_glDeleteNamesAMD
+void glDeleteNamesAMD(GLenum identifier, GLuint num, GLuint names) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteObjectARB
-void DeleteObjectARB(GLhandleARB obj) {
-    
+#ifndef skip_glDeleteObjectARB
+void glDeleteObjectARB(GLhandleARB obj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteOcclusionQueriesNV
-void DeleteOcclusionQueriesNV(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glDeleteOcclusionQueriesNV
+void glDeleteOcclusionQueriesNV(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeletePathsNV
-void DeletePathsNV(GLuint path, GLsizei range) {
-    
+#ifndef skip_glDeletePathsNV
+void glDeletePathsNV(GLuint path, GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeletePerfMonitorsAMD
-void DeletePerfMonitorsAMD(GLsizei n, GLuint monitors) {
-    
+#ifndef skip_glDeletePerfMonitorsAMD
+void glDeletePerfMonitorsAMD(GLsizei n, GLuint monitors) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteProgram
-void DeleteProgram(GLuint program) {
-    
+#ifndef skip_glDeleteProgram
+void glDeleteProgram(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteProgramPipelines
-void DeleteProgramPipelines(GLsizei n, GLuint pipelines) {
-    
+#ifndef skip_glDeleteProgramPipelines
+void glDeleteProgramPipelines(GLsizei n, GLuint pipelines) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteProgramsARB
-void DeleteProgramsARB(GLsizei n, GLuint programs) {
-    
+#ifndef skip_glDeleteProgramsARB
+void glDeleteProgramsARB(GLsizei n, GLuint programs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteProgramsNV
-void DeleteProgramsNV(GLsizei n, GLuint programs) {
-    
+#ifndef skip_glDeleteProgramsNV
+void glDeleteProgramsNV(GLsizei n, GLuint programs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteQueries
-void DeleteQueries(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glDeleteQueries
+void glDeleteQueries(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteQueriesARB
-void DeleteQueriesARB(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glDeleteQueriesARB
+void glDeleteQueriesARB(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteRenderbuffers
-void DeleteRenderbuffers(GLsizei n, GLuint renderbuffers) {
-    
+#ifndef skip_glDeleteRenderbuffers
+void glDeleteRenderbuffers(GLsizei n, GLuint renderbuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteRenderbuffersEXT
-void DeleteRenderbuffersEXT(GLsizei n, GLuint renderbuffers) {
-    
+#ifndef skip_glDeleteRenderbuffersEXT
+void glDeleteRenderbuffersEXT(GLsizei n, GLuint renderbuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteSamplers
-void DeleteSamplers(GLsizei count, GLuint samplers) {
-    
+#ifndef skip_glDeleteSamplers
+void glDeleteSamplers(GLsizei count, GLuint samplers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteShader
-void DeleteShader(GLuint shader) {
-    
+#ifndef skip_glDeleteShader
+void glDeleteShader(GLuint shader) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteSync
-void DeleteSync(GLsync sync) {
-    
+#ifndef skip_glDeleteSync
+void glDeleteSync(GLsync sync) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteTextures
-void DeleteTextures(GLsizei n, GLuint textures) {
-    
+#ifndef skip_glDeleteTextures
+void glDeleteTextures(GLsizei n, GLuint textures) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteTexturesEXT
-void DeleteTexturesEXT(GLsizei n, GLuint textures) {
-    
+#ifndef skip_glDeleteTexturesEXT
+void glDeleteTexturesEXT(GLsizei n, GLuint textures) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteTransformFeedbacks
-void DeleteTransformFeedbacks(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glDeleteTransformFeedbacks
+void glDeleteTransformFeedbacks(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteTransformFeedbacksNV
-void DeleteTransformFeedbacksNV(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glDeleteTransformFeedbacksNV
+void glDeleteTransformFeedbacksNV(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteVertexArrays
-void DeleteVertexArrays(GLsizei n, GLuint arrays) {
-    
+#ifndef skip_glDeleteVertexArrays
+void glDeleteVertexArrays(GLsizei n, GLuint arrays) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteVertexArraysAPPLE
-void DeleteVertexArraysAPPLE(GLsizei n, GLuint arrays) {
-    
+#ifndef skip_glDeleteVertexArraysAPPLE
+void glDeleteVertexArraysAPPLE(GLsizei n, GLuint arrays) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DeleteVertexShaderEXT
-void DeleteVertexShaderEXT(GLuint id) {
-    
+#ifndef skip_glDeleteVertexShaderEXT
+void glDeleteVertexShaderEXT(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthBoundsEXT
-void DepthBoundsEXT(GLclampd zmin, GLclampd zmax) {
-    
+#ifndef skip_glDepthBoundsEXT
+void glDepthBoundsEXT(GLclampd zmin, GLclampd zmax) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthBoundsdNV
-void DepthBoundsdNV(GLdouble zmin, GLdouble zmax) {
-    
+#ifndef skip_glDepthBoundsdNV
+void glDepthBoundsdNV(GLdouble zmin, GLdouble zmax) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthFunc
-void DepthFunc(GLenum func) {
-    
+#ifndef skip_glDepthFunc
+void glDepthFunc(GLenum func) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthMask
-void DepthMask(GLboolean flag) {
-    
+#ifndef skip_glDepthMask
+void glDepthMask(GLboolean flag) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRange
-void DepthRange(GLdouble near, GLdouble far) {
-    
+#ifndef skip_glDepthRange
+void glDepthRange(GLdouble near, GLdouble far) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangeArrayv
-void DepthRangeArrayv(GLuint first, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glDepthRangeArrayv
+void glDepthRangeArrayv(GLuint first, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangeIndexed
-void DepthRangeIndexed(GLuint index, GLdouble n, GLdouble f) {
-    
+#ifndef skip_glDepthRangeIndexed
+void glDepthRangeIndexed(GLuint index, GLdouble n, GLdouble f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangedNV
-void DepthRangedNV(GLdouble zNear, GLdouble zFar) {
-    
+#ifndef skip_glDepthRangedNV
+void glDepthRangedNV(GLdouble zNear, GLdouble zFar) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangef
-void DepthRangef(GLfloat n, GLfloat f) {
-    
+#ifndef skip_glDepthRangef
+void glDepthRangef(GLfloat n, GLfloat f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangefOES
-void DepthRangefOES(GLclampf n, GLclampf f) {
-    
+#ifndef skip_glDepthRangefOES
+void glDepthRangefOES(GLclampf n, GLclampf f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DepthRangexOES
-void DepthRangexOES(GLfixed n, GLfixed f) {
-    
+#ifndef skip_glDepthRangexOES
+void glDepthRangexOES(GLfixed n, GLfixed f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DetachObjectARB
-void DetachObjectARB(GLhandleARB containerObj, GLhandleARB attachedObj) {
-    
+#ifndef skip_glDetachObjectARB
+void glDetachObjectARB(GLhandleARB containerObj, GLhandleARB attachedObj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DetachShader
-void DetachShader(GLuint program, GLuint shader) {
-    
+#ifndef skip_glDetachShader
+void glDetachShader(GLuint program, GLuint shader) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DetailTexFuncSGIS
-void DetailTexFuncSGIS(GLenum target, GLsizei n, GLfloat points) {
-    
+#ifndef skip_glDetailTexFuncSGIS
+void glDetailTexFuncSGIS(GLenum target, GLsizei n, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Disable
-void Disable(GLenum cap) {
-    
+#ifndef skip_glDisable
+void glDisable(GLenum cap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableClientState
-void DisableClientState(GLenum array) {
-    
+#ifndef skip_glDisableClientState
+void glDisableClientState(GLenum array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableClientStateIndexedEXT
-void DisableClientStateIndexedEXT(GLenum array, GLuint index) {
-    
+#ifndef skip_glDisableClientStateIndexedEXT
+void glDisableClientStateIndexedEXT(GLenum array, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableClientStateiEXT
-void DisableClientStateiEXT(GLenum array, GLuint index) {
-    
+#ifndef skip_glDisableClientStateiEXT
+void glDisableClientStateiEXT(GLenum array, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableIndexedEXT
-void DisableIndexedEXT(GLenum target, GLuint index) {
-    
+#ifndef skip_glDisableIndexedEXT
+void glDisableIndexedEXT(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVariantClientStateEXT
-void DisableVariantClientStateEXT(GLuint id) {
-    
+#ifndef skip_glDisableVariantClientStateEXT
+void glDisableVariantClientStateEXT(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVertexArrayAttribEXT
-void DisableVertexArrayAttribEXT(GLuint vaobj, GLuint index) {
-    
+#ifndef skip_glDisableVertexArrayAttribEXT
+void glDisableVertexArrayAttribEXT(GLuint vaobj, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVertexArrayEXT
-void DisableVertexArrayEXT(GLuint vaobj, GLenum array) {
-    
+#ifndef skip_glDisableVertexArrayEXT
+void glDisableVertexArrayEXT(GLuint vaobj, GLenum array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVertexAttribAPPLE
-void DisableVertexAttribAPPLE(GLuint index, GLenum pname) {
-    
+#ifndef skip_glDisableVertexAttribAPPLE
+void glDisableVertexAttribAPPLE(GLuint index, GLenum pname) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVertexAttribArray
-void DisableVertexAttribArray(GLuint index) {
-    
+#ifndef skip_glDisableVertexAttribArray
+void glDisableVertexAttribArray(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DisableVertexAttribArrayARB
-void DisableVertexAttribArrayARB(GLuint index) {
-    
+#ifndef skip_glDisableVertexAttribArrayARB
+void glDisableVertexAttribArrayARB(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Disablei
-void Disablei(GLenum target, GLuint index) {
-    
+#ifndef skip_glDisablei
+void glDisablei(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DispatchCompute
-void DispatchCompute(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z) {
-    
+#ifndef skip_glDispatchCompute
+void glDispatchCompute(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DispatchComputeIndirect
-void DispatchComputeIndirect(GLintptr indirect) {
-    
+#ifndef skip_glDispatchComputeIndirect
+void glDispatchComputeIndirect(GLintptr indirect) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArrays
-void DrawArrays(GLenum mode, GLint first, GLsizei count) {
-    
+#ifndef skip_glDrawArrays
+void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysEXT
-void DrawArraysEXT(GLenum mode, GLint first, GLsizei count) {
-    
+#ifndef skip_glDrawArraysEXT
+void glDrawArraysEXT(GLenum mode, GLint first, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysIndirect
-void DrawArraysIndirect(GLenum mode, GLvoid indirect) {
-    
+#ifndef skip_glDrawArraysIndirect
+void glDrawArraysIndirect(GLenum mode, GLvoid indirect) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysInstanced
-void DrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei instancecount) {
-    
+#ifndef skip_glDrawArraysInstanced
+void glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei instancecount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysInstancedARB
-void DrawArraysInstancedARB(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
-    
+#ifndef skip_glDrawArraysInstancedARB
+void glDrawArraysInstancedARB(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysInstancedBaseInstance
-void DrawArraysInstancedBaseInstance(GLenum mode, GLint first, GLsizei count, GLsizei instancecount, GLuint baseinstance) {
-    
+#ifndef skip_glDrawArraysInstancedBaseInstance
+void glDrawArraysInstancedBaseInstance(GLenum mode, GLint first, GLsizei count, GLsizei instancecount, GLuint baseinstance) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawArraysInstancedEXT
-void DrawArraysInstancedEXT(GLenum mode, GLint start, GLsizei count, GLsizei primcount) {
-    
+#ifndef skip_glDrawArraysInstancedEXT
+void glDrawArraysInstancedEXT(GLenum mode, GLint start, GLsizei count, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawBuffer
-void DrawBuffer(GLenum mode) {
-    
+#ifndef skip_glDrawBuffer
+void glDrawBuffer(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawBuffers
-void DrawBuffers(GLsizei n, GLenum bufs) {
-    
+#ifndef skip_glDrawBuffers
+void glDrawBuffers(GLsizei n, GLenum bufs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawBuffersARB
-void DrawBuffersARB(GLsizei n, GLenum bufs) {
-    
+#ifndef skip_glDrawBuffersARB
+void glDrawBuffersARB(GLsizei n, GLenum bufs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawBuffersATI
-void DrawBuffersATI(GLsizei n, GLenum bufs) {
-    
+#ifndef skip_glDrawBuffersATI
+void glDrawBuffersATI(GLsizei n, GLenum bufs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementArrayAPPLE
-void DrawElementArrayAPPLE(GLenum mode, GLint first, GLsizei count) {
-    
+#ifndef skip_glDrawElementArrayAPPLE
+void glDrawElementArrayAPPLE(GLenum mode, GLint first, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementArrayATI
-void DrawElementArrayATI(GLenum mode, GLsizei count) {
-    
+#ifndef skip_glDrawElementArrayATI
+void glDrawElementArrayATI(GLenum mode, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElements
-void DrawElements(GLenum mode, GLsizei count, GLenum type, GLvoid indices) {
-    
+#ifndef skip_glDrawElements
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, GLvoid indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsBaseVertex
-void DrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLint basevertex) {
-    
+#ifndef skip_glDrawElementsBaseVertex
+void glDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLint basevertex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsIndirect
-void DrawElementsIndirect(GLenum mode, GLenum type, GLvoid indirect) {
-    
+#ifndef skip_glDrawElementsIndirect
+void glDrawElementsIndirect(GLenum mode, GLenum type, GLvoid indirect) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstanced
-void DrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei instancecount) {
-    
+#ifndef skip_glDrawElementsInstanced
+void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei instancecount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstancedARB
-void DrawElementsInstancedARB(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei primcount) {
-    
+#ifndef skip_glDrawElementsInstancedARB
+void glDrawElementsInstancedARB(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstancedBaseInstance
-void DrawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei instancecount, GLuint baseinstance) {
-    
+#ifndef skip_glDrawElementsInstancedBaseInstance
+void glDrawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei instancecount, GLuint baseinstance) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstancedBaseVertex
-void DrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei instancecount, GLint basevertex) {
-    
+#ifndef skip_glDrawElementsInstancedBaseVertex
+void glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei instancecount, GLint basevertex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstancedBaseVertexBaseInstance
-void DrawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei instancecount, GLint basevertex, GLuint baseinstance) {
-    
+#ifndef skip_glDrawElementsInstancedBaseVertexBaseInstance
+void glDrawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei instancecount, GLint basevertex, GLuint baseinstance) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawElementsInstancedEXT
-void DrawElementsInstancedEXT(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei primcount) {
-    
+#ifndef skip_glDrawElementsInstancedEXT
+void glDrawElementsInstancedEXT(GLenum mode, GLsizei count, GLenum type, GLvoid indices, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawMeshArraysSUN
-void DrawMeshArraysSUN(GLenum mode, GLint first, GLsizei count, GLsizei width) {
-    
+#ifndef skip_glDrawMeshArraysSUN
+void glDrawMeshArraysSUN(GLenum mode, GLint first, GLsizei count, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawPixels
-void DrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glDrawPixels
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawRangeElementArrayAPPLE
-void DrawRangeElementArrayAPPLE(GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count) {
-    
+#ifndef skip_glDrawRangeElementArrayAPPLE
+void glDrawRangeElementArrayAPPLE(GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawRangeElementArrayATI
-void DrawRangeElementArrayATI(GLenum mode, GLuint start, GLuint end, GLsizei count) {
-    
+#ifndef skip_glDrawRangeElementArrayATI
+void glDrawRangeElementArrayATI(GLenum mode, GLuint start, GLuint end, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawRangeElements
-void DrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices) {
-    
+#ifndef skip_glDrawRangeElements
+void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawRangeElementsBaseVertex
-void DrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices, GLint basevertex) {
-    
+#ifndef skip_glDrawRangeElementsBaseVertex
+void glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices, GLint basevertex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawRangeElementsEXT
-void DrawRangeElementsEXT(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices) {
-    
+#ifndef skip_glDrawRangeElementsEXT
+void glDrawRangeElementsEXT(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, GLvoid indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTextureNV
-void DrawTextureNV(GLuint texture, GLuint sampler, GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat z, GLfloat s0, GLfloat t0, GLfloat s1, GLfloat t1) {
-    
+#ifndef skip_glDrawTextureNV
+void glDrawTextureNV(GLuint texture, GLuint sampler, GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat z, GLfloat s0, GLfloat t0, GLfloat s1, GLfloat t1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTransformFeedback
-void DrawTransformFeedback(GLenum mode, GLuint id) {
-    
+#ifndef skip_glDrawTransformFeedback
+void glDrawTransformFeedback(GLenum mode, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTransformFeedbackInstanced
-void DrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei instancecount) {
-    
+#ifndef skip_glDrawTransformFeedbackInstanced
+void glDrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei instancecount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTransformFeedbackNV
-void DrawTransformFeedbackNV(GLenum mode, GLuint id) {
-    
+#ifndef skip_glDrawTransformFeedbackNV
+void glDrawTransformFeedbackNV(GLenum mode, GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTransformFeedbackStream
-void DrawTransformFeedbackStream(GLenum mode, GLuint id, GLuint stream) {
-    
+#ifndef skip_glDrawTransformFeedbackStream
+void glDrawTransformFeedbackStream(GLenum mode, GLuint id, GLuint stream) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DrawTransformFeedbackStreamInstanced
-void DrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei instancecount) {
-    
+#ifndef skip_glDrawTransformFeedbackStreamInstanced
+void glDrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei instancecount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlag
-void EdgeFlag(GLboolean flag) {
-    
+#ifndef skip_glEdgeFlag
+void glEdgeFlag(GLboolean flag) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlagFormatNV
-void EdgeFlagFormatNV(GLsizei stride) {
-    
+#ifndef skip_glEdgeFlagFormatNV
+void glEdgeFlagFormatNV(GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlagPointer
-void EdgeFlagPointer(GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glEdgeFlagPointer
+void glEdgeFlagPointer(GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlagPointerEXT
-void EdgeFlagPointerEXT(GLsizei stride, GLsizei count, GLboolean pointer) {
-    
+#ifndef skip_glEdgeFlagPointerEXT
+void glEdgeFlagPointerEXT(GLsizei stride, GLsizei count, GLboolean pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlagPointerListIBM
-void EdgeFlagPointerListIBM(GLint stride, GLboolean * pointer, GLint ptrstride) {
-    
+#ifndef skip_glEdgeFlagPointerListIBM
+void glEdgeFlagPointerListIBM(GLint stride, GLboolean * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EdgeFlagv
-void EdgeFlagv(GLboolean flag) {
-    
+#ifndef skip_glEdgeFlagv
+void glEdgeFlagv(GLboolean flag) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ElementPointerAPPLE
-void ElementPointerAPPLE(GLenum type, GLvoid pointer) {
-    
+#ifndef skip_glElementPointerAPPLE
+void glElementPointerAPPLE(GLenum type, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ElementPointerATI
-void ElementPointerATI(GLenum type, GLvoid pointer) {
-    
+#ifndef skip_glElementPointerATI
+void glElementPointerATI(GLenum type, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Enable
-void Enable(GLenum cap) {
-    
+#ifndef skip_glEnable
+void glEnable(GLenum cap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableClientState
-void EnableClientState(GLenum array) {
-    
+#ifndef skip_glEnableClientState
+void glEnableClientState(GLenum array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableClientStateIndexedEXT
-void EnableClientStateIndexedEXT(GLenum array, GLuint index) {
-    
+#ifndef skip_glEnableClientStateIndexedEXT
+void glEnableClientStateIndexedEXT(GLenum array, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableClientStateiEXT
-void EnableClientStateiEXT(GLenum array, GLuint index) {
-    
+#ifndef skip_glEnableClientStateiEXT
+void glEnableClientStateiEXT(GLenum array, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableIndexedEXT
-void EnableIndexedEXT(GLenum target, GLuint index) {
-    
+#ifndef skip_glEnableIndexedEXT
+void glEnableIndexedEXT(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVariantClientStateEXT
-void EnableVariantClientStateEXT(GLuint id) {
-    
+#ifndef skip_glEnableVariantClientStateEXT
+void glEnableVariantClientStateEXT(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVertexArrayAttribEXT
-void EnableVertexArrayAttribEXT(GLuint vaobj, GLuint index) {
-    
+#ifndef skip_glEnableVertexArrayAttribEXT
+void glEnableVertexArrayAttribEXT(GLuint vaobj, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVertexArrayEXT
-void EnableVertexArrayEXT(GLuint vaobj, GLenum array) {
-    
+#ifndef skip_glEnableVertexArrayEXT
+void glEnableVertexArrayEXT(GLuint vaobj, GLenum array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVertexAttribAPPLE
-void EnableVertexAttribAPPLE(GLuint index, GLenum pname) {
-    
+#ifndef skip_glEnableVertexAttribAPPLE
+void glEnableVertexAttribAPPLE(GLuint index, GLenum pname) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVertexAttribArray
-void EnableVertexAttribArray(GLuint index) {
-    
+#ifndef skip_glEnableVertexAttribArray
+void glEnableVertexAttribArray(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnableVertexAttribArrayARB
-void EnableVertexAttribArrayARB(GLuint index) {
-    
+#ifndef skip_glEnableVertexAttribArrayARB
+void glEnableVertexAttribArrayARB(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Enablei
-void Enablei(GLenum target, GLuint index) {
-    
+#ifndef skip_glEnablei
+void glEnablei(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_End
-void End() {
-    
+#ifndef skip_glEnd
+void glEnd() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndConditionalRender
-void EndConditionalRender() {
-    
+#ifndef skip_glEndConditionalRender
+void glEndConditionalRender() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndConditionalRenderNV
-void EndConditionalRenderNV() {
-    
+#ifndef skip_glEndConditionalRenderNV
+void glEndConditionalRenderNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndConditionalRenderNVX
-void EndConditionalRenderNVX() {
-    
+#ifndef skip_glEndConditionalRenderNVX
+void glEndConditionalRenderNVX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndFragmentShaderATI
-void EndFragmentShaderATI() {
-    
+#ifndef skip_glEndFragmentShaderATI
+void glEndFragmentShaderATI() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndList
-void EndList() {
-    
+#ifndef skip_glEndList
+void glEndList() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndOcclusionQueryNV
-void EndOcclusionQueryNV() {
-    
+#ifndef skip_glEndOcclusionQueryNV
+void glEndOcclusionQueryNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndPerfMonitorAMD
-void EndPerfMonitorAMD(GLuint monitor) {
-    
+#ifndef skip_glEndPerfMonitorAMD
+void glEndPerfMonitorAMD(GLuint monitor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndQuery
-void EndQuery(GLenum target) {
-    
+#ifndef skip_glEndQuery
+void glEndQuery(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndQueryARB
-void EndQueryARB(GLenum target) {
-    
+#ifndef skip_glEndQueryARB
+void glEndQueryARB(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndQueryIndexed
-void EndQueryIndexed(GLenum target, GLuint index) {
-    
+#ifndef skip_glEndQueryIndexed
+void glEndQueryIndexed(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndTransformFeedback
-void EndTransformFeedback() {
-    
+#ifndef skip_glEndTransformFeedback
+void glEndTransformFeedback() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndTransformFeedbackEXT
-void EndTransformFeedbackEXT() {
-    
+#ifndef skip_glEndTransformFeedbackEXT
+void glEndTransformFeedbackEXT() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndTransformFeedbackNV
-void EndTransformFeedbackNV() {
-    
+#ifndef skip_glEndTransformFeedbackNV
+void glEndTransformFeedbackNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndVertexShaderEXT
-void EndVertexShaderEXT() {
-    
+#ifndef skip_glEndVertexShaderEXT
+void glEndVertexShaderEXT() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EndVideoCaptureNV
-void EndVideoCaptureNV(GLuint video_capture_slot) {
-    
+#ifndef skip_glEndVideoCaptureNV
+void glEndVideoCaptureNV(GLuint video_capture_slot) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1d
-void EvalCoord1d(GLdouble u) {
-    
+#ifndef skip_glEvalCoord1d
+void glEvalCoord1d(GLdouble u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1dv
-void EvalCoord1dv(GLdouble u) {
-    
+#ifndef skip_glEvalCoord1dv
+void glEvalCoord1dv(GLdouble u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1f
-void EvalCoord1f(GLfloat u) {
-    
+#ifndef skip_glEvalCoord1f
+void glEvalCoord1f(GLfloat u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1fv
-void EvalCoord1fv(GLfloat u) {
-    
+#ifndef skip_glEvalCoord1fv
+void glEvalCoord1fv(GLfloat u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1xOES
-void EvalCoord1xOES(GLfixed u) {
-    
+#ifndef skip_glEvalCoord1xOES
+void glEvalCoord1xOES(GLfixed u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord1xvOES
-void EvalCoord1xvOES(GLfixed coords) {
-    
+#ifndef skip_glEvalCoord1xvOES
+void glEvalCoord1xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2d
-void EvalCoord2d(GLdouble u, GLdouble v) {
-    
+#ifndef skip_glEvalCoord2d
+void glEvalCoord2d(GLdouble u, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2dv
-void EvalCoord2dv(GLdouble u) {
-    
+#ifndef skip_glEvalCoord2dv
+void glEvalCoord2dv(GLdouble u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2f
-void EvalCoord2f(GLfloat u, GLfloat v) {
-    
+#ifndef skip_glEvalCoord2f
+void glEvalCoord2f(GLfloat u, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2fv
-void EvalCoord2fv(GLfloat u) {
-    
+#ifndef skip_glEvalCoord2fv
+void glEvalCoord2fv(GLfloat u) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2xOES
-void EvalCoord2xOES(GLfixed u, GLfixed v) {
-    
+#ifndef skip_glEvalCoord2xOES
+void glEvalCoord2xOES(GLfixed u, GLfixed v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalCoord2xvOES
-void EvalCoord2xvOES(GLfixed coords) {
-    
+#ifndef skip_glEvalCoord2xvOES
+void glEvalCoord2xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalMapsNV
-void EvalMapsNV(GLenum target, GLenum mode) {
-    
+#ifndef skip_glEvalMapsNV
+void glEvalMapsNV(GLenum target, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalMesh1
-void EvalMesh1(GLenum mode, GLint i1, GLint i2) {
-    
+#ifndef skip_glEvalMesh1
+void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalMesh2
-void EvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
-    
+#ifndef skip_glEvalMesh2
+void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalPoint1
-void EvalPoint1(GLint i) {
-    
+#ifndef skip_glEvalPoint1
+void glEvalPoint1(GLint i) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EvalPoint2
-void EvalPoint2(GLint i, GLint j) {
-    
+#ifndef skip_glEvalPoint2
+void glEvalPoint2(GLint i, GLint j) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ExecuteProgramNV
-void ExecuteProgramNV(GLenum target, GLuint id, GLfloat params) {
-    
+#ifndef skip_glExecuteProgramNV
+void glExecuteProgramNV(GLenum target, GLuint id, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ExtractComponentEXT
-void ExtractComponentEXT(GLuint res, GLuint src, GLuint num) {
-    
+#ifndef skip_glExtractComponentEXT
+void glExtractComponentEXT(GLuint res, GLuint src, GLuint num) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FeedbackBuffer
-void FeedbackBuffer(GLsizei size, GLenum type, GLfloat buffer) {
-    
+#ifndef skip_glFeedbackBuffer
+void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FeedbackBufferxOES
-void FeedbackBufferxOES(GLsizei n, GLenum type, GLfixed buffer) {
-    
+#ifndef skip_glFeedbackBufferxOES
+void glFeedbackBufferxOES(GLsizei n, GLenum type, GLfixed buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FenceSync
-sync FenceSync(GLenum condition, GLbitfield flags) {
-    
+#ifndef skip_glFenceSync
+sync glFenceSync(GLenum condition, GLbitfield flags) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinalCombinerInputNV
-void FinalCombinerInputNV(GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage) {
-    
+#ifndef skip_glFinalCombinerInputNV
+void glFinalCombinerInputNV(GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Finish
-void Finish() {
-    
+#ifndef skip_glFinish
+void glFinish() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinishAsyncSGIX
-Int32 FinishAsyncSGIX(GLuint markerp) {
-    
+#ifndef skip_glFinishAsyncSGIX
+Int32 glFinishAsyncSGIX(GLuint markerp) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinishFenceAPPLE
-void FinishFenceAPPLE(GLuint fence) {
-    
+#ifndef skip_glFinishFenceAPPLE
+void glFinishFenceAPPLE(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinishFenceNV
-void FinishFenceNV(GLuint fence) {
-    
+#ifndef skip_glFinishFenceNV
+void glFinishFenceNV(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinishObjectAPPLE
-void FinishObjectAPPLE(GLenum object, GLint name) {
-    
+#ifndef skip_glFinishObjectAPPLE
+void glFinishObjectAPPLE(GLenum object, GLint name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FinishTextureSUNX
-void FinishTextureSUNX() {
-    
+#ifndef skip_glFinishTextureSUNX
+void glFinishTextureSUNX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Flush
-void Flush() {
-    
+#ifndef skip_glFlush
+void glFlush() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushMappedBufferRange
-void FlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) {
-    
+#ifndef skip_glFlushMappedBufferRange
+void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushMappedBufferRangeAPPLE
-void FlushMappedBufferRangeAPPLE(GLenum target, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glFlushMappedBufferRangeAPPLE
+void glFlushMappedBufferRangeAPPLE(GLenum target, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushMappedNamedBufferRangeEXT
-void FlushMappedNamedBufferRangeEXT(GLuint buffer, GLintptr offset, GLsizeiptr length) {
-    
+#ifndef skip_glFlushMappedNamedBufferRangeEXT
+void glFlushMappedNamedBufferRangeEXT(GLuint buffer, GLintptr offset, GLsizeiptr length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushPixelDataRangeNV
-void FlushPixelDataRangeNV(GLenum target) {
-    
+#ifndef skip_glFlushPixelDataRangeNV
+void glFlushPixelDataRangeNV(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushRasterSGIX
-void FlushRasterSGIX() {
-    
+#ifndef skip_glFlushRasterSGIX
+void glFlushRasterSGIX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushStaticDataIBM
-void FlushStaticDataIBM(GLenum target) {
-    
+#ifndef skip_glFlushStaticDataIBM
+void glFlushStaticDataIBM(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushVertexArrayRangeAPPLE
-void FlushVertexArrayRangeAPPLE(GLsizei length, GLvoid pointer) {
-    
+#ifndef skip_glFlushVertexArrayRangeAPPLE
+void glFlushVertexArrayRangeAPPLE(GLsizei length, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FlushVertexArrayRangeNV
-void FlushVertexArrayRangeNV() {
-    
+#ifndef skip_glFlushVertexArrayRangeNV
+void glFlushVertexArrayRangeNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordFormatNV
-void FogCoordFormatNV(GLenum type, GLsizei stride) {
-    
+#ifndef skip_glFogCoordFormatNV
+void glFogCoordFormatNV(GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordPointer
-void FogCoordPointer(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glFogCoordPointer
+void glFogCoordPointer(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordPointerEXT
-void FogCoordPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glFogCoordPointerEXT
+void glFogCoordPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordPointerListIBM
-void FogCoordPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glFogCoordPointerListIBM
+void glFogCoordPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordd
-void FogCoordd(GLdouble coord) {
-    
+#ifndef skip_glFogCoordd
+void glFogCoordd(GLdouble coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoorddEXT
-void FogCoorddEXT(GLdouble coord) {
-    
+#ifndef skip_glFogCoorddEXT
+void glFogCoorddEXT(GLdouble coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoorddv
-void FogCoorddv(GLdouble coord) {
-    
+#ifndef skip_glFogCoorddv
+void glFogCoorddv(GLdouble coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoorddvEXT
-void FogCoorddvEXT(GLdouble coord) {
-    
+#ifndef skip_glFogCoorddvEXT
+void glFogCoorddvEXT(GLdouble coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordf
-void FogCoordf(GLfloat coord) {
-    
+#ifndef skip_glFogCoordf
+void glFogCoordf(GLfloat coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordfEXT
-void FogCoordfEXT(GLfloat coord) {
-    
+#ifndef skip_glFogCoordfEXT
+void glFogCoordfEXT(GLfloat coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordfv
-void FogCoordfv(GLfloat coord) {
-    
+#ifndef skip_glFogCoordfv
+void glFogCoordfv(GLfloat coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordfvEXT
-void FogCoordfvEXT(GLfloat coord) {
-    
+#ifndef skip_glFogCoordfvEXT
+void glFogCoordfvEXT(GLfloat coord) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordhNV
-void FogCoordhNV(GLhalfNV fog) {
-    
+#ifndef skip_glFogCoordhNV
+void glFogCoordhNV(GLhalfNV fog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogCoordhvNV
-void FogCoordhvNV(GLhalfNV fog) {
-    
+#ifndef skip_glFogCoordhvNV
+void glFogCoordhvNV(GLhalfNV fog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogFuncSGIS
-void FogFuncSGIS(GLsizei n, GLfloat points) {
-    
+#ifndef skip_glFogFuncSGIS
+void glFogFuncSGIS(GLsizei n, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Fogf
-void Fogf(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glFogf
+void glFogf(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Fogfv
-void Fogfv(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glFogfv
+void glFogfv(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Fogi
-void Fogi(GLenum pname, GLint param) {
-    
+#ifndef skip_glFogi
+void glFogi(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Fogiv
-void Fogiv(GLenum pname, GLint params) {
-    
+#ifndef skip_glFogiv
+void glFogiv(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogxOES
-void FogxOES(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glFogxOES
+void glFogxOES(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FogxvOES
-void FogxvOES(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glFogxvOES
+void glFogxvOES(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentColorMaterialSGIX
-void FragmentColorMaterialSGIX(GLenum face, GLenum mode) {
-    
+#ifndef skip_glFragmentColorMaterialSGIX
+void glFragmentColorMaterialSGIX(GLenum face, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightModelfSGIX
-void FragmentLightModelfSGIX(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glFragmentLightModelfSGIX
+void glFragmentLightModelfSGIX(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightModelfvSGIX
-void FragmentLightModelfvSGIX(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glFragmentLightModelfvSGIX
+void glFragmentLightModelfvSGIX(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightModeliSGIX
-void FragmentLightModeliSGIX(GLenum pname, GLint param) {
-    
+#ifndef skip_glFragmentLightModeliSGIX
+void glFragmentLightModeliSGIX(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightModelivSGIX
-void FragmentLightModelivSGIX(GLenum pname, GLint params) {
-    
+#ifndef skip_glFragmentLightModelivSGIX
+void glFragmentLightModelivSGIX(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightfSGIX
-void FragmentLightfSGIX(GLenum light, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glFragmentLightfSGIX
+void glFragmentLightfSGIX(GLenum light, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightfvSGIX
-void FragmentLightfvSGIX(GLenum light, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glFragmentLightfvSGIX
+void glFragmentLightfvSGIX(GLenum light, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightiSGIX
-void FragmentLightiSGIX(GLenum light, GLenum pname, GLint param) {
-    
+#ifndef skip_glFragmentLightiSGIX
+void glFragmentLightiSGIX(GLenum light, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentLightivSGIX
-void FragmentLightivSGIX(GLenum light, GLenum pname, GLint params) {
-    
+#ifndef skip_glFragmentLightivSGIX
+void glFragmentLightivSGIX(GLenum light, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentMaterialfSGIX
-void FragmentMaterialfSGIX(GLenum face, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glFragmentMaterialfSGIX
+void glFragmentMaterialfSGIX(GLenum face, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentMaterialfvSGIX
-void FragmentMaterialfvSGIX(GLenum face, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glFragmentMaterialfvSGIX
+void glFragmentMaterialfvSGIX(GLenum face, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentMaterialiSGIX
-void FragmentMaterialiSGIX(GLenum face, GLenum pname, GLint param) {
-    
+#ifndef skip_glFragmentMaterialiSGIX
+void glFragmentMaterialiSGIX(GLenum face, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FragmentMaterialivSGIX
-void FragmentMaterialivSGIX(GLenum face, GLenum pname, GLint params) {
-    
+#ifndef skip_glFragmentMaterialivSGIX
+void glFragmentMaterialivSGIX(GLenum face, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FrameTerminatorGREMEDY
-void FrameTerminatorGREMEDY() {
-    
+#ifndef skip_glFrameTerminatorGREMEDY
+void glFrameTerminatorGREMEDY() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FrameZoomSGIX
-void FrameZoomSGIX(GLint factor) {
-    
+#ifndef skip_glFrameZoomSGIX
+void glFrameZoomSGIX(GLint factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferDrawBufferEXT
-void FramebufferDrawBufferEXT(GLuint framebuffer, GLenum mode) {
-    
+#ifndef skip_glFramebufferDrawBufferEXT
+void glFramebufferDrawBufferEXT(GLuint framebuffer, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferDrawBuffersEXT
-void FramebufferDrawBuffersEXT(GLuint framebuffer, GLsizei n, GLenum bufs) {
-    
+#ifndef skip_glFramebufferDrawBuffersEXT
+void glFramebufferDrawBuffersEXT(GLuint framebuffer, GLsizei n, GLenum bufs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferParameteri
-void FramebufferParameteri(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glFramebufferParameteri
+void glFramebufferParameteri(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferReadBufferEXT
-void FramebufferReadBufferEXT(GLuint framebuffer, GLenum mode) {
-    
+#ifndef skip_glFramebufferReadBufferEXT
+void glFramebufferReadBufferEXT(GLuint framebuffer, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferRenderbuffer
-void FramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
-    
+#ifndef skip_glFramebufferRenderbuffer
+void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferRenderbufferEXT
-void FramebufferRenderbufferEXT(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
-    
+#ifndef skip_glFramebufferRenderbufferEXT
+void glFramebufferRenderbufferEXT(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture
-void FramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTexture
+void glFramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture1D
-void FramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTexture1D
+void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture1DEXT
-void FramebufferTexture1DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTexture1DEXT
+void glFramebufferTexture1DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture2D
-void FramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTexture2D
+void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture2DEXT
-void FramebufferTexture2DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTexture2DEXT
+void glFramebufferTexture2DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture3D
-void FramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
-    
+#ifndef skip_glFramebufferTexture3D
+void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTexture3DEXT
-void FramebufferTexture3DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
-    
+#ifndef skip_glFramebufferTexture3DEXT
+void glFramebufferTexture3DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureARB
-void FramebufferTextureARB(GLenum target, GLenum attachment, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTextureARB
+void glFramebufferTextureARB(GLenum target, GLenum attachment, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureEXT
-void FramebufferTextureEXT(GLenum target, GLenum attachment, GLuint texture, GLint level) {
-    
+#ifndef skip_glFramebufferTextureEXT
+void glFramebufferTextureEXT(GLenum target, GLenum attachment, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureFaceARB
-void FramebufferTextureFaceARB(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face) {
-    
+#ifndef skip_glFramebufferTextureFaceARB
+void glFramebufferTextureFaceARB(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureFaceEXT
-void FramebufferTextureFaceEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face) {
-    
+#ifndef skip_glFramebufferTextureFaceEXT
+void glFramebufferTextureFaceEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureLayer
-void FramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    
+#ifndef skip_glFramebufferTextureLayer
+void glFramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureLayerARB
-void FramebufferTextureLayerARB(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    
+#ifndef skip_glFramebufferTextureLayerARB
+void glFramebufferTextureLayerARB(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FramebufferTextureLayerEXT
-void FramebufferTextureLayerEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    
+#ifndef skip_glFramebufferTextureLayerEXT
+void glFramebufferTextureLayerEXT(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FreeObjectBufferATI
-void FreeObjectBufferATI(GLuint buffer) {
-    
+#ifndef skip_glFreeObjectBufferATI
+void glFreeObjectBufferATI(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FrontFace
-void FrontFace(GLenum mode) {
-    
+#ifndef skip_glFrontFace
+void glFrontFace(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Frustum
-void Frustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
-    
+#ifndef skip_glFrustum
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FrustumfOES
-void FrustumfOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f) {
-    
+#ifndef skip_glFrustumfOES
+void glFrustumfOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FrustumxOES
-void FrustumxOES(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f) {
-    
+#ifndef skip_glFrustumxOES
+void glFrustumxOES(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenAsyncMarkersSGIX
-UInt32 GenAsyncMarkersSGIX(GLsizei range) {
-    
+#ifndef skip_glGenAsyncMarkersSGIX
+UInt32 glGenAsyncMarkersSGIX(GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenBuffers
-void GenBuffers(GLsizei n, GLuint buffers) {
-    
+#ifndef skip_glGenBuffers
+void glGenBuffers(GLsizei n, GLuint buffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenBuffersARB
-void GenBuffersARB(GLsizei n, GLuint buffers) {
-    
+#ifndef skip_glGenBuffersARB
+void glGenBuffersARB(GLsizei n, GLuint buffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenFencesAPPLE
-void GenFencesAPPLE(GLsizei n, GLuint fences) {
-    
+#ifndef skip_glGenFencesAPPLE
+void glGenFencesAPPLE(GLsizei n, GLuint fences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenFencesNV
-void GenFencesNV(GLsizei n, GLuint fences) {
-    
+#ifndef skip_glGenFencesNV
+void glGenFencesNV(GLsizei n, GLuint fences) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenFragmentShadersATI
-UInt32 GenFragmentShadersATI(GLuint range) {
-    
+#ifndef skip_glGenFragmentShadersATI
+UInt32 glGenFragmentShadersATI(GLuint range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenFramebuffers
-void GenFramebuffers(GLsizei n, GLuint framebuffers) {
-    
+#ifndef skip_glGenFramebuffers
+void glGenFramebuffers(GLsizei n, GLuint framebuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenFramebuffersEXT
-void GenFramebuffersEXT(GLsizei n, GLuint framebuffers) {
-    
+#ifndef skip_glGenFramebuffersEXT
+void glGenFramebuffersEXT(GLsizei n, GLuint framebuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenLists
-List GenLists(GLsizei range) {
-    
+#ifndef skip_glGenLists
+List glGenLists(GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenNamesAMD
-void GenNamesAMD(GLenum identifier, GLuint num, GLuint names) {
-    
+#ifndef skip_glGenNamesAMD
+void glGenNamesAMD(GLenum identifier, GLuint num, GLuint names) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenOcclusionQueriesNV
-void GenOcclusionQueriesNV(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glGenOcclusionQueriesNV
+void glGenOcclusionQueriesNV(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenPathsNV
-Path GenPathsNV(GLsizei range) {
-    
+#ifndef skip_glGenPathsNV
+Path glGenPathsNV(GLsizei range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenPerfMonitorsAMD
-void GenPerfMonitorsAMD(GLsizei n, GLuint monitors) {
-    
+#ifndef skip_glGenPerfMonitorsAMD
+void glGenPerfMonitorsAMD(GLsizei n, GLuint monitors) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenProgramPipelines
-void GenProgramPipelines(GLsizei n, GLuint pipelines) {
-    
+#ifndef skip_glGenProgramPipelines
+void glGenProgramPipelines(GLsizei n, GLuint pipelines) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenProgramsARB
-void GenProgramsARB(GLsizei n, GLuint programs) {
-    
+#ifndef skip_glGenProgramsARB
+void glGenProgramsARB(GLsizei n, GLuint programs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenProgramsNV
-void GenProgramsNV(GLsizei n, GLuint programs) {
-    
+#ifndef skip_glGenProgramsNV
+void glGenProgramsNV(GLsizei n, GLuint programs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenQueries
-void GenQueries(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glGenQueries
+void glGenQueries(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenQueriesARB
-void GenQueriesARB(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glGenQueriesARB
+void glGenQueriesARB(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenRenderbuffers
-void GenRenderbuffers(GLsizei n, GLuint renderbuffers) {
-    
+#ifndef skip_glGenRenderbuffers
+void glGenRenderbuffers(GLsizei n, GLuint renderbuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenRenderbuffersEXT
-void GenRenderbuffersEXT(GLsizei n, GLuint renderbuffers) {
-    
+#ifndef skip_glGenRenderbuffersEXT
+void glGenRenderbuffersEXT(GLsizei n, GLuint renderbuffers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenSamplers
-void GenSamplers(GLsizei count, GLuint samplers) {
-    
+#ifndef skip_glGenSamplers
+void glGenSamplers(GLsizei count, GLuint samplers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenSymbolsEXT
-UInt32 GenSymbolsEXT(GLenum datatype, GLenum storagetype, GLenum range, GLuint components) {
-    
+#ifndef skip_glGenSymbolsEXT
+UInt32 glGenSymbolsEXT(GLenum datatype, GLenum storagetype, GLenum range, GLuint components) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenTextures
-void GenTextures(GLsizei n, GLuint textures) {
-    
+#ifndef skip_glGenTextures
+void glGenTextures(GLsizei n, GLuint textures) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenTexturesEXT
-void GenTexturesEXT(GLsizei n, GLuint textures) {
-    
+#ifndef skip_glGenTexturesEXT
+void glGenTexturesEXT(GLsizei n, GLuint textures) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenTransformFeedbacks
-void GenTransformFeedbacks(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glGenTransformFeedbacks
+void glGenTransformFeedbacks(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenTransformFeedbacksNV
-void GenTransformFeedbacksNV(GLsizei n, GLuint ids) {
-    
+#ifndef skip_glGenTransformFeedbacksNV
+void glGenTransformFeedbacksNV(GLsizei n, GLuint ids) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenVertexArrays
-void GenVertexArrays(GLsizei n, GLuint arrays) {
-    
+#ifndef skip_glGenVertexArrays
+void glGenVertexArrays(GLsizei n, GLuint arrays) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenVertexArraysAPPLE
-void GenVertexArraysAPPLE(GLsizei n, GLuint arrays) {
-    
+#ifndef skip_glGenVertexArraysAPPLE
+void glGenVertexArraysAPPLE(GLsizei n, GLuint arrays) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenVertexShadersEXT
-UInt32 GenVertexShadersEXT(GLuint range) {
-    
+#ifndef skip_glGenVertexShadersEXT
+UInt32 glGenVertexShadersEXT(GLuint range) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenerateMipmap
-void GenerateMipmap(GLenum target) {
-    
+#ifndef skip_glGenerateMipmap
+void glGenerateMipmap(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenerateMipmapEXT
-void GenerateMipmapEXT(GLenum target) {
-    
+#ifndef skip_glGenerateMipmapEXT
+void glGenerateMipmapEXT(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenerateMultiTexMipmapEXT
-void GenerateMultiTexMipmapEXT(GLenum texunit, GLenum target) {
-    
+#ifndef skip_glGenerateMultiTexMipmapEXT
+void glGenerateMultiTexMipmapEXT(GLenum texunit, GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GenerateTextureMipmapEXT
-void GenerateTextureMipmapEXT(GLuint texture, GLenum target) {
-    
+#ifndef skip_glGenerateTextureMipmapEXT
+void glGenerateTextureMipmapEXT(GLuint texture, GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveAtomicCounterBufferiv
-void GetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetActiveAtomicCounterBufferiv
+void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveAttrib
-void GetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLint size, GLenum type, GLchar name) {
-    
+#ifndef skip_glGetActiveAttrib
+void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLint size, GLenum type, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveAttribARB
-void GetActiveAttribARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei length, GLint size, GLenum type, GLcharARB name) {
-    
+#ifndef skip_glGetActiveAttribARB
+void glGetActiveAttribARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei length, GLint size, GLenum type, GLcharARB name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveSubroutineName
-void GetActiveSubroutineName(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei length, GLchar name) {
-    
+#ifndef skip_glGetActiveSubroutineName
+void glGetActiveSubroutineName(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei length, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveSubroutineUniformName
-void GetActiveSubroutineUniformName(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei length, GLchar name) {
-    
+#ifndef skip_glGetActiveSubroutineUniformName
+void glGetActiveSubroutineUniformName(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei length, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveSubroutineUniformiv
-void GetActiveSubroutineUniformiv(GLuint program, GLenum shadertype, GLuint index, GLenum pname, GLint values) {
-    
+#ifndef skip_glGetActiveSubroutineUniformiv
+void glGetActiveSubroutineUniformiv(GLuint program, GLenum shadertype, GLuint index, GLenum pname, GLint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniform
-void GetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLint size, GLenum type, GLchar name) {
-    
+#ifndef skip_glGetActiveUniform
+void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLint size, GLenum type, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniformARB
-void GetActiveUniformARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei length, GLint size, GLenum type, GLcharARB name) {
-    
+#ifndef skip_glGetActiveUniformARB
+void glGetActiveUniformARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei length, GLint size, GLenum type, GLcharARB name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniformBlockName
-void GetActiveUniformBlockName(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei length, GLchar uniformBlockName) {
-    
+#ifndef skip_glGetActiveUniformBlockName
+void glGetActiveUniformBlockName(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei length, GLchar uniformBlockName) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniformBlockiv
-void GetActiveUniformBlockiv(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetActiveUniformBlockiv
+void glGetActiveUniformBlockiv(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniformName
-void GetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei length, GLchar uniformName) {
-    
+#ifndef skip_glGetActiveUniformName
+void glGetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei length, GLchar uniformName) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveUniformsiv
-void GetActiveUniformsiv(GLuint program, GLsizei uniformCount, GLuint uniformIndices, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetActiveUniformsiv
+void glGetActiveUniformsiv(GLuint program, GLsizei uniformCount, GLuint uniformIndices, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetActiveVaryingNV
-void GetActiveVaryingNV(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
-    
+#ifndef skip_glGetActiveVaryingNV
+void glGetActiveVaryingNV(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetArrayObjectfvATI
-void GetArrayObjectfvATI(GLenum array, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetArrayObjectfvATI
+void glGetArrayObjectfvATI(GLenum array, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetArrayObjectivATI
-void GetArrayObjectivATI(GLenum array, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetArrayObjectivATI
+void glGetArrayObjectivATI(GLenum array, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetAttachedObjectsARB
-void GetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei count, GLhandleARB obj) {
-    
+#ifndef skip_glGetAttachedObjectsARB
+void glGetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei count, GLhandleARB obj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetAttachedShaders
-void GetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei count, GLuint obj) {
-    
+#ifndef skip_glGetAttachedShaders
+void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei count, GLuint obj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetAttribLocation
-Int32 GetAttribLocation(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetAttribLocation
+Int32 glGetAttribLocation(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetAttribLocationARB
-Int32 GetAttribLocationARB(GLhandleARB programObj, GLcharARB name) {
-    
+#ifndef skip_glGetAttribLocationARB
+Int32 glGetAttribLocationARB(GLhandleARB programObj, GLcharARB name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBooleanIndexedvEXT
-void GetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean data) {
-    
+#ifndef skip_glGetBooleanIndexedvEXT
+void glGetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBooleani_v
-void GetBooleani_v(GLenum target, GLuint index, GLboolean data) {
-    
+#ifndef skip_glGetBooleani_v
+void glGetBooleani_v(GLenum target, GLuint index, GLboolean data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBooleanv
-void GetBooleanv(GLenum pname, GLboolean params) {
-    
+#ifndef skip_glGetBooleanv
+void glGetBooleanv(GLenum pname, GLboolean params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferParameteri64v
-void GetBufferParameteri64v(GLenum target, GLenum pname, GLint64 params) {
-    
+#ifndef skip_glGetBufferParameteri64v
+void glGetBufferParameteri64v(GLenum target, GLenum pname, GLint64 params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferParameteriv
-void GetBufferParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetBufferParameteriv
+void glGetBufferParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferParameterivARB
-void GetBufferParameterivARB(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetBufferParameterivARB
+void glGetBufferParameterivARB(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferParameterui64vNV
-void GetBufferParameterui64vNV(GLenum target, GLenum pname, GLuint64EXT params) {
-    
+#ifndef skip_glGetBufferParameterui64vNV
+void glGetBufferParameterui64vNV(GLenum target, GLenum pname, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferPointerv
-void GetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetBufferPointerv
+void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferPointervARB
-void GetBufferPointervARB(GLenum target, GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetBufferPointervARB
+void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferSubData
-void GetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid data) {
-    
+#ifndef skip_glGetBufferSubData
+void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetBufferSubDataARB
-void GetBufferSubDataARB(GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid data) {
-    
+#ifndef skip_glGetBufferSubDataARB
+void glGetBufferSubDataARB(GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetClipPlane
-void GetClipPlane(GLenum plane, GLdouble equation) {
-    
+#ifndef skip_glGetClipPlane
+void glGetClipPlane(GLenum plane, GLdouble equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetClipPlanefOES
-void GetClipPlanefOES(GLenum plane, GLfloat equation) {
-    
+#ifndef skip_glGetClipPlanefOES
+void glGetClipPlanefOES(GLenum plane, GLfloat equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetClipPlanexOES
-void GetClipPlanexOES(GLenum plane, GLfixed equation) {
-    
+#ifndef skip_glGetClipPlanexOES
+void glGetClipPlanexOES(GLenum plane, GLfixed equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTable
-void GetColorTable(GLenum target, GLenum format, GLenum type, GLvoid table) {
-    
+#ifndef skip_glGetColorTable
+void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableEXT
-void GetColorTableEXT(GLenum target, GLenum format, GLenum type, GLvoid data) {
-    
+#ifndef skip_glGetColorTableEXT
+void glGetColorTableEXT(GLenum target, GLenum format, GLenum type, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameterfv
-void GetColorTableParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetColorTableParameterfv
+void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameterfvEXT
-void GetColorTableParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetColorTableParameterfvEXT
+void glGetColorTableParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameterfvSGI
-void GetColorTableParameterfvSGI(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetColorTableParameterfvSGI
+void glGetColorTableParameterfvSGI(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameteriv
-void GetColorTableParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetColorTableParameteriv
+void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameterivEXT
-void GetColorTableParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetColorTableParameterivEXT
+void glGetColorTableParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableParameterivSGI
-void GetColorTableParameterivSGI(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetColorTableParameterivSGI
+void glGetColorTableParameterivSGI(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetColorTableSGI
-void GetColorTableSGI(GLenum target, GLenum format, GLenum type, GLvoid table) {
-    
+#ifndef skip_glGetColorTableSGI
+void glGetColorTableSGI(GLenum target, GLenum format, GLenum type, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCombinerInputParameterfvNV
-void GetCombinerInputParameterfvNV(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetCombinerInputParameterfvNV
+void glGetCombinerInputParameterfvNV(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCombinerInputParameterivNV
-void GetCombinerInputParameterivNV(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetCombinerInputParameterivNV
+void glGetCombinerInputParameterivNV(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCombinerOutputParameterfvNV
-void GetCombinerOutputParameterfvNV(GLenum stage, GLenum portion, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetCombinerOutputParameterfvNV
+void glGetCombinerOutputParameterfvNV(GLenum stage, GLenum portion, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCombinerOutputParameterivNV
-void GetCombinerOutputParameterivNV(GLenum stage, GLenum portion, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetCombinerOutputParameterivNV
+void glGetCombinerOutputParameterivNV(GLenum stage, GLenum portion, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCombinerStageParameterfvNV
-void GetCombinerStageParameterfvNV(GLenum stage, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetCombinerStageParameterfvNV
+void glGetCombinerStageParameterfvNV(GLenum stage, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCompressedMultiTexImageEXT
-void GetCompressedMultiTexImageEXT(GLenum texunit, GLenum target, GLint lod, GLvoid img) {
-    
+#ifndef skip_glGetCompressedMultiTexImageEXT
+void glGetCompressedMultiTexImageEXT(GLenum texunit, GLenum target, GLint lod, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCompressedTexImage
-void GetCompressedTexImage(GLenum target, GLint level, GLvoid img) {
-    
+#ifndef skip_glGetCompressedTexImage
+void glGetCompressedTexImage(GLenum target, GLint level, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCompressedTexImageARB
-void GetCompressedTexImageARB(GLenum target, GLint level, GLvoid img) {
-    
+#ifndef skip_glGetCompressedTexImageARB
+void glGetCompressedTexImageARB(GLenum target, GLint level, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCompressedTextureImageEXT
-void GetCompressedTextureImageEXT(GLuint texture, GLenum target, GLint lod, GLvoid img) {
-    
+#ifndef skip_glGetCompressedTextureImageEXT
+void glGetCompressedTextureImageEXT(GLuint texture, GLenum target, GLint lod, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionFilter
-void GetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glGetConvolutionFilter
+void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionFilterEXT
-void GetConvolutionFilterEXT(GLenum target, GLenum format, GLenum type, GLvoid image) {
-    
+#ifndef skip_glGetConvolutionFilterEXT
+void glGetConvolutionFilterEXT(GLenum target, GLenum format, GLenum type, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionParameterfv
-void GetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetConvolutionParameterfv
+void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionParameterfvEXT
-void GetConvolutionParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetConvolutionParameterfvEXT
+void glGetConvolutionParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionParameteriv
-void GetConvolutionParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetConvolutionParameteriv
+void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionParameterivEXT
-void GetConvolutionParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetConvolutionParameterivEXT
+void glGetConvolutionParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetConvolutionParameterxvOES
-void GetConvolutionParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetConvolutionParameterxvOES
+void glGetConvolutionParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDebugMessageLog
-UInt32 GetDebugMessageLog(GLuint count, GLsizei bufsize, GLenum sources, GLenum types, GLuint ids, GLenum severities, GLsizei lengths, GLchar messageLog) {
-    
+#ifndef skip_glGetDebugMessageLog
+UInt32 glGetDebugMessageLog(GLuint count, GLsizei bufsize, GLenum sources, GLenum types, GLuint ids, GLenum severities, GLsizei lengths, GLchar messageLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDebugMessageLogAMD
-UInt32 GetDebugMessageLogAMD(GLuint count, GLsizei bufsize, GLenum categories, GLuint severities, GLuint ids, GLsizei lengths, GLchar message) {
-    
+#ifndef skip_glGetDebugMessageLogAMD
+UInt32 glGetDebugMessageLogAMD(GLuint count, GLsizei bufsize, GLenum categories, GLuint severities, GLuint ids, GLsizei lengths, GLchar message) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDebugMessageLogARB
-UInt32 GetDebugMessageLogARB(GLuint count, GLsizei bufsize, GLenum sources, GLenum types, GLuint ids, GLenum severities, GLsizei lengths, GLchar messageLog) {
-    
+#ifndef skip_glGetDebugMessageLogARB
+UInt32 glGetDebugMessageLogARB(GLuint count, GLsizei bufsize, GLenum sources, GLenum types, GLuint ids, GLenum severities, GLsizei lengths, GLchar messageLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDetailTexFuncSGIS
-void GetDetailTexFuncSGIS(GLenum target, GLfloat points) {
-    
+#ifndef skip_glGetDetailTexFuncSGIS
+void glGetDetailTexFuncSGIS(GLenum target, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDoubleIndexedvEXT
-void GetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble data) {
-    
+#ifndef skip_glGetDoubleIndexedvEXT
+void glGetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDoublei_v
-void GetDoublei_v(GLenum target, GLuint index, GLdouble data) {
-    
+#ifndef skip_glGetDoublei_v
+void glGetDoublei_v(GLenum target, GLuint index, GLdouble data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDoublei_vEXT
-void GetDoublei_vEXT(GLenum target, GLuint index, GLdouble data) {
-    
+#ifndef skip_glGetDoublei_vEXT
+void glGetDoublei_vEXT(GLenum target, GLuint index, GLdouble data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetDoublev
-void GetDoublev(GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetDoublev
+void glGetDoublev(GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetError
-ErrorCode GetError() {
-    
+#ifndef skip_glGetError
+ErrorCode glGetError() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFenceivNV
-void GetFenceivNV(GLuint fence, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFenceivNV
+void glGetFenceivNV(GLuint fence, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFinalCombinerInputParameterfvNV
-void GetFinalCombinerInputParameterfvNV(GLenum variable, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetFinalCombinerInputParameterfvNV
+void glGetFinalCombinerInputParameterfvNV(GLenum variable, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFinalCombinerInputParameterivNV
-void GetFinalCombinerInputParameterivNV(GLenum variable, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFinalCombinerInputParameterivNV
+void glGetFinalCombinerInputParameterivNV(GLenum variable, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFixedvOES
-void GetFixedvOES(GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetFixedvOES
+void glGetFixedvOES(GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFloatIndexedvEXT
-void GetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat data) {
-    
+#ifndef skip_glGetFloatIndexedvEXT
+void glGetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFloati_v
-void GetFloati_v(GLenum target, GLuint index, GLfloat data) {
-    
+#ifndef skip_glGetFloati_v
+void glGetFloati_v(GLenum target, GLuint index, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFloati_vEXT
-void GetFloati_vEXT(GLenum target, GLuint index, GLfloat data) {
-    
+#ifndef skip_glGetFloati_vEXT
+void glGetFloati_vEXT(GLenum target, GLuint index, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFloatv
-void GetFloatv(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetFloatv
+void glGetFloatv(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFogFuncSGIS
-void GetFogFuncSGIS(GLfloat points) {
-    
+#ifndef skip_glGetFogFuncSGIS
+void glGetFogFuncSGIS(GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragDataIndex
-Int32 GetFragDataIndex(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetFragDataIndex
+Int32 glGetFragDataIndex(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragDataLocation
-Int32 GetFragDataLocation(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetFragDataLocation
+Int32 glGetFragDataLocation(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragDataLocationEXT
-Int32 GetFragDataLocationEXT(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetFragDataLocationEXT
+Int32 glGetFragDataLocationEXT(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragmentLightfvSGIX
-void GetFragmentLightfvSGIX(GLenum light, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetFragmentLightfvSGIX
+void glGetFragmentLightfvSGIX(GLenum light, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragmentLightivSGIX
-void GetFragmentLightivSGIX(GLenum light, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFragmentLightivSGIX
+void glGetFragmentLightivSGIX(GLenum light, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragmentMaterialfvSGIX
-void GetFragmentMaterialfvSGIX(GLenum face, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetFragmentMaterialfvSGIX
+void glGetFragmentMaterialfvSGIX(GLenum face, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFragmentMaterialivSGIX
-void GetFragmentMaterialivSGIX(GLenum face, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFragmentMaterialivSGIX
+void glGetFragmentMaterialivSGIX(GLenum face, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFramebufferAttachmentParameteriv
-void GetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFramebufferAttachmentParameteriv
+void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFramebufferAttachmentParameterivEXT
-void GetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFramebufferAttachmentParameterivEXT
+void glGetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFramebufferParameteriv
-void GetFramebufferParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFramebufferParameteriv
+void glGetFramebufferParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFramebufferParameterivEXT
-void GetFramebufferParameterivEXT(GLuint framebuffer, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetFramebufferParameterivEXT
+void glGetFramebufferParameterivEXT(GLuint framebuffer, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetGraphicsResetStatusARB
-GLenum GetGraphicsResetStatusARB() {
-    
+#ifndef skip_glGetGraphicsResetStatusARB
+GLenum glGetGraphicsResetStatusARB() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHandleARB
-handleARB GetHandleARB(GLenum pname) {
-    
+#ifndef skip_glGetHandleARB
+handleARB glGetHandleARB(GLenum pname) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogram
-void GetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
-    
+#ifndef skip_glGetHistogram
+void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramEXT
-void GetHistogramEXT(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
-    
+#ifndef skip_glGetHistogramEXT
+void glGetHistogramEXT(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramParameterfv
-void GetHistogramParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetHistogramParameterfv
+void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramParameterfvEXT
-void GetHistogramParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetHistogramParameterfvEXT
+void glGetHistogramParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramParameteriv
-void GetHistogramParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetHistogramParameteriv
+void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramParameterivEXT
-void GetHistogramParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetHistogramParameterivEXT
+void glGetHistogramParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetHistogramParameterxvOES
-void GetHistogramParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetHistogramParameterxvOES
+void glGetHistogramParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetImageHandleNV
-UInt64 GetImageHandleNV(GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format) {
-    
+#ifndef skip_glGetImageHandleNV
+UInt64 glGetImageHandleNV(GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetImageTransformParameterfvHP
-void GetImageTransformParameterfvHP(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetImageTransformParameterfvHP
+void glGetImageTransformParameterfvHP(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetImageTransformParameterivHP
-void GetImageTransformParameterivHP(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetImageTransformParameterivHP
+void glGetImageTransformParameterivHP(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInfoLogARB
-void GetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei length, GLcharARB infoLog) {
-    
+#ifndef skip_glGetInfoLogARB
+void glGetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei length, GLcharARB infoLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInstrumentsSGIX
-Int32 GetInstrumentsSGIX() {
-    
+#ifndef skip_glGetInstrumentsSGIX
+Int32 glGetInstrumentsSGIX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInteger64i_v
-void GetInteger64i_v(GLenum target, GLuint index, GLint64 data) {
-    
+#ifndef skip_glGetInteger64i_v
+void glGetInteger64i_v(GLenum target, GLuint index, GLint64 data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInteger64v
-void GetInteger64v(GLenum pname, GLint64 params) {
-    
+#ifndef skip_glGetInteger64v
+void glGetInteger64v(GLenum pname, GLint64 params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetIntegerIndexedvEXT
-void GetIntegerIndexedvEXT(GLenum target, GLuint index, GLint data) {
-    
+#ifndef skip_glGetIntegerIndexedvEXT
+void glGetIntegerIndexedvEXT(GLenum target, GLuint index, GLint data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetIntegeri_v
-void GetIntegeri_v(GLenum target, GLuint index, GLint data) {
-    
+#ifndef skip_glGetIntegeri_v
+void glGetIntegeri_v(GLenum target, GLuint index, GLint data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetIntegerui64i_vNV
-void GetIntegerui64i_vNV(GLenum value, GLuint index, GLuint64EXT result) {
-    
+#ifndef skip_glGetIntegerui64i_vNV
+void glGetIntegerui64i_vNV(GLenum value, GLuint index, GLuint64EXT result) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetIntegerui64vNV
-void GetIntegerui64vNV(GLenum value, GLuint64EXT result) {
-    
+#ifndef skip_glGetIntegerui64vNV
+void glGetIntegerui64vNV(GLenum value, GLuint64EXT result) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetIntegerv
-void GetIntegerv(GLenum pname, GLint params) {
-    
+#ifndef skip_glGetIntegerv
+void glGetIntegerv(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInternalformati64v
-void GetInternalformati64v(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 params) {
-    
+#ifndef skip_glGetInternalformati64v
+void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInternalformativ
-void GetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint params) {
-    
+#ifndef skip_glGetInternalformativ
+void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInvariantBooleanvEXT
-void GetInvariantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
-    
+#ifndef skip_glGetInvariantBooleanvEXT
+void glGetInvariantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInvariantFloatvEXT
-void GetInvariantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
-    
+#ifndef skip_glGetInvariantFloatvEXT
+void glGetInvariantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetInvariantIntegervEXT
-void GetInvariantIntegervEXT(GLuint id, GLenum value, GLint data) {
-    
+#ifndef skip_glGetInvariantIntegervEXT
+void glGetInvariantIntegervEXT(GLuint id, GLenum value, GLint data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLightfv
-void GetLightfv(GLenum light, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetLightfv
+void glGetLightfv(GLenum light, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLightiv
-void GetLightiv(GLenum light, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetLightiv
+void glGetLightiv(GLenum light, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLightxOES
-void GetLightxOES(GLenum light, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetLightxOES
+void glGetLightxOES(GLenum light, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetListParameterfvSGIX
-void GetListParameterfvSGIX(GLuint list, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetListParameterfvSGIX
+void glGetListParameterfvSGIX(GLuint list, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetListParameterivSGIX
-void GetListParameterivSGIX(GLuint list, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetListParameterivSGIX
+void glGetListParameterivSGIX(GLuint list, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLocalConstantBooleanvEXT
-void GetLocalConstantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
-    
+#ifndef skip_glGetLocalConstantBooleanvEXT
+void glGetLocalConstantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLocalConstantFloatvEXT
-void GetLocalConstantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
-    
+#ifndef skip_glGetLocalConstantFloatvEXT
+void glGetLocalConstantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetLocalConstantIntegervEXT
-void GetLocalConstantIntegervEXT(GLuint id, GLenum value, GLint data) {
-    
+#ifndef skip_glGetLocalConstantIntegervEXT
+void glGetLocalConstantIntegervEXT(GLuint id, GLenum value, GLint data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapAttribParameterfvNV
-void GetMapAttribParameterfvNV(GLenum target, GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMapAttribParameterfvNV
+void glGetMapAttribParameterfvNV(GLenum target, GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapAttribParameterivNV
-void GetMapAttribParameterivNV(GLenum target, GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMapAttribParameterivNV
+void glGetMapAttribParameterivNV(GLenum target, GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapControlPointsNV
-void GetMapControlPointsNV(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLboolean packed, GLvoid points) {
-    
+#ifndef skip_glGetMapControlPointsNV
+void glGetMapControlPointsNV(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLboolean packed, GLvoid points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapParameterfvNV
-void GetMapParameterfvNV(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMapParameterfvNV
+void glGetMapParameterfvNV(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapParameterivNV
-void GetMapParameterivNV(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMapParameterivNV
+void glGetMapParameterivNV(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapdv
-void GetMapdv(GLenum target, GLenum query, GLdouble v) {
-    
+#ifndef skip_glGetMapdv
+void glGetMapdv(GLenum target, GLenum query, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapfv
-void GetMapfv(GLenum target, GLenum query, GLfloat v) {
-    
+#ifndef skip_glGetMapfv
+void glGetMapfv(GLenum target, GLenum query, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapiv
-void GetMapiv(GLenum target, GLenum query, GLint v) {
-    
+#ifndef skip_glGetMapiv
+void glGetMapiv(GLenum target, GLenum query, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMapxvOES
-void GetMapxvOES(GLenum target, GLenum query, GLfixed v) {
-    
+#ifndef skip_glGetMapxvOES
+void glGetMapxvOES(GLenum target, GLenum query, GLfixed v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMaterialfv
-void GetMaterialfv(GLenum face, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMaterialfv
+void glGetMaterialfv(GLenum face, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMaterialiv
-void GetMaterialiv(GLenum face, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMaterialiv
+void glGetMaterialiv(GLenum face, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMaterialxOES
-void GetMaterialxOES(GLenum face, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glGetMaterialxOES
+void glGetMaterialxOES(GLenum face, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmax
-void GetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
-    
+#ifndef skip_glGetMinmax
+void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmaxEXT
-void GetMinmaxEXT(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
-    
+#ifndef skip_glGetMinmaxEXT
+void glGetMinmaxEXT(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmaxParameterfv
-void GetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMinmaxParameterfv
+void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmaxParameterfvEXT
-void GetMinmaxParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMinmaxParameterfvEXT
+void glGetMinmaxParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmaxParameteriv
-void GetMinmaxParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMinmaxParameteriv
+void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMinmaxParameterivEXT
-void GetMinmaxParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMinmaxParameterivEXT
+void glGetMinmaxParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexEnvfvEXT
-void GetMultiTexEnvfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMultiTexEnvfvEXT
+void glGetMultiTexEnvfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexEnvivEXT
-void GetMultiTexEnvivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMultiTexEnvivEXT
+void glGetMultiTexEnvivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexGendvEXT
-void GetMultiTexGendvEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetMultiTexGendvEXT
+void glGetMultiTexGendvEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexGenfvEXT
-void GetMultiTexGenfvEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMultiTexGenfvEXT
+void glGetMultiTexGenfvEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexGenivEXT
-void GetMultiTexGenivEXT(GLenum texunit, GLenum coord, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMultiTexGenivEXT
+void glGetMultiTexGenivEXT(GLenum texunit, GLenum coord, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexImageEXT
-void GetMultiTexImageEXT(GLenum texunit, GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glGetMultiTexImageEXT
+void glGetMultiTexImageEXT(GLenum texunit, GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexLevelParameterfvEXT
-void GetMultiTexLevelParameterfvEXT(GLenum texunit, GLenum target, GLint level, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMultiTexLevelParameterfvEXT
+void glGetMultiTexLevelParameterfvEXT(GLenum texunit, GLenum target, GLint level, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexLevelParameterivEXT
-void GetMultiTexLevelParameterivEXT(GLenum texunit, GLenum target, GLint level, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMultiTexLevelParameterivEXT
+void glGetMultiTexLevelParameterivEXT(GLenum texunit, GLenum target, GLint level, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexParameterIivEXT
-void GetMultiTexParameterIivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMultiTexParameterIivEXT
+void glGetMultiTexParameterIivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexParameterIuivEXT
-void GetMultiTexParameterIuivEXT(GLenum texunit, GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetMultiTexParameterIuivEXT
+void glGetMultiTexParameterIuivEXT(GLenum texunit, GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexParameterfvEXT
-void GetMultiTexParameterfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetMultiTexParameterfvEXT
+void glGetMultiTexParameterfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultiTexParameterivEXT
-void GetMultiTexParameterivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetMultiTexParameterivEXT
+void glGetMultiTexParameterivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultisamplefv
-void GetMultisamplefv(GLenum pname, GLuint index, GLfloat val) {
-    
+#ifndef skip_glGetMultisamplefv
+void glGetMultisamplefv(GLenum pname, GLuint index, GLfloat val) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMultisamplefvNV
-void GetMultisamplefvNV(GLenum pname, GLuint index, GLfloat val) {
-    
+#ifndef skip_glGetMultisamplefvNV
+void glGetMultisamplefvNV(GLenum pname, GLuint index, GLfloat val) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedBufferParameterivEXT
-void GetNamedBufferParameterivEXT(GLuint buffer, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedBufferParameterivEXT
+void glGetNamedBufferParameterivEXT(GLuint buffer, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedBufferParameterui64vNV
-void GetNamedBufferParameterui64vNV(GLuint buffer, GLenum pname, GLuint64EXT params) {
-    
+#ifndef skip_glGetNamedBufferParameterui64vNV
+void glGetNamedBufferParameterui64vNV(GLuint buffer, GLenum pname, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedBufferPointervEXT
-void GetNamedBufferPointervEXT(GLuint buffer, GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetNamedBufferPointervEXT
+void glGetNamedBufferPointervEXT(GLuint buffer, GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedBufferSubDataEXT
-void GetNamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid data) {
-    
+#ifndef skip_glGetNamedBufferSubDataEXT
+void glGetNamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedFramebufferAttachmentParameterivEXT
-void GetNamedFramebufferAttachmentParameterivEXT(GLuint framebuffer, GLenum attachment, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedFramebufferAttachmentParameterivEXT
+void glGetNamedFramebufferAttachmentParameterivEXT(GLuint framebuffer, GLenum attachment, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedFramebufferParameterivEXT
-void GetNamedFramebufferParameterivEXT(GLuint framebuffer, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedFramebufferParameterivEXT
+void glGetNamedFramebufferParameterivEXT(GLuint framebuffer, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramLocalParameterIivEXT
-void GetNamedProgramLocalParameterIivEXT(GLuint program, GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glGetNamedProgramLocalParameterIivEXT
+void glGetNamedProgramLocalParameterIivEXT(GLuint program, GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramLocalParameterIuivEXT
-void GetNamedProgramLocalParameterIuivEXT(GLuint program, GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glGetNamedProgramLocalParameterIuivEXT
+void glGetNamedProgramLocalParameterIuivEXT(GLuint program, GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramLocalParameterdvEXT
-void GetNamedProgramLocalParameterdvEXT(GLuint program, GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glGetNamedProgramLocalParameterdvEXT
+void glGetNamedProgramLocalParameterdvEXT(GLuint program, GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramLocalParameterfvEXT
-void GetNamedProgramLocalParameterfvEXT(GLuint program, GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glGetNamedProgramLocalParameterfvEXT
+void glGetNamedProgramLocalParameterfvEXT(GLuint program, GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramStringEXT
-void GetNamedProgramStringEXT(GLuint program, GLenum target, GLenum pname, GLvoid string) {
-    
+#ifndef skip_glGetNamedProgramStringEXT
+void glGetNamedProgramStringEXT(GLuint program, GLenum target, GLenum pname, GLvoid string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedProgramivEXT
-void GetNamedProgramivEXT(GLuint program, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedProgramivEXT
+void glGetNamedProgramivEXT(GLuint program, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedRenderbufferParameterivEXT
-void GetNamedRenderbufferParameterivEXT(GLuint renderbuffer, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedRenderbufferParameterivEXT
+void glGetNamedRenderbufferParameterivEXT(GLuint renderbuffer, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedStringARB
-void GetNamedStringARB(GLint namelen, GLchar name, GLsizei bufSize, GLint stringlen, GLchar string) {
-    
+#ifndef skip_glGetNamedStringARB
+void glGetNamedStringARB(GLint namelen, GLchar name, GLsizei bufSize, GLint stringlen, GLchar string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetNamedStringivARB
-void GetNamedStringivARB(GLint namelen, GLchar name, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetNamedStringivARB
+void glGetNamedStringivARB(GLint namelen, GLchar name, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectBufferfvATI
-void GetObjectBufferfvATI(GLuint buffer, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetObjectBufferfvATI
+void glGetObjectBufferfvATI(GLuint buffer, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectBufferivATI
-void GetObjectBufferivATI(GLuint buffer, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetObjectBufferivATI
+void glGetObjectBufferivATI(GLuint buffer, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectLabel
-void GetObjectLabel(GLenum identifier, GLuint name, GLsizei bufSize, GLsizei length, GLchar label) {
-    
+#ifndef skip_glGetObjectLabel
+void glGetObjectLabel(GLenum identifier, GLuint name, GLsizei bufSize, GLsizei length, GLchar label) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectParameterfvARB
-void GetObjectParameterfvARB(GLhandleARB obj, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetObjectParameterfvARB
+void glGetObjectParameterfvARB(GLhandleARB obj, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectParameterivAPPLE
-void GetObjectParameterivAPPLE(GLenum objectType, GLuint name, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetObjectParameterivAPPLE
+void glGetObjectParameterivAPPLE(GLenum objectType, GLuint name, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectParameterivARB
-void GetObjectParameterivARB(GLhandleARB obj, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetObjectParameterivARB
+void glGetObjectParameterivARB(GLhandleARB obj, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetObjectPtrLabel
-void GetObjectPtrLabel(void * ptr, GLsizei bufSize, GLsizei length, GLchar label) {
-    
+#ifndef skip_glGetObjectPtrLabel
+void glGetObjectPtrLabel(void * ptr, GLsizei bufSize, GLsizei length, GLchar label) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetOcclusionQueryivNV
-void GetOcclusionQueryivNV(GLuint id, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetOcclusionQueryivNV
+void glGetOcclusionQueryivNV(GLuint id, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetOcclusionQueryuivNV
-void GetOcclusionQueryuivNV(GLuint id, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetOcclusionQueryuivNV
+void glGetOcclusionQueryuivNV(GLuint id, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathColorGenfvNV
-void GetPathColorGenfvNV(GLenum color, GLenum pname, GLfloat value) {
-    
+#ifndef skip_glGetPathColorGenfvNV
+void glGetPathColorGenfvNV(GLenum color, GLenum pname, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathColorGenivNV
-void GetPathColorGenivNV(GLenum color, GLenum pname, GLint value) {
-    
+#ifndef skip_glGetPathColorGenivNV
+void glGetPathColorGenivNV(GLenum color, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathCommandsNV
-void GetPathCommandsNV(GLuint path, GLubyte commands) {
-    
+#ifndef skip_glGetPathCommandsNV
+void glGetPathCommandsNV(GLuint path, GLubyte commands) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathCoordsNV
-void GetPathCoordsNV(GLuint path, GLfloat coords) {
-    
+#ifndef skip_glGetPathCoordsNV
+void glGetPathCoordsNV(GLuint path, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathDashArrayNV
-void GetPathDashArrayNV(GLuint path, GLfloat dashArray) {
-    
+#ifndef skip_glGetPathDashArrayNV
+void glGetPathDashArrayNV(GLuint path, GLfloat dashArray) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathLengthNV
-Float32 GetPathLengthNV(GLuint path, GLsizei startSegment, GLsizei numSegments) {
-    
+#ifndef skip_glGetPathLengthNV
+Float32 glGetPathLengthNV(GLuint path, GLsizei startSegment, GLsizei numSegments) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathMetricRangeNV
-void GetPathMetricRangeNV(GLbitfield metricQueryMask, GLuint firstPathName, GLsizei numPaths, GLsizei stride, GLfloat metrics) {
-    
+#ifndef skip_glGetPathMetricRangeNV
+void glGetPathMetricRangeNV(GLbitfield metricQueryMask, GLuint firstPathName, GLsizei numPaths, GLsizei stride, GLfloat metrics) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathMetricsNV
-void GetPathMetricsNV(GLbitfield metricQueryMask, GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLsizei stride, GLfloat metrics) {
-    
+#ifndef skip_glGetPathMetricsNV
+void glGetPathMetricsNV(GLbitfield metricQueryMask, GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLsizei stride, GLfloat metrics) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathParameterfvNV
-void GetPathParameterfvNV(GLuint path, GLenum pname, GLfloat value) {
-    
+#ifndef skip_glGetPathParameterfvNV
+void glGetPathParameterfvNV(GLuint path, GLenum pname, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathParameterivNV
-void GetPathParameterivNV(GLuint path, GLenum pname, GLint value) {
-    
+#ifndef skip_glGetPathParameterivNV
+void glGetPathParameterivNV(GLuint path, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathSpacingNV
-void GetPathSpacingNV(GLenum pathListMode, GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLfloat advanceScale, GLfloat kerningScale, GLenum transformType, GLfloat returnedSpacing) {
-    
+#ifndef skip_glGetPathSpacingNV
+void glGetPathSpacingNV(GLenum pathListMode, GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLfloat advanceScale, GLfloat kerningScale, GLenum transformType, GLfloat returnedSpacing) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathTexGenfvNV
-void GetPathTexGenfvNV(GLenum texCoordSet, GLenum pname, GLfloat value) {
-    
+#ifndef skip_glGetPathTexGenfvNV
+void glGetPathTexGenfvNV(GLenum texCoordSet, GLenum pname, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPathTexGenivNV
-void GetPathTexGenivNV(GLenum texCoordSet, GLenum pname, GLint value) {
-    
+#ifndef skip_glGetPathTexGenivNV
+void glGetPathTexGenivNV(GLenum texCoordSet, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorCounterDataAMD
-void GetPerfMonitorCounterDataAMD(GLuint monitor, GLenum pname, GLsizei dataSize, GLuint data, GLint bytesWritten) {
-    
+#ifndef skip_glGetPerfMonitorCounterDataAMD
+void glGetPerfMonitorCounterDataAMD(GLuint monitor, GLenum pname, GLsizei dataSize, GLuint data, GLint bytesWritten) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorCounterInfoAMD
-void GetPerfMonitorCounterInfoAMD(GLuint group, GLuint counter, GLenum pname, GLvoid data) {
-    
+#ifndef skip_glGetPerfMonitorCounterInfoAMD
+void glGetPerfMonitorCounterInfoAMD(GLuint group, GLuint counter, GLenum pname, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorCounterStringAMD
-void GetPerfMonitorCounterStringAMD(GLuint group, GLuint counter, GLsizei bufSize, GLsizei length, GLchar counterString) {
-    
+#ifndef skip_glGetPerfMonitorCounterStringAMD
+void glGetPerfMonitorCounterStringAMD(GLuint group, GLuint counter, GLsizei bufSize, GLsizei length, GLchar counterString) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorCountersAMD
-void GetPerfMonitorCountersAMD(GLuint group, GLint numCounters, GLint maxActiveCounters, GLsizei counterSize, GLuint counters) {
-    
+#ifndef skip_glGetPerfMonitorCountersAMD
+void glGetPerfMonitorCountersAMD(GLuint group, GLint numCounters, GLint maxActiveCounters, GLsizei counterSize, GLuint counters) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorGroupStringAMD
-void GetPerfMonitorGroupStringAMD(GLuint group, GLsizei bufSize, GLsizei length, GLchar groupString) {
-    
+#ifndef skip_glGetPerfMonitorGroupStringAMD
+void glGetPerfMonitorGroupStringAMD(GLuint group, GLsizei bufSize, GLsizei length, GLchar groupString) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPerfMonitorGroupsAMD
-void GetPerfMonitorGroupsAMD(GLint numGroups, GLsizei groupsSize, GLuint groups) {
-    
+#ifndef skip_glGetPerfMonitorGroupsAMD
+void glGetPerfMonitorGroupsAMD(GLint numGroups, GLsizei groupsSize, GLuint groups) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelMapfv
-void GetPixelMapfv(GLenum map, GLfloat values) {
-    
+#ifndef skip_glGetPixelMapfv
+void glGetPixelMapfv(GLenum map, GLfloat values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelMapuiv
-void GetPixelMapuiv(GLenum map, GLuint values) {
-    
+#ifndef skip_glGetPixelMapuiv
+void glGetPixelMapuiv(GLenum map, GLuint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelMapusv
-void GetPixelMapusv(GLenum map, GLushort values) {
-    
+#ifndef skip_glGetPixelMapusv
+void glGetPixelMapusv(GLenum map, GLushort values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelMapxv
-void GetPixelMapxv(GLenum map, GLint size, GLfixed values) {
-    
+#ifndef skip_glGetPixelMapxv
+void glGetPixelMapxv(GLenum map, GLint size, GLfixed values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelTexGenParameterfvSGIS
-void GetPixelTexGenParameterfvSGIS(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetPixelTexGenParameterfvSGIS
+void glGetPixelTexGenParameterfvSGIS(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelTexGenParameterivSGIS
-void GetPixelTexGenParameterivSGIS(GLenum pname, GLint params) {
-    
+#ifndef skip_glGetPixelTexGenParameterivSGIS
+void glGetPixelTexGenParameterivSGIS(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelTransformParameterfvEXT
-void GetPixelTransformParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetPixelTransformParameterfvEXT
+void glGetPixelTransformParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPixelTransformParameterivEXT
-void GetPixelTransformParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetPixelTransformParameterivEXT
+void glGetPixelTransformParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPointerIndexedvEXT
-void GetPointerIndexedvEXT(GLenum target, GLuint index, GLvoid * data) {
-    
+#ifndef skip_glGetPointerIndexedvEXT
+void glGetPointerIndexedvEXT(GLenum target, GLuint index, GLvoid * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPointeri_vEXT
-void GetPointeri_vEXT(GLenum target, GLuint index, GLvoid * data) {
-    
+#ifndef skip_glGetPointeri_vEXT
+void glGetPointeri_vEXT(GLenum target, GLuint index, GLvoid * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPointerv
-void GetPointerv(GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetPointerv
+void glGetPointerv(GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPointervEXT
-void GetPointervEXT(GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetPointervEXT
+void glGetPointervEXT(GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetPolygonStipple
-void GetPolygonStipple(GLubyte mask) {
-    
+#ifndef skip_glGetPolygonStipple
+void glGetPolygonStipple(GLubyte mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramBinary
-void GetProgramBinary(GLuint program, GLsizei bufSize, GLsizei length, GLenum binaryFormat, GLvoid binary) {
-    
+#ifndef skip_glGetProgramBinary
+void glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei length, GLenum binaryFormat, GLvoid binary) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramEnvParameterIivNV
-void GetProgramEnvParameterIivNV(GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glGetProgramEnvParameterIivNV
+void glGetProgramEnvParameterIivNV(GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramEnvParameterIuivNV
-void GetProgramEnvParameterIuivNV(GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glGetProgramEnvParameterIuivNV
+void glGetProgramEnvParameterIuivNV(GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramEnvParameterdvARB
-void GetProgramEnvParameterdvARB(GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glGetProgramEnvParameterdvARB
+void glGetProgramEnvParameterdvARB(GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramEnvParameterfvARB
-void GetProgramEnvParameterfvARB(GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glGetProgramEnvParameterfvARB
+void glGetProgramEnvParameterfvARB(GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramInfoLog
-void GetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei length, GLchar infoLog) {
-    
+#ifndef skip_glGetProgramInfoLog
+void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei length, GLchar infoLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramInterfaceiv
-void GetProgramInterfaceiv(GLuint program, GLenum programInterface, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetProgramInterfaceiv
+void glGetProgramInterfaceiv(GLuint program, GLenum programInterface, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramLocalParameterIivNV
-void GetProgramLocalParameterIivNV(GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glGetProgramLocalParameterIivNV
+void glGetProgramLocalParameterIivNV(GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramLocalParameterIuivNV
-void GetProgramLocalParameterIuivNV(GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glGetProgramLocalParameterIuivNV
+void glGetProgramLocalParameterIuivNV(GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramLocalParameterdvARB
-void GetProgramLocalParameterdvARB(GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glGetProgramLocalParameterdvARB
+void glGetProgramLocalParameterdvARB(GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramLocalParameterfvARB
-void GetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glGetProgramLocalParameterfvARB
+void glGetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramNamedParameterdvNV
-void GetProgramNamedParameterdvNV(GLuint id, GLsizei len, GLubyte name, GLdouble params) {
-    
+#ifndef skip_glGetProgramNamedParameterdvNV
+void glGetProgramNamedParameterdvNV(GLuint id, GLsizei len, GLubyte name, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramNamedParameterfvNV
-void GetProgramNamedParameterfvNV(GLuint id, GLsizei len, GLubyte name, GLfloat params) {
-    
+#ifndef skip_glGetProgramNamedParameterfvNV
+void glGetProgramNamedParameterfvNV(GLuint id, GLsizei len, GLubyte name, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramParameterdvNV
-void GetProgramParameterdvNV(GLenum target, GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetProgramParameterdvNV
+void glGetProgramParameterdvNV(GLenum target, GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramParameterfvNV
-void GetProgramParameterfvNV(GLenum target, GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetProgramParameterfvNV
+void glGetProgramParameterfvNV(GLenum target, GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramPipelineInfoLog
-void GetProgramPipelineInfoLog(GLuint pipeline, GLsizei bufSize, GLsizei length, GLchar infoLog) {
-    
+#ifndef skip_glGetProgramPipelineInfoLog
+void glGetProgramPipelineInfoLog(GLuint pipeline, GLsizei bufSize, GLsizei length, GLchar infoLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramPipelineiv
-void GetProgramPipelineiv(GLuint pipeline, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetProgramPipelineiv
+void glGetProgramPipelineiv(GLuint pipeline, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramResourceIndex
-UInt32 GetProgramResourceIndex(GLuint program, GLenum programInterface, GLchar name) {
-    
+#ifndef skip_glGetProgramResourceIndex
+UInt32 glGetProgramResourceIndex(GLuint program, GLenum programInterface, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramResourceLocation
-Int32 GetProgramResourceLocation(GLuint program, GLenum programInterface, GLchar name) {
-    
+#ifndef skip_glGetProgramResourceLocation
+Int32 glGetProgramResourceLocation(GLuint program, GLenum programInterface, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramResourceLocationIndex
-Int32 GetProgramResourceLocationIndex(GLuint program, GLenum programInterface, GLchar name) {
-    
+#ifndef skip_glGetProgramResourceLocationIndex
+Int32 glGetProgramResourceLocationIndex(GLuint program, GLenum programInterface, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramResourceName
-void GetProgramResourceName(GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei length, GLchar name) {
-    
+#ifndef skip_glGetProgramResourceName
+void glGetProgramResourceName(GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei length, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramResourceiv
-void GetProgramResourceiv(GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, GLenum props, GLsizei bufSize, GLsizei length, GLint params) {
-    
+#ifndef skip_glGetProgramResourceiv
+void glGetProgramResourceiv(GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, GLenum props, GLsizei bufSize, GLsizei length, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramStageiv
-void GetProgramStageiv(GLuint program, GLenum shadertype, GLenum pname, GLint values) {
-    
+#ifndef skip_glGetProgramStageiv
+void glGetProgramStageiv(GLuint program, GLenum shadertype, GLenum pname, GLint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramStringARB
-void GetProgramStringARB(GLenum target, GLenum pname, GLvoid string) {
-    
+#ifndef skip_glGetProgramStringARB
+void glGetProgramStringARB(GLenum target, GLenum pname, GLvoid string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramStringNV
-void GetProgramStringNV(GLuint id, GLenum pname, GLubyte program) {
-    
+#ifndef skip_glGetProgramStringNV
+void glGetProgramStringNV(GLuint id, GLenum pname, GLubyte program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramSubroutineParameteruivNV
-void GetProgramSubroutineParameteruivNV(GLenum target, GLuint index, GLuint param) {
-    
+#ifndef skip_glGetProgramSubroutineParameteruivNV
+void glGetProgramSubroutineParameteruivNV(GLenum target, GLuint index, GLuint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramiv
-void GetProgramiv(GLuint program, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetProgramiv
+void glGetProgramiv(GLuint program, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramivARB
-void GetProgramivARB(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetProgramivARB
+void glGetProgramivARB(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProgramivNV
-void GetProgramivNV(GLuint id, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetProgramivNV
+void glGetProgramivNV(GLuint id, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryIndexediv
-void GetQueryIndexediv(GLenum target, GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetQueryIndexediv
+void glGetQueryIndexediv(GLenum target, GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjecti64v
-void GetQueryObjecti64v(GLuint id, GLenum pname, GLint64 params) {
-    
+#ifndef skip_glGetQueryObjecti64v
+void glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjecti64vEXT
-void GetQueryObjecti64vEXT(GLuint id, GLenum pname, GLint64EXT params) {
-    
+#ifndef skip_glGetQueryObjecti64vEXT
+void glGetQueryObjecti64vEXT(GLuint id, GLenum pname, GLint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectiv
-void GetQueryObjectiv(GLuint id, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetQueryObjectiv
+void glGetQueryObjectiv(GLuint id, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectivARB
-void GetQueryObjectivARB(GLuint id, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetQueryObjectivARB
+void glGetQueryObjectivARB(GLuint id, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectui64v
-void GetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 params) {
-    
+#ifndef skip_glGetQueryObjectui64v
+void glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectui64vEXT
-void GetQueryObjectui64vEXT(GLuint id, GLenum pname, GLuint64EXT params) {
-    
+#ifndef skip_glGetQueryObjectui64vEXT
+void glGetQueryObjectui64vEXT(GLuint id, GLenum pname, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectuiv
-void GetQueryObjectuiv(GLuint id, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetQueryObjectuiv
+void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryObjectuivARB
-void GetQueryObjectuivARB(GLuint id, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetQueryObjectuivARB
+void glGetQueryObjectuivARB(GLuint id, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryiv
-void GetQueryiv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetQueryiv
+void glGetQueryiv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetQueryivARB
-void GetQueryivARB(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetQueryivARB
+void glGetQueryivARB(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetRenderbufferParameteriv
-void GetRenderbufferParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetRenderbufferParameteriv
+void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetRenderbufferParameterivEXT
-void GetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetRenderbufferParameterivEXT
+void glGetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSamplerParameterIiv
-void GetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetSamplerParameterIiv
+void glGetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSamplerParameterIuiv
-void GetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetSamplerParameterIuiv
+void glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSamplerParameterfv
-void GetSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetSamplerParameterfv
+void glGetSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSamplerParameteriv
-void GetSamplerParameteriv(GLuint sampler, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetSamplerParameteriv
+void glGetSamplerParameteriv(GLuint sampler, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSeparableFilter
-void GetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid row, GLvoid column, GLvoid span) {
-    
+#ifndef skip_glGetSeparableFilter
+void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid row, GLvoid column, GLvoid span) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSeparableFilterEXT
-void GetSeparableFilterEXT(GLenum target, GLenum format, GLenum type, GLvoid row, GLvoid column, GLvoid span) {
-    
+#ifndef skip_glGetSeparableFilterEXT
+void glGetSeparableFilterEXT(GLenum target, GLenum format, GLenum type, GLvoid row, GLvoid column, GLvoid span) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetShaderInfoLog
-void GetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei length, GLchar infoLog) {
-    
+#ifndef skip_glGetShaderInfoLog
+void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei length, GLchar infoLog) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetShaderPrecisionFormat
-void GetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint range, GLint precision) {
-    
+#ifndef skip_glGetShaderPrecisionFormat
+void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint range, GLint precision) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetShaderSource
-void GetShaderSource(GLuint shader, GLsizei bufSize, GLsizei length, GLchar source) {
-    
+#ifndef skip_glGetShaderSource
+void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei length, GLchar source) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetShaderSourceARB
-void GetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei length, GLcharARB source) {
-    
+#ifndef skip_glGetShaderSourceARB
+void glGetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei length, GLcharARB source) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetShaderiv
-void GetShaderiv(GLuint shader, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetShaderiv
+void glGetShaderiv(GLuint shader, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSharpenTexFuncSGIS
-void GetSharpenTexFuncSGIS(GLenum target, GLfloat points) {
-    
+#ifndef skip_glGetSharpenTexFuncSGIS
+void glGetSharpenTexFuncSGIS(GLenum target, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetString
-String GetString(GLenum name) {
-    
+#ifndef skip_glGetString
+String glGetString(GLenum name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetStringi
-String GetStringi(GLenum name, GLuint index) {
-    
+#ifndef skip_glGetStringi
+String glGetStringi(GLenum name, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSubroutineIndex
-UInt32 GetSubroutineIndex(GLuint program, GLenum shadertype, GLchar name) {
-    
+#ifndef skip_glGetSubroutineIndex
+UInt32 glGetSubroutineIndex(GLuint program, GLenum shadertype, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSubroutineUniformLocation
-Int32 GetSubroutineUniformLocation(GLuint program, GLenum shadertype, GLchar name) {
-    
+#ifndef skip_glGetSubroutineUniformLocation
+Int32 glGetSubroutineUniformLocation(GLuint program, GLenum shadertype, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSynciv
-void GetSynciv(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei length, GLint values) {
-    
+#ifndef skip_glGetSynciv
+void glGetSynciv(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei length, GLint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexBumpParameterfvATI
-void GetTexBumpParameterfvATI(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glGetTexBumpParameterfvATI
+void glGetTexBumpParameterfvATI(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexBumpParameterivATI
-void GetTexBumpParameterivATI(GLenum pname, GLint param) {
-    
+#ifndef skip_glGetTexBumpParameterivATI
+void glGetTexBumpParameterivATI(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexEnvfv
-void GetTexEnvfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTexEnvfv
+void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexEnviv
-void GetTexEnviv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexEnviv
+void glGetTexEnviv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexEnvxvOES
-void GetTexEnvxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetTexEnvxvOES
+void glGetTexEnvxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexFilterFuncSGIS
-void GetTexFilterFuncSGIS(GLenum target, GLenum filter, GLfloat weights) {
-    
+#ifndef skip_glGetTexFilterFuncSGIS
+void glGetTexFilterFuncSGIS(GLenum target, GLenum filter, GLfloat weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexGendv
-void GetTexGendv(GLenum coord, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetTexGendv
+void glGetTexGendv(GLenum coord, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexGenfv
-void GetTexGenfv(GLenum coord, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTexGenfv
+void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexGeniv
-void GetTexGeniv(GLenum coord, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexGeniv
+void glGetTexGeniv(GLenum coord, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexGenxvOES
-void GetTexGenxvOES(GLenum coord, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetTexGenxvOES
+void glGetTexGenxvOES(GLenum coord, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexImage
-void GetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glGetTexImage
+void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexLevelParameterfv
-void GetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTexLevelParameterfv
+void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexLevelParameteriv
-void GetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexLevelParameteriv
+void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexLevelParameterxvOES
-void GetTexLevelParameterxvOES(GLenum target, GLint level, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetTexLevelParameterxvOES
+void glGetTexLevelParameterxvOES(GLenum target, GLint level, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterIiv
-void GetTexParameterIiv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexParameterIiv
+void glGetTexParameterIiv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterIivEXT
-void GetTexParameterIivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexParameterIivEXT
+void glGetTexParameterIivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterIuiv
-void GetTexParameterIuiv(GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetTexParameterIuiv
+void glGetTexParameterIuiv(GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterIuivEXT
-void GetTexParameterIuivEXT(GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetTexParameterIuivEXT
+void glGetTexParameterIuivEXT(GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterPointervAPPLE
-void GetTexParameterPointervAPPLE(GLenum target, GLenum pname, GLvoid * params) {
-    
+#ifndef skip_glGetTexParameterPointervAPPLE
+void glGetTexParameterPointervAPPLE(GLenum target, GLenum pname, GLvoid * params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterfv
-void GetTexParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTexParameterfv
+void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameteriv
-void GetTexParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTexParameteriv
+void glGetTexParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTexParameterxvOES
-void GetTexParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glGetTexParameterxvOES
+void glGetTexParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureHandleNV
-UInt64 GetTextureHandleNV(GLuint texture) {
-    
+#ifndef skip_glGetTextureHandleNV
+UInt64 glGetTextureHandleNV(GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureImageEXT
-void GetTextureImageEXT(GLuint texture, GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glGetTextureImageEXT
+void glGetTextureImageEXT(GLuint texture, GLenum target, GLint level, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureLevelParameterfvEXT
-void GetTextureLevelParameterfvEXT(GLuint texture, GLenum target, GLint level, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTextureLevelParameterfvEXT
+void glGetTextureLevelParameterfvEXT(GLuint texture, GLenum target, GLint level, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureLevelParameterivEXT
-void GetTextureLevelParameterivEXT(GLuint texture, GLenum target, GLint level, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTextureLevelParameterivEXT
+void glGetTextureLevelParameterivEXT(GLuint texture, GLenum target, GLint level, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureParameterIivEXT
-void GetTextureParameterIivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTextureParameterIivEXT
+void glGetTextureParameterIivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureParameterIuivEXT
-void GetTextureParameterIuivEXT(GLuint texture, GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetTextureParameterIuivEXT
+void glGetTextureParameterIuivEXT(GLuint texture, GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureParameterfvEXT
-void GetTextureParameterfvEXT(GLuint texture, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetTextureParameterfvEXT
+void glGetTextureParameterfvEXT(GLuint texture, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureParameterivEXT
-void GetTextureParameterivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTextureParameterivEXT
+void glGetTextureParameterivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTextureSamplerHandleNV
-UInt64 GetTextureSamplerHandleNV(GLuint texture, GLuint sampler) {
-    
+#ifndef skip_glGetTextureSamplerHandleNV
+UInt64 glGetTextureSamplerHandleNV(GLuint texture, GLuint sampler) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTrackMatrixivNV
-void GetTrackMatrixivNV(GLenum target, GLuint address, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetTrackMatrixivNV
+void glGetTrackMatrixivNV(GLenum target, GLuint address, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTransformFeedbackVarying
-void GetTransformFeedbackVarying(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
-    
+#ifndef skip_glGetTransformFeedbackVarying
+void glGetTransformFeedbackVarying(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTransformFeedbackVaryingEXT
-void GetTransformFeedbackVaryingEXT(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
-    
+#ifndef skip_glGetTransformFeedbackVaryingEXT
+void glGetTransformFeedbackVaryingEXT(GLuint program, GLuint index, GLsizei bufSize, GLsizei length, GLsizei size, GLenum type, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTransformFeedbackVaryingNV
-void GetTransformFeedbackVaryingNV(GLuint program, GLuint index, GLint location) {
-    
+#ifndef skip_glGetTransformFeedbackVaryingNV
+void glGetTransformFeedbackVaryingNV(GLuint program, GLuint index, GLint location) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformBlockIndex
-UInt32 GetUniformBlockIndex(GLuint program, GLchar uniformBlockName) {
-    
+#ifndef skip_glGetUniformBlockIndex
+UInt32 glGetUniformBlockIndex(GLuint program, GLchar uniformBlockName) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformBufferSizeEXT
-Int32 GetUniformBufferSizeEXT(GLuint program, GLint location) {
-    
+#ifndef skip_glGetUniformBufferSizeEXT
+Int32 glGetUniformBufferSizeEXT(GLuint program, GLint location) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformIndices
-void GetUniformIndices(GLuint program, GLsizei uniformCount, GLchar*const uniformNames, GLuint uniformIndices) {
-    
+#ifndef skip_glGetUniformIndices
+void glGetUniformIndices(GLuint program, GLsizei uniformCount, GLchar*const uniformNames, GLuint uniformIndices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformLocation
-Int32 GetUniformLocation(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetUniformLocation
+Int32 glGetUniformLocation(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformLocationARB
-Int32 GetUniformLocationARB(GLhandleARB programObj, GLcharARB name) {
-    
+#ifndef skip_glGetUniformLocationARB
+Int32 glGetUniformLocationARB(GLhandleARB programObj, GLcharARB name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformOffsetEXT
-BufferOffset GetUniformOffsetEXT(GLuint program, GLint location) {
-    
+#ifndef skip_glGetUniformOffsetEXT
+BufferOffset glGetUniformOffsetEXT(GLuint program, GLint location) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformSubroutineuiv
-void GetUniformSubroutineuiv(GLenum shadertype, GLint location, GLuint params) {
-    
+#ifndef skip_glGetUniformSubroutineuiv
+void glGetUniformSubroutineuiv(GLenum shadertype, GLint location, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformdv
-void GetUniformdv(GLuint program, GLint location, GLdouble params) {
-    
+#ifndef skip_glGetUniformdv
+void glGetUniformdv(GLuint program, GLint location, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformfv
-void GetUniformfv(GLuint program, GLint location, GLfloat params) {
-    
+#ifndef skip_glGetUniformfv
+void glGetUniformfv(GLuint program, GLint location, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformfvARB
-void GetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat params) {
-    
+#ifndef skip_glGetUniformfvARB
+void glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformi64vNV
-void GetUniformi64vNV(GLuint program, GLint location, GLint64EXT params) {
-    
+#ifndef skip_glGetUniformi64vNV
+void glGetUniformi64vNV(GLuint program, GLint location, GLint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformiv
-void GetUniformiv(GLuint program, GLint location, GLint params) {
-    
+#ifndef skip_glGetUniformiv
+void glGetUniformiv(GLuint program, GLint location, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformivARB
-void GetUniformivARB(GLhandleARB programObj, GLint location, GLint params) {
-    
+#ifndef skip_glGetUniformivARB
+void glGetUniformivARB(GLhandleARB programObj, GLint location, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformui64vNV
-void GetUniformui64vNV(GLuint program, GLint location, GLuint64EXT params) {
-    
+#ifndef skip_glGetUniformui64vNV
+void glGetUniformui64vNV(GLuint program, GLint location, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformuiv
-void GetUniformuiv(GLuint program, GLint location, GLuint params) {
-    
+#ifndef skip_glGetUniformuiv
+void glGetUniformuiv(GLuint program, GLint location, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetUniformuivEXT
-void GetUniformuivEXT(GLuint program, GLint location, GLuint params) {
-    
+#ifndef skip_glGetUniformuivEXT
+void glGetUniformuivEXT(GLuint program, GLint location, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantArrayObjectfvATI
-void GetVariantArrayObjectfvATI(GLuint id, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVariantArrayObjectfvATI
+void glGetVariantArrayObjectfvATI(GLuint id, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantArrayObjectivATI
-void GetVariantArrayObjectivATI(GLuint id, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVariantArrayObjectivATI
+void glGetVariantArrayObjectivATI(GLuint id, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantBooleanvEXT
-void GetVariantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
-    
+#ifndef skip_glGetVariantBooleanvEXT
+void glGetVariantBooleanvEXT(GLuint id, GLenum value, GLboolean data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantFloatvEXT
-void GetVariantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
-    
+#ifndef skip_glGetVariantFloatvEXT
+void glGetVariantFloatvEXT(GLuint id, GLenum value, GLfloat data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantIntegervEXT
-void GetVariantIntegervEXT(GLuint id, GLenum value, GLint data) {
-    
+#ifndef skip_glGetVariantIntegervEXT
+void glGetVariantIntegervEXT(GLuint id, GLenum value, GLint data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVariantPointervEXT
-void GetVariantPointervEXT(GLuint id, GLenum value, GLvoid * data) {
-    
+#ifndef skip_glGetVariantPointervEXT
+void glGetVariantPointervEXT(GLuint id, GLenum value, GLvoid * data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVaryingLocationNV
-Int32 GetVaryingLocationNV(GLuint program, GLchar name) {
-    
+#ifndef skip_glGetVaryingLocationNV
+Int32 glGetVaryingLocationNV(GLuint program, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexArrayIntegeri_vEXT
-void GetVertexArrayIntegeri_vEXT(GLuint vaobj, GLuint index, GLenum pname, GLint param) {
-    
+#ifndef skip_glGetVertexArrayIntegeri_vEXT
+void glGetVertexArrayIntegeri_vEXT(GLuint vaobj, GLuint index, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexArrayIntegervEXT
-void GetVertexArrayIntegervEXT(GLuint vaobj, GLenum pname, GLint param) {
-    
+#ifndef skip_glGetVertexArrayIntegervEXT
+void glGetVertexArrayIntegervEXT(GLuint vaobj, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexArrayPointeri_vEXT
-void GetVertexArrayPointeri_vEXT(GLuint vaobj, GLuint index, GLenum pname, GLvoid * param) {
-    
+#ifndef skip_glGetVertexArrayPointeri_vEXT
+void glGetVertexArrayPointeri_vEXT(GLuint vaobj, GLuint index, GLenum pname, GLvoid * param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexArrayPointervEXT
-void GetVertexArrayPointervEXT(GLuint vaobj, GLenum pname, GLvoid * param) {
-    
+#ifndef skip_glGetVertexArrayPointervEXT
+void glGetVertexArrayPointervEXT(GLuint vaobj, GLenum pname, GLvoid * param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribArrayObjectfvATI
-void GetVertexAttribArrayObjectfvATI(GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVertexAttribArrayObjectfvATI
+void glGetVertexAttribArrayObjectfvATI(GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribArrayObjectivATI
-void GetVertexAttribArrayObjectivATI(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribArrayObjectivATI
+void glGetVertexAttribArrayObjectivATI(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribIiv
-void GetVertexAttribIiv(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribIiv
+void glGetVertexAttribIiv(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribIivEXT
-void GetVertexAttribIivEXT(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribIivEXT
+void glGetVertexAttribIivEXT(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribIuiv
-void GetVertexAttribIuiv(GLuint index, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetVertexAttribIuiv
+void glGetVertexAttribIuiv(GLuint index, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribIuivEXT
-void GetVertexAttribIuivEXT(GLuint index, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetVertexAttribIuivEXT
+void glGetVertexAttribIuivEXT(GLuint index, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribLdv
-void GetVertexAttribLdv(GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVertexAttribLdv
+void glGetVertexAttribLdv(GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribLdvEXT
-void GetVertexAttribLdvEXT(GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVertexAttribLdvEXT
+void glGetVertexAttribLdvEXT(GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribLi64vNV
-void GetVertexAttribLi64vNV(GLuint index, GLenum pname, GLint64EXT params) {
-    
+#ifndef skip_glGetVertexAttribLi64vNV
+void glGetVertexAttribLi64vNV(GLuint index, GLenum pname, GLint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribLui64vNV
-void GetVertexAttribLui64vNV(GLuint index, GLenum pname, GLuint64EXT params) {
-    
+#ifndef skip_glGetVertexAttribLui64vNV
+void glGetVertexAttribLui64vNV(GLuint index, GLenum pname, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribPointerv
-void GetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid * pointer) {
-    
+#ifndef skip_glGetVertexAttribPointerv
+void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribPointervARB
-void GetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid * pointer) {
-    
+#ifndef skip_glGetVertexAttribPointervARB
+void glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribPointervNV
-void GetVertexAttribPointervNV(GLuint index, GLenum pname, GLvoid * pointer) {
-    
+#ifndef skip_glGetVertexAttribPointervNV
+void glGetVertexAttribPointervNV(GLuint index, GLenum pname, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribdv
-void GetVertexAttribdv(GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVertexAttribdv
+void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribdvARB
-void GetVertexAttribdvARB(GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVertexAttribdvARB
+void glGetVertexAttribdvARB(GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribdvNV
-void GetVertexAttribdvNV(GLuint index, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVertexAttribdvNV
+void glGetVertexAttribdvNV(GLuint index, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribfv
-void GetVertexAttribfv(GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVertexAttribfv
+void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribfvARB
-void GetVertexAttribfvARB(GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVertexAttribfvARB
+void glGetVertexAttribfvARB(GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribfvNV
-void GetVertexAttribfvNV(GLuint index, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVertexAttribfvNV
+void glGetVertexAttribfvNV(GLuint index, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribiv
-void GetVertexAttribiv(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribiv
+void glGetVertexAttribiv(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribivARB
-void GetVertexAttribivARB(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribivARB
+void glGetVertexAttribivARB(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVertexAttribivNV
-void GetVertexAttribivNV(GLuint index, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVertexAttribivNV
+void glGetVertexAttribivNV(GLuint index, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoCaptureStreamdvNV
-void GetVideoCaptureStreamdvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glGetVideoCaptureStreamdvNV
+void glGetVideoCaptureStreamdvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoCaptureStreamfvNV
-void GetVideoCaptureStreamfvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glGetVideoCaptureStreamfvNV
+void glGetVideoCaptureStreamfvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoCaptureStreamivNV
-void GetVideoCaptureStreamivNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVideoCaptureStreamivNV
+void glGetVideoCaptureStreamivNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoCaptureivNV
-void GetVideoCaptureivNV(GLuint video_capture_slot, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVideoCaptureivNV
+void glGetVideoCaptureivNV(GLuint video_capture_slot, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoi64vNV
-void GetVideoi64vNV(GLuint video_slot, GLenum pname, GLint64EXT params) {
-    
+#ifndef skip_glGetVideoi64vNV
+void glGetVideoi64vNV(GLuint video_slot, GLenum pname, GLint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoivNV
-void GetVideoivNV(GLuint video_slot, GLenum pname, GLint params) {
-    
+#ifndef skip_glGetVideoivNV
+void glGetVideoivNV(GLuint video_slot, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoui64vNV
-void GetVideoui64vNV(GLuint video_slot, GLenum pname, GLuint64EXT params) {
-    
+#ifndef skip_glGetVideoui64vNV
+void glGetVideoui64vNV(GLuint video_slot, GLenum pname, GLuint64EXT params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideouivNV
-void GetVideouivNV(GLuint video_slot, GLenum pname, GLuint params) {
-    
+#ifndef skip_glGetVideouivNV
+void glGetVideouivNV(GLuint video_slot, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnColorTableARB
-void GetnColorTableARB(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid table) {
-    
+#ifndef skip_glGetnColorTableARB
+void glGetnColorTableARB(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid table) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnCompressedTexImageARB
-void GetnCompressedTexImageARB(GLenum target, GLint lod, GLsizei bufSize, GLvoid img) {
-    
+#ifndef skip_glGetnCompressedTexImageARB
+void glGetnCompressedTexImageARB(GLenum target, GLint lod, GLsizei bufSize, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnConvolutionFilterARB
-void GetnConvolutionFilterARB(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid image) {
-    
+#ifndef skip_glGetnConvolutionFilterARB
+void glGetnConvolutionFilterARB(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid image) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnHistogramARB
-void GetnHistogramARB(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid values) {
-    
+#ifndef skip_glGetnHistogramARB
+void glGetnHistogramARB(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnMapdvARB
-void GetnMapdvARB(GLenum target, GLenum query, GLsizei bufSize, GLdouble v) {
-    
+#ifndef skip_glGetnMapdvARB
+void glGetnMapdvARB(GLenum target, GLenum query, GLsizei bufSize, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnMapfvARB
-void GetnMapfvARB(GLenum target, GLenum query, GLsizei bufSize, GLfloat v) {
-    
+#ifndef skip_glGetnMapfvARB
+void glGetnMapfvARB(GLenum target, GLenum query, GLsizei bufSize, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnMapivARB
-void GetnMapivARB(GLenum target, GLenum query, GLsizei bufSize, GLint v) {
-    
+#ifndef skip_glGetnMapivARB
+void glGetnMapivARB(GLenum target, GLenum query, GLsizei bufSize, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnMinmaxARB
-void GetnMinmaxARB(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid values) {
-    
+#ifndef skip_glGetnMinmaxARB
+void glGetnMinmaxARB(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnPixelMapfvARB
-void GetnPixelMapfvARB(GLenum map, GLsizei bufSize, GLfloat values) {
-    
+#ifndef skip_glGetnPixelMapfvARB
+void glGetnPixelMapfvARB(GLenum map, GLsizei bufSize, GLfloat values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnPixelMapuivARB
-void GetnPixelMapuivARB(GLenum map, GLsizei bufSize, GLuint values) {
-    
+#ifndef skip_glGetnPixelMapuivARB
+void glGetnPixelMapuivARB(GLenum map, GLsizei bufSize, GLuint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnPixelMapusvARB
-void GetnPixelMapusvARB(GLenum map, GLsizei bufSize, GLushort values) {
-    
+#ifndef skip_glGetnPixelMapusvARB
+void glGetnPixelMapusvARB(GLenum map, GLsizei bufSize, GLushort values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnPolygonStippleARB
-void GetnPolygonStippleARB(GLsizei bufSize, GLubyte pattern) {
-    
+#ifndef skip_glGetnPolygonStippleARB
+void glGetnPolygonStippleARB(GLsizei bufSize, GLubyte pattern) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnSeparableFilterARB
-void GetnSeparableFilterARB(GLenum target, GLenum format, GLenum type, GLsizei rowBufSize, GLvoid row, GLsizei columnBufSize, GLvoid column, GLvoid span) {
-    
+#ifndef skip_glGetnSeparableFilterARB
+void glGetnSeparableFilterARB(GLenum target, GLenum format, GLenum type, GLsizei rowBufSize, GLvoid row, GLsizei columnBufSize, GLvoid column, GLvoid span) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnTexImageARB
-void GetnTexImageARB(GLenum target, GLint level, GLenum format, GLenum type, GLsizei bufSize, GLvoid img) {
-    
+#ifndef skip_glGetnTexImageARB
+void glGetnTexImageARB(GLenum target, GLint level, GLenum format, GLenum type, GLsizei bufSize, GLvoid img) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnUniformdvARB
-void GetnUniformdvARB(GLuint program, GLint location, GLsizei bufSize, GLdouble params) {
-    
+#ifndef skip_glGetnUniformdvARB
+void glGetnUniformdvARB(GLuint program, GLint location, GLsizei bufSize, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnUniformfvARB
-void GetnUniformfvARB(GLuint program, GLint location, GLsizei bufSize, GLfloat params) {
-    
+#ifndef skip_glGetnUniformfvARB
+void glGetnUniformfvARB(GLuint program, GLint location, GLsizei bufSize, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnUniformivARB
-void GetnUniformivARB(GLuint program, GLint location, GLsizei bufSize, GLint params) {
-    
+#ifndef skip_glGetnUniformivARB
+void glGetnUniformivARB(GLuint program, GLint location, GLsizei bufSize, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetnUniformuivARB
-void GetnUniformuivARB(GLuint program, GLint location, GLsizei bufSize, GLuint params) {
-    
+#ifndef skip_glGetnUniformuivARB
+void glGetnUniformuivARB(GLuint program, GLint location, GLsizei bufSize, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactorbSUN
-void GlobalAlphaFactorbSUN(GLbyte factor) {
-    
+#ifndef skip_glGlobalAlphaFactorbSUN
+void glGlobalAlphaFactorbSUN(GLbyte factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactordSUN
-void GlobalAlphaFactordSUN(GLdouble factor) {
-    
+#ifndef skip_glGlobalAlphaFactordSUN
+void glGlobalAlphaFactordSUN(GLdouble factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactorfSUN
-void GlobalAlphaFactorfSUN(GLfloat factor) {
-    
+#ifndef skip_glGlobalAlphaFactorfSUN
+void glGlobalAlphaFactorfSUN(GLfloat factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactoriSUN
-void GlobalAlphaFactoriSUN(GLint factor) {
-    
+#ifndef skip_glGlobalAlphaFactoriSUN
+void glGlobalAlphaFactoriSUN(GLint factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactorsSUN
-void GlobalAlphaFactorsSUN(GLshort factor) {
-    
+#ifndef skip_glGlobalAlphaFactorsSUN
+void glGlobalAlphaFactorsSUN(GLshort factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactorubSUN
-void GlobalAlphaFactorubSUN(GLubyte factor) {
-    
+#ifndef skip_glGlobalAlphaFactorubSUN
+void glGlobalAlphaFactorubSUN(GLubyte factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactoruiSUN
-void GlobalAlphaFactoruiSUN(GLuint factor) {
-    
+#ifndef skip_glGlobalAlphaFactoruiSUN
+void glGlobalAlphaFactoruiSUN(GLuint factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GlobalAlphaFactorusSUN
-void GlobalAlphaFactorusSUN(GLushort factor) {
-    
+#ifndef skip_glGlobalAlphaFactorusSUN
+void glGlobalAlphaFactorusSUN(GLushort factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Hint
-void Hint(GLenum target, GLenum mode) {
-    
+#ifndef skip_glHint
+void glHint(GLenum target, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_HintPGI
-void HintPGI(GLenum target, GLint mode) {
-    
+#ifndef skip_glHintPGI
+void glHintPGI(GLenum target, GLint mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Histogram
-void Histogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink) {
-    
+#ifndef skip_glHistogram
+void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_HistogramEXT
-void HistogramEXT(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink) {
-    
+#ifndef skip_glHistogramEXT
+void glHistogramEXT(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IglooInterfaceSGIX
-void IglooInterfaceSGIX(GLenum pname, GLvoid params) {
-    
+#ifndef skip_glIglooInterfaceSGIX
+void glIglooInterfaceSGIX(GLenum pname, GLvoid params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImageTransformParameterfHP
-void ImageTransformParameterfHP(GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glImageTransformParameterfHP
+void glImageTransformParameterfHP(GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImageTransformParameterfvHP
-void ImageTransformParameterfvHP(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glImageTransformParameterfvHP
+void glImageTransformParameterfvHP(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImageTransformParameteriHP
-void ImageTransformParameteriHP(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glImageTransformParameteriHP
+void glImageTransformParameteriHP(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImageTransformParameterivHP
-void ImageTransformParameterivHP(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glImageTransformParameterivHP
+void glImageTransformParameterivHP(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImportSyncEXT
-sync ImportSyncEXT(GLenum external_sync_type, GLintptr external_sync, GLbitfield flags) {
-    
+#ifndef skip_glImportSyncEXT
+sync glImportSyncEXT(GLenum external_sync_type, GLintptr external_sync, GLbitfield flags) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexFormatNV
-void IndexFormatNV(GLenum type, GLsizei stride) {
-    
+#ifndef skip_glIndexFormatNV
+void glIndexFormatNV(GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexFuncEXT
-void IndexFuncEXT(GLenum func, GLclampf ref) {
-    
+#ifndef skip_glIndexFuncEXT
+void glIndexFuncEXT(GLenum func, GLclampf ref) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexMask
-void IndexMask(GLuint mask) {
-    
+#ifndef skip_glIndexMask
+void glIndexMask(GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexMaterialEXT
-void IndexMaterialEXT(GLenum face, GLenum mode) {
-    
+#ifndef skip_glIndexMaterialEXT
+void glIndexMaterialEXT(GLenum face, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexPointer
-void IndexPointer(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glIndexPointer
+void glIndexPointer(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexPointerEXT
-void IndexPointerEXT(GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
-    
+#ifndef skip_glIndexPointerEXT
+void glIndexPointerEXT(GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexPointerListIBM
-void IndexPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glIndexPointerListIBM
+void glIndexPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexd
-void Indexd(GLdouble c) {
-    
+#ifndef skip_glIndexd
+void glIndexd(GLdouble c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexdv
-void Indexdv(GLdouble c) {
-    
+#ifndef skip_glIndexdv
+void glIndexdv(GLdouble c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexf
-void Indexf(GLfloat c) {
-    
+#ifndef skip_glIndexf
+void glIndexf(GLfloat c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexfv
-void Indexfv(GLfloat c) {
-    
+#ifndef skip_glIndexfv
+void glIndexfv(GLfloat c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexi
-void Indexi(GLint c) {
-    
+#ifndef skip_glIndexi
+void glIndexi(GLint c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexiv
-void Indexiv(GLint c) {
-    
+#ifndef skip_glIndexiv
+void glIndexiv(GLint c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexs
-void Indexs(GLshort c) {
-    
+#ifndef skip_glIndexs
+void glIndexs(GLshort c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexsv
-void Indexsv(GLshort c) {
-    
+#ifndef skip_glIndexsv
+void glIndexsv(GLshort c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexub
-void Indexub(GLubyte c) {
-    
+#ifndef skip_glIndexub
+void glIndexub(GLubyte c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Indexubv
-void Indexubv(GLubyte c) {
-    
+#ifndef skip_glIndexubv
+void glIndexubv(GLubyte c) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexxOES
-void IndexxOES(GLfixed component) {
-    
+#ifndef skip_glIndexxOES
+void glIndexxOES(GLfixed component) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IndexxvOES
-void IndexxvOES(GLfixed component) {
-    
+#ifndef skip_glIndexxvOES
+void glIndexxvOES(GLfixed component) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InitNames
-void InitNames() {
-    
+#ifndef skip_glInitNames
+void glInitNames() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InsertComponentEXT
-void InsertComponentEXT(GLuint res, GLuint src, GLuint num) {
-    
+#ifndef skip_glInsertComponentEXT
+void glInsertComponentEXT(GLuint res, GLuint src, GLuint num) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InstrumentsBufferSGIX
-void InstrumentsBufferSGIX(GLsizei size, GLint buffer) {
-    
+#ifndef skip_glInstrumentsBufferSGIX
+void glInstrumentsBufferSGIX(GLsizei size, GLint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InterleavedArrays
-void InterleavedArrays(GLenum format, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glInterleavedArrays
+void glInterleavedArrays(GLenum format, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InterpolatePathsNV
-void InterpolatePathsNV(GLuint resultPath, GLuint pathA, GLuint pathB, GLfloat weight) {
-    
+#ifndef skip_glInterpolatePathsNV
+void glInterpolatePathsNV(GLuint resultPath, GLuint pathA, GLuint pathB, GLfloat weight) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateBufferData
-void InvalidateBufferData(GLuint buffer) {
-    
+#ifndef skip_glInvalidateBufferData
+void glInvalidateBufferData(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateBufferSubData
-void InvalidateBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr length) {
-    
+#ifndef skip_glInvalidateBufferSubData
+void glInvalidateBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateFramebuffer
-void InvalidateFramebuffer(GLenum target, GLsizei numAttachments, GLenum attachments) {
-    
+#ifndef skip_glInvalidateFramebuffer
+void glInvalidateFramebuffer(GLenum target, GLsizei numAttachments, GLenum attachments) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateSubFramebuffer
-void InvalidateSubFramebuffer(GLenum target, GLsizei numAttachments, GLenum attachments, GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glInvalidateSubFramebuffer
+void glInvalidateSubFramebuffer(GLenum target, GLsizei numAttachments, GLenum attachments, GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateTexImage
-void InvalidateTexImage(GLuint texture, GLint level) {
-    
+#ifndef skip_glInvalidateTexImage
+void glInvalidateTexImage(GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_InvalidateTexSubImage
-void InvalidateTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth) {
-    
+#ifndef skip_glInvalidateTexSubImage
+void glInvalidateTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsAsyncMarkerSGIX
-Boolean IsAsyncMarkerSGIX(GLuint marker) {
-    
+#ifndef skip_glIsAsyncMarkerSGIX
+Boolean glIsAsyncMarkerSGIX(GLuint marker) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsBuffer
-Boolean IsBuffer(GLuint buffer) {
-    
+#ifndef skip_glIsBuffer
+Boolean glIsBuffer(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsBufferARB
-Boolean IsBufferARB(GLuint buffer) {
-    
+#ifndef skip_glIsBufferARB
+Boolean glIsBufferARB(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsBufferResidentNV
-Boolean IsBufferResidentNV(GLenum target) {
-    
+#ifndef skip_glIsBufferResidentNV
+Boolean glIsBufferResidentNV(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsEnabled
-Boolean IsEnabled(GLenum cap) {
-    
+#ifndef skip_glIsEnabled
+Boolean glIsEnabled(GLenum cap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsEnabledIndexedEXT
-Boolean IsEnabledIndexedEXT(GLenum target, GLuint index) {
-    
+#ifndef skip_glIsEnabledIndexedEXT
+Boolean glIsEnabledIndexedEXT(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsEnabledi
-Boolean IsEnabledi(GLenum target, GLuint index) {
-    
+#ifndef skip_glIsEnabledi
+Boolean glIsEnabledi(GLenum target, GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsFenceAPPLE
-Boolean IsFenceAPPLE(GLuint fence) {
-    
+#ifndef skip_glIsFenceAPPLE
+Boolean glIsFenceAPPLE(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsFenceNV
-Boolean IsFenceNV(GLuint fence) {
-    
+#ifndef skip_glIsFenceNV
+Boolean glIsFenceNV(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsFramebuffer
-Boolean IsFramebuffer(GLuint framebuffer) {
-    
+#ifndef skip_glIsFramebuffer
+Boolean glIsFramebuffer(GLuint framebuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsFramebufferEXT
-Boolean IsFramebufferEXT(GLuint framebuffer) {
-    
+#ifndef skip_glIsFramebufferEXT
+Boolean glIsFramebufferEXT(GLuint framebuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsImageHandleResidentNV
-Boolean IsImageHandleResidentNV(GLuint64 handle) {
-    
+#ifndef skip_glIsImageHandleResidentNV
+Boolean glIsImageHandleResidentNV(GLuint64 handle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsList
-Boolean IsList(GLuint list) {
-    
+#ifndef skip_glIsList
+Boolean glIsList(GLuint list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsNameAMD
-Boolean IsNameAMD(GLenum identifier, GLuint name) {
-    
+#ifndef skip_glIsNameAMD
+Boolean glIsNameAMD(GLenum identifier, GLuint name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsNamedBufferResidentNV
-Boolean IsNamedBufferResidentNV(GLuint buffer) {
-    
+#ifndef skip_glIsNamedBufferResidentNV
+Boolean glIsNamedBufferResidentNV(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsNamedStringARB
-Boolean IsNamedStringARB(GLint namelen, GLchar name) {
-    
+#ifndef skip_glIsNamedStringARB
+Boolean glIsNamedStringARB(GLint namelen, GLchar name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsObjectBufferATI
-Boolean IsObjectBufferATI(GLuint buffer) {
-    
+#ifndef skip_glIsObjectBufferATI
+Boolean glIsObjectBufferATI(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsOcclusionQueryNV
-Boolean IsOcclusionQueryNV(GLuint id) {
-    
+#ifndef skip_glIsOcclusionQueryNV
+Boolean glIsOcclusionQueryNV(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsPathNV
-Boolean IsPathNV(GLuint path) {
-    
+#ifndef skip_glIsPathNV
+Boolean glIsPathNV(GLuint path) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsPointInFillPathNV
-Boolean IsPointInFillPathNV(GLuint path, GLuint mask, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glIsPointInFillPathNV
+Boolean glIsPointInFillPathNV(GLuint path, GLuint mask, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsPointInStrokePathNV
-Boolean IsPointInStrokePathNV(GLuint path, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glIsPointInStrokePathNV
+Boolean glIsPointInStrokePathNV(GLuint path, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsProgram
-Boolean IsProgram(GLuint program) {
-    
+#ifndef skip_glIsProgram
+Boolean glIsProgram(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsProgramARB
-Boolean IsProgramARB(GLuint program) {
-    
+#ifndef skip_glIsProgramARB
+Boolean glIsProgramARB(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsProgramNV
-Boolean IsProgramNV(GLuint id) {
-    
+#ifndef skip_glIsProgramNV
+Boolean glIsProgramNV(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsProgramPipeline
-Boolean IsProgramPipeline(GLuint pipeline) {
-    
+#ifndef skip_glIsProgramPipeline
+Boolean glIsProgramPipeline(GLuint pipeline) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsQuery
-Boolean IsQuery(GLuint id) {
-    
+#ifndef skip_glIsQuery
+Boolean glIsQuery(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsQueryARB
-Boolean IsQueryARB(GLuint id) {
-    
+#ifndef skip_glIsQueryARB
+Boolean glIsQueryARB(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsRenderbuffer
-Boolean IsRenderbuffer(GLuint renderbuffer) {
-    
+#ifndef skip_glIsRenderbuffer
+Boolean glIsRenderbuffer(GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsRenderbufferEXT
-Boolean IsRenderbufferEXT(GLuint renderbuffer) {
-    
+#ifndef skip_glIsRenderbufferEXT
+Boolean glIsRenderbufferEXT(GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsSampler
-Boolean IsSampler(GLuint sampler) {
-    
+#ifndef skip_glIsSampler
+Boolean glIsSampler(GLuint sampler) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsShader
-Boolean IsShader(GLuint shader) {
-    
+#ifndef skip_glIsShader
+Boolean glIsShader(GLuint shader) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsSync
-Boolean IsSync(GLsync sync) {
-    
+#ifndef skip_glIsSync
+Boolean glIsSync(GLsync sync) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsTexture
-Boolean IsTexture(GLuint texture) {
-    
+#ifndef skip_glIsTexture
+Boolean glIsTexture(GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsTextureEXT
-Boolean IsTextureEXT(GLuint texture) {
-    
+#ifndef skip_glIsTextureEXT
+Boolean glIsTextureEXT(GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsTextureHandleResidentNV
-Boolean IsTextureHandleResidentNV(GLuint64 handle) {
-    
+#ifndef skip_glIsTextureHandleResidentNV
+Boolean glIsTextureHandleResidentNV(GLuint64 handle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsTransformFeedback
-Boolean IsTransformFeedback(GLuint id) {
-    
+#ifndef skip_glIsTransformFeedback
+Boolean glIsTransformFeedback(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsTransformFeedbackNV
-Boolean IsTransformFeedbackNV(GLuint id) {
-    
+#ifndef skip_glIsTransformFeedbackNV
+Boolean glIsTransformFeedbackNV(GLuint id) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsVariantEnabledEXT
-Boolean IsVariantEnabledEXT(GLuint id, GLenum cap) {
-    
+#ifndef skip_glIsVariantEnabledEXT
+Boolean glIsVariantEnabledEXT(GLuint id, GLenum cap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsVertexArray
-Boolean IsVertexArray(GLuint array) {
-    
+#ifndef skip_glIsVertexArray
+Boolean glIsVertexArray(GLuint array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsVertexArrayAPPLE
-Boolean IsVertexArrayAPPLE(GLuint array) {
-    
+#ifndef skip_glIsVertexArrayAPPLE
+Boolean glIsVertexArrayAPPLE(GLuint array) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_IsVertexAttribEnabledAPPLE
-Boolean IsVertexAttribEnabledAPPLE(GLuint index, GLenum pname) {
-    
+#ifndef skip_glIsVertexAttribEnabledAPPLE
+Boolean glIsVertexAttribEnabledAPPLE(GLuint index, GLenum pname) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightEnviSGIX
-void LightEnviSGIX(GLenum pname, GLint param) {
-    
+#ifndef skip_glLightEnviSGIX
+void glLightEnviSGIX(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModelf
-void LightModelf(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glLightModelf
+void glLightModelf(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModelfv
-void LightModelfv(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glLightModelfv
+void glLightModelfv(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModeli
-void LightModeli(GLenum pname, GLint param) {
-    
+#ifndef skip_glLightModeli
+void glLightModeli(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModeliv
-void LightModeliv(GLenum pname, GLint params) {
-    
+#ifndef skip_glLightModeliv
+void glLightModeliv(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModelxOES
-void LightModelxOES(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glLightModelxOES
+void glLightModelxOES(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightModelxvOES
-void LightModelxvOES(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glLightModelxvOES
+void glLightModelxvOES(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Lightf
-void Lightf(GLenum light, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glLightf
+void glLightf(GLenum light, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Lightfv
-void Lightfv(GLenum light, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glLightfv
+void glLightfv(GLenum light, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Lighti
-void Lighti(GLenum light, GLenum pname, GLint param) {
-    
+#ifndef skip_glLighti
+void glLighti(GLenum light, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Lightiv
-void Lightiv(GLenum light, GLenum pname, GLint params) {
-    
+#ifndef skip_glLightiv
+void glLightiv(GLenum light, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightxOES
-void LightxOES(GLenum light, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glLightxOES
+void glLightxOES(GLenum light, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LightxvOES
-void LightxvOES(GLenum light, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glLightxvOES
+void glLightxvOES(GLenum light, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LineStipple
-void LineStipple(GLint factor, GLushort pattern) {
-    
+#ifndef skip_glLineStipple
+void glLineStipple(GLint factor, GLushort pattern) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LineWidth
-void LineWidth(GLfloat width) {
-    
+#ifndef skip_glLineWidth
+void glLineWidth(GLfloat width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LineWidthxOES
-void LineWidthxOES(GLfixed width) {
-    
+#ifndef skip_glLineWidthxOES
+void glLineWidthxOES(GLfixed width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LinkProgram
-void LinkProgram(GLuint program) {
-    
+#ifndef skip_glLinkProgram
+void glLinkProgram(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LinkProgramARB
-void LinkProgramARB(GLhandleARB programObj) {
-    
+#ifndef skip_glLinkProgramARB
+void glLinkProgramARB(GLhandleARB programObj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ListBase
-void ListBase(GLuint base) {
-    
+#ifndef skip_glListBase
+void glListBase(GLuint base) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ListParameterfSGIX
-void ListParameterfSGIX(GLuint list, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glListParameterfSGIX
+void glListParameterfSGIX(GLuint list, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ListParameterfvSGIX
-void ListParameterfvSGIX(GLuint list, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glListParameterfvSGIX
+void glListParameterfvSGIX(GLuint list, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ListParameteriSGIX
-void ListParameteriSGIX(GLuint list, GLenum pname, GLint param) {
-    
+#ifndef skip_glListParameteriSGIX
+void glListParameteriSGIX(GLuint list, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ListParameterivSGIX
-void ListParameterivSGIX(GLuint list, GLenum pname, GLint params) {
-    
+#ifndef skip_glListParameterivSGIX
+void glListParameterivSGIX(GLuint list, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadIdentity
-void LoadIdentity() {
-    
+#ifndef skip_glLoadIdentity
+void glLoadIdentity() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadIdentityDeformationMapSGIX
-void LoadIdentityDeformationMapSGIX(GLbitfield mask) {
-    
+#ifndef skip_glLoadIdentityDeformationMapSGIX
+void glLoadIdentityDeformationMapSGIX(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadMatrixd
-void LoadMatrixd(GLdouble m) {
-    
+#ifndef skip_glLoadMatrixd
+void glLoadMatrixd(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadMatrixf
-void LoadMatrixf(GLfloat m) {
-    
+#ifndef skip_glLoadMatrixf
+void glLoadMatrixf(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadMatrixxOES
-void LoadMatrixxOES(GLfixed m) {
-    
+#ifndef skip_glLoadMatrixxOES
+void glLoadMatrixxOES(GLfixed m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadName
-void LoadName(GLuint name) {
-    
+#ifndef skip_glLoadName
+void glLoadName(GLuint name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadProgramNV
-void LoadProgramNV(GLenum target, GLuint id, GLsizei len, GLubyte program) {
-    
+#ifndef skip_glLoadProgramNV
+void glLoadProgramNV(GLenum target, GLuint id, GLsizei len, GLubyte program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadTransposeMatrixd
-void LoadTransposeMatrixd(GLdouble m) {
-    
+#ifndef skip_glLoadTransposeMatrixd
+void glLoadTransposeMatrixd(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadTransposeMatrixdARB
-void LoadTransposeMatrixdARB(GLdouble m) {
-    
+#ifndef skip_glLoadTransposeMatrixdARB
+void glLoadTransposeMatrixdARB(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadTransposeMatrixf
-void LoadTransposeMatrixf(GLfloat m) {
-    
+#ifndef skip_glLoadTransposeMatrixf
+void glLoadTransposeMatrixf(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadTransposeMatrixfARB
-void LoadTransposeMatrixfARB(GLfloat m) {
-    
+#ifndef skip_glLoadTransposeMatrixfARB
+void glLoadTransposeMatrixfARB(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LoadTransposeMatrixxOES
-void LoadTransposeMatrixxOES(GLfixed m) {
-    
+#ifndef skip_glLoadTransposeMatrixxOES
+void glLoadTransposeMatrixxOES(GLfixed m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LockArraysEXT
-void LockArraysEXT(GLint first, GLsizei count) {
-    
+#ifndef skip_glLockArraysEXT
+void glLockArraysEXT(GLint first, GLsizei count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LogicOp
-void LogicOp(GLenum opcode) {
-    
+#ifndef skip_glLogicOp
+void glLogicOp(GLenum opcode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeBufferNonResidentNV
-void MakeBufferNonResidentNV(GLenum target) {
-    
+#ifndef skip_glMakeBufferNonResidentNV
+void glMakeBufferNonResidentNV(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeBufferResidentNV
-void MakeBufferResidentNV(GLenum target, GLenum access) {
-    
+#ifndef skip_glMakeBufferResidentNV
+void glMakeBufferResidentNV(GLenum target, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeImageHandleNonResidentNV
-void MakeImageHandleNonResidentNV(GLuint64 handle) {
-    
+#ifndef skip_glMakeImageHandleNonResidentNV
+void glMakeImageHandleNonResidentNV(GLuint64 handle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeImageHandleResidentNV
-void MakeImageHandleResidentNV(GLuint64 handle, GLenum access) {
-    
+#ifndef skip_glMakeImageHandleResidentNV
+void glMakeImageHandleResidentNV(GLuint64 handle, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeNamedBufferNonResidentNV
-void MakeNamedBufferNonResidentNV(GLuint buffer) {
-    
+#ifndef skip_glMakeNamedBufferNonResidentNV
+void glMakeNamedBufferNonResidentNV(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeNamedBufferResidentNV
-void MakeNamedBufferResidentNV(GLuint buffer, GLenum access) {
-    
+#ifndef skip_glMakeNamedBufferResidentNV
+void glMakeNamedBufferResidentNV(GLuint buffer, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeTextureHandleNonResidentNV
-void MakeTextureHandleNonResidentNV(GLuint64 handle) {
-    
+#ifndef skip_glMakeTextureHandleNonResidentNV
+void glMakeTextureHandleNonResidentNV(GLuint64 handle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeTextureHandleResidentNV
-void MakeTextureHandleResidentNV(GLuint64 handle) {
-    
+#ifndef skip_glMakeTextureHandleResidentNV
+void glMakeTextureHandleResidentNV(GLuint64 handle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map1d
-void Map1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, GLdouble points) {
-    
+#ifndef skip_glMap1d
+void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, GLdouble points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map1f
-void Map1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, GLfloat points) {
-    
+#ifndef skip_glMap1f
+void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map1xOES
-void Map1xOES(GLenum target, GLfixed u1, GLfixed u2, GLint stride, GLint order, GLfixed points) {
-    
+#ifndef skip_glMap1xOES
+void glMap1xOES(GLenum target, GLfixed u1, GLfixed u2, GLint stride, GLint order, GLfixed points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map2d
-void Map2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble points) {
-    
+#ifndef skip_glMap2d
+void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map2f
-void Map2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat points) {
-    
+#ifndef skip_glMap2f
+void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Map2xOES
-void Map2xOES(GLenum target, GLfixed u1, GLfixed u2, GLint ustride, GLint uorder, GLfixed v1, GLfixed v2, GLint vstride, GLint vorder, GLfixed points) {
-    
+#ifndef skip_glMap2xOES
+void glMap2xOES(GLenum target, GLfixed u1, GLfixed u2, GLint ustride, GLint uorder, GLfixed v1, GLfixed v2, GLint vstride, GLint vorder, GLfixed points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapBuffer
-VoidPointer MapBuffer(GLenum target, GLenum access) {
-    
+#ifndef skip_glMapBuffer
+VoidPointer glMapBuffer(GLenum target, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapBufferARB
-VoidPointer MapBufferARB(GLenum target, GLenum access) {
-    
+#ifndef skip_glMapBufferARB
+VoidPointer glMapBufferARB(GLenum target, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapBufferRange
-VoidPointer MapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) {
-    
+#ifndef skip_glMapBufferRange
+VoidPointer glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapControlPointsNV
-void MapControlPointsNV(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLint uorder, GLint vorder, GLboolean packed, GLvoid points) {
-    
+#ifndef skip_glMapControlPointsNV
+void glMapControlPointsNV(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLint uorder, GLint vorder, GLboolean packed, GLvoid points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid1d
-void MapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
-    
+#ifndef skip_glMapGrid1d
+void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid1f
-void MapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
-    
+#ifndef skip_glMapGrid1f
+void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid1xOES
-void MapGrid1xOES(GLint n, GLfixed u1, GLfixed u2) {
-    
+#ifndef skip_glMapGrid1xOES
+void glMapGrid1xOES(GLint n, GLfixed u1, GLfixed u2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid2d
-void MapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) {
-    
+#ifndef skip_glMapGrid2d
+void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid2f
-void MapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glMapGrid2f
+void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapGrid2xOES
-void MapGrid2xOES(GLint n, GLfixed u1, GLfixed u2, GLfixed v1, GLfixed v2) {
-    
+#ifndef skip_glMapGrid2xOES
+void glMapGrid2xOES(GLint n, GLfixed u1, GLfixed u2, GLfixed v1, GLfixed v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapNamedBufferEXT
-VoidPointer MapNamedBufferEXT(GLuint buffer, GLenum access) {
-    
+#ifndef skip_glMapNamedBufferEXT
+VoidPointer glMapNamedBufferEXT(GLuint buffer, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapNamedBufferRangeEXT
-VoidPointer MapNamedBufferRangeEXT(GLuint buffer, GLintptr offset, GLsizeiptr length, GLbitfield access) {
-    
+#ifndef skip_glMapNamedBufferRangeEXT
+VoidPointer glMapNamedBufferRangeEXT(GLuint buffer, GLintptr offset, GLsizeiptr length, GLbitfield access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapObjectBufferATI
-VoidPointer MapObjectBufferATI(GLuint buffer) {
-    
+#ifndef skip_glMapObjectBufferATI
+VoidPointer glMapObjectBufferATI(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapParameterfvNV
-void MapParameterfvNV(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glMapParameterfvNV
+void glMapParameterfvNV(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapParameterivNV
-void MapParameterivNV(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glMapParameterivNV
+void glMapParameterivNV(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapTexture2DINTEL
-VoidPointer MapTexture2DINTEL(GLuint texture, GLint level, GLbitfield access, GLint stride, GLenum layout) {
-    
+#ifndef skip_glMapTexture2DINTEL
+VoidPointer glMapTexture2DINTEL(GLuint texture, GLint level, GLbitfield access, GLint stride, GLenum layout) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapVertexAttrib1dAPPLE
-void MapVertexAttrib1dAPPLE(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint stride, GLint order, GLdouble points) {
-    
+#ifndef skip_glMapVertexAttrib1dAPPLE
+void glMapVertexAttrib1dAPPLE(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint stride, GLint order, GLdouble points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapVertexAttrib1fAPPLE
-void MapVertexAttrib1fAPPLE(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint stride, GLint order, GLfloat points) {
-    
+#ifndef skip_glMapVertexAttrib1fAPPLE
+void glMapVertexAttrib1fAPPLE(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint stride, GLint order, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapVertexAttrib2dAPPLE
-void MapVertexAttrib2dAPPLE(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble points) {
-    
+#ifndef skip_glMapVertexAttrib2dAPPLE
+void glMapVertexAttrib2dAPPLE(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MapVertexAttrib2fAPPLE
-void MapVertexAttrib2fAPPLE(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat points) {
-    
+#ifndef skip_glMapVertexAttrib2fAPPLE
+void glMapVertexAttrib2fAPPLE(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Materialf
-void Materialf(GLenum face, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glMaterialf
+void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Materialfv
-void Materialfv(GLenum face, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glMaterialfv
+void glMaterialfv(GLenum face, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Materiali
-void Materiali(GLenum face, GLenum pname, GLint param) {
-    
+#ifndef skip_glMateriali
+void glMateriali(GLenum face, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Materialiv
-void Materialiv(GLenum face, GLenum pname, GLint params) {
-    
+#ifndef skip_glMaterialiv
+void glMaterialiv(GLenum face, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MaterialxOES
-void MaterialxOES(GLenum face, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glMaterialxOES
+void glMaterialxOES(GLenum face, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MaterialxvOES
-void MaterialxvOES(GLenum face, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glMaterialxvOES
+void glMaterialxvOES(GLenum face, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixFrustumEXT
-void MatrixFrustumEXT(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
-    
+#ifndef skip_glMatrixFrustumEXT
+void glMatrixFrustumEXT(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixIndexPointerARB
-void MatrixIndexPointerARB(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glMatrixIndexPointerARB
+void glMatrixIndexPointerARB(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixIndexubvARB
-void MatrixIndexubvARB(GLint size, GLubyte indices) {
-    
+#ifndef skip_glMatrixIndexubvARB
+void glMatrixIndexubvARB(GLint size, GLubyte indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixIndexuivARB
-void MatrixIndexuivARB(GLint size, GLuint indices) {
-    
+#ifndef skip_glMatrixIndexuivARB
+void glMatrixIndexuivARB(GLint size, GLuint indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixIndexusvARB
-void MatrixIndexusvARB(GLint size, GLushort indices) {
-    
+#ifndef skip_glMatrixIndexusvARB
+void glMatrixIndexusvARB(GLint size, GLushort indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixLoadIdentityEXT
-void MatrixLoadIdentityEXT(GLenum mode) {
-    
+#ifndef skip_glMatrixLoadIdentityEXT
+void glMatrixLoadIdentityEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixLoadTransposedEXT
-void MatrixLoadTransposedEXT(GLenum mode, GLdouble m) {
-    
+#ifndef skip_glMatrixLoadTransposedEXT
+void glMatrixLoadTransposedEXT(GLenum mode, GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixLoadTransposefEXT
-void MatrixLoadTransposefEXT(GLenum mode, GLfloat m) {
-    
+#ifndef skip_glMatrixLoadTransposefEXT
+void glMatrixLoadTransposefEXT(GLenum mode, GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixLoaddEXT
-void MatrixLoaddEXT(GLenum mode, GLdouble m) {
-    
+#ifndef skip_glMatrixLoaddEXT
+void glMatrixLoaddEXT(GLenum mode, GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixLoadfEXT
-void MatrixLoadfEXT(GLenum mode, GLfloat m) {
-    
+#ifndef skip_glMatrixLoadfEXT
+void glMatrixLoadfEXT(GLenum mode, GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixMode
-void MatrixMode(GLenum mode) {
-    
+#ifndef skip_glMatrixMode
+void glMatrixMode(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixMultTransposedEXT
-void MatrixMultTransposedEXT(GLenum mode, GLdouble m) {
-    
+#ifndef skip_glMatrixMultTransposedEXT
+void glMatrixMultTransposedEXT(GLenum mode, GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixMultTransposefEXT
-void MatrixMultTransposefEXT(GLenum mode, GLfloat m) {
-    
+#ifndef skip_glMatrixMultTransposefEXT
+void glMatrixMultTransposefEXT(GLenum mode, GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixMultdEXT
-void MatrixMultdEXT(GLenum mode, GLdouble m) {
-    
+#ifndef skip_glMatrixMultdEXT
+void glMatrixMultdEXT(GLenum mode, GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixMultfEXT
-void MatrixMultfEXT(GLenum mode, GLfloat m) {
-    
+#ifndef skip_glMatrixMultfEXT
+void glMatrixMultfEXT(GLenum mode, GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixOrthoEXT
-void MatrixOrthoEXT(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
-    
+#ifndef skip_glMatrixOrthoEXT
+void glMatrixOrthoEXT(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixPopEXT
-void MatrixPopEXT(GLenum mode) {
-    
+#ifndef skip_glMatrixPopEXT
+void glMatrixPopEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixPushEXT
-void MatrixPushEXT(GLenum mode) {
-    
+#ifndef skip_glMatrixPushEXT
+void glMatrixPushEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixRotatedEXT
-void MatrixRotatedEXT(GLenum mode, GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glMatrixRotatedEXT
+void glMatrixRotatedEXT(GLenum mode, GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixRotatefEXT
-void MatrixRotatefEXT(GLenum mode, GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glMatrixRotatefEXT
+void glMatrixRotatefEXT(GLenum mode, GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixScaledEXT
-void MatrixScaledEXT(GLenum mode, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glMatrixScaledEXT
+void glMatrixScaledEXT(GLenum mode, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixScalefEXT
-void MatrixScalefEXT(GLenum mode, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glMatrixScalefEXT
+void glMatrixScalefEXT(GLenum mode, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixTranslatedEXT
-void MatrixTranslatedEXT(GLenum mode, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glMatrixTranslatedEXT
+void glMatrixTranslatedEXT(GLenum mode, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MatrixTranslatefEXT
-void MatrixTranslatefEXT(GLenum mode, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glMatrixTranslatefEXT
+void glMatrixTranslatefEXT(GLenum mode, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MemoryBarrier
-void MemoryBarrier(GLbitfield barriers) {
-    
+#ifndef skip_glMemoryBarrier
+void glMemoryBarrier(GLbitfield barriers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MemoryBarrierEXT
-void MemoryBarrierEXT(GLbitfield barriers) {
-    
+#ifndef skip_glMemoryBarrierEXT
+void glMemoryBarrierEXT(GLbitfield barriers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MinSampleShading
-void MinSampleShading(GLfloat value) {
-    
+#ifndef skip_glMinSampleShading
+void glMinSampleShading(GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MinSampleShadingARB
-void MinSampleShadingARB(GLfloat value) {
-    
+#ifndef skip_glMinSampleShadingARB
+void glMinSampleShadingARB(GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Minmax
-void Minmax(GLenum target, GLenum internalformat, GLboolean sink) {
-    
+#ifndef skip_glMinmax
+void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MinmaxEXT
-void MinmaxEXT(GLenum target, GLenum internalformat, GLboolean sink) {
-    
+#ifndef skip_glMinmaxEXT
+void glMinmaxEXT(GLenum target, GLenum internalformat, GLboolean sink) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultMatrixd
-void MultMatrixd(GLdouble m) {
-    
+#ifndef skip_glMultMatrixd
+void glMultMatrixd(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultMatrixf
-void MultMatrixf(GLfloat m) {
-    
+#ifndef skip_glMultMatrixf
+void glMultMatrixf(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultMatrixxOES
-void MultMatrixxOES(GLfixed m) {
-    
+#ifndef skip_glMultMatrixxOES
+void glMultMatrixxOES(GLfixed m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultTransposeMatrixd
-void MultTransposeMatrixd(GLdouble m) {
-    
+#ifndef skip_glMultTransposeMatrixd
+void glMultTransposeMatrixd(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultTransposeMatrixdARB
-void MultTransposeMatrixdARB(GLdouble m) {
-    
+#ifndef skip_glMultTransposeMatrixdARB
+void glMultTransposeMatrixdARB(GLdouble m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultTransposeMatrixf
-void MultTransposeMatrixf(GLfloat m) {
-    
+#ifndef skip_glMultTransposeMatrixf
+void glMultTransposeMatrixf(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultTransposeMatrixfARB
-void MultTransposeMatrixfARB(GLfloat m) {
-    
+#ifndef skip_glMultTransposeMatrixfARB
+void glMultTransposeMatrixfARB(GLfloat m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultTransposeMatrixxOES
-void MultTransposeMatrixxOES(GLfixed m) {
-    
+#ifndef skip_glMultTransposeMatrixxOES
+void glMultTransposeMatrixxOES(GLfixed m) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawArrays
-void MultiDrawArrays(GLenum mode, GLint first, GLsizei count, GLsizei drawcount) {
-    
+#ifndef skip_glMultiDrawArrays
+void glMultiDrawArrays(GLenum mode, GLint first, GLsizei count, GLsizei drawcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawArraysEXT
-void MultiDrawArraysEXT(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
-    
+#ifndef skip_glMultiDrawArraysEXT
+void glMultiDrawArraysEXT(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawArraysIndirect
-void MultiDrawArraysIndirect(GLenum mode, void * indirect, GLsizei drawcount, GLsizei stride) {
-    
+#ifndef skip_glMultiDrawArraysIndirect
+void glMultiDrawArraysIndirect(GLenum mode, void * indirect, GLsizei drawcount, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawArraysIndirectAMD
-void MultiDrawArraysIndirectAMD(GLenum mode, GLvoid indirect, GLsizei primcount, GLsizei stride) {
-    
+#ifndef skip_glMultiDrawArraysIndirectAMD
+void glMultiDrawArraysIndirectAMD(GLenum mode, GLvoid indirect, GLsizei primcount, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElementArrayAPPLE
-void MultiDrawElementArrayAPPLE(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
-    
+#ifndef skip_glMultiDrawElementArrayAPPLE
+void glMultiDrawElementArrayAPPLE(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElements
-void MultiDrawElements(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei drawcount) {
-    
+#ifndef skip_glMultiDrawElements
+void glMultiDrawElements(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei drawcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElementsBaseVertex
-void MultiDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei drawcount, GLint basevertex) {
-    
+#ifndef skip_glMultiDrawElementsBaseVertex
+void glMultiDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei drawcount, GLint basevertex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElementsEXT
-void MultiDrawElementsEXT(GLenum mode, GLsizei count, GLenum type, GLvoid * indices, GLsizei primcount) {
-    
+#ifndef skip_glMultiDrawElementsEXT
+void glMultiDrawElementsEXT(GLenum mode, GLsizei count, GLenum type, GLvoid * indices, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElementsIndirect
-void MultiDrawElementsIndirect(GLenum mode, GLenum type, void * indirect, GLsizei drawcount, GLsizei stride) {
-    
+#ifndef skip_glMultiDrawElementsIndirect
+void glMultiDrawElementsIndirect(GLenum mode, GLenum type, void * indirect, GLsizei drawcount, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawElementsIndirectAMD
-void MultiDrawElementsIndirectAMD(GLenum mode, GLenum type, GLvoid indirect, GLsizei primcount, GLsizei stride) {
-    
+#ifndef skip_glMultiDrawElementsIndirectAMD
+void glMultiDrawElementsIndirectAMD(GLenum mode, GLenum type, GLvoid indirect, GLsizei primcount, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiDrawRangeElementArrayAPPLE
-void MultiDrawRangeElementArrayAPPLE(GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count, GLsizei primcount) {
-    
+#ifndef skip_glMultiDrawRangeElementArrayAPPLE
+void glMultiDrawRangeElementArrayAPPLE(GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count, GLsizei primcount) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiModeDrawArraysIBM
-void MultiModeDrawArraysIBM(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLint modestride) {
-    
+#ifndef skip_glMultiModeDrawArraysIBM
+void glMultiModeDrawArraysIBM(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLint modestride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiModeDrawElementsIBM
-void MultiModeDrawElementsIBM(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei primcount, GLint modestride) {
-    
+#ifndef skip_glMultiModeDrawElementsIBM
+void glMultiModeDrawElementsIBM(GLenum mode, GLsizei count, GLenum type, GLvoid*const indices, GLsizei primcount, GLint modestride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexBufferEXT
-void MultiTexBufferEXT(GLenum texunit, GLenum target, GLenum internalformat, GLuint buffer) {
-    
+#ifndef skip_glMultiTexBufferEXT
+void glMultiTexBufferEXT(GLenum texunit, GLenum target, GLenum internalformat, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1bOES
-void MultiTexCoord1bOES(GLenum texture, GLbyte s) {
-    
+#ifndef skip_glMultiTexCoord1bOES
+void glMultiTexCoord1bOES(GLenum texture, GLbyte s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1bvOES
-void MultiTexCoord1bvOES(GLenum texture, GLbyte coords) {
-    
+#ifndef skip_glMultiTexCoord1bvOES
+void glMultiTexCoord1bvOES(GLenum texture, GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1d
-void MultiTexCoord1d(GLenum target, GLdouble s) {
-    
+#ifndef skip_glMultiTexCoord1d
+void glMultiTexCoord1d(GLenum target, GLdouble s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1dARB
-void MultiTexCoord1dARB(GLenum target, GLdouble s) {
-    
+#ifndef skip_glMultiTexCoord1dARB
+void glMultiTexCoord1dARB(GLenum target, GLdouble s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1dv
-void MultiTexCoord1dv(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord1dv
+void glMultiTexCoord1dv(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1dvARB
-void MultiTexCoord1dvARB(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord1dvARB
+void glMultiTexCoord1dvARB(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1f
-void MultiTexCoord1f(GLenum target, GLfloat s) {
-    
+#ifndef skip_glMultiTexCoord1f
+void glMultiTexCoord1f(GLenum target, GLfloat s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1fARB
-void MultiTexCoord1fARB(GLenum target, GLfloat s) {
-    
+#ifndef skip_glMultiTexCoord1fARB
+void glMultiTexCoord1fARB(GLenum target, GLfloat s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1fv
-void MultiTexCoord1fv(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord1fv
+void glMultiTexCoord1fv(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1fvARB
-void MultiTexCoord1fvARB(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord1fvARB
+void glMultiTexCoord1fvARB(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1hNV
-void MultiTexCoord1hNV(GLenum target, GLhalfNV s) {
-    
+#ifndef skip_glMultiTexCoord1hNV
+void glMultiTexCoord1hNV(GLenum target, GLhalfNV s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1hvNV
-void MultiTexCoord1hvNV(GLenum target, GLhalfNV v) {
-    
+#ifndef skip_glMultiTexCoord1hvNV
+void glMultiTexCoord1hvNV(GLenum target, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1i
-void MultiTexCoord1i(GLenum target, GLint s) {
-    
+#ifndef skip_glMultiTexCoord1i
+void glMultiTexCoord1i(GLenum target, GLint s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1iARB
-void MultiTexCoord1iARB(GLenum target, GLint s) {
-    
+#ifndef skip_glMultiTexCoord1iARB
+void glMultiTexCoord1iARB(GLenum target, GLint s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1iv
-void MultiTexCoord1iv(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord1iv
+void glMultiTexCoord1iv(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1ivARB
-void MultiTexCoord1ivARB(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord1ivARB
+void glMultiTexCoord1ivARB(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1s
-void MultiTexCoord1s(GLenum target, GLshort s) {
-    
+#ifndef skip_glMultiTexCoord1s
+void glMultiTexCoord1s(GLenum target, GLshort s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1sARB
-void MultiTexCoord1sARB(GLenum target, GLshort s) {
-    
+#ifndef skip_glMultiTexCoord1sARB
+void glMultiTexCoord1sARB(GLenum target, GLshort s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1sv
-void MultiTexCoord1sv(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord1sv
+void glMultiTexCoord1sv(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1svARB
-void MultiTexCoord1svARB(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord1svARB
+void glMultiTexCoord1svARB(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1xOES
-void MultiTexCoord1xOES(GLenum texture, GLfixed s) {
-    
+#ifndef skip_glMultiTexCoord1xOES
+void glMultiTexCoord1xOES(GLenum texture, GLfixed s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord1xvOES
-void MultiTexCoord1xvOES(GLenum texture, GLfixed coords) {
-    
+#ifndef skip_glMultiTexCoord1xvOES
+void glMultiTexCoord1xvOES(GLenum texture, GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2bOES
-void MultiTexCoord2bOES(GLenum texture, GLbyte s, GLbyte t) {
-    
+#ifndef skip_glMultiTexCoord2bOES
+void glMultiTexCoord2bOES(GLenum texture, GLbyte s, GLbyte t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2bvOES
-void MultiTexCoord2bvOES(GLenum texture, GLbyte coords) {
-    
+#ifndef skip_glMultiTexCoord2bvOES
+void glMultiTexCoord2bvOES(GLenum texture, GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2d
-void MultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
-    
+#ifndef skip_glMultiTexCoord2d
+void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2dARB
-void MultiTexCoord2dARB(GLenum target, GLdouble s, GLdouble t) {
-    
+#ifndef skip_glMultiTexCoord2dARB
+void glMultiTexCoord2dARB(GLenum target, GLdouble s, GLdouble t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2dv
-void MultiTexCoord2dv(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord2dv
+void glMultiTexCoord2dv(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2dvARB
-void MultiTexCoord2dvARB(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord2dvARB
+void glMultiTexCoord2dvARB(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2f
-void MultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
-    
+#ifndef skip_glMultiTexCoord2f
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2fARB
-void MultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
-    
+#ifndef skip_glMultiTexCoord2fARB
+void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2fv
-void MultiTexCoord2fv(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord2fv
+void glMultiTexCoord2fv(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2fvARB
-void MultiTexCoord2fvARB(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord2fvARB
+void glMultiTexCoord2fvARB(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2hNV
-void MultiTexCoord2hNV(GLenum target, GLhalfNV s, GLhalfNV t) {
-    
+#ifndef skip_glMultiTexCoord2hNV
+void glMultiTexCoord2hNV(GLenum target, GLhalfNV s, GLhalfNV t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2hvNV
-void MultiTexCoord2hvNV(GLenum target, GLhalfNV v) {
-    
+#ifndef skip_glMultiTexCoord2hvNV
+void glMultiTexCoord2hvNV(GLenum target, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2i
-void MultiTexCoord2i(GLenum target, GLint s, GLint t) {
-    
+#ifndef skip_glMultiTexCoord2i
+void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2iARB
-void MultiTexCoord2iARB(GLenum target, GLint s, GLint t) {
-    
+#ifndef skip_glMultiTexCoord2iARB
+void glMultiTexCoord2iARB(GLenum target, GLint s, GLint t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2iv
-void MultiTexCoord2iv(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord2iv
+void glMultiTexCoord2iv(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2ivARB
-void MultiTexCoord2ivARB(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord2ivARB
+void glMultiTexCoord2ivARB(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2s
-void MultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
-    
+#ifndef skip_glMultiTexCoord2s
+void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2sARB
-void MultiTexCoord2sARB(GLenum target, GLshort s, GLshort t) {
-    
+#ifndef skip_glMultiTexCoord2sARB
+void glMultiTexCoord2sARB(GLenum target, GLshort s, GLshort t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2sv
-void MultiTexCoord2sv(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord2sv
+void glMultiTexCoord2sv(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2svARB
-void MultiTexCoord2svARB(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord2svARB
+void glMultiTexCoord2svARB(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2xOES
-void MultiTexCoord2xOES(GLenum texture, GLfixed s, GLfixed t) {
-    
+#ifndef skip_glMultiTexCoord2xOES
+void glMultiTexCoord2xOES(GLenum texture, GLfixed s, GLfixed t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord2xvOES
-void MultiTexCoord2xvOES(GLenum texture, GLfixed coords) {
-    
+#ifndef skip_glMultiTexCoord2xvOES
+void glMultiTexCoord2xvOES(GLenum texture, GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3bOES
-void MultiTexCoord3bOES(GLenum texture, GLbyte s, GLbyte t, GLbyte r) {
-    
+#ifndef skip_glMultiTexCoord3bOES
+void glMultiTexCoord3bOES(GLenum texture, GLbyte s, GLbyte t, GLbyte r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3bvOES
-void MultiTexCoord3bvOES(GLenum texture, GLbyte coords) {
-    
+#ifndef skip_glMultiTexCoord3bvOES
+void glMultiTexCoord3bvOES(GLenum texture, GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3d
-void MultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
-    
+#ifndef skip_glMultiTexCoord3d
+void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3dARB
-void MultiTexCoord3dARB(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
-    
+#ifndef skip_glMultiTexCoord3dARB
+void glMultiTexCoord3dARB(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3dv
-void MultiTexCoord3dv(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord3dv
+void glMultiTexCoord3dv(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3dvARB
-void MultiTexCoord3dvARB(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord3dvARB
+void glMultiTexCoord3dvARB(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3f
-void MultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
-    
+#ifndef skip_glMultiTexCoord3f
+void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3fARB
-void MultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
-    
+#ifndef skip_glMultiTexCoord3fARB
+void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3fv
-void MultiTexCoord3fv(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord3fv
+void glMultiTexCoord3fv(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3fvARB
-void MultiTexCoord3fvARB(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord3fvARB
+void glMultiTexCoord3fvARB(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3hNV
-void MultiTexCoord3hNV(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r) {
-    
+#ifndef skip_glMultiTexCoord3hNV
+void glMultiTexCoord3hNV(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3hvNV
-void MultiTexCoord3hvNV(GLenum target, GLhalfNV v) {
-    
+#ifndef skip_glMultiTexCoord3hvNV
+void glMultiTexCoord3hvNV(GLenum target, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3i
-void MultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
-    
+#ifndef skip_glMultiTexCoord3i
+void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3iARB
-void MultiTexCoord3iARB(GLenum target, GLint s, GLint t, GLint r) {
-    
+#ifndef skip_glMultiTexCoord3iARB
+void glMultiTexCoord3iARB(GLenum target, GLint s, GLint t, GLint r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3iv
-void MultiTexCoord3iv(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord3iv
+void glMultiTexCoord3iv(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3ivARB
-void MultiTexCoord3ivARB(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord3ivARB
+void glMultiTexCoord3ivARB(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3s
-void MultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
-    
+#ifndef skip_glMultiTexCoord3s
+void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3sARB
-void MultiTexCoord3sARB(GLenum target, GLshort s, GLshort t, GLshort r) {
-    
+#ifndef skip_glMultiTexCoord3sARB
+void glMultiTexCoord3sARB(GLenum target, GLshort s, GLshort t, GLshort r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3sv
-void MultiTexCoord3sv(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord3sv
+void glMultiTexCoord3sv(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3svARB
-void MultiTexCoord3svARB(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord3svARB
+void glMultiTexCoord3svARB(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3xOES
-void MultiTexCoord3xOES(GLenum texture, GLfixed s, GLfixed t, GLfixed r) {
-    
+#ifndef skip_glMultiTexCoord3xOES
+void glMultiTexCoord3xOES(GLenum texture, GLfixed s, GLfixed t, GLfixed r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord3xvOES
-void MultiTexCoord3xvOES(GLenum texture, GLfixed coords) {
-    
+#ifndef skip_glMultiTexCoord3xvOES
+void glMultiTexCoord3xvOES(GLenum texture, GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4bOES
-void MultiTexCoord4bOES(GLenum texture, GLbyte s, GLbyte t, GLbyte r, GLbyte q) {
-    
+#ifndef skip_glMultiTexCoord4bOES
+void glMultiTexCoord4bOES(GLenum texture, GLbyte s, GLbyte t, GLbyte r, GLbyte q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4bvOES
-void MultiTexCoord4bvOES(GLenum texture, GLbyte coords) {
-    
+#ifndef skip_glMultiTexCoord4bvOES
+void glMultiTexCoord4bvOES(GLenum texture, GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4d
-void MultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
-    
+#ifndef skip_glMultiTexCoord4d
+void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4dARB
-void MultiTexCoord4dARB(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
-    
+#ifndef skip_glMultiTexCoord4dARB
+void glMultiTexCoord4dARB(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4dv
-void MultiTexCoord4dv(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord4dv
+void glMultiTexCoord4dv(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4dvARB
-void MultiTexCoord4dvARB(GLenum target, GLdouble v) {
-    
+#ifndef skip_glMultiTexCoord4dvARB
+void glMultiTexCoord4dvARB(GLenum target, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4f
-void MultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    
+#ifndef skip_glMultiTexCoord4f
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4fARB
-void MultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    
+#ifndef skip_glMultiTexCoord4fARB
+void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4fv
-void MultiTexCoord4fv(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord4fv
+void glMultiTexCoord4fv(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4fvARB
-void MultiTexCoord4fvARB(GLenum target, GLfloat v) {
-    
+#ifndef skip_glMultiTexCoord4fvARB
+void glMultiTexCoord4fvARB(GLenum target, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4hNV
-void MultiTexCoord4hNV(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q) {
-    
+#ifndef skip_glMultiTexCoord4hNV
+void glMultiTexCoord4hNV(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4hvNV
-void MultiTexCoord4hvNV(GLenum target, GLhalfNV v) {
-    
+#ifndef skip_glMultiTexCoord4hvNV
+void glMultiTexCoord4hvNV(GLenum target, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4i
-void MultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
-    
+#ifndef skip_glMultiTexCoord4i
+void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4iARB
-void MultiTexCoord4iARB(GLenum target, GLint s, GLint t, GLint r, GLint q) {
-    
+#ifndef skip_glMultiTexCoord4iARB
+void glMultiTexCoord4iARB(GLenum target, GLint s, GLint t, GLint r, GLint q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4iv
-void MultiTexCoord4iv(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord4iv
+void glMultiTexCoord4iv(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4ivARB
-void MultiTexCoord4ivARB(GLenum target, GLint v) {
-    
+#ifndef skip_glMultiTexCoord4ivARB
+void glMultiTexCoord4ivARB(GLenum target, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4s
-void MultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q) {
-    
+#ifndef skip_glMultiTexCoord4s
+void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4sARB
-void MultiTexCoord4sARB(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q) {
-    
+#ifndef skip_glMultiTexCoord4sARB
+void glMultiTexCoord4sARB(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4sv
-void MultiTexCoord4sv(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord4sv
+void glMultiTexCoord4sv(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4svARB
-void MultiTexCoord4svARB(GLenum target, GLshort v) {
-    
+#ifndef skip_glMultiTexCoord4svARB
+void glMultiTexCoord4svARB(GLenum target, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4xOES
-void MultiTexCoord4xOES(GLenum texture, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
-    
+#ifndef skip_glMultiTexCoord4xOES
+void glMultiTexCoord4xOES(GLenum texture, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoord4xvOES
-void MultiTexCoord4xvOES(GLenum texture, GLfixed coords) {
-    
+#ifndef skip_glMultiTexCoord4xvOES
+void glMultiTexCoord4xvOES(GLenum texture, GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP1ui
-void MultiTexCoordP1ui(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP1ui
+void glMultiTexCoordP1ui(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP1uiv
-void MultiTexCoordP1uiv(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP1uiv
+void glMultiTexCoordP1uiv(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP2ui
-void MultiTexCoordP2ui(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP2ui
+void glMultiTexCoordP2ui(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP2uiv
-void MultiTexCoordP2uiv(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP2uiv
+void glMultiTexCoordP2uiv(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP3ui
-void MultiTexCoordP3ui(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP3ui
+void glMultiTexCoordP3ui(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP3uiv
-void MultiTexCoordP3uiv(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP3uiv
+void glMultiTexCoordP3uiv(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP4ui
-void MultiTexCoordP4ui(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP4ui
+void glMultiTexCoordP4ui(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordP4uiv
-void MultiTexCoordP4uiv(GLenum texture, GLenum type, GLuint coords) {
-    
+#ifndef skip_glMultiTexCoordP4uiv
+void glMultiTexCoordP4uiv(GLenum texture, GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexCoordPointerEXT
-void MultiTexCoordPointerEXT(GLenum texunit, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glMultiTexCoordPointerEXT
+void glMultiTexCoordPointerEXT(GLenum texunit, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexEnvfEXT
-void MultiTexEnvfEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glMultiTexEnvfEXT
+void glMultiTexEnvfEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexEnvfvEXT
-void MultiTexEnvfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glMultiTexEnvfvEXT
+void glMultiTexEnvfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexEnviEXT
-void MultiTexEnviEXT(GLenum texunit, GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glMultiTexEnviEXT
+void glMultiTexEnviEXT(GLenum texunit, GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexEnvivEXT
-void MultiTexEnvivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glMultiTexEnvivEXT
+void glMultiTexEnvivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGendEXT
-void MultiTexGendEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble param) {
-    
+#ifndef skip_glMultiTexGendEXT
+void glMultiTexGendEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGendvEXT
-void MultiTexGendvEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glMultiTexGendvEXT
+void glMultiTexGendvEXT(GLenum texunit, GLenum coord, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGenfEXT
-void MultiTexGenfEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glMultiTexGenfEXT
+void glMultiTexGenfEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGenfvEXT
-void MultiTexGenfvEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glMultiTexGenfvEXT
+void glMultiTexGenfvEXT(GLenum texunit, GLenum coord, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGeniEXT
-void MultiTexGeniEXT(GLenum texunit, GLenum coord, GLenum pname, GLint param) {
-    
+#ifndef skip_glMultiTexGeniEXT
+void glMultiTexGeniEXT(GLenum texunit, GLenum coord, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexGenivEXT
-void MultiTexGenivEXT(GLenum texunit, GLenum coord, GLenum pname, GLint params) {
-    
+#ifndef skip_glMultiTexGenivEXT
+void glMultiTexGenivEXT(GLenum texunit, GLenum coord, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexImage1DEXT
-void MultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexImage1DEXT
+void glMultiTexImage1DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexImage2DEXT
-void MultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexImage2DEXT
+void glMultiTexImage2DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexImage3DEXT
-void MultiTexImage3DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexImage3DEXT
+void glMultiTexImage3DEXT(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameterIivEXT
-void MultiTexParameterIivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glMultiTexParameterIivEXT
+void glMultiTexParameterIivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameterIuivEXT
-void MultiTexParameterIuivEXT(GLenum texunit, GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glMultiTexParameterIuivEXT
+void glMultiTexParameterIuivEXT(GLenum texunit, GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameterfEXT
-void MultiTexParameterfEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glMultiTexParameterfEXT
+void glMultiTexParameterfEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameterfvEXT
-void MultiTexParameterfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glMultiTexParameterfvEXT
+void glMultiTexParameterfvEXT(GLenum texunit, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameteriEXT
-void MultiTexParameteriEXT(GLenum texunit, GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glMultiTexParameteriEXT
+void glMultiTexParameteriEXT(GLenum texunit, GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexParameterivEXT
-void MultiTexParameterivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glMultiTexParameterivEXT
+void glMultiTexParameterivEXT(GLenum texunit, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexRenderbufferEXT
-void MultiTexRenderbufferEXT(GLenum texunit, GLenum target, GLuint renderbuffer) {
-    
+#ifndef skip_glMultiTexRenderbufferEXT
+void glMultiTexRenderbufferEXT(GLenum texunit, GLenum target, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexSubImage1DEXT
-void MultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexSubImage1DEXT
+void glMultiTexSubImage1DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexSubImage2DEXT
-void MultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexSubImage2DEXT
+void glMultiTexSubImage2DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MultiTexSubImage3DEXT
-void MultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glMultiTexSubImage3DEXT
+void glMultiTexSubImage3DEXT(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedBufferDataEXT
-void NamedBufferDataEXT(GLuint buffer, GLsizeiptr size, GLvoid data, GLenum usage) {
-    
+#ifndef skip_glNamedBufferDataEXT
+void glNamedBufferDataEXT(GLuint buffer, GLsizeiptr size, GLvoid data, GLenum usage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedBufferSubDataEXT
-void NamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid data) {
-    
+#ifndef skip_glNamedBufferSubDataEXT
+void glNamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedCopyBufferSubDataEXT
-void NamedCopyBufferSubDataEXT(GLuint readBuffer, GLuint writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size) {
-    
+#ifndef skip_glNamedCopyBufferSubDataEXT
+void glNamedCopyBufferSubDataEXT(GLuint readBuffer, GLuint writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferParameteriEXT
-void NamedFramebufferParameteriEXT(GLuint framebuffer, GLenum pname, GLint param) {
-    
+#ifndef skip_glNamedFramebufferParameteriEXT
+void glNamedFramebufferParameteriEXT(GLuint framebuffer, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferRenderbufferEXT
-void NamedFramebufferRenderbufferEXT(GLuint framebuffer, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
-    
+#ifndef skip_glNamedFramebufferRenderbufferEXT
+void glNamedFramebufferRenderbufferEXT(GLuint framebuffer, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTexture1DEXT
-void NamedFramebufferTexture1DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glNamedFramebufferTexture1DEXT
+void glNamedFramebufferTexture1DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTexture2DEXT
-void NamedFramebufferTexture2DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    
+#ifndef skip_glNamedFramebufferTexture2DEXT
+void glNamedFramebufferTexture2DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTexture3DEXT
-void NamedFramebufferTexture3DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
-    
+#ifndef skip_glNamedFramebufferTexture3DEXT
+void glNamedFramebufferTexture3DEXT(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTextureEXT
-void NamedFramebufferTextureEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level) {
-    
+#ifndef skip_glNamedFramebufferTextureEXT
+void glNamedFramebufferTextureEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTextureFaceEXT
-void NamedFramebufferTextureFaceEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLenum face) {
-    
+#ifndef skip_glNamedFramebufferTextureFaceEXT
+void glNamedFramebufferTextureFaceEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLenum face) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedFramebufferTextureLayerEXT
-void NamedFramebufferTextureLayerEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    
+#ifndef skip_glNamedFramebufferTextureLayerEXT
+void glNamedFramebufferTextureLayerEXT(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameter4dEXT
-void NamedProgramLocalParameter4dEXT(GLuint program, GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glNamedProgramLocalParameter4dEXT
+void glNamedProgramLocalParameter4dEXT(GLuint program, GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameter4dvEXT
-void NamedProgramLocalParameter4dvEXT(GLuint program, GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glNamedProgramLocalParameter4dvEXT
+void glNamedProgramLocalParameter4dvEXT(GLuint program, GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameter4fEXT
-void NamedProgramLocalParameter4fEXT(GLuint program, GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glNamedProgramLocalParameter4fEXT
+void glNamedProgramLocalParameter4fEXT(GLuint program, GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameter4fvEXT
-void NamedProgramLocalParameter4fvEXT(GLuint program, GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glNamedProgramLocalParameter4fvEXT
+void glNamedProgramLocalParameter4fvEXT(GLuint program, GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameterI4iEXT
-void NamedProgramLocalParameterI4iEXT(GLuint program, GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glNamedProgramLocalParameterI4iEXT
+void glNamedProgramLocalParameterI4iEXT(GLuint program, GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameterI4ivEXT
-void NamedProgramLocalParameterI4ivEXT(GLuint program, GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glNamedProgramLocalParameterI4ivEXT
+void glNamedProgramLocalParameterI4ivEXT(GLuint program, GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameterI4uiEXT
-void NamedProgramLocalParameterI4uiEXT(GLuint program, GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
-    
+#ifndef skip_glNamedProgramLocalParameterI4uiEXT
+void glNamedProgramLocalParameterI4uiEXT(GLuint program, GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameterI4uivEXT
-void NamedProgramLocalParameterI4uivEXT(GLuint program, GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glNamedProgramLocalParameterI4uivEXT
+void glNamedProgramLocalParameterI4uivEXT(GLuint program, GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParameters4fvEXT
-void NamedProgramLocalParameters4fvEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLfloat params) {
-    
+#ifndef skip_glNamedProgramLocalParameters4fvEXT
+void glNamedProgramLocalParameters4fvEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParametersI4ivEXT
-void NamedProgramLocalParametersI4ivEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLint params) {
-    
+#ifndef skip_glNamedProgramLocalParametersI4ivEXT
+void glNamedProgramLocalParametersI4ivEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramLocalParametersI4uivEXT
-void NamedProgramLocalParametersI4uivEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLuint params) {
-    
+#ifndef skip_glNamedProgramLocalParametersI4uivEXT
+void glNamedProgramLocalParametersI4uivEXT(GLuint program, GLenum target, GLuint index, GLsizei count, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedProgramStringEXT
-void NamedProgramStringEXT(GLuint program, GLenum target, GLenum format, GLsizei len, GLvoid string) {
-    
+#ifndef skip_glNamedProgramStringEXT
+void glNamedProgramStringEXT(GLuint program, GLenum target, GLenum format, GLsizei len, GLvoid string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedRenderbufferStorageEXT
-void NamedRenderbufferStorageEXT(GLuint renderbuffer, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glNamedRenderbufferStorageEXT
+void glNamedRenderbufferStorageEXT(GLuint renderbuffer, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedRenderbufferStorageMultisampleCoverageEXT
-void NamedRenderbufferStorageMultisampleCoverageEXT(GLuint renderbuffer, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glNamedRenderbufferStorageMultisampleCoverageEXT
+void glNamedRenderbufferStorageMultisampleCoverageEXT(GLuint renderbuffer, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedRenderbufferStorageMultisampleEXT
-void NamedRenderbufferStorageMultisampleEXT(GLuint renderbuffer, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glNamedRenderbufferStorageMultisampleEXT
+void glNamedRenderbufferStorageMultisampleEXT(GLuint renderbuffer, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NamedStringARB
-void NamedStringARB(GLenum type, GLint namelen, GLchar name, GLint stringlen, GLchar string) {
-    
+#ifndef skip_glNamedStringARB
+void glNamedStringARB(GLenum type, GLint namelen, GLchar name, GLint stringlen, GLchar string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NewList
-void NewList(GLuint list, GLenum mode) {
-    
+#ifndef skip_glNewList
+void glNewList(GLuint list, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NewObjectBufferATI
-UInt32 NewObjectBufferATI(GLsizei size, GLvoid pointer, GLenum usage) {
-    
+#ifndef skip_glNewObjectBufferATI
+UInt32 glNewObjectBufferATI(GLsizei size, GLvoid pointer, GLenum usage) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3b
-void Normal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
-    
+#ifndef skip_glNormal3b
+void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3bv
-void Normal3bv(GLbyte v) {
-    
+#ifndef skip_glNormal3bv
+void glNormal3bv(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3d
-void Normal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
-    
+#ifndef skip_glNormal3d
+void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3dv
-void Normal3dv(GLdouble v) {
-    
+#ifndef skip_glNormal3dv
+void glNormal3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3f
-void Normal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
-    
+#ifndef skip_glNormal3f
+void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3fVertex3fSUN
-void Normal3fVertex3fSUN(GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glNormal3fVertex3fSUN
+void glNormal3fVertex3fSUN(GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3fVertex3fvSUN
-void Normal3fVertex3fvSUN(GLfloat n, GLfloat v) {
-    
+#ifndef skip_glNormal3fVertex3fvSUN
+void glNormal3fVertex3fvSUN(GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3fv
-void Normal3fv(GLfloat v) {
-    
+#ifndef skip_glNormal3fv
+void glNormal3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3hNV
-void Normal3hNV(GLhalfNV nx, GLhalfNV ny, GLhalfNV nz) {
-    
+#ifndef skip_glNormal3hNV
+void glNormal3hNV(GLhalfNV nx, GLhalfNV ny, GLhalfNV nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3hvNV
-void Normal3hvNV(GLhalfNV v) {
-    
+#ifndef skip_glNormal3hvNV
+void glNormal3hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3i
-void Normal3i(GLint nx, GLint ny, GLint nz) {
-    
+#ifndef skip_glNormal3i
+void glNormal3i(GLint nx, GLint ny, GLint nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3iv
-void Normal3iv(GLint v) {
-    
+#ifndef skip_glNormal3iv
+void glNormal3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3s
-void Normal3s(GLshort nx, GLshort ny, GLshort nz) {
-    
+#ifndef skip_glNormal3s
+void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3sv
-void Normal3sv(GLshort v) {
-    
+#ifndef skip_glNormal3sv
+void glNormal3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3xOES
-void Normal3xOES(GLfixed nx, GLfixed ny, GLfixed nz) {
-    
+#ifndef skip_glNormal3xOES
+void glNormal3xOES(GLfixed nx, GLfixed ny, GLfixed nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Normal3xvOES
-void Normal3xvOES(GLfixed coords) {
-    
+#ifndef skip_glNormal3xvOES
+void glNormal3xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalFormatNV
-void NormalFormatNV(GLenum type, GLsizei stride) {
-    
+#ifndef skip_glNormalFormatNV
+void glNormalFormatNV(GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalP3ui
-void NormalP3ui(GLenum type, GLuint coords) {
-    
+#ifndef skip_glNormalP3ui
+void glNormalP3ui(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalP3uiv
-void NormalP3uiv(GLenum type, GLuint coords) {
-    
+#ifndef skip_glNormalP3uiv
+void glNormalP3uiv(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalPointer
-void NormalPointer(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glNormalPointer
+void glNormalPointer(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalPointerEXT
-void NormalPointerEXT(GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
-    
+#ifndef skip_glNormalPointerEXT
+void glNormalPointerEXT(GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalPointerListIBM
-void NormalPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glNormalPointerListIBM
+void glNormalPointerListIBM(GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalPointervINTEL
-void NormalPointervINTEL(GLenum type, GLvoid * pointer) {
-    
+#ifndef skip_glNormalPointervINTEL
+void glNormalPointervINTEL(GLenum type, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3bATI
-void NormalStream3bATI(GLenum stream, GLbyte nx, GLbyte ny, GLbyte nz) {
-    
+#ifndef skip_glNormalStream3bATI
+void glNormalStream3bATI(GLenum stream, GLbyte nx, GLbyte ny, GLbyte nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3bvATI
-void NormalStream3bvATI(GLenum stream, GLbyte coords) {
-    
+#ifndef skip_glNormalStream3bvATI
+void glNormalStream3bvATI(GLenum stream, GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3dATI
-void NormalStream3dATI(GLenum stream, GLdouble nx, GLdouble ny, GLdouble nz) {
-    
+#ifndef skip_glNormalStream3dATI
+void glNormalStream3dATI(GLenum stream, GLdouble nx, GLdouble ny, GLdouble nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3dvATI
-void NormalStream3dvATI(GLenum stream, GLdouble coords) {
-    
+#ifndef skip_glNormalStream3dvATI
+void glNormalStream3dvATI(GLenum stream, GLdouble coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3fATI
-void NormalStream3fATI(GLenum stream, GLfloat nx, GLfloat ny, GLfloat nz) {
-    
+#ifndef skip_glNormalStream3fATI
+void glNormalStream3fATI(GLenum stream, GLfloat nx, GLfloat ny, GLfloat nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3fvATI
-void NormalStream3fvATI(GLenum stream, GLfloat coords) {
-    
+#ifndef skip_glNormalStream3fvATI
+void glNormalStream3fvATI(GLenum stream, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3iATI
-void NormalStream3iATI(GLenum stream, GLint nx, GLint ny, GLint nz) {
-    
+#ifndef skip_glNormalStream3iATI
+void glNormalStream3iATI(GLenum stream, GLint nx, GLint ny, GLint nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3ivATI
-void NormalStream3ivATI(GLenum stream, GLint coords) {
-    
+#ifndef skip_glNormalStream3ivATI
+void glNormalStream3ivATI(GLenum stream, GLint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3sATI
-void NormalStream3sATI(GLenum stream, GLshort nx, GLshort ny, GLshort nz) {
-    
+#ifndef skip_glNormalStream3sATI
+void glNormalStream3sATI(GLenum stream, GLshort nx, GLshort ny, GLshort nz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_NormalStream3svATI
-void NormalStream3svATI(GLenum stream, GLshort coords) {
-    
+#ifndef skip_glNormalStream3svATI
+void glNormalStream3svATI(GLenum stream, GLshort coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ObjectLabel
-void ObjectLabel(GLenum identifier, GLuint name, GLsizei length, GLchar label) {
-    
+#ifndef skip_glObjectLabel
+void glObjectLabel(GLenum identifier, GLuint name, GLsizei length, GLchar label) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ObjectPtrLabel
-void ObjectPtrLabel(void * ptr, GLsizei length, GLchar label) {
-    
+#ifndef skip_glObjectPtrLabel
+void glObjectPtrLabel(void * ptr, GLsizei length, GLchar label) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ObjectPurgeableAPPLE
-GLenum ObjectPurgeableAPPLE(GLenum objectType, GLuint name, GLenum option) {
-    
+#ifndef skip_glObjectPurgeableAPPLE
+GLenum glObjectPurgeableAPPLE(GLenum objectType, GLuint name, GLenum option) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ObjectUnpurgeableAPPLE
-GLenum ObjectUnpurgeableAPPLE(GLenum objectType, GLuint name, GLenum option) {
-    
+#ifndef skip_glObjectUnpurgeableAPPLE
+GLenum glObjectUnpurgeableAPPLE(GLenum objectType, GLuint name, GLenum option) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Ortho
-void Ortho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
-    
+#ifndef skip_glOrtho
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_OrthofOES
-void OrthofOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f) {
-    
+#ifndef skip_glOrthofOES
+void glOrthofOES(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_OrthoxOES
-void OrthoxOES(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f) {
-    
+#ifndef skip_glOrthoxOES
+void glOrthoxOES(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PNTrianglesfATI
-void PNTrianglesfATI(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPNTrianglesfATI
+void glPNTrianglesfATI(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PNTrianglesiATI
-void PNTrianglesiATI(GLenum pname, GLint param) {
-    
+#ifndef skip_glPNTrianglesiATI
+void glPNTrianglesiATI(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PassTexCoordATI
-void PassTexCoordATI(GLuint dst, GLuint coord, GLenum swizzle) {
-    
+#ifndef skip_glPassTexCoordATI
+void glPassTexCoordATI(GLuint dst, GLuint coord, GLenum swizzle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PassThrough
-void PassThrough(GLfloat token) {
-    
+#ifndef skip_glPassThrough
+void glPassThrough(GLfloat token) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PassThroughxOES
-void PassThroughxOES(GLfixed token) {
-    
+#ifndef skip_glPassThroughxOES
+void glPassThroughxOES(GLfixed token) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PatchParameterfv
-void PatchParameterfv(GLenum pname, GLfloat values) {
-    
+#ifndef skip_glPatchParameterfv
+void glPatchParameterfv(GLenum pname, GLfloat values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PatchParameteri
-void PatchParameteri(GLenum pname, GLint value) {
-    
+#ifndef skip_glPatchParameteri
+void glPatchParameteri(GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathColorGenNV
-void PathColorGenNV(GLenum color, GLenum genMode, GLenum colorFormat, GLfloat coeffs) {
-    
+#ifndef skip_glPathColorGenNV
+void glPathColorGenNV(GLenum color, GLenum genMode, GLenum colorFormat, GLfloat coeffs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathCommandsNV
-void PathCommandsNV(GLuint path, GLsizei numCommands, GLubyte commands, GLsizei numCoords, GLenum coordType, GLvoid coords) {
-    
+#ifndef skip_glPathCommandsNV
+void glPathCommandsNV(GLuint path, GLsizei numCommands, GLubyte commands, GLsizei numCoords, GLenum coordType, GLvoid coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathCoordsNV
-void PathCoordsNV(GLuint path, GLsizei numCoords, GLenum coordType, GLvoid coords) {
-    
+#ifndef skip_glPathCoordsNV
+void glPathCoordsNV(GLuint path, GLsizei numCoords, GLenum coordType, GLvoid coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathCoverDepthFuncNV
-void PathCoverDepthFuncNV(GLenum func) {
-    
+#ifndef skip_glPathCoverDepthFuncNV
+void glPathCoverDepthFuncNV(GLenum func) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathDashArrayNV
-void PathDashArrayNV(GLuint path, GLsizei dashCount, GLfloat dashArray) {
-    
+#ifndef skip_glPathDashArrayNV
+void glPathDashArrayNV(GLuint path, GLsizei dashCount, GLfloat dashArray) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathFogGenNV
-void PathFogGenNV(GLenum genMode) {
-    
+#ifndef skip_glPathFogGenNV
+void glPathFogGenNV(GLenum genMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathGlyphRangeNV
-void PathGlyphRangeNV(GLuint firstPathName, GLenum fontTarget, GLvoid fontName, GLbitfield fontStyle, GLuint firstGlyph, GLsizei numGlyphs, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale) {
-    
+#ifndef skip_glPathGlyphRangeNV
+void glPathGlyphRangeNV(GLuint firstPathName, GLenum fontTarget, GLvoid fontName, GLbitfield fontStyle, GLuint firstGlyph, GLsizei numGlyphs, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathGlyphsNV
-void PathGlyphsNV(GLuint firstPathName, GLenum fontTarget, GLvoid fontName, GLbitfield fontStyle, GLsizei numGlyphs, GLenum type, GLvoid charcodes, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale) {
-    
+#ifndef skip_glPathGlyphsNV
+void glPathGlyphsNV(GLuint firstPathName, GLenum fontTarget, GLvoid fontName, GLbitfield fontStyle, GLsizei numGlyphs, GLenum type, GLvoid charcodes, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathParameterfNV
-void PathParameterfNV(GLuint path, GLenum pname, GLfloat value) {
-    
+#ifndef skip_glPathParameterfNV
+void glPathParameterfNV(GLuint path, GLenum pname, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathParameterfvNV
-void PathParameterfvNV(GLuint path, GLenum pname, GLfloat value) {
-    
+#ifndef skip_glPathParameterfvNV
+void glPathParameterfvNV(GLuint path, GLenum pname, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathParameteriNV
-void PathParameteriNV(GLuint path, GLenum pname, GLint value) {
-    
+#ifndef skip_glPathParameteriNV
+void glPathParameteriNV(GLuint path, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathParameterivNV
-void PathParameterivNV(GLuint path, GLenum pname, GLint value) {
-    
+#ifndef skip_glPathParameterivNV
+void glPathParameterivNV(GLuint path, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathStencilDepthOffsetNV
-void PathStencilDepthOffsetNV(GLfloat factor, GLfloat units) {
-    
+#ifndef skip_glPathStencilDepthOffsetNV
+void glPathStencilDepthOffsetNV(GLfloat factor, GLfloat units) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathStencilFuncNV
-void PathStencilFuncNV(GLenum func, GLint ref, GLuint mask) {
-    
+#ifndef skip_glPathStencilFuncNV
+void glPathStencilFuncNV(GLenum func, GLint ref, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathStringNV
-void PathStringNV(GLuint path, GLenum format, GLsizei length, GLvoid pathString) {
-    
+#ifndef skip_glPathStringNV
+void glPathStringNV(GLuint path, GLenum format, GLsizei length, GLvoid pathString) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathSubCommandsNV
-void PathSubCommandsNV(GLuint path, GLsizei commandStart, GLsizei commandsToDelete, GLsizei numCommands, GLubyte commands, GLsizei numCoords, GLenum coordType, GLvoid coords) {
-    
+#ifndef skip_glPathSubCommandsNV
+void glPathSubCommandsNV(GLuint path, GLsizei commandStart, GLsizei commandsToDelete, GLsizei numCommands, GLubyte commands, GLsizei numCoords, GLenum coordType, GLvoid coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathSubCoordsNV
-void PathSubCoordsNV(GLuint path, GLsizei coordStart, GLsizei numCoords, GLenum coordType, GLvoid coords) {
-    
+#ifndef skip_glPathSubCoordsNV
+void glPathSubCoordsNV(GLuint path, GLsizei coordStart, GLsizei numCoords, GLenum coordType, GLvoid coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PathTexGenNV
-void PathTexGenNV(GLenum texCoordSet, GLenum genMode, GLint components, GLfloat coeffs) {
-    
+#ifndef skip_glPathTexGenNV
+void glPathTexGenNV(GLenum texCoordSet, GLenum genMode, GLint components, GLfloat coeffs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PauseTransformFeedback
-void PauseTransformFeedback() {
-    
+#ifndef skip_glPauseTransformFeedback
+void glPauseTransformFeedback() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PauseTransformFeedbackNV
-void PauseTransformFeedbackNV() {
-    
+#ifndef skip_glPauseTransformFeedbackNV
+void glPauseTransformFeedbackNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelDataRangeNV
-void PixelDataRangeNV(GLenum target, GLsizei length, GLvoid pointer) {
-    
+#ifndef skip_glPixelDataRangeNV
+void glPixelDataRangeNV(GLenum target, GLsizei length, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelMapfv
-void PixelMapfv(GLenum map, GLsizei mapsize, GLfloat values) {
-    
+#ifndef skip_glPixelMapfv
+void glPixelMapfv(GLenum map, GLsizei mapsize, GLfloat values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelMapuiv
-void PixelMapuiv(GLenum map, GLsizei mapsize, GLuint values) {
-    
+#ifndef skip_glPixelMapuiv
+void glPixelMapuiv(GLenum map, GLsizei mapsize, GLuint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelMapusv
-void PixelMapusv(GLenum map, GLsizei mapsize, GLushort values) {
-    
+#ifndef skip_glPixelMapusv
+void glPixelMapusv(GLenum map, GLsizei mapsize, GLushort values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelMapx
-void PixelMapx(GLenum map, GLint size, GLfixed values) {
-    
+#ifndef skip_glPixelMapx
+void glPixelMapx(GLenum map, GLint size, GLfixed values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelStoref
-void PixelStoref(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPixelStoref
+void glPixelStoref(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelStorei
-void PixelStorei(GLenum pname, GLint param) {
-    
+#ifndef skip_glPixelStorei
+void glPixelStorei(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelStorex
-void PixelStorex(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glPixelStorex
+void glPixelStorex(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTexGenParameterfSGIS
-void PixelTexGenParameterfSGIS(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPixelTexGenParameterfSGIS
+void glPixelTexGenParameterfSGIS(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTexGenParameterfvSGIS
-void PixelTexGenParameterfvSGIS(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPixelTexGenParameterfvSGIS
+void glPixelTexGenParameterfvSGIS(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTexGenParameteriSGIS
-void PixelTexGenParameteriSGIS(GLenum pname, GLint param) {
-    
+#ifndef skip_glPixelTexGenParameteriSGIS
+void glPixelTexGenParameteriSGIS(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTexGenParameterivSGIS
-void PixelTexGenParameterivSGIS(GLenum pname, GLint params) {
-    
+#ifndef skip_glPixelTexGenParameterivSGIS
+void glPixelTexGenParameterivSGIS(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTexGenSGIX
-void PixelTexGenSGIX(GLenum mode) {
-    
+#ifndef skip_glPixelTexGenSGIX
+void glPixelTexGenSGIX(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransferf
-void PixelTransferf(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPixelTransferf
+void glPixelTransferf(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransferi
-void PixelTransferi(GLenum pname, GLint param) {
-    
+#ifndef skip_glPixelTransferi
+void glPixelTransferi(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransferxOES
-void PixelTransferxOES(GLenum pname, GLfixed param) {
-    
+#ifndef skip_glPixelTransferxOES
+void glPixelTransferxOES(GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransformParameterfEXT
-void PixelTransformParameterfEXT(GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPixelTransformParameterfEXT
+void glPixelTransformParameterfEXT(GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransformParameterfvEXT
-void PixelTransformParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPixelTransformParameterfvEXT
+void glPixelTransformParameterfvEXT(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransformParameteriEXT
-void PixelTransformParameteriEXT(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glPixelTransformParameteriEXT
+void glPixelTransformParameteriEXT(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelTransformParameterivEXT
-void PixelTransformParameterivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glPixelTransformParameterivEXT
+void glPixelTransformParameterivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelZoom
-void PixelZoom(GLfloat xfactor, GLfloat yfactor) {
-    
+#ifndef skip_glPixelZoom
+void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PixelZoomxOES
-void PixelZoomxOES(GLfixed xfactor, GLfixed yfactor) {
-    
+#ifndef skip_glPixelZoomxOES
+void glPixelZoomxOES(GLfixed xfactor, GLfixed yfactor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointAlongPathNV
-Boolean PointAlongPathNV(GLuint path, GLsizei startSegment, GLsizei numSegments, GLfloat distance, GLfloat x, GLfloat y, GLfloat tangentX, GLfloat tangentY) {
-    
+#ifndef skip_glPointAlongPathNV
+Boolean glPointAlongPathNV(GLuint path, GLsizei startSegment, GLsizei numSegments, GLfloat distance, GLfloat x, GLfloat y, GLfloat tangentX, GLfloat tangentY) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterf
-void PointParameterf(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPointParameterf
+void glPointParameterf(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfARB
-void PointParameterfARB(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPointParameterfARB
+void glPointParameterfARB(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfEXT
-void PointParameterfEXT(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPointParameterfEXT
+void glPointParameterfEXT(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfSGIS
-void PointParameterfSGIS(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glPointParameterfSGIS
+void glPointParameterfSGIS(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfv
-void PointParameterfv(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPointParameterfv
+void glPointParameterfv(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfvARB
-void PointParameterfvARB(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPointParameterfvARB
+void glPointParameterfvARB(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfvEXT
-void PointParameterfvEXT(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPointParameterfvEXT
+void glPointParameterfvEXT(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterfvSGIS
-void PointParameterfvSGIS(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glPointParameterfvSGIS
+void glPointParameterfvSGIS(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameteri
-void PointParameteri(GLenum pname, GLint param) {
-    
+#ifndef skip_glPointParameteri
+void glPointParameteri(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameteriNV
-void PointParameteriNV(GLenum pname, GLint param) {
-    
+#ifndef skip_glPointParameteriNV
+void glPointParameteriNV(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameteriv
-void PointParameteriv(GLenum pname, GLint params) {
-    
+#ifndef skip_glPointParameteriv
+void glPointParameteriv(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterivNV
-void PointParameterivNV(GLenum pname, GLint params) {
-    
+#ifndef skip_glPointParameterivNV
+void glPointParameterivNV(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointParameterxvOES
-void PointParameterxvOES(GLenum pname, GLfixed params) {
-    
+#ifndef skip_glPointParameterxvOES
+void glPointParameterxvOES(GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointSize
-void PointSize(GLfloat size) {
-    
+#ifndef skip_glPointSize
+void glPointSize(GLfloat size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PointSizexOES
-void PointSizexOES(GLfixed size) {
-    
+#ifndef skip_glPointSizexOES
+void glPointSizexOES(GLfixed size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PollAsyncSGIX
-Int32 PollAsyncSGIX(GLuint markerp) {
-    
+#ifndef skip_glPollAsyncSGIX
+Int32 glPollAsyncSGIX(GLuint markerp) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PollInstrumentsSGIX
-Int32 PollInstrumentsSGIX(GLint marker_p) {
-    
+#ifndef skip_glPollInstrumentsSGIX
+Int32 glPollInstrumentsSGIX(GLint marker_p) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PolygonMode
-void PolygonMode(GLenum face, GLenum mode) {
-    
+#ifndef skip_glPolygonMode
+void glPolygonMode(GLenum face, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PolygonOffset
-void PolygonOffset(GLfloat factor, GLfloat units) {
-    
+#ifndef skip_glPolygonOffset
+void glPolygonOffset(GLfloat factor, GLfloat units) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PolygonOffsetEXT
-void PolygonOffsetEXT(GLfloat factor, GLfloat bias) {
-    
+#ifndef skip_glPolygonOffsetEXT
+void glPolygonOffsetEXT(GLfloat factor, GLfloat bias) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PolygonOffsetxOES
-void PolygonOffsetxOES(GLfixed factor, GLfixed units) {
-    
+#ifndef skip_glPolygonOffsetxOES
+void glPolygonOffsetxOES(GLfixed factor, GLfixed units) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PolygonStipple
-void PolygonStipple(GLubyte mask) {
-    
+#ifndef skip_glPolygonStipple
+void glPolygonStipple(GLubyte mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PopAttrib
-void PopAttrib() {
-    
+#ifndef skip_glPopAttrib
+void glPopAttrib() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PopClientAttrib
-void PopClientAttrib() {
-    
+#ifndef skip_glPopClientAttrib
+void glPopClientAttrib() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PopDebugGroup
-void PopDebugGroup() {
-    
+#ifndef skip_glPopDebugGroup
+void glPopDebugGroup() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PopMatrix
-void PopMatrix() {
-    
+#ifndef skip_glPopMatrix
+void glPopMatrix() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PopName
-void PopName() {
-    
+#ifndef skip_glPopName
+void glPopName() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PresentFrameDualFillNV
-void PresentFrameDualFillNV(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLenum target1, GLuint fill1, GLenum target2, GLuint fill2, GLenum target3, GLuint fill3) {
-    
+#ifndef skip_glPresentFrameDualFillNV
+void glPresentFrameDualFillNV(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLenum target1, GLuint fill1, GLenum target2, GLuint fill2, GLenum target3, GLuint fill3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PresentFrameKeyedNV
-void PresentFrameKeyedNV(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLuint key0, GLenum target1, GLuint fill1, GLuint key1) {
-    
+#ifndef skip_glPresentFrameKeyedNV
+void glPresentFrameKeyedNV(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLuint key0, GLenum target1, GLuint fill1, GLuint key1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrimitiveRestartIndex
-void PrimitiveRestartIndex(GLuint index) {
-    
+#ifndef skip_glPrimitiveRestartIndex
+void glPrimitiveRestartIndex(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrimitiveRestartIndexNV
-void PrimitiveRestartIndexNV(GLuint index) {
-    
+#ifndef skip_glPrimitiveRestartIndexNV
+void glPrimitiveRestartIndexNV(GLuint index) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrimitiveRestartNV
-void PrimitiveRestartNV() {
-    
+#ifndef skip_glPrimitiveRestartNV
+void glPrimitiveRestartNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrioritizeTextures
-void PrioritizeTextures(GLsizei n, GLuint textures, GLfloat priorities) {
-    
+#ifndef skip_glPrioritizeTextures
+void glPrioritizeTextures(GLsizei n, GLuint textures, GLfloat priorities) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrioritizeTexturesEXT
-void PrioritizeTexturesEXT(GLsizei n, GLuint textures, GLclampf priorities) {
-    
+#ifndef skip_glPrioritizeTexturesEXT
+void glPrioritizeTexturesEXT(GLsizei n, GLuint textures, GLclampf priorities) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PrioritizeTexturesxOES
-void PrioritizeTexturesxOES(GLsizei n, GLuint textures, GLfixed priorities) {
-    
+#ifndef skip_glPrioritizeTexturesxOES
+void glPrioritizeTexturesxOES(GLsizei n, GLuint textures, GLfixed priorities) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramBinary
-void ProgramBinary(GLuint program, GLenum binaryFormat, GLvoid binary, GLsizei length) {
-    
+#ifndef skip_glProgramBinary
+void glProgramBinary(GLuint program, GLenum binaryFormat, GLvoid binary, GLsizei length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramBufferParametersIivNV
-void ProgramBufferParametersIivNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLint params) {
-    
+#ifndef skip_glProgramBufferParametersIivNV
+void glProgramBufferParametersIivNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramBufferParametersIuivNV
-void ProgramBufferParametersIuivNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLuint params) {
-    
+#ifndef skip_glProgramBufferParametersIuivNV
+void glProgramBufferParametersIuivNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramBufferParametersfvNV
-void ProgramBufferParametersfvNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLfloat params) {
-    
+#ifndef skip_glProgramBufferParametersfvNV
+void glProgramBufferParametersfvNV(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameter4dARB
-void ProgramEnvParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glProgramEnvParameter4dARB
+void glProgramEnvParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameter4dvARB
-void ProgramEnvParameter4dvARB(GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glProgramEnvParameter4dvARB
+void glProgramEnvParameter4dvARB(GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameter4fARB
-void ProgramEnvParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glProgramEnvParameter4fARB
+void glProgramEnvParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameter4fvARB
-void ProgramEnvParameter4fvARB(GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glProgramEnvParameter4fvARB
+void glProgramEnvParameter4fvARB(GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameterI4iNV
-void ProgramEnvParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glProgramEnvParameterI4iNV
+void glProgramEnvParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameterI4ivNV
-void ProgramEnvParameterI4ivNV(GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glProgramEnvParameterI4ivNV
+void glProgramEnvParameterI4ivNV(GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameterI4uiNV
-void ProgramEnvParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
-    
+#ifndef skip_glProgramEnvParameterI4uiNV
+void glProgramEnvParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameterI4uivNV
-void ProgramEnvParameterI4uivNV(GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glProgramEnvParameterI4uivNV
+void glProgramEnvParameterI4uivNV(GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParameters4fvEXT
-void ProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, GLfloat params) {
-    
+#ifndef skip_glProgramEnvParameters4fvEXT
+void glProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParametersI4ivNV
-void ProgramEnvParametersI4ivNV(GLenum target, GLuint index, GLsizei count, GLint params) {
-    
+#ifndef skip_glProgramEnvParametersI4ivNV
+void glProgramEnvParametersI4ivNV(GLenum target, GLuint index, GLsizei count, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramEnvParametersI4uivNV
-void ProgramEnvParametersI4uivNV(GLenum target, GLuint index, GLsizei count, GLuint params) {
-    
+#ifndef skip_glProgramEnvParametersI4uivNV
+void glProgramEnvParametersI4uivNV(GLenum target, GLuint index, GLsizei count, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameter4dARB
-void ProgramLocalParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glProgramLocalParameter4dARB
+void glProgramLocalParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameter4dvARB
-void ProgramLocalParameter4dvARB(GLenum target, GLuint index, GLdouble params) {
-    
+#ifndef skip_glProgramLocalParameter4dvARB
+void glProgramLocalParameter4dvARB(GLenum target, GLuint index, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameter4fARB
-void ProgramLocalParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glProgramLocalParameter4fARB
+void glProgramLocalParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameter4fvARB
-void ProgramLocalParameter4fvARB(GLenum target, GLuint index, GLfloat params) {
-    
+#ifndef skip_glProgramLocalParameter4fvARB
+void glProgramLocalParameter4fvARB(GLenum target, GLuint index, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameterI4iNV
-void ProgramLocalParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glProgramLocalParameterI4iNV
+void glProgramLocalParameterI4iNV(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameterI4ivNV
-void ProgramLocalParameterI4ivNV(GLenum target, GLuint index, GLint params) {
-    
+#ifndef skip_glProgramLocalParameterI4ivNV
+void glProgramLocalParameterI4ivNV(GLenum target, GLuint index, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameterI4uiNV
-void ProgramLocalParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
-    
+#ifndef skip_glProgramLocalParameterI4uiNV
+void glProgramLocalParameterI4uiNV(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameterI4uivNV
-void ProgramLocalParameterI4uivNV(GLenum target, GLuint index, GLuint params) {
-    
+#ifndef skip_glProgramLocalParameterI4uivNV
+void glProgramLocalParameterI4uivNV(GLenum target, GLuint index, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParameters4fvEXT
-void ProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, GLfloat params) {
-    
+#ifndef skip_glProgramLocalParameters4fvEXT
+void glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParametersI4ivNV
-void ProgramLocalParametersI4ivNV(GLenum target, GLuint index, GLsizei count, GLint params) {
-    
+#ifndef skip_glProgramLocalParametersI4ivNV
+void glProgramLocalParametersI4ivNV(GLenum target, GLuint index, GLsizei count, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramLocalParametersI4uivNV
-void ProgramLocalParametersI4uivNV(GLenum target, GLuint index, GLsizei count, GLuint params) {
-    
+#ifndef skip_glProgramLocalParametersI4uivNV
+void glProgramLocalParametersI4uivNV(GLenum target, GLuint index, GLsizei count, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramNamedParameter4dNV
-void ProgramNamedParameter4dNV(GLuint id, GLsizei len, GLubyte name, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glProgramNamedParameter4dNV
+void glProgramNamedParameter4dNV(GLuint id, GLsizei len, GLubyte name, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramNamedParameter4dvNV
-void ProgramNamedParameter4dvNV(GLuint id, GLsizei len, GLubyte name, GLdouble v) {
-    
+#ifndef skip_glProgramNamedParameter4dvNV
+void glProgramNamedParameter4dvNV(GLuint id, GLsizei len, GLubyte name, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramNamedParameter4fNV
-void ProgramNamedParameter4fNV(GLuint id, GLsizei len, GLubyte name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glProgramNamedParameter4fNV
+void glProgramNamedParameter4fNV(GLuint id, GLsizei len, GLubyte name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramNamedParameter4fvNV
-void ProgramNamedParameter4fvNV(GLuint id, GLsizei len, GLubyte name, GLfloat v) {
-    
+#ifndef skip_glProgramNamedParameter4fvNV
+void glProgramNamedParameter4fvNV(GLuint id, GLsizei len, GLubyte name, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameter4dNV
-void ProgramParameter4dNV(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glProgramParameter4dNV
+void glProgramParameter4dNV(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameter4dvNV
-void ProgramParameter4dvNV(GLenum target, GLuint index, GLdouble v) {
-    
+#ifndef skip_glProgramParameter4dvNV
+void glProgramParameter4dvNV(GLenum target, GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameter4fNV
-void ProgramParameter4fNV(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glProgramParameter4fNV
+void glProgramParameter4fNV(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameter4fvNV
-void ProgramParameter4fvNV(GLenum target, GLuint index, GLfloat v) {
-    
+#ifndef skip_glProgramParameter4fvNV
+void glProgramParameter4fvNV(GLenum target, GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameteri
-void ProgramParameteri(GLuint program, GLenum pname, GLint value) {
-    
+#ifndef skip_glProgramParameteri
+void glProgramParameteri(GLuint program, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameteriARB
-void ProgramParameteriARB(GLuint program, GLenum pname, GLint value) {
-    
+#ifndef skip_glProgramParameteriARB
+void glProgramParameteriARB(GLuint program, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameteriEXT
-void ProgramParameteriEXT(GLuint program, GLenum pname, GLint value) {
-    
+#ifndef skip_glProgramParameteriEXT
+void glProgramParameteriEXT(GLuint program, GLenum pname, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameters4dvNV
-void ProgramParameters4dvNV(GLenum target, GLuint index, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glProgramParameters4dvNV
+void glProgramParameters4dvNV(GLenum target, GLuint index, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramParameters4fvNV
-void ProgramParameters4fvNV(GLenum target, GLuint index, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glProgramParameters4fvNV
+void glProgramParameters4fvNV(GLenum target, GLuint index, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramStringARB
-void ProgramStringARB(GLenum target, GLenum format, GLsizei len, GLvoid string) {
-    
+#ifndef skip_glProgramStringARB
+void glProgramStringARB(GLenum target, GLenum format, GLsizei len, GLvoid string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramSubroutineParametersuivNV
-void ProgramSubroutineParametersuivNV(GLenum target, GLsizei count, GLuint params) {
-    
+#ifndef skip_glProgramSubroutineParametersuivNV
+void glProgramSubroutineParametersuivNV(GLenum target, GLsizei count, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1d
-void ProgramUniform1d(GLuint program, GLint location, GLdouble v0) {
-    
+#ifndef skip_glProgramUniform1d
+void glProgramUniform1d(GLuint program, GLint location, GLdouble v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1dEXT
-void ProgramUniform1dEXT(GLuint program, GLint location, GLdouble x) {
-    
+#ifndef skip_glProgramUniform1dEXT
+void glProgramUniform1dEXT(GLuint program, GLint location, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1dv
-void ProgramUniform1dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform1dv
+void glProgramUniform1dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1dvEXT
-void ProgramUniform1dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform1dvEXT
+void glProgramUniform1dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1f
-void ProgramUniform1f(GLuint program, GLint location, GLfloat v0) {
-    
+#ifndef skip_glProgramUniform1f
+void glProgramUniform1f(GLuint program, GLint location, GLfloat v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1fEXT
-void ProgramUniform1fEXT(GLuint program, GLint location, GLfloat v0) {
-    
+#ifndef skip_glProgramUniform1fEXT
+void glProgramUniform1fEXT(GLuint program, GLint location, GLfloat v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1fv
-void ProgramUniform1fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform1fv
+void glProgramUniform1fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1fvEXT
-void ProgramUniform1fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform1fvEXT
+void glProgramUniform1fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1i
-void ProgramUniform1i(GLuint program, GLint location, GLint v0) {
-    
+#ifndef skip_glProgramUniform1i
+void glProgramUniform1i(GLuint program, GLint location, GLint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1i64NV
-void ProgramUniform1i64NV(GLuint program, GLint location, GLint64EXT x) {
-    
+#ifndef skip_glProgramUniform1i64NV
+void glProgramUniform1i64NV(GLuint program, GLint location, GLint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1i64vNV
-void ProgramUniform1i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glProgramUniform1i64vNV
+void glProgramUniform1i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1iEXT
-void ProgramUniform1iEXT(GLuint program, GLint location, GLint v0) {
-    
+#ifndef skip_glProgramUniform1iEXT
+void glProgramUniform1iEXT(GLuint program, GLint location, GLint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1iv
-void ProgramUniform1iv(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform1iv
+void glProgramUniform1iv(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1ivEXT
-void ProgramUniform1ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform1ivEXT
+void glProgramUniform1ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1ui
-void ProgramUniform1ui(GLuint program, GLint location, GLuint v0) {
-    
+#ifndef skip_glProgramUniform1ui
+void glProgramUniform1ui(GLuint program, GLint location, GLuint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1ui64NV
-void ProgramUniform1ui64NV(GLuint program, GLint location, GLuint64EXT x) {
-    
+#ifndef skip_glProgramUniform1ui64NV
+void glProgramUniform1ui64NV(GLuint program, GLint location, GLuint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1ui64vNV
-void ProgramUniform1ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniform1ui64vNV
+void glProgramUniform1ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1uiEXT
-void ProgramUniform1uiEXT(GLuint program, GLint location, GLuint v0) {
-    
+#ifndef skip_glProgramUniform1uiEXT
+void glProgramUniform1uiEXT(GLuint program, GLint location, GLuint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1uiv
-void ProgramUniform1uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform1uiv
+void glProgramUniform1uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform1uivEXT
-void ProgramUniform1uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform1uivEXT
+void glProgramUniform1uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2d
-void ProgramUniform2d(GLuint program, GLint location, GLdouble v0, GLdouble v1) {
-    
+#ifndef skip_glProgramUniform2d
+void glProgramUniform2d(GLuint program, GLint location, GLdouble v0, GLdouble v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2dEXT
-void ProgramUniform2dEXT(GLuint program, GLint location, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glProgramUniform2dEXT
+void glProgramUniform2dEXT(GLuint program, GLint location, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2dv
-void ProgramUniform2dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform2dv
+void glProgramUniform2dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2dvEXT
-void ProgramUniform2dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform2dvEXT
+void glProgramUniform2dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2f
-void ProgramUniform2f(GLuint program, GLint location, GLfloat v0, GLfloat v1) {
-    
+#ifndef skip_glProgramUniform2f
+void glProgramUniform2f(GLuint program, GLint location, GLfloat v0, GLfloat v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2fEXT
-void ProgramUniform2fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1) {
-    
+#ifndef skip_glProgramUniform2fEXT
+void glProgramUniform2fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2fv
-void ProgramUniform2fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform2fv
+void glProgramUniform2fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2fvEXT
-void ProgramUniform2fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform2fvEXT
+void glProgramUniform2fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2i
-void ProgramUniform2i(GLuint program, GLint location, GLint v0, GLint v1) {
-    
+#ifndef skip_glProgramUniform2i
+void glProgramUniform2i(GLuint program, GLint location, GLint v0, GLint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2i64NV
-void ProgramUniform2i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y) {
-    
+#ifndef skip_glProgramUniform2i64NV
+void glProgramUniform2i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2i64vNV
-void ProgramUniform2i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glProgramUniform2i64vNV
+void glProgramUniform2i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2iEXT
-void ProgramUniform2iEXT(GLuint program, GLint location, GLint v0, GLint v1) {
-    
+#ifndef skip_glProgramUniform2iEXT
+void glProgramUniform2iEXT(GLuint program, GLint location, GLint v0, GLint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2iv
-void ProgramUniform2iv(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform2iv
+void glProgramUniform2iv(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2ivEXT
-void ProgramUniform2ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform2ivEXT
+void glProgramUniform2ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2ui
-void ProgramUniform2ui(GLuint program, GLint location, GLuint v0, GLuint v1) {
-    
+#ifndef skip_glProgramUniform2ui
+void glProgramUniform2ui(GLuint program, GLint location, GLuint v0, GLuint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2ui64NV
-void ProgramUniform2ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y) {
-    
+#ifndef skip_glProgramUniform2ui64NV
+void glProgramUniform2ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2ui64vNV
-void ProgramUniform2ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniform2ui64vNV
+void glProgramUniform2ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2uiEXT
-void ProgramUniform2uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1) {
-    
+#ifndef skip_glProgramUniform2uiEXT
+void glProgramUniform2uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2uiv
-void ProgramUniform2uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform2uiv
+void glProgramUniform2uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform2uivEXT
-void ProgramUniform2uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform2uivEXT
+void glProgramUniform2uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3d
-void ProgramUniform3d(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2) {
-    
+#ifndef skip_glProgramUniform3d
+void glProgramUniform3d(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3dEXT
-void ProgramUniform3dEXT(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glProgramUniform3dEXT
+void glProgramUniform3dEXT(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3dv
-void ProgramUniform3dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform3dv
+void glProgramUniform3dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3dvEXT
-void ProgramUniform3dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform3dvEXT
+void glProgramUniform3dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3f
-void ProgramUniform3f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glProgramUniform3f
+void glProgramUniform3f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3fEXT
-void ProgramUniform3fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glProgramUniform3fEXT
+void glProgramUniform3fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3fv
-void ProgramUniform3fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform3fv
+void glProgramUniform3fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3fvEXT
-void ProgramUniform3fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform3fvEXT
+void glProgramUniform3fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3i
-void ProgramUniform3i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2) {
-    
+#ifndef skip_glProgramUniform3i
+void glProgramUniform3i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3i64NV
-void ProgramUniform3i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
-    
+#ifndef skip_glProgramUniform3i64NV
+void glProgramUniform3i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3i64vNV
-void ProgramUniform3i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glProgramUniform3i64vNV
+void glProgramUniform3i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3iEXT
-void ProgramUniform3iEXT(GLuint program, GLint location, GLint v0, GLint v1, GLint v2) {
-    
+#ifndef skip_glProgramUniform3iEXT
+void glProgramUniform3iEXT(GLuint program, GLint location, GLint v0, GLint v1, GLint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3iv
-void ProgramUniform3iv(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform3iv
+void glProgramUniform3iv(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3ivEXT
-void ProgramUniform3ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform3ivEXT
+void glProgramUniform3ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3ui
-void ProgramUniform3ui(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2) {
-    
+#ifndef skip_glProgramUniform3ui
+void glProgramUniform3ui(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3ui64NV
-void ProgramUniform3ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
-    
+#ifndef skip_glProgramUniform3ui64NV
+void glProgramUniform3ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3ui64vNV
-void ProgramUniform3ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniform3ui64vNV
+void glProgramUniform3ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3uiEXT
-void ProgramUniform3uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2) {
-    
+#ifndef skip_glProgramUniform3uiEXT
+void glProgramUniform3uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3uiv
-void ProgramUniform3uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform3uiv
+void glProgramUniform3uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform3uivEXT
-void ProgramUniform3uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform3uivEXT
+void glProgramUniform3uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4d
-void ProgramUniform4d(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3) {
-    
+#ifndef skip_glProgramUniform4d
+void glProgramUniform4d(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4dEXT
-void ProgramUniform4dEXT(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glProgramUniform4dEXT
+void glProgramUniform4dEXT(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4dv
-void ProgramUniform4dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform4dv
+void glProgramUniform4dv(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4dvEXT
-void ProgramUniform4dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glProgramUniform4dvEXT
+void glProgramUniform4dvEXT(GLuint program, GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4f
-void ProgramUniform4f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
-    
+#ifndef skip_glProgramUniform4f
+void glProgramUniform4f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4fEXT
-void ProgramUniform4fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
-    
+#ifndef skip_glProgramUniform4fEXT
+void glProgramUniform4fEXT(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4fv
-void ProgramUniform4fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform4fv
+void glProgramUniform4fv(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4fvEXT
-void ProgramUniform4fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glProgramUniform4fvEXT
+void glProgramUniform4fvEXT(GLuint program, GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4i
-void ProgramUniform4i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
-    
+#ifndef skip_glProgramUniform4i
+void glProgramUniform4i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4i64NV
-void ProgramUniform4i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
-    
+#ifndef skip_glProgramUniform4i64NV
+void glProgramUniform4i64NV(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4i64vNV
-void ProgramUniform4i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glProgramUniform4i64vNV
+void glProgramUniform4i64vNV(GLuint program, GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4iEXT
-void ProgramUniform4iEXT(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
-    
+#ifndef skip_glProgramUniform4iEXT
+void glProgramUniform4iEXT(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4iv
-void ProgramUniform4iv(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform4iv
+void glProgramUniform4iv(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4ivEXT
-void ProgramUniform4ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glProgramUniform4ivEXT
+void glProgramUniform4ivEXT(GLuint program, GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4ui
-void ProgramUniform4ui(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
-    
+#ifndef skip_glProgramUniform4ui
+void glProgramUniform4ui(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4ui64NV
-void ProgramUniform4ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
-    
+#ifndef skip_glProgramUniform4ui64NV
+void glProgramUniform4ui64NV(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4ui64vNV
-void ProgramUniform4ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniform4ui64vNV
+void glProgramUniform4ui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4uiEXT
-void ProgramUniform4uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
-    
+#ifndef skip_glProgramUniform4uiEXT
+void glProgramUniform4uiEXT(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4uiv
-void ProgramUniform4uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform4uiv
+void glProgramUniform4uiv(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniform4uivEXT
-void ProgramUniform4uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glProgramUniform4uivEXT
+void glProgramUniform4uivEXT(GLuint program, GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformHandleui64NV
-void ProgramUniformHandleui64NV(GLuint program, GLint location, GLuint64 value) {
-    
+#ifndef skip_glProgramUniformHandleui64NV
+void glProgramUniformHandleui64NV(GLuint program, GLint location, GLuint64 value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformHandleui64vNV
-void ProgramUniformHandleui64vNV(GLuint program, GLint location, GLsizei count, GLuint64 values) {
-    
+#ifndef skip_glProgramUniformHandleui64vNV
+void glProgramUniformHandleui64vNV(GLuint program, GLint location, GLsizei count, GLuint64 values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2dv
-void ProgramUniformMatrix2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2dv
+void glProgramUniformMatrix2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2dvEXT
-void ProgramUniformMatrix2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2dvEXT
+void glProgramUniformMatrix2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2fv
-void ProgramUniformMatrix2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2fv
+void glProgramUniformMatrix2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2fvEXT
-void ProgramUniformMatrix2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2fvEXT
+void glProgramUniformMatrix2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x3dv
-void ProgramUniformMatrix2x3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2x3dv
+void glProgramUniformMatrix2x3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x3dvEXT
-void ProgramUniformMatrix2x3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2x3dvEXT
+void glProgramUniformMatrix2x3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x3fv
-void ProgramUniformMatrix2x3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2x3fv
+void glProgramUniformMatrix2x3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x3fvEXT
-void ProgramUniformMatrix2x3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2x3fvEXT
+void glProgramUniformMatrix2x3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x4dv
-void ProgramUniformMatrix2x4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2x4dv
+void glProgramUniformMatrix2x4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x4dvEXT
-void ProgramUniformMatrix2x4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix2x4dvEXT
+void glProgramUniformMatrix2x4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x4fv
-void ProgramUniformMatrix2x4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2x4fv
+void glProgramUniformMatrix2x4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix2x4fvEXT
-void ProgramUniformMatrix2x4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix2x4fvEXT
+void glProgramUniformMatrix2x4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3dv
-void ProgramUniformMatrix3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3dv
+void glProgramUniformMatrix3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3dvEXT
-void ProgramUniformMatrix3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3dvEXT
+void glProgramUniformMatrix3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3fv
-void ProgramUniformMatrix3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3fv
+void glProgramUniformMatrix3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3fvEXT
-void ProgramUniformMatrix3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3fvEXT
+void glProgramUniformMatrix3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x2dv
-void ProgramUniformMatrix3x2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3x2dv
+void glProgramUniformMatrix3x2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x2dvEXT
-void ProgramUniformMatrix3x2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3x2dvEXT
+void glProgramUniformMatrix3x2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x2fv
-void ProgramUniformMatrix3x2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3x2fv
+void glProgramUniformMatrix3x2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x2fvEXT
-void ProgramUniformMatrix3x2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3x2fvEXT
+void glProgramUniformMatrix3x2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x4dv
-void ProgramUniformMatrix3x4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3x4dv
+void glProgramUniformMatrix3x4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x4dvEXT
-void ProgramUniformMatrix3x4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix3x4dvEXT
+void glProgramUniformMatrix3x4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x4fv
-void ProgramUniformMatrix3x4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3x4fv
+void glProgramUniformMatrix3x4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix3x4fvEXT
-void ProgramUniformMatrix3x4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix3x4fvEXT
+void glProgramUniformMatrix3x4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4dv
-void ProgramUniformMatrix4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4dv
+void glProgramUniformMatrix4dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4dvEXT
-void ProgramUniformMatrix4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4dvEXT
+void glProgramUniformMatrix4dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4fv
-void ProgramUniformMatrix4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4fv
+void glProgramUniformMatrix4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4fvEXT
-void ProgramUniformMatrix4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4fvEXT
+void glProgramUniformMatrix4fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x2dv
-void ProgramUniformMatrix4x2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4x2dv
+void glProgramUniformMatrix4x2dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x2dvEXT
-void ProgramUniformMatrix4x2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4x2dvEXT
+void glProgramUniformMatrix4x2dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x2fv
-void ProgramUniformMatrix4x2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4x2fv
+void glProgramUniformMatrix4x2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x2fvEXT
-void ProgramUniformMatrix4x2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4x2fvEXT
+void glProgramUniformMatrix4x2fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x3dv
-void ProgramUniformMatrix4x3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4x3dv
+void glProgramUniformMatrix4x3dv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x3dvEXT
-void ProgramUniformMatrix4x3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glProgramUniformMatrix4x3dvEXT
+void glProgramUniformMatrix4x3dvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x3fv
-void ProgramUniformMatrix4x3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4x3fv
+void glProgramUniformMatrix4x3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformMatrix4x3fvEXT
-void ProgramUniformMatrix4x3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glProgramUniformMatrix4x3fvEXT
+void glProgramUniformMatrix4x3fvEXT(GLuint program, GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformui64NV
-void ProgramUniformui64NV(GLuint program, GLint location, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniformui64NV
+void glProgramUniformui64NV(GLuint program, GLint location, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramUniformui64vNV
-void ProgramUniformui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glProgramUniformui64vNV
+void glProgramUniformui64vNV(GLuint program, GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProgramVertexLimitNV
-void ProgramVertexLimitNV(GLenum target, GLint limit) {
-    
+#ifndef skip_glProgramVertexLimitNV
+void glProgramVertexLimitNV(GLenum target, GLint limit) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProvokingVertex
-void ProvokingVertex(GLenum mode) {
-    
+#ifndef skip_glProvokingVertex
+void glProvokingVertex(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ProvokingVertexEXT
-void ProvokingVertexEXT(GLenum mode) {
-    
+#ifndef skip_glProvokingVertexEXT
+void glProvokingVertexEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushAttrib
-void PushAttrib(GLbitfield mask) {
-    
+#ifndef skip_glPushAttrib
+void glPushAttrib(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushClientAttrib
-void PushClientAttrib(GLbitfield mask) {
-    
+#ifndef skip_glPushClientAttrib
+void glPushClientAttrib(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushClientAttribDefaultEXT
-void PushClientAttribDefaultEXT(GLbitfield mask) {
-    
+#ifndef skip_glPushClientAttribDefaultEXT
+void glPushClientAttribDefaultEXT(GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushDebugGroup
-void PushDebugGroup(GLenum source, GLuint id, GLsizei length, GLchar message) {
-    
+#ifndef skip_glPushDebugGroup
+void glPushDebugGroup(GLenum source, GLuint id, GLsizei length, GLchar message) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushMatrix
-void PushMatrix() {
-    
+#ifndef skip_glPushMatrix
+void glPushMatrix() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_PushName
-void PushName(GLuint name) {
-    
+#ifndef skip_glPushName
+void glPushName(GLuint name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryCounter
-void QueryCounter(GLuint id, GLenum target) {
-    
+#ifndef skip_glQueryCounter
+void glQueryCounter(GLuint id, GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryMatrixxOES
-GLbitfield QueryMatrixxOES(GLfixed mantissa, GLint exponent) {
-    
+#ifndef skip_glQueryMatrixxOES
+GLbitfield glQueryMatrixxOES(GLfixed mantissa, GLint exponent) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2d
-void RasterPos2d(GLdouble x, GLdouble y) {
-    
+#ifndef skip_glRasterPos2d
+void glRasterPos2d(GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2dv
-void RasterPos2dv(GLdouble v) {
-    
+#ifndef skip_glRasterPos2dv
+void glRasterPos2dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2f
-void RasterPos2f(GLfloat x, GLfloat y) {
-    
+#ifndef skip_glRasterPos2f
+void glRasterPos2f(GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2fv
-void RasterPos2fv(GLfloat v) {
-    
+#ifndef skip_glRasterPos2fv
+void glRasterPos2fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2i
-void RasterPos2i(GLint x, GLint y) {
-    
+#ifndef skip_glRasterPos2i
+void glRasterPos2i(GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2iv
-void RasterPos2iv(GLint v) {
-    
+#ifndef skip_glRasterPos2iv
+void glRasterPos2iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2s
-void RasterPos2s(GLshort x, GLshort y) {
-    
+#ifndef skip_glRasterPos2s
+void glRasterPos2s(GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2sv
-void RasterPos2sv(GLshort v) {
-    
+#ifndef skip_glRasterPos2sv
+void glRasterPos2sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2xOES
-void RasterPos2xOES(GLfixed x, GLfixed y) {
-    
+#ifndef skip_glRasterPos2xOES
+void glRasterPos2xOES(GLfixed x, GLfixed y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos2xvOES
-void RasterPos2xvOES(GLfixed coords) {
-    
+#ifndef skip_glRasterPos2xvOES
+void glRasterPos2xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3d
-void RasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glRasterPos3d
+void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3dv
-void RasterPos3dv(GLdouble v) {
-    
+#ifndef skip_glRasterPos3dv
+void glRasterPos3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3f
-void RasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glRasterPos3f
+void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3fv
-void RasterPos3fv(GLfloat v) {
-    
+#ifndef skip_glRasterPos3fv
+void glRasterPos3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3i
-void RasterPos3i(GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glRasterPos3i
+void glRasterPos3i(GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3iv
-void RasterPos3iv(GLint v) {
-    
+#ifndef skip_glRasterPos3iv
+void glRasterPos3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3s
-void RasterPos3s(GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glRasterPos3s
+void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3sv
-void RasterPos3sv(GLshort v) {
-    
+#ifndef skip_glRasterPos3sv
+void glRasterPos3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3xOES
-void RasterPos3xOES(GLfixed x, GLfixed y, GLfixed z) {
-    
+#ifndef skip_glRasterPos3xOES
+void glRasterPos3xOES(GLfixed x, GLfixed y, GLfixed z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos3xvOES
-void RasterPos3xvOES(GLfixed coords) {
-    
+#ifndef skip_glRasterPos3xvOES
+void glRasterPos3xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4d
-void RasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glRasterPos4d
+void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4dv
-void RasterPos4dv(GLdouble v) {
-    
+#ifndef skip_glRasterPos4dv
+void glRasterPos4dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4f
-void RasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glRasterPos4f
+void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4fv
-void RasterPos4fv(GLfloat v) {
-    
+#ifndef skip_glRasterPos4fv
+void glRasterPos4fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4i
-void RasterPos4i(GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glRasterPos4i
+void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4iv
-void RasterPos4iv(GLint v) {
-    
+#ifndef skip_glRasterPos4iv
+void glRasterPos4iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4s
-void RasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glRasterPos4s
+void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4sv
-void RasterPos4sv(GLshort v) {
-    
+#ifndef skip_glRasterPos4sv
+void glRasterPos4sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4xOES
-void RasterPos4xOES(GLfixed x, GLfixed y, GLfixed z, GLfixed w) {
-    
+#ifndef skip_glRasterPos4xOES
+void glRasterPos4xOES(GLfixed x, GLfixed y, GLfixed z, GLfixed w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RasterPos4xvOES
-void RasterPos4xvOES(GLfixed coords) {
-    
+#ifndef skip_glRasterPos4xvOES
+void glRasterPos4xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReadBuffer
-void ReadBuffer(GLenum mode) {
-    
+#ifndef skip_glReadBuffer
+void glReadBuffer(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReadInstrumentsSGIX
-void ReadInstrumentsSGIX(GLint marker) {
-    
+#ifndef skip_glReadInstrumentsSGIX
+void glReadInstrumentsSGIX(GLint marker) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReadPixels
-void ReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glReadPixels
+void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReadnPixelsARB
-void ReadnPixelsARB(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLsizei bufSize, GLvoid data) {
-    
+#ifndef skip_glReadnPixelsARB
+void glReadnPixelsARB(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLsizei bufSize, GLvoid data) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectd
-void Rectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
-    
+#ifndef skip_glRectd
+void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectdv
-void Rectdv(GLdouble v1, GLdouble v2) {
-    
+#ifndef skip_glRectdv
+void glRectdv(GLdouble v1, GLdouble v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectf
-void Rectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
-    
+#ifndef skip_glRectf
+void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectfv
-void Rectfv(GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glRectfv
+void glRectfv(GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Recti
-void Recti(GLint x1, GLint y1, GLint x2, GLint y2) {
-    
+#ifndef skip_glRecti
+void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectiv
-void Rectiv(GLint v1, GLint v2) {
-    
+#ifndef skip_glRectiv
+void glRectiv(GLint v1, GLint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rects
-void Rects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
-    
+#ifndef skip_glRects
+void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rectsv
-void Rectsv(GLshort v1, GLshort v2) {
-    
+#ifndef skip_glRectsv
+void glRectsv(GLshort v1, GLshort v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RectxOES
-void RectxOES(GLfixed x1, GLfixed y1, GLfixed x2, GLfixed y2) {
-    
+#ifndef skip_glRectxOES
+void glRectxOES(GLfixed x1, GLfixed y1, GLfixed x2, GLfixed y2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RectxvOES
-void RectxvOES(GLfixed v1, GLfixed v2) {
-    
+#ifndef skip_glRectxvOES
+void glRectxvOES(GLfixed v1, GLfixed v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReferencePlaneSGIX
-void ReferencePlaneSGIX(GLdouble equation) {
-    
+#ifndef skip_glReferencePlaneSGIX
+void glReferencePlaneSGIX(GLdouble equation) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseShaderCompiler
-void ReleaseShaderCompiler() {
-    
+#ifndef skip_glReleaseShaderCompiler
+void glReleaseShaderCompiler() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderMode
-Int32 RenderMode(GLenum mode) {
-    
+#ifndef skip_glRenderMode
+Int32 glRenderMode(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderbufferStorage
-void RenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glRenderbufferStorage
+void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderbufferStorageEXT
-void RenderbufferStorageEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glRenderbufferStorageEXT
+void glRenderbufferStorageEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderbufferStorageMultisample
-void RenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glRenderbufferStorageMultisample
+void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderbufferStorageMultisampleCoverageNV
-void RenderbufferStorageMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glRenderbufferStorageMultisampleCoverageNV
+void glRenderbufferStorageMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RenderbufferStorageMultisampleEXT
-void RenderbufferStorageMultisampleEXT(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glRenderbufferStorageMultisampleEXT
+void glRenderbufferStorageMultisampleEXT(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodePointerSUN
-void ReplacementCodePointerSUN(GLenum type, GLsizei stride, GLvoid * pointer) {
-    
+#ifndef skip_glReplacementCodePointerSUN
+void glReplacementCodePointerSUN(GLenum type, GLsizei stride, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeubSUN
-void ReplacementCodeubSUN(GLubyte code) {
-    
+#ifndef skip_glReplacementCodeubSUN
+void glReplacementCodeubSUN(GLubyte code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeubvSUN
-void ReplacementCodeubvSUN(GLubyte code) {
-    
+#ifndef skip_glReplacementCodeubvSUN
+void glReplacementCodeubvSUN(GLubyte code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor3fVertex3fSUN
-void ReplacementCodeuiColor3fVertex3fSUN(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiColor3fVertex3fSUN
+void glReplacementCodeuiColor3fVertex3fSUN(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor3fVertex3fvSUN
-void ReplacementCodeuiColor3fVertex3fvSUN(GLuint rc, GLfloat c, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiColor3fVertex3fvSUN
+void glReplacementCodeuiColor3fVertex3fvSUN(GLuint rc, GLfloat c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor4fNormal3fVertex3fSUN
-void ReplacementCodeuiColor4fNormal3fVertex3fSUN(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiColor4fNormal3fVertex3fSUN
+void glReplacementCodeuiColor4fNormal3fVertex3fSUN(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor4fNormal3fVertex3fvSUN
-void ReplacementCodeuiColor4fNormal3fVertex3fvSUN(GLuint rc, GLfloat c, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiColor4fNormal3fVertex3fvSUN
+void glReplacementCodeuiColor4fNormal3fVertex3fvSUN(GLuint rc, GLfloat c, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor4ubVertex3fSUN
-void ReplacementCodeuiColor4ubVertex3fSUN(GLuint rc, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiColor4ubVertex3fSUN
+void glReplacementCodeuiColor4ubVertex3fSUN(GLuint rc, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiColor4ubVertex3fvSUN
-void ReplacementCodeuiColor4ubVertex3fvSUN(GLuint rc, GLubyte c, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiColor4ubVertex3fvSUN
+void glReplacementCodeuiColor4ubVertex3fvSUN(GLuint rc, GLubyte c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiNormal3fVertex3fSUN
-void ReplacementCodeuiNormal3fVertex3fSUN(GLuint rc, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiNormal3fVertex3fSUN
+void glReplacementCodeuiNormal3fVertex3fSUN(GLuint rc, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiNormal3fVertex3fvSUN
-void ReplacementCodeuiNormal3fVertex3fvSUN(GLuint rc, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiNormal3fVertex3fvSUN
+void glReplacementCodeuiNormal3fVertex3fvSUN(GLuint rc, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiSUN
-void ReplacementCodeuiSUN(GLuint code) {
-    
+#ifndef skip_glReplacementCodeuiSUN
+void glReplacementCodeuiSUN(GLuint code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN
-void ReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN
+void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN
-void ReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN
+void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fNormal3fVertex3fSUN
-void ReplacementCodeuiTexCoord2fNormal3fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fNormal3fVertex3fSUN
+void glReplacementCodeuiTexCoord2fNormal3fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN
-void ReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN
+void glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fVertex3fSUN
-void ReplacementCodeuiTexCoord2fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fVertex3fSUN
+void glReplacementCodeuiTexCoord2fVertex3fSUN(GLuint rc, GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiTexCoord2fVertex3fvSUN
-void ReplacementCodeuiTexCoord2fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiTexCoord2fVertex3fvSUN
+void glReplacementCodeuiTexCoord2fVertex3fvSUN(GLuint rc, GLfloat tc, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiVertex3fSUN
-void ReplacementCodeuiVertex3fSUN(GLuint rc, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glReplacementCodeuiVertex3fSUN
+void glReplacementCodeuiVertex3fSUN(GLuint rc, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuiVertex3fvSUN
-void ReplacementCodeuiVertex3fvSUN(GLuint rc, GLfloat v) {
-    
+#ifndef skip_glReplacementCodeuiVertex3fvSUN
+void glReplacementCodeuiVertex3fvSUN(GLuint rc, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeuivSUN
-void ReplacementCodeuivSUN(GLuint code) {
-    
+#ifndef skip_glReplacementCodeuivSUN
+void glReplacementCodeuivSUN(GLuint code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeusSUN
-void ReplacementCodeusSUN(GLushort code) {
-    
+#ifndef skip_glReplacementCodeusSUN
+void glReplacementCodeusSUN(GLushort code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReplacementCodeusvSUN
-void ReplacementCodeusvSUN(GLushort code) {
-    
+#ifndef skip_glReplacementCodeusvSUN
+void glReplacementCodeusvSUN(GLushort code) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RequestResidentProgramsNV
-void RequestResidentProgramsNV(GLsizei n, GLuint programs) {
-    
+#ifndef skip_glRequestResidentProgramsNV
+void glRequestResidentProgramsNV(GLsizei n, GLuint programs) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResetHistogram
-void ResetHistogram(GLenum target) {
-    
+#ifndef skip_glResetHistogram
+void glResetHistogram(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResetHistogramEXT
-void ResetHistogramEXT(GLenum target) {
-    
+#ifndef skip_glResetHistogramEXT
+void glResetHistogramEXT(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResetMinmax
-void ResetMinmax(GLenum target) {
-    
+#ifndef skip_glResetMinmax
+void glResetMinmax(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResetMinmaxEXT
-void ResetMinmaxEXT(GLenum target) {
-    
+#ifndef skip_glResetMinmaxEXT
+void glResetMinmaxEXT(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResizeBuffersMESA
-void ResizeBuffersMESA() {
-    
+#ifndef skip_glResizeBuffersMESA
+void glResizeBuffersMESA() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResumeTransformFeedback
-void ResumeTransformFeedback() {
-    
+#ifndef skip_glResumeTransformFeedback
+void glResumeTransformFeedback() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResumeTransformFeedbackNV
-void ResumeTransformFeedbackNV() {
-    
+#ifndef skip_glResumeTransformFeedbackNV
+void glResumeTransformFeedbackNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rotated
-void Rotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glRotated
+void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Rotatef
-void Rotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glRotatef
+void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_RotatexOES
-void RotatexOES(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
-    
+#ifndef skip_glRotatexOES
+void glRotatexOES(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleCoverage
-void SampleCoverage(GLfloat value, GLboolean invert) {
-    
+#ifndef skip_glSampleCoverage
+void glSampleCoverage(GLfloat value, GLboolean invert) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleCoverageARB
-void SampleCoverageARB(GLfloat value, GLboolean invert) {
-    
+#ifndef skip_glSampleCoverageARB
+void glSampleCoverageARB(GLfloat value, GLboolean invert) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleCoverageOES
-void SampleCoverageOES(GLfixed value, GLboolean invert) {
-    
+#ifndef skip_glSampleCoverageOES
+void glSampleCoverageOES(GLfixed value, GLboolean invert) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleMapATI
-void SampleMapATI(GLuint dst, GLuint interp, GLenum swizzle) {
-    
+#ifndef skip_glSampleMapATI
+void glSampleMapATI(GLuint dst, GLuint interp, GLenum swizzle) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleMaskEXT
-void SampleMaskEXT(GLclampf value, GLboolean invert) {
-    
+#ifndef skip_glSampleMaskEXT
+void glSampleMaskEXT(GLclampf value, GLboolean invert) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleMaskIndexedNV
-void SampleMaskIndexedNV(GLuint index, GLbitfield mask) {
-    
+#ifndef skip_glSampleMaskIndexedNV
+void glSampleMaskIndexedNV(GLuint index, GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleMaskSGIS
-void SampleMaskSGIS(GLclampf value, GLboolean invert) {
-    
+#ifndef skip_glSampleMaskSGIS
+void glSampleMaskSGIS(GLclampf value, GLboolean invert) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SampleMaski
-void SampleMaski(GLuint index, GLbitfield mask) {
-    
+#ifndef skip_glSampleMaski
+void glSampleMaski(GLuint index, GLbitfield mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplePatternEXT
-void SamplePatternEXT(GLenum pattern) {
-    
+#ifndef skip_glSamplePatternEXT
+void glSamplePatternEXT(GLenum pattern) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplePatternSGIS
-void SamplePatternSGIS(GLenum pattern) {
-    
+#ifndef skip_glSamplePatternSGIS
+void glSamplePatternSGIS(GLenum pattern) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameterIiv
-void SamplerParameterIiv(GLuint sampler, GLenum pname, GLint param) {
-    
+#ifndef skip_glSamplerParameterIiv
+void glSamplerParameterIiv(GLuint sampler, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameterIuiv
-void SamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint param) {
-    
+#ifndef skip_glSamplerParameterIuiv
+void glSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameterf
-void SamplerParameterf(GLuint sampler, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glSamplerParameterf
+void glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameterfv
-void SamplerParameterfv(GLuint sampler, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glSamplerParameterfv
+void glSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameteri
-void SamplerParameteri(GLuint sampler, GLenum pname, GLint param) {
-    
+#ifndef skip_glSamplerParameteri
+void glSamplerParameteri(GLuint sampler, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SamplerParameteriv
-void SamplerParameteriv(GLuint sampler, GLenum pname, GLint param) {
-    
+#ifndef skip_glSamplerParameteriv
+void glSamplerParameteriv(GLuint sampler, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Scaled
-void Scaled(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glScaled
+void glScaled(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Scalef
-void Scalef(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glScalef
+void glScalef(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ScalexOES
-void ScalexOES(GLfixed x, GLfixed y, GLfixed z) {
-    
+#ifndef skip_glScalexOES
+void glScalexOES(GLfixed x, GLfixed y, GLfixed z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Scissor
-void Scissor(GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glScissor
+void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ScissorArrayv
-void ScissorArrayv(GLuint first, GLsizei count, GLint v) {
-    
+#ifndef skip_glScissorArrayv
+void glScissorArrayv(GLuint first, GLsizei count, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ScissorIndexed
-void ScissorIndexed(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glScissorIndexed
+void glScissorIndexed(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ScissorIndexedv
-void ScissorIndexedv(GLuint index, GLint v) {
-    
+#ifndef skip_glScissorIndexedv
+void glScissorIndexedv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3b
-void SecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
-    
+#ifndef skip_glSecondaryColor3b
+void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3bEXT
-void SecondaryColor3bEXT(GLbyte red, GLbyte green, GLbyte blue) {
-    
+#ifndef skip_glSecondaryColor3bEXT
+void glSecondaryColor3bEXT(GLbyte red, GLbyte green, GLbyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3bv
-void SecondaryColor3bv(GLbyte v) {
-    
+#ifndef skip_glSecondaryColor3bv
+void glSecondaryColor3bv(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3bvEXT
-void SecondaryColor3bvEXT(GLbyte v) {
-    
+#ifndef skip_glSecondaryColor3bvEXT
+void glSecondaryColor3bvEXT(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3d
-void SecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
-    
+#ifndef skip_glSecondaryColor3d
+void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3dEXT
-void SecondaryColor3dEXT(GLdouble red, GLdouble green, GLdouble blue) {
-    
+#ifndef skip_glSecondaryColor3dEXT
+void glSecondaryColor3dEXT(GLdouble red, GLdouble green, GLdouble blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3dv
-void SecondaryColor3dv(GLdouble v) {
-    
+#ifndef skip_glSecondaryColor3dv
+void glSecondaryColor3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3dvEXT
-void SecondaryColor3dvEXT(GLdouble v) {
-    
+#ifndef skip_glSecondaryColor3dvEXT
+void glSecondaryColor3dvEXT(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3f
-void SecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
-    
+#ifndef skip_glSecondaryColor3f
+void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3fEXT
-void SecondaryColor3fEXT(GLfloat red, GLfloat green, GLfloat blue) {
-    
+#ifndef skip_glSecondaryColor3fEXT
+void glSecondaryColor3fEXT(GLfloat red, GLfloat green, GLfloat blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3fv
-void SecondaryColor3fv(GLfloat v) {
-    
+#ifndef skip_glSecondaryColor3fv
+void glSecondaryColor3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3fvEXT
-void SecondaryColor3fvEXT(GLfloat v) {
-    
+#ifndef skip_glSecondaryColor3fvEXT
+void glSecondaryColor3fvEXT(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3hNV
-void SecondaryColor3hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue) {
-    
+#ifndef skip_glSecondaryColor3hNV
+void glSecondaryColor3hNV(GLhalfNV red, GLhalfNV green, GLhalfNV blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3hvNV
-void SecondaryColor3hvNV(GLhalfNV v) {
-    
+#ifndef skip_glSecondaryColor3hvNV
+void glSecondaryColor3hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3i
-void SecondaryColor3i(GLint red, GLint green, GLint blue) {
-    
+#ifndef skip_glSecondaryColor3i
+void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3iEXT
-void SecondaryColor3iEXT(GLint red, GLint green, GLint blue) {
-    
+#ifndef skip_glSecondaryColor3iEXT
+void glSecondaryColor3iEXT(GLint red, GLint green, GLint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3iv
-void SecondaryColor3iv(GLint v) {
-    
+#ifndef skip_glSecondaryColor3iv
+void glSecondaryColor3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ivEXT
-void SecondaryColor3ivEXT(GLint v) {
-    
+#ifndef skip_glSecondaryColor3ivEXT
+void glSecondaryColor3ivEXT(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3s
-void SecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
-    
+#ifndef skip_glSecondaryColor3s
+void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3sEXT
-void SecondaryColor3sEXT(GLshort red, GLshort green, GLshort blue) {
-    
+#ifndef skip_glSecondaryColor3sEXT
+void glSecondaryColor3sEXT(GLshort red, GLshort green, GLshort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3sv
-void SecondaryColor3sv(GLshort v) {
-    
+#ifndef skip_glSecondaryColor3sv
+void glSecondaryColor3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3svEXT
-void SecondaryColor3svEXT(GLshort v) {
-    
+#ifndef skip_glSecondaryColor3svEXT
+void glSecondaryColor3svEXT(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ub
-void SecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
-    
+#ifndef skip_glSecondaryColor3ub
+void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ubEXT
-void SecondaryColor3ubEXT(GLubyte red, GLubyte green, GLubyte blue) {
-    
+#ifndef skip_glSecondaryColor3ubEXT
+void glSecondaryColor3ubEXT(GLubyte red, GLubyte green, GLubyte blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ubv
-void SecondaryColor3ubv(GLubyte v) {
-    
+#ifndef skip_glSecondaryColor3ubv
+void glSecondaryColor3ubv(GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ubvEXT
-void SecondaryColor3ubvEXT(GLubyte v) {
-    
+#ifndef skip_glSecondaryColor3ubvEXT
+void glSecondaryColor3ubvEXT(GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3ui
-void SecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
-    
+#ifndef skip_glSecondaryColor3ui
+void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3uiEXT
-void SecondaryColor3uiEXT(GLuint red, GLuint green, GLuint blue) {
-    
+#ifndef skip_glSecondaryColor3uiEXT
+void glSecondaryColor3uiEXT(GLuint red, GLuint green, GLuint blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3uiv
-void SecondaryColor3uiv(GLuint v) {
-    
+#ifndef skip_glSecondaryColor3uiv
+void glSecondaryColor3uiv(GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3uivEXT
-void SecondaryColor3uivEXT(GLuint v) {
-    
+#ifndef skip_glSecondaryColor3uivEXT
+void glSecondaryColor3uivEXT(GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3us
-void SecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
-    
+#ifndef skip_glSecondaryColor3us
+void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3usEXT
-void SecondaryColor3usEXT(GLushort red, GLushort green, GLushort blue) {
-    
+#ifndef skip_glSecondaryColor3usEXT
+void glSecondaryColor3usEXT(GLushort red, GLushort green, GLushort blue) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3usv
-void SecondaryColor3usv(GLushort v) {
-    
+#ifndef skip_glSecondaryColor3usv
+void glSecondaryColor3usv(GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColor3usvEXT
-void SecondaryColor3usvEXT(GLushort v) {
-    
+#ifndef skip_glSecondaryColor3usvEXT
+void glSecondaryColor3usvEXT(GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorFormatNV
-void SecondaryColorFormatNV(GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glSecondaryColorFormatNV
+void glSecondaryColorFormatNV(GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorP3ui
-void SecondaryColorP3ui(GLenum type, GLuint color) {
-    
+#ifndef skip_glSecondaryColorP3ui
+void glSecondaryColorP3ui(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorP3uiv
-void SecondaryColorP3uiv(GLenum type, GLuint color) {
-    
+#ifndef skip_glSecondaryColorP3uiv
+void glSecondaryColorP3uiv(GLenum type, GLuint color) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorPointer
-void SecondaryColorPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glSecondaryColorPointer
+void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorPointerEXT
-void SecondaryColorPointerEXT(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glSecondaryColorPointerEXT
+void glSecondaryColorPointerEXT(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SecondaryColorPointerListIBM
-void SecondaryColorPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glSecondaryColorPointerListIBM
+void glSecondaryColorPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SelectBuffer
-void SelectBuffer(GLsizei size, GLuint buffer) {
-    
+#ifndef skip_glSelectBuffer
+void glSelectBuffer(GLsizei size, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SelectPerfMonitorCountersAMD
-void SelectPerfMonitorCountersAMD(GLuint monitor, GLboolean enable, GLuint group, GLint numCounters, GLuint counterList) {
-    
+#ifndef skip_glSelectPerfMonitorCountersAMD
+void glSelectPerfMonitorCountersAMD(GLuint monitor, GLboolean enable, GLuint group, GLint numCounters, GLuint counterList) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SeparableFilter2D
-void SeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid row, GLvoid column) {
-    
+#ifndef skip_glSeparableFilter2D
+void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid row, GLvoid column) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SeparableFilter2DEXT
-void SeparableFilter2DEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid row, GLvoid column) {
-    
+#ifndef skip_glSeparableFilter2DEXT
+void glSeparableFilter2DEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid row, GLvoid column) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetFenceAPPLE
-void SetFenceAPPLE(GLuint fence) {
-    
+#ifndef skip_glSetFenceAPPLE
+void glSetFenceAPPLE(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetFenceNV
-void SetFenceNV(GLuint fence, GLenum condition) {
-    
+#ifndef skip_glSetFenceNV
+void glSetFenceNV(GLuint fence, GLenum condition) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetFragmentShaderConstantATI
-void SetFragmentShaderConstantATI(GLuint dst, GLfloat value) {
-    
+#ifndef skip_glSetFragmentShaderConstantATI
+void glSetFragmentShaderConstantATI(GLuint dst, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetInvariantEXT
-void SetInvariantEXT(GLuint id, GLenum type, GLvoid addr) {
-    
+#ifndef skip_glSetInvariantEXT
+void glSetInvariantEXT(GLuint id, GLenum type, GLvoid addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetLocalConstantEXT
-void SetLocalConstantEXT(GLuint id, GLenum type, GLvoid addr) {
-    
+#ifndef skip_glSetLocalConstantEXT
+void glSetLocalConstantEXT(GLuint id, GLenum type, GLvoid addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SetMultisamplefvAMD
-void SetMultisamplefvAMD(GLenum pname, GLuint index, GLfloat val) {
-    
+#ifndef skip_glSetMultisamplefvAMD
+void glSetMultisamplefvAMD(GLenum pname, GLuint index, GLfloat val) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShadeModel
-void ShadeModel(GLenum mode) {
-    
+#ifndef skip_glShadeModel
+void glShadeModel(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderBinary
-void ShaderBinary(GLsizei count, GLuint shaders, GLenum binaryformat, GLvoid binary, GLsizei length) {
-    
+#ifndef skip_glShaderBinary
+void glShaderBinary(GLsizei count, GLuint shaders, GLenum binaryformat, GLvoid binary, GLsizei length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderOp1EXT
-void ShaderOp1EXT(GLenum op, GLuint res, GLuint arg1) {
-    
+#ifndef skip_glShaderOp1EXT
+void glShaderOp1EXT(GLenum op, GLuint res, GLuint arg1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderOp2EXT
-void ShaderOp2EXT(GLenum op, GLuint res, GLuint arg1, GLuint arg2) {
-    
+#ifndef skip_glShaderOp2EXT
+void glShaderOp2EXT(GLenum op, GLuint res, GLuint arg1, GLuint arg2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderOp3EXT
-void ShaderOp3EXT(GLenum op, GLuint res, GLuint arg1, GLuint arg2, GLuint arg3) {
-    
+#ifndef skip_glShaderOp3EXT
+void glShaderOp3EXT(GLenum op, GLuint res, GLuint arg1, GLuint arg2, GLuint arg3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderSource
-void ShaderSource(GLuint shader, GLsizei count, GLchar*const string, GLint length) {
-    
+#ifndef skip_glShaderSource
+void glShaderSource(GLuint shader, GLsizei count, GLchar*const string, GLint length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderSourceARB
-void ShaderSourceARB(GLhandleARB shaderObj, GLsizei count, GLcharARB * string, GLint length) {
-    
+#ifndef skip_glShaderSourceARB
+void glShaderSourceARB(GLhandleARB shaderObj, GLsizei count, GLcharARB * string, GLint length) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ShaderStorageBlockBinding
-void ShaderStorageBlockBinding(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding) {
-    
+#ifndef skip_glShaderStorageBlockBinding
+void glShaderStorageBlockBinding(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SharpenTexFuncSGIS
-void SharpenTexFuncSGIS(GLenum target, GLsizei n, GLfloat points) {
-    
+#ifndef skip_glSharpenTexFuncSGIS
+void glSharpenTexFuncSGIS(GLenum target, GLsizei n, GLfloat points) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SpriteParameterfSGIX
-void SpriteParameterfSGIX(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glSpriteParameterfSGIX
+void glSpriteParameterfSGIX(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SpriteParameterfvSGIX
-void SpriteParameterfvSGIX(GLenum pname, GLfloat params) {
-    
+#ifndef skip_glSpriteParameterfvSGIX
+void glSpriteParameterfvSGIX(GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SpriteParameteriSGIX
-void SpriteParameteriSGIX(GLenum pname, GLint param) {
-    
+#ifndef skip_glSpriteParameteriSGIX
+void glSpriteParameteriSGIX(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SpriteParameterivSGIX
-void SpriteParameterivSGIX(GLenum pname, GLint params) {
-    
+#ifndef skip_glSpriteParameterivSGIX
+void glSpriteParameterivSGIX(GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StartInstrumentsSGIX
-void StartInstrumentsSGIX() {
-    
+#ifndef skip_glStartInstrumentsSGIX
+void glStartInstrumentsSGIX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilClearTagEXT
-void StencilClearTagEXT(GLsizei stencilTagBits, GLuint stencilClearTag) {
-    
+#ifndef skip_glStencilClearTagEXT
+void glStencilClearTagEXT(GLsizei stencilTagBits, GLuint stencilClearTag) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilFillPathInstancedNV
-void StencilFillPathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum fillMode, GLuint mask, GLenum transformType, GLfloat transformValues) {
-    
+#ifndef skip_glStencilFillPathInstancedNV
+void glStencilFillPathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLenum fillMode, GLuint mask, GLenum transformType, GLfloat transformValues) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilFillPathNV
-void StencilFillPathNV(GLuint path, GLenum fillMode, GLuint mask) {
-    
+#ifndef skip_glStencilFillPathNV
+void glStencilFillPathNV(GLuint path, GLenum fillMode, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilFunc
-void StencilFunc(GLenum func, GLint ref, GLuint mask) {
-    
+#ifndef skip_glStencilFunc
+void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilFuncSeparate
-void StencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
-    
+#ifndef skip_glStencilFuncSeparate
+void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilFuncSeparateATI
-void StencilFuncSeparateATI(GLenum frontfunc, GLenum backfunc, GLint ref, GLuint mask) {
-    
+#ifndef skip_glStencilFuncSeparateATI
+void glStencilFuncSeparateATI(GLenum frontfunc, GLenum backfunc, GLint ref, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilMask
-void StencilMask(GLuint mask) {
-    
+#ifndef skip_glStencilMask
+void glStencilMask(GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilMaskSeparate
-void StencilMaskSeparate(GLenum face, GLuint mask) {
-    
+#ifndef skip_glStencilMaskSeparate
+void glStencilMaskSeparate(GLenum face, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilOp
-void StencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
-    
+#ifndef skip_glStencilOp
+void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilOpSeparate
-void StencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) {
-    
+#ifndef skip_glStencilOpSeparate
+void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilOpSeparateATI
-void StencilOpSeparateATI(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) {
-    
+#ifndef skip_glStencilOpSeparateATI
+void glStencilOpSeparateATI(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilOpValueAMD
-void StencilOpValueAMD(GLenum face, GLuint value) {
-    
+#ifndef skip_glStencilOpValueAMD
+void glStencilOpValueAMD(GLenum face, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilStrokePathInstancedNV
-void StencilStrokePathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLint reference, GLuint mask, GLenum transformType, GLfloat transformValues) {
-    
+#ifndef skip_glStencilStrokePathInstancedNV
+void glStencilStrokePathInstancedNV(GLsizei numPaths, GLenum pathNameType, GLvoid paths, GLuint pathBase, GLint reference, GLuint mask, GLenum transformType, GLfloat transformValues) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StencilStrokePathNV
-void StencilStrokePathNV(GLuint path, GLint reference, GLuint mask) {
-    
+#ifndef skip_glStencilStrokePathNV
+void glStencilStrokePathNV(GLuint path, GLint reference, GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StopInstrumentsSGIX
-void StopInstrumentsSGIX(GLint marker) {
-    
+#ifndef skip_glStopInstrumentsSGIX
+void glStopInstrumentsSGIX(GLint marker) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_StringMarkerGREMEDY
-void StringMarkerGREMEDY(GLsizei len, GLvoid string) {
-    
+#ifndef skip_glStringMarkerGREMEDY
+void glStringMarkerGREMEDY(GLsizei len, GLvoid string) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SwizzleEXT
-void SwizzleEXT(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW) {
-    
+#ifndef skip_glSwizzleEXT
+void glSwizzleEXT(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SyncTextureINTEL
-void SyncTextureINTEL(GLuint texture) {
-    
+#ifndef skip_glSyncTextureINTEL
+void glSyncTextureINTEL(GLuint texture) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TagSampleBufferSGIX
-void TagSampleBufferSGIX() {
-    
+#ifndef skip_glTagSampleBufferSGIX
+void glTagSampleBufferSGIX() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3bEXT
-void Tangent3bEXT(GLbyte tx, GLbyte ty, GLbyte tz) {
-    
+#ifndef skip_glTangent3bEXT
+void glTangent3bEXT(GLbyte tx, GLbyte ty, GLbyte tz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3bvEXT
-void Tangent3bvEXT(GLbyte v) {
-    
+#ifndef skip_glTangent3bvEXT
+void glTangent3bvEXT(GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3dEXT
-void Tangent3dEXT(GLdouble tx, GLdouble ty, GLdouble tz) {
-    
+#ifndef skip_glTangent3dEXT
+void glTangent3dEXT(GLdouble tx, GLdouble ty, GLdouble tz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3dvEXT
-void Tangent3dvEXT(GLdouble v) {
-    
+#ifndef skip_glTangent3dvEXT
+void glTangent3dvEXT(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3fEXT
-void Tangent3fEXT(GLfloat tx, GLfloat ty, GLfloat tz) {
-    
+#ifndef skip_glTangent3fEXT
+void glTangent3fEXT(GLfloat tx, GLfloat ty, GLfloat tz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3fvEXT
-void Tangent3fvEXT(GLfloat v) {
-    
+#ifndef skip_glTangent3fvEXT
+void glTangent3fvEXT(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3iEXT
-void Tangent3iEXT(GLint tx, GLint ty, GLint tz) {
-    
+#ifndef skip_glTangent3iEXT
+void glTangent3iEXT(GLint tx, GLint ty, GLint tz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3ivEXT
-void Tangent3ivEXT(GLint v) {
-    
+#ifndef skip_glTangent3ivEXT
+void glTangent3ivEXT(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3sEXT
-void Tangent3sEXT(GLshort tx, GLshort ty, GLshort tz) {
-    
+#ifndef skip_glTangent3sEXT
+void glTangent3sEXT(GLshort tx, GLshort ty, GLshort tz) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Tangent3svEXT
-void Tangent3svEXT(GLshort v) {
-    
+#ifndef skip_glTangent3svEXT
+void glTangent3svEXT(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TangentPointerEXT
-void TangentPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glTangentPointerEXT
+void glTangentPointerEXT(GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TbufferMask3DFX
-void TbufferMask3DFX(GLuint mask) {
-    
+#ifndef skip_glTbufferMask3DFX
+void glTbufferMask3DFX(GLuint mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TessellationFactorAMD
-void TessellationFactorAMD(GLfloat factor) {
-    
+#ifndef skip_glTessellationFactorAMD
+void glTessellationFactorAMD(GLfloat factor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TessellationModeAMD
-void TessellationModeAMD(GLenum mode) {
-    
+#ifndef skip_glTessellationModeAMD
+void glTessellationModeAMD(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TestFenceAPPLE
-Boolean TestFenceAPPLE(GLuint fence) {
-    
+#ifndef skip_glTestFenceAPPLE
+Boolean glTestFenceAPPLE(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TestFenceNV
-Boolean TestFenceNV(GLuint fence) {
-    
+#ifndef skip_glTestFenceNV
+Boolean glTestFenceNV(GLuint fence) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TestObjectAPPLE
-Boolean TestObjectAPPLE(GLenum object, GLuint name) {
-    
+#ifndef skip_glTestObjectAPPLE
+Boolean glTestObjectAPPLE(GLenum object, GLuint name) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBuffer
-void TexBuffer(GLenum target, GLenum internalformat, GLuint buffer) {
-    
+#ifndef skip_glTexBuffer
+void glTexBuffer(GLenum target, GLenum internalformat, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBufferARB
-void TexBufferARB(GLenum target, GLenum internalformat, GLuint buffer) {
-    
+#ifndef skip_glTexBufferARB
+void glTexBufferARB(GLenum target, GLenum internalformat, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBufferEXT
-void TexBufferEXT(GLenum target, GLenum internalformat, GLuint buffer) {
-    
+#ifndef skip_glTexBufferEXT
+void glTexBufferEXT(GLenum target, GLenum internalformat, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBufferRange
-void TexBufferRange(GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glTexBufferRange
+void glTexBufferRange(GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBumpParameterfvATI
-void TexBumpParameterfvATI(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glTexBumpParameterfvATI
+void glTexBumpParameterfvATI(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexBumpParameterivATI
-void TexBumpParameterivATI(GLenum pname, GLint param) {
-    
+#ifndef skip_glTexBumpParameterivATI
+void glTexBumpParameterivATI(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1bOES
-void TexCoord1bOES(GLbyte s) {
-    
+#ifndef skip_glTexCoord1bOES
+void glTexCoord1bOES(GLbyte s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1bvOES
-void TexCoord1bvOES(GLbyte coords) {
-    
+#ifndef skip_glTexCoord1bvOES
+void glTexCoord1bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1d
-void TexCoord1d(GLdouble s) {
-    
+#ifndef skip_glTexCoord1d
+void glTexCoord1d(GLdouble s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1dv
-void TexCoord1dv(GLdouble v) {
-    
+#ifndef skip_glTexCoord1dv
+void glTexCoord1dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1f
-void TexCoord1f(GLfloat s) {
-    
+#ifndef skip_glTexCoord1f
+void glTexCoord1f(GLfloat s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1fv
-void TexCoord1fv(GLfloat v) {
-    
+#ifndef skip_glTexCoord1fv
+void glTexCoord1fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1hNV
-void TexCoord1hNV(GLhalfNV s) {
-    
+#ifndef skip_glTexCoord1hNV
+void glTexCoord1hNV(GLhalfNV s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1hvNV
-void TexCoord1hvNV(GLhalfNV v) {
-    
+#ifndef skip_glTexCoord1hvNV
+void glTexCoord1hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1i
-void TexCoord1i(GLint s) {
-    
+#ifndef skip_glTexCoord1i
+void glTexCoord1i(GLint s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1iv
-void TexCoord1iv(GLint v) {
-    
+#ifndef skip_glTexCoord1iv
+void glTexCoord1iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1s
-void TexCoord1s(GLshort s) {
-    
+#ifndef skip_glTexCoord1s
+void glTexCoord1s(GLshort s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1sv
-void TexCoord1sv(GLshort v) {
-    
+#ifndef skip_glTexCoord1sv
+void glTexCoord1sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1xOES
-void TexCoord1xOES(GLfixed s) {
-    
+#ifndef skip_glTexCoord1xOES
+void glTexCoord1xOES(GLfixed s) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord1xvOES
-void TexCoord1xvOES(GLfixed coords) {
-    
+#ifndef skip_glTexCoord1xvOES
+void glTexCoord1xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2bOES
-void TexCoord2bOES(GLbyte s, GLbyte t) {
-    
+#ifndef skip_glTexCoord2bOES
+void glTexCoord2bOES(GLbyte s, GLbyte t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2bvOES
-void TexCoord2bvOES(GLbyte coords) {
-    
+#ifndef skip_glTexCoord2bvOES
+void glTexCoord2bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2d
-void TexCoord2d(GLdouble s, GLdouble t) {
-    
+#ifndef skip_glTexCoord2d
+void glTexCoord2d(GLdouble s, GLdouble t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2dv
-void TexCoord2dv(GLdouble v) {
-    
+#ifndef skip_glTexCoord2dv
+void glTexCoord2dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2f
-void TexCoord2f(GLfloat s, GLfloat t) {
-    
+#ifndef skip_glTexCoord2f
+void glTexCoord2f(GLfloat s, GLfloat t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor3fVertex3fSUN
-void TexCoord2fColor3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTexCoord2fColor3fVertex3fSUN
+void glTexCoord2fColor3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor3fVertex3fvSUN
-void TexCoord2fColor3fVertex3fvSUN(GLfloat tc, GLfloat c, GLfloat v) {
-    
+#ifndef skip_glTexCoord2fColor3fVertex3fvSUN
+void glTexCoord2fColor3fVertex3fvSUN(GLfloat tc, GLfloat c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor4fNormal3fVertex3fSUN
-void TexCoord2fColor4fNormal3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTexCoord2fColor4fNormal3fVertex3fSUN
+void glTexCoord2fColor4fNormal3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor4fNormal3fVertex3fvSUN
-void TexCoord2fColor4fNormal3fVertex3fvSUN(GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glTexCoord2fColor4fNormal3fVertex3fvSUN
+void glTexCoord2fColor4fNormal3fVertex3fvSUN(GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor4ubVertex3fSUN
-void TexCoord2fColor4ubVertex3fSUN(GLfloat s, GLfloat t, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTexCoord2fColor4ubVertex3fSUN
+void glTexCoord2fColor4ubVertex3fSUN(GLfloat s, GLfloat t, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fColor4ubVertex3fvSUN
-void TexCoord2fColor4ubVertex3fvSUN(GLfloat tc, GLubyte c, GLfloat v) {
-    
+#ifndef skip_glTexCoord2fColor4ubVertex3fvSUN
+void glTexCoord2fColor4ubVertex3fvSUN(GLfloat tc, GLubyte c, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fNormal3fVertex3fSUN
-void TexCoord2fNormal3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTexCoord2fNormal3fVertex3fSUN
+void glTexCoord2fNormal3fVertex3fSUN(GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fNormal3fVertex3fvSUN
-void TexCoord2fNormal3fVertex3fvSUN(GLfloat tc, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glTexCoord2fNormal3fVertex3fvSUN
+void glTexCoord2fNormal3fVertex3fvSUN(GLfloat tc, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fVertex3fSUN
-void TexCoord2fVertex3fSUN(GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTexCoord2fVertex3fSUN
+void glTexCoord2fVertex3fSUN(GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fVertex3fvSUN
-void TexCoord2fVertex3fvSUN(GLfloat tc, GLfloat v) {
-    
+#ifndef skip_glTexCoord2fVertex3fvSUN
+void glTexCoord2fVertex3fvSUN(GLfloat tc, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2fv
-void TexCoord2fv(GLfloat v) {
-    
+#ifndef skip_glTexCoord2fv
+void glTexCoord2fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2hNV
-void TexCoord2hNV(GLhalfNV s, GLhalfNV t) {
-    
+#ifndef skip_glTexCoord2hNV
+void glTexCoord2hNV(GLhalfNV s, GLhalfNV t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2hvNV
-void TexCoord2hvNV(GLhalfNV v) {
-    
+#ifndef skip_glTexCoord2hvNV
+void glTexCoord2hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2i
-void TexCoord2i(GLint s, GLint t) {
-    
+#ifndef skip_glTexCoord2i
+void glTexCoord2i(GLint s, GLint t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2iv
-void TexCoord2iv(GLint v) {
-    
+#ifndef skip_glTexCoord2iv
+void glTexCoord2iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2s
-void TexCoord2s(GLshort s, GLshort t) {
-    
+#ifndef skip_glTexCoord2s
+void glTexCoord2s(GLshort s, GLshort t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2sv
-void TexCoord2sv(GLshort v) {
-    
+#ifndef skip_glTexCoord2sv
+void glTexCoord2sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2xOES
-void TexCoord2xOES(GLfixed s, GLfixed t) {
-    
+#ifndef skip_glTexCoord2xOES
+void glTexCoord2xOES(GLfixed s, GLfixed t) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord2xvOES
-void TexCoord2xvOES(GLfixed coords) {
-    
+#ifndef skip_glTexCoord2xvOES
+void glTexCoord2xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3bOES
-void TexCoord3bOES(GLbyte s, GLbyte t, GLbyte r) {
-    
+#ifndef skip_glTexCoord3bOES
+void glTexCoord3bOES(GLbyte s, GLbyte t, GLbyte r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3bvOES
-void TexCoord3bvOES(GLbyte coords) {
-    
+#ifndef skip_glTexCoord3bvOES
+void glTexCoord3bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3d
-void TexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
-    
+#ifndef skip_glTexCoord3d
+void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3dv
-void TexCoord3dv(GLdouble v) {
-    
+#ifndef skip_glTexCoord3dv
+void glTexCoord3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3f
-void TexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
-    
+#ifndef skip_glTexCoord3f
+void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3fv
-void TexCoord3fv(GLfloat v) {
-    
+#ifndef skip_glTexCoord3fv
+void glTexCoord3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3hNV
-void TexCoord3hNV(GLhalfNV s, GLhalfNV t, GLhalfNV r) {
-    
+#ifndef skip_glTexCoord3hNV
+void glTexCoord3hNV(GLhalfNV s, GLhalfNV t, GLhalfNV r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3hvNV
-void TexCoord3hvNV(GLhalfNV v) {
-    
+#ifndef skip_glTexCoord3hvNV
+void glTexCoord3hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3i
-void TexCoord3i(GLint s, GLint t, GLint r) {
-    
+#ifndef skip_glTexCoord3i
+void glTexCoord3i(GLint s, GLint t, GLint r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3iv
-void TexCoord3iv(GLint v) {
-    
+#ifndef skip_glTexCoord3iv
+void glTexCoord3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3s
-void TexCoord3s(GLshort s, GLshort t, GLshort r) {
-    
+#ifndef skip_glTexCoord3s
+void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3sv
-void TexCoord3sv(GLshort v) {
-    
+#ifndef skip_glTexCoord3sv
+void glTexCoord3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3xOES
-void TexCoord3xOES(GLfixed s, GLfixed t, GLfixed r) {
-    
+#ifndef skip_glTexCoord3xOES
+void glTexCoord3xOES(GLfixed s, GLfixed t, GLfixed r) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord3xvOES
-void TexCoord3xvOES(GLfixed coords) {
-    
+#ifndef skip_glTexCoord3xvOES
+void glTexCoord3xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4bOES
-void TexCoord4bOES(GLbyte s, GLbyte t, GLbyte r, GLbyte q) {
-    
+#ifndef skip_glTexCoord4bOES
+void glTexCoord4bOES(GLbyte s, GLbyte t, GLbyte r, GLbyte q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4bvOES
-void TexCoord4bvOES(GLbyte coords) {
-    
+#ifndef skip_glTexCoord4bvOES
+void glTexCoord4bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4d
-void TexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
-    
+#ifndef skip_glTexCoord4d
+void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4dv
-void TexCoord4dv(GLdouble v) {
-    
+#ifndef skip_glTexCoord4dv
+void glTexCoord4dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4f
-void TexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    
+#ifndef skip_glTexCoord4f
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4fColor4fNormal3fVertex4fSUN
-void TexCoord4fColor4fNormal3fVertex4fSUN(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glTexCoord4fColor4fNormal3fVertex4fSUN
+void glTexCoord4fColor4fNormal3fVertex4fSUN(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4fColor4fNormal3fVertex4fvSUN
-void TexCoord4fColor4fNormal3fVertex4fvSUN(GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
-    
+#ifndef skip_glTexCoord4fColor4fNormal3fVertex4fvSUN
+void glTexCoord4fColor4fNormal3fVertex4fvSUN(GLfloat tc, GLfloat c, GLfloat n, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4fVertex4fSUN
-void TexCoord4fVertex4fSUN(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glTexCoord4fVertex4fSUN
+void glTexCoord4fVertex4fSUN(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4fVertex4fvSUN
-void TexCoord4fVertex4fvSUN(GLfloat tc, GLfloat v) {
-    
+#ifndef skip_glTexCoord4fVertex4fvSUN
+void glTexCoord4fVertex4fvSUN(GLfloat tc, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4fv
-void TexCoord4fv(GLfloat v) {
-    
+#ifndef skip_glTexCoord4fv
+void glTexCoord4fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4hNV
-void TexCoord4hNV(GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q) {
-    
+#ifndef skip_glTexCoord4hNV
+void glTexCoord4hNV(GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4hvNV
-void TexCoord4hvNV(GLhalfNV v) {
-    
+#ifndef skip_glTexCoord4hvNV
+void glTexCoord4hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4i
-void TexCoord4i(GLint s, GLint t, GLint r, GLint q) {
-    
+#ifndef skip_glTexCoord4i
+void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4iv
-void TexCoord4iv(GLint v) {
-    
+#ifndef skip_glTexCoord4iv
+void glTexCoord4iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4s
-void TexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
-    
+#ifndef skip_glTexCoord4s
+void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4sv
-void TexCoord4sv(GLshort v) {
-    
+#ifndef skip_glTexCoord4sv
+void glTexCoord4sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4xOES
-void TexCoord4xOES(GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
-    
+#ifndef skip_glTexCoord4xOES
+void glTexCoord4xOES(GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoord4xvOES
-void TexCoord4xvOES(GLfixed coords) {
-    
+#ifndef skip_glTexCoord4xvOES
+void glTexCoord4xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordFormatNV
-void TexCoordFormatNV(GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glTexCoordFormatNV
+void glTexCoordFormatNV(GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP1ui
-void TexCoordP1ui(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP1ui
+void glTexCoordP1ui(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP1uiv
-void TexCoordP1uiv(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP1uiv
+void glTexCoordP1uiv(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP2ui
-void TexCoordP2ui(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP2ui
+void glTexCoordP2ui(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP2uiv
-void TexCoordP2uiv(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP2uiv
+void glTexCoordP2uiv(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP3ui
-void TexCoordP3ui(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP3ui
+void glTexCoordP3ui(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP3uiv
-void TexCoordP3uiv(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP3uiv
+void glTexCoordP3uiv(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP4ui
-void TexCoordP4ui(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP4ui
+void glTexCoordP4ui(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordP4uiv
-void TexCoordP4uiv(GLenum type, GLuint coords) {
-    
+#ifndef skip_glTexCoordP4uiv
+void glTexCoordP4uiv(GLenum type, GLuint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordPointer
-void TexCoordPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glTexCoordPointer
+void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordPointerEXT
-void TexCoordPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
-    
+#ifndef skip_glTexCoordPointerEXT
+void glTexCoordPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordPointerListIBM
-void TexCoordPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glTexCoordPointerListIBM
+void glTexCoordPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexCoordPointervINTEL
-void TexCoordPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
-    
+#ifndef skip_glTexCoordPointervINTEL
+void glTexCoordPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnvf
-void TexEnvf(GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glTexEnvf
+void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnvfv
-void TexEnvfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glTexEnvfv
+void glTexEnvfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnvi
-void TexEnvi(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glTexEnvi
+void glTexEnvi(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnviv
-void TexEnviv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTexEnviv
+void glTexEnviv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnvxOES
-void TexEnvxOES(GLenum target, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glTexEnvxOES
+void glTexEnvxOES(GLenum target, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexEnvxvOES
-void TexEnvxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glTexEnvxvOES
+void glTexEnvxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexFilterFuncSGIS
-void TexFilterFuncSGIS(GLenum target, GLenum filter, GLsizei n, GLfloat weights) {
-    
+#ifndef skip_glTexFilterFuncSGIS
+void glTexFilterFuncSGIS(GLenum target, GLenum filter, GLsizei n, GLfloat weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGend
-void TexGend(GLenum coord, GLenum pname, GLdouble param) {
-    
+#ifndef skip_glTexGend
+void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGendv
-void TexGendv(GLenum coord, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glTexGendv
+void glTexGendv(GLenum coord, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGenf
-void TexGenf(GLenum coord, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glTexGenf
+void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGenfv
-void TexGenfv(GLenum coord, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glTexGenfv
+void glTexGenfv(GLenum coord, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGeni
-void TexGeni(GLenum coord, GLenum pname, GLint param) {
-    
+#ifndef skip_glTexGeni
+void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGeniv
-void TexGeniv(GLenum coord, GLenum pname, GLint params) {
-    
+#ifndef skip_glTexGeniv
+void glTexGeniv(GLenum coord, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGenxOES
-void TexGenxOES(GLenum coord, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glTexGenxOES
+void glTexGenxOES(GLenum coord, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexGenxvOES
-void TexGenxvOES(GLenum coord, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glTexGenxvOES
+void glTexGenxvOES(GLenum coord, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage1D
-void TexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexImage1D
+void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage2D
-void TexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexImage2D
+void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage2DMultisample
-void TexImage2DMultisample(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTexImage2DMultisample
+void glTexImage2DMultisample(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage2DMultisampleCoverageNV
-void TexImage2DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTexImage2DMultisampleCoverageNV
+void glTexImage2DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage3D
-void TexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexImage3D
+void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage3DEXT
-void TexImage3DEXT(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexImage3DEXT
+void glTexImage3DEXT(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage3DMultisample
-void TexImage3DMultisample(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTexImage3DMultisample
+void glTexImage3DMultisample(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage3DMultisampleCoverageNV
-void TexImage3DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTexImage3DMultisampleCoverageNV
+void glTexImage3DMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexImage4DSGIS
-void TexImage4DSGIS(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexImage4DSGIS
+void glTexImage4DSGIS(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterIiv
-void TexParameterIiv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTexParameterIiv
+void glTexParameterIiv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterIivEXT
-void TexParameterIivEXT(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTexParameterIivEXT
+void glTexParameterIivEXT(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterIuiv
-void TexParameterIuiv(GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glTexParameterIuiv
+void glTexParameterIuiv(GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterIuivEXT
-void TexParameterIuivEXT(GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glTexParameterIuivEXT
+void glTexParameterIuivEXT(GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterf
-void TexParameterf(GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glTexParameterf
+void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterfv
-void TexParameterfv(GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glTexParameterfv
+void glTexParameterfv(GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameteri
-void TexParameteri(GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glTexParameteri
+void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameteriv
-void TexParameteriv(GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTexParameteriv
+void glTexParameteriv(GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterxOES
-void TexParameterxOES(GLenum target, GLenum pname, GLfixed param) {
-    
+#ifndef skip_glTexParameterxOES
+void glTexParameterxOES(GLenum target, GLenum pname, GLfixed param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexParameterxvOES
-void TexParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
-    
+#ifndef skip_glTexParameterxvOES
+void glTexParameterxvOES(GLenum target, GLenum pname, GLfixed params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexRenderbufferNV
-void TexRenderbufferNV(GLenum target, GLuint renderbuffer) {
-    
+#ifndef skip_glTexRenderbufferNV
+void glTexRenderbufferNV(GLenum target, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorage1D
-void TexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) {
-    
+#ifndef skip_glTexStorage1D
+void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorage2D
-void TexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glTexStorage2D
+void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorage2DMultisample
-void TexStorage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTexStorage2DMultisample
+void glTexStorage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorage3D
-void TexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth) {
-    
+#ifndef skip_glTexStorage3D
+void glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorage3DMultisample
-void TexStorage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTexStorage3DMultisample
+void glTexStorage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexStorageSparseAMD
-void TexStorageSparseAMD(GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags) {
-    
+#ifndef skip_glTexStorageSparseAMD
+void glTexStorageSparseAMD(GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage1D
-void TexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage1D
+void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage1DEXT
-void TexSubImage1DEXT(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage1DEXT
+void glTexSubImage1DEXT(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage2D
-void TexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage2D
+void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage2DEXT
-void TexSubImage2DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage2DEXT
+void glTexSubImage2DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage3D
-void TexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage3D
+void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage3DEXT
-void TexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage3DEXT
+void glTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TexSubImage4DSGIS
-void TexSubImage4DSGIS(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint woffset, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTexSubImage4DSGIS
+void glTexSubImage4DSGIS(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint woffset, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureBarrierNV
-void TextureBarrierNV() {
-    
+#ifndef skip_glTextureBarrierNV
+void glTextureBarrierNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureBufferEXT
-void TextureBufferEXT(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer) {
-    
+#ifndef skip_glTextureBufferEXT
+void glTextureBufferEXT(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureBufferRangeEXT
-void TextureBufferRangeEXT(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size) {
-    
+#ifndef skip_glTextureBufferRangeEXT
+void glTextureBufferRangeEXT(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureColorMaskSGIS
-void TextureColorMaskSGIS(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
-    
+#ifndef skip_glTextureColorMaskSGIS
+void glTextureColorMaskSGIS(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage1DEXT
-void TextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureImage1DEXT
+void glTextureImage1DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage2DEXT
-void TextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureImage2DEXT
+void glTextureImage2DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage2DMultisampleCoverageNV
-void TextureImage2DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTextureImage2DMultisampleCoverageNV
+void glTextureImage2DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage2DMultisampleNV
-void TextureImage2DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTextureImage2DMultisampleNV
+void glTextureImage2DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage3DEXT
-void TextureImage3DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureImage3DEXT
+void glTextureImage3DEXT(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage3DMultisampleCoverageNV
-void TextureImage3DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTextureImage3DMultisampleCoverageNV
+void glTextureImage3DMultisampleCoverageNV(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureImage3DMultisampleNV
-void TextureImage3DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
-    
+#ifndef skip_glTextureImage3DMultisampleNV
+void glTextureImage3DMultisampleNV(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureLightEXT
-void TextureLightEXT(GLenum pname) {
-    
+#ifndef skip_glTextureLightEXT
+void glTextureLightEXT(GLenum pname) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureMaterialEXT
-void TextureMaterialEXT(GLenum face, GLenum mode) {
-    
+#ifndef skip_glTextureMaterialEXT
+void glTextureMaterialEXT(GLenum face, GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureNormalEXT
-void TextureNormalEXT(GLenum mode) {
-    
+#ifndef skip_glTextureNormalEXT
+void glTextureNormalEXT(GLenum mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameterIivEXT
-void TextureParameterIivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTextureParameterIivEXT
+void glTextureParameterIivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameterIuivEXT
-void TextureParameterIuivEXT(GLuint texture, GLenum target, GLenum pname, GLuint params) {
-    
+#ifndef skip_glTextureParameterIuivEXT
+void glTextureParameterIuivEXT(GLuint texture, GLenum target, GLenum pname, GLuint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameterfEXT
-void TextureParameterfEXT(GLuint texture, GLenum target, GLenum pname, GLfloat param) {
-    
+#ifndef skip_glTextureParameterfEXT
+void glTextureParameterfEXT(GLuint texture, GLenum target, GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameterfvEXT
-void TextureParameterfvEXT(GLuint texture, GLenum target, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glTextureParameterfvEXT
+void glTextureParameterfvEXT(GLuint texture, GLenum target, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameteriEXT
-void TextureParameteriEXT(GLuint texture, GLenum target, GLenum pname, GLint param) {
-    
+#ifndef skip_glTextureParameteriEXT
+void glTextureParameteriEXT(GLuint texture, GLenum target, GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureParameterivEXT
-void TextureParameterivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
-    
+#ifndef skip_glTextureParameterivEXT
+void glTextureParameterivEXT(GLuint texture, GLenum target, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureRangeAPPLE
-void TextureRangeAPPLE(GLenum target, GLsizei length, GLvoid pointer) {
-    
+#ifndef skip_glTextureRangeAPPLE
+void glTextureRangeAPPLE(GLenum target, GLsizei length, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureRenderbufferEXT
-void TextureRenderbufferEXT(GLuint texture, GLenum target, GLuint renderbuffer) {
-    
+#ifndef skip_glTextureRenderbufferEXT
+void glTextureRenderbufferEXT(GLuint texture, GLenum target, GLuint renderbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorage1DEXT
-void TextureStorage1DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) {
-    
+#ifndef skip_glTextureStorage1DEXT
+void glTextureStorage1DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorage2DEXT
-void TextureStorage2DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glTextureStorage2DEXT
+void glTextureStorage2DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorage2DMultisampleEXT
-void TextureStorage2DMultisampleEXT(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTextureStorage2DMultisampleEXT
+void glTextureStorage2DMultisampleEXT(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorage3DEXT
-void TextureStorage3DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth) {
-    
+#ifndef skip_glTextureStorage3DEXT
+void glTextureStorage3DEXT(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorage3DMultisampleEXT
-void TextureStorage3DMultisampleEXT(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
-    
+#ifndef skip_glTextureStorage3DMultisampleEXT
+void glTextureStorage3DMultisampleEXT(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureStorageSparseAMD
-void TextureStorageSparseAMD(GLuint texture, GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags) {
-    
+#ifndef skip_glTextureStorageSparseAMD
+void glTextureStorageSparseAMD(GLuint texture, GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureSubImage1DEXT
-void TextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureSubImage1DEXT
+void glTextureSubImage1DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureSubImage2DEXT
-void TextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureSubImage2DEXT
+void glTextureSubImage2DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureSubImage3DEXT
-void TextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
-    
+#ifndef skip_glTextureSubImage3DEXT
+void glTextureSubImage3DEXT(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLvoid pixels) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TextureView
-void TextureView(GLuint texture, GLenum target, GLuint origtexture, GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers) {
-    
+#ifndef skip_glTextureView
+void glTextureView(GLuint texture, GLenum target, GLuint origtexture, GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TrackMatrixNV
-void TrackMatrixNV(GLenum target, GLuint address, GLenum matrix, GLenum transform) {
-    
+#ifndef skip_glTrackMatrixNV
+void glTrackMatrixNV(GLenum target, GLuint address, GLenum matrix, GLenum transform) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformFeedbackAttribsNV
-void TransformFeedbackAttribsNV(GLsizei count, GLint attribs, GLenum bufferMode) {
-    
+#ifndef skip_glTransformFeedbackAttribsNV
+void glTransformFeedbackAttribsNV(GLsizei count, GLint attribs, GLenum bufferMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformFeedbackStreamAttribsNV
-void TransformFeedbackStreamAttribsNV(GLsizei count, GLint attribs, GLsizei nbuffers, GLint bufstreams, GLenum bufferMode) {
-    
+#ifndef skip_glTransformFeedbackStreamAttribsNV
+void glTransformFeedbackStreamAttribsNV(GLsizei count, GLint attribs, GLsizei nbuffers, GLint bufstreams, GLenum bufferMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformFeedbackVaryings
-void TransformFeedbackVaryings(GLuint program, GLsizei count, GLchar*const varyings, GLenum bufferMode) {
-    
+#ifndef skip_glTransformFeedbackVaryings
+void glTransformFeedbackVaryings(GLuint program, GLsizei count, GLchar*const varyings, GLenum bufferMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformFeedbackVaryingsEXT
-void TransformFeedbackVaryingsEXT(GLuint program, GLsizei count, GLchar * varyings, GLenum bufferMode) {
-    
+#ifndef skip_glTransformFeedbackVaryingsEXT
+void glTransformFeedbackVaryingsEXT(GLuint program, GLsizei count, GLchar * varyings, GLenum bufferMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformFeedbackVaryingsNV
-void TransformFeedbackVaryingsNV(GLuint program, GLsizei count, GLint locations, GLenum bufferMode) {
-    
+#ifndef skip_glTransformFeedbackVaryingsNV
+void glTransformFeedbackVaryingsNV(GLuint program, GLsizei count, GLint locations, GLenum bufferMode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TransformPathNV
-void TransformPathNV(GLuint resultPath, GLuint srcPath, GLenum transformType, GLfloat transformValues) {
-    
+#ifndef skip_glTransformPathNV
+void glTransformPathNV(GLuint resultPath, GLuint srcPath, GLenum transformType, GLfloat transformValues) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Translated
-void Translated(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glTranslated
+void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Translatef
-void Translatef(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glTranslatef
+void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_TranslatexOES
-void TranslatexOES(GLfixed x, GLfixed y, GLfixed z) {
-    
+#ifndef skip_glTranslatexOES
+void glTranslatexOES(GLfixed x, GLfixed y, GLfixed z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1d
-void Uniform1d(GLint location, GLdouble x) {
-    
+#ifndef skip_glUniform1d
+void glUniform1d(GLint location, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1dv
-void Uniform1dv(GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glUniform1dv
+void glUniform1dv(GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1f
-void Uniform1f(GLint location, GLfloat v0) {
-    
+#ifndef skip_glUniform1f
+void glUniform1f(GLint location, GLfloat v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1fARB
-void Uniform1fARB(GLint location, GLfloat v0) {
-    
+#ifndef skip_glUniform1fARB
+void glUniform1fARB(GLint location, GLfloat v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1fv
-void Uniform1fv(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform1fv
+void glUniform1fv(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1fvARB
-void Uniform1fvARB(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform1fvARB
+void glUniform1fvARB(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1i
-void Uniform1i(GLint location, GLint v0) {
-    
+#ifndef skip_glUniform1i
+void glUniform1i(GLint location, GLint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1i64NV
-void Uniform1i64NV(GLint location, GLint64EXT x) {
-    
+#ifndef skip_glUniform1i64NV
+void glUniform1i64NV(GLint location, GLint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1i64vNV
-void Uniform1i64vNV(GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glUniform1i64vNV
+void glUniform1i64vNV(GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1iARB
-void Uniform1iARB(GLint location, GLint v0) {
-    
+#ifndef skip_glUniform1iARB
+void glUniform1iARB(GLint location, GLint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1iv
-void Uniform1iv(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform1iv
+void glUniform1iv(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1ivARB
-void Uniform1ivARB(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform1ivARB
+void glUniform1ivARB(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1ui
-void Uniform1ui(GLint location, GLuint v0) {
-    
+#ifndef skip_glUniform1ui
+void glUniform1ui(GLint location, GLuint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1ui64NV
-void Uniform1ui64NV(GLint location, GLuint64EXT x) {
-    
+#ifndef skip_glUniform1ui64NV
+void glUniform1ui64NV(GLint location, GLuint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1ui64vNV
-void Uniform1ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glUniform1ui64vNV
+void glUniform1ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1uiEXT
-void Uniform1uiEXT(GLint location, GLuint v0) {
-    
+#ifndef skip_glUniform1uiEXT
+void glUniform1uiEXT(GLint location, GLuint v0) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1uiv
-void Uniform1uiv(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform1uiv
+void glUniform1uiv(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform1uivEXT
-void Uniform1uivEXT(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform1uivEXT
+void glUniform1uivEXT(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2d
-void Uniform2d(GLint location, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glUniform2d
+void glUniform2d(GLint location, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2dv
-void Uniform2dv(GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glUniform2dv
+void glUniform2dv(GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2f
-void Uniform2f(GLint location, GLfloat v0, GLfloat v1) {
-    
+#ifndef skip_glUniform2f
+void glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2fARB
-void Uniform2fARB(GLint location, GLfloat v0, GLfloat v1) {
-    
+#ifndef skip_glUniform2fARB
+void glUniform2fARB(GLint location, GLfloat v0, GLfloat v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2fv
-void Uniform2fv(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform2fv
+void glUniform2fv(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2fvARB
-void Uniform2fvARB(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform2fvARB
+void glUniform2fvARB(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2i
-void Uniform2i(GLint location, GLint v0, GLint v1) {
-    
+#ifndef skip_glUniform2i
+void glUniform2i(GLint location, GLint v0, GLint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2i64NV
-void Uniform2i64NV(GLint location, GLint64EXT x, GLint64EXT y) {
-    
+#ifndef skip_glUniform2i64NV
+void glUniform2i64NV(GLint location, GLint64EXT x, GLint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2i64vNV
-void Uniform2i64vNV(GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glUniform2i64vNV
+void glUniform2i64vNV(GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2iARB
-void Uniform2iARB(GLint location, GLint v0, GLint v1) {
-    
+#ifndef skip_glUniform2iARB
+void glUniform2iARB(GLint location, GLint v0, GLint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2iv
-void Uniform2iv(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform2iv
+void glUniform2iv(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2ivARB
-void Uniform2ivARB(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform2ivARB
+void glUniform2ivARB(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2ui
-void Uniform2ui(GLint location, GLuint v0, GLuint v1) {
-    
+#ifndef skip_glUniform2ui
+void glUniform2ui(GLint location, GLuint v0, GLuint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2ui64NV
-void Uniform2ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y) {
-    
+#ifndef skip_glUniform2ui64NV
+void glUniform2ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2ui64vNV
-void Uniform2ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glUniform2ui64vNV
+void glUniform2ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2uiEXT
-void Uniform2uiEXT(GLint location, GLuint v0, GLuint v1) {
-    
+#ifndef skip_glUniform2uiEXT
+void glUniform2uiEXT(GLint location, GLuint v0, GLuint v1) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2uiv
-void Uniform2uiv(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform2uiv
+void glUniform2uiv(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform2uivEXT
-void Uniform2uivEXT(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform2uivEXT
+void glUniform2uivEXT(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3d
-void Uniform3d(GLint location, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glUniform3d
+void glUniform3d(GLint location, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3dv
-void Uniform3dv(GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glUniform3dv
+void glUniform3dv(GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3f
-void Uniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glUniform3f
+void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3fARB
-void Uniform3fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
-    
+#ifndef skip_glUniform3fARB
+void glUniform3fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3fv
-void Uniform3fv(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform3fv
+void glUniform3fv(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3fvARB
-void Uniform3fvARB(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform3fvARB
+void glUniform3fvARB(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3i
-void Uniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
-    
+#ifndef skip_glUniform3i
+void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3i64NV
-void Uniform3i64NV(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
-    
+#ifndef skip_glUniform3i64NV
+void glUniform3i64NV(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3i64vNV
-void Uniform3i64vNV(GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glUniform3i64vNV
+void glUniform3i64vNV(GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3iARB
-void Uniform3iARB(GLint location, GLint v0, GLint v1, GLint v2) {
-    
+#ifndef skip_glUniform3iARB
+void glUniform3iARB(GLint location, GLint v0, GLint v1, GLint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3iv
-void Uniform3iv(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform3iv
+void glUniform3iv(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3ivARB
-void Uniform3ivARB(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform3ivARB
+void glUniform3ivARB(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3ui
-void Uniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) {
-    
+#ifndef skip_glUniform3ui
+void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3ui64NV
-void Uniform3ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
-    
+#ifndef skip_glUniform3ui64NV
+void glUniform3ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3ui64vNV
-void Uniform3ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glUniform3ui64vNV
+void glUniform3ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3uiEXT
-void Uniform3uiEXT(GLint location, GLuint v0, GLuint v1, GLuint v2) {
-    
+#ifndef skip_glUniform3uiEXT
+void glUniform3uiEXT(GLint location, GLuint v0, GLuint v1, GLuint v2) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3uiv
-void Uniform3uiv(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform3uiv
+void glUniform3uiv(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform3uivEXT
-void Uniform3uivEXT(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform3uivEXT
+void glUniform3uivEXT(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4d
-void Uniform4d(GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glUniform4d
+void glUniform4d(GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4dv
-void Uniform4dv(GLint location, GLsizei count, GLdouble value) {
-    
+#ifndef skip_glUniform4dv
+void glUniform4dv(GLint location, GLsizei count, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4f
-void Uniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
-    
+#ifndef skip_glUniform4f
+void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4fARB
-void Uniform4fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
-    
+#ifndef skip_glUniform4fARB
+void glUniform4fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4fv
-void Uniform4fv(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform4fv
+void glUniform4fv(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4fvARB
-void Uniform4fvARB(GLint location, GLsizei count, GLfloat value) {
-    
+#ifndef skip_glUniform4fvARB
+void glUniform4fvARB(GLint location, GLsizei count, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4i
-void Uniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
-    
+#ifndef skip_glUniform4i
+void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4i64NV
-void Uniform4i64NV(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
-    
+#ifndef skip_glUniform4i64NV
+void glUniform4i64NV(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4i64vNV
-void Uniform4i64vNV(GLint location, GLsizei count, GLint64EXT value) {
-    
+#ifndef skip_glUniform4i64vNV
+void glUniform4i64vNV(GLint location, GLsizei count, GLint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4iARB
-void Uniform4iARB(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
-    
+#ifndef skip_glUniform4iARB
+void glUniform4iARB(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4iv
-void Uniform4iv(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform4iv
+void glUniform4iv(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4ivARB
-void Uniform4ivARB(GLint location, GLsizei count, GLint value) {
-    
+#ifndef skip_glUniform4ivARB
+void glUniform4ivARB(GLint location, GLsizei count, GLint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4ui
-void Uniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
-    
+#ifndef skip_glUniform4ui
+void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4ui64NV
-void Uniform4ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
-    
+#ifndef skip_glUniform4ui64NV
+void glUniform4ui64NV(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4ui64vNV
-void Uniform4ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glUniform4ui64vNV
+void glUniform4ui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4uiEXT
-void Uniform4uiEXT(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
-    
+#ifndef skip_glUniform4uiEXT
+void glUniform4uiEXT(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4uiv
-void Uniform4uiv(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform4uiv
+void glUniform4uiv(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniform4uivEXT
-void Uniform4uivEXT(GLint location, GLsizei count, GLuint value) {
-    
+#ifndef skip_glUniform4uivEXT
+void glUniform4uivEXT(GLint location, GLsizei count, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformBlockBinding
-void UniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding) {
-    
+#ifndef skip_glUniformBlockBinding
+void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformBufferEXT
-void UniformBufferEXT(GLuint program, GLint location, GLuint buffer) {
-    
+#ifndef skip_glUniformBufferEXT
+void glUniformBufferEXT(GLuint program, GLint location, GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformHandleui64NV
-void UniformHandleui64NV(GLint location, GLuint64 value) {
-    
+#ifndef skip_glUniformHandleui64NV
+void glUniformHandleui64NV(GLint location, GLuint64 value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformHandleui64vNV
-void UniformHandleui64vNV(GLint location, GLsizei count, GLuint64 value) {
-    
+#ifndef skip_glUniformHandleui64vNV
+void glUniformHandleui64vNV(GLint location, GLsizei count, GLuint64 value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2dv
-void UniformMatrix2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix2dv
+void glUniformMatrix2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2fv
-void UniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix2fv
+void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2fvARB
-void UniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix2fvARB
+void glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2x3dv
-void UniformMatrix2x3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix2x3dv
+void glUniformMatrix2x3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2x3fv
-void UniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix2x3fv
+void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2x4dv
-void UniformMatrix2x4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix2x4dv
+void glUniformMatrix2x4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix2x4fv
-void UniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix2x4fv
+void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3dv
-void UniformMatrix3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix3dv
+void glUniformMatrix3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3fv
-void UniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix3fv
+void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3fvARB
-void UniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix3fvARB
+void glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3x2dv
-void UniformMatrix3x2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix3x2dv
+void glUniformMatrix3x2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3x2fv
-void UniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix3x2fv
+void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3x4dv
-void UniformMatrix3x4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix3x4dv
+void glUniformMatrix3x4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix3x4fv
-void UniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix3x4fv
+void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4dv
-void UniformMatrix4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix4dv
+void glUniformMatrix4dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4fv
-void UniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix4fv
+void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4fvARB
-void UniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix4fvARB
+void glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4x2dv
-void UniformMatrix4x2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix4x2dv
+void glUniformMatrix4x2dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4x2fv
-void UniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix4x2fv
+void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4x3dv
-void UniformMatrix4x3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
-    
+#ifndef skip_glUniformMatrix4x3dv
+void glUniformMatrix4x3dv(GLint location, GLsizei count, GLboolean transpose, GLdouble value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformMatrix4x3fv
-void UniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
-    
+#ifndef skip_glUniformMatrix4x3fv
+void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose, GLfloat value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UniformSubroutinesuiv
-void UniformSubroutinesuiv(GLenum shadertype, GLsizei count, GLuint indices) {
-    
+#ifndef skip_glUniformSubroutinesuiv
+void glUniformSubroutinesuiv(GLenum shadertype, GLsizei count, GLuint indices) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniformui64NV
-void Uniformui64NV(GLint location, GLuint64EXT value) {
-    
+#ifndef skip_glUniformui64NV
+void glUniformui64NV(GLint location, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Uniformui64vNV
-void Uniformui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
-    
+#ifndef skip_glUniformui64vNV
+void glUniformui64vNV(GLint location, GLsizei count, GLuint64EXT value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnlockArraysEXT
-void UnlockArraysEXT() {
-    
+#ifndef skip_glUnlockArraysEXT
+void glUnlockArraysEXT() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnmapBuffer
-Boolean UnmapBuffer(GLenum target) {
-    
+#ifndef skip_glUnmapBuffer
+Boolean glUnmapBuffer(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnmapBufferARB
-Boolean UnmapBufferARB(GLenum target) {
-    
+#ifndef skip_glUnmapBufferARB
+Boolean glUnmapBufferARB(GLenum target) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnmapNamedBufferEXT
-Boolean UnmapNamedBufferEXT(GLuint buffer) {
-    
+#ifndef skip_glUnmapNamedBufferEXT
+Boolean glUnmapNamedBufferEXT(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnmapObjectBufferATI
-void UnmapObjectBufferATI(GLuint buffer) {
-    
+#ifndef skip_glUnmapObjectBufferATI
+void glUnmapObjectBufferATI(GLuint buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UnmapTexture2DINTEL
-void UnmapTexture2DINTEL(GLuint texture, GLint level) {
-    
+#ifndef skip_glUnmapTexture2DINTEL
+void glUnmapTexture2DINTEL(GLuint texture, GLint level) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UpdateObjectBufferATI
-void UpdateObjectBufferATI(GLuint buffer, GLuint offset, GLsizei size, GLvoid pointer, GLenum preserve) {
-    
+#ifndef skip_glUpdateObjectBufferATI
+void glUpdateObjectBufferATI(GLuint buffer, GLuint offset, GLsizei size, GLvoid pointer, GLenum preserve) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UseProgram
-void UseProgram(GLuint program) {
-    
+#ifndef skip_glUseProgram
+void glUseProgram(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UseProgramObjectARB
-void UseProgramObjectARB(GLhandleARB programObj) {
-    
+#ifndef skip_glUseProgramObjectARB
+void glUseProgramObjectARB(GLhandleARB programObj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UseProgramStages
-void UseProgramStages(GLuint pipeline, GLbitfield stages, GLuint program) {
-    
+#ifndef skip_glUseProgramStages
+void glUseProgramStages(GLuint pipeline, GLbitfield stages, GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_UseShaderProgramEXT
-void UseShaderProgramEXT(GLenum type, GLuint program) {
-    
+#ifndef skip_glUseShaderProgramEXT
+void glUseShaderProgramEXT(GLenum type, GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUFiniNV
-void VDPAUFiniNV() {
-    
+#ifndef skip_glVDPAUFiniNV
+void glVDPAUFiniNV() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUGetSurfaceivNV
-void VDPAUGetSurfaceivNV(GLvdpauSurfaceNV surface, GLenum pname, GLsizei bufSize, GLsizei length, GLint values) {
-    
+#ifndef skip_glVDPAUGetSurfaceivNV
+void glVDPAUGetSurfaceivNV(GLvdpauSurfaceNV surface, GLenum pname, GLsizei bufSize, GLsizei length, GLint values) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUInitNV
-void VDPAUInitNV(GLvoid vdpDevice, GLvoid getProcAddress) {
-    
+#ifndef skip_glVDPAUInitNV
+void glVDPAUInitNV(GLvoid vdpDevice, GLvoid getProcAddress) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUIsSurfaceNV
-void VDPAUIsSurfaceNV(GLvdpauSurfaceNV surface) {
-    
+#ifndef skip_glVDPAUIsSurfaceNV
+void glVDPAUIsSurfaceNV(GLvdpauSurfaceNV surface) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUMapSurfacesNV
-void VDPAUMapSurfacesNV(GLsizei numSurfaces, GLvdpauSurfaceNV surfaces) {
-    
+#ifndef skip_glVDPAUMapSurfacesNV
+void glVDPAUMapSurfacesNV(GLsizei numSurfaces, GLvdpauSurfaceNV surfaces) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAURegisterOutputSurfaceNV
-vdpauSurfaceNV VDPAURegisterOutputSurfaceNV(GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, GLuint textureNames) {
-    
+#ifndef skip_glVDPAURegisterOutputSurfaceNV
+vdpauSurfaceNV glVDPAURegisterOutputSurfaceNV(GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, GLuint textureNames) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAURegisterVideoSurfaceNV
-vdpauSurfaceNV VDPAURegisterVideoSurfaceNV(GLvoid vdpSurface, GLenum target, GLsizei numTextureNames, GLuint textureNames) {
-    
+#ifndef skip_glVDPAURegisterVideoSurfaceNV
+vdpauSurfaceNV glVDPAURegisterVideoSurfaceNV(GLvoid vdpSurface, GLenum target, GLsizei numTextureNames, GLuint textureNames) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUSurfaceAccessNV
-void VDPAUSurfaceAccessNV(GLvdpauSurfaceNV surface, GLenum access) {
-    
+#ifndef skip_glVDPAUSurfaceAccessNV
+void glVDPAUSurfaceAccessNV(GLvdpauSurfaceNV surface, GLenum access) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUUnmapSurfacesNV
-void VDPAUUnmapSurfacesNV(GLsizei numSurface, GLvdpauSurfaceNV surfaces) {
-    
+#ifndef skip_glVDPAUUnmapSurfacesNV
+void glVDPAUUnmapSurfacesNV(GLsizei numSurface, GLvdpauSurfaceNV surfaces) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VDPAUUnregisterSurfaceNV
-void VDPAUUnregisterSurfaceNV(GLvdpauSurfaceNV surface) {
-    
+#ifndef skip_glVDPAUUnregisterSurfaceNV
+void glVDPAUUnregisterSurfaceNV(GLvdpauSurfaceNV surface) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ValidateProgram
-void ValidateProgram(GLuint program) {
-    
+#ifndef skip_glValidateProgram
+void glValidateProgram(GLuint program) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ValidateProgramARB
-void ValidateProgramARB(GLhandleARB programObj) {
-    
+#ifndef skip_glValidateProgramARB
+void glValidateProgramARB(GLhandleARB programObj) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ValidateProgramPipeline
-void ValidateProgramPipeline(GLuint pipeline) {
-    
+#ifndef skip_glValidateProgramPipeline
+void glValidateProgramPipeline(GLuint pipeline) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantArrayObjectATI
-void VariantArrayObjectATI(GLuint id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset) {
-    
+#ifndef skip_glVariantArrayObjectATI
+void glVariantArrayObjectATI(GLuint id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantPointerEXT
-void VariantPointerEXT(GLuint id, GLenum type, GLuint stride, GLvoid addr) {
-    
+#ifndef skip_glVariantPointerEXT
+void glVariantPointerEXT(GLuint id, GLenum type, GLuint stride, GLvoid addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantbvEXT
-void VariantbvEXT(GLuint id, GLbyte addr) {
-    
+#ifndef skip_glVariantbvEXT
+void glVariantbvEXT(GLuint id, GLbyte addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantdvEXT
-void VariantdvEXT(GLuint id, GLdouble addr) {
-    
+#ifndef skip_glVariantdvEXT
+void glVariantdvEXT(GLuint id, GLdouble addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantfvEXT
-void VariantfvEXT(GLuint id, GLfloat addr) {
-    
+#ifndef skip_glVariantfvEXT
+void glVariantfvEXT(GLuint id, GLfloat addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantivEXT
-void VariantivEXT(GLuint id, GLint addr) {
-    
+#ifndef skip_glVariantivEXT
+void glVariantivEXT(GLuint id, GLint addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantsvEXT
-void VariantsvEXT(GLuint id, GLshort addr) {
-    
+#ifndef skip_glVariantsvEXT
+void glVariantsvEXT(GLuint id, GLshort addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantubvEXT
-void VariantubvEXT(GLuint id, GLubyte addr) {
-    
+#ifndef skip_glVariantubvEXT
+void glVariantubvEXT(GLuint id, GLubyte addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantuivEXT
-void VariantuivEXT(GLuint id, GLuint addr) {
-    
+#ifndef skip_glVariantuivEXT
+void glVariantuivEXT(GLuint id, GLuint addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VariantusvEXT
-void VariantusvEXT(GLuint id, GLushort addr) {
-    
+#ifndef skip_glVariantusvEXT
+void glVariantusvEXT(GLuint id, GLushort addr) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2bOES
-void Vertex2bOES(GLbyte x) {
-    
+#ifndef skip_glVertex2bOES
+void glVertex2bOES(GLbyte x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2bvOES
-void Vertex2bvOES(GLbyte coords) {
-    
+#ifndef skip_glVertex2bvOES
+void glVertex2bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2d
-void Vertex2d(GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertex2d
+void glVertex2d(GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2dv
-void Vertex2dv(GLdouble v) {
-    
+#ifndef skip_glVertex2dv
+void glVertex2dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2f
-void Vertex2f(GLfloat x, GLfloat y) {
-    
+#ifndef skip_glVertex2f
+void glVertex2f(GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2fv
-void Vertex2fv(GLfloat v) {
-    
+#ifndef skip_glVertex2fv
+void glVertex2fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2hNV
-void Vertex2hNV(GLhalfNV x, GLhalfNV y) {
-    
+#ifndef skip_glVertex2hNV
+void glVertex2hNV(GLhalfNV x, GLhalfNV y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2hvNV
-void Vertex2hvNV(GLhalfNV v) {
-    
+#ifndef skip_glVertex2hvNV
+void glVertex2hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2i
-void Vertex2i(GLint x, GLint y) {
-    
+#ifndef skip_glVertex2i
+void glVertex2i(GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2iv
-void Vertex2iv(GLint v) {
-    
+#ifndef skip_glVertex2iv
+void glVertex2iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2s
-void Vertex2s(GLshort x, GLshort y) {
-    
+#ifndef skip_glVertex2s
+void glVertex2s(GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2sv
-void Vertex2sv(GLshort v) {
-    
+#ifndef skip_glVertex2sv
+void glVertex2sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2xOES
-void Vertex2xOES(GLfixed x) {
-    
+#ifndef skip_glVertex2xOES
+void glVertex2xOES(GLfixed x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex2xvOES
-void Vertex2xvOES(GLfixed coords) {
-    
+#ifndef skip_glVertex2xvOES
+void glVertex2xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3bOES
-void Vertex3bOES(GLbyte x, GLbyte y) {
-    
+#ifndef skip_glVertex3bOES
+void glVertex3bOES(GLbyte x, GLbyte y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3bvOES
-void Vertex3bvOES(GLbyte coords) {
-    
+#ifndef skip_glVertex3bvOES
+void glVertex3bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3d
-void Vertex3d(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertex3d
+void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3dv
-void Vertex3dv(GLdouble v) {
-    
+#ifndef skip_glVertex3dv
+void glVertex3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3f
-void Vertex3f(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glVertex3f
+void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3fv
-void Vertex3fv(GLfloat v) {
-    
+#ifndef skip_glVertex3fv
+void glVertex3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3hNV
-void Vertex3hNV(GLhalfNV x, GLhalfNV y, GLhalfNV z) {
-    
+#ifndef skip_glVertex3hNV
+void glVertex3hNV(GLhalfNV x, GLhalfNV y, GLhalfNV z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3hvNV
-void Vertex3hvNV(GLhalfNV v) {
-    
+#ifndef skip_glVertex3hvNV
+void glVertex3hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3i
-void Vertex3i(GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glVertex3i
+void glVertex3i(GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3iv
-void Vertex3iv(GLint v) {
-    
+#ifndef skip_glVertex3iv
+void glVertex3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3s
-void Vertex3s(GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glVertex3s
+void glVertex3s(GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3sv
-void Vertex3sv(GLshort v) {
-    
+#ifndef skip_glVertex3sv
+void glVertex3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3xOES
-void Vertex3xOES(GLfixed x, GLfixed y) {
-    
+#ifndef skip_glVertex3xOES
+void glVertex3xOES(GLfixed x, GLfixed y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex3xvOES
-void Vertex3xvOES(GLfixed coords) {
-    
+#ifndef skip_glVertex3xvOES
+void glVertex3xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4bOES
-void Vertex4bOES(GLbyte x, GLbyte y, GLbyte z) {
-    
+#ifndef skip_glVertex4bOES
+void glVertex4bOES(GLbyte x, GLbyte y, GLbyte z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4bvOES
-void Vertex4bvOES(GLbyte coords) {
-    
+#ifndef skip_glVertex4bvOES
+void glVertex4bvOES(GLbyte coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4d
-void Vertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertex4d
+void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4dv
-void Vertex4dv(GLdouble v) {
-    
+#ifndef skip_glVertex4dv
+void glVertex4dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4f
-void Vertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glVertex4f
+void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4fv
-void Vertex4fv(GLfloat v) {
-    
+#ifndef skip_glVertex4fv
+void glVertex4fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4hNV
-void Vertex4hNV(GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w) {
-    
+#ifndef skip_glVertex4hNV
+void glVertex4hNV(GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4hvNV
-void Vertex4hvNV(GLhalfNV v) {
-    
+#ifndef skip_glVertex4hvNV
+void glVertex4hvNV(GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4i
-void Vertex4i(GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glVertex4i
+void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4iv
-void Vertex4iv(GLint v) {
-    
+#ifndef skip_glVertex4iv
+void glVertex4iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4s
-void Vertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glVertex4s
+void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4sv
-void Vertex4sv(GLshort v) {
-    
+#ifndef skip_glVertex4sv
+void glVertex4sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4xOES
-void Vertex4xOES(GLfixed x, GLfixed y, GLfixed z) {
-    
+#ifndef skip_glVertex4xOES
+void glVertex4xOES(GLfixed x, GLfixed y, GLfixed z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Vertex4xvOES
-void Vertex4xvOES(GLfixed coords) {
-    
+#ifndef skip_glVertex4xvOES
+void glVertex4xvOES(GLfixed coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayBindVertexBufferEXT
-void VertexArrayBindVertexBufferEXT(GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride) {
-    
+#ifndef skip_glVertexArrayBindVertexBufferEXT
+void glVertexArrayBindVertexBufferEXT(GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayColorOffsetEXT
-void VertexArrayColorOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayColorOffsetEXT
+void glVertexArrayColorOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayEdgeFlagOffsetEXT
-void VertexArrayEdgeFlagOffsetEXT(GLuint vaobj, GLuint buffer, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayEdgeFlagOffsetEXT
+void glVertexArrayEdgeFlagOffsetEXT(GLuint vaobj, GLuint buffer, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayFogCoordOffsetEXT
-void VertexArrayFogCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayFogCoordOffsetEXT
+void glVertexArrayFogCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayIndexOffsetEXT
-void VertexArrayIndexOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayIndexOffsetEXT
+void glVertexArrayIndexOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayMultiTexCoordOffsetEXT
-void VertexArrayMultiTexCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLenum texunit, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayMultiTexCoordOffsetEXT
+void glVertexArrayMultiTexCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLenum texunit, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayNormalOffsetEXT
-void VertexArrayNormalOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayNormalOffsetEXT
+void glVertexArrayNormalOffsetEXT(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayParameteriAPPLE
-void VertexArrayParameteriAPPLE(GLenum pname, GLint param) {
-    
+#ifndef skip_glVertexArrayParameteriAPPLE
+void glVertexArrayParameteriAPPLE(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayRangeAPPLE
-void VertexArrayRangeAPPLE(GLsizei length, GLvoid pointer) {
-    
+#ifndef skip_glVertexArrayRangeAPPLE
+void glVertexArrayRangeAPPLE(GLsizei length, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayRangeNV
-void VertexArrayRangeNV(GLsizei length, GLvoid pointer) {
-    
+#ifndef skip_glVertexArrayRangeNV
+void glVertexArrayRangeNV(GLsizei length, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArraySecondaryColorOffsetEXT
-void VertexArraySecondaryColorOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArraySecondaryColorOffsetEXT
+void glVertexArraySecondaryColorOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayTexCoordOffsetEXT
-void VertexArrayTexCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayTexCoordOffsetEXT
+void glVertexArrayTexCoordOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribBindingEXT
-void VertexArrayVertexAttribBindingEXT(GLuint vaobj, GLuint attribindex, GLuint bindingindex) {
-    
+#ifndef skip_glVertexArrayVertexAttribBindingEXT
+void glVertexArrayVertexAttribBindingEXT(GLuint vaobj, GLuint attribindex, GLuint bindingindex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribFormatEXT
-void VertexArrayVertexAttribFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexArrayVertexAttribFormatEXT
+void glVertexArrayVertexAttribFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribIFormatEXT
-void VertexArrayVertexAttribIFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexArrayVertexAttribIFormatEXT
+void glVertexArrayVertexAttribIFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribIOffsetEXT
-void VertexArrayVertexAttribIOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayVertexAttribIOffsetEXT
+void glVertexArrayVertexAttribIOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribLFormatEXT
-void VertexArrayVertexAttribLFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexArrayVertexAttribLFormatEXT
+void glVertexArrayVertexAttribLFormatEXT(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribLOffsetEXT
-void VertexArrayVertexAttribLOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayVertexAttribLOffsetEXT
+void glVertexArrayVertexAttribLOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexAttribOffsetEXT
-void VertexArrayVertexAttribOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayVertexAttribOffsetEXT
+void glVertexArrayVertexAttribOffsetEXT(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexBindingDivisorEXT
-void VertexArrayVertexBindingDivisorEXT(GLuint vaobj, GLuint bindingindex, GLuint divisor) {
-    
+#ifndef skip_glVertexArrayVertexBindingDivisorEXT
+void glVertexArrayVertexBindingDivisorEXT(GLuint vaobj, GLuint bindingindex, GLuint divisor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexArrayVertexOffsetEXT
-void VertexArrayVertexOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
-    
+#ifndef skip_glVertexArrayVertexOffsetEXT
+void glVertexArrayVertexOffsetEXT(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1d
-void VertexAttrib1d(GLuint index, GLdouble x) {
-    
+#ifndef skip_glVertexAttrib1d
+void glVertexAttrib1d(GLuint index, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1dARB
-void VertexAttrib1dARB(GLuint index, GLdouble x) {
-    
+#ifndef skip_glVertexAttrib1dARB
+void glVertexAttrib1dARB(GLuint index, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1dNV
-void VertexAttrib1dNV(GLuint index, GLdouble x) {
-    
+#ifndef skip_glVertexAttrib1dNV
+void glVertexAttrib1dNV(GLuint index, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1dv
-void VertexAttrib1dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib1dv
+void glVertexAttrib1dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1dvARB
-void VertexAttrib1dvARB(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib1dvARB
+void glVertexAttrib1dvARB(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1dvNV
-void VertexAttrib1dvNV(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib1dvNV
+void glVertexAttrib1dvNV(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1f
-void VertexAttrib1f(GLuint index, GLfloat x) {
-    
+#ifndef skip_glVertexAttrib1f
+void glVertexAttrib1f(GLuint index, GLfloat x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1fARB
-void VertexAttrib1fARB(GLuint index, GLfloat x) {
-    
+#ifndef skip_glVertexAttrib1fARB
+void glVertexAttrib1fARB(GLuint index, GLfloat x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1fNV
-void VertexAttrib1fNV(GLuint index, GLfloat x) {
-    
+#ifndef skip_glVertexAttrib1fNV
+void glVertexAttrib1fNV(GLuint index, GLfloat x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1fv
-void VertexAttrib1fv(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib1fv
+void glVertexAttrib1fv(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1fvARB
-void VertexAttrib1fvARB(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib1fvARB
+void glVertexAttrib1fvARB(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1fvNV
-void VertexAttrib1fvNV(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib1fvNV
+void glVertexAttrib1fvNV(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1hNV
-void VertexAttrib1hNV(GLuint index, GLhalfNV x) {
-    
+#ifndef skip_glVertexAttrib1hNV
+void glVertexAttrib1hNV(GLuint index, GLhalfNV x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1hvNV
-void VertexAttrib1hvNV(GLuint index, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttrib1hvNV
+void glVertexAttrib1hvNV(GLuint index, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1s
-void VertexAttrib1s(GLuint index, GLshort x) {
-    
+#ifndef skip_glVertexAttrib1s
+void glVertexAttrib1s(GLuint index, GLshort x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1sARB
-void VertexAttrib1sARB(GLuint index, GLshort x) {
-    
+#ifndef skip_glVertexAttrib1sARB
+void glVertexAttrib1sARB(GLuint index, GLshort x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1sNV
-void VertexAttrib1sNV(GLuint index, GLshort x) {
-    
+#ifndef skip_glVertexAttrib1sNV
+void glVertexAttrib1sNV(GLuint index, GLshort x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1sv
-void VertexAttrib1sv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib1sv
+void glVertexAttrib1sv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1svARB
-void VertexAttrib1svARB(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib1svARB
+void glVertexAttrib1svARB(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib1svNV
-void VertexAttrib1svNV(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib1svNV
+void glVertexAttrib1svNV(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2d
-void VertexAttrib2d(GLuint index, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexAttrib2d
+void glVertexAttrib2d(GLuint index, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2dARB
-void VertexAttrib2dARB(GLuint index, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexAttrib2dARB
+void glVertexAttrib2dARB(GLuint index, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2dNV
-void VertexAttrib2dNV(GLuint index, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexAttrib2dNV
+void glVertexAttrib2dNV(GLuint index, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2dv
-void VertexAttrib2dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib2dv
+void glVertexAttrib2dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2dvARB
-void VertexAttrib2dvARB(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib2dvARB
+void glVertexAttrib2dvARB(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2dvNV
-void VertexAttrib2dvNV(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib2dvNV
+void glVertexAttrib2dvNV(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2f
-void VertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glVertexAttrib2f
+void glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2fARB
-void VertexAttrib2fARB(GLuint index, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glVertexAttrib2fARB
+void glVertexAttrib2fARB(GLuint index, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2fNV
-void VertexAttrib2fNV(GLuint index, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glVertexAttrib2fNV
+void glVertexAttrib2fNV(GLuint index, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2fv
-void VertexAttrib2fv(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib2fv
+void glVertexAttrib2fv(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2fvARB
-void VertexAttrib2fvARB(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib2fvARB
+void glVertexAttrib2fvARB(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2fvNV
-void VertexAttrib2fvNV(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib2fvNV
+void glVertexAttrib2fvNV(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2hNV
-void VertexAttrib2hNV(GLuint index, GLhalfNV x, GLhalfNV y) {
-    
+#ifndef skip_glVertexAttrib2hNV
+void glVertexAttrib2hNV(GLuint index, GLhalfNV x, GLhalfNV y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2hvNV
-void VertexAttrib2hvNV(GLuint index, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttrib2hvNV
+void glVertexAttrib2hvNV(GLuint index, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2s
-void VertexAttrib2s(GLuint index, GLshort x, GLshort y) {
-    
+#ifndef skip_glVertexAttrib2s
+void glVertexAttrib2s(GLuint index, GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2sARB
-void VertexAttrib2sARB(GLuint index, GLshort x, GLshort y) {
-    
+#ifndef skip_glVertexAttrib2sARB
+void glVertexAttrib2sARB(GLuint index, GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2sNV
-void VertexAttrib2sNV(GLuint index, GLshort x, GLshort y) {
-    
+#ifndef skip_glVertexAttrib2sNV
+void glVertexAttrib2sNV(GLuint index, GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2sv
-void VertexAttrib2sv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib2sv
+void glVertexAttrib2sv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2svARB
-void VertexAttrib2svARB(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib2svARB
+void glVertexAttrib2svARB(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib2svNV
-void VertexAttrib2svNV(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib2svNV
+void glVertexAttrib2svNV(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3d
-void VertexAttrib3d(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexAttrib3d
+void glVertexAttrib3d(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3dARB
-void VertexAttrib3dARB(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexAttrib3dARB
+void glVertexAttrib3dARB(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3dNV
-void VertexAttrib3dNV(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexAttrib3dNV
+void glVertexAttrib3dNV(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3dv
-void VertexAttrib3dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib3dv
+void glVertexAttrib3dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3dvARB
-void VertexAttrib3dvARB(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib3dvARB
+void glVertexAttrib3dvARB(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3dvNV
-void VertexAttrib3dvNV(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib3dvNV
+void glVertexAttrib3dvNV(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3f
-void VertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glVertexAttrib3f
+void glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3fARB
-void VertexAttrib3fARB(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glVertexAttrib3fARB
+void glVertexAttrib3fARB(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3fNV
-void VertexAttrib3fNV(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glVertexAttrib3fNV
+void glVertexAttrib3fNV(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3fv
-void VertexAttrib3fv(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib3fv
+void glVertexAttrib3fv(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3fvARB
-void VertexAttrib3fvARB(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib3fvARB
+void glVertexAttrib3fvARB(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3fvNV
-void VertexAttrib3fvNV(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib3fvNV
+void glVertexAttrib3fvNV(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3hNV
-void VertexAttrib3hNV(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z) {
-    
+#ifndef skip_glVertexAttrib3hNV
+void glVertexAttrib3hNV(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3hvNV
-void VertexAttrib3hvNV(GLuint index, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttrib3hvNV
+void glVertexAttrib3hvNV(GLuint index, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3s
-void VertexAttrib3s(GLuint index, GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glVertexAttrib3s
+void glVertexAttrib3s(GLuint index, GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3sARB
-void VertexAttrib3sARB(GLuint index, GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glVertexAttrib3sARB
+void glVertexAttrib3sARB(GLuint index, GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3sNV
-void VertexAttrib3sNV(GLuint index, GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glVertexAttrib3sNV
+void glVertexAttrib3sNV(GLuint index, GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3sv
-void VertexAttrib3sv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib3sv
+void glVertexAttrib3sv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3svARB
-void VertexAttrib3svARB(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib3svARB
+void glVertexAttrib3svARB(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib3svNV
-void VertexAttrib3svNV(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib3svNV
+void glVertexAttrib3svNV(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nbv
-void VertexAttrib4Nbv(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttrib4Nbv
+void glVertexAttrib4Nbv(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NbvARB
-void VertexAttrib4NbvARB(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttrib4NbvARB
+void glVertexAttrib4NbvARB(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Niv
-void VertexAttrib4Niv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttrib4Niv
+void glVertexAttrib4Niv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NivARB
-void VertexAttrib4NivARB(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttrib4NivARB
+void glVertexAttrib4NivARB(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nsv
-void VertexAttrib4Nsv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib4Nsv
+void glVertexAttrib4Nsv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NsvARB
-void VertexAttrib4NsvARB(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib4NsvARB
+void glVertexAttrib4NsvARB(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nub
-void VertexAttrib4Nub(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
-    
+#ifndef skip_glVertexAttrib4Nub
+void glVertexAttrib4Nub(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NubARB
-void VertexAttrib4NubARB(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
-    
+#ifndef skip_glVertexAttrib4NubARB
+void glVertexAttrib4NubARB(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nubv
-void VertexAttrib4Nubv(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttrib4Nubv
+void glVertexAttrib4Nubv(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NubvARB
-void VertexAttrib4NubvARB(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttrib4NubvARB
+void glVertexAttrib4NubvARB(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nuiv
-void VertexAttrib4Nuiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttrib4Nuiv
+void glVertexAttrib4Nuiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NuivARB
-void VertexAttrib4NuivARB(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttrib4NuivARB
+void glVertexAttrib4NuivARB(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4Nusv
-void VertexAttrib4Nusv(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttrib4Nusv
+void glVertexAttrib4Nusv(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4NusvARB
-void VertexAttrib4NusvARB(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttrib4NusvARB
+void glVertexAttrib4NusvARB(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4bv
-void VertexAttrib4bv(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttrib4bv
+void glVertexAttrib4bv(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4bvARB
-void VertexAttrib4bvARB(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttrib4bvARB
+void glVertexAttrib4bvARB(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4d
-void VertexAttrib4d(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexAttrib4d
+void glVertexAttrib4d(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4dARB
-void VertexAttrib4dARB(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexAttrib4dARB
+void glVertexAttrib4dARB(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4dNV
-void VertexAttrib4dNV(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexAttrib4dNV
+void glVertexAttrib4dNV(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4dv
-void VertexAttrib4dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib4dv
+void glVertexAttrib4dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4dvARB
-void VertexAttrib4dvARB(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib4dvARB
+void glVertexAttrib4dvARB(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4dvNV
-void VertexAttrib4dvNV(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttrib4dvNV
+void glVertexAttrib4dvNV(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4f
-void VertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glVertexAttrib4f
+void glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4fARB
-void VertexAttrib4fARB(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glVertexAttrib4fARB
+void glVertexAttrib4fARB(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4fNV
-void VertexAttrib4fNV(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glVertexAttrib4fNV
+void glVertexAttrib4fNV(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4fv
-void VertexAttrib4fv(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib4fv
+void glVertexAttrib4fv(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4fvARB
-void VertexAttrib4fvARB(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib4fvARB
+void glVertexAttrib4fvARB(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4fvNV
-void VertexAttrib4fvNV(GLuint index, GLfloat v) {
-    
+#ifndef skip_glVertexAttrib4fvNV
+void glVertexAttrib4fvNV(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4hNV
-void VertexAttrib4hNV(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w) {
-    
+#ifndef skip_glVertexAttrib4hNV
+void glVertexAttrib4hNV(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4hvNV
-void VertexAttrib4hvNV(GLuint index, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttrib4hvNV
+void glVertexAttrib4hvNV(GLuint index, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4iv
-void VertexAttrib4iv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttrib4iv
+void glVertexAttrib4iv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4ivARB
-void VertexAttrib4ivARB(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttrib4ivARB
+void glVertexAttrib4ivARB(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4s
-void VertexAttrib4s(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glVertexAttrib4s
+void glVertexAttrib4s(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4sARB
-void VertexAttrib4sARB(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glVertexAttrib4sARB
+void glVertexAttrib4sARB(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4sNV
-void VertexAttrib4sNV(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glVertexAttrib4sNV
+void glVertexAttrib4sNV(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4sv
-void VertexAttrib4sv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib4sv
+void glVertexAttrib4sv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4svARB
-void VertexAttrib4svARB(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib4svARB
+void glVertexAttrib4svARB(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4svNV
-void VertexAttrib4svNV(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttrib4svNV
+void glVertexAttrib4svNV(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4ubNV
-void VertexAttrib4ubNV(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
-    
+#ifndef skip_glVertexAttrib4ubNV
+void glVertexAttrib4ubNV(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4ubv
-void VertexAttrib4ubv(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttrib4ubv
+void glVertexAttrib4ubv(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4ubvARB
-void VertexAttrib4ubvARB(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttrib4ubvARB
+void glVertexAttrib4ubvARB(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4ubvNV
-void VertexAttrib4ubvNV(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttrib4ubvNV
+void glVertexAttrib4ubvNV(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4uiv
-void VertexAttrib4uiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttrib4uiv
+void glVertexAttrib4uiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4uivARB
-void VertexAttrib4uivARB(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttrib4uivARB
+void glVertexAttrib4uivARB(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4usv
-void VertexAttrib4usv(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttrib4usv
+void glVertexAttrib4usv(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttrib4usvARB
-void VertexAttrib4usvARB(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttrib4usvARB
+void glVertexAttrib4usvARB(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribArrayObjectATI
-void VertexAttribArrayObjectATI(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLuint buffer, GLuint offset) {
-    
+#ifndef skip_glVertexAttribArrayObjectATI
+void glVertexAttribArrayObjectATI(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLuint buffer, GLuint offset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribBinding
-void VertexAttribBinding(GLuint attribindex, GLuint bindingindex) {
-    
+#ifndef skip_glVertexAttribBinding
+void glVertexAttribBinding(GLuint attribindex, GLuint bindingindex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribDivisor
-void VertexAttribDivisor(GLuint index, GLuint divisor) {
-    
+#ifndef skip_glVertexAttribDivisor
+void glVertexAttribDivisor(GLuint index, GLuint divisor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribDivisorARB
-void VertexAttribDivisorARB(GLuint index, GLuint divisor) {
-    
+#ifndef skip_glVertexAttribDivisorARB
+void glVertexAttribDivisorARB(GLuint index, GLuint divisor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribFormat
-void VertexAttribFormat(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexAttribFormat
+void glVertexAttribFormat(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribFormatNV
-void VertexAttribFormatNV(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride) {
-    
+#ifndef skip_glVertexAttribFormatNV
+void glVertexAttribFormatNV(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1i
-void VertexAttribI1i(GLuint index, GLint x) {
-    
+#ifndef skip_glVertexAttribI1i
+void glVertexAttribI1i(GLuint index, GLint x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1iEXT
-void VertexAttribI1iEXT(GLuint index, GLint x) {
-    
+#ifndef skip_glVertexAttribI1iEXT
+void glVertexAttribI1iEXT(GLuint index, GLint x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1iv
-void VertexAttribI1iv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI1iv
+void glVertexAttribI1iv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1ivEXT
-void VertexAttribI1ivEXT(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI1ivEXT
+void glVertexAttribI1ivEXT(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1ui
-void VertexAttribI1ui(GLuint index, GLuint x) {
-    
+#ifndef skip_glVertexAttribI1ui
+void glVertexAttribI1ui(GLuint index, GLuint x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1uiEXT
-void VertexAttribI1uiEXT(GLuint index, GLuint x) {
-    
+#ifndef skip_glVertexAttribI1uiEXT
+void glVertexAttribI1uiEXT(GLuint index, GLuint x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1uiv
-void VertexAttribI1uiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI1uiv
+void glVertexAttribI1uiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI1uivEXT
-void VertexAttribI1uivEXT(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI1uivEXT
+void glVertexAttribI1uivEXT(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2i
-void VertexAttribI2i(GLuint index, GLint x, GLint y) {
-    
+#ifndef skip_glVertexAttribI2i
+void glVertexAttribI2i(GLuint index, GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2iEXT
-void VertexAttribI2iEXT(GLuint index, GLint x, GLint y) {
-    
+#ifndef skip_glVertexAttribI2iEXT
+void glVertexAttribI2iEXT(GLuint index, GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2iv
-void VertexAttribI2iv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI2iv
+void glVertexAttribI2iv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2ivEXT
-void VertexAttribI2ivEXT(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI2ivEXT
+void glVertexAttribI2ivEXT(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2ui
-void VertexAttribI2ui(GLuint index, GLuint x, GLuint y) {
-    
+#ifndef skip_glVertexAttribI2ui
+void glVertexAttribI2ui(GLuint index, GLuint x, GLuint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2uiEXT
-void VertexAttribI2uiEXT(GLuint index, GLuint x, GLuint y) {
-    
+#ifndef skip_glVertexAttribI2uiEXT
+void glVertexAttribI2uiEXT(GLuint index, GLuint x, GLuint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2uiv
-void VertexAttribI2uiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI2uiv
+void glVertexAttribI2uiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI2uivEXT
-void VertexAttribI2uivEXT(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI2uivEXT
+void glVertexAttribI2uivEXT(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3i
-void VertexAttribI3i(GLuint index, GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glVertexAttribI3i
+void glVertexAttribI3i(GLuint index, GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3iEXT
-void VertexAttribI3iEXT(GLuint index, GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glVertexAttribI3iEXT
+void glVertexAttribI3iEXT(GLuint index, GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3iv
-void VertexAttribI3iv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI3iv
+void glVertexAttribI3iv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3ivEXT
-void VertexAttribI3ivEXT(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI3ivEXT
+void glVertexAttribI3ivEXT(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3ui
-void VertexAttribI3ui(GLuint index, GLuint x, GLuint y, GLuint z) {
-    
+#ifndef skip_glVertexAttribI3ui
+void glVertexAttribI3ui(GLuint index, GLuint x, GLuint y, GLuint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3uiEXT
-void VertexAttribI3uiEXT(GLuint index, GLuint x, GLuint y, GLuint z) {
-    
+#ifndef skip_glVertexAttribI3uiEXT
+void glVertexAttribI3uiEXT(GLuint index, GLuint x, GLuint y, GLuint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3uiv
-void VertexAttribI3uiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI3uiv
+void glVertexAttribI3uiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI3uivEXT
-void VertexAttribI3uivEXT(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI3uivEXT
+void glVertexAttribI3uivEXT(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4bv
-void VertexAttribI4bv(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttribI4bv
+void glVertexAttribI4bv(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4bvEXT
-void VertexAttribI4bvEXT(GLuint index, GLbyte v) {
-    
+#ifndef skip_glVertexAttribI4bvEXT
+void glVertexAttribI4bvEXT(GLuint index, GLbyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4i
-void VertexAttribI4i(GLuint index, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glVertexAttribI4i
+void glVertexAttribI4i(GLuint index, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4iEXT
-void VertexAttribI4iEXT(GLuint index, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glVertexAttribI4iEXT
+void glVertexAttribI4iEXT(GLuint index, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4iv
-void VertexAttribI4iv(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI4iv
+void glVertexAttribI4iv(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4ivEXT
-void VertexAttribI4ivEXT(GLuint index, GLint v) {
-    
+#ifndef skip_glVertexAttribI4ivEXT
+void glVertexAttribI4ivEXT(GLuint index, GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4sv
-void VertexAttribI4sv(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttribI4sv
+void glVertexAttribI4sv(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4svEXT
-void VertexAttribI4svEXT(GLuint index, GLshort v) {
-    
+#ifndef skip_glVertexAttribI4svEXT
+void glVertexAttribI4svEXT(GLuint index, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4ubv
-void VertexAttribI4ubv(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttribI4ubv
+void glVertexAttribI4ubv(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4ubvEXT
-void VertexAttribI4ubvEXT(GLuint index, GLubyte v) {
-    
+#ifndef skip_glVertexAttribI4ubvEXT
+void glVertexAttribI4ubvEXT(GLuint index, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4ui
-void VertexAttribI4ui(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
-    
+#ifndef skip_glVertexAttribI4ui
+void glVertexAttribI4ui(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4uiEXT
-void VertexAttribI4uiEXT(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
-    
+#ifndef skip_glVertexAttribI4uiEXT
+void glVertexAttribI4uiEXT(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4uiv
-void VertexAttribI4uiv(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI4uiv
+void glVertexAttribI4uiv(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4uivEXT
-void VertexAttribI4uivEXT(GLuint index, GLuint v) {
-    
+#ifndef skip_glVertexAttribI4uivEXT
+void glVertexAttribI4uivEXT(GLuint index, GLuint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4usv
-void VertexAttribI4usv(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttribI4usv
+void glVertexAttribI4usv(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribI4usvEXT
-void VertexAttribI4usvEXT(GLuint index, GLushort v) {
-    
+#ifndef skip_glVertexAttribI4usvEXT
+void glVertexAttribI4usvEXT(GLuint index, GLushort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribIFormat
-void VertexAttribIFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexAttribIFormat
+void glVertexAttribIFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribIFormatNV
-void VertexAttribIFormatNV(GLuint index, GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glVertexAttribIFormatNV
+void glVertexAttribIFormatNV(GLuint index, GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribIPointer
-void VertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribIPointer
+void glVertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribIPointerEXT
-void VertexAttribIPointerEXT(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribIPointerEXT
+void glVertexAttribIPointerEXT(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1d
-void VertexAttribL1d(GLuint index, GLdouble x) {
-    
+#ifndef skip_glVertexAttribL1d
+void glVertexAttribL1d(GLuint index, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1dEXT
-void VertexAttribL1dEXT(GLuint index, GLdouble x) {
-    
+#ifndef skip_glVertexAttribL1dEXT
+void glVertexAttribL1dEXT(GLuint index, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1dv
-void VertexAttribL1dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL1dv
+void glVertexAttribL1dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1dvEXT
-void VertexAttribL1dvEXT(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL1dvEXT
+void glVertexAttribL1dvEXT(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1i64NV
-void VertexAttribL1i64NV(GLuint index, GLint64EXT x) {
-    
+#ifndef skip_glVertexAttribL1i64NV
+void glVertexAttribL1i64NV(GLuint index, GLint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1i64vNV
-void VertexAttribL1i64vNV(GLuint index, GLint64EXT v) {
-    
+#ifndef skip_glVertexAttribL1i64vNV
+void glVertexAttribL1i64vNV(GLuint index, GLint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1ui64NV
-void VertexAttribL1ui64NV(GLuint index, GLuint64EXT x) {
-    
+#ifndef skip_glVertexAttribL1ui64NV
+void glVertexAttribL1ui64NV(GLuint index, GLuint64EXT x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL1ui64vNV
-void VertexAttribL1ui64vNV(GLuint index, GLuint64EXT v) {
-    
+#ifndef skip_glVertexAttribL1ui64vNV
+void glVertexAttribL1ui64vNV(GLuint index, GLuint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2d
-void VertexAttribL2d(GLuint index, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexAttribL2d
+void glVertexAttribL2d(GLuint index, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2dEXT
-void VertexAttribL2dEXT(GLuint index, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexAttribL2dEXT
+void glVertexAttribL2dEXT(GLuint index, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2dv
-void VertexAttribL2dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL2dv
+void glVertexAttribL2dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2dvEXT
-void VertexAttribL2dvEXT(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL2dvEXT
+void glVertexAttribL2dvEXT(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2i64NV
-void VertexAttribL2i64NV(GLuint index, GLint64EXT x, GLint64EXT y) {
-    
+#ifndef skip_glVertexAttribL2i64NV
+void glVertexAttribL2i64NV(GLuint index, GLint64EXT x, GLint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2i64vNV
-void VertexAttribL2i64vNV(GLuint index, GLint64EXT v) {
-    
+#ifndef skip_glVertexAttribL2i64vNV
+void glVertexAttribL2i64vNV(GLuint index, GLint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2ui64NV
-void VertexAttribL2ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y) {
-    
+#ifndef skip_glVertexAttribL2ui64NV
+void glVertexAttribL2ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL2ui64vNV
-void VertexAttribL2ui64vNV(GLuint index, GLuint64EXT v) {
-    
+#ifndef skip_glVertexAttribL2ui64vNV
+void glVertexAttribL2ui64vNV(GLuint index, GLuint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3d
-void VertexAttribL3d(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexAttribL3d
+void glVertexAttribL3d(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3dEXT
-void VertexAttribL3dEXT(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexAttribL3dEXT
+void glVertexAttribL3dEXT(GLuint index, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3dv
-void VertexAttribL3dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL3dv
+void glVertexAttribL3dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3dvEXT
-void VertexAttribL3dvEXT(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL3dvEXT
+void glVertexAttribL3dvEXT(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3i64NV
-void VertexAttribL3i64NV(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
-    
+#ifndef skip_glVertexAttribL3i64NV
+void glVertexAttribL3i64NV(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3i64vNV
-void VertexAttribL3i64vNV(GLuint index, GLint64EXT v) {
-    
+#ifndef skip_glVertexAttribL3i64vNV
+void glVertexAttribL3i64vNV(GLuint index, GLint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3ui64NV
-void VertexAttribL3ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
-    
+#ifndef skip_glVertexAttribL3ui64NV
+void glVertexAttribL3ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL3ui64vNV
-void VertexAttribL3ui64vNV(GLuint index, GLuint64EXT v) {
-    
+#ifndef skip_glVertexAttribL3ui64vNV
+void glVertexAttribL3ui64vNV(GLuint index, GLuint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4d
-void VertexAttribL4d(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexAttribL4d
+void glVertexAttribL4d(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4dEXT
-void VertexAttribL4dEXT(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexAttribL4dEXT
+void glVertexAttribL4dEXT(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4dv
-void VertexAttribL4dv(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL4dv
+void glVertexAttribL4dv(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4dvEXT
-void VertexAttribL4dvEXT(GLuint index, GLdouble v) {
-    
+#ifndef skip_glVertexAttribL4dvEXT
+void glVertexAttribL4dvEXT(GLuint index, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4i64NV
-void VertexAttribL4i64NV(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
-    
+#ifndef skip_glVertexAttribL4i64NV
+void glVertexAttribL4i64NV(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4i64vNV
-void VertexAttribL4i64vNV(GLuint index, GLint64EXT v) {
-    
+#ifndef skip_glVertexAttribL4i64vNV
+void glVertexAttribL4i64vNV(GLuint index, GLint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4ui64NV
-void VertexAttribL4ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
-    
+#ifndef skip_glVertexAttribL4ui64NV
+void glVertexAttribL4ui64NV(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribL4ui64vNV
-void VertexAttribL4ui64vNV(GLuint index, GLuint64EXT v) {
-    
+#ifndef skip_glVertexAttribL4ui64vNV
+void glVertexAttribL4ui64vNV(GLuint index, GLuint64EXT v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribLFormat
-void VertexAttribLFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
-    
+#ifndef skip_glVertexAttribLFormat
+void glVertexAttribLFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribLFormatNV
-void VertexAttribLFormatNV(GLuint index, GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glVertexAttribLFormatNV
+void glVertexAttribLFormatNV(GLuint index, GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribLPointer
-void VertexAttribLPointer(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribLPointer
+void glVertexAttribLPointer(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribLPointerEXT
-void VertexAttribLPointerEXT(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribLPointerEXT
+void glVertexAttribLPointerEXT(GLuint index, GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP1ui
-void VertexAttribP1ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP1ui
+void glVertexAttribP1ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP1uiv
-void VertexAttribP1uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP1uiv
+void glVertexAttribP1uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP2ui
-void VertexAttribP2ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP2ui
+void glVertexAttribP2ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP2uiv
-void VertexAttribP2uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP2uiv
+void glVertexAttribP2uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP3ui
-void VertexAttribP3ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP3ui
+void glVertexAttribP3ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP3uiv
-void VertexAttribP3uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP3uiv
+void glVertexAttribP3uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP4ui
-void VertexAttribP4ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP4ui
+void glVertexAttribP4ui(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribP4uiv
-void VertexAttribP4uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
-    
+#ifndef skip_glVertexAttribP4uiv
+void glVertexAttribP4uiv(GLuint index, GLenum type, GLboolean normalized, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribPointer
-void VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribPointer
+void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribPointerARB
-void VertexAttribPointerARB(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribPointerARB
+void glVertexAttribPointerARB(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribPointerNV
-void VertexAttribPointerNV(GLuint index, GLint fsize, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexAttribPointerNV
+void glVertexAttribPointerNV(GLuint index, GLint fsize, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs1dvNV
-void VertexAttribs1dvNV(GLuint index, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glVertexAttribs1dvNV
+void glVertexAttribs1dvNV(GLuint index, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs1fvNV
-void VertexAttribs1fvNV(GLuint index, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glVertexAttribs1fvNV
+void glVertexAttribs1fvNV(GLuint index, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs1hvNV
-void VertexAttribs1hvNV(GLuint index, GLsizei n, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttribs1hvNV
+void glVertexAttribs1hvNV(GLuint index, GLsizei n, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs1svNV
-void VertexAttribs1svNV(GLuint index, GLsizei count, GLshort v) {
-    
+#ifndef skip_glVertexAttribs1svNV
+void glVertexAttribs1svNV(GLuint index, GLsizei count, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs2dvNV
-void VertexAttribs2dvNV(GLuint index, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glVertexAttribs2dvNV
+void glVertexAttribs2dvNV(GLuint index, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs2fvNV
-void VertexAttribs2fvNV(GLuint index, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glVertexAttribs2fvNV
+void glVertexAttribs2fvNV(GLuint index, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs2hvNV
-void VertexAttribs2hvNV(GLuint index, GLsizei n, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttribs2hvNV
+void glVertexAttribs2hvNV(GLuint index, GLsizei n, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs2svNV
-void VertexAttribs2svNV(GLuint index, GLsizei count, GLshort v) {
-    
+#ifndef skip_glVertexAttribs2svNV
+void glVertexAttribs2svNV(GLuint index, GLsizei count, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs3dvNV
-void VertexAttribs3dvNV(GLuint index, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glVertexAttribs3dvNV
+void glVertexAttribs3dvNV(GLuint index, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs3fvNV
-void VertexAttribs3fvNV(GLuint index, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glVertexAttribs3fvNV
+void glVertexAttribs3fvNV(GLuint index, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs3hvNV
-void VertexAttribs3hvNV(GLuint index, GLsizei n, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttribs3hvNV
+void glVertexAttribs3hvNV(GLuint index, GLsizei n, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs3svNV
-void VertexAttribs3svNV(GLuint index, GLsizei count, GLshort v) {
-    
+#ifndef skip_glVertexAttribs3svNV
+void glVertexAttribs3svNV(GLuint index, GLsizei count, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs4dvNV
-void VertexAttribs4dvNV(GLuint index, GLsizei count, GLdouble v) {
-    
+#ifndef skip_glVertexAttribs4dvNV
+void glVertexAttribs4dvNV(GLuint index, GLsizei count, GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs4fvNV
-void VertexAttribs4fvNV(GLuint index, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glVertexAttribs4fvNV
+void glVertexAttribs4fvNV(GLuint index, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs4hvNV
-void VertexAttribs4hvNV(GLuint index, GLsizei n, GLhalfNV v) {
-    
+#ifndef skip_glVertexAttribs4hvNV
+void glVertexAttribs4hvNV(GLuint index, GLsizei n, GLhalfNV v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs4svNV
-void VertexAttribs4svNV(GLuint index, GLsizei count, GLshort v) {
-    
+#ifndef skip_glVertexAttribs4svNV
+void glVertexAttribs4svNV(GLuint index, GLsizei count, GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexAttribs4ubvNV
-void VertexAttribs4ubvNV(GLuint index, GLsizei count, GLubyte v) {
-    
+#ifndef skip_glVertexAttribs4ubvNV
+void glVertexAttribs4ubvNV(GLuint index, GLsizei count, GLubyte v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexBindingDivisor
-void VertexBindingDivisor(GLuint bindingindex, GLuint divisor) {
-    
+#ifndef skip_glVertexBindingDivisor
+void glVertexBindingDivisor(GLuint bindingindex, GLuint divisor) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexBlendARB
-void VertexBlendARB(GLint count) {
-    
+#ifndef skip_glVertexBlendARB
+void glVertexBlendARB(GLint count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexBlendEnvfATI
-void VertexBlendEnvfATI(GLenum pname, GLfloat param) {
-    
+#ifndef skip_glVertexBlendEnvfATI
+void glVertexBlendEnvfATI(GLenum pname, GLfloat param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexBlendEnviATI
-void VertexBlendEnviATI(GLenum pname, GLint param) {
-    
+#ifndef skip_glVertexBlendEnviATI
+void glVertexBlendEnviATI(GLenum pname, GLint param) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexFormatNV
-void VertexFormatNV(GLint size, GLenum type, GLsizei stride) {
-    
+#ifndef skip_glVertexFormatNV
+void glVertexFormatNV(GLint size, GLenum type, GLsizei stride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP2ui
-void VertexP2ui(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP2ui
+void glVertexP2ui(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP2uiv
-void VertexP2uiv(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP2uiv
+void glVertexP2uiv(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP3ui
-void VertexP3ui(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP3ui
+void glVertexP3ui(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP3uiv
-void VertexP3uiv(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP3uiv
+void glVertexP3uiv(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP4ui
-void VertexP4ui(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP4ui
+void glVertexP4ui(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexP4uiv
-void VertexP4uiv(GLenum type, GLuint value) {
-    
+#ifndef skip_glVertexP4uiv
+void glVertexP4uiv(GLenum type, GLuint value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexPointer
-void VertexPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexPointer
+void glVertexPointer(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexPointerEXT
-void VertexPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
-    
+#ifndef skip_glVertexPointerEXT
+void glVertexPointerEXT(GLint size, GLenum type, GLsizei stride, GLsizei count, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexPointerListIBM
-void VertexPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
-    
+#ifndef skip_glVertexPointerListIBM
+void glVertexPointerListIBM(GLint size, GLenum type, GLint stride, GLvoid * pointer, GLint ptrstride) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexPointervINTEL
-void VertexPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
-    
+#ifndef skip_glVertexPointervINTEL
+void glVertexPointervINTEL(GLint size, GLenum type, GLvoid * pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1dATI
-void VertexStream1dATI(GLenum stream, GLdouble x) {
-    
+#ifndef skip_glVertexStream1dATI
+void glVertexStream1dATI(GLenum stream, GLdouble x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1dvATI
-void VertexStream1dvATI(GLenum stream, GLdouble coords) {
-    
+#ifndef skip_glVertexStream1dvATI
+void glVertexStream1dvATI(GLenum stream, GLdouble coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1fATI
-void VertexStream1fATI(GLenum stream, GLfloat x) {
-    
+#ifndef skip_glVertexStream1fATI
+void glVertexStream1fATI(GLenum stream, GLfloat x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1fvATI
-void VertexStream1fvATI(GLenum stream, GLfloat coords) {
-    
+#ifndef skip_glVertexStream1fvATI
+void glVertexStream1fvATI(GLenum stream, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1iATI
-void VertexStream1iATI(GLenum stream, GLint x) {
-    
+#ifndef skip_glVertexStream1iATI
+void glVertexStream1iATI(GLenum stream, GLint x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1ivATI
-void VertexStream1ivATI(GLenum stream, GLint coords) {
-    
+#ifndef skip_glVertexStream1ivATI
+void glVertexStream1ivATI(GLenum stream, GLint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1sATI
-void VertexStream1sATI(GLenum stream, GLshort x) {
-    
+#ifndef skip_glVertexStream1sATI
+void glVertexStream1sATI(GLenum stream, GLshort x) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream1svATI
-void VertexStream1svATI(GLenum stream, GLshort coords) {
-    
+#ifndef skip_glVertexStream1svATI
+void glVertexStream1svATI(GLenum stream, GLshort coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2dATI
-void VertexStream2dATI(GLenum stream, GLdouble x, GLdouble y) {
-    
+#ifndef skip_glVertexStream2dATI
+void glVertexStream2dATI(GLenum stream, GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2dvATI
-void VertexStream2dvATI(GLenum stream, GLdouble coords) {
-    
+#ifndef skip_glVertexStream2dvATI
+void glVertexStream2dvATI(GLenum stream, GLdouble coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2fATI
-void VertexStream2fATI(GLenum stream, GLfloat x, GLfloat y) {
-    
+#ifndef skip_glVertexStream2fATI
+void glVertexStream2fATI(GLenum stream, GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2fvATI
-void VertexStream2fvATI(GLenum stream, GLfloat coords) {
-    
+#ifndef skip_glVertexStream2fvATI
+void glVertexStream2fvATI(GLenum stream, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2iATI
-void VertexStream2iATI(GLenum stream, GLint x, GLint y) {
-    
+#ifndef skip_glVertexStream2iATI
+void glVertexStream2iATI(GLenum stream, GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2ivATI
-void VertexStream2ivATI(GLenum stream, GLint coords) {
-    
+#ifndef skip_glVertexStream2ivATI
+void glVertexStream2ivATI(GLenum stream, GLint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2sATI
-void VertexStream2sATI(GLenum stream, GLshort x, GLshort y) {
-    
+#ifndef skip_glVertexStream2sATI
+void glVertexStream2sATI(GLenum stream, GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream2svATI
-void VertexStream2svATI(GLenum stream, GLshort coords) {
-    
+#ifndef skip_glVertexStream2svATI
+void glVertexStream2svATI(GLenum stream, GLshort coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3dATI
-void VertexStream3dATI(GLenum stream, GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glVertexStream3dATI
+void glVertexStream3dATI(GLenum stream, GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3dvATI
-void VertexStream3dvATI(GLenum stream, GLdouble coords) {
-    
+#ifndef skip_glVertexStream3dvATI
+void glVertexStream3dvATI(GLenum stream, GLdouble coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3fATI
-void VertexStream3fATI(GLenum stream, GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glVertexStream3fATI
+void glVertexStream3fATI(GLenum stream, GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3fvATI
-void VertexStream3fvATI(GLenum stream, GLfloat coords) {
-    
+#ifndef skip_glVertexStream3fvATI
+void glVertexStream3fvATI(GLenum stream, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3iATI
-void VertexStream3iATI(GLenum stream, GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glVertexStream3iATI
+void glVertexStream3iATI(GLenum stream, GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3ivATI
-void VertexStream3ivATI(GLenum stream, GLint coords) {
-    
+#ifndef skip_glVertexStream3ivATI
+void glVertexStream3ivATI(GLenum stream, GLint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3sATI
-void VertexStream3sATI(GLenum stream, GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glVertexStream3sATI
+void glVertexStream3sATI(GLenum stream, GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream3svATI
-void VertexStream3svATI(GLenum stream, GLshort coords) {
-    
+#ifndef skip_glVertexStream3svATI
+void glVertexStream3svATI(GLenum stream, GLshort coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4dATI
-void VertexStream4dATI(GLenum stream, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glVertexStream4dATI
+void glVertexStream4dATI(GLenum stream, GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4dvATI
-void VertexStream4dvATI(GLenum stream, GLdouble coords) {
-    
+#ifndef skip_glVertexStream4dvATI
+void glVertexStream4dvATI(GLenum stream, GLdouble coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4fATI
-void VertexStream4fATI(GLenum stream, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glVertexStream4fATI
+void glVertexStream4fATI(GLenum stream, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4fvATI
-void VertexStream4fvATI(GLenum stream, GLfloat coords) {
-    
+#ifndef skip_glVertexStream4fvATI
+void glVertexStream4fvATI(GLenum stream, GLfloat coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4iATI
-void VertexStream4iATI(GLenum stream, GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glVertexStream4iATI
+void glVertexStream4iATI(GLenum stream, GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4ivATI
-void VertexStream4ivATI(GLenum stream, GLint coords) {
-    
+#ifndef skip_glVertexStream4ivATI
+void glVertexStream4ivATI(GLenum stream, GLint coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4sATI
-void VertexStream4sATI(GLenum stream, GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glVertexStream4sATI
+void glVertexStream4sATI(GLenum stream, GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexStream4svATI
-void VertexStream4svATI(GLenum stream, GLshort coords) {
-    
+#ifndef skip_glVertexStream4svATI
+void glVertexStream4svATI(GLenum stream, GLshort coords) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexWeightPointerEXT
-void VertexWeightPointerEXT(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glVertexWeightPointerEXT
+void glVertexWeightPointerEXT(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexWeightfEXT
-void VertexWeightfEXT(GLfloat weight) {
-    
+#ifndef skip_glVertexWeightfEXT
+void glVertexWeightfEXT(GLfloat weight) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexWeightfvEXT
-void VertexWeightfvEXT(GLfloat weight) {
-    
+#ifndef skip_glVertexWeightfvEXT
+void glVertexWeightfvEXT(GLfloat weight) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexWeighthNV
-void VertexWeighthNV(GLhalfNV weight) {
-    
+#ifndef skip_glVertexWeighthNV
+void glVertexWeighthNV(GLhalfNV weight) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VertexWeighthvNV
-void VertexWeighthvNV(GLhalfNV weight) {
-    
+#ifndef skip_glVertexWeighthvNV
+void glVertexWeighthvNV(GLhalfNV weight) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VideoCaptureNV
-GLenum VideoCaptureNV(GLuint video_capture_slot, GLuint sequence_num, GLuint64EXT capture_time) {
-    
+#ifndef skip_glVideoCaptureNV
+GLenum glVideoCaptureNV(GLuint video_capture_slot, GLuint sequence_num, GLuint64EXT capture_time) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VideoCaptureStreamParameterdvNV
-void VideoCaptureStreamParameterdvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble params) {
-    
+#ifndef skip_glVideoCaptureStreamParameterdvNV
+void glVideoCaptureStreamParameterdvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VideoCaptureStreamParameterfvNV
-void VideoCaptureStreamParameterfvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat params) {
-    
+#ifndef skip_glVideoCaptureStreamParameterfvNV
+void glVideoCaptureStreamParameterfvNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_VideoCaptureStreamParameterivNV
-void VideoCaptureStreamParameterivNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLint params) {
-    
+#ifndef skip_glVideoCaptureStreamParameterivNV
+void glVideoCaptureStreamParameterivNV(GLuint video_capture_slot, GLuint stream, GLenum pname, GLint params) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Viewport
-void Viewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-    
+#ifndef skip_glViewport
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ViewportArrayv
-void ViewportArrayv(GLuint first, GLsizei count, GLfloat v) {
-    
+#ifndef skip_glViewportArrayv
+void glViewportArrayv(GLuint first, GLsizei count, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ViewportIndexedf
-void ViewportIndexedf(GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h) {
-    
+#ifndef skip_glViewportIndexedf
+void glViewportIndexedf(GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ViewportIndexedfv
-void ViewportIndexedfv(GLuint index, GLfloat v) {
-    
+#ifndef skip_glViewportIndexedfv
+void glViewportIndexedfv(GLuint index, GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WaitSync
-void WaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) {
-    
+#ifndef skip_glWaitSync
+void glWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightPathsNV
-void WeightPathsNV(GLuint resultPath, GLsizei numPaths, GLuint paths, GLfloat weights) {
-    
+#ifndef skip_glWeightPathsNV
+void glWeightPathsNV(GLuint resultPath, GLsizei numPaths, GLuint paths, GLfloat weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightPointerARB
-void WeightPointerARB(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
-    
+#ifndef skip_glWeightPointerARB
+void glWeightPointerARB(GLint size, GLenum type, GLsizei stride, GLvoid pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightbvARB
-void WeightbvARB(GLint size, GLbyte weights) {
-    
+#ifndef skip_glWeightbvARB
+void glWeightbvARB(GLint size, GLbyte weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightdvARB
-void WeightdvARB(GLint size, GLdouble weights) {
-    
+#ifndef skip_glWeightdvARB
+void glWeightdvARB(GLint size, GLdouble weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightfvARB
-void WeightfvARB(GLint size, GLfloat weights) {
-    
+#ifndef skip_glWeightfvARB
+void glWeightfvARB(GLint size, GLfloat weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightivARB
-void WeightivARB(GLint size, GLint weights) {
-    
+#ifndef skip_glWeightivARB
+void glWeightivARB(GLint size, GLint weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightsvARB
-void WeightsvARB(GLint size, GLshort weights) {
-    
+#ifndef skip_glWeightsvARB
+void glWeightsvARB(GLint size, GLshort weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightubvARB
-void WeightubvARB(GLint size, GLubyte weights) {
-    
+#ifndef skip_glWeightubvARB
+void glWeightubvARB(GLint size, GLubyte weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightuivARB
-void WeightuivARB(GLint size, GLuint weights) {
-    
+#ifndef skip_glWeightuivARB
+void glWeightuivARB(GLint size, GLuint weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WeightusvARB
-void WeightusvARB(GLint size, GLushort weights) {
-    
+#ifndef skip_glWeightusvARB
+void glWeightusvARB(GLint size, GLushort weights) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2d
-void WindowPos2d(GLdouble x, GLdouble y) {
-    
+#ifndef skip_glWindowPos2d
+void glWindowPos2d(GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2dARB
-void WindowPos2dARB(GLdouble x, GLdouble y) {
-    
+#ifndef skip_glWindowPos2dARB
+void glWindowPos2dARB(GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2dMESA
-void WindowPos2dMESA(GLdouble x, GLdouble y) {
-    
+#ifndef skip_glWindowPos2dMESA
+void glWindowPos2dMESA(GLdouble x, GLdouble y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2dv
-void WindowPos2dv(GLdouble v) {
-    
+#ifndef skip_glWindowPos2dv
+void glWindowPos2dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2dvARB
-void WindowPos2dvARB(GLdouble v) {
-    
+#ifndef skip_glWindowPos2dvARB
+void glWindowPos2dvARB(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2dvMESA
-void WindowPos2dvMESA(GLdouble v) {
-    
+#ifndef skip_glWindowPos2dvMESA
+void glWindowPos2dvMESA(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2f
-void WindowPos2f(GLfloat x, GLfloat y) {
-    
+#ifndef skip_glWindowPos2f
+void glWindowPos2f(GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2fARB
-void WindowPos2fARB(GLfloat x, GLfloat y) {
-    
+#ifndef skip_glWindowPos2fARB
+void glWindowPos2fARB(GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2fMESA
-void WindowPos2fMESA(GLfloat x, GLfloat y) {
-    
+#ifndef skip_glWindowPos2fMESA
+void glWindowPos2fMESA(GLfloat x, GLfloat y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2fv
-void WindowPos2fv(GLfloat v) {
-    
+#ifndef skip_glWindowPos2fv
+void glWindowPos2fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2fvARB
-void WindowPos2fvARB(GLfloat v) {
-    
+#ifndef skip_glWindowPos2fvARB
+void glWindowPos2fvARB(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2fvMESA
-void WindowPos2fvMESA(GLfloat v) {
-    
+#ifndef skip_glWindowPos2fvMESA
+void glWindowPos2fvMESA(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2i
-void WindowPos2i(GLint x, GLint y) {
-    
+#ifndef skip_glWindowPos2i
+void glWindowPos2i(GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2iARB
-void WindowPos2iARB(GLint x, GLint y) {
-    
+#ifndef skip_glWindowPos2iARB
+void glWindowPos2iARB(GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2iMESA
-void WindowPos2iMESA(GLint x, GLint y) {
-    
+#ifndef skip_glWindowPos2iMESA
+void glWindowPos2iMESA(GLint x, GLint y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2iv
-void WindowPos2iv(GLint v) {
-    
+#ifndef skip_glWindowPos2iv
+void glWindowPos2iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2ivARB
-void WindowPos2ivARB(GLint v) {
-    
+#ifndef skip_glWindowPos2ivARB
+void glWindowPos2ivARB(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2ivMESA
-void WindowPos2ivMESA(GLint v) {
-    
+#ifndef skip_glWindowPos2ivMESA
+void glWindowPos2ivMESA(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2s
-void WindowPos2s(GLshort x, GLshort y) {
-    
+#ifndef skip_glWindowPos2s
+void glWindowPos2s(GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2sARB
-void WindowPos2sARB(GLshort x, GLshort y) {
-    
+#ifndef skip_glWindowPos2sARB
+void glWindowPos2sARB(GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2sMESA
-void WindowPos2sMESA(GLshort x, GLshort y) {
-    
+#ifndef skip_glWindowPos2sMESA
+void glWindowPos2sMESA(GLshort x, GLshort y) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2sv
-void WindowPos2sv(GLshort v) {
-    
+#ifndef skip_glWindowPos2sv
+void glWindowPos2sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2svARB
-void WindowPos2svARB(GLshort v) {
-    
+#ifndef skip_glWindowPos2svARB
+void glWindowPos2svARB(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos2svMESA
-void WindowPos2svMESA(GLshort v) {
-    
+#ifndef skip_glWindowPos2svMESA
+void glWindowPos2svMESA(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3d
-void WindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glWindowPos3d
+void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3dARB
-void WindowPos3dARB(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glWindowPos3dARB
+void glWindowPos3dARB(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3dMESA
-void WindowPos3dMESA(GLdouble x, GLdouble y, GLdouble z) {
-    
+#ifndef skip_glWindowPos3dMESA
+void glWindowPos3dMESA(GLdouble x, GLdouble y, GLdouble z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3dv
-void WindowPos3dv(GLdouble v) {
-    
+#ifndef skip_glWindowPos3dv
+void glWindowPos3dv(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3dvARB
-void WindowPos3dvARB(GLdouble v) {
-    
+#ifndef skip_glWindowPos3dvARB
+void glWindowPos3dvARB(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3dvMESA
-void WindowPos3dvMESA(GLdouble v) {
-    
+#ifndef skip_glWindowPos3dvMESA
+void glWindowPos3dvMESA(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3f
-void WindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glWindowPos3f
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3fARB
-void WindowPos3fARB(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glWindowPos3fARB
+void glWindowPos3fARB(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3fMESA
-void WindowPos3fMESA(GLfloat x, GLfloat y, GLfloat z) {
-    
+#ifndef skip_glWindowPos3fMESA
+void glWindowPos3fMESA(GLfloat x, GLfloat y, GLfloat z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3fv
-void WindowPos3fv(GLfloat v) {
-    
+#ifndef skip_glWindowPos3fv
+void glWindowPos3fv(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3fvARB
-void WindowPos3fvARB(GLfloat v) {
-    
+#ifndef skip_glWindowPos3fvARB
+void glWindowPos3fvARB(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3fvMESA
-void WindowPos3fvMESA(GLfloat v) {
-    
+#ifndef skip_glWindowPos3fvMESA
+void glWindowPos3fvMESA(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3i
-void WindowPos3i(GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glWindowPos3i
+void glWindowPos3i(GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3iARB
-void WindowPos3iARB(GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glWindowPos3iARB
+void glWindowPos3iARB(GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3iMESA
-void WindowPos3iMESA(GLint x, GLint y, GLint z) {
-    
+#ifndef skip_glWindowPos3iMESA
+void glWindowPos3iMESA(GLint x, GLint y, GLint z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3iv
-void WindowPos3iv(GLint v) {
-    
+#ifndef skip_glWindowPos3iv
+void glWindowPos3iv(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3ivARB
-void WindowPos3ivARB(GLint v) {
-    
+#ifndef skip_glWindowPos3ivARB
+void glWindowPos3ivARB(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3ivMESA
-void WindowPos3ivMESA(GLint v) {
-    
+#ifndef skip_glWindowPos3ivMESA
+void glWindowPos3ivMESA(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3s
-void WindowPos3s(GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glWindowPos3s
+void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3sARB
-void WindowPos3sARB(GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glWindowPos3sARB
+void glWindowPos3sARB(GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3sMESA
-void WindowPos3sMESA(GLshort x, GLshort y, GLshort z) {
-    
+#ifndef skip_glWindowPos3sMESA
+void glWindowPos3sMESA(GLshort x, GLshort y, GLshort z) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3sv
-void WindowPos3sv(GLshort v) {
-    
+#ifndef skip_glWindowPos3sv
+void glWindowPos3sv(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3svARB
-void WindowPos3svARB(GLshort v) {
-    
+#ifndef skip_glWindowPos3svARB
+void glWindowPos3svARB(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos3svMESA
-void WindowPos3svMESA(GLshort v) {
-    
+#ifndef skip_glWindowPos3svMESA
+void glWindowPos3svMESA(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4dMESA
-void WindowPos4dMESA(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
-    
+#ifndef skip_glWindowPos4dMESA
+void glWindowPos4dMESA(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4dvMESA
-void WindowPos4dvMESA(GLdouble v) {
-    
+#ifndef skip_glWindowPos4dvMESA
+void glWindowPos4dvMESA(GLdouble v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4fMESA
-void WindowPos4fMESA(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    
+#ifndef skip_glWindowPos4fMESA
+void glWindowPos4fMESA(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4fvMESA
-void WindowPos4fvMESA(GLfloat v) {
-    
+#ifndef skip_glWindowPos4fvMESA
+void glWindowPos4fvMESA(GLfloat v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4iMESA
-void WindowPos4iMESA(GLint x, GLint y, GLint z, GLint w) {
-    
+#ifndef skip_glWindowPos4iMESA
+void glWindowPos4iMESA(GLint x, GLint y, GLint z, GLint w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4ivMESA
-void WindowPos4ivMESA(GLint v) {
-    
+#ifndef skip_glWindowPos4ivMESA
+void glWindowPos4ivMESA(GLint v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4sMESA
-void WindowPos4sMESA(GLshort x, GLshort y, GLshort z, GLshort w) {
-    
+#ifndef skip_glWindowPos4sMESA
+void glWindowPos4sMESA(GLshort x, GLshort y, GLshort z, GLshort w) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WindowPos4svMESA
-void WindowPos4svMESA(GLshort v) {
-    
+#ifndef skip_glWindowPos4svMESA
+void glWindowPos4svMESA(GLshort v) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WriteMaskEXT
-void WriteMaskEXT(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW) {
-    
+#ifndef skip_glWriteMaskEXT
+void glWriteMaskEXT(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_AssociateDMPbufferSGIX
-Bool AssociateDMPbufferSGIX(Display dpy, GLXPbufferSGIX pbuffer, DMparams params, DMbuffer dmbuffer) {
-    
+#ifndef skip_glxAssociateDMPbufferSGIX
+Bool glxAssociateDMPbufferSGIX(Display dpy, GLXPbufferSGIX pbuffer, DMparams params, DMbuffer dmbuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindChannelToWindowSGIX
-int BindChannelToWindowSGIX(Display display, int screen, int channel, Window window) {
-    
+#ifndef skip_glxBindChannelToWindowSGIX
+int glxBindChannelToWindowSGIX(Display display, int screen, int channel, Window window) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindHyperpipeSGIX
-int BindHyperpipeSGIX(Display dpy, int hpId) {
-    
+#ifndef skip_glxBindHyperpipeSGIX
+int glxBindHyperpipeSGIX(Display dpy, int hpId) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindSwapBarrierNV
-Bool BindSwapBarrierNV(Display dpy, GLuint group, GLuint barrier) {
-    
+#ifndef skip_glxBindSwapBarrierNV
+Bool glxBindSwapBarrierNV(Display dpy, GLuint group, GLuint barrier) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindSwapBarrierSGIX
-void BindSwapBarrierSGIX(Display dpy, GLXDrawable drawable, int barrier) {
-    
+#ifndef skip_glxBindSwapBarrierSGIX
+void glxBindSwapBarrierSGIX(Display dpy, GLXDrawable drawable, int barrier) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindTexImageEXT
-void BindTexImageEXT(Display dpy, GLXDrawable drawable, int buffer, int attrib_list) {
-    
+#ifndef skip_glxBindTexImageEXT
+void glxBindTexImageEXT(Display dpy, GLXDrawable drawable, int buffer, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVideoCaptureDeviceNV
-int BindVideoCaptureDeviceNV(Display dpy, unsigned int video_capture_slot, GLXVideoCaptureDeviceNV device) {
-    
+#ifndef skip_glxBindVideoCaptureDeviceNV
+int glxBindVideoCaptureDeviceNV(Display dpy, unsigned int video_capture_slot, GLXVideoCaptureDeviceNV device) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVideoDeviceNV
-int BindVideoDeviceNV(Display dpy, unsigned int video_slot, unsigned int video_device, int attrib_list) {
-    
+#ifndef skip_glxBindVideoDeviceNV
+int glxBindVideoDeviceNV(Display dpy, unsigned int video_slot, unsigned int video_device, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_BindVideoImageNV
-int BindVideoImageNV(Display dpy, GLXVideoDeviceNV VideoDevice, GLXPbuffer pbuf, int iVideoBuffer) {
-    
+#ifndef skip_glxBindVideoImageNV
+int glxBindVideoImageNV(Display dpy, GLXVideoDeviceNV VideoDevice, GLXPbuffer pbuf, int iVideoBuffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ChannelRectSGIX
-int ChannelRectSGIX(Display display, int screen, int channel, int x, int y, int w, int h) {
-    
+#ifndef skip_glxChannelRectSGIX
+int glxChannelRectSGIX(Display display, int screen, int channel, int x, int y, int w, int h) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ChannelRectSyncSGIX
-int ChannelRectSyncSGIX(Display display, int screen, int channel, GLenum synctype) {
-    
+#ifndef skip_glxChannelRectSyncSGIX
+int glxChannelRectSyncSGIX(Display display, int screen, int channel, GLenum synctype) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ChooseFBConfig
-GLXFBConfigPointer ChooseFBConfig(Display dpy, int screen, int attrib_list, int nelements) {
-    
+#ifndef skip_glxChooseFBConfig
+GLXFBConfigPointer glxChooseFBConfig(Display dpy, int screen, int attrib_list, int nelements) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ChooseFBConfigSGIX
-GLXFBConfigSGIXPointer ChooseFBConfigSGIX(Display dpy, int screen, int attrib_list, int nelements) {
-    
+#ifndef skip_glxChooseFBConfigSGIX
+GLXFBConfigSGIXPointer glxChooseFBConfigSGIX(Display dpy, int screen, int attrib_list, int nelements) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopyImageSubDataNV
-void CopyImageSubDataNV(Display dpy, GLXContext srcCtx, GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLXContext dstCtx, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth) {
-    
+#ifndef skip_glxCopyImageSubDataNV
+void glxCopyImageSubDataNV(Display dpy, GLXContext srcCtx, GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLXContext dstCtx, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CopySubBufferMESA
-void CopySubBufferMESA(Display dpy, GLXDrawable drawable, int x, int y, int width, int height) {
-    
+#ifndef skip_glxCopySubBufferMESA
+void glxCopySubBufferMESA(Display dpy, GLXDrawable drawable, int x, int y, int width, int height) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateContextAttribsARB
-GLXContext CreateContextAttribsARB(Display dpy, GLXFBConfig config, GLXContext share_context, Bool direct, int attrib_list) {
-    
+#ifndef skip_glxCreateContextAttribsARB
+GLXContext glxCreateContextAttribsARB(Display dpy, GLXFBConfig config, GLXContext share_context, Bool direct, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateContextWithConfigSGIX
-GLXContext CreateContextWithConfigSGIX(Display dpy, GLXFBConfigSGIX config, int render_type, GLXContext share_list, Bool direct) {
-    
+#ifndef skip_glxCreateContextWithConfigSGIX
+GLXContext glxCreateContextWithConfigSGIX(Display dpy, GLXFBConfigSGIX config, int render_type, GLXContext share_list, Bool direct) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateGLXPbufferSGIX
-GLXPbufferSGIX CreateGLXPbufferSGIX(Display dpy, GLXFBConfigSGIX config, unsigned int width, unsigned int height, int attrib_list) {
-    
+#ifndef skip_glxCreateGLXPbufferSGIX
+GLXPbufferSGIX glxCreateGLXPbufferSGIX(Display dpy, GLXFBConfigSGIX config, unsigned int width, unsigned int height, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateGLXPixmapMESA
-GLXPixmap CreateGLXPixmapMESA(Display dpy, XVisualInfo visual, Pixmap pixmap, Colormap cmap) {
-    
+#ifndef skip_glxCreateGLXPixmapMESA
+GLXPixmap glxCreateGLXPixmapMESA(Display dpy, XVisualInfo visual, Pixmap pixmap, Colormap cmap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateGLXPixmapWithConfigSGIX
-GLXPixmap CreateGLXPixmapWithConfigSGIX(Display dpy, GLXFBConfigSGIX config, Pixmap pixmap) {
-    
+#ifndef skip_glxCreateGLXPixmapWithConfigSGIX
+GLXPixmap glxCreateGLXPixmapWithConfigSGIX(Display dpy, GLXFBConfigSGIX config, Pixmap pixmap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateGLXVideoSourceSGIX
-GLXVideoSourceSGIX CreateGLXVideoSourceSGIX(Display display, int screen, VLServer server, VLPath path, int nodeClass, VLNode drainNode) {
-    
+#ifndef skip_glxCreateGLXVideoSourceSGIX
+GLXVideoSourceSGIX glxCreateGLXVideoSourceSGIX(Display display, int screen, VLServer server, VLPath path, int nodeClass, VLNode drainNode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateNewContext
-GLXContext CreateNewContext(Display dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct) {
-    
+#ifndef skip_glxCreateNewContext
+GLXContext glxCreateNewContext(Display dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreatePbuffer
-GLXPbuffer CreatePbuffer(Display dpy, GLXFBConfig config, int attrib_list) {
-    
+#ifndef skip_glxCreatePbuffer
+GLXPbuffer glxCreatePbuffer(Display dpy, GLXFBConfig config, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreatePixmap
-GLXPixmap CreatePixmap(Display dpy, GLXFBConfig config, Pixmap pixmap, int attrib_list) {
-    
+#ifndef skip_glxCreatePixmap
+GLXPixmap glxCreatePixmap(Display dpy, GLXFBConfig config, Pixmap pixmap, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CreateWindow
-GLXWindow CreateWindow(Display dpy, GLXFBConfig config, Window win, int attrib_list) {
-    
+#ifndef skip_glxCreateWindow
+GLXWindow glxCreateWindow(Display dpy, GLXFBConfig config, Window win, int attrib_list) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_CushionSGI
-void CushionSGI(Display dpy, Window window, float cushion) {
-    
+#ifndef skip_glxCushionSGI
+void glxCushionSGI(Display dpy, Window window, float cushion) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyGLXPbufferSGIX
-void DestroyGLXPbufferSGIX(Display dpy, GLXPbufferSGIX pbuf) {
-    
+#ifndef skip_glxDestroyGLXPbufferSGIX
+void glxDestroyGLXPbufferSGIX(Display dpy, GLXPbufferSGIX pbuf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyGLXVideoSourceSGIX
-void DestroyGLXVideoSourceSGIX(Display dpy, GLXVideoSourceSGIX glxvideosource) {
-    
+#ifndef skip_glxDestroyGLXVideoSourceSGIX
+void glxDestroyGLXVideoSourceSGIX(Display dpy, GLXVideoSourceSGIX glxvideosource) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyHyperpipeConfigSGIX
-int DestroyHyperpipeConfigSGIX(Display dpy, int hpId) {
-    
+#ifndef skip_glxDestroyHyperpipeConfigSGIX
+int glxDestroyHyperpipeConfigSGIX(Display dpy, int hpId) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyPbuffer
-void DestroyPbuffer(Display dpy, GLXPbuffer pbuf) {
-    
+#ifndef skip_glxDestroyPbuffer
+void glxDestroyPbuffer(Display dpy, GLXPbuffer pbuf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyPixmap
-void DestroyPixmap(Display dpy, GLXPixmap pixmap) {
-    
+#ifndef skip_glxDestroyPixmap
+void glxDestroyPixmap(Display dpy, GLXPixmap pixmap) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_DestroyWindow
-void DestroyWindow(Display dpy, GLXWindow win) {
-    
+#ifndef skip_glxDestroyWindow
+void glxDestroyWindow(Display dpy, GLXWindow win) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnumerateVideoCaptureDevicesNV
-GLXVideoCaptureDeviceNVPointer EnumerateVideoCaptureDevicesNV(Display dpy, int screen, int nelements) {
-    
+#ifndef skip_glxEnumerateVideoCaptureDevicesNV
+GLXVideoCaptureDeviceNVPointer glxEnumerateVideoCaptureDevicesNV(Display dpy, int screen, int nelements) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_EnumerateVideoDevicesNV
-uintPointer EnumerateVideoDevicesNV(Display dpy, int screen, int nelements) {
-    
+#ifndef skip_glxEnumerateVideoDevicesNV
+uintPointer glxEnumerateVideoDevicesNV(Display dpy, int screen, int nelements) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_FreeContextEXT
-void FreeContextEXT(Display dpy, GLXContext context) {
-    
+#ifndef skip_glxFreeContextEXT
+void glxFreeContextEXT(Display dpy, GLXContext context) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetAGPOffsetMESA
-uint GetAGPOffsetMESA(void pointer) {
-    
+#ifndef skip_glxGetAGPOffsetMESA
+uint glxGetAGPOffsetMESA(void pointer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetContextIDEXT
-GLXContextID GetContextIDEXT(const GLXContext context) {
-    
+#ifndef skip_glxGetContextIDEXT
+GLXContextID glxGetContextIDEXT(const GLXContext context) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCurrentDisplay
-DisplayPointer GetCurrentDisplay() {
-    
+#ifndef skip_glxGetCurrentDisplay
+DisplayPointer glxGetCurrentDisplay() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCurrentDisplayEXT
-DisplayPointer GetCurrentDisplayEXT() {
-    
+#ifndef skip_glxGetCurrentDisplayEXT
+DisplayPointer glxGetCurrentDisplayEXT() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCurrentReadDrawable
-GLXDrawable GetCurrentReadDrawable() {
-    
+#ifndef skip_glxGetCurrentReadDrawable
+GLXDrawable glxGetCurrentReadDrawable() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetCurrentReadDrawableSGI
-GLXDrawable GetCurrentReadDrawableSGI() {
-    
+#ifndef skip_glxGetCurrentReadDrawableSGI
+GLXDrawable glxGetCurrentReadDrawableSGI() {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFBConfigAttrib
-int GetFBConfigAttrib(Display dpy, GLXFBConfig config, int attribute, int value) {
-    
+#ifndef skip_glxGetFBConfigAttrib
+int glxGetFBConfigAttrib(Display dpy, GLXFBConfig config, int attribute, int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFBConfigAttribSGIX
-int GetFBConfigAttribSGIX(Display dpy, GLXFBConfigSGIX config, int attribute, int value) {
-    
+#ifndef skip_glxGetFBConfigAttribSGIX
+int glxGetFBConfigAttribSGIX(Display dpy, GLXFBConfigSGIX config, int attribute, int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFBConfigFromVisualSGIX
-GLXFBConfigSGIX GetFBConfigFromVisualSGIX(Display dpy, XVisualInfo vis) {
-    
+#ifndef skip_glxGetFBConfigFromVisualSGIX
+GLXFBConfigSGIX glxGetFBConfigFromVisualSGIX(Display dpy, XVisualInfo vis) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetFBConfigs
-GLXFBConfigPointer GetFBConfigs(Display dpy, int screen, int nelements) {
-    
+#ifndef skip_glxGetFBConfigs
+GLXFBConfigPointer glxGetFBConfigs(Display dpy, int screen, int nelements) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetMscRateOML
-Bool GetMscRateOML(Display dpy, GLXDrawable drawable, int32_t numerator, int32_t denominator) {
-    
+#ifndef skip_glxGetMscRateOML
+Bool glxGetMscRateOML(Display dpy, GLXDrawable drawable, int32_t numerator, int32_t denominator) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProcAddress
-FunctionPointer GetProcAddress(GLubyte procName) {
-    
+#ifndef skip_glxGetProcAddress
+FunctionPointer glxGetProcAddress(GLubyte procName) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetProcAddressARB
-FunctionPointer GetProcAddressARB(GLubyte procName) {
-    
+#ifndef skip_glxGetProcAddressARB
+FunctionPointer glxGetProcAddressARB(GLubyte procName) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSelectedEvent
-void GetSelectedEvent(Display dpy, GLXDrawable draw, unsigned long event_mask) {
-    
+#ifndef skip_glxGetSelectedEvent
+void glxGetSelectedEvent(Display dpy, GLXDrawable draw, unsigned long event_mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSelectedEventSGIX
-void GetSelectedEventSGIX(Display dpy, GLXDrawable drawable, unsigned long mask) {
-    
+#ifndef skip_glxGetSelectedEventSGIX
+void glxGetSelectedEventSGIX(Display dpy, GLXDrawable drawable, unsigned long mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetSyncValuesOML
-Bool GetSyncValuesOML(Display dpy, GLXDrawable drawable, int64_t ust, int64_t msc, int64_t sbc) {
-    
+#ifndef skip_glxGetSyncValuesOML
+Bool glxGetSyncValuesOML(Display dpy, GLXDrawable drawable, int64_t ust, int64_t msc, int64_t sbc) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetTransparentIndexSUN
-Status GetTransparentIndexSUN(Display dpy, Window overlay, Window underlay, long pTransparentIndex) {
-    
+#ifndef skip_glxGetTransparentIndexSUN
+Status glxGetTransparentIndexSUN(Display dpy, Window overlay, Window underlay, long pTransparentIndex) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoDeviceNV
-int GetVideoDeviceNV(Display dpy, int screen, int numVideoDevices, GLXVideoDeviceNV pVideoDevice) {
-    
+#ifndef skip_glxGetVideoDeviceNV
+int glxGetVideoDeviceNV(Display dpy, int screen, int numVideoDevices, GLXVideoDeviceNV pVideoDevice) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoInfoNV
-int GetVideoInfoNV(Display dpy, int screen, GLXVideoDeviceNV VideoDevice, unsigned long pulCounterOutputPbuffer, unsigned long pulCounterOutputVideo) {
-    
+#ifndef skip_glxGetVideoInfoNV
+int glxGetVideoInfoNV(Display dpy, int screen, GLXVideoDeviceNV VideoDevice, unsigned long pulCounterOutputPbuffer, unsigned long pulCounterOutputVideo) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVideoSyncSGI
-int GetVideoSyncSGI(unsigned int count) {
-    
+#ifndef skip_glxGetVideoSyncSGI
+int glxGetVideoSyncSGI(unsigned int count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVisualFromFBConfig
-XVisualInfoPointer GetVisualFromFBConfig(Display dpy, GLXFBConfig config) {
-    
+#ifndef skip_glxGetVisualFromFBConfig
+XVisualInfoPointer glxGetVisualFromFBConfig(Display dpy, GLXFBConfig config) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_GetVisualFromFBConfigSGIX
-XVisualInfoPointer GetVisualFromFBConfigSGIX(Display dpy, GLXFBConfigSGIX config) {
-    
+#ifndef skip_glxGetVisualFromFBConfigSGIX
+XVisualInfoPointer glxGetVisualFromFBConfigSGIX(Display dpy, GLXFBConfigSGIX config) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_HyperpipeAttribSGIX
-int HyperpipeAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void attribList) {
-    
+#ifndef skip_glxHyperpipeAttribSGIX
+int glxHyperpipeAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void attribList) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_HyperpipeConfigSGIX
-int HyperpipeConfigSGIX(Display dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX cfg, int hpId) {
-    
+#ifndef skip_glxHyperpipeConfigSGIX
+int glxHyperpipeConfigSGIX(Display dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX cfg, int hpId) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ImportContextEXT
-GLXContext ImportContextEXT(Display dpy, GLXContextID contextID) {
-    
+#ifndef skip_glxImportContextEXT
+GLXContext glxImportContextEXT(Display dpy, GLXContextID contextID) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_JoinSwapGroupNV
-Bool JoinSwapGroupNV(Display dpy, GLXDrawable drawable, GLuint group) {
-    
+#ifndef skip_glxJoinSwapGroupNV
+Bool glxJoinSwapGroupNV(Display dpy, GLXDrawable drawable, GLuint group) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_JoinSwapGroupSGIX
-void JoinSwapGroupSGIX(Display dpy, GLXDrawable drawable, GLXDrawable member) {
-    
+#ifndef skip_glxJoinSwapGroupSGIX
+void glxJoinSwapGroupSGIX(Display dpy, GLXDrawable drawable, GLXDrawable member) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_LockVideoCaptureDeviceNV
-void LockVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device) {
-    
+#ifndef skip_glxLockVideoCaptureDeviceNV
+void glxLockVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeContextCurrent
-Bool MakeContextCurrent(Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx) {
-    
+#ifndef skip_glxMakeContextCurrent
+Bool glxMakeContextCurrent(Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_MakeCurrentReadSGI
-Bool MakeCurrentReadSGI(Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx) {
-    
+#ifndef skip_glxMakeCurrentReadSGI
+Bool glxMakeCurrentReadSGI(Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryChannelDeltasSGIX
-int QueryChannelDeltasSGIX(Display display, int screen, int channel, int x, int y, int w, int h) {
-    
+#ifndef skip_glxQueryChannelDeltasSGIX
+int glxQueryChannelDeltasSGIX(Display display, int screen, int channel, int x, int y, int w, int h) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryChannelRectSGIX
-int QueryChannelRectSGIX(Display display, int screen, int channel, int dx, int dy, int dw, int dh) {
-    
+#ifndef skip_glxQueryChannelRectSGIX
+int glxQueryChannelRectSGIX(Display display, int screen, int channel, int dx, int dy, int dw, int dh) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryContext
-int QueryContext(Display dpy, GLXContext ctx, int attribute, int value) {
-    
+#ifndef skip_glxQueryContext
+int glxQueryContext(Display dpy, GLXContext ctx, int attribute, int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryContextInfoEXT
-int QueryContextInfoEXT(Display dpy, GLXContext context, int attribute, int value) {
-    
+#ifndef skip_glxQueryContextInfoEXT
+int glxQueryContextInfoEXT(Display dpy, GLXContext context, int attribute, int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryDrawable
-void QueryDrawable(Display dpy, GLXDrawable draw, int attribute, unsigned int value) {
-    
+#ifndef skip_glxQueryDrawable
+void glxQueryDrawable(Display dpy, GLXDrawable draw, int attribute, unsigned int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryFrameCountNV
-Bool QueryFrameCountNV(Display dpy, int screen, GLuint count) {
-    
+#ifndef skip_glxQueryFrameCountNV
+Bool glxQueryFrameCountNV(Display dpy, int screen, GLuint count) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryGLXPbufferSGIX
-int QueryGLXPbufferSGIX(Display dpy, GLXPbufferSGIX pbuf, int attribute, unsigned int value) {
-    
+#ifndef skip_glxQueryGLXPbufferSGIX
+int glxQueryGLXPbufferSGIX(Display dpy, GLXPbufferSGIX pbuf, int attribute, unsigned int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryHyperpipeAttribSGIX
-int QueryHyperpipeAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void returnAttribList) {
-    
+#ifndef skip_glxQueryHyperpipeAttribSGIX
+int glxQueryHyperpipeAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void returnAttribList) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryHyperpipeBestAttribSGIX
-int QueryHyperpipeBestAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void attribList, void returnAttribList) {
-    
+#ifndef skip_glxQueryHyperpipeBestAttribSGIX
+int glxQueryHyperpipeBestAttribSGIX(Display dpy, int timeSlice, int attrib, int size, void attribList, void returnAttribList) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryHyperpipeConfigSGIX
-GLXHyperpipeConfigSGIXPointer QueryHyperpipeConfigSGIX(Display dpy, int hpId, int npipes) {
-    
+#ifndef skip_glxQueryHyperpipeConfigSGIX
+GLXHyperpipeConfigSGIXPointer glxQueryHyperpipeConfigSGIX(Display dpy, int hpId, int npipes) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryHyperpipeNetworkSGIX
-GLXHyperpipeNetworkSGIXPointer QueryHyperpipeNetworkSGIX(Display dpy, int npipes) {
-    
+#ifndef skip_glxQueryHyperpipeNetworkSGIX
+GLXHyperpipeNetworkSGIXPointer glxQueryHyperpipeNetworkSGIX(Display dpy, int npipes) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryMaxSwapBarriersSGIX
-Bool QueryMaxSwapBarriersSGIX(Display dpy, int screen, int max) {
-    
+#ifndef skip_glxQueryMaxSwapBarriersSGIX
+Bool glxQueryMaxSwapBarriersSGIX(Display dpy, int screen, int max) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryMaxSwapGroupsNV
-Bool QueryMaxSwapGroupsNV(Display dpy, int screen, GLuint maxGroups, GLuint maxBarriers) {
-    
+#ifndef skip_glxQueryMaxSwapGroupsNV
+Bool glxQueryMaxSwapGroupsNV(Display dpy, int screen, GLuint maxGroups, GLuint maxBarriers) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QuerySwapGroupNV
-Bool QuerySwapGroupNV(Display dpy, GLXDrawable drawable, GLuint group, GLuint barrier) {
-    
+#ifndef skip_glxQuerySwapGroupNV
+Bool glxQuerySwapGroupNV(Display dpy, GLXDrawable drawable, GLuint group, GLuint barrier) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_QueryVideoCaptureDeviceNV
-int QueryVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device, int attribute, int value) {
-    
+#ifndef skip_glxQueryVideoCaptureDeviceNV
+int glxQueryVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device, int attribute, int value) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseBuffersMESA
-Bool ReleaseBuffersMESA(Display dpy, GLXDrawable drawable) {
-    
+#ifndef skip_glxReleaseBuffersMESA
+Bool glxReleaseBuffersMESA(Display dpy, GLXDrawable drawable) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseTexImageEXT
-void ReleaseTexImageEXT(Display dpy, GLXDrawable drawable, int buffer) {
-    
+#ifndef skip_glxReleaseTexImageEXT
+void glxReleaseTexImageEXT(Display dpy, GLXDrawable drawable, int buffer) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseVideoCaptureDeviceNV
-void ReleaseVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device) {
-    
+#ifndef skip_glxReleaseVideoCaptureDeviceNV
+void glxReleaseVideoCaptureDeviceNV(Display dpy, GLXVideoCaptureDeviceNV device) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseVideoDeviceNV
-int ReleaseVideoDeviceNV(Display dpy, int screen, GLXVideoDeviceNV VideoDevice) {
-    
+#ifndef skip_glxReleaseVideoDeviceNV
+int glxReleaseVideoDeviceNV(Display dpy, int screen, GLXVideoDeviceNV VideoDevice) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ReleaseVideoImageNV
-int ReleaseVideoImageNV(Display dpy, GLXPbuffer pbuf) {
-    
+#ifndef skip_glxReleaseVideoImageNV
+int glxReleaseVideoImageNV(Display dpy, GLXPbuffer pbuf) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_ResetFrameCountNV
-Bool ResetFrameCountNV(Display dpy, int screen) {
-    
+#ifndef skip_glxResetFrameCountNV
+Bool glxResetFrameCountNV(Display dpy, int screen) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SelectEvent
-void SelectEvent(Display dpy, GLXDrawable draw, unsigned long event_mask) {
-    
+#ifndef skip_glxSelectEvent
+void glxSelectEvent(Display dpy, GLXDrawable draw, unsigned long event_mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SelectEventSGIX
-void SelectEventSGIX(Display dpy, GLXDrawable drawable, unsigned long mask) {
-    
+#ifndef skip_glxSelectEventSGIX
+void glxSelectEventSGIX(Display dpy, GLXDrawable drawable, unsigned long mask) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SendPbufferToVideoNV
-int SendPbufferToVideoNV(Display dpy, GLXPbuffer pbuf, int iBufferType, unsigned long pulCounterPbuffer, GLboolean bBlock) {
-    
+#ifndef skip_glxSendPbufferToVideoNV
+int glxSendPbufferToVideoNV(Display dpy, GLXPbuffer pbuf, int iBufferType, unsigned long pulCounterPbuffer, GLboolean bBlock) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_Set3DfxModeMESA
-Bool Set3DfxModeMESA(int mode) {
-    
+#ifndef skip_glxSet3DfxModeMESA
+Bool glxSet3DfxModeMESA(int mode) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SwapBuffersMscOML
-int64_t SwapBuffersMscOML(Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t divisor, int64_t remainder) {
-    
+#ifndef skip_glxSwapBuffersMscOML
+int64_t glxSwapBuffersMscOML(Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t divisor, int64_t remainder) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SwapIntervalEXT
-void SwapIntervalEXT(Display dpy, GLXDrawable drawable, int interval) {
-    
+#ifndef skip_glxSwapIntervalEXT
+void glxSwapIntervalEXT(Display dpy, GLXDrawable drawable, int interval) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_SwapIntervalSGI
-int SwapIntervalSGI(int interval) {
-    
+#ifndef skip_glxSwapIntervalSGI
+int glxSwapIntervalSGI(int interval) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WaitForMscOML
-Bool WaitForMscOML(Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t divisor, int64_t remainder, int64_t ust, int64_t msc, int64_t sbc) {
-    
+#ifndef skip_glxWaitForMscOML
+Bool glxWaitForMscOML(Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t divisor, int64_t remainder, int64_t ust, int64_t msc, int64_t sbc) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WaitForSbcOML
-Bool WaitForSbcOML(Display dpy, GLXDrawable drawable, int64_t target_sbc, int64_t ust, int64_t msc, int64_t sbc) {
-    
+#ifndef skip_glxWaitForSbcOML
+Bool glxWaitForSbcOML(Display dpy, GLXDrawable drawable, int64_t target_sbc, int64_t ust, int64_t msc, int64_t sbc) {
 printf(gl.c);
 }
 #endif
-
-#ifndef skip_WaitVideoSyncSGI
-int WaitVideoSyncSGI(int divisor, int remainder, unsigned int count) {
-    
+#ifndef skip_glxWaitVideoSyncSGI
+int glxWaitVideoSyncSGI(int divisor, int remainder, unsigned int count) {
 printf(gl.c);
 }
 #endif
