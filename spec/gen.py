@@ -20,12 +20,20 @@ def split_arg(arg):
     if match:
         return match.groupdict()
 
-def gen(files, template, guard_name, headers):
+def gen(files, template, guard_name, headers, deep=False, cats=()):
     funcs = []
     formats = []
     unique_formats = set()
     for data in files:
-        for name, args in sorted(data.items()):
+        if deep:
+            functions = []
+            for cat, f in data.items():
+                if not cats or cat in cats:
+                    functions.extend(f.items())
+        else:
+            functions = data.items()
+
+        for name, args in sorted(functions):
             props = {}
             if args:
                 ret = args.pop(0)
@@ -73,6 +81,8 @@ if __name__ == '__main__':
     parser.add_argument('template', help='jinja template to load')
     parser.add_argument('name', help='header guard name')
     parser.add_argument('headers', nargs='*', help='headers to include')
+    parser.add_argument('--deep', help='nested definitions', action='store_true')
+    parser.add_argument('--cats', help='deep category filter')
 
     args = parser.parse_args()
 
@@ -83,4 +93,4 @@ if __name__ == '__main__':
             if data:
                 files.append(data)
 
-    print gen(files, args.template, args.name, args.headers)
+    print gen(files, args.template, args.name, args.headers, args.deep, args.cats)
