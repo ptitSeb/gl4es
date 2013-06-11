@@ -4,6 +4,7 @@
 #ifndef GLESWRAP_H
 #define GLESWRAP_H
 
+
 typedef struct {
     int format;
     void *func;
@@ -1138,6 +1139,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z);
 void glTranslatex(GLfixed x, GLfixed y, GLfixed z);
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+
 
 
 #endif

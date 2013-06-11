@@ -1,8 +1,5 @@
-{% include "headers.j2" %}
-
-{% set guard = name.upper().replace('.', '_') -%}
-#ifndef {{ guard }}
-#define {{ guard }}
+{% extends "base/header.j2" %}
+{% block content %}
 
 typedef struct {
     int format;
@@ -35,5 +32,4 @@ void glPackedCall(const UnknownCall *packed);
 {{ func.return }} {{ func.name }}({{ func.args|args }});
 {% endfor %}
 
-#endif
-
+{% endblock %}

@@ -3,6 +3,7 @@
 #ifndef GL_H
 #define GL_H
 
+
 typedef struct {
     int format;
     void *func;
@@ -14238,6 +14239,7 @@ int SwapIntervalSGI(int interval);
 Bool WaitForMscOML(Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t divisor, int64_t remainder, int64_t ust, int64_t msc, int64_t sbc);
 Bool WaitForSbcOML(Display dpy, GLXDrawable drawable, int64_t target_sbc, int64_t ust, int64_t msc, int64_t sbc);
 int WaitVideoSyncSGI(int divisor, int remainder, unsigned int count);
+
 
 
 #endif

@@ -1,6 +1,5 @@
 #include "gles.h
 
-
 void glPackedCall(const UnknownCall *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum: {
