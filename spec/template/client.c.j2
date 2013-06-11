@@ -4,5 +4,12 @@
 {{ super() }}
 {% endblock %}
 {% block call %}
-    printf("{{ name }}\n");
+    {% if func.args %}
+    printf("{{ func.name }}({{ func.args|printf }});\n", {{ func.args|args(0) }});
+    {% else %}
+    printf("{{ func.name }}();\n");
+    {% endif %}
+    {% if not func.void %}
+    return 0;
+    {% endif %}
 {% endblock %}

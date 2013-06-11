@@ -17,7 +17,45 @@ def args(args, add_type=True):
         '{} {}'.format(arg['type'], arg['name']) if add_type else arg['name']
         for arg in args
     )
+
+f = '0.2f'
+printf_lookup = {
+    'GLbitfield': 'd',
+    'GLboolean': 'd',
+    'GLbyte': 'c',
+    'GLubyte': 'c',
+    'GLchar': 'c',
+    'GLdouble': '0.2f',
+    'GLenum': 'u',
+    'GLfloat': '0.2f',
+    'GLint': 'd',
+    'GLintptr': 'd',
+    'GLintptrARB': 'd',
+    'GLshort': 'd',
+    'GLsizei': 'd',
+    'GLsizeiptr': 'd',
+    'GLsizeiptrARB': 'd',
+    'GLuint': 'u',
+    'GLushort': 'u',
+    'GLvoid': 'p',
+}
+
+def printf(args):
+    types = []
+    for arg in args:
+        typ = arg['type']
+        name = arg['name']
+        if '*' in typ:
+            t = 'p'
+        else:
+            t = printf_lookup.get(typ, 'p')
+
+        types.append(t)
+
+    return ', '.join('%' + t for t in types)
+
 env.filters['args'] = args
+env.filters['printf'] = printf
 
 def split_arg(arg):
     match = split_re.match(arg)

@@ -1,5 +1,6 @@
 #include <stdio.h>
+#include "../proxy/gl.h"
 
 int main() {
-    printf("hi\n");
+    glColor4f(1, 2, 3, 4);
 }
