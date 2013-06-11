@@ -1,4 +1,4 @@
-#!/bin/bash -u
+#!/bin/bash -ux
 cd "$(dirname "$0")"
 
 base=../src/
