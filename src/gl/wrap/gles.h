@@ -1,8 +1,8 @@
 
 #include "../gl.h"
 
-#ifndef __/GL_H
-#define __/GL_H
+#ifndef GLESWRAP_H
+#define GLESWRAP_H
 
 typedef struct {
     int format;

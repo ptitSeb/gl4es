@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import jinja2
 import re
 from yaml import load
@@ -67,23 +68,19 @@ def gen(files, template, guard_name, headers):
     return t.render(**context).rstrip('\n')
 
 if __name__ == '__main__':
-    import sys
+    parser = argparse.ArgumentParser(description='Generate code with yml/jinja.')
+    parser.add_argument('yaml', help='spec files')
+    parser.add_argument('template', help='jinja template to load')
+    parser.add_argument('name', help='header guard name')
+    parser.add_argument('headers', nargs='*', help='headers to include')
 
-    if len(sys.argv) >= 3:
-        files = []
-        for name in sys.argv[1].split(','):
-            with open(name) as f:
-                data = load(f)
-                if data:
-                    files.append(data)
+    args = parser.parse_args()
 
-        headers = []
-        if len(sys.argv) > 3:
-            headers = sys.argv[3:]
+    files = []
+    for name in args.yaml.split(','):
+        with open(name) as f:
+            data = load(f)
+            if data:
+                files.append(data)
 
-        template = sys.argv[2]
-        name = sys.argv[3]
-        print gen(files, template, name, headers)
-    else:
-        print 'Usage: {} <yaml> <template> <name> [header...]'.format(sys.argv[0])
-        sys.exit(1)
+    print gen(files, args.template, args.name, args.headers)
