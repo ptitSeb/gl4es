@@ -1,170 +1,177 @@
 ARB_create_context:
-  CreateContextAttribsARB: [GLXContext, Display dpy, GLXFBConfig config, GLXContext
+  glxCreateContextAttribsARB: [GLXContext, Display dpy, GLXFBConfig config, GLXContext
       share_context, Bool direct, int attrib_list]
 ARB_get_proc_address:
-  GetProcAddressARB: [FunctionPointer, GLubyte procName]
+  glxGetProcAddressARB: [FunctionPointer, GLubyte procName]
 EXT_import_context:
-  FreeContextEXT: [void, Display dpy, GLXContext context]
-  GetContextIDEXT: [GLXContextID, const GLXContext context]
-  GetCurrentDisplayEXT: [DisplayPointer]
-  ImportContextEXT: [GLXContext, Display dpy, GLXContextID contextID]
-  QueryContextInfoEXT: [int, Display dpy, GLXContext context, int attribute, int value]
+  glxFreeContextEXT: [void, Display dpy, GLXContext context]
+  glxGetContextIDEXT: [GLXContextID, const GLXContext context]
+  glxGetCurrentDisplayEXT: [DisplayPointer]
+  glxImportContextEXT: [GLXContext, Display dpy, GLXContextID contextID]
+  glxQueryContextInfoEXT: [int, Display dpy, GLXContext context, int attribute, int
+      value]
 EXT_swap_control:
-  SwapIntervalEXT: [void, Display dpy, GLXDrawable drawable, int interval]
+  glxSwapIntervalEXT: [void, Display dpy, GLXDrawable drawable, int interval]
 EXT_texture_from_pixmap:
-  BindTexImageEXT: [void, Display dpy, GLXDrawable drawable, int buffer, int attrib_list]
-  ReleaseTexImageEXT: [void, Display dpy, GLXDrawable drawable, int buffer]
+  glxBindTexImageEXT: [void, Display dpy, GLXDrawable drawable, int buffer, int attrib_list]
+  glxReleaseTexImageEXT: [void, Display dpy, GLXDrawable drawable, int buffer]
 MESA_agp_offset:
-  GetAGPOffsetMESA: [uint, void pointer]
+  glxGetAGPOffsetMESA: [uint, void pointer]
 MESA_copy_sub_buffer:
-  CopySubBufferMESA: [void, Display dpy, GLXDrawable drawable, int x, int y, int width,
-    int height]
+  glxCopySubBufferMESA: [void, Display dpy, GLXDrawable drawable, int x, int y, int
+      width, int height]
 MESA_pixmap_colormap:
-  CreateGLXPixmapMESA: [GLXPixmap, Display dpy, XVisualInfo visual, Pixmap pixmap,
+  glxCreateGLXPixmapMESA: [GLXPixmap, Display dpy, XVisualInfo visual, Pixmap pixmap,
     Colormap cmap]
 MESA_release_buffers:
-  ReleaseBuffersMESA: [Bool, Display dpy, GLXDrawable drawable]
+  glxReleaseBuffersMESA: [Bool, Display dpy, GLXDrawable drawable]
 MESA_set_3dfx_mode:
-  Set3DfxModeMESA: [Bool, int mode]
+  glxSet3DfxModeMESA: [Bool, int mode]
 NV_copy_image:
-  CopyImageSubDataNV: [void, Display dpy, GLXContext srcCtx, GLuint srcName, GLenum
+  glxCopyImageSubDataNV: [void, Display dpy, GLXContext srcCtx, GLuint srcName, GLenum
       srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLXContext dstCtx,
     GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint
       dstZ, GLsizei width, GLsizei height, GLsizei depth]
 NV_present_video:
-  BindVideoDeviceNV: [int, Display dpy, unsigned int video_slot, unsigned int video_device,
+  glxBindVideoDeviceNV: [int, Display dpy, unsigned int video_slot, unsigned int video_device,
     int attrib_list]
-  EnumerateVideoDevicesNV: [uintPointer, Display dpy, int screen, int nelements]
+  glxEnumerateVideoDevicesNV: [uintPointer, Display dpy, int screen, int nelements]
 NV_swap_group:
-  BindSwapBarrierNV: [Bool, Display dpy, GLuint group, GLuint barrier]
-  JoinSwapGroupNV: [Bool, Display dpy, GLXDrawable drawable, GLuint group]
-  QueryFrameCountNV: [Bool, Display dpy, int screen, GLuint count]
-  QueryMaxSwapGroupsNV: [Bool, Display dpy, int screen, GLuint maxGroups, GLuint maxBarriers]
-  QuerySwapGroupNV: [Bool, Display dpy, GLXDrawable drawable, GLuint group, GLuint
+  glxBindSwapBarrierNV: [Bool, Display dpy, GLuint group, GLuint barrier]
+  glxJoinSwapGroupNV: [Bool, Display dpy, GLXDrawable drawable, GLuint group]
+  glxQueryFrameCountNV: [Bool, Display dpy, int screen, GLuint count]
+  glxQueryMaxSwapGroupsNV: [Bool, Display dpy, int screen, GLuint maxGroups, GLuint
+      maxBarriers]
+  glxQuerySwapGroupNV: [Bool, Display dpy, GLXDrawable drawable, GLuint group, GLuint
       barrier]
-  ResetFrameCountNV: [Bool, Display dpy, int screen]
+  glxResetFrameCountNV: [Bool, Display dpy, int screen]
 NV_video_capture:
-  BindVideoCaptureDeviceNV: [int, Display dpy, unsigned int video_capture_slot, GLXVideoCaptureDeviceNV
-      device]
-  EnumerateVideoCaptureDevicesNV: [GLXVideoCaptureDeviceNVPointer, Display dpy, int
-      screen, int nelements]
-  LockVideoCaptureDeviceNV: [void, Display dpy, GLXVideoCaptureDeviceNV device]
-  QueryVideoCaptureDeviceNV: [int, Display dpy, GLXVideoCaptureDeviceNV device, int
-      attribute, int value]
-  ReleaseVideoCaptureDeviceNV: [void, Display dpy, GLXVideoCaptureDeviceNV device]
+  glxBindVideoCaptureDeviceNV: [int, Display dpy, unsigned int video_capture_slot,
+    GLXVideoCaptureDeviceNV device]
+  glxEnumerateVideoCaptureDevicesNV: [GLXVideoCaptureDeviceNVPointer, Display dpy,
+    int screen, int nelements]
+  glxLockVideoCaptureDeviceNV: [void, Display dpy, GLXVideoCaptureDeviceNV device]
+  glxQueryVideoCaptureDeviceNV: [int, Display dpy, GLXVideoCaptureDeviceNV device,
+    int attribute, int value]
+  glxReleaseVideoCaptureDeviceNV: [void, Display dpy, GLXVideoCaptureDeviceNV device]
 NV_video_output:
-  BindVideoImageNV: [int, Display dpy, GLXVideoDeviceNV VideoDevice, GLXPbuffer pbuf,
-    int iVideoBuffer]
-  GetVideoDeviceNV: [int, Display dpy, int screen, int numVideoDevices, GLXVideoDeviceNV
+  glxBindVideoImageNV: [int, Display dpy, GLXVideoDeviceNV VideoDevice, GLXPbuffer
+      pbuf, int iVideoBuffer]
+  glxGetVideoDeviceNV: [int, Display dpy, int screen, int numVideoDevices, GLXVideoDeviceNV
       pVideoDevice]
-  GetVideoInfoNV: [int, Display dpy, int screen, GLXVideoDeviceNV VideoDevice, unsigned
-      long pulCounterOutputPbuffer, unsigned long pulCounterOutputVideo]
-  ReleaseVideoDeviceNV: [int, Display dpy, int screen, GLXVideoDeviceNV VideoDevice]
-  ReleaseVideoImageNV: [int, Display dpy, GLXPbuffer pbuf]
-  SendPbufferToVideoNV: [int, Display dpy, GLXPbuffer pbuf, int iBufferType, unsigned
+  glxGetVideoInfoNV: [int, Display dpy, int screen, GLXVideoDeviceNV VideoDevice,
+    unsigned long pulCounterOutputPbuffer, unsigned long pulCounterOutputVideo]
+  glxReleaseVideoDeviceNV: [int, Display dpy, int screen, GLXVideoDeviceNV VideoDevice]
+  glxReleaseVideoImageNV: [int, Display dpy, GLXPbuffer pbuf]
+  glxSendPbufferToVideoNV: [int, Display dpy, GLXPbuffer pbuf, int iBufferType, unsigned
       long pulCounterPbuffer, GLboolean bBlock]
 OML_sync_control:
-  GetMscRateOML: [Bool, Display dpy, GLXDrawable drawable, int32_t numerator, int32_t
+  glxGetMscRateOML: [Bool, Display dpy, GLXDrawable drawable, int32_t numerator, int32_t
       denominator]
-  GetSyncValuesOML: [Bool, Display dpy, GLXDrawable drawable, int64_t ust, int64_t
+  glxGetSyncValuesOML: [Bool, Display dpy, GLXDrawable drawable, int64_t ust, int64_t
       msc, int64_t sbc]
-  SwapBuffersMscOML: [int64_t, Display dpy, GLXDrawable drawable, int64_t target_msc,
+  glxSwapBuffersMscOML: [int64_t, Display dpy, GLXDrawable drawable, int64_t target_msc,
     int64_t divisor, int64_t remainder]
-  WaitForMscOML: [Bool, Display dpy, GLXDrawable drawable, int64_t target_msc, int64_t
-      divisor, int64_t remainder, int64_t ust, int64_t msc, int64_t sbc]
-  WaitForSbcOML: [Bool, Display dpy, GLXDrawable drawable, int64_t target_sbc, int64_t
-      ust, int64_t msc, int64_t sbc]
+  glxWaitForMscOML: [Bool, Display dpy, GLXDrawable drawable, int64_t target_msc,
+    int64_t divisor, int64_t remainder, int64_t ust, int64_t msc, int64_t sbc]
+  glxWaitForSbcOML: [Bool, Display dpy, GLXDrawable drawable, int64_t target_sbc,
+    int64_t ust, int64_t msc, int64_t sbc]
 SGIX_dmbuffer:
-  AssociateDMPbufferSGIX: [Bool, Display dpy, GLXPbufferSGIX pbuffer, DMparams params,
-    DMbuffer dmbuffer]
+  glxAssociateDMPbufferSGIX: [Bool, Display dpy, GLXPbufferSGIX pbuffer, DMparams
+      params, DMbuffer dmbuffer]
 SGIX_fbconfig:
-  ChooseFBConfigSGIX: [GLXFBConfigSGIXPointer, Display dpy, int screen, int attrib_list,
+  glxChooseFBConfigSGIX: [GLXFBConfigSGIXPointer, Display dpy, int screen, int attrib_list,
     int nelements]
-  CreateContextWithConfigSGIX: [GLXContext, Display dpy, GLXFBConfigSGIX config, int
-      render_type, GLXContext share_list, Bool direct]
-  CreateGLXPixmapWithConfigSGIX: [GLXPixmap, Display dpy, GLXFBConfigSGIX config,
+  glxCreateContextWithConfigSGIX: [GLXContext, Display dpy, GLXFBConfigSGIX config,
+    int render_type, GLXContext share_list, Bool direct]
+  glxCreateGLXPixmapWithConfigSGIX: [GLXPixmap, Display dpy, GLXFBConfigSGIX config,
     Pixmap pixmap]
-  GetFBConfigAttribSGIX: [int, Display dpy, GLXFBConfigSGIX config, int attribute,
+  glxGetFBConfigAttribSGIX: [int, Display dpy, GLXFBConfigSGIX config, int attribute,
     int value]
-  GetFBConfigFromVisualSGIX: [GLXFBConfigSGIX, Display dpy, XVisualInfo vis]
-  GetVisualFromFBConfigSGIX: [XVisualInfoPointer, Display dpy, GLXFBConfigSGIX config]
+  glxGetFBConfigFromVisualSGIX: [GLXFBConfigSGIX, Display dpy, XVisualInfo vis]
+  glxGetVisualFromFBConfigSGIX: [XVisualInfoPointer, Display dpy, GLXFBConfigSGIX
+      config]
 SGIX_hyperpipe:
-  BindHyperpipeSGIX: [int, Display dpy, int hpId]
-  DestroyHyperpipeConfigSGIX: [int, Display dpy, int hpId]
-  HyperpipeAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int size, void
-      attribList]
-  HyperpipeConfigSGIX: [int, Display dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX
+  glxBindHyperpipeSGIX: [int, Display dpy, int hpId]
+  glxDestroyHyperpipeConfigSGIX: [int, Display dpy, int hpId]
+  glxHyperpipeAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int size,
+    void attribList]
+  glxHyperpipeConfigSGIX: [int, Display dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX
       cfg, int hpId]
-  QueryHyperpipeAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int size,
+  glxQueryHyperpipeAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int size,
     void returnAttribList]
-  QueryHyperpipeBestAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int
+  glxQueryHyperpipeBestAttribSGIX: [int, Display dpy, int timeSlice, int attrib, int
       size, void attribList, void returnAttribList]
-  QueryHyperpipeConfigSGIX: [GLXHyperpipeConfigSGIXPointer, Display dpy, int hpId,
+  glxQueryHyperpipeConfigSGIX: [GLXHyperpipeConfigSGIXPointer, Display dpy, int hpId,
     int npipes]
-  QueryHyperpipeNetworkSGIX: [GLXHyperpipeNetworkSGIXPointer, Display dpy, int npipes]
+  glxQueryHyperpipeNetworkSGIX: [GLXHyperpipeNetworkSGIXPointer, Display dpy, int
+      npipes]
 SGIX_pbuffer:
-  CreateGLXPbufferSGIX: [GLXPbufferSGIX, Display dpy, GLXFBConfigSGIX config, unsigned
+  glxCreateGLXPbufferSGIX: [GLXPbufferSGIX, Display dpy, GLXFBConfigSGIX config, unsigned
       int width, unsigned int height, int attrib_list]
-  DestroyGLXPbufferSGIX: [void, Display dpy, GLXPbufferSGIX pbuf]
-  GetSelectedEventSGIX: [void, Display dpy, GLXDrawable drawable, unsigned long mask]
-  QueryGLXPbufferSGIX: [int, Display dpy, GLXPbufferSGIX pbuf, int attribute, unsigned
+  glxDestroyGLXPbufferSGIX: [void, Display dpy, GLXPbufferSGIX pbuf]
+  glxGetSelectedEventSGIX: [void, Display dpy, GLXDrawable drawable, unsigned long
+      mask]
+  glxQueryGLXPbufferSGIX: [int, Display dpy, GLXPbufferSGIX pbuf, int attribute, unsigned
       int value]
-  SelectEventSGIX: [void, Display dpy, GLXDrawable drawable, unsigned long mask]
+  glxSelectEventSGIX: [void, Display dpy, GLXDrawable drawable, unsigned long mask]
 SGIX_swap_barrier:
-  BindSwapBarrierSGIX: [void, Display dpy, GLXDrawable drawable, int barrier]
-  QueryMaxSwapBarriersSGIX: [Bool, Display dpy, int screen, int max]
+  glxBindSwapBarrierSGIX: [void, Display dpy, GLXDrawable drawable, int barrier]
+  glxQueryMaxSwapBarriersSGIX: [Bool, Display dpy, int screen, int max]
 SGIX_swap_group:
-  JoinSwapGroupSGIX: [void, Display dpy, GLXDrawable drawable, GLXDrawable member]
+  glxJoinSwapGroupSGIX: [void, Display dpy, GLXDrawable drawable, GLXDrawable member]
 SGIX_video_resize:
-  BindChannelToWindowSGIX: [int, Display display, int screen, int channel, Window
+  glxBindChannelToWindowSGIX: [int, Display display, int screen, int channel, Window
       window]
-  ChannelRectSGIX: [int, Display display, int screen, int channel, int x, int y, int
-      w, int h]
-  ChannelRectSyncSGIX: [int, Display display, int screen, int channel, GLenum synctype]
-  QueryChannelDeltasSGIX: [int, Display display, int screen, int channel, int x, int
-      y, int w, int h]
-  QueryChannelRectSGIX: [int, Display display, int screen, int channel, int dx, int
-      dy, int dw, int dh]
+  glxChannelRectSGIX: [int, Display display, int screen, int channel, int x, int y,
+    int w, int h]
+  glxChannelRectSyncSGIX: [int, Display display, int screen, int channel, GLenum synctype]
+  glxQueryChannelDeltasSGIX: [int, Display display, int screen, int channel, int x,
+    int y, int w, int h]
+  glxQueryChannelRectSGIX: [int, Display display, int screen, int channel, int dx,
+    int dy, int dw, int dh]
 SGIX_video_source:
-  CreateGLXVideoSourceSGIX: [GLXVideoSourceSGIX, Display display, int screen, VLServer
+  glxCreateGLXVideoSourceSGIX: [GLXVideoSourceSGIX, Display display, int screen, VLServer
       server, VLPath path, int nodeClass, VLNode drainNode]
-  DestroyGLXVideoSourceSGIX: [void, Display dpy, GLXVideoSourceSGIX glxvideosource]
+  glxDestroyGLXVideoSourceSGIX: [void, Display dpy, GLXVideoSourceSGIX glxvideosource]
 SGI_cushion:
-  CushionSGI: [void, Display dpy, Window window, float cushion]
+  glxCushionSGI: [void, Display dpy, Window window, float cushion]
 SGI_make_current_read:
-  GetCurrentReadDrawableSGI: [GLXDrawable]
-  MakeCurrentReadSGI: [Bool, Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext
+  glxGetCurrentReadDrawableSGI: [GLXDrawable]
+  glxMakeCurrentReadSGI: [Bool, Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext
       ctx]
 SGI_swap_control:
-  SwapIntervalSGI: [int, int interval]
+  glxSwapIntervalSGI: [int, int interval]
 SGI_video_sync:
-  GetVideoSyncSGI: [int, unsigned int count]
-  WaitVideoSyncSGI: [int, int divisor, int remainder, unsigned int count]
+  glxGetVideoSyncSGI: [int, unsigned int count]
+  glxWaitVideoSyncSGI: [int, int divisor, int remainder, unsigned int count]
 SUN_get_transparent_index:
-  GetTransparentIndexSUN: [Status, Display dpy, Window overlay, Window underlay, long
-      pTransparentIndex]
+  glxGetTransparentIndexSUN: [Status, Display dpy, Window overlay, Window underlay,
+    long pTransparentIndex]
 VERSION_1_3:
-  ChooseFBConfig: [GLXFBConfigPointer, Display dpy, int screen, int attrib_list, int
-      nelements]
-  CreateNewContext: [GLXContext, Display dpy, GLXFBConfig config, int render_type,
+  glxChooseFBConfig: [GLXFBConfigPointer, Display dpy, int screen, int attrib_list,
+    int nelements]
+  glxCreateNewContext: [GLXContext, Display dpy, GLXFBConfig config, int render_type,
     GLXContext share_list, Bool direct]
-  CreatePbuffer: [GLXPbuffer, Display dpy, GLXFBConfig config, int attrib_list]
-  CreatePixmap: [GLXPixmap, Display dpy, GLXFBConfig config, Pixmap pixmap, int attrib_list]
-  CreateWindow: [GLXWindow, Display dpy, GLXFBConfig config, Window win, int attrib_list]
-  DestroyPbuffer: [void, Display dpy, GLXPbuffer pbuf]
-  DestroyPixmap: [void, Display dpy, GLXPixmap pixmap]
-  DestroyWindow: [void, Display dpy, GLXWindow win]
-  GetCurrentDisplay: [DisplayPointer]
-  GetCurrentReadDrawable: [GLXDrawable]
-  GetFBConfigAttrib: [int, Display dpy, GLXFBConfig config, int attribute, int value]
-  GetFBConfigs: [GLXFBConfigPointer, Display dpy, int screen, int nelements]
-  GetSelectedEvent: [void, Display dpy, GLXDrawable draw, unsigned long event_mask]
-  GetVisualFromFBConfig: [XVisualInfoPointer, Display dpy, GLXFBConfig config]
-  MakeContextCurrent: [Bool, Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext
-      ctx]
-  QueryContext: [int, Display dpy, GLXContext ctx, int attribute, int value]
-  QueryDrawable: [void, Display dpy, GLXDrawable draw, int attribute, unsigned int
+  glxCreatePbuffer: [GLXPbuffer, Display dpy, GLXFBConfig config, int attrib_list]
+  glxCreatePixmap: [GLXPixmap, Display dpy, GLXFBConfig config, Pixmap pixmap, int
+      attrib_list]
+  glxCreateWindow: [GLXWindow, Display dpy, GLXFBConfig config, Window win, int attrib_list]
+  glxDestroyPbuffer: [void, Display dpy, GLXPbuffer pbuf]
+  glxDestroyPixmap: [void, Display dpy, GLXPixmap pixmap]
+  glxDestroyWindow: [void, Display dpy, GLXWindow win]
+  glxGetCurrentDisplay: [DisplayPointer]
+  glxGetCurrentReadDrawable: [GLXDrawable]
+  glxGetFBConfigAttrib: [int, Display dpy, GLXFBConfig config, int attribute, int
       value]
-  SelectEvent: [void, Display dpy, GLXDrawable draw, unsigned long event_mask]
+  glxGetFBConfigs: [GLXFBConfigPointer, Display dpy, int screen, int nelements]
+  glxGetSelectedEvent: [void, Display dpy, GLXDrawable draw, unsigned long event_mask]
+  glxGetVisualFromFBConfig: [XVisualInfoPointer, Display dpy, GLXFBConfig config]
+  glxMakeContextCurrent: [Bool, Display dpy, GLXDrawable draw, GLXDrawable read, GLXContext
+      ctx]
+  glxQueryContext: [int, Display dpy, GLXContext ctx, int attribute, int value]
+  glxQueryDrawable: [void, Display dpy, GLXDrawable draw, int attribute, unsigned
+      int value]
+  glxSelectEvent: [void, Display dpy, GLXDrawable draw, unsigned long event_mask]
 VERSION_1_4:
-  GetProcAddress: [FunctionPointer, GLubyte procName]
+  glxGetProcAddress: [FunctionPointer, GLubyte procName]

@@ -819,125 +819,125 @@ typedef unsigned __int64 uint64_t;
 			</property>
 		</property-defs>
 		<function-defs >
-			<function name="GetFBConfigs" return="GLXFBConfigPointer" category="VERSION_1_3" glxopcode="21" glxflags="client-handcode" >
+			<function name="glxGetFBConfigs" return="GLXFBConfigPointer" category="VERSION_1_3" glxopcode="21" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="nelements" kind="reference" type="int" input="false" />
 			</function>
-			<function name="ChooseFBConfig" return="GLXFBConfigPointer" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxChooseFBConfig" return="GLXFBConfigPointer" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 				<param name="nelements" kind="reference" type="int" input="false" />
 			</function>
-			<function name="GetFBConfigAttrib" return="int" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxGetFBConfigAttrib" return="int" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="int" input="false" />
 			</function>
-			<function name="GetVisualFromFBConfig" return="XVisualInfoPointer" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxGetVisualFromFBConfig" return="XVisualInfoPointer" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 			</function>
-			<function name="CreateWindow" return="GLXWindow" category="VERSION_1_3" glxopcode="31" glxflags="client-handcode" >
+			<function name="glxCreateWindow" return="GLXWindow" category="VERSION_1_3" glxopcode="31" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="win" kind="value" type="Window" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="DestroyWindow" return="void" category="VERSION_1_3" glxopcode="32" glxflags="client-handcode" >
+			<function name="glxDestroyWindow" return="void" category="VERSION_1_3" glxopcode="32" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="win" kind="value" type="GLXWindow" input="true" />
 			</function>
-			<function name="CreatePixmap" return="GLXPixmap" category="VERSION_1_3" glxopcode="22" glxflags="client-handcode" >
+			<function name="glxCreatePixmap" return="GLXPixmap" category="VERSION_1_3" glxopcode="22" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="pixmap" kind="value" type="Pixmap" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="DestroyPixmap" return="void" category="VERSION_1_3" glxopcode="23" glxflags="client-handcode" >
+			<function name="glxDestroyPixmap" return="void" category="VERSION_1_3" glxopcode="23" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pixmap" kind="value" type="GLXPixmap" input="true" />
 			</function>
-			<function name="CreatePbuffer" return="GLXPbuffer" category="VERSION_1_3" glxopcode="27" glxflags="client-handcode" >
+			<function name="glxCreatePbuffer" return="GLXPbuffer" category="VERSION_1_3" glxopcode="27" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="DestroyPbuffer" return="void" category="VERSION_1_3" glxopcode="28" glxflags="client-handcode" >
+			<function name="glxDestroyPbuffer" return="void" category="VERSION_1_3" glxopcode="28" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuf" kind="value" type="GLXPbuffer" input="true" />
 			</function>
-			<function name="QueryDrawable" return="void" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxQueryDrawable" return="void" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="draw" kind="value" type="GLXDrawable" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="uint" input="false" />
 			</function>
-			<function name="CreateNewContext" return="GLXContext" category="VERSION_1_3" glxopcode="24" glxflags="client-handcode" >
+			<function name="glxCreateNewContext" return="GLXContext" category="VERSION_1_3" glxopcode="24" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="render_type" kind="value" type="int" input="true" />
 				<param name="share_list" kind="value" type="GLXContext" input="true" />
 				<param name="direct" kind="value" type="Bool" input="true" />
 			</function>
-			<function name="MakeContextCurrent" return="Bool" category="VERSION_1_3" glxopcode="26" glxflags="client-handcode" >
+			<function name="glxMakeContextCurrent" return="Bool" category="VERSION_1_3" glxopcode="26" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="draw" kind="value" type="GLXDrawable" input="true" />
 				<param name="read" kind="value" type="GLXDrawable" input="true" />
 				<param name="ctx" kind="value" type="GLXContext" input="true" />
 			</function>
-			<function name="GetCurrentReadDrawable" return="GLXDrawable" category="VERSION_1_3" glxflags="client-handcode" />
-			<function name="GetCurrentDisplay" return="DisplayPointer" category="VERSION_1_3" glxflags="client-handcode" />
-			<function name="QueryContext" return="int" category="VERSION_1_3" glxopcode="25" glxflags="client-handcode" >
+			<function name="glxGetCurrentReadDrawable" return="GLXDrawable" category="VERSION_1_3" glxflags="client-handcode" />
+			<function name="glxGetCurrentDisplay" return="DisplayPointer" category="VERSION_1_3" glxflags="client-handcode" />
+			<function name="glxQueryContext" return="int" category="VERSION_1_3" glxopcode="25" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="ctx" kind="value" type="GLXContext" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="int" input="false" />
 			</function>
-			<function name="SelectEvent" return="void" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxSelectEvent" return="void" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="draw" kind="value" type="GLXDrawable" input="true" />
 				<param name="event_mask" kind="value" type="ulong" input="true" />
 			</function>
-			<function name="GetSelectedEvent" return="void" category="VERSION_1_3" glxflags="client-handcode" >
+			<function name="glxGetSelectedEvent" return="void" category="VERSION_1_3" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="draw" kind="value" type="GLXDrawable" input="true" />
 				<param name="event_mask" kind="reference" type="ulong" input="false" />
 			</function>
-			<function name="GetProcAddress" return="FunctionPointer" category="VERSION_1_4" glxflags="client-handcode" >
+			<function name="glxGetProcAddress" return="FunctionPointer" category="VERSION_1_4" glxflags="client-handcode" >
 				<param name="procName" kind="reference" type="GLubyte" input="true" />
 			</function>
-			<function name="GetProcAddressARB" return="FunctionPointer" category="ARB_get_proc_address" glxflags="client-handcode" >
+			<function name="glxGetProcAddressARB" return="FunctionPointer" category="ARB_get_proc_address" glxflags="client-handcode" >
 				<param name="procName" kind="reference" type="GLubyte" input="true" />
 			</function>
-			<function name="CreateContextAttribsARB" return="GLXContext" category="ARB_create_context" glxopcode="34" glxflags="client-handcode" >
+			<function name="glxCreateContextAttribsARB" return="GLXContext" category="ARB_create_context" glxopcode="34" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfig" input="true" />
 				<param name="share_context" kind="value" type="GLXContext" input="true" />
 				<param name="direct" kind="value" type="Bool" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="SwapIntervalSGI" return="int" glxvendorglx="65536" category="SGI_swap_control" glxflags="client-handcode" >
+			<function name="glxSwapIntervalSGI" return="int" glxvendorglx="65536" category="SGI_swap_control" glxflags="client-handcode" >
 				<param name="interval" kind="value" type="int" input="true" />
 			</function>
-			<function name="GetVideoSyncSGI" return="int" category="SGI_video_sync" glxflags="client-handcode" >
+			<function name="glxGetVideoSyncSGI" return="int" category="SGI_video_sync" glxflags="client-handcode" >
 				<param name="count" kind="reference" type="uint" input="false" />
 			</function>
-			<function name="WaitVideoSyncSGI" return="int" category="SGI_video_sync" glxflags="client-handcode" >
+			<function name="glxWaitVideoSyncSGI" return="int" category="SGI_video_sync" glxflags="client-handcode" >
 				<param name="divisor" kind="value" type="int" input="true" />
 				<param name="remainder" kind="value" type="int" input="true" />
 				<param name="count" kind="reference" type="uint" input="false" />
 			</function>
-			<function name="MakeCurrentReadSGI" return="Bool" glxvendorglx="65537" category="SGI_make_current_read" glxflags="client-handcode" >
+			<function name="glxMakeCurrentReadSGI" return="Bool" glxvendorglx="65537" category="SGI_make_current_read" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="draw" kind="value" type="GLXDrawable" input="true" />
 				<param name="read" kind="value" type="GLXDrawable" input="true" />
 				<param name="ctx" kind="value" type="GLXContext" input="true" />
 			</function>
-			<function name="GetCurrentReadDrawableSGI" return="GLXDrawable" category="SGI_make_current_read" glxflags="client-handcode" />
-			<function name="CreateGLXVideoSourceSGIX" return="GLXVideoSourceSGIX" glxvendorglx="65538" category="SGIX_video_source" glxflags="client-handcode" >
+			<function name="glxGetCurrentReadDrawableSGI" return="GLXDrawable" category="SGI_make_current_read" glxflags="client-handcode" />
+			<function name="glxCreateGLXVideoSourceSGIX" return="GLXVideoSourceSGIX" glxvendorglx="65538" category="SGIX_video_source" glxflags="client-handcode" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="server" kind="value" type="VLServer" input="true" />
@@ -945,99 +945,99 @@ typedef unsigned __int64 uint64_t;
 				<param name="nodeClass" kind="value" type="int" input="true" />
 				<param name="drainNode" kind="value" type="VLNode" input="true" />
 			</function>
-			<function name="DestroyGLXVideoSourceSGIX" return="void" glxvendorglx="65539" category="SGIX_video_source" glxflags="client-handcode" >
+			<function name="glxDestroyGLXVideoSourceSGIX" return="void" glxvendorglx="65539" category="SGIX_video_source" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="glxvideosource" kind="value" type="GLXVideoSourceSGIX" input="true" />
 			</function>
-			<function name="GetCurrentDisplayEXT" return="DisplayPointer" category="EXT_import_context" glxflags="client-handcode" />
-			<function name="QueryContextInfoEXT" return="int" glxvendorglx="1024" category="EXT_import_context" glxflags="client-handcode" >
+			<function name="glxGetCurrentDisplayEXT" return="DisplayPointer" category="EXT_import_context" glxflags="client-handcode" />
+			<function name="glxQueryContextInfoEXT" return="int" glxvendorglx="1024" category="EXT_import_context" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="context" kind="value" type="GLXContext" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="int" input="false" />
 			</function>
-			<function name="GetContextIDEXT" return="GLXContextID" category="EXT_import_context" glxflags="client-handcode" >
+			<function name="glxGetContextIDEXT" return="GLXContextID" category="EXT_import_context" glxflags="client-handcode" >
 				<param name="context" kind="value" type="constGLXContext" input="true" />
 			</function>
-			<function name="ImportContextEXT" return="GLXContext" category="EXT_import_context" glxflags="client-handcode" >
+			<function name="glxImportContextEXT" return="GLXContext" category="EXT_import_context" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="contextID" kind="value" type="GLXContextID" input="true" />
 			</function>
-			<function name="FreeContextEXT" return="void" category="EXT_import_context" glxflags="client-handcode" >
+			<function name="glxFreeContextEXT" return="void" category="EXT_import_context" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="context" kind="value" type="GLXContext" input="true" />
 			</function>
-			<function name="GetFBConfigAttribSGIX" return="int" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxGetFBConfigAttribSGIX" return="int" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfigSGIX" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="int" input="false" />
 			</function>
-			<function name="ChooseFBConfigSGIX" return="GLXFBConfigSGIXPointer" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxChooseFBConfigSGIX" return="GLXFBConfigSGIXPointer" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="false" />
 				<param name="nelements" kind="reference" type="int" input="false" />
 			</function>
-			<function name="CreateGLXPixmapWithConfigSGIX" return="GLXPixmap" glxvendorglx="65542" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxCreateGLXPixmapWithConfigSGIX" return="GLXPixmap" glxvendorglx="65542" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfigSGIX" input="true" />
 				<param name="pixmap" kind="value" type="Pixmap" input="true" />
 			</function>
-			<function name="CreateContextWithConfigSGIX" return="GLXContext" glxvendorglx="65541" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxCreateContextWithConfigSGIX" return="GLXContext" glxvendorglx="65541" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfigSGIX" input="true" />
 				<param name="render_type" kind="value" type="int" input="true" />
 				<param name="share_list" kind="value" type="GLXContext" input="true" />
 				<param name="direct" kind="value" type="Bool" input="true" />
 			</function>
-			<function name="GetVisualFromFBConfigSGIX" return="XVisualInfoPointer" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxGetVisualFromFBConfigSGIX" return="XVisualInfoPointer" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfigSGIX" input="true" />
 			</function>
-			<function name="GetFBConfigFromVisualSGIX" return="GLXFBConfigSGIX" category="SGIX_fbconfig" glxflags="client-handcode" >
+			<function name="glxGetFBConfigFromVisualSGIX" return="GLXFBConfigSGIX" category="SGIX_fbconfig" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="vis" kind="reference" type="XVisualInfo" input="false" />
 			</function>
-			<function name="CreateGLXPbufferSGIX" return="GLXPbufferSGIX" glxvendorglx="65543" category="SGIX_pbuffer" glxflags="client-handcode" >
+			<function name="glxCreateGLXPbufferSGIX" return="GLXPbufferSGIX" glxvendorglx="65543" category="SGIX_pbuffer" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="config" kind="value" type="GLXFBConfigSGIX" input="true" />
 				<param name="width" kind="value" type="uint" input="true" />
 				<param name="height" kind="value" type="uint" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="false" />
 			</function>
-			<function name="DestroyGLXPbufferSGIX" return="void" glxvendorglx="65544" category="SGIX_pbuffer" glxflags="client-handcode" >
+			<function name="glxDestroyGLXPbufferSGIX" return="void" glxvendorglx="65544" category="SGIX_pbuffer" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuf" kind="value" type="GLXPbufferSGIX" input="true" />
 			</function>
-			<function name="QueryGLXPbufferSGIX" return="int" category="SGIX_pbuffer" >
+			<function name="glxQueryGLXPbufferSGIX" return="int" category="SGIX_pbuffer" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuf" kind="value" type="GLXPbufferSGIX" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="reference" type="uint" input="false" />
 			</function>
-			<function name="SelectEventSGIX" return="void" category="SGIX_pbuffer" >
+			<function name="glxSelectEventSGIX" return="void" category="SGIX_pbuffer" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="mask" kind="value" type="ulong" input="true" />
 			</function>
-			<function name="GetSelectedEventSGIX" return="void" category="SGIX_pbuffer" >
+			<function name="glxGetSelectedEventSGIX" return="void" category="SGIX_pbuffer" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="mask" kind="reference" type="ulong" input="false" />
 			</function>
-			<function name="CushionSGI" return="void" category="SGI_cushion" >
+			<function name="glxCushionSGI" return="void" category="SGI_cushion" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="window" kind="value" type="Window" input="true" />
 				<param name="cushion" kind="value" type="float" input="true" />
 			</function>
-			<function name="BindChannelToWindowSGIX" return="int" category="SGIX_video_resize" >
+			<function name="glxBindChannelToWindowSGIX" return="int" category="SGIX_video_resize" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="channel" kind="value" type="int" input="true" />
 				<param name="window" kind="value" type="Window" input="true" />
 			</function>
-			<function name="ChannelRectSGIX" return="int" category="SGIX_video_resize" >
+			<function name="glxChannelRectSGIX" return="int" category="SGIX_video_resize" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="channel" kind="value" type="int" input="true" />
@@ -1046,7 +1046,7 @@ typedef unsigned __int64 uint64_t;
 				<param name="w" kind="value" type="int" input="true" />
 				<param name="h" kind="value" type="int" input="true" />
 			</function>
-			<function name="QueryChannelRectSGIX" return="int" category="SGIX_video_resize" >
+			<function name="glxQueryChannelRectSGIX" return="int" category="SGIX_video_resize" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="channel" kind="value" type="int" input="true" />
@@ -1055,7 +1055,7 @@ typedef unsigned __int64 uint64_t;
 				<param name="dw" kind="reference" type="int" input="false" />
 				<param name="dh" kind="reference" type="int" input="false" />
 			</function>
-			<function name="QueryChannelDeltasSGIX" return="int" category="SGIX_video_resize" >
+			<function name="glxQueryChannelDeltasSGIX" return="int" category="SGIX_video_resize" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="channel" kind="value" type="int" input="true" />
@@ -1064,40 +1064,40 @@ typedef unsigned __int64 uint64_t;
 				<param name="w" kind="reference" type="int" input="false" />
 				<param name="h" kind="reference" type="int" input="false" />
 			</function>
-			<function name="ChannelRectSyncSGIX" return="int" category="SGIX_video_resize" >
+			<function name="glxChannelRectSyncSGIX" return="int" category="SGIX_video_resize" >
 				<param name="display" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="channel" kind="value" type="int" input="true" />
 				<param name="synctype" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="AssociateDMPbufferSGIX" return="Bool" category="SGIX_dmbuffer" >
+			<function name="glxAssociateDMPbufferSGIX" return="Bool" category="SGIX_dmbuffer" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuffer" kind="value" type="GLXPbufferSGIX" input="true" />
 				<param name="params" kind="reference" type="DMparams" input="false" />
 				<param name="dmbuffer" kind="value" type="DMbuffer" input="true" />
 			</function>
-			<function name="JoinSwapGroupSGIX" return="void" glxvendorglx="65547" category="SGIX_swap_group" glxflags="client-handcode" >
+			<function name="glxJoinSwapGroupSGIX" return="void" glxvendorglx="65547" category="SGIX_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="member" kind="value" type="GLXDrawable" input="true" />
 			</function>
-			<function name="BindSwapBarrierSGIX" return="void" glxvendorglx="65548" category="SGIX_swap_barrier" glxflags="client-handcode" >
+			<function name="glxBindSwapBarrierSGIX" return="void" glxvendorglx="65548" category="SGIX_swap_barrier" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="barrier" kind="value" type="int" input="true" />
 			</function>
-			<function name="QueryMaxSwapBarriersSGIX" return="Bool" glxvendorglx="65549" category="SGIX_swap_barrier" glxflags="client-handcode" >
+			<function name="glxQueryMaxSwapBarriersSGIX" return="Bool" glxvendorglx="65549" category="SGIX_swap_barrier" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="max" kind="reference" type="int" input="false" />
 			</function>
-			<function name="GetTransparentIndexSUN" return="Status" category="SUN_get_transparent_index" >
+			<function name="glxGetTransparentIndexSUN" return="Status" category="SUN_get_transparent_index" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="overlay" kind="value" type="Window" input="true" />
 				<param name="underlay" kind="value" type="Window" input="true" />
 				<param name="pTransparentIndex" kind="reference" type="long" input="false" />
 			</function>
-			<function name="CopySubBufferMESA" return="void" category="MESA_copy_sub_buffer" glxflags="client-handcode" >
+			<function name="glxCopySubBufferMESA" return="void" category="MESA_copy_sub_buffer" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="x" kind="value" type="int" input="true" />
@@ -1105,40 +1105,40 @@ typedef unsigned __int64 uint64_t;
 				<param name="width" kind="value" type="int" input="true" />
 				<param name="height" kind="value" type="int" input="true" />
 			</function>
-			<function name="CreateGLXPixmapMESA" return="GLXPixmap" category="MESA_pixmap_colormap" glxflags="client-handcode" >
+			<function name="glxCreateGLXPixmapMESA" return="GLXPixmap" category="MESA_pixmap_colormap" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="visual" kind="reference" type="XVisualInfo" input="false" />
 				<param name="pixmap" kind="value" type="Pixmap" input="true" />
 				<param name="cmap" kind="value" type="Colormap" input="true" />
 			</function>
-			<function name="ReleaseBuffersMESA" return="Bool" category="MESA_release_buffers" glxflags="client-handcode" >
+			<function name="glxReleaseBuffersMESA" return="Bool" category="MESA_release_buffers" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 			</function>
-			<function name="Set3DfxModeMESA" return="Bool" category="MESA_set_3dfx_mode" glxflags="client-handcode" >
+			<function name="glxSet3DfxModeMESA" return="Bool" category="MESA_set_3dfx_mode" glxflags="client-handcode" >
 				<param name="mode" kind="value" type="int" input="true" />
 			</function>
-			<function name="GetSyncValuesOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
+			<function name="glxGetSyncValuesOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="ust" kind="reference" type="int64_t" input="false" />
 				<param name="msc" kind="reference" type="int64_t" input="false" />
 				<param name="sbc" kind="reference" type="int64_t" input="false" />
 			</function>
-			<function name="GetMscRateOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
+			<function name="glxGetMscRateOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="numerator" kind="reference" type="int32_t" input="false" />
 				<param name="denominator" kind="reference" type="int32_t" input="false" />
 			</function>
-			<function name="SwapBuffersMscOML" return="int64_t" category="OML_sync_control" glxflags="client-handcode" >
+			<function name="glxSwapBuffersMscOML" return="int64_t" category="OML_sync_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="target_msc" kind="value" type="int64_t" input="true" />
 				<param name="divisor" kind="value" type="int64_t" input="true" />
 				<param name="remainder" kind="value" type="int64_t" input="true" />
 			</function>
-			<function name="WaitForMscOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
+			<function name="glxWaitForMscOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="target_msc" kind="value" type="int64_t" input="true" />
@@ -1148,7 +1148,7 @@ typedef unsigned __int64 uint64_t;
 				<param name="msc" kind="reference" type="int64_t" input="false" />
 				<param name="sbc" kind="reference" type="int64_t" input="false" />
 			</function>
-			<function name="WaitForSbcOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
+			<function name="glxWaitForSbcOML" return="Bool" category="OML_sync_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="target_sbc" kind="value" type="int64_t" input="true" />
@@ -1156,31 +1156,31 @@ typedef unsigned __int64 uint64_t;
 				<param name="msc" kind="reference" type="int64_t" input="false" />
 				<param name="sbc" kind="reference" type="int64_t" input="false" />
 			</function>
-			<function name="QueryHyperpipeNetworkSGIX" return="GLXHyperpipeNetworkSGIXPointer" glxvendorglx="65550" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxQueryHyperpipeNetworkSGIX" return="GLXHyperpipeNetworkSGIXPointer" glxvendorglx="65550" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="npipes" kind="reference" type="int" input="false" />
 			</function>
-			<function name="HyperpipeConfigSGIX" return="int" glxvendorglx="65552" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxHyperpipeConfigSGIX" return="int" glxvendorglx="65552" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="networkId" kind="value" type="int" input="true" />
 				<param name="npipes" kind="value" type="int" input="true" />
 				<param name="cfg" kind="array" type="GLXHyperpipeConfigSGIX" input="false" compute="[COMPSIZE(npipes)]" />
 				<param name="hpId" kind="reference" type="int" input="false" />
 			</function>
-			<function name="QueryHyperpipeConfigSGIX" return="GLXHyperpipeConfigSGIXPointer" glxvendorglx="65551" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxQueryHyperpipeConfigSGIX" return="GLXHyperpipeConfigSGIXPointer" glxvendorglx="65551" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="hpId" kind="value" type="int" input="true" />
 				<param name="npipes" kind="reference" type="int" input="false" />
 			</function>
-			<function name="DestroyHyperpipeConfigSGIX" return="int" glxvendorglx="65553" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxDestroyHyperpipeConfigSGIX" return="int" glxvendorglx="65553" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="hpId" kind="value" type="int" input="true" />
 			</function>
-			<function name="BindHyperpipeSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxBindHyperpipeSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="hpId" kind="value" type="int" input="true" />
 			</function>
-			<function name="QueryHyperpipeBestAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxQueryHyperpipeBestAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="timeSlice" kind="value" type="int" input="true" />
 				<param name="attrib" kind="value" type="int" input="true" />
@@ -1188,141 +1188,141 @@ typedef unsigned __int64 uint64_t;
 				<param name="attribList" kind="array" type="void" input="false" compute="[COMPSIZE(size)]" />
 				<param name="returnAttribList" kind="array" type="void" input="false" compute="[COMPSIZE(size)]" />
 			</function>
-			<function name="HyperpipeAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxHyperpipeAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="timeSlice" kind="value" type="int" input="true" />
 				<param name="attrib" kind="value" type="int" input="true" />
 				<param name="size" kind="value" type="int" input="true" />
 				<param name="attribList" kind="array" type="void" input="false" compute="[COMPSIZE(size)]" />
 			</function>
-			<function name="QueryHyperpipeAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
+			<function name="glxQueryHyperpipeAttribSGIX" return="int" glxvendorglx="???" category="SGIX_hyperpipe" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="timeSlice" kind="value" type="int" input="true" />
 				<param name="attrib" kind="value" type="int" input="true" />
 				<param name="size" kind="value" type="int" input="true" />
 				<param name="returnAttribList" kind="array" type="void" input="false" compute="[COMPSIZE(size)]" />
 			</function>
-			<function name="GetAGPOffsetMESA" return="uint" category="MESA_agp_offset" glxflags="client-handcode" >
+			<function name="glxGetAGPOffsetMESA" return="uint" category="MESA_agp_offset" glxflags="client-handcode" >
 				<param name="pointer" kind="reference" type="void" input="true" />
 			</function>
-			<function name="BindTexImageEXT" return="void" glxvendorglx="1330" category="EXT_texture_from_pixmap" glxflags="client-handcode" >
+			<function name="glxBindTexImageEXT" return="void" glxvendorglx="1330" category="EXT_texture_from_pixmap" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="buffer" kind="value" type="int" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="ReleaseTexImageEXT" return="void" glxvendorglx="1331" category="EXT_texture_from_pixmap" glxflags="client-handcode" >
+			<function name="glxReleaseTexImageEXT" return="void" glxvendorglx="1331" category="EXT_texture_from_pixmap" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="buffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="EnumerateVideoDevicesNV" return="uintPointer" category="NV_present_video" glxflags="client-handcode" >
+			<function name="glxEnumerateVideoDevicesNV" return="uintPointer" category="NV_present_video" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="nelements" kind="reference" type="int" input="false" />
 			</function>
-			<function name="BindVideoDeviceNV" return="int" category="NV_present_video" glxflags="client-handcode" >
+			<function name="glxBindVideoDeviceNV" return="int" category="NV_present_video" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="video_slot" kind="value" type="uint" input="true" />
 				<param name="video_device" kind="value" type="uint" input="true" />
 				<param name="attrib_list" kind="reference" type="int" input="true" />
 			</function>
-			<function name="GetVideoDeviceNV" return="int" glxvendorglx="1313" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxGetVideoDeviceNV" return="int" glxvendorglx="1313" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="numVideoDevices" kind="value" type="int" input="true" />
 				<param name="pVideoDevice" kind="array" type="GLXVideoDeviceNV" input="false" compute="[COMPSIZE(numVideoDevices)]" />
 			</function>
-			<function name="ReleaseVideoDeviceNV" return="int" glxvendorglx="1314" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxReleaseVideoDeviceNV" return="int" glxvendorglx="1314" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="VideoDevice" kind="value" type="GLXVideoDeviceNV" input="true" />
 			</function>
-			<function name="BindVideoImageNV" return="int" glxvendorglx="1315" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxBindVideoImageNV" return="int" glxvendorglx="1315" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="VideoDevice" kind="value" type="GLXVideoDeviceNV" input="true" />
 				<param name="pbuf" kind="value" type="GLXPbuffer" input="true" />
 				<param name="iVideoBuffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="ReleaseVideoImageNV" return="int" glxvendorglx="1316" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxReleaseVideoImageNV" return="int" glxvendorglx="1316" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuf" kind="value" type="GLXPbuffer" input="true" />
 			</function>
-			<function name="SendPbufferToVideoNV" return="int" glxvendorglx="1317" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxSendPbufferToVideoNV" return="int" glxvendorglx="1317" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="pbuf" kind="value" type="GLXPbuffer" input="true" />
 				<param name="iBufferType" kind="value" type="int" input="true" />
 				<param name="pulCounterPbuffer" kind="reference" type="ulong" input="false" />
 				<param name="bBlock" kind="value" type="GLboolean" input="true" />
 			</function>
-			<function name="GetVideoInfoNV" return="int" glxvendorglx="1318" category="NV_video_output" glxflags="client-handcode" >
+			<function name="glxGetVideoInfoNV" return="int" glxvendorglx="1318" category="NV_video_output" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="VideoDevice" kind="value" type="GLXVideoDeviceNV" input="true" />
 				<param name="pulCounterOutputPbuffer" kind="reference" type="ulong" input="false" />
 				<param name="pulCounterOutputVideo" kind="reference" type="ulong" input="false" />
 			</function>
-			<function name="JoinSwapGroupNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxJoinSwapGroupNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="group" kind="value" type="GLuint" input="true" />
 			</function>
-			<function name="BindSwapBarrierNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxBindSwapBarrierNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="group" kind="value" type="GLuint" input="true" />
 				<param name="barrier" kind="value" type="GLuint" input="true" />
 			</function>
-			<function name="QuerySwapGroupNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxQuerySwapGroupNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="group" kind="reference" type="GLuint" input="false" />
 				<param name="barrier" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="QueryMaxSwapGroupsNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxQueryMaxSwapGroupsNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="maxGroups" kind="reference" type="GLuint" input="false" />
 				<param name="maxBarriers" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="QueryFrameCountNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxQueryFrameCountNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="count" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="ResetFrameCountNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
+			<function name="glxResetFrameCountNV" return="Bool" category="NV_swap_group" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 			</function>
-			<function name="BindVideoCaptureDeviceNV" return="int" category="NV_video_capture" glxflags="client-handcode" >
+			<function name="glxBindVideoCaptureDeviceNV" return="int" category="NV_video_capture" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="video_capture_slot" kind="value" type="uint" input="true" />
 				<param name="device" kind="value" type="GLXVideoCaptureDeviceNV" input="true" />
 			</function>
-			<function name="EnumerateVideoCaptureDevicesNV" return="GLXVideoCaptureDeviceNVPointer" category="NV_video_capture" glxflags="client-handcode" >
+			<function name="glxEnumerateVideoCaptureDevicesNV" return="GLXVideoCaptureDeviceNVPointer" category="NV_video_capture" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="screen" kind="value" type="int" input="true" />
 				<param name="nelements" kind="reference" type="int" input="false" />
 			</function>
-			<function name="LockVideoCaptureDeviceNV" return="void" category="NV_video_capture" glxflags="client-handcode" >
+			<function name="glxLockVideoCaptureDeviceNV" return="void" category="NV_video_capture" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="device" kind="value" type="GLXVideoCaptureDeviceNV" input="true" />
 			</function>
-			<function name="QueryVideoCaptureDeviceNV" return="int" category="NV_video_capture" glxflags="client-handcode" >
+			<function name="glxQueryVideoCaptureDeviceNV" return="int" category="NV_video_capture" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="device" kind="value" type="GLXVideoCaptureDeviceNV" input="true" />
 				<param name="attribute" kind="value" type="int" input="true" />
 				<param name="value" kind="array" type="int" input="false" compute="[COMPSIZE(attribute)]" />
 			</function>
-			<function name="ReleaseVideoCaptureDeviceNV" return="void" category="NV_video_capture" glxflags="client-handcode" >
+			<function name="glxReleaseVideoCaptureDeviceNV" return="void" category="NV_video_capture" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="device" kind="value" type="GLXVideoCaptureDeviceNV" input="true" />
 			</function>
-			<function name="SwapIntervalEXT" return="void" glxvendorglx="1416" category="EXT_swap_control" glxflags="client-handcode" >
+			<function name="glxSwapIntervalEXT" return="void" glxvendorglx="1416" category="EXT_swap_control" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="drawable" kind="value" type="GLXDrawable" input="true" />
 				<param name="interval" kind="value" type="int" input="true" />
 			</function>
-			<function name="CopyImageSubDataNV" return="void" glxvendorglx="1360" category="NV_copy_image" glxflags="client-handcode" >
+			<function name="glxCopyImageSubDataNV" return="void" glxvendorglx="1360" category="NV_copy_image" glxflags="client-handcode" >
 				<param name="dpy" kind="reference" type="Display" input="false" />
 				<param name="srcCtx" kind="value" type="GLXContext" input="true" />
 				<param name="srcName" kind="value" type="GLuint" input="true" />

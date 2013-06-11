@@ -913,22 +913,22 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 			</property>
 		</property-defs>
 		<function-defs >
-			<function name="CreateBufferRegionARB" return="HANDLE" category="ARB_buffer_region" >
+			<function name="wglCreateBufferRegionARB" return="HANDLE" category="ARB_buffer_region" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iLayerPlane" kind="value" type="int" input="true" />
 				<param name="uType" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="DeleteBufferRegionARB" return="VOID" category="ARB_buffer_region" >
+			<function name="wglDeleteBufferRegionARB" return="VOID" category="ARB_buffer_region" >
 				<param name="hRegion" kind="value" type="HANDLE" input="true" />
 			</function>
-			<function name="SaveBufferRegionARB" return="BOOL" category="ARB_buffer_region" >
+			<function name="wglSaveBufferRegionARB" return="BOOL" category="ARB_buffer_region" >
 				<param name="hRegion" kind="value" type="HANDLE" input="true" />
 				<param name="x" kind="value" type="int" input="true" />
 				<param name="y" kind="value" type="int" input="true" />
 				<param name="width" kind="value" type="int" input="true" />
 				<param name="height" kind="value" type="int" input="true" />
 			</function>
-			<function name="RestoreBufferRegionARB" return="BOOL" category="ARB_buffer_region" >
+			<function name="wglRestoreBufferRegionARB" return="BOOL" category="ARB_buffer_region" >
 				<param name="hRegion" kind="value" type="HANDLE" input="true" />
 				<param name="x" kind="value" type="int" input="true" />
 				<param name="y" kind="value" type="int" input="true" />
@@ -937,10 +937,10 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="xSrc" kind="value" type="int" input="true" />
 				<param name="ySrc" kind="value" type="int" input="true" />
 			</function>
-			<function name="GetExtensionsStringARB" return="String" category="ARB_extensions_string" >
+			<function name="wglGetExtensionsStringARB" return="String" category="ARB_extensions_string" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="GetPixelFormatAttribivARB" return="BOOL" category="ARB_pixel_format" >
+			<function name="wglGetPixelFormatAttribivARB" return="BOOL" category="ARB_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iLayerPlane" kind="value" type="int" input="true" />
@@ -948,7 +948,7 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piAttributes" kind="array" type="int" input="true" compute="[nAttributes]" />
 				<param name="piValues" kind="array" type="int" input="false" compute="[nAttributes]" />
 			</function>
-			<function name="GetPixelFormatAttribfvARB" return="BOOL" category="ARB_pixel_format" >
+			<function name="wglGetPixelFormatAttribfvARB" return="BOOL" category="ARB_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iLayerPlane" kind="value" type="int" input="true" />
@@ -956,7 +956,7 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piAttributes" kind="array" type="int" input="true" compute="[nAttributes]" />
 				<param name="pfValues" kind="array" type="FLOAT" input="false" compute="[nAttributes]" />
 			</function>
-			<function name="ChoosePixelFormatARB" return="BOOL" category="ARB_pixel_format" >
+			<function name="wglChoosePixelFormatARB" return="BOOL" category="ARB_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="piAttribIList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 				<param name="pfAttribFList" kind="array" type="FLOAT" input="true" compute="[COMPSIZE()]" />
@@ -964,94 +964,94 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piFormats" kind="array" type="int" input="false" compute="[COMPSIZE(nNumFormats)]" />
 				<param name="nNumFormats" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="MakeContextCurrentARB" return="BOOL" category="ARB_make_current_read" >
+			<function name="wglMakeContextCurrentARB" return="BOOL" category="ARB_make_current_read" >
 				<param name="hDrawDC" kind="value" type="HDC" input="true" />
 				<param name="hReadDC" kind="value" type="HDC" input="true" />
 				<param name="hglrc" kind="value" type="HGLRC" input="true" />
 			</function>
-			<function name="GetCurrentReadDCARB" return="HDC" category="ARB_make_current_read" />
-			<function name="CreatePbufferARB" return="HPBUFFERARB" category="ARB_pbuffer" >
+			<function name="wglGetCurrentReadDCARB" return="HDC" category="ARB_make_current_read" />
+			<function name="wglCreatePbufferARB" return="HPBUFFERARB" category="ARB_pbuffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iWidth" kind="value" type="int" input="true" />
 				<param name="iHeight" kind="value" type="int" input="true" />
 				<param name="piAttribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="GetPbufferDCARB" return="HDC" category="ARB_pbuffer" >
+			<function name="wglGetPbufferDCARB" return="HDC" category="ARB_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 			</function>
-			<function name="ReleasePbufferDCARB" return="int" category="ARB_pbuffer" >
+			<function name="wglReleasePbufferDCARB" return="int" category="ARB_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="hDC" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="DestroyPbufferARB" return="BOOL" category="ARB_pbuffer" >
+			<function name="wglDestroyPbufferARB" return="BOOL" category="ARB_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 			</function>
-			<function name="QueryPbufferARB" return="BOOL" category="ARB_pbuffer" >
+			<function name="wglQueryPbufferARB" return="BOOL" category="ARB_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="reference" type="int" input="false" />
 			</function>
-			<function name="BindTexImageARB" return="BOOL" category="ARB_render_texture" >
+			<function name="wglBindTexImageARB" return="BOOL" category="ARB_render_texture" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iBuffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="ReleaseTexImageARB" return="BOOL" category="ARB_render_texture" >
+			<function name="wglReleaseTexImageARB" return="BOOL" category="ARB_render_texture" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iBuffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="SetPbufferAttribARB" return="BOOL" category="ARB_render_texture" >
+			<function name="wglSetPbufferAttribARB" return="BOOL" category="ARB_render_texture" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="piAttribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="CreateContextAttribsARB" return="HGLRC" category="ARB_create_context" >
+			<function name="wglCreateContextAttribsARB" return="HGLRC" category="ARB_create_context" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="hShareContext" kind="value" type="HGLRC" input="true" />
 				<param name="attribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="CreateDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
+			<function name="wglCreateDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
 				<param name="id" kind="value" type="GLushort" input="true" />
 			</function>
-			<function name="LoadDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
+			<function name="wglLoadDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
 				<param name="table" kind="array" type="GLushort" input="true" compute="[length]" />
 				<param name="length" kind="value" type="GLuint" input="true" />
 			</function>
-			<function name="BindDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
+			<function name="wglBindDisplayColorTableEXT" return="GLboolean" category="EXT_display_color_table" >
 				<param name="id" kind="value" type="GLushort" input="true" />
 			</function>
-			<function name="DestroyDisplayColorTableEXT" return="VOID" category="EXT_display_color_table" >
+			<function name="wglDestroyDisplayColorTableEXT" return="VOID" category="EXT_display_color_table" >
 				<param name="id" kind="value" type="GLushort" input="true" />
 			</function>
-			<function name="GetExtensionsStringEXT" return="String" category="EXT_extensions_string" />
-			<function name="MakeContextCurrentEXT" return="BOOL" category="EXT_make_current_read" >
+			<function name="wglGetExtensionsStringEXT" return="String" category="EXT_extensions_string" />
+			<function name="wglMakeContextCurrentEXT" return="BOOL" category="EXT_make_current_read" >
 				<param name="hDrawDC" kind="value" type="HDC" input="true" />
 				<param name="hReadDC" kind="value" type="HDC" input="true" />
 				<param name="hglrc" kind="value" type="HGLRC" input="true" />
 			</function>
-			<function name="GetCurrentReadDCEXT" return="HDC" category="EXT_make_current_read" />
-			<function name="CreatePbufferEXT" return="HPBUFFEREXT" category="EXT_pbuffer" >
+			<function name="wglGetCurrentReadDCEXT" return="HDC" category="EXT_make_current_read" />
+			<function name="wglCreatePbufferEXT" return="HPBUFFEREXT" category="EXT_pbuffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iWidth" kind="value" type="int" input="true" />
 				<param name="iHeight" kind="value" type="int" input="true" />
 				<param name="piAttribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="GetPbufferDCEXT" return="HDC" category="EXT_pbuffer" >
+			<function name="wglGetPbufferDCEXT" return="HDC" category="EXT_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFEREXT" input="true" />
 			</function>
-			<function name="ReleasePbufferDCEXT" return="int" category="EXT_pbuffer" >
+			<function name="wglReleasePbufferDCEXT" return="int" category="EXT_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFEREXT" input="true" />
 				<param name="hDC" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="DestroyPbufferEXT" return="BOOL" category="EXT_pbuffer" >
+			<function name="wglDestroyPbufferEXT" return="BOOL" category="EXT_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFEREXT" input="true" />
 			</function>
-			<function name="QueryPbufferEXT" return="BOOL" category="EXT_pbuffer" >
+			<function name="wglQueryPbufferEXT" return="BOOL" category="EXT_pbuffer" >
 				<param name="hPbuffer" kind="value" type="HPBUFFEREXT" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="reference" type="int" input="false" />
 			</function>
-			<function name="GetPixelFormatAttribivEXT" return="BOOL" category="EXT_pixel_format" >
+			<function name="wglGetPixelFormatAttribivEXT" return="BOOL" category="EXT_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iLayerPlane" kind="value" type="int" input="true" />
@@ -1059,7 +1059,7 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piAttributes" kind="array" type="int" input="false" compute="[nAttributes]" />
 				<param name="piValues" kind="array" type="int" input="false" compute="[nAttributes]" />
 			</function>
-			<function name="GetPixelFormatAttribfvEXT" return="BOOL" category="EXT_pixel_format" >
+			<function name="wglGetPixelFormatAttribfvEXT" return="BOOL" category="EXT_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="iPixelFormat" kind="value" type="int" input="true" />
 				<param name="iLayerPlane" kind="value" type="int" input="true" />
@@ -1067,7 +1067,7 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piAttributes" kind="array" type="int" input="false" compute="[nAttributes]" />
 				<param name="pfValues" kind="array" type="FLOAT" input="false" compute="[nAttributes]" />
 			</function>
-			<function name="ChoosePixelFormatEXT" return="BOOL" category="EXT_pixel_format" >
+			<function name="wglChoosePixelFormatEXT" return="BOOL" category="EXT_pixel_format" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="piAttribIList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 				<param name="pfAttribFList" kind="array" type="FLOAT" input="true" compute="[COMPSIZE()]" />
@@ -1075,44 +1075,44 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="piFormats" kind="array" type="int" input="false" compute="[COMPSIZE(nNumFormats)]" />
 				<param name="nNumFormats" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="SwapIntervalEXT" return="BOOL" category="EXT_swap_control" >
+			<function name="wglSwapIntervalEXT" return="BOOL" category="EXT_swap_control" >
 				<param name="interval" kind="value" type="int" input="true" />
 			</function>
-			<function name="GetSwapIntervalEXT" return="int" category="EXT_swap_control" />
-			<function name="AllocateMemoryNV" return="VoidPointer" category="NV_vertex_array_range" >
+			<function name="wglGetSwapIntervalEXT" return="int" category="EXT_swap_control" />
+			<function name="wglAllocateMemoryNV" return="VoidPointer" category="NV_vertex_array_range" >
 				<param name="size" kind="value" type="GLsizei" input="true" />
 				<param name="readfreq" kind="value" type="GLfloat" input="true" />
 				<param name="writefreq" kind="value" type="GLfloat" input="true" />
 				<param name="priority" kind="value" type="GLfloat" input="true" />
 			</function>
-			<function name="FreeMemoryNV" return="void" category="NV_vertex_array_range" >
+			<function name="wglFreeMemoryNV" return="void" category="NV_vertex_array_range" >
 				<param name="pointer" kind="array" type="void" input="false" compute="[1]" />
 			</function>
-			<function name="GetSyncValuesOML" return="BOOL" category="OML_sync_control" >
+			<function name="wglGetSyncValuesOML" return="BOOL" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="ust" kind="array" type="INT64" input="false" compute="[1]" />
 				<param name="msc" kind="array" type="INT64" input="false" compute="[1]" />
 				<param name="sbc" kind="array" type="INT64" input="false" compute="[1]" />
 			</function>
-			<function name="GetMscRateOML" return="BOOL" category="OML_sync_control" >
+			<function name="wglGetMscRateOML" return="BOOL" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="numerator" kind="array" type="INT32" input="false" compute="[1]" />
 				<param name="denominator" kind="array" type="INT32" input="false" compute="[1]" />
 			</function>
-			<function name="SwapBuffersMscOML" return="INT64" category="OML_sync_control" >
+			<function name="wglSwapBuffersMscOML" return="INT64" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="target_msc" kind="value" type="INT64" input="true" />
 				<param name="divisor" kind="value" type="INT64" input="true" />
 				<param name="remainder" kind="value" type="INT64" input="true" />
 			</function>
-			<function name="SwapLayerBuffersMscOML" return="INT64" category="OML_sync_control" >
+			<function name="wglSwapLayerBuffersMscOML" return="INT64" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="fuPlanes" kind="value" type="int" input="true" />
 				<param name="target_msc" kind="value" type="INT64" input="true" />
 				<param name="divisor" kind="value" type="INT64" input="true" />
 				<param name="remainder" kind="value" type="INT64" input="true" />
 			</function>
-			<function name="WaitForMscOML" return="BOOL" category="OML_sync_control" >
+			<function name="wglWaitForMscOML" return="BOOL" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="target_msc" kind="value" type="INT64" input="true" />
 				<param name="divisor" kind="value" type="INT64" input="true" />
@@ -1121,254 +1121,254 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="msc" kind="array" type="INT64" input="false" compute="[1]" />
 				<param name="sbc" kind="array" type="INT64" input="false" compute="[1]" />
 			</function>
-			<function name="WaitForSbcOML" return="BOOL" category="OML_sync_control" >
+			<function name="wglWaitForSbcOML" return="BOOL" category="OML_sync_control" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 				<param name="target_sbc" kind="value" type="INT64" input="true" />
 				<param name="ust" kind="array" type="INT64" input="false" compute="[1]" />
 				<param name="msc" kind="array" type="INT64" input="false" compute="[1]" />
 				<param name="sbc" kind="array" type="INT64" input="false" compute="[1]" />
 			</function>
-			<function name="GetDigitalVideoParametersI3D" return="BOOL" category="I3D_digital_video_control" >
+			<function name="wglGetDigitalVideoParametersI3D" return="BOOL" category="I3D_digital_video_control" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="array" type="int" input="false" compute="[COMPSIZE(iAttribute)]" />
 			</function>
-			<function name="SetDigitalVideoParametersI3D" return="BOOL" category="I3D_digital_video_control" >
+			<function name="wglSetDigitalVideoParametersI3D" return="BOOL" category="I3D_digital_video_control" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="array" type="int" input="true" compute="[COMPSIZE(iAttribute)]" />
 			</function>
-			<function name="GetGammaTableParametersI3D" return="BOOL" category="I3D_gamma" >
+			<function name="wglGetGammaTableParametersI3D" return="BOOL" category="I3D_gamma" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="array" type="int" input="false" compute="[COMPSIZE(iAttribute)]" />
 			</function>
-			<function name="SetGammaTableParametersI3D" return="BOOL" category="I3D_gamma" >
+			<function name="wglSetGammaTableParametersI3D" return="BOOL" category="I3D_gamma" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="array" type="int" input="true" compute="[COMPSIZE(iAttribute)]" />
 			</function>
-			<function name="GetGammaTableI3D" return="BOOL" category="I3D_gamma" >
+			<function name="wglGetGammaTableI3D" return="BOOL" category="I3D_gamma" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iEntries" kind="value" type="int" input="true" />
 				<param name="puRed" kind="array" type="USHORT" input="false" compute="[iEntries]" />
 				<param name="puGreen" kind="array" type="USHORT" input="false" compute="[iEntries]" />
 				<param name="puBlue" kind="array" type="USHORT" input="false" compute="[iEntries]" />
 			</function>
-			<function name="SetGammaTableI3D" return="BOOL" category="I3D_gamma" >
+			<function name="wglSetGammaTableI3D" return="BOOL" category="I3D_gamma" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="iEntries" kind="value" type="int" input="true" />
 				<param name="puRed" kind="array" type="USHORT" input="true" compute="[iEntries]" />
 				<param name="puGreen" kind="array" type="USHORT" input="true" compute="[iEntries]" />
 				<param name="puBlue" kind="array" type="USHORT" input="true" compute="[iEntries]" />
 			</function>
-			<function name="EnableGenlockI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglEnableGenlockI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="DisableGenlockI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglDisableGenlockI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="IsEnabledGenlockI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglIsEnabledGenlockI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="pFlag" kind="reference" type="BOOL" input="false" />
 			</function>
-			<function name="GenlockSourceI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGenlockSourceI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uSource" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="GetGenlockSourceI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGetGenlockSourceI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uSource" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="GenlockSourceEdgeI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGenlockSourceEdgeI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uEdge" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="GetGenlockSourceEdgeI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGetGenlockSourceEdgeI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uEdge" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="GenlockSampleRateI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGenlockSampleRateI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uRate" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="GetGenlockSampleRateI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGetGenlockSampleRateI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uRate" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="GenlockSourceDelayI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGenlockSourceDelayI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uDelay" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="GetGenlockSourceDelayI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglGetGenlockSourceDelayI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uDelay" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="QueryGenlockMaxSourceDelayI3D" return="BOOL" category="I3D_genlock" >
+			<function name="wglQueryGenlockMaxSourceDelayI3D" return="BOOL" category="I3D_genlock" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uMaxLineDelay" kind="reference" type="UINT" input="false" />
 				<param name="uMaxPixelDelay" kind="reference" type="UINT" input="false" />
 			</function>
-			<function name="CreateImageBufferI3D" return="LPVOID" category="I3D_image_buffer" >
+			<function name="wglCreateImageBufferI3D" return="LPVOID" category="I3D_image_buffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="dwSize" kind="value" type="DWORD" input="true" />
 				<param name="uFlags" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="DestroyImageBufferI3D" return="BOOL" category="I3D_image_buffer" >
+			<function name="wglDestroyImageBufferI3D" return="BOOL" category="I3D_image_buffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="pAddress" kind="value" type="LPVOID" input="true" />
 			</function>
-			<function name="AssociateImageBufferEventsI3D" return="BOOL" category="I3D_image_buffer" >
+			<function name="wglAssociateImageBufferEventsI3D" return="BOOL" category="I3D_image_buffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="pEvent" kind="array" type="HANDLE" input="true" compute="[count]" />
 				<param name="pAddress" kind="array" type="LPVOID" input="true" compute="[count]" />
 				<param name="pSize" kind="array" type="DWORD" input="true" compute="[count]" />
 				<param name="count" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="ReleaseImageBufferEventsI3D" return="BOOL" category="I3D_image_buffer" >
+			<function name="wglReleaseImageBufferEventsI3D" return="BOOL" category="I3D_image_buffer" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="pAddress" kind="array" type="LPVOID" input="true" compute="[count]" />
 				<param name="count" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="EnableFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" />
-			<function name="DisableFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" />
-			<function name="IsEnabledFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" >
+			<function name="wglEnableFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" />
+			<function name="wglDisableFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" />
+			<function name="wglIsEnabledFrameLockI3D" return="BOOL" category="I3D_swap_frame_lock" >
 				<param name="pFlag" kind="reference" type="BOOL" input="false" />
 			</function>
-			<function name="QueryFrameLockMasterI3D" return="BOOL" category="I3D_swap_frame_lock" >
+			<function name="wglQueryFrameLockMasterI3D" return="BOOL" category="I3D_swap_frame_lock" >
 				<param name="pFlag" kind="reference" type="BOOL" input="false" />
 			</function>
-			<function name="GetFrameUsageI3D" return="BOOL" category="I3D_swap_frame_usage" >
+			<function name="wglGetFrameUsageI3D" return="BOOL" category="I3D_swap_frame_usage" >
 				<param name="pUsage" kind="reference" type="float" input="false" />
 			</function>
-			<function name="BeginFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" />
-			<function name="EndFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" />
-			<function name="QueryFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" >
+			<function name="wglBeginFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" />
+			<function name="wglEndFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" />
+			<function name="wglQueryFrameTrackingI3D" return="BOOL" category="I3D_swap_frame_usage" >
 				<param name="pFrameCount" kind="reference" type="DWORD" input="false" />
 				<param name="pMissedFrames" kind="reference" type="DWORD" input="false" />
 				<param name="pLastMissedUsage" kind="reference" type="float" input="false" />
 			</function>
-			<function name="SetStereoEmitterState3DL" return="BOOL" category="3DL_stereo_control" >
+			<function name="wglSetStereoEmitterState3DL" return="BOOL" category="3DL_stereo_control" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uState" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="EnumerateVideoDevicesNV" return="int" category="NV_present_video" >
+			<function name="wglEnumerateVideoDevicesNV" return="int" category="NV_present_video" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="phDeviceList" kind="array" type="HVIDEOOUTPUTDEVICENV" input="false" />
 			</function>
-			<function name="BindVideoDeviceNV" return="BOOL" category="NV_present_video" >
+			<function name="wglBindVideoDeviceNV" return="BOOL" category="NV_present_video" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="uVideoSlot" kind="value" type="uint" input="true" />
 				<param name="hVideoDevice" kind="value" type="HVIDEOOUTPUTDEVICENV" input="true" />
 				<param name="piAttribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="QueryCurrentContextNV" return="BOOL" category="NV_present_video" >
+			<function name="wglQueryCurrentContextNV" return="BOOL" category="NV_present_video" >
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="array" type="int" input="false" compute="[COMPSIZE()]" />
 			</function>
-			<function name="GetVideoDeviceNV" return="BOOL" category="NV_video_output" >
+			<function name="wglGetVideoDeviceNV" return="BOOL" category="NV_video_output" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="numDevices" kind="value" type="int" input="true" />
 				<param name="hVideoDevice" kind="reference" type="HPVIDEODEV" input="false" />
 			</function>
-			<function name="ReleaseVideoDeviceNV" return="BOOL" category="NV_video_output" >
+			<function name="wglReleaseVideoDeviceNV" return="BOOL" category="NV_video_output" >
 				<param name="hVideoDevice" kind="value" type="HPVIDEODEV" input="true" />
 			</function>
-			<function name="BindVideoImageNV" return="BOOL" category="NV_video_output" >
+			<function name="wglBindVideoImageNV" return="BOOL" category="NV_video_output" >
 				<param name="hVideoDevice" kind="value" type="HPVIDEODEV" input="true" />
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iVideoBuffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="ReleaseVideoImageNV" return="BOOL" category="NV_video_output" >
+			<function name="wglReleaseVideoImageNV" return="BOOL" category="NV_video_output" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iVideoBuffer" kind="value" type="int" input="true" />
 			</function>
-			<function name="SendPbufferToVideoNV" return="BOOL" category="NV_video_output" >
+			<function name="wglSendPbufferToVideoNV" return="BOOL" category="NV_video_output" >
 				<param name="hPbuffer" kind="value" type="HPBUFFERARB" input="true" />
 				<param name="iBufferType" kind="value" type="int" input="true" />
 				<param name="pulCounterPbuffer" kind="reference" type="ulong" input="false" />
 				<param name="bBlock" kind="value" type="BOOL" input="true" />
 			</function>
-			<function name="GetVideoInfoNV" return="BOOL" category="NV_video_output" >
+			<function name="wglGetVideoInfoNV" return="BOOL" category="NV_video_output" >
 				<param name="hpVideoDevice" kind="value" type="HPVIDEODEV" input="true" />
 				<param name="pulCounterOutputPbuffer" kind="reference" type="ulong" input="false" />
 				<param name="pulCounterOutputVideo" kind="reference" type="ulong" input="false" />
 			</function>
-			<function name="JoinSwapGroupNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglJoinSwapGroupNV" return="BOOL" category="NV_swap_group" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="group" kind="value" type="GLuint" input="true" />
 			</function>
-			<function name="BindSwapBarrierNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglBindSwapBarrierNV" return="BOOL" category="NV_swap_group" >
 				<param name="group" kind="value" type="GLuint" input="true" />
 				<param name="barrier" kind="value" type="GLuint" input="true" />
 			</function>
-			<function name="QuerySwapGroupNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglQuerySwapGroupNV" return="BOOL" category="NV_swap_group" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="group" kind="reference" type="GLuint" input="false" />
 				<param name="barrier" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="QueryMaxSwapGroupsNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglQueryMaxSwapGroupsNV" return="BOOL" category="NV_swap_group" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="maxGroups" kind="reference" type="GLuint" input="false" />
 				<param name="maxBarriers" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="QueryFrameCountNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglQueryFrameCountNV" return="BOOL" category="NV_swap_group" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 				<param name="count" kind="reference" type="GLuint" input="false" />
 			</function>
-			<function name="ResetFrameCountNV" return="BOOL" category="NV_swap_group" >
+			<function name="wglResetFrameCountNV" return="BOOL" category="NV_swap_group" >
 				<param name="hDC" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="EnumGpusNV" return="BOOL" category="NV_gpu_affinity" >
+			<function name="wglEnumGpusNV" return="BOOL" category="NV_gpu_affinity" >
 				<param name="iGpuIndex" kind="value" type="UINT" input="true" />
 				<param name="phGpu" kind="reference" type="HGPUNV" input="false" />
 			</function>
-			<function name="EnumGpuDevicesNV" return="BOOL" category="NV_gpu_affinity" >
+			<function name="wglEnumGpuDevicesNV" return="BOOL" category="NV_gpu_affinity" >
 				<param name="hGpu" kind="value" type="HGPUNV" input="true" />
 				<param name="iDeviceIndex" kind="value" type="UINT" input="true" />
 				<param name="lpGpuDevice" kind="value" type="PGPU_DEVICE" input="true" />
 			</function>
-			<function name="CreateAffinityDCNV" return="HDC" category="NV_gpu_affinity" >
+			<function name="wglCreateAffinityDCNV" return="HDC" category="NV_gpu_affinity" >
 				<param name="phGpuList" kind="array" type="HGPUNV" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="EnumGpusFromAffinityDCNV" return="BOOL" category="NV_gpu_affinity" >
+			<function name="wglEnumGpusFromAffinityDCNV" return="BOOL" category="NV_gpu_affinity" >
 				<param name="hAffinityDC" kind="value" type="HDC" input="true" />
 				<param name="iGpuIndex" kind="value" type="UINT" input="true" />
 				<param name="hGpu" kind="reference" type="HGPUNV" input="false" />
 			</function>
-			<function name="DeleteDCNV" return="BOOL" category="NV_gpu_affinity" >
+			<function name="wglDeleteDCNV" return="BOOL" category="NV_gpu_affinity" >
 				<param name="hdc" kind="value" type="HDC" input="true" />
 			</function>
-			<function name="GetGPUIDsAMD" return="UINT" category="AMD_gpu_association" >
+			<function name="wglGetGPUIDsAMD" return="UINT" category="AMD_gpu_association" >
 				<param name="maxCount" kind="value" type="UINT" input="true" />
 				<param name="ids" kind="array" type="UINT" input="false" compute="[maxCount]" />
 			</function>
-			<function name="GetGPUInfoAMD" return="INT" category="AMD_gpu_association" >
+			<function name="wglGetGPUInfoAMD" return="INT" category="AMD_gpu_association" >
 				<param name="id" kind="value" type="UINT" input="true" />
 				<param name="property" kind="value" type="int" input="true" />
 				<param name="dataType" kind="value" type="GLenum" input="true" />
 				<param name="size" kind="value" type="UINT" input="true" />
 				<param name="data" kind="array" type="void" input="false" compute="[COMPSIZE(dataType,size)]" />
 			</function>
-			<function name="GetContextGPUIDAMD" return="UINT" category="AMD_gpu_association" >
+			<function name="wglGetContextGPUIDAMD" return="UINT" category="AMD_gpu_association" >
 				<param name="hglrc" kind="value" type="HGLRC" input="true" />
 			</function>
-			<function name="CreateAssociatedContextAMD" return="HGLRC" category="AMD_gpu_association" >
+			<function name="wglCreateAssociatedContextAMD" return="HGLRC" category="AMD_gpu_association" >
 				<param name="id" kind="value" type="UINT" input="true" />
 			</function>
-			<function name="CreateAssociatedContextAttribsAMD" return="HGLRC" category="AMD_gpu_association" >
+			<function name="wglCreateAssociatedContextAttribsAMD" return="HGLRC" category="AMD_gpu_association" >
 				<param name="id" kind="value" type="UINT" input="true" />
 				<param name="hShareContext" kind="value" type="HGLRC" input="true" />
 				<param name="attribList" kind="array" type="int" input="true" compute="[COMPSIZE()]" />
 			</function>
-			<function name="DeleteAssociatedContextAMD" return="BOOL" category="AMD_gpu_association" >
+			<function name="wglDeleteAssociatedContextAMD" return="BOOL" category="AMD_gpu_association" >
 				<param name="hglrc" kind="value" type="HGLRC" input="true" />
 			</function>
-			<function name="MakeAssociatedContextCurrentAMD" return="BOOL" category="AMD_gpu_association" >
+			<function name="wglMakeAssociatedContextCurrentAMD" return="BOOL" category="AMD_gpu_association" >
 				<param name="hglrc" kind="value" type="HGLRC" input="true" />
 			</function>
-			<function name="GetCurrentAssociatedContextAMD" return="HGLRC" category="AMD_gpu_association" />
-			<function name="BlitContextFramebufferAMD" return="VOID" category="AMD_gpu_association" >
+			<function name="wglGetCurrentAssociatedContextAMD" return="HGLRC" category="AMD_gpu_association" />
+			<function name="wglBlitContextFramebufferAMD" return="VOID" category="AMD_gpu_association" >
 				<param name="dstCtx" kind="value" type="HGLRC" input="true" />
 				<param name="srcX0" kind="value" type="GLint" input="true" />
 				<param name="srcY0" kind="value" type="GLint" input="true" />
@@ -1381,29 +1381,29 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="mask" kind="value" type="GLbitfield" input="true" />
 				<param name="filter" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="BindVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
+			<function name="wglBindVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
 				<param name="uVideoSlot" kind="value" type="UINT" input="true" />
 				<param name="hDevice" kind="value" type="HVIDEOINPUTDEVICENV" input="true" />
 			</function>
-			<function name="EnumerateVideoCaptureDevicesNV" return="UINT" category="NV_video_capture" >
+			<function name="wglEnumerateVideoCaptureDevicesNV" return="UINT" category="NV_video_capture" >
 				<param name="hDc" kind="value" type="HDC" input="true" />
 				<param name="phDeviceList" kind="reference" type="HVIDEOINPUTDEVICENV" input="false" />
 			</function>
-			<function name="LockVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
+			<function name="wglLockVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
 				<param name="hDc" kind="value" type="HDC" input="true" />
 				<param name="hDevice" kind="value" type="HVIDEOINPUTDEVICENV" input="true" />
 			</function>
-			<function name="QueryVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
+			<function name="wglQueryVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
 				<param name="hDc" kind="value" type="HDC" input="true" />
 				<param name="hDevice" kind="value" type="HVIDEOINPUTDEVICENV" input="true" />
 				<param name="iAttribute" kind="value" type="int" input="true" />
 				<param name="piValue" kind="reference" type="int" input="false" />
 			</function>
-			<function name="ReleaseVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
+			<function name="wglReleaseVideoCaptureDeviceNV" return="BOOL" category="NV_video_capture" >
 				<param name="hDc" kind="value" type="HDC" input="true" />
 				<param name="hDevice" kind="value" type="HVIDEOINPUTDEVICENV" input="true" />
 			</function>
-			<function name="CopyImageSubDataNV" return="BOOL" category="NV_copy_image" >
+			<function name="wglCopyImageSubDataNV" return="BOOL" category="NV_copy_image" >
 				<param name="hSrcRC" kind="value" type="HGLRC" input="true" />
 				<param name="srcName" kind="value" type="GLuint" input="true" />
 				<param name="srcTarget" kind="value" type="GLenum" input="true" />
@@ -1422,37 +1422,37 @@ DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
 				<param name="height" kind="value" type="GLsizei" input="true" />
 				<param name="depth" kind="value" type="GLsizei" input="true" />
 			</function>
-			<function name="DXSetResourceShareHandleNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXSetResourceShareHandleNV" return="BOOL" category="NV_DX_interop" >
 				<param name="dxObject" kind="array" type="void" input="false" compute="[1]" />
 				<param name="shareHandle" kind="value" type="HANDLE" input="true" />
 			</function>
-			<function name="DXOpenDeviceNV" return="HANDLE" category="NV_DX_interop" >
+			<function name="wglDXOpenDeviceNV" return="HANDLE" category="NV_DX_interop" >
 				<param name="dxDevice" kind="array" type="void" input="false" compute="[1]" />
 			</function>
-			<function name="DXCloseDeviceNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXCloseDeviceNV" return="BOOL" category="NV_DX_interop" >
 				<param name="hDevice" kind="value" type="HANDLE" input="true" />
 			</function>
-			<function name="DXRegisterObjectNV" return="HANDLE" category="NV_DX_interop" >
+			<function name="wglDXRegisterObjectNV" return="HANDLE" category="NV_DX_interop" >
 				<param name="hDevice" kind="value" type="HANDLE" input="true" />
 				<param name="dxObject" kind="array" type="void" input="false" compute="[1]" />
 				<param name="name" kind="value" type="GLuint" input="true" />
 				<param name="type" kind="value" type="GLenum" input="true" />
 				<param name="access" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="DXUnregisterObjectNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXUnregisterObjectNV" return="BOOL" category="NV_DX_interop" >
 				<param name="hDevice" kind="value" type="HANDLE" input="true" />
 				<param name="hObject" kind="value" type="HANDLE" input="true" />
 			</function>
-			<function name="DXObjectAccessNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXObjectAccessNV" return="BOOL" category="NV_DX_interop" >
 				<param name="hObject" kind="value" type="HANDLE" input="true" />
 				<param name="access" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="DXLockObjectsNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXLockObjectsNV" return="BOOL" category="NV_DX_interop" >
 				<param name="hDevice" kind="value" type="HANDLE" input="true" />
 				<param name="count" kind="value" type="GLint" input="true" />
 				<param name="hObjects" kind="array" type="HANDLE" input="false" compute="[count]" />
 			</function>
-			<function name="DXUnlockObjectsNV" return="BOOL" category="NV_DX_interop" >
+			<function name="wglDXUnlockObjectsNV" return="BOOL" category="NV_DX_interop" >
 				<param name="hDevice" kind="value" type="HANDLE" input="true" />
 				<param name="count" kind="value" type="GLint" input="true" />
 				<param name="hObjects" kind="array" type="HANDLE" input="false" compute="[count]" />
