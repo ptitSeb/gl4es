@@ -25,13 +25,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(preload X11)
 endif()
 
+if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
+    set_target_properties(GL PROPERTIES SUFFIX ".so.1")
+endif()
+
 aux_source_directory(proxy PROXY_SOURCES)
 add_library(proxy SHARED ${PROXY_SOURCES})
 
 aux_source_directory(tests TEST_SOURCES)
 add_executable(test ${TEST_SOURCES})
-
-if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
-    set_target_properties(GL PROPERTIES SUFFIX ".so.1")
-endif()
+target_link_libraries(test proxy)
 
