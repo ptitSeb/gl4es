@@ -1,1 +1,8 @@
-{% include "base/headers.j2" %}
+{% extends "base/wrap.c.j2" %}
+{% block headers %}
+#include <stdio.h>
+{{ super() }}
+{% endblock %}
+{% block call %}
+printf({{ name }});
+{% endblock %}

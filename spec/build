@@ -9,4 +9,4 @@ gles=$(ls -1 yml/*-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 ./gen.py "$gles" glxfuncs.j2 glxfuncs.inc ../gl/gl.h > "$base/glx/glxfuncs.inc"
 
 ./gen.py --deep 'yml/opengl.yml,yml/glx.yml' glwrap.h.j2 gl.h > "$base/proxy/gl.h"
-./gen.py --deep 'yml/opengl.yml,yml/glx.yml' client.c.j2 gl.h > "$base/proxy/gl.h"
+./gen.py --deep 'yml/opengl.yml,yml/glx.yml' client.c.j2 gl.c gl.h > "$base/proxy/gl.c"
