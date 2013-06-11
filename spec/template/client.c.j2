@@ -4,11 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block call %}
-    {% if func.args %}
-    printf("{{ func.name }}({{ func.args|printf }});\n", {{ func.args|args(0) }});
-    {% else %}
-    printf("{{ func.name }}();\n");
-    {% endif %}
+    {% include "base/fprint.j2" %}
     {% if not func.void %}
     return 0;
     {% endif %}
