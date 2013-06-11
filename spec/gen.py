@@ -1,17 +1,25 @@
 #!/usr/bin/env python
 
-import pystache
+import jinja2
 import re
 from yaml import load
 
 split_re = re.compile(r'^(?P<type>.*?)\s*(?P<name>\w+)$')
+env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
+
+def args(args, add_type=True):
+    return ', '.join(
+        '{} {}'.format(arg['type'], arg['name']) if add_type else arg['name']
+        for arg in args
+    )
+env.filters['args'] = args
 
 def split_arg(arg):
     match = split_re.match(arg)
     if match:
         return match.groupdict()
 
-def gen(files, template, headers):
+def gen(files, template, guard_name, headers):
     funcs = []
     formats = []
     unique_formats = set()
@@ -48,9 +56,15 @@ def gen(files, template, headers):
 
             funcs.append(props)
 
-    return pystache.render(template,
-        {'functions': funcs, 'formats': formats, 'headers': headers}
-    ).rstrip('\n')
+    context = {
+        'functions': funcs,
+        'formats': formats,
+        'headers': headers,
+        'name': guard_name,
+    }
+
+    t = env.get_template(template)
+    return t.render(**context).rstrip('\n')
 
 if __name__ == '__main__':
     import sys
@@ -63,14 +77,13 @@ if __name__ == '__main__':
                 if data:
                     files.append(data)
 
-        with open(sys.argv[2]) as f:
-            template = f.read()
-
         headers = []
         if len(sys.argv) > 3:
             headers = sys.argv[3:]
 
-        print gen(files, template, headers)
+        template = sys.argv[2]
+        name = sys.argv[3]
+        print gen(files, template, name, headers)
     else:
-        print 'Usage: %s <yaml> <template> [header...]'
+        print 'Usage: {} <yaml> <template> <name> [header...]'.format(sys.argv[0])
         sys.exit(1)

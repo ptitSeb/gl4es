@@ -1,0 +1,45 @@
+{% for header in headers -%}
+#include "{{ header }}"
+{% endfor %}
+
+void glPackedCall(const UnknownCall *packed) {
+    switch (packed->format) {
+        {%- for f in formats %}
+        case FORMAT_{{ f.types }}: {
+            PACKED_{{ f.types }} *unpacked = (PACKED_{{ f.types }} *)packed;
+            ARGS_{{ f.types }} args = unpacked->args;
+            unpacked->func({% for arg in f.args -%}
+                args.a{{ loop.index }}{% if not arg.last %}, {% endif %}
+            {%- endfor %});
+            break;
+        }
+        {%- endfor %}
+    }
+}
+
+{% for func in functions %}
+#ifndef skip_{{ func.name }}
+{{ func.return }} {{ func.name }}({{ func.args|args }}) {
+    LOAD_GLES({{ func.return }}, {{ func.name }}
+        {%- if func.args %}, {{ func.args|args }}{% endif %});
+#ifndef direct_{{ func.name }}
+    if (state.list.compiling) {
+        PACKED_{{ func.types }} *data = malloc(sizeof(PACKED_{{ func.types }}));
+        data->format = FORMAT_{{ func.types }};
+        data->func = {{ func.name }};
+        {%- for arg in func.args %}
+        data->args.a{{ loop.index }} = {{ arg.name }};
+        {%- endfor %}
+        glPushCall((void *)data);
+        {%- if not func.void %}
+        return 0;
+        {%- endif %}
+    } else {
+#endif
+        {% if not func.void %}return {% endif %}gles_{{ func.name }}({{ func.args|args(0) }});
+#ifndef direct_{{ func.name }}
+    }
+#endif
+}
+#endif
+{% endfor %}

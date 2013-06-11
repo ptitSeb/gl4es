@@ -2,9 +2,9 @@
 cd "$(dirname "$0")"
 
 base=../src/
-spec=$(ls -1 yml/*.yml | tr '\n' ',' | sed -e 's/,$//')
+spec=$(ls -1 yml/*-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 
-./gen.py "$spec" template/wrapper.mustache gles.h > "$base/gl/wrap/gles.c"
-./gen.py "$spec" template/header.mustache ../gl.h > "$base/gl/wrap/gles.h"
-./gen.py "$spec" template/glxfuncs.mustache ../gl/gl.h > "$base/glx/glxfuncs.inc"
+./gen.py "$spec" template/wrapper.j2 gles.h > "$base/gl/wrap/gles.c"
+./gen.py "$spec" template/header.j2 ../gl.h > "$base/gl/wrap/gles.h"
+./gen.py "$spec" template/glxfuncs.j2 ../gl/gl.h > "$base/glx/glxfuncs.inc"
 

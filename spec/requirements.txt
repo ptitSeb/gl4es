@@ -1,2 +1,2 @@
-pystache
+jinja2
 yaml
