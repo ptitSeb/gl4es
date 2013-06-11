@@ -4,8 +4,8 @@ cd "$(dirname "$0")"
 base=../src/
 gles=$(ls -1 yml/*-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 
-./gen.py "$gles" wrapper.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
-./gen.py "$gles" header.j2 gleswrap.h ../gl.h > "$base/gl/wrap/gles.h"
+./gen.py "$gles" glwrap.c.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
+./gen.py "$gles" glwrap.h.j2 gleswrap.h ../gl.h > "$base/gl/wrap/gles.h"
 ./gen.py "$gles" glxfuncs.j2 glxfuncs.inc ../gl/gl.h > "$base/glx/glxfuncs.inc"
 
-./gen.py --deep 'yml/opengl.yml,yml/glx.yml' header.j2 gl.h > "$base/proxy/gl.h"
+./gen.py --deep 'yml/opengl.yml,yml/glx.yml' glwrap.h.j2 gl.h > "$base/proxy/gl.h"
