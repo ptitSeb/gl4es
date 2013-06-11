@@ -97,4 +97,8 @@ if __name__ == '__main__':
             if data:
                 files.append(data)
 
-    print gen(files, args.template, args.name, args.headers, args.deep, args.cats)
+    if args.cats:
+        cats = args.cats.split(',')
+    else:
+        cats = None
+    print gen(files, args.template, args.name, args.headers, args.deep, cats)

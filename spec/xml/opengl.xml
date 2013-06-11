@@ -55,7 +55,7 @@
 		<type-def typename="PathListMode" C-lang="GLenum" />
 		<type-def typename="ProgramProperty" C-lang="GLenum" />
 		<type-def typename="InterleavedArrayFormat" C-lang="GLenum" />
-		<type-def typename="void" C-lang="void *" />
+		<type-def typename="void" C-lang="void" />
 		<type-def typename="PixelTexGenModeSGIX" C-lang="GLenum" />
 		<type-def typename="ColorI" C-lang="GLint" />
 		<type-def typename="OcclusionQueryParameterNameNV" C-lang="GLenum" />

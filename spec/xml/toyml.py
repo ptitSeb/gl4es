@@ -22,6 +22,7 @@ def to_yml(filename):
     for f in defs.findall('function'):
         cat = f.get('category')
         ret = f.get('return')
+        ret = types.get(ret, ret)
         func = f.get('name')
 
         params = []
@@ -29,6 +30,13 @@ def to_yml(filename):
             typ = param.get('type')
             typ = types.get(typ, typ)
             name = param.get('name')
+            kind = param.get('kind')
+            if kind in ('array', 'reference'):
+                typ = typ.rstrip()
+                if not typ.endswith('*') or kind == 'reference':
+                    typ += ' *'
+                if not 'const' in typ and param.get('input', 'false') == 'true':
+                    typ = 'const ' + typ
             p = '{} {}'.format(typ, name)
             p = p.replace('* ', '*')
             params.append(p)
