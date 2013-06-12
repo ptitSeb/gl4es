@@ -1023,10 +1023,16 @@ void glPackedCall(const UnknownCall *packed) {
             unpacked->func(args.a1);
             break;
         }
-        case FORMAT_void_uint32_t_uint32_t_uint32_t: {
-            PACKED_void_uint32_t_uint32_t_uint32_t *unpacked = (PACKED_void_uint32_t_uint32_t_uint32_t *)packed;
-            ARGS_void_uint32_t_uint32_t_uint32_t args = unpacked->args;
-            unpacked->func(args.a1, args.a2, args.a3);
+        case FORMAT_void_Display___GENPT___GLXContext_GLXContext_unsigned_long: {
+            PACKED_void_Display___GENPT___GLXContext_GLXContext_unsigned_long *unpacked = (PACKED_void_Display___GENPT___GLXContext_GLXContext_unsigned_long *)packed;
+            ARGS_void_Display___GENPT___GLXContext_GLXContext_unsigned_long args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool: {
+            PACKED_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool *unpacked = (PACKED_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool *)packed;
+            ARGS_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
         case FORMAT_void_uint32_t_uint32_t_uint32_t_uint32_t: {
@@ -1035,10 +1041,40 @@ void glPackedCall(const UnknownCall *packed) {
             unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
-        case FORMAT_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t: {
-            PACKED_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t *unpacked = (PACKED_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t *)packed;
-            ARGS_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t args = unpacked->args;
+        case FORMAT_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap: {
+            PACKED_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap *unpacked = (PACKED_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap *)packed;
+            ARGS_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_uint32_t_uint32_t_uint32_t: {
+            PACKED_void_uint32_t_uint32_t_uint32_t *unpacked = (PACKED_void_uint32_t_uint32_t_uint32_t *)packed;
+            ARGS_void_uint32_t_uint32_t_uint32_t args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_Display___GENPT___uint32_t_uint32_t_uint32_t_uint32_t_uint32_t: {
+            PACKED_void_Display___GENPT___uint32_t_uint32_t_uint32_t_uint32_t_uint32_t *unpacked = (PACKED_void_Display___GENPT___uint32_t_uint32_t_uint32_t_uint32_t_uint32_t *)packed;
+            ARGS_void_Display___GENPT___uint32_t_uint32_t_uint32_t_uint32_t_uint32_t args = unpacked->args;
             unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        case FORMAT_void_Display___GENPT___GLXContext: {
+            PACKED_void_Display___GENPT___GLXContext *unpacked = (PACKED_void_Display___GENPT___GLXContext *)packed;
+            ARGS_void_Display___GENPT___GLXContext args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_Display___GENPT___GLXPixmap: {
+            PACKED_void_Display___GENPT___GLXPixmap *unpacked = (PACKED_void_Display___GENPT___GLXPixmap *)packed;
+            ARGS_void_Display___GENPT___GLXPixmap args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_Display___GENPT___uint32_t: {
+            PACKED_void_Display___GENPT___uint32_t *unpacked = (PACKED_void_Display___GENPT___uint32_t *)packed;
+            ARGS_void_Display___GENPT___uint32_t args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
             break;
         }
         case FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT__: {
@@ -1051,6 +1087,24 @@ void glPackedCall(const UnknownCall *packed) {
             PACKED_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ *unpacked = (PACKED_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ *)packed;
             ARGS_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ args = unpacked->args;
             unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_Bool_Display___GENPT___GLXContext: {
+            PACKED_Bool_Display___GENPT___GLXContext *unpacked = (PACKED_Bool_Display___GENPT___GLXContext *)packed;
+            ARGS_Bool_Display___GENPT___GLXContext args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_Bool_Display___GENPT___GLXDrawable_GLXContext: {
+            PACKED_Bool_Display___GENPT___GLXDrawable_GLXContext *unpacked = (PACKED_Bool_Display___GENPT___GLXDrawable_GLXContext *)packed;
+            ARGS_Bool_Display___GENPT___GLXDrawable_GLXContext args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_const_char___GENPT___Display___GENPT___int: {
+            PACKED_const_char___GENPT___Display___GENPT___int *unpacked = (PACKED_const_char___GENPT___Display___GENPT___int *)packed;
+            ARGS_const_char___GENPT___Display___GENPT___int args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
             break;
         }
         case FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__: {
@@ -1071,10 +1125,28 @@ void glPackedCall(const UnknownCall *packed) {
             unpacked->func(args.a1, args.a2);
             break;
         }
-        case FORMAT_void_uint32_t___GENPT___uint32_t___GENPT__: {
-            PACKED_void_uint32_t___GENPT___uint32_t___GENPT__ *unpacked = (PACKED_void_uint32_t___GENPT___uint32_t___GENPT__ *)packed;
-            ARGS_void_uint32_t___GENPT___uint32_t___GENPT__ args = unpacked->args;
+        case FORMAT_const_char___GENPT___Display___GENPT___int_int: {
+            PACKED_const_char___GENPT___Display___GENPT___int_int *unpacked = (PACKED_const_char___GENPT___Display___GENPT___int_int *)packed;
+            ARGS_const_char___GENPT___Display___GENPT___int_int args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_Bool_Display___GENPT___int___GENPT___int___GENPT__: {
+            PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *unpacked = (PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *)packed;
+            ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_Display___GENPT___GLXDrawable: {
+            PACKED_void_Display___GENPT___GLXDrawable *unpacked = (PACKED_void_Display___GENPT___GLXDrawable *)packed;
+            ARGS_void_Display___GENPT___GLXDrawable args = unpacked->args;
             unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_Font_int_int_int: {
+            PACKED_void_Font_int_int_int *unpacked = (PACKED_void_Font_int_int_int *)packed;
+            ARGS_void_Font_int_int_int args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
         case FORMAT_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__: {
@@ -1110,12 +1182,6 @@ void glPackedCall(const UnknownCall *packed) {
         case FORMAT_void_Display___GENPT___GLXPbuffer: {
             PACKED_void_Display___GENPT___GLXPbuffer *unpacked = (PACKED_void_Display___GENPT___GLXPbuffer *)packed;
             ARGS_void_Display___GENPT___GLXPbuffer args = unpacked->args;
-            unpacked->func(args.a1, args.a2);
-            break;
-        }
-        case FORMAT_void_Display___GENPT___GLXPixmap: {
-            PACKED_void_Display___GENPT___GLXPixmap *unpacked = (PACKED_void_Display___GENPT___GLXPixmap *)packed;
-            ARGS_void_Display___GENPT___GLXPixmap args = unpacked->args;
             unpacked->func(args.a1, args.a2);
             break;
         }
@@ -3658,13 +3724,14 @@ void glXClientInfo() {
 }
 #endif
 #ifndef skip_glXCopyContext
-void glXCopyContext(uint32_t source, uint32_t dest, uint32_t mask) {
-    printf("glXCopyContext(%p, %p, %p);\n", source, dest, mask);
+void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long mask) {
+    printf("glXCopyContext(%p, %p, %p, %p);\n", dpy, src, dst, mask);
 }
 #endif
 #ifndef skip_glXCreateContext
-void glXCreateContext(uint32_t gc_id, uint32_t screen, uint32_t visual, uint32_t share_list) {
-    printf("glXCreateContext(%p, %p, %p, %p);\n", gc_id, screen, visual, share_list);
+GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareList, Bool direct) {
+    printf("glXCreateContext(%p, %p, %p, %p);\n", dpy, vis, shareList, direct);
+    return 0;
 }
 #endif
 #ifndef skip_glXCreateContextWithConfigSGIX
@@ -3678,8 +3745,9 @@ void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
 }
 #endif
 #ifndef skip_glXCreateGLXPixmap
-void glXCreateGLXPixmap(uint32_t visual, uint32_t pixmap, uint32_t glxpixmap) {
-    printf("glXCreateGLXPixmap(%p, %p, %p);\n", visual, pixmap, glxpixmap);
+GLXPixmap glXCreateGLXPixmap(Display * dpy, XVisualInfo * visual, Pixmap pixmap) {
+    printf("glXCreateGLXPixmap(%p, %p, %p);\n", dpy, visual, pixmap);
+    return 0;
 }
 #endif
 #ifndef skip_glXCreateGLXPixmapWithConfigSGIX
@@ -3688,7 +3756,7 @@ void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t
 }
 #endif
 #ifndef skip_glXCreateGLXVideoSourceSGIX
-void glXCreateGLXVideoSourceSGIX(uint32_t dpy, uint32_t screen, uint32_t server, uint32_t path, uint32_t class, uint32_t node) {
+void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server, uint32_t path, uint32_t class, uint32_t node) {
     printf("glXCreateGLXVideoSourceSGIX(%p, %p, %p, %p, %p, %p);\n", dpy, screen, server, path, class, node);
 }
 #endif
@@ -3717,8 +3785,8 @@ GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const i
 }
 #endif
 #ifndef skip_glXDestroyContext
-void glXDestroyContext(uint32_t context) {
-    printf("glXDestroyContext(%p);\n", context);
+void glXDestroyContext(Display * dpy, GLXContext ctx) {
+    printf("glXDestroyContext(%p, %p);\n", dpy, ctx);
 }
 #endif
 #ifndef skip_glXDestroyGLXPbufferSGIX
@@ -3727,12 +3795,12 @@ void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
 }
 #endif
 #ifndef skip_glXDestroyGLXPixmap
-void glXDestroyGLXPixmap(uint32_t pixmap) {
-    printf("glXDestroyGLXPixmap(%p);\n", pixmap);
+void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
+    printf("glXDestroyGLXPixmap(%p, %p);\n", dpy, pixmap);
 }
 #endif
 #ifndef skip_glXDestroyGLXVideoSourceSGIX
-void glXDestroyGLXVideoSourceSGIX(uint32_t dpy, uint32_t glxvideosource) {
+void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
     printf("glXDestroyGLXVideoSourceSGIX(%p, %p);\n", dpy, glxvideosource);
 }
 #endif
@@ -3831,8 +3899,9 @@ int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpip
 }
 #endif
 #ifndef skip_glXIsDirect
-void glXIsDirect(uint32_t dpy, uint32_t context) {
-    printf("glXIsDirect(%p, %p);\n", dpy, context);
+Bool glXIsDirect(Display * dpy, GLXContext ctx) {
+    printf("glXIsDirect(%p, %p);\n", dpy, ctx);
+    return 0;
 }
 #endif
 #ifndef skip_glXJoinSwapGroupSGIX
@@ -3847,8 +3916,9 @@ Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GL
 }
 #endif
 #ifndef skip_glXMakeCurrent
-void glXMakeCurrent(uint32_t drawable, uint32_t context) {
-    printf("glXMakeCurrent(%p, %p);\n", drawable, context);
+Bool glXMakeCurrent(Display * dpy, GLXDrawable drawable, GLXContext ctx) {
+    printf("glXMakeCurrent(%p, %p, %p);\n", dpy, drawable, ctx);
+    return 0;
 }
 #endif
 #ifndef skip_glXMakeCurrentReadSGI
@@ -3873,8 +3943,9 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
 }
 #endif
 #ifndef skip_glXQueryExtensionsString
-void glXQueryExtensionsString(uint32_t screen) {
-    printf("glXQueryExtensionsString(%p);\n", screen);
+const char * glXQueryExtensionsString(Display * dpy, int screen) {
+    printf("glXQueryExtensionsString(%p, %p);\n", dpy, screen);
+    return 0;
 }
 #endif
 #ifndef skip_glXQueryHyperpipeAttribSGIX
@@ -3907,13 +3978,15 @@ void glXQueryMaxSwapBarriersSGIX() {
 }
 #endif
 #ifndef skip_glXQueryServerString
-void glXQueryServerString(uint32_t screen, uint32_t name) {
-    printf("glXQueryServerString(%p, %p);\n", screen, name);
+const char * glXQueryServerString(Display * dpy, int screen, int name) {
+    printf("glXQueryServerString(%p, %p, %p);\n", dpy, screen, name);
+    return 0;
 }
 #endif
 #ifndef skip_glXQueryVersion
-void glXQueryVersion(uint32_t * major, uint32_t * minor) {
-    printf("glXQueryVersion(%p, %p);\n", major, minor);
+Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
+    printf("glXQueryVersion(%p, %p, %p);\n", dpy, maj, min);
+    return 0;
 }
 #endif
 #ifndef skip_glXRender
@@ -3932,8 +4005,8 @@ void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
 }
 #endif
 #ifndef skip_glXSwapBuffers
-void glXSwapBuffers(uint32_t drawable) {
-    printf("glXSwapBuffers(%p);\n", drawable);
+void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
+    printf("glXSwapBuffers(%p, %p);\n", dpy, drawable);
 }
 #endif
 #ifndef skip_glXSwapIntervalSGI
@@ -3942,8 +4015,8 @@ void glXSwapIntervalSGI() {
 }
 #endif
 #ifndef skip_glXUseXFont
-void glXUseXFont(uint32_t font, uint32_t first, uint32_t count, uint32_t list_base) {
-    printf("glXUseXFont(%p, %p, %p, %p);\n", font, first, count, list_base);
+void glXUseXFont(Font font, int first, int count, int list) {
+    printf("glXUseXFont(%p, %p, %p, %p);\n", font, first, count, list);
 }
 #endif
 #ifndef skip_glXVendorPrivate
@@ -3957,8 +4030,8 @@ void glXVendorPrivateWithReply() {
 }
 #endif
 #ifndef skip_glXWaitGL
-void glXWaitGL(uint32_t context) {
-    printf("glXWaitGL(%p);\n", context);
+void glXWaitGL() {
+    printf("glXWaitGL();\n");
 }
 #endif
 #ifndef skip_glXWaitX
