@@ -178,6 +178,37 @@ enum FORMAT {
     FORMAT_void_GLenum_GLint_GLint_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__,
     FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__,
     FORMAT_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__,
+    FORMAT_int_Display___GENPT___int,
+    FORMAT_void_uint32_t_uint32_t,
+    FORMAT_void_uint32_t,
+    FORMAT_void_uint32_t_uint32_t_uint32_t,
+    FORMAT_void_uint32_t_uint32_t_uint32_t_uint32_t,
+    FORMAT_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t,
+    FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT__,
+    FORMAT_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__,
+    FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__,
+    FORMAT_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__,
+    FORMAT_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__,
+    FORMAT_void_uint32_t___GENPT___uint32_t___GENPT__,
+    FORMAT_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__,
+    FORMAT_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool,
+    FORMAT_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__,
+    FORMAT_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__,
+    FORMAT_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__,
+    FORMAT_void_Display___GENPT___GLXPbuffer,
+    FORMAT_void_Display___GENPT___GLXPixmap,
+    FORMAT_void_Display___GENPT___GLXWindow,
+    FORMAT_Display___GENPT__,
+    FORMAT_GLXDrawable,
+    FORMAT_int_Display___GENPT___GLXFBConfig_int_int___GENPT__,
+    FORMAT_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__,
+    FORMAT___GLXextFuncPtr_const_GLubyte___GENPT__,
+    FORMAT_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__,
+    FORMAT_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig,
+    FORMAT_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext,
+    FORMAT_int_Display___GENPT___GLXContext_int_int___GENPT__,
+    FORMAT_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__,
+    FORMAT_void_Display___GENPT___GLXDrawable_unsigned_long,
 };
 
 typedef void (*FUNC_void_GLenum_GLfloat)(GLenum op, GLfloat value);
@@ -2130,6 +2161,349 @@ typedef struct {
     FUNC_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ func;
     ARGS_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ args;
 } PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
+typedef int (*FUNC_int_Display___GENPT___int)(Display * dpy, int hpId);
+typedef struct {
+    Display * a1;
+    int a2;
+} ARGS_int_Display___GENPT___int;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___int func;
+    ARGS_int_Display___GENPT___int args;
+} PACKED_int_Display___GENPT___int;
+typedef void (*FUNC_void_uint32_t_uint32_t)(uint32_t window, uint32_t barrier);
+typedef struct {
+    uint32_t a1;
+    uint32_t a2;
+} ARGS_void_uint32_t_uint32_t;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t_uint32_t func;
+    ARGS_void_uint32_t_uint32_t args;
+} PACKED_void_uint32_t_uint32_t;
+typedef void (*FUNC_void_uint32_t)(uint32_t drawable);
+typedef struct {
+    uint32_t a1;
+} ARGS_void_uint32_t;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t func;
+    ARGS_void_uint32_t args;
+} PACKED_void_uint32_t;
+typedef void (*FUNC_void_uint32_t_uint32_t_uint32_t)(uint32_t source, uint32_t dest, uint32_t mask);
+typedef struct {
+    uint32_t a1;
+    uint32_t a2;
+    uint32_t a3;
+} ARGS_void_uint32_t_uint32_t_uint32_t;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t_uint32_t_uint32_t func;
+    ARGS_void_uint32_t_uint32_t_uint32_t args;
+} PACKED_void_uint32_t_uint32_t_uint32_t;
+typedef void (*FUNC_void_uint32_t_uint32_t_uint32_t_uint32_t)(uint32_t gc_id, uint32_t screen, uint32_t visual, uint32_t share_list);
+typedef struct {
+    uint32_t a1;
+    uint32_t a2;
+    uint32_t a3;
+    uint32_t a4;
+} ARGS_void_uint32_t_uint32_t_uint32_t_uint32_t;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t_uint32_t_uint32_t_uint32_t func;
+    ARGS_void_uint32_t_uint32_t_uint32_t_uint32_t args;
+} PACKED_void_uint32_t_uint32_t_uint32_t_uint32_t;
+typedef void (*FUNC_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t)(uint32_t dpy, uint32_t screen, uint32_t server, uint32_t path, uint32_t class, uint32_t node);
+typedef struct {
+    uint32_t a1;
+    uint32_t a2;
+    uint32_t a3;
+    uint32_t a4;
+    uint32_t a5;
+    uint32_t a6;
+} ARGS_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t func;
+    ARGS_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t args;
+} PACKED_void_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t_uint32_t;
+typedef int (*FUNC_int_Display___GENPT___int_int_int_const_void___GENPT__)(Display * dpy, int timeSlice, int attrib, int size, const void * attribList);
+typedef struct {
+    Display * a1;
+    int a2;
+    int a3;
+    int a4;
+    const void * a5;
+} ARGS_int_Display___GENPT___int_int_int_const_void___GENPT__;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___int_int_int_const_void___GENPT__ func;
+    ARGS_int_Display___GENPT___int_int_int_const_void___GENPT__ args;
+} PACKED_int_Display___GENPT___int_int_int_const_void___GENPT__;
+typedef int (*FUNC_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__)(Display * dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX cfg, int * hpId);
+typedef struct {
+    Display * a1;
+    int a2;
+    int a3;
+    GLXHyperpipeConfigSGIX a4;
+    int * a5;
+} ARGS_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ func;
+    ARGS_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ args;
+} PACKED_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__;
+typedef int (*FUNC_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__)(Display * dpy, int timeSlice, int attrib, int size, const void * attribList, void * returnAttribList);
+typedef struct {
+    Display * a1;
+    int a2;
+    int a3;
+    int a4;
+    const void * a5;
+    void * a6;
+} ARGS_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__ func;
+    ARGS_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__ args;
+} PACKED_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__;
+typedef GLXHyperpipeConfigSGIX * (*FUNC_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__)(Display * dpy, int hpId, int * npipes);
+typedef struct {
+    Display * a1;
+    int a2;
+    int * a3;
+} ARGS_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__ func;
+    ARGS_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__ args;
+} PACKED_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__;
+typedef GLXHyperpipeNetworkSGIX * (*FUNC_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__)(Display * dpy, int * npipes);
+typedef struct {
+    Display * a1;
+    int * a2;
+} ARGS_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__ func;
+    ARGS_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__ args;
+} PACKED_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__;
+typedef void (*FUNC_void_uint32_t___GENPT___uint32_t___GENPT__)(uint32_t * major, uint32_t * minor);
+typedef struct {
+    uint32_t * a1;
+    uint32_t * a2;
+} ARGS_void_uint32_t___GENPT___uint32_t___GENPT__;
+typedef struct {
+    int format;
+    FUNC_void_uint32_t___GENPT___uint32_t___GENPT__ func;
+    ARGS_void_uint32_t___GENPT___uint32_t___GENPT__ args;
+} PACKED_void_uint32_t___GENPT___uint32_t___GENPT__;
+typedef GLXFBConfig * (*FUNC_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__)(Display * dpy, int screen, const int * attrib_list, int * nelements);
+typedef struct {
+    Display * a1;
+    int a2;
+    const int * a3;
+    int * a4;
+} ARGS_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__ func;
+    ARGS_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__ args;
+} PACKED_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__;
+typedef GLXContext (*FUNC_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool)(Display * dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+    int a3;
+    GLXContext a4;
+    Bool a5;
+} ARGS_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool;
+typedef struct {
+    int format;
+    FUNC_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool func;
+    ARGS_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool args;
+} PACKED_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool;
+typedef GLXPbuffer (*FUNC_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__)(Display * dpy, GLXFBConfig config, const int * attrib_list);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+    const int * a3;
+} ARGS_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__ func;
+    ARGS_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__ args;
+} PACKED_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__;
+typedef GLXPixmap (*FUNC_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__)(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+    Pixmap a3;
+    const int * a4;
+} ARGS_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__ func;
+    ARGS_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__ args;
+} PACKED_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__;
+typedef GLXWindow (*FUNC_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__)(Display * dpy, GLXFBConfig config, Window win, const int * attrib_list);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+    Window a3;
+    const int * a4;
+} ARGS_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__ func;
+    ARGS_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__ args;
+} PACKED_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__;
+typedef void (*FUNC_void_Display___GENPT___GLXPbuffer)(Display * dpy, GLXPbuffer pbuf);
+typedef struct {
+    Display * a1;
+    GLXPbuffer a2;
+} ARGS_void_Display___GENPT___GLXPbuffer;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXPbuffer func;
+    ARGS_void_Display___GENPT___GLXPbuffer args;
+} PACKED_void_Display___GENPT___GLXPbuffer;
+typedef void (*FUNC_void_Display___GENPT___GLXPixmap)(Display * dpy, GLXPixmap pixmap);
+typedef struct {
+    Display * a1;
+    GLXPixmap a2;
+} ARGS_void_Display___GENPT___GLXPixmap;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXPixmap func;
+    ARGS_void_Display___GENPT___GLXPixmap args;
+} PACKED_void_Display___GENPT___GLXPixmap;
+typedef void (*FUNC_void_Display___GENPT___GLXWindow)(Display * dpy, GLXWindow win);
+typedef struct {
+    Display * a1;
+    GLXWindow a2;
+} ARGS_void_Display___GENPT___GLXWindow;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXWindow func;
+    ARGS_void_Display___GENPT___GLXWindow args;
+} PACKED_void_Display___GENPT___GLXWindow;
+typedef Display * (*FUNC_Display___GENPT__)();
+typedef struct {
+} ARGS_Display___GENPT__;
+typedef struct {
+    int format;
+    FUNC_Display___GENPT__ func;
+    ARGS_Display___GENPT__ args;
+} PACKED_Display___GENPT__;
+typedef GLXDrawable (*FUNC_GLXDrawable)();
+typedef struct {
+} ARGS_GLXDrawable;
+typedef struct {
+    int format;
+    FUNC_GLXDrawable func;
+    ARGS_GLXDrawable args;
+} PACKED_GLXDrawable;
+typedef int (*FUNC_int_Display___GENPT___GLXFBConfig_int_int___GENPT__)(Display * dpy, GLXFBConfig config, int attribute, int * value);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+    int a3;
+    int * a4;
+} ARGS_int_Display___GENPT___GLXFBConfig_int_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___GLXFBConfig_int_int___GENPT__ func;
+    ARGS_int_Display___GENPT___GLXFBConfig_int_int___GENPT__ args;
+} PACKED_int_Display___GENPT___GLXFBConfig_int_int___GENPT__;
+typedef GLXFBConfig * (*FUNC_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__)(Display * dpy, int screen, int * nelements);
+typedef struct {
+    Display * a1;
+    int a2;
+    int * a3;
+} ARGS_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__ func;
+    ARGS_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__ args;
+} PACKED_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__;
+typedef __GLXextFuncPtr (*FUNC___GLXextFuncPtr_const_GLubyte___GENPT__)(const GLubyte * procName);
+typedef struct {
+    const GLubyte * a1;
+} ARGS___GLXextFuncPtr_const_GLubyte___GENPT__;
+typedef struct {
+    int format;
+    FUNC___GLXextFuncPtr_const_GLubyte___GENPT__ func;
+    ARGS___GLXextFuncPtr_const_GLubyte___GENPT__ args;
+} PACKED___GLXextFuncPtr_const_GLubyte___GENPT__;
+typedef void (*FUNC_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__)(Display * dpy, GLXDrawable draw, unsigned long * event_mask);
+typedef struct {
+    Display * a1;
+    GLXDrawable a2;
+    unsigned long * a3;
+} ARGS_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__ func;
+    ARGS_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__ args;
+} PACKED_void_Display___GENPT___GLXDrawable_unsigned_long___GENPT__;
+typedef XVisualInfo * (*FUNC_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig)(Display * dpy, GLXFBConfig config);
+typedef struct {
+    Display * a1;
+    GLXFBConfig a2;
+} ARGS_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig;
+typedef struct {
+    int format;
+    FUNC_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig func;
+    ARGS_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig args;
+} PACKED_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig;
+typedef Bool (*FUNC_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext)(Display * dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx);
+typedef struct {
+    Display * a1;
+    GLXDrawable a2;
+    GLXDrawable a3;
+    GLXContext a4;
+} ARGS_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext;
+typedef struct {
+    int format;
+    FUNC_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext func;
+    ARGS_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext args;
+} PACKED_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext;
+typedef int (*FUNC_int_Display___GENPT___GLXContext_int_int___GENPT__)(Display * dpy, GLXContext ctx, int attribute, int * value);
+typedef struct {
+    Display * a1;
+    GLXContext a2;
+    int a3;
+    int * a4;
+} ARGS_int_Display___GENPT___GLXContext_int_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_int_Display___GENPT___GLXContext_int_int___GENPT__ func;
+    ARGS_int_Display___GENPT___GLXContext_int_int___GENPT__ args;
+} PACKED_int_Display___GENPT___GLXContext_int_int___GENPT__;
+typedef void (*FUNC_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__)(Display * dpy, GLXDrawable draw, int attribute, unsigned int * value);
+typedef struct {
+    Display * a1;
+    GLXDrawable a2;
+    int a3;
+    unsigned int * a4;
+} ARGS_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__ func;
+    ARGS_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__ args;
+} PACKED_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__;
+typedef void (*FUNC_void_Display___GENPT___GLXDrawable_unsigned_long)(Display * dpy, GLXDrawable draw, unsigned long event_mask);
+typedef struct {
+    Display * a1;
+    GLXDrawable a2;
+    unsigned long a3;
+} ARGS_void_Display___GENPT___GLXDrawable_unsigned_long;
+typedef struct {
+    int format;
+    FUNC_void_Display___GENPT___GLXDrawable_unsigned_long func;
+    ARGS_void_Display___GENPT___GLXDrawable_unsigned_long args;
+} PACKED_void_Display___GENPT___GLXDrawable_unsigned_long;
 
 void glPackedCall(const UnknownCall *packed);
 void glAccum(GLenum op, GLfloat value);
@@ -2616,5 +2990,69 @@ void glWindowPos3i(GLint x, GLint y, GLint z);
 void glWindowPos3iv(const GLint * v);
 void glWindowPos3s(GLshort x, GLshort y, GLshort z);
 void glWindowPos3sv(const GLshort * v);
+int glXBindHyperpipeSGIX(Display * dpy, int hpId);
+void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier);
+void glXChangeDrawableAttributes(uint32_t drawable);
+void glXChangeDrawableAttributesSGIX(uint32_t drawable);
+GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_list, int * nelements);
+void glXClientInfo();
+void glXCopyContext(uint32_t source, uint32_t dest, uint32_t mask);
+void glXCreateContext(uint32_t gc_id, uint32_t screen, uint32_t visual, uint32_t share_list);
+void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t config, uint32_t share_list);
+void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer);
+void glXCreateGLXPixmap(uint32_t visual, uint32_t pixmap, uint32_t glxpixmap);
+void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t glxpixmap);
+void glXCreateGLXVideoSourceSGIX(uint32_t dpy, uint32_t screen, uint32_t server, uint32_t path, uint32_t class, uint32_t node);
+GLXContext glXCreateNewContext(Display * dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct);
+GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list);
+GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list);
+GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const int * attrib_list);
+void glXDestroyContext(uint32_t context);
+void glXDestroyGLXPbufferSGIX(uint32_t pbuffer);
+void glXDestroyGLXPixmap(uint32_t pixmap);
+void glXDestroyGLXVideoSourceSGIX(uint32_t dpy, uint32_t glxvideosource);
+int glXDestroyHyperpipeConfigSGIX(Display * dpy, int hpId);
+void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf);
+void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap);
+void glXDestroyWindow(Display * dpy, GLXWindow win);
+Display * glXGetCurrentDisplay();
+GLXDrawable glXGetCurrentReadDrawable();
+void glXGetDrawableAttributes(uint32_t drawable);
+void glXGetDrawableAttributesSGIX(uint32_t drawable);
+int glXGetFBConfigAttrib(Display * dpy, GLXFBConfig config, int attribute, int * value);
+GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements);
+void glXGetFBConfigsSGIX();
+__GLXextFuncPtr glXGetProcAddress(const GLubyte * procName);
+void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_mask);
+void glXGetVisualConfigs();
+XVisualInfo * glXGetVisualFromFBConfig(Display * dpy, GLXFBConfig config);
+int glXHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * attribList);
+int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX cfg, int * hpId);
+void glXIsDirect(uint32_t dpy, uint32_t context);
+void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group);
+Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx);
+void glXMakeCurrent(uint32_t drawable, uint32_t context);
+void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t context);
+int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value);
+void glXQueryContextInfoEXT();
+void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned int * value);
+void glXQueryExtensionsString(uint32_t screen);
+int glXQueryHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * returnAttribList);
+int glXQueryHyperpipeBestAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * attribList, void * returnAttribList);
+GLXHyperpipeConfigSGIX * glXQueryHyperpipeConfigSGIX(Display * dpy, int hpId, int * npipes);
+GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npipes);
+void glXQueryMaxSwapBarriersSGIX();
+void glXQueryServerString(uint32_t screen, uint32_t name);
+void glXQueryVersion(uint32_t * major, uint32_t * minor);
+void glXRender();
+void glXRenderLarge();
+void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask);
+void glXSwapBuffers(uint32_t drawable);
+void glXSwapIntervalSGI();
+void glXUseXFont(uint32_t font, uint32_t first, uint32_t count, uint32_t list_base);
+void glXVendorPrivate();
+void glXVendorPrivateWithReply();
+void glXWaitGL(uint32_t context);
+void glXWaitX();
 
 #endif

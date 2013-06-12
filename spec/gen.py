@@ -44,7 +44,6 @@ def printf(args):
     types = []
     for arg in args:
         typ = arg['type']
-        name = arg['name']
         if '*' in typ:
             t = 'p'
         else:
@@ -63,7 +62,7 @@ def split_arg(arg):
         return match.groupdict()
 
 def gen(files, template, guard_name, headers, deep=False, cats=()):
-    funcs = []
+    funcs = {}
     formats = []
     unique_formats = set()
     for data in files:
@@ -105,10 +104,10 @@ def gen(files, template, guard_name, headers, deep=False, cats=()):
                 unique_formats.add(types)
                 formats.append(props)
 
-            funcs.append(props)
+            funcs[name] = props
 
     context = {
-        'functions': funcs,
+        'functions': [i[1] for i in sorted(funcs.items())],
         'formats': formats,
         'headers': headers,
         'name': guard_name,

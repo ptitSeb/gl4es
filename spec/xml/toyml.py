@@ -31,7 +31,7 @@ def to_yml(filename):
             typ = types.get(typ, typ)
             name = param.get('name')
             kind = param.get('kind')
-            if kind in ('array', 'reference'):
+            if kind in ('array', 'reference', 'array[size]'):
                 typ = typ.rstrip()
                 if not typ.endswith('*') or kind == 'reference':
                     typ += ' *'
