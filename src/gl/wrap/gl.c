@@ -1,4 +1,5 @@
 #include "gl.h"
+#include <limits.h>
 
 #define constDoubleToFloat(a, size) \
     GLfloat s[size];                \
@@ -159,25 +160,25 @@ GL_RECT(s, GLshort)
 
 // basic thunking
 
-#define THUNK(suffix, type)                                 \
+#define THUNK(suffix, type, max)                            \
 /* colors */                                                \
 void glColor3##suffix(type r, type g, type b) {             \
-    glColor4f(r, g, b, 1.0f);                               \
+    glColor4f(r/max, g/max, b/max, 1.0f);                   \
 }                                                           \
 void glColor4##suffix(type r, type g, type b, type a) {     \
-    glColor4f(r, g, b, a);                                  \
+    glColor4f(r/max, g/max, b/max, a/max);                  \
 }                                                           \
 void glColor3##suffix##v(const type *v) {                   \
-    glColor4f(v[0], v[1], v[2], 1.0f);                      \
+    glColor4f(v[0]/max, v[1]/max, v[2]/max, 1.0f);          \
 }                                                           \
 void glColor4##suffix##v(const type *v) {                   \
-    glColor4f(v[0], v[1], v[2], v[3]);                      \
+    glColor4f(v[0]/max, v[1]/max, v[2]/max, v[3]/max);      \
 }                                                           \
 void glSecondaryColor3##suffix(type r, type g, type b) {    \
-    glSecondaryColor3f(r, g, b);                            \
+    glSecondaryColor3f(r/max, g/max, b/max);                \
 }                                                           \
 void glSecondaryColor3##suffix##v(const type *v) {          \
-    glSecondaryColor3f(v[0], v[1], v[2]);                   \
+    glSecondaryColor3f(v[0]/max, v[1]/max, v[2]/max);       \
 }                                                           \
 /* index */                                                 \
 void glIndex##suffix(type c) {                              \
@@ -257,13 +258,13 @@ void glTexCoord4##suffix##v(type *t) {                      \
     glTexCoord2f(t[0], t[1]);                               \
 }
 
-THUNK(b, GLbyte)
-THUNK(d, GLdouble)
-THUNK(i, GLint)
-THUNK(s, GLshort)
-THUNK(ub, GLubyte)
-THUNK(ui, GLuint)
-THUNK(us, GLushort)
+THUNK(b, GLbyte, (float)CHAR_MAX)
+THUNK(d, GLdouble, 1.0f)
+THUNK(i, GLint, (float)INT_MAX)
+THUNK(s, GLshort, (float)SHRT_MAX)
+THUNK(ub, GLubyte, (float)UCHAR_MAX)
+THUNK(ui, GLuint, (float)UINT_MAX)
+THUNK(us, GLushort, (float)USHRT_MAX)
 
 #undef THUNK
 
