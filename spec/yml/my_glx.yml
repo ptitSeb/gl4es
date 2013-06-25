@@ -1,4 +1,5 @@
 glx:
+  glXChooseVisual: [XVisualInfo *, Display *dpy, int screen, int *attribList]
   glXBindHyperpipeSGIX: [int, Display *dpy, int hpId]
   glXBindSwapBarrierSGIX: [void, uint32_t window, uint32_t barrier]
   glXChangeDrawableAttributes: [void, uint32_t drawable]

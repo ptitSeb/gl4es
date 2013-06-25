@@ -181,6 +181,7 @@ enum FORMAT {
     FORMAT_int_Display___GENPT___int,
     FORMAT_void_uint32_t_uint32_t,
     FORMAT_void_uint32_t,
+    FORMAT_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__,
     FORMAT_void_Display___GENPT___GLXContext_GLXContext_unsigned_long,
     FORMAT_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool,
     FORMAT_void_uint32_t_uint32_t_uint32_t_uint32_t,
@@ -2201,6 +2202,17 @@ typedef struct {
     FUNC_void_uint32_t func;
     ARGS_void_uint32_t args;
 } PACKED_void_uint32_t;
+typedef XVisualInfo * (*FUNC_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__)(Display * dpy, int screen, int * attribList);
+typedef struct {
+    Display * a1;
+    int a2;
+    int * a3;
+} ARGS_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ func;
+    ARGS_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ args;
+} PACKED_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__;
 typedef void (*FUNC_void_Display___GENPT___GLXContext_GLXContext_unsigned_long)(Display * dpy, GLXContext src, GLXContext dst, unsigned long mask);
 typedef struct {
     Display * a1;
@@ -3126,6 +3138,7 @@ void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier);
 void glXChangeDrawableAttributes(uint32_t drawable);
 void glXChangeDrawableAttributesSGIX(uint32_t drawable);
 GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_list, int * nelements);
+XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList);
 void glXClientInfo();
 void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long mask);
 GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareList, Bool direct);

@@ -1023,6 +1023,12 @@ void glPackedCall(const UnknownCall *packed) {
             unpacked->func(args.a1);
             break;
         }
+        case FORMAT_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__: {
+            PACKED_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ *unpacked = (PACKED_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ *)packed;
+            ARGS_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
         case FORMAT_void_Display___GENPT___GLXContext_GLXContext_unsigned_long: {
             PACKED_void_Display___GENPT___GLXContext_GLXContext_unsigned_long *unpacked = (PACKED_void_Display___GENPT___GLXContext_GLXContext_unsigned_long *)packed;
             ARGS_void_Display___GENPT___GLXContext_GLXContext_unsigned_long args = unpacked->args;
@@ -3715,6 +3721,12 @@ void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
 #ifndef skip_glXChooseFBConfig
 GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_list, int * nelements) {
     printf("glXChooseFBConfig(%p, %p, %p, %p);\n", dpy, screen, attrib_list, nelements);
+    return 0;
+}
+#endif
+#ifndef skip_glXChooseVisual
+XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
+    printf("glXChooseVisual(%p, %p, %p);\n", dpy, screen, attribList);
     return 0;
 }
 #endif
