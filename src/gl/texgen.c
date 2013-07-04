@@ -62,8 +62,47 @@ GLfloat gen_tex_coord(GLfloat *vert, GLenum type, GLfloat *params) {
     return 0;
 }
 
+static inline void dot_loop(GLfloat *verts, GLfloat *params, GLfloat *out, GLint count) {
+#if defined(NEON) && 0
+    asm volatile (
+        "add %3, %3, #7:                    \n\t"
+        "lsr %2, %2, #3:                    \n\t"
+
+        "loop:                              \n\t"
+        "    vld3.32  {d0, d1, d2}, [%0]!   \n\t"
+        "    vld3.32  {d3, d4, d5}, [%1]!   \n\t"
+        "    subs     %2, %2, #1            \n\t"
+
+        "    vmul.f32 d6, d0, "
+
+        "    vst1.32  {d6},         [%3]!%4 \n\t"
+
+        : "r"(verts), "r"(params), "r"(out), "r"(count), "r"(sizeof(GLfloat))
+    )
+#else
+    for (int i = 0; i < count; i++) {
+        out[0] = dot(verts, params);
+        out += 2;
+        verts += 3;
+    }
+#endif
+}
+
+static inline void tex_coord_loop(GLfloat *verts, GLfloat *out, GLint count, GLenum type, GLfloat *params) {
+    switch (type) {
+        case GL_OBJECT_LINEAR:
+        case GL_SPHERE_MAP:
+            dot_loop(verts, params, out, count);
+    }
+}
+
 void gen_tex_coords(GLfloat *verts, GLfloat **coords, GLint count) {
     *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+    if (state.enable.texgen_s)
+        tex_coord_loop(verts, *coords, count, state.texgen.S, state.texgen.Sv);
+    if (state.enable.texgen_t)
+        tex_coord_loop(verts, *coords+1, count, state.texgen.T, state.texgen.Tv);
+
     int i;
     for (i = 0; i < count; i++) {
         GLfloat *tex = &(*coords)[i];
