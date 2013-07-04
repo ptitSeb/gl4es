@@ -85,7 +85,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
                 continue;
             // TODO: wasteful, unroll this?
             GLubyte b = from[(x / 8)];
-            int p = (b & (1 << 7 - (x % 8))) ? 1 : 0;
+            int p = (b & (1 << (7 - (x % 8)))) ? 1 : 0;
             // r, g, b, a
             p = (p ? 255 : 0);
             *to++ = p;
