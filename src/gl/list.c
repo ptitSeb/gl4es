@@ -182,6 +182,13 @@ void draw_renderlist(RenderList *list) {
         if (! list->len)
             continue;
 
+#ifdef USE_ES2
+        if (list->vert) {
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, list->vert);
+        }
+        gles_glDrawArrays(list->mode, 0, list->len);
+#else
         if (list->vert) {
             glEnableClientState(GL_VERTEX_ARRAY);
             glVertexPointer(3, GL_FLOAT, 0, list->vert);
@@ -252,6 +259,7 @@ void draw_renderlist(RenderList *list) {
 
             list->tex = tex;
         }
+#endif
     } while ((list = list->next));
     glPopClientAttrib();
 }
