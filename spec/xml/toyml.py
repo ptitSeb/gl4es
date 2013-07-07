@@ -4,13 +4,28 @@ import re
 import xml.etree.ElementTree as ET
 import yaml
 
-def to_yml(filename):
-    with open(filename, 'r') as f:
-        data = f.read()
 
-    data = re.sub(' xmlns="[^"]+"', '', data, count=1)
-    xml = ET.fromstring(data)
+def etna_to_yml(xml):
+    defs = xml.find('functions')
+    functions = defaultdict(dict)
+    for f in defs.findall('function'):
+        name = f.get('name')
+        ret = f.find('return')
+        if ret is not None:
+            ret = ret.get('type')
+        if ret is None:
+            ret = 'void'
 
+        params = []
+        for p in f.findall('param'):
+            params.append('{} {}'.format(p.get('type'), p.get('name')))
+
+        functions[name] = [ret] + params
+
+    return functions
+
+
+def lua_to_yml(xml):
     typemap = xml.find('typemap')
     types = {}
     for t in typemap:
@@ -44,6 +59,22 @@ def to_yml(filename):
         args = [ret]
         args.extend(params)
         functions[cat][func] = args
+    return functions
+
+
+def to_yml(filename):
+    with open(filename, 'r') as f:
+        data = f.read()
+
+    data = re.sub(' xmlns="[^"]+"', '', data, count=1)
+    xml = ET.fromstring(data)
+
+    if xml.tag == 'root':
+        functions = etna_to_yml(xml)
+    elif xml.tag == 'specification':
+        functions = lua_to_yml(xml)
+    else:
+        print 'unrecognized root tag:', xml.tag
 
     yml = yaml.dump(dict(functions))
     with open(filename.replace('xml', 'yml'), 'w') as o:
@@ -57,4 +88,3 @@ if __name__ == '__main__':
     
     for name in sys.argv[1:]:
         to_yml(name)
-
