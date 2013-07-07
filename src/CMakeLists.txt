@@ -11,8 +11,13 @@ endif()
 add_library(GL SHARED ${GL_SOURCES})
 target_link_libraries(GL EGL)
 
+add_library(GL2 SHARED ${GL_SOURCES})
+target_link_libraries(GL2 EGL)
+SET_TARGET_PROPERTIES(GL2 PROPERTIES COMPILE_FLAGS -DUSE_ES2)
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(GL X11)
+    target_link_libraries(GL2 X11)
 endif()
 
 aux_source_directory(glu GLU_SOURCES)
@@ -28,4 +33,3 @@ endif()
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
 endif()
-
