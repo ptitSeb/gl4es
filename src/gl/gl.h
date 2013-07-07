@@ -30,7 +30,7 @@
 void *gles;
 
 #ifdef USE_ES2
-#define GLES_LIB "libGLES_CMv2.so"
+#define GLES_LIB "libGLESv2.so"
 #else
 #define GLES_LIB "libGLES_CM.so"
 #endif
@@ -40,7 +40,7 @@ void *gles;
     static glesptr_##name gles_##name;                              \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
-            gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY); \
+            gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
         }                                                           \
         gles_##name = (glesptr_##name)dlsym(gles, #name);           \
     }

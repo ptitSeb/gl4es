@@ -1048,6 +1048,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 #endif
 #ifndef skip_glCreateProgram
 GLuint glCreateProgram() {
+    printf("glCreateProgram\n");
     LOAD_GLES(GLuint, glCreateProgram);
 #ifndef direct_glCreateProgram
     if (state.list.compiling) {

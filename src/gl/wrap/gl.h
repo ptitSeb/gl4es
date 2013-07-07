@@ -19,7 +19,7 @@ void glLightModeli(GLenum pname, GLint param);
 void glLightModeliv(GLenum pname, GLint *iparams);
 void glMateriali(GLenum face, GLenum pname, GLint param);
 void glMaterialiv(GLenum face, GLenum pname, GLint param);
-void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t);
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 
 // color

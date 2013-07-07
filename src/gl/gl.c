@@ -50,6 +50,7 @@ void glDisable(GLenum cap) {
     proxy_glEnable(cap, false, gles_glDisable);
 }
 
+#ifndef USE_ES2
 void glEnableClientState(GLenum cap) {
     LOAD_GLES(void, glEnableClientState, GLenum);
     proxy_glEnable(cap, true, gles_glEnableClientState);
@@ -59,6 +60,7 @@ void glDisableClientState(GLenum cap) {
     LOAD_GLES(void, glDisableClientState, GLenum);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
+#endif
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUADS) {

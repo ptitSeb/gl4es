@@ -12,6 +12,26 @@ STUB(void glFogCoordf(GLfloat coord))
 STUB(void glFogCoorddv(const GLdouble *coord))
 STUB(void glFogCoordfv(const GLfloat *coord))
 
+#ifdef USE_ES2
+STUB(void glFogf(GLenum pname, GLfloat param));
+STUB(void glFogfv(GLenum pname, const GLfloat *params));
+STUB(void glLoadIdentity());
+STUB(void glLoadMatrixf(const GLfloat *m));
+STUB(void glMultMatrixf(const GLfloat *m));
+STUB(void glMatrixMode(GLenum mode));
+STUB(void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearVal, GLfloat farVal));
+STUB(void glPopMatrix());
+STUB(void glPushMatrix());
+STUB(void glScalef(GLfloat x, GLfloat y, GLfloat z));
+STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
+STUB(void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far));
+STUB(void glGetClipPlanef(GLenum plane, GLfloat *equation));
+STUB(void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz));
+STUB(void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t));
+STUB(void glEnableClientState(GLenum state));
+STUB(void glDisableClientState(GLenum state));
+#endif
+
 // STUB(void glMultiTexCoord());
 // STUB(void glVertexAttrib());
 // STUB(void glEvalCoord());
@@ -49,5 +69,10 @@ STUB(void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei
 
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer))
+
+// mesh functions
+STUB(void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2));
+STUB(void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2));
+STUB(void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points));
 
 #undef STUB

@@ -201,6 +201,15 @@ GLXContext glXCreateContext(Display *display,
         EGL_NONE
     };
 
+#ifdef USE_ES2
+    EGLint attrib_list[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_NONE
+    };
+#else
+    EGLint *attrib_list = NULL;
+#endif
+
     int configsFound;
     EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
     result = eglChooseConfig(eglDisplay, configAttribs, configs, maxConfigs, &configsFound);
@@ -213,7 +222,7 @@ GLXContext glXCreateContext(Display *display,
     memcpy(&eglConfig, configs, sizeof(EGLConfig));
     free(configs);
 
-    eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
+    eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, attrib_list);
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
@@ -290,6 +299,11 @@ Bool glXMakeCurrent(Display *display,
         return true;
     }
     return false;
+}
+
+Bool glXMakeContextCurrent(Display *display, int drawable,
+                           int readable, GLXContext context) {
+    return glXMakeCurrent(display, drawable, context);
 }
 
 void glXSwapBuffers(Display *display,
