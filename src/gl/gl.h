@@ -11,7 +11,7 @@
 #define GL_H
 
 #include "config.h"
-#include "wrap/gles.h"
+#include "wrap/es.h"
 #include "const.h"
 
 #define checkError(code)                          \
