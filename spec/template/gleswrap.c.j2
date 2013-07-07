@@ -1,0 +1,26 @@
+{% extends "base/wrap.c.j2" %}
+{% block load %}
+    LOAD_GLES({{ func.return }}, {{ func.name }}
+        {%- if func.args %}, {{ func.args|args }}{% endif %});
+{% endblock %}
+{% block call %}
+#ifndef direct_{{ func.name }}
+    if (state.list.compiling) {
+        PACKED_{{ func.types }} *data = malloc(sizeof(PACKED_{{ func.types }}));
+        data->format = FORMAT_{{ func.types }};
+        data->func = {{ func.name }};
+        {% for arg in func.args %}
+        data->args.a{{ loop.index }} = {{ arg.name }};
+        {% endfor %}
+        glPushCall((void *)data);
+        {% if not func.void %}
+        return 0;
+        {% endif %}
+    } else {
+#endif
+        {{ super() }}
+#ifndef direct_{{ func.name }}
+    }
+#endif
+{% endblock %}
+{% block prefix %}gles{% endblock %}

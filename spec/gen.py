@@ -1,22 +1,80 @@
 #!/usr/bin/env python
 
-import pystache
+import argparse
+import jinja2
 import re
 from yaml import load
 
 split_re = re.compile(r'^(?P<type>.*?)\s*(?P<name>\w+)$')
+env = jinja2.Environment(
+    trim_blocks=True,
+    lstrip_blocks=True,
+    loader=jinja2.FileSystemLoader('template'),
+)
+
+def args(args, add_type=True):
+    return ', '.join(
+        '{} {}'.format(arg['type'], arg['name']) if add_type else arg['name']
+        for arg in args
+    )
+
+f = '0.2f'
+printf_lookup = {
+    'GLbitfield': 'd',
+    'GLboolean': 'd',
+    'GLbyte': 'c',
+    'GLubyte': 'c',
+    'GLchar': 'c',
+    'GLdouble': '0.2f',
+    'GLenum': 'u',
+    'GLfloat': '0.2f',
+    'GLint': 'd',
+    'GLintptr': 'd',
+    'GLintptrARB': 'd',
+    'GLshort': 'd',
+    'GLsizei': 'd',
+    'GLsizeiptr': 'd',
+    'GLsizeiptrARB': 'd',
+    'GLuint': 'u',
+    'GLushort': 'u',
+    'GLvoid': 'p',
+}
+
+def printf(args):
+    types = []
+    for arg in args:
+        typ = arg['type']
+        if '*' in typ:
+            t = 'p'
+        else:
+            t = printf_lookup.get(typ, 'p')
+
+        types.append(t)
+
+    return ', '.join('%' + t for t in types)
+
+env.filters['args'] = args
+env.filters['printf'] = printf
 
 def split_arg(arg):
     match = split_re.match(arg)
     if match:
         return match.groupdict()
 
-def gen(files, template, headers):
-    funcs = []
+def gen(files, template, guard_name, headers, deep=False, cats=()):
+    funcs = {}
     formats = []
     unique_formats = set()
     for data in files:
-        for name, args in sorted(data.items()):
+        if deep:
+            functions = []
+            for cat, f in data.items():
+                if not cats or cat in cats:
+                    functions.extend(f.items())
+        else:
+            functions = data.items()
+
+        for name, args in sorted(functions):
             props = {}
             if args:
                 ret = args.pop(0)
@@ -46,31 +104,38 @@ def gen(files, template, headers):
                 unique_formats.add(types)
                 formats.append(props)
 
-            funcs.append(props)
+            funcs[name] = props
 
-    return pystache.render(template,
-        {'functions': funcs, 'formats': formats, 'headers': headers}
-    ).rstrip('\n')
+    context = {
+        'functions': [i[1] for i in sorted(funcs.items())],
+        'formats': formats,
+        'headers': headers,
+        'name': guard_name,
+    }
+
+    t = env.get_template(template)
+    return t.render(**context).rstrip('\n')
 
 if __name__ == '__main__':
-    import sys
+    parser = argparse.ArgumentParser(description='Generate code with yml/jinja.')
+    parser.add_argument('yaml', help='spec files')
+    parser.add_argument('template', help='jinja template to load')
+    parser.add_argument('name', help='header guard name')
+    parser.add_argument('headers', nargs='*', help='headers to include')
+    parser.add_argument('--deep', help='nested definitions', action='store_true')
+    parser.add_argument('--cats', help='deep category filter')
 
-    if len(sys.argv) >= 3:
-        files = []
-        for name in sys.argv[1].split(','):
-            with open(name) as f:
-                data = load(f)
-                if data:
-                    files.append(data)
+    args = parser.parse_args()
 
-        with open(sys.argv[2]) as f:
-            template = f.read()
+    files = []
+    for name in args.yaml.split(','):
+        with open(name) as f:
+            data = load(f)
+            if data:
+                files.append(data)
 
-        headers = []
-        if len(sys.argv) > 3:
-            headers = sys.argv[3:]
-
-        print gen(files, template, headers)
+    if args.cats:
+        cats = args.cats.split(',')
     else:
-        print 'Usage: %s <yaml> <template> [header...]'
-        sys.exit(1)
+        cats = None
+    print gen(files, args.template, args.name, args.headers, args.deep, cats)

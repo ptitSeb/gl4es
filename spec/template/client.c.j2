@@ -1,0 +1,11 @@
+{% extends "base/wrap.c.j2" %}
+{% block headers %}
+#include <stdio.h>
+{{ super() }}
+{% endblock %}
+{% block call %}
+    {% include "base/fprint.j2" %}
+    {% if not func.void %}
+    return 0;
+    {% endif %}
+{% endblock %}
