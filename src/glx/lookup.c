@@ -18,7 +18,11 @@ void glXStub(void *x, ...) {
 
 void *glXGetProcAddressARB(const char *name) {
     // generated gles wrappers
-    #include "glxfuncs.inc"
+#ifdef USE_ES2
+    #include "gles2funcs.inc"
+#else
+    #include "glesfuncs.inc"
+#endif
 
     // glX calls
     EX(glXChooseVisual);
