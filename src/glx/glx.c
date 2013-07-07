@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <linux/fb.h>
+#include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -116,7 +117,14 @@ Display *xDisplay;
 static bool g_showfps = false;
 static bool g_usefb = false;
 static bool g_vsync = false;
+static bool g_xrefresh = false;
 static int fbdev = -1;
+
+static void xrefresh_handler(int sig) {
+    system("xrefresh");
+    signal(sig, SIG_DFL);
+    raise(sig);
+}
 
 static void scan_env() {
     #define env(name, global, message)                    \
@@ -126,6 +134,17 @@ static void scan_env() {
             global = true;                                \
         }
 
+    env(LIBGL_XREFRESH, g_xrefresh, "xrefresh will be called on cleanup");
+    if (g_xrefresh) {
+        // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
+        signal(SIGBUS, xrefresh_handler);
+        signal(SIGFPE, xrefresh_handler);
+        signal(SIGILL, xrefresh_handler);
+        signal(SIGINT, xrefresh_handler);
+        signal(SIGQUIT, xrefresh_handler);
+        signal(SIGSEGV, xrefresh_handler);
+        signal(SIGTERM, xrefresh_handler);
+    }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
