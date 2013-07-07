@@ -21,7 +21,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     static GLUPROJECTPTR gluProject;
     if (gluProject == NULL) {
         void *glu = dlopen("libGLU.so.1", RTLD_LOCAL | RTLD_LAZY);
-        gluProject = (GLUPROJECTPTR)dlsym(gles, "gluProject");
+        gluProject = (GLUPROJECTPTR)dlsym(glu, "gluProject");
     }
     if (gluProject) {
         GLdouble model[16], proj[16], out[3];
