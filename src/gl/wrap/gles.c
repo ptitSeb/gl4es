@@ -1,3 +1,4 @@
+#ifndef USE_ES2
 #include "gles.h"
 void glPackedCall(const UnknownCall *packed) {
     switch (packed->format) {
@@ -3455,4 +3456,5 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     }
 #endif
 }
+#endif
 #endif

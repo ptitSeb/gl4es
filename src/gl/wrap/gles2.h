@@ -1,3 +1,4 @@
+#ifdef USE_ES2
 #include "../gl.h"
 
 #ifndef GLES2WRAP_H
@@ -1200,4 +1201,5 @@ void glVertexAttrib4fv(GLuint index, const GLfloat * v);
 void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 
+#endif
 #endif

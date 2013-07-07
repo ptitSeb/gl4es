@@ -61,7 +61,8 @@ def split_arg(arg):
     if match:
         return match.groupdict()
 
-def gen(files, template, guard_name, headers, deep=False, cats=()):
+def gen(files, template, guard_name, headers,
+        deep=False, cats=(), ifdef=None, ifndef=None):
     funcs = {}
     formats = []
     unique_formats = set()
@@ -111,6 +112,8 @@ def gen(files, template, guard_name, headers, deep=False, cats=()):
         'formats': formats,
         'headers': headers,
         'name': guard_name,
+        'ifdef': ifdef,
+        'ifndef': ifndef,
     }
 
     t = env.get_template(template)
@@ -124,6 +127,8 @@ if __name__ == '__main__':
     parser.add_argument('headers', nargs='*', help='headers to include')
     parser.add_argument('--deep', help='nested definitions', action='store_true')
     parser.add_argument('--cats', help='deep category filter')
+    parser.add_argument('--ifdef', help='wrap with ifdef')
+    parser.add_argument('--ifndef', help='wrap with ifndef')
 
     args = parser.parse_args()
 
@@ -138,4 +143,6 @@ if __name__ == '__main__':
         cats = args.cats.split(',')
     else:
         cats = None
-    print gen(files, args.template, args.name, args.headers, args.deep, cats)
+    print gen(files, args.template, args.name,
+              args.headers, args.deep, cats,
+              args.ifdef, args.ifndef)
