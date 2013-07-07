@@ -16,13 +16,16 @@ void glActiveTextureARB(GLenum texture) {
 void glClearDepth(GLdouble depth) {
     glClearDepthf(depth);
 }
+#ifndef USE_ES2
 void glClipPlane(GLenum plane, const GLdouble *equation) {
     constDoubleToFloat(equation, 4);
     glClipPlanef(plane, s);
 }
+#endif
 void glDepthRange(GLdouble nearVal, GLdouble farVal) {
     glDepthRangef(nearVal, farVal);
 }
+#ifndef USE_ES2
 void glFogi(GLenum pname, GLint param) {
     glFogf(pname, param);
 }
@@ -114,18 +117,22 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glOrthof(left, right, bottom, top, near, far);
 }
+#endif
 
 // OES wrappers
 
 void glClearDepthfOES(GLfloat depth) {
     glClearDepthf(depth);
 }
+#ifndef USE_ES2
 void glClipPlanefOES(GLenum plane, const GLfloat *equation) {
     glClipPlanef(plane, equation);
 }
+#endif
 void glDepthRangefOES(GLclampf near, GLclampf far) {
     glDepthRangef(near, far);
 }
+#ifndef USE_ES2
 void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
                    GLfloat top, GLfloat near, GLfloat far) {
     glFrustumf(left, right, bottom, top, near, far);
@@ -137,6 +144,7 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
                  GLfloat top, GLfloat near, GLfloat far) {
     glOrthof(left, right, bottom, top, near, far);
 }
+#endif
 
 // glRect
 
@@ -159,6 +167,11 @@ GL_RECT(s, GLshort)
 #undef GL_RECT
 
 // basic thunking
+
+// TODO: hack to disable glNormal so I don't need to ifdef in a macro
+#ifdef USE_ES2
+void glNormal3f(GLfloat r, GLfloat g, GLfloat b) {}
+#endif
 
 #define THUNK(suffix, type, max)                            \
 /* colors */                                                \
@@ -360,6 +373,7 @@ void glRasterPos4fv(const GLfloat *v) {
 }
 
 // matrix
+#ifndef USE_ES2
 void glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
     glLoadMatrixf(s);
@@ -373,6 +387,7 @@ void glMultMatrixd(const GLdouble *m) {
 void glNormal3fv(GLfloat *v) {
     glNormal3f(v[0], v[1], v[2]);
 }
+#endif
 
 // textures
 void glTexCoord1f(GLfloat s) {
@@ -414,6 +429,7 @@ void glTexGeniv(GLenum coord, GLenum pname, GLint *params) {
     // glTexGenfv(coord, pname, thunked_params);
 }
 
+#ifndef USE_ES2
 // transforms
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     glRotatef(angle, x, y, z);
@@ -424,6 +440,7 @@ void glScaled(GLdouble x, GLdouble y, GLdouble z) {
 void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     glTranslatef(x, y, z);
 }
+#endif
 
 // vertex
 void glVertex2f(GLfloat x, GLfloat y) {

@@ -224,15 +224,19 @@ void glPopAttrib() {
     GLstack *cur = stack + stack->len-1;
 
     if (cur->mask & GL_COLOR_BUFFER_BIT) {
+#ifndef USE_ES2
         enable_disable(GL_ALPHA_TEST, cur->alpha_test);
         glAlphaFunc(cur->alpha_test_func, cur->alpha_test_ref);
+#endif
 
         enable_disable(GL_BLEND, cur->blend);
         glBlendFunc(cur->blend_src_func, cur->blend_dst_func);
 
         enable_disable(GL_DITHER, cur->dither);
+#ifndef USE_ES2
         enable_disable(GL_COLOR_LOGIC_OP, cur->color_logic_op);
         glLogicOp(cur->logic_op);
+#endif
 
         GLfloat *c;
         glClearColor(v4(cur->clear_color));
@@ -241,7 +245,9 @@ void glPopAttrib() {
 
     if (cur->mask & GL_CURRENT_BIT) {
         glColor4f(v4(cur->color));
+#ifndef USE_ES2
         glNormal3f(v3(cur->normal));
+#endif
         glTexCoord2f(v2(cur->tex));
     }
 
@@ -288,6 +294,7 @@ void glPopAttrib() {
         enable_disable(GL_TEXTURE_2D, cur->texture_2d);
     }
 
+#ifndef USE_ES2
     if (cur->mask & GL_FOG_BIT) {
         enable_disable(GL_FOG, cur->fog);
         glFogfv(GL_FOG_COLOR, cur->fog_color);
@@ -296,6 +303,7 @@ void glPopAttrib() {
         glFogf(GL_FOG_END, cur->fog_end);
         glFogf(GL_FOG_MODE, cur->fog_mode);
     }
+#endif
 
     if (cur->mask & GL_HINT_BIT) {
         enable_disable(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
@@ -318,10 +326,12 @@ void glPopAttrib() {
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
     }
 
+#ifndef USE_ES2
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
         glPointSize(cur->point_size);
     }
+#endif
 
     if (cur->mask & GL_SCISSOR_BIT) {
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);

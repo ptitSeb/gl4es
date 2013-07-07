@@ -129,6 +129,8 @@ void render_raster() {
     if (!viewport.width || !viewport.height || !raster)
         return;
 
+// FIXME
+#ifndef USE_ES2
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -195,6 +197,7 @@ void render_raster() {
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+#endif
     free(raster);
     raster = NULL;
 }
