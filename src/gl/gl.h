@@ -29,12 +29,18 @@
 // will become a reference to dlopen'd gles
 void *gles;
 
+#ifdef USE_ES2
+#define GLES_LIB "libGLES_CMv2.so"
+#else
+#define GLES_LIB "libGLES_CM.so"
+#endif
+
 #define LOAD_GLES(type, name, args...)                              \
     typedef type (*glesptr_##name)(args);                           \
     static glesptr_##name gles_##name;                              \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
-            gles = dlopen("libGLES_CM.so", RTLD_LOCAL | RTLD_LAZY); \
+            gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY); \
         }                                                           \
         gles_##name = (glesptr_##name)dlsym(gles, #name);           \
     }
