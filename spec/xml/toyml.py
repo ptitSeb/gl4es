@@ -62,6 +62,26 @@ def lua_to_yml(xml):
     return functions
 
 
+def khronos_to_yml(xml):
+    def extract(node):
+        return node.findtext('ptype'), node.findtext('name')
+
+    def clean(s):
+        return re.sub('\s+', ' ', s).strip()
+
+    defs = xml.find('commands')
+    functions = defaultdict(dict)
+    for f in defs.findall('command'):
+        proto = f.find('proto')
+        ret, name = extract(proto)
+        params = []
+        for param in f.findall('param'):
+            params.append(clean(' '.join((param.itertext()))))
+
+        functions[name] = [ret] + params
+    return functions
+
+
 def to_yml(filename):
     with open(filename, 'r') as f:
         data = f.read()
@@ -73,6 +93,8 @@ def to_yml(filename):
         functions = etna_to_yml(xml)
     elif xml.tag == 'specification':
         functions = lua_to_yml(xml)
+    elif xml.tag == 'registry':
+        functions = khronos_to_yml(xml)
     else:
         print 'unrecognized root tag:', xml.tag
 
