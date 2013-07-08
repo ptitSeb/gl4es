@@ -13,7 +13,7 @@
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
-EGLConfig eglConfig = NULL;
+EGLConfig eglConfigs[1];
 
 int8_t CheckEGLErrors() {
     EGLenum error;
@@ -160,6 +160,31 @@ GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
+    EGLint configAttribs[] = {
+#ifdef PANDORA
+        EGL_RED_SIZE, 5,
+        EGL_GREEN_SIZE, 6,
+        EGL_BLUE_SIZE, 5,
+#endif
+        EGL_DEPTH_SIZE, 16,
+#ifdef USE_ES2
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+#else
+        EGL_BUFFER_SIZE, 16,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+#endif
+        EGL_NONE
+    };
+
+#ifdef USE_ES2
+    EGLint attrib_list[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_NONE
+    };
+#else
+    EGLint *attrib_list = NULL;
+#endif
 
     scan_env();
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
@@ -203,45 +228,14 @@ GLXContext glXCreateContext(Display *display,
         eglInitialized = true;
     }
 
-    EGLint configAttribs[] = {
-#ifdef PANDORA
-        EGL_RED_SIZE, 5,
-        EGL_GREEN_SIZE, 6,
-        EGL_BLUE_SIZE, 5,
-#endif
-        EGL_DEPTH_SIZE, 16,
-        EGL_BUFFER_SIZE, 16,
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-#ifdef USE_ES2
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-#else
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
-#endif
-        EGL_NONE
-    };
-
-#ifdef USE_ES2
-    EGLint attrib_list[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
-#else
-    EGLint *attrib_list = NULL;
-#endif
-
     int configsFound;
-    EGLConfig *configs = malloc(sizeof(EGLConfig) * maxConfigs);
-    result = eglChooseConfig(eglDisplay, configAttribs, configs, maxConfigs, &configsFound);
+    result = eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
-    if (!eglConfig) eglConfig = malloc(sizeof(EGLConfig));
-    memcpy(&eglConfig, configs, sizeof(EGLConfig));
-    free(configs);
-
-    eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, attrib_list);
+    eglContext = eglCreateContext(eglDisplay, eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
@@ -309,7 +303,7 @@ Bool glXMakeCurrent(Display *display,
 
     if (g_usefb)
         drawable = 0;
-    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, drawable, 0);
+    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
     CheckEGLErrors();
 
     EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
