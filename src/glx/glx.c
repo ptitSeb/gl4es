@@ -383,7 +383,7 @@ Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
 Bool glXQueryVersion(Display *display, int *major, int *minor) {
     // TODO: figure out which version we want to pretend to implement
     *major = 1;
-    *minor = 2;
+    *minor = 4;
     return true;
 }
 
