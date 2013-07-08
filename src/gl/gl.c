@@ -19,9 +19,6 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define enable(constant, name) \
         case constant: state.enable.name = enable; break;
 
-    if (cap == GL_BLEND && enable) {
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d);
