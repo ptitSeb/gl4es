@@ -368,7 +368,7 @@ const char *glXQueryServerString(Display *display, int screen, int name) {
 
 Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
     // GLFW queries a null extension and expects true
-    if (!errorBase && !eventBase) {
+    if (!*errorBase && !*eventBase) {
         return true;
     }
     // TODO: figure out which extensions we support?
