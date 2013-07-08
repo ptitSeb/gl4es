@@ -7,7 +7,11 @@ const GLubyte *glGetString(GLenum name) {
     LOAD_GLES(const GLubyte *, glGetString, GLenum);
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)"1.4 Narwhal 0.5";
+#ifdef USE_ES2
+            return (GLubyte *)"4.3 glshim wrapper";
+#else
+            return (GLubyte *)"1.4 glshim wrapper";
+#endif
         default:
             return gles_glGetString(name);
     }
