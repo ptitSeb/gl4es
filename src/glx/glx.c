@@ -359,7 +359,12 @@ int glXGetConfig(Display *display,
 }
 
 const char *glXQueryExtensionsString(Display *display, int screen) {
-    return "";
+    const char *extensions = {
+        "GLX_ARB_create_context "
+        "GLX_ARB_create_context_profile "
+        "GLX_EXT_create_context_es2_profile "
+    };
+    return extensions;
 }
 
 const char *glXQueryServerString(Display *display, int screen, int name) {
