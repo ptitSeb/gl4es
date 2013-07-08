@@ -1,5 +1,6 @@
 #ifdef USE_ES2
 #include "gles2.h"
+
 void glPackedCall(const UnknownCall *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum: {
@@ -1048,7 +1049,6 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 #endif
 #ifndef skip_glCreateProgram
 GLuint glCreateProgram() {
-    printf("glCreateProgram\n");
     LOAD_GLES(GLuint, glCreateProgram);
 #ifndef direct_glCreateProgram
     if (state.list.compiling) {

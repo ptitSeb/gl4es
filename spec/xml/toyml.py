@@ -64,7 +64,7 @@ def lua_to_yml(xml):
 
 def khronos_to_yml(xml):
     def extract(node):
-        return node.findtext('ptype'), node.findtext('name')
+        return node.findtext('ptype') or node.text, node.findtext('name')
 
     def clean(s):
         return re.sub('\s+', ' ', s).strip()

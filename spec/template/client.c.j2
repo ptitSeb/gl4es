@@ -2,6 +2,8 @@
 {% block headers %}
 #include <stdio.h>
 {{ super() }}
+{% include "base/packed_call.j2" %}
+
 {% endblock %}
 {% block call %}
     {% include "base/fprint.j2" %}

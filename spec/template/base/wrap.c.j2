@@ -1,8 +1,6 @@
 {% extends "base/base.j2" %}
 {% block main %}
 {% include "base/headers.j2" %}
-{% include "base/packed_call.j2" %}
-
 {% for func in functions %}
 #ifndef skip_{{ func.name }}
 {{ func.return }} {{ func.name }}({{ func.args|args }}) {

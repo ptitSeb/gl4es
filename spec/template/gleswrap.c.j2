@@ -1,4 +1,9 @@
 {% extends "base/wrap.c.j2" %}
+{% block headers %}
+{{ super() }}
+{% include "base/packed_call.j2" %}
+
+{% endblock %}
 {% block load %}
     LOAD_GLES({{ func.return }}, {{ func.name }}
         {%- if func.args %}, {{ func.args|args }}{% endif %});

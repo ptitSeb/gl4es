@@ -78,15 +78,15 @@ eglQueryStreamTimeKHR: [EGLBoolean, EGLDisplay dpy, EGLStreamKHR stream, EGLenum
   EGLTimeKHR * value]
 eglQueryStreamu64KHR: [EGLBoolean, EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute,
   EGLuint64KHR * value]
-eglQueryString: [null, EGLDisplay dpy, EGLint name]
+eglQueryString: [const char *, EGLDisplay dpy, EGLint name]
 eglQuerySurface: [EGLBoolean, EGLDisplay dpy, EGLSurface surface, EGLint attribute,
   EGLint * value]
 eglQuerySurfacePointerANGLE: [EGLBoolean, EGLDisplay dpy, EGLSurface surface, EGLint
     attribute, void ** value]
 eglReleaseTexImage: [EGLBoolean, EGLDisplay dpy, EGLSurface surface, EGLint buffer]
 eglReleaseThread: [EGLBoolean]
-eglSetBlobCacheFuncsANDROID: [null, EGLDisplay dpy, EGLSetBlobFuncANDROID set, EGLGetBlobFuncANDROID
-    get]
+eglSetBlobCacheFuncsANDROID: ['void ', EGLDisplay dpy, EGLSetBlobFuncANDROID set,
+  EGLGetBlobFuncANDROID get]
 eglSignalSyncKHR: [EGLBoolean, EGLDisplay dpy, EGLSyncKHR sync, EGLenum mode]
 eglSignalSyncNV: [EGLBoolean, EGLSyncNV sync, EGLenum mode]
 eglStreamAttribKHR: [EGLBoolean, EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute,
