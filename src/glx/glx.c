@@ -120,8 +120,12 @@ static bool g_vsync = false;
 static bool g_xrefresh = false;
 static int fbdev = -1;
 
-static void xrefresh_handler(int sig) {
+static void xrefresh() {
     system("xrefresh");
+}
+
+static void xrefresh_handler(int sig) {
+    xrefresh();
     signal(sig, SIG_DFL);
     raise(sig);
 }
@@ -144,6 +148,7 @@ static void scan_env() {
         signal(SIGQUIT, xrefresh_handler);
         signal(SIGSEGV, xrefresh_handler);
         signal(SIGTERM, xrefresh_handler);
+        atexit(xrefresh);
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
