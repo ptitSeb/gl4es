@@ -35,14 +35,18 @@ void *gles;
 #define GLES_LIB "libGLES_CM.so"
 #endif
 
+#define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
+
 #define LOAD_GLES(type, name, args...)                              \
     typedef type (*glesptr_##name)(args);                           \
     static glesptr_##name gles_##name;                              \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
             gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
+            WARN_NULL(gles);                                        \
         }                                                           \
         gles_##name = (glesptr_##name)dlsym(gles, #name);           \
+        WARN_NULL(gles_##name);                                     \
     }
 
 #define WRAP_GLES(type, name, args...) \
