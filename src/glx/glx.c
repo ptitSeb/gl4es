@@ -372,12 +372,13 @@ const char *glXQueryServerString(Display *display, int screen, int name) {
 }
 
 Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
-    // GLFW queries a null extension and expects true
-    if (!*errorBase && !*eventBase) {
-        return true;
-    }
-    // TODO: figure out which extensions we support?
-    return false;
+    if (errorBase)
+        *errorBase = 0;
+
+    if (eventBase)
+        *eventBase = 0;
+
+    return true;
 }
 
 Bool glXQueryVersion(Display *display, int *major, int *minor) {
