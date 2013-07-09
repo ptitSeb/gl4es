@@ -64,6 +64,9 @@ void glDisableClientState(GLenum cap) {
 #endif
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    if (mode == GL_QUAD_STRIP)
+        mode = GL_TRIANGLE_STRIP;
+
     if (mode == GL_QUADS) {
         // TODO: support more types/sizes
         RenderList *list = alloc_renderlist();
