@@ -41,6 +41,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         default: {
             if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
                                 format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+                    format, type);
                 return;
             }
             break;
@@ -60,6 +62,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         default: {
             if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
                                 format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+                    format, type);
                 return;
             }
             type = GL_UNSIGNED_BYTE;
