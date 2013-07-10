@@ -36,7 +36,7 @@ void glGetIntegerv(GLenum pname, GLint *params) {
             *params = 0;
             break;
         default:
-            glGetIntegerv(pname, params);
+            gles_glGetIntegerv(pname, params);
     }
 }
 
