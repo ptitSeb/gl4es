@@ -15,79 +15,81 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLenum format, GLenum type, const GLvoid *data) {
 
     GLvoid *pixels = NULL;
-    // implements GL_UNPACK_ROW_LENGTH
-    if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
-        int imgWidth, pixelSize;
-        pixelSize = gl_sizeof(type);
-        imgWidth = state.texture.unpack_row_length * pixelSize;
-        GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
-        pixels = (GLvoid *)dst;
-        const GLubyte *src = (GLubyte *)data;
-        src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
-        for (int y = 0; y < height; y += 1) {
-            memcpy(dst, src, width * pixelSize);
-            src += imgWidth;
-            dst += width;
-        }
-    }
-
-    switch (format) {
-        case GL_ALPHA:
-        case GL_RGB:
-        case GL_RGBA:
-        case GL_LUMINANCE:
-        case GL_LUMINANCE_ALPHA:
-            break;
-        default: {
-            if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
-                                format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-                printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
-                    format, type);
-                return;
+    if (data) {
+        // implements GL_UNPACK_ROW_LENGTH
+        if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
+            int imgWidth, pixelSize;
+            pixelSize = gl_sizeof(type);
+            imgWidth = state.texture.unpack_row_length * pixelSize;
+            GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+            pixels = (GLvoid *)dst;
+            const GLubyte *src = (GLubyte *)data;
+            src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
+            for (int y = 0; y < height; y += 1) {
+                memcpy(dst, src, width * pixelSize);
+                src += imgWidth;
+                dst += width;
             }
-            break;
         }
-    }
-    switch (type) {
-        case GL_FLOAT:
-        case GL_UNSIGNED_BYTE:
-        case GL_UNSIGNED_SHORT_5_6_5:
-        case GL_UNSIGNED_SHORT_4_4_4_4:
-        case GL_UNSIGNED_SHORT_5_5_5_1:
-            pixels = (GLvoid *)data;
-            break;
-        case GL_UNSIGNED_INT_8_8_8_8:
-            type = GL_UNSIGNED_BYTE;
-            break;
-        default: {
-            if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
-                                format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-                printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
-                    format, type);
-                return;
+
+        switch (format) {
+            case GL_ALPHA:
+            case GL_RGB:
+            case GL_RGBA:
+            case GL_LUMINANCE:
+            case GL_LUMINANCE_ALPHA:
+                break;
+            default: {
+                if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
+                                    format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                    printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+                        format, type);
+                    return;
+                }
+                break;
             }
-            type = GL_UNSIGNED_BYTE;
-            format = GL_RGBA;
         }
-    }
-
-    char *env_shrink = getenv("LIBGL_SHRINK");
-    if (env_shrink && strcmp(env_shrink, "1") == 0) {
-        if (width > 1 && height > 1) {
-            GLvoid *out;
-            GLfloat ratio = 0.5;
-            pixel_scale(pixels, &out, width, height, ratio, format, type);
-            if (pixels != data)
-                free(pixels);
-            pixels = out;
-            width *= ratio;
-            height *= ratio;
+        switch (type) {
+            case GL_FLOAT:
+            case GL_UNSIGNED_BYTE:
+            case GL_UNSIGNED_SHORT_5_6_5:
+            case GL_UNSIGNED_SHORT_4_4_4_4:
+            case GL_UNSIGNED_SHORT_5_5_5_1:
+                pixels = (GLvoid *)data;
+                break;
+            case GL_UNSIGNED_INT_8_8_8_8:
+                type = GL_UNSIGNED_BYTE;
+                break;
+            default: {
+                if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
+                                    format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                    printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+                        format, type);
+                    return;
+                }
+                type = GL_UNSIGNED_BYTE;
+                format = GL_RGBA;
+            }
         }
-    }
 
-    char *env_dump = getenv("LIBGL_TEXDUMP");
-    if (env_dump && strcmp(env_dump, "1") == 0) {
-        pixel_to_ppm(pixels, width, height, format, type);
+        char *env_shrink = getenv("LIBGL_SHRINK");
+        if (env_shrink && strcmp(env_shrink, "1") == 0) {
+            if (width > 1 && height > 1) {
+                GLvoid *out;
+                GLfloat ratio = 0.5;
+                pixel_scale(pixels, &out, width, height, ratio, format, type);
+                if (pixels != data)
+                    free(pixels);
+                pixels = out;
+                width *= ratio;
+                height *= ratio;
+            }
+        }
+
+        char *env_dump = getenv("LIBGL_TEXDUMP");
+        if (env_dump && strcmp(env_dump, "1") == 0) {
+            pixel_to_ppm(pixels, width, height, format, type);
+        }
     }
 
     /* TODO:
@@ -103,7 +105,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
-    if (pixels != data)
+    if (! pixels)
         pixels = (GLvoid *)data;
 
     switch (target) {
