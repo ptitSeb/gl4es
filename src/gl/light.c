@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "light.h"
 
 void glLightModelf(GLenum pname, GLfloat param) {
     LOAD_GLES(void, glLightModelf, GLenum, GLfloat);

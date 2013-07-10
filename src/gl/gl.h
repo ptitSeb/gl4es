@@ -106,6 +106,7 @@ static const GLsizei gl_sizeof(GLenum type) {
 
 #include "wrap/stub.h"
 #include "wrap/gl.h"
+#include "light.h"
 #include "line.h"
 #include "list.h"
 #include "pixel.h"
