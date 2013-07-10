@@ -5,7 +5,9 @@
 #define skip_glColor4ub
 #define skip_glDisable
 #define skip_glEnable
+#define skip_glGetIntegerv
 #define skip_glGetString
+#define skip_glLightModelf
 #define skip_glMaterialfv
 #define skip_glPixelStorei
 #define skip_glTexImage2D

@@ -26,6 +26,20 @@ const GLubyte *glGetString(GLenum name) {
     }
 }
 
+void glGetIntegerv(GLenum pname, GLint *params) {
+    LOAD_GLES(void, glGetIntegerv, GLenum pname, GLint *params);
+    switch (pname) {
+        case GL_MAX_ELEMENTS_INDICES:
+            *params = 1024;
+            break;
+        case GL_AUX_BUFFERS:
+            *params = 0;
+            break;
+        default:
+            glGetIntegerv(pname, params);
+    }
+}
+
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_enable(constant, name) \
         case constant: state.enable.name = enable; next(cap); break

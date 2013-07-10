@@ -201,3 +201,8 @@
 #define GL_DST_COLOR             0x0306
 #define GL_ONE_MINUS_DST_COLOR   0x0307
 #define GL_SRC_ALPHA_SATURATE    0x0308
+
+// glGet
+#define GL_AUX_BUFFERS           0x0C00
+#define GL_MAX_ELEMENTS_VERTICES 0x80E8
+#define GL_MAX_ELEMENTS_INDICES  0x80E9
