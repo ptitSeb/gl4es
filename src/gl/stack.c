@@ -209,9 +209,9 @@ void glPushClientAttrib(GLbitfield mask) {
 #define maybe_free(x) \
     if (x) free(x)
 
-#define enable_disable(x, c) \
-    if (x) glEnable(c);      \
-    else glDisable(c)
+#define enable_disable(pname, enabled) \
+    if (enabled) glEnable(pname);      \
+    else glDisable(pname)
 
 #define v2(c) c[0], c[1]
 #define v3(c) v2(c), c[2]
@@ -346,9 +346,9 @@ void glPopAttrib() {
 }
 
 #undef enable_disable
-#define enable_disable(c, x)       \
-    if (x) glEnableClientState(c); \
-    else glDisableClientState(c)
+#define enable_disable(pname, enabled)             \
+    if (enabled) glEnableClientState(pname);       \
+    else glDisableClientState(pname)
 
 void glPopClientAttrib() {
     if (clientStack == NULL || clientStack->len == 0)
