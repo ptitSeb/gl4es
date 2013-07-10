@@ -34,17 +34,17 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             break;                                \
         }
 
-    #define default(arr, amod, key, def) \
-        key >= 0 ? arr[amod key] : def
+    #define default(arr, amod, vmod, key, def) \
+        key >= 0 ? arr[amod key] vmod: def
 
     #define carefully(arr, amod, key, value) \
         if (key >= 0) d[amod key] = value;
 
-    #define read_each(amod, vmod)                           \
-        pixel.r = default(s, amod, src_color->red, 0);      \
-        pixel.g = default(s, amod, src_color->green, 0);    \
-        pixel.b = default(s, amod, src_color->blue, 0);     \
-        pixel.a = default(s, amod, src_color->alpha, 1.0f);
+    #define read_each(amod, vmod)                                 \
+        pixel.r = default(s, amod, vmod, src_color->red, 0);      \
+        pixel.g = default(s, amod, vmod, src_color->green, 0);    \
+        pixel.b = default(s, amod, vmod, src_color->blue, 0);     \
+        pixel.a = default(s, amod, vmod, src_color->alpha, 1.0f);
 
     #define write_each(amod, vmod)                         \
         carefully(d, amod, dst_color->red, pixel.r vmod)   \
