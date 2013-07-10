@@ -8,8 +8,6 @@
 #include "glx.h"
 #include <GLES/gl.h>
 
-#define maxConfigs 20
-
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
