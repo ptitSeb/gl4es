@@ -63,7 +63,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_FLOAT, GLfloat, read_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(, / 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, read_each(4 - , / 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, read_each(3 - , / 255.0))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
                 v & 31,
