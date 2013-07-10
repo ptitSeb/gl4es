@@ -119,7 +119,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !gl_sizeof(src_type) || !gl_sizeof(src_format)
-        || !src_color->type || dst_color->type)
+        || !src_color->type || !dst_color->type)
         return false;
 
     if (src_type == dst_type && src_color->type == dst_color->type) {
