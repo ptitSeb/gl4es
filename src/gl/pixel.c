@@ -35,7 +35,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         }
 
     #define default(arr, amod, vmod, key, def) \
-        key >= 0 ? arr[amod key] vmod: def
+        key >= 0 ? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
         if (key >= 0) d[amod key] = value;
@@ -51,9 +51,6 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         carefully(d, amod, dst_color->green, pixel.g vmod) \
         carefully(d, amod, dst_color->blue, pixel.b vmod)  \
         carefully(d, amod, dst_color->alpha, pixel.a vmod)
-
-    GLsizei src_size = gl_sizeof(src_type);
-    GLsizei dst_size = gl_sizeof(dst_type);
 
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
@@ -130,13 +127,20 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             return true;
         }
     } else {
+        GLsizei src_stride = gl_sizeof(src_type);
+        GLsizei dst_stride = gl_sizeof(dst_type);
         *dst = malloc(dst_size);
+        uintptr_t src_pos = (uintptr_t)src;
+        uintptr_t dst_pos = (uintptr_t)*dst;
         for (int i = 0; i < pixels; i++) {
-            if (! remap_pixel(src, *dst, src_color, src_type, dst_color, dst_type)) {
+            if (! remap_pixel((GLvoid *)src_pos, (GLvoid *)dst_pos,
+                              src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
                 // probably depends on how well branch prediction performs
                 return false;
             }
+            src_pos += src_stride;
+            dst_pos += dst_stride;
         }
         return true;
     }

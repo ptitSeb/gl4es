@@ -14,13 +14,14 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    GLvoid *pixels;
+    GLvoid *pixels = NULL;
     // implements GL_UNPACK_ROW_LENGTH
     if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
         int imgWidth, pixelSize;
         pixelSize = gl_sizeof(type);
         imgWidth = state.texture.unpack_row_length * pixelSize;
         GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+        pixels = (GLvoid *)dst;
         const GLubyte *src = (GLubyte *)data;
         src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
         for (int y = 0; y < height; y += 1) {
@@ -28,7 +29,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             src += imgWidth;
             dst += width;
         }
-        pixels = (GLvoid *)dst;
     }
 
     switch (format) {
