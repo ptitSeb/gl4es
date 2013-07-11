@@ -127,20 +127,20 @@ void glTexCoord3##suffix##v(type *t);                      \
 void glTexCoord4##suffix(type s, type t, type r, type q);  \
 void glTexCoord4##suffix##v(type *t);
 
-THUNK(b, GLbyte);
-THUNK(d, GLdouble);
-THUNK(i, GLint);
-THUNK(s, GLshort);
-THUNK(ub, GLubyte);
-THUNK(ui, GLuint);
-THUNK(us, GLushort);
+THUNK(b, GLbyte)
+THUNK(d, GLdouble)
+THUNK(i, GLint)
+THUNK(s, GLshort)
+THUNK(ub, GLubyte)
+THUNK(ui, GLuint)
+THUNK(us, GLushort)
 #undef THUNK
 
 #define THUNK(suffix, type) \
     extern void glGet##suffix##v(GLenum pname, type *params);
 
-THUNK(Double, GLdouble);
-THUNK(Integer, GLint);
+THUNK(Double, GLdouble)
+THUNK(Integer, GLint)
 #undef THUNK
 
 #endif
