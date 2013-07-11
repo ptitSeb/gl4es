@@ -13,23 +13,28 @@ STUB(void glFogCoorddv(const GLdouble *coord))
 STUB(void glFogCoordfv(const GLfloat *coord))
 
 #ifdef USE_ES2
+STUB(void glClipPlanef(GLenum plane, const GLfloat *equation));
+STUB(void glDisableClientState(GLenum state));
+STUB(void glEnableClientState(GLenum state));
 STUB(void glFogf(GLenum pname, GLfloat param));
 STUB(void glFogfv(GLenum pname, const GLfloat *params));
+STUB(void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far));
+STUB(void glGetClipPlanef(GLenum plane, GLfloat *equation));
+STUB(void glLightf(GLenum light, GLenum pname, GLfloat param));
+STUB(void glLightfv(GLenum light, GLenum pname, const GLfloat *params));
 STUB(void glLoadIdentity());
 STUB(void glLoadMatrixf(const GLfloat *m));
-STUB(void glMultMatrixf(const GLfloat *m));
+STUB(void glMaterialf(GLenum face, GLenum pname, GLfloat param));
 STUB(void glMatrixMode(GLenum mode));
+STUB(void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t));
+STUB(void glMultMatrixf(const GLfloat *m));
+STUB(void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz));
 STUB(void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearVal, GLfloat farVal));
 STUB(void glPopMatrix());
 STUB(void glPushMatrix());
+STUB(void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z));
 STUB(void glScalef(GLfloat x, GLfloat y, GLfloat z));
 STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
-STUB(void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far));
-STUB(void glGetClipPlanef(GLenum plane, GLfloat *equation));
-STUB(void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz));
-STUB(void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t));
-STUB(void glEnableClientState(GLenum state));
-STUB(void glDisableClientState(GLenum state));
 #endif
 
 // STUB(void glMultiTexCoord());
