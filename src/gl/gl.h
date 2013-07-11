@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "khash.h"
 
 #ifndef GL_H
 #define GL_H
@@ -114,6 +115,7 @@ static const GLsizei gl_sizeof(GLenum type) {
 #include "stack.h"
 #include "texgen.h"
 #include "texture.h"
+
 
 #include "state.h"
 extern GLstate state;

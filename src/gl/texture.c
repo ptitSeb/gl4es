@@ -10,10 +10,25 @@ int npot(int n) {
     return i;
 }
 
+// conversions for GL_ARB_texture_rectangle
+void texture_rect_arb_convert(GLfloat *tex, GLsizei len,
+                              GLsizei width, GLsizei height) {
+    if (!tex || !width || !height) {
+        return;
+    }
+
+    for (int i = 0; i < len; i++) {
+        tex[0] /= width;
+        tex[1] /= height;
+        tex += 2;
+    }
+}
+
 void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
+    GLtexture *bound = state.texture.bound;
     GLvoid *pixels = NULL;
     if (data) {
         // implements GL_UNPACK_ROW_LENGTH
@@ -88,7 +103,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 
         char *env_dump = getenv("LIBGL_TEXDUMP");
         if (env_dump && strcmp(env_dump, "1") == 0) {
-            pixel_to_ppm(pixels, width, height, format, type);
+            if (bound) {
+                pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+            }
         }
     }
 
@@ -112,9 +129,22 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         case GL_PROXY_TEXTURE_1D:
         case GL_PROXY_TEXTURE_2D:
             break;
-        default:
-            gles_glTexImage2D(target, level, format, width, height, border,
-                              format, type, pixels);
+        default: {
+            GLsizei nheight = npot(height), nwidth = npot(width);
+            if (bound) {
+                bound->width = nwidth;
+                bound->height = nheight;
+            }
+            if (height != nheight || width != nwidth) {
+                gles_glTexImage2D(target, level, format, nwidth, nheight, border,
+                                  format, type, NULL);
+                glTexSubImage2D(target, level, 0, 0, width, height,
+                                format, type, pixels);
+            } else {
+                gles_glTexImage2D(target, level, format, width, height, border,
+                                  format, type, pixels);
+            }
+        }
     }
 
     if (pixels != data) {
@@ -148,4 +178,67 @@ void glPixelStorei(GLenum pname, GLint param) {
             gles_glPixelStorei(pname, param);
             break;
     }
+}
+
+void glBindTexture(GLenum target, GLuint texture) {
+    if (texture) {
+        int ret;
+        khint_t k;
+        khash_t(tex) *list = state.texture.list;
+        if (! list) {
+            list = state.texture.list = kh_init(tex);
+            // segfaults if we don't do a single put
+            kh_put(tex, list, 1, &ret);
+            kh_del(tex, list, 1);
+        }
+
+        k = kh_get(tex, list, texture);
+        GLtexture *tex = NULL;;
+        if (k == kh_end(list)){
+            k = kh_put(tex, list, texture, &ret);
+            tex = kh_value(list, k) = malloc(sizeof(GLtexture));
+            tex->texture = texture;
+            tex->target = target;
+            tex->width = 0;
+            tex->height = 0;
+            tex->uploaded = false;
+        } else {
+            tex = kh_value(list, k);
+        }
+        state.texture.bound = tex;
+    }
+
+    state.texture.rect_arb = (target == GL_TEXTURE_RECTANGLE_ARB);
+    target = map_tex_target(target);
+
+    LOAD_GLES(void, glBindTexture, GLenum, GLuint);
+    gles_glBindTexture(target, texture);
+}
+
+// TODO: also glTexParameterf(v)?
+void glTexParameteri(GLenum target, GLenum pname, GLint param) {
+    LOAD_GLES(void, glTexParameteri, GLenum, GLenum, GLint);
+    target = map_tex_target(target);
+    gles_glTexParameteri(target, pname, param);
+}
+
+void glDeleteTextures(GLsizei n, const GLuint *textures) {
+    khash_t(tex) *list = state.texture.list;
+    if (list) {
+        khint_t k;
+        GLtexture *tex;
+        for (int i = 0; i < n; i++) {
+            GLuint t = textures[i];
+            k = kh_get(tex, list, t);
+            if (k == kh_end(list)) {
+                tex = kh_value(list, k);
+                if (tex == state.texture.bound)
+                    state.texture.bound = NULL;
+                free(tex);
+                kh_del(tex, list, k);
+            }
+        }
+    }
+    LOAD_GLES(void, glDeleteTextures, GLsizei, const GLuint *);
+    gles_glDeleteTextures(n, textures);
 }

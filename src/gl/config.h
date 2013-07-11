@@ -1,17 +1,28 @@
 // auto-wrap these functions, prefixed with gles_
 
 // don't auto-wrap these functions
-#define skip_glColor4f
 #define skip_glColor4ub
+
+// gl.c
+#define skip_glColor4f
 #define skip_glDisable
 #define skip_glEnable
 #define skip_glGetIntegerv
 #define skip_glGetString
-#define skip_glLightModelf
 #define skip_glMaterialfv
+
+// light.c
+#define skip_glLightModelf
+
+// raster.c
+#define skip_glViewport
+
+// texture.c
+#define skip_glBindTexture
+#define skip_glDeleteTextures
 #define skip_glPixelStorei
 #define skip_glTexImage2D
-#define skip_glViewport
+#define skip_glTexParameteri
 
 // glDrawArrays
 #define skip_glDrawArrays
@@ -21,6 +32,7 @@
 #define skip_glTexCoordPointer
 #define skip_glDisableClientState
 #define skip_glEnableClientState
+
 
 // don't compile these into display lists
 #define direct_glColorPointer

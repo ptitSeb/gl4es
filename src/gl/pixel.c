@@ -174,8 +174,7 @@ bool pixel_scale(const GLvoid *old, GLvoid **new,
     return true;
 }
 
-bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum format, GLenum type) {
-    static int count = 0;
+bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum format, GLenum type, GLuint name) {
     const GLvoid *src;
     char filename[64];
     int size = 4 * 3 * width * height;
@@ -187,7 +186,7 @@ bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum form
         }
     }
 
-    snprintf(filename, 64, "/tmp/tex.%d.ppm", count++);
+    snprintf(filename, 64, "/tmp/tex.%d.ppm", name);
     FILE *fd = fopen(filename, "w");
     fprintf(fd, "P6 %d %d %d\n", width, height, 255);
     fwrite(src, 1, size, fd);

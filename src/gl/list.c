@@ -152,6 +152,11 @@ void q2t_renderlist(RenderList *list) {
 }
 
 void end_renderlist(RenderList *list) {
+    GLtexture *bound = state.texture.bound;
+    // GL_ARB_texture_rectangle
+    if (list->tex && state.texture.rect_arb && bound) {
+        texture_rect_arb_convert(list->tex, list->len, bound->width, bound->height);
+    }
     switch (list->mode) {
         case GL_QUADS:
             list->mode = GL_TRIANGLES;

@@ -46,9 +46,13 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define enable(constant, name) \
         case constant: state.enable.name = enable; break;
 
-    // this could cause problems. maybe only apply if 2d wasn't enabled?
-    if (cap == GL_TEXTURE_1D)
-        cap = GL_TEXTURE_2D;
+    // TODO: maybe could be weird behavior if someone tried to:
+    // 1. enable GL_TEXTURE_1D
+    // 2. enable GL_TEXTURE_2D
+    // 3. disable GL_TEXTURE_1D
+    // 4. render. GL_TEXTURE_2D would be disabled.
+    cap = map_tex_target(cap);
+
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d);
@@ -93,7 +97,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
 
-    if (mode == GL_QUADS) {
+    if (mode == GL_QUADS || (state.pointers.tex_coord.pointer && state.texture.rect_arb)) {
         // TODO: support more types/sizes
         RenderList *list = alloc_renderlist();
         list->mode = mode;
@@ -116,7 +120,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     break;                                               \
             }
 
-        #define copy_gl_pointer(ptr, arr, element_size) \
+        #define copy_gl_pointer(ptr, arr, element_size)                          \
             if (ptr.pointer) {                                                   \
                 int stride, width, size;                                         \
                 uintptr_t src;                                                   \
