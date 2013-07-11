@@ -230,7 +230,7 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
         for (int i = 0; i < n; i++) {
             GLuint t = textures[i];
             k = kh_get(tex, list, t);
-            if (k == kh_end(list)) {
+            if (k != kh_end(list)) {
                 tex = kh_value(list, k);
                 if (tex == state.texture.bound)
                     state.texture.bound = NULL;
