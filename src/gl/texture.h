@@ -15,8 +15,11 @@ void glBindTexture(GLenum target, GLuint texture);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
 
-void texture_rect_arb_convert(GLfloat *tex, GLsizei len,
-                              GLsizei width, GLsizei height);
+void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
+                        GLsizei width, GLsizei height);
+void tex_coord_npot(GLfloat *tex, GLsizei len,
+                    GLsizei width, GLsizei height,
+                    GLsizei nwidth, GLsizei nheight);
 int npot(int n);
 
 typedef struct {
@@ -24,6 +27,8 @@ typedef struct {
     GLenum target;
     GLsizei width;
     GLsizei height;
+    GLsizei nwidth;
+    GLsizei nheight;
     GLboolean uploaded;
 } GLtexture;
 

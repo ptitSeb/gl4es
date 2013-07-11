@@ -153,9 +153,12 @@ void q2t_renderlist(RenderList *list) {
 
 void end_renderlist(RenderList *list) {
     GLtexture *bound = state.texture.bound;
+    if (list->tex && bound && (bound->width != bound->nwidth || bound->height != bound->nheight)) {
+        tex_coord_npot(list->tex, list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
+    }
     // GL_ARB_texture_rectangle
     if (list->tex && state.texture.rect_arb && bound) {
-        texture_rect_arb_convert(list->tex, list->len, bound->width, bound->height);
+        tex_coord_rect_arb(list->tex, list->len, bound->width, bound->height);
     }
     switch (list->mode) {
         case GL_QUADS:

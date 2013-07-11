@@ -58,9 +58,9 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(, / 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, read_each(3 - , / 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
                 v & 31,
@@ -127,13 +127,13 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             return true;
         }
     } else {
-        GLsizei src_stride = gl_sizeof(src_type);
-        GLsizei dst_stride = gl_sizeof(dst_type);
+        GLsizei src_stride = gl_sizeof(src_type) * gl_sizeof(src_format);
+        GLsizei dst_stride = gl_sizeof(dst_type) * gl_sizeof(dst_format);
         *dst = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
         uintptr_t dst_pos = (uintptr_t)*dst;
         for (int i = 0; i < pixels; i++) {
-            if (! remap_pixel((GLvoid *)src_pos, (GLvoid *)dst_pos,
+            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
                               src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
                 // probably depends on how well branch prediction performs

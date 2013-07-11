@@ -11,15 +11,29 @@ int npot(int n) {
 }
 
 // conversions for GL_ARB_texture_rectangle
-void texture_rect_arb_convert(GLfloat *tex, GLsizei len,
-                              GLsizei width, GLsizei height) {
-    if (!tex || !width || !height) {
+void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
+                        GLsizei width, GLsizei height) {
+    if (!tex || !width || !height)
         return;
-    }
 
     for (int i = 0; i < len; i++) {
         tex[0] /= width;
         tex[1] /= height;
+        tex += 2;
+    }
+}
+
+void tex_coord_npot(GLfloat *tex, GLsizei len,
+                    GLsizei width, GLsizei height,
+                    GLsizei nwidth, GLsizei nheight) {
+    if (!tex || !width || !height)
+        return;
+
+    GLfloat wratio = (width / nwidth);
+    GLfloat hratio = (height / nheight);
+    for (int i = 0; i < len; i++) {
+        tex[0] *= wratio;
+        tex[1] *= hratio;
         tex += 2;
     }
 }
@@ -29,7 +43,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLenum format, GLenum type, const GLvoid *data) {
 
     GLtexture *bound = state.texture.bound;
-    GLvoid *pixels = NULL;
+    GLvoid *pixels = (GLvoid *)data;
     if (data) {
         // implements GL_UNPACK_ROW_LENGTH
         if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
@@ -47,6 +61,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             }
         }
 
+        bool convert = false;
         switch (format) {
             case GL_ALPHA:
             case GL_RGB:
@@ -54,15 +69,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             case GL_LUMINANCE:
             case GL_LUMINANCE_ALPHA:
                 break;
-            default: {
-                if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
-                                    format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-                    printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
-                        format, type);
-                    return;
-                }
+            default:
+                convert = true;
                 break;
-            }
         }
         switch (type) {
             case GL_FLOAT:
@@ -70,21 +79,27 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             case GL_UNSIGNED_SHORT_5_6_5:
             case GL_UNSIGNED_SHORT_4_4_4_4:
             case GL_UNSIGNED_SHORT_5_5_5_1:
-                pixels = (GLvoid *)data;
                 break;
-            case GL_UNSIGNED_INT_8_8_8_8:
+            case GL_UNSIGNED_INT_8_8_8_8_REV:
                 type = GL_UNSIGNED_BYTE;
                 break;
-            default: {
-                if (! pixel_convert(pixels ? pixels : data, &pixels, width, height,
-                                    format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-                    printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
-                        format, type);
-                    return;
-                }
-                type = GL_UNSIGNED_BYTE;
-                format = GL_RGBA;
+            default:
+                convert = true;
+                break;
+        }
+
+        if (convert) {
+            GLvoid *old = pixels;
+            if (! pixel_convert(pixels, &pixels, width, height,
+                                format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+                    format, type);
+                return;
             }
+            if (old != data)
+                free(old);
+            type = GL_UNSIGNED_BYTE;
+            format = GL_RGBA;
         }
 
         char *env_shrink = getenv("LIBGL_SHRINK");
@@ -93,8 +108,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                 GLvoid *out;
                 GLfloat ratio = 0.5;
                 pixel_scale(pixels, &out, width, height, ratio, format, type);
-                if (pixels != data)
-                    free(pixels);
+                if (out != pixels)
+                    free(out);
                 pixels = out;
                 width *= ratio;
                 height *= ratio;
@@ -122,8 +137,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
               GLsizei, GLsizei, GLint,
               GLenum, GLenum, const GLvoid*);
-    if (! pixels)
-        pixels = (GLvoid *)data;
 
     switch (target) {
         case GL_PROXY_TEXTURE_1D:
@@ -131,9 +144,11 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             break;
         default: {
             GLsizei nheight = npot(height), nwidth = npot(width);
-            if (bound) {
-                bound->width = nwidth;
-                bound->height = nheight;
+            if (bound && level == 0) {
+                bound->width = width;
+                bound->height = height;
+                bound->nwidth = nwidth;
+                bound->nheight = nheight;
             }
             if (height != nheight || width != nwidth) {
                 gles_glTexImage2D(target, level, format, nwidth, nheight, border,
@@ -146,9 +161,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             }
         }
     }
-
     if (pixels != data) {
-        free((GLvoid *)pixels);
+        free(pixels);
     }
 }
 
