@@ -23,6 +23,7 @@ RenderList *alloc_renderlist() {
     list->color = NULL;
     list->tex = NULL;
     list->material = NULL;
+    list->indices = NULL;
 
     list->next = NULL;
     return list;
@@ -64,91 +65,25 @@ void resize_renderlist(RenderList *list) {
 }
 
 void q2t_renderlist(RenderList *list) {
-    // TODO: this has too much duplicate code
     if (!list->len || !list->vert) return;
-    GLfloat *newVertPos, *vertPos, *vert;
-    GLfloat *newNormalPos, *normalPos, *normal;
-    GLfloat *newColorPos, *colorPos, *color;
-    GLfloat *newTexPos, *texPos, *tex;
-
-    vertPos = vert = list->vert;
-    normalPos = normal = list->normal;
-    colorPos = color = list->color;
-    texPos = tex = list->tex;
-
-    int newLen = list->len * 1.5;
-    if (vert) newVertPos = list->vert = alloc_sublist(3, newLen);
-    if (normal) newNormalPos = list->normal = alloc_sublist(3, newLen);
-    if (color) newColorPos = list->color = alloc_sublist(4, newLen);
-    if (tex) newTexPos = list->tex = alloc_sublist(2, newLen);;
-
-    // GLfloat *a, *b, *c, *d;
+    if (list->indices)
+        free(list->indices);
+    // TODO: split to multiple lists if list->len > 65535
+    list->indices = malloc(list->len * 1.5 * sizeof(GLushort));
     int a = 0, b = 1, c = 2, d = 3;
-    int v1, v2, v3, v4, v5, v6;
-
+    int winding[6] = {
+        a, b, d,
+        b, c, d,
+    };
+    GLushort *indices = list->indices;
     for (int i = 0; i < list->len; i += 4) {
-        /*
-        a = &vertPos[3*0];
-        b = &vertPos[3*1];
-        c = &vertPos[3*2];
-        d = &vertPos[3*3];
-        #define dist(a, b)\
-            pow(a[0]-b[0], 2) + pow(a[1]-b[1], 2) + pow(a[2]-b[2], 2)
-        if (dist(a, c) < dist(b, d)) {
-            v3 = 2; v4 = 0; v5 = 2; v6 = 3;
-        } else {
-            v3 = 3; v4 = 3; v5 = 1; v6 = 2;
+        for (int j = 0; j < 6; j++) {
+            indices[j] = i + winding[j];
         }
-        #undef dist
-        */
-        v1 = a; v2 = b; v3 = d;
-        v4 = b; v5 = c; v6 = d;
-
-        memcpy(newVertPos,      &vertPos[3*v1], sizeof(GLfloat) * 3);
-        memcpy(newVertPos += 3, &vertPos[3*v2], sizeof(GLfloat) * 3);
-        memcpy(newVertPos += 3, &vertPos[3*v3], sizeof(GLfloat) * 3);
-        memcpy(newVertPos += 3, &vertPos[3*v4], sizeof(GLfloat) * 3);
-        memcpy(newVertPos += 3, &vertPos[3*v5], sizeof(GLfloat) * 3);
-        memcpy(newVertPos += 3, &vertPos[3*v6], sizeof(GLfloat) * 3);
-        newVertPos += 3;
-        vertPos += 4 * 3;
-        if (normal) {
-            memcpy(newNormalPos,      &normalPos[3*v1], sizeof(GLfloat) * 3);
-            memcpy(newNormalPos += 3, &normalPos[3*v2], sizeof(GLfloat) * 3);
-            memcpy(newNormalPos += 3, &normalPos[3*v3], sizeof(GLfloat) * 3);
-            memcpy(newNormalPos += 3, &normalPos[3*v4], sizeof(GLfloat) * 3);
-            memcpy(newNormalPos += 3, &normalPos[3*v5], sizeof(GLfloat) * 3);
-            memcpy(newNormalPos += 3, &normalPos[3*v6], sizeof(GLfloat) * 3);
-            newNormalPos += 3;
-            normalPos += 4 * 3;
-        }
-        if (color) {
-            memcpy(newColorPos,      &colorPos[4*v1], sizeof(GLfloat) * 4);
-            memcpy(newColorPos += 4, &colorPos[4*v2], sizeof(GLfloat) * 4);
-            memcpy(newColorPos += 4, &colorPos[4*v3], sizeof(GLfloat) * 4);
-            memcpy(newColorPos += 4, &colorPos[4*v4], sizeof(GLfloat) * 4);
-            memcpy(newColorPos += 4, &colorPos[4*v5], sizeof(GLfloat) * 4);
-            memcpy(newColorPos += 4, &colorPos[4*v6], sizeof(GLfloat) * 4);
-            newColorPos += 4;
-            colorPos += 4 * 4;
-        }
-        if (tex) {
-            memcpy(newTexPos,      &texPos[2*v1], sizeof(GLfloat) * 2);
-            memcpy(newTexPos += 2, &texPos[2*v2], sizeof(GLfloat) * 2);
-            memcpy(newTexPos += 2, &texPos[2*v3], sizeof(GLfloat) * 2);
-            memcpy(newTexPos += 2, &texPos[2*v4], sizeof(GLfloat) * 2);
-            memcpy(newTexPos += 2, &texPos[2*v5], sizeof(GLfloat) * 2);
-            memcpy(newTexPos += 2, &texPos[2*v6], sizeof(GLfloat) * 2);
-            newTexPos += 2;
-            texPos += 4 * 2;
-        }
+        indices += 6;
     }
-    list->len = list->cap = newLen;
-
-    if (vert) free(vert);
-    if (normal) free(normal);
-    if (color) free(color);
-    if (tex) free(tex);
+    list->len *= 1.5;
+    return;
 }
 
 void end_renderlist(RenderList *list) {
@@ -177,6 +112,7 @@ void end_renderlist(RenderList *list) {
 void draw_renderlist(RenderList *list) {
     if (!list) return;
     LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
+    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
@@ -255,7 +191,11 @@ void draw_renderlist(RenderList *list) {
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
 
-        gles_glDrawArrays(list->mode, 0, list->len);
+        if (list->indices) {
+            gles_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, list->indices);
+        } else {
+            gles_glDrawArrays(list->mode, 0, list->len);
+        }
         if (stipple) {
             glDeleteTextures(1, &texture);
             glPopAttrib();
