@@ -220,6 +220,8 @@ void glBindTexture(GLenum target, GLuint texture) {
             tex = kh_value(list, k);
         }
         state.texture.bound = tex;
+    } else {
+        state.texture.bound = NULL;
     }
 
     state.texture.rect_arb = (target == GL_TEXTURE_RECTANGLE_ARB);
