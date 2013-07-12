@@ -8,6 +8,9 @@
     if (ref)                         \
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
+static GLushort *cached_q2t = NULL;
+static unsigned long cached_q2t_len = 0;
+
 RenderList *alloc_renderlist() {
     RenderList *list = (RenderList *)malloc(sizeof(RenderList));
     list->len = 0;
@@ -48,6 +51,8 @@ void free_renderlist(RenderList *list) {
         if (list->color) free(list->color);
         if (list->tex) free(list->tex);
         if (list->material) free(list->material);
+        if (list->indices && list->indices != cached_q2t)
+            free(list->indices);
         next = list->next;
         free(list);
     } while ((list = next));
@@ -66,23 +71,35 @@ void resize_renderlist(RenderList *list) {
 
 void q2t_renderlist(RenderList *list) {
     if (!list->len || !list->vert) return;
-    if (list->indices)
-        free(list->indices);
     // TODO: split to multiple lists if list->len > 65535
-    list->indices = malloc(list->len * 1.5 * sizeof(GLushort));
+
     int a = 0, b = 1, c = 2, d = 3;
     int winding[6] = {
         a, b, d,
         b, c, d,
     };
-    GLushort *indices = list->indices;
-    for (int i = 0; i < list->len; i += 4) {
-        for (int j = 0; j < 6; j++) {
-            indices[j] = i + winding[j];
+    unsigned long len = list->len * 1.5;
+
+    if (list->indices && list->indices != cached_q2t)
+        free(list->indices);
+
+    if (len > cached_q2t_len) {
+        if (cached_q2t)
+            free(cached_q2t);
+        cached_q2t = malloc(len * sizeof(GLushort));
+        cached_q2t_len = len;
+
+        GLushort *indices = cached_q2t;
+        for (int i = 0; i < list->len; i += 4) {
+            for (int j = 0; j < 6; j++) {
+                indices[j] = i + winding[j];
+            }
+            indices += 6;
         }
-        indices += 6;
     }
-    list->len *= 1.5;
+
+    list->indices = cached_q2t;
+    list->len = len;
     return;
 }
 
