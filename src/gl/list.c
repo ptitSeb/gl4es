@@ -282,7 +282,7 @@ void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     }
 
     if (list->normal) {
-        GLfloat *normal = list->color + (list->len * 3);
+        GLfloat *normal = list->normal + (list->len * 3);
         memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
     }
 

@@ -10,6 +10,7 @@
 #define skip_glGetIntegerv
 #define skip_glGetString
 #define skip_glMaterialfv
+#define skip_glNormal3f
 
 // light.c
 #define skip_glLightModelf

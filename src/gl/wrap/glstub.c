@@ -28,7 +28,6 @@ STUB(void glMaterialf(GLenum face, GLenum pname, GLfloat param));
 STUB(void glMatrixMode(GLenum mode));
 STUB(void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat r, GLfloat q, GLfloat t));
 STUB(void glMultMatrixf(const GLfloat *m));
-STUB(void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz));
 STUB(void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearVal, GLfloat farVal));
 STUB(void glPopMatrix());
 STUB(void glPushMatrix());
