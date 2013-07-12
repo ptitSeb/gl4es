@@ -235,6 +235,11 @@ void glBindTexture(GLenum target, GLuint texture) {
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(void, glTexParameteri, GLenum, GLenum, GLint);
     target = map_tex_target(target);
+    switch (param) {
+        case GL_CLAMP:
+            param = GL_CLAMP_TO_EDGE;
+            break;
+    }
     gles_glTexParameteri(target, pname, param);
 }
 
