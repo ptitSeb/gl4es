@@ -339,6 +339,7 @@ GLuint glGenLists(GLsizei range) {
 void glNewList(GLuint list, GLenum mode) {
     if (list > listCount) return;
     state.list.mode = mode;
+    state.list.name = list;
 
     RenderList *l = glGetList(list);
     if (l) {
@@ -353,7 +354,8 @@ void glNewList(GLuint list, GLenum mode) {
     }
 }
 
-void glEndList(GLuint list) {
+void glEndList() {
+    GLuint list = state.list.name;
     if (state.list.compiling) {
         state.list.compiling = false;
         state.list.active = NULL;
@@ -366,8 +368,9 @@ void glEndList(GLuint list) {
 void glCallList(GLuint list) {
     // TODO: this call can be compiled into another display list
     RenderList *l = glGetList(list);
-    if (l)
+    if (l) {
         draw_renderlist(l);
+    }
 }
 
 void glPushCall(void *call) {

@@ -136,7 +136,7 @@ void glDeleteList(GLuint list);
 void glDeleteLists(GLuint list, GLsizei range);
 void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 void glEnd();
-void glEndList(GLuint list);
+void glEndList();
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);

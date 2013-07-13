@@ -51,6 +51,7 @@ typedef struct {
     RenderList *active;
     GLboolean compiling;
     GLuint base;
+    GLuint name;
     GLenum mode;
 } DisplayListState;
 
