@@ -2,24 +2,42 @@
 
 GLint stippleFactor = 1;
 GLushort stipplePattern = 0xFFFF;
-GLubyte *stippleTex = NULL;
+GLubyte *stippleData = NULL;
+GLuint stippleTexture = 0;
 
 void glLineStipple(GLuint factor, GLushort pattern) {
     stippleFactor = factor;
     stipplePattern = pattern;
-    if (stippleTex != NULL) {
-        free(stippleTex);
+    if (stippleData != NULL) {
+        free(stippleData);
     }
-    stippleTex = (GLubyte *)malloc(sizeof(GLubyte) * 16);
+    stippleData = (GLubyte *)malloc(sizeof(GLubyte) * 16);
     for (int i = 0; i < 16; i++) {
-        stippleTex[i] = (stipplePattern >> i) & 1 ? 255 : 0;
+        stippleData[i] = (stipplePattern >> i) & 1 ? 255 : 0;
     }
+
+    glPushAttrib(GL_TEXTURE_BIT);
+    if (! stippleTexture)
+        glGenTextures(1, &stippleTexture);
+
+    glBindTexture(GL_TEXTURE_2D, stippleTexture);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
+        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, stippleData);
+    glPopAttrib();
 }
 
-GLuint gen_stipple_tex(GLfloat *vert, GLfloat **tex, int length) {
+void bind_stipple_tex() {
+    glBindTexture(GL_TEXTURE_2D, stippleTexture);
+}
+
+GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {
     // generate our texture coords
-    *tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
-    GLfloat *texPos = *tex;
+    GLfloat *tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
+    GLfloat *texPos = tex;
     GLfloat *vertPos = vert;
 
     GLfloat x1, x2, y1, y2;
@@ -32,26 +50,12 @@ GLuint gen_stipple_tex(GLfloat *vert, GLfloat **tex, int length) {
         y2 = *vertPos++;
         vertPos++;
 
-        len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor;
+        len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor * 16;
 
         *texPos++ = 0;
         *texPos++ = 0;
         *texPos++ = len;
         *texPos++ = 0;
     }
-
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-#ifndef USE_ES2
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-#endif
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-        16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, stippleTex);
-
-    return texture;
+    return tex;
 }

@@ -180,30 +180,26 @@ void draw_renderlist(RenderList *list) {
             }
         }
 
-        GLfloat *tex = list->tex;
         GLuint texture;
 
         bool stipple = false;
-        if (! tex) {
+        if (! list->tex) {
             // TODO: do we need to support GL_LINE_STRIP?
-            if (list->mode == GL_LINES && state.enable.line_stipple && false) {
+            if (list->mode == GL_LINES && state.enable.line_stipple) {
                 stipple = true;
-                glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
+                glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
                 glEnable(GL_BLEND);
                 glEnable(GL_TEXTURE_2D);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-                texture = gen_stipple_tex(list->vert, &tex, list->len);
-                // TODO: cache this for display list on first render?
-            }
-
-            if (state.enable.texgen_s || state.enable.texgen_t) {
-                gen_tex_coords(list->vert, &tex, list->len);
+                list->tex = gen_stipple_tex_coords(list->vert, list->len);
+            } else if (state.enable.texgen_s || state.enable.texgen_t) {
+                gen_tex_coords(list->vert, &list->tex, list->len);
             }
         }
 
-        if (tex) {
+        if (list->tex) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, 0, tex);
+            glTexCoordPointer(2, GL_FLOAT, 0, list->tex);
         } else {
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
@@ -214,15 +210,7 @@ void draw_renderlist(RenderList *list) {
             gles_glDrawArrays(list->mode, 0, list->len);
         }
         if (stipple) {
-            glDeleteTextures(1, &texture);
             glPopAttrib();
-        }
-
-        if (tex && tex != list->tex) {
-            if (list->tex)
-                free(list->tex);
-
-            list->tex = tex;
         }
 #endif
     } while ((list = list->next));
