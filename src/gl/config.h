@@ -9,6 +9,7 @@
 #define skip_glEnable
 #define skip_glGetIntegerv
 #define skip_glGetString
+#define skip_glIsEnabled
 #define skip_glMaterialfv
 #define skip_glNormal3f
 

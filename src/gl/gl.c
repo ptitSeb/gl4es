@@ -93,6 +93,20 @@ void glDisableClientState(GLenum cap) {
 }
 #endif
 
+GLboolean glIsEnabled(GLenum cap) {
+    LOAD_GLES(GLboolean, glIsEnabled, GLenum);
+    switch (cap) {
+        case GL_LINE_STIPPLE:
+            return state.enable.line_stipple;
+        case GL_TEXTURE_GEN_S:
+            return state.enable.texgen_s;
+        case GL_TEXTURE_GEN_T:
+            return state.enable.texgen_t;
+        default:
+            return gles_glIsEnabled(cap);
+    }
+}
+
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
