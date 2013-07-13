@@ -48,8 +48,8 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     */
 }
 
-GLfloat dot(GLfloat *a, GLfloat *b) {
-    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
+GLfloat dot(const GLfloat *a, const GLfloat *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
 GLfloat gen_tex_coord(GLfloat *vert, GLenum type, GLfloat *params) {
@@ -62,23 +62,21 @@ GLfloat gen_tex_coord(GLfloat *vert, GLenum type, GLfloat *params) {
     return 0;
 }
 
-static inline void dot_loop(GLfloat *verts, GLfloat *params, GLfloat *out, GLint count) {
-#if defined(NEON) && 0
-    asm volatile (
-        "add %3, %3, #7:                    \n\t"
-        "lsr %2, %2, #3:                    \n\t"
+static inline void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count) {
+#ifdef __ARM_NEON__
+    float32x2_t acc;
+    float32x2x3_t vert;
+    float32x2x3_t param = vld3_f32((const float32_t *)params);
+    for (; count != 0; count -= 1) {
+        vert = vld3_f32((const float32_t *)verts);
+        acc = vmul_f32(vert.val[0], param.val[0]);
+        acc = vmla_f32(acc, vert.val[1], param.val[1]);
+        acc = vmla_f32(acc, vert.val[2], param.val[2]);
+        vst1_f32((float32_t *)out, acc);
 
-        "loop:                              \n\t"
-        "    vld3.32  {d0, d1, d2}, [%0]!   \n\t"
-        "    vld3.32  {d3, d4, d5}, [%1]!   \n\t"
-        "    subs     %2, %2, #1            \n\t"
-
-        "    vmul.f32 d6, d0, "
-
-        "    vst1.32  {d6},         [%3]!%4 \n\t"
-
-        : "r"(verts), "r"(params), "r"(out), "r"(count), "r"(sizeof(GLfloat))
-    )
+        out += 2;
+        verts += 3;
+    }
 #else
     for (int i = 0; i < count; i++) {
         out[0] = dot(verts, params);

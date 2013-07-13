@@ -8,6 +8,10 @@
 #include <string.h>
 #include "khash.h"
 
+#ifdef __ARM_NEON__
+#include <arm_neon.h>
+#endif
+
 #ifndef GL_H
 #define GL_H
 
