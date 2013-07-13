@@ -28,6 +28,7 @@ RenderList *alloc_renderlist() {
     list->material = NULL;
     list->indices = NULL;
     list->q2t = false;
+    list->texture = 0;
 
     list->next = NULL;
     return list;
@@ -141,6 +142,8 @@ void draw_renderlist(RenderList *list) {
                 glPackedCall(cl->calls[i]);
             }
         }
+        if (list->texture)
+            glBindTexture(GL_TEXTURE_2D, list->texture);
         if (! list->len)
             continue;
 
@@ -308,6 +311,10 @@ void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
     } else {
         resize_renderlist(list);
     }
+}
+
+void rlBindTexture(RenderList *list, GLuint texture) {
+    list->texture = texture;
 }
 
 void rlPushCall(RenderList *list, UnknownCall *data) {

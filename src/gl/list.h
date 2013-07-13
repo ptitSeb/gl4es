@@ -31,7 +31,9 @@ typedef struct RenderListT {
     GLfloat *tex;
     GLushort *indices;
     GLboolean q2t;
+
     RenderMaterial *material;
+    GLuint texture;
     struct RenderListT *next;
 } RenderList;
 
