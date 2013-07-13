@@ -27,6 +27,7 @@ RenderList *alloc_renderlist() {
     list->tex = NULL;
     list->material = NULL;
     list->indices = NULL;
+    list->q2t = false;
 
     list->next = NULL;
     return list;
@@ -51,8 +52,7 @@ void free_renderlist(RenderList *list) {
         if (list->color) free(list->color);
         if (list->tex) free(list->tex);
         if (list->material) free(list->material);
-        if (list->indices && list->indices != cached_q2t)
-            free(list->indices);
+        if (list->indices) free(list->indices);
         next = list->next;
         free(list);
     } while ((list = next));
@@ -70,7 +70,7 @@ void resize_renderlist(RenderList *list) {
 }
 
 void q2t_renderlist(RenderList *list) {
-    if (!list->len || !list->vert) return;
+    if (!list->len || !list->vert || list->q2t) return;
     // TODO: split to multiple lists if list->len > 65535
 
     int a = 0, b = 1, c = 2, d = 3;
@@ -80,7 +80,8 @@ void q2t_renderlist(RenderList *list) {
     };
     unsigned long len = list->len * 1.5;
 
-    if (list->indices && list->indices != cached_q2t)
+    // TODO: q2t on glDrawElements?
+    if (list->indices)
         free(list->indices);
 
     if (len > cached_q2t_len) {
@@ -98,7 +99,7 @@ void q2t_renderlist(RenderList *list) {
         }
     }
 
-    list->indices = cached_q2t;
+    list->q2t = true;
     list->len = len;
     return;
 }
@@ -204,8 +205,12 @@ void draw_renderlist(RenderList *list) {
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
 
-        if (list->indices) {
-            gles_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, list->indices);
+        GLushort *indices = list->indices;
+        if (list->q2t)
+            indices = cached_q2t;
+
+        if (indices) {
+            gles_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
         } else {
             gles_glDrawArrays(list->mode, 0, list->len);
         }
