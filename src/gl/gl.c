@@ -252,7 +252,8 @@ void glNormal3f(GLfloat x, GLfloat y, GLfloat z) {
     if (state.list.active) {
         rlNormal3f(state.list.active, x, y, z);
     } else {
-        glNormal3f(x, y, z);
+        LOAD_GLES(void, glNormal3f, GLfloat, GLfloat, GLfloat);
+        gles_glNormal3f(x, y, z);
     }
 }
 
