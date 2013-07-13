@@ -28,6 +28,7 @@
 
 // glDrawArrays
 #define skip_glDrawArrays
+#define skip_glDrawElements
 #define skip_glVertexPointer
 #define skip_glColorPointer
 #define skip_glNormalPointer

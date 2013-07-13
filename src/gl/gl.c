@@ -107,6 +107,23 @@ GLboolean glIsEnabled(GLenum cap) {
     }
 }
 
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
+    // TODO: do more than just thunk indices
+    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
+    if (type == GL_UNSIGNED_INT) {
+        // TODO: split for count > 65535?
+        const GLuint *intIndices = (const GLuint *)indices;
+        GLushort *shortIndices = malloc(count * sizeof(GLushort));
+        for (int i = 0; i < count; i++) {
+            shortIndices[i] = intIndices[i];
+        }
+        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+        free(shortIndices);
+    } else {
+        gles_glDrawElements(mode, count, type, indices);
+    }
+}
+
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
