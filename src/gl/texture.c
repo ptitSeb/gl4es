@@ -196,7 +196,7 @@ void glPixelStorei(GLenum pname, GLint param) {
 
 void glBindTexture(GLenum target, GLuint texture) {
     if (state.list.active) {
-        rlBindTexture(state.list.active);
+        rlBindTexture(state.list.active, texture);
     } else {
         if (texture) {
             int ret;

@@ -48,6 +48,7 @@ extern void draw_renderlist(RenderList *list);
 extern void q2t_renderlist(RenderList *list);
 extern void end_renderlist(RenderList *list);
 
+extern void rlBindTexture(RenderList *list, GLuint texture);
 extern void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 extern void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
 extern void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
