@@ -62,7 +62,7 @@ GLfloat gen_tex_coord(GLfloat *vert, GLenum type, GLfloat *params) {
     return 0;
 }
 
-static void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count) {
+void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count) {
 #ifdef __ARM_NEON__
     float32x2_t acc;
     float32x2x3_t vert;
