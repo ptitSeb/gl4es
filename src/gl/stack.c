@@ -163,7 +163,12 @@ void glPushAttrib(GLbitfield mask) {
     }
 
     // TODO: GL_STENCIL_BUFFER_BIT
-    // TODO: GL_TEXTURE_BIT
+
+    // TODO: incomplete
+    if (mask & GL_TEXTURE_BIT) {
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture);
+    }
+
     // TODO: GL_TRANSFORM_BIT
     // TODO: GL_VIEWPORT_BIT
 
@@ -336,6 +341,10 @@ void glPopAttrib() {
     if (cur->mask & GL_SCISSOR_BIT) {
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         glScissor(v4(cur->scissor_box));
+    }
+
+    if (cur->mask & GL_TEXTURE_BIT) {
+        glBindTexture(GL_TEXTURE_2D, cur->texture);
     }
 
     maybe_free(cur->clip_planes_enabled);

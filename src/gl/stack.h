@@ -97,7 +97,10 @@ typedef struct {
     GLfloat scissor_box[4];
 
     // TODO: GL_STENCIL_BUFFER_BIT
-    // TODO: GL_TEXTURE_BIT
+
+    // GL_TEXTURE_BIT
+    GLint texture;
+
     // TODO: GL_TRANSFORM_BIT
     // TODO: GL_VIEWPORT_BIT
 

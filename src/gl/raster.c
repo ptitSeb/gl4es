@@ -108,6 +108,7 @@ void render_raster() {
 
 // FIXME
 #ifndef USE_ES2
+    glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -162,7 +163,8 @@ void render_raster() {
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewport.width, viewport.height,
                     GL_RGBA, GL_UNSIGNED_BYTE, raster);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
+    gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glDeleteTextures(1, &texture);
 
     glDisable(GL_BLEND);
@@ -174,6 +176,7 @@ void render_raster() {
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+    glPopAttrib();
 #endif
     free(raster);
     raster = NULL;
