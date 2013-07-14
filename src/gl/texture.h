@@ -32,7 +32,7 @@ typedef struct {
     GLboolean uploaded;
 } GLtexture;
 
-KHASH_MAP_INIT_INT(tex, GLtexture *);
+KHASH_MAP_INIT_INT(tex, GLtexture *)
 
 static inline GLenum map_tex_target(GLenum target) {
     switch (target) {
