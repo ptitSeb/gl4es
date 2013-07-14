@@ -124,88 +124,44 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
     }
 }
 
+static RenderList *arrays_to_renderlist(RenderList *list, GLenum mode,
+                                        GLsizei skip, GLsizei count) {
+    if (! list)
+        list = alloc_renderlist();
+
+    list->mode = mode;
+    list->len = count;
+    list->cap = count;
+    if (state.enable.vertex_array) {
+        list->vert = copy_gl_pointer(&state.pointers.vertex, 3, count);
+    }
+    if (state.enable.color_array) {
+        list->color = copy_gl_pointer(&state.pointers.color, 4, count);
+    }
+    if (state.enable.normal_array) {
+        list->normal = copy_gl_pointer(&state.pointers.normal, 3, count);
+    }
+    if (state.enable.tex_coord_array) {
+        list->tex = copy_gl_pointer(&state.pointers.tex_coord, 2, count);
+    }
+
+    end_renderlist(list);
+    return list;
+}
+
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
 
+    RenderList *list;
+    if (state.list.active && state.list.compiling) {
+        list = state.list.active = extend_renderlist(state.list.active);
+        arrays_to_renderlist(list, mode, first, count);
+        return;
+    }
+
     if (mode == GL_QUADS || (state.pointers.tex_coord.pointer && state.texture.rect_arb)) {
-        // TODO: support more types/sizes
-        RenderList *list = alloc_renderlist();
-        list->mode = mode;
-        list->len = count;
-        list->cap = count;
-
-        #define type_case(magic, type, code) \
-            case magic: {                    \
-                type *next = (type *)src;    \
-                code                         \
-                break;                       \
-            }
-
-        #define type_switch(type, code)                                  \
-            switch (type) {                                              \
-                type_case(GL_FLOAT, GLfloat, code)                       \
-                type_case(GL_UNSIGNED_BYTE, GLubyte, code)               \
-                default:                                                 \
-                    printf("unsupported glDrawArrays type: %i\n", type); \
-                    break;                                               \
-            }
-
-        #define copy_gl_pointer(ptr, arr, element_size)                          \
-            if (ptr.pointer) {                                                   \
-                int stride, width, size;                                         \
-                uintptr_t src;                                                   \
-                GLfloat *dst;                                                    \
-                width = ptr.size;                                                \
-                size = gl_sizeof(ptr.type);                                      \
-                stride = (ptr.stride ? ptr.stride : width * size);               \
-                arr = malloc(sizeof(GLfloat) * element_size * count);            \
-                src = (uintptr_t)ptr.pointer;                                    \
-                dst = arr;                                                       \
-                                                                                 \
-                src += first * stride;                                           \
-                if (ptr.type == GL_FLOAT) {                                      \
-                    for (int i = 0; i < count; i++) {                            \
-                        memcpy(dst, (GLvoid *)src, sizeof(GLfloat) * width);     \
-                        for (int j = width; j < element_size; j++) {             \
-                            dst[j] = 0;                                          \
-                        }                                                        \
-                        dst += element_size;                                     \
-                        src += stride;                                           \
-                    }                                                            \
-                } else {                                                         \
-                    type_switch(ptr.type,                                        \
-                        for (int i = 0; i < count; i++) {                        \
-                            for (int k = 0; k < width; k++) {                    \
-                                dst[k] = next[k];                                \
-                            }                                                    \
-                            for (int j = width; j < element_size; j++) {         \
-                                dst[j] = 0;                                      \
-                            }                                                    \
-                            dst += element_size;                                 \
-                            src += stride;                                       \
-                            next = (void *)src;                                  \
-                        }                                                        \
-                    )                                                            \
-                }                                                                \
-            }
-
-        if (state.enable.vertex_array) {
-            copy_gl_pointer(state.pointers.vertex, list->vert, 3)
-        }
-        if (state.enable.color_array) {
-            copy_gl_pointer(state.pointers.color, list->color, 4)
-        }
-        if (state.enable.normal_array) {
-            copy_gl_pointer(state.pointers.normal, list->normal, 3)
-        }
-        if (state.enable.tex_coord_array) {
-            copy_gl_pointer(state.pointers.tex_coord, list->tex, 2)
-        }
-        #undef copy_gl_pointer
-        #undef type_switch
-        #undef type_case
-        end_renderlist(list);
+        list = arrays_to_renderlist(NULL, mode, first, count);
         draw_renderlist(list);
         free_renderlist(list);
     } else {

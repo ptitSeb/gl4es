@@ -1,0 +1,14 @@
+#include "gl.h"
+
+#ifndef GL_ARRAY_H
+#define GL_ARRAY_H
+
+#include "state.h"
+
+GLvoid *copy_gl_array(const GLvoid *src,
+                      GLenum from, GLsizei width, GLsizei stride,
+                      GLenum to, GLsizei to_width, GLsizei count);
+
+GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei count);
+
+#endif

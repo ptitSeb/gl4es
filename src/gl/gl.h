@@ -60,6 +60,21 @@ void *gles;
 
 #define END_WRAP }
 
+#define GL_TYPE_CASE(name, var, magic, type, code) \
+    case magic: {                                  \
+        type *name = (type *)var;                  \
+        code                                       \
+        break;                                     \
+    }
+
+#define GL_TYPE_SWITCH(name, var, type, code, extra)             \
+    switch (type) {                                              \
+        GL_TYPE_CASE(name, var, GL_FLOAT, GLfloat, code)         \
+        GL_TYPE_CASE(name, var, GL_UNSIGNED_BYTE, GLubyte, code) \
+        GL_TYPE_CASE(name, var, GL_UNSIGNED_INT, GLuint, code)   \
+        extra                                                    \
+    }
+
 static const GLsizei gl_sizeof(GLenum type) {
     // types
     switch (type) {
@@ -119,7 +134,7 @@ static const GLsizei gl_sizeof(GLenum type) {
 #include "stack.h"
 #include "texgen.h"
 #include "texture.h"
-
+#include "array.h"
 
 #include "state.h"
 extern GLstate state;

@@ -1,8 +1,9 @@
 #include "gl.h"
-#include "texture.h"
 
 #ifndef GL_STATE_H
 #define GL_STATE_H
+
+#include "texture.h"
 
 typedef struct {
     GLboolean line_stipple,
