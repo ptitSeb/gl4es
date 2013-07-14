@@ -1,3 +1,4 @@
+#include <execinfo.h>
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <signal.h>
@@ -116,14 +117,35 @@ static bool g_showfps = false;
 static bool g_usefb = false;
 static bool g_vsync = false;
 static bool g_xrefresh = false;
+static bool g_stacktrace = false;
 static int fbdev = -1;
 
 static void xrefresh() {
     system("xrefresh");
 }
 
-static void xrefresh_handler(int sig) {
-    xrefresh();
+static void signal_handler(int sig) {
+    if (g_xrefresh)
+        xrefresh();
+
+    if (g_stacktrace) {
+        switch (sig) {
+            case SIGBUS:
+            case SIGFPE:
+            case SIGILL:
+            case SIGSEGV: {
+                void *array[10];
+                size_t size = backtrace(array, 10);
+                if (! size) {
+                    printf("No stacktrace. Compile with -funwind-tables.\n");
+                } else {
+                    printf("Stacktrace: %i\n", size);
+                    backtrace_symbols_fd(array, size, 2);
+                }
+                break;
+            }
+        }
+    }
     signal(sig, SIG_DFL);
     raise(sig);
 }
@@ -137,16 +159,19 @@ static void scan_env() {
         }
 
     env(LIBGL_XREFRESH, g_xrefresh, "xrefresh will be called on cleanup");
-    if (g_xrefresh) {
+    env(LIBGL_STACKTRACE, g_stacktrace, "stacktrace will be printed on crash");
+    if (g_xrefresh || g_stacktrace) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
-        signal(SIGBUS, xrefresh_handler);
-        signal(SIGFPE, xrefresh_handler);
-        signal(SIGILL, xrefresh_handler);
-        signal(SIGINT, xrefresh_handler);
-        signal(SIGQUIT, xrefresh_handler);
-        signal(SIGSEGV, xrefresh_handler);
-        signal(SIGTERM, xrefresh_handler);
-        atexit(xrefresh);
+        signal(SIGBUS, signal_handler);
+        signal(SIGFPE, signal_handler);
+        signal(SIGILL, signal_handler);
+        signal(SIGSEGV, signal_handler);
+        if (g_xrefresh) {
+            signal(SIGINT, signal_handler);
+            signal(SIGQUIT, signal_handler);
+            signal(SIGTERM, signal_handler);
+            atexit(xrefresh);
+        }
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
