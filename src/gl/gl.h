@@ -67,12 +67,16 @@ void *gles;
         break;                                     \
     }
 
-#define GL_TYPE_SWITCH(name, var, type, code, extra)             \
-    switch (type) {                                              \
-        GL_TYPE_CASE(name, var, GL_FLOAT, GLfloat, code)         \
-        GL_TYPE_CASE(name, var, GL_UNSIGNED_BYTE, GLubyte, code) \
-        GL_TYPE_CASE(name, var, GL_UNSIGNED_INT, GLuint, code)   \
-        extra                                                    \
+#define GL_TYPE_SWITCH(name, var, type, code, extra)               \
+    switch (type) {                                                \
+        GL_TYPE_CASE(name, var, GL_DOUBLE, GLdouble, code)         \
+        GL_TYPE_CASE(name, var, GL_FLOAT, GLfloat, code)           \
+        GL_TYPE_CASE(name, var, GL_INT, GLint, code)               \
+        GL_TYPE_CASE(name, var, GL_SHORT, GLshort, code)           \
+        GL_TYPE_CASE(name, var, GL_UNSIGNED_BYTE, GLubyte, code)   \
+        GL_TYPE_CASE(name, var, GL_UNSIGNED_INT, GLuint, code)     \
+        GL_TYPE_CASE(name, var, GL_UNSIGNED_SHORT, GLushort, code) \
+        extra                                                      \
     }
 
 static const GLsizei gl_sizeof(GLenum type) {
