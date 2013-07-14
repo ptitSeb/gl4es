@@ -107,23 +107,6 @@ GLboolean glIsEnabled(GLenum cap) {
     }
 }
 
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    // TODO: do more than just thunk indices
-    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
-    if (type == GL_UNSIGNED_INT) {
-        // TODO: split for count > 65535?
-        const GLuint *intIndices = (const GLuint *)indices;
-        GLushort *shortIndices = malloc(count * sizeof(GLushort));
-        for (int i = 0; i < count; i++) {
-            shortIndices[i] = intIndices[i];
-        }
-        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
-        free(shortIndices);
-    } else {
-        gles_glDrawElements(mode, count, type, indices);
-    }
-}
-
 static RenderList *arrays_to_renderlist(RenderList *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
@@ -147,6 +130,40 @@ static RenderList *arrays_to_renderlist(RenderList *list, GLenum mode,
 
     end_renderlist(list);
     return list;
+}
+
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
+    if (state.list.active && state.list.compiling) {
+        GLushort *shortIndices = copy_gl_array(indices, type, 1, 0,
+                                               GL_UNSIGNED_SHORT, 1, count);
+        GLsizei max = 0;
+        GLsizei min = -1;
+        for (int i = 0; i < count; i++) {
+            GLsizei n = shortIndices[i];
+            if (! min)
+                min = n;
+            min = (n < min) ? n : min;
+            max = (n > max) ? n : max;
+        }
+        RenderList *list = state.list.active = extend_renderlist(state.list.active);
+        // TODO: skip via min?
+        arrays_to_renderlist(list, mode, 0, max + 1);
+        list->indices = shortIndices;
+        list->len = count;
+        return;
+    }
+
+    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
+    // TODO: do more than just thunk indices
+    if (type == GL_UNSIGNED_INT) {
+        // TODO: split for count > 65535?
+        GLushort *shortIndices = copy_gl_array(indices, type, 1, 0,
+                                               GL_UNSIGNED_SHORT, 1, count);
+        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+        free(shortIndices);
+    } else {
+        gles_glDrawElements(mode, count, type, indices);
+    }
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
