@@ -249,3 +249,31 @@
 #define GL_AUX_BUFFERS           0x0C00
 #define GL_MAX_ELEMENTS_VERTICES 0x80E8
 #define GL_MAX_ELEMENTS_INDICES  0x80E9
+
+// evaluators
+#define GL_AUTO_NORMAL              0x0D80
+#define GL_MAP1_COLOR_4             0x0D90
+#define GL_MAP1_INDEX               0x0D91
+#define GL_MAP1_NORMAL              0x0D92
+#define GL_MAP1_TEXTURE_COORD_1         0x0D93
+#define GL_MAP1_TEXTURE_COORD_2         0x0D94
+#define GL_MAP1_TEXTURE_COORD_3         0x0D95
+#define GL_MAP1_TEXTURE_COORD_4         0x0D96
+#define GL_MAP1_VERTEX_3            0x0D97
+#define GL_MAP1_VERTEX_4            0x0D98
+#define GL_MAP2_COLOR_4             0x0DB0
+#define GL_MAP2_INDEX               0x0DB1
+#define GL_MAP2_NORMAL              0x0DB2
+#define GL_MAP2_TEXTURE_COORD_1         0x0DB3
+#define GL_MAP2_TEXTURE_COORD_2         0x0DB4
+#define GL_MAP2_TEXTURE_COORD_3         0x0DB5
+#define GL_MAP2_TEXTURE_COORD_4         0x0DB6
+#define GL_MAP2_VERTEX_3            0x0DB7
+#define GL_MAP2_VERTEX_4            0x0DB8
+#define GL_MAP1_GRID_DOMAIN         0x0DD0
+#define GL_MAP1_GRID_SEGMENTS           0x0DD1
+#define GL_MAP2_GRID_DOMAIN         0x0DD2
+#define GL_MAP2_GRID_SEGMENTS           0x0DD3
+#define GL_COEFF                0x0A00
+#define GL_ORDER                0x0A01
+#define GL_DOMAIN               0x0A02
