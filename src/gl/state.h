@@ -58,9 +58,19 @@ typedef struct {
 
 
 typedef struct {
+    MapState *vertex,
+             *index,
+             *color,
+             *normal,
+             *tex_coord;
+} MapStates;
+
+
+typedef struct {
     EnableState enable;
     PointerStates pointers;
     DisplayListState list;
+    MapStates map;
     TextureState texture;
     TexGenState texgen;
     GLfloat color[4];

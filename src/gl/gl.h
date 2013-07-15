@@ -166,6 +166,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
 
 #include "wrap/stub.h"
 #include "wrap/gl.h"
+#include "eval.h"
 #include "light.h"
 #include "line.h"
 #include "list.h"
