@@ -33,6 +33,8 @@ STUB(void glPopMatrix());
 STUB(void glPushMatrix());
 STUB(void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z));
 STUB(void glScalef(GLfloat x, GLfloat y, GLfloat z));
+STUB(void glTexEnvf(GLenum target, GLenum pname, GLfloat param));
+STUB(void glTexEnvi(GLenum target, GLenum pname, GLint param));
 STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
 #endif
 
@@ -73,10 +75,5 @@ STUB(void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei
 
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer))
-
-// mesh functions
-STUB(void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2));
-STUB(void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2));
-STUB(void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points));
 
 #undef STUB
