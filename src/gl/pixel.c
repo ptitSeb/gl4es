@@ -1,7 +1,8 @@
 #include "pixel.h"
 
 static const ColorLayout *get_color_map(GLenum format) {
-    #define map(fmt, ...) case fmt: {\
+    #define map(fmt, ...)                               \
+        case fmt: {                                     \
         static ColorLayout layout = {fmt, __VA_ARGS__}; \
         return &layout; }
     switch (format) {
@@ -22,8 +23,8 @@ static const ColorLayout *get_color_map(GLenum format) {
 
 static inline
 bool remap_pixel(const GLvoid *src, GLvoid *dst,
-                    const ColorLayout *src_color, GLenum src_type,
-                    const ColorLayout *dst_color, GLenum dst_type) {
+                 const ColorLayout *src_color, GLenum src_type,
+                 const ColorLayout *dst_color, GLenum dst_type) {
 
     #define type_case(constant, type, ...)        \
         case constant: {                          \
@@ -148,9 +149,9 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 }
 
 bool pixel_scale(const GLvoid *old, GLvoid **new,
-                  GLuint width, GLuint height,
-                  GLfloat ratio,
-                  GLenum format, GLenum type) {
+                 GLuint width, GLuint height,
+                 GLfloat ratio,
+                 GLenum format, GLenum type) {
     GLuint pixel_size, new_width, new_height;
     new_width = width * ratio;
     new_height = height * ratio;
@@ -174,7 +175,8 @@ bool pixel_scale(const GLvoid *old, GLvoid **new,
     return true;
 }
 
-bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height, GLenum format, GLenum type, GLuint name) {
+bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height,
+                  GLenum format, GLenum type, GLuint name) {
     const GLvoid *src;
     char filename[64];
     int size = 4 * 3 * width * height;
