@@ -195,6 +195,7 @@ void glEndList();
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
 void glGetDoublev(GLenum pname, GLdouble *params);
 void glIndexf(GLfloat i);
+void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer);
 void glListBase(GLuint base);
 void glNewList(GLuint list, GLenum mode);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
