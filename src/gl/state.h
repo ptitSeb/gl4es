@@ -3,6 +3,7 @@
 #ifndef GL_STATE_H
 #define GL_STATE_H
 
+#include "eval.h"
 #include "texture.h"
 
 typedef struct {
@@ -58,11 +59,15 @@ typedef struct {
 
 
 typedef struct {
-    MapState *vertex,
+    MapState *vertex3,
+             *vertex4,
              *index,
-             *color,
+             *color4,
              *normal,
-             *tex_coord;
+             *texture1,
+             *texture2,
+             *texture3,
+             *texture4;
 } MapStates;
 
 
@@ -70,7 +75,7 @@ typedef struct {
     EnableState enable;
     PointerStates pointers;
     DisplayListState list;
-    MapStates map;
+    MapStates map1, map2;
     TextureState texture;
     TexGenState texgen;
     GLfloat color[4];

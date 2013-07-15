@@ -1,43 +1,49 @@
 // TODO: glIsEnabled(), glGetMap()
 
 #include "eval.h"
+#include "math/eval.h"
 
-#define set_map_coords(name)        \
-    map.name._1 = name##1;          \
-    map.name._2 = name##2;          \
-    map.name.stride = name##stride; \
-    map.name.order = name##order;
+#define set_map_coords(n)         \
+    map->n._1 = n##1;             \
+    map->n._2 = n##2;             \
+    map->n.d = 1.0/(n##2 - n##1); \
+    map->n.stride = n##stride;    \
+    map->n.order = n##order;
 
-#define case_state(magic, name, w)         \
-    case magic:                            \
-        map.width = w;                     \
-        state.map.name = (MapState *)&map; \
+#define case_state(dims, magic, name, w)        \
+    case magic:                                 \
+        map->width = w;                         \
+        if (state.map##dims.name)               \
+            free(state.map##dims.name);         \
+        state.map##dims.name = (MapState *)map; \
         break;
 
-#define map_switch(dims)                                          \
-    switch (target) {                                             \
-        case_state(GL_MAP##dims##_COLOR_4, color, 4);             \
-        case_state(GL_MAP##dims##_INDEX, index, 0);               \
-        case_state(GL_MAP##dims##_NORMAL, normal, 0);             \
-        case_state(GL_MAP##dims##_TEXTURE_COORD_1, tex_coord, 1); \
-        case_state(GL_MAP##dims##_TEXTURE_COORD_2, tex_coord, 2); \
-        case_state(GL_MAP##dims##_TEXTURE_COORD_3, tex_coord, 3); \
-        case_state(GL_MAP##dims##_TEXTURE_COORD_4, tex_coord, 4); \
-        case_state(GL_MAP##dims##_VERTEX_3, vertex, 3);           \
-        case_state(GL_MAP##dims##_VERTEX_4, vertex, 4);           \
-    }                                                             \
-    map.points = points;
+#define map_switch(dims)                                                \
+    switch (target) {                                                   \
+        case_state(dims, GL_MAP##dims##_COLOR_4, color4, 4);            \
+        case_state(dims, GL_MAP##dims##_INDEX, index, 3);               \
+        case_state(dims, GL_MAP##dims##_NORMAL, normal, 3);             \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_1, texture1, 1);   \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_2, texture2, 2);   \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_3, texture3, 3);   \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_4, texture4, 4);   \
+        case_state(dims, GL_MAP##dims##_VERTEX_3, vertex3, 3);           \
+        case_state(dims, GL_MAP##dims##_VERTEX_4, vertex4, 4);           \
+    }                                                                   \
+    map->points = points;
 
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
-    static MapStateD map = {.type = GL_DOUBLE, .dims = 1};
+    MapStateD *map = malloc(sizeof(MapStateD));
+    map->type = GL_DOUBLE; map->dims = 1;
     set_map_coords(u);
     map_switch(1);
 }
 
 void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
-    static MapStateF map = {.type = GL_FLOAT, .dims = 1};
+    MapStateF *map = malloc(sizeof(MapStateF));
+    map->type = GL_FLOAT; map->dims = 1;
     set_map_coords(u);
     map_switch(1);
 }
@@ -45,7 +51,8 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
              GLint vstride, GLint vorder, const GLdouble *points) {
-    static MapStateD map = {.type = GL_DOUBLE, .dims = 2};
+    MapStateD *map = malloc(sizeof(MapStateD));
+    map->type = GL_DOUBLE; map->dims = 2;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
@@ -54,7 +61,8 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
 void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
-    static MapStateF map = {.type = GL_DOUBLE, .dims = 2};
+    MapStateF *map = malloc(sizeof(MapStateF));
+    map->type = GL_DOUBLE; map->dims = 2;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
@@ -64,23 +72,60 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
 #undef case_state
 #undef map_switch
 
+#define p_map(d, name, func, code) {             \
+    MapState *_map = state.map##d.name;          \
+    if (_map) {                                  \
+        if (_map->type == GL_DOUBLE) {           \
+            MapStateD *map = (MapStateD *)_map;  \
+            printf("double: not implemented\n"); \
+            /* code */                           \
+        } else if (_map->type == GL_FLOAT) {     \
+            MapStateF *map = (MapStateF *)_map;  \
+            GLfloat out[4];                      \
+            code                                 \
+            func##v(out);                        \
+        }                                        \
+    }}                                           \
+
+#define iter_maps(d, code)                  \
+    p_map(d, color4, glColor4f, code);      \
+    p_map(d, index, glIndexf, code);        \
+    p_map(d, normal, glNormal3f, code);     \
+    p_map(d, texture1, glTexCoord1f, code); \
+    p_map(d, texture2, glTexCoord2f, code); \
+    p_map(d, texture3, glTexCoord3f, code); \
+    p_map(d, texture4, glTexCoord4f, code); \
+    p_map(d, vertex3, glVertex3f, code);    \
+    p_map(d, vertex4, glVertex4f, code);
+
 void glEvalCoord1d(GLdouble u) {
-    if (state.map.vertex) {
-        // yeah!
-    }
+    glEvalCoord1f(u);
 }
 
 void glEvalCoord1f(GLfloat u) {
-
+    iter_maps(1,
+        GLfloat uu = (u - map->u._1) * map->u.d;
+        _math_horner_bezier_curve(map->points, out, uu, map->width, map->u.order);
+    )
 }
 
 void glEvalCoord2d(GLdouble u, GLdouble v) {
-
+    glEvalCoord2f(u, v);
 }
 
 void glEvalCoord2f(GLfloat u, GLfloat v) {
+    iter_maps(2,
+        GLfloat uu = (u - map->u._1) * map->u.d;
+        GLfloat vv = (v - map->v._1) * map->v.d;
+        // TODO: GL_AUTONORMAL
 
+        _math_horner_bezier_surf((GLfloat *)map->points, out, uu, vv,
+                                 map->width, map->u.order, map->v.order);
+    )
 }
+
+#undef p_map
+#undef iter_maps
 
 /*
 glEvalCoord

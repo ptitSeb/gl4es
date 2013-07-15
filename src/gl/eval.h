@@ -18,12 +18,12 @@ typedef struct {
 } MapState;
 
 typedef struct {
-    GLdouble _1, _2;
+    GLdouble _1, _2, d;
     GLint stride, order;
 } MapCoordD;
 
 typedef struct {
-    GLdouble _1, _2;
+    GLdouble _1, _2, d;
     GLint stride, order;
 } MapCoordF;
 
