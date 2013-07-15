@@ -35,6 +35,7 @@ typedef struct {
     GLenum type;
     GLint dims, width;
     MapCoordD u, v;
+    GLboolean free;
     const GLdouble *points;
 } MapStateD;
 
@@ -42,6 +43,7 @@ typedef struct {
     GLenum type;
     GLint dims, width;
     MapCoordF u, v;
+    GLboolean free;
     const GLfloat *points;
 } MapStateF;
 

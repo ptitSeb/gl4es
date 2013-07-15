@@ -33,10 +33,15 @@
     map->points = points;
 
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
-             GLint ustride, GLint uorder, const GLdouble *points) {
-    MapStateD *map = malloc(sizeof(MapStateD));
-    map->type = GL_DOUBLE; map->dims = 1;
+             GLint ustride, GLint uorder, const GLdouble *d_points) {
+    MapStateF *map = malloc(sizeof(MapStateF));
+    map->type = GL_FLOAT; map->dims = 1; map->free = true;
     set_map_coords(u);
+
+    GLfloat *points = malloc(uorder * sizeof(GLfloat));
+    for (int i = 0; i < uorder; i++) {
+        points[i] = d_points[i];
+    }
     map_switch(1);
 }
 
@@ -50,11 +55,15 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
 
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
-             GLint vstride, GLint vorder, const GLdouble *points) {
-    MapStateD *map = malloc(sizeof(MapStateD));
-    map->type = GL_DOUBLE; map->dims = 2;
+             GLint vstride, GLint vorder, const GLdouble *d_points) {
+    MapStateF *map = malloc(sizeof(MapStateF));
+    map->type = GL_FLOAT; map->dims = 2;; map->free = true;
     set_map_coords(u);
     set_map_coords(v);
+    GLfloat *points = malloc(uorder * vorder * sizeof(GLfloat));
+    for (int i = 0; i < uorder * vorder; i++) {
+        points[i] = d_points[i];
+    }
     map_switch(2);
 }
 
