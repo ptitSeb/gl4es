@@ -62,7 +62,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
     MapStateF *map = malloc(sizeof(MapStateF));
-    map->type = GL_DOUBLE; map->dims = 2;
+    map->type = GL_FLOAT; map->dims = 2;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
@@ -126,6 +126,74 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 
 #undef p_map
 #undef iter_maps
+
+void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
+                 GLint vn, GLdouble v1, GLdouble v2) {
+    glMapGrid2f(un, u1, u2, vn, v1, v2);
+}
+
+void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
+                 GLint vn, GLfloat v1, GLfloat v2) {
+    // TODO: double support?
+    MapStateF *map;
+    if (! state.map_grid)
+        state.map_grid = malloc(sizeof(MapStateF));
+
+    map = (MapStateF *)state.map_grid;
+    map->u.n = un;
+    map->u._1 = u1;
+    map->u._2 = u2;
+    map->v.n = vn;
+    map->v._1 = v1;
+    map->v._2 = v2;
+}
+
+GLvoid glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+    MapStateF *map;
+    if (! state.map2.vertex3 || !state.map2.vertex4)
+        return;
+
+    if (map->type == GL_DOUBLE) {
+        printf("libGL: GL_DOUBLE map not implemented\n");
+        return;
+    }
+
+    GLfloat u, du, v, dv, v1, u1;
+    GLint i, j;
+    GLenum renderMode;
+    switch (mode) {
+        case GL_POINT:
+            renderMode = GL_POINTS;
+            break;
+        case GL_LINE:
+            renderMode = GL_LINE_STRIP;
+            break;
+        case GL_FILL:
+            renderMode = GL_TRIANGLE_STRIP;
+            break;
+        default:
+            printf("unknown glEvalMesh2f mode: %x\n", mode);
+            return;
+    }
+    glBegin(renderMode);
+    for (v = v1, j = j1; j <= j2; j++, v += dv) {
+        for (u = u1, i = i1; i <= i2; i++, u += du) {
+            glEvalCoord2f(u, v);
+            if (mode == GL_FILL)
+                glEvalCoord2f(u, v + dv);
+        }
+    }
+    glEnd();
+    if (mode == GL_LINE) {
+        glBegin(renderMode);
+        for (u = u1, i = i1; i <= i2; i++, u += du) {
+            for (v = v1, j = j1; j <= j2; j++, v += dv) {
+                glEvalCoord2f(u, v);
+            }
+        }
+        glEnd();
+    }
+}
 
 /*
 glEvalCoord

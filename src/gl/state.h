@@ -76,6 +76,7 @@ typedef struct {
     PointerStates pointers;
     DisplayListState list;
     MapStates map1, map2;
+    MapState *map_grid;
     TextureState texture;
     TexGenState texgen;
     GLfloat color[4];
