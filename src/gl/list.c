@@ -303,14 +303,19 @@ void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * p
 }
 
 void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
-    GLfloat *tex = list->lastTex;
-    tex[0] = s; tex[1] = t;
-
     if (list->tex == NULL) {
         list->tex = alloc_sublist(2, list->cap);
+        // catch up
+        GLfloat *tex = list->tex;
+        for (int i = 0; i < list->len; i++) {
+            memcpy(tex, list->lastTex, sizeof(GLfloat) * 2);
+            tex += 2;
+        }
     } else {
         resize_renderlist(list);
     }
+    GLfloat *tex = list->lastTex;
+    tex[0] = s; tex[1] = t;
 }
 
 void rlBindTexture(RenderList *list, GLuint texture) {

@@ -29,8 +29,8 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
     if (!tex || !width || !height)
         return;
 
-    GLfloat wratio = (width / nwidth);
-    GLfloat hratio = (height / nheight);
+    GLfloat wratio = (width / (GLfloat)nwidth);
+    GLfloat hratio = (height / (GLfloat)nheight);
     for (int i = 0; i < len; i++) {
         tex[0] *= wratio;
         tex[1] *= hratio;
