@@ -25,6 +25,7 @@
 #define skip_glPixelStorei
 #define skip_glTexImage2D
 #define skip_glTexParameteri
+#define skip_glTexSubImage2D
 
 // glDrawArrays
 #define skip_glDrawArrays
