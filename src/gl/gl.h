@@ -89,6 +89,8 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_UNSIGNED_INT:
         case GL_UNSIGNED_INT_10_10_10_2:
         case GL_UNSIGNED_INT_2_10_10_10_REV:
+        case GL_UNSIGNED_INT_8_8_8_8:
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
         case GL_4_BYTES:
             return 4;
         case GL_3_BYTES:
@@ -107,25 +109,59 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_UNSIGNED_BYTE:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
         case GL_UNSIGNED_BYTE_3_3_2:
-        case GL_UNSIGNED_INT_8_8_8_8:
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
             return 1;
     }
     // formats
-    switch (type) {
-        case GL_RED:
-            return 1;
-        case GL_RG:
-            return 2;
-        case GL_RGB:
-        case GL_BGR:
-            return 3;
-        case GL_RGBA:
-        case GL_BGRA:
-            return 4;
-    }
     printf("libGL: Unsupported pixel data type: %i\n", type);
     return 0;
+}
+
+static const GLboolean is_type_packed(GLenum type) {
+    switch (type) {
+        case GL_4_BYTES:
+        case GL_UNSIGNED_BYTE_2_3_3_REV:
+        case GL_UNSIGNED_BYTE_3_3_2:
+        case GL_UNSIGNED_INT_10_10_10_2:
+        case GL_UNSIGNED_INT_2_10_10_10_REV:
+        case GL_UNSIGNED_INT_8_8_8_8:
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_UNSIGNED_SHORT_1_5_5_5_REV:
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_4_4_4_4_REV:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        case GL_UNSIGNED_SHORT_5_6_5_REV:
+            return true;
+    }
+    return false;
+}
+
+static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
+    GLsizei width = 0;
+    switch (format) {
+        case GL_RED:
+            width = 1;
+            break;
+        case GL_RG:
+            width = 2;
+            break;
+        case GL_RGB:
+        case GL_BGR:
+            width = 3;
+            break;
+        case GL_RGBA:
+        case GL_BGRA:
+            width = 4;
+            break;
+        default:
+            printf("libGL: unsupported pixel format %x\n", format);
+            return 0;
+    }
+
+    if (is_type_packed(type))
+        width = 1;
+
+    return width * gl_sizeof(type);
 }
 
 #include "wrap/stub.h"

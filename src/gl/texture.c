@@ -48,7 +48,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         // implements GL_UNPACK_ROW_LENGTH
         if (state.texture.unpack_row_length && state.texture.unpack_row_length != width) {
             int imgWidth, pixelSize;
-            pixelSize = gl_sizeof(type);
+            pixelSize = pixel_sizeof(format, type);
             imgWidth = state.texture.unpack_row_length * pixelSize;
             GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
             pixels = (GLvoid *)dst;
