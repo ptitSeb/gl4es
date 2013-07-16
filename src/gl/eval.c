@@ -176,7 +176,7 @@ static inline GLenum eval_mesh_prep(MapStateF **map, GLenum mode) {
         case GL_LINE: return GL_LINE_STRIP;
         case GL_FILL: return GL_TRIANGLE_STRIP;
         default:
-            printf("unknown glEvalMesh2f mode: %x\n", mode);
+            printf("unknown glEvalMesh mode: %x\n", mode);
             return 0;
     }
 }
