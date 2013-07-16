@@ -157,33 +157,53 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
     map->v._2 = v2;
 }
 
-GLvoid glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+static inline GLenum eval_mesh_prep(MapStateF **map, GLenum mode) {
+    if (state.map2.vertex4) {
+        *map = (MapStateF *)state.map2.vertex4;
+    } else if (state.map2.vertex3) {
+        *map = (MapStateF *)state.map2.vertex3;
+    } else {
+        return 0;
+    }
+
+    if ((*map)->type == GL_DOUBLE) {
+        printf("libGL: GL_DOUBLE map not implemented\n");
+        return 0;
+    }
+
+    switch (mode) {
+        case GL_POINT: return GL_POINTS;
+        case GL_LINE: return GL_LINE_STRIP;
+        case GL_FILL: return GL_TRIANGLE_STRIP;
+        default:
+            printf("unknown glEvalMesh2f mode: %x\n", mode);
+            return 0;
+    }
+}
+
+void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     MapStateF *map;
-    if (! state.map2.vertex3 || !state.map2.vertex4)
+    GLenum renderMode = eval_mesh_prep(&map, mode);
+    if (! renderMode)
         return;
 
-    if (map->type == GL_DOUBLE) {
-        printf("libGL: GL_DOUBLE map not implemented\n");
-        return;
+    GLfloat u, du, u1;
+    GLint i;
+    glBegin(renderMode);
+    for (u = u1, i = i1; i <= i2; i++, u += du) {
+        glEvalCoord1f(u);
     }
+    glEnd();
+}
+
+void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+    MapStateF *map;
+    GLenum renderMode = eval_mesh_prep(&map, mode);
+    if (! renderMode)
+        return;
 
     GLfloat u, du, v, dv, v1, u1;
     GLint i, j;
-    GLenum renderMode;
-    switch (mode) {
-        case GL_POINT:
-            renderMode = GL_POINTS;
-            break;
-        case GL_LINE:
-            renderMode = GL_LINE_STRIP;
-            break;
-        case GL_FILL:
-            renderMode = GL_TRIANGLE_STRIP;
-            break;
-        default:
-            printf("unknown glEvalMesh2f mode: %x\n", mode);
-            return;
-    }
     glBegin(renderMode);
     for (v = v1, j = j1; j <= j2; j++, v += dv) {
         for (u = u1, i = i1; i <= i2; i++, u += du) {
