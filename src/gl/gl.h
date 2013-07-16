@@ -208,6 +208,7 @@ extern GLstate state;
 GLboolean glIsList(GLuint list);
 GLuint glGenLists(GLsizei range);
 void glActiveTextureARB(GLenum texture);
+void glArrayElement(GLint i);
 void glBegin(GLenum mode);
 void glCallList(GLuint list);
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
