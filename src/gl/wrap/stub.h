@@ -1,7 +1,6 @@
 #include "../gl.h"
 
 GLint glRenderMode(GLenum mode);
-void glArrayElement(GLint i);
 void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
 void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
@@ -33,8 +32,3 @@ void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data);
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 void glSelectBuffer(GLsizei size, GLuint *buffer);
-
-// mesh functions
-void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2);
-void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
-void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points);
