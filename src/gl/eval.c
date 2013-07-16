@@ -175,6 +175,7 @@ static inline GLenum eval_mesh_prep(MapStateF **map, GLenum mode) {
         case GL_POINT: return GL_POINTS;
         case GL_LINE: return GL_LINE_STRIP;
         case GL_FILL: return GL_TRIANGLE_STRIP;
+        case 0: return 1;
         default:
             printf("unknown glEvalMesh mode: %x\n", mode);
             return 0;
@@ -188,6 +189,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
         return;
 
     GLfloat u, du, u1;
+    du = map->u.d;
     GLint i;
     glBegin(renderMode);
     for (u = u1, i = i1; i <= i2; i++, u += du) {
@@ -202,7 +204,9 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     if (! renderMode)
         return;
 
-    GLfloat u, du, v, dv, v1, u1;
+    GLfloat u, du, u1, v, dv, v1;
+    du = map->u.d;
+    dv = map->v.d;
     GLint i, j;
     glBegin(renderMode);
     for (v = v1, j = j1; j <= j2; j++, v += dv) {
@@ -222,6 +226,18 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
         }
         glEnd();
     }
+}
+
+void glEvalPoint1(GLint i) {
+    MapStateF *map;
+    if (eval_mesh_prep(&map, 0))
+        glEvalCoord1f(i + map->u.d);
+}
+
+void glEvalPoint2(GLint i, GLint j) {
+    MapStateF *map;
+    if (eval_mesh_prep(&map, 0))
+        glEvalCoord2f(i + map->u.d, j + map->v.d);
 }
 
 /*
