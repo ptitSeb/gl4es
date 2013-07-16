@@ -73,7 +73,7 @@ static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
         if (! pixel_convert(data, &pixels, width, height,
                             *format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
             printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
-                format, type);
+                *format, *type);
             return NULL;
         }
         *type = GL_UNSIGNED_BYTE;
