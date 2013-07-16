@@ -10,5 +10,6 @@ GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum to, GLsizei to_width, GLsizei count);
 
 GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei count);
+GLfloat *gl_pointer_index(PointerState *ptr, GLint index);
 
 #endif

@@ -112,7 +112,31 @@ static const GLsizei gl_sizeof(GLenum type) {
             return 1;
     }
     // formats
-    printf("libGL: Unsupported pixel data type: %i\n", type);
+    printf("libGL: Unsupported pixel data type: 0x%x\n", type);
+    return 0;
+}
+
+static const GLuint gl_max_value(GLenum type) {
+    switch (type) {
+        // float/double only make sense on tex/color
+        // be careful about using this
+        case GL_DOUBLE:
+        case GL_FLOAT:
+            return 1;
+        case GL_INT:
+            return (1 << 31) - 1;
+        case GL_UNSIGNED_INT:
+            return -((1 << 31) - 1);
+        case GL_SHORT:
+            return (1 << 15) - 1;
+        case GL_UNSIGNED_SHORT:
+            return (1 << 16) - 1;
+        case GL_BYTE:
+            return (1 << 7) - 1;
+        case GL_UNSIGNED_BYTE:
+            return (1 << 8) - 1;
+    }
+    printf("libGL: unknown gl max value type: 0x%x\n", type);
     return 0;
 }
 

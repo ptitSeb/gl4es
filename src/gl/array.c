@@ -67,3 +67,23 @@ GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei count) {
     return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, count);
 }
+
+GLfloat *gl_pointer_index(PointerState *p, GLint index) {
+    static GLfloat buf[4];
+    GLsizei size = gl_sizeof(p->type);
+    GLsizei stride = p->stride ? p->stride : size * p->size;
+    uintptr_t ptr = (uintptr_t)p->pointer + (stride * index);
+
+    GL_TYPE_SWITCH(src, ptr, p->type,
+        for (int i = 0; i < p->size; i++) {
+            buf[i] = src[i];
+        }
+        // zero anything not set by the pointer
+        for (int i = p->size; i < 4; i++) {
+            buf[i] = 0;
+        },
+        default:
+            printf("libGL: unknown pointer type: 0x%x\n", p->type);
+    )
+    return buf;
+}

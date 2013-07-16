@@ -368,52 +368,45 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
     }
 }
 
-
-void ptrGetFloat(GLfloat *dst, PointerState *p, GLint idx, GLint num) {
-  int elSize = 4;
-  if (p->type == GL_SHORT || p->type == GL_UNSIGNED_SHORT) elSize = 2;
-  else if (p->type == GL_DOUBLE) elSize = 8;
-  else if (p->type == GL_BYTE || p->type == GL_UNSIGNED_BYTE) elSize = 1;
-  int byteOffset = p->stride ? (p->stride*idx) : elSize*p->size*idx;
-  char *ptr = &(((char*)p->pointer)[byteOffset]);
-  int i;
-  for (i=0;i<num;i++) {
-    if (i >= p->size) {
-      dst[i] = i==3 ? 1 : 0;
-    } else {
-      switch (p->type) {
-        case GL_BYTE : dst[i] = (*(GLbyte*)ptr) / 128.0f; break;
-        case GL_UNSIGNED_BYTE : dst[i] = (*(GLubyte*)ptr) / 256.0f; break;
-        case GL_SHORT : dst[i] = (*(GLbyte*)ptr) / 32768.0f; break;
-        case GL_UNSIGNED_SHORT : dst[i] = (*(GLubyte*)ptr) / 65536.0f; break;
-        case GL_FLOAT : dst[i] = *(GLfloat*)ptr; break;
-        case GL_DOUBLE : dst[i] = *(GLdouble*)ptr; break;
-      }
-      ptr += elSize;
-    }
-  }
-}
-
 void glArrayElement(GLint i) {
-    float buf[4];
-    if (state.pointers.color.pointer) {
-      ptrGetFloat(buf, &state.pointers.color, i, 4);
-      glColor4f( buf[0], buf[1], buf[2], buf[3] );
+    GLfloat *v;
+    PointerState *p;
+    p = &state.pointers.color;
+    if (p->pointer) {
+        v = gl_pointer_index(p, i);
+        GLuint scale = gl_max_value(p->type);
+        // color[3] defaults to 1.0f
+        if (p->size < 4)
+            v[3] = 1.0f;
+
+        // scale color coordinates to a 0 - 1.0 range
+        for (int i = 0; i < p->size; i++) {
+            v[i] /= scale;
+        }
+        glColor4fv(v);
     }
-    if (state.pointers.normal.pointer) {
-      ptrGetFloat(buf, &state.pointers.normal, i, 3);
-      glNormal3f( buf[0], buf[1], buf[2] );
+    p = &state.pointers.normal;
+    if (p->pointer) {
+        v = gl_pointer_index(p, i);
+        glNormal3fv(v);
     }
-    if (state.pointers.tex_coord.pointer) {
-      ptrGetFloat(buf, &state.pointers.tex_coord, i, 2);
-      glTexCoord2f( buf[0], buf[1] );
+    p = &state.pointers.tex_coord;
+    if (p->pointer) {
+        v = gl_pointer_index(p, i);
+        glTexCoord2fv(v);
     }
-    if (state.pointers.vertex.pointer) {
-      ptrGetFloat(buf, &state.pointers.vertex, i, 3);
-      glVertex3f( buf[0], buf[1], buf[2] );
+    p = &state.pointers.vertex;
+    if (p->pointer) {
+        v = gl_pointer_index(p, i);
+        if (p->size == 4) {
+            glVertex4fv(v);
+        } else {
+            glVertex3fv(v);
+        }
     }
 }
 
+// TODO: store these on state
 // display lists
 RenderList **displayLists = NULL;
 int listCount = 0;
