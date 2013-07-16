@@ -123,18 +123,12 @@ static const GLuint gl_max_value(GLenum type) {
         case GL_DOUBLE:
         case GL_FLOAT:
             return 1;
-        case GL_INT:
-            return (1 << 31) - 1;
-        case GL_UNSIGNED_INT:
-            return 0xffffffff;
-        case GL_SHORT:
-            return (1 << 15) - 1;
-        case GL_UNSIGNED_SHORT:
-            return (1 << 16) - 1;
-        case GL_BYTE:
-            return (1 << 7) - 1;
-        case GL_UNSIGNED_BYTE:
-            return (1 << 8) - 1;
+        case GL_BYTE:           return 127;
+        case GL_UNSIGNED_BYTE:  return 255;
+        case GL_SHORT:          return 32767;
+        case GL_UNSIGNED_SHORT: return 65535;
+        case GL_INT:            return 2147483647;
+        case GL_UNSIGNED_INT:   return 4294967295;
     }
     printf("libGL: unknown gl max value type: 0x%x\n", type);
     return 0;
