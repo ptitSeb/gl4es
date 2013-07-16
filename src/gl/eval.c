@@ -136,6 +136,23 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef p_map
 #undef iter_maps
 
+void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
+    glMapGrid1f(un, u1, u2);
+}
+
+void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
+    // TODO: double support?
+    MapStateF *map;
+    if (! state.map_grid)
+        state.map_grid = malloc(sizeof(MapStateF));
+
+    map = (MapStateF *)state.map_grid;
+    map->dims = 1;
+    map->u.n = un;
+    map->u._1 = u1;
+    map->u._2 = u2;
+}
+
 void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
                  GLint vn, GLdouble v1, GLdouble v2) {
     glMapGrid2f(un, u1, u2, vn, v1, v2);
@@ -149,6 +166,7 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
         state.map_grid = malloc(sizeof(MapStateF));
 
     map = (MapStateF *)state.map_grid;
+    map->dims = 2;
     map->u.n = un;
     map->u._1 = u1;
     map->u._2 = u2;
