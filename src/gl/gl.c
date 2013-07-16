@@ -159,7 +159,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
         // TODO: split for count > 65535?
         GLushort *shortIndices = copy_gl_array(indices, type, 1, 0,
                                                GL_UNSIGNED_SHORT, 1, count);
-        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, shortIndices);
         free(shortIndices);
     } else {
         gles_glDrawElements(mode, count, type, indices);
