@@ -126,7 +126,7 @@ static const GLuint gl_max_value(GLenum type) {
         case GL_INT:
             return (1 << 31) - 1;
         case GL_UNSIGNED_INT:
-            return -((1 << 31) - 1);
+            return 0xffffffff;
         case GL_SHORT:
             return (1 << 15) - 1;
         case GL_UNSIGNED_SHORT:
