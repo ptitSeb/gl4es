@@ -14,6 +14,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
 void glBindTexture(GLenum target, GLuint texture);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
+GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
 
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);

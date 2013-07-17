@@ -293,3 +293,10 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
     LOAD_GLES(void, glDeleteTextures, GLsizei, const GLuint *);
     gles_glDeleteTextures(n, textures);
 }
+
+GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) {
+    for (int i = 0; i < n; i++) {
+        residences[i] = true;
+    }
+    return true;
+}
