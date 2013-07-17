@@ -372,7 +372,7 @@ void glEvalCoord1fv(GLfloat *v) {
     glEvalCoord1f(v[0]);
 }
 
-void glEvalCoord1fd(GLdouble *v) {
+void glEvalCoord1dv(GLdouble *v) {
     glEvalCoord1d(v[0]);
 }
 
@@ -380,7 +380,7 @@ void glEvalCoord2fv(GLfloat *v) {
     glEvalCoord2f(v[0], v[1]);
 }
 
-void glEvalCoord2fd(GLdouble *v) {
+void glEvalCoord2dv(GLdouble *v) {
     glEvalCoord2d(v[0], v[1]);
 }
 

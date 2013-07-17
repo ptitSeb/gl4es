@@ -39,10 +39,10 @@ void glRasterPos4fv(const GLfloat *v);
 
 // eval
 void glEvalCoord1d(GLdouble u);
-void glEvalCoord1fd(GLdouble *v);
+void glEvalCoord1dv(GLdouble *v);
 void glEvalCoord1fv(GLfloat *v);
 void glEvalCoord2d(GLdouble u, GLdouble v);
-void glEvalCoord2fd(GLdouble *v);
+void glEvalCoord2dv(GLdouble *v);
 void glEvalCoord2fv(GLfloat *v);
 void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2);
 void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
