@@ -10,13 +10,18 @@
     map->n.stride = n##stride;    \
     map->n.order = n##order;
 
-#define case_state(dims, magic, name, w)        \
-    case magic:                                 \
-        map->width = w;                         \
-        if (state.map##dims.name)               \
-            free(state.map##dims.name);         \
-        state.map##dims.name = (MapState *)map; \
-        break;
+#define case_state(dims, magic, name, w)                  \
+    case magic: {                                         \
+        map->width = w;                                   \
+        MapStateF *m = (MapStateF *)state.map##dims.name; \
+        if (m) {                                          \
+            if (m->free)                                  \
+                free((void *)m->points);                  \
+            free(m);                                      \
+        }                                                 \
+        state.map##dims.name = (MapState *)map;           \
+        break;                                            \
+    }
 
 #define map_switch(dims)                                                \
     switch (target) {                                                   \
@@ -94,7 +99,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
             code                                 \
             func##v(out);                        \
         }                                        \
-    }}                                           \
+    }}
 
 #define iter_maps(d, code)                  \
     p_map(d, color4, glColor4f, code);      \
