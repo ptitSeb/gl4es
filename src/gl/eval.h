@@ -21,6 +21,9 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2);
 void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2);
 void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
 void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2);
+void glGetMapdv(GLenum target, GLenum query, GLdouble *v);
+void glGetMapfv(GLenum target, GLenum query, GLfloat *v);
+void glGetMapiv(GLenum target, GLenum query, GLint *v);
 
 typedef struct {
     GLenum type;

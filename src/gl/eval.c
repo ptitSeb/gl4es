@@ -264,36 +264,43 @@ void glEvalPoint2(GLint i, GLint j) {
         glEvalCoord2f(i + map->u.d, j + map->v.d);
 }
 
-void glGetMapiv(GLenum target, GLenum query, GLint *v) {
-    MapStateF *map = *(MapStateF **)get_map_pointer(target);
-    if (map) {
-        switch (query) {
-            case GL_COEFF: {
-                const GLfloat *points = map->points;
-                for (int i = 0; i < map->u.order; i++) {
-                    if (map->dims == 2) {
-                        for (int j = 0; j < map->v.order; j++) {
-                            *v++ = *points++;
-                        }
-                    } else {
-                        *v++ = *points++;
-                    }
-                }
-                return;
-            }
-            case GL_ORDER:
-                *v++ = map->u.order;
-                if (map->dims == 2)
-                    *v++ = map->v.order;
-                return;
-            case GL_DOMAIN:
-                *v++ = map->u._1;
-                *v++ = map->u._2;
-                if (map->dims == 2) {
-                    *v++ = map->u._1;
-                    *v++ = map->u._2;
-                }
-                return;
-        }
-    }
+#define GL_GET_MAP(t, type)                                      \
+void glGetMap##t##v(GLenum target, GLenum query, type *v) {      \
+    MapStateF *map = *(MapStateF **)get_map_pointer(target);     \
+    if (map) {                                                   \
+        switch (query) {                                         \
+            case GL_COEFF: {                                     \
+                const GLfloat *points = map->points;             \
+                for (int i = 0; i < map->u.order; i++) {         \
+                    if (map->dims == 2) {                        \
+                        for (int j = 0; j < map->v.order; j++) { \
+                            *v++ = *points++;                    \
+                        }                                        \
+                    } else {                                     \
+                        *v++ = *points++;                        \
+                    }                                            \
+                }                                                \
+                return;                                          \
+            }                                                    \
+            case GL_ORDER:                                       \
+                *v++ = map->u.order;                             \
+                if (map->dims == 2)                              \
+                    *v++ = map->v.order;                         \
+                return;                                          \
+            case GL_DOMAIN:                                      \
+                *v++ = map->u._1;                                \
+                *v++ = map->u._2;                                \
+                if (map->dims == 2) {                            \
+                    *v++ = map->u._1;                            \
+                    *v++ = map->u._2;                            \
+                }                                                \
+                return;                                          \
+        }                                                        \
+    }                                                            \
 }
+
+GL_GET_MAP(i, GLint)
+GL_GET_MAP(f, GLfloat)
+GL_GET_MAP(d, GLdouble)
+
+#undef GL_GET_MAP
