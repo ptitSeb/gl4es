@@ -87,3 +87,32 @@ GLfloat *gl_pointer_index(PointerState *p, GLint index) {
     )
     return buf;
 }
+
+
+GLfloat *copy_eval_double(GLenum target, GLint ustride, GLint uorder,
+                          GLint vstride, GLint vorder,
+                          const GLdouble *src) {
+
+    GLsizei width = get_map_width(target);
+    GLsizei dwidth = (uorder == 2 && vorder == 2) ? 0 : uorder * vorder;
+    GLsizei hwidth = (uorder > vorder ? uorder : vorder) * width;
+    GLsizei elements;
+    GLsizei uinc = ustride - vorder * vstride;
+
+    if (hwidth > dwidth) {
+        elements = (uorder * vorder * width + hwidth);
+    } else {
+        elements = (uorder * vorder * width + dwidth);
+    }
+    GLfloat *points = malloc(elements * sizeof(GLfloat));
+    GLfloat *dst = points;
+
+    for (int i = 0; i < uorder; i++, src += uinc) {
+        for (int j = 0; j < vorder; j++, src += vstride) {
+            for (int k = 0; k < width; k++) {
+                *dst++ = src[k];
+            }
+        }
+    }
+    return points;
+}

@@ -28,30 +28,6 @@ static inline MapState **get_map_pointer(GLenum target) {
     return NULL;
 }
 
-static inline GLsizei get_map_count(GLenum target) {
-    switch (target) {
-        case GL_MAP1_COLOR_4:         return 4;
-        case GL_MAP1_INDEX:           return 3;
-        case GL_MAP1_NORMAL:          return 3;
-        case GL_MAP1_TEXTURE_COORD_1: return 1;
-        case GL_MAP1_TEXTURE_COORD_2: return 2;
-        case GL_MAP1_TEXTURE_COORD_3: return 3;
-        case GL_MAP1_TEXTURE_COORD_4: return 4;
-        case GL_MAP1_VERTEX_3:        return 3;
-        case GL_MAP1_VERTEX_4:        return 4;
-        case GL_MAP2_COLOR_4:         return 4;
-        case GL_MAP2_INDEX:           return 3;
-        case GL_MAP2_NORMAL:          return 3;
-        case GL_MAP2_TEXTURE_COORD_1: return 1;
-        case GL_MAP2_TEXTURE_COORD_2: return 2;
-        case GL_MAP2_TEXTURE_COORD_3: return 3;
-        case GL_MAP2_TEXTURE_COORD_4: return 4;
-        case GL_MAP2_VERTEX_3:        return 3;
-        case GL_MAP2_VERTEX_4:        return 4;
-    }
-    return 0;
-}
-
 #define set_map_coords(n)         \
     map->n._1 = n##1;             \
     map->n._2 = n##2;             \
@@ -59,9 +35,9 @@ static inline GLsizei get_map_count(GLenum target) {
     map->n.stride = n##stride;    \
     map->n.order = n##order;
 
-#define case_state(dims, magic, name, w)                  \
+#define case_state(dims, magic, name)                     \
     case magic: {                                         \
-        map->width = w;                                   \
+        map->width = get_map_width(magic);                \
         MapStateF *m = (MapStateF *)state.map##dims.name; \
         if (m) {                                          \
             if (m->free)                                  \
@@ -74,61 +50,55 @@ static inline GLsizei get_map_count(GLenum target) {
 
 #define map_switch(dims)                                                \
     switch (target) {                                                   \
-        case_state(dims, GL_MAP##dims##_COLOR_4, color4, 4);            \
-        case_state(dims, GL_MAP##dims##_INDEX, index, 3);               \
-        case_state(dims, GL_MAP##dims##_NORMAL, normal, 3);             \
-        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_1, texture1, 1);   \
-        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_2, texture2, 2);   \
-        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_3, texture3, 3);   \
-        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_4, texture4, 4);   \
-        case_state(dims, GL_MAP##dims##_VERTEX_3, vertex3, 3);           \
-        case_state(dims, GL_MAP##dims##_VERTEX_4, vertex4, 4);           \
-    }                                                                   \
-    map->points = points;
+        case_state(dims, GL_MAP##dims##_COLOR_4, color4);               \
+        case_state(dims, GL_MAP##dims##_INDEX, index);                  \
+        case_state(dims, GL_MAP##dims##_NORMAL, normal);                \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_1, texture1);     \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_2, texture2);     \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_3, texture3);     \
+        case_state(dims, GL_MAP##dims##_TEXTURE_COORD_4, texture4);     \
+        case_state(dims, GL_MAP##dims##_VERTEX_3, vertex3);             \
+        case_state(dims, GL_MAP##dims##_VERTEX_4, vertex4);             \
+    }
 
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
-             GLint ustride, GLint uorder, const GLdouble *d_points) {
+             GLint ustride, GLint uorder, const GLdouble *points) {
     MapStateF *map = malloc(sizeof(MapStateF));
     map->type = GL_FLOAT; map->dims = 1; map->free = true;
     set_map_coords(u);
-
-    GLfloat *points = malloc(uorder * sizeof(GLfloat));
-    for (int i = 0; i < uorder; i++) {
-        points[i] = d_points[i];
-    }
     map_switch(1);
+    map->points = copy_eval_double(target, ustride, uorder, 0, 1, points);
 }
 
 void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
     MapStateF *map = malloc(sizeof(MapStateF));
-    map->type = GL_FLOAT; map->dims = 1;
+    map->type = GL_FLOAT; map->dims = 1; map->free = false;
     set_map_coords(u);
     map_switch(1);
+    map->points = points;
 }
 
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
-             GLint vstride, GLint vorder, const GLdouble *d_points) {
+             GLint vstride, GLint vorder, const GLdouble *points) {
     MapStateF *map = malloc(sizeof(MapStateF));
-    map->type = GL_FLOAT; map->dims = 2;; map->free = true;
+    map->type = GL_FLOAT; map->dims = 2; map->free = true;
     set_map_coords(u);
     set_map_coords(v);
-    GLfloat *points = malloc(uorder * vorder * sizeof(GLfloat));
-    for (int i = 0; i < uorder * vorder; i++) {
-        points[i] = d_points[i];
-    }
     map_switch(2);
+    map->points = copy_eval_double(target, ustride, uorder, vstride, vorder, points);
 }
 
 void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
     MapStateF *map = malloc(sizeof(MapStateF));
-    map->type = GL_FLOAT; map->dims = 2;
+    map->type = GL_FLOAT; map->dims = 2; map->free = false;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
+    map->points = points;
 }
 
 #undef set_map_coords
@@ -141,7 +111,6 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
         if (_map->type == GL_DOUBLE) {           \
             MapStateD *map = (MapStateD *)_map;  \
             printf("double: not implemented\n"); \
-            /* code */                           \
         } else if (_map->type == GL_FLOAT) {     \
             MapStateF *map = (MapStateF *)_map;  \
             GLfloat out[4];                      \

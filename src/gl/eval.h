@@ -52,4 +52,28 @@ typedef struct {
     const GLfloat *points;
 } MapStateF;
 
+static const GLsizei get_map_width(GLenum target) {
+    switch (target) {
+        case GL_MAP1_COLOR_4:         return 4;
+        case GL_MAP1_INDEX:           return 3;
+        case GL_MAP1_NORMAL:          return 3;
+        case GL_MAP1_TEXTURE_COORD_1: return 1;
+        case GL_MAP1_TEXTURE_COORD_2: return 2;
+        case GL_MAP1_TEXTURE_COORD_3: return 3;
+        case GL_MAP1_TEXTURE_COORD_4: return 4;
+        case GL_MAP1_VERTEX_3:        return 3;
+        case GL_MAP1_VERTEX_4:        return 4;
+        case GL_MAP2_COLOR_4:         return 4;
+        case GL_MAP2_INDEX:           return 3;
+        case GL_MAP2_NORMAL:          return 3;
+        case GL_MAP2_TEXTURE_COORD_1: return 1;
+        case GL_MAP2_TEXTURE_COORD_2: return 2;
+        case GL_MAP2_TEXTURE_COORD_3: return 3;
+        case GL_MAP2_TEXTURE_COORD_4: return 4;
+        case GL_MAP2_VERTEX_3:        return 3;
+        case GL_MAP2_VERTEX_4:        return 4;
+    }
+    return 0;
+}
+
 #endif
