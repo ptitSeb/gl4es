@@ -52,48 +52,4 @@ typedef struct {
     const GLfloat *points;
 } MapStateF;
 
-static inline void **get_map_pointer(GLenum target) {
-    switch (target) {
-        case GL_MAP1_COLOR_4:         return &state.map1.color4;
-        case GL_MAP1_INDEX:           return &state.map1.index;
-        case GL_MAP1_TEXTURE_COORD_1: return &state.map1.texture1;
-        case GL_MAP1_TEXTURE_COORD_2: return &state.map1.texture2;
-        case GL_MAP1_TEXTURE_COORD_3: return &state.map1.texture3;
-        case GL_MAP1_TEXTURE_COORD_4: return &state.map1.texture4;
-        case GL_MAP1_VERTEX_3:        return &state.map1.vertex3;
-        case GL_MAP1_VERTEX_4:        return &state.map1.vertex4;
-        case GL_MAP2_COLOR_4:         return &state.map2.color4;
-        case GL_MAP2_INDEX:           return &state.map2.index;
-        case GL_MAP2_TEXTURE_COORD_1: return &state.map2.texture1;
-        case GL_MAP2_TEXTURE_COORD_2: return &state.map2.texture2;
-        case GL_MAP2_TEXTURE_COORD_3: return &state.map2.texture3;
-        case GL_MAP2_TEXTURE_COORD_4: return &state.map2.texture4;
-        case GL_MAP2_VERTEX_3:        return &state.map2.vertex3;
-        case GL_MAP2_VERTEX_4:        return &state.map2.vertex4;
-    }
-}
-
-static inline GLsizei get_map_count(GLenum target) {
-    switch (target) {
-        case GL_MAP1_COLOR_4:         return 4;
-        case GL_MAP1_INDEX:           return 3;
-        case GL_MAP1_NORMAL:          return 3;
-        case GL_MAP1_TEXTURE_COORD_1: return 1;
-        case GL_MAP1_TEXTURE_COORD_2: return 2;
-        case GL_MAP1_TEXTURE_COORD_3: return 3;
-        case GL_MAP1_TEXTURE_COORD_4: return 4;
-        case GL_MAP1_VERTEX_3:        return 3;
-        case GL_MAP1_VERTEX_4:        return 4;
-        case GL_MAP2_COLOR_4:         return 4;
-        case GL_MAP2_INDEX:           return 3;
-        case GL_MAP2_NORMAL:          return 3;
-        case GL_MAP2_TEXTURE_COORD_1: return 1;
-        case GL_MAP2_TEXTURE_COORD_2: return 2;
-        case GL_MAP2_TEXTURE_COORD_3: return 3;
-        case GL_MAP2_TEXTURE_COORD_4: return 4;
-        case GL_MAP2_VERTEX_3:        return 3;
-        case GL_MAP2_VERTEX_4:        return 4;
-    }
-}
-
 #endif
