@@ -295,8 +295,5 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
 }
 
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) {
-    for (int i = 0; i < n; i++) {
-        residences[i] = true;
-    }
     return true;
 }
