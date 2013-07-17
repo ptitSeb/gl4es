@@ -1,4 +1,5 @@
 // TODO: glIsEnabled(), glGetMap()
+// TODO: GL_AUTO_NORMAL
 
 #include "eval.h"
 #include "math/eval.h"
@@ -112,19 +113,11 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
     p_map(d, vertex3, glVertex3f, code);    \
     p_map(d, vertex4, glVertex4f, code);
 
-void glEvalCoord1d(GLdouble u) {
-    glEvalCoord1f(u);
-}
-
 void glEvalCoord1f(GLfloat u) {
     iter_maps(1,
         GLfloat uu = (u - map->u._1) * map->u.d;
         _math_horner_bezier_curve(map->points, out, uu, map->width, map->u.order);
     )
-}
-
-void glEvalCoord2d(GLdouble u, GLdouble v) {
-    glEvalCoord2f(u, v);
 }
 
 void glEvalCoord2f(GLfloat u, GLfloat v) {
@@ -141,10 +134,6 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef p_map
 #undef iter_maps
 
-void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
-    glMapGrid1f(un, u1, u2);
-}
-
 void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     // TODO: double support?
     MapStateF *map;
@@ -156,11 +145,6 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     map->u.n = un;
     map->u._1 = u1;
     map->u._2 = u2;
-}
-
-void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
-                 GLint vn, GLdouble v1, GLdouble v2) {
-    glMapGrid2f(un, u1, u2, vn, v1, v2);
 }
 
 void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
@@ -296,41 +280,3 @@ void glGetMapiv(GLenum target, GLenum query, GLint *v) {
         }
     }
 }
-
-/*
-glEvalCoord
-glEvalCoord1d
-glEvalCoord1f
-glEvalCoord2d
-glEvalCoord2f
-glEvalCoord1dv
-glEvalCoord1fv
-glEvalCoord2dv
-glEvalCoord2fv
-
-glMap1, glMap1d, glMap1f
-glMap2, glMap2d, glMap2f
-glMapGrid, glMapGrid1d, glMapGrid1f, glMapGrid2d, glMapGrid2f
-glEvalMesh, glEvalMesh2
-glEvalPoint, glEvalPoint1, glEvalPoint2
-
-GL_MAP1_VERTEX_3
-GL_MAP1_VERTEX_4
-GL_MAP1_INDEX
-GL_MAP1_COLOR_4
-GL_MAP1_NORMAL
-GL_MAP1_TEXTURE_COORD_1
-GL_MAP1_TEXTURE_COORD_2
-GL_MAP1_TEXTURE_COORD_3
-GL_MAP1_TEXTURE_COORD_4
-GL_MAP2_VERTEX_3
-GL_MAP2_VERTEX_4
-GL_MAP2_INDEX
-GL_MAP2_COLOR_4
-GL_MAP2_NORMAL
-GL_MAP2_TEXTURE_COORD_1
-GL_MAP2_TEXTURE_COORD_2
-GL_MAP2_TEXTURE_COORD_3
-GL_MAP2_TEXTURE_COORD_4
-GL_AUTO_NORMAL
-*/

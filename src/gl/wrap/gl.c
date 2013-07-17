@@ -359,6 +359,40 @@ void glRasterPos4fv(const GLfloat *v) {
     glRasterPos4f(v[0], v[1], v[2], v[3]);
 }
 
+// eval
+void glEvalCoord1d(GLdouble u) {
+    glEvalCoord1f(u);
+}
+
+void glEvalCoord2d(GLdouble u, GLdouble v) {
+    glEvalCoord2f(u, v);
+}
+
+void glEvalCoord1fv(GLfloat *v) {
+    glEvalCoord1f(v[0]);
+}
+
+void glEvalCoord1fd(GLdouble *v) {
+    glEvalCoord1d(v[0]);
+}
+
+void glEvalCoord2fv(GLfloat *v) {
+    glEvalCoord2f(v[0], v[1]);
+}
+
+void glEvalCoord2fd(GLdouble *v) {
+    glEvalCoord2d(v[0], v[1]);
+}
+
+void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
+    glMapGrid1f(un, u1, u2);
+}
+
+void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
+                 GLint vn, GLdouble v1, GLdouble v2) {
+    glMapGrid2f(un, u1, u2, vn, v1, v2);
+}
+
 // matrix
 void glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
