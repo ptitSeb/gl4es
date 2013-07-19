@@ -406,32 +406,28 @@ void glArrayElement(GLint i) {
     }
 }
 
-// TODO: store these on state
 // display lists
-RenderList **displayLists = NULL;
-int listCount = 0;
-int listCap = 0;
 
 static RenderList *glGetList(GLuint list) {
     if (glIsList(list))
-        return displayLists[list - 1];
+        return state.lists[list - 1];
 
     return NULL;
 }
 
 GLuint glGenLists(GLsizei range) {
-    int start = listCount;
-    if (displayLists == NULL) {
-        listCap += range + 100;
-        displayLists = malloc(listCap * sizeof(uintptr_t));
-    } else if (listCount + range > listCap) {
-        listCap += range + 100;
-        displayLists = realloc(displayLists, listCap * sizeof(uintptr_t));
+    int start = state.list.count;
+    if (state.lists == NULL) {
+        state.list.cap += range + 100;
+        state.lists = malloc(state.list.cap * sizeof(uintptr_t));
+    } else if (state.list.count + range > state.list.cap) {
+        state.list.cap += range + 100;
+        state.lists = realloc(state.lists, state.list.cap * sizeof(uintptr_t));
     }
-    listCount += range;
+    state.list.count += range;
 
     for (int i = 0; i < range; i++) {
-        displayLists[start+i] = NULL;
+        state.lists[start+i] = NULL;
     }
     return start + 1;
 }
@@ -450,7 +446,7 @@ void glNewList(GLuint list, GLenum mode) {
 void glEndList() {
     GLuint list = state.list.name;
     if (state.list.compiling) {
-        displayLists[list - 1] = state.list.first;
+        state.lists[list - 1] = state.list.first;
         state.list.compiling = false;
         state.list.active = NULL;
         if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
@@ -512,7 +508,7 @@ void glDeleteList(GLuint list) {
     RenderList *l = glGetList(list);
     if (l) {
         free_renderlist(l);
-        displayLists[list-1] = NULL;
+        state.lists[list-1] = NULL;
     }
 
     // lists just grow upwards, maybe use a better storage mechanism?
@@ -529,7 +525,7 @@ void glListBase(GLuint base) {
 }
 
 GLboolean glIsList(GLuint list) {
-    if (list - 1 < listCount) {
+    if (list - 1 < state.list.count) {
         return true;
     }
     return false;

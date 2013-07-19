@@ -56,6 +56,9 @@ typedef struct {
     GLuint base;
     GLuint name;
     GLenum mode;
+
+    GLuint count;
+    GLuint cap;
 } DisplayListState;
 
 
@@ -76,6 +79,7 @@ typedef struct {
     EnableState enable;
     PointerStates pointers;
     DisplayListState list;
+    RenderList **lists;
     MapStates map1, map2;
     MapState *map_grid;
     TextureState texture;
