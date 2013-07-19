@@ -3,6 +3,7 @@
 #include <SDL/SDL.h>
 #include <dlfcn.h>
 #include <X11/Xlib.h>
+#include <stdio.h>
 
 /*
 SDL_GrabMode SDL_WM_GrabInput(SDL_GrabMode mode) {
@@ -22,6 +23,7 @@ int SDL_PollEvent(SDL_Event *event) {
 */
 
 int SDL_SetGamma(float r, float g, float b) {
+    printf("-!- Skipping SDL_SetGamma(%.2f, %.2f, %.2f)\n", r, g, b);
     return 0;
 }
 
@@ -53,6 +55,12 @@ int XCloseDisplay(Display *display) {
         }
     }
     return 0;
+}
+
+/* Pandora crashes on mouse events caused by libxi. Workaround by overriding this... */
+int XIQueryVersion(void *display, int *major, int *minor) {
+    printf("-!- Skipping Xinput(%d, %d) query for display: %p\n", (major?*major:0), (minor?*minor:0), display);
+    return 1; // BadRequest
 }
 
 /*
