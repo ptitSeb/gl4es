@@ -51,6 +51,7 @@ typedef struct {
 
 typedef struct {
     RenderList *active;
+    RenderList *first;
     GLboolean compiling;
     GLuint base;
     GLuint name;

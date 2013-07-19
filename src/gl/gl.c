@@ -413,10 +413,9 @@ int listCount = 0;
 int listCap = 0;
 
 static RenderList *glGetList(GLuint list) {
-    list -= 1;
-    if (list < listCount) {
-        return displayLists[list];
-    }
+    if (glIsList(list))
+        return displayLists[list - 1];
+
     return NULL;
 }
 
@@ -438,26 +437,20 @@ GLuint glGenLists(GLsizei range) {
 }
 
 void glNewList(GLuint list, GLenum mode) {
-    if (list > listCount) return;
-    state.list.mode = mode;
-    state.list.name = list;
-
-    RenderList *l = glGetList(list);
-    if (l) {
-        printf("newList already exists: %i. not implemented.\n", list);
-        // TODO: what do we do if the list already exists?
-        // iirc it's in the GL spec
+    if (! glIsList(list))
         return;
-    } else {
-        // TODO: if state.list.active is already defined, we probably need to clean up here
-        state.list.active = displayLists[list-1] = alloc_renderlist();
-        state.list.compiling = true;
-    }
+
+    state.list.name = list;
+    state.list.mode = mode;
+    // TODO: if state.list.active is already defined, we probably need to clean up here
+    state.list.active = state.list.first = alloc_renderlist();
+    state.list.compiling = true;
 }
 
 void glEndList() {
     GLuint list = state.list.name;
     if (state.list.compiling) {
+        displayLists[list - 1] = state.list.first;
         state.list.compiling = false;
         state.list.active = NULL;
         if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
@@ -467,11 +460,10 @@ void glEndList() {
 }
 
 void glCallList(GLuint list) {
-    // TODO: this call can be compiled into another display list
+    // TODO: the output of this call can be compiled into another display list
     RenderList *l = glGetList(list);
-    if (l) {
+    if (l)
         draw_renderlist(l);
-    }
 }
 
 void glPushCall(void *call) {
@@ -481,18 +473,18 @@ void glPushCall(void *call) {
 }
 
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
-    #define call(name, type)\
+    #define call(name, type) \
         case name: glCallList(((type *)lists)[i] + state.list.base); break
 
     // seriously wtf
-    #define call_bytes(name, stride)\
-        case name:\
-            l = (GLubyte *)lists;\
-            list = 0;\
-            for (j = 0; j < stride; j++) {\
-                list += *(l + (i * stride + j)) << (stride - j);\
-            }\
-            glCallList(list + state.list.base);\
+    #define call_bytes(name, stride)                             \
+        case name:                                               \
+            l = (GLubyte *)lists;                                \
+            list = 0;                                            \
+            for (j = 0; j < stride; j++) {                       \
+                list += *(l + (i * stride + j)) << (stride - j); \
+            }                                                    \
+            glCallList(list + state.list.base);                  \
             break
 
     unsigned int i, j;
@@ -527,8 +519,7 @@ void glDeleteList(GLuint list) {
 }
 
 void glDeleteLists(GLuint list, GLsizei range) {
-    int i;
-    for (i = 0; i < range; i++) {
+    for (int i = 0; i < range; i++) {
         glDeleteList(list+i);
     }
 }
@@ -538,7 +529,7 @@ void glListBase(GLuint base) {
 }
 
 GLboolean glIsList(GLuint list) {
-    if (glGetList(list)) {
+    if (list - 1 < listCount) {
         return true;
     }
     return false;
