@@ -9,8 +9,8 @@ void glPushAttrib(GLbitfield mask) {
         stack->len = 0;
         stack->cap = STACK_SIZE;
     } else if (stack->len == stack->cap) {
-        int size = stack->cap * sizeof(GLstack) + STACK_SIZE * sizeof(GLstack);
-        stack = (GLstack *)realloc(stack, size);
+        stack->cap += STACK_SIZE;
+        stack = (GLstack *)realloc(stack, stack->cap * sizeof(GLstack));
     }
 
     GLstack *cur = stack + stack->len;
@@ -181,8 +181,8 @@ void glPushClientAttrib(GLbitfield mask) {
         clientStack->len = 0;
         clientStack->cap = STACK_SIZE;
     } else if (clientStack->len == clientStack->cap) {
-        int size = clientStack->cap * sizeof(GLclientStack) + STACK_SIZE * sizeof(GLclientStack);
-        clientStack = (GLclientStack *)realloc(clientStack, size);
+        clientStack->cap += STACK_SIZE;
+        clientStack = (GLclientStack *)realloc(clientStack, clientStack->cap * sizeof(GLclientStack));
     }
 
     GLclientStack *cur = clientStack + clientStack->len;
