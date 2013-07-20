@@ -106,9 +106,9 @@ static int get_config_default(int attribute, int *value) {
 }
 
 // hmm...
-EGLContext eglContext;
-GLXContext glxContext;
-Display *xDisplay;
+static EGLContext eglContext;
+static GLXContext glxContext;
+static Display *xDisplay;
 
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
@@ -119,6 +119,14 @@ static bool g_vsync = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
 static int fbdev = -1;
+static int swap_interval = 1;
+
+static void init_vsync() {
+    fbdev = open("/dev/fb0", O_RDONLY);
+    if (fbdev < 0) {
+        fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
+    }
+}
 
 static void xrefresh() {
     system("xrefresh");
@@ -177,10 +185,7 @@ static void scan_env() {
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
     if (g_vsync) {
-        fbdev = open("/dev/fb0", O_RDONLY);
-        if (fbdev < 0) {
-            fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
-        }
+        init_vsync();
     }
 }
 
@@ -349,10 +354,16 @@ Bool glXMakeContextCurrent(Display *display, int drawable,
 
 void glXSwapBuffers(Display *display,
                     int drawable) {
+    static int frames = 0;
+
     render_raster();
-    if (fbdev >= 0) {
+    if (g_vsync && fbdev >= 0) {
+        // TODO: can I just return if I don't meet vsync over multiple frames?
+        // this will just block otherwise.
         int arg = 0;
-        ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
+        for (int i = 0; i < swap_interval; i++) {
+            ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
+        }
     }
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
@@ -457,6 +468,21 @@ GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
                                int render_type, GLXContext share_list,
                                Bool is_direct) {
     return glXCreateContext(display, 0, share_list, is_direct);
+}
+
+void glXSwapIntervalMESA(int interval) {
+    printf("glXSwapInterval(%i)\n", interval);
+    if (! g_vsync)
+        printf("Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
+    swap_interval = interval;
+}
+
+void glXSwapIntervalSGI(int interval) {
+    glXSwapIntervalMESA(interval);
+}
+
+void glXSwapIntervalEXT(Display *display, int drawable, int interval) {
+    glXSwapIntervalMESA(interval);
 }
 
 // misc stubs

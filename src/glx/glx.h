@@ -190,6 +190,10 @@ GLXContext glXCreateContext(Display *dpy,
                             GLXContext shareList,
                             Bool direct);
 
+void glXSwapIntervalEXT(Display *display, int drawable, int interval);
+void glXSwapIntervalMESA(int interval);
+void glXSwapIntervalSGI(int interval);
+
 // GLX 1.1?
 Bool glXIsDirect(Display * display, GLXContext ctx);
 Bool glXMakeCurrent(Display *display, int drawable, GLXContext context);
