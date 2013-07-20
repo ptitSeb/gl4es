@@ -30,6 +30,7 @@ typedef struct {
     GLuint unpack_row_length,
            unpack_skip_pixels,
            unpack_skip_rows;
+    GLboolean unpack_lsb_first;
     // TODO: do we only need to worry about GL_TEXTURE_2D?
     GLboolean rect_arb;
     GLtexture *bound;

@@ -214,6 +214,9 @@ void glPixelStorei(GLenum pname, GLint param) {
         case GL_UNPACK_SKIP_ROWS:
             state.texture.unpack_skip_rows = param;
             break;
+        case GL_UNPACK_LSB_FIRST:
+            state.texture.unpack_lsb_first = param;
+            break;
         default:
             gles_glPixelStorei(pname, param);
             break;
