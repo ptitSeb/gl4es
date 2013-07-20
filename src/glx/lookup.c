@@ -1,7 +1,7 @@
 #include "glx.h"
 
 #define EX(func_name) \
-    if (strcmp(name, #func_name) == 0) return func_name
+    if (strcmp(name, #func_name) == 0) return (void *)func_name
 
 #define MAP(func_name, func) \
     if (strcmp(name, #func_name) == 0) return func
@@ -9,7 +9,7 @@
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
         printf("glX stub: %s\n", #func_name); \
-        return glXStub;                       \
+        return (void *)glXStub;               \
     }
 
 void glXStub(void *x, ...) {
@@ -117,6 +117,14 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glEnable);
     EX(glEnd);
     EX(glEndList);
+    EX(glEvalCoord1d);
+    EX(glEvalCoord1f);
+    EX(glEvalCoord2d);
+    EX(glEvalCoord2f);
+    EX(glEvalMesh1);
+    EX(glEvalMesh2);
+    EX(glEvalPoint1);
+    EX(glEvalPoint2);
     EX(glFogCoordd);
     EX(glFogCoorddv);
     EX(glFogCoordf);
@@ -127,10 +135,14 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glGenLists);
     EX(glGetDoublev);
     EX(glGetIntegerv);
+    EX(glGetMapdv);
+    EX(glGetMapfv);
+    EX(glGetMapiv);
     EX(glGetTexImage);
     EX(glGetTexLevelParameterfv);
     EX(glGetTexLevelParameteriv);
     EX(glInitNames);
+    EX(glInterleavedArrays);
     EX(glIsList);
     EX(glLighti);
     EX(glLightiv);
@@ -141,6 +153,15 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glListBase);
     EX(glLoadMatrixd);
     EX(glLoadName);
+    EX(glLockArraysEXT);
+    EX(glMap1d);
+    EX(glMap1f);
+    EX(glMap2d);
+    EX(glMap2f);
+    EX(glMapGrid1d);
+    EX(glMapGrid1f);
+    EX(glMapGrid2d);
+    EX(glMapGrid2f);
     EX(glMateriali);
     EX(glMultiTexCoord2f);
     EX(glMultMatrixd);
@@ -175,6 +196,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexImage1D);
     EX(glTexImage3D);
     EX(glTranslated);
+    EX(glUnlockArraysEXT);
 
     // stubs for unimplemented functions
     STUB(glAccum);
@@ -184,20 +206,9 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glCopyTexImage1D);
     STUB(glCopyTexSubImage1D);
     STUB(glEdgeFlagPointer);
-    STUB(glEvalCoord1d);
-    STUB(glEvalCoord1f);
-    STUB(glEvalCoord2d);
-    STUB(glEvalCoord2f);
-    STUB(glEvalMesh1);
-    STUB(glEvalMesh2);
-    STUB(glEvalPoint1);
-    STUB(glEvalPoint2);
     STUB(glFeedbackBuffer);
     STUB(glGetClipPlane);
     STUB(glGetLightiv);
-    STUB(glGetMapdv);
-    STUB(glGetMapfv);
-    STUB(glGetMapiv);
     STUB(glGetMaterialiv);
     STUB(glGetPixelMapfv);
     STUB(glGetPixelMapuiv);
@@ -207,15 +218,6 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glGetTexGendv);
     STUB(glGetTexGenfv);
     STUB(glGetTexGeniv);
-    STUB(glInterleavedArrays);
-    STUB(glMap1d);
-    STUB(glMap1f);
-    STUB(glMap2d);
-    STUB(glMap2f);
-    STUB(glMapGrid1d);
-    STUB(glMapGrid1f);
-    STUB(glMapGrid2d);
-    STUB(glMapGrid2f);
     STUB(glMaterialiv);
     STUB(glPassThrough);
     STUB(glPixelMapfv);
