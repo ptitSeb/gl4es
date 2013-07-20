@@ -53,6 +53,7 @@ typedef struct {
     RenderList *active;
     RenderList *first;
     GLboolean compiling;
+    GLboolean locked;
     GLuint base;
     GLuint name;
     GLenum mode;

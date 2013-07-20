@@ -406,6 +406,17 @@ void glArrayElement(GLint i) {
     }
 }
 
+// TODO: between a lock and unlock, I can assume the array pointers are unchanged
+// so I can build a RenderList on the first call and hold onto it
+// maybe I need a way to call a RenderList with (first, count)
+void glLockArraysEXT(GLint first, GLsizei count) {
+    state.list.locked = true;
+}
+
+void glUnlockArraysEXT() {
+    state.list.locked = false;
+}
+
 // display lists
 
 static RenderList *glGetList(GLuint list) {
