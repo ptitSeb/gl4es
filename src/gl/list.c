@@ -52,7 +52,13 @@ void free_renderlist(RenderList *list) {
         if (list->normal) free(list->normal);
         if (list->color) free(list->color);
         if (list->tex) free(list->tex);
-        if (list->material) free(list->material);
+        if (list->material) {
+            RenderMaterial *m;
+            kh_foreach_value(list->material, m,
+                free(m);
+            )
+            kh_destroy(material, list->material);
+        }
         if (list->indices) free(list->indices);
         next = list->next;
         free(list);
@@ -176,12 +182,11 @@ void draw_renderlist(RenderList *list) {
         }
 
         if (list->material) {
-            RenderMaterial *m = list->material;
-            int i, pos = 0;
-            for (i = 0; i < list->material->count; i++) {
-                m = list->material + i;
+            khash_t(material) *map = list->material;
+            RenderMaterial *m;
+            kh_foreach_value(map, m,
                 glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
-            }
+            )
         }
 
         GLuint texture;
@@ -288,18 +293,34 @@ void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 }
 
 void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params) {
-    int *count;
+    RenderMaterial *m;
+    khash_t(material) *map;
+    khint_t k;
+    int ret;
     if (! list->material) {
-        // TODO: fixed size is a hack
-        list->material = malloc(20 * sizeof(RenderMaterial));
-        list->material->count = 0;
+        list->material = map = kh_init(material);
+        // segfaults if we don't do a single put
+        kh_put(material, map, 1, &ret);
+        kh_del(material, map, 1);
+    } else {
+        map = list->material;
     }
-    RenderMaterial *m = list->material + list->material->count;
+
+    // TODO: currently puts all faces in the same map
+    k = kh_get(material, map, pname);
+    if (k == kh_end(map)) {
+        k = kh_put(material, map, pname, &ret);
+        m = kh_value(map, k) = malloc(sizeof(RenderMaterial));
+    } else {
+        m = kh_value(map, k);
+    }
+
     m->face = face;
     m->pname = pname;
-    memcpy(m->color, params, sizeof(GLfloat) * 4);
-
-    list->material->count++;
+    m->color[0] = params[0];
+    m->color[1] = params[1];
+    m->color[2] = params[2];
+    m->color[3] = params[3];
 }
 
 void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {

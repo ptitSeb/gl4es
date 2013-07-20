@@ -10,6 +10,8 @@ typedef struct {
     int count;
 } RenderMaterial;
 
+KHASH_MAP_INIT_INT(material, RenderMaterial *)
+
 typedef struct CallListT {
     unsigned long len;
     unsigned long cap;
@@ -32,7 +34,7 @@ typedef struct RenderListT {
     GLushort *indices;
     GLboolean q2t;
 
-    RenderMaterial *material;
+    khash_t(material) *material;
     GLuint texture;
     struct RenderListT *next;
 } RenderList;
