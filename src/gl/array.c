@@ -2,7 +2,7 @@
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
-                      GLenum to, GLsizei to_width, GLsizei count) {
+                      GLenum to, GLsizei to_width, GLsizei skip, GLsizei count) {
     if (! src || !count)
         return NULL;
 
@@ -24,7 +24,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
     uintptr_t in = (uintptr_t)src;
     if (from == to && to_width >= width) {
         GL_TYPE_SWITCH(out, dst, to,
-            for (int i = 0; i < count; i++) {
+            for (int i = skip; i < count; i++) {
                 memcpy(out, (GLvoid *)in, from_size);
                 for (int j = width; j < to_width; j++) {
                     out[j] = 0;
@@ -38,7 +38,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
         )
     } else {
         GL_TYPE_SWITCH(out, dst, to,
-            for (int i = 0; i < count; i++) {
+            for (int i = skip; i < count; i++) {
                 GL_TYPE_SWITCH(input, in, from,
                     for (int j = 0; j < width; j++) {
                         out[j] = input[j];
@@ -63,9 +63,9 @@ GLvoid *copy_gl_array(const GLvoid *src,
     return dst;
 }
 
-GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei count) {
+GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei skip, GLsizei count) {
     return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
-                         GL_FLOAT, width, count);
+                         GL_FLOAT, width, skip, count);
 }
 
 GLfloat *gl_pointer_index(PointerState *p, GLint index) {
