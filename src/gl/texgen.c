@@ -95,6 +95,8 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *out, GLint count, GLe
 }
 
 void gen_tex_coords(GLfloat *verts, GLfloat **coords, GLint count) {
+    // TODO: do less work when called from glDrawElements?
+
     *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     if (state.enable.texgen_s)
         tex_coord_loop(verts, *coords, count, state.texgen.S, state.texgen.Sv);

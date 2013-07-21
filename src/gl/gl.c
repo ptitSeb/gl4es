@@ -132,39 +132,42 @@ static RenderList *arrays_to_renderlist(RenderList *list, GLenum mode,
     return list;
 }
 
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    if (state.list.active && state.list.compiling) {
-        GLushort *shortIndices = copy_gl_array(indices, type, 1, 0,
-                                               GL_UNSIGNED_SHORT, 1, 0, count);
-        GLsizei max = 0;
-        GLsizei min = -1;
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
+    // TODO: split for count > 65535?
+    GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    // TODO: do this in a more direct fashion.
+    if ((state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
+        state.enable.texgen_s || state.enable.texgen_t ||
+        (mode == GL_LINE && state.enable.line_stipple)
+    ) {
+        glBegin(mode);
         for (int i = 0; i < count; i++) {
-            GLsizei n = shortIndices[i];
-            if (! min)
-                min = n;
-            min = (n < min) ? n : min;
-            max = (n > max) ? n : max;
+            glArrayElement(indices[i]);
         }
-        for (int i = 0; i < count; i++) {
-            shortIndices[i] -= min;
-        }
-        RenderList *list = state.list.active = extend_renderlist(state.list.active);
-        // TODO: skip via min?
-        arrays_to_renderlist(list, mode, min, max - min + 1);
-        list->indices = shortIndices;
-        list->len = count;
+        glEnd();
         return;
     }
 
-    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
-    // TODO: do more than just thunk indices
-    if (type == GL_UNSIGNED_INT) {
-        // TODO: split for count > 65535?
-        GLushort *shortIndices = copy_gl_array(indices, type, 1, 0,
-                                               GL_UNSIGNED_SHORT, 1, 0, count);
-        gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, shortIndices);
-        free(shortIndices);
+    bool compiling = (state.list.active && state.list.compiling);
+    if (compiling) {
+        RenderList *list = NULL;
+        GLsizei min, max;
+
+        if (compiling)
+            list = state.list.active = extend_renderlist(state.list.active);
+
+        normalize_indices(indices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, 0, max + 1);
+        list->indices = indices;
+        list->len = count;
+
+        end_renderlist(list);
+        if (! compiling) {
+            draw_renderlist(list);
+            free_renderlist(list);
+        }
     } else {
+        LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
         gles_glDrawElements(mode, count, type, indices);
     }
 }
@@ -182,9 +185,12 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
     if (mode == GL_QUADS || (state.pointers.tex_coord.pointer && state.texture.rect_arb)) {
         list = arrays_to_renderlist(NULL, mode, first, count);
+        end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
     } else {
+        // TODO: some draw states require us to use the full pipeline here
+        // like texgen, stipple, npot
         LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
         gles_glDrawArrays(mode, first, count);
     }
@@ -196,6 +202,7 @@ void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(void, glVertexPointer, GLint, GLenum, GLsizei, const GLvoid *);
     clone_gl_pointer(state.pointers.vertex, size);
+    glGetError();
     gles_glVertexPointer(size, type, stride, pointer);
 }
 void glColorPointer(GLint size, GLenum type,

@@ -182,6 +182,18 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
     return width * gl_sizeof(type);
 }
 
+static const GLboolean valid_vertex_type(GLenum type) {
+    switch (type) {
+        case GL_BYTE:
+        case GL_FIXED:
+        case GL_FLOAT:
+        case GL_SHORT:
+            return true;
+        default:
+            return false;
+    }
+}
+
 #include "wrap/stub.h"
 #include "wrap/gl.h"
 #include "eval.h"
