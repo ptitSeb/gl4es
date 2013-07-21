@@ -36,7 +36,9 @@ typedef struct RenderListT {
 
     khash_t(material) *material;
     GLuint texture;
+    struct RenderListT *prev;
     struct RenderListT *next;
+    GLboolean open;
 } RenderList;
 
 #define DEFAULT_CALL_LIST_CAPACITY 20

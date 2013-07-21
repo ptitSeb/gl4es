@@ -30,16 +30,26 @@ RenderList *alloc_renderlist() {
     list->q2t = false;
     list->texture = 0;
 
+    list->prev = NULL;
     list->next = NULL;
+    list->open = true;
     return list;
 }
 
 RenderList *extend_renderlist(RenderList *list) {
-    list->next = alloc_renderlist();
-    return list->next;
+    RenderList *new = alloc_renderlist();
+    list->next = new;
+    new->prev = list;
+    if (list->open)
+        end_renderlist(list);
+    return new;
 }
 
 void free_renderlist(RenderList *list) {
+    // we want the first list in the chain
+    while (list->prev)
+        list = list->prev;
+
     RenderList *next;
     do {
         if (list->calls.len > 0) {
@@ -112,6 +122,10 @@ void q2t_renderlist(RenderList *list) {
 }
 
 void end_renderlist(RenderList *list) {
+    if (! list->open)
+        return;
+
+    list->open = false;
     GLtexture *bound = state.texture.bound;
     if (list->tex && bound && (bound->width != bound->nwidth || bound->height != bound->nheight)) {
         tex_coord_npot(list->tex, list->len, bound->width, bound->height, bound->nwidth, bound->nheight);

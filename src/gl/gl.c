@@ -170,9 +170,9 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
 
-    RenderList *list;
-    if (state.list.active && state.list.compiling) {
-        list = state.list.active = extend_renderlist(state.list.active);
+    RenderList *list, *active = state.list.active;
+    if (active && state.list.compiling) {
+        list = state.list.active = extend_renderlist(active);
         arrays_to_renderlist(list, mode, first, count);
         return;
     }
@@ -316,9 +316,9 @@ void glBegin(GLenum mode) {
 void glEnd() {
     if (! state.list.active) return;
 
-    end_renderlist(state.list.active);
     // render if we're not in a display list
     if (! state.list.compiling) {
+        end_renderlist(state.list.active);
         draw_renderlist(state.list.active);
         free_renderlist(state.list.active);
         state.list.active = NULL;
