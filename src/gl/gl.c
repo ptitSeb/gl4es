@@ -1,6 +1,6 @@
 #include "gl.h"
 
-GLstate state = {.color = {1.0f, 1.0f, 1.0f, 1.0f}};
+glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f}};
 
 // config functions
 const GLubyte *glGetString(GLenum name) {
@@ -107,7 +107,7 @@ GLboolean glIsEnabled(GLenum cap) {
     }
 }
 
-static RenderList *arrays_to_renderlist(RenderList *list, GLenum mode,
+static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
@@ -150,7 +150,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 
     bool compiling = (state.list.active && state.list.compiling);
     if (compiling) {
-        RenderList *list = NULL;
+        renderlist_t *list = NULL;
         GLsizei min, max;
 
         if (compiling)
@@ -176,7 +176,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
 
-    RenderList *list, *active = state.list.active;
+    renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
         list = state.list.active = extend_renderlist(active);
         arrays_to_renderlist(list, mode, first, count);
@@ -380,7 +380,7 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
 
 void glArrayElement(GLint i) {
     GLfloat *v;
-    PointerState *p;
+    pointer_state_t *p;
     p = &state.pointers.color;
     if (p->pointer) {
         v = gl_pointer_index(p, i);
@@ -417,8 +417,8 @@ void glArrayElement(GLint i) {
 }
 
 // TODO: between a lock and unlock, I can assume the array pointers are unchanged
-// so I can build a RenderList on the first call and hold onto it
-// maybe I need a way to call a RenderList with (first, count)
+// so I can build a renderlist_t on the first call and hold onto it
+// maybe I need a way to call a renderlist_t with (first, count)
 void glLockArraysEXT(GLint first, GLsizei count) {
     state.list.locked = true;
 }
@@ -429,7 +429,7 @@ void glUnlockArraysEXT() {
 
 // display lists
 
-static RenderList *glGetList(GLuint list) {
+static renderlist_t *glGetList(GLuint list) {
     if (glIsList(list))
         return state.lists[list - 1];
 
@@ -478,7 +478,7 @@ void glEndList() {
 
 void glCallList(GLuint list) {
     // TODO: the output of this call can be compiled into another display list
-    RenderList *l = glGetList(list);
+    renderlist_t *l = glGetList(list);
     if (l)
         draw_renderlist(l);
 }
@@ -526,7 +526,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 }
 
 void glDeleteList(GLuint list) {
-    RenderList *l = glGetList(list);
+    renderlist_t *l = glGetList(list);
     if (l) {
         free_renderlist(l);
         state.lists[list-1] = NULL;

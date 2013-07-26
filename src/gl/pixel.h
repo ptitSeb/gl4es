@@ -6,11 +6,11 @@
 typedef struct {
     GLenum type;
     GLint red, green, blue, alpha;
-} ColorLayout;
+} colorlayout_t;
 
 typedef struct {
     GLfloat r, g, b, a;
-} Pixel;
+} pixel_t;
 
 bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,

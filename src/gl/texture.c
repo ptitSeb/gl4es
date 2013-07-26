@@ -87,7 +87,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    GLtexture *bound = state.texture.bound;
+    gltexture_t *bound = state.texture.bound;
     GLvoid *pixels = (GLvoid *)data;
     if (data) {
         // implements GL_UNPACK_ROW_LENGTH
@@ -239,10 +239,10 @@ void glBindTexture(GLenum target, GLuint texture) {
             }
 
             k = kh_get(tex, list, texture);
-            GLtexture *tex = NULL;;
+            gltexture_t *tex = NULL;;
             if (k == kh_end(list)){
                 k = kh_put(tex, list, texture, &ret);
-                tex = kh_value(list, k) = malloc(sizeof(GLtexture));
+                tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
                 tex->texture = texture;
                 tex->target = target;
                 tex->width = 0;
@@ -280,7 +280,7 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
     khash_t(tex) *list = state.texture.list;
     if (list) {
         khint_t k;
-        GLtexture *tex;
+        gltexture_t *tex;
         for (int i = 0; i < n; i++) {
             GLuint t = textures[i];
             k = kh_get(tex, list, t);

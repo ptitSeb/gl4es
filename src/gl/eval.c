@@ -4,7 +4,7 @@
 #include "eval.h"
 #include "math/eval.h"
 
-static inline MapState **get_map_pointer(GLenum target) {
+static inline map_state_t **get_map_pointer(GLenum target) {
     switch (target) {
         case GL_MAP1_COLOR_4:         return &state.map1.color4;
         case GL_MAP1_INDEX:           return &state.map1.index;
@@ -35,17 +35,17 @@ static inline MapState **get_map_pointer(GLenum target) {
     map->n.stride = n##stride;    \
     map->n.order = n##order;
 
-#define case_state(dims, magic, name)                     \
-    case magic: {                                         \
-        map->width = get_map_width(magic);                \
-        MapStateF *m = (MapStateF *)state.map##dims.name; \
-        if (m) {                                          \
-            if (m->free)                                  \
-                free((void *)m->points);                  \
-            free(m);                                      \
-        }                                                 \
-        state.map##dims.name = (MapState *)map;           \
-        break;                                            \
+#define case_state(dims, magic, name)                           \
+    case magic: {                                               \
+        map->width = get_map_width(magic);                      \
+        map_statef_t *m = (map_statef_t *)state.map##dims.name; \
+        if (m) {                                                \
+            if (m->free)                                        \
+                free((void *)m->points);                        \
+            free(m);                                            \
+        }                                                       \
+        state.map##dims.name = (map_state_t *)map;              \
+        break;                                                  \
     }
 
 #define map_switch(dims)                                                \
@@ -63,7 +63,7 @@ static inline MapState **get_map_pointer(GLenum target) {
 
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
-    MapStateF *map = malloc(sizeof(MapStateF));
+    map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 1; map->free = true;
     set_map_coords(u);
     map_switch(1);
@@ -72,7 +72,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
 
 void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
-    MapStateF *map = malloc(sizeof(MapStateF));
+    map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 1; map->free = false;
     set_map_coords(u);
     map_switch(1);
@@ -82,7 +82,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
              GLint vstride, GLint vorder, const GLdouble *points) {
-    MapStateF *map = malloc(sizeof(MapStateF));
+    map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 2; map->free = true;
     set_map_coords(u);
     set_map_coords(v);
@@ -93,7 +93,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
 void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
-    MapStateF *map = malloc(sizeof(MapStateF));
+    map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 2; map->free = false;
     set_map_coords(u);
     set_map_coords(v);
@@ -105,18 +105,18 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
 #undef case_state
 #undef map_switch
 
-#define p_map(d, name, func, code) {             \
-    MapState *_map = state.map##d.name;          \
-    if (_map) {                                  \
-        if (_map->type == GL_DOUBLE) {           \
-            MapStateD *map = (MapStateD *)_map;  \
-            printf("double: not implemented\n"); \
-        } else if (_map->type == GL_FLOAT) {     \
-            MapStateF *map = (MapStateF *)_map;  \
-            GLfloat out[4];                      \
-            code                                 \
-            func##v(out);                        \
-        }                                        \
+#define p_map(d, name, func, code) {                  \
+    map_state_t *_map = state.map##d.name;            \
+    if (_map) {                                       \
+        if (_map->type == GL_DOUBLE) {                \
+            map_stated_t *map = (map_stated_t *)_map; \
+            printf("double: not implemented\n");      \
+        } else if (_map->type == GL_FLOAT) {          \
+            map_statef_t *map = (map_statef_t *)_map; \
+            GLfloat out[4];                           \
+            code                                      \
+            func##v(out);                             \
+        }                                             \
     }}
 
 #define iter_maps(d, code)                  \
@@ -153,11 +153,11 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 
 void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     // TODO: double support?
-    MapStateF *map;
+    map_statef_t *map;
     if (! state.map_grid)
-        state.map_grid = malloc(sizeof(MapStateF));
+        state.map_grid = malloc(sizeof(map_statef_t));
 
-    map = (MapStateF *)state.map_grid;
+    map = (map_statef_t *)state.map_grid;
     map->dims = 1;
     map->u.n = un;
     map->u._1 = u1;
@@ -167,11 +167,11 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
 void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
                  GLint vn, GLfloat v1, GLfloat v2) {
     // TODO: double support?
-    MapStateF *map;
+    map_statef_t *map;
     if (! state.map_grid)
-        state.map_grid = malloc(sizeof(MapStateF));
+        state.map_grid = malloc(sizeof(map_statef_t));
 
-    map = (MapStateF *)state.map_grid;
+    map = (map_statef_t *)state.map_grid;
     map->dims = 2;
     map->u.n = un;
     map->u._1 = u1;
@@ -181,11 +181,11 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
     map->v._2 = v2;
 }
 
-static inline GLenum eval_mesh_prep(MapStateF **map, GLenum mode) {
+static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
     if (state.map2.vertex4) {
-        *map = (MapStateF *)state.map2.vertex4;
+        *map = (map_statef_t *)state.map2.vertex4;
     } else if (state.map2.vertex3) {
-        *map = (MapStateF *)state.map2.vertex3;
+        *map = (map_statef_t *)state.map2.vertex3;
     } else {
         return 0;
     }
@@ -207,7 +207,7 @@ static inline GLenum eval_mesh_prep(MapStateF **map, GLenum mode) {
 }
 
 void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
-    MapStateF *map;
+    map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
     if (! renderMode)
         return;
@@ -223,7 +223,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
 }
 
 void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
-    MapStateF *map;
+    map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
     if (! renderMode)
         return;
@@ -253,50 +253,50 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
 }
 
 void glEvalPoint1(GLint i) {
-    MapStateF *map;
+    map_statef_t *map;
     if (eval_mesh_prep(&map, 0))
         glEvalCoord1f(i + map->u.d);
 }
 
 void glEvalPoint2(GLint i, GLint j) {
-    MapStateF *map;
+    map_statef_t *map;
     if (eval_mesh_prep(&map, 0))
         glEvalCoord2f(i + map->u.d, j + map->v.d);
 }
 
-#define GL_GET_MAP(t, type)                                      \
-void glGetMap##t##v(GLenum target, GLenum query, type *v) {      \
-    MapStateF *map = *(MapStateF **)get_map_pointer(target);     \
-    if (map) {                                                   \
-        switch (query) {                                         \
-            case GL_COEFF: {                                     \
-                const GLfloat *points = map->points;             \
-                for (int i = 0; i < map->u.order; i++) {         \
-                    if (map->dims == 2) {                        \
-                        for (int j = 0; j < map->v.order; j++) { \
-                            *v++ = *points++;                    \
-                        }                                        \
-                    } else {                                     \
-                        *v++ = *points++;                        \
-                    }                                            \
-                }                                                \
-                return;                                          \
-            }                                                    \
-            case GL_ORDER:                                       \
-                *v++ = map->u.order;                             \
-                if (map->dims == 2)                              \
-                    *v++ = map->v.order;                         \
-                return;                                          \
-            case GL_DOMAIN:                                      \
-                *v++ = map->u._1;                                \
-                *v++ = map->u._2;                                \
-                if (map->dims == 2) {                            \
-                    *v++ = map->u._1;                            \
-                    *v++ = map->u._2;                            \
-                }                                                \
-                return;                                          \
-        }                                                        \
-    }                                                            \
+#define GL_GET_MAP(t, type)                                        \
+void glGetMap##t##v(GLenum target, GLenum query, type *v) {        \
+    map_statef_t *map = *(map_statef_t **)get_map_pointer(target); \
+    if (map) {                                                     \
+        switch (query) {                                           \
+            case GL_COEFF: {                                       \
+                const GLfloat *points = map->points;               \
+                for (int i = 0; i < map->u.order; i++) {           \
+                    if (map->dims == 2) {                          \
+                        for (int j = 0; j < map->v.order; j++) {   \
+                            *v++ = *points++;                      \
+                        }                                          \
+                    } else {                                       \
+                        *v++ = *points++;                          \
+                    }                                              \
+                }                                                  \
+                return;                                            \
+            }                                                      \
+            case GL_ORDER:                                         \
+                *v++ = map->u.order;                               \
+                if (map->dims == 2)                                \
+                    *v++ = map->v.order;                           \
+                return;                                            \
+            case GL_DOMAIN:                                        \
+                *v++ = map->u._1;                                  \
+                *v++ = map->u._2;                                  \
+                if (map->dims == 2) {                              \
+                    *v++ = map->u._1;                              \
+                    *v++ = map->u._2;                              \
+                }                                                  \
+                return;                                            \
+        }                                                          \
+    }                                                              \
 }
 
 GL_GET_MAP(i, GLint)

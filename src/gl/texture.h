@@ -31,9 +31,9 @@ typedef struct {
     GLsizei nwidth;
     GLsizei nheight;
     GLboolean uploaded;
-} GLtexture;
+} gltexture_t;
 
-KHASH_MAP_INIT_INT(tex, GLtexture *)
+KHASH_MAP_INIT_INT(tex, gltexture_t *)
 
 static inline GLenum map_tex_target(GLenum target) {
     switch (target) {

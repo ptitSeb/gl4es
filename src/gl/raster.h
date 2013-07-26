@@ -7,14 +7,14 @@ typedef struct {
     GLfloat x;
     GLfloat y;
     GLfloat z;
-} rasterPosT;
+} rasterpos_t;
 
 typedef struct {
     GLint x;
     GLint y;
     GLsizei width;
     GLsizei height;
-} viewportT;
+} viewport_t;
 
 extern void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
                      GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);

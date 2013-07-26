@@ -1,9 +1,9 @@
 #include "pixel.h"
 
-static const ColorLayout *get_color_map(GLenum format) {
+static const colorlayout_t *get_color_map(GLenum format) {
     #define map(fmt, ...)                               \
         case fmt: {                                     \
-        static ColorLayout layout = {fmt, __VA_ARGS__}; \
+        static colorlayout_t layout = {fmt, __VA_ARGS__}; \
         return &layout; }
     switch (format) {
         map(GL_RED, 0, -1, -1, -1);
@@ -16,15 +16,15 @@ static const ColorLayout *get_color_map(GLenum format) {
             printf("libGL: unknown pixel format %i\n", format);
             break;
     }
-    static ColorLayout null = {0};
+    static colorlayout_t null = {0};
     return &null;
     #undef map
 }
 
 static inline
 bool remap_pixel(const GLvoid *src, GLvoid *dst,
-                 const ColorLayout *src_color, GLenum src_type,
-                 const ColorLayout *dst_color, GLenum dst_type) {
+                 const colorlayout_t *src_color, GLenum src_type,
+                 const colorlayout_t *dst_color, GLenum dst_type) {
 
     #define type_case(constant, type, ...)        \
         case constant: {                          \
@@ -55,7 +55,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
 
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
-    Pixel pixel;
+    pixel_t pixel;
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
@@ -109,7 +109,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,
                    GLenum src_format, GLenum src_type,
                    GLenum dst_format, GLenum dst_type) {
-    const ColorLayout *src_color, *dst_color;
+    const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
 

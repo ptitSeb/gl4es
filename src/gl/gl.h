@@ -208,7 +208,7 @@ static const GLboolean valid_vertex_type(GLenum type) {
 #include "array.h"
 
 #include "state.h"
-extern GLstate state;
+extern glstate_t state;
 
 // newly-defined GL functions
 GLboolean glIsList(GLuint list);

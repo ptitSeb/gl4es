@@ -63,12 +63,12 @@ GLvoid *copy_gl_array(const GLvoid *src,
     return dst;
 }
 
-GLvoid *copy_gl_pointer(PointerState *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+GLvoid *copy_gl_pointer(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
     return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count);
 }
 
-GLfloat *gl_pointer_index(PointerState *p, GLint index) {
+GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
     static GLfloat buf[4];
     GLsizei size = gl_sizeof(p->type);
     GLsizei stride = p->stride ? p->stride : size * p->size;

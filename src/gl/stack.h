@@ -111,7 +111,7 @@ typedef struct {
     // misc
     unsigned int len;
     unsigned int cap;
-} GLstack;
+} glstack_t;
 
 typedef struct {
     GLbitfield mask;
@@ -128,14 +128,14 @@ typedef struct {
     GLboolean color_enable;
     GLboolean tex_enable;
     GLboolean normal_enable;
-    PointerState verts;
-    PointerState color;
-    PointerState normal;
-    PointerState tex;
+    pointer_state_t verts;
+    pointer_state_t color;
+    pointer_state_t normal;
+    pointer_state_t tex;
 
     unsigned int len;
     unsigned int cap;
-} GLclientStack;
+} glclientstack_t;
 
 void glPushClientAttrib(GLbitfield mask);
 void glPopClientAttrib();

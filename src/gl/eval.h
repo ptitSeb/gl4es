@@ -27,33 +27,33 @@ void glGetMapiv(GLenum target, GLenum query, GLint *v);
 
 typedef struct {
     GLenum type;
-} MapState;
+} map_state_t;
 
 typedef struct {
     GLdouble _1, _2, n, d;
     GLint stride, order;
-} MapCoordD;
+} mapcoordd_t;
 
 typedef struct {
     GLdouble _1, _2, n, d;
     GLint stride, order;
-} MapCoordF;
+} mapcoordf_t;
 
 typedef struct {
     GLenum type;
     GLint dims, width;
-    MapCoordD u, v;
+    mapcoordd_t u, v;
     GLboolean free;
     const GLdouble *points;
-} MapStateD;
+} map_stated_t;
 
 typedef struct {
     GLenum type;
     GLint dims, width;
-    MapCoordF u, v;
+    mapcoordf_t u, v;
     GLboolean free;
     const GLfloat *points;
-} MapStateF;
+} map_statef_t;
 
 static const GLsizei get_map_width(GLenum target) {
     switch (target) {

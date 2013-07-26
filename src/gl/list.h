@@ -8,17 +8,17 @@ typedef struct {
     int pname;
     GLfloat color[4];
     int count;
-} RenderMaterial;
+} rendermaterial_t;
 
-KHASH_MAP_INIT_INT(material, RenderMaterial *)
+KHASH_MAP_INIT_INT(material, rendermaterial_t *)
 
-typedef struct CallListT {
+typedef struct _call_list_t {
     unsigned long len;
     unsigned long cap;
     UnknownCall **calls;
-} CallList;
+} call_list_t;
 
-typedef struct RenderListT {
+typedef struct _renderlist_t {
     unsigned long len;
     unsigned long cap;
     GLenum mode;
@@ -26,7 +26,7 @@ typedef struct RenderListT {
     GLfloat lastColor[4];
     GLfloat lastTex[2];
 
-    CallList calls;
+    call_list_t calls;
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
@@ -36,28 +36,28 @@ typedef struct RenderListT {
 
     khash_t(material) *material;
     GLuint texture;
-    struct RenderListT *prev;
-    struct RenderListT *next;
+    struct _renderlist_t *prev;
+    struct _renderlist_t *next;
     GLboolean open;
-} RenderList;
+} renderlist_t;
 
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 20
 
-extern RenderList *alloc_renderlist();
-extern RenderList *extend_renderlist(RenderList *list);
-extern void free_renderlist(RenderList *list);
-static void resize_renderlist(RenderList *list);
-extern void draw_renderlist(RenderList *list);
-extern void q2t_renderlist(RenderList *list);
-extern void end_renderlist(RenderList *list);
+extern renderlist_t *alloc_renderlist();
+extern renderlist_t *extend_renderlist(renderlist_t *list);
+extern void free_renderlist(renderlist_t *list);
+static void resize_renderlist(renderlist_t *list);
+extern void draw_renderlist(renderlist_t *list);
+extern void q2t_renderlist(renderlist_t *list);
+extern void end_renderlist(renderlist_t *list);
 
-extern void rlBindTexture(RenderList *list, GLuint texture);
-extern void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-extern void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params);
-extern void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
-extern void rlPushCall(RenderList *list, UnknownCall *data);
-extern void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t);
-extern void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlBindTexture(renderlist_t *list, GLuint texture);
+extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
+extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlPushCall(renderlist_t *list, UnknownCall *data);
+extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);
+extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 
 #endif

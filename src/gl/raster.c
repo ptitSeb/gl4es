@@ -1,7 +1,7 @@
 #include "raster.h"
 
-rasterPosT rPos = {0, 0, 0};
-viewportT viewport = {0, 0, 0, 0};
+rasterpos_t rPos = {0, 0, 0};
+viewport_t viewport = {0, 0, 0, 0};
 GLubyte *raster = NULL;
 
 /* raster engine:

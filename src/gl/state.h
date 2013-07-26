@@ -16,15 +16,15 @@ typedef struct {
               texgen_t,
               texture_2d,
               vertex_array;
-} EnableState;
+} enable_state_t;
 
 
 typedef struct {
     GLenum S;
     GLenum T;
-    GLfloat Tv[4];
     GLfloat Sv[4];
-} TexGenState;
+    GLfloat Tv[4];
+} texgen_state_t;
 
 typedef struct {
     GLuint unpack_row_length,
@@ -33,9 +33,9 @@ typedef struct {
     GLboolean unpack_lsb_first;
     // TODO: do we only need to worry about GL_TEXTURE_2D?
     GLboolean rect_arb;
-    GLtexture *bound;
+    gltexture_t *bound;
     khash_t(tex) *list;
-} TextureState;
+} texture_state_t;
 
 
 typedef struct {
@@ -43,16 +43,16 @@ typedef struct {
     GLenum type;
     GLsizei stride;
     const GLvoid *pointer;
-} PointerState;
+} pointer_state_t;
 
 typedef struct {
-    PointerState vertex, color, normal, tex_coord;
-} PointerStates;
+    pointer_state_t vertex, color, normal, tex_coord;
+} pointer_states_t;
 
 
 typedef struct {
-    RenderList *active;
-    RenderList *first;
+    renderlist_t *active;
+    renderlist_t *first;
     GLboolean compiling;
     GLboolean locked;
     GLuint base;
@@ -61,32 +61,32 @@ typedef struct {
 
     GLuint count;
     GLuint cap;
-} DisplayListState;
+} displaylist_state_t;
 
 
 typedef struct {
-    MapState *vertex3,
-             *vertex4,
-             *index,
-             *color4,
-             *normal,
-             *texture1,
-             *texture2,
-             *texture3,
-             *texture4;
-} MapStates;
+    map_state_t *vertex3,
+                *vertex4,
+                *index,
+                *color4,
+                *normal,
+                *texture1,
+                *texture2,
+                *texture3,
+                *texture4;
+} map_states_t;
 
 
 typedef struct {
-    EnableState enable;
-    PointerStates pointers;
-    DisplayListState list;
-    RenderList **lists;
-    MapStates map1, map2;
-    MapState *map_grid;
-    TextureState texture;
-    TexGenState texgen;
+    enable_state_t enable;
+    pointer_states_t pointers;
+    displaylist_state_t list;
+    renderlist_t **lists;
+    map_states_t map1, map2;
+    map_state_t *map_grid;
+    texture_state_t texture;
+    texgen_state_t texgen;
     GLfloat color[4];
-} GLstate;
+} glstate_t;
 
 #endif

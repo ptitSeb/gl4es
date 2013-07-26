@@ -1,19 +1,19 @@
 #include "stack.h"
 
-GLstack *stack = NULL;
-GLclientStack *clientStack = NULL;
+glstack_t *stack = NULL;
+glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
     if (stack == NULL) {
-        stack = (GLstack *)malloc(STACK_SIZE * sizeof(GLstack));
+        stack = (glstack_t *)malloc(STACK_SIZE * sizeof(glstack_t));
         stack->len = 0;
         stack->cap = STACK_SIZE;
     } else if (stack->len == stack->cap) {
         stack->cap += STACK_SIZE;
-        stack = (GLstack *)realloc(stack, stack->cap * sizeof(GLstack));
+        stack = (glstack_t *)realloc(stack, stack->cap * sizeof(glstack_t));
     }
 
-    GLstack *cur = stack + stack->len;
+    glstack_t *cur = stack + stack->len;
     cur->mask = mask;
     cur->clip_planes_enabled = NULL;
     cur->clip_planes = NULL;
@@ -177,15 +177,15 @@ void glPushAttrib(GLbitfield mask) {
 
 void glPushClientAttrib(GLbitfield mask) {
     if (clientStack == NULL) {
-        clientStack = (GLclientStack *)malloc(STACK_SIZE * sizeof(GLclientStack));
+        clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
         clientStack->len = 0;
         clientStack->cap = STACK_SIZE;
     } else if (clientStack->len == clientStack->cap) {
         clientStack->cap += STACK_SIZE;
-        clientStack = (GLclientStack *)realloc(clientStack, clientStack->cap * sizeof(GLclientStack));
+        clientStack = (glclientstack_t *)realloc(clientStack, clientStack->cap * sizeof(glclientstack_t));
     }
 
-    GLclientStack *cur = clientStack + clientStack->len;
+    glclientstack_t *cur = clientStack + clientStack->len;
     cur->mask = mask;
 
     if (mask & GL_CLIENT_PIXEL_STORE_BIT) {
@@ -202,10 +202,10 @@ void glPushClientAttrib(GLbitfield mask) {
         cur->normal_enable = state.enable.normal_array;
         cur->tex_enable = state.enable.tex_coord_array;
 
-        memcpy(&cur->verts, &state.pointers.vertex, sizeof(PointerState));
-        memcpy(&cur->color, &state.pointers.color, sizeof(PointerState));
-        memcpy(&cur->normal, &state.pointers.normal, sizeof(PointerState));
-        memcpy(&cur->tex, &state.pointers.tex_coord, sizeof(PointerState));
+        memcpy(&cur->verts, &state.pointers.vertex, sizeof(pointer_state_t));
+        memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
+        memcpy(&cur->normal, &state.pointers.normal, sizeof(pointer_state_t));
+        memcpy(&cur->tex, &state.pointers.tex_coord, sizeof(pointer_state_t));
     }
 
     clientStack->len++;
@@ -226,7 +226,7 @@ void glPopAttrib() {
     if (stack == NULL || stack->len == 0)
         return;
 
-    GLstack *cur = stack + stack->len-1;
+    glstack_t *cur = stack + stack->len-1;
 
     if (cur->mask & GL_COLOR_BUFFER_BIT) {
 #ifndef USE_ES2
@@ -363,7 +363,7 @@ void glPopClientAttrib() {
     if (clientStack == NULL || clientStack->len == 0)
         return;
 
-    GLclientStack *cur = clientStack + clientStack->len-1;
+    glclientstack_t *cur = clientStack + clientStack->len-1;
     if (cur->mask & GL_CLIENT_PIXEL_STORE_BIT) {
         glPixelStorei(GL_PACK_ALIGNMENT, cur->pack_align);
         glPixelStorei(GL_UNPACK_ALIGNMENT, cur->unpack_align);
@@ -378,10 +378,10 @@ void glPopClientAttrib() {
         enable_disable(GL_COLOR_ARRAY, cur->color_enable);
         enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable);
 
-        memcpy(&state.pointers.vertex, &cur->verts, sizeof(PointerState));
-        memcpy(&state.pointers.color, &cur->color, sizeof(PointerState));
-        memcpy(&state.pointers.normal, &cur->normal, sizeof(PointerState));
-        memcpy(&state.pointers.tex_coord, &cur->tex, sizeof(PointerState));
+        memcpy(&state.pointers.vertex, &cur->verts, sizeof(pointer_state_t));
+        memcpy(&state.pointers.color, &cur->color, sizeof(pointer_state_t));
+        memcpy(&state.pointers.normal, &cur->normal, sizeof(pointer_state_t));
+        memcpy(&state.pointers.tex_coord, &cur->tex, sizeof(pointer_state_t));
     }
 
     clientStack->len--;

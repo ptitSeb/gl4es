@@ -11,8 +11,8 @@
 static GLushort *cached_q2t = NULL;
 static unsigned long cached_q2t_len = 0;
 
-RenderList *alloc_renderlist() {
-    RenderList *list = (RenderList *)malloc(sizeof(RenderList));
+renderlist_t *alloc_renderlist() {
+    renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     list->len = 0;
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
 
@@ -36,8 +36,8 @@ RenderList *alloc_renderlist() {
     return list;
 }
 
-RenderList *extend_renderlist(RenderList *list) {
-    RenderList *new = alloc_renderlist();
+renderlist_t *extend_renderlist(renderlist_t *list) {
+    renderlist_t *new = alloc_renderlist();
     list->next = new;
     new->prev = list;
     if (list->open)
@@ -45,12 +45,12 @@ RenderList *extend_renderlist(RenderList *list) {
     return new;
 }
 
-void free_renderlist(RenderList *list) {
+void free_renderlist(renderlist_t *list) {
     // we want the first list in the chain
     while (list->prev)
         list = list->prev;
 
-    RenderList *next;
+    renderlist_t *next;
     do {
         if (list->calls.len > 0) {
             for (int i = 0; i < list->calls.len; i++) {
@@ -63,7 +63,7 @@ void free_renderlist(RenderList *list) {
         if (list->color) free(list->color);
         if (list->tex) free(list->tex);
         if (list->material) {
-            RenderMaterial *m;
+            rendermaterial_t *m;
             kh_foreach_value(list->material, m,
                 free(m);
             )
@@ -76,7 +76,7 @@ void free_renderlist(RenderList *list) {
 }
 
 static inline
-void resize_renderlist(RenderList *list) {
+void resize_renderlist(renderlist_t *list) {
     if (list->len >= list->cap) {
         list->cap += DEFAULT_RENDER_LIST_CAPACITY;
         realloc_sublist(list->vert, 3, list->cap);
@@ -86,7 +86,7 @@ void resize_renderlist(RenderList *list) {
     }
 }
 
-void q2t_renderlist(RenderList *list) {
+void q2t_renderlist(renderlist_t *list) {
     if (!list->len || !list->vert || list->q2t) return;
     // TODO: split to multiple lists if list->len > 65535
 
@@ -121,12 +121,12 @@ void q2t_renderlist(RenderList *list) {
     return;
 }
 
-void end_renderlist(RenderList *list) {
+void end_renderlist(renderlist_t *list) {
     if (! list->open)
         return;
 
     list->open = false;
-    GLtexture *bound = state.texture.bound;
+    gltexture_t *bound = state.texture.bound;
     if (list->tex && bound && (bound->width != bound->nwidth || bound->height != bound->nheight)) {
         tex_coord_npot(list->tex, list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
     }
@@ -148,7 +148,7 @@ void end_renderlist(RenderList *list) {
     }
 }
 
-void draw_renderlist(RenderList *list) {
+void draw_renderlist(renderlist_t *list) {
     if (!list) return;
     LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
     LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
@@ -156,7 +156,7 @@ void draw_renderlist(RenderList *list) {
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
         // optimize zero-length segments out earlier?
-        CallList *cl = &list->calls;
+        call_list_t *cl = &list->calls;
         if (cl->len > 0) {
             for (int i = 0; i < cl->len; i++) {
                 glPackedCall(cl->calls[i]);
@@ -197,7 +197,7 @@ void draw_renderlist(RenderList *list) {
 
         if (list->material) {
             khash_t(material) *map = list->material;
-            RenderMaterial *m;
+            rendermaterial_t *m;
             kh_foreach_value(map, m,
                 glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
             )
@@ -246,7 +246,7 @@ void draw_renderlist(RenderList *list) {
 
 // gl function wrappers
 
-void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
+void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     if (list->vert == NULL) {
         list->vert = alloc_sublist(3, list->cap);
     } else {
@@ -272,7 +272,7 @@ void rlVertex3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     vert[0] = x; vert[1] = y; vert[2] = z;
 }
 
-void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
+void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     GLfloat *normal = list->lastNormal;
     normal[0] = x; normal[1] = y; normal[2] = z;
 
@@ -289,7 +289,7 @@ void rlNormal3f(RenderList *list, GLfloat x, GLfloat y, GLfloat z) {
     }
 }
 
-void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (list->color == NULL) {
         list->color = alloc_sublist(4, list->cap);
         // catch up
@@ -306,8 +306,8 @@ void rlColor4f(RenderList *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
-void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * params) {
-    RenderMaterial *m;
+void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params) {
+    rendermaterial_t *m;
     khash_t(material) *map;
     khint_t k;
     int ret;
@@ -324,7 +324,7 @@ void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * p
     k = kh_get(material, map, pname);
     if (k == kh_end(map)) {
         k = kh_put(material, map, pname, &ret);
-        m = kh_value(map, k) = malloc(sizeof(RenderMaterial));
+        m = kh_value(map, k) = malloc(sizeof(rendermaterial_t));
     } else {
         m = kh_value(map, k);
     }
@@ -337,7 +337,7 @@ void rlMaterialfv(RenderList *list, GLenum face, GLenum pname, const GLfloat * p
     m->color[3] = params[3];
 }
 
-void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
+void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
     if (list->tex == NULL) {
         list->tex = alloc_sublist(2, list->cap);
         // catch up
@@ -353,12 +353,12 @@ void rlTexCoord2f(RenderList *list, GLfloat s, GLfloat t) {
     tex[0] = s; tex[1] = t;
 }
 
-void rlBindTexture(RenderList *list, GLuint texture) {
+void rlBindTexture(renderlist_t *list, GLuint texture) {
     list->texture = texture;
 }
 
-void rlPushCall(RenderList *list, UnknownCall *data) {
-    CallList *cl = &list->calls;
+void rlPushCall(renderlist_t *list, UnknownCall *data) {
+    call_list_t *cl = &list->calls;
     if (!cl->calls) {
         cl->cap = DEFAULT_CALL_LIST_CAPACITY;
         cl->calls = malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(uintptr_t));

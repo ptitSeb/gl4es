@@ -1,11 +1,5 @@
 #include "texgen.h"
 
-GLenum texGenS;
-GLfloat texGenSv[4];
-
-GLenum texGenT;
-GLfloat texGenTv[4];
-
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     // coord is in: GL_S, GL_T, GL_R, GL_Q
     // pname == GL_TEXTURE_GEN_MODE
@@ -30,10 +24,10 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
     } else {
         switch (coord) {
             case GL_S:
-                memcpy(texGenSv, param, 4 * sizeof(GLfloat));
+                memcpy(state.texgen.Sv, param, 4 * sizeof(GLfloat));
                 break;
             case GL_T:
-                memcpy(texGenTv, param, 4 * sizeof(GLfloat));
+                memcpy(state.texgen.Tv, param, 4 * sizeof(GLfloat));
                 break;
         }
     }
