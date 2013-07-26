@@ -7,6 +7,7 @@
 // misc naive wrappers
 void glActiveTextureARB(GLenum texture);
 void glClearDepth(GLdouble depth);
+void glClientActiveTextureARB(GLenum texture);
 void glClipPlane(GLenum plane, const GLdouble *equation);
 void glDepthRange(GLdouble nearVal, GLdouble farVal);
 void glFogi(GLenum pname, GLint param);

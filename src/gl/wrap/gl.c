@@ -16,6 +16,9 @@ void glActiveTextureARB(GLenum texture) {
 void glClearDepth(GLdouble depth) {
     glClearDepthf(depth);
 }
+void glClientActiveTextureARB(GLenum texture) {
+    glClientActiveTexture(texture);
+}
 void glClipPlane(GLenum plane, const GLdouble *equation) {
     constDoubleToFloat(equation, 4);
     glClipPlanef(plane, s);

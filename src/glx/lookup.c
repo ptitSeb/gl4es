@@ -130,6 +130,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glCallList);
     EX(glCallLists);
     EX(glClearDepth);
+    EX(glClientActiveTextureARB);
     EX(glClipPlane);
     EX(glCopyPixels);
     EX(glDeleteLists);
