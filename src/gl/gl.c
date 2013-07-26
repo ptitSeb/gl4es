@@ -12,15 +12,18 @@ const GLubyte *glGetString(GLenum name) {
 #else
             return (GLubyte *)"1.4 glshim wrapper";
 #endif
-#ifdef USE_ES2
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
+#ifndef USE_ES2
+                "GL_ARB_vertex_buffer_object "
+                "GL_EXT_secondary_color "
+#else
                 "GL_ARB_vertex_shader "
                 "GL_ARB_fragment_shader "
                 "GL_ARB_vertex_buffer_object "
                 "GL_EXT_framebuffer_object "
-            };
 #endif
+            };
         default:
             return gles_glGetString(name);
     }

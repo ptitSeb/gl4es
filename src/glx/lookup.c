@@ -1,10 +1,14 @@
 #include "glx.h"
 
-#define EX(func_name) \
-    if (strcmp(name, #func_name) == 0) return (void *)func_name
-
 #define MAP(func_name, func) \
-    if (strcmp(name, #func_name) == 0) return func
+    if (strcmp(name, func_name) == 0) return (void *)func;
+
+#define MAP_EGL(func_name, egl_func) \
+    MAP(#func_name, eglGetProcAddress(#egl_func))
+
+#define EX(func_name) MAP(#func_name, func_name)
+
+#define ARB(func_name) MAP(#func_name "ARB", func_name)
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
@@ -46,6 +50,21 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXWaitGL);
     EX(glXWaitX);
 
+    // GL_ARB_vertex_buffer_object
+    ARB(glBindBuffer);
+    ARB(glBufferData);
+    ARB(glBufferSubData);
+    ARB(glDeleteBuffers);
+    ARB(glGenBuffers);
+    ARB(glIsBuffer);
+    MAP_EGL(glGetBufferParameteriARB, glGetBufferParameteriOES);
+    MAP_EGL(glGetBufferPointerARB, glGetBufferPointerOES);
+    MAP_EGL(glGetBufferPointervARB, glGetBufferPointervOES);
+    MAP_EGL(glMapBufferARB, glMapBufferOES);
+    MAP_EGL(glUnmapBufferARB, glMapBufferOES);
+    STUB(glGetBufferParameterivARB);
+    STUB(glGetBufferSubDataARB);
+
     // OES wrapper
     EX(glClearDepthfOES);
     EX(glClipPlanefOES);
@@ -63,6 +82,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glColor4##suffix);             \
     EX(glSecondaryColor3##suffix##v); \
     EX(glSecondaryColor3##suffix);    \
+    MAP("glSecondaryColor3" #suffix "vEXT", glSecondaryColor3##suffix##v); \
+    MAP("glSecondaryColor3" #suffix "EXT",  glSecondaryColor3##suffix);    \
     EX(glIndex##suffix##v);           \
     EX(glIndex##suffix);              \
     EX(glNormal3##suffix##v);         \
