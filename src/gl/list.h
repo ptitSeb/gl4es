@@ -47,7 +47,6 @@ typedef struct _renderlist_t {
 extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);
 extern void free_renderlist(renderlist_t *list);
-static void resize_renderlist(renderlist_t *list);
 extern void draw_renderlist(renderlist_t *list);
 extern void q2t_renderlist(renderlist_t *list);
 extern void end_renderlist(renderlist_t *list);
