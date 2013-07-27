@@ -118,6 +118,13 @@ static bool g_usefb = false;
 static bool g_vsync = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
+static bool g_bcm_active = false;
+#ifndef BCMHOST
+static bool g_bcmhost = false;
+#else
+static bool g_bcmhost = true;
+#endif
+
 static int fbdev = -1;
 static int swap_interval = 1;
 
@@ -135,6 +142,13 @@ static void xrefresh() {
 static void signal_handler(int sig) {
     if (g_xrefresh)
         xrefresh();
+
+#ifdef BCMHOST
+    if (g_bcm_active) {
+        g_bcm_active = false;
+        bcm_host_deinit();
+    }
+#endif
 
     if (g_stacktrace) {
         switch (sig) {
@@ -168,18 +182,21 @@ static void scan_env() {
 
     env(LIBGL_XREFRESH, g_xrefresh, "xrefresh will be called on cleanup");
     env(LIBGL_STACKTRACE, g_stacktrace, "stacktrace will be printed on crash");
-    if (g_xrefresh || g_stacktrace) {
+    if (g_xrefresh || g_stacktrace || g_bcmhost) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
         signal(SIGFPE, signal_handler);
         signal(SIGILL, signal_handler);
         signal(SIGSEGV, signal_handler);
-        if (g_xrefresh) {
+        if (g_xrefresh || g_bcmhost) {
             signal(SIGINT, signal_handler);
             signal(SIGQUIT, signal_handler);
             signal(SIGTERM, signal_handler);
-            atexit(xrefresh);
         }
+        if (g_xrefresh)
+            atexit(xrefresh);
+        if (g_bcmhost)
+            atexit(bcm_host_deinit);
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
@@ -220,6 +237,14 @@ GLXContext glXCreateContext(Display *display,
 #endif
 
     scan_env();
+
+#ifdef BCMHOST
+    if (! g_bcm_active) {
+        g_bcm_active = true;
+        bcm_host_init();
+    }
+#endif
+
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
