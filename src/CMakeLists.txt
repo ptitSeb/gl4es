@@ -17,6 +17,12 @@ add_library(GL2 SHARED ${GL_SOURCES})
 target_link_libraries(GL2 EGL)
 SET_TARGET_PROPERTIES(GL2 PROPERTIES COMPILE_FLAGS -DUSE_ES2)
 
+if(BCMHOST)
+    set(PI_LIBS bcm_host vcos pthread)
+    target_link_libraries(GL ${PI_LIBS} GLESv1_CM)
+    target_link_libraries(GL2 ${PI_LIBS} GLESv2)
+endif()
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(GL X11)
     target_link_libraries(GL2 X11)

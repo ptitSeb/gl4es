@@ -11,6 +11,9 @@ STUB(void glFogCoordd(GLdouble coord))
 STUB(void glFogCoordf(GLfloat coord))
 STUB(void glFogCoorddv(const GLdouble *coord))
 STUB(void glFogCoordfv(const GLfloat *coord))
+#ifdef BCMHOST
+STUB(void glDiscardFramebufferEXT(GLenum target, GLsizei numAttachments, const GLenum *attachments))
+#endif
 
 #ifdef USE_ES2
 STUB(void glClipPlanef(GLenum plane, const GLfloat *equation));

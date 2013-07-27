@@ -34,11 +34,17 @@
 // will become a reference to dlopen'd gles
 void *gles;
 
+#ifndef GLES_LIB
 #ifdef USE_ES2
 #define GLES_LIB "libGLESv2.so"
 #else
+#if defined(BCMHOST)
+#define GLES_LIB "libGLESv1_CM.so"
+#else
 #define GLES_LIB "libGLES_CM.so"
-#endif
+#endif // BCMHOST
+#endif // USE_ES2
+#endif // GLES_LIB
 
 #define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
 
