@@ -27,9 +27,24 @@ typedef struct {
 } PACKED_{{ f.types }};
 {% endfor %}
 
+extern void glPushCall(void *data);
 void glPackedCall(const UnknownCall *packed);
 {% for func in functions %}
 {{ func.return }} {{ func.name }}({{ func.args|args }});
+{% endfor %}
+
+{% for func in functions %}
+#ifndef direct_{{ func.name }}
+static inline void push_{{ func.name }}({{ func.args|args }}) {
+    PACKED_{{ func.types }} *packed_data = malloc(sizeof(PACKED_{{ func.types }}));
+    packed_data->format = FORMAT_{{ func.types }};
+    packed_data->func = {{ func.name }};
+    {% for arg in func.args %}
+    packed_data->args.a{{ loop.index }} = {{ arg.name }};
+    {% endfor %}
+    glPushCall((void *)packed_data);
+};
+#endif
 {% endfor %}
 
 {% endblock %}

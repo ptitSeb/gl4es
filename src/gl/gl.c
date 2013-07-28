@@ -76,11 +76,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-        PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
-        data->format = FORMAT_void_GLenum;
-        data->func = glEnable;
-        data->args.a1 = cap;
-        glPushCall((void *)data);
+        push_glEnable(cap);
     } else {
         LOAD_GLES(void, glEnable, GLenum);
         proxy_glEnable(cap, true, gles_glEnable);
@@ -90,11 +86,7 @@ void glEnable(GLenum cap) {
 
 void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-        PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
-        data->format = FORMAT_void_GLenum;
-        data->func = glDisable;
-        data->args.a1 = cap;
-        glPushCall((void *)data);
+        push_glDisable(cap);
     } else {
         LOAD_GLES(void, glDisable, GLenum);
         proxy_glEnable(cap, false, gles_glDisable);

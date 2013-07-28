@@ -11,13 +11,7 @@
 {% block call %}
 #ifndef direct_{{ func.name }}
     if (state.list.compiling) {
-        PACKED_{{ func.types }} *data = malloc(sizeof(PACKED_{{ func.types }}));
-        data->format = FORMAT_{{ func.types }};
-        data->func = {{ func.name }};
-        {% for arg in func.args %}
-        data->args.a{{ loop.index }} = {{ arg.name }};
-        {% endfor %}
-        glPushCall((void *)data);
+        push_{{ func.name }}({{ func.args|args(0) }});
         {% if not func.void %}
         return 0;
         {% endif %}
