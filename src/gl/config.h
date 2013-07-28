@@ -1,7 +1,5 @@
 #define MAX_EVAL_ORDER 30
 
-// auto-wrap these functions, prefixed with gles_
-
 // don't auto-wrap these functions
 #define skip_glColor4ub
 
