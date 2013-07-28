@@ -80,7 +80,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
         *format = GL_RGBA;
         return pixels;
     }
-    return data;
+    return (void *)data;
 }
 
 void glTexImage2D(GLenum target, GLint level, GLint internalFormat,

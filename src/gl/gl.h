@@ -81,7 +81,7 @@ void *gles;
 #define PUSH_IF_COMPILING(name)                      \
     if (state.list.compiling && state.list.active) { \
         push_##name(name##_ARG_NAMES);               \
-        return;                                      \
+        return (name##_RETURN)0;                     \
     }
 
 static const GLsizei gl_sizeof(GLenum type) {
