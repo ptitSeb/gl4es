@@ -38,9 +38,9 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
     }
 }
 
-static const GLvoid *swizzle_texture(GLsizei width, GLsizei height,
-                                     GLenum *format, GLenum *type,
-                                     const GLvoid *data) {
+static void *swizzle_texture(GLsizei width, GLsizei height,
+                             GLenum *format, GLenum *type,
+                             const GLvoid *data) {
     bool convert = false;
     switch (*format) {
         case GL_ALPHA:
