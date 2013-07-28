@@ -195,8 +195,9 @@ static void scan_env() {
         }
         if (g_xrefresh)
             atexit(xrefresh);
-        if (g_bcmhost)
+#ifdef BCMHOST
             atexit(bcm_host_deinit);
+#endif
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
