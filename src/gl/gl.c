@@ -4,7 +4,7 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f}};
 
 // config functions
 const GLubyte *glGetString(GLenum name) {
-    LOAD_GLES(const GLubyte *, glGetString, GLenum);
+    LOAD_GLES(glGetString);
     switch (name) {
         case GL_VERSION:
 #ifdef USE_ES2
@@ -30,7 +30,7 @@ const GLubyte *glGetString(GLenum name) {
 }
 
 void glGetIntegerv(GLenum pname, GLint *params) {
-    LOAD_GLES(void, glGetIntegerv, GLenum pname, GLint *params);
+    LOAD_GLES(glGetIntegerv);
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -78,7 +78,7 @@ void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
         push_glEnable(cap);
     } else {
-        LOAD_GLES(void, glEnable, GLenum);
+        LOAD_GLES(glEnable);
         proxy_glEnable(cap, true, gles_glEnable);
     }
 
@@ -88,25 +88,25 @@ void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
         push_glDisable(cap);
     } else {
-        LOAD_GLES(void, glDisable, GLenum);
+        LOAD_GLES(glDisable);
         proxy_glEnable(cap, false, gles_glDisable);
     }
 }
 
 #ifndef USE_ES2
 void glEnableClientState(GLenum cap) {
-    LOAD_GLES(void, glEnableClientState, GLenum);
+    LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
 
 void glDisableClientState(GLenum cap) {
-    LOAD_GLES(void, glDisableClientState, GLenum);
+    LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
 #endif
 
 GLboolean glIsEnabled(GLenum cap) {
-    LOAD_GLES(GLboolean, glIsEnabled, GLenum);
+    LOAD_GLES(glIsEnabled);
     switch (cap) {
         case GL_LINE_STIPPLE:
             return state.enable.line_stipple;
@@ -179,7 +179,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
             free_renderlist(list);
         }
     } else {
-        LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
+        LOAD_GLES(glDrawElements);
         gles_glDrawElements(mode, count, type, indices);
     }
 }
@@ -203,7 +203,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     } else {
         // TODO: some draw states require us to use the full pipeline here
         // like texgen, stipple, npot
-        LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
+        LOAD_GLES(glDrawArrays);
         gles_glDrawArrays(mode, first, count);
     }
 }
@@ -212,25 +212,25 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-    LOAD_GLES(void, glVertexPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    LOAD_GLES(glVertexPointer);
     clone_gl_pointer(state.pointers.vertex, size);
     glGetError();
     gles_glVertexPointer(size, type, stride, pointer);
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-    LOAD_GLES(void, glColorPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    LOAD_GLES(glColorPointer);
     clone_gl_pointer(state.pointers.color, size);
     gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
-    LOAD_GLES(void, glNormalPointer, GLenum, GLsizei, const GLvoid *);
+    LOAD_GLES(glNormalPointer);
     clone_gl_pointer(state.pointers.normal, 3);
     gles_glNormalPointer(type, stride, pointer);
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-    LOAD_GLES(void, glTexCoordPointer, GLint, GLenum, GLsizei, const GLvoid *);
+    LOAD_GLES(glTexCoordPointer);
     clone_gl_pointer(state.pointers.tex_coord, size);
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
@@ -353,7 +353,7 @@ void glNormal3f(GLfloat x, GLfloat y, GLfloat z) {
     if (state.list.active) {
         rlNormal3f(state.list.active, x, y, z);
     } else {
-        LOAD_GLES(void, glNormal3f, GLfloat, GLfloat, GLfloat);
+        LOAD_GLES(glNormal3f);
         gles_glNormal3f(x, y, z);
     }
 }
@@ -368,7 +368,7 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (state.list.active) {
         rlColor4f(state.list.active, r, g, b, a);
     } else {
-        LOAD_GLES(void, glColor4f, GLfloat, GLfloat, GLfloat, GLfloat);
+        LOAD_GLES(glColor4f);
         gles_glColor4f(r, g, b, a);
         state.color[0] = r; state.color[1] = g;
         state.color[2] = b; state.color[3] = a;
@@ -376,7 +376,7 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 }
 
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
-    LOAD_GLES(void, glMaterialfv, GLenum face, GLenum pname, const GLfloat *params);
+    LOAD_GLES(glMaterialfv);
     if (state.list.active) {
         rlMaterialfv(state.list.active, face, pname, params);
     } else {

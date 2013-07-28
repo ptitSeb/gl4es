@@ -517,2146 +517,1422 @@ void glPackedCall(const UnknownCall *packed) {
 }
 #ifndef skip_glActiveTexture
 void glActiveTexture(GLenum texture) {
-    LOAD_GLES(void, glActiveTexture, GLenum texture);
+    LOAD_GLES(glActiveTexture);
 #ifndef direct_glActiveTexture
-    if (state.list.compiling) {
-        push_glActiveTexture(texture);
-    } else {
+    PUSH_IF_COMPILING(glActiveTexture)
 #endif
-        gles_glActiveTexture(texture);
+    gles_glActiveTexture(texture);
 
-#ifndef direct_glActiveTexture
-    }
-#endif
 }
 #endif
 #ifndef skip_glAttachShader
 void glAttachShader(GLuint program, GLuint shader) {
-    LOAD_GLES(void, glAttachShader, GLuint program, GLuint shader);
+    LOAD_GLES(glAttachShader);
 #ifndef direct_glAttachShader
-    if (state.list.compiling) {
-        push_glAttachShader(program, shader);
-    } else {
+    PUSH_IF_COMPILING(glAttachShader)
 #endif
-        gles_glAttachShader(program, shader);
+    gles_glAttachShader(program, shader);
 
-#ifndef direct_glAttachShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glBindAttribLocation
 void glBindAttribLocation(GLuint program, GLuint index, const GLchar * name) {
-    LOAD_GLES(void, glBindAttribLocation, GLuint program, GLuint index, const GLchar * name);
+    LOAD_GLES(glBindAttribLocation);
 #ifndef direct_glBindAttribLocation
-    if (state.list.compiling) {
-        push_glBindAttribLocation(program, index, name);
-    } else {
+    PUSH_IF_COMPILING(glBindAttribLocation)
 #endif
-        gles_glBindAttribLocation(program, index, name);
+    gles_glBindAttribLocation(program, index, name);
 
-#ifndef direct_glBindAttribLocation
-    }
-#endif
 }
 #endif
 #ifndef skip_glBindBuffer
 void glBindBuffer(GLenum target, GLuint buffer) {
-    LOAD_GLES(void, glBindBuffer, GLenum target, GLuint buffer);
+    LOAD_GLES(glBindBuffer);
 #ifndef direct_glBindBuffer
-    if (state.list.compiling) {
-        push_glBindBuffer(target, buffer);
-    } else {
+    PUSH_IF_COMPILING(glBindBuffer)
 #endif
-        gles_glBindBuffer(target, buffer);
+    gles_glBindBuffer(target, buffer);
 
-#ifndef direct_glBindBuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glBindFramebuffer
 void glBindFramebuffer(GLenum target, GLuint framebuffer) {
-    LOAD_GLES(void, glBindFramebuffer, GLenum target, GLuint framebuffer);
+    LOAD_GLES(glBindFramebuffer);
 #ifndef direct_glBindFramebuffer
-    if (state.list.compiling) {
-        push_glBindFramebuffer(target, framebuffer);
-    } else {
+    PUSH_IF_COMPILING(glBindFramebuffer)
 #endif
-        gles_glBindFramebuffer(target, framebuffer);
+    gles_glBindFramebuffer(target, framebuffer);
 
-#ifndef direct_glBindFramebuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glBindRenderbuffer
 void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
-    LOAD_GLES(void, glBindRenderbuffer, GLenum target, GLuint renderbuffer);
+    LOAD_GLES(glBindRenderbuffer);
 #ifndef direct_glBindRenderbuffer
-    if (state.list.compiling) {
-        push_glBindRenderbuffer(target, renderbuffer);
-    } else {
+    PUSH_IF_COMPILING(glBindRenderbuffer)
 #endif
-        gles_glBindRenderbuffer(target, renderbuffer);
+    gles_glBindRenderbuffer(target, renderbuffer);
 
-#ifndef direct_glBindRenderbuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glBindTexture
 void glBindTexture(GLenum target, GLuint texture) {
-    LOAD_GLES(void, glBindTexture, GLenum target, GLuint texture);
+    LOAD_GLES(glBindTexture);
 #ifndef direct_glBindTexture
-    if (state.list.compiling) {
-        push_glBindTexture(target, texture);
-    } else {
+    PUSH_IF_COMPILING(glBindTexture)
 #endif
-        gles_glBindTexture(target, texture);
+    gles_glBindTexture(target, texture);
 
-#ifndef direct_glBindTexture
-    }
-#endif
 }
 #endif
 #ifndef skip_glBlendColor
 void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
-    LOAD_GLES(void, glBlendColor, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+    LOAD_GLES(glBlendColor);
 #ifndef direct_glBlendColor
-    if (state.list.compiling) {
-        push_glBlendColor(red, green, blue, alpha);
-    } else {
+    PUSH_IF_COMPILING(glBlendColor)
 #endif
-        gles_glBlendColor(red, green, blue, alpha);
+    gles_glBlendColor(red, green, blue, alpha);
 
-#ifndef direct_glBlendColor
-    }
-#endif
 }
 #endif
 #ifndef skip_glBlendEquation
 void glBlendEquation(GLenum mode) {
-    LOAD_GLES(void, glBlendEquation, GLenum mode);
+    LOAD_GLES(glBlendEquation);
 #ifndef direct_glBlendEquation
-    if (state.list.compiling) {
-        push_glBlendEquation(mode);
-    } else {
+    PUSH_IF_COMPILING(glBlendEquation)
 #endif
-        gles_glBlendEquation(mode);
+    gles_glBlendEquation(mode);
 
-#ifndef direct_glBlendEquation
-    }
-#endif
 }
 #endif
 #ifndef skip_glBlendEquationSeparate
 void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
-    LOAD_GLES(void, glBlendEquationSeparate, GLenum modeRGB, GLenum modeA);
+    LOAD_GLES(glBlendEquationSeparate);
 #ifndef direct_glBlendEquationSeparate
-    if (state.list.compiling) {
-        push_glBlendEquationSeparate(modeRGB, modeA);
-    } else {
+    PUSH_IF_COMPILING(glBlendEquationSeparate)
 #endif
-        gles_glBlendEquationSeparate(modeRGB, modeA);
+    gles_glBlendEquationSeparate(modeRGB, modeA);
 
-#ifndef direct_glBlendEquationSeparate
-    }
-#endif
 }
 #endif
 #ifndef skip_glBlendFunc
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
-    LOAD_GLES(void, glBlendFunc, GLenum sfactor, GLenum dfactor);
+    LOAD_GLES(glBlendFunc);
 #ifndef direct_glBlendFunc
-    if (state.list.compiling) {
-        push_glBlendFunc(sfactor, dfactor);
-    } else {
+    PUSH_IF_COMPILING(glBlendFunc)
 #endif
-        gles_glBlendFunc(sfactor, dfactor);
+    gles_glBlendFunc(sfactor, dfactor);
 
-#ifndef direct_glBlendFunc
-    }
-#endif
 }
 #endif
 #ifndef skip_glBlendFuncSeparate
 void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
-    LOAD_GLES(void, glBlendFuncSeparate, GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+    LOAD_GLES(glBlendFuncSeparate);
 #ifndef direct_glBlendFuncSeparate
-    if (state.list.compiling) {
-        push_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
-    } else {
+    PUSH_IF_COMPILING(glBlendFuncSeparate)
 #endif
-        gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+    gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 
-#ifndef direct_glBlendFuncSeparate
-    }
-#endif
 }
 #endif
 #ifndef skip_glBufferData
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
-    LOAD_GLES(void, glBufferData, GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+    LOAD_GLES(glBufferData);
 #ifndef direct_glBufferData
-    if (state.list.compiling) {
-        push_glBufferData(target, size, data, usage);
-    } else {
+    PUSH_IF_COMPILING(glBufferData)
 #endif
-        gles_glBufferData(target, size, data, usage);
+    gles_glBufferData(target, size, data, usage);
 
-#ifndef direct_glBufferData
-    }
-#endif
 }
 #endif
 #ifndef skip_glBufferSubData
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
-    LOAD_GLES(void, glBufferSubData, GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+    LOAD_GLES(glBufferSubData);
 #ifndef direct_glBufferSubData
-    if (state.list.compiling) {
-        push_glBufferSubData(target, offset, size, data);
-    } else {
+    PUSH_IF_COMPILING(glBufferSubData)
 #endif
-        gles_glBufferSubData(target, offset, size, data);
+    gles_glBufferSubData(target, offset, size, data);
 
-#ifndef direct_glBufferSubData
-    }
-#endif
 }
 #endif
 #ifndef skip_glCheckFramebufferStatus
 GLenum glCheckFramebufferStatus(GLenum target) {
-    LOAD_GLES(GLenum, glCheckFramebufferStatus, GLenum target);
+    LOAD_GLES(glCheckFramebufferStatus);
 #ifndef direct_glCheckFramebufferStatus
-    if (state.list.compiling) {
-        push_glCheckFramebufferStatus(target);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glCheckFramebufferStatus)
 #endif
-        return gles_glCheckFramebufferStatus(target);
+    return gles_glCheckFramebufferStatus(target);
 
-#ifndef direct_glCheckFramebufferStatus
-    }
-#endif
 }
 #endif
 #ifndef skip_glClear
 void glClear(GLbitfield mask) {
-    LOAD_GLES(void, glClear, GLbitfield mask);
+    LOAD_GLES(glClear);
 #ifndef direct_glClear
-    if (state.list.compiling) {
-        push_glClear(mask);
-    } else {
+    PUSH_IF_COMPILING(glClear)
 #endif
-        gles_glClear(mask);
+    gles_glClear(mask);
 
-#ifndef direct_glClear
-    }
-#endif
 }
 #endif
 #ifndef skip_glClearColor
 void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
-    LOAD_GLES(void, glClearColor, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+    LOAD_GLES(glClearColor);
 #ifndef direct_glClearColor
-    if (state.list.compiling) {
-        push_glClearColor(red, green, blue, alpha);
-    } else {
+    PUSH_IF_COMPILING(glClearColor)
 #endif
-        gles_glClearColor(red, green, blue, alpha);
+    gles_glClearColor(red, green, blue, alpha);
 
-#ifndef direct_glClearColor
-    }
-#endif
 }
 #endif
 #ifndef skip_glClearDepthf
 void glClearDepthf(GLclampf depth) {
-    LOAD_GLES(void, glClearDepthf, GLclampf depth);
+    LOAD_GLES(glClearDepthf);
 #ifndef direct_glClearDepthf
-    if (state.list.compiling) {
-        push_glClearDepthf(depth);
-    } else {
+    PUSH_IF_COMPILING(glClearDepthf)
 #endif
-        gles_glClearDepthf(depth);
+    gles_glClearDepthf(depth);
 
-#ifndef direct_glClearDepthf
-    }
-#endif
 }
 #endif
 #ifndef skip_glClearStencil
 void glClearStencil(GLint s) {
-    LOAD_GLES(void, glClearStencil, GLint s);
+    LOAD_GLES(glClearStencil);
 #ifndef direct_glClearStencil
-    if (state.list.compiling) {
-        push_glClearStencil(s);
-    } else {
+    PUSH_IF_COMPILING(glClearStencil)
 #endif
-        gles_glClearStencil(s);
+    gles_glClearStencil(s);
 
-#ifndef direct_glClearStencil
-    }
-#endif
 }
 #endif
 #ifndef skip_glColorMask
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
-    LOAD_GLES(void, glColorMask, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+    LOAD_GLES(glColorMask);
 #ifndef direct_glColorMask
-    if (state.list.compiling) {
-        push_glColorMask(red, green, blue, alpha);
-    } else {
+    PUSH_IF_COMPILING(glColorMask)
 #endif
-        gles_glColorMask(red, green, blue, alpha);
+    gles_glColorMask(red, green, blue, alpha);
 
-#ifndef direct_glColorMask
-    }
-#endif
 }
 #endif
 #ifndef skip_glCompileShader
 void glCompileShader(GLuint shader) {
-    LOAD_GLES(void, glCompileShader, GLuint shader);
+    LOAD_GLES(glCompileShader);
 #ifndef direct_glCompileShader
-    if (state.list.compiling) {
-        push_glCompileShader(shader);
-    } else {
+    PUSH_IF_COMPILING(glCompileShader)
 #endif
-        gles_glCompileShader(shader);
+    gles_glCompileShader(shader);
 
-#ifndef direct_glCompileShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glCompressedTexImage2D
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
-    LOAD_GLES(void, glCompressedTexImage2D, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
+    LOAD_GLES(glCompressedTexImage2D);
 #ifndef direct_glCompressedTexImage2D
-    if (state.list.compiling) {
-        push_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
-    } else {
+    PUSH_IF_COMPILING(glCompressedTexImage2D)
 #endif
-        gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
 
-#ifndef direct_glCompressedTexImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glCompressedTexSubImage2D
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
-    LOAD_GLES(void, glCompressedTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data);
+    LOAD_GLES(glCompressedTexSubImage2D);
 #ifndef direct_glCompressedTexSubImage2D
-    if (state.list.compiling) {
-        push_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
-    } else {
+    PUSH_IF_COMPILING(glCompressedTexSubImage2D)
 #endif
-        gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
+    gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
 
-#ifndef direct_glCompressedTexSubImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glCopyTexImage2D
 void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
-    LOAD_GLES(void, glCopyTexImage2D, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
+    LOAD_GLES(glCopyTexImage2D);
 #ifndef direct_glCopyTexImage2D
-    if (state.list.compiling) {
-        push_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
-    } else {
+    PUSH_IF_COMPILING(glCopyTexImage2D)
 #endif
-        gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+    gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 
-#ifndef direct_glCopyTexImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glCopyTexSubImage2D
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
-    LOAD_GLES(void, glCopyTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+    LOAD_GLES(glCopyTexSubImage2D);
 #ifndef direct_glCopyTexSubImage2D
-    if (state.list.compiling) {
-        push_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
-    } else {
+    PUSH_IF_COMPILING(glCopyTexSubImage2D)
 #endif
-        gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+    gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 
-#ifndef direct_glCopyTexSubImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glCreateProgram
 GLuint glCreateProgram() {
-    LOAD_GLES(GLuint, glCreateProgram);
+    LOAD_GLES(glCreateProgram);
 #ifndef direct_glCreateProgram
-    if (state.list.compiling) {
-        push_glCreateProgram();
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glCreateProgram)
 #endif
-        return gles_glCreateProgram();
+    return gles_glCreateProgram();
 
-#ifndef direct_glCreateProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glCreateShader
 GLuint glCreateShader(GLenum type) {
-    LOAD_GLES(GLuint, glCreateShader, GLenum type);
+    LOAD_GLES(glCreateShader);
 #ifndef direct_glCreateShader
-    if (state.list.compiling) {
-        push_glCreateShader(type);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glCreateShader)
 #endif
-        return gles_glCreateShader(type);
+    return gles_glCreateShader(type);
 
-#ifndef direct_glCreateShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glCullFace
 void glCullFace(GLenum mode) {
-    LOAD_GLES(void, glCullFace, GLenum mode);
+    LOAD_GLES(glCullFace);
 #ifndef direct_glCullFace
-    if (state.list.compiling) {
-        push_glCullFace(mode);
-    } else {
+    PUSH_IF_COMPILING(glCullFace)
 #endif
-        gles_glCullFace(mode);
+    gles_glCullFace(mode);
 
-#ifndef direct_glCullFace
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteBuffers
 void glDeleteBuffers(GLsizei n, const GLuint * buffer) {
-    LOAD_GLES(void, glDeleteBuffers, GLsizei n, const GLuint * buffer);
+    LOAD_GLES(glDeleteBuffers);
 #ifndef direct_glDeleteBuffers
-    if (state.list.compiling) {
-        push_glDeleteBuffers(n, buffer);
-    } else {
+    PUSH_IF_COMPILING(glDeleteBuffers)
 #endif
-        gles_glDeleteBuffers(n, buffer);
+    gles_glDeleteBuffers(n, buffer);
 
-#ifndef direct_glDeleteBuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteFramebuffers
 void glDeleteFramebuffers(GLsizei n, const GLuint * framebuffers) {
-    LOAD_GLES(void, glDeleteFramebuffers, GLsizei n, const GLuint * framebuffers);
+    LOAD_GLES(glDeleteFramebuffers);
 #ifndef direct_glDeleteFramebuffers
-    if (state.list.compiling) {
-        push_glDeleteFramebuffers(n, framebuffers);
-    } else {
+    PUSH_IF_COMPILING(glDeleteFramebuffers)
 #endif
-        gles_glDeleteFramebuffers(n, framebuffers);
+    gles_glDeleteFramebuffers(n, framebuffers);
 
-#ifndef direct_glDeleteFramebuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteProgram
 void glDeleteProgram(GLuint program) {
-    LOAD_GLES(void, glDeleteProgram, GLuint program);
+    LOAD_GLES(glDeleteProgram);
 #ifndef direct_glDeleteProgram
-    if (state.list.compiling) {
-        push_glDeleteProgram(program);
-    } else {
+    PUSH_IF_COMPILING(glDeleteProgram)
 #endif
-        gles_glDeleteProgram(program);
+    gles_glDeleteProgram(program);
 
-#ifndef direct_glDeleteProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteRenderbuffers
 void glDeleteRenderbuffers(GLsizei n, const GLuint * renderbuffers) {
-    LOAD_GLES(void, glDeleteRenderbuffers, GLsizei n, const GLuint * renderbuffers);
+    LOAD_GLES(glDeleteRenderbuffers);
 #ifndef direct_glDeleteRenderbuffers
-    if (state.list.compiling) {
-        push_glDeleteRenderbuffers(n, renderbuffers);
-    } else {
+    PUSH_IF_COMPILING(glDeleteRenderbuffers)
 #endif
-        gles_glDeleteRenderbuffers(n, renderbuffers);
+    gles_glDeleteRenderbuffers(n, renderbuffers);
 
-#ifndef direct_glDeleteRenderbuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteShader
 void glDeleteShader(GLuint program) {
-    LOAD_GLES(void, glDeleteShader, GLuint program);
+    LOAD_GLES(glDeleteShader);
 #ifndef direct_glDeleteShader
-    if (state.list.compiling) {
-        push_glDeleteShader(program);
-    } else {
+    PUSH_IF_COMPILING(glDeleteShader)
 #endif
-        gles_glDeleteShader(program);
+    gles_glDeleteShader(program);
 
-#ifndef direct_glDeleteShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glDeleteTextures
 void glDeleteTextures(GLsizei n, const GLuint * textures) {
-    LOAD_GLES(void, glDeleteTextures, GLsizei n, const GLuint * textures);
+    LOAD_GLES(glDeleteTextures);
 #ifndef direct_glDeleteTextures
-    if (state.list.compiling) {
-        push_glDeleteTextures(n, textures);
-    } else {
+    PUSH_IF_COMPILING(glDeleteTextures)
 #endif
-        gles_glDeleteTextures(n, textures);
+    gles_glDeleteTextures(n, textures);
 
-#ifndef direct_glDeleteTextures
-    }
-#endif
 }
 #endif
 #ifndef skip_glDepthFunc
 void glDepthFunc(GLenum func) {
-    LOAD_GLES(void, glDepthFunc, GLenum func);
+    LOAD_GLES(glDepthFunc);
 #ifndef direct_glDepthFunc
-    if (state.list.compiling) {
-        push_glDepthFunc(func);
-    } else {
+    PUSH_IF_COMPILING(glDepthFunc)
 #endif
-        gles_glDepthFunc(func);
+    gles_glDepthFunc(func);
 
-#ifndef direct_glDepthFunc
-    }
-#endif
 }
 #endif
 #ifndef skip_glDepthMask
 void glDepthMask(GLboolean flag) {
-    LOAD_GLES(void, glDepthMask, GLboolean flag);
+    LOAD_GLES(glDepthMask);
 #ifndef direct_glDepthMask
-    if (state.list.compiling) {
-        push_glDepthMask(flag);
-    } else {
+    PUSH_IF_COMPILING(glDepthMask)
 #endif
-        gles_glDepthMask(flag);
+    gles_glDepthMask(flag);
 
-#ifndef direct_glDepthMask
-    }
-#endif
 }
 #endif
 #ifndef skip_glDepthRangef
 void glDepthRangef(GLclampf zNear, GLclampf zFar) {
-    LOAD_GLES(void, glDepthRangef, GLclampf zNear, GLclampf zFar);
+    LOAD_GLES(glDepthRangef);
 #ifndef direct_glDepthRangef
-    if (state.list.compiling) {
-        push_glDepthRangef(zNear, zFar);
-    } else {
+    PUSH_IF_COMPILING(glDepthRangef)
 #endif
-        gles_glDepthRangef(zNear, zFar);
+    gles_glDepthRangef(zNear, zFar);
 
-#ifndef direct_glDepthRangef
-    }
-#endif
 }
 #endif
 #ifndef skip_glDetachShader
 void glDetachShader(GLuint program, GLuint shader) {
-    LOAD_GLES(void, glDetachShader, GLuint program, GLuint shader);
+    LOAD_GLES(glDetachShader);
 #ifndef direct_glDetachShader
-    if (state.list.compiling) {
-        push_glDetachShader(program, shader);
-    } else {
+    PUSH_IF_COMPILING(glDetachShader)
 #endif
-        gles_glDetachShader(program, shader);
+    gles_glDetachShader(program, shader);
 
-#ifndef direct_glDetachShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glDisable
 void glDisable(GLenum cap) {
-    LOAD_GLES(void, glDisable, GLenum cap);
+    LOAD_GLES(glDisable);
 #ifndef direct_glDisable
-    if (state.list.compiling) {
-        push_glDisable(cap);
-    } else {
+    PUSH_IF_COMPILING(glDisable)
 #endif
-        gles_glDisable(cap);
+    gles_glDisable(cap);
 
-#ifndef direct_glDisable
-    }
-#endif
 }
 #endif
 #ifndef skip_glDisableVertexAttribArray
 void glDisableVertexAttribArray(GLuint index) {
-    LOAD_GLES(void, glDisableVertexAttribArray, GLuint index);
+    LOAD_GLES(glDisableVertexAttribArray);
 #ifndef direct_glDisableVertexAttribArray
-    if (state.list.compiling) {
-        push_glDisableVertexAttribArray(index);
-    } else {
+    PUSH_IF_COMPILING(glDisableVertexAttribArray)
 #endif
-        gles_glDisableVertexAttribArray(index);
+    gles_glDisableVertexAttribArray(index);
 
-#ifndef direct_glDisableVertexAttribArray
-    }
-#endif
 }
 #endif
 #ifndef skip_glDrawArrays
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    LOAD_GLES(void, glDrawArrays, GLenum mode, GLint first, GLsizei count);
+    LOAD_GLES(glDrawArrays);
 #ifndef direct_glDrawArrays
-    if (state.list.compiling) {
-        push_glDrawArrays(mode, first, count);
-    } else {
+    PUSH_IF_COMPILING(glDrawArrays)
 #endif
-        gles_glDrawArrays(mode, first, count);
+    gles_glDrawArrays(mode, first, count);
 
-#ifndef direct_glDrawArrays
-    }
-#endif
 }
 #endif
 #ifndef skip_glDrawElements
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
-    LOAD_GLES(void, glDrawElements, GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
+    LOAD_GLES(glDrawElements);
 #ifndef direct_glDrawElements
-    if (state.list.compiling) {
-        push_glDrawElements(mode, count, type, indices);
-    } else {
+    PUSH_IF_COMPILING(glDrawElements)
 #endif
-        gles_glDrawElements(mode, count, type, indices);
+    gles_glDrawElements(mode, count, type, indices);
 
-#ifndef direct_glDrawElements
-    }
-#endif
 }
 #endif
 #ifndef skip_glEnable
 void glEnable(GLenum cap) {
-    LOAD_GLES(void, glEnable, GLenum cap);
+    LOAD_GLES(glEnable);
 #ifndef direct_glEnable
-    if (state.list.compiling) {
-        push_glEnable(cap);
-    } else {
+    PUSH_IF_COMPILING(glEnable)
 #endif
-        gles_glEnable(cap);
+    gles_glEnable(cap);
 
-#ifndef direct_glEnable
-    }
-#endif
 }
 #endif
 #ifndef skip_glEnableVertexAttribArray
 void glEnableVertexAttribArray(GLuint index) {
-    LOAD_GLES(void, glEnableVertexAttribArray, GLuint index);
+    LOAD_GLES(glEnableVertexAttribArray);
 #ifndef direct_glEnableVertexAttribArray
-    if (state.list.compiling) {
-        push_glEnableVertexAttribArray(index);
-    } else {
+    PUSH_IF_COMPILING(glEnableVertexAttribArray)
 #endif
-        gles_glEnableVertexAttribArray(index);
+    gles_glEnableVertexAttribArray(index);
 
-#ifndef direct_glEnableVertexAttribArray
-    }
-#endif
 }
 #endif
 #ifndef skip_glFinish
 void glFinish() {
-    LOAD_GLES(void, glFinish);
+    LOAD_GLES(glFinish);
 #ifndef direct_glFinish
-    if (state.list.compiling) {
-        push_glFinish();
-    } else {
+    PUSH_IF_COMPILING(glFinish)
 #endif
-        gles_glFinish();
+    gles_glFinish();
 
-#ifndef direct_glFinish
-    }
-#endif
 }
 #endif
 #ifndef skip_glFlush
 void glFlush() {
-    LOAD_GLES(void, glFlush);
+    LOAD_GLES(glFlush);
 #ifndef direct_glFlush
-    if (state.list.compiling) {
-        push_glFlush();
-    } else {
+    PUSH_IF_COMPILING(glFlush)
 #endif
-        gles_glFlush();
+    gles_glFlush();
 
-#ifndef direct_glFlush
-    }
-#endif
 }
 #endif
 #ifndef skip_glFramebufferRenderbuffer
 void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
-    LOAD_GLES(void, glFramebufferRenderbuffer, GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+    LOAD_GLES(glFramebufferRenderbuffer);
 #ifndef direct_glFramebufferRenderbuffer
-    if (state.list.compiling) {
-        push_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
-    } else {
+    PUSH_IF_COMPILING(glFramebufferRenderbuffer)
 #endif
-        gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+    gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 
-#ifndef direct_glFramebufferRenderbuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glFramebufferTexture2D
 void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
-    LOAD_GLES(void, glFramebufferTexture2D, GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+    LOAD_GLES(glFramebufferTexture2D);
 #ifndef direct_glFramebufferTexture2D
-    if (state.list.compiling) {
-        push_glFramebufferTexture2D(target, attachment, textarget, texture, level);
-    } else {
+    PUSH_IF_COMPILING(glFramebufferTexture2D)
 #endif
-        gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
+    gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 
-#ifndef direct_glFramebufferTexture2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glFrontFace
 void glFrontFace(GLenum mode) {
-    LOAD_GLES(void, glFrontFace, GLenum mode);
+    LOAD_GLES(glFrontFace);
 #ifndef direct_glFrontFace
-    if (state.list.compiling) {
-        push_glFrontFace(mode);
-    } else {
+    PUSH_IF_COMPILING(glFrontFace)
 #endif
-        gles_glFrontFace(mode);
+    gles_glFrontFace(mode);
 
-#ifndef direct_glFrontFace
-    }
-#endif
 }
 #endif
 #ifndef skip_glGenBuffers
 void glGenBuffers(GLsizei n, GLuint * buffer) {
-    LOAD_GLES(void, glGenBuffers, GLsizei n, GLuint * buffer);
+    LOAD_GLES(glGenBuffers);
 #ifndef direct_glGenBuffers
-    if (state.list.compiling) {
-        push_glGenBuffers(n, buffer);
-    } else {
+    PUSH_IF_COMPILING(glGenBuffers)
 #endif
-        gles_glGenBuffers(n, buffer);
+    gles_glGenBuffers(n, buffer);
 
-#ifndef direct_glGenBuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glGenFramebuffers
 void glGenFramebuffers(GLsizei n, GLuint * framebuffers) {
-    LOAD_GLES(void, glGenFramebuffers, GLsizei n, GLuint * framebuffers);
+    LOAD_GLES(glGenFramebuffers);
 #ifndef direct_glGenFramebuffers
-    if (state.list.compiling) {
-        push_glGenFramebuffers(n, framebuffers);
-    } else {
+    PUSH_IF_COMPILING(glGenFramebuffers)
 #endif
-        gles_glGenFramebuffers(n, framebuffers);
+    gles_glGenFramebuffers(n, framebuffers);
 
-#ifndef direct_glGenFramebuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glGenRenderbuffers
 void glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
-    LOAD_GLES(void, glGenRenderbuffers, GLsizei n, GLuint * renderbuffers);
+    LOAD_GLES(glGenRenderbuffers);
 #ifndef direct_glGenRenderbuffers
-    if (state.list.compiling) {
-        push_glGenRenderbuffers(n, renderbuffers);
-    } else {
+    PUSH_IF_COMPILING(glGenRenderbuffers)
 #endif
-        gles_glGenRenderbuffers(n, renderbuffers);
+    gles_glGenRenderbuffers(n, renderbuffers);
 
-#ifndef direct_glGenRenderbuffers
-    }
-#endif
 }
 #endif
 #ifndef skip_glGenTextures
 void glGenTextures(GLsizei n, GLuint * textures) {
-    LOAD_GLES(void, glGenTextures, GLsizei n, GLuint * textures);
+    LOAD_GLES(glGenTextures);
 #ifndef direct_glGenTextures
-    if (state.list.compiling) {
-        push_glGenTextures(n, textures);
-    } else {
+    PUSH_IF_COMPILING(glGenTextures)
 #endif
-        gles_glGenTextures(n, textures);
+    gles_glGenTextures(n, textures);
 
-#ifndef direct_glGenTextures
-    }
-#endif
 }
 #endif
 #ifndef skip_glGenerateMipmap
 void glGenerateMipmap(GLenum target) {
-    LOAD_GLES(void, glGenerateMipmap, GLenum target);
+    LOAD_GLES(glGenerateMipmap);
 #ifndef direct_glGenerateMipmap
-    if (state.list.compiling) {
-        push_glGenerateMipmap(target);
-    } else {
+    PUSH_IF_COMPILING(glGenerateMipmap)
 #endif
-        gles_glGenerateMipmap(target);
+    gles_glGenerateMipmap(target);
 
-#ifndef direct_glGenerateMipmap
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetActiveAttrib
 void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
-    LOAD_GLES(void, glGetActiveAttrib, GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name);
+    LOAD_GLES(glGetActiveAttrib);
 #ifndef direct_glGetActiveAttrib
-    if (state.list.compiling) {
-        push_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
-    } else {
+    PUSH_IF_COMPILING(glGetActiveAttrib)
 #endif
-        gles_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
+    gles_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
 
-#ifndef direct_glGetActiveAttrib
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetActiveUniform
 void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
-    LOAD_GLES(void, glGetActiveUniform, GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name);
+    LOAD_GLES(glGetActiveUniform);
 #ifndef direct_glGetActiveUniform
-    if (state.list.compiling) {
-        push_glGetActiveUniform(program, index, bufSize, length, size, type, name);
-    } else {
+    PUSH_IF_COMPILING(glGetActiveUniform)
 #endif
-        gles_glGetActiveUniform(program, index, bufSize, length, size, type, name);
+    gles_glGetActiveUniform(program, index, bufSize, length, size, type, name);
 
-#ifndef direct_glGetActiveUniform
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetAttachedShaders
 void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj) {
-    LOAD_GLES(void, glGetAttachedShaders, GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj);
+    LOAD_GLES(glGetAttachedShaders);
 #ifndef direct_glGetAttachedShaders
-    if (state.list.compiling) {
-        push_glGetAttachedShaders(program, maxCount, count, obj);
-    } else {
+    PUSH_IF_COMPILING(glGetAttachedShaders)
 #endif
-        gles_glGetAttachedShaders(program, maxCount, count, obj);
+    gles_glGetAttachedShaders(program, maxCount, count, obj);
 
-#ifndef direct_glGetAttachedShaders
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetAttribLocation
 GLint glGetAttribLocation(GLuint program, const GLchar * name) {
-    LOAD_GLES(GLint, glGetAttribLocation, GLuint program, const GLchar * name);
+    LOAD_GLES(glGetAttribLocation);
 #ifndef direct_glGetAttribLocation
-    if (state.list.compiling) {
-        push_glGetAttribLocation(program, name);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glGetAttribLocation)
 #endif
-        return gles_glGetAttribLocation(program, name);
+    return gles_glGetAttribLocation(program, name);
 
-#ifndef direct_glGetAttribLocation
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetBooleanv
 void glGetBooleanv(GLenum pname, GLboolean * params) {
-    LOAD_GLES(void, glGetBooleanv, GLenum pname, GLboolean * params);
+    LOAD_GLES(glGetBooleanv);
 #ifndef direct_glGetBooleanv
-    if (state.list.compiling) {
-        push_glGetBooleanv(pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetBooleanv)
 #endif
-        gles_glGetBooleanv(pname, params);
+    gles_glGetBooleanv(pname, params);
 
-#ifndef direct_glGetBooleanv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetBufferParameteriv
 void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetBufferParameteriv, GLenum target, GLenum pname, GLint * params);
+    LOAD_GLES(glGetBufferParameteriv);
 #ifndef direct_glGetBufferParameteriv
-    if (state.list.compiling) {
-        push_glGetBufferParameteriv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetBufferParameteriv)
 #endif
-        gles_glGetBufferParameteriv(target, pname, params);
+    gles_glGetBufferParameteriv(target, pname, params);
 
-#ifndef direct_glGetBufferParameteriv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetError
 GLenum glGetError() {
-    LOAD_GLES(GLenum, glGetError);
+    LOAD_GLES(glGetError);
 #ifndef direct_glGetError
-    if (state.list.compiling) {
-        push_glGetError();
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glGetError)
 #endif
-        return gles_glGetError();
+    return gles_glGetError();
 
-#ifndef direct_glGetError
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetFloatv
 void glGetFloatv(GLenum pname, GLfloat * params) {
-    LOAD_GLES(void, glGetFloatv, GLenum pname, GLfloat * params);
+    LOAD_GLES(glGetFloatv);
 #ifndef direct_glGetFloatv
-    if (state.list.compiling) {
-        push_glGetFloatv(pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetFloatv)
 #endif
-        gles_glGetFloatv(pname, params);
+    gles_glGetFloatv(pname, params);
 
-#ifndef direct_glGetFloatv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetFramebufferAttachmentParameteriv
 void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetFramebufferAttachmentParameteriv, GLenum target, GLenum attachment, GLenum pname, GLint * params);
+    LOAD_GLES(glGetFramebufferAttachmentParameteriv);
 #ifndef direct_glGetFramebufferAttachmentParameteriv
-    if (state.list.compiling) {
-        push_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetFramebufferAttachmentParameteriv)
 #endif
-        gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
+    gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 
-#ifndef direct_glGetFramebufferAttachmentParameteriv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetIntegerv
 void glGetIntegerv(GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetIntegerv, GLenum pname, GLint * params);
+    LOAD_GLES(glGetIntegerv);
 #ifndef direct_glGetIntegerv
-    if (state.list.compiling) {
-        push_glGetIntegerv(pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetIntegerv)
 #endif
-        gles_glGetIntegerv(pname, params);
+    gles_glGetIntegerv(pname, params);
 
-#ifndef direct_glGetIntegerv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetProgramInfoLog
 void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
-    LOAD_GLES(void, glGetProgramInfoLog, GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog);
+    LOAD_GLES(glGetProgramInfoLog);
 #ifndef direct_glGetProgramInfoLog
-    if (state.list.compiling) {
-        push_glGetProgramInfoLog(program, bufSize, length, infoLog);
-    } else {
+    PUSH_IF_COMPILING(glGetProgramInfoLog)
 #endif
-        gles_glGetProgramInfoLog(program, bufSize, length, infoLog);
+    gles_glGetProgramInfoLog(program, bufSize, length, infoLog);
 
-#ifndef direct_glGetProgramInfoLog
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetProgramiv
 void glGetProgramiv(GLuint program, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetProgramiv, GLuint program, GLenum pname, GLint * params);
+    LOAD_GLES(glGetProgramiv);
 #ifndef direct_glGetProgramiv
-    if (state.list.compiling) {
-        push_glGetProgramiv(program, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetProgramiv)
 #endif
-        gles_glGetProgramiv(program, pname, params);
+    gles_glGetProgramiv(program, pname, params);
 
-#ifndef direct_glGetProgramiv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetRenderbufferParameteriv
 void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetRenderbufferParameteriv, GLenum target, GLenum pname, GLint * params);
+    LOAD_GLES(glGetRenderbufferParameteriv);
 #ifndef direct_glGetRenderbufferParameteriv
-    if (state.list.compiling) {
-        push_glGetRenderbufferParameteriv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetRenderbufferParameteriv)
 #endif
-        gles_glGetRenderbufferParameteriv(target, pname, params);
+    gles_glGetRenderbufferParameteriv(target, pname, params);
 
-#ifndef direct_glGetRenderbufferParameteriv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetShaderInfoLog
 void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
-    LOAD_GLES(void, glGetShaderInfoLog, GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog);
+    LOAD_GLES(glGetShaderInfoLog);
 #ifndef direct_glGetShaderInfoLog
-    if (state.list.compiling) {
-        push_glGetShaderInfoLog(shader, bufSize, length, infoLog);
-    } else {
+    PUSH_IF_COMPILING(glGetShaderInfoLog)
 #endif
-        gles_glGetShaderInfoLog(shader, bufSize, length, infoLog);
+    gles_glGetShaderInfoLog(shader, bufSize, length, infoLog);
 
-#ifndef direct_glGetShaderInfoLog
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetShaderPrecisionFormat
 void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision) {
-    LOAD_GLES(void, glGetShaderPrecisionFormat, GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision);
+    LOAD_GLES(glGetShaderPrecisionFormat);
 #ifndef direct_glGetShaderPrecisionFormat
-    if (state.list.compiling) {
-        push_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
-    } else {
+    PUSH_IF_COMPILING(glGetShaderPrecisionFormat)
 #endif
-        gles_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
+    gles_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
 
-#ifndef direct_glGetShaderPrecisionFormat
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetShaderSource
 void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source) {
-    LOAD_GLES(void, glGetShaderSource, GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source);
+    LOAD_GLES(glGetShaderSource);
 #ifndef direct_glGetShaderSource
-    if (state.list.compiling) {
-        push_glGetShaderSource(shader, bufSize, length, source);
-    } else {
+    PUSH_IF_COMPILING(glGetShaderSource)
 #endif
-        gles_glGetShaderSource(shader, bufSize, length, source);
+    gles_glGetShaderSource(shader, bufSize, length, source);
 
-#ifndef direct_glGetShaderSource
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetShaderiv
 void glGetShaderiv(GLuint shader, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetShaderiv, GLuint shader, GLenum pname, GLint * params);
+    LOAD_GLES(glGetShaderiv);
 #ifndef direct_glGetShaderiv
-    if (state.list.compiling) {
-        push_glGetShaderiv(shader, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetShaderiv)
 #endif
-        gles_glGetShaderiv(shader, pname, params);
+    gles_glGetShaderiv(shader, pname, params);
 
-#ifndef direct_glGetShaderiv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetString
 const GLubyte * glGetString(GLenum name) {
-    LOAD_GLES(const GLubyte *, glGetString, GLenum name);
+    LOAD_GLES(glGetString);
 #ifndef direct_glGetString
-    if (state.list.compiling) {
-        push_glGetString(name);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glGetString)
 #endif
-        return gles_glGetString(name);
+    return gles_glGetString(name);
 
-#ifndef direct_glGetString
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetTexParameterfv
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
-    LOAD_GLES(void, glGetTexParameterfv, GLenum target, GLenum pname, GLfloat * params);
+    LOAD_GLES(glGetTexParameterfv);
 #ifndef direct_glGetTexParameterfv
-    if (state.list.compiling) {
-        push_glGetTexParameterfv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetTexParameterfv)
 #endif
-        gles_glGetTexParameterfv(target, pname, params);
+    gles_glGetTexParameterfv(target, pname, params);
 
-#ifndef direct_glGetTexParameterfv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetTexParameteriv
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetTexParameteriv, GLenum target, GLenum pname, GLint * params);
+    LOAD_GLES(glGetTexParameteriv);
 #ifndef direct_glGetTexParameteriv
-    if (state.list.compiling) {
-        push_glGetTexParameteriv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetTexParameteriv)
 #endif
-        gles_glGetTexParameteriv(target, pname, params);
+    gles_glGetTexParameteriv(target, pname, params);
 
-#ifndef direct_glGetTexParameteriv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetUniformLocation
 GLint glGetUniformLocation(GLuint program, const GLchar * name) {
-    LOAD_GLES(GLint, glGetUniformLocation, GLuint program, const GLchar * name);
+    LOAD_GLES(glGetUniformLocation);
 #ifndef direct_glGetUniformLocation
-    if (state.list.compiling) {
-        push_glGetUniformLocation(program, name);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glGetUniformLocation)
 #endif
-        return gles_glGetUniformLocation(program, name);
+    return gles_glGetUniformLocation(program, name);
 
-#ifndef direct_glGetUniformLocation
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetUniformfv
 void glGetUniformfv(GLuint program, GLint location, GLfloat * params) {
-    LOAD_GLES(void, glGetUniformfv, GLuint program, GLint location, GLfloat * params);
+    LOAD_GLES(glGetUniformfv);
 #ifndef direct_glGetUniformfv
-    if (state.list.compiling) {
-        push_glGetUniformfv(program, location, params);
-    } else {
+    PUSH_IF_COMPILING(glGetUniformfv)
 #endif
-        gles_glGetUniformfv(program, location, params);
+    gles_glGetUniformfv(program, location, params);
 
-#ifndef direct_glGetUniformfv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetUniformiv
 void glGetUniformiv(GLuint program, GLint location, GLint * params) {
-    LOAD_GLES(void, glGetUniformiv, GLuint program, GLint location, GLint * params);
+    LOAD_GLES(glGetUniformiv);
 #ifndef direct_glGetUniformiv
-    if (state.list.compiling) {
-        push_glGetUniformiv(program, location, params);
-    } else {
+    PUSH_IF_COMPILING(glGetUniformiv)
 #endif
-        gles_glGetUniformiv(program, location, params);
+    gles_glGetUniformiv(program, location, params);
 
-#ifndef direct_glGetUniformiv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetVertexAttribPointerv
 void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) {
-    LOAD_GLES(void, glGetVertexAttribPointerv, GLuint index, GLenum pname, GLvoid ** pointer);
+    LOAD_GLES(glGetVertexAttribPointerv);
 #ifndef direct_glGetVertexAttribPointerv
-    if (state.list.compiling) {
-        push_glGetVertexAttribPointerv(index, pname, pointer);
-    } else {
+    PUSH_IF_COMPILING(glGetVertexAttribPointerv)
 #endif
-        gles_glGetVertexAttribPointerv(index, pname, pointer);
+    gles_glGetVertexAttribPointerv(index, pname, pointer);
 
-#ifndef direct_glGetVertexAttribPointerv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetVertexAttribfv
 void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) {
-    LOAD_GLES(void, glGetVertexAttribfv, GLuint index, GLenum pname, GLfloat * params);
+    LOAD_GLES(glGetVertexAttribfv);
 #ifndef direct_glGetVertexAttribfv
-    if (state.list.compiling) {
-        push_glGetVertexAttribfv(index, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetVertexAttribfv)
 #endif
-        gles_glGetVertexAttribfv(index, pname, params);
+    gles_glGetVertexAttribfv(index, pname, params);
 
-#ifndef direct_glGetVertexAttribfv
-    }
-#endif
 }
 #endif
 #ifndef skip_glGetVertexAttribiv
 void glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) {
-    LOAD_GLES(void, glGetVertexAttribiv, GLuint index, GLenum pname, GLint * params);
+    LOAD_GLES(glGetVertexAttribiv);
 #ifndef direct_glGetVertexAttribiv
-    if (state.list.compiling) {
-        push_glGetVertexAttribiv(index, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glGetVertexAttribiv)
 #endif
-        gles_glGetVertexAttribiv(index, pname, params);
+    gles_glGetVertexAttribiv(index, pname, params);
 
-#ifndef direct_glGetVertexAttribiv
-    }
-#endif
 }
 #endif
 #ifndef skip_glHint
 void glHint(GLenum target, GLenum mode) {
-    LOAD_GLES(void, glHint, GLenum target, GLenum mode);
+    LOAD_GLES(glHint);
 #ifndef direct_glHint
-    if (state.list.compiling) {
-        push_glHint(target, mode);
-    } else {
+    PUSH_IF_COMPILING(glHint)
 #endif
-        gles_glHint(target, mode);
+    gles_glHint(target, mode);
 
-#ifndef direct_glHint
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsBuffer
 GLboolean glIsBuffer(GLuint buffer) {
-    LOAD_GLES(GLboolean, glIsBuffer, GLuint buffer);
+    LOAD_GLES(glIsBuffer);
 #ifndef direct_glIsBuffer
-    if (state.list.compiling) {
-        push_glIsBuffer(buffer);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsBuffer)
 #endif
-        return gles_glIsBuffer(buffer);
+    return gles_glIsBuffer(buffer);
 
-#ifndef direct_glIsBuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsEnabled
 GLboolean glIsEnabled(GLenum cap) {
-    LOAD_GLES(GLboolean, glIsEnabled, GLenum cap);
+    LOAD_GLES(glIsEnabled);
 #ifndef direct_glIsEnabled
-    if (state.list.compiling) {
-        push_glIsEnabled(cap);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsEnabled)
 #endif
-        return gles_glIsEnabled(cap);
+    return gles_glIsEnabled(cap);
 
-#ifndef direct_glIsEnabled
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsFramebuffer
 GLboolean glIsFramebuffer(GLuint framebuffer) {
-    LOAD_GLES(GLboolean, glIsFramebuffer, GLuint framebuffer);
+    LOAD_GLES(glIsFramebuffer);
 #ifndef direct_glIsFramebuffer
-    if (state.list.compiling) {
-        push_glIsFramebuffer(framebuffer);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsFramebuffer)
 #endif
-        return gles_glIsFramebuffer(framebuffer);
+    return gles_glIsFramebuffer(framebuffer);
 
-#ifndef direct_glIsFramebuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsProgram
 GLboolean glIsProgram(GLuint program) {
-    LOAD_GLES(GLboolean, glIsProgram, GLuint program);
+    LOAD_GLES(glIsProgram);
 #ifndef direct_glIsProgram
-    if (state.list.compiling) {
-        push_glIsProgram(program);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsProgram)
 #endif
-        return gles_glIsProgram(program);
+    return gles_glIsProgram(program);
 
-#ifndef direct_glIsProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsRenderbuffer
 GLboolean glIsRenderbuffer(GLuint renderbuffer) {
-    LOAD_GLES(GLboolean, glIsRenderbuffer, GLuint renderbuffer);
+    LOAD_GLES(glIsRenderbuffer);
 #ifndef direct_glIsRenderbuffer
-    if (state.list.compiling) {
-        push_glIsRenderbuffer(renderbuffer);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsRenderbuffer)
 #endif
-        return gles_glIsRenderbuffer(renderbuffer);
+    return gles_glIsRenderbuffer(renderbuffer);
 
-#ifndef direct_glIsRenderbuffer
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsShader
 GLboolean glIsShader(GLuint shader) {
-    LOAD_GLES(GLboolean, glIsShader, GLuint shader);
+    LOAD_GLES(glIsShader);
 #ifndef direct_glIsShader
-    if (state.list.compiling) {
-        push_glIsShader(shader);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsShader)
 #endif
-        return gles_glIsShader(shader);
+    return gles_glIsShader(shader);
 
-#ifndef direct_glIsShader
-    }
-#endif
 }
 #endif
 #ifndef skip_glIsTexture
 GLboolean glIsTexture(GLuint texture) {
-    LOAD_GLES(GLboolean, glIsTexture, GLuint texture);
+    LOAD_GLES(glIsTexture);
 #ifndef direct_glIsTexture
-    if (state.list.compiling) {
-        push_glIsTexture(texture);
-        return 0;
-    } else {
+    PUSH_IF_COMPILING(glIsTexture)
 #endif
-        return gles_glIsTexture(texture);
+    return gles_glIsTexture(texture);
 
-#ifndef direct_glIsTexture
-    }
-#endif
 }
 #endif
 #ifndef skip_glLineWidth
 void glLineWidth(GLfloat width) {
-    LOAD_GLES(void, glLineWidth, GLfloat width);
+    LOAD_GLES(glLineWidth);
 #ifndef direct_glLineWidth
-    if (state.list.compiling) {
-        push_glLineWidth(width);
-    } else {
+    PUSH_IF_COMPILING(glLineWidth)
 #endif
-        gles_glLineWidth(width);
+    gles_glLineWidth(width);
 
-#ifndef direct_glLineWidth
-    }
-#endif
 }
 #endif
 #ifndef skip_glLinkProgram
 void glLinkProgram(GLuint program) {
-    LOAD_GLES(void, glLinkProgram, GLuint program);
+    LOAD_GLES(glLinkProgram);
 #ifndef direct_glLinkProgram
-    if (state.list.compiling) {
-        push_glLinkProgram(program);
-    } else {
+    PUSH_IF_COMPILING(glLinkProgram)
 #endif
-        gles_glLinkProgram(program);
+    gles_glLinkProgram(program);
 
-#ifndef direct_glLinkProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glPixelStorei
 void glPixelStorei(GLenum pname, GLint param) {
-    LOAD_GLES(void, glPixelStorei, GLenum pname, GLint param);
+    LOAD_GLES(glPixelStorei);
 #ifndef direct_glPixelStorei
-    if (state.list.compiling) {
-        push_glPixelStorei(pname, param);
-    } else {
+    PUSH_IF_COMPILING(glPixelStorei)
 #endif
-        gles_glPixelStorei(pname, param);
+    gles_glPixelStorei(pname, param);
 
-#ifndef direct_glPixelStorei
-    }
-#endif
 }
 #endif
 #ifndef skip_glPolygonOffset
 void glPolygonOffset(GLfloat factor, GLfloat units) {
-    LOAD_GLES(void, glPolygonOffset, GLfloat factor, GLfloat units);
+    LOAD_GLES(glPolygonOffset);
 #ifndef direct_glPolygonOffset
-    if (state.list.compiling) {
-        push_glPolygonOffset(factor, units);
-    } else {
+    PUSH_IF_COMPILING(glPolygonOffset)
 #endif
-        gles_glPolygonOffset(factor, units);
+    gles_glPolygonOffset(factor, units);
 
-#ifndef direct_glPolygonOffset
-    }
-#endif
 }
 #endif
 #ifndef skip_glReadPixels
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
-    LOAD_GLES(void, glReadPixels, GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels);
+    LOAD_GLES(glReadPixels);
 #ifndef direct_glReadPixels
-    if (state.list.compiling) {
-        push_glReadPixels(x, y, width, height, format, type, pixels);
-    } else {
+    PUSH_IF_COMPILING(glReadPixels)
 #endif
-        gles_glReadPixels(x, y, width, height, format, type, pixels);
+    gles_glReadPixels(x, y, width, height, format, type, pixels);
 
-#ifndef direct_glReadPixels
-    }
-#endif
 }
 #endif
 #ifndef skip_glReleaseShaderCompiler
 void glReleaseShaderCompiler() {
-    LOAD_GLES(void, glReleaseShaderCompiler);
+    LOAD_GLES(glReleaseShaderCompiler);
 #ifndef direct_glReleaseShaderCompiler
-    if (state.list.compiling) {
-        push_glReleaseShaderCompiler();
-    } else {
+    PUSH_IF_COMPILING(glReleaseShaderCompiler)
 #endif
-        gles_glReleaseShaderCompiler();
+    gles_glReleaseShaderCompiler();
 
-#ifndef direct_glReleaseShaderCompiler
-    }
-#endif
 }
 #endif
 #ifndef skip_glRenderbufferStorage
 void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
-    LOAD_GLES(void, glRenderbufferStorage, GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+    LOAD_GLES(glRenderbufferStorage);
 #ifndef direct_glRenderbufferStorage
-    if (state.list.compiling) {
-        push_glRenderbufferStorage(target, internalformat, width, height);
-    } else {
+    PUSH_IF_COMPILING(glRenderbufferStorage)
 #endif
-        gles_glRenderbufferStorage(target, internalformat, width, height);
+    gles_glRenderbufferStorage(target, internalformat, width, height);
 
-#ifndef direct_glRenderbufferStorage
-    }
-#endif
 }
 #endif
 #ifndef skip_glSampleCoverage
 void glSampleCoverage(GLclampf value, GLboolean invert) {
-    LOAD_GLES(void, glSampleCoverage, GLclampf value, GLboolean invert);
+    LOAD_GLES(glSampleCoverage);
 #ifndef direct_glSampleCoverage
-    if (state.list.compiling) {
-        push_glSampleCoverage(value, invert);
-    } else {
+    PUSH_IF_COMPILING(glSampleCoverage)
 #endif
-        gles_glSampleCoverage(value, invert);
+    gles_glSampleCoverage(value, invert);
 
-#ifndef direct_glSampleCoverage
-    }
-#endif
 }
 #endif
 #ifndef skip_glScissor
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
-    LOAD_GLES(void, glScissor, GLint x, GLint y, GLsizei width, GLsizei height);
+    LOAD_GLES(glScissor);
 #ifndef direct_glScissor
-    if (state.list.compiling) {
-        push_glScissor(x, y, width, height);
-    } else {
+    PUSH_IF_COMPILING(glScissor)
 #endif
-        gles_glScissor(x, y, width, height);
+    gles_glScissor(x, y, width, height);
 
-#ifndef direct_glScissor
-    }
-#endif
 }
 #endif
 #ifndef skip_glShaderBinary
 void glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length) {
-    LOAD_GLES(void, glShaderBinary, GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length);
+    LOAD_GLES(glShaderBinary);
 #ifndef direct_glShaderBinary
-    if (state.list.compiling) {
-        push_glShaderBinary(n, shaders, binaryformat, binary, length);
-    } else {
+    PUSH_IF_COMPILING(glShaderBinary)
 #endif
-        gles_glShaderBinary(n, shaders, binaryformat, binary, length);
+    gles_glShaderBinary(n, shaders, binaryformat, binary, length);
 
-#ifndef direct_glShaderBinary
-    }
-#endif
 }
 #endif
 #ifndef skip_glShaderSource
 void glShaderSource(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length) {
-    LOAD_GLES(void, glShaderSource, GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length);
+    LOAD_GLES(glShaderSource);
 #ifndef direct_glShaderSource
-    if (state.list.compiling) {
-        push_glShaderSource(shader, count, string, length);
-    } else {
+    PUSH_IF_COMPILING(glShaderSource)
 #endif
-        gles_glShaderSource(shader, count, string, length);
+    gles_glShaderSource(shader, count, string, length);
 
-#ifndef direct_glShaderSource
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilFunc
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
-    LOAD_GLES(void, glStencilFunc, GLenum func, GLint ref, GLuint mask);
+    LOAD_GLES(glStencilFunc);
 #ifndef direct_glStencilFunc
-    if (state.list.compiling) {
-        push_glStencilFunc(func, ref, mask);
-    } else {
+    PUSH_IF_COMPILING(glStencilFunc)
 #endif
-        gles_glStencilFunc(func, ref, mask);
+    gles_glStencilFunc(func, ref, mask);
 
-#ifndef direct_glStencilFunc
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilFuncSeparate
 void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
-    LOAD_GLES(void, glStencilFuncSeparate, GLenum face, GLenum func, GLint ref, GLuint mask);
+    LOAD_GLES(glStencilFuncSeparate);
 #ifndef direct_glStencilFuncSeparate
-    if (state.list.compiling) {
-        push_glStencilFuncSeparate(face, func, ref, mask);
-    } else {
+    PUSH_IF_COMPILING(glStencilFuncSeparate)
 #endif
-        gles_glStencilFuncSeparate(face, func, ref, mask);
+    gles_glStencilFuncSeparate(face, func, ref, mask);
 
-#ifndef direct_glStencilFuncSeparate
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilMask
 void glStencilMask(GLuint mask) {
-    LOAD_GLES(void, glStencilMask, GLuint mask);
+    LOAD_GLES(glStencilMask);
 #ifndef direct_glStencilMask
-    if (state.list.compiling) {
-        push_glStencilMask(mask);
-    } else {
+    PUSH_IF_COMPILING(glStencilMask)
 #endif
-        gles_glStencilMask(mask);
+    gles_glStencilMask(mask);
 
-#ifndef direct_glStencilMask
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilMaskSeparate
 void glStencilMaskSeparate(GLenum face, GLuint mask) {
-    LOAD_GLES(void, glStencilMaskSeparate, GLenum face, GLuint mask);
+    LOAD_GLES(glStencilMaskSeparate);
 #ifndef direct_glStencilMaskSeparate
-    if (state.list.compiling) {
-        push_glStencilMaskSeparate(face, mask);
-    } else {
+    PUSH_IF_COMPILING(glStencilMaskSeparate)
 #endif
-        gles_glStencilMaskSeparate(face, mask);
+    gles_glStencilMaskSeparate(face, mask);
 
-#ifndef direct_glStencilMaskSeparate
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilOp
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
-    LOAD_GLES(void, glStencilOp, GLenum fail, GLenum zfail, GLenum zpass);
+    LOAD_GLES(glStencilOp);
 #ifndef direct_glStencilOp
-    if (state.list.compiling) {
-        push_glStencilOp(fail, zfail, zpass);
-    } else {
+    PUSH_IF_COMPILING(glStencilOp)
 #endif
-        gles_glStencilOp(fail, zfail, zpass);
+    gles_glStencilOp(fail, zfail, zpass);
 
-#ifndef direct_glStencilOp
-    }
-#endif
 }
 #endif
 #ifndef skip_glStencilOpSeparate
 void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass) {
-    LOAD_GLES(void, glStencilOpSeparate, GLenum face, GLenum sfail, GLenum zfail, GLenum zpass);
+    LOAD_GLES(glStencilOpSeparate);
 #ifndef direct_glStencilOpSeparate
-    if (state.list.compiling) {
-        push_glStencilOpSeparate(face, sfail, zfail, zpass);
-    } else {
+    PUSH_IF_COMPILING(glStencilOpSeparate)
 #endif
-        gles_glStencilOpSeparate(face, sfail, zfail, zpass);
+    gles_glStencilOpSeparate(face, sfail, zfail, zpass);
 
-#ifndef direct_glStencilOpSeparate
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexImage2D
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
-    LOAD_GLES(void, glTexImage2D, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
+    LOAD_GLES(glTexImage2D);
 #ifndef direct_glTexImage2D
-    if (state.list.compiling) {
-        push_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
-    } else {
+    PUSH_IF_COMPILING(glTexImage2D)
 #endif
-        gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+    gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
 
-#ifndef direct_glTexImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexParameterf
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
-    LOAD_GLES(void, glTexParameterf, GLenum target, GLenum pname, GLfloat param);
+    LOAD_GLES(glTexParameterf);
 #ifndef direct_glTexParameterf
-    if (state.list.compiling) {
-        push_glTexParameterf(target, pname, param);
-    } else {
+    PUSH_IF_COMPILING(glTexParameterf)
 #endif
-        gles_glTexParameterf(target, pname, param);
+    gles_glTexParameterf(target, pname, param);
 
-#ifndef direct_glTexParameterf
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexParameterfv
 void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
-    LOAD_GLES(void, glTexParameterfv, GLenum target, GLenum pname, const GLfloat * params);
+    LOAD_GLES(glTexParameterfv);
 #ifndef direct_glTexParameterfv
-    if (state.list.compiling) {
-        push_glTexParameterfv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glTexParameterfv)
 #endif
-        gles_glTexParameterfv(target, pname, params);
+    gles_glTexParameterfv(target, pname, params);
 
-#ifndef direct_glTexParameterfv
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexParameteri
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
-    LOAD_GLES(void, glTexParameteri, GLenum target, GLenum pname, GLint param);
+    LOAD_GLES(glTexParameteri);
 #ifndef direct_glTexParameteri
-    if (state.list.compiling) {
-        push_glTexParameteri(target, pname, param);
-    } else {
+    PUSH_IF_COMPILING(glTexParameteri)
 #endif
-        gles_glTexParameteri(target, pname, param);
+    gles_glTexParameteri(target, pname, param);
 
-#ifndef direct_glTexParameteri
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexParameteriv
 void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
-    LOAD_GLES(void, glTexParameteriv, GLenum target, GLenum pname, const GLint * params);
+    LOAD_GLES(glTexParameteriv);
 #ifndef direct_glTexParameteriv
-    if (state.list.compiling) {
-        push_glTexParameteriv(target, pname, params);
-    } else {
+    PUSH_IF_COMPILING(glTexParameteriv)
 #endif
-        gles_glTexParameteriv(target, pname, params);
+    gles_glTexParameteriv(target, pname, params);
 
-#ifndef direct_glTexParameteriv
-    }
-#endif
 }
 #endif
 #ifndef skip_glTexSubImage2D
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
-    LOAD_GLES(void, glTexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+    LOAD_GLES(glTexSubImage2D);
 #ifndef direct_glTexSubImage2D
-    if (state.list.compiling) {
-        push_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
-    } else {
+    PUSH_IF_COMPILING(glTexSubImage2D)
 #endif
-        gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+    gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
 
-#ifndef direct_glTexSubImage2D
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform1f
 void glUniform1f(GLint location, GLfloat v0) {
-    LOAD_GLES(void, glUniform1f, GLint location, GLfloat v0);
+    LOAD_GLES(glUniform1f);
 #ifndef direct_glUniform1f
-    if (state.list.compiling) {
-        push_glUniform1f(location, v0);
-    } else {
+    PUSH_IF_COMPILING(glUniform1f)
 #endif
-        gles_glUniform1f(location, v0);
+    gles_glUniform1f(location, v0);
 
-#ifndef direct_glUniform1f
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform1fv
 void glUniform1fv(GLint location, GLsizei count, const GLfloat * value) {
-    LOAD_GLES(void, glUniform1fv, GLint location, GLsizei count, const GLfloat * value);
+    LOAD_GLES(glUniform1fv);
 #ifndef direct_glUniform1fv
-    if (state.list.compiling) {
-        push_glUniform1fv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform1fv)
 #endif
-        gles_glUniform1fv(location, count, value);
+    gles_glUniform1fv(location, count, value);
 
-#ifndef direct_glUniform1fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform1i
 void glUniform1i(GLint location, GLint v0) {
-    LOAD_GLES(void, glUniform1i, GLint location, GLint v0);
+    LOAD_GLES(glUniform1i);
 #ifndef direct_glUniform1i
-    if (state.list.compiling) {
-        push_glUniform1i(location, v0);
-    } else {
+    PUSH_IF_COMPILING(glUniform1i)
 #endif
-        gles_glUniform1i(location, v0);
+    gles_glUniform1i(location, v0);
 
-#ifndef direct_glUniform1i
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform1iv
 void glUniform1iv(GLint location, GLsizei count, const GLint * value) {
-    LOAD_GLES(void, glUniform1iv, GLint location, GLsizei count, const GLint * value);
+    LOAD_GLES(glUniform1iv);
 #ifndef direct_glUniform1iv
-    if (state.list.compiling) {
-        push_glUniform1iv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform1iv)
 #endif
-        gles_glUniform1iv(location, count, value);
+    gles_glUniform1iv(location, count, value);
 
-#ifndef direct_glUniform1iv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform2f
 void glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
-    LOAD_GLES(void, glUniform2f, GLint location, GLfloat v0, GLfloat v1);
+    LOAD_GLES(glUniform2f);
 #ifndef direct_glUniform2f
-    if (state.list.compiling) {
-        push_glUniform2f(location, v0, v1);
-    } else {
+    PUSH_IF_COMPILING(glUniform2f)
 #endif
-        gles_glUniform2f(location, v0, v1);
+    gles_glUniform2f(location, v0, v1);
 
-#ifndef direct_glUniform2f
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform2fv
 void glUniform2fv(GLint location, GLsizei count, const GLfloat * value) {
-    LOAD_GLES(void, glUniform2fv, GLint location, GLsizei count, const GLfloat * value);
+    LOAD_GLES(glUniform2fv);
 #ifndef direct_glUniform2fv
-    if (state.list.compiling) {
-        push_glUniform2fv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform2fv)
 #endif
-        gles_glUniform2fv(location, count, value);
+    gles_glUniform2fv(location, count, value);
 
-#ifndef direct_glUniform2fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform2i
 void glUniform2i(GLint location, GLint v0, GLint v1) {
-    LOAD_GLES(void, glUniform2i, GLint location, GLint v0, GLint v1);
+    LOAD_GLES(glUniform2i);
 #ifndef direct_glUniform2i
-    if (state.list.compiling) {
-        push_glUniform2i(location, v0, v1);
-    } else {
+    PUSH_IF_COMPILING(glUniform2i)
 #endif
-        gles_glUniform2i(location, v0, v1);
+    gles_glUniform2i(location, v0, v1);
 
-#ifndef direct_glUniform2i
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform2iv
 void glUniform2iv(GLint location, GLsizei count, const GLint * value) {
-    LOAD_GLES(void, glUniform2iv, GLint location, GLsizei count, const GLint * value);
+    LOAD_GLES(glUniform2iv);
 #ifndef direct_glUniform2iv
-    if (state.list.compiling) {
-        push_glUniform2iv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform2iv)
 #endif
-        gles_glUniform2iv(location, count, value);
+    gles_glUniform2iv(location, count, value);
 
-#ifndef direct_glUniform2iv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform3f
 void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
-    LOAD_GLES(void, glUniform3f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+    LOAD_GLES(glUniform3f);
 #ifndef direct_glUniform3f
-    if (state.list.compiling) {
-        push_glUniform3f(location, v0, v1, v2);
-    } else {
+    PUSH_IF_COMPILING(glUniform3f)
 #endif
-        gles_glUniform3f(location, v0, v1, v2);
+    gles_glUniform3f(location, v0, v1, v2);
 
-#ifndef direct_glUniform3f
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform3fv
 void glUniform3fv(GLint location, GLsizei count, const GLfloat * value) {
-    LOAD_GLES(void, glUniform3fv, GLint location, GLsizei count, const GLfloat * value);
+    LOAD_GLES(glUniform3fv);
 #ifndef direct_glUniform3fv
-    if (state.list.compiling) {
-        push_glUniform3fv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform3fv)
 #endif
-        gles_glUniform3fv(location, count, value);
+    gles_glUniform3fv(location, count, value);
 
-#ifndef direct_glUniform3fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform3i
 void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
-    LOAD_GLES(void, glUniform3i, GLint location, GLint v0, GLint v1, GLint v2);
+    LOAD_GLES(glUniform3i);
 #ifndef direct_glUniform3i
-    if (state.list.compiling) {
-        push_glUniform3i(location, v0, v1, v2);
-    } else {
+    PUSH_IF_COMPILING(glUniform3i)
 #endif
-        gles_glUniform3i(location, v0, v1, v2);
+    gles_glUniform3i(location, v0, v1, v2);
 
-#ifndef direct_glUniform3i
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform3iv
 void glUniform3iv(GLint location, GLsizei count, const GLint * value) {
-    LOAD_GLES(void, glUniform3iv, GLint location, GLsizei count, const GLint * value);
+    LOAD_GLES(glUniform3iv);
 #ifndef direct_glUniform3iv
-    if (state.list.compiling) {
-        push_glUniform3iv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform3iv)
 #endif
-        gles_glUniform3iv(location, count, value);
+    gles_glUniform3iv(location, count, value);
 
-#ifndef direct_glUniform3iv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform4f
 void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
-    LOAD_GLES(void, glUniform4f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+    LOAD_GLES(glUniform4f);
 #ifndef direct_glUniform4f
-    if (state.list.compiling) {
-        push_glUniform4f(location, v0, v1, v2, v3);
-    } else {
+    PUSH_IF_COMPILING(glUniform4f)
 #endif
-        gles_glUniform4f(location, v0, v1, v2, v3);
+    gles_glUniform4f(location, v0, v1, v2, v3);
 
-#ifndef direct_glUniform4f
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform4fv
 void glUniform4fv(GLint location, GLsizei count, const GLfloat * value) {
-    LOAD_GLES(void, glUniform4fv, GLint location, GLsizei count, const GLfloat * value);
+    LOAD_GLES(glUniform4fv);
 #ifndef direct_glUniform4fv
-    if (state.list.compiling) {
-        push_glUniform4fv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform4fv)
 #endif
-        gles_glUniform4fv(location, count, value);
+    gles_glUniform4fv(location, count, value);
 
-#ifndef direct_glUniform4fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform4i
 void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
-    LOAD_GLES(void, glUniform4i, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+    LOAD_GLES(glUniform4i);
 #ifndef direct_glUniform4i
-    if (state.list.compiling) {
-        push_glUniform4i(location, v0, v1, v2, v3);
-    } else {
+    PUSH_IF_COMPILING(glUniform4i)
 #endif
-        gles_glUniform4i(location, v0, v1, v2, v3);
+    gles_glUniform4i(location, v0, v1, v2, v3);
 
-#ifndef direct_glUniform4i
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniform4iv
 void glUniform4iv(GLint location, GLsizei count, const GLint * value) {
-    LOAD_GLES(void, glUniform4iv, GLint location, GLsizei count, const GLint * value);
+    LOAD_GLES(glUniform4iv);
 #ifndef direct_glUniform4iv
-    if (state.list.compiling) {
-        push_glUniform4iv(location, count, value);
-    } else {
+    PUSH_IF_COMPILING(glUniform4iv)
 #endif
-        gles_glUniform4iv(location, count, value);
+    gles_glUniform4iv(location, count, value);
 
-#ifndef direct_glUniform4iv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniformMatrix2fv
 void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
-    LOAD_GLES(void, glUniformMatrix2fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
+    LOAD_GLES(glUniformMatrix2fv);
 #ifndef direct_glUniformMatrix2fv
-    if (state.list.compiling) {
-        push_glUniformMatrix2fv(location, count, transpose, value);
-    } else {
+    PUSH_IF_COMPILING(glUniformMatrix2fv)
 #endif
-        gles_glUniformMatrix2fv(location, count, transpose, value);
+    gles_glUniformMatrix2fv(location, count, transpose, value);
 
-#ifndef direct_glUniformMatrix2fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniformMatrix3fv
 void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
-    LOAD_GLES(void, glUniformMatrix3fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
+    LOAD_GLES(glUniformMatrix3fv);
 #ifndef direct_glUniformMatrix3fv
-    if (state.list.compiling) {
-        push_glUniformMatrix3fv(location, count, transpose, value);
-    } else {
+    PUSH_IF_COMPILING(glUniformMatrix3fv)
 #endif
-        gles_glUniformMatrix3fv(location, count, transpose, value);
+    gles_glUniformMatrix3fv(location, count, transpose, value);
 
-#ifndef direct_glUniformMatrix3fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUniformMatrix4fv
 void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
-    LOAD_GLES(void, glUniformMatrix4fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
+    LOAD_GLES(glUniformMatrix4fv);
 #ifndef direct_glUniformMatrix4fv
-    if (state.list.compiling) {
-        push_glUniformMatrix4fv(location, count, transpose, value);
-    } else {
+    PUSH_IF_COMPILING(glUniformMatrix4fv)
 #endif
-        gles_glUniformMatrix4fv(location, count, transpose, value);
+    gles_glUniformMatrix4fv(location, count, transpose, value);
 
-#ifndef direct_glUniformMatrix4fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glUseProgram
 void glUseProgram(GLuint program) {
-    LOAD_GLES(void, glUseProgram, GLuint program);
+    LOAD_GLES(glUseProgram);
 #ifndef direct_glUseProgram
-    if (state.list.compiling) {
-        push_glUseProgram(program);
-    } else {
+    PUSH_IF_COMPILING(glUseProgram)
 #endif
-        gles_glUseProgram(program);
+    gles_glUseProgram(program);
 
-#ifndef direct_glUseProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glValidateProgram
 void glValidateProgram(GLuint program) {
-    LOAD_GLES(void, glValidateProgram, GLuint program);
+    LOAD_GLES(glValidateProgram);
 #ifndef direct_glValidateProgram
-    if (state.list.compiling) {
-        push_glValidateProgram(program);
-    } else {
+    PUSH_IF_COMPILING(glValidateProgram)
 #endif
-        gles_glValidateProgram(program);
+    gles_glValidateProgram(program);
 
-#ifndef direct_glValidateProgram
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib1f
 void glVertexAttrib1f(GLuint index, GLfloat x) {
-    LOAD_GLES(void, glVertexAttrib1f, GLuint index, GLfloat x);
+    LOAD_GLES(glVertexAttrib1f);
 #ifndef direct_glVertexAttrib1f
-    if (state.list.compiling) {
-        push_glVertexAttrib1f(index, x);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib1f)
 #endif
-        gles_glVertexAttrib1f(index, x);
+    gles_glVertexAttrib1f(index, x);
 
-#ifndef direct_glVertexAttrib1f
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib1fv
 void glVertexAttrib1fv(GLuint index, const GLfloat * v) {
-    LOAD_GLES(void, glVertexAttrib1fv, GLuint index, const GLfloat * v);
+    LOAD_GLES(glVertexAttrib1fv);
 #ifndef direct_glVertexAttrib1fv
-    if (state.list.compiling) {
-        push_glVertexAttrib1fv(index, v);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib1fv)
 #endif
-        gles_glVertexAttrib1fv(index, v);
+    gles_glVertexAttrib1fv(index, v);
 
-#ifndef direct_glVertexAttrib1fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib2f
 void glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
-    LOAD_GLES(void, glVertexAttrib2f, GLuint index, GLfloat x, GLfloat y);
+    LOAD_GLES(glVertexAttrib2f);
 #ifndef direct_glVertexAttrib2f
-    if (state.list.compiling) {
-        push_glVertexAttrib2f(index, x, y);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib2f)
 #endif
-        gles_glVertexAttrib2f(index, x, y);
+    gles_glVertexAttrib2f(index, x, y);
 
-#ifndef direct_glVertexAttrib2f
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib2fv
 void glVertexAttrib2fv(GLuint index, const GLfloat * v) {
-    LOAD_GLES(void, glVertexAttrib2fv, GLuint index, const GLfloat * v);
+    LOAD_GLES(glVertexAttrib2fv);
 #ifndef direct_glVertexAttrib2fv
-    if (state.list.compiling) {
-        push_glVertexAttrib2fv(index, v);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib2fv)
 #endif
-        gles_glVertexAttrib2fv(index, v);
+    gles_glVertexAttrib2fv(index, v);
 
-#ifndef direct_glVertexAttrib2fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib3f
 void glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
-    LOAD_GLES(void, glVertexAttrib3f, GLuint index, GLfloat x, GLfloat y, GLfloat z);
+    LOAD_GLES(glVertexAttrib3f);
 #ifndef direct_glVertexAttrib3f
-    if (state.list.compiling) {
-        push_glVertexAttrib3f(index, x, y, z);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib3f)
 #endif
-        gles_glVertexAttrib3f(index, x, y, z);
+    gles_glVertexAttrib3f(index, x, y, z);
 
-#ifndef direct_glVertexAttrib3f
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib3fv
 void glVertexAttrib3fv(GLuint index, const GLfloat * v) {
-    LOAD_GLES(void, glVertexAttrib3fv, GLuint index, const GLfloat * v);
+    LOAD_GLES(glVertexAttrib3fv);
 #ifndef direct_glVertexAttrib3fv
-    if (state.list.compiling) {
-        push_glVertexAttrib3fv(index, v);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib3fv)
 #endif
-        gles_glVertexAttrib3fv(index, v);
+    gles_glVertexAttrib3fv(index, v);
 
-#ifndef direct_glVertexAttrib3fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib4f
 void glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    LOAD_GLES(void, glVertexAttrib4f, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+    LOAD_GLES(glVertexAttrib4f);
 #ifndef direct_glVertexAttrib4f
-    if (state.list.compiling) {
-        push_glVertexAttrib4f(index, x, y, z, w);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib4f)
 #endif
-        gles_glVertexAttrib4f(index, x, y, z, w);
+    gles_glVertexAttrib4f(index, x, y, z, w);
 
-#ifndef direct_glVertexAttrib4f
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttrib4fv
 void glVertexAttrib4fv(GLuint index, const GLfloat * v) {
-    LOAD_GLES(void, glVertexAttrib4fv, GLuint index, const GLfloat * v);
+    LOAD_GLES(glVertexAttrib4fv);
 #ifndef direct_glVertexAttrib4fv
-    if (state.list.compiling) {
-        push_glVertexAttrib4fv(index, v);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttrib4fv)
 #endif
-        gles_glVertexAttrib4fv(index, v);
+    gles_glVertexAttrib4fv(index, v);
 
-#ifndef direct_glVertexAttrib4fv
-    }
-#endif
 }
 #endif
 #ifndef skip_glVertexAttribPointer
 void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) {
-    LOAD_GLES(void, glVertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
+    LOAD_GLES(glVertexAttribPointer);
 #ifndef direct_glVertexAttribPointer
-    if (state.list.compiling) {
-        push_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
-    } else {
+    PUSH_IF_COMPILING(glVertexAttribPointer)
 #endif
-        gles_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+    gles_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 
-#ifndef direct_glVertexAttribPointer
-    }
-#endif
 }
 #endif
 #ifndef skip_glViewport
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-    LOAD_GLES(void, glViewport, GLint x, GLint y, GLsizei width, GLsizei height);
+    LOAD_GLES(glViewport);
 #ifndef direct_glViewport
-    if (state.list.compiling) {
-        push_glViewport(x, y, width, height);
-    } else {
+    PUSH_IF_COMPILING(glViewport)
 #endif
-        gles_glViewport(x, y, width, height);
+    gles_glViewport(x, y, width, height);
 
-#ifndef direct_glViewport
-    }
-#endif
 }
 #endif
 #endif

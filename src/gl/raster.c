@@ -18,7 +18,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-    LOAD_GLES(void, glViewport, GLint, GLint, GLsizei, GLsizei);
+    LOAD_GLES(glViewport);
     if (raster) {
         render_raster();
     }
@@ -163,7 +163,7 @@ void render_raster() {
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewport.width, viewport.height,
                     GL_RGBA, GL_UNSIGNED_BYTE, raster);
 
-    LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
+    LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glDeleteTextures(1, &texture);
 

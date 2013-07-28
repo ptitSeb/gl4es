@@ -5,21 +5,12 @@
 
 {% endblock %}
 {% block load %}
-    LOAD_GLES({{ func.return }}, {{ func.name }}
-        {%- if func.args %}, {{ func.args|args }}{% endif %});
+    LOAD_GLES({{ func.name }});
 {% endblock %}
 {% block call %}
 #ifndef direct_{{ func.name }}
-    if (state.list.compiling) {
-        push_{{ func.name }}({{ func.args|args(0) }});
-        {% if not func.void %}
-        return 0;
-        {% endif %}
-    } else {
+    PUSH_IF_COMPILING({{ func.name }})
 #endif
-        {{ super() }}
-#ifndef direct_{{ func.name }}
-    }
-#endif
+    {{ super() }}
 {% endblock %}
 {% block prefix %}gles{% endblock %}

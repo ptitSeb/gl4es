@@ -48,8 +48,7 @@ void *gles;
 
 #define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
 
-#define LOAD_GLES(type, name, args...)                              \
-    typedef type (*glesptr_##name)(args);                           \
+#define LOAD_GLES(name)                                             \
     static glesptr_##name gles_##name;                              \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
@@ -59,12 +58,6 @@ void *gles;
         gles_##name = (glesptr_##name)dlsym(gles, #name);           \
         WARN_NULL(gles_##name);                                     \
     }
-
-#define WRAP_GLES(type, name, args...) \
-    type name(args) {                  \
-        LOAD_GLES(type, name, args);
-
-#define END_WRAP }
 
 #define GL_TYPE_CASE(name, var, magic, type, code) \
     case magic: {                                  \
@@ -83,6 +76,12 @@ void *gles;
         GL_TYPE_CASE(name, var, GL_UNSIGNED_INT, GLuint, code)     \
         GL_TYPE_CASE(name, var, GL_UNSIGNED_SHORT, GLushort, code) \
         extra                                                      \
+    }
+
+#define PUSH_IF_COMPILING(name)                      \
+    if (state.list.compiling && state.list.active) { \
+        push_##name(name##_ARG_NAMES);               \
+        return;                                      \
     }
 
 static const GLsizei gl_sizeof(GLenum type) {

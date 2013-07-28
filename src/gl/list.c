@@ -150,8 +150,8 @@ void end_renderlist(renderlist_t *list) {
 
 void draw_renderlist(renderlist_t *list) {
     if (!list) return;
-    LOAD_GLES(void, glDrawArrays, GLenum, GLint, GLsizei);
-    LOAD_GLES(void, glDrawElements, GLenum, GLsizei, GLenum, const GLvoid *);
+    LOAD_GLES(glDrawArrays);
+    LOAD_GLES(glDrawElements);
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {

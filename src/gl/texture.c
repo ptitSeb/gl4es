@@ -143,12 +143,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     and format is not GL_RGBA.
     */
 
-    LOAD_GLES(void, glTexImage2D, GLenum, GLint, GLint,
-              GLsizei, GLsizei, GLint,
-              GLenum, GLenum, const GLvoid*);
-    LOAD_GLES(void, glTexSubImage2D, GLenum, GLint, GLint,
-              GLint, GLsizei, GLsizei,
-              GLenum, GLenum, const GLvoid*);
+    LOAD_GLES(glTexImage2D);
+    LOAD_GLES(glTexSubImage2D);
 
     switch (target) {
         case GL_PROXY_TEXTURE_1D:
@@ -181,10 +177,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
-    LOAD_GLES(void, glTexSubImage2D, GLenum, GLint, GLint,
-              GLint, GLsizei, GLsizei,
-              GLenum, GLenum, const GLvoid *);
-
+    LOAD_GLES(glTexSubImage2D);
     const GLvoid *pixels = swizzle_texture(width, height, &format, &type, data);
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
                          width, height, format, type, pixels);
@@ -203,7 +196,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
 
 void glPixelStorei(GLenum pname, GLint param) {
     // TODO: add to glGetIntegerv?
-    LOAD_GLES(void, glPixelStorei, GLenum, GLint);
+    LOAD_GLES(glPixelStorei);
     switch (pname) {
         case GL_UNPACK_ROW_LENGTH:
             state.texture.unpack_row_length = param;
@@ -259,14 +252,14 @@ void glBindTexture(GLenum target, GLuint texture) {
         state.texture.rect_arb = (target == GL_TEXTURE_RECTANGLE_ARB);
         target = map_tex_target(target);
 
-        LOAD_GLES(void, glBindTexture, GLenum, GLuint);
+        LOAD_GLES(glBindTexture);
         gles_glBindTexture(target, texture);
     }
 }
 
 // TODO: also glTexParameterf(v)?
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
-    LOAD_GLES(void, glTexParameteri, GLenum, GLenum, GLint);
+    LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
     switch (param) {
         case GL_CLAMP:
@@ -293,7 +286,7 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
             }
         }
     }
-    LOAD_GLES(void, glDeleteTextures, GLsizei, const GLuint *);
+    LOAD_GLES(glDeleteTextures);
     gles_glDeleteTextures(n, textures);
 }
 
