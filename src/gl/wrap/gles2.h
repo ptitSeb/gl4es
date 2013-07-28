@@ -2063,7 +2063,7 @@ static inline void push_glActiveTexture(glActiveTexture_ARG_EXPAND) {
     packed_data->func = glActiveTexture;
     packed_data->args.a1 = texture;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glAttachShader
 static inline void push_glAttachShader(glAttachShader_ARG_EXPAND) {
@@ -2073,7 +2073,7 @@ static inline void push_glAttachShader(glAttachShader_ARG_EXPAND) {
     packed_data->args.a1 = program;
     packed_data->args.a2 = shader;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBindAttribLocation
 static inline void push_glBindAttribLocation(glBindAttribLocation_ARG_EXPAND) {
@@ -2084,7 +2084,7 @@ static inline void push_glBindAttribLocation(glBindAttribLocation_ARG_EXPAND) {
     packed_data->args.a2 = index;
     packed_data->args.a3 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBindBuffer
 static inline void push_glBindBuffer(glBindBuffer_ARG_EXPAND) {
@@ -2094,7 +2094,7 @@ static inline void push_glBindBuffer(glBindBuffer_ARG_EXPAND) {
     packed_data->args.a1 = target;
     packed_data->args.a2 = buffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBindFramebuffer
 static inline void push_glBindFramebuffer(glBindFramebuffer_ARG_EXPAND) {
@@ -2104,7 +2104,7 @@ static inline void push_glBindFramebuffer(glBindFramebuffer_ARG_EXPAND) {
     packed_data->args.a1 = target;
     packed_data->args.a2 = framebuffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBindRenderbuffer
 static inline void push_glBindRenderbuffer(glBindRenderbuffer_ARG_EXPAND) {
@@ -2114,7 +2114,7 @@ static inline void push_glBindRenderbuffer(glBindRenderbuffer_ARG_EXPAND) {
     packed_data->args.a1 = target;
     packed_data->args.a2 = renderbuffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBindTexture
 static inline void push_glBindTexture(glBindTexture_ARG_EXPAND) {
@@ -2124,7 +2124,7 @@ static inline void push_glBindTexture(glBindTexture_ARG_EXPAND) {
     packed_data->args.a1 = target;
     packed_data->args.a2 = texture;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBlendColor
 static inline void push_glBlendColor(glBlendColor_ARG_EXPAND) {
@@ -2136,7 +2136,7 @@ static inline void push_glBlendColor(glBlendColor_ARG_EXPAND) {
     packed_data->args.a3 = blue;
     packed_data->args.a4 = alpha;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBlendEquation
 static inline void push_glBlendEquation(glBlendEquation_ARG_EXPAND) {
@@ -2145,7 +2145,7 @@ static inline void push_glBlendEquation(glBlendEquation_ARG_EXPAND) {
     packed_data->func = glBlendEquation;
     packed_data->args.a1 = mode;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBlendEquationSeparate
 static inline void push_glBlendEquationSeparate(glBlendEquationSeparate_ARG_EXPAND) {
@@ -2155,7 +2155,7 @@ static inline void push_glBlendEquationSeparate(glBlendEquationSeparate_ARG_EXPA
     packed_data->args.a1 = modeRGB;
     packed_data->args.a2 = modeA;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBlendFunc
 static inline void push_glBlendFunc(glBlendFunc_ARG_EXPAND) {
@@ -2165,7 +2165,7 @@ static inline void push_glBlendFunc(glBlendFunc_ARG_EXPAND) {
     packed_data->args.a1 = sfactor;
     packed_data->args.a2 = dfactor;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBlendFuncSeparate
 static inline void push_glBlendFuncSeparate(glBlendFuncSeparate_ARG_EXPAND) {
@@ -2177,7 +2177,7 @@ static inline void push_glBlendFuncSeparate(glBlendFuncSeparate_ARG_EXPAND) {
     packed_data->args.a3 = sfactorAlpha;
     packed_data->args.a4 = dfactorAlpha;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBufferData
 static inline void push_glBufferData(glBufferData_ARG_EXPAND) {
@@ -2189,7 +2189,7 @@ static inline void push_glBufferData(glBufferData_ARG_EXPAND) {
     packed_data->args.a3 = data;
     packed_data->args.a4 = usage;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glBufferSubData
 static inline void push_glBufferSubData(glBufferSubData_ARG_EXPAND) {
@@ -2201,7 +2201,7 @@ static inline void push_glBufferSubData(glBufferSubData_ARG_EXPAND) {
     packed_data->args.a3 = size;
     packed_data->args.a4 = data;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCheckFramebufferStatus
 static inline void push_glCheckFramebufferStatus(glCheckFramebufferStatus_ARG_EXPAND) {
@@ -2210,7 +2210,7 @@ static inline void push_glCheckFramebufferStatus(glCheckFramebufferStatus_ARG_EX
     packed_data->func = glCheckFramebufferStatus;
     packed_data->args.a1 = target;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glClear
 static inline void push_glClear(glClear_ARG_EXPAND) {
@@ -2219,7 +2219,7 @@ static inline void push_glClear(glClear_ARG_EXPAND) {
     packed_data->func = glClear;
     packed_data->args.a1 = mask;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glClearColor
 static inline void push_glClearColor(glClearColor_ARG_EXPAND) {
@@ -2231,7 +2231,7 @@ static inline void push_glClearColor(glClearColor_ARG_EXPAND) {
     packed_data->args.a3 = blue;
     packed_data->args.a4 = alpha;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glClearDepthf
 static inline void push_glClearDepthf(glClearDepthf_ARG_EXPAND) {
@@ -2240,7 +2240,7 @@ static inline void push_glClearDepthf(glClearDepthf_ARG_EXPAND) {
     packed_data->func = glClearDepthf;
     packed_data->args.a1 = depth;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glClearStencil
 static inline void push_glClearStencil(glClearStencil_ARG_EXPAND) {
@@ -2249,7 +2249,7 @@ static inline void push_glClearStencil(glClearStencil_ARG_EXPAND) {
     packed_data->func = glClearStencil;
     packed_data->args.a1 = s;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glColorMask
 static inline void push_glColorMask(glColorMask_ARG_EXPAND) {
@@ -2261,7 +2261,7 @@ static inline void push_glColorMask(glColorMask_ARG_EXPAND) {
     packed_data->args.a3 = blue;
     packed_data->args.a4 = alpha;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCompileShader
 static inline void push_glCompileShader(glCompileShader_ARG_EXPAND) {
@@ -2270,7 +2270,7 @@ static inline void push_glCompileShader(glCompileShader_ARG_EXPAND) {
     packed_data->func = glCompileShader;
     packed_data->args.a1 = shader;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCompressedTexImage2D
 static inline void push_glCompressedTexImage2D(glCompressedTexImage2D_ARG_EXPAND) {
@@ -2286,7 +2286,7 @@ static inline void push_glCompressedTexImage2D(glCompressedTexImage2D_ARG_EXPAND
     packed_data->args.a7 = imageSize;
     packed_data->args.a8 = data;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCompressedTexSubImage2D
 static inline void push_glCompressedTexSubImage2D(glCompressedTexSubImage2D_ARG_EXPAND) {
@@ -2303,7 +2303,7 @@ static inline void push_glCompressedTexSubImage2D(glCompressedTexSubImage2D_ARG_
     packed_data->args.a8 = imageSize;
     packed_data->args.a9 = data;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCopyTexImage2D
 static inline void push_glCopyTexImage2D(glCopyTexImage2D_ARG_EXPAND) {
@@ -2319,7 +2319,7 @@ static inline void push_glCopyTexImage2D(glCopyTexImage2D_ARG_EXPAND) {
     packed_data->args.a7 = height;
     packed_data->args.a8 = border;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCopyTexSubImage2D
 static inline void push_glCopyTexSubImage2D(glCopyTexSubImage2D_ARG_EXPAND) {
@@ -2335,7 +2335,7 @@ static inline void push_glCopyTexSubImage2D(glCopyTexSubImage2D_ARG_EXPAND) {
     packed_data->args.a7 = width;
     packed_data->args.a8 = height;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCreateProgram
 static inline void push_glCreateProgram(glCreateProgram_ARG_EXPAND) {
@@ -2343,7 +2343,7 @@ static inline void push_glCreateProgram(glCreateProgram_ARG_EXPAND) {
     packed_data->format = glCreateProgram_FORMAT;
     packed_data->func = glCreateProgram;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCreateShader
 static inline void push_glCreateShader(glCreateShader_ARG_EXPAND) {
@@ -2352,7 +2352,7 @@ static inline void push_glCreateShader(glCreateShader_ARG_EXPAND) {
     packed_data->func = glCreateShader;
     packed_data->args.a1 = type;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glCullFace
 static inline void push_glCullFace(glCullFace_ARG_EXPAND) {
@@ -2361,7 +2361,7 @@ static inline void push_glCullFace(glCullFace_ARG_EXPAND) {
     packed_data->func = glCullFace;
     packed_data->args.a1 = mode;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteBuffers
 static inline void push_glDeleteBuffers(glDeleteBuffers_ARG_EXPAND) {
@@ -2371,7 +2371,7 @@ static inline void push_glDeleteBuffers(glDeleteBuffers_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = buffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteFramebuffers
 static inline void push_glDeleteFramebuffers(glDeleteFramebuffers_ARG_EXPAND) {
@@ -2381,7 +2381,7 @@ static inline void push_glDeleteFramebuffers(glDeleteFramebuffers_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = framebuffers;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteProgram
 static inline void push_glDeleteProgram(glDeleteProgram_ARG_EXPAND) {
@@ -2390,7 +2390,7 @@ static inline void push_glDeleteProgram(glDeleteProgram_ARG_EXPAND) {
     packed_data->func = glDeleteProgram;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteRenderbuffers
 static inline void push_glDeleteRenderbuffers(glDeleteRenderbuffers_ARG_EXPAND) {
@@ -2400,7 +2400,7 @@ static inline void push_glDeleteRenderbuffers(glDeleteRenderbuffers_ARG_EXPAND) 
     packed_data->args.a1 = n;
     packed_data->args.a2 = renderbuffers;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteShader
 static inline void push_glDeleteShader(glDeleteShader_ARG_EXPAND) {
@@ -2409,7 +2409,7 @@ static inline void push_glDeleteShader(glDeleteShader_ARG_EXPAND) {
     packed_data->func = glDeleteShader;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDeleteTextures
 static inline void push_glDeleteTextures(glDeleteTextures_ARG_EXPAND) {
@@ -2419,7 +2419,7 @@ static inline void push_glDeleteTextures(glDeleteTextures_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = textures;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDepthFunc
 static inline void push_glDepthFunc(glDepthFunc_ARG_EXPAND) {
@@ -2428,7 +2428,7 @@ static inline void push_glDepthFunc(glDepthFunc_ARG_EXPAND) {
     packed_data->func = glDepthFunc;
     packed_data->args.a1 = func;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDepthMask
 static inline void push_glDepthMask(glDepthMask_ARG_EXPAND) {
@@ -2437,7 +2437,7 @@ static inline void push_glDepthMask(glDepthMask_ARG_EXPAND) {
     packed_data->func = glDepthMask;
     packed_data->args.a1 = flag;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDepthRangef
 static inline void push_glDepthRangef(glDepthRangef_ARG_EXPAND) {
@@ -2447,7 +2447,7 @@ static inline void push_glDepthRangef(glDepthRangef_ARG_EXPAND) {
     packed_data->args.a1 = zNear;
     packed_data->args.a2 = zFar;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDetachShader
 static inline void push_glDetachShader(glDetachShader_ARG_EXPAND) {
@@ -2457,7 +2457,7 @@ static inline void push_glDetachShader(glDetachShader_ARG_EXPAND) {
     packed_data->args.a1 = program;
     packed_data->args.a2 = shader;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDisable
 static inline void push_glDisable(glDisable_ARG_EXPAND) {
@@ -2466,7 +2466,7 @@ static inline void push_glDisable(glDisable_ARG_EXPAND) {
     packed_data->func = glDisable;
     packed_data->args.a1 = cap;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDisableVertexAttribArray
 static inline void push_glDisableVertexAttribArray(glDisableVertexAttribArray_ARG_EXPAND) {
@@ -2475,7 +2475,7 @@ static inline void push_glDisableVertexAttribArray(glDisableVertexAttribArray_AR
     packed_data->func = glDisableVertexAttribArray;
     packed_data->args.a1 = index;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDrawArrays
 static inline void push_glDrawArrays(glDrawArrays_ARG_EXPAND) {
@@ -2486,7 +2486,7 @@ static inline void push_glDrawArrays(glDrawArrays_ARG_EXPAND) {
     packed_data->args.a2 = first;
     packed_data->args.a3 = count;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glDrawElements
 static inline void push_glDrawElements(glDrawElements_ARG_EXPAND) {
@@ -2498,7 +2498,7 @@ static inline void push_glDrawElements(glDrawElements_ARG_EXPAND) {
     packed_data->args.a3 = type;
     packed_data->args.a4 = indices;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glEnable
 static inline void push_glEnable(glEnable_ARG_EXPAND) {
@@ -2507,7 +2507,7 @@ static inline void push_glEnable(glEnable_ARG_EXPAND) {
     packed_data->func = glEnable;
     packed_data->args.a1 = cap;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glEnableVertexAttribArray
 static inline void push_glEnableVertexAttribArray(glEnableVertexAttribArray_ARG_EXPAND) {
@@ -2516,7 +2516,7 @@ static inline void push_glEnableVertexAttribArray(glEnableVertexAttribArray_ARG_
     packed_data->func = glEnableVertexAttribArray;
     packed_data->args.a1 = index;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glFinish
 static inline void push_glFinish(glFinish_ARG_EXPAND) {
@@ -2524,7 +2524,7 @@ static inline void push_glFinish(glFinish_ARG_EXPAND) {
     packed_data->format = glFinish_FORMAT;
     packed_data->func = glFinish;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glFlush
 static inline void push_glFlush(glFlush_ARG_EXPAND) {
@@ -2532,7 +2532,7 @@ static inline void push_glFlush(glFlush_ARG_EXPAND) {
     packed_data->format = glFlush_FORMAT;
     packed_data->func = glFlush;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glFramebufferRenderbuffer
 static inline void push_glFramebufferRenderbuffer(glFramebufferRenderbuffer_ARG_EXPAND) {
@@ -2544,7 +2544,7 @@ static inline void push_glFramebufferRenderbuffer(glFramebufferRenderbuffer_ARG_
     packed_data->args.a3 = renderbuffertarget;
     packed_data->args.a4 = renderbuffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glFramebufferTexture2D
 static inline void push_glFramebufferTexture2D(glFramebufferTexture2D_ARG_EXPAND) {
@@ -2557,7 +2557,7 @@ static inline void push_glFramebufferTexture2D(glFramebufferTexture2D_ARG_EXPAND
     packed_data->args.a4 = texture;
     packed_data->args.a5 = level;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glFrontFace
 static inline void push_glFrontFace(glFrontFace_ARG_EXPAND) {
@@ -2566,7 +2566,7 @@ static inline void push_glFrontFace(glFrontFace_ARG_EXPAND) {
     packed_data->func = glFrontFace;
     packed_data->args.a1 = mode;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGenBuffers
 static inline void push_glGenBuffers(glGenBuffers_ARG_EXPAND) {
@@ -2576,7 +2576,7 @@ static inline void push_glGenBuffers(glGenBuffers_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = buffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGenFramebuffers
 static inline void push_glGenFramebuffers(glGenFramebuffers_ARG_EXPAND) {
@@ -2586,7 +2586,7 @@ static inline void push_glGenFramebuffers(glGenFramebuffers_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = framebuffers;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGenRenderbuffers
 static inline void push_glGenRenderbuffers(glGenRenderbuffers_ARG_EXPAND) {
@@ -2596,7 +2596,7 @@ static inline void push_glGenRenderbuffers(glGenRenderbuffers_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = renderbuffers;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGenTextures
 static inline void push_glGenTextures(glGenTextures_ARG_EXPAND) {
@@ -2606,7 +2606,7 @@ static inline void push_glGenTextures(glGenTextures_ARG_EXPAND) {
     packed_data->args.a1 = n;
     packed_data->args.a2 = textures;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGenerateMipmap
 static inline void push_glGenerateMipmap(glGenerateMipmap_ARG_EXPAND) {
@@ -2615,7 +2615,7 @@ static inline void push_glGenerateMipmap(glGenerateMipmap_ARG_EXPAND) {
     packed_data->func = glGenerateMipmap;
     packed_data->args.a1 = target;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetActiveAttrib
 static inline void push_glGetActiveAttrib(glGetActiveAttrib_ARG_EXPAND) {
@@ -2630,7 +2630,7 @@ static inline void push_glGetActiveAttrib(glGetActiveAttrib_ARG_EXPAND) {
     packed_data->args.a6 = type;
     packed_data->args.a7 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetActiveUniform
 static inline void push_glGetActiveUniform(glGetActiveUniform_ARG_EXPAND) {
@@ -2645,7 +2645,7 @@ static inline void push_glGetActiveUniform(glGetActiveUniform_ARG_EXPAND) {
     packed_data->args.a6 = type;
     packed_data->args.a7 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetAttachedShaders
 static inline void push_glGetAttachedShaders(glGetAttachedShaders_ARG_EXPAND) {
@@ -2657,7 +2657,7 @@ static inline void push_glGetAttachedShaders(glGetAttachedShaders_ARG_EXPAND) {
     packed_data->args.a3 = count;
     packed_data->args.a4 = obj;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetAttribLocation
 static inline void push_glGetAttribLocation(glGetAttribLocation_ARG_EXPAND) {
@@ -2667,7 +2667,7 @@ static inline void push_glGetAttribLocation(glGetAttribLocation_ARG_EXPAND) {
     packed_data->args.a1 = program;
     packed_data->args.a2 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetBooleanv
 static inline void push_glGetBooleanv(glGetBooleanv_ARG_EXPAND) {
@@ -2677,7 +2677,7 @@ static inline void push_glGetBooleanv(glGetBooleanv_ARG_EXPAND) {
     packed_data->args.a1 = pname;
     packed_data->args.a2 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetBufferParameteriv
 static inline void push_glGetBufferParameteriv(glGetBufferParameteriv_ARG_EXPAND) {
@@ -2688,7 +2688,7 @@ static inline void push_glGetBufferParameteriv(glGetBufferParameteriv_ARG_EXPAND
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetError
 static inline void push_glGetError(glGetError_ARG_EXPAND) {
@@ -2696,7 +2696,7 @@ static inline void push_glGetError(glGetError_ARG_EXPAND) {
     packed_data->format = glGetError_FORMAT;
     packed_data->func = glGetError;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetFloatv
 static inline void push_glGetFloatv(glGetFloatv_ARG_EXPAND) {
@@ -2706,7 +2706,7 @@ static inline void push_glGetFloatv(glGetFloatv_ARG_EXPAND) {
     packed_data->args.a1 = pname;
     packed_data->args.a2 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetFramebufferAttachmentParameteriv
 static inline void push_glGetFramebufferAttachmentParameteriv(glGetFramebufferAttachmentParameteriv_ARG_EXPAND) {
@@ -2718,7 +2718,7 @@ static inline void push_glGetFramebufferAttachmentParameteriv(glGetFramebufferAt
     packed_data->args.a3 = pname;
     packed_data->args.a4 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetIntegerv
 static inline void push_glGetIntegerv(glGetIntegerv_ARG_EXPAND) {
@@ -2728,7 +2728,7 @@ static inline void push_glGetIntegerv(glGetIntegerv_ARG_EXPAND) {
     packed_data->args.a1 = pname;
     packed_data->args.a2 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetProgramInfoLog
 static inline void push_glGetProgramInfoLog(glGetProgramInfoLog_ARG_EXPAND) {
@@ -2740,7 +2740,7 @@ static inline void push_glGetProgramInfoLog(glGetProgramInfoLog_ARG_EXPAND) {
     packed_data->args.a3 = length;
     packed_data->args.a4 = infoLog;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetProgramiv
 static inline void push_glGetProgramiv(glGetProgramiv_ARG_EXPAND) {
@@ -2751,7 +2751,7 @@ static inline void push_glGetProgramiv(glGetProgramiv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetRenderbufferParameteriv
 static inline void push_glGetRenderbufferParameteriv(glGetRenderbufferParameteriv_ARG_EXPAND) {
@@ -2762,7 +2762,7 @@ static inline void push_glGetRenderbufferParameteriv(glGetRenderbufferParameteri
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetShaderInfoLog
 static inline void push_glGetShaderInfoLog(glGetShaderInfoLog_ARG_EXPAND) {
@@ -2774,7 +2774,7 @@ static inline void push_glGetShaderInfoLog(glGetShaderInfoLog_ARG_EXPAND) {
     packed_data->args.a3 = length;
     packed_data->args.a4 = infoLog;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetShaderPrecisionFormat
 static inline void push_glGetShaderPrecisionFormat(glGetShaderPrecisionFormat_ARG_EXPAND) {
@@ -2786,7 +2786,7 @@ static inline void push_glGetShaderPrecisionFormat(glGetShaderPrecisionFormat_AR
     packed_data->args.a3 = range;
     packed_data->args.a4 = precision;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetShaderSource
 static inline void push_glGetShaderSource(glGetShaderSource_ARG_EXPAND) {
@@ -2798,7 +2798,7 @@ static inline void push_glGetShaderSource(glGetShaderSource_ARG_EXPAND) {
     packed_data->args.a3 = length;
     packed_data->args.a4 = source;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetShaderiv
 static inline void push_glGetShaderiv(glGetShaderiv_ARG_EXPAND) {
@@ -2809,7 +2809,7 @@ static inline void push_glGetShaderiv(glGetShaderiv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetString
 static inline void push_glGetString(glGetString_ARG_EXPAND) {
@@ -2818,7 +2818,7 @@ static inline void push_glGetString(glGetString_ARG_EXPAND) {
     packed_data->func = glGetString;
     packed_data->args.a1 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetTexParameterfv
 static inline void push_glGetTexParameterfv(glGetTexParameterfv_ARG_EXPAND) {
@@ -2829,7 +2829,7 @@ static inline void push_glGetTexParameterfv(glGetTexParameterfv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetTexParameteriv
 static inline void push_glGetTexParameteriv(glGetTexParameteriv_ARG_EXPAND) {
@@ -2840,7 +2840,7 @@ static inline void push_glGetTexParameteriv(glGetTexParameteriv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetUniformLocation
 static inline void push_glGetUniformLocation(glGetUniformLocation_ARG_EXPAND) {
@@ -2850,7 +2850,7 @@ static inline void push_glGetUniformLocation(glGetUniformLocation_ARG_EXPAND) {
     packed_data->args.a1 = program;
     packed_data->args.a2 = name;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetUniformfv
 static inline void push_glGetUniformfv(glGetUniformfv_ARG_EXPAND) {
@@ -2861,7 +2861,7 @@ static inline void push_glGetUniformfv(glGetUniformfv_ARG_EXPAND) {
     packed_data->args.a2 = location;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetUniformiv
 static inline void push_glGetUniformiv(glGetUniformiv_ARG_EXPAND) {
@@ -2872,7 +2872,7 @@ static inline void push_glGetUniformiv(glGetUniformiv_ARG_EXPAND) {
     packed_data->args.a2 = location;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetVertexAttribPointerv
 static inline void push_glGetVertexAttribPointerv(glGetVertexAttribPointerv_ARG_EXPAND) {
@@ -2883,7 +2883,7 @@ static inline void push_glGetVertexAttribPointerv(glGetVertexAttribPointerv_ARG_
     packed_data->args.a2 = pname;
     packed_data->args.a3 = pointer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetVertexAttribfv
 static inline void push_glGetVertexAttribfv(glGetVertexAttribfv_ARG_EXPAND) {
@@ -2894,7 +2894,7 @@ static inline void push_glGetVertexAttribfv(glGetVertexAttribfv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glGetVertexAttribiv
 static inline void push_glGetVertexAttribiv(glGetVertexAttribiv_ARG_EXPAND) {
@@ -2905,7 +2905,7 @@ static inline void push_glGetVertexAttribiv(glGetVertexAttribiv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glHint
 static inline void push_glHint(glHint_ARG_EXPAND) {
@@ -2915,7 +2915,7 @@ static inline void push_glHint(glHint_ARG_EXPAND) {
     packed_data->args.a1 = target;
     packed_data->args.a2 = mode;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsBuffer
 static inline void push_glIsBuffer(glIsBuffer_ARG_EXPAND) {
@@ -2924,7 +2924,7 @@ static inline void push_glIsBuffer(glIsBuffer_ARG_EXPAND) {
     packed_data->func = glIsBuffer;
     packed_data->args.a1 = buffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsEnabled
 static inline void push_glIsEnabled(glIsEnabled_ARG_EXPAND) {
@@ -2933,7 +2933,7 @@ static inline void push_glIsEnabled(glIsEnabled_ARG_EXPAND) {
     packed_data->func = glIsEnabled;
     packed_data->args.a1 = cap;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsFramebuffer
 static inline void push_glIsFramebuffer(glIsFramebuffer_ARG_EXPAND) {
@@ -2942,7 +2942,7 @@ static inline void push_glIsFramebuffer(glIsFramebuffer_ARG_EXPAND) {
     packed_data->func = glIsFramebuffer;
     packed_data->args.a1 = framebuffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsProgram
 static inline void push_glIsProgram(glIsProgram_ARG_EXPAND) {
@@ -2951,7 +2951,7 @@ static inline void push_glIsProgram(glIsProgram_ARG_EXPAND) {
     packed_data->func = glIsProgram;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsRenderbuffer
 static inline void push_glIsRenderbuffer(glIsRenderbuffer_ARG_EXPAND) {
@@ -2960,7 +2960,7 @@ static inline void push_glIsRenderbuffer(glIsRenderbuffer_ARG_EXPAND) {
     packed_data->func = glIsRenderbuffer;
     packed_data->args.a1 = renderbuffer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsShader
 static inline void push_glIsShader(glIsShader_ARG_EXPAND) {
@@ -2969,7 +2969,7 @@ static inline void push_glIsShader(glIsShader_ARG_EXPAND) {
     packed_data->func = glIsShader;
     packed_data->args.a1 = shader;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glIsTexture
 static inline void push_glIsTexture(glIsTexture_ARG_EXPAND) {
@@ -2978,7 +2978,7 @@ static inline void push_glIsTexture(glIsTexture_ARG_EXPAND) {
     packed_data->func = glIsTexture;
     packed_data->args.a1 = texture;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glLineWidth
 static inline void push_glLineWidth(glLineWidth_ARG_EXPAND) {
@@ -2987,7 +2987,7 @@ static inline void push_glLineWidth(glLineWidth_ARG_EXPAND) {
     packed_data->func = glLineWidth;
     packed_data->args.a1 = width;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glLinkProgram
 static inline void push_glLinkProgram(glLinkProgram_ARG_EXPAND) {
@@ -2996,7 +2996,7 @@ static inline void push_glLinkProgram(glLinkProgram_ARG_EXPAND) {
     packed_data->func = glLinkProgram;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glPixelStorei
 static inline void push_glPixelStorei(glPixelStorei_ARG_EXPAND) {
@@ -3006,7 +3006,7 @@ static inline void push_glPixelStorei(glPixelStorei_ARG_EXPAND) {
     packed_data->args.a1 = pname;
     packed_data->args.a2 = param;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glPolygonOffset
 static inline void push_glPolygonOffset(glPolygonOffset_ARG_EXPAND) {
@@ -3016,7 +3016,7 @@ static inline void push_glPolygonOffset(glPolygonOffset_ARG_EXPAND) {
     packed_data->args.a1 = factor;
     packed_data->args.a2 = units;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glReadPixels
 static inline void push_glReadPixels(glReadPixels_ARG_EXPAND) {
@@ -3031,7 +3031,7 @@ static inline void push_glReadPixels(glReadPixels_ARG_EXPAND) {
     packed_data->args.a6 = type;
     packed_data->args.a7 = pixels;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glReleaseShaderCompiler
 static inline void push_glReleaseShaderCompiler(glReleaseShaderCompiler_ARG_EXPAND) {
@@ -3039,7 +3039,7 @@ static inline void push_glReleaseShaderCompiler(glReleaseShaderCompiler_ARG_EXPA
     packed_data->format = glReleaseShaderCompiler_FORMAT;
     packed_data->func = glReleaseShaderCompiler;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glRenderbufferStorage
 static inline void push_glRenderbufferStorage(glRenderbufferStorage_ARG_EXPAND) {
@@ -3051,7 +3051,7 @@ static inline void push_glRenderbufferStorage(glRenderbufferStorage_ARG_EXPAND) 
     packed_data->args.a3 = width;
     packed_data->args.a4 = height;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glSampleCoverage
 static inline void push_glSampleCoverage(glSampleCoverage_ARG_EXPAND) {
@@ -3061,7 +3061,7 @@ static inline void push_glSampleCoverage(glSampleCoverage_ARG_EXPAND) {
     packed_data->args.a1 = value;
     packed_data->args.a2 = invert;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glScissor
 static inline void push_glScissor(glScissor_ARG_EXPAND) {
@@ -3073,7 +3073,7 @@ static inline void push_glScissor(glScissor_ARG_EXPAND) {
     packed_data->args.a3 = width;
     packed_data->args.a4 = height;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glShaderBinary
 static inline void push_glShaderBinary(glShaderBinary_ARG_EXPAND) {
@@ -3086,7 +3086,7 @@ static inline void push_glShaderBinary(glShaderBinary_ARG_EXPAND) {
     packed_data->args.a4 = binary;
     packed_data->args.a5 = length;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glShaderSource
 static inline void push_glShaderSource(glShaderSource_ARG_EXPAND) {
@@ -3098,7 +3098,7 @@ static inline void push_glShaderSource(glShaderSource_ARG_EXPAND) {
     packed_data->args.a3 = string;
     packed_data->args.a4 = length;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilFunc
 static inline void push_glStencilFunc(glStencilFunc_ARG_EXPAND) {
@@ -3109,7 +3109,7 @@ static inline void push_glStencilFunc(glStencilFunc_ARG_EXPAND) {
     packed_data->args.a2 = ref;
     packed_data->args.a3 = mask;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilFuncSeparate
 static inline void push_glStencilFuncSeparate(glStencilFuncSeparate_ARG_EXPAND) {
@@ -3121,7 +3121,7 @@ static inline void push_glStencilFuncSeparate(glStencilFuncSeparate_ARG_EXPAND) 
     packed_data->args.a3 = ref;
     packed_data->args.a4 = mask;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilMask
 static inline void push_glStencilMask(glStencilMask_ARG_EXPAND) {
@@ -3130,7 +3130,7 @@ static inline void push_glStencilMask(glStencilMask_ARG_EXPAND) {
     packed_data->func = glStencilMask;
     packed_data->args.a1 = mask;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilMaskSeparate
 static inline void push_glStencilMaskSeparate(glStencilMaskSeparate_ARG_EXPAND) {
@@ -3140,7 +3140,7 @@ static inline void push_glStencilMaskSeparate(glStencilMaskSeparate_ARG_EXPAND) 
     packed_data->args.a1 = face;
     packed_data->args.a2 = mask;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilOp
 static inline void push_glStencilOp(glStencilOp_ARG_EXPAND) {
@@ -3151,7 +3151,7 @@ static inline void push_glStencilOp(glStencilOp_ARG_EXPAND) {
     packed_data->args.a2 = zfail;
     packed_data->args.a3 = zpass;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glStencilOpSeparate
 static inline void push_glStencilOpSeparate(glStencilOpSeparate_ARG_EXPAND) {
@@ -3163,7 +3163,7 @@ static inline void push_glStencilOpSeparate(glStencilOpSeparate_ARG_EXPAND) {
     packed_data->args.a3 = zfail;
     packed_data->args.a4 = zpass;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexImage2D
 static inline void push_glTexImage2D(glTexImage2D_ARG_EXPAND) {
@@ -3180,7 +3180,7 @@ static inline void push_glTexImage2D(glTexImage2D_ARG_EXPAND) {
     packed_data->args.a8 = type;
     packed_data->args.a9 = pixels;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexParameterf
 static inline void push_glTexParameterf(glTexParameterf_ARG_EXPAND) {
@@ -3191,7 +3191,7 @@ static inline void push_glTexParameterf(glTexParameterf_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = param;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexParameterfv
 static inline void push_glTexParameterfv(glTexParameterfv_ARG_EXPAND) {
@@ -3202,7 +3202,7 @@ static inline void push_glTexParameterfv(glTexParameterfv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexParameteri
 static inline void push_glTexParameteri(glTexParameteri_ARG_EXPAND) {
@@ -3213,7 +3213,7 @@ static inline void push_glTexParameteri(glTexParameteri_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = param;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexParameteriv
 static inline void push_glTexParameteriv(glTexParameteriv_ARG_EXPAND) {
@@ -3224,7 +3224,7 @@ static inline void push_glTexParameteriv(glTexParameteriv_ARG_EXPAND) {
     packed_data->args.a2 = pname;
     packed_data->args.a3 = params;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glTexSubImage2D
 static inline void push_glTexSubImage2D(glTexSubImage2D_ARG_EXPAND) {
@@ -3241,7 +3241,7 @@ static inline void push_glTexSubImage2D(glTexSubImage2D_ARG_EXPAND) {
     packed_data->args.a8 = type;
     packed_data->args.a9 = pixels;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform1f
 static inline void push_glUniform1f(glUniform1f_ARG_EXPAND) {
@@ -3251,7 +3251,7 @@ static inline void push_glUniform1f(glUniform1f_ARG_EXPAND) {
     packed_data->args.a1 = location;
     packed_data->args.a2 = v0;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform1fv
 static inline void push_glUniform1fv(glUniform1fv_ARG_EXPAND) {
@@ -3262,7 +3262,7 @@ static inline void push_glUniform1fv(glUniform1fv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform1i
 static inline void push_glUniform1i(glUniform1i_ARG_EXPAND) {
@@ -3272,7 +3272,7 @@ static inline void push_glUniform1i(glUniform1i_ARG_EXPAND) {
     packed_data->args.a1 = location;
     packed_data->args.a2 = v0;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform1iv
 static inline void push_glUniform1iv(glUniform1iv_ARG_EXPAND) {
@@ -3283,7 +3283,7 @@ static inline void push_glUniform1iv(glUniform1iv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform2f
 static inline void push_glUniform2f(glUniform2f_ARG_EXPAND) {
@@ -3294,7 +3294,7 @@ static inline void push_glUniform2f(glUniform2f_ARG_EXPAND) {
     packed_data->args.a2 = v0;
     packed_data->args.a3 = v1;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform2fv
 static inline void push_glUniform2fv(glUniform2fv_ARG_EXPAND) {
@@ -3305,7 +3305,7 @@ static inline void push_glUniform2fv(glUniform2fv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform2i
 static inline void push_glUniform2i(glUniform2i_ARG_EXPAND) {
@@ -3316,7 +3316,7 @@ static inline void push_glUniform2i(glUniform2i_ARG_EXPAND) {
     packed_data->args.a2 = v0;
     packed_data->args.a3 = v1;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform2iv
 static inline void push_glUniform2iv(glUniform2iv_ARG_EXPAND) {
@@ -3327,7 +3327,7 @@ static inline void push_glUniform2iv(glUniform2iv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform3f
 static inline void push_glUniform3f(glUniform3f_ARG_EXPAND) {
@@ -3339,7 +3339,7 @@ static inline void push_glUniform3f(glUniform3f_ARG_EXPAND) {
     packed_data->args.a3 = v1;
     packed_data->args.a4 = v2;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform3fv
 static inline void push_glUniform3fv(glUniform3fv_ARG_EXPAND) {
@@ -3350,7 +3350,7 @@ static inline void push_glUniform3fv(glUniform3fv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform3i
 static inline void push_glUniform3i(glUniform3i_ARG_EXPAND) {
@@ -3362,7 +3362,7 @@ static inline void push_glUniform3i(glUniform3i_ARG_EXPAND) {
     packed_data->args.a3 = v1;
     packed_data->args.a4 = v2;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform3iv
 static inline void push_glUniform3iv(glUniform3iv_ARG_EXPAND) {
@@ -3373,7 +3373,7 @@ static inline void push_glUniform3iv(glUniform3iv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform4f
 static inline void push_glUniform4f(glUniform4f_ARG_EXPAND) {
@@ -3386,7 +3386,7 @@ static inline void push_glUniform4f(glUniform4f_ARG_EXPAND) {
     packed_data->args.a4 = v2;
     packed_data->args.a5 = v3;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform4fv
 static inline void push_glUniform4fv(glUniform4fv_ARG_EXPAND) {
@@ -3397,7 +3397,7 @@ static inline void push_glUniform4fv(glUniform4fv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform4i
 static inline void push_glUniform4i(glUniform4i_ARG_EXPAND) {
@@ -3410,7 +3410,7 @@ static inline void push_glUniform4i(glUniform4i_ARG_EXPAND) {
     packed_data->args.a4 = v2;
     packed_data->args.a5 = v3;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniform4iv
 static inline void push_glUniform4iv(glUniform4iv_ARG_EXPAND) {
@@ -3421,7 +3421,7 @@ static inline void push_glUniform4iv(glUniform4iv_ARG_EXPAND) {
     packed_data->args.a2 = count;
     packed_data->args.a3 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniformMatrix2fv
 static inline void push_glUniformMatrix2fv(glUniformMatrix2fv_ARG_EXPAND) {
@@ -3433,7 +3433,7 @@ static inline void push_glUniformMatrix2fv(glUniformMatrix2fv_ARG_EXPAND) {
     packed_data->args.a3 = transpose;
     packed_data->args.a4 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniformMatrix3fv
 static inline void push_glUniformMatrix3fv(glUniformMatrix3fv_ARG_EXPAND) {
@@ -3445,7 +3445,7 @@ static inline void push_glUniformMatrix3fv(glUniformMatrix3fv_ARG_EXPAND) {
     packed_data->args.a3 = transpose;
     packed_data->args.a4 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUniformMatrix4fv
 static inline void push_glUniformMatrix4fv(glUniformMatrix4fv_ARG_EXPAND) {
@@ -3457,7 +3457,7 @@ static inline void push_glUniformMatrix4fv(glUniformMatrix4fv_ARG_EXPAND) {
     packed_data->args.a3 = transpose;
     packed_data->args.a4 = value;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glUseProgram
 static inline void push_glUseProgram(glUseProgram_ARG_EXPAND) {
@@ -3466,7 +3466,7 @@ static inline void push_glUseProgram(glUseProgram_ARG_EXPAND) {
     packed_data->func = glUseProgram;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glValidateProgram
 static inline void push_glValidateProgram(glValidateProgram_ARG_EXPAND) {
@@ -3475,7 +3475,7 @@ static inline void push_glValidateProgram(glValidateProgram_ARG_EXPAND) {
     packed_data->func = glValidateProgram;
     packed_data->args.a1 = program;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib1f
 static inline void push_glVertexAttrib1f(glVertexAttrib1f_ARG_EXPAND) {
@@ -3485,7 +3485,7 @@ static inline void push_glVertexAttrib1f(glVertexAttrib1f_ARG_EXPAND) {
     packed_data->args.a1 = index;
     packed_data->args.a2 = x;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib1fv
 static inline void push_glVertexAttrib1fv(glVertexAttrib1fv_ARG_EXPAND) {
@@ -3495,7 +3495,7 @@ static inline void push_glVertexAttrib1fv(glVertexAttrib1fv_ARG_EXPAND) {
     packed_data->args.a1 = index;
     packed_data->args.a2 = v;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib2f
 static inline void push_glVertexAttrib2f(glVertexAttrib2f_ARG_EXPAND) {
@@ -3506,7 +3506,7 @@ static inline void push_glVertexAttrib2f(glVertexAttrib2f_ARG_EXPAND) {
     packed_data->args.a2 = x;
     packed_data->args.a3 = y;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib2fv
 static inline void push_glVertexAttrib2fv(glVertexAttrib2fv_ARG_EXPAND) {
@@ -3516,7 +3516,7 @@ static inline void push_glVertexAttrib2fv(glVertexAttrib2fv_ARG_EXPAND) {
     packed_data->args.a1 = index;
     packed_data->args.a2 = v;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib3f
 static inline void push_glVertexAttrib3f(glVertexAttrib3f_ARG_EXPAND) {
@@ -3528,7 +3528,7 @@ static inline void push_glVertexAttrib3f(glVertexAttrib3f_ARG_EXPAND) {
     packed_data->args.a3 = y;
     packed_data->args.a4 = z;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib3fv
 static inline void push_glVertexAttrib3fv(glVertexAttrib3fv_ARG_EXPAND) {
@@ -3538,7 +3538,7 @@ static inline void push_glVertexAttrib3fv(glVertexAttrib3fv_ARG_EXPAND) {
     packed_data->args.a1 = index;
     packed_data->args.a2 = v;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib4f
 static inline void push_glVertexAttrib4f(glVertexAttrib4f_ARG_EXPAND) {
@@ -3551,7 +3551,7 @@ static inline void push_glVertexAttrib4f(glVertexAttrib4f_ARG_EXPAND) {
     packed_data->args.a4 = z;
     packed_data->args.a5 = w;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttrib4fv
 static inline void push_glVertexAttrib4fv(glVertexAttrib4fv_ARG_EXPAND) {
@@ -3561,7 +3561,7 @@ static inline void push_glVertexAttrib4fv(glVertexAttrib4fv_ARG_EXPAND) {
     packed_data->args.a1 = index;
     packed_data->args.a2 = v;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glVertexAttribPointer
 static inline void push_glVertexAttribPointer(glVertexAttribPointer_ARG_EXPAND) {
@@ -3575,7 +3575,7 @@ static inline void push_glVertexAttribPointer(glVertexAttribPointer_ARG_EXPAND) 
     packed_data->args.a5 = stride;
     packed_data->args.a6 = pointer;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 #ifndef direct_glViewport
 static inline void push_glViewport(glViewport_ARG_EXPAND) {
@@ -3587,7 +3587,7 @@ static inline void push_glViewport(glViewport_ARG_EXPAND) {
     packed_data->args.a3 = width;
     packed_data->args.a4 = height;
     glPushCall((void *)packed_data);
-};
+}
 #endif
 
 #endif

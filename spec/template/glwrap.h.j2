@@ -53,7 +53,7 @@ static inline void push_{{ func.name }}({{ func.name }}_ARG_EXPAND) {
     packed_data->args.a{{ loop.index }} = {{ arg.name }};
     {% endfor %}
     glPushCall((void *)packed_data);
-};
+}
 #endif
 {% endfor %}
 
