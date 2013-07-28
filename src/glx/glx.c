@@ -20,10 +20,8 @@ int8_t CheckEGLErrors() {
 
     error = eglGetError();
 
-    if (error != EGL_SUCCESS && error != 0)
-    {
-        switch (error)
-        {
+    if (error != EGL_SUCCESS && error != 0) {
+        switch (error) {
             case EGL_NOT_INITIALIZED:     errortext = "EGL_NOT_INITIALIZED"; break;
             case EGL_BAD_ACCESS:          errortext = "EGL_BAD_ACCESS"; break;
             case EGL_BAD_ALLOC:           errortext = "EGL_BAD_ALLOC"; break;
