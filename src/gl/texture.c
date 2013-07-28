@@ -259,6 +259,7 @@ void glBindTexture(GLenum target, GLuint texture) {
 
 // TODO: also glTexParameterf(v)?
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
+    PUSH_IF_COMPILING(glTexParameteri);
     LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
     switch (param) {
@@ -270,6 +271,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 }
 
 void glDeleteTextures(GLsizei n, const GLuint *textures) {
+    PUSH_IF_COMPILING(glDeleteTextures);
     khash_t(tex) *list = state.texture.list;
     if (list) {
         khint_t k;

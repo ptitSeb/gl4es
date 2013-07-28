@@ -18,6 +18,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+    PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
     if (raster) {
         render_raster();
