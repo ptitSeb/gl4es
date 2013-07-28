@@ -78,11 +78,13 @@ void *gles;
         extra                                                      \
     }
 
-#define PUSH_IF_COMPILING(name)                      \
+#define PUSH_IF_COMPILING_EXT(name, ...)             \
     if (state.list.compiling && state.list.active) { \
-        push_##name(name##_ARG_NAMES);               \
+        push_##name(__VA_ARGS__);                    \
         return (name##_RETURN)0;                     \
     }
+
+#define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
 static const GLsizei gl_sizeof(GLenum type) {
     // types
