@@ -75,13 +75,30 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 void glEnable(GLenum cap) {
-    LOAD_GLES(void, glEnable, GLenum);
-    proxy_glEnable(cap, true, gles_glEnable);
+    if (state.list.compiling && state.list.active) {
+        PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
+        data->format = FORMAT_void_GLenum;
+        data->func = glEnable;
+        data->args.a1 = cap;
+        glPushCall((void *)data);
+    } else {
+        LOAD_GLES(void, glEnable, GLenum);
+        proxy_glEnable(cap, true, gles_glEnable);
+    }
+
 }
 
 void glDisable(GLenum cap) {
-    LOAD_GLES(void, glDisable, GLenum);
-    proxy_glEnable(cap, false, gles_glDisable);
+    if (state.list.compiling && state.list.active) {
+        PACKED_void_GLenum *data = malloc(sizeof(PACKED_void_GLenum));
+        data->format = FORMAT_void_GLenum;
+        data->func = glDisable;
+        data->args.a1 = cap;
+        glPushCall((void *)data);
+    } else {
+        LOAD_GLES(void, glDisable, GLenum);
+        proxy_glEnable(cap, false, gles_glDisable);
+    }
 }
 
 #ifndef USE_ES2
@@ -385,7 +402,7 @@ void glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
     p = &state.pointers.color;
-    if (p->pointer) {
+    if (state.enable.color_array && p->pointer) {
         v = gl_pointer_index(p, i);
         GLuint scale = gl_max_value(p->type);
         // color[3] defaults to 1.0f
@@ -399,17 +416,17 @@ void glArrayElement(GLint i) {
         glColor4fv(v);
     }
     p = &state.pointers.normal;
-    if (p->pointer) {
+    if (state.enable.normal_array && p->pointer) {
         v = gl_pointer_index(p, i);
         glNormal3fv(v);
     }
     p = &state.pointers.tex_coord;
-    if (p->pointer) {
+    if (state.enable.tex_coord_array && p->pointer) {
         v = gl_pointer_index(p, i);
         glTexCoord2fv(v);
     }
     p = &state.pointers.vertex;
-    if (p->pointer) {
+    if (state.enable.vertex_array && p->pointer) {
         v = gl_pointer_index(p, i);
         if (p->size == 4) {
             glVertex4fv(v);
