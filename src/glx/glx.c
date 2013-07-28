@@ -171,6 +171,12 @@ static void signal_handler(int sig) {
 }
 
 static void scan_env() {
+    static bool first = true;
+    if (! first)
+        return;
+
+    first = false;
+    printf("libGL: built on %s %s\n", __DATE__, __TIME__);
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \
         if (env_##name && strcmp(env_##name, "1") == 0) { \
@@ -416,7 +422,7 @@ void glXSwapBuffers(Display *display,
                 current_frames = 0;
 
                 avg = frame / (float)(now - frame1);
-                printf("fps: %.2f, avg: %.2f\n", fps, avg);
+                printf("libGL fps: %.2f, avg: %.2f\n", fps, avg);
             }
         }
         last_frame = now;
