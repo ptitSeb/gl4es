@@ -396,18 +396,32 @@ void glXSwapBuffers(Display *display,
 
     if (g_showfps) {
         // framerate counter
-        static int firstFrame = 0, lastFrame = 0;
-        static int frames = 0;
+        static float avg, fps = 0;
+        static int frame1, last_frame, frame, now, current_frames;
         struct timeval out;
         gettimeofday(&out, NULL);
-        frames++;
-        if (!firstFrame) {
-            lastFrame = firstFrame = out.tv_sec;
-        } else if (out.tv_sec > lastFrame) {
-            lastFrame = out.tv_sec;
-            float fps = frames / (float)(lastFrame - firstFrame);
-            printf("fps: %.2f\n", fps);
+        now = out.tv_sec;
+        frame++;
+        current_frames++;
+
+        if (frame == 1) {
+            frame1 = now;
+        } else if (frame1 < now) {
+            if (last_frame < now) {
+                float change = current_frames / (float)(now - last_frame);
+                float weight = 0.7;
+                if (! fps) {
+                    fps = change;
+                } else {
+                    fps = (1 - weight) * fps + weight * change;
+                }
+                current_frames = 0;
+
+                avg = frame / (float)(now - frame1);
+                printf("fps: %.2f, avg: %.2f\n", fps, avg);
+            }
         }
+        last_frame = now;
     }
 }
 
