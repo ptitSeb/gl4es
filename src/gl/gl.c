@@ -150,7 +150,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
     // TODO: do this in a more direct fashion.
     if ((state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
         state.enable.texgen_s || state.enable.texgen_t ||
-        (mode == GL_LINE && state.enable.line_stipple)
+        (mode == GL_LINES && state.enable.line_stipple)
     ) {
         glBegin(mode);
         for (int i = 0; i < count; i++) {
