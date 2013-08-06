@@ -1,5 +1,6 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
+#include <stdlib.h>
 
 #ifndef GL_H
 #define GL_H

@@ -17,6 +17,6 @@ gles2=$(ls -1 yml/*-2.0.yml | tr '\n' ',' | sed -e 's/,$//')
 
 cats="VERSION_1_0,VERSION_1_1,VERSION_1_2,VERSION_1_3,VERSION_1_4,VERSION_1_5,glx"
 proxy='yml/opengl.yml,yml/my_glx.yml,yml/glxext.yml'
-./gen.py --deep --cats "$cats" "$proxy" glwrap.h.j2 gl.h "<GL/gl.h>" "<GL/glx.h>" > "$base/proxy/gl.h" &
+./gen.py --deep --cats "$cats" "$proxy" glwrap.h.j2 gl.h "<GL/gl.h>" "<GL/glx.h>" "<stdlib.h>" > "$base/proxy/gl.h" &
 ./gen.py --deep --cats "$cats" "$proxy" client.c.j2 gl.c gl.h > "$base/proxy/gl.c" &
 wait
