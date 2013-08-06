@@ -124,7 +124,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         if (*dst != src) {
             *dst = malloc(dst_size);
             memcpy(*dst, src, dst_size);
-            fflush(stdout);
             return true;
         }
     } else {
