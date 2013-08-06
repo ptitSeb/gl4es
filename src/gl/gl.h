@@ -189,7 +189,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
     return width * gl_sizeof(type);
 }
 
-static const GLboolean valid_vertex_type(GLenum type) {
+static inline const GLboolean valid_vertex_type(GLenum type) {
     switch (type) {
         case GL_BYTE:
         case GL_FIXED:

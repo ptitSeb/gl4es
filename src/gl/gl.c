@@ -144,14 +144,20 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     return list;
 }
 
+static inline bool should_intercept_render(GLenum mode) {
+    return (
+        (state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
+        state.enable.texgen_s || state.enable.texgen_t ||
+        (mode == GL_LINES && state.enable.line_stipple) ||
+        mode == GL_QUADS
+    );
+}
+
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
     GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     // TODO: do this in a more direct fashion.
-    if ((state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
-        state.enable.texgen_s || state.enable.texgen_t ||
-        (mode == GL_LINES && state.enable.line_stipple)
-    ) {
+    if (should_intercept_render(mode)) {
         glBegin(mode);
         for (int i = 0; i < count; i++) {
             glArrayElement(indices[i]);
@@ -195,7 +201,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         return;
     }
 
-    if (mode == GL_QUADS || (state.pointers.tex_coord.pointer && state.texture.rect_arb)) {
+    if (should_intercept_render(mode)) {
         list = arrays_to_renderlist(NULL, mode, first, count);
         end_renderlist(list);
         draw_renderlist(list);
