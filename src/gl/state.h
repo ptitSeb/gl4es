@@ -78,14 +78,14 @@ typedef struct {
 
 
 typedef struct {
-    enable_state_t enable;
-    pointer_states_t pointers;
     displaylist_state_t list;
-    renderlist_t **lists;
-    map_states_t map1, map2;
+    enable_state_t enable;
     map_state_t *map_grid;
-    texture_state_t texture;
+    map_states_t map1, map2;
+    pointer_states_t pointers;
+    renderlist_t **lists;
     texgen_state_t texgen;
+    texture_state_t texture;
     GLfloat color[4];
 } glstate_t;
 
