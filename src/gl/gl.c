@@ -15,7 +15,7 @@ const GLubyte *glGetString(GLenum name) {
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
 #ifndef USE_ES2
-                "GL_ARB_vertex_buffer_object "
+                // "GL_ARB_vertex_buffer_object "
                 "GL_EXT_secondary_color "
 #else
                 "GL_ARB_vertex_shader "

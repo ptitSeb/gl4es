@@ -51,6 +51,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXWaitX);
 
     // GL_ARB_vertex_buffer_object
+/*
     ARB(glBindBuffer);
     ARB(glBufferData);
     ARB(glBufferSubData);
@@ -64,6 +65,7 @@ void *glXGetProcAddressARB(const char *name) {
     MAP_EGL(glUnmapBufferARB, glMapBufferOES);
     STUB(glGetBufferParameterivARB);
     STUB(glGetBufferSubDataARB);
+*/
 
     // OES wrapper
     EX(glClearDepthfOES);
