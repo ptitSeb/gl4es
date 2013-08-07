@@ -214,6 +214,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 }
 
+#ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
 void glVertexPointer(GLint size, GLenum type,
@@ -330,6 +331,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     if (vert)
         glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
 }
+#endif
 
 // immediate mode functions
 
@@ -358,10 +360,13 @@ void glEnd() {
 void glNormal3f(GLfloat x, GLfloat y, GLfloat z) {
     if (state.list.active) {
         rlNormal3f(state.list.active, x, y, z);
-    } else {
+    }
+#ifndef USE_ES2
+    else {
         LOAD_GLES(glNormal3f);
         gles_glNormal3f(x, y, z);
     }
+#endif
 }
 
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -373,14 +378,18 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
 void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (state.list.active) {
         rlColor4f(state.list.active, r, g, b, a);
-    } else {
+    }
+#ifndef USE_ES2
+    else {
         LOAD_GLES(glColor4f);
         gles_glColor4f(r, g, b, a);
         state.color[0] = r; state.color[1] = g;
         state.color[2] = b; state.color[3] = a;
     }
+#endif
 }
 
+#ifndef USE_ES2
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
     if (state.list.active) {
@@ -389,6 +398,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
         gles_glMaterialfv(face, pname, params);
     }
 }
+#endif
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
     if (state.list.active) {

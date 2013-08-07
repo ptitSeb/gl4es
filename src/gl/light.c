@@ -1,5 +1,6 @@
 #include "light.h"
 
+#ifndef USE_ES2
 void glLightModelf(GLenum pname, GLfloat param) {
     LOAD_GLES(glLightModelf);
     switch (pname) {
@@ -11,3 +12,4 @@ void glLightModelf(GLenum pname, GLfloat param) {
             break;
     }
 }
+#endif
