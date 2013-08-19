@@ -163,6 +163,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
             glArrayElement(indices[i]);
         }
         glEnd();
+        free(indices);
         return;
     }
 
@@ -187,6 +188,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
     } else {
         LOAD_GLES(glDrawElements);
         gles_glDrawElements(mode, count, type, indices);
+        free(indices);
     }
 }
 
