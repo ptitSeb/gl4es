@@ -6,5 +6,5 @@ aux_source_directory(client CLIENT_SOURCES)
 add_library(GLc SHARED ${CLIENT_SOURCES})
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
-    set_target_properties(GLproxy PROPERTIES SUFFIX ".so.1")
+    set_target_properties(GLc PROPERTIES SUFFIX ".so.1")
 endif()
