@@ -1,3 +1,6 @@
+#define skip_client_glXGetProcAddress
+#define skip_client_glXGetProcAddressARB
+
 #define skip_index_glAccum
 #define skip_index_glBeginQuery
 #define skip_index_glBlendColor

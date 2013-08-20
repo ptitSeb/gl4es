@@ -4,7 +4,30 @@
 #include <unistd.h>
 {{ super() }}
 
-#define DISABLE_SKIP
+{% endblock %}
+
+{% block main %}
+{{ super() }}
+
+void *glXGetProcAddressARB(char *name) {
+    {% for func in functions %}
+    if (strcmp(name, {{ func.name }}) == 0) {
+        return (void *){{ func.name }};
+    }
+    {% endfor %}
+    printf("glXGetProcAddress(%s) not found\n", name);
+    return NULL;
+}
+
+void *glXGetProcAddress(char *name) {
+    return glXGetProcAddressARB(name);
+}
+{% endblock %}
+
+{% block definition %}
+#ifndef skip_client_{{ func.name }}
+{{ super() }}
+#endif
 {% endblock %}
 
 {% block call %}
