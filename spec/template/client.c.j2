@@ -9,7 +9,7 @@
 {% block main %}
 {{ super() }}
 
-void *glXGetProcAddressARB(char *name) {
+void *glXGetProcAddressARB(const char *name) {
     {% for func in functions %}
     if (strcmp(name, {{ func.name }}) == 0) {
         return (void *){{ func.name }};
@@ -19,7 +19,7 @@ void *glXGetProcAddressARB(char *name) {
     return NULL;
 }
 
-void *glXGetProcAddress(char *name) {
+void *glXGetProcAddress(const char *name) {
     return glXGetProcAddressARB(name);
 }
 {% endblock %}
