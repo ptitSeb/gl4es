@@ -1,13 +1,22 @@
 {% extends "base/wrap.c.j2" %}
 {% block headers %}
-#include <stdio.h>
+#include <sys/syscall.h>
 {{ super() }}
-{% include "base/packed_call.j2" %}
 
 {% endblock %}
+
 {% block call %}
-    {% include "base/fprint.j2" %}
+    {{ func.name }}_INDEXED *packed_data = malloc(sizeof({{ func.name }}_INDEXED));
+    {% for arg in func.args %}
+    packed_data->args.a{{ loop.index }} = {{ arg.name }};
+    {% endfor %}
     {% if not func.void %}
-    return 0;
+    {{ func.return }} ret;
+    {% else %}
+    int ret;
+    {% endif %}
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    {% if not func.void %}
+    return ret;
     {% endif %}
 {% endblock %}

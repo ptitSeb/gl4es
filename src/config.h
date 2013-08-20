@@ -1,3 +1,4 @@
+#define SYS_proxy 9999
 #define MAX_EVAL_ORDER 30
 
 // don't auto-wrap these functions

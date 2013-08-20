@@ -31,7 +31,12 @@ endif()
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
     set_target_properties(GL2 PROPERTIES SUFFIX ".so.1")
+else()
+    set_target_properties(GL PROPERTIES SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
+
+get_target_property(GL_SUFFIX GL SUFFIX)
+set(GL_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libGL${GL_SUFFIX})
 
 aux_source_directory(preload PRELOAD_SOURCES)
 add_library(preload SHARED ${PRELOAD_SOURCES})
@@ -39,9 +44,4 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(preload X11)
 endif()
 
-aux_source_directory(proxy PROXY_SOURCES)
-add_library(proxy SHARED ${PROXY_SOURCES})
-
-aux_source_directory(tests TEST_SOURCES)
-add_executable(test ${TEST_SOURCES})
-target_link_libraries(test proxy)
+add_subdirectory(proxy)
