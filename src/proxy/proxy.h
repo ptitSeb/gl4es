@@ -443,7 +443,7 @@ typedef struct {
 } INDEXED_void_GLbitfield;
 typedef void (*FUNC_void_GLdouble)(GLdouble depth);
 typedef struct {
-    GLdouble a1;
+    GLdouble a1 __attribute__ ((aligned(8)));
 } ARGS_void_GLdouble;
 typedef struct {
     int format;
@@ -511,9 +511,9 @@ typedef struct {
 } INDEXED_void_const_GLbyte___GENPT__;
 typedef void (*FUNC_void_GLdouble_GLdouble_GLdouble)(GLdouble red, GLdouble green, GLdouble blue);
 typedef struct {
-    GLdouble a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a1 __attribute__ ((aligned(8)));
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
 } ARGS_void_GLdouble_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -723,10 +723,10 @@ typedef struct {
 } INDEXED_void_GLbyte_GLbyte_GLbyte_GLbyte;
 typedef void (*FUNC_void_GLdouble_GLdouble_GLdouble_GLdouble)(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha);
 typedef struct {
-    GLdouble a1;
-    GLdouble a2;
-    GLdouble a3;
-    GLdouble a4;
+    GLdouble a1 __attribute__ ((aligned(8)));
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
+    GLdouble a4 __attribute__ ((aligned(8)));
 } ARGS_void_GLdouble_GLdouble_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -1297,8 +1297,8 @@ typedef struct {
 } INDEXED_void_GLboolean;
 typedef void (*FUNC_void_GLdouble_GLdouble)(GLdouble near, GLdouble far);
 typedef struct {
-    GLdouble a1;
-    GLdouble a2;
+    GLdouble a1 __attribute__ ((aligned(8)));
+    GLdouble a2 __attribute__ ((aligned(8)));
 } ARGS_void_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -1548,12 +1548,12 @@ typedef struct {
 } INDEXED_void_GLenum_const_GLint___GENPT__;
 typedef void (*FUNC_void_GLdouble_GLdouble_GLdouble_GLdouble_GLdouble_GLdouble)(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar);
 typedef struct {
-    GLdouble a1;
-    GLdouble a2;
-    GLdouble a3;
-    GLdouble a4;
-    GLdouble a5;
-    GLdouble a6;
+    GLdouble a1 __attribute__ ((aligned(8)));
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
+    GLdouble a4 __attribute__ ((aligned(8)));
+    GLdouble a5 __attribute__ ((aligned(8)));
+    GLdouble a6 __attribute__ ((aligned(8)));
 } ARGS_void_GLdouble_GLdouble_GLdouble_GLdouble_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2033,8 +2033,8 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble_GLdouble_GLint_GLint_const_GLdouble___GENPT__)(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble * points);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
     GLint a4;
     GLint a5;
     const GLdouble * a6;
@@ -2069,12 +2069,12 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble_GLdouble_GLint_GLint_GLdouble_GLdouble_GLint_GLint_const_GLdouble___GENPT__)(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble * points);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
     GLint a4;
     GLint a5;
-    GLdouble a6;
-    GLdouble a7;
+    GLdouble a6 __attribute__ ((aligned(8)));
+    GLdouble a7 __attribute__ ((aligned(8)));
     GLint a8;
     GLint a9;
     const GLdouble * a10;
@@ -2127,8 +2127,8 @@ typedef struct {
 typedef void (*FUNC_void_GLint_GLdouble_GLdouble)(GLint un, GLdouble u1, GLdouble u2);
 typedef struct {
     GLint a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
 } ARGS_void_GLint_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2157,11 +2157,11 @@ typedef struct {
 typedef void (*FUNC_void_GLint_GLdouble_GLdouble_GLint_GLdouble_GLdouble)(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
 typedef struct {
     GLint a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
     GLint a4;
-    GLdouble a5;
-    GLdouble a6;
+    GLdouble a5 __attribute__ ((aligned(8)));
+    GLdouble a6 __attribute__ ((aligned(8)));
 } ARGS_void_GLint_GLdouble_GLdouble_GLint_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2241,7 +2241,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble)(GLenum target, GLdouble s);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
+    GLdouble a2 __attribute__ ((aligned(8)));
 } ARGS_void_GLenum_GLdouble;
 typedef struct {
     int format;
@@ -2283,8 +2283,8 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble_GLdouble)(GLenum target, GLdouble s, GLdouble t);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
-    GLdouble a3;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
 } ARGS_void_GLenum_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2328,9 +2328,9 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble_GLdouble_GLdouble)(GLenum target, GLdouble s, GLdouble t, GLdouble r);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
-    GLdouble a3;
-    GLdouble a4;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
+    GLdouble a4 __attribute__ ((aligned(8)));
 } ARGS_void_GLenum_GLdouble_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2392,10 +2392,10 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_GLdouble_GLdouble_GLdouble_GLdouble)(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q);
 typedef struct {
     GLenum a1;
-    GLdouble a2;
-    GLdouble a3;
-    GLdouble a4;
-    GLdouble a5;
+    GLdouble a2 __attribute__ ((aligned(8)));
+    GLdouble a3 __attribute__ ((aligned(8)));
+    GLdouble a4 __attribute__ ((aligned(8)));
+    GLdouble a5 __attribute__ ((aligned(8)));
 } ARGS_void_GLenum_GLdouble_GLdouble_GLdouble_GLdouble;
 typedef struct {
     int format;
@@ -2700,7 +2700,7 @@ typedef void (*FUNC_void_GLenum_GLenum_GLdouble)(GLenum coord, GLenum pname, GLd
 typedef struct {
     GLenum a1;
     GLenum a2;
-    GLdouble a3;
+    GLdouble a3 __attribute__ ((aligned(8)));
 } ARGS_void_GLenum_GLenum_GLdouble;
 typedef struct {
     int format;

@@ -22,7 +22,7 @@ enum FORMAT {
 typedef {{ f.return }} (*FUNC_{{ f.types }})({{ f.args|args }});
 typedef struct {
     {% for arg in f.args %}
-    {{ arg.type }} a{{ loop.index }};
+    {{ arg.type }} a{{ loop.index }}{% if arg.type == 'GLdouble' %} __attribute__ ((aligned(8))){% endif %};
     {% endfor %}
 } ARGS_{{ f.types }};
 typedef struct {
