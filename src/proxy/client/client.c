@@ -13,6 +13,7 @@ void glAccum(GLenum op, GLfloat value) {
     packed_data->args.a2 = value;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glActiveTexture
@@ -22,6 +23,7 @@ void glActiveTexture(GLenum texture) {
     packed_data->args.a1 = texture;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glAlphaFunc
@@ -32,6 +34,7 @@ void glAlphaFunc(GLenum func, GLfloat ref) {
     packed_data->args.a2 = ref;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glAreTexturesResident
@@ -43,6 +46,7 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint * textures, GLboolean * 
     packed_data->args.a3 = residences;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -53,6 +57,7 @@ void glArrayElement(GLint i) {
     packed_data->args.a1 = i;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBegin
@@ -62,6 +67,7 @@ void glBegin(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBeginQuery
@@ -72,6 +78,7 @@ void glBeginQuery(GLenum target, GLuint id) {
     packed_data->args.a2 = id;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBindBuffer
@@ -82,6 +89,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     packed_data->args.a2 = buffer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBindTexture
@@ -92,6 +100,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     packed_data->args.a2 = texture;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBitmap
@@ -107,6 +116,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLflo
     packed_data->args.a7 = bitmap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBlendColor
@@ -119,6 +129,7 @@ void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBlendEquation
@@ -128,6 +139,7 @@ void glBlendEquation(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBlendFunc
@@ -138,6 +150,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     packed_data->args.a2 = dfactor;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBlendFuncSeparate
@@ -150,6 +163,7 @@ void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlp
     packed_data->args.a4 = dfactorAlpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBufferData
@@ -162,6 +176,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     packed_data->args.a4 = usage;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glBufferSubData
@@ -174,6 +189,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     packed_data->args.a4 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCallList
@@ -183,6 +199,7 @@ void glCallList(GLuint list) {
     packed_data->args.a1 = list;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCallLists
@@ -194,6 +211,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid * lists) {
     packed_data->args.a3 = lists;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClear
@@ -203,6 +221,7 @@ void glClear(GLbitfield mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClearAccum
@@ -215,6 +234,7 @@ void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClearColor
@@ -227,6 +247,7 @@ void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClearDepth
@@ -236,6 +257,7 @@ void glClearDepth(GLdouble depth) {
     packed_data->args.a1 = depth;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClearIndex
@@ -245,6 +267,7 @@ void glClearIndex(GLfloat c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClearStencil
@@ -254,6 +277,7 @@ void glClearStencil(GLint s) {
     packed_data->args.a1 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClientActiveTexture
@@ -263,6 +287,7 @@ void glClientActiveTexture(GLenum texture) {
     packed_data->args.a1 = texture;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glClipPlane
@@ -273,6 +298,7 @@ void glClipPlane(GLenum plane, const GLdouble * equation) {
     packed_data->args.a2 = equation;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3b
@@ -284,6 +310,7 @@ void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3bv
@@ -293,6 +320,7 @@ void glColor3bv(const GLbyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3d
@@ -304,6 +332,7 @@ void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3dv
@@ -313,6 +342,7 @@ void glColor3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3f
@@ -324,6 +354,7 @@ void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3fv
@@ -333,6 +364,7 @@ void glColor3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3i
@@ -344,6 +376,7 @@ void glColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3iv
@@ -353,6 +386,7 @@ void glColor3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3s
@@ -364,6 +398,7 @@ void glColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3sv
@@ -373,6 +408,7 @@ void glColor3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3ub
@@ -384,6 +420,7 @@ void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3ubv
@@ -393,6 +430,7 @@ void glColor3ubv(const GLubyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3ui
@@ -404,6 +442,7 @@ void glColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3uiv
@@ -413,6 +452,7 @@ void glColor3uiv(const GLuint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3us
@@ -424,6 +464,7 @@ void glColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor3usv
@@ -433,6 +474,7 @@ void glColor3usv(const GLushort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4b
@@ -445,6 +487,7 @@ void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4bv
@@ -454,6 +497,7 @@ void glColor4bv(const GLbyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4d
@@ -466,6 +510,7 @@ void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4dv
@@ -475,6 +520,7 @@ void glColor4dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4f
@@ -487,6 +533,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4fv
@@ -496,6 +543,7 @@ void glColor4fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4i
@@ -508,6 +556,7 @@ void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4iv
@@ -517,6 +566,7 @@ void glColor4iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4s
@@ -529,6 +579,7 @@ void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4sv
@@ -538,6 +589,7 @@ void glColor4sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4ub
@@ -550,6 +602,7 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4ubv
@@ -559,6 +612,7 @@ void glColor4ubv(const GLubyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4ui
@@ -571,6 +625,7 @@ void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4uiv
@@ -580,6 +635,7 @@ void glColor4uiv(const GLuint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4us
@@ -592,6 +648,7 @@ void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColor4usv
@@ -601,6 +658,7 @@ void glColor4usv(const GLushort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorMask
@@ -613,6 +671,7 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
     packed_data->args.a4 = alpha;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorMaterial
@@ -623,6 +682,7 @@ void glColorMaterial(GLenum face, GLenum mode) {
     packed_data->args.a2 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorPointer
@@ -635,6 +695,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
     packed_data->args.a4 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorSubTable
@@ -649,6 +710,7 @@ void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format,
     packed_data->args.a6 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorTable
@@ -663,6 +725,7 @@ void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum fo
     packed_data->args.a6 = table;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorTableParameterfv
@@ -674,6 +737,7 @@ void glColorTableParameterfv(GLenum target, GLenum pname, const GLfloat * params
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glColorTableParameteriv
@@ -685,6 +749,7 @@ void glColorTableParameteriv(GLenum target, GLenum pname, const GLint * params) 
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage1D
@@ -700,6 +765,7 @@ void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a7 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage2D
@@ -716,6 +782,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a8 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage3D
@@ -733,6 +800,7 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a9 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage1D
@@ -748,6 +816,7 @@ void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsize
     packed_data->args.a7 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage2D
@@ -765,6 +834,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a9 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage3D
@@ -784,6 +854,7 @@ void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a11 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter1D
@@ -798,6 +869,7 @@ void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a6 = image;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter2D
@@ -813,6 +885,7 @@ void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a7 = image;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterf
@@ -824,6 +897,7 @@ void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterfv
@@ -835,6 +909,7 @@ void glConvolutionParameterfv(GLenum target, GLenum pname, const GLfloat * param
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteri
@@ -846,6 +921,7 @@ void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteriv
@@ -857,6 +933,7 @@ void glConvolutionParameteriv(GLenum target, GLenum pname, const GLint * params)
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyColorSubTable
@@ -870,6 +947,7 @@ void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei
     packed_data->args.a5 = width;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyColorTable
@@ -883,6 +961,7 @@ void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GL
     packed_data->args.a5 = width;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter1D
@@ -896,6 +975,7 @@ void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a5 = width;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter2D
@@ -910,6 +990,7 @@ void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a6 = height;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyPixels
@@ -923,6 +1004,7 @@ void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) 
     packed_data->args.a5 = type;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyTexImage1D
@@ -938,6 +1020,7 @@ void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a7 = border;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyTexImage2D
@@ -954,6 +1037,7 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a8 = border;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage1D
@@ -968,6 +1052,7 @@ void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLi
     packed_data->args.a6 = width;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage2D
@@ -984,6 +1069,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a8 = height;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage3D
@@ -1001,6 +1087,7 @@ void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a9 = height;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glCullFace
@@ -1010,6 +1097,7 @@ void glCullFace(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDeleteBuffers
@@ -1020,6 +1108,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     packed_data->args.a2 = buffers;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDeleteLists
@@ -1030,6 +1119,7 @@ void glDeleteLists(GLuint list, GLsizei range) {
     packed_data->args.a2 = range;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDeleteQueries
@@ -1040,6 +1130,7 @@ void glDeleteQueries(GLsizei n, const GLuint * ids) {
     packed_data->args.a2 = ids;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDeleteTextures
@@ -1050,6 +1141,7 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
     packed_data->args.a2 = textures;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDepthFunc
@@ -1059,6 +1151,7 @@ void glDepthFunc(GLenum func) {
     packed_data->args.a1 = func;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDepthMask
@@ -1068,6 +1161,7 @@ void glDepthMask(GLboolean flag) {
     packed_data->args.a1 = flag;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDepthRange
@@ -1078,6 +1172,7 @@ void glDepthRange(GLdouble near, GLdouble far) {
     packed_data->args.a2 = far;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDisable
@@ -1087,6 +1182,7 @@ void glDisable(GLenum cap) {
     packed_data->args.a1 = cap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDisableClientState
@@ -1096,6 +1192,7 @@ void glDisableClientState(GLenum array) {
     packed_data->args.a1 = array;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDrawArrays
@@ -1107,6 +1204,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     packed_data->args.a3 = count;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDrawBuffer
@@ -1116,6 +1214,7 @@ void glDrawBuffer(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDrawElements
@@ -1128,6 +1227,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
     packed_data->args.a4 = indices;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDrawPixels
@@ -1141,6 +1241,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, con
     packed_data->args.a5 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glDrawRangeElements
@@ -1155,6 +1256,7 @@ void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, G
     packed_data->args.a6 = indices;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEdgeFlag
@@ -1164,6 +1266,7 @@ void glEdgeFlag(GLboolean flag) {
     packed_data->args.a1 = flag;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEdgeFlagPointer
@@ -1174,6 +1277,7 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a2 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEdgeFlagv
@@ -1183,6 +1287,7 @@ void glEdgeFlagv(const GLboolean * flag) {
     packed_data->args.a1 = flag;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEnable
@@ -1192,6 +1297,7 @@ void glEnable(GLenum cap) {
     packed_data->args.a1 = cap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEnableClientState
@@ -1201,6 +1307,7 @@ void glEnableClientState(GLenum array) {
     packed_data->args.a1 = array;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEnd
@@ -1209,6 +1316,7 @@ void glEnd() {
     packed_data->func = glEnd_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEndList
@@ -1217,6 +1325,7 @@ void glEndList() {
     packed_data->func = glEndList_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEndQuery
@@ -1226,6 +1335,7 @@ void glEndQuery(GLenum target) {
     packed_data->args.a1 = target;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord1d
@@ -1235,6 +1345,7 @@ void glEvalCoord1d(GLdouble u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord1dv
@@ -1244,6 +1355,7 @@ void glEvalCoord1dv(const GLdouble * u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord1f
@@ -1253,6 +1365,7 @@ void glEvalCoord1f(GLfloat u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord1fv
@@ -1262,6 +1375,7 @@ void glEvalCoord1fv(const GLfloat * u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord2d
@@ -1272,6 +1386,7 @@ void glEvalCoord2d(GLdouble u, GLdouble v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord2dv
@@ -1281,6 +1396,7 @@ void glEvalCoord2dv(const GLdouble * u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord2f
@@ -1291,6 +1407,7 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalCoord2fv
@@ -1300,6 +1417,7 @@ void glEvalCoord2fv(const GLfloat * u) {
     packed_data->args.a1 = u;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalMesh1
@@ -1311,6 +1429,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     packed_data->args.a3 = i2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalMesh2
@@ -1324,6 +1443,7 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     packed_data->args.a5 = j2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalPoint1
@@ -1333,6 +1453,7 @@ void glEvalPoint1(GLint i) {
     packed_data->args.a1 = i;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glEvalPoint2
@@ -1343,6 +1464,7 @@ void glEvalPoint2(GLint i, GLint j) {
     packed_data->args.a2 = j;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFeedbackBuffer
@@ -1354,6 +1476,7 @@ void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat * buffer) {
     packed_data->args.a3 = buffer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFinish
@@ -1362,6 +1485,7 @@ void glFinish() {
     packed_data->func = glFinish_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFlush
@@ -1370,6 +1494,7 @@ void glFlush() {
     packed_data->func = glFlush_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogCoordPointer
@@ -1381,6 +1506,7 @@ void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a3 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogCoordd
@@ -1390,6 +1516,7 @@ void glFogCoordd(GLdouble coord) {
     packed_data->args.a1 = coord;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogCoorddv
@@ -1399,6 +1526,7 @@ void glFogCoorddv(const GLdouble * coord) {
     packed_data->args.a1 = coord;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogCoordf
@@ -1408,6 +1536,7 @@ void glFogCoordf(GLfloat coord) {
     packed_data->args.a1 = coord;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogCoordfv
@@ -1417,6 +1546,7 @@ void glFogCoordfv(const GLfloat * coord) {
     packed_data->args.a1 = coord;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogf
@@ -1427,6 +1557,7 @@ void glFogf(GLenum pname, GLfloat param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogfv
@@ -1437,6 +1568,7 @@ void glFogfv(GLenum pname, const GLfloat * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogi
@@ -1447,6 +1579,7 @@ void glFogi(GLenum pname, GLint param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFogiv
@@ -1457,6 +1590,7 @@ void glFogiv(GLenum pname, const GLint * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFrontFace
@@ -1466,6 +1600,7 @@ void glFrontFace(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glFrustum
@@ -1480,6 +1615,7 @@ void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLd
     packed_data->args.a6 = zFar;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGenBuffers
@@ -1490,6 +1626,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     packed_data->args.a2 = buffers;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGenLists
@@ -1499,6 +1636,7 @@ GLuint glGenLists(GLsizei range) {
     packed_data->args.a1 = range;
     GLuint ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -1510,6 +1648,7 @@ void glGenQueries(GLsizei n, GLuint * ids) {
     packed_data->args.a2 = ids;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGenTextures
@@ -1520,6 +1659,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
     packed_data->args.a2 = textures;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetBooleanv
@@ -1530,6 +1670,7 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetBufferParameteriv
@@ -1541,6 +1682,7 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetBufferPointerv
@@ -1552,6 +1694,7 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetBufferSubData
@@ -1564,6 +1707,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
     packed_data->args.a4 = data;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetClipPlane
@@ -1574,6 +1718,7 @@ void glGetClipPlane(GLenum plane, GLdouble * equation) {
     packed_data->args.a2 = equation;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetColorTable
@@ -1586,6 +1731,7 @@ void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid * table) 
     packed_data->args.a4 = table;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameterfv
@@ -1597,6 +1743,7 @@ void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameteriv
@@ -1608,6 +1755,7 @@ void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetCompressedTexImage
@@ -1619,6 +1767,7 @@ void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * img) {
     packed_data->args.a3 = img;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetConvolutionFilter
@@ -1631,6 +1780,7 @@ void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid * 
     packed_data->args.a4 = image;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameterfv
@@ -1642,6 +1792,7 @@ void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat * params) 
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameteriv
@@ -1653,6 +1804,7 @@ void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetDoublev
@@ -1663,6 +1815,7 @@ void glGetDoublev(GLenum pname, GLdouble * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetError
@@ -1671,6 +1824,7 @@ GLenum glGetError() {
     packed_data->func = glGetError_INDEX;
     GLenum ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -1682,6 +1836,7 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetHistogram
@@ -1695,6 +1850,7 @@ void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, 
     packed_data->args.a5 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameterfv
@@ -1706,6 +1862,7 @@ void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameteriv
@@ -1717,6 +1874,7 @@ void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetIntegerv
@@ -1727,6 +1885,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetLightfv
@@ -1738,6 +1897,7 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetLightiv
@@ -1749,6 +1909,7 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMapdv
@@ -1760,6 +1921,7 @@ void glGetMapdv(GLenum target, GLenum query, GLdouble * v) {
     packed_data->args.a3 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMapfv
@@ -1771,6 +1933,7 @@ void glGetMapfv(GLenum target, GLenum query, GLfloat * v) {
     packed_data->args.a3 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMapiv
@@ -1782,6 +1945,7 @@ void glGetMapiv(GLenum target, GLenum query, GLint * v) {
     packed_data->args.a3 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMaterialfv
@@ -1793,6 +1957,7 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMaterialiv
@@ -1804,6 +1969,7 @@ void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMinmax
@@ -1817,6 +1983,7 @@ void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLv
     packed_data->args.a5 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameterfv
@@ -1828,6 +1995,7 @@ void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameteriv
@@ -1839,6 +2007,7 @@ void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetPixelMapfv
@@ -1849,6 +2018,7 @@ void glGetPixelMapfv(GLenum map, GLfloat * values) {
     packed_data->args.a2 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetPixelMapuiv
@@ -1859,6 +2029,7 @@ void glGetPixelMapuiv(GLenum map, GLuint * values) {
     packed_data->args.a2 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetPixelMapusv
@@ -1869,6 +2040,7 @@ void glGetPixelMapusv(GLenum map, GLushort * values) {
     packed_data->args.a2 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetPointerv
@@ -1879,6 +2051,7 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetPolygonStipple
@@ -1888,6 +2061,7 @@ void glGetPolygonStipple(GLubyte * mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectiv
@@ -1899,6 +2073,7 @@ void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectuiv
@@ -1910,6 +2085,7 @@ void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetQueryiv
@@ -1921,6 +2097,7 @@ void glGetQueryiv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetSeparableFilter
@@ -1935,6 +2112,7 @@ void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid * ro
     packed_data->args.a6 = span;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetString
@@ -1944,6 +2122,7 @@ const GLubyte * glGetString(GLenum name) {
     packed_data->args.a1 = name;
     const GLubyte * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -1956,6 +2135,7 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexEnviv
@@ -1967,6 +2147,7 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexGendv
@@ -1978,6 +2159,7 @@ void glGetTexGendv(GLenum coord, GLenum pname, GLdouble * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexGenfv
@@ -1989,6 +2171,7 @@ void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexGeniv
@@ -2000,6 +2183,7 @@ void glGetTexGeniv(GLenum coord, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexImage
@@ -2013,6 +2197,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     packed_data->args.a5 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameterfv
@@ -2025,6 +2210,7 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
     packed_data->args.a4 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameteriv
@@ -2037,6 +2223,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * 
     packed_data->args.a4 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexParameterfv
@@ -2048,6 +2235,7 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glGetTexParameteriv
@@ -2059,6 +2247,7 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glHint
@@ -2069,6 +2258,7 @@ void glHint(GLenum target, GLenum mode) {
     packed_data->args.a2 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glHistogram
@@ -2081,6 +2271,7 @@ void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean 
     packed_data->args.a4 = sink;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexMask
@@ -2090,6 +2281,7 @@ void glIndexMask(GLuint mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexPointer
@@ -2101,6 +2293,7 @@ void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a3 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexd
@@ -2110,6 +2303,7 @@ void glIndexd(GLdouble c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexdv
@@ -2119,6 +2313,7 @@ void glIndexdv(const GLdouble * c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexf
@@ -2128,6 +2323,7 @@ void glIndexf(GLfloat c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexfv
@@ -2137,6 +2333,7 @@ void glIndexfv(const GLfloat * c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexi
@@ -2146,6 +2343,7 @@ void glIndexi(GLint c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexiv
@@ -2155,6 +2353,7 @@ void glIndexiv(const GLint * c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexs
@@ -2164,6 +2363,7 @@ void glIndexs(GLshort c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexsv
@@ -2173,6 +2373,7 @@ void glIndexsv(const GLshort * c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexub
@@ -2182,6 +2383,7 @@ void glIndexub(GLubyte c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIndexubv
@@ -2191,6 +2393,7 @@ void glIndexubv(const GLubyte * c) {
     packed_data->args.a1 = c;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glInitNames
@@ -2199,6 +2402,7 @@ void glInitNames() {
     packed_data->func = glInitNames_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glInterleavedArrays
@@ -2210,6 +2414,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid * pointer) 
     packed_data->args.a3 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glIsBuffer
@@ -2219,6 +2424,7 @@ GLboolean glIsBuffer(GLuint buffer) {
     packed_data->args.a1 = buffer;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2229,6 +2435,7 @@ GLboolean glIsEnabled(GLenum cap) {
     packed_data->args.a1 = cap;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2239,6 +2446,7 @@ GLboolean glIsList(GLuint list) {
     packed_data->args.a1 = list;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2249,6 +2457,7 @@ GLboolean glIsQuery(GLuint id) {
     packed_data->args.a1 = id;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2259,6 +2468,7 @@ GLboolean glIsTexture(GLuint texture) {
     packed_data->args.a1 = texture;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2270,6 +2480,7 @@ void glLightModelf(GLenum pname, GLfloat param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightModelfv
@@ -2280,6 +2491,7 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightModeli
@@ -2290,6 +2502,7 @@ void glLightModeli(GLenum pname, GLint param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightModeliv
@@ -2300,6 +2513,7 @@ void glLightModeliv(GLenum pname, const GLint * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightf
@@ -2311,6 +2525,7 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightfv
@@ -2322,6 +2537,7 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLighti
@@ -2333,6 +2549,7 @@ void glLighti(GLenum light, GLenum pname, GLint param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLightiv
@@ -2344,6 +2561,7 @@ void glLightiv(GLenum light, GLenum pname, const GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLineStipple
@@ -2354,6 +2572,7 @@ void glLineStipple(GLint factor, GLushort pattern) {
     packed_data->args.a2 = pattern;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLineWidth
@@ -2363,6 +2582,7 @@ void glLineWidth(GLfloat width) {
     packed_data->args.a1 = width;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glListBase
@@ -2372,6 +2592,7 @@ void glListBase(GLuint base) {
     packed_data->args.a1 = base;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadIdentity
@@ -2380,6 +2601,7 @@ void glLoadIdentity() {
     packed_data->func = glLoadIdentity_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadMatrixd
@@ -2389,6 +2611,7 @@ void glLoadMatrixd(const GLdouble * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadMatrixf
@@ -2398,6 +2621,7 @@ void glLoadMatrixf(const GLfloat * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadName
@@ -2407,6 +2631,7 @@ void glLoadName(GLuint name) {
     packed_data->args.a1 = name;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixd
@@ -2416,6 +2641,7 @@ void glLoadTransposeMatrixd(const GLdouble * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixf
@@ -2425,6 +2651,7 @@ void glLoadTransposeMatrixf(const GLfloat * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glLogicOp
@@ -2434,6 +2661,7 @@ void glLogicOp(GLenum opcode) {
     packed_data->args.a1 = opcode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMap1d
@@ -2448,6 +2676,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order,
     packed_data->args.a6 = points;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMap1f
@@ -2462,6 +2691,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, c
     packed_data->args.a6 = points;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMap2d
@@ -2480,6 +2710,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorde
     packed_data->args.a10 = points;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMap2f
@@ -2498,6 +2729,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder,
     packed_data->args.a10 = points;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMapBuffer
@@ -2508,6 +2740,7 @@ GLvoid * glMapBuffer(GLenum target, GLenum access) {
     packed_data->args.a2 = access;
     GLvoid * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -2520,6 +2753,7 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
     packed_data->args.a3 = u2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMapGrid1f
@@ -2531,6 +2765,7 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     packed_data->args.a3 = u2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMapGrid2d
@@ -2545,6 +2780,7 @@ void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdo
     packed_data->args.a6 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMapGrid2f
@@ -2559,6 +2795,7 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat
     packed_data->args.a6 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMaterialf
@@ -2570,6 +2807,7 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMaterialfv
@@ -2581,6 +2819,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMateriali
@@ -2592,6 +2831,7 @@ void glMateriali(GLenum face, GLenum pname, GLint param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMaterialiv
@@ -2603,6 +2843,7 @@ void glMaterialiv(GLenum face, GLenum pname, const GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMatrixMode
@@ -2612,6 +2853,7 @@ void glMatrixMode(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMinmax
@@ -2623,6 +2865,7 @@ void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
     packed_data->args.a3 = sink;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultMatrixd
@@ -2632,6 +2875,7 @@ void glMultMatrixd(const GLdouble * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultMatrixf
@@ -2641,6 +2885,7 @@ void glMultMatrixf(const GLfloat * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixd
@@ -2650,6 +2895,7 @@ void glMultTransposeMatrixd(const GLdouble * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixf
@@ -2659,6 +2905,7 @@ void glMultTransposeMatrixf(const GLfloat * m) {
     packed_data->args.a1 = m;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiDrawArrays
@@ -2671,6 +2918,7 @@ void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, 
     packed_data->args.a4 = drawcount;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiDrawElements
@@ -2684,6 +2932,7 @@ void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, GLvoid
     packed_data->args.a5 = drawcount;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1d
@@ -2694,6 +2943,7 @@ void glMultiTexCoord1d(GLenum target, GLdouble s) {
     packed_data->args.a2 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1dv
@@ -2704,6 +2954,7 @@ void glMultiTexCoord1dv(GLenum target, const GLdouble * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1f
@@ -2714,6 +2965,7 @@ void glMultiTexCoord1f(GLenum target, GLfloat s) {
     packed_data->args.a2 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1fv
@@ -2724,6 +2976,7 @@ void glMultiTexCoord1fv(GLenum target, const GLfloat * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1i
@@ -2734,6 +2987,7 @@ void glMultiTexCoord1i(GLenum target, GLint s) {
     packed_data->args.a2 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1iv
@@ -2744,6 +2998,7 @@ void glMultiTexCoord1iv(GLenum target, const GLint * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1s
@@ -2754,6 +3009,7 @@ void glMultiTexCoord1s(GLenum target, GLshort s) {
     packed_data->args.a2 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1sv
@@ -2764,6 +3020,7 @@ void glMultiTexCoord1sv(GLenum target, const GLshort * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2d
@@ -2775,6 +3032,7 @@ void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
     packed_data->args.a3 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2dv
@@ -2785,6 +3043,7 @@ void glMultiTexCoord2dv(GLenum target, const GLdouble * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2f
@@ -2796,6 +3055,7 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     packed_data->args.a3 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2fv
@@ -2806,6 +3066,7 @@ void glMultiTexCoord2fv(GLenum target, const GLfloat * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2i
@@ -2817,6 +3078,7 @@ void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
     packed_data->args.a3 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2iv
@@ -2827,6 +3089,7 @@ void glMultiTexCoord2iv(GLenum target, const GLint * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2s
@@ -2838,6 +3101,7 @@ void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
     packed_data->args.a3 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2sv
@@ -2848,6 +3112,7 @@ void glMultiTexCoord2sv(GLenum target, const GLshort * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3d
@@ -2860,6 +3125,7 @@ void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a4 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3dv
@@ -2870,6 +3136,7 @@ void glMultiTexCoord3dv(GLenum target, const GLdouble * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3f
@@ -2882,6 +3149,7 @@ void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a4 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3fv
@@ -2892,6 +3160,7 @@ void glMultiTexCoord3fv(GLenum target, const GLfloat * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3i
@@ -2904,6 +3173,7 @@ void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
     packed_data->args.a4 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3iv
@@ -2914,6 +3184,7 @@ void glMultiTexCoord3iv(GLenum target, const GLint * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3s
@@ -2926,6 +3197,7 @@ void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
     packed_data->args.a4 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3sv
@@ -2936,6 +3208,7 @@ void glMultiTexCoord3sv(GLenum target, const GLshort * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4d
@@ -2949,6 +3222,7 @@ void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdoub
     packed_data->args.a5 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4dv
@@ -2959,6 +3233,7 @@ void glMultiTexCoord4dv(GLenum target, const GLdouble * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4f
@@ -2972,6 +3247,7 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
     packed_data->args.a5 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4fv
@@ -2982,6 +3258,7 @@ void glMultiTexCoord4fv(GLenum target, const GLfloat * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4i
@@ -2995,6 +3272,7 @@ void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a5 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4iv
@@ -3005,6 +3283,7 @@ void glMultiTexCoord4iv(GLenum target, const GLint * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4s
@@ -3018,6 +3297,7 @@ void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q
     packed_data->args.a5 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4sv
@@ -3028,6 +3308,7 @@ void glMultiTexCoord4sv(GLenum target, const GLshort * v) {
     packed_data->args.a2 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNewList
@@ -3038,6 +3319,7 @@ void glNewList(GLuint list, GLenum mode) {
     packed_data->args.a2 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3b
@@ -3049,6 +3331,7 @@ void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
     packed_data->args.a3 = nz;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3bv
@@ -3058,6 +3341,7 @@ void glNormal3bv(const GLbyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3d
@@ -3069,6 +3353,7 @@ void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
     packed_data->args.a3 = nz;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3dv
@@ -3078,6 +3363,7 @@ void glNormal3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3f
@@ -3089,6 +3375,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     packed_data->args.a3 = nz;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3fv
@@ -3098,6 +3385,7 @@ void glNormal3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3i
@@ -3109,6 +3397,7 @@ void glNormal3i(GLint nx, GLint ny, GLint nz) {
     packed_data->args.a3 = nz;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3iv
@@ -3118,6 +3407,7 @@ void glNormal3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3s
@@ -3129,6 +3419,7 @@ void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
     packed_data->args.a3 = nz;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormal3sv
@@ -3138,6 +3429,7 @@ void glNormal3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glNormalPointer
@@ -3149,6 +3441,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a3 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glOrtho
@@ -3163,6 +3456,7 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
     packed_data->args.a6 = zFar;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPassThrough
@@ -3172,6 +3466,7 @@ void glPassThrough(GLfloat token) {
     packed_data->args.a1 = token;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelMapfv
@@ -3183,6 +3478,7 @@ void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat * values) {
     packed_data->args.a3 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelMapuiv
@@ -3194,6 +3490,7 @@ void glPixelMapuiv(GLenum map, GLsizei mapsize, const GLuint * values) {
     packed_data->args.a3 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelMapusv
@@ -3205,6 +3502,7 @@ void glPixelMapusv(GLenum map, GLsizei mapsize, const GLushort * values) {
     packed_data->args.a3 = values;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelStoref
@@ -3215,6 +3513,7 @@ void glPixelStoref(GLenum pname, GLfloat param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelStorei
@@ -3225,6 +3524,7 @@ void glPixelStorei(GLenum pname, GLint param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelTransferf
@@ -3235,6 +3535,7 @@ void glPixelTransferf(GLenum pname, GLfloat param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelTransferi
@@ -3245,6 +3546,7 @@ void glPixelTransferi(GLenum pname, GLint param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPixelZoom
@@ -3255,6 +3557,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     packed_data->args.a2 = yfactor;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPointParameterf
@@ -3265,6 +3568,7 @@ void glPointParameterf(GLenum pname, GLfloat param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPointParameterfv
@@ -3275,6 +3579,7 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPointParameteri
@@ -3285,6 +3590,7 @@ void glPointParameteri(GLenum pname, GLint param) {
     packed_data->args.a2 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPointParameteriv
@@ -3295,6 +3601,7 @@ void glPointParameteriv(GLenum pname, const GLint * params) {
     packed_data->args.a2 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPointSize
@@ -3304,6 +3611,7 @@ void glPointSize(GLfloat size) {
     packed_data->args.a1 = size;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPolygonMode
@@ -3314,6 +3622,7 @@ void glPolygonMode(GLenum face, GLenum mode) {
     packed_data->args.a2 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPolygonOffset
@@ -3324,6 +3633,7 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
     packed_data->args.a2 = units;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPolygonStipple
@@ -3333,6 +3643,7 @@ void glPolygonStipple(const GLubyte * mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPopAttrib
@@ -3341,6 +3652,7 @@ void glPopAttrib() {
     packed_data->func = glPopAttrib_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPopClientAttrib
@@ -3349,6 +3661,7 @@ void glPopClientAttrib() {
     packed_data->func = glPopClientAttrib_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPopMatrix
@@ -3357,6 +3670,7 @@ void glPopMatrix() {
     packed_data->func = glPopMatrix_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPopName
@@ -3365,6 +3679,7 @@ void glPopName() {
     packed_data->func = glPopName_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPrioritizeTextures
@@ -3376,6 +3691,7 @@ void glPrioritizeTextures(GLsizei n, const GLuint * textures, const GLfloat * pr
     packed_data->args.a3 = priorities;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPushAttrib
@@ -3385,6 +3701,7 @@ void glPushAttrib(GLbitfield mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPushClientAttrib
@@ -3394,6 +3711,7 @@ void glPushClientAttrib(GLbitfield mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPushMatrix
@@ -3402,6 +3720,7 @@ void glPushMatrix() {
     packed_data->func = glPushMatrix_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glPushName
@@ -3411,6 +3730,7 @@ void glPushName(GLuint name) {
     packed_data->args.a1 = name;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2d
@@ -3421,6 +3741,7 @@ void glRasterPos2d(GLdouble x, GLdouble y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2dv
@@ -3430,6 +3751,7 @@ void glRasterPos2dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2f
@@ -3440,6 +3762,7 @@ void glRasterPos2f(GLfloat x, GLfloat y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2fv
@@ -3449,6 +3772,7 @@ void glRasterPos2fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2i
@@ -3459,6 +3783,7 @@ void glRasterPos2i(GLint x, GLint y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2iv
@@ -3468,6 +3793,7 @@ void glRasterPos2iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2s
@@ -3478,6 +3804,7 @@ void glRasterPos2s(GLshort x, GLshort y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos2sv
@@ -3487,6 +3814,7 @@ void glRasterPos2sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3d
@@ -3498,6 +3826,7 @@ void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3dv
@@ -3507,6 +3836,7 @@ void glRasterPos3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3f
@@ -3518,6 +3848,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3fv
@@ -3527,6 +3858,7 @@ void glRasterPos3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3i
@@ -3538,6 +3870,7 @@ void glRasterPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3iv
@@ -3547,6 +3880,7 @@ void glRasterPos3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3s
@@ -3558,6 +3892,7 @@ void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos3sv
@@ -3567,6 +3902,7 @@ void glRasterPos3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4d
@@ -3579,6 +3915,7 @@ void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4dv
@@ -3588,6 +3925,7 @@ void glRasterPos4dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4f
@@ -3600,6 +3938,7 @@ void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4fv
@@ -3609,6 +3948,7 @@ void glRasterPos4fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4i
@@ -3621,6 +3961,7 @@ void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4iv
@@ -3630,6 +3971,7 @@ void glRasterPos4iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4s
@@ -3642,6 +3984,7 @@ void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRasterPos4sv
@@ -3651,6 +3994,7 @@ void glRasterPos4sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glReadBuffer
@@ -3660,6 +4004,7 @@ void glReadBuffer(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glReadPixels
@@ -3675,6 +4020,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     packed_data->args.a7 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectd
@@ -3687,6 +4033,7 @@ void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
     packed_data->args.a4 = y2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectdv
@@ -3697,6 +4044,7 @@ void glRectdv(const GLdouble * v1, const GLdouble * v2) {
     packed_data->args.a2 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectf
@@ -3709,6 +4057,7 @@ void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
     packed_data->args.a4 = y2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectfv
@@ -3719,6 +4068,7 @@ void glRectfv(const GLfloat * v1, const GLfloat * v2) {
     packed_data->args.a2 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRecti
@@ -3731,6 +4081,7 @@ void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
     packed_data->args.a4 = y2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectiv
@@ -3741,6 +4092,7 @@ void glRectiv(const GLint * v1, const GLint * v2) {
     packed_data->args.a2 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRects
@@ -3753,6 +4105,7 @@ void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
     packed_data->args.a4 = y2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRectsv
@@ -3763,6 +4116,7 @@ void glRectsv(const GLshort * v1, const GLshort * v2) {
     packed_data->args.a2 = v2;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRenderMode
@@ -3772,6 +4126,7 @@ GLint glRenderMode(GLenum mode) {
     packed_data->args.a1 = mode;
     GLint ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -3782,6 +4137,7 @@ void glResetHistogram(GLenum target) {
     packed_data->args.a1 = target;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glResetMinmax
@@ -3791,6 +4147,7 @@ void glResetMinmax(GLenum target) {
     packed_data->args.a1 = target;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRotated
@@ -3803,6 +4160,7 @@ void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a4 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glRotatef
@@ -3815,6 +4173,7 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a4 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSampleCoverage
@@ -3825,6 +4184,7 @@ void glSampleCoverage(GLfloat value, GLboolean invert) {
     packed_data->args.a2 = invert;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glScaled
@@ -3836,6 +4196,7 @@ void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glScalef
@@ -3847,6 +4208,7 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glScissor
@@ -3859,6 +4221,7 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a4 = height;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3b
@@ -3870,6 +4233,7 @@ void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3bv
@@ -3879,6 +4243,7 @@ void glSecondaryColor3bv(const GLbyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3d
@@ -3890,6 +4255,7 @@ void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3dv
@@ -3899,6 +4265,7 @@ void glSecondaryColor3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3f
@@ -3910,6 +4277,7 @@ void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3fv
@@ -3919,6 +4287,7 @@ void glSecondaryColor3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3i
@@ -3930,6 +4299,7 @@ void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3iv
@@ -3939,6 +4309,7 @@ void glSecondaryColor3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3s
@@ -3950,6 +4321,7 @@ void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3sv
@@ -3959,6 +4331,7 @@ void glSecondaryColor3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ub
@@ -3970,6 +4343,7 @@ void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ubv
@@ -3979,6 +4353,7 @@ void glSecondaryColor3ubv(const GLubyte * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ui
@@ -3990,6 +4365,7 @@ void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3uiv
@@ -3999,6 +4375,7 @@ void glSecondaryColor3uiv(const GLuint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3us
@@ -4010,6 +4387,7 @@ void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a3 = blue;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3usv
@@ -4019,6 +4397,7 @@ void glSecondaryColor3usv(const GLushort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSecondaryColorPointer
@@ -4031,6 +4410,7 @@ void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvo
     packed_data->args.a4 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSelectBuffer
@@ -4041,6 +4421,7 @@ void glSelectBuffer(GLsizei size, GLuint * buffer) {
     packed_data->args.a2 = buffer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glSeparableFilter2D
@@ -4057,6 +4438,7 @@ void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GL
     packed_data->args.a8 = column;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glShadeModel
@@ -4066,6 +4448,7 @@ void glShadeModel(GLenum mode) {
     packed_data->args.a1 = mode;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glStencilFunc
@@ -4077,6 +4460,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     packed_data->args.a3 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glStencilMask
@@ -4086,6 +4470,7 @@ void glStencilMask(GLuint mask) {
     packed_data->args.a1 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glStencilOp
@@ -4097,6 +4482,7 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     packed_data->args.a3 = zpass;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1d
@@ -4106,6 +4492,7 @@ void glTexCoord1d(GLdouble s) {
     packed_data->args.a1 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1dv
@@ -4115,6 +4502,7 @@ void glTexCoord1dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1f
@@ -4124,6 +4512,7 @@ void glTexCoord1f(GLfloat s) {
     packed_data->args.a1 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1fv
@@ -4133,6 +4522,7 @@ void glTexCoord1fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1i
@@ -4142,6 +4532,7 @@ void glTexCoord1i(GLint s) {
     packed_data->args.a1 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1iv
@@ -4151,6 +4542,7 @@ void glTexCoord1iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1s
@@ -4160,6 +4552,7 @@ void glTexCoord1s(GLshort s) {
     packed_data->args.a1 = s;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord1sv
@@ -4169,6 +4562,7 @@ void glTexCoord1sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2d
@@ -4179,6 +4573,7 @@ void glTexCoord2d(GLdouble s, GLdouble t) {
     packed_data->args.a2 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2dv
@@ -4188,6 +4583,7 @@ void glTexCoord2dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2f
@@ -4198,6 +4594,7 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
     packed_data->args.a2 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2fv
@@ -4207,6 +4604,7 @@ void glTexCoord2fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2i
@@ -4217,6 +4615,7 @@ void glTexCoord2i(GLint s, GLint t) {
     packed_data->args.a2 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2iv
@@ -4226,6 +4625,7 @@ void glTexCoord2iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2s
@@ -4236,6 +4636,7 @@ void glTexCoord2s(GLshort s, GLshort t) {
     packed_data->args.a2 = t;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord2sv
@@ -4245,6 +4646,7 @@ void glTexCoord2sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3d
@@ -4256,6 +4658,7 @@ void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a3 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3dv
@@ -4265,6 +4668,7 @@ void glTexCoord3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3f
@@ -4276,6 +4680,7 @@ void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a3 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3fv
@@ -4285,6 +4690,7 @@ void glTexCoord3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3i
@@ -4296,6 +4702,7 @@ void glTexCoord3i(GLint s, GLint t, GLint r) {
     packed_data->args.a3 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3iv
@@ -4305,6 +4712,7 @@ void glTexCoord3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3s
@@ -4316,6 +4724,7 @@ void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
     packed_data->args.a3 = r;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord3sv
@@ -4325,6 +4734,7 @@ void glTexCoord3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4d
@@ -4337,6 +4747,7 @@ void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
     packed_data->args.a4 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4dv
@@ -4346,6 +4757,7 @@ void glTexCoord4dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4f
@@ -4358,6 +4770,7 @@ void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     packed_data->args.a4 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4fv
@@ -4367,6 +4780,7 @@ void glTexCoord4fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4i
@@ -4379,6 +4793,7 @@ void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a4 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4iv
@@ -4388,6 +4803,7 @@ void glTexCoord4iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4s
@@ -4400,6 +4816,7 @@ void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
     packed_data->args.a4 = q;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoord4sv
@@ -4409,6 +4826,7 @@ void glTexCoord4sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexCoordPointer
@@ -4421,6 +4839,7 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
     packed_data->args.a4 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexEnvf
@@ -4432,6 +4851,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexEnvfv
@@ -4443,6 +4863,7 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexEnvi
@@ -4454,6 +4875,7 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexEnviv
@@ -4465,6 +4887,7 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGend
@@ -4476,6 +4899,7 @@ void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGendv
@@ -4487,6 +4911,7 @@ void glTexGendv(GLenum coord, GLenum pname, const GLdouble * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGenf
@@ -4498,6 +4923,7 @@ void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGenfv
@@ -4509,6 +4935,7 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGeni
@@ -4520,6 +4947,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexGeniv
@@ -4531,6 +4959,7 @@ void glTexGeniv(GLenum coord, GLenum pname, const GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexImage1D
@@ -4547,6 +4976,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a8 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexImage2D
@@ -4564,6 +4994,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a9 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexImage3D
@@ -4582,6 +5013,7 @@ void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a10 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexParameterf
@@ -4593,6 +5025,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexParameterfv
@@ -4604,6 +5037,7 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexParameteri
@@ -4615,6 +5049,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a3 = param;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexParameteriv
@@ -4626,6 +5061,7 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a3 = params;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexSubImage1D
@@ -4641,6 +5077,7 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, G
     packed_data->args.a7 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexSubImage2D
@@ -4658,6 +5095,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a9 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTexSubImage3D
@@ -4677,6 +5115,7 @@ void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a11 = pixels;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTranslated
@@ -4688,6 +5127,7 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glTranslatef
@@ -4699,6 +5139,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glUnmapBuffer
@@ -4708,6 +5149,7 @@ GLboolean glUnmapBuffer(GLenum target) {
     packed_data->args.a1 = target;
     GLboolean ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -4719,6 +5161,7 @@ void glVertex2d(GLdouble x, GLdouble y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2dv
@@ -4728,6 +5171,7 @@ void glVertex2dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2f
@@ -4738,6 +5182,7 @@ void glVertex2f(GLfloat x, GLfloat y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2fv
@@ -4747,6 +5192,7 @@ void glVertex2fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2i
@@ -4757,6 +5203,7 @@ void glVertex2i(GLint x, GLint y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2iv
@@ -4766,6 +5213,7 @@ void glVertex2iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2s
@@ -4776,6 +5224,7 @@ void glVertex2s(GLshort x, GLshort y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex2sv
@@ -4785,6 +5234,7 @@ void glVertex2sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3d
@@ -4796,6 +5246,7 @@ void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3dv
@@ -4805,6 +5256,7 @@ void glVertex3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3f
@@ -4816,6 +5268,7 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3fv
@@ -4825,6 +5278,7 @@ void glVertex3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3i
@@ -4836,6 +5290,7 @@ void glVertex3i(GLint x, GLint y, GLint z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3iv
@@ -4845,6 +5300,7 @@ void glVertex3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3s
@@ -4856,6 +5312,7 @@ void glVertex3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex3sv
@@ -4865,6 +5322,7 @@ void glVertex3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4d
@@ -4877,6 +5335,7 @@ void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4dv
@@ -4886,6 +5345,7 @@ void glVertex4dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4f
@@ -4898,6 +5358,7 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4fv
@@ -4907,6 +5368,7 @@ void glVertex4fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4i
@@ -4919,6 +5381,7 @@ void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4iv
@@ -4928,6 +5391,7 @@ void glVertex4iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4s
@@ -4940,6 +5404,7 @@ void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a4 = w;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertex4sv
@@ -4949,6 +5414,7 @@ void glVertex4sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glVertexPointer
@@ -4961,6 +5427,7 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
     packed_data->args.a4 = pointer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glViewport
@@ -4973,6 +5440,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a4 = height;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2d
@@ -4983,6 +5451,7 @@ void glWindowPos2d(GLdouble x, GLdouble y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2dv
@@ -4992,6 +5461,7 @@ void glWindowPos2dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2f
@@ -5002,6 +5472,7 @@ void glWindowPos2f(GLfloat x, GLfloat y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2fv
@@ -5011,6 +5482,7 @@ void glWindowPos2fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2i
@@ -5021,6 +5493,7 @@ void glWindowPos2i(GLint x, GLint y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2iv
@@ -5030,6 +5503,7 @@ void glWindowPos2iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2s
@@ -5040,6 +5514,7 @@ void glWindowPos2s(GLshort x, GLshort y) {
     packed_data->args.a2 = y;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos2sv
@@ -5049,6 +5524,7 @@ void glWindowPos2sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3d
@@ -5060,6 +5536,7 @@ void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3dv
@@ -5069,6 +5546,7 @@ void glWindowPos3dv(const GLdouble * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3f
@@ -5080,6 +5558,7 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3fv
@@ -5089,6 +5568,7 @@ void glWindowPos3fv(const GLfloat * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3i
@@ -5100,6 +5580,7 @@ void glWindowPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3iv
@@ -5109,6 +5590,7 @@ void glWindowPos3iv(const GLint * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3s
@@ -5120,6 +5602,7 @@ void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a3 = z;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glWindowPos3sv
@@ -5129,6 +5612,7 @@ void glWindowPos3sv(const GLshort * v) {
     packed_data->args.a1 = v;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXBindHyperpipeSGIX
@@ -5139,6 +5623,7 @@ int glXBindHyperpipeSGIX(Display * dpy, int hpId) {
     packed_data->args.a2 = hpId;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5150,6 +5635,7 @@ void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier) {
     packed_data->args.a2 = barrier;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributes
@@ -5159,6 +5645,7 @@ void glXChangeDrawableAttributes(uint32_t drawable) {
     packed_data->args.a1 = drawable;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributesSGIX
@@ -5168,6 +5655,7 @@ void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
     packed_data->args.a1 = drawable;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXChooseFBConfig
@@ -5180,6 +5668,7 @@ GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_li
     packed_data->args.a4 = nelements;
     GLXFBConfig * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5192,6 +5681,7 @@ XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
     packed_data->args.a3 = attribList;
     XVisualInfo * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5201,6 +5691,7 @@ void glXClientInfo() {
     packed_data->func = glXClientInfo_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCopyContext
@@ -5213,6 +5704,7 @@ void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long
     packed_data->args.a4 = mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCreateContext
@@ -5225,6 +5717,7 @@ GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareLi
     packed_data->args.a4 = direct;
     GLXContext ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5238,6 +5731,7 @@ void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t co
     packed_data->args.a4 = share_list;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPbufferSGIX
@@ -5248,6 +5742,7 @@ void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
     packed_data->args.a2 = pbuffer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPixmap
@@ -5259,6 +5754,7 @@ GLXPixmap glXCreateGLXPixmap(Display * dpy, XVisualInfo * visual, Pixmap pixmap)
     packed_data->args.a3 = pixmap;
     GLXPixmap ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5271,6 +5767,7 @@ void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t
     packed_data->args.a3 = glxpixmap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCreateGLXVideoSourceSGIX
@@ -5285,6 +5782,7 @@ void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server
     packed_data->args.a6 = node;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXCreateNewContext
@@ -5298,6 +5796,7 @@ GLXContext glXCreateNewContext(Display * dpy, GLXFBConfig config, int render_typ
     packed_data->args.a5 = direct;
     GLXContext ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5310,6 +5809,7 @@ GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attri
     packed_data->args.a3 = attrib_list;
     GLXPbuffer ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5323,6 +5823,7 @@ GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, cons
     packed_data->args.a4 = attrib_list;
     GLXPixmap ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5336,6 +5837,7 @@ GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const i
     packed_data->args.a4 = attrib_list;
     GLXWindow ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5347,6 +5849,7 @@ void glXDestroyContext(Display * dpy, GLXContext ctx) {
     packed_data->args.a2 = ctx;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPbufferSGIX
@@ -5356,6 +5859,7 @@ void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
     packed_data->args.a1 = pbuffer;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPixmap
@@ -5366,6 +5870,7 @@ void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->args.a2 = pixmap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXVideoSourceSGIX
@@ -5376,6 +5881,7 @@ void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
     packed_data->args.a2 = glxvideosource;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyHyperpipeConfigSGIX
@@ -5386,6 +5892,7 @@ int glXDestroyHyperpipeConfigSGIX(Display * dpy, int hpId) {
     packed_data->args.a2 = hpId;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5397,6 +5904,7 @@ void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     packed_data->args.a2 = pbuf;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyPixmap
@@ -5407,6 +5915,7 @@ void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->args.a2 = pixmap;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXDestroyWindow
@@ -5417,6 +5926,7 @@ void glXDestroyWindow(Display * dpy, GLXWindow win) {
     packed_data->args.a2 = win;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetClientString
@@ -5427,6 +5937,7 @@ const char * glXGetClientString(Display * display, int name) {
     packed_data->args.a2 = name;
     const char * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5440,6 +5951,7 @@ int glXGetConfig(Display * display, XVisualInfo * visual, int attribute, int * v
     packed_data->args.a4 = value;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5449,6 +5961,7 @@ GLXContext glXGetCurrentContext() {
     packed_data->func = glXGetCurrentContext_INDEX;
     GLXContext ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5458,6 +5971,7 @@ Display * glXGetCurrentDisplay() {
     packed_data->func = glXGetCurrentDisplay_INDEX;
     Display * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5467,6 +5981,7 @@ GLXDrawable glXGetCurrentDrawable() {
     packed_data->func = glXGetCurrentDrawable_INDEX;
     GLXDrawable ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5476,6 +5991,7 @@ GLXDrawable glXGetCurrentReadDrawable() {
     packed_data->func = glXGetCurrentReadDrawable_INDEX;
     GLXDrawable ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5486,6 +6002,7 @@ void glXGetDrawableAttributes(uint32_t drawable) {
     packed_data->args.a1 = drawable;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetDrawableAttributesSGIX
@@ -5495,6 +6012,7 @@ void glXGetDrawableAttributesSGIX(uint32_t drawable) {
     packed_data->args.a1 = drawable;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetFBConfigAttrib
@@ -5507,6 +6025,7 @@ int glXGetFBConfigAttrib(Display * dpy, GLXFBConfig config, int attribute, int *
     packed_data->args.a4 = value;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5519,6 +6038,7 @@ GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
     packed_data->args.a3 = nelements;
     GLXFBConfig * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5528,6 +6048,7 @@ void glXGetFBConfigsSGIX() {
     packed_data->func = glXGetFBConfigsSGIX_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetProcAddress
@@ -5537,6 +6058,7 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte * procName) {
     packed_data->args.a1 = procName;
     __GLXextFuncPtr ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5549,6 +6071,7 @@ void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_
     packed_data->args.a3 = event_mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetVisualConfigs
@@ -5557,6 +6080,7 @@ void glXGetVisualConfigs() {
     packed_data->func = glXGetVisualConfigs_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXGetVisualFromFBConfig
@@ -5567,6 +6091,7 @@ XVisualInfo * glXGetVisualFromFBConfig(Display * dpy, GLXFBConfig config) {
     packed_data->args.a2 = config;
     XVisualInfo * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5581,6 +6106,7 @@ int glXHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, c
     packed_data->args.a5 = attribList;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5595,6 +6121,7 @@ int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpip
     packed_data->args.a5 = hpId;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5606,6 +6133,7 @@ Bool glXIsDirect(Display * dpy, GLXContext ctx) {
     packed_data->args.a2 = ctx;
     Bool ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5617,6 +6145,7 @@ void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group) {
     packed_data->args.a2 = group;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXMakeContextCurrent
@@ -5629,6 +6158,7 @@ Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GL
     packed_data->args.a4 = ctx;
     Bool ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5641,6 +6171,7 @@ Bool glXMakeCurrent(Display * dpy, GLXDrawable drawable, GLXContext ctx) {
     packed_data->args.a3 = ctx;
     Bool ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5653,6 +6184,7 @@ void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t co
     packed_data->args.a3 = context;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXQueryContext
@@ -5665,6 +6197,7 @@ int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
     packed_data->args.a4 = value;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5674,6 +6207,7 @@ void glXQueryContextInfoEXT() {
     packed_data->func = glXQueryContextInfoEXT_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXQueryDrawable
@@ -5686,6 +6220,7 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
     packed_data->args.a4 = value;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXQueryExtension
@@ -5697,6 +6232,7 @@ Bool glXQueryExtension(Display * display, int * errorBase, int * eventBase) {
     packed_data->args.a3 = eventBase;
     Bool ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5708,6 +6244,7 @@ const char * glXQueryExtensionsString(Display * dpy, int screen) {
     packed_data->args.a2 = screen;
     const char * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5722,6 +6259,7 @@ int glXQueryHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int si
     packed_data->args.a5 = returnAttribList;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5737,6 +6275,7 @@ int glXQueryHyperpipeBestAttribSGIX(Display * dpy, int timeSlice, int attrib, in
     packed_data->args.a6 = returnAttribList;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5749,6 +6288,7 @@ GLXHyperpipeConfigSGIX * glXQueryHyperpipeConfigSGIX(Display * dpy, int hpId, in
     packed_data->args.a3 = npipes;
     GLXHyperpipeConfigSGIX * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5760,6 +6300,7 @@ GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npip
     packed_data->args.a2 = npipes;
     GLXHyperpipeNetworkSGIX * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5769,6 +6310,7 @@ void glXQueryMaxSwapBarriersSGIX() {
     packed_data->func = glXQueryMaxSwapBarriersSGIX_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXQueryServerString
@@ -5780,6 +6322,7 @@ const char * glXQueryServerString(Display * dpy, int screen, int name) {
     packed_data->args.a3 = name;
     const char * ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5792,6 +6335,7 @@ Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
     packed_data->args.a3 = min;
     Bool ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
     return ret;
 }
 #endif
@@ -5801,6 +6345,7 @@ void glXRender() {
     packed_data->func = glXRender_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXRenderLarge
@@ -5809,6 +6354,7 @@ void glXRenderLarge() {
     packed_data->func = glXRenderLarge_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXSelectEvent
@@ -5820,6 +6366,7 @@ void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
     packed_data->args.a3 = event_mask;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXSwapBuffers
@@ -5830,6 +6377,7 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
     packed_data->args.a2 = drawable;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXSwapIntervalSGI
@@ -5838,6 +6386,7 @@ void glXSwapIntervalSGI() {
     packed_data->func = glXSwapIntervalSGI_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXUseXFont
@@ -5850,6 +6399,7 @@ void glXUseXFont(Font font, int first, int count, int list) {
     packed_data->args.a4 = list;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXVendorPrivate
@@ -5858,6 +6408,7 @@ void glXVendorPrivate() {
     packed_data->func = glXVendorPrivate_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXVendorPrivateWithReply
@@ -5866,6 +6417,7 @@ void glXVendorPrivateWithReply() {
     packed_data->func = glXVendorPrivateWithReply_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXWaitGL
@@ -5874,6 +6426,7 @@ void glXWaitGL() {
     packed_data->func = glXWaitGL_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 #ifndef skip_client_glXWaitX
@@ -5882,6 +6435,7 @@ void glXWaitX() {
     packed_data->func = glXWaitX_INDEX;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
 }
 #endif
 
