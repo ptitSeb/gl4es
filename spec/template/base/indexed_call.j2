@@ -1,15 +1,36 @@
+#include <dlfcn.h>
+#include <stdio.h>
+static void *g_libgl = NULL;
+
 void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
+    if (! g_libgl) {
+        g_libgl = dlopen("libGL.so.1", RTLD_LOCAL | RTLD_LAZY);
+        if (! g_libgl) {
+            printf("Warning: Unable to open libGL.so.1\n");
+            return;
+        }
+    }
+
     switch (packed->func) {
         {% for f in functions %}
         #ifndef skip_index_{{ f.name }}
         case {{ f.name }}_INDEX: {
+            static {{ f.name }}_PTR local_{{ f.name }};
+            if (local_{{ f.name }} == NULL) {
+                local_{{ f.name }} = ({{ f.name }}_PTR)dlsym(g_libgl, "{{ f.name }}");
+                if (! local_{{ f.name }}) {
+                    printf("Warning: Unable to dlsym '{{ f.name }}'\n");
+                    return;
+                }
+            }
+
             INDEXED_{{ f.types }} *unpacked = (INDEXED_{{ f.types }} *)packed;
             ARGS_{{ f.types }} args = unpacked->args;
             {% if not f.void %}
             {{ f.return }} *ret = ({{ f.return }} *)ret_v;
             *ret = 
             {% endif %}
-            {{ f.name }}({% for arg in f.args -%}
+            local_{{ f.name }}({% for arg in f.args -%}
                 args.a{{ loop.index }}{% if not arg.last %}, {% endif %}
             {% endfor %});
             break;

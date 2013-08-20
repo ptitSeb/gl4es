@@ -49,13 +49,13 @@ void *gles;
 #define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
 
 #define LOAD_GLES(name)                                             \
-    static glesptr_##name gles_##name;                              \
+    static name##_PTR gles_##name;                                  \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
             gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
             WARN_NULL(gles);                                        \
         }                                                           \
-        gles_##name = (glesptr_##name)dlsym(gles, #name);           \
+        gles_##name = (name##_PTR)dlsym(gles, #name);               \
         WARN_NULL(gles_##name);                                     \
     }
 
