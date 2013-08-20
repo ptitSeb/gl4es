@@ -1,5 +1,5 @@
 aux_source_directory(host HOST_SOURCES)
-add_library(glhost SHARED ${HOST_SOURCES})
+add_library(glhost STATIC ${HOST_SOURCES})
 target_link_libraries(glhost ${GL_LIBRARY})
 
 aux_source_directory(client CLIENT_SOURCES)
