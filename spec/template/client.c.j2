@@ -11,9 +11,9 @@
 {% block main %}
 {{ super() }}
 
-void *glXGetProcAddressARB(const char *name) {
+__GLXextFuncPtr glXGetProcAddressARB(const char *name) {
     {% for func in functions %}
-    if (strcmp(name, {{ func.name }}) == 0) {
+    if (strcmp(name, "{{ func.name }}") == 0) {
         return (void *){{ func.name }};
     }
     {% endfor %}
@@ -21,7 +21,7 @@ void *glXGetProcAddressARB(const char *name) {
     return NULL;
 }
 
-void *glXGetProcAddress(const char *name) {
+__GLXextFuncPtr glXGetProcAddress(const char *name) {
     return glXGetProcAddressARB(name);
 }
 {% endblock %}

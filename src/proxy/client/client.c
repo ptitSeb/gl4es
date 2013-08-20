@@ -6381,1658 +6381,1658 @@ void glXWaitX() {
 #endif
 
 
-void *glXGetProcAddressARB(const char *name) {
-    if (strcmp(name, glAccum) == 0) {
+__GLXextFuncPtr glXGetProcAddressARB(const char *name) {
+    if (strcmp(name, "glAccum") == 0) {
         return (void *)glAccum;
     }
-    if (strcmp(name, glActiveTexture) == 0) {
+    if (strcmp(name, "glActiveTexture") == 0) {
         return (void *)glActiveTexture;
     }
-    if (strcmp(name, glAlphaFunc) == 0) {
+    if (strcmp(name, "glAlphaFunc") == 0) {
         return (void *)glAlphaFunc;
     }
-    if (strcmp(name, glAreTexturesResident) == 0) {
+    if (strcmp(name, "glAreTexturesResident") == 0) {
         return (void *)glAreTexturesResident;
     }
-    if (strcmp(name, glArrayElement) == 0) {
+    if (strcmp(name, "glArrayElement") == 0) {
         return (void *)glArrayElement;
     }
-    if (strcmp(name, glBegin) == 0) {
+    if (strcmp(name, "glBegin") == 0) {
         return (void *)glBegin;
     }
-    if (strcmp(name, glBeginQuery) == 0) {
+    if (strcmp(name, "glBeginQuery") == 0) {
         return (void *)glBeginQuery;
     }
-    if (strcmp(name, glBindBuffer) == 0) {
+    if (strcmp(name, "glBindBuffer") == 0) {
         return (void *)glBindBuffer;
     }
-    if (strcmp(name, glBindTexture) == 0) {
+    if (strcmp(name, "glBindTexture") == 0) {
         return (void *)glBindTexture;
     }
-    if (strcmp(name, glBitmap) == 0) {
+    if (strcmp(name, "glBitmap") == 0) {
         return (void *)glBitmap;
     }
-    if (strcmp(name, glBlendColor) == 0) {
+    if (strcmp(name, "glBlendColor") == 0) {
         return (void *)glBlendColor;
     }
-    if (strcmp(name, glBlendEquation) == 0) {
+    if (strcmp(name, "glBlendEquation") == 0) {
         return (void *)glBlendEquation;
     }
-    if (strcmp(name, glBlendFunc) == 0) {
+    if (strcmp(name, "glBlendFunc") == 0) {
         return (void *)glBlendFunc;
     }
-    if (strcmp(name, glBlendFuncSeparate) == 0) {
+    if (strcmp(name, "glBlendFuncSeparate") == 0) {
         return (void *)glBlendFuncSeparate;
     }
-    if (strcmp(name, glBufferData) == 0) {
+    if (strcmp(name, "glBufferData") == 0) {
         return (void *)glBufferData;
     }
-    if (strcmp(name, glBufferSubData) == 0) {
+    if (strcmp(name, "glBufferSubData") == 0) {
         return (void *)glBufferSubData;
     }
-    if (strcmp(name, glCallList) == 0) {
+    if (strcmp(name, "glCallList") == 0) {
         return (void *)glCallList;
     }
-    if (strcmp(name, glCallLists) == 0) {
+    if (strcmp(name, "glCallLists") == 0) {
         return (void *)glCallLists;
     }
-    if (strcmp(name, glClear) == 0) {
+    if (strcmp(name, "glClear") == 0) {
         return (void *)glClear;
     }
-    if (strcmp(name, glClearAccum) == 0) {
+    if (strcmp(name, "glClearAccum") == 0) {
         return (void *)glClearAccum;
     }
-    if (strcmp(name, glClearColor) == 0) {
+    if (strcmp(name, "glClearColor") == 0) {
         return (void *)glClearColor;
     }
-    if (strcmp(name, glClearDepth) == 0) {
+    if (strcmp(name, "glClearDepth") == 0) {
         return (void *)glClearDepth;
     }
-    if (strcmp(name, glClearIndex) == 0) {
+    if (strcmp(name, "glClearIndex") == 0) {
         return (void *)glClearIndex;
     }
-    if (strcmp(name, glClearStencil) == 0) {
+    if (strcmp(name, "glClearStencil") == 0) {
         return (void *)glClearStencil;
     }
-    if (strcmp(name, glClientActiveTexture) == 0) {
+    if (strcmp(name, "glClientActiveTexture") == 0) {
         return (void *)glClientActiveTexture;
     }
-    if (strcmp(name, glClipPlane) == 0) {
+    if (strcmp(name, "glClipPlane") == 0) {
         return (void *)glClipPlane;
     }
-    if (strcmp(name, glColor3b) == 0) {
+    if (strcmp(name, "glColor3b") == 0) {
         return (void *)glColor3b;
     }
-    if (strcmp(name, glColor3bv) == 0) {
+    if (strcmp(name, "glColor3bv") == 0) {
         return (void *)glColor3bv;
     }
-    if (strcmp(name, glColor3d) == 0) {
+    if (strcmp(name, "glColor3d") == 0) {
         return (void *)glColor3d;
     }
-    if (strcmp(name, glColor3dv) == 0) {
+    if (strcmp(name, "glColor3dv") == 0) {
         return (void *)glColor3dv;
     }
-    if (strcmp(name, glColor3f) == 0) {
+    if (strcmp(name, "glColor3f") == 0) {
         return (void *)glColor3f;
     }
-    if (strcmp(name, glColor3fv) == 0) {
+    if (strcmp(name, "glColor3fv") == 0) {
         return (void *)glColor3fv;
     }
-    if (strcmp(name, glColor3i) == 0) {
+    if (strcmp(name, "glColor3i") == 0) {
         return (void *)glColor3i;
     }
-    if (strcmp(name, glColor3iv) == 0) {
+    if (strcmp(name, "glColor3iv") == 0) {
         return (void *)glColor3iv;
     }
-    if (strcmp(name, glColor3s) == 0) {
+    if (strcmp(name, "glColor3s") == 0) {
         return (void *)glColor3s;
     }
-    if (strcmp(name, glColor3sv) == 0) {
+    if (strcmp(name, "glColor3sv") == 0) {
         return (void *)glColor3sv;
     }
-    if (strcmp(name, glColor3ub) == 0) {
+    if (strcmp(name, "glColor3ub") == 0) {
         return (void *)glColor3ub;
     }
-    if (strcmp(name, glColor3ubv) == 0) {
+    if (strcmp(name, "glColor3ubv") == 0) {
         return (void *)glColor3ubv;
     }
-    if (strcmp(name, glColor3ui) == 0) {
+    if (strcmp(name, "glColor3ui") == 0) {
         return (void *)glColor3ui;
     }
-    if (strcmp(name, glColor3uiv) == 0) {
+    if (strcmp(name, "glColor3uiv") == 0) {
         return (void *)glColor3uiv;
     }
-    if (strcmp(name, glColor3us) == 0) {
+    if (strcmp(name, "glColor3us") == 0) {
         return (void *)glColor3us;
     }
-    if (strcmp(name, glColor3usv) == 0) {
+    if (strcmp(name, "glColor3usv") == 0) {
         return (void *)glColor3usv;
     }
-    if (strcmp(name, glColor4b) == 0) {
+    if (strcmp(name, "glColor4b") == 0) {
         return (void *)glColor4b;
     }
-    if (strcmp(name, glColor4bv) == 0) {
+    if (strcmp(name, "glColor4bv") == 0) {
         return (void *)glColor4bv;
     }
-    if (strcmp(name, glColor4d) == 0) {
+    if (strcmp(name, "glColor4d") == 0) {
         return (void *)glColor4d;
     }
-    if (strcmp(name, glColor4dv) == 0) {
+    if (strcmp(name, "glColor4dv") == 0) {
         return (void *)glColor4dv;
     }
-    if (strcmp(name, glColor4f) == 0) {
+    if (strcmp(name, "glColor4f") == 0) {
         return (void *)glColor4f;
     }
-    if (strcmp(name, glColor4fv) == 0) {
+    if (strcmp(name, "glColor4fv") == 0) {
         return (void *)glColor4fv;
     }
-    if (strcmp(name, glColor4i) == 0) {
+    if (strcmp(name, "glColor4i") == 0) {
         return (void *)glColor4i;
     }
-    if (strcmp(name, glColor4iv) == 0) {
+    if (strcmp(name, "glColor4iv") == 0) {
         return (void *)glColor4iv;
     }
-    if (strcmp(name, glColor4s) == 0) {
+    if (strcmp(name, "glColor4s") == 0) {
         return (void *)glColor4s;
     }
-    if (strcmp(name, glColor4sv) == 0) {
+    if (strcmp(name, "glColor4sv") == 0) {
         return (void *)glColor4sv;
     }
-    if (strcmp(name, glColor4ub) == 0) {
+    if (strcmp(name, "glColor4ub") == 0) {
         return (void *)glColor4ub;
     }
-    if (strcmp(name, glColor4ubv) == 0) {
+    if (strcmp(name, "glColor4ubv") == 0) {
         return (void *)glColor4ubv;
     }
-    if (strcmp(name, glColor4ui) == 0) {
+    if (strcmp(name, "glColor4ui") == 0) {
         return (void *)glColor4ui;
     }
-    if (strcmp(name, glColor4uiv) == 0) {
+    if (strcmp(name, "glColor4uiv") == 0) {
         return (void *)glColor4uiv;
     }
-    if (strcmp(name, glColor4us) == 0) {
+    if (strcmp(name, "glColor4us") == 0) {
         return (void *)glColor4us;
     }
-    if (strcmp(name, glColor4usv) == 0) {
+    if (strcmp(name, "glColor4usv") == 0) {
         return (void *)glColor4usv;
     }
-    if (strcmp(name, glColorMask) == 0) {
+    if (strcmp(name, "glColorMask") == 0) {
         return (void *)glColorMask;
     }
-    if (strcmp(name, glColorMaterial) == 0) {
+    if (strcmp(name, "glColorMaterial") == 0) {
         return (void *)glColorMaterial;
     }
-    if (strcmp(name, glColorPointer) == 0) {
+    if (strcmp(name, "glColorPointer") == 0) {
         return (void *)glColorPointer;
     }
-    if (strcmp(name, glColorSubTable) == 0) {
+    if (strcmp(name, "glColorSubTable") == 0) {
         return (void *)glColorSubTable;
     }
-    if (strcmp(name, glColorTable) == 0) {
+    if (strcmp(name, "glColorTable") == 0) {
         return (void *)glColorTable;
     }
-    if (strcmp(name, glColorTableParameterfv) == 0) {
+    if (strcmp(name, "glColorTableParameterfv") == 0) {
         return (void *)glColorTableParameterfv;
     }
-    if (strcmp(name, glColorTableParameteriv) == 0) {
+    if (strcmp(name, "glColorTableParameteriv") == 0) {
         return (void *)glColorTableParameteriv;
     }
-    if (strcmp(name, glCompressedTexImage1D) == 0) {
+    if (strcmp(name, "glCompressedTexImage1D") == 0) {
         return (void *)glCompressedTexImage1D;
     }
-    if (strcmp(name, glCompressedTexImage2D) == 0) {
+    if (strcmp(name, "glCompressedTexImage2D") == 0) {
         return (void *)glCompressedTexImage2D;
     }
-    if (strcmp(name, glCompressedTexImage3D) == 0) {
+    if (strcmp(name, "glCompressedTexImage3D") == 0) {
         return (void *)glCompressedTexImage3D;
     }
-    if (strcmp(name, glCompressedTexSubImage1D) == 0) {
+    if (strcmp(name, "glCompressedTexSubImage1D") == 0) {
         return (void *)glCompressedTexSubImage1D;
     }
-    if (strcmp(name, glCompressedTexSubImage2D) == 0) {
+    if (strcmp(name, "glCompressedTexSubImage2D") == 0) {
         return (void *)glCompressedTexSubImage2D;
     }
-    if (strcmp(name, glCompressedTexSubImage3D) == 0) {
+    if (strcmp(name, "glCompressedTexSubImage3D") == 0) {
         return (void *)glCompressedTexSubImage3D;
     }
-    if (strcmp(name, glConvolutionFilter1D) == 0) {
+    if (strcmp(name, "glConvolutionFilter1D") == 0) {
         return (void *)glConvolutionFilter1D;
     }
-    if (strcmp(name, glConvolutionFilter2D) == 0) {
+    if (strcmp(name, "glConvolutionFilter2D") == 0) {
         return (void *)glConvolutionFilter2D;
     }
-    if (strcmp(name, glConvolutionParameterf) == 0) {
+    if (strcmp(name, "glConvolutionParameterf") == 0) {
         return (void *)glConvolutionParameterf;
     }
-    if (strcmp(name, glConvolutionParameterfv) == 0) {
+    if (strcmp(name, "glConvolutionParameterfv") == 0) {
         return (void *)glConvolutionParameterfv;
     }
-    if (strcmp(name, glConvolutionParameteri) == 0) {
+    if (strcmp(name, "glConvolutionParameteri") == 0) {
         return (void *)glConvolutionParameteri;
     }
-    if (strcmp(name, glConvolutionParameteriv) == 0) {
+    if (strcmp(name, "glConvolutionParameteriv") == 0) {
         return (void *)glConvolutionParameteriv;
     }
-    if (strcmp(name, glCopyColorSubTable) == 0) {
+    if (strcmp(name, "glCopyColorSubTable") == 0) {
         return (void *)glCopyColorSubTable;
     }
-    if (strcmp(name, glCopyColorTable) == 0) {
+    if (strcmp(name, "glCopyColorTable") == 0) {
         return (void *)glCopyColorTable;
     }
-    if (strcmp(name, glCopyConvolutionFilter1D) == 0) {
+    if (strcmp(name, "glCopyConvolutionFilter1D") == 0) {
         return (void *)glCopyConvolutionFilter1D;
     }
-    if (strcmp(name, glCopyConvolutionFilter2D) == 0) {
+    if (strcmp(name, "glCopyConvolutionFilter2D") == 0) {
         return (void *)glCopyConvolutionFilter2D;
     }
-    if (strcmp(name, glCopyPixels) == 0) {
+    if (strcmp(name, "glCopyPixels") == 0) {
         return (void *)glCopyPixels;
     }
-    if (strcmp(name, glCopyTexImage1D) == 0) {
+    if (strcmp(name, "glCopyTexImage1D") == 0) {
         return (void *)glCopyTexImage1D;
     }
-    if (strcmp(name, glCopyTexImage2D) == 0) {
+    if (strcmp(name, "glCopyTexImage2D") == 0) {
         return (void *)glCopyTexImage2D;
     }
-    if (strcmp(name, glCopyTexSubImage1D) == 0) {
+    if (strcmp(name, "glCopyTexSubImage1D") == 0) {
         return (void *)glCopyTexSubImage1D;
     }
-    if (strcmp(name, glCopyTexSubImage2D) == 0) {
+    if (strcmp(name, "glCopyTexSubImage2D") == 0) {
         return (void *)glCopyTexSubImage2D;
     }
-    if (strcmp(name, glCopyTexSubImage3D) == 0) {
+    if (strcmp(name, "glCopyTexSubImage3D") == 0) {
         return (void *)glCopyTexSubImage3D;
     }
-    if (strcmp(name, glCullFace) == 0) {
+    if (strcmp(name, "glCullFace") == 0) {
         return (void *)glCullFace;
     }
-    if (strcmp(name, glDeleteBuffers) == 0) {
+    if (strcmp(name, "glDeleteBuffers") == 0) {
         return (void *)glDeleteBuffers;
     }
-    if (strcmp(name, glDeleteLists) == 0) {
+    if (strcmp(name, "glDeleteLists") == 0) {
         return (void *)glDeleteLists;
     }
-    if (strcmp(name, glDeleteQueries) == 0) {
+    if (strcmp(name, "glDeleteQueries") == 0) {
         return (void *)glDeleteQueries;
     }
-    if (strcmp(name, glDeleteTextures) == 0) {
+    if (strcmp(name, "glDeleteTextures") == 0) {
         return (void *)glDeleteTextures;
     }
-    if (strcmp(name, glDepthFunc) == 0) {
+    if (strcmp(name, "glDepthFunc") == 0) {
         return (void *)glDepthFunc;
     }
-    if (strcmp(name, glDepthMask) == 0) {
+    if (strcmp(name, "glDepthMask") == 0) {
         return (void *)glDepthMask;
     }
-    if (strcmp(name, glDepthRange) == 0) {
+    if (strcmp(name, "glDepthRange") == 0) {
         return (void *)glDepthRange;
     }
-    if (strcmp(name, glDisable) == 0) {
+    if (strcmp(name, "glDisable") == 0) {
         return (void *)glDisable;
     }
-    if (strcmp(name, glDisableClientState) == 0) {
+    if (strcmp(name, "glDisableClientState") == 0) {
         return (void *)glDisableClientState;
     }
-    if (strcmp(name, glDrawArrays) == 0) {
+    if (strcmp(name, "glDrawArrays") == 0) {
         return (void *)glDrawArrays;
     }
-    if (strcmp(name, glDrawBuffer) == 0) {
+    if (strcmp(name, "glDrawBuffer") == 0) {
         return (void *)glDrawBuffer;
     }
-    if (strcmp(name, glDrawElements) == 0) {
+    if (strcmp(name, "glDrawElements") == 0) {
         return (void *)glDrawElements;
     }
-    if (strcmp(name, glDrawPixels) == 0) {
+    if (strcmp(name, "glDrawPixels") == 0) {
         return (void *)glDrawPixels;
     }
-    if (strcmp(name, glDrawRangeElements) == 0) {
+    if (strcmp(name, "glDrawRangeElements") == 0) {
         return (void *)glDrawRangeElements;
     }
-    if (strcmp(name, glEdgeFlag) == 0) {
+    if (strcmp(name, "glEdgeFlag") == 0) {
         return (void *)glEdgeFlag;
     }
-    if (strcmp(name, glEdgeFlagPointer) == 0) {
+    if (strcmp(name, "glEdgeFlagPointer") == 0) {
         return (void *)glEdgeFlagPointer;
     }
-    if (strcmp(name, glEdgeFlagv) == 0) {
+    if (strcmp(name, "glEdgeFlagv") == 0) {
         return (void *)glEdgeFlagv;
     }
-    if (strcmp(name, glEnable) == 0) {
+    if (strcmp(name, "glEnable") == 0) {
         return (void *)glEnable;
     }
-    if (strcmp(name, glEnableClientState) == 0) {
+    if (strcmp(name, "glEnableClientState") == 0) {
         return (void *)glEnableClientState;
     }
-    if (strcmp(name, glEnd) == 0) {
+    if (strcmp(name, "glEnd") == 0) {
         return (void *)glEnd;
     }
-    if (strcmp(name, glEndList) == 0) {
+    if (strcmp(name, "glEndList") == 0) {
         return (void *)glEndList;
     }
-    if (strcmp(name, glEndQuery) == 0) {
+    if (strcmp(name, "glEndQuery") == 0) {
         return (void *)glEndQuery;
     }
-    if (strcmp(name, glEvalCoord1d) == 0) {
+    if (strcmp(name, "glEvalCoord1d") == 0) {
         return (void *)glEvalCoord1d;
     }
-    if (strcmp(name, glEvalCoord1dv) == 0) {
+    if (strcmp(name, "glEvalCoord1dv") == 0) {
         return (void *)glEvalCoord1dv;
     }
-    if (strcmp(name, glEvalCoord1f) == 0) {
+    if (strcmp(name, "glEvalCoord1f") == 0) {
         return (void *)glEvalCoord1f;
     }
-    if (strcmp(name, glEvalCoord1fv) == 0) {
+    if (strcmp(name, "glEvalCoord1fv") == 0) {
         return (void *)glEvalCoord1fv;
     }
-    if (strcmp(name, glEvalCoord2d) == 0) {
+    if (strcmp(name, "glEvalCoord2d") == 0) {
         return (void *)glEvalCoord2d;
     }
-    if (strcmp(name, glEvalCoord2dv) == 0) {
+    if (strcmp(name, "glEvalCoord2dv") == 0) {
         return (void *)glEvalCoord2dv;
     }
-    if (strcmp(name, glEvalCoord2f) == 0) {
+    if (strcmp(name, "glEvalCoord2f") == 0) {
         return (void *)glEvalCoord2f;
     }
-    if (strcmp(name, glEvalCoord2fv) == 0) {
+    if (strcmp(name, "glEvalCoord2fv") == 0) {
         return (void *)glEvalCoord2fv;
     }
-    if (strcmp(name, glEvalMesh1) == 0) {
+    if (strcmp(name, "glEvalMesh1") == 0) {
         return (void *)glEvalMesh1;
     }
-    if (strcmp(name, glEvalMesh2) == 0) {
+    if (strcmp(name, "glEvalMesh2") == 0) {
         return (void *)glEvalMesh2;
     }
-    if (strcmp(name, glEvalPoint1) == 0) {
+    if (strcmp(name, "glEvalPoint1") == 0) {
         return (void *)glEvalPoint1;
     }
-    if (strcmp(name, glEvalPoint2) == 0) {
+    if (strcmp(name, "glEvalPoint2") == 0) {
         return (void *)glEvalPoint2;
     }
-    if (strcmp(name, glFeedbackBuffer) == 0) {
+    if (strcmp(name, "glFeedbackBuffer") == 0) {
         return (void *)glFeedbackBuffer;
     }
-    if (strcmp(name, glFinish) == 0) {
+    if (strcmp(name, "glFinish") == 0) {
         return (void *)glFinish;
     }
-    if (strcmp(name, glFlush) == 0) {
+    if (strcmp(name, "glFlush") == 0) {
         return (void *)glFlush;
     }
-    if (strcmp(name, glFogCoordPointer) == 0) {
+    if (strcmp(name, "glFogCoordPointer") == 0) {
         return (void *)glFogCoordPointer;
     }
-    if (strcmp(name, glFogCoordd) == 0) {
+    if (strcmp(name, "glFogCoordd") == 0) {
         return (void *)glFogCoordd;
     }
-    if (strcmp(name, glFogCoorddv) == 0) {
+    if (strcmp(name, "glFogCoorddv") == 0) {
         return (void *)glFogCoorddv;
     }
-    if (strcmp(name, glFogCoordf) == 0) {
+    if (strcmp(name, "glFogCoordf") == 0) {
         return (void *)glFogCoordf;
     }
-    if (strcmp(name, glFogCoordfv) == 0) {
+    if (strcmp(name, "glFogCoordfv") == 0) {
         return (void *)glFogCoordfv;
     }
-    if (strcmp(name, glFogf) == 0) {
+    if (strcmp(name, "glFogf") == 0) {
         return (void *)glFogf;
     }
-    if (strcmp(name, glFogfv) == 0) {
+    if (strcmp(name, "glFogfv") == 0) {
         return (void *)glFogfv;
     }
-    if (strcmp(name, glFogi) == 0) {
+    if (strcmp(name, "glFogi") == 0) {
         return (void *)glFogi;
     }
-    if (strcmp(name, glFogiv) == 0) {
+    if (strcmp(name, "glFogiv") == 0) {
         return (void *)glFogiv;
     }
-    if (strcmp(name, glFrontFace) == 0) {
+    if (strcmp(name, "glFrontFace") == 0) {
         return (void *)glFrontFace;
     }
-    if (strcmp(name, glFrustum) == 0) {
+    if (strcmp(name, "glFrustum") == 0) {
         return (void *)glFrustum;
     }
-    if (strcmp(name, glGenBuffers) == 0) {
+    if (strcmp(name, "glGenBuffers") == 0) {
         return (void *)glGenBuffers;
     }
-    if (strcmp(name, glGenLists) == 0) {
+    if (strcmp(name, "glGenLists") == 0) {
         return (void *)glGenLists;
     }
-    if (strcmp(name, glGenQueries) == 0) {
+    if (strcmp(name, "glGenQueries") == 0) {
         return (void *)glGenQueries;
     }
-    if (strcmp(name, glGenTextures) == 0) {
+    if (strcmp(name, "glGenTextures") == 0) {
         return (void *)glGenTextures;
     }
-    if (strcmp(name, glGetBooleanv) == 0) {
+    if (strcmp(name, "glGetBooleanv") == 0) {
         return (void *)glGetBooleanv;
     }
-    if (strcmp(name, glGetBufferParameteriv) == 0) {
+    if (strcmp(name, "glGetBufferParameteriv") == 0) {
         return (void *)glGetBufferParameteriv;
     }
-    if (strcmp(name, glGetBufferPointerv) == 0) {
+    if (strcmp(name, "glGetBufferPointerv") == 0) {
         return (void *)glGetBufferPointerv;
     }
-    if (strcmp(name, glGetBufferSubData) == 0) {
+    if (strcmp(name, "glGetBufferSubData") == 0) {
         return (void *)glGetBufferSubData;
     }
-    if (strcmp(name, glGetClipPlane) == 0) {
+    if (strcmp(name, "glGetClipPlane") == 0) {
         return (void *)glGetClipPlane;
     }
-    if (strcmp(name, glGetColorTable) == 0) {
+    if (strcmp(name, "glGetColorTable") == 0) {
         return (void *)glGetColorTable;
     }
-    if (strcmp(name, glGetColorTableParameterfv) == 0) {
+    if (strcmp(name, "glGetColorTableParameterfv") == 0) {
         return (void *)glGetColorTableParameterfv;
     }
-    if (strcmp(name, glGetColorTableParameteriv) == 0) {
+    if (strcmp(name, "glGetColorTableParameteriv") == 0) {
         return (void *)glGetColorTableParameteriv;
     }
-    if (strcmp(name, glGetCompressedTexImage) == 0) {
+    if (strcmp(name, "glGetCompressedTexImage") == 0) {
         return (void *)glGetCompressedTexImage;
     }
-    if (strcmp(name, glGetConvolutionFilter) == 0) {
+    if (strcmp(name, "glGetConvolutionFilter") == 0) {
         return (void *)glGetConvolutionFilter;
     }
-    if (strcmp(name, glGetConvolutionParameterfv) == 0) {
+    if (strcmp(name, "glGetConvolutionParameterfv") == 0) {
         return (void *)glGetConvolutionParameterfv;
     }
-    if (strcmp(name, glGetConvolutionParameteriv) == 0) {
+    if (strcmp(name, "glGetConvolutionParameteriv") == 0) {
         return (void *)glGetConvolutionParameteriv;
     }
-    if (strcmp(name, glGetDoublev) == 0) {
+    if (strcmp(name, "glGetDoublev") == 0) {
         return (void *)glGetDoublev;
     }
-    if (strcmp(name, glGetError) == 0) {
+    if (strcmp(name, "glGetError") == 0) {
         return (void *)glGetError;
     }
-    if (strcmp(name, glGetFloatv) == 0) {
+    if (strcmp(name, "glGetFloatv") == 0) {
         return (void *)glGetFloatv;
     }
-    if (strcmp(name, glGetHistogram) == 0) {
+    if (strcmp(name, "glGetHistogram") == 0) {
         return (void *)glGetHistogram;
     }
-    if (strcmp(name, glGetHistogramParameterfv) == 0) {
+    if (strcmp(name, "glGetHistogramParameterfv") == 0) {
         return (void *)glGetHistogramParameterfv;
     }
-    if (strcmp(name, glGetHistogramParameteriv) == 0) {
+    if (strcmp(name, "glGetHistogramParameteriv") == 0) {
         return (void *)glGetHistogramParameteriv;
     }
-    if (strcmp(name, glGetIntegerv) == 0) {
+    if (strcmp(name, "glGetIntegerv") == 0) {
         return (void *)glGetIntegerv;
     }
-    if (strcmp(name, glGetLightfv) == 0) {
+    if (strcmp(name, "glGetLightfv") == 0) {
         return (void *)glGetLightfv;
     }
-    if (strcmp(name, glGetLightiv) == 0) {
+    if (strcmp(name, "glGetLightiv") == 0) {
         return (void *)glGetLightiv;
     }
-    if (strcmp(name, glGetMapdv) == 0) {
+    if (strcmp(name, "glGetMapdv") == 0) {
         return (void *)glGetMapdv;
     }
-    if (strcmp(name, glGetMapfv) == 0) {
+    if (strcmp(name, "glGetMapfv") == 0) {
         return (void *)glGetMapfv;
     }
-    if (strcmp(name, glGetMapiv) == 0) {
+    if (strcmp(name, "glGetMapiv") == 0) {
         return (void *)glGetMapiv;
     }
-    if (strcmp(name, glGetMaterialfv) == 0) {
+    if (strcmp(name, "glGetMaterialfv") == 0) {
         return (void *)glGetMaterialfv;
     }
-    if (strcmp(name, glGetMaterialiv) == 0) {
+    if (strcmp(name, "glGetMaterialiv") == 0) {
         return (void *)glGetMaterialiv;
     }
-    if (strcmp(name, glGetMinmax) == 0) {
+    if (strcmp(name, "glGetMinmax") == 0) {
         return (void *)glGetMinmax;
     }
-    if (strcmp(name, glGetMinmaxParameterfv) == 0) {
+    if (strcmp(name, "glGetMinmaxParameterfv") == 0) {
         return (void *)glGetMinmaxParameterfv;
     }
-    if (strcmp(name, glGetMinmaxParameteriv) == 0) {
+    if (strcmp(name, "glGetMinmaxParameteriv") == 0) {
         return (void *)glGetMinmaxParameteriv;
     }
-    if (strcmp(name, glGetPixelMapfv) == 0) {
+    if (strcmp(name, "glGetPixelMapfv") == 0) {
         return (void *)glGetPixelMapfv;
     }
-    if (strcmp(name, glGetPixelMapuiv) == 0) {
+    if (strcmp(name, "glGetPixelMapuiv") == 0) {
         return (void *)glGetPixelMapuiv;
     }
-    if (strcmp(name, glGetPixelMapusv) == 0) {
+    if (strcmp(name, "glGetPixelMapusv") == 0) {
         return (void *)glGetPixelMapusv;
     }
-    if (strcmp(name, glGetPointerv) == 0) {
+    if (strcmp(name, "glGetPointerv") == 0) {
         return (void *)glGetPointerv;
     }
-    if (strcmp(name, glGetPolygonStipple) == 0) {
+    if (strcmp(name, "glGetPolygonStipple") == 0) {
         return (void *)glGetPolygonStipple;
     }
-    if (strcmp(name, glGetQueryObjectiv) == 0) {
+    if (strcmp(name, "glGetQueryObjectiv") == 0) {
         return (void *)glGetQueryObjectiv;
     }
-    if (strcmp(name, glGetQueryObjectuiv) == 0) {
+    if (strcmp(name, "glGetQueryObjectuiv") == 0) {
         return (void *)glGetQueryObjectuiv;
     }
-    if (strcmp(name, glGetQueryiv) == 0) {
+    if (strcmp(name, "glGetQueryiv") == 0) {
         return (void *)glGetQueryiv;
     }
-    if (strcmp(name, glGetSeparableFilter) == 0) {
+    if (strcmp(name, "glGetSeparableFilter") == 0) {
         return (void *)glGetSeparableFilter;
     }
-    if (strcmp(name, glGetString) == 0) {
+    if (strcmp(name, "glGetString") == 0) {
         return (void *)glGetString;
     }
-    if (strcmp(name, glGetTexEnvfv) == 0) {
+    if (strcmp(name, "glGetTexEnvfv") == 0) {
         return (void *)glGetTexEnvfv;
     }
-    if (strcmp(name, glGetTexEnviv) == 0) {
+    if (strcmp(name, "glGetTexEnviv") == 0) {
         return (void *)glGetTexEnviv;
     }
-    if (strcmp(name, glGetTexGendv) == 0) {
+    if (strcmp(name, "glGetTexGendv") == 0) {
         return (void *)glGetTexGendv;
     }
-    if (strcmp(name, glGetTexGenfv) == 0) {
+    if (strcmp(name, "glGetTexGenfv") == 0) {
         return (void *)glGetTexGenfv;
     }
-    if (strcmp(name, glGetTexGeniv) == 0) {
+    if (strcmp(name, "glGetTexGeniv") == 0) {
         return (void *)glGetTexGeniv;
     }
-    if (strcmp(name, glGetTexImage) == 0) {
+    if (strcmp(name, "glGetTexImage") == 0) {
         return (void *)glGetTexImage;
     }
-    if (strcmp(name, glGetTexLevelParameterfv) == 0) {
+    if (strcmp(name, "glGetTexLevelParameterfv") == 0) {
         return (void *)glGetTexLevelParameterfv;
     }
-    if (strcmp(name, glGetTexLevelParameteriv) == 0) {
+    if (strcmp(name, "glGetTexLevelParameteriv") == 0) {
         return (void *)glGetTexLevelParameteriv;
     }
-    if (strcmp(name, glGetTexParameterfv) == 0) {
+    if (strcmp(name, "glGetTexParameterfv") == 0) {
         return (void *)glGetTexParameterfv;
     }
-    if (strcmp(name, glGetTexParameteriv) == 0) {
+    if (strcmp(name, "glGetTexParameteriv") == 0) {
         return (void *)glGetTexParameteriv;
     }
-    if (strcmp(name, glHint) == 0) {
+    if (strcmp(name, "glHint") == 0) {
         return (void *)glHint;
     }
-    if (strcmp(name, glHistogram) == 0) {
+    if (strcmp(name, "glHistogram") == 0) {
         return (void *)glHistogram;
     }
-    if (strcmp(name, glIndexMask) == 0) {
+    if (strcmp(name, "glIndexMask") == 0) {
         return (void *)glIndexMask;
     }
-    if (strcmp(name, glIndexPointer) == 0) {
+    if (strcmp(name, "glIndexPointer") == 0) {
         return (void *)glIndexPointer;
     }
-    if (strcmp(name, glIndexd) == 0) {
+    if (strcmp(name, "glIndexd") == 0) {
         return (void *)glIndexd;
     }
-    if (strcmp(name, glIndexdv) == 0) {
+    if (strcmp(name, "glIndexdv") == 0) {
         return (void *)glIndexdv;
     }
-    if (strcmp(name, glIndexf) == 0) {
+    if (strcmp(name, "glIndexf") == 0) {
         return (void *)glIndexf;
     }
-    if (strcmp(name, glIndexfv) == 0) {
+    if (strcmp(name, "glIndexfv") == 0) {
         return (void *)glIndexfv;
     }
-    if (strcmp(name, glIndexi) == 0) {
+    if (strcmp(name, "glIndexi") == 0) {
         return (void *)glIndexi;
     }
-    if (strcmp(name, glIndexiv) == 0) {
+    if (strcmp(name, "glIndexiv") == 0) {
         return (void *)glIndexiv;
     }
-    if (strcmp(name, glIndexs) == 0) {
+    if (strcmp(name, "glIndexs") == 0) {
         return (void *)glIndexs;
     }
-    if (strcmp(name, glIndexsv) == 0) {
+    if (strcmp(name, "glIndexsv") == 0) {
         return (void *)glIndexsv;
     }
-    if (strcmp(name, glIndexub) == 0) {
+    if (strcmp(name, "glIndexub") == 0) {
         return (void *)glIndexub;
     }
-    if (strcmp(name, glIndexubv) == 0) {
+    if (strcmp(name, "glIndexubv") == 0) {
         return (void *)glIndexubv;
     }
-    if (strcmp(name, glInitNames) == 0) {
+    if (strcmp(name, "glInitNames") == 0) {
         return (void *)glInitNames;
     }
-    if (strcmp(name, glInterleavedArrays) == 0) {
+    if (strcmp(name, "glInterleavedArrays") == 0) {
         return (void *)glInterleavedArrays;
     }
-    if (strcmp(name, glIsBuffer) == 0) {
+    if (strcmp(name, "glIsBuffer") == 0) {
         return (void *)glIsBuffer;
     }
-    if (strcmp(name, glIsEnabled) == 0) {
+    if (strcmp(name, "glIsEnabled") == 0) {
         return (void *)glIsEnabled;
     }
-    if (strcmp(name, glIsList) == 0) {
+    if (strcmp(name, "glIsList") == 0) {
         return (void *)glIsList;
     }
-    if (strcmp(name, glIsQuery) == 0) {
+    if (strcmp(name, "glIsQuery") == 0) {
         return (void *)glIsQuery;
     }
-    if (strcmp(name, glIsTexture) == 0) {
+    if (strcmp(name, "glIsTexture") == 0) {
         return (void *)glIsTexture;
     }
-    if (strcmp(name, glLightModelf) == 0) {
+    if (strcmp(name, "glLightModelf") == 0) {
         return (void *)glLightModelf;
     }
-    if (strcmp(name, glLightModelfv) == 0) {
+    if (strcmp(name, "glLightModelfv") == 0) {
         return (void *)glLightModelfv;
     }
-    if (strcmp(name, glLightModeli) == 0) {
+    if (strcmp(name, "glLightModeli") == 0) {
         return (void *)glLightModeli;
     }
-    if (strcmp(name, glLightModeliv) == 0) {
+    if (strcmp(name, "glLightModeliv") == 0) {
         return (void *)glLightModeliv;
     }
-    if (strcmp(name, glLightf) == 0) {
+    if (strcmp(name, "glLightf") == 0) {
         return (void *)glLightf;
     }
-    if (strcmp(name, glLightfv) == 0) {
+    if (strcmp(name, "glLightfv") == 0) {
         return (void *)glLightfv;
     }
-    if (strcmp(name, glLighti) == 0) {
+    if (strcmp(name, "glLighti") == 0) {
         return (void *)glLighti;
     }
-    if (strcmp(name, glLightiv) == 0) {
+    if (strcmp(name, "glLightiv") == 0) {
         return (void *)glLightiv;
     }
-    if (strcmp(name, glLineStipple) == 0) {
+    if (strcmp(name, "glLineStipple") == 0) {
         return (void *)glLineStipple;
     }
-    if (strcmp(name, glLineWidth) == 0) {
+    if (strcmp(name, "glLineWidth") == 0) {
         return (void *)glLineWidth;
     }
-    if (strcmp(name, glListBase) == 0) {
+    if (strcmp(name, "glListBase") == 0) {
         return (void *)glListBase;
     }
-    if (strcmp(name, glLoadIdentity) == 0) {
+    if (strcmp(name, "glLoadIdentity") == 0) {
         return (void *)glLoadIdentity;
     }
-    if (strcmp(name, glLoadMatrixd) == 0) {
+    if (strcmp(name, "glLoadMatrixd") == 0) {
         return (void *)glLoadMatrixd;
     }
-    if (strcmp(name, glLoadMatrixf) == 0) {
+    if (strcmp(name, "glLoadMatrixf") == 0) {
         return (void *)glLoadMatrixf;
     }
-    if (strcmp(name, glLoadName) == 0) {
+    if (strcmp(name, "glLoadName") == 0) {
         return (void *)glLoadName;
     }
-    if (strcmp(name, glLoadTransposeMatrixd) == 0) {
+    if (strcmp(name, "glLoadTransposeMatrixd") == 0) {
         return (void *)glLoadTransposeMatrixd;
     }
-    if (strcmp(name, glLoadTransposeMatrixf) == 0) {
+    if (strcmp(name, "glLoadTransposeMatrixf") == 0) {
         return (void *)glLoadTransposeMatrixf;
     }
-    if (strcmp(name, glLogicOp) == 0) {
+    if (strcmp(name, "glLogicOp") == 0) {
         return (void *)glLogicOp;
     }
-    if (strcmp(name, glMap1d) == 0) {
+    if (strcmp(name, "glMap1d") == 0) {
         return (void *)glMap1d;
     }
-    if (strcmp(name, glMap1f) == 0) {
+    if (strcmp(name, "glMap1f") == 0) {
         return (void *)glMap1f;
     }
-    if (strcmp(name, glMap2d) == 0) {
+    if (strcmp(name, "glMap2d") == 0) {
         return (void *)glMap2d;
     }
-    if (strcmp(name, glMap2f) == 0) {
+    if (strcmp(name, "glMap2f") == 0) {
         return (void *)glMap2f;
     }
-    if (strcmp(name, glMapBuffer) == 0) {
+    if (strcmp(name, "glMapBuffer") == 0) {
         return (void *)glMapBuffer;
     }
-    if (strcmp(name, glMapGrid1d) == 0) {
+    if (strcmp(name, "glMapGrid1d") == 0) {
         return (void *)glMapGrid1d;
     }
-    if (strcmp(name, glMapGrid1f) == 0) {
+    if (strcmp(name, "glMapGrid1f") == 0) {
         return (void *)glMapGrid1f;
     }
-    if (strcmp(name, glMapGrid2d) == 0) {
+    if (strcmp(name, "glMapGrid2d") == 0) {
         return (void *)glMapGrid2d;
     }
-    if (strcmp(name, glMapGrid2f) == 0) {
+    if (strcmp(name, "glMapGrid2f") == 0) {
         return (void *)glMapGrid2f;
     }
-    if (strcmp(name, glMaterialf) == 0) {
+    if (strcmp(name, "glMaterialf") == 0) {
         return (void *)glMaterialf;
     }
-    if (strcmp(name, glMaterialfv) == 0) {
+    if (strcmp(name, "glMaterialfv") == 0) {
         return (void *)glMaterialfv;
     }
-    if (strcmp(name, glMateriali) == 0) {
+    if (strcmp(name, "glMateriali") == 0) {
         return (void *)glMateriali;
     }
-    if (strcmp(name, glMaterialiv) == 0) {
+    if (strcmp(name, "glMaterialiv") == 0) {
         return (void *)glMaterialiv;
     }
-    if (strcmp(name, glMatrixMode) == 0) {
+    if (strcmp(name, "glMatrixMode") == 0) {
         return (void *)glMatrixMode;
     }
-    if (strcmp(name, glMinmax) == 0) {
+    if (strcmp(name, "glMinmax") == 0) {
         return (void *)glMinmax;
     }
-    if (strcmp(name, glMultMatrixd) == 0) {
+    if (strcmp(name, "glMultMatrixd") == 0) {
         return (void *)glMultMatrixd;
     }
-    if (strcmp(name, glMultMatrixf) == 0) {
+    if (strcmp(name, "glMultMatrixf") == 0) {
         return (void *)glMultMatrixf;
     }
-    if (strcmp(name, glMultTransposeMatrixd) == 0) {
+    if (strcmp(name, "glMultTransposeMatrixd") == 0) {
         return (void *)glMultTransposeMatrixd;
     }
-    if (strcmp(name, glMultTransposeMatrixf) == 0) {
+    if (strcmp(name, "glMultTransposeMatrixf") == 0) {
         return (void *)glMultTransposeMatrixf;
     }
-    if (strcmp(name, glMultiDrawArrays) == 0) {
+    if (strcmp(name, "glMultiDrawArrays") == 0) {
         return (void *)glMultiDrawArrays;
     }
-    if (strcmp(name, glMultiDrawElements) == 0) {
+    if (strcmp(name, "glMultiDrawElements") == 0) {
         return (void *)glMultiDrawElements;
     }
-    if (strcmp(name, glMultiTexCoord1d) == 0) {
+    if (strcmp(name, "glMultiTexCoord1d") == 0) {
         return (void *)glMultiTexCoord1d;
     }
-    if (strcmp(name, glMultiTexCoord1dv) == 0) {
+    if (strcmp(name, "glMultiTexCoord1dv") == 0) {
         return (void *)glMultiTexCoord1dv;
     }
-    if (strcmp(name, glMultiTexCoord1f) == 0) {
+    if (strcmp(name, "glMultiTexCoord1f") == 0) {
         return (void *)glMultiTexCoord1f;
     }
-    if (strcmp(name, glMultiTexCoord1fv) == 0) {
+    if (strcmp(name, "glMultiTexCoord1fv") == 0) {
         return (void *)glMultiTexCoord1fv;
     }
-    if (strcmp(name, glMultiTexCoord1i) == 0) {
+    if (strcmp(name, "glMultiTexCoord1i") == 0) {
         return (void *)glMultiTexCoord1i;
     }
-    if (strcmp(name, glMultiTexCoord1iv) == 0) {
+    if (strcmp(name, "glMultiTexCoord1iv") == 0) {
         return (void *)glMultiTexCoord1iv;
     }
-    if (strcmp(name, glMultiTexCoord1s) == 0) {
+    if (strcmp(name, "glMultiTexCoord1s") == 0) {
         return (void *)glMultiTexCoord1s;
     }
-    if (strcmp(name, glMultiTexCoord1sv) == 0) {
+    if (strcmp(name, "glMultiTexCoord1sv") == 0) {
         return (void *)glMultiTexCoord1sv;
     }
-    if (strcmp(name, glMultiTexCoord2d) == 0) {
+    if (strcmp(name, "glMultiTexCoord2d") == 0) {
         return (void *)glMultiTexCoord2d;
     }
-    if (strcmp(name, glMultiTexCoord2dv) == 0) {
+    if (strcmp(name, "glMultiTexCoord2dv") == 0) {
         return (void *)glMultiTexCoord2dv;
     }
-    if (strcmp(name, glMultiTexCoord2f) == 0) {
+    if (strcmp(name, "glMultiTexCoord2f") == 0) {
         return (void *)glMultiTexCoord2f;
     }
-    if (strcmp(name, glMultiTexCoord2fv) == 0) {
+    if (strcmp(name, "glMultiTexCoord2fv") == 0) {
         return (void *)glMultiTexCoord2fv;
     }
-    if (strcmp(name, glMultiTexCoord2i) == 0) {
+    if (strcmp(name, "glMultiTexCoord2i") == 0) {
         return (void *)glMultiTexCoord2i;
     }
-    if (strcmp(name, glMultiTexCoord2iv) == 0) {
+    if (strcmp(name, "glMultiTexCoord2iv") == 0) {
         return (void *)glMultiTexCoord2iv;
     }
-    if (strcmp(name, glMultiTexCoord2s) == 0) {
+    if (strcmp(name, "glMultiTexCoord2s") == 0) {
         return (void *)glMultiTexCoord2s;
     }
-    if (strcmp(name, glMultiTexCoord2sv) == 0) {
+    if (strcmp(name, "glMultiTexCoord2sv") == 0) {
         return (void *)glMultiTexCoord2sv;
     }
-    if (strcmp(name, glMultiTexCoord3d) == 0) {
+    if (strcmp(name, "glMultiTexCoord3d") == 0) {
         return (void *)glMultiTexCoord3d;
     }
-    if (strcmp(name, glMultiTexCoord3dv) == 0) {
+    if (strcmp(name, "glMultiTexCoord3dv") == 0) {
         return (void *)glMultiTexCoord3dv;
     }
-    if (strcmp(name, glMultiTexCoord3f) == 0) {
+    if (strcmp(name, "glMultiTexCoord3f") == 0) {
         return (void *)glMultiTexCoord3f;
     }
-    if (strcmp(name, glMultiTexCoord3fv) == 0) {
+    if (strcmp(name, "glMultiTexCoord3fv") == 0) {
         return (void *)glMultiTexCoord3fv;
     }
-    if (strcmp(name, glMultiTexCoord3i) == 0) {
+    if (strcmp(name, "glMultiTexCoord3i") == 0) {
         return (void *)glMultiTexCoord3i;
     }
-    if (strcmp(name, glMultiTexCoord3iv) == 0) {
+    if (strcmp(name, "glMultiTexCoord3iv") == 0) {
         return (void *)glMultiTexCoord3iv;
     }
-    if (strcmp(name, glMultiTexCoord3s) == 0) {
+    if (strcmp(name, "glMultiTexCoord3s") == 0) {
         return (void *)glMultiTexCoord3s;
     }
-    if (strcmp(name, glMultiTexCoord3sv) == 0) {
+    if (strcmp(name, "glMultiTexCoord3sv") == 0) {
         return (void *)glMultiTexCoord3sv;
     }
-    if (strcmp(name, glMultiTexCoord4d) == 0) {
+    if (strcmp(name, "glMultiTexCoord4d") == 0) {
         return (void *)glMultiTexCoord4d;
     }
-    if (strcmp(name, glMultiTexCoord4dv) == 0) {
+    if (strcmp(name, "glMultiTexCoord4dv") == 0) {
         return (void *)glMultiTexCoord4dv;
     }
-    if (strcmp(name, glMultiTexCoord4f) == 0) {
+    if (strcmp(name, "glMultiTexCoord4f") == 0) {
         return (void *)glMultiTexCoord4f;
     }
-    if (strcmp(name, glMultiTexCoord4fv) == 0) {
+    if (strcmp(name, "glMultiTexCoord4fv") == 0) {
         return (void *)glMultiTexCoord4fv;
     }
-    if (strcmp(name, glMultiTexCoord4i) == 0) {
+    if (strcmp(name, "glMultiTexCoord4i") == 0) {
         return (void *)glMultiTexCoord4i;
     }
-    if (strcmp(name, glMultiTexCoord4iv) == 0) {
+    if (strcmp(name, "glMultiTexCoord4iv") == 0) {
         return (void *)glMultiTexCoord4iv;
     }
-    if (strcmp(name, glMultiTexCoord4s) == 0) {
+    if (strcmp(name, "glMultiTexCoord4s") == 0) {
         return (void *)glMultiTexCoord4s;
     }
-    if (strcmp(name, glMultiTexCoord4sv) == 0) {
+    if (strcmp(name, "glMultiTexCoord4sv") == 0) {
         return (void *)glMultiTexCoord4sv;
     }
-    if (strcmp(name, glNewList) == 0) {
+    if (strcmp(name, "glNewList") == 0) {
         return (void *)glNewList;
     }
-    if (strcmp(name, glNormal3b) == 0) {
+    if (strcmp(name, "glNormal3b") == 0) {
         return (void *)glNormal3b;
     }
-    if (strcmp(name, glNormal3bv) == 0) {
+    if (strcmp(name, "glNormal3bv") == 0) {
         return (void *)glNormal3bv;
     }
-    if (strcmp(name, glNormal3d) == 0) {
+    if (strcmp(name, "glNormal3d") == 0) {
         return (void *)glNormal3d;
     }
-    if (strcmp(name, glNormal3dv) == 0) {
+    if (strcmp(name, "glNormal3dv") == 0) {
         return (void *)glNormal3dv;
     }
-    if (strcmp(name, glNormal3f) == 0) {
+    if (strcmp(name, "glNormal3f") == 0) {
         return (void *)glNormal3f;
     }
-    if (strcmp(name, glNormal3fv) == 0) {
+    if (strcmp(name, "glNormal3fv") == 0) {
         return (void *)glNormal3fv;
     }
-    if (strcmp(name, glNormal3i) == 0) {
+    if (strcmp(name, "glNormal3i") == 0) {
         return (void *)glNormal3i;
     }
-    if (strcmp(name, glNormal3iv) == 0) {
+    if (strcmp(name, "glNormal3iv") == 0) {
         return (void *)glNormal3iv;
     }
-    if (strcmp(name, glNormal3s) == 0) {
+    if (strcmp(name, "glNormal3s") == 0) {
         return (void *)glNormal3s;
     }
-    if (strcmp(name, glNormal3sv) == 0) {
+    if (strcmp(name, "glNormal3sv") == 0) {
         return (void *)glNormal3sv;
     }
-    if (strcmp(name, glNormalPointer) == 0) {
+    if (strcmp(name, "glNormalPointer") == 0) {
         return (void *)glNormalPointer;
     }
-    if (strcmp(name, glOrtho) == 0) {
+    if (strcmp(name, "glOrtho") == 0) {
         return (void *)glOrtho;
     }
-    if (strcmp(name, glPassThrough) == 0) {
+    if (strcmp(name, "glPassThrough") == 0) {
         return (void *)glPassThrough;
     }
-    if (strcmp(name, glPixelMapfv) == 0) {
+    if (strcmp(name, "glPixelMapfv") == 0) {
         return (void *)glPixelMapfv;
     }
-    if (strcmp(name, glPixelMapuiv) == 0) {
+    if (strcmp(name, "glPixelMapuiv") == 0) {
         return (void *)glPixelMapuiv;
     }
-    if (strcmp(name, glPixelMapusv) == 0) {
+    if (strcmp(name, "glPixelMapusv") == 0) {
         return (void *)glPixelMapusv;
     }
-    if (strcmp(name, glPixelStoref) == 0) {
+    if (strcmp(name, "glPixelStoref") == 0) {
         return (void *)glPixelStoref;
     }
-    if (strcmp(name, glPixelStorei) == 0) {
+    if (strcmp(name, "glPixelStorei") == 0) {
         return (void *)glPixelStorei;
     }
-    if (strcmp(name, glPixelTransferf) == 0) {
+    if (strcmp(name, "glPixelTransferf") == 0) {
         return (void *)glPixelTransferf;
     }
-    if (strcmp(name, glPixelTransferi) == 0) {
+    if (strcmp(name, "glPixelTransferi") == 0) {
         return (void *)glPixelTransferi;
     }
-    if (strcmp(name, glPixelZoom) == 0) {
+    if (strcmp(name, "glPixelZoom") == 0) {
         return (void *)glPixelZoom;
     }
-    if (strcmp(name, glPointParameterf) == 0) {
+    if (strcmp(name, "glPointParameterf") == 0) {
         return (void *)glPointParameterf;
     }
-    if (strcmp(name, glPointParameterfv) == 0) {
+    if (strcmp(name, "glPointParameterfv") == 0) {
         return (void *)glPointParameterfv;
     }
-    if (strcmp(name, glPointParameteri) == 0) {
+    if (strcmp(name, "glPointParameteri") == 0) {
         return (void *)glPointParameteri;
     }
-    if (strcmp(name, glPointParameteriv) == 0) {
+    if (strcmp(name, "glPointParameteriv") == 0) {
         return (void *)glPointParameteriv;
     }
-    if (strcmp(name, glPointSize) == 0) {
+    if (strcmp(name, "glPointSize") == 0) {
         return (void *)glPointSize;
     }
-    if (strcmp(name, glPolygonMode) == 0) {
+    if (strcmp(name, "glPolygonMode") == 0) {
         return (void *)glPolygonMode;
     }
-    if (strcmp(name, glPolygonOffset) == 0) {
+    if (strcmp(name, "glPolygonOffset") == 0) {
         return (void *)glPolygonOffset;
     }
-    if (strcmp(name, glPolygonStipple) == 0) {
+    if (strcmp(name, "glPolygonStipple") == 0) {
         return (void *)glPolygonStipple;
     }
-    if (strcmp(name, glPopAttrib) == 0) {
+    if (strcmp(name, "glPopAttrib") == 0) {
         return (void *)glPopAttrib;
     }
-    if (strcmp(name, glPopClientAttrib) == 0) {
+    if (strcmp(name, "glPopClientAttrib") == 0) {
         return (void *)glPopClientAttrib;
     }
-    if (strcmp(name, glPopMatrix) == 0) {
+    if (strcmp(name, "glPopMatrix") == 0) {
         return (void *)glPopMatrix;
     }
-    if (strcmp(name, glPopName) == 0) {
+    if (strcmp(name, "glPopName") == 0) {
         return (void *)glPopName;
     }
-    if (strcmp(name, glPrioritizeTextures) == 0) {
+    if (strcmp(name, "glPrioritizeTextures") == 0) {
         return (void *)glPrioritizeTextures;
     }
-    if (strcmp(name, glPushAttrib) == 0) {
+    if (strcmp(name, "glPushAttrib") == 0) {
         return (void *)glPushAttrib;
     }
-    if (strcmp(name, glPushClientAttrib) == 0) {
+    if (strcmp(name, "glPushClientAttrib") == 0) {
         return (void *)glPushClientAttrib;
     }
-    if (strcmp(name, glPushMatrix) == 0) {
+    if (strcmp(name, "glPushMatrix") == 0) {
         return (void *)glPushMatrix;
     }
-    if (strcmp(name, glPushName) == 0) {
+    if (strcmp(name, "glPushName") == 0) {
         return (void *)glPushName;
     }
-    if (strcmp(name, glRasterPos2d) == 0) {
+    if (strcmp(name, "glRasterPos2d") == 0) {
         return (void *)glRasterPos2d;
     }
-    if (strcmp(name, glRasterPos2dv) == 0) {
+    if (strcmp(name, "glRasterPos2dv") == 0) {
         return (void *)glRasterPos2dv;
     }
-    if (strcmp(name, glRasterPos2f) == 0) {
+    if (strcmp(name, "glRasterPos2f") == 0) {
         return (void *)glRasterPos2f;
     }
-    if (strcmp(name, glRasterPos2fv) == 0) {
+    if (strcmp(name, "glRasterPos2fv") == 0) {
         return (void *)glRasterPos2fv;
     }
-    if (strcmp(name, glRasterPos2i) == 0) {
+    if (strcmp(name, "glRasterPos2i") == 0) {
         return (void *)glRasterPos2i;
     }
-    if (strcmp(name, glRasterPos2iv) == 0) {
+    if (strcmp(name, "glRasterPos2iv") == 0) {
         return (void *)glRasterPos2iv;
     }
-    if (strcmp(name, glRasterPos2s) == 0) {
+    if (strcmp(name, "glRasterPos2s") == 0) {
         return (void *)glRasterPos2s;
     }
-    if (strcmp(name, glRasterPos2sv) == 0) {
+    if (strcmp(name, "glRasterPos2sv") == 0) {
         return (void *)glRasterPos2sv;
     }
-    if (strcmp(name, glRasterPos3d) == 0) {
+    if (strcmp(name, "glRasterPos3d") == 0) {
         return (void *)glRasterPos3d;
     }
-    if (strcmp(name, glRasterPos3dv) == 0) {
+    if (strcmp(name, "glRasterPos3dv") == 0) {
         return (void *)glRasterPos3dv;
     }
-    if (strcmp(name, glRasterPos3f) == 0) {
+    if (strcmp(name, "glRasterPos3f") == 0) {
         return (void *)glRasterPos3f;
     }
-    if (strcmp(name, glRasterPos3fv) == 0) {
+    if (strcmp(name, "glRasterPos3fv") == 0) {
         return (void *)glRasterPos3fv;
     }
-    if (strcmp(name, glRasterPos3i) == 0) {
+    if (strcmp(name, "glRasterPos3i") == 0) {
         return (void *)glRasterPos3i;
     }
-    if (strcmp(name, glRasterPos3iv) == 0) {
+    if (strcmp(name, "glRasterPos3iv") == 0) {
         return (void *)glRasterPos3iv;
     }
-    if (strcmp(name, glRasterPos3s) == 0) {
+    if (strcmp(name, "glRasterPos3s") == 0) {
         return (void *)glRasterPos3s;
     }
-    if (strcmp(name, glRasterPos3sv) == 0) {
+    if (strcmp(name, "glRasterPos3sv") == 0) {
         return (void *)glRasterPos3sv;
     }
-    if (strcmp(name, glRasterPos4d) == 0) {
+    if (strcmp(name, "glRasterPos4d") == 0) {
         return (void *)glRasterPos4d;
     }
-    if (strcmp(name, glRasterPos4dv) == 0) {
+    if (strcmp(name, "glRasterPos4dv") == 0) {
         return (void *)glRasterPos4dv;
     }
-    if (strcmp(name, glRasterPos4f) == 0) {
+    if (strcmp(name, "glRasterPos4f") == 0) {
         return (void *)glRasterPos4f;
     }
-    if (strcmp(name, glRasterPos4fv) == 0) {
+    if (strcmp(name, "glRasterPos4fv") == 0) {
         return (void *)glRasterPos4fv;
     }
-    if (strcmp(name, glRasterPos4i) == 0) {
+    if (strcmp(name, "glRasterPos4i") == 0) {
         return (void *)glRasterPos4i;
     }
-    if (strcmp(name, glRasterPos4iv) == 0) {
+    if (strcmp(name, "glRasterPos4iv") == 0) {
         return (void *)glRasterPos4iv;
     }
-    if (strcmp(name, glRasterPos4s) == 0) {
+    if (strcmp(name, "glRasterPos4s") == 0) {
         return (void *)glRasterPos4s;
     }
-    if (strcmp(name, glRasterPos4sv) == 0) {
+    if (strcmp(name, "glRasterPos4sv") == 0) {
         return (void *)glRasterPos4sv;
     }
-    if (strcmp(name, glReadBuffer) == 0) {
+    if (strcmp(name, "glReadBuffer") == 0) {
         return (void *)glReadBuffer;
     }
-    if (strcmp(name, glReadPixels) == 0) {
+    if (strcmp(name, "glReadPixels") == 0) {
         return (void *)glReadPixels;
     }
-    if (strcmp(name, glRectd) == 0) {
+    if (strcmp(name, "glRectd") == 0) {
         return (void *)glRectd;
     }
-    if (strcmp(name, glRectdv) == 0) {
+    if (strcmp(name, "glRectdv") == 0) {
         return (void *)glRectdv;
     }
-    if (strcmp(name, glRectf) == 0) {
+    if (strcmp(name, "glRectf") == 0) {
         return (void *)glRectf;
     }
-    if (strcmp(name, glRectfv) == 0) {
+    if (strcmp(name, "glRectfv") == 0) {
         return (void *)glRectfv;
     }
-    if (strcmp(name, glRecti) == 0) {
+    if (strcmp(name, "glRecti") == 0) {
         return (void *)glRecti;
     }
-    if (strcmp(name, glRectiv) == 0) {
+    if (strcmp(name, "glRectiv") == 0) {
         return (void *)glRectiv;
     }
-    if (strcmp(name, glRects) == 0) {
+    if (strcmp(name, "glRects") == 0) {
         return (void *)glRects;
     }
-    if (strcmp(name, glRectsv) == 0) {
+    if (strcmp(name, "glRectsv") == 0) {
         return (void *)glRectsv;
     }
-    if (strcmp(name, glRenderMode) == 0) {
+    if (strcmp(name, "glRenderMode") == 0) {
         return (void *)glRenderMode;
     }
-    if (strcmp(name, glResetHistogram) == 0) {
+    if (strcmp(name, "glResetHistogram") == 0) {
         return (void *)glResetHistogram;
     }
-    if (strcmp(name, glResetMinmax) == 0) {
+    if (strcmp(name, "glResetMinmax") == 0) {
         return (void *)glResetMinmax;
     }
-    if (strcmp(name, glRotated) == 0) {
+    if (strcmp(name, "glRotated") == 0) {
         return (void *)glRotated;
     }
-    if (strcmp(name, glRotatef) == 0) {
+    if (strcmp(name, "glRotatef") == 0) {
         return (void *)glRotatef;
     }
-    if (strcmp(name, glSampleCoverage) == 0) {
+    if (strcmp(name, "glSampleCoverage") == 0) {
         return (void *)glSampleCoverage;
     }
-    if (strcmp(name, glScaled) == 0) {
+    if (strcmp(name, "glScaled") == 0) {
         return (void *)glScaled;
     }
-    if (strcmp(name, glScalef) == 0) {
+    if (strcmp(name, "glScalef") == 0) {
         return (void *)glScalef;
     }
-    if (strcmp(name, glScissor) == 0) {
+    if (strcmp(name, "glScissor") == 0) {
         return (void *)glScissor;
     }
-    if (strcmp(name, glSecondaryColor3b) == 0) {
+    if (strcmp(name, "glSecondaryColor3b") == 0) {
         return (void *)glSecondaryColor3b;
     }
-    if (strcmp(name, glSecondaryColor3bv) == 0) {
+    if (strcmp(name, "glSecondaryColor3bv") == 0) {
         return (void *)glSecondaryColor3bv;
     }
-    if (strcmp(name, glSecondaryColor3d) == 0) {
+    if (strcmp(name, "glSecondaryColor3d") == 0) {
         return (void *)glSecondaryColor3d;
     }
-    if (strcmp(name, glSecondaryColor3dv) == 0) {
+    if (strcmp(name, "glSecondaryColor3dv") == 0) {
         return (void *)glSecondaryColor3dv;
     }
-    if (strcmp(name, glSecondaryColor3f) == 0) {
+    if (strcmp(name, "glSecondaryColor3f") == 0) {
         return (void *)glSecondaryColor3f;
     }
-    if (strcmp(name, glSecondaryColor3fv) == 0) {
+    if (strcmp(name, "glSecondaryColor3fv") == 0) {
         return (void *)glSecondaryColor3fv;
     }
-    if (strcmp(name, glSecondaryColor3i) == 0) {
+    if (strcmp(name, "glSecondaryColor3i") == 0) {
         return (void *)glSecondaryColor3i;
     }
-    if (strcmp(name, glSecondaryColor3iv) == 0) {
+    if (strcmp(name, "glSecondaryColor3iv") == 0) {
         return (void *)glSecondaryColor3iv;
     }
-    if (strcmp(name, glSecondaryColor3s) == 0) {
+    if (strcmp(name, "glSecondaryColor3s") == 0) {
         return (void *)glSecondaryColor3s;
     }
-    if (strcmp(name, glSecondaryColor3sv) == 0) {
+    if (strcmp(name, "glSecondaryColor3sv") == 0) {
         return (void *)glSecondaryColor3sv;
     }
-    if (strcmp(name, glSecondaryColor3ub) == 0) {
+    if (strcmp(name, "glSecondaryColor3ub") == 0) {
         return (void *)glSecondaryColor3ub;
     }
-    if (strcmp(name, glSecondaryColor3ubv) == 0) {
+    if (strcmp(name, "glSecondaryColor3ubv") == 0) {
         return (void *)glSecondaryColor3ubv;
     }
-    if (strcmp(name, glSecondaryColor3ui) == 0) {
+    if (strcmp(name, "glSecondaryColor3ui") == 0) {
         return (void *)glSecondaryColor3ui;
     }
-    if (strcmp(name, glSecondaryColor3uiv) == 0) {
+    if (strcmp(name, "glSecondaryColor3uiv") == 0) {
         return (void *)glSecondaryColor3uiv;
     }
-    if (strcmp(name, glSecondaryColor3us) == 0) {
+    if (strcmp(name, "glSecondaryColor3us") == 0) {
         return (void *)glSecondaryColor3us;
     }
-    if (strcmp(name, glSecondaryColor3usv) == 0) {
+    if (strcmp(name, "glSecondaryColor3usv") == 0) {
         return (void *)glSecondaryColor3usv;
     }
-    if (strcmp(name, glSecondaryColorPointer) == 0) {
+    if (strcmp(name, "glSecondaryColorPointer") == 0) {
         return (void *)glSecondaryColorPointer;
     }
-    if (strcmp(name, glSelectBuffer) == 0) {
+    if (strcmp(name, "glSelectBuffer") == 0) {
         return (void *)glSelectBuffer;
     }
-    if (strcmp(name, glSeparableFilter2D) == 0) {
+    if (strcmp(name, "glSeparableFilter2D") == 0) {
         return (void *)glSeparableFilter2D;
     }
-    if (strcmp(name, glShadeModel) == 0) {
+    if (strcmp(name, "glShadeModel") == 0) {
         return (void *)glShadeModel;
     }
-    if (strcmp(name, glStencilFunc) == 0) {
+    if (strcmp(name, "glStencilFunc") == 0) {
         return (void *)glStencilFunc;
     }
-    if (strcmp(name, glStencilMask) == 0) {
+    if (strcmp(name, "glStencilMask") == 0) {
         return (void *)glStencilMask;
     }
-    if (strcmp(name, glStencilOp) == 0) {
+    if (strcmp(name, "glStencilOp") == 0) {
         return (void *)glStencilOp;
     }
-    if (strcmp(name, glTexCoord1d) == 0) {
+    if (strcmp(name, "glTexCoord1d") == 0) {
         return (void *)glTexCoord1d;
     }
-    if (strcmp(name, glTexCoord1dv) == 0) {
+    if (strcmp(name, "glTexCoord1dv") == 0) {
         return (void *)glTexCoord1dv;
     }
-    if (strcmp(name, glTexCoord1f) == 0) {
+    if (strcmp(name, "glTexCoord1f") == 0) {
         return (void *)glTexCoord1f;
     }
-    if (strcmp(name, glTexCoord1fv) == 0) {
+    if (strcmp(name, "glTexCoord1fv") == 0) {
         return (void *)glTexCoord1fv;
     }
-    if (strcmp(name, glTexCoord1i) == 0) {
+    if (strcmp(name, "glTexCoord1i") == 0) {
         return (void *)glTexCoord1i;
     }
-    if (strcmp(name, glTexCoord1iv) == 0) {
+    if (strcmp(name, "glTexCoord1iv") == 0) {
         return (void *)glTexCoord1iv;
     }
-    if (strcmp(name, glTexCoord1s) == 0) {
+    if (strcmp(name, "glTexCoord1s") == 0) {
         return (void *)glTexCoord1s;
     }
-    if (strcmp(name, glTexCoord1sv) == 0) {
+    if (strcmp(name, "glTexCoord1sv") == 0) {
         return (void *)glTexCoord1sv;
     }
-    if (strcmp(name, glTexCoord2d) == 0) {
+    if (strcmp(name, "glTexCoord2d") == 0) {
         return (void *)glTexCoord2d;
     }
-    if (strcmp(name, glTexCoord2dv) == 0) {
+    if (strcmp(name, "glTexCoord2dv") == 0) {
         return (void *)glTexCoord2dv;
     }
-    if (strcmp(name, glTexCoord2f) == 0) {
+    if (strcmp(name, "glTexCoord2f") == 0) {
         return (void *)glTexCoord2f;
     }
-    if (strcmp(name, glTexCoord2fv) == 0) {
+    if (strcmp(name, "glTexCoord2fv") == 0) {
         return (void *)glTexCoord2fv;
     }
-    if (strcmp(name, glTexCoord2i) == 0) {
+    if (strcmp(name, "glTexCoord2i") == 0) {
         return (void *)glTexCoord2i;
     }
-    if (strcmp(name, glTexCoord2iv) == 0) {
+    if (strcmp(name, "glTexCoord2iv") == 0) {
         return (void *)glTexCoord2iv;
     }
-    if (strcmp(name, glTexCoord2s) == 0) {
+    if (strcmp(name, "glTexCoord2s") == 0) {
         return (void *)glTexCoord2s;
     }
-    if (strcmp(name, glTexCoord2sv) == 0) {
+    if (strcmp(name, "glTexCoord2sv") == 0) {
         return (void *)glTexCoord2sv;
     }
-    if (strcmp(name, glTexCoord3d) == 0) {
+    if (strcmp(name, "glTexCoord3d") == 0) {
         return (void *)glTexCoord3d;
     }
-    if (strcmp(name, glTexCoord3dv) == 0) {
+    if (strcmp(name, "glTexCoord3dv") == 0) {
         return (void *)glTexCoord3dv;
     }
-    if (strcmp(name, glTexCoord3f) == 0) {
+    if (strcmp(name, "glTexCoord3f") == 0) {
         return (void *)glTexCoord3f;
     }
-    if (strcmp(name, glTexCoord3fv) == 0) {
+    if (strcmp(name, "glTexCoord3fv") == 0) {
         return (void *)glTexCoord3fv;
     }
-    if (strcmp(name, glTexCoord3i) == 0) {
+    if (strcmp(name, "glTexCoord3i") == 0) {
         return (void *)glTexCoord3i;
     }
-    if (strcmp(name, glTexCoord3iv) == 0) {
+    if (strcmp(name, "glTexCoord3iv") == 0) {
         return (void *)glTexCoord3iv;
     }
-    if (strcmp(name, glTexCoord3s) == 0) {
+    if (strcmp(name, "glTexCoord3s") == 0) {
         return (void *)glTexCoord3s;
     }
-    if (strcmp(name, glTexCoord3sv) == 0) {
+    if (strcmp(name, "glTexCoord3sv") == 0) {
         return (void *)glTexCoord3sv;
     }
-    if (strcmp(name, glTexCoord4d) == 0) {
+    if (strcmp(name, "glTexCoord4d") == 0) {
         return (void *)glTexCoord4d;
     }
-    if (strcmp(name, glTexCoord4dv) == 0) {
+    if (strcmp(name, "glTexCoord4dv") == 0) {
         return (void *)glTexCoord4dv;
     }
-    if (strcmp(name, glTexCoord4f) == 0) {
+    if (strcmp(name, "glTexCoord4f") == 0) {
         return (void *)glTexCoord4f;
     }
-    if (strcmp(name, glTexCoord4fv) == 0) {
+    if (strcmp(name, "glTexCoord4fv") == 0) {
         return (void *)glTexCoord4fv;
     }
-    if (strcmp(name, glTexCoord4i) == 0) {
+    if (strcmp(name, "glTexCoord4i") == 0) {
         return (void *)glTexCoord4i;
     }
-    if (strcmp(name, glTexCoord4iv) == 0) {
+    if (strcmp(name, "glTexCoord4iv") == 0) {
         return (void *)glTexCoord4iv;
     }
-    if (strcmp(name, glTexCoord4s) == 0) {
+    if (strcmp(name, "glTexCoord4s") == 0) {
         return (void *)glTexCoord4s;
     }
-    if (strcmp(name, glTexCoord4sv) == 0) {
+    if (strcmp(name, "glTexCoord4sv") == 0) {
         return (void *)glTexCoord4sv;
     }
-    if (strcmp(name, glTexCoordPointer) == 0) {
+    if (strcmp(name, "glTexCoordPointer") == 0) {
         return (void *)glTexCoordPointer;
     }
-    if (strcmp(name, glTexEnvf) == 0) {
+    if (strcmp(name, "glTexEnvf") == 0) {
         return (void *)glTexEnvf;
     }
-    if (strcmp(name, glTexEnvfv) == 0) {
+    if (strcmp(name, "glTexEnvfv") == 0) {
         return (void *)glTexEnvfv;
     }
-    if (strcmp(name, glTexEnvi) == 0) {
+    if (strcmp(name, "glTexEnvi") == 0) {
         return (void *)glTexEnvi;
     }
-    if (strcmp(name, glTexEnviv) == 0) {
+    if (strcmp(name, "glTexEnviv") == 0) {
         return (void *)glTexEnviv;
     }
-    if (strcmp(name, glTexGend) == 0) {
+    if (strcmp(name, "glTexGend") == 0) {
         return (void *)glTexGend;
     }
-    if (strcmp(name, glTexGendv) == 0) {
+    if (strcmp(name, "glTexGendv") == 0) {
         return (void *)glTexGendv;
     }
-    if (strcmp(name, glTexGenf) == 0) {
+    if (strcmp(name, "glTexGenf") == 0) {
         return (void *)glTexGenf;
     }
-    if (strcmp(name, glTexGenfv) == 0) {
+    if (strcmp(name, "glTexGenfv") == 0) {
         return (void *)glTexGenfv;
     }
-    if (strcmp(name, glTexGeni) == 0) {
+    if (strcmp(name, "glTexGeni") == 0) {
         return (void *)glTexGeni;
     }
-    if (strcmp(name, glTexGeniv) == 0) {
+    if (strcmp(name, "glTexGeniv") == 0) {
         return (void *)glTexGeniv;
     }
-    if (strcmp(name, glTexImage1D) == 0) {
+    if (strcmp(name, "glTexImage1D") == 0) {
         return (void *)glTexImage1D;
     }
-    if (strcmp(name, glTexImage2D) == 0) {
+    if (strcmp(name, "glTexImage2D") == 0) {
         return (void *)glTexImage2D;
     }
-    if (strcmp(name, glTexImage3D) == 0) {
+    if (strcmp(name, "glTexImage3D") == 0) {
         return (void *)glTexImage3D;
     }
-    if (strcmp(name, glTexParameterf) == 0) {
+    if (strcmp(name, "glTexParameterf") == 0) {
         return (void *)glTexParameterf;
     }
-    if (strcmp(name, glTexParameterfv) == 0) {
+    if (strcmp(name, "glTexParameterfv") == 0) {
         return (void *)glTexParameterfv;
     }
-    if (strcmp(name, glTexParameteri) == 0) {
+    if (strcmp(name, "glTexParameteri") == 0) {
         return (void *)glTexParameteri;
     }
-    if (strcmp(name, glTexParameteriv) == 0) {
+    if (strcmp(name, "glTexParameteriv") == 0) {
         return (void *)glTexParameteriv;
     }
-    if (strcmp(name, glTexSubImage1D) == 0) {
+    if (strcmp(name, "glTexSubImage1D") == 0) {
         return (void *)glTexSubImage1D;
     }
-    if (strcmp(name, glTexSubImage2D) == 0) {
+    if (strcmp(name, "glTexSubImage2D") == 0) {
         return (void *)glTexSubImage2D;
     }
-    if (strcmp(name, glTexSubImage3D) == 0) {
+    if (strcmp(name, "glTexSubImage3D") == 0) {
         return (void *)glTexSubImage3D;
     }
-    if (strcmp(name, glTranslated) == 0) {
+    if (strcmp(name, "glTranslated") == 0) {
         return (void *)glTranslated;
     }
-    if (strcmp(name, glTranslatef) == 0) {
+    if (strcmp(name, "glTranslatef") == 0) {
         return (void *)glTranslatef;
     }
-    if (strcmp(name, glUnmapBuffer) == 0) {
+    if (strcmp(name, "glUnmapBuffer") == 0) {
         return (void *)glUnmapBuffer;
     }
-    if (strcmp(name, glVertex2d) == 0) {
+    if (strcmp(name, "glVertex2d") == 0) {
         return (void *)glVertex2d;
     }
-    if (strcmp(name, glVertex2dv) == 0) {
+    if (strcmp(name, "glVertex2dv") == 0) {
         return (void *)glVertex2dv;
     }
-    if (strcmp(name, glVertex2f) == 0) {
+    if (strcmp(name, "glVertex2f") == 0) {
         return (void *)glVertex2f;
     }
-    if (strcmp(name, glVertex2fv) == 0) {
+    if (strcmp(name, "glVertex2fv") == 0) {
         return (void *)glVertex2fv;
     }
-    if (strcmp(name, glVertex2i) == 0) {
+    if (strcmp(name, "glVertex2i") == 0) {
         return (void *)glVertex2i;
     }
-    if (strcmp(name, glVertex2iv) == 0) {
+    if (strcmp(name, "glVertex2iv") == 0) {
         return (void *)glVertex2iv;
     }
-    if (strcmp(name, glVertex2s) == 0) {
+    if (strcmp(name, "glVertex2s") == 0) {
         return (void *)glVertex2s;
     }
-    if (strcmp(name, glVertex2sv) == 0) {
+    if (strcmp(name, "glVertex2sv") == 0) {
         return (void *)glVertex2sv;
     }
-    if (strcmp(name, glVertex3d) == 0) {
+    if (strcmp(name, "glVertex3d") == 0) {
         return (void *)glVertex3d;
     }
-    if (strcmp(name, glVertex3dv) == 0) {
+    if (strcmp(name, "glVertex3dv") == 0) {
         return (void *)glVertex3dv;
     }
-    if (strcmp(name, glVertex3f) == 0) {
+    if (strcmp(name, "glVertex3f") == 0) {
         return (void *)glVertex3f;
     }
-    if (strcmp(name, glVertex3fv) == 0) {
+    if (strcmp(name, "glVertex3fv") == 0) {
         return (void *)glVertex3fv;
     }
-    if (strcmp(name, glVertex3i) == 0) {
+    if (strcmp(name, "glVertex3i") == 0) {
         return (void *)glVertex3i;
     }
-    if (strcmp(name, glVertex3iv) == 0) {
+    if (strcmp(name, "glVertex3iv") == 0) {
         return (void *)glVertex3iv;
     }
-    if (strcmp(name, glVertex3s) == 0) {
+    if (strcmp(name, "glVertex3s") == 0) {
         return (void *)glVertex3s;
     }
-    if (strcmp(name, glVertex3sv) == 0) {
+    if (strcmp(name, "glVertex3sv") == 0) {
         return (void *)glVertex3sv;
     }
-    if (strcmp(name, glVertex4d) == 0) {
+    if (strcmp(name, "glVertex4d") == 0) {
         return (void *)glVertex4d;
     }
-    if (strcmp(name, glVertex4dv) == 0) {
+    if (strcmp(name, "glVertex4dv") == 0) {
         return (void *)glVertex4dv;
     }
-    if (strcmp(name, glVertex4f) == 0) {
+    if (strcmp(name, "glVertex4f") == 0) {
         return (void *)glVertex4f;
     }
-    if (strcmp(name, glVertex4fv) == 0) {
+    if (strcmp(name, "glVertex4fv") == 0) {
         return (void *)glVertex4fv;
     }
-    if (strcmp(name, glVertex4i) == 0) {
+    if (strcmp(name, "glVertex4i") == 0) {
         return (void *)glVertex4i;
     }
-    if (strcmp(name, glVertex4iv) == 0) {
+    if (strcmp(name, "glVertex4iv") == 0) {
         return (void *)glVertex4iv;
     }
-    if (strcmp(name, glVertex4s) == 0) {
+    if (strcmp(name, "glVertex4s") == 0) {
         return (void *)glVertex4s;
     }
-    if (strcmp(name, glVertex4sv) == 0) {
+    if (strcmp(name, "glVertex4sv") == 0) {
         return (void *)glVertex4sv;
     }
-    if (strcmp(name, glVertexPointer) == 0) {
+    if (strcmp(name, "glVertexPointer") == 0) {
         return (void *)glVertexPointer;
     }
-    if (strcmp(name, glViewport) == 0) {
+    if (strcmp(name, "glViewport") == 0) {
         return (void *)glViewport;
     }
-    if (strcmp(name, glWindowPos2d) == 0) {
+    if (strcmp(name, "glWindowPos2d") == 0) {
         return (void *)glWindowPos2d;
     }
-    if (strcmp(name, glWindowPos2dv) == 0) {
+    if (strcmp(name, "glWindowPos2dv") == 0) {
         return (void *)glWindowPos2dv;
     }
-    if (strcmp(name, glWindowPos2f) == 0) {
+    if (strcmp(name, "glWindowPos2f") == 0) {
         return (void *)glWindowPos2f;
     }
-    if (strcmp(name, glWindowPos2fv) == 0) {
+    if (strcmp(name, "glWindowPos2fv") == 0) {
         return (void *)glWindowPos2fv;
     }
-    if (strcmp(name, glWindowPos2i) == 0) {
+    if (strcmp(name, "glWindowPos2i") == 0) {
         return (void *)glWindowPos2i;
     }
-    if (strcmp(name, glWindowPos2iv) == 0) {
+    if (strcmp(name, "glWindowPos2iv") == 0) {
         return (void *)glWindowPos2iv;
     }
-    if (strcmp(name, glWindowPos2s) == 0) {
+    if (strcmp(name, "glWindowPos2s") == 0) {
         return (void *)glWindowPos2s;
     }
-    if (strcmp(name, glWindowPos2sv) == 0) {
+    if (strcmp(name, "glWindowPos2sv") == 0) {
         return (void *)glWindowPos2sv;
     }
-    if (strcmp(name, glWindowPos3d) == 0) {
+    if (strcmp(name, "glWindowPos3d") == 0) {
         return (void *)glWindowPos3d;
     }
-    if (strcmp(name, glWindowPos3dv) == 0) {
+    if (strcmp(name, "glWindowPos3dv") == 0) {
         return (void *)glWindowPos3dv;
     }
-    if (strcmp(name, glWindowPos3f) == 0) {
+    if (strcmp(name, "glWindowPos3f") == 0) {
         return (void *)glWindowPos3f;
     }
-    if (strcmp(name, glWindowPos3fv) == 0) {
+    if (strcmp(name, "glWindowPos3fv") == 0) {
         return (void *)glWindowPos3fv;
     }
-    if (strcmp(name, glWindowPos3i) == 0) {
+    if (strcmp(name, "glWindowPos3i") == 0) {
         return (void *)glWindowPos3i;
     }
-    if (strcmp(name, glWindowPos3iv) == 0) {
+    if (strcmp(name, "glWindowPos3iv") == 0) {
         return (void *)glWindowPos3iv;
     }
-    if (strcmp(name, glWindowPos3s) == 0) {
+    if (strcmp(name, "glWindowPos3s") == 0) {
         return (void *)glWindowPos3s;
     }
-    if (strcmp(name, glWindowPos3sv) == 0) {
+    if (strcmp(name, "glWindowPos3sv") == 0) {
         return (void *)glWindowPos3sv;
     }
-    if (strcmp(name, glXBindHyperpipeSGIX) == 0) {
+    if (strcmp(name, "glXBindHyperpipeSGIX") == 0) {
         return (void *)glXBindHyperpipeSGIX;
     }
-    if (strcmp(name, glXBindSwapBarrierSGIX) == 0) {
+    if (strcmp(name, "glXBindSwapBarrierSGIX") == 0) {
         return (void *)glXBindSwapBarrierSGIX;
     }
-    if (strcmp(name, glXChangeDrawableAttributes) == 0) {
+    if (strcmp(name, "glXChangeDrawableAttributes") == 0) {
         return (void *)glXChangeDrawableAttributes;
     }
-    if (strcmp(name, glXChangeDrawableAttributesSGIX) == 0) {
+    if (strcmp(name, "glXChangeDrawableAttributesSGIX") == 0) {
         return (void *)glXChangeDrawableAttributesSGIX;
     }
-    if (strcmp(name, glXChooseFBConfig) == 0) {
+    if (strcmp(name, "glXChooseFBConfig") == 0) {
         return (void *)glXChooseFBConfig;
     }
-    if (strcmp(name, glXChooseVisual) == 0) {
+    if (strcmp(name, "glXChooseVisual") == 0) {
         return (void *)glXChooseVisual;
     }
-    if (strcmp(name, glXClientInfo) == 0) {
+    if (strcmp(name, "glXClientInfo") == 0) {
         return (void *)glXClientInfo;
     }
-    if (strcmp(name, glXCopyContext) == 0) {
+    if (strcmp(name, "glXCopyContext") == 0) {
         return (void *)glXCopyContext;
     }
-    if (strcmp(name, glXCreateContext) == 0) {
+    if (strcmp(name, "glXCreateContext") == 0) {
         return (void *)glXCreateContext;
     }
-    if (strcmp(name, glXCreateContextWithConfigSGIX) == 0) {
+    if (strcmp(name, "glXCreateContextWithConfigSGIX") == 0) {
         return (void *)glXCreateContextWithConfigSGIX;
     }
-    if (strcmp(name, glXCreateGLXPbufferSGIX) == 0) {
+    if (strcmp(name, "glXCreateGLXPbufferSGIX") == 0) {
         return (void *)glXCreateGLXPbufferSGIX;
     }
-    if (strcmp(name, glXCreateGLXPixmap) == 0) {
+    if (strcmp(name, "glXCreateGLXPixmap") == 0) {
         return (void *)glXCreateGLXPixmap;
     }
-    if (strcmp(name, glXCreateGLXPixmapWithConfigSGIX) == 0) {
+    if (strcmp(name, "glXCreateGLXPixmapWithConfigSGIX") == 0) {
         return (void *)glXCreateGLXPixmapWithConfigSGIX;
     }
-    if (strcmp(name, glXCreateGLXVideoSourceSGIX) == 0) {
+    if (strcmp(name, "glXCreateGLXVideoSourceSGIX") == 0) {
         return (void *)glXCreateGLXVideoSourceSGIX;
     }
-    if (strcmp(name, glXCreateNewContext) == 0) {
+    if (strcmp(name, "glXCreateNewContext") == 0) {
         return (void *)glXCreateNewContext;
     }
-    if (strcmp(name, glXCreatePbuffer) == 0) {
+    if (strcmp(name, "glXCreatePbuffer") == 0) {
         return (void *)glXCreatePbuffer;
     }
-    if (strcmp(name, glXCreatePixmap) == 0) {
+    if (strcmp(name, "glXCreatePixmap") == 0) {
         return (void *)glXCreatePixmap;
     }
-    if (strcmp(name, glXCreateWindow) == 0) {
+    if (strcmp(name, "glXCreateWindow") == 0) {
         return (void *)glXCreateWindow;
     }
-    if (strcmp(name, glXDestroyContext) == 0) {
+    if (strcmp(name, "glXDestroyContext") == 0) {
         return (void *)glXDestroyContext;
     }
-    if (strcmp(name, glXDestroyGLXPbufferSGIX) == 0) {
+    if (strcmp(name, "glXDestroyGLXPbufferSGIX") == 0) {
         return (void *)glXDestroyGLXPbufferSGIX;
     }
-    if (strcmp(name, glXDestroyGLXPixmap) == 0) {
+    if (strcmp(name, "glXDestroyGLXPixmap") == 0) {
         return (void *)glXDestroyGLXPixmap;
     }
-    if (strcmp(name, glXDestroyGLXVideoSourceSGIX) == 0) {
+    if (strcmp(name, "glXDestroyGLXVideoSourceSGIX") == 0) {
         return (void *)glXDestroyGLXVideoSourceSGIX;
     }
-    if (strcmp(name, glXDestroyHyperpipeConfigSGIX) == 0) {
+    if (strcmp(name, "glXDestroyHyperpipeConfigSGIX") == 0) {
         return (void *)glXDestroyHyperpipeConfigSGIX;
     }
-    if (strcmp(name, glXDestroyPbuffer) == 0) {
+    if (strcmp(name, "glXDestroyPbuffer") == 0) {
         return (void *)glXDestroyPbuffer;
     }
-    if (strcmp(name, glXDestroyPixmap) == 0) {
+    if (strcmp(name, "glXDestroyPixmap") == 0) {
         return (void *)glXDestroyPixmap;
     }
-    if (strcmp(name, glXDestroyWindow) == 0) {
+    if (strcmp(name, "glXDestroyWindow") == 0) {
         return (void *)glXDestroyWindow;
     }
-    if (strcmp(name, glXGetCurrentDisplay) == 0) {
+    if (strcmp(name, "glXGetCurrentDisplay") == 0) {
         return (void *)glXGetCurrentDisplay;
     }
-    if (strcmp(name, glXGetCurrentReadDrawable) == 0) {
+    if (strcmp(name, "glXGetCurrentReadDrawable") == 0) {
         return (void *)glXGetCurrentReadDrawable;
     }
-    if (strcmp(name, glXGetDrawableAttributes) == 0) {
+    if (strcmp(name, "glXGetDrawableAttributes") == 0) {
         return (void *)glXGetDrawableAttributes;
     }
-    if (strcmp(name, glXGetDrawableAttributesSGIX) == 0) {
+    if (strcmp(name, "glXGetDrawableAttributesSGIX") == 0) {
         return (void *)glXGetDrawableAttributesSGIX;
     }
-    if (strcmp(name, glXGetFBConfigAttrib) == 0) {
+    if (strcmp(name, "glXGetFBConfigAttrib") == 0) {
         return (void *)glXGetFBConfigAttrib;
     }
-    if (strcmp(name, glXGetFBConfigs) == 0) {
+    if (strcmp(name, "glXGetFBConfigs") == 0) {
         return (void *)glXGetFBConfigs;
     }
-    if (strcmp(name, glXGetFBConfigsSGIX) == 0) {
+    if (strcmp(name, "glXGetFBConfigsSGIX") == 0) {
         return (void *)glXGetFBConfigsSGIX;
     }
-    if (strcmp(name, glXGetProcAddress) == 0) {
+    if (strcmp(name, "glXGetProcAddress") == 0) {
         return (void *)glXGetProcAddress;
     }
-    if (strcmp(name, glXGetSelectedEvent) == 0) {
+    if (strcmp(name, "glXGetSelectedEvent") == 0) {
         return (void *)glXGetSelectedEvent;
     }
-    if (strcmp(name, glXGetVisualConfigs) == 0) {
+    if (strcmp(name, "glXGetVisualConfigs") == 0) {
         return (void *)glXGetVisualConfigs;
     }
-    if (strcmp(name, glXGetVisualFromFBConfig) == 0) {
+    if (strcmp(name, "glXGetVisualFromFBConfig") == 0) {
         return (void *)glXGetVisualFromFBConfig;
     }
-    if (strcmp(name, glXHyperpipeAttribSGIX) == 0) {
+    if (strcmp(name, "glXHyperpipeAttribSGIX") == 0) {
         return (void *)glXHyperpipeAttribSGIX;
     }
-    if (strcmp(name, glXHyperpipeConfigSGIX) == 0) {
+    if (strcmp(name, "glXHyperpipeConfigSGIX") == 0) {
         return (void *)glXHyperpipeConfigSGIX;
     }
-    if (strcmp(name, glXIsDirect) == 0) {
+    if (strcmp(name, "glXIsDirect") == 0) {
         return (void *)glXIsDirect;
     }
-    if (strcmp(name, glXJoinSwapGroupSGIX) == 0) {
+    if (strcmp(name, "glXJoinSwapGroupSGIX") == 0) {
         return (void *)glXJoinSwapGroupSGIX;
     }
-    if (strcmp(name, glXMakeContextCurrent) == 0) {
+    if (strcmp(name, "glXMakeContextCurrent") == 0) {
         return (void *)glXMakeContextCurrent;
     }
-    if (strcmp(name, glXMakeCurrent) == 0) {
+    if (strcmp(name, "glXMakeCurrent") == 0) {
         return (void *)glXMakeCurrent;
     }
-    if (strcmp(name, glXMakeCurrentReadSGI) == 0) {
+    if (strcmp(name, "glXMakeCurrentReadSGI") == 0) {
         return (void *)glXMakeCurrentReadSGI;
     }
-    if (strcmp(name, glXQueryContext) == 0) {
+    if (strcmp(name, "glXQueryContext") == 0) {
         return (void *)glXQueryContext;
     }
-    if (strcmp(name, glXQueryContextInfoEXT) == 0) {
+    if (strcmp(name, "glXQueryContextInfoEXT") == 0) {
         return (void *)glXQueryContextInfoEXT;
     }
-    if (strcmp(name, glXQueryDrawable) == 0) {
+    if (strcmp(name, "glXQueryDrawable") == 0) {
         return (void *)glXQueryDrawable;
     }
-    if (strcmp(name, glXQueryExtensionsString) == 0) {
+    if (strcmp(name, "glXQueryExtensionsString") == 0) {
         return (void *)glXQueryExtensionsString;
     }
-    if (strcmp(name, glXQueryHyperpipeAttribSGIX) == 0) {
+    if (strcmp(name, "glXQueryHyperpipeAttribSGIX") == 0) {
         return (void *)glXQueryHyperpipeAttribSGIX;
     }
-    if (strcmp(name, glXQueryHyperpipeBestAttribSGIX) == 0) {
+    if (strcmp(name, "glXQueryHyperpipeBestAttribSGIX") == 0) {
         return (void *)glXQueryHyperpipeBestAttribSGIX;
     }
-    if (strcmp(name, glXQueryHyperpipeConfigSGIX) == 0) {
+    if (strcmp(name, "glXQueryHyperpipeConfigSGIX") == 0) {
         return (void *)glXQueryHyperpipeConfigSGIX;
     }
-    if (strcmp(name, glXQueryHyperpipeNetworkSGIX) == 0) {
+    if (strcmp(name, "glXQueryHyperpipeNetworkSGIX") == 0) {
         return (void *)glXQueryHyperpipeNetworkSGIX;
     }
-    if (strcmp(name, glXQueryMaxSwapBarriersSGIX) == 0) {
+    if (strcmp(name, "glXQueryMaxSwapBarriersSGIX") == 0) {
         return (void *)glXQueryMaxSwapBarriersSGIX;
     }
-    if (strcmp(name, glXQueryServerString) == 0) {
+    if (strcmp(name, "glXQueryServerString") == 0) {
         return (void *)glXQueryServerString;
     }
-    if (strcmp(name, glXQueryVersion) == 0) {
+    if (strcmp(name, "glXQueryVersion") == 0) {
         return (void *)glXQueryVersion;
     }
-    if (strcmp(name, glXRender) == 0) {
+    if (strcmp(name, "glXRender") == 0) {
         return (void *)glXRender;
     }
-    if (strcmp(name, glXRenderLarge) == 0) {
+    if (strcmp(name, "glXRenderLarge") == 0) {
         return (void *)glXRenderLarge;
     }
-    if (strcmp(name, glXSelectEvent) == 0) {
+    if (strcmp(name, "glXSelectEvent") == 0) {
         return (void *)glXSelectEvent;
     }
-    if (strcmp(name, glXSwapBuffers) == 0) {
+    if (strcmp(name, "glXSwapBuffers") == 0) {
         return (void *)glXSwapBuffers;
     }
-    if (strcmp(name, glXSwapIntervalSGI) == 0) {
+    if (strcmp(name, "glXSwapIntervalSGI") == 0) {
         return (void *)glXSwapIntervalSGI;
     }
-    if (strcmp(name, glXUseXFont) == 0) {
+    if (strcmp(name, "glXUseXFont") == 0) {
         return (void *)glXUseXFont;
     }
-    if (strcmp(name, glXVendorPrivate) == 0) {
+    if (strcmp(name, "glXVendorPrivate") == 0) {
         return (void *)glXVendorPrivate;
     }
-    if (strcmp(name, glXVendorPrivateWithReply) == 0) {
+    if (strcmp(name, "glXVendorPrivateWithReply") == 0) {
         return (void *)glXVendorPrivateWithReply;
     }
-    if (strcmp(name, glXWaitGL) == 0) {
+    if (strcmp(name, "glXWaitGL") == 0) {
         return (void *)glXWaitGL;
     }
-    if (strcmp(name, glXWaitX) == 0) {
+    if (strcmp(name, "glXWaitX") == 0) {
         return (void *)glXWaitX;
     }
     printf("glXGetProcAddress(%s) not found\n", name);
     return NULL;
 }
 
-void *glXGetProcAddress(const char *name) {
+__GLXextFuncPtr glXGetProcAddress(const char *name) {
     return glXGetProcAddressARB(name);
 }
