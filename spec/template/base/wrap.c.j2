@@ -1,14 +1,21 @@
 {% extends "base/base.j2" %}
 {% block main %}
 {% include "base/headers.j2" %}
+{% block config %}
+{% set enable_skip = 1 %}
+{% endblock %}
 {% for func in functions %}
+{% if enable_skip %}
 #ifndef skip_{{ func.name }}
+{% endif %}
 {{ func.return }} {{ func.name }}({{ func.args|args }}) {
     {% block load scoped %}{% endblock %}
     {% block call scoped %}
     {% if not func.void %}return {% endif %}{% block prefix %}wrap{% endblock %}_{{ func.name }}({{ func.args|args(0) }});
     {% endblock %}
 }
+{% if enable_skip %}
 #endif
+{% endif %}
 {% endfor %}
 {% endblock %}

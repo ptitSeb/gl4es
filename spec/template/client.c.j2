@@ -6,6 +6,10 @@
 
 {% endblock %}
 
+{% block config %}
+{% set enable_skip = 0 %}
+{% endblock %}
+
 {% block call %}
     {{ func.name }}_INDEXED *packed_data = malloc(sizeof({{ func.name }}_INDEXED));
     {% for arg in func.args %}
