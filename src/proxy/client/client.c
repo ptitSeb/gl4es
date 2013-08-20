@@ -5929,6 +5929,16 @@ void glXDestroyWindow(Display * dpy, GLXWindow win) {
 }
 
 #endif
+#ifndef skip_client_glXGetCurrentContext
+GLXContext glXGetCurrentContext() {
+    glXGetCurrentContext_INDEXED *packed_data = malloc(sizeof(glXGetCurrentContext_INDEXED));
+    packed_data->func = glXGetCurrentContext_INDEX;
+    GLXContext ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    return ret;
+}
+
+#endif
 #ifndef skip_client_glXGetCurrentDisplay
 Display * glXGetCurrentDisplay() {
     glXGetCurrentDisplay_INDEXED *packed_data = malloc(sizeof(glXGetCurrentDisplay_INDEXED));
@@ -6381,7 +6391,7 @@ void glXWaitX() {
 #endif
 
 
-__GLXextFuncPtr glXGetProcAddressARB(const char *name) {
+__GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "glAccum") == 0) {
         return (void *)glAccum;
     }
@@ -7912,6 +7922,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const char *name) {
     if (strcmp(name, "glXDestroyWindow") == 0) {
         return (void *)glXDestroyWindow;
     }
+    if (strcmp(name, "glXGetCurrentContext") == 0) {
+        return (void *)glXGetCurrentContext;
+    }
     if (strcmp(name, "glXGetCurrentDisplay") == 0) {
         return (void *)glXGetCurrentDisplay;
     }
@@ -8033,6 +8046,6 @@ __GLXextFuncPtr glXGetProcAddressARB(const char *name) {
     return NULL;
 }
 
-__GLXextFuncPtr glXGetProcAddress(const char *name) {
+__GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
     return glXGetProcAddressARB(name);
 }

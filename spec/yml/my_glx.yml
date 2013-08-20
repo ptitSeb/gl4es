@@ -30,6 +30,7 @@ glx:
   glXDestroyWindow: [void, uint32_t glxwindow]
   glXGetDrawableAttributes: [void, uint32_t drawable]
   glXGetDrawableAttributesSGIX: [void, uint32_t drawable]
+  glXGetCurrentContext: [GLXContext]
   glXGetFBConfigs: [void]
   glXGetFBConfigsSGIX: [void]
   glXGetVisualConfigs: [void]

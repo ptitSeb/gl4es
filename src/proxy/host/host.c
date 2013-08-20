@@ -8730,6 +8730,25 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXGetCurrentContext
+        case glXGetCurrentContext_INDEX: {
+            static glXGetCurrentContext_PTR local_glXGetCurrentContext;
+            if (local_glXGetCurrentContext == NULL) {
+                local_glXGetCurrentContext = (glXGetCurrentContext_PTR)dlsym(g_libgl, "glXGetCurrentContext");
+                if (! local_glXGetCurrentContext) {
+                    printf("Warning: Unable to dlsym 'glXGetCurrentContext'\n");
+                    return;
+                }
+            }
+
+            INDEXED_GLXContext *unpacked = (INDEXED_GLXContext *)packed;
+            ARGS_GLXContext args = unpacked->args;
+            GLXContext *ret = (GLXContext *)ret_v;
+            *ret = 
+            local_glXGetCurrentContext();
+            break;
+        }
+        #endif
         #ifndef skip_index_glXGetCurrentDisplay
         case glXGetCurrentDisplay_INDEX: {
             static glXGetCurrentDisplay_PTR local_glXGetCurrentDisplay;
