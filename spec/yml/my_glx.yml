@@ -31,6 +31,7 @@ glx:
   glXGetDrawableAttributes: [void, uint32_t drawable]
   glXGetDrawableAttributesSGIX: [void, uint32_t drawable]
   glXGetCurrentContext: [GLXContext]
+  glXGetCurrentDrawable: [GLXDrawable]
   glXGetFBConfigs: [void]
   glXGetFBConfigsSGIX: [void]
   glXGetVisualConfigs: [void]
