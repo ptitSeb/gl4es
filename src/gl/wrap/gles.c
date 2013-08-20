@@ -462,9 +462,7 @@ void glActiveTexture(GLenum texture) {
     PUSH_IF_COMPILING(glActiveTexture)
 #endif
     gles_glActiveTexture(texture);
-
 }
-
 #endif
 #ifndef skip_glAlphaFunc
 void glAlphaFunc(GLenum func, GLclampf ref) {
@@ -473,9 +471,7 @@ void glAlphaFunc(GLenum func, GLclampf ref) {
     PUSH_IF_COMPILING(glAlphaFunc)
 #endif
     gles_glAlphaFunc(func, ref);
-
 }
-
 #endif
 #ifndef skip_glAlphaFuncx
 void glAlphaFuncx(GLenum func, GLclampx ref) {
@@ -484,9 +480,7 @@ void glAlphaFuncx(GLenum func, GLclampx ref) {
     PUSH_IF_COMPILING(glAlphaFuncx)
 #endif
     gles_glAlphaFuncx(func, ref);
-
 }
-
 #endif
 #ifndef skip_glBindBuffer
 void glBindBuffer(GLenum target, GLuint buffer) {
@@ -495,9 +489,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     PUSH_IF_COMPILING(glBindBuffer)
 #endif
     gles_glBindBuffer(target, buffer);
-
 }
-
 #endif
 #ifndef skip_glBindTexture
 void glBindTexture(GLenum target, GLuint texture) {
@@ -506,9 +498,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     PUSH_IF_COMPILING(glBindTexture)
 #endif
     gles_glBindTexture(target, texture);
-
 }
-
 #endif
 #ifndef skip_glBlendFunc
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
@@ -517,9 +507,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     PUSH_IF_COMPILING(glBlendFunc)
 #endif
     gles_glBlendFunc(sfactor, dfactor);
-
 }
-
 #endif
 #ifndef skip_glBufferData
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
@@ -528,9 +516,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     PUSH_IF_COMPILING(glBufferData)
 #endif
     gles_glBufferData(target, size, data, usage);
-
 }
-
 #endif
 #ifndef skip_glBufferSubData
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
@@ -539,9 +525,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     PUSH_IF_COMPILING(glBufferSubData)
 #endif
     gles_glBufferSubData(target, offset, size, data);
-
 }
-
 #endif
 #ifndef skip_glClear
 void glClear(GLbitfield mask) {
@@ -550,9 +534,7 @@ void glClear(GLbitfield mask) {
     PUSH_IF_COMPILING(glClear)
 #endif
     gles_glClear(mask);
-
 }
-
 #endif
 #ifndef skip_glClearColor
 void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
@@ -561,9 +543,7 @@ void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glClearColor)
 #endif
     gles_glClearColor(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glClearColorx
 void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) {
@@ -572,9 +552,7 @@ void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) 
     PUSH_IF_COMPILING(glClearColorx)
 #endif
     gles_glClearColorx(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glClearDepthf
 void glClearDepthf(GLclampf depth) {
@@ -583,9 +561,7 @@ void glClearDepthf(GLclampf depth) {
     PUSH_IF_COMPILING(glClearDepthf)
 #endif
     gles_glClearDepthf(depth);
-
 }
-
 #endif
 #ifndef skip_glClearDepthx
 void glClearDepthx(GLclampx depth) {
@@ -594,9 +570,7 @@ void glClearDepthx(GLclampx depth) {
     PUSH_IF_COMPILING(glClearDepthx)
 #endif
     gles_glClearDepthx(depth);
-
 }
-
 #endif
 #ifndef skip_glClearStencil
 void glClearStencil(GLint s) {
@@ -605,9 +579,7 @@ void glClearStencil(GLint s) {
     PUSH_IF_COMPILING(glClearStencil)
 #endif
     gles_glClearStencil(s);
-
 }
-
 #endif
 #ifndef skip_glClientActiveTexture
 void glClientActiveTexture(GLenum texture) {
@@ -616,9 +588,7 @@ void glClientActiveTexture(GLenum texture) {
     PUSH_IF_COMPILING(glClientActiveTexture)
 #endif
     gles_glClientActiveTexture(texture);
-
 }
-
 #endif
 #ifndef skip_glClipPlanef
 void glClipPlanef(GLenum plane, const GLfloat * equation) {
@@ -627,9 +597,7 @@ void glClipPlanef(GLenum plane, const GLfloat * equation) {
     PUSH_IF_COMPILING(glClipPlanef)
 #endif
     gles_glClipPlanef(plane, equation);
-
 }
-
 #endif
 #ifndef skip_glClipPlanex
 void glClipPlanex(GLenum plane, const GLfixed * equation) {
@@ -638,9 +606,7 @@ void glClipPlanex(GLenum plane, const GLfixed * equation) {
     PUSH_IF_COMPILING(glClipPlanex)
 #endif
     gles_glClipPlanex(plane, equation);
-
 }
-
 #endif
 #ifndef skip_glColor4f
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -649,9 +615,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     PUSH_IF_COMPILING(glColor4f)
 #endif
     gles_glColor4f(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glColor4ub
 void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
@@ -660,9 +624,7 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     PUSH_IF_COMPILING(glColor4ub)
 #endif
     gles_glColor4ub(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glColor4x
 void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
@@ -671,9 +633,7 @@ void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
     PUSH_IF_COMPILING(glColor4x)
 #endif
     gles_glColor4x(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glColorMask
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
@@ -682,9 +642,7 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
     PUSH_IF_COMPILING(glColorMask)
 #endif
     gles_glColorMask(red, green, blue, alpha);
-
 }
-
 #endif
 #ifndef skip_glColorPointer
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -693,9 +651,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
     PUSH_IF_COMPILING(glColorPointer)
 #endif
     gles_glColorPointer(size, type, stride, pointer);
-
 }
-
 #endif
 #ifndef skip_glCompressedTexImage2D
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -704,9 +660,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
     PUSH_IF_COMPILING(glCompressedTexImage2D)
 #endif
     gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
-
 }
-
 #endif
 #ifndef skip_glCompressedTexSubImage2D
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -715,9 +669,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     PUSH_IF_COMPILING(glCompressedTexSubImage2D)
 #endif
     gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
-
 }
-
 #endif
 #ifndef skip_glCopyTexImage2D
 void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
@@ -726,9 +678,7 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
     PUSH_IF_COMPILING(glCopyTexImage2D)
 #endif
     gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
-
 }
-
 #endif
 #ifndef skip_glCopyTexSubImage2D
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -737,9 +687,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     PUSH_IF_COMPILING(glCopyTexSubImage2D)
 #endif
     gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
-
 }
-
 #endif
 #ifndef skip_glCullFace
 void glCullFace(GLenum mode) {
@@ -748,9 +696,7 @@ void glCullFace(GLenum mode) {
     PUSH_IF_COMPILING(glCullFace)
 #endif
     gles_glCullFace(mode);
-
 }
-
 #endif
 #ifndef skip_glDeleteBuffers
 void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
@@ -759,9 +705,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     PUSH_IF_COMPILING(glDeleteBuffers)
 #endif
     gles_glDeleteBuffers(n, buffers);
-
 }
-
 #endif
 #ifndef skip_glDeleteTextures
 void glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -770,9 +714,7 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
     PUSH_IF_COMPILING(glDeleteTextures)
 #endif
     gles_glDeleteTextures(n, textures);
-
 }
-
 #endif
 #ifndef skip_glDepthFunc
 void glDepthFunc(GLenum func) {
@@ -781,9 +723,7 @@ void glDepthFunc(GLenum func) {
     PUSH_IF_COMPILING(glDepthFunc)
 #endif
     gles_glDepthFunc(func);
-
 }
-
 #endif
 #ifndef skip_glDepthMask
 void glDepthMask(GLboolean flag) {
@@ -792,9 +732,7 @@ void glDepthMask(GLboolean flag) {
     PUSH_IF_COMPILING(glDepthMask)
 #endif
     gles_glDepthMask(flag);
-
 }
-
 #endif
 #ifndef skip_glDepthRangef
 void glDepthRangef(GLclampf near, GLclampf far) {
@@ -803,9 +741,7 @@ void glDepthRangef(GLclampf near, GLclampf far) {
     PUSH_IF_COMPILING(glDepthRangef)
 #endif
     gles_glDepthRangef(near, far);
-
 }
-
 #endif
 #ifndef skip_glDepthRangex
 void glDepthRangex(GLclampx near, GLclampx far) {
@@ -814,9 +750,7 @@ void glDepthRangex(GLclampx near, GLclampx far) {
     PUSH_IF_COMPILING(glDepthRangex)
 #endif
     gles_glDepthRangex(near, far);
-
 }
-
 #endif
 #ifndef skip_glDisable
 void glDisable(GLenum cap) {
@@ -825,9 +759,7 @@ void glDisable(GLenum cap) {
     PUSH_IF_COMPILING(glDisable)
 #endif
     gles_glDisable(cap);
-
 }
-
 #endif
 #ifndef skip_glDisableClientState
 void glDisableClientState(GLenum array) {
@@ -836,9 +768,7 @@ void glDisableClientState(GLenum array) {
     PUSH_IF_COMPILING(glDisableClientState)
 #endif
     gles_glDisableClientState(array);
-
 }
-
 #endif
 #ifndef skip_glDrawArrays
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -847,9 +777,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     PUSH_IF_COMPILING(glDrawArrays)
 #endif
     gles_glDrawArrays(mode, first, count);
-
 }
-
 #endif
 #ifndef skip_glDrawElements
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -858,9 +786,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
     PUSH_IF_COMPILING(glDrawElements)
 #endif
     gles_glDrawElements(mode, count, type, indices);
-
 }
-
 #endif
 #ifndef skip_glEnable
 void glEnable(GLenum cap) {
@@ -869,9 +795,7 @@ void glEnable(GLenum cap) {
     PUSH_IF_COMPILING(glEnable)
 #endif
     gles_glEnable(cap);
-
 }
-
 #endif
 #ifndef skip_glEnableClientState
 void glEnableClientState(GLenum array) {
@@ -880,9 +804,7 @@ void glEnableClientState(GLenum array) {
     PUSH_IF_COMPILING(glEnableClientState)
 #endif
     gles_glEnableClientState(array);
-
 }
-
 #endif
 #ifndef skip_glFinish
 void glFinish() {
@@ -891,9 +813,7 @@ void glFinish() {
     PUSH_IF_COMPILING(glFinish)
 #endif
     gles_glFinish();
-
 }
-
 #endif
 #ifndef skip_glFlush
 void glFlush() {
@@ -902,9 +822,7 @@ void glFlush() {
     PUSH_IF_COMPILING(glFlush)
 #endif
     gles_glFlush();
-
 }
-
 #endif
 #ifndef skip_glFogf
 void glFogf(GLenum pname, GLfloat param) {
@@ -913,9 +831,7 @@ void glFogf(GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glFogf)
 #endif
     gles_glFogf(pname, param);
-
 }
-
 #endif
 #ifndef skip_glFogfv
 void glFogfv(GLenum pname, const GLfloat * params) {
@@ -924,9 +840,7 @@ void glFogfv(GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glFogfv)
 #endif
     gles_glFogfv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glFogx
 void glFogx(GLenum pname, GLfixed param) {
@@ -935,9 +849,7 @@ void glFogx(GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glFogx)
 #endif
     gles_glFogx(pname, param);
-
 }
-
 #endif
 #ifndef skip_glFogxv
 void glFogxv(GLenum pname, const GLfixed * params) {
@@ -946,9 +858,7 @@ void glFogxv(GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glFogxv)
 #endif
     gles_glFogxv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glFrontFace
 void glFrontFace(GLenum mode) {
@@ -957,9 +867,7 @@ void glFrontFace(GLenum mode) {
     PUSH_IF_COMPILING(glFrontFace)
 #endif
     gles_glFrontFace(mode);
-
 }
-
 #endif
 #ifndef skip_glFrustumf
 void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
@@ -968,9 +876,7 @@ void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloa
     PUSH_IF_COMPILING(glFrustumf)
 #endif
     gles_glFrustumf(left, right, bottom, top, near, far);
-
 }
-
 #endif
 #ifndef skip_glFrustumx
 void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
@@ -979,9 +885,7 @@ void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixe
     PUSH_IF_COMPILING(glFrustumx)
 #endif
     gles_glFrustumx(left, right, bottom, top, near, far);
-
 }
-
 #endif
 #ifndef skip_glGenBuffers
 void glGenBuffers(GLsizei n, GLuint * buffers) {
@@ -990,9 +894,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     PUSH_IF_COMPILING(glGenBuffers)
 #endif
     gles_glGenBuffers(n, buffers);
-
 }
-
 #endif
 #ifndef skip_glGenTextures
 void glGenTextures(GLsizei n, GLuint * textures) {
@@ -1001,9 +903,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
     PUSH_IF_COMPILING(glGenTextures)
 #endif
     gles_glGenTextures(n, textures);
-
 }
-
 #endif
 #ifndef skip_glGetBooleanv
 void glGetBooleanv(GLenum pname, GLboolean * params) {
@@ -1012,9 +912,7 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
     PUSH_IF_COMPILING(glGetBooleanv)
 #endif
     gles_glGetBooleanv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetBufferParameteriv
 void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1023,9 +921,7 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     PUSH_IF_COMPILING(glGetBufferParameteriv)
 #endif
     gles_glGetBufferParameteriv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetClipPlanef
 void glGetClipPlanef(GLenum plane, GLfloat * equation) {
@@ -1034,9 +930,7 @@ void glGetClipPlanef(GLenum plane, GLfloat * equation) {
     PUSH_IF_COMPILING(glGetClipPlanef)
 #endif
     gles_glGetClipPlanef(plane, equation);
-
 }
-
 #endif
 #ifndef skip_glGetClipPlanex
 void glGetClipPlanex(GLenum plane, GLfixed * equation) {
@@ -1045,9 +939,7 @@ void glGetClipPlanex(GLenum plane, GLfixed * equation) {
     PUSH_IF_COMPILING(glGetClipPlanex)
 #endif
     gles_glGetClipPlanex(plane, equation);
-
 }
-
 #endif
 #ifndef skip_glGetError
 GLenum glGetError() {
@@ -1056,9 +948,7 @@ GLenum glGetError() {
     PUSH_IF_COMPILING(glGetError)
 #endif
     return gles_glGetError();
-
 }
-
 #endif
 #ifndef skip_glGetFixedv
 void glGetFixedv(GLenum pname, GLfixed * params) {
@@ -1067,9 +957,7 @@ void glGetFixedv(GLenum pname, GLfixed * params) {
     PUSH_IF_COMPILING(glGetFixedv)
 #endif
     gles_glGetFixedv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetFloatv
 void glGetFloatv(GLenum pname, GLfloat * params) {
@@ -1078,9 +966,7 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
     PUSH_IF_COMPILING(glGetFloatv)
 #endif
     gles_glGetFloatv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetIntegerv
 void glGetIntegerv(GLenum pname, GLint * params) {
@@ -1089,9 +975,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
     PUSH_IF_COMPILING(glGetIntegerv)
 #endif
     gles_glGetIntegerv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetLightfv
 void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
@@ -1100,9 +984,7 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     PUSH_IF_COMPILING(glGetLightfv)
 #endif
     gles_glGetLightfv(light, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetLightxv
 void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
@@ -1111,9 +993,7 @@ void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
     PUSH_IF_COMPILING(glGetLightxv)
 #endif
     gles_glGetLightxv(light, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetMaterialfv
 void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
@@ -1122,9 +1002,7 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     PUSH_IF_COMPILING(glGetMaterialfv)
 #endif
     gles_glGetMaterialfv(face, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetMaterialxv
 void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
@@ -1133,9 +1011,7 @@ void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
     PUSH_IF_COMPILING(glGetMaterialxv)
 #endif
     gles_glGetMaterialxv(face, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetPointerv
 void glGetPointerv(GLenum pname, GLvoid ** params) {
@@ -1144,9 +1020,7 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
     PUSH_IF_COMPILING(glGetPointerv)
 #endif
     gles_glGetPointerv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetString
 const GLubyte * glGetString(GLenum name) {
@@ -1155,9 +1029,7 @@ const GLubyte * glGetString(GLenum name) {
     PUSH_IF_COMPILING(glGetString)
 #endif
     return gles_glGetString(name);
-
 }
-
 #endif
 #ifndef skip_glGetTexEnvfv
 void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1166,9 +1038,7 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     PUSH_IF_COMPILING(glGetTexEnvfv)
 #endif
     gles_glGetTexEnvfv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetTexEnviv
 void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
@@ -1177,9 +1047,7 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     PUSH_IF_COMPILING(glGetTexEnviv)
 #endif
     gles_glGetTexEnviv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetTexEnvxv
 void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -1188,9 +1056,7 @@ void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
     PUSH_IF_COMPILING(glGetTexEnvxv)
 #endif
     gles_glGetTexEnvxv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetTexParameterfv
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1199,9 +1065,7 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     PUSH_IF_COMPILING(glGetTexParameterfv)
 #endif
     gles_glGetTexParameterfv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetTexParameteriv
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1210,9 +1074,7 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     PUSH_IF_COMPILING(glGetTexParameteriv)
 #endif
     gles_glGetTexParameteriv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glGetTexParameterxv
 void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -1221,9 +1083,7 @@ void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
     PUSH_IF_COMPILING(glGetTexParameterxv)
 #endif
     gles_glGetTexParameterxv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glHint
 void glHint(GLenum target, GLenum mode) {
@@ -1232,9 +1092,7 @@ void glHint(GLenum target, GLenum mode) {
     PUSH_IF_COMPILING(glHint)
 #endif
     gles_glHint(target, mode);
-
 }
-
 #endif
 #ifndef skip_glIsBuffer
 GLboolean glIsBuffer(GLuint buffer) {
@@ -1243,9 +1101,7 @@ GLboolean glIsBuffer(GLuint buffer) {
     PUSH_IF_COMPILING(glIsBuffer)
 #endif
     return gles_glIsBuffer(buffer);
-
 }
-
 #endif
 #ifndef skip_glIsEnabled
 GLboolean glIsEnabled(GLenum cap) {
@@ -1254,9 +1110,7 @@ GLboolean glIsEnabled(GLenum cap) {
     PUSH_IF_COMPILING(glIsEnabled)
 #endif
     return gles_glIsEnabled(cap);
-
 }
-
 #endif
 #ifndef skip_glIsTexture
 GLboolean glIsTexture(GLuint texture) {
@@ -1265,9 +1119,7 @@ GLboolean glIsTexture(GLuint texture) {
     PUSH_IF_COMPILING(glIsTexture)
 #endif
     return gles_glIsTexture(texture);
-
 }
-
 #endif
 #ifndef skip_glLightModelf
 void glLightModelf(GLenum pname, GLfloat param) {
@@ -1276,9 +1128,7 @@ void glLightModelf(GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glLightModelf)
 #endif
     gles_glLightModelf(pname, param);
-
 }
-
 #endif
 #ifndef skip_glLightModelfv
 void glLightModelfv(GLenum pname, const GLfloat * params) {
@@ -1287,9 +1137,7 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glLightModelfv)
 #endif
     gles_glLightModelfv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glLightModelx
 void glLightModelx(GLenum pname, GLfixed param) {
@@ -1298,9 +1146,7 @@ void glLightModelx(GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glLightModelx)
 #endif
     gles_glLightModelx(pname, param);
-
 }
-
 #endif
 #ifndef skip_glLightModelxv
 void glLightModelxv(GLenum pname, const GLfixed * params) {
@@ -1309,9 +1155,7 @@ void glLightModelxv(GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glLightModelxv)
 #endif
     gles_glLightModelxv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glLightf
 void glLightf(GLenum light, GLenum pname, GLfloat param) {
@@ -1320,9 +1164,7 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glLightf)
 #endif
     gles_glLightf(light, pname, param);
-
 }
-
 #endif
 #ifndef skip_glLightfv
 void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
@@ -1331,9 +1173,7 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glLightfv)
 #endif
     gles_glLightfv(light, pname, params);
-
 }
-
 #endif
 #ifndef skip_glLightx
 void glLightx(GLenum light, GLenum pname, GLfixed param) {
@@ -1342,9 +1182,7 @@ void glLightx(GLenum light, GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glLightx)
 #endif
     gles_glLightx(light, pname, param);
-
 }
-
 #endif
 #ifndef skip_glLightxv
 void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
@@ -1353,9 +1191,7 @@ void glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glLightxv)
 #endif
     gles_glLightxv(light, pname, params);
-
 }
-
 #endif
 #ifndef skip_glLineWidth
 void glLineWidth(GLfloat width) {
@@ -1364,9 +1200,7 @@ void glLineWidth(GLfloat width) {
     PUSH_IF_COMPILING(glLineWidth)
 #endif
     gles_glLineWidth(width);
-
 }
-
 #endif
 #ifndef skip_glLineWidthx
 void glLineWidthx(GLfixed width) {
@@ -1375,9 +1209,7 @@ void glLineWidthx(GLfixed width) {
     PUSH_IF_COMPILING(glLineWidthx)
 #endif
     gles_glLineWidthx(width);
-
 }
-
 #endif
 #ifndef skip_glLoadIdentity
 void glLoadIdentity() {
@@ -1386,9 +1218,7 @@ void glLoadIdentity() {
     PUSH_IF_COMPILING(glLoadIdentity)
 #endif
     gles_glLoadIdentity();
-
 }
-
 #endif
 #ifndef skip_glLoadMatrixf
 void glLoadMatrixf(const GLfloat * m) {
@@ -1397,9 +1227,7 @@ void glLoadMatrixf(const GLfloat * m) {
     PUSH_IF_COMPILING(glLoadMatrixf)
 #endif
     gles_glLoadMatrixf(m);
-
 }
-
 #endif
 #ifndef skip_glLoadMatrixx
 void glLoadMatrixx(const GLfixed * m) {
@@ -1408,9 +1236,7 @@ void glLoadMatrixx(const GLfixed * m) {
     PUSH_IF_COMPILING(glLoadMatrixx)
 #endif
     gles_glLoadMatrixx(m);
-
 }
-
 #endif
 #ifndef skip_glLogicOp
 void glLogicOp(GLenum opcode) {
@@ -1419,9 +1245,7 @@ void glLogicOp(GLenum opcode) {
     PUSH_IF_COMPILING(glLogicOp)
 #endif
     gles_glLogicOp(opcode);
-
 }
-
 #endif
 #ifndef skip_glMaterialf
 void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
@@ -1430,9 +1254,7 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glMaterialf)
 #endif
     gles_glMaterialf(face, pname, param);
-
 }
-
 #endif
 #ifndef skip_glMaterialfv
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
@@ -1441,9 +1263,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glMaterialfv)
 #endif
     gles_glMaterialfv(face, pname, params);
-
 }
-
 #endif
 #ifndef skip_glMaterialx
 void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
@@ -1452,9 +1272,7 @@ void glMaterialx(GLenum face, GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glMaterialx)
 #endif
     gles_glMaterialx(face, pname, param);
-
 }
-
 #endif
 #ifndef skip_glMaterialxv
 void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
@@ -1463,9 +1281,7 @@ void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glMaterialxv)
 #endif
     gles_glMaterialxv(face, pname, params);
-
 }
-
 #endif
 #ifndef skip_glMatrixMode
 void glMatrixMode(GLenum mode) {
@@ -1474,9 +1290,7 @@ void glMatrixMode(GLenum mode) {
     PUSH_IF_COMPILING(glMatrixMode)
 #endif
     gles_glMatrixMode(mode);
-
 }
-
 #endif
 #ifndef skip_glMultMatrixf
 void glMultMatrixf(const GLfloat * m) {
@@ -1485,9 +1299,7 @@ void glMultMatrixf(const GLfloat * m) {
     PUSH_IF_COMPILING(glMultMatrixf)
 #endif
     gles_glMultMatrixf(m);
-
 }
-
 #endif
 #ifndef skip_glMultMatrixx
 void glMultMatrixx(const GLfixed * m) {
@@ -1496,9 +1308,7 @@ void glMultMatrixx(const GLfixed * m) {
     PUSH_IF_COMPILING(glMultMatrixx)
 #endif
     gles_glMultMatrixx(m);
-
 }
-
 #endif
 #ifndef skip_glMultiTexCoord4f
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -1507,9 +1317,7 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
     PUSH_IF_COMPILING(glMultiTexCoord4f)
 #endif
     gles_glMultiTexCoord4f(target, s, t, r, q);
-
 }
-
 #endif
 #ifndef skip_glMultiTexCoord4x
 void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
@@ -1518,9 +1326,7 @@ void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q
     PUSH_IF_COMPILING(glMultiTexCoord4x)
 #endif
     gles_glMultiTexCoord4x(target, s, t, r, q);
-
 }
-
 #endif
 #ifndef skip_glNormal3f
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
@@ -1529,9 +1335,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     PUSH_IF_COMPILING(glNormal3f)
 #endif
     gles_glNormal3f(nx, ny, nz);
-
 }
-
 #endif
 #ifndef skip_glNormal3x
 void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
@@ -1540,9 +1344,7 @@ void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
     PUSH_IF_COMPILING(glNormal3x)
 #endif
     gles_glNormal3x(nx, ny, nz);
-
 }
-
 #endif
 #ifndef skip_glNormalPointer
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1551,9 +1353,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     PUSH_IF_COMPILING(glNormalPointer)
 #endif
     gles_glNormalPointer(type, stride, pointer);
-
 }
-
 #endif
 #ifndef skip_glOrthof
 void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
@@ -1562,9 +1362,7 @@ void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat 
     PUSH_IF_COMPILING(glOrthof)
 #endif
     gles_glOrthof(left, right, bottom, top, near, far);
-
 }
-
 #endif
 #ifndef skip_glOrthox
 void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
@@ -1573,9 +1371,7 @@ void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed 
     PUSH_IF_COMPILING(glOrthox)
 #endif
     gles_glOrthox(left, right, bottom, top, near, far);
-
 }
-
 #endif
 #ifndef skip_glPixelStorei
 void glPixelStorei(GLenum pname, GLint param) {
@@ -1584,9 +1380,7 @@ void glPixelStorei(GLenum pname, GLint param) {
     PUSH_IF_COMPILING(glPixelStorei)
 #endif
     gles_glPixelStorei(pname, param);
-
 }
-
 #endif
 #ifndef skip_glPointParameterf
 void glPointParameterf(GLenum pname, GLfloat param) {
@@ -1595,9 +1389,7 @@ void glPointParameterf(GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glPointParameterf)
 #endif
     gles_glPointParameterf(pname, param);
-
 }
-
 #endif
 #ifndef skip_glPointParameterfv
 void glPointParameterfv(GLenum pname, const GLfloat * params) {
@@ -1606,9 +1398,7 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glPointParameterfv)
 #endif
     gles_glPointParameterfv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glPointParameterx
 void glPointParameterx(GLenum pname, GLfixed param) {
@@ -1617,9 +1407,7 @@ void glPointParameterx(GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glPointParameterx)
 #endif
     gles_glPointParameterx(pname, param);
-
 }
-
 #endif
 #ifndef skip_glPointParameterxv
 void glPointParameterxv(GLenum pname, const GLfixed * params) {
@@ -1628,9 +1416,7 @@ void glPointParameterxv(GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glPointParameterxv)
 #endif
     gles_glPointParameterxv(pname, params);
-
 }
-
 #endif
 #ifndef skip_glPointSize
 void glPointSize(GLfloat size) {
@@ -1639,9 +1425,7 @@ void glPointSize(GLfloat size) {
     PUSH_IF_COMPILING(glPointSize)
 #endif
     gles_glPointSize(size);
-
 }
-
 #endif
 #ifndef skip_glPointSizePointerOES
 void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1650,9 +1434,7 @@ void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) 
     PUSH_IF_COMPILING(glPointSizePointerOES)
 #endif
     gles_glPointSizePointerOES(type, stride, pointer);
-
 }
-
 #endif
 #ifndef skip_glPointSizex
 void glPointSizex(GLfixed size) {
@@ -1661,9 +1443,7 @@ void glPointSizex(GLfixed size) {
     PUSH_IF_COMPILING(glPointSizex)
 #endif
     gles_glPointSizex(size);
-
 }
-
 #endif
 #ifndef skip_glPolygonOffset
 void glPolygonOffset(GLfloat factor, GLfloat units) {
@@ -1672,9 +1452,7 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
     PUSH_IF_COMPILING(glPolygonOffset)
 #endif
     gles_glPolygonOffset(factor, units);
-
 }
-
 #endif
 #ifndef skip_glPolygonOffsetx
 void glPolygonOffsetx(GLfixed factor, GLfixed units) {
@@ -1683,9 +1461,7 @@ void glPolygonOffsetx(GLfixed factor, GLfixed units) {
     PUSH_IF_COMPILING(glPolygonOffsetx)
 #endif
     gles_glPolygonOffsetx(factor, units);
-
 }
-
 #endif
 #ifndef skip_glPopMatrix
 void glPopMatrix() {
@@ -1694,9 +1470,7 @@ void glPopMatrix() {
     PUSH_IF_COMPILING(glPopMatrix)
 #endif
     gles_glPopMatrix();
-
 }
-
 #endif
 #ifndef skip_glPushMatrix
 void glPushMatrix() {
@@ -1705,9 +1479,7 @@ void glPushMatrix() {
     PUSH_IF_COMPILING(glPushMatrix)
 #endif
     gles_glPushMatrix();
-
 }
-
 #endif
 #ifndef skip_glReadPixels
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
@@ -1716,9 +1488,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     PUSH_IF_COMPILING(glReadPixels)
 #endif
     gles_glReadPixels(x, y, width, height, format, type, pixels);
-
 }
-
 #endif
 #ifndef skip_glRotatef
 void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
@@ -1727,9 +1497,7 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     PUSH_IF_COMPILING(glRotatef)
 #endif
     gles_glRotatef(angle, x, y, z);
-
 }
-
 #endif
 #ifndef skip_glRotatex
 void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
@@ -1738,9 +1506,7 @@ void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
     PUSH_IF_COMPILING(glRotatex)
 #endif
     gles_glRotatex(angle, x, y, z);
-
 }
-
 #endif
 #ifndef skip_glSampleCoverage
 void glSampleCoverage(GLclampf value, GLboolean invert) {
@@ -1749,9 +1515,7 @@ void glSampleCoverage(GLclampf value, GLboolean invert) {
     PUSH_IF_COMPILING(glSampleCoverage)
 #endif
     gles_glSampleCoverage(value, invert);
-
 }
-
 #endif
 #ifndef skip_glSampleCoveragex
 void glSampleCoveragex(GLclampx value, GLboolean invert) {
@@ -1760,9 +1524,7 @@ void glSampleCoveragex(GLclampx value, GLboolean invert) {
     PUSH_IF_COMPILING(glSampleCoveragex)
 #endif
     gles_glSampleCoveragex(value, invert);
-
 }
-
 #endif
 #ifndef skip_glScalef
 void glScalef(GLfloat x, GLfloat y, GLfloat z) {
@@ -1771,9 +1533,7 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     PUSH_IF_COMPILING(glScalef)
 #endif
     gles_glScalef(x, y, z);
-
 }
-
 #endif
 #ifndef skip_glScalex
 void glScalex(GLfixed x, GLfixed y, GLfixed z) {
@@ -1782,9 +1542,7 @@ void glScalex(GLfixed x, GLfixed y, GLfixed z) {
     PUSH_IF_COMPILING(glScalex)
 #endif
     gles_glScalex(x, y, z);
-
 }
-
 #endif
 #ifndef skip_glScissor
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1793,9 +1551,7 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glScissor)
 #endif
     gles_glScissor(x, y, width, height);
-
 }
-
 #endif
 #ifndef skip_glShadeModel
 void glShadeModel(GLenum mode) {
@@ -1804,9 +1560,7 @@ void glShadeModel(GLenum mode) {
     PUSH_IF_COMPILING(glShadeModel)
 #endif
     gles_glShadeModel(mode);
-
 }
-
 #endif
 #ifndef skip_glStencilFunc
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
@@ -1815,9 +1569,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     PUSH_IF_COMPILING(glStencilFunc)
 #endif
     gles_glStencilFunc(func, ref, mask);
-
 }
-
 #endif
 #ifndef skip_glStencilMask
 void glStencilMask(GLuint mask) {
@@ -1826,9 +1578,7 @@ void glStencilMask(GLuint mask) {
     PUSH_IF_COMPILING(glStencilMask)
 #endif
     gles_glStencilMask(mask);
-
 }
-
 #endif
 #ifndef skip_glStencilOp
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
@@ -1837,9 +1587,7 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     PUSH_IF_COMPILING(glStencilOp)
 #endif
     gles_glStencilOp(fail, zfail, zpass);
-
 }
-
 #endif
 #ifndef skip_glTexCoordPointer
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1848,9 +1596,7 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
     PUSH_IF_COMPILING(glTexCoordPointer)
 #endif
     gles_glTexCoordPointer(size, type, stride, pointer);
-
 }
-
 #endif
 #ifndef skip_glTexEnvf
 void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
@@ -1859,9 +1605,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glTexEnvf)
 #endif
     gles_glTexEnvf(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexEnvfv
 void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -1870,9 +1614,7 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glTexEnvfv)
 #endif
     gles_glTexEnvfv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexEnvi
 void glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -1881,9 +1623,7 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     PUSH_IF_COMPILING(glTexEnvi)
 #endif
     gles_glTexEnvi(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexEnviv
 void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
@@ -1892,9 +1632,7 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     PUSH_IF_COMPILING(glTexEnviv)
 #endif
     gles_glTexEnviv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexEnvx
 void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
@@ -1903,9 +1641,7 @@ void glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glTexEnvx)
 #endif
     gles_glTexEnvx(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexEnvxv
 void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -1914,9 +1650,7 @@ void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glTexEnvxv)
 #endif
     gles_glTexEnvxv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexImage2D
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -1925,9 +1659,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     PUSH_IF_COMPILING(glTexImage2D)
 #endif
     gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
-
 }
-
 #endif
 #ifndef skip_glTexParameterf
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
@@ -1936,9 +1668,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glTexParameterf)
 #endif
     gles_glTexParameterf(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexParameterfv
 void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -1947,9 +1677,7 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     PUSH_IF_COMPILING(glTexParameterfv)
 #endif
     gles_glTexParameterfv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexParameteri
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
@@ -1958,9 +1686,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     PUSH_IF_COMPILING(glTexParameteri)
 #endif
     gles_glTexParameteri(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexParameteriv
 void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -1969,9 +1695,7 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     PUSH_IF_COMPILING(glTexParameteriv)
 #endif
     gles_glTexParameteriv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexParameterx
 void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
@@ -1980,9 +1704,7 @@ void glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
     PUSH_IF_COMPILING(glTexParameterx)
 #endif
     gles_glTexParameterx(target, pname, param);
-
 }
-
 #endif
 #ifndef skip_glTexParameterxv
 void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -1991,9 +1713,7 @@ void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
     PUSH_IF_COMPILING(glTexParameterxv)
 #endif
     gles_glTexParameterxv(target, pname, params);
-
 }
-
 #endif
 #ifndef skip_glTexSubImage2D
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -2002,9 +1722,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     PUSH_IF_COMPILING(glTexSubImage2D)
 #endif
     gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
-
 }
-
 #endif
 #ifndef skip_glTranslatef
 void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
@@ -2013,9 +1731,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     PUSH_IF_COMPILING(glTranslatef)
 #endif
     gles_glTranslatef(x, y, z);
-
 }
-
 #endif
 #ifndef skip_glTranslatex
 void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
@@ -2024,9 +1740,7 @@ void glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
     PUSH_IF_COMPILING(glTranslatex)
 #endif
     gles_glTranslatex(x, y, z);
-
 }
-
 #endif
 #ifndef skip_glVertexPointer
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -2035,9 +1749,7 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
     PUSH_IF_COMPILING(glVertexPointer)
 #endif
     gles_glVertexPointer(size, type, stride, pointer);
-
 }
-
 #endif
 #ifndef skip_glViewport
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -2046,8 +1758,6 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport)
 #endif
     gles_glViewport(x, y, width, height);
-
 }
-
 #endif
 #endif

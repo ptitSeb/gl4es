@@ -7,7 +7,7 @@
     {% block load scoped %}{% endblock %}
     {% block call scoped %}
     {% if not func.void %}return {% endif %}{% block prefix %}wrap{% endblock %}_{{ func.name }}({{ func.args|args(0) }});
-    {% endblock %}
+    {%- endblock %}
 }
 {% endblock %}
 {% endfor %}

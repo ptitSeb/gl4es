@@ -6,7 +6,7 @@
 {% endblock %}
 {% block definition %}
 #ifndef skip_{{ func.name }}
-{{ super() }}
+{{ super() -}}
 #endif
 {% endblock %}
 {% block load %}
