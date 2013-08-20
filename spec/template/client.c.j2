@@ -4,14 +4,12 @@
 #include <unistd.h>
 {{ super() }}
 
-{% endblock %}
-
-{% block config %}
-{% set enable_skip = 0 %}
+#define DISABLE_SKIP
 {% endblock %}
 
 {% block call %}
     {{ func.name }}_INDEXED *packed_data = malloc(sizeof({{ func.name }}_INDEXED));
+    packed_data->func = {{ func.name }}_INDEX;
     {% for arg in func.args %}
     packed_data->args.a{{ loop.index }} = {{ arg.name }};
     {% endfor %}
