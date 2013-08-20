@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "gl.h"
 
-void glPackedCall(const UnknownCall *packed) {
+void glPackedCall(const packed_call_t *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum_GLfloat: {
             PACKED_void_GLenum_GLfloat *unpacked = (PACKED_void_GLenum_GLfloat *)packed;

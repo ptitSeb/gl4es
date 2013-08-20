@@ -5,7 +5,7 @@ typedef struct {
     int format;
     void *func;
     void *args;
-} UnknownCall;
+} unknown_call_t;
 
 enum FORMAT {
 {% for f in formats %}
@@ -28,7 +28,7 @@ typedef struct {
 {% endfor %}
 
 extern void glPushCall(void *data);
-void glPackedCall(const UnknownCall *packed);
+void glPackedCall(const packed_call_t *packed);
 
 {% for func in functions %}
 #define {{ func.name }}_RETURN {{ func.return }}

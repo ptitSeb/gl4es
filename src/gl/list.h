@@ -15,7 +15,7 @@ KHASH_MAP_INIT_INT(material, rendermaterial_t *)
 typedef struct _call_list_t {
     unsigned long len;
     unsigned long cap;
-    UnknownCall **calls;
+    packed_call_t **calls;
 } call_list_t;
 
 typedef struct _renderlist_t {
@@ -55,7 +55,7 @@ extern void rlBindTexture(renderlist_t *list, GLuint texture);
 extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
 extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
-extern void rlPushCall(renderlist_t *list, UnknownCall *data);
+extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);
 extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 

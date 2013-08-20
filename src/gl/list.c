@@ -357,7 +357,7 @@ void rlBindTexture(renderlist_t *list, GLuint texture) {
     list->texture = texture;
 }
 
-void rlPushCall(renderlist_t *list, UnknownCall *data) {
+void rlPushCall(renderlist_t *list, packed_call_t *data) {
     call_list_t *cl = &list->calls;
     if (!cl->calls) {
         cl->cap = DEFAULT_CALL_LIST_CAPACITY;

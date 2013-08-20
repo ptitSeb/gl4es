@@ -1,7 +1,7 @@
 #ifndef USE_ES2
 #include "gles.h"
 
-void glPackedCall(const UnknownCall *packed) {
+void glPackedCall(const packed_call_t *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum: {
             PACKED_void_GLenum *unpacked = (PACKED_void_GLenum *)packed;

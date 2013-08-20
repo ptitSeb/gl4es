@@ -8,7 +8,7 @@ typedef struct {
     int format;
     void *func;
     void *args;
-} UnknownCall;
+} packed_call_t;
 
 enum FORMAT {
     FORMAT_void_GLenum,
@@ -1058,7 +1058,7 @@ typedef struct {
 } PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__;
 
 extern void glPushCall(void *data);
-void glPackedCall(const UnknownCall *packed);
+void glPackedCall(const packed_call_t *packed);
 
 #define glActiveTexture_RETURN void
 #define glActiveTexture_ARG_NAMES texture

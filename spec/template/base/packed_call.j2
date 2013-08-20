@@ -1,4 +1,4 @@
-void glPackedCall(const UnknownCall *packed) {
+void glPackedCall(const packed_call_t *packed) {
     switch (packed->format) {
         {% for f in formats %}
         case FORMAT_{{ f.types }}: {
