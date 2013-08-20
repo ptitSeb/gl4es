@@ -5688,6 +5688,18 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
 #endif
+#ifndef skip_client_glXQueryExtension
+Bool glXQueryExtension(Display * display, int * errorBase, int * eventBase) {
+    glXQueryExtension_INDEXED *packed_data = malloc(sizeof(glXQueryExtension_INDEXED));
+    packed_data->func = glXQueryExtension_INDEX;
+    packed_data->args.a1 = display;
+    packed_data->args.a2 = errorBase;
+    packed_data->args.a3 = eventBase;
+    Bool ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    return ret;
+}
+#endif
 #ifndef skip_client_glXQueryExtensionsString
 const char * glXQueryExtensionsString(Display * dpy, int screen) {
     glXQueryExtensionsString_INDEXED *packed_data = malloc(sizeof(glXQueryExtensionsString_INDEXED));
@@ -7479,6 +7491,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "glXQueryDrawable") == 0) {
         return (void *)glXQueryDrawable;
+    }
+    if (strcmp(name, "glXQueryExtension") == 0) {
+        return (void *)glXQueryExtension;
     }
     if (strcmp(name, "glXQueryExtensionsString") == 0) {
         return (void *)glXQueryExtensionsString;

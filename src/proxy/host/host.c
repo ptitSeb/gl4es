@@ -9187,6 +9187,25 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXQueryExtension
+        case glXQueryExtension_INDEX: {
+            static glXQueryExtension_PTR local_glXQueryExtension;
+            if (local_glXQueryExtension == NULL) {
+                local_glXQueryExtension = (glXQueryExtension_PTR)dlsym(g_libgl, "glXQueryExtension");
+                if (! local_glXQueryExtension) {
+                    printf("Warning: Unable to dlsym 'glXQueryExtension'\n");
+                    return;
+                }
+            }
+
+            INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *unpacked = (INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *)packed;
+            ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args = unpacked->args;
+            Bool *ret = (Bool *)ret_v;
+            *ret =
+            local_glXQueryExtension(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
         #ifndef skip_index_glXQueryExtensionsString
         case glXQueryExtensionsString_INDEX: {
             static glXQueryExtensionsString_PTR local_glXQueryExtensionsString;

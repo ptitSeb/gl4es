@@ -208,11 +208,11 @@ enum FORMAT {
     FORMAT_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__,
     FORMAT_Bool_Display___GENPT___GLXContext,
     FORMAT_Bool_Display___GENPT___GLXDrawable_GLXContext,
+    FORMAT_Bool_Display___GENPT___int___GENPT___int___GENPT__,
     FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__,
     FORMAT_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__,
     FORMAT_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__,
     FORMAT_const_char___GENPT___Display___GENPT___int_int,
-    FORMAT_Bool_Display___GENPT___int___GENPT___int___GENPT__,
     FORMAT_void_Display___GENPT___GLXDrawable,
     FORMAT_void_Font_int_int_int,
     FORMAT_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__,
@@ -3163,6 +3163,21 @@ typedef struct {
     int func;
     ARGS_Bool_Display___GENPT___GLXDrawable_GLXContext args;
 } INDEXED_Bool_Display___GENPT___GLXDrawable_GLXContext;
+typedef Bool (*FUNC_Bool_Display___GENPT___int___GENPT___int___GENPT__)(Display * display, int * errorBase, int * eventBase);
+typedef struct {
+    Display * a1;
+    int * a2;
+    int * a3;
+} ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__;
+typedef struct {
+    int format;
+    FUNC_Bool_Display___GENPT___int___GENPT___int___GENPT__ func;
+    ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args;
+} PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__;
+typedef struct {
+    int func;
+    ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args;
+} INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__;
 typedef int (*FUNC_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__)(Display * dpy, int timeSlice, int attrib, int size, const void * attribList, void * returnAttribList);
 typedef struct {
     Display * a1;
@@ -3225,21 +3240,6 @@ typedef struct {
     int func;
     ARGS_const_char___GENPT___Display___GENPT___int_int args;
 } INDEXED_const_char___GENPT___Display___GENPT___int_int;
-typedef Bool (*FUNC_Bool_Display___GENPT___int___GENPT___int___GENPT__)(Display * dpy, int * maj, int * min);
-typedef struct {
-    Display * a1;
-    int * a2;
-    int * a3;
-} ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__;
-typedef struct {
-    int format;
-    FUNC_Bool_Display___GENPT___int___GENPT___int___GENPT__ func;
-    ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args;
-} PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__;
-typedef struct {
-    int func;
-    ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args;
-} INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__;
 typedef void (*FUNC_void_Display___GENPT___GLXDrawable)(Display * dpy, GLXDrawable drawable);
 typedef struct {
     Display * a1;
@@ -7276,126 +7276,133 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 #define glXQueryDrawable_PACKED PACKED_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__
 #define glXQueryDrawable_INDEXED INDEXED_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__
 #define glXQueryDrawable_FORMAT FORMAT_void_Display___GENPT___GLXDrawable_int_unsigned_int___GENPT__
-#define glXQueryExtensionsString_INDEX 536
+#define glXQueryExtension_INDEX 536
+#define glXQueryExtension_RETURN Bool
+#define glXQueryExtension_ARG_NAMES display, errorBase, eventBase
+#define glXQueryExtension_ARG_EXPAND Display * display, int * errorBase, int * eventBase
+#define glXQueryExtension_PACKED PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__
+#define glXQueryExtension_INDEXED INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__
+#define glXQueryExtension_FORMAT FORMAT_Bool_Display___GENPT___int___GENPT___int___GENPT__
+#define glXQueryExtensionsString_INDEX 537
 #define glXQueryExtensionsString_RETURN const char *
 #define glXQueryExtensionsString_ARG_NAMES dpy, screen
 #define glXQueryExtensionsString_ARG_EXPAND Display * dpy, int screen
 #define glXQueryExtensionsString_PACKED PACKED_const_char___GENPT___Display___GENPT___int
 #define glXQueryExtensionsString_INDEXED INDEXED_const_char___GENPT___Display___GENPT___int
 #define glXQueryExtensionsString_FORMAT FORMAT_const_char___GENPT___Display___GENPT___int
-#define glXQueryHyperpipeAttribSGIX_INDEX 537
+#define glXQueryHyperpipeAttribSGIX_INDEX 538
 #define glXQueryHyperpipeAttribSGIX_RETURN int
 #define glXQueryHyperpipeAttribSGIX_ARG_NAMES dpy, timeSlice, attrib, size, returnAttribList
 #define glXQueryHyperpipeAttribSGIX_ARG_EXPAND Display * dpy, int timeSlice, int attrib, int size, const void * returnAttribList
 #define glXQueryHyperpipeAttribSGIX_PACKED PACKED_int_Display___GENPT___int_int_int_const_void___GENPT__
 #define glXQueryHyperpipeAttribSGIX_INDEXED INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT__
 #define glXQueryHyperpipeAttribSGIX_FORMAT FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT__
-#define glXQueryHyperpipeBestAttribSGIX_INDEX 538
+#define glXQueryHyperpipeBestAttribSGIX_INDEX 539
 #define glXQueryHyperpipeBestAttribSGIX_RETURN int
 #define glXQueryHyperpipeBestAttribSGIX_ARG_NAMES dpy, timeSlice, attrib, size, attribList, returnAttribList
 #define glXQueryHyperpipeBestAttribSGIX_ARG_EXPAND Display * dpy, int timeSlice, int attrib, int size, const void * attribList, void * returnAttribList
 #define glXQueryHyperpipeBestAttribSGIX_PACKED PACKED_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__
 #define glXQueryHyperpipeBestAttribSGIX_INDEXED INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__
 #define glXQueryHyperpipeBestAttribSGIX_FORMAT FORMAT_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__
-#define glXQueryHyperpipeConfigSGIX_INDEX 539
+#define glXQueryHyperpipeConfigSGIX_INDEX 540
 #define glXQueryHyperpipeConfigSGIX_RETURN GLXHyperpipeConfigSGIX *
 #define glXQueryHyperpipeConfigSGIX_ARG_NAMES dpy, hpId, npipes
 #define glXQueryHyperpipeConfigSGIX_ARG_EXPAND Display * dpy, int hpId, int * npipes
 #define glXQueryHyperpipeConfigSGIX_PACKED PACKED_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__
 #define glXQueryHyperpipeConfigSGIX_INDEXED INDEXED_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__
 #define glXQueryHyperpipeConfigSGIX_FORMAT FORMAT_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__
-#define glXQueryHyperpipeNetworkSGIX_INDEX 540
+#define glXQueryHyperpipeNetworkSGIX_INDEX 541
 #define glXQueryHyperpipeNetworkSGIX_RETURN GLXHyperpipeNetworkSGIX *
 #define glXQueryHyperpipeNetworkSGIX_ARG_NAMES dpy, npipes
 #define glXQueryHyperpipeNetworkSGIX_ARG_EXPAND Display * dpy, int * npipes
 #define glXQueryHyperpipeNetworkSGIX_PACKED PACKED_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__
 #define glXQueryHyperpipeNetworkSGIX_INDEXED INDEXED_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__
 #define glXQueryHyperpipeNetworkSGIX_FORMAT FORMAT_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__
-#define glXQueryMaxSwapBarriersSGIX_INDEX 541
+#define glXQueryMaxSwapBarriersSGIX_INDEX 542
 #define glXQueryMaxSwapBarriersSGIX_RETURN void
 #define glXQueryMaxSwapBarriersSGIX_ARG_NAMES 
 #define glXQueryMaxSwapBarriersSGIX_ARG_EXPAND 
 #define glXQueryMaxSwapBarriersSGIX_PACKED PACKED_void
 #define glXQueryMaxSwapBarriersSGIX_INDEXED INDEXED_void
 #define glXQueryMaxSwapBarriersSGIX_FORMAT FORMAT_void
-#define glXQueryServerString_INDEX 542
+#define glXQueryServerString_INDEX 543
 #define glXQueryServerString_RETURN const char *
 #define glXQueryServerString_ARG_NAMES dpy, screen, name
 #define glXQueryServerString_ARG_EXPAND Display * dpy, int screen, int name
 #define glXQueryServerString_PACKED PACKED_const_char___GENPT___Display___GENPT___int_int
 #define glXQueryServerString_INDEXED INDEXED_const_char___GENPT___Display___GENPT___int_int
 #define glXQueryServerString_FORMAT FORMAT_const_char___GENPT___Display___GENPT___int_int
-#define glXQueryVersion_INDEX 543
+#define glXQueryVersion_INDEX 544
 #define glXQueryVersion_RETURN Bool
 #define glXQueryVersion_ARG_NAMES dpy, maj, min
 #define glXQueryVersion_ARG_EXPAND Display * dpy, int * maj, int * min
 #define glXQueryVersion_PACKED PACKED_Bool_Display___GENPT___int___GENPT___int___GENPT__
 #define glXQueryVersion_INDEXED INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__
 #define glXQueryVersion_FORMAT FORMAT_Bool_Display___GENPT___int___GENPT___int___GENPT__
-#define glXRender_INDEX 544
+#define glXRender_INDEX 545
 #define glXRender_RETURN void
 #define glXRender_ARG_NAMES 
 #define glXRender_ARG_EXPAND 
 #define glXRender_PACKED PACKED_void
 #define glXRender_INDEXED INDEXED_void
 #define glXRender_FORMAT FORMAT_void
-#define glXRenderLarge_INDEX 545
+#define glXRenderLarge_INDEX 546
 #define glXRenderLarge_RETURN void
 #define glXRenderLarge_ARG_NAMES 
 #define glXRenderLarge_ARG_EXPAND 
 #define glXRenderLarge_PACKED PACKED_void
 #define glXRenderLarge_INDEXED INDEXED_void
 #define glXRenderLarge_FORMAT FORMAT_void
-#define glXSelectEvent_INDEX 546
+#define glXSelectEvent_INDEX 547
 #define glXSelectEvent_RETURN void
 #define glXSelectEvent_ARG_NAMES dpy, draw, event_mask
 #define glXSelectEvent_ARG_EXPAND Display * dpy, GLXDrawable draw, unsigned long event_mask
 #define glXSelectEvent_PACKED PACKED_void_Display___GENPT___GLXDrawable_unsigned_long
 #define glXSelectEvent_INDEXED INDEXED_void_Display___GENPT___GLXDrawable_unsigned_long
 #define glXSelectEvent_FORMAT FORMAT_void_Display___GENPT___GLXDrawable_unsigned_long
-#define glXSwapBuffers_INDEX 547
+#define glXSwapBuffers_INDEX 548
 #define glXSwapBuffers_RETURN void
 #define glXSwapBuffers_ARG_NAMES dpy, drawable
 #define glXSwapBuffers_ARG_EXPAND Display * dpy, GLXDrawable drawable
 #define glXSwapBuffers_PACKED PACKED_void_Display___GENPT___GLXDrawable
 #define glXSwapBuffers_INDEXED INDEXED_void_Display___GENPT___GLXDrawable
 #define glXSwapBuffers_FORMAT FORMAT_void_Display___GENPT___GLXDrawable
-#define glXSwapIntervalSGI_INDEX 548
+#define glXSwapIntervalSGI_INDEX 549
 #define glXSwapIntervalSGI_RETURN void
 #define glXSwapIntervalSGI_ARG_NAMES 
 #define glXSwapIntervalSGI_ARG_EXPAND 
 #define glXSwapIntervalSGI_PACKED PACKED_void
 #define glXSwapIntervalSGI_INDEXED INDEXED_void
 #define glXSwapIntervalSGI_FORMAT FORMAT_void
-#define glXUseXFont_INDEX 549
+#define glXUseXFont_INDEX 550
 #define glXUseXFont_RETURN void
 #define glXUseXFont_ARG_NAMES font, first, count, list
 #define glXUseXFont_ARG_EXPAND Font font, int first, int count, int list
 #define glXUseXFont_PACKED PACKED_void_Font_int_int_int
 #define glXUseXFont_INDEXED INDEXED_void_Font_int_int_int
 #define glXUseXFont_FORMAT FORMAT_void_Font_int_int_int
-#define glXVendorPrivate_INDEX 550
+#define glXVendorPrivate_INDEX 551
 #define glXVendorPrivate_RETURN void
 #define glXVendorPrivate_ARG_NAMES 
 #define glXVendorPrivate_ARG_EXPAND 
 #define glXVendorPrivate_PACKED PACKED_void
 #define glXVendorPrivate_INDEXED INDEXED_void
 #define glXVendorPrivate_FORMAT FORMAT_void
-#define glXVendorPrivateWithReply_INDEX 551
+#define glXVendorPrivateWithReply_INDEX 552
 #define glXVendorPrivateWithReply_RETURN void
 #define glXVendorPrivateWithReply_ARG_NAMES 
 #define glXVendorPrivateWithReply_ARG_EXPAND 
 #define glXVendorPrivateWithReply_PACKED PACKED_void
 #define glXVendorPrivateWithReply_INDEXED INDEXED_void
 #define glXVendorPrivateWithReply_FORMAT FORMAT_void
-#define glXWaitGL_INDEX 552
+#define glXWaitGL_INDEX 553
 #define glXWaitGL_RETURN void
 #define glXWaitGL_ARG_NAMES 
 #define glXWaitGL_ARG_EXPAND 
 #define glXWaitGL_PACKED PACKED_void
 #define glXWaitGL_INDEXED INDEXED_void
 #define glXWaitGL_FORMAT FORMAT_void
-#define glXWaitX_INDEX 553
+#define glXWaitX_INDEX 554
 #define glXWaitX_RETURN void
 #define glXWaitX_ARG_NAMES 
 #define glXWaitX_ARG_EXPAND 
@@ -8473,6 +8480,8 @@ void glXQueryContextInfoEXT(glXQueryContextInfoEXT_ARG_EXPAND);
 typedef void (*glXQueryContextInfoEXT_PTR)(glXQueryContextInfoEXT_ARG_EXPAND);
 void glXQueryDrawable(glXQueryDrawable_ARG_EXPAND);
 typedef void (*glXQueryDrawable_PTR)(glXQueryDrawable_ARG_EXPAND);
+Bool glXQueryExtension(glXQueryExtension_ARG_EXPAND);
+typedef Bool (*glXQueryExtension_PTR)(glXQueryExtension_ARG_EXPAND);
 const char * glXQueryExtensionsString(glXQueryExtensionsString_ARG_EXPAND);
 typedef const char * (*glXQueryExtensionsString_PTR)(glXQueryExtensionsString_ARG_EXPAND);
 int glXQueryHyperpipeAttribSGIX(glXQueryHyperpipeAttribSGIX_ARG_EXPAND);

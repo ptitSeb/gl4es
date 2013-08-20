@@ -50,6 +50,7 @@ glx:
       context]
   glXQueryContext: [void]
   glXQueryContextInfoEXT: [void]
+  glXQueryExtension: [Bool, Display *display, int *errorBase, int *eventBase]
   glXQueryExtensionsString: [const char *, Display *dpy, int screen]
   glXQueryHyperpipeAttribSGIX: [int, Display *dpy, int timeSlice, int attrib, int
       size, const void *returnAttribList]
