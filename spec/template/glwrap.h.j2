@@ -5,7 +5,12 @@ typedef struct {
     int format;
     void *func;
     void *args;
-} unknown_call_t;
+} packed_call_t;
+
+typedef struct {
+    int func;
+    void *args;
+} indexed_call_t;
 
 enum FORMAT {
 {% for f in formats %}
@@ -31,6 +36,7 @@ extern void glPushCall(void *data);
 void glPackedCall(const packed_call_t *packed);
 
 {% for func in functions %}
+#define {{ func.name }}_INDEX {{ loop.index }}
 #define {{ func.name }}_RETURN {{ func.return }}
 #define {{ func.name }}_ARG_NAMES {{ func.args|args(0) }}
 #define {{ func.name }}_ARG_EXPAND {{ func.args|args }}
