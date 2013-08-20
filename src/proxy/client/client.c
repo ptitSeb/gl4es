@@ -1,5 +1,7 @@
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdio.h>
 #include "../proxy.h"
 
 
@@ -6379,7 +6381,7 @@ void glXWaitX() {
 #endif
 
 
-void *glXGetProcAddressARB(char *name) {
+void *glXGetProcAddressARB(const char *name) {
     if (strcmp(name, glAccum) == 0) {
         return (void *)glAccum;
     }
@@ -8031,6 +8033,6 @@ void *glXGetProcAddressARB(char *name) {
     return NULL;
 }
 
-void *glXGetProcAddress(char *name) {
+void *glXGetProcAddress(const char *name) {
     return glXGetProcAddressARB(name);
 }
