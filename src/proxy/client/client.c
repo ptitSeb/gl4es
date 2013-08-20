@@ -14,7 +14,6 @@ void glAccum(GLenum op, GLfloat value) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glActiveTexture
 void glActiveTexture(GLenum texture) {
@@ -24,7 +23,6 @@ void glActiveTexture(GLenum texture) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glAlphaFunc
 void glAlphaFunc(GLenum func, GLfloat ref) {
@@ -35,7 +33,6 @@ void glAlphaFunc(GLenum func, GLfloat ref) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glAreTexturesResident
 GLboolean glAreTexturesResident(GLsizei n, const GLuint * textures, GLboolean * residences) {
@@ -48,7 +45,6 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint * textures, GLboolean * 
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glArrayElement
 void glArrayElement(GLint i) {
@@ -58,7 +54,6 @@ void glArrayElement(GLint i) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBegin
 void glBegin(GLenum mode) {
@@ -68,7 +63,6 @@ void glBegin(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBeginQuery
 void glBeginQuery(GLenum target, GLuint id) {
@@ -79,7 +73,6 @@ void glBeginQuery(GLenum target, GLuint id) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBindBuffer
 void glBindBuffer(GLenum target, GLuint buffer) {
@@ -90,7 +83,6 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBindTexture
 void glBindTexture(GLenum target, GLuint texture) {
@@ -101,7 +93,6 @@ void glBindTexture(GLenum target, GLuint texture) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBitmap
 void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte * bitmap) {
@@ -117,7 +108,6 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLflo
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBlendColor
 void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -130,7 +120,6 @@ void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBlendEquation
 void glBlendEquation(GLenum mode) {
@@ -140,7 +129,6 @@ void glBlendEquation(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBlendFunc
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
@@ -151,7 +139,6 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBlendFuncSeparate
 void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
@@ -164,7 +151,6 @@ void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlp
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBufferData
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
@@ -177,7 +163,6 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glBufferSubData
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
@@ -190,7 +175,6 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCallList
 void glCallList(GLuint list) {
@@ -200,7 +184,6 @@ void glCallList(GLuint list) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCallLists
 void glCallLists(GLsizei n, GLenum type, const GLvoid * lists) {
@@ -212,7 +195,6 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid * lists) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClear
 void glClear(GLbitfield mask) {
@@ -222,7 +204,6 @@ void glClear(GLbitfield mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClearAccum
 void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -235,7 +216,6 @@ void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClearColor
 void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -248,7 +228,6 @@ void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClearDepth
 void glClearDepth(GLdouble depth) {
@@ -258,7 +237,6 @@ void glClearDepth(GLdouble depth) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClearIndex
 void glClearIndex(GLfloat c) {
@@ -268,7 +246,6 @@ void glClearIndex(GLfloat c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClearStencil
 void glClearStencil(GLint s) {
@@ -278,7 +255,6 @@ void glClearStencil(GLint s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClientActiveTexture
 void glClientActiveTexture(GLenum texture) {
@@ -288,7 +264,6 @@ void glClientActiveTexture(GLenum texture) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glClipPlane
 void glClipPlane(GLenum plane, const GLdouble * equation) {
@@ -299,7 +274,6 @@ void glClipPlane(GLenum plane, const GLdouble * equation) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3b
 void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
@@ -311,7 +285,6 @@ void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3bv
 void glColor3bv(const GLbyte * v) {
@@ -321,7 +294,6 @@ void glColor3bv(const GLbyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3d
 void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
@@ -333,7 +305,6 @@ void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3dv
 void glColor3dv(const GLdouble * v) {
@@ -343,7 +314,6 @@ void glColor3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3f
 void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
@@ -355,7 +325,6 @@ void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3fv
 void glColor3fv(const GLfloat * v) {
@@ -365,7 +334,6 @@ void glColor3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3i
 void glColor3i(GLint red, GLint green, GLint blue) {
@@ -377,7 +345,6 @@ void glColor3i(GLint red, GLint green, GLint blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3iv
 void glColor3iv(const GLint * v) {
@@ -387,7 +354,6 @@ void glColor3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3s
 void glColor3s(GLshort red, GLshort green, GLshort blue) {
@@ -399,7 +365,6 @@ void glColor3s(GLshort red, GLshort green, GLshort blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3sv
 void glColor3sv(const GLshort * v) {
@@ -409,7 +374,6 @@ void glColor3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3ub
 void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
@@ -421,7 +385,6 @@ void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3ubv
 void glColor3ubv(const GLubyte * v) {
@@ -431,7 +394,6 @@ void glColor3ubv(const GLubyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3ui
 void glColor3ui(GLuint red, GLuint green, GLuint blue) {
@@ -443,7 +405,6 @@ void glColor3ui(GLuint red, GLuint green, GLuint blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3uiv
 void glColor3uiv(const GLuint * v) {
@@ -453,7 +414,6 @@ void glColor3uiv(const GLuint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3us
 void glColor3us(GLushort red, GLushort green, GLushort blue) {
@@ -465,7 +425,6 @@ void glColor3us(GLushort red, GLushort green, GLushort blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor3usv
 void glColor3usv(const GLushort * v) {
@@ -475,7 +434,6 @@ void glColor3usv(const GLushort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4b
 void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
@@ -488,7 +446,6 @@ void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4bv
 void glColor4bv(const GLbyte * v) {
@@ -498,7 +455,6 @@ void glColor4bv(const GLbyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4d
 void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
@@ -511,7 +467,6 @@ void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4dv
 void glColor4dv(const GLdouble * v) {
@@ -521,7 +476,6 @@ void glColor4dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4f
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -534,7 +488,6 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4fv
 void glColor4fv(const GLfloat * v) {
@@ -544,7 +497,6 @@ void glColor4fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4i
 void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
@@ -557,7 +509,6 @@ void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4iv
 void glColor4iv(const GLint * v) {
@@ -567,7 +518,6 @@ void glColor4iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4s
 void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
@@ -580,7 +530,6 @@ void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4sv
 void glColor4sv(const GLshort * v) {
@@ -590,7 +539,6 @@ void glColor4sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4ub
 void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
@@ -603,7 +551,6 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4ubv
 void glColor4ubv(const GLubyte * v) {
@@ -613,7 +560,6 @@ void glColor4ubv(const GLubyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4ui
 void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
@@ -626,7 +572,6 @@ void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4uiv
 void glColor4uiv(const GLuint * v) {
@@ -636,7 +581,6 @@ void glColor4uiv(const GLuint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4us
 void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
@@ -649,7 +593,6 @@ void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColor4usv
 void glColor4usv(const GLushort * v) {
@@ -659,7 +602,6 @@ void glColor4usv(const GLushort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorMask
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
@@ -672,7 +614,6 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorMaterial
 void glColorMaterial(GLenum face, GLenum mode) {
@@ -683,7 +624,6 @@ void glColorMaterial(GLenum face, GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorPointer
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -696,7 +636,6 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorSubTable
 void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, const GLvoid * data) {
@@ -711,7 +650,6 @@ void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format,
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorTable
 void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * table) {
@@ -726,7 +664,6 @@ void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum fo
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorTableParameterfv
 void glColorTableParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -738,7 +675,6 @@ void glColorTableParameterfv(GLenum target, GLenum pname, const GLfloat * params
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glColorTableParameteriv
 void glColorTableParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -750,7 +686,6 @@ void glColorTableParameteriv(GLenum target, GLenum pname, const GLint * params) 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexImage1D
 void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -766,7 +701,6 @@ void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexImage2D
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -783,7 +717,6 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexImage3D
 void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -801,7 +734,6 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexSubImage1D
 void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -817,7 +749,6 @@ void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsize
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexSubImage2D
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -835,7 +766,6 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCompressedTexSubImage3D
 void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -855,7 +785,6 @@ void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionFilter1D
 void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * image) {
@@ -870,7 +799,6 @@ void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionFilter2D
 void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * image) {
@@ -886,7 +814,6 @@ void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionParameterf
 void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
@@ -898,7 +825,6 @@ void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionParameterfv
 void glConvolutionParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -910,7 +836,6 @@ void glConvolutionParameterfv(GLenum target, GLenum pname, const GLfloat * param
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionParameteri
 void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
@@ -922,7 +847,6 @@ void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glConvolutionParameteriv
 void glConvolutionParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -934,7 +858,6 @@ void glConvolutionParameteriv(GLenum target, GLenum pname, const GLint * params)
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyColorSubTable
 void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width) {
@@ -948,7 +871,6 @@ void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyColorTable
 void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
@@ -962,7 +884,6 @@ void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GL
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyConvolutionFilter1D
 void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width) {
@@ -976,7 +897,6 @@ void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GL
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyConvolutionFilter2D
 void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -991,7 +911,6 @@ void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GL
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyPixels
 void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) {
@@ -1005,7 +924,6 @@ void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyTexImage1D
 void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) {
@@ -1021,7 +939,6 @@ void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyTexImage2D
 void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
@@ -1038,7 +955,6 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyTexSubImage1D
 void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) {
@@ -1053,7 +969,6 @@ void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLi
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyTexSubImage2D
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1070,7 +985,6 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCopyTexSubImage3D
 void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1088,7 +1002,6 @@ void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glCullFace
 void glCullFace(GLenum mode) {
@@ -1098,7 +1011,6 @@ void glCullFace(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDeleteBuffers
 void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
@@ -1109,7 +1021,6 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDeleteLists
 void glDeleteLists(GLuint list, GLsizei range) {
@@ -1120,7 +1031,6 @@ void glDeleteLists(GLuint list, GLsizei range) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDeleteQueries
 void glDeleteQueries(GLsizei n, const GLuint * ids) {
@@ -1131,7 +1041,6 @@ void glDeleteQueries(GLsizei n, const GLuint * ids) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDeleteTextures
 void glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -1142,7 +1051,6 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDepthFunc
 void glDepthFunc(GLenum func) {
@@ -1152,7 +1060,6 @@ void glDepthFunc(GLenum func) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDepthMask
 void glDepthMask(GLboolean flag) {
@@ -1162,7 +1069,6 @@ void glDepthMask(GLboolean flag) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDepthRange
 void glDepthRange(GLdouble near, GLdouble far) {
@@ -1173,7 +1079,6 @@ void glDepthRange(GLdouble near, GLdouble far) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDisable
 void glDisable(GLenum cap) {
@@ -1183,7 +1088,6 @@ void glDisable(GLenum cap) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDisableClientState
 void glDisableClientState(GLenum array) {
@@ -1193,7 +1097,6 @@ void glDisableClientState(GLenum array) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDrawArrays
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -1205,7 +1108,6 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDrawBuffer
 void glDrawBuffer(GLenum mode) {
@@ -1215,7 +1117,6 @@ void glDrawBuffer(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDrawElements
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -1228,7 +1129,6 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDrawPixels
 void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -1242,7 +1142,6 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, con
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glDrawRangeElements
 void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -1257,7 +1156,6 @@ void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEdgeFlag
 void glEdgeFlag(GLboolean flag) {
@@ -1267,7 +1165,6 @@ void glEdgeFlag(GLboolean flag) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEdgeFlagPointer
 void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
@@ -1278,7 +1175,6 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEdgeFlagv
 void glEdgeFlagv(const GLboolean * flag) {
@@ -1288,7 +1184,6 @@ void glEdgeFlagv(const GLboolean * flag) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEnable
 void glEnable(GLenum cap) {
@@ -1298,7 +1193,6 @@ void glEnable(GLenum cap) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEnableClientState
 void glEnableClientState(GLenum array) {
@@ -1308,7 +1202,6 @@ void glEnableClientState(GLenum array) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEnd
 void glEnd() {
@@ -1317,7 +1210,6 @@ void glEnd() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEndList
 void glEndList() {
@@ -1326,7 +1218,6 @@ void glEndList() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEndQuery
 void glEndQuery(GLenum target) {
@@ -1336,7 +1227,6 @@ void glEndQuery(GLenum target) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord1d
 void glEvalCoord1d(GLdouble u) {
@@ -1346,7 +1236,6 @@ void glEvalCoord1d(GLdouble u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord1dv
 void glEvalCoord1dv(const GLdouble * u) {
@@ -1356,7 +1245,6 @@ void glEvalCoord1dv(const GLdouble * u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord1f
 void glEvalCoord1f(GLfloat u) {
@@ -1366,7 +1254,6 @@ void glEvalCoord1f(GLfloat u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord1fv
 void glEvalCoord1fv(const GLfloat * u) {
@@ -1376,7 +1263,6 @@ void glEvalCoord1fv(const GLfloat * u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord2d
 void glEvalCoord2d(GLdouble u, GLdouble v) {
@@ -1387,7 +1273,6 @@ void glEvalCoord2d(GLdouble u, GLdouble v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord2dv
 void glEvalCoord2dv(const GLdouble * u) {
@@ -1397,7 +1282,6 @@ void glEvalCoord2dv(const GLdouble * u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord2f
 void glEvalCoord2f(GLfloat u, GLfloat v) {
@@ -1408,7 +1292,6 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalCoord2fv
 void glEvalCoord2fv(const GLfloat * u) {
@@ -1418,7 +1301,6 @@ void glEvalCoord2fv(const GLfloat * u) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalMesh1
 void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
@@ -1430,7 +1312,6 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalMesh2
 void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
@@ -1444,7 +1325,6 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalPoint1
 void glEvalPoint1(GLint i) {
@@ -1454,7 +1334,6 @@ void glEvalPoint1(GLint i) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glEvalPoint2
 void glEvalPoint2(GLint i, GLint j) {
@@ -1465,7 +1344,6 @@ void glEvalPoint2(GLint i, GLint j) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFeedbackBuffer
 void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat * buffer) {
@@ -1477,7 +1355,6 @@ void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat * buffer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFinish
 void glFinish() {
@@ -1486,7 +1363,6 @@ void glFinish() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFlush
 void glFlush() {
@@ -1495,7 +1371,6 @@ void glFlush() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogCoordPointer
 void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1507,7 +1382,6 @@ void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogCoordd
 void glFogCoordd(GLdouble coord) {
@@ -1517,7 +1391,6 @@ void glFogCoordd(GLdouble coord) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogCoorddv
 void glFogCoorddv(const GLdouble * coord) {
@@ -1527,7 +1400,6 @@ void glFogCoorddv(const GLdouble * coord) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogCoordf
 void glFogCoordf(GLfloat coord) {
@@ -1537,7 +1409,6 @@ void glFogCoordf(GLfloat coord) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogCoordfv
 void glFogCoordfv(const GLfloat * coord) {
@@ -1547,7 +1418,6 @@ void glFogCoordfv(const GLfloat * coord) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogf
 void glFogf(GLenum pname, GLfloat param) {
@@ -1558,7 +1428,6 @@ void glFogf(GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogfv
 void glFogfv(GLenum pname, const GLfloat * params) {
@@ -1569,7 +1438,6 @@ void glFogfv(GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogi
 void glFogi(GLenum pname, GLint param) {
@@ -1580,7 +1448,6 @@ void glFogi(GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFogiv
 void glFogiv(GLenum pname, const GLint * params) {
@@ -1591,7 +1458,6 @@ void glFogiv(GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFrontFace
 void glFrontFace(GLenum mode) {
@@ -1601,7 +1467,6 @@ void glFrontFace(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glFrustum
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
@@ -1616,7 +1481,6 @@ void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLd
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGenBuffers
 void glGenBuffers(GLsizei n, GLuint * buffers) {
@@ -1627,7 +1491,6 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGenLists
 GLuint glGenLists(GLsizei range) {
@@ -1638,7 +1501,6 @@ GLuint glGenLists(GLsizei range) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glGenQueries
 void glGenQueries(GLsizei n, GLuint * ids) {
@@ -1649,7 +1511,6 @@ void glGenQueries(GLsizei n, GLuint * ids) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGenTextures
 void glGenTextures(GLsizei n, GLuint * textures) {
@@ -1660,7 +1521,6 @@ void glGenTextures(GLsizei n, GLuint * textures) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetBooleanv
 void glGetBooleanv(GLenum pname, GLboolean * params) {
@@ -1671,7 +1531,6 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetBufferParameteriv
 void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1683,7 +1542,6 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetBufferPointerv
 void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
@@ -1695,7 +1553,6 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetBufferSubData
 void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
@@ -1708,7 +1565,6 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetClipPlane
 void glGetClipPlane(GLenum plane, GLdouble * equation) {
@@ -1719,7 +1575,6 @@ void glGetClipPlane(GLenum plane, GLdouble * equation) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetColorTable
 void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid * table) {
@@ -1732,7 +1587,6 @@ void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid * table) 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetColorTableParameterfv
 void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1744,7 +1598,6 @@ void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetColorTableParameteriv
 void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1756,7 +1609,6 @@ void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetCompressedTexImage
 void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * img) {
@@ -1768,7 +1620,6 @@ void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * img) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetConvolutionFilter
 void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid * image) {
@@ -1781,7 +1632,6 @@ void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid * 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetConvolutionParameterfv
 void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1793,7 +1643,6 @@ void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat * params) 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetConvolutionParameteriv
 void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1805,7 +1654,6 @@ void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetDoublev
 void glGetDoublev(GLenum pname, GLdouble * params) {
@@ -1816,7 +1664,6 @@ void glGetDoublev(GLenum pname, GLdouble * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetError
 GLenum glGetError() {
@@ -1826,7 +1673,6 @@ GLenum glGetError() {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glGetFloatv
 void glGetFloatv(GLenum pname, GLfloat * params) {
@@ -1837,7 +1683,6 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetHistogram
 void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values) {
@@ -1851,7 +1696,6 @@ void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetHistogramParameterfv
 void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1863,7 +1707,6 @@ void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetHistogramParameteriv
 void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1875,7 +1718,6 @@ void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetIntegerv
 void glGetIntegerv(GLenum pname, GLint * params) {
@@ -1886,7 +1728,6 @@ void glGetIntegerv(GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetLightfv
 void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
@@ -1898,7 +1739,6 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetLightiv
 void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
@@ -1910,7 +1750,6 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMapdv
 void glGetMapdv(GLenum target, GLenum query, GLdouble * v) {
@@ -1922,7 +1761,6 @@ void glGetMapdv(GLenum target, GLenum query, GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMapfv
 void glGetMapfv(GLenum target, GLenum query, GLfloat * v) {
@@ -1934,7 +1772,6 @@ void glGetMapfv(GLenum target, GLenum query, GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMapiv
 void glGetMapiv(GLenum target, GLenum query, GLint * v) {
@@ -1946,7 +1783,6 @@ void glGetMapiv(GLenum target, GLenum query, GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMaterialfv
 void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
@@ -1958,7 +1794,6 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMaterialiv
 void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
@@ -1970,7 +1805,6 @@ void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMinmax
 void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values) {
@@ -1984,7 +1818,6 @@ void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLv
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMinmaxParameterfv
 void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1996,7 +1829,6 @@ void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetMinmaxParameteriv
 void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -2008,7 +1840,6 @@ void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetPixelMapfv
 void glGetPixelMapfv(GLenum map, GLfloat * values) {
@@ -2019,7 +1850,6 @@ void glGetPixelMapfv(GLenum map, GLfloat * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetPixelMapuiv
 void glGetPixelMapuiv(GLenum map, GLuint * values) {
@@ -2030,7 +1860,6 @@ void glGetPixelMapuiv(GLenum map, GLuint * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetPixelMapusv
 void glGetPixelMapusv(GLenum map, GLushort * values) {
@@ -2041,7 +1870,6 @@ void glGetPixelMapusv(GLenum map, GLushort * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetPointerv
 void glGetPointerv(GLenum pname, GLvoid ** params) {
@@ -2052,7 +1880,6 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetPolygonStipple
 void glGetPolygonStipple(GLubyte * mask) {
@@ -2062,7 +1889,6 @@ void glGetPolygonStipple(GLubyte * mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetQueryObjectiv
 void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) {
@@ -2074,7 +1900,6 @@ void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetQueryObjectuiv
 void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) {
@@ -2086,7 +1911,6 @@ void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetQueryiv
 void glGetQueryiv(GLenum target, GLenum pname, GLint * params) {
@@ -2098,7 +1922,6 @@ void glGetQueryiv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetSeparableFilter
 void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid * row, GLvoid * column, GLvoid * span) {
@@ -2113,7 +1936,6 @@ void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid * ro
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetString
 const GLubyte * glGetString(GLenum name) {
@@ -2124,7 +1946,6 @@ const GLubyte * glGetString(GLenum name) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glGetTexEnvfv
 void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -2136,7 +1957,6 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexEnviv
 void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
@@ -2148,7 +1968,6 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexGendv
 void glGetTexGendv(GLenum coord, GLenum pname, GLdouble * params) {
@@ -2160,7 +1979,6 @@ void glGetTexGendv(GLenum coord, GLenum pname, GLdouble * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexGenfv
 void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat * params) {
@@ -2172,7 +1990,6 @@ void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexGeniv
 void glGetTexGeniv(GLenum coord, GLenum pname, GLint * params) {
@@ -2184,7 +2001,6 @@ void glGetTexGeniv(GLenum coord, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexImage
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels) {
@@ -2198,7 +2014,6 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexLevelParameterfv
 void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat * params) {
@@ -2211,7 +2026,6 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexLevelParameteriv
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * params) {
@@ -2224,7 +2038,6 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexParameterfv
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -2236,7 +2049,6 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glGetTexParameteriv
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -2248,7 +2060,6 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glHint
 void glHint(GLenum target, GLenum mode) {
@@ -2259,7 +2070,6 @@ void glHint(GLenum target, GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glHistogram
 void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink) {
@@ -2272,7 +2082,6 @@ void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexMask
 void glIndexMask(GLuint mask) {
@@ -2282,7 +2091,6 @@ void glIndexMask(GLuint mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexPointer
 void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -2294,7 +2102,6 @@ void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexd
 void glIndexd(GLdouble c) {
@@ -2304,7 +2111,6 @@ void glIndexd(GLdouble c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexdv
 void glIndexdv(const GLdouble * c) {
@@ -2314,7 +2120,6 @@ void glIndexdv(const GLdouble * c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexf
 void glIndexf(GLfloat c) {
@@ -2324,7 +2129,6 @@ void glIndexf(GLfloat c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexfv
 void glIndexfv(const GLfloat * c) {
@@ -2334,7 +2138,6 @@ void glIndexfv(const GLfloat * c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexi
 void glIndexi(GLint c) {
@@ -2344,7 +2147,6 @@ void glIndexi(GLint c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexiv
 void glIndexiv(const GLint * c) {
@@ -2354,7 +2156,6 @@ void glIndexiv(const GLint * c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexs
 void glIndexs(GLshort c) {
@@ -2364,7 +2165,6 @@ void glIndexs(GLshort c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexsv
 void glIndexsv(const GLshort * c) {
@@ -2374,7 +2174,6 @@ void glIndexsv(const GLshort * c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexub
 void glIndexub(GLubyte c) {
@@ -2384,7 +2183,6 @@ void glIndexub(GLubyte c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIndexubv
 void glIndexubv(const GLubyte * c) {
@@ -2394,7 +2192,6 @@ void glIndexubv(const GLubyte * c) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glInitNames
 void glInitNames() {
@@ -2403,7 +2200,6 @@ void glInitNames() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glInterleavedArrays
 void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid * pointer) {
@@ -2415,7 +2211,6 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid * pointer) 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glIsBuffer
 GLboolean glIsBuffer(GLuint buffer) {
@@ -2426,7 +2221,6 @@ GLboolean glIsBuffer(GLuint buffer) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glIsEnabled
 GLboolean glIsEnabled(GLenum cap) {
@@ -2437,7 +2231,6 @@ GLboolean glIsEnabled(GLenum cap) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glIsList
 GLboolean glIsList(GLuint list) {
@@ -2448,7 +2241,6 @@ GLboolean glIsList(GLuint list) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glIsQuery
 GLboolean glIsQuery(GLuint id) {
@@ -2459,7 +2251,6 @@ GLboolean glIsQuery(GLuint id) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glIsTexture
 GLboolean glIsTexture(GLuint texture) {
@@ -2470,7 +2261,6 @@ GLboolean glIsTexture(GLuint texture) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glLightModelf
 void glLightModelf(GLenum pname, GLfloat param) {
@@ -2481,7 +2271,6 @@ void glLightModelf(GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightModelfv
 void glLightModelfv(GLenum pname, const GLfloat * params) {
@@ -2492,7 +2281,6 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightModeli
 void glLightModeli(GLenum pname, GLint param) {
@@ -2503,7 +2291,6 @@ void glLightModeli(GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightModeliv
 void glLightModeliv(GLenum pname, const GLint * params) {
@@ -2514,7 +2301,6 @@ void glLightModeliv(GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightf
 void glLightf(GLenum light, GLenum pname, GLfloat param) {
@@ -2526,7 +2312,6 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightfv
 void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
@@ -2538,7 +2323,6 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLighti
 void glLighti(GLenum light, GLenum pname, GLint param) {
@@ -2550,7 +2334,6 @@ void glLighti(GLenum light, GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLightiv
 void glLightiv(GLenum light, GLenum pname, const GLint * params) {
@@ -2562,7 +2345,6 @@ void glLightiv(GLenum light, GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLineStipple
 void glLineStipple(GLint factor, GLushort pattern) {
@@ -2573,7 +2355,6 @@ void glLineStipple(GLint factor, GLushort pattern) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLineWidth
 void glLineWidth(GLfloat width) {
@@ -2583,7 +2364,6 @@ void glLineWidth(GLfloat width) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glListBase
 void glListBase(GLuint base) {
@@ -2593,7 +2373,6 @@ void glListBase(GLuint base) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadIdentity
 void glLoadIdentity() {
@@ -2602,7 +2381,6 @@ void glLoadIdentity() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadMatrixd
 void glLoadMatrixd(const GLdouble * m) {
@@ -2612,7 +2390,6 @@ void glLoadMatrixd(const GLdouble * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadMatrixf
 void glLoadMatrixf(const GLfloat * m) {
@@ -2622,7 +2399,6 @@ void glLoadMatrixf(const GLfloat * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadName
 void glLoadName(GLuint name) {
@@ -2632,7 +2408,6 @@ void glLoadName(GLuint name) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadTransposeMatrixd
 void glLoadTransposeMatrixd(const GLdouble * m) {
@@ -2642,7 +2417,6 @@ void glLoadTransposeMatrixd(const GLdouble * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLoadTransposeMatrixf
 void glLoadTransposeMatrixf(const GLfloat * m) {
@@ -2652,7 +2426,6 @@ void glLoadTransposeMatrixf(const GLfloat * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glLogicOp
 void glLogicOp(GLenum opcode) {
@@ -2662,7 +2435,6 @@ void glLogicOp(GLenum opcode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMap1d
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble * points) {
@@ -2677,7 +2449,6 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order,
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMap1f
 void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat * points) {
@@ -2692,7 +2463,6 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, c
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMap2d
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble * points) {
@@ -2711,7 +2481,6 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorde
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMap2f
 void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat * points) {
@@ -2730,7 +2499,6 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder,
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMapBuffer
 GLvoid * glMapBuffer(GLenum target, GLenum access) {
@@ -2742,7 +2510,6 @@ GLvoid * glMapBuffer(GLenum target, GLenum access) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glMapGrid1d
 void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
@@ -2754,7 +2521,6 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMapGrid1f
 void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
@@ -2766,7 +2532,6 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMapGrid2d
 void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) {
@@ -2781,7 +2546,6 @@ void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdo
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMapGrid2f
 void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) {
@@ -2796,7 +2560,6 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMaterialf
 void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
@@ -2808,7 +2571,6 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMaterialfv
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
@@ -2820,7 +2582,6 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMateriali
 void glMateriali(GLenum face, GLenum pname, GLint param) {
@@ -2832,7 +2593,6 @@ void glMateriali(GLenum face, GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMaterialiv
 void glMaterialiv(GLenum face, GLenum pname, const GLint * params) {
@@ -2844,7 +2604,6 @@ void glMaterialiv(GLenum face, GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMatrixMode
 void glMatrixMode(GLenum mode) {
@@ -2854,7 +2613,6 @@ void glMatrixMode(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMinmax
 void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
@@ -2866,7 +2624,6 @@ void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultMatrixd
 void glMultMatrixd(const GLdouble * m) {
@@ -2876,7 +2633,6 @@ void glMultMatrixd(const GLdouble * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultMatrixf
 void glMultMatrixf(const GLfloat * m) {
@@ -2886,7 +2642,6 @@ void glMultMatrixf(const GLfloat * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultTransposeMatrixd
 void glMultTransposeMatrixd(const GLdouble * m) {
@@ -2896,7 +2651,6 @@ void glMultTransposeMatrixd(const GLdouble * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultTransposeMatrixf
 void glMultTransposeMatrixf(const GLfloat * m) {
@@ -2906,7 +2660,6 @@ void glMultTransposeMatrixf(const GLfloat * m) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiDrawArrays
 void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, GLsizei drawcount) {
@@ -2919,7 +2672,6 @@ void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, 
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiDrawElements
 void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, GLvoid*const * indices, GLsizei drawcount) {
@@ -2933,7 +2685,6 @@ void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, GLvoid
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1d
 void glMultiTexCoord1d(GLenum target, GLdouble s) {
@@ -2944,7 +2695,6 @@ void glMultiTexCoord1d(GLenum target, GLdouble s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1dv
 void glMultiTexCoord1dv(GLenum target, const GLdouble * v) {
@@ -2955,7 +2705,6 @@ void glMultiTexCoord1dv(GLenum target, const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1f
 void glMultiTexCoord1f(GLenum target, GLfloat s) {
@@ -2966,7 +2715,6 @@ void glMultiTexCoord1f(GLenum target, GLfloat s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1fv
 void glMultiTexCoord1fv(GLenum target, const GLfloat * v) {
@@ -2977,7 +2725,6 @@ void glMultiTexCoord1fv(GLenum target, const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1i
 void glMultiTexCoord1i(GLenum target, GLint s) {
@@ -2988,7 +2735,6 @@ void glMultiTexCoord1i(GLenum target, GLint s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1iv
 void glMultiTexCoord1iv(GLenum target, const GLint * v) {
@@ -2999,7 +2745,6 @@ void glMultiTexCoord1iv(GLenum target, const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1s
 void glMultiTexCoord1s(GLenum target, GLshort s) {
@@ -3010,7 +2755,6 @@ void glMultiTexCoord1s(GLenum target, GLshort s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord1sv
 void glMultiTexCoord1sv(GLenum target, const GLshort * v) {
@@ -3021,7 +2765,6 @@ void glMultiTexCoord1sv(GLenum target, const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2d
 void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
@@ -3033,7 +2776,6 @@ void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2dv
 void glMultiTexCoord2dv(GLenum target, const GLdouble * v) {
@@ -3044,7 +2786,6 @@ void glMultiTexCoord2dv(GLenum target, const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2f
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
@@ -3056,7 +2797,6 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2fv
 void glMultiTexCoord2fv(GLenum target, const GLfloat * v) {
@@ -3067,7 +2807,6 @@ void glMultiTexCoord2fv(GLenum target, const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2i
 void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
@@ -3079,7 +2818,6 @@ void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2iv
 void glMultiTexCoord2iv(GLenum target, const GLint * v) {
@@ -3090,7 +2828,6 @@ void glMultiTexCoord2iv(GLenum target, const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2s
 void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
@@ -3102,7 +2839,6 @@ void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord2sv
 void glMultiTexCoord2sv(GLenum target, const GLshort * v) {
@@ -3113,7 +2849,6 @@ void glMultiTexCoord2sv(GLenum target, const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3d
 void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
@@ -3126,7 +2861,6 @@ void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3dv
 void glMultiTexCoord3dv(GLenum target, const GLdouble * v) {
@@ -3137,7 +2871,6 @@ void glMultiTexCoord3dv(GLenum target, const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3f
 void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
@@ -3150,7 +2883,6 @@ void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3fv
 void glMultiTexCoord3fv(GLenum target, const GLfloat * v) {
@@ -3161,7 +2893,6 @@ void glMultiTexCoord3fv(GLenum target, const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3i
 void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
@@ -3174,7 +2905,6 @@ void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3iv
 void glMultiTexCoord3iv(GLenum target, const GLint * v) {
@@ -3185,7 +2915,6 @@ void glMultiTexCoord3iv(GLenum target, const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3s
 void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
@@ -3198,7 +2927,6 @@ void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord3sv
 void glMultiTexCoord3sv(GLenum target, const GLshort * v) {
@@ -3209,7 +2937,6 @@ void glMultiTexCoord3sv(GLenum target, const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4d
 void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
@@ -3223,7 +2950,6 @@ void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdoub
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4dv
 void glMultiTexCoord4dv(GLenum target, const GLdouble * v) {
@@ -3234,7 +2960,6 @@ void glMultiTexCoord4dv(GLenum target, const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4f
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -3248,7 +2973,6 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4fv
 void glMultiTexCoord4fv(GLenum target, const GLfloat * v) {
@@ -3259,7 +2983,6 @@ void glMultiTexCoord4fv(GLenum target, const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4i
 void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
@@ -3273,7 +2996,6 @@ void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4iv
 void glMultiTexCoord4iv(GLenum target, const GLint * v) {
@@ -3284,7 +3006,6 @@ void glMultiTexCoord4iv(GLenum target, const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4s
 void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q) {
@@ -3298,7 +3019,6 @@ void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glMultiTexCoord4sv
 void glMultiTexCoord4sv(GLenum target, const GLshort * v) {
@@ -3309,7 +3029,6 @@ void glMultiTexCoord4sv(GLenum target, const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNewList
 void glNewList(GLuint list, GLenum mode) {
@@ -3320,7 +3039,6 @@ void glNewList(GLuint list, GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3b
 void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
@@ -3332,7 +3050,6 @@ void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3bv
 void glNormal3bv(const GLbyte * v) {
@@ -3342,7 +3059,6 @@ void glNormal3bv(const GLbyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3d
 void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
@@ -3354,7 +3070,6 @@ void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3dv
 void glNormal3dv(const GLdouble * v) {
@@ -3364,7 +3079,6 @@ void glNormal3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3f
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
@@ -3376,7 +3090,6 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3fv
 void glNormal3fv(const GLfloat * v) {
@@ -3386,7 +3099,6 @@ void glNormal3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3i
 void glNormal3i(GLint nx, GLint ny, GLint nz) {
@@ -3398,7 +3110,6 @@ void glNormal3i(GLint nx, GLint ny, GLint nz) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3iv
 void glNormal3iv(const GLint * v) {
@@ -3408,7 +3119,6 @@ void glNormal3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3s
 void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
@@ -3420,7 +3130,6 @@ void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormal3sv
 void glNormal3sv(const GLshort * v) {
@@ -3430,7 +3139,6 @@ void glNormal3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glNormalPointer
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -3442,7 +3150,6 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glOrtho
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar) {
@@ -3457,7 +3164,6 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPassThrough
 void glPassThrough(GLfloat token) {
@@ -3467,7 +3173,6 @@ void glPassThrough(GLfloat token) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelMapfv
 void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat * values) {
@@ -3479,7 +3184,6 @@ void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelMapuiv
 void glPixelMapuiv(GLenum map, GLsizei mapsize, const GLuint * values) {
@@ -3491,7 +3195,6 @@ void glPixelMapuiv(GLenum map, GLsizei mapsize, const GLuint * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelMapusv
 void glPixelMapusv(GLenum map, GLsizei mapsize, const GLushort * values) {
@@ -3503,7 +3206,6 @@ void glPixelMapusv(GLenum map, GLsizei mapsize, const GLushort * values) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelStoref
 void glPixelStoref(GLenum pname, GLfloat param) {
@@ -3514,7 +3216,6 @@ void glPixelStoref(GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelStorei
 void glPixelStorei(GLenum pname, GLint param) {
@@ -3525,7 +3226,6 @@ void glPixelStorei(GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelTransferf
 void glPixelTransferf(GLenum pname, GLfloat param) {
@@ -3536,7 +3236,6 @@ void glPixelTransferf(GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelTransferi
 void glPixelTransferi(GLenum pname, GLint param) {
@@ -3547,7 +3246,6 @@ void glPixelTransferi(GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPixelZoom
 void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
@@ -3558,7 +3256,6 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPointParameterf
 void glPointParameterf(GLenum pname, GLfloat param) {
@@ -3569,7 +3266,6 @@ void glPointParameterf(GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPointParameterfv
 void glPointParameterfv(GLenum pname, const GLfloat * params) {
@@ -3580,7 +3276,6 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPointParameteri
 void glPointParameteri(GLenum pname, GLint param) {
@@ -3591,7 +3286,6 @@ void glPointParameteri(GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPointParameteriv
 void glPointParameteriv(GLenum pname, const GLint * params) {
@@ -3602,7 +3296,6 @@ void glPointParameteriv(GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPointSize
 void glPointSize(GLfloat size) {
@@ -3612,7 +3305,6 @@ void glPointSize(GLfloat size) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPolygonMode
 void glPolygonMode(GLenum face, GLenum mode) {
@@ -3623,7 +3315,6 @@ void glPolygonMode(GLenum face, GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPolygonOffset
 void glPolygonOffset(GLfloat factor, GLfloat units) {
@@ -3634,7 +3325,6 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPolygonStipple
 void glPolygonStipple(const GLubyte * mask) {
@@ -3644,7 +3334,6 @@ void glPolygonStipple(const GLubyte * mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPopAttrib
 void glPopAttrib() {
@@ -3653,7 +3342,6 @@ void glPopAttrib() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPopClientAttrib
 void glPopClientAttrib() {
@@ -3662,7 +3350,6 @@ void glPopClientAttrib() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPopMatrix
 void glPopMatrix() {
@@ -3671,7 +3358,6 @@ void glPopMatrix() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPopName
 void glPopName() {
@@ -3680,7 +3366,6 @@ void glPopName() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPrioritizeTextures
 void glPrioritizeTextures(GLsizei n, const GLuint * textures, const GLfloat * priorities) {
@@ -3692,7 +3377,6 @@ void glPrioritizeTextures(GLsizei n, const GLuint * textures, const GLfloat * pr
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPushAttrib
 void glPushAttrib(GLbitfield mask) {
@@ -3702,7 +3386,6 @@ void glPushAttrib(GLbitfield mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPushClientAttrib
 void glPushClientAttrib(GLbitfield mask) {
@@ -3712,7 +3395,6 @@ void glPushClientAttrib(GLbitfield mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPushMatrix
 void glPushMatrix() {
@@ -3721,7 +3403,6 @@ void glPushMatrix() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glPushName
 void glPushName(GLuint name) {
@@ -3731,7 +3412,6 @@ void glPushName(GLuint name) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2d
 void glRasterPos2d(GLdouble x, GLdouble y) {
@@ -3742,7 +3422,6 @@ void glRasterPos2d(GLdouble x, GLdouble y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2dv
 void glRasterPos2dv(const GLdouble * v) {
@@ -3752,7 +3431,6 @@ void glRasterPos2dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2f
 void glRasterPos2f(GLfloat x, GLfloat y) {
@@ -3763,7 +3441,6 @@ void glRasterPos2f(GLfloat x, GLfloat y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2fv
 void glRasterPos2fv(const GLfloat * v) {
@@ -3773,7 +3450,6 @@ void glRasterPos2fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2i
 void glRasterPos2i(GLint x, GLint y) {
@@ -3784,7 +3460,6 @@ void glRasterPos2i(GLint x, GLint y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2iv
 void glRasterPos2iv(const GLint * v) {
@@ -3794,7 +3469,6 @@ void glRasterPos2iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2s
 void glRasterPos2s(GLshort x, GLshort y) {
@@ -3805,7 +3479,6 @@ void glRasterPos2s(GLshort x, GLshort y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos2sv
 void glRasterPos2sv(const GLshort * v) {
@@ -3815,7 +3488,6 @@ void glRasterPos2sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3d
 void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
@@ -3827,7 +3499,6 @@ void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3dv
 void glRasterPos3dv(const GLdouble * v) {
@@ -3837,7 +3508,6 @@ void glRasterPos3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3f
 void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -3849,7 +3519,6 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3fv
 void glRasterPos3fv(const GLfloat * v) {
@@ -3859,7 +3528,6 @@ void glRasterPos3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3i
 void glRasterPos3i(GLint x, GLint y, GLint z) {
@@ -3871,7 +3539,6 @@ void glRasterPos3i(GLint x, GLint y, GLint z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3iv
 void glRasterPos3iv(const GLint * v) {
@@ -3881,7 +3548,6 @@ void glRasterPos3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3s
 void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
@@ -3893,7 +3559,6 @@ void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos3sv
 void glRasterPos3sv(const GLshort * v) {
@@ -3903,7 +3568,6 @@ void glRasterPos3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4d
 void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
@@ -3916,7 +3580,6 @@ void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4dv
 void glRasterPos4dv(const GLdouble * v) {
@@ -3926,7 +3589,6 @@ void glRasterPos4dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4f
 void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
@@ -3939,7 +3601,6 @@ void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4fv
 void glRasterPos4fv(const GLfloat * v) {
@@ -3949,7 +3610,6 @@ void glRasterPos4fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4i
 void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
@@ -3962,7 +3622,6 @@ void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4iv
 void glRasterPos4iv(const GLint * v) {
@@ -3972,7 +3631,6 @@ void glRasterPos4iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4s
 void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
@@ -3985,7 +3643,6 @@ void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRasterPos4sv
 void glRasterPos4sv(const GLshort * v) {
@@ -3995,7 +3652,6 @@ void glRasterPos4sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glReadBuffer
 void glReadBuffer(GLenum mode) {
@@ -4005,7 +3661,6 @@ void glReadBuffer(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glReadPixels
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
@@ -4021,7 +3676,6 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectd
 void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
@@ -4034,7 +3688,6 @@ void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectdv
 void glRectdv(const GLdouble * v1, const GLdouble * v2) {
@@ -4045,7 +3698,6 @@ void glRectdv(const GLdouble * v1, const GLdouble * v2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectf
 void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
@@ -4058,7 +3710,6 @@ void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectfv
 void glRectfv(const GLfloat * v1, const GLfloat * v2) {
@@ -4069,7 +3720,6 @@ void glRectfv(const GLfloat * v1, const GLfloat * v2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRecti
 void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
@@ -4082,7 +3732,6 @@ void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectiv
 void glRectiv(const GLint * v1, const GLint * v2) {
@@ -4093,7 +3742,6 @@ void glRectiv(const GLint * v1, const GLint * v2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRects
 void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
@@ -4106,7 +3754,6 @@ void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRectsv
 void glRectsv(const GLshort * v1, const GLshort * v2) {
@@ -4117,7 +3764,6 @@ void glRectsv(const GLshort * v1, const GLshort * v2) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRenderMode
 GLint glRenderMode(GLenum mode) {
@@ -4128,7 +3774,6 @@ GLint glRenderMode(GLenum mode) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glResetHistogram
 void glResetHistogram(GLenum target) {
@@ -4138,7 +3783,6 @@ void glResetHistogram(GLenum target) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glResetMinmax
 void glResetMinmax(GLenum target) {
@@ -4148,7 +3792,6 @@ void glResetMinmax(GLenum target) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRotated
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
@@ -4161,7 +3804,6 @@ void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glRotatef
 void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
@@ -4174,7 +3816,6 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSampleCoverage
 void glSampleCoverage(GLfloat value, GLboolean invert) {
@@ -4185,7 +3826,6 @@ void glSampleCoverage(GLfloat value, GLboolean invert) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glScaled
 void glScaled(GLdouble x, GLdouble y, GLdouble z) {
@@ -4197,7 +3837,6 @@ void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glScalef
 void glScalef(GLfloat x, GLfloat y, GLfloat z) {
@@ -4209,7 +3848,6 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glScissor
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -4222,7 +3860,6 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3b
 void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
@@ -4234,7 +3871,6 @@ void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3bv
 void glSecondaryColor3bv(const GLbyte * v) {
@@ -4244,7 +3880,6 @@ void glSecondaryColor3bv(const GLbyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3d
 void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
@@ -4256,7 +3891,6 @@ void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3dv
 void glSecondaryColor3dv(const GLdouble * v) {
@@ -4266,7 +3900,6 @@ void glSecondaryColor3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3f
 void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
@@ -4278,7 +3911,6 @@ void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3fv
 void glSecondaryColor3fv(const GLfloat * v) {
@@ -4288,7 +3920,6 @@ void glSecondaryColor3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3i
 void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
@@ -4300,7 +3931,6 @@ void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3iv
 void glSecondaryColor3iv(const GLint * v) {
@@ -4310,7 +3940,6 @@ void glSecondaryColor3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3s
 void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
@@ -4322,7 +3951,6 @@ void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3sv
 void glSecondaryColor3sv(const GLshort * v) {
@@ -4332,7 +3960,6 @@ void glSecondaryColor3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3ub
 void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
@@ -4344,7 +3971,6 @@ void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3ubv
 void glSecondaryColor3ubv(const GLubyte * v) {
@@ -4354,7 +3980,6 @@ void glSecondaryColor3ubv(const GLubyte * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3ui
 void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
@@ -4366,7 +3991,6 @@ void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3uiv
 void glSecondaryColor3uiv(const GLuint * v) {
@@ -4376,7 +4000,6 @@ void glSecondaryColor3uiv(const GLuint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3us
 void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
@@ -4388,7 +4011,6 @@ void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColor3usv
 void glSecondaryColor3usv(const GLushort * v) {
@@ -4398,7 +4020,6 @@ void glSecondaryColor3usv(const GLushort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSecondaryColorPointer
 void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -4411,7 +4032,6 @@ void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvo
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSelectBuffer
 void glSelectBuffer(GLsizei size, GLuint * buffer) {
@@ -4422,7 +4042,6 @@ void glSelectBuffer(GLsizei size, GLuint * buffer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glSeparableFilter2D
 void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * row, const GLvoid * column) {
@@ -4439,7 +4058,6 @@ void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GL
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glShadeModel
 void glShadeModel(GLenum mode) {
@@ -4449,7 +4067,6 @@ void glShadeModel(GLenum mode) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glStencilFunc
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
@@ -4461,7 +4078,6 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glStencilMask
 void glStencilMask(GLuint mask) {
@@ -4471,7 +4087,6 @@ void glStencilMask(GLuint mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glStencilOp
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
@@ -4483,7 +4098,6 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1d
 void glTexCoord1d(GLdouble s) {
@@ -4493,7 +4107,6 @@ void glTexCoord1d(GLdouble s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1dv
 void glTexCoord1dv(const GLdouble * v) {
@@ -4503,7 +4116,6 @@ void glTexCoord1dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1f
 void glTexCoord1f(GLfloat s) {
@@ -4513,7 +4125,6 @@ void glTexCoord1f(GLfloat s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1fv
 void glTexCoord1fv(const GLfloat * v) {
@@ -4523,7 +4134,6 @@ void glTexCoord1fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1i
 void glTexCoord1i(GLint s) {
@@ -4533,7 +4143,6 @@ void glTexCoord1i(GLint s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1iv
 void glTexCoord1iv(const GLint * v) {
@@ -4543,7 +4152,6 @@ void glTexCoord1iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1s
 void glTexCoord1s(GLshort s) {
@@ -4553,7 +4161,6 @@ void glTexCoord1s(GLshort s) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord1sv
 void glTexCoord1sv(const GLshort * v) {
@@ -4563,7 +4170,6 @@ void glTexCoord1sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2d
 void glTexCoord2d(GLdouble s, GLdouble t) {
@@ -4574,7 +4180,6 @@ void glTexCoord2d(GLdouble s, GLdouble t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2dv
 void glTexCoord2dv(const GLdouble * v) {
@@ -4584,7 +4189,6 @@ void glTexCoord2dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2f
 void glTexCoord2f(GLfloat s, GLfloat t) {
@@ -4595,7 +4199,6 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2fv
 void glTexCoord2fv(const GLfloat * v) {
@@ -4605,7 +4208,6 @@ void glTexCoord2fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2i
 void glTexCoord2i(GLint s, GLint t) {
@@ -4616,7 +4218,6 @@ void glTexCoord2i(GLint s, GLint t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2iv
 void glTexCoord2iv(const GLint * v) {
@@ -4626,7 +4227,6 @@ void glTexCoord2iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2s
 void glTexCoord2s(GLshort s, GLshort t) {
@@ -4637,7 +4237,6 @@ void glTexCoord2s(GLshort s, GLshort t) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord2sv
 void glTexCoord2sv(const GLshort * v) {
@@ -4647,7 +4246,6 @@ void glTexCoord2sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3d
 void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
@@ -4659,7 +4257,6 @@ void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3dv
 void glTexCoord3dv(const GLdouble * v) {
@@ -4669,7 +4266,6 @@ void glTexCoord3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3f
 void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
@@ -4681,7 +4277,6 @@ void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3fv
 void glTexCoord3fv(const GLfloat * v) {
@@ -4691,7 +4286,6 @@ void glTexCoord3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3i
 void glTexCoord3i(GLint s, GLint t, GLint r) {
@@ -4703,7 +4297,6 @@ void glTexCoord3i(GLint s, GLint t, GLint r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3iv
 void glTexCoord3iv(const GLint * v) {
@@ -4713,7 +4306,6 @@ void glTexCoord3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3s
 void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
@@ -4725,7 +4317,6 @@ void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord3sv
 void glTexCoord3sv(const GLshort * v) {
@@ -4735,7 +4326,6 @@ void glTexCoord3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4d
 void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
@@ -4748,7 +4338,6 @@ void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4dv
 void glTexCoord4dv(const GLdouble * v) {
@@ -4758,7 +4347,6 @@ void glTexCoord4dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4f
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -4771,7 +4359,6 @@ void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4fv
 void glTexCoord4fv(const GLfloat * v) {
@@ -4781,7 +4368,6 @@ void glTexCoord4fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4i
 void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
@@ -4794,7 +4380,6 @@ void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4iv
 void glTexCoord4iv(const GLint * v) {
@@ -4804,7 +4389,6 @@ void glTexCoord4iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4s
 void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
@@ -4817,7 +4401,6 @@ void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoord4sv
 void glTexCoord4sv(const GLshort * v) {
@@ -4827,7 +4410,6 @@ void glTexCoord4sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexCoordPointer
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -4840,7 +4422,6 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexEnvf
 void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
@@ -4852,7 +4433,6 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexEnvfv
 void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -4864,7 +4444,6 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexEnvi
 void glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -4876,7 +4455,6 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexEnviv
 void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
@@ -4888,7 +4466,6 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGend
 void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
@@ -4900,7 +4477,6 @@ void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGendv
 void glTexGendv(GLenum coord, GLenum pname, const GLdouble * params) {
@@ -4912,7 +4488,6 @@ void glTexGendv(GLenum coord, GLenum pname, const GLdouble * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGenf
 void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
@@ -4924,7 +4499,6 @@ void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGenfv
 void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
@@ -4936,7 +4510,6 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGeni
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
@@ -4948,7 +4521,6 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexGeniv
 void glTexGeniv(GLenum coord, GLenum pname, const GLint * params) {
@@ -4960,7 +4532,6 @@ void glTexGeniv(GLenum coord, GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexImage1D
 void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -4977,7 +4548,6 @@ void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexImage2D
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -4995,7 +4565,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexImage3D
 void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -5014,7 +4583,6 @@ void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexParameterf
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
@@ -5026,7 +4594,6 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexParameterfv
 void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -5038,7 +4605,6 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexParameteri
 void glTexParameteri(GLenum target, GLenum pname, GLint param) {
@@ -5050,7 +4616,6 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexParameteriv
 void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -5062,7 +4627,6 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexSubImage1D
 void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -5078,7 +4642,6 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexSubImage2D
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -5096,7 +4659,6 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTexSubImage3D
 void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -5116,7 +4678,6 @@ void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTranslated
 void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
@@ -5128,7 +4689,6 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glTranslatef
 void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
@@ -5140,7 +4700,6 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glUnmapBuffer
 GLboolean glUnmapBuffer(GLenum target) {
@@ -5151,7 +4710,6 @@ GLboolean glUnmapBuffer(GLenum target) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glVertex2d
 void glVertex2d(GLdouble x, GLdouble y) {
@@ -5162,7 +4720,6 @@ void glVertex2d(GLdouble x, GLdouble y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2dv
 void glVertex2dv(const GLdouble * v) {
@@ -5172,7 +4729,6 @@ void glVertex2dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2f
 void glVertex2f(GLfloat x, GLfloat y) {
@@ -5183,7 +4739,6 @@ void glVertex2f(GLfloat x, GLfloat y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2fv
 void glVertex2fv(const GLfloat * v) {
@@ -5193,7 +4748,6 @@ void glVertex2fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2i
 void glVertex2i(GLint x, GLint y) {
@@ -5204,7 +4758,6 @@ void glVertex2i(GLint x, GLint y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2iv
 void glVertex2iv(const GLint * v) {
@@ -5214,7 +4767,6 @@ void glVertex2iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2s
 void glVertex2s(GLshort x, GLshort y) {
@@ -5225,7 +4777,6 @@ void glVertex2s(GLshort x, GLshort y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex2sv
 void glVertex2sv(const GLshort * v) {
@@ -5235,7 +4786,6 @@ void glVertex2sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3d
 void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
@@ -5247,7 +4797,6 @@ void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3dv
 void glVertex3dv(const GLdouble * v) {
@@ -5257,7 +4806,6 @@ void glVertex3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3f
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -5269,7 +4817,6 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3fv
 void glVertex3fv(const GLfloat * v) {
@@ -5279,7 +4826,6 @@ void glVertex3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3i
 void glVertex3i(GLint x, GLint y, GLint z) {
@@ -5291,7 +4837,6 @@ void glVertex3i(GLint x, GLint y, GLint z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3iv
 void glVertex3iv(const GLint * v) {
@@ -5301,7 +4846,6 @@ void glVertex3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3s
 void glVertex3s(GLshort x, GLshort y, GLshort z) {
@@ -5313,7 +4857,6 @@ void glVertex3s(GLshort x, GLshort y, GLshort z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex3sv
 void glVertex3sv(const GLshort * v) {
@@ -5323,7 +4866,6 @@ void glVertex3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4d
 void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
@@ -5336,7 +4878,6 @@ void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4dv
 void glVertex4dv(const GLdouble * v) {
@@ -5346,7 +4887,6 @@ void glVertex4dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4f
 void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
@@ -5359,7 +4899,6 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4fv
 void glVertex4fv(const GLfloat * v) {
@@ -5369,7 +4908,6 @@ void glVertex4fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4i
 void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
@@ -5382,7 +4920,6 @@ void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4iv
 void glVertex4iv(const GLint * v) {
@@ -5392,7 +4929,6 @@ void glVertex4iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4s
 void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
@@ -5405,7 +4941,6 @@ void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertex4sv
 void glVertex4sv(const GLshort * v) {
@@ -5415,7 +4950,6 @@ void glVertex4sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glVertexPointer
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -5428,7 +4962,6 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glViewport
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -5441,7 +4974,6 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2d
 void glWindowPos2d(GLdouble x, GLdouble y) {
@@ -5452,7 +4984,6 @@ void glWindowPos2d(GLdouble x, GLdouble y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2dv
 void glWindowPos2dv(const GLdouble * v) {
@@ -5462,7 +4993,6 @@ void glWindowPos2dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2f
 void glWindowPos2f(GLfloat x, GLfloat y) {
@@ -5473,7 +5003,6 @@ void glWindowPos2f(GLfloat x, GLfloat y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2fv
 void glWindowPos2fv(const GLfloat * v) {
@@ -5483,7 +5012,6 @@ void glWindowPos2fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2i
 void glWindowPos2i(GLint x, GLint y) {
@@ -5494,7 +5022,6 @@ void glWindowPos2i(GLint x, GLint y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2iv
 void glWindowPos2iv(const GLint * v) {
@@ -5504,7 +5031,6 @@ void glWindowPos2iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2s
 void glWindowPos2s(GLshort x, GLshort y) {
@@ -5515,7 +5041,6 @@ void glWindowPos2s(GLshort x, GLshort y) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos2sv
 void glWindowPos2sv(const GLshort * v) {
@@ -5525,7 +5050,6 @@ void glWindowPos2sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3d
 void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
@@ -5537,7 +5061,6 @@ void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3dv
 void glWindowPos3dv(const GLdouble * v) {
@@ -5547,7 +5070,6 @@ void glWindowPos3dv(const GLdouble * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3f
 void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -5559,7 +5081,6 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3fv
 void glWindowPos3fv(const GLfloat * v) {
@@ -5569,7 +5090,6 @@ void glWindowPos3fv(const GLfloat * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3i
 void glWindowPos3i(GLint x, GLint y, GLint z) {
@@ -5581,7 +5101,6 @@ void glWindowPos3i(GLint x, GLint y, GLint z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3iv
 void glWindowPos3iv(const GLint * v) {
@@ -5591,7 +5110,6 @@ void glWindowPos3iv(const GLint * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3s
 void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
@@ -5603,7 +5121,6 @@ void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glWindowPos3sv
 void glWindowPos3sv(const GLshort * v) {
@@ -5613,7 +5130,6 @@ void glWindowPos3sv(const GLshort * v) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXBindHyperpipeSGIX
 int glXBindHyperpipeSGIX(Display * dpy, int hpId) {
@@ -5625,7 +5141,6 @@ int glXBindHyperpipeSGIX(Display * dpy, int hpId) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXBindSwapBarrierSGIX
 void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier) {
@@ -5636,7 +5151,6 @@ void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXChangeDrawableAttributes
 void glXChangeDrawableAttributes(uint32_t drawable) {
@@ -5646,7 +5160,6 @@ void glXChangeDrawableAttributes(uint32_t drawable) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXChangeDrawableAttributesSGIX
 void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
@@ -5656,7 +5169,6 @@ void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXChooseFBConfig
 GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_list, int * nelements) {
@@ -5670,7 +5182,6 @@ GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_li
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXChooseVisual
 XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
@@ -5683,7 +5194,6 @@ XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXClientInfo
 void glXClientInfo() {
@@ -5692,7 +5202,6 @@ void glXClientInfo() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCopyContext
 void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long mask) {
@@ -5705,7 +5214,6 @@ void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCreateContext
 GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareList, Bool direct) {
@@ -5719,7 +5227,6 @@ GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareLi
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXCreateContextWithConfigSGIX
 void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t config, uint32_t share_list) {
@@ -5732,7 +5239,6 @@ void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t co
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCreateGLXPbufferSGIX
 void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
@@ -5743,7 +5249,6 @@ void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCreateGLXPixmap
 GLXPixmap glXCreateGLXPixmap(Display * dpy, XVisualInfo * visual, Pixmap pixmap) {
@@ -5756,7 +5261,6 @@ GLXPixmap glXCreateGLXPixmap(Display * dpy, XVisualInfo * visual, Pixmap pixmap)
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXCreateGLXPixmapWithConfigSGIX
 void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t glxpixmap) {
@@ -5768,7 +5272,6 @@ void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCreateGLXVideoSourceSGIX
 void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server, uint32_t path, uint32_t class, uint32_t node) {
@@ -5783,7 +5286,6 @@ void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXCreateNewContext
 GLXContext glXCreateNewContext(Display * dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct) {
@@ -5798,7 +5300,6 @@ GLXContext glXCreateNewContext(Display * dpy, GLXFBConfig config, int render_typ
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXCreatePbuffer
 GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list) {
@@ -5811,7 +5312,6 @@ GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attri
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXCreatePixmap
 GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
@@ -5825,7 +5325,6 @@ GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, cons
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXCreateWindow
 GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const int * attrib_list) {
@@ -5839,7 +5338,6 @@ GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const i
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXDestroyContext
 void glXDestroyContext(Display * dpy, GLXContext ctx) {
@@ -5850,7 +5348,6 @@ void glXDestroyContext(Display * dpy, GLXContext ctx) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyGLXPbufferSGIX
 void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
@@ -5860,7 +5357,6 @@ void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyGLXPixmap
 void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
@@ -5871,7 +5367,6 @@ void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyGLXVideoSourceSGIX
 void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
@@ -5882,7 +5377,6 @@ void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyHyperpipeConfigSGIX
 int glXDestroyHyperpipeConfigSGIX(Display * dpy, int hpId) {
@@ -5894,7 +5388,6 @@ int glXDestroyHyperpipeConfigSGIX(Display * dpy, int hpId) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXDestroyPbuffer
 void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
@@ -5905,7 +5398,6 @@ void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyPixmap
 void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap) {
@@ -5916,7 +5408,6 @@ void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXDestroyWindow
 void glXDestroyWindow(Display * dpy, GLXWindow win) {
@@ -5927,7 +5418,30 @@ void glXDestroyWindow(Display * dpy, GLXWindow win) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
+#endif
+#ifndef skip_client_glXGetClientString
+const char * glXGetClientString(Display * display, int name) {
+    glXGetClientString_INDEXED *packed_data = malloc(sizeof(glXGetClientString_INDEXED));
+    packed_data->func = glXGetClientString_INDEX;
+    packed_data->args.a1 = display;
+    packed_data->args.a2 = name;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    return ret;
+}
+#endif
+#ifndef skip_client_glXGetConfig
+int glXGetConfig(Display * display, XVisualInfo * visual, int attribute, int * value) {
+    glXGetConfig_INDEXED *packed_data = malloc(sizeof(glXGetConfig_INDEXED));
+    packed_data->func = glXGetConfig_INDEX;
+    packed_data->args.a1 = display;
+    packed_data->args.a2 = visual;
+    packed_data->args.a3 = attribute;
+    packed_data->args.a4 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    return ret;
+}
 #endif
 #ifndef skip_client_glXGetCurrentContext
 GLXContext glXGetCurrentContext() {
@@ -5937,7 +5451,6 @@ GLXContext glXGetCurrentContext() {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXGetCurrentDisplay
 Display * glXGetCurrentDisplay() {
@@ -5947,7 +5460,15 @@ Display * glXGetCurrentDisplay() {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
+#endif
+#ifndef skip_client_glXGetCurrentDrawable
+GLXDrawable glXGetCurrentDrawable() {
+    glXGetCurrentDrawable_INDEXED *packed_data = malloc(sizeof(glXGetCurrentDrawable_INDEXED));
+    packed_data->func = glXGetCurrentDrawable_INDEX;
+    GLXDrawable ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    return ret;
+}
 #endif
 #ifndef skip_client_glXGetCurrentReadDrawable
 GLXDrawable glXGetCurrentReadDrawable() {
@@ -5957,7 +5478,6 @@ GLXDrawable glXGetCurrentReadDrawable() {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXGetDrawableAttributes
 void glXGetDrawableAttributes(uint32_t drawable) {
@@ -5967,7 +5487,6 @@ void glXGetDrawableAttributes(uint32_t drawable) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXGetDrawableAttributesSGIX
 void glXGetDrawableAttributesSGIX(uint32_t drawable) {
@@ -5977,7 +5496,6 @@ void glXGetDrawableAttributesSGIX(uint32_t drawable) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXGetFBConfigAttrib
 int glXGetFBConfigAttrib(Display * dpy, GLXFBConfig config, int attribute, int * value) {
@@ -5991,7 +5509,6 @@ int glXGetFBConfigAttrib(Display * dpy, GLXFBConfig config, int attribute, int *
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXGetFBConfigs
 GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
@@ -6004,7 +5521,6 @@ GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXGetFBConfigsSGIX
 void glXGetFBConfigsSGIX() {
@@ -6013,7 +5529,6 @@ void glXGetFBConfigsSGIX() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXGetProcAddress
 __GLXextFuncPtr glXGetProcAddress(const GLubyte * procName) {
@@ -6024,7 +5539,6 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte * procName) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXGetSelectedEvent
 void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_mask) {
@@ -6036,7 +5550,6 @@ void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXGetVisualConfigs
 void glXGetVisualConfigs() {
@@ -6045,7 +5558,6 @@ void glXGetVisualConfigs() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXGetVisualFromFBConfig
 XVisualInfo * glXGetVisualFromFBConfig(Display * dpy, GLXFBConfig config) {
@@ -6057,7 +5569,6 @@ XVisualInfo * glXGetVisualFromFBConfig(Display * dpy, GLXFBConfig config) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXHyperpipeAttribSGIX
 int glXHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * attribList) {
@@ -6072,7 +5583,6 @@ int glXHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, c
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXHyperpipeConfigSGIX
 int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpipeConfigSGIX cfg, int * hpId) {
@@ -6087,7 +5597,6 @@ int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpip
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXIsDirect
 Bool glXIsDirect(Display * dpy, GLXContext ctx) {
@@ -6099,7 +5608,6 @@ Bool glXIsDirect(Display * dpy, GLXContext ctx) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXJoinSwapGroupSGIX
 void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group) {
@@ -6110,7 +5618,6 @@ void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXMakeContextCurrent
 Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx) {
@@ -6124,7 +5631,6 @@ Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GL
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXMakeCurrent
 Bool glXMakeCurrent(Display * dpy, GLXDrawable drawable, GLXContext ctx) {
@@ -6137,7 +5643,6 @@ Bool glXMakeCurrent(Display * dpy, GLXDrawable drawable, GLXContext ctx) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXMakeCurrentReadSGI
 void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t context) {
@@ -6149,7 +5654,6 @@ void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t co
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXQueryContext
 int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
@@ -6163,7 +5667,6 @@ int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryContextInfoEXT
 void glXQueryContextInfoEXT() {
@@ -6172,7 +5675,6 @@ void glXQueryContextInfoEXT() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXQueryDrawable
 void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned int * value) {
@@ -6185,7 +5687,6 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXQueryExtensionsString
 const char * glXQueryExtensionsString(Display * dpy, int screen) {
@@ -6197,7 +5698,6 @@ const char * glXQueryExtensionsString(Display * dpy, int screen) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryHyperpipeAttribSGIX
 int glXQueryHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * returnAttribList) {
@@ -6212,7 +5712,6 @@ int glXQueryHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int si
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryHyperpipeBestAttribSGIX
 int glXQueryHyperpipeBestAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, const void * attribList, void * returnAttribList) {
@@ -6228,7 +5727,6 @@ int glXQueryHyperpipeBestAttribSGIX(Display * dpy, int timeSlice, int attrib, in
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryHyperpipeConfigSGIX
 GLXHyperpipeConfigSGIX * glXQueryHyperpipeConfigSGIX(Display * dpy, int hpId, int * npipes) {
@@ -6241,7 +5739,6 @@ GLXHyperpipeConfigSGIX * glXQueryHyperpipeConfigSGIX(Display * dpy, int hpId, in
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryHyperpipeNetworkSGIX
 GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npipes) {
@@ -6253,7 +5750,6 @@ GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npip
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryMaxSwapBarriersSGIX
 void glXQueryMaxSwapBarriersSGIX() {
@@ -6262,7 +5758,6 @@ void glXQueryMaxSwapBarriersSGIX() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXQueryServerString
 const char * glXQueryServerString(Display * dpy, int screen, int name) {
@@ -6275,7 +5770,6 @@ const char * glXQueryServerString(Display * dpy, int screen, int name) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXQueryVersion
 Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
@@ -6288,7 +5782,6 @@ Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
     syscall(SYS_proxy, (void *)packed_data, &ret);
     return ret;
 }
-
 #endif
 #ifndef skip_client_glXRender
 void glXRender() {
@@ -6297,7 +5790,6 @@ void glXRender() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXRenderLarge
 void glXRenderLarge() {
@@ -6306,7 +5798,6 @@ void glXRenderLarge() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXSelectEvent
 void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
@@ -6318,7 +5809,6 @@ void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXSwapBuffers
 void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
@@ -6329,7 +5819,6 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXSwapIntervalSGI
 void glXSwapIntervalSGI() {
@@ -6338,7 +5827,6 @@ void glXSwapIntervalSGI() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXUseXFont
 void glXUseXFont(Font font, int first, int count, int list) {
@@ -6351,7 +5839,6 @@ void glXUseXFont(Font font, int first, int count, int list) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXVendorPrivate
 void glXVendorPrivate() {
@@ -6360,7 +5847,6 @@ void glXVendorPrivate() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXVendorPrivateWithReply
 void glXVendorPrivateWithReply() {
@@ -6369,7 +5855,6 @@ void glXVendorPrivateWithReply() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXWaitGL
 void glXWaitGL() {
@@ -6378,7 +5863,6 @@ void glXWaitGL() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 #ifndef skip_client_glXWaitX
 void glXWaitX() {
@@ -6387,7 +5871,6 @@ void glXWaitX() {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
 }
-
 #endif
 
 
@@ -7922,11 +7405,20 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "glXDestroyWindow") == 0) {
         return (void *)glXDestroyWindow;
     }
+    if (strcmp(name, "glXGetClientString") == 0) {
+        return (void *)glXGetClientString;
+    }
+    if (strcmp(name, "glXGetConfig") == 0) {
+        return (void *)glXGetConfig;
+    }
     if (strcmp(name, "glXGetCurrentContext") == 0) {
         return (void *)glXGetCurrentContext;
     }
     if (strcmp(name, "glXGetCurrentDisplay") == 0) {
         return (void *)glXGetCurrentDisplay;
+    }
+    if (strcmp(name, "glXGetCurrentDrawable") == 0) {
+        return (void *)glXGetCurrentDrawable;
     }
     if (strcmp(name, "glXGetCurrentReadDrawable") == 0) {
         return (void *)glXGetCurrentReadDrawable;

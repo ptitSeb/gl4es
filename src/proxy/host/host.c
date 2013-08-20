@@ -81,7 +81,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLsizei_const_GLuint___GENPT___GLboolean___GENPT__ *unpacked = (INDEXED_GLboolean_GLsizei_const_GLuint___GENPT___GLboolean___GENPT__ *)packed;
             ARGS_GLboolean_GLsizei_const_GLuint___GENPT___GLboolean___GENPT__ args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glAreTexturesResident(args.a1, args.a2, args.a3);
             break;
         }
@@ -2361,7 +2361,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLuint_GLsizei *unpacked = (INDEXED_GLuint_GLsizei *)packed;
             ARGS_GLuint_GLsizei args = unpacked->args;
             GLuint *ret = (GLuint *)ret_v;
-            *ret = 
+            *ret =
             local_glGenLists(args.a1);
             break;
         }
@@ -2635,7 +2635,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLenum *unpacked = (INDEXED_GLenum *)packed;
             ARGS_GLenum args = unpacked->args;
             GLenum *ret = (GLenum *)ret_v;
-            *ret = 
+            *ret =
             local_glGetError();
             break;
         }
@@ -3062,7 +3062,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_const_GLubyte___GENPT___GLenum *unpacked = (INDEXED_const_GLubyte___GENPT___GLenum *)packed;
             ARGS_const_GLubyte___GENPT___GLenum args = unpacked->args;
             const GLubyte * *ret = (const GLubyte * *)ret_v;
-            *ret = 
+            *ret =
             local_glGetString(args.a1);
             break;
         }
@@ -3523,7 +3523,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLuint *unpacked = (INDEXED_GLboolean_GLuint *)packed;
             ARGS_GLboolean_GLuint args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glIsBuffer(args.a1);
             break;
         }
@@ -3542,7 +3542,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLenum *unpacked = (INDEXED_GLboolean_GLenum *)packed;
             ARGS_GLboolean_GLenum args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glIsEnabled(args.a1);
             break;
         }
@@ -3561,7 +3561,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLuint *unpacked = (INDEXED_GLboolean_GLuint *)packed;
             ARGS_GLboolean_GLuint args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glIsList(args.a1);
             break;
         }
@@ -3580,7 +3580,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLuint *unpacked = (INDEXED_GLboolean_GLuint *)packed;
             ARGS_GLboolean_GLuint args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glIsQuery(args.a1);
             break;
         }
@@ -3599,7 +3599,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLuint *unpacked = (INDEXED_GLboolean_GLuint *)packed;
             ARGS_GLboolean_GLuint args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glIsTexture(args.a1);
             break;
         }
@@ -3992,7 +3992,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLvoid___GENPT___GLenum_GLenum *unpacked = (INDEXED_GLvoid___GENPT___GLenum_GLenum *)packed;
             ARGS_GLvoid___GENPT___GLenum_GLenum args = unpacked->args;
             GLvoid * *ret = (GLvoid * *)ret_v;
-            *ret = 
+            *ret =
             local_glMapBuffer(args.a1, args.a2);
             break;
         }
@@ -6068,7 +6068,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLint_GLenum *unpacked = (INDEXED_GLint_GLenum *)packed;
             ARGS_GLint_GLenum args = unpacked->args;
             GLint *ret = (GLint *)ret_v;
-            *ret = 
+            *ret =
             local_glRenderMode(args.a1);
             break;
         }
@@ -7549,7 +7549,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLboolean_GLenum *unpacked = (INDEXED_GLboolean_GLenum *)packed;
             ARGS_GLboolean_GLenum args = unpacked->args;
             GLboolean *ret = (GLboolean *)ret_v;
-            *ret = 
+            *ret =
             local_glUnmapBuffer(args.a1);
             break;
         }
@@ -8282,7 +8282,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int *unpacked = (INDEXED_int_Display___GENPT___int *)packed;
             ARGS_int_Display___GENPT___int args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXBindHyperpipeSGIX(args.a1, args.a2);
             break;
         }
@@ -8352,7 +8352,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__ *unpacked = (INDEXED_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__ *)packed;
             ARGS_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__ args = unpacked->args;
             GLXFBConfig * *ret = (GLXFBConfig * *)ret_v;
-            *ret = 
+            *ret =
             local_glXChooseFBConfig(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -8371,7 +8371,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ *unpacked = (INDEXED_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ *)packed;
             ARGS_XVisualInfo___GENPT___Display___GENPT___int_int___GENPT__ args = unpacked->args;
             XVisualInfo * *ret = (XVisualInfo * *)ret_v;
-            *ret = 
+            *ret =
             local_glXChooseVisual(args.a1, args.a2, args.a3);
             break;
         }
@@ -8424,7 +8424,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool *unpacked = (INDEXED_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool *)packed;
             ARGS_GLXContext_Display___GENPT___XVisualInfo___GENPT___GLXContext_Bool args = unpacked->args;
             GLXContext *ret = (GLXContext *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreateContext(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -8477,7 +8477,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap *unpacked = (INDEXED_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap *)packed;
             ARGS_GLXPixmap_Display___GENPT___XVisualInfo___GENPT___Pixmap args = unpacked->args;
             GLXPixmap *ret = (GLXPixmap *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreateGLXPixmap(args.a1, args.a2, args.a3);
             break;
         }
@@ -8530,7 +8530,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool *unpacked = (INDEXED_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool *)packed;
             ARGS_GLXContext_Display___GENPT___GLXFBConfig_int_GLXContext_Bool args = unpacked->args;
             GLXContext *ret = (GLXContext *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreateNewContext(args.a1, args.a2, args.a3, args.a4, args.a5);
             break;
         }
@@ -8549,7 +8549,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__ *unpacked = (INDEXED_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__ *)packed;
             ARGS_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__ args = unpacked->args;
             GLXPbuffer *ret = (GLXPbuffer *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreatePbuffer(args.a1, args.a2, args.a3);
             break;
         }
@@ -8568,7 +8568,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__ *unpacked = (INDEXED_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__ *)packed;
             ARGS_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__ args = unpacked->args;
             GLXPixmap *ret = (GLXPixmap *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreatePixmap(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -8587,7 +8587,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__ *unpacked = (INDEXED_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__ *)packed;
             ARGS_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__ args = unpacked->args;
             GLXWindow *ret = (GLXWindow *)ret_v;
-            *ret = 
+            *ret =
             local_glXCreateWindow(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -8674,7 +8674,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int *unpacked = (INDEXED_int_Display___GENPT___int *)packed;
             ARGS_int_Display___GENPT___int args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXDestroyHyperpipeConfigSGIX(args.a1, args.a2);
             break;
         }
@@ -8730,6 +8730,44 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXGetClientString
+        case glXGetClientString_INDEX: {
+            static glXGetClientString_PTR local_glXGetClientString;
+            if (local_glXGetClientString == NULL) {
+                local_glXGetClientString = (glXGetClientString_PTR)dlsym(g_libgl, "glXGetClientString");
+                if (! local_glXGetClientString) {
+                    printf("Warning: Unable to dlsym 'glXGetClientString'\n");
+                    return;
+                }
+            }
+
+            INDEXED_const_char___GENPT___Display___GENPT___int *unpacked = (INDEXED_const_char___GENPT___Display___GENPT___int *)packed;
+            ARGS_const_char___GENPT___Display___GENPT___int args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            local_glXGetClientString(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_glXGetConfig
+        case glXGetConfig_INDEX: {
+            static glXGetConfig_PTR local_glXGetConfig;
+            if (local_glXGetConfig == NULL) {
+                local_glXGetConfig = (glXGetConfig_PTR)dlsym(g_libgl, "glXGetConfig");
+                if (! local_glXGetConfig) {
+                    printf("Warning: Unable to dlsym 'glXGetConfig'\n");
+                    return;
+                }
+            }
+
+            INDEXED_int_Display___GENPT___XVisualInfo___GENPT___int_int___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___XVisualInfo___GENPT___int_int___GENPT__ *)packed;
+            ARGS_int_Display___GENPT___XVisualInfo___GENPT___int_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            local_glXGetConfig(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
         #ifndef skip_index_glXGetCurrentContext
         case glXGetCurrentContext_INDEX: {
             static glXGetCurrentContext_PTR local_glXGetCurrentContext;
@@ -8744,7 +8782,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXContext *unpacked = (INDEXED_GLXContext *)packed;
             ARGS_GLXContext args = unpacked->args;
             GLXContext *ret = (GLXContext *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetCurrentContext();
             break;
         }
@@ -8763,8 +8801,27 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_Display___GENPT__ *unpacked = (INDEXED_Display___GENPT__ *)packed;
             ARGS_Display___GENPT__ args = unpacked->args;
             Display * *ret = (Display * *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetCurrentDisplay();
+            break;
+        }
+        #endif
+        #ifndef skip_index_glXGetCurrentDrawable
+        case glXGetCurrentDrawable_INDEX: {
+            static glXGetCurrentDrawable_PTR local_glXGetCurrentDrawable;
+            if (local_glXGetCurrentDrawable == NULL) {
+                local_glXGetCurrentDrawable = (glXGetCurrentDrawable_PTR)dlsym(g_libgl, "glXGetCurrentDrawable");
+                if (! local_glXGetCurrentDrawable) {
+                    printf("Warning: Unable to dlsym 'glXGetCurrentDrawable'\n");
+                    return;
+                }
+            }
+
+            INDEXED_GLXDrawable *unpacked = (INDEXED_GLXDrawable *)packed;
+            ARGS_GLXDrawable args = unpacked->args;
+            GLXDrawable *ret = (GLXDrawable *)ret_v;
+            *ret =
+            local_glXGetCurrentDrawable();
             break;
         }
         #endif
@@ -8782,7 +8839,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXDrawable *unpacked = (INDEXED_GLXDrawable *)packed;
             ARGS_GLXDrawable args = unpacked->args;
             GLXDrawable *ret = (GLXDrawable *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetCurrentReadDrawable();
             break;
         }
@@ -8835,7 +8892,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___GLXFBConfig_int_int___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___GLXFBConfig_int_int___GENPT__ *)packed;
             ARGS_int_Display___GENPT___GLXFBConfig_int_int___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetFBConfigAttrib(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -8854,7 +8911,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__ *unpacked = (INDEXED_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__ *)packed;
             ARGS_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__ args = unpacked->args;
             GLXFBConfig * *ret = (GLXFBConfig * *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetFBConfigs(args.a1, args.a2, args.a3);
             break;
         }
@@ -8890,7 +8947,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED___GLXextFuncPtr_const_GLubyte___GENPT__ *unpacked = (INDEXED___GLXextFuncPtr_const_GLubyte___GENPT__ *)packed;
             ARGS___GLXextFuncPtr_const_GLubyte___GENPT__ args = unpacked->args;
             __GLXextFuncPtr *ret = (__GLXextFuncPtr *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetProcAddress(args.a1);
             break;
         }
@@ -8943,7 +9000,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig *unpacked = (INDEXED_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig *)packed;
             ARGS_XVisualInfo___GENPT___Display___GENPT___GLXFBConfig args = unpacked->args;
             XVisualInfo * *ret = (XVisualInfo * *)ret_v;
-            *ret = 
+            *ret =
             local_glXGetVisualFromFBConfig(args.a1, args.a2);
             break;
         }
@@ -8962,7 +9019,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT__ *)packed;
             ARGS_int_Display___GENPT___int_int_int_const_void___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXHyperpipeAttribSGIX(args.a1, args.a2, args.a3, args.a4, args.a5);
             break;
         }
@@ -8981,7 +9038,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ *)packed;
             ARGS_int_Display___GENPT___int_int_GLXHyperpipeConfigSGIX_int___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXHyperpipeConfigSGIX(args.a1, args.a2, args.a3, args.a4, args.a5);
             break;
         }
@@ -9000,7 +9057,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_Bool_Display___GENPT___GLXContext *unpacked = (INDEXED_Bool_Display___GENPT___GLXContext *)packed;
             ARGS_Bool_Display___GENPT___GLXContext args = unpacked->args;
             Bool *ret = (Bool *)ret_v;
-            *ret = 
+            *ret =
             local_glXIsDirect(args.a1, args.a2);
             break;
         }
@@ -9036,7 +9093,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext *unpacked = (INDEXED_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext *)packed;
             ARGS_Bool_Display___GENPT___GLXDrawable_GLXDrawable_GLXContext args = unpacked->args;
             Bool *ret = (Bool *)ret_v;
-            *ret = 
+            *ret =
             local_glXMakeContextCurrent(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -9055,7 +9112,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_Bool_Display___GENPT___GLXDrawable_GLXContext *unpacked = (INDEXED_Bool_Display___GENPT___GLXDrawable_GLXContext *)packed;
             ARGS_Bool_Display___GENPT___GLXDrawable_GLXContext args = unpacked->args;
             Bool *ret = (Bool *)ret_v;
-            *ret = 
+            *ret =
             local_glXMakeCurrent(args.a1, args.a2, args.a3);
             break;
         }
@@ -9091,7 +9148,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___GLXContext_int_int___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___GLXContext_int_int___GENPT__ *)packed;
             ARGS_int_Display___GENPT___GLXContext_int_int___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryContext(args.a1, args.a2, args.a3, args.a4);
             break;
         }
@@ -9144,7 +9201,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_const_char___GENPT___Display___GENPT___int *unpacked = (INDEXED_const_char___GENPT___Display___GENPT___int *)packed;
             ARGS_const_char___GENPT___Display___GENPT___int args = unpacked->args;
             const char * *ret = (const char * *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryExtensionsString(args.a1, args.a2);
             break;
         }
@@ -9163,7 +9220,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT__ *)packed;
             ARGS_int_Display___GENPT___int_int_int_const_void___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryHyperpipeAttribSGIX(args.a1, args.a2, args.a3, args.a4, args.a5);
             break;
         }
@@ -9182,7 +9239,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__ *unpacked = (INDEXED_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__ *)packed;
             ARGS_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryHyperpipeBestAttribSGIX(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
             break;
         }
@@ -9201,7 +9258,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__ *unpacked = (INDEXED_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__ *)packed;
             ARGS_GLXHyperpipeConfigSGIX___GENPT___Display___GENPT___int_int___GENPT__ args = unpacked->args;
             GLXHyperpipeConfigSGIX * *ret = (GLXHyperpipeConfigSGIX * *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryHyperpipeConfigSGIX(args.a1, args.a2, args.a3);
             break;
         }
@@ -9220,7 +9277,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__ *unpacked = (INDEXED_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__ *)packed;
             ARGS_GLXHyperpipeNetworkSGIX___GENPT___Display___GENPT___int___GENPT__ args = unpacked->args;
             GLXHyperpipeNetworkSGIX * *ret = (GLXHyperpipeNetworkSGIX * *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryHyperpipeNetworkSGIX(args.a1, args.a2);
             break;
         }
@@ -9256,7 +9313,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_const_char___GENPT___Display___GENPT___int_int *unpacked = (INDEXED_const_char___GENPT___Display___GENPT___int_int *)packed;
             ARGS_const_char___GENPT___Display___GENPT___int_int args = unpacked->args;
             const char * *ret = (const char * *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryServerString(args.a1, args.a2, args.a3);
             break;
         }
@@ -9275,7 +9332,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *unpacked = (INDEXED_Bool_Display___GENPT___int___GENPT___int___GENPT__ *)packed;
             ARGS_Bool_Display___GENPT___int___GENPT___int___GENPT__ args = unpacked->args;
             Bool *ret = (Bool *)ret_v;
-            *ret = 
+            *ret =
             local_glXQueryVersion(args.a1, args.a2, args.a3);
             break;
         }

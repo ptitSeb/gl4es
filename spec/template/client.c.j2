@@ -28,7 +28,7 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
 
 {% block definition %}
 #ifndef skip_client_{{ func.name }}
-{{ super() }}
+{{ super() -}}
 #endif
 {% endblock %}
 

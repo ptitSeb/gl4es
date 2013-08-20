@@ -28,7 +28,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             ARGS_{{ f.types }} args = unpacked->args;
             {% if not f.void %}
             {{ f.return }} *ret = ({{ f.return }} *)ret_v;
-            *ret = 
+            *ret =
             {% endif %}
             local_{{ f.name }}({% for arg in f.args -%}
                 args.a{{ loop.index }}{% if not arg.last %}, {% endif %}
