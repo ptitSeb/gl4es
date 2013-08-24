@@ -12,6 +12,8 @@ endif()
 
 add_library(GL SHARED ${GL_SOURCES})
 target_link_libraries(GL EGL)
+add_library(GL_static STATIC ${GL_SOURCES})
+set_target_properties(GL_static PROPERTIES OUTPUT_NAME GL)
 
 add_library(GL2 SHARED ${GL_SOURCES})
 target_link_libraries(GL2 EGL)
@@ -30,6 +32,7 @@ endif()
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
+    set_target_properties(GL_static PROPERTIES SUFFIX ".so.1")
     set_target_properties(GL2 PROPERTIES SUFFIX ".so.1")
 else()
     set_target_properties(GL PROPERTIES SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
