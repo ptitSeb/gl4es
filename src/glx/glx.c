@@ -106,7 +106,7 @@ static int get_config_default(int attribute, int *value) {
 // hmm...
 static EGLContext eglContext;
 static GLXContext glxContext;
-static Display *xDisplay;
+static Display *g_display;
 
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
@@ -250,6 +250,10 @@ GLXContext glXCreateContext(Display *display,
     }
 #endif
 
+    if (! g_display) {
+        g_display = XOpenDisplay(NULL);
+    }
+
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -266,13 +270,10 @@ GLXContext glXCreateContext(Display *display,
     // make an egl context here...
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        if (xDisplay == NULL) {
-            xDisplay = display;
-        }
         if (g_usefb) {
             eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
         } else {
-            eglDisplay = eglGetDisplay(xDisplay);
+            eglDisplay = eglGetDisplay(g_display);
         }
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
@@ -302,7 +303,7 @@ GLXContext glXCreateContext(Display *display,
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    fake->display = xDisplay;
+    fake->display = g_display;
     fake->direct = true;
     fake->xid = 1;
     return fake;
@@ -327,8 +328,8 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
 }
 
 Display *glXGetCurrentDisplay() {
-    if (xDisplay && eglContext) {
-        return xDisplay;
+    if (g_display && eglContext) {
+        return g_display;
     }
     return NULL;
 }
@@ -338,11 +339,12 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int *attributes) {
 
     // apparently can't trust the Display I'm passed?
-    if (xDisplay == NULL) {
-        xDisplay = display;
+    if (g_display == NULL) {
+        g_display = XOpenDisplay(NULL);
     }
+    int depth = DefaultDepth(g_display, screen);
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(display, screen, 16, TrueColor, visual);
+    XMatchVisualInfo(g_display, screen, depth, TrueColor, visual);
     return visual;
 }
 
@@ -500,11 +502,11 @@ int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, in
 }
 
 XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
-    if (xDisplay == NULL) {
-        xDisplay = display;
+    if (g_display == NULL) {
+        g_display = XOpenDisplay(NULL);
     }
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(display, 0, 16, TrueColor, visual); 
+    XMatchVisualInfo(g_display, 0, 16, TrueColor, visual);
     return visual;
 }
 
