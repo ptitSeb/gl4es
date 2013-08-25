@@ -126,6 +126,17 @@ static bool g_bcmhost = true;
 static int fbdev = -1;
 static int swap_interval = 1;
 
+static void init_display(Display *display) {
+    if (! g_display) {
+        g_display = XOpenDisplay(NULL);
+    }
+    if (g_usefb) {
+        eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    } else {
+        eglDisplay = eglGetDisplay(g_display);
+    }
+}
+
 static void init_vsync() {
     fbdev = open("/dev/fb0", O_RDONLY);
     if (fbdev < 0) {
@@ -250,10 +261,6 @@ GLXContext glXCreateContext(Display *display,
     }
 #endif
 
-    if (! g_display) {
-        g_display = XOpenDisplay(NULL);
-    }
-
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -270,11 +277,7 @@ GLXContext glXCreateContext(Display *display,
     // make an egl context here...
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        if (g_usefb) {
-            eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-        } else {
-            eglDisplay = eglGetDisplay(g_display);
-        }
+        init_display(display);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("Unable to create EGL display.\n");
             return fake;
@@ -364,6 +367,13 @@ Bool glXMakeCurrent(Display *display,
         if (eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
+    }
+    // call with NULL to just destroy old stuff.
+    if (! context) {
+        return true;
+    }
+    if (eglDisplay == NULL) {
+        init_display(display);
     }
 
     if (g_usefb)
