@@ -69,7 +69,7 @@ def gen(files, template, guard_name, headers,
     formats = []
     unique_formats = set()
     for data in files:
-        if deep:
+        if deep and not isinstance(data.values()[0], list):
             functions = []
             for cat, f in data.items():
                 if not cats or cat in cats:
@@ -85,6 +85,9 @@ def gen(files, template, guard_name, headers,
                 ret = 'void'
 
             args = [split_arg(arg) for arg in args if not arg == 'void']
+            if any(arg.get('type') == 'unknown' for arg in args):
+                continue
+
             if args:
                 args[0]['first'] = True
                 args[-1]['last'] = True

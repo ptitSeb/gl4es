@@ -4538,6 +4538,11584 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_asoundlib_version
+        case snd_asoundlib_version_INDEX: {
+            INDEXED_const_char___GENPT__ *unpacked = (INDEXED_const_char___GENPT__ *)packed;
+            ARGS_const_char___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_asoundlib_version();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_add_ctl_handler
+        case snd_async_add_ctl_handler_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_async_callback_t_void___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_async_callback_t_void___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_async_callback_t_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_add_ctl_handler(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_add_handler
+        case snd_async_add_handler_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT____GENPT___int_snd_async_callback_t_void___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT____GENPT___int_snd_async_callback_t_void___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT____GENPT___int_snd_async_callback_t_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_add_handler(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_add_pcm_handler
+        case snd_async_add_pcm_handler_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_async_callback_t_void___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_async_callback_t_void___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_async_callback_t_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_add_pcm_handler(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_add_timer_handler
+        case snd_async_add_timer_handler_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_timer_t___GENPT___snd_async_callback_t_void___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT____GENPT___snd_timer_t___GENPT___snd_async_callback_t_void___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT____GENPT___snd_timer_t___GENPT___snd_async_callback_t_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_add_timer_handler(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_del_handler
+        case snd_async_del_handler_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_del_handler(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_callback_private
+        case snd_async_handler_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___snd_async_handler_t___GENPT__ *unpacked = (INDEXED_void___GENPT___snd_async_handler_t___GENPT__ *)packed;
+            ARGS_void___GENPT___snd_async_handler_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_async_handler_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_ctl
+        case snd_async_handler_get_ctl_INDEX: {
+            INDEXED_snd_ctl_t___GENPT___snd_async_handler_t___GENPT__ *unpacked = (INDEXED_snd_ctl_t___GENPT___snd_async_handler_t___GENPT__ *)packed;
+            ARGS_snd_ctl_t___GENPT___snd_async_handler_t___GENPT__ args = unpacked->args;
+            snd_ctl_t * *ret = (snd_ctl_t * *)ret_v;
+            *ret =
+            snd_async_handler_get_ctl(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_fd
+        case snd_async_handler_get_fd_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_handler_get_fd(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_pcm
+        case snd_async_handler_get_pcm_INDEX: {
+            INDEXED_snd_pcm_t___GENPT___snd_async_handler_t___GENPT__ *unpacked = (INDEXED_snd_pcm_t___GENPT___snd_async_handler_t___GENPT__ *)packed;
+            ARGS_snd_pcm_t___GENPT___snd_async_handler_t___GENPT__ args = unpacked->args;
+            snd_pcm_t * *ret = (snd_pcm_t * *)ret_v;
+            *ret =
+            snd_async_handler_get_pcm(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_signo
+        case snd_async_handler_get_signo_INDEX: {
+            INDEXED_int_snd_async_handler_t___GENPT__ *unpacked = (INDEXED_int_snd_async_handler_t___GENPT__ *)packed;
+            ARGS_int_snd_async_handler_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_async_handler_get_signo(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_async_handler_get_timer
+        case snd_async_handler_get_timer_INDEX: {
+            INDEXED_snd_timer_t___GENPT___snd_async_handler_t___GENPT__ *unpacked = (INDEXED_snd_timer_t___GENPT___snd_async_handler_t___GENPT__ *)packed;
+            ARGS_snd_timer_t___GENPT___snd_async_handler_t___GENPT__ args = unpacked->args;
+            snd_timer_t * *ret = (snd_timer_t * *)ret_v;
+            *ret =
+            snd_async_handler_get_timer(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_card_get_index
+        case snd_card_get_index_INDEX: {
+            INDEXED_int_const_char___GENPT__ *unpacked = (INDEXED_int_const_char___GENPT__ *)packed;
+            ARGS_int_const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_card_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_card_get_longname
+        case snd_card_get_longname_INDEX: {
+            INDEXED_int_int_char___GENPT____GENPT__ *unpacked = (INDEXED_int_int_char___GENPT____GENPT__ *)packed;
+            ARGS_int_int_char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_card_get_longname(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_card_get_name
+        case snd_card_get_name_INDEX: {
+            INDEXED_int_int_char___GENPT____GENPT__ *unpacked = (INDEXED_int_int_char___GENPT____GENPT__ *)packed;
+            ARGS_int_int_char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_card_get_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_card_load
+        case snd_card_load_INDEX: {
+            INDEXED_int_int *unpacked = (INDEXED_int_int *)packed;
+            ARGS_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_card_load(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_card_next
+        case snd_card_next_INDEX: {
+            INDEXED_int_int___GENPT__ *unpacked = (INDEXED_int_int___GENPT__ *)packed;
+            ARGS_int_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_card_next(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_add
+        case snd_config_add_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_add(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_copy
+        case snd_config_copy_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_delete
+        case snd_config_delete_INDEX: {
+            INDEXED_int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_delete(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_delete_compound_members
+        case snd_config_delete_compound_members_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_delete_compound_members(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_evaluate
+        case snd_config_evaluate_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_evaluate(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_expand
+        case snd_config_expand_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_expand(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_ascii
+        case snd_config_get_ascii_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___char___GENPT____GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___char___GENPT____GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_ascii(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_bool
+        case snd_config_get_bool_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_bool(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_bool_ascii
+        case snd_config_get_bool_ascii_INDEX: {
+            INDEXED_int_const_char___GENPT__ *unpacked = (INDEXED_int_const_char___GENPT__ *)packed;
+            ARGS_int_const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_bool_ascii(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_ctl_iface
+        case snd_config_get_ctl_iface_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_ctl_iface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_ctl_iface_ascii
+        case snd_config_get_ctl_iface_ascii_INDEX: {
+            INDEXED_int_const_char___GENPT__ *unpacked = (INDEXED_int_const_char___GENPT__ *)packed;
+            ARGS_int_const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_ctl_iface_ascii(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_id
+        case snd_config_get_id_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_integer
+        case snd_config_get_integer_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___long___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___long___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_integer64
+        case snd_config_get_integer64_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___long_long___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___long_long___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___long_long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_integer64(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_ireal
+        case snd_config_get_ireal_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___double___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___double___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___double___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_ireal(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_pointer
+        case snd_config_get_pointer_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_pointer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_real
+        case snd_config_get_real_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___double___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___double___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___double___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_real(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_string
+        case snd_config_get_string_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_get_string(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_get_type
+        case snd_config_get_type_INDEX: {
+            INDEXED_snd_config_type_t_const_snd_config_t___GENPT__ *unpacked = (INDEXED_snd_config_type_t_const_snd_config_t___GENPT__ *)packed;
+            ARGS_snd_config_type_t_const_snd_config_t___GENPT__ args = unpacked->args;
+            snd_config_type_t *ret = (snd_config_type_t *)ret_v;
+            *ret =
+            snd_config_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_imake_integer
+        case snd_config_imake_integer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_imake_integer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_imake_integer64
+        case snd_config_imake_integer64_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long_long *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long_long *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_imake_integer64(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_imake_pointer
+        case snd_config_imake_pointer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_void___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_void___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_imake_pointer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_imake_real
+        case snd_config_imake_real_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_double *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_double *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_double args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_imake_real(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_imake_string
+        case snd_config_imake_string_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_imake_string(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_iterator_end
+        case snd_config_iterator_end_INDEX: {
+            INDEXED_snd_config_iterator_t_const_snd_config_t___GENPT__ *unpacked = (INDEXED_snd_config_iterator_t_const_snd_config_t___GENPT__ *)packed;
+            ARGS_snd_config_iterator_t_const_snd_config_t___GENPT__ args = unpacked->args;
+            snd_config_iterator_t *ret = (snd_config_iterator_t *)ret_v;
+            *ret =
+            snd_config_iterator_end(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_iterator_entry
+        case snd_config_iterator_entry_INDEX: {
+            INDEXED_snd_config_t___GENPT___const_snd_config_iterator_t *unpacked = (INDEXED_snd_config_t___GENPT___const_snd_config_iterator_t *)packed;
+            ARGS_snd_config_t___GENPT___const_snd_config_iterator_t args = unpacked->args;
+            snd_config_t * *ret = (snd_config_t * *)ret_v;
+            *ret =
+            snd_config_iterator_entry(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_iterator_first
+        case snd_config_iterator_first_INDEX: {
+            INDEXED_snd_config_iterator_t_const_snd_config_t___GENPT__ *unpacked = (INDEXED_snd_config_iterator_t_const_snd_config_t___GENPT__ *)packed;
+            ARGS_snd_config_iterator_t_const_snd_config_t___GENPT__ args = unpacked->args;
+            snd_config_iterator_t *ret = (snd_config_iterator_t *)ret_v;
+            *ret =
+            snd_config_iterator_first(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_iterator_next
+        case snd_config_iterator_next_INDEX: {
+            INDEXED_snd_config_iterator_t_const_snd_config_iterator_t *unpacked = (INDEXED_snd_config_iterator_t_const_snd_config_iterator_t *)packed;
+            ARGS_snd_config_iterator_t_const_snd_config_iterator_t args = unpacked->args;
+            snd_config_iterator_t *ret = (snd_config_iterator_t *)ret_v;
+            *ret =
+            snd_config_iterator_next(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_load
+        case snd_config_load_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_input_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_input_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_input_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_load(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_load_override
+        case snd_config_load_override_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_input_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_input_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_input_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_load_override(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make
+        case snd_config_make_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___snd_config_type_t *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___snd_config_type_t *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___snd_config_type_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_compound
+        case snd_config_make_compound_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_compound(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_integer
+        case snd_config_make_integer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_integer64
+        case snd_config_make_integer64_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_integer64(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_pointer
+        case snd_config_make_pointer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_pointer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_real
+        case snd_config_make_real_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_real(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_make_string
+        case snd_config_make_string_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_make_string(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_save
+        case snd_config_save_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_save(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_search
+        case snd_config_search_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_search(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_search_definition
+        case snd_config_search_definition_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_char___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_char___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_char___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_search_definition(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_ascii
+        case snd_config_set_ascii_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_ascii(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_id
+        case snd_config_set_id_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_integer
+        case snd_config_set_integer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___long *unpacked = (INDEXED_int_snd_config_t___GENPT___long *)packed;
+            ARGS_int_snd_config_t___GENPT___long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_integer64
+        case snd_config_set_integer64_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___long_long *unpacked = (INDEXED_int_snd_config_t___GENPT___long_long *)packed;
+            ARGS_int_snd_config_t___GENPT___long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_integer64(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_pointer
+        case snd_config_set_pointer_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_void___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_void___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_pointer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_real
+        case snd_config_set_real_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___double *unpacked = (INDEXED_int_snd_config_t___GENPT___double *)packed;
+            ARGS_int_snd_config_t___GENPT___double args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_real(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_set_string
+        case snd_config_set_string_INDEX: {
+            INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_set_string(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_test_id
+        case snd_config_test_id_INDEX: {
+            INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_const_snd_config_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_test_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_top
+        case snd_config_top_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_top(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_update
+        case snd_config_update_INDEX: {
+            INDEXED_int *unpacked = (INDEXED_int *)packed;
+            ARGS_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_update();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_update_free
+        case snd_config_update_free_INDEX: {
+            INDEXED_int_snd_config_update_t___GENPT__ *unpacked = (INDEXED_int_snd_config_update_t___GENPT__ *)packed;
+            ARGS_int_snd_config_update_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_update_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_update_free_global
+        case snd_config_update_free_global_INDEX: {
+            INDEXED_int *unpacked = (INDEXED_int *)packed;
+            ARGS_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_update_free_global();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_config_update_r
+        case snd_config_update_r_INDEX: {
+            INDEXED_int_snd_config_t___GENPT____GENPT___snd_config_update_t___GENPT____GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_config_t___GENPT____GENPT___snd_config_update_t___GENPT____GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_config_t___GENPT____GENPT___snd_config_update_t___GENPT____GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_config_update_r(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info
+        case snd_ctl_card_info_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_card_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_clear
+        case snd_ctl_card_info_clear_INDEX: {
+            INDEXED_void_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_card_info_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_copy
+        case snd_ctl_card_info_copy_INDEX: {
+            INDEXED_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_card_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_free
+        case snd_ctl_card_info_free_INDEX: {
+            INDEXED_void_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_card_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_card
+        case snd_ctl_card_info_get_card_INDEX: {
+            INDEXED_int_const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_components
+        case snd_ctl_card_info_get_components_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_components(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_driver
+        case snd_ctl_card_info_get_driver_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_driver(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_id
+        case snd_ctl_card_info_get_id_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_longname
+        case snd_ctl_card_info_get_longname_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_longname(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_mixername
+        case snd_ctl_card_info_get_mixername_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_mixername(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_get_name
+        case snd_ctl_card_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_card_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_malloc
+        case snd_ctl_card_info_malloc_INDEX: {
+            INDEXED_int_snd_ctl_card_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_card_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_card_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_card_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_card_info_sizeof
+        case snd_ctl_card_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_card_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_close
+        case snd_ctl_close_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_add_boolean
+        case snd_ctl_elem_add_boolean_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_add_boolean(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_add_iec958
+        case snd_ctl_elem_add_iec958_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_add_iec958(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_add_integer
+        case snd_ctl_elem_add_integer_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_add_integer(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_add_integer64
+        case snd_ctl_elem_add_integer64_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long_long_long_long *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long_long_long_long *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long_long_long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_add_integer64(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_clear
+        case snd_ctl_elem_id_clear_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_id_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_copy
+        case snd_ctl_elem_id_copy_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_id_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_free
+        case snd_ctl_elem_id_free_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_id_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_device
+        case snd_ctl_elem_id_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_index
+        case snd_ctl_elem_id_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_interface
+        case snd_ctl_elem_id_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_interface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_name
+        case snd_ctl_elem_id_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_numid
+        case snd_ctl_elem_id_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_numid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_get_subdevice
+        case snd_ctl_elem_id_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_id_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_malloc
+        case snd_ctl_elem_id_malloc_INDEX: {
+            INDEXED_int_snd_ctl_elem_id_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_elem_id_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_elem_id_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_id_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_device
+        case snd_ctl_elem_id_set_device_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_id_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_index
+        case snd_ctl_elem_id_set_index_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_id_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_interface
+        case snd_ctl_elem_id_set_interface_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___snd_ctl_elem_iface_t *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___snd_ctl_elem_iface_t *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___snd_ctl_elem_iface_t args = unpacked->args;
+            snd_ctl_elem_id_set_interface(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_name
+        case snd_ctl_elem_id_set_name_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_ctl_elem_id_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_numid
+        case snd_ctl_elem_id_set_numid_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_id_set_numid(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_set_subdevice
+        case snd_ctl_elem_id_set_subdevice_INDEX: {
+            INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_id_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_id_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_id_sizeof
+        case snd_ctl_elem_id_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_elem_id_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_iface_name
+        case snd_ctl_elem_iface_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_ctl_elem_iface_t *unpacked = (INDEXED_const_char___GENPT___snd_ctl_elem_iface_t *)packed;
+            ARGS_const_char___GENPT___snd_ctl_elem_iface_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_iface_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info
+        case snd_ctl_elem_info_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_clear
+        case snd_ctl_elem_info_clear_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_copy
+        case snd_ctl_elem_info_copy_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_free
+        case snd_ctl_elem_info_free_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_count
+        case snd_ctl_elem_info_get_count_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_device
+        case snd_ctl_elem_info_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_dimension
+        case snd_ctl_elem_info_get_dimension_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_dimension(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_dimensions
+        case snd_ctl_elem_info_get_dimensions_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_dimensions(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_id
+        case snd_ctl_elem_info_get_id_INDEX: {
+            INDEXED_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_index
+        case snd_ctl_elem_info_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_interface
+        case snd_ctl_elem_info_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_interface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_item_name
+        case snd_ctl_elem_info_get_item_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_item_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_items
+        case snd_ctl_elem_info_get_items_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_items(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_max
+        case snd_ctl_elem_info_get_max_INDEX: {
+            INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_max(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_max64
+        case snd_ctl_elem_info_get_max64_INDEX: {
+            INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long long *ret = (long long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_max64(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_min
+        case snd_ctl_elem_info_get_min_INDEX: {
+            INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_min(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_min64
+        case snd_ctl_elem_info_get_min64_INDEX: {
+            INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long long *ret = (long long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_min64(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_name
+        case snd_ctl_elem_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_numid
+        case snd_ctl_elem_info_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_numid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_owner
+        case snd_ctl_elem_info_get_owner_INDEX: {
+            INDEXED_pid_t_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_pid_t_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_pid_t_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            pid_t *ret = (pid_t *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_owner(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_step
+        case snd_ctl_elem_info_get_step_INDEX: {
+            INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_step(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_step64
+        case snd_ctl_elem_info_get_step64_INDEX: {
+            INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_long_long_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            long long *ret = (long long *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_step64(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_subdevice
+        case snd_ctl_elem_info_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_get_type
+        case snd_ctl_elem_info_get_type_INDEX: {
+            INDEXED_snd_ctl_elem_type_t_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_type_t_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_type_t_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_type_t *ret = (snd_ctl_elem_type_t *)ret_v;
+            *ret =
+            snd_ctl_elem_info_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_inactive
+        case snd_ctl_elem_info_is_inactive_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_inactive(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_locked
+        case snd_ctl_elem_info_is_locked_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_locked(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_owner
+        case snd_ctl_elem_info_is_owner_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_owner(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_readable
+        case snd_ctl_elem_info_is_readable_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_readable(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_tlv_commandable
+        case snd_ctl_elem_info_is_tlv_commandable_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_tlv_commandable(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_tlv_readable
+        case snd_ctl_elem_info_is_tlv_readable_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_tlv_readable(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_tlv_writable
+        case snd_ctl_elem_info_is_tlv_writable_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_tlv_writable(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_user
+        case snd_ctl_elem_info_is_user_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_user(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_volatile
+        case snd_ctl_elem_info_is_volatile_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_volatile(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_is_writable
+        case snd_ctl_elem_info_is_writable_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_is_writable(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_malloc
+        case snd_ctl_elem_info_malloc_INDEX: {
+            INDEXED_int_snd_ctl_elem_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_elem_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_elem_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_device
+        case snd_ctl_elem_info_set_device_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_info_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_id
+        case snd_ctl_elem_info_set_id_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_set_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_index
+        case snd_ctl_elem_info_set_index_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_info_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_interface
+        case snd_ctl_elem_info_set_interface_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_iface_t *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_iface_t *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_iface_t args = unpacked->args;
+            snd_ctl_elem_info_set_interface(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_item
+        case snd_ctl_elem_info_set_item_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_info_set_item(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_name
+        case snd_ctl_elem_info_set_name_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_ctl_elem_info_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_numid
+        case snd_ctl_elem_info_set_numid_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_info_set_numid(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_set_subdevice
+        case snd_ctl_elem_info_set_subdevice_INDEX: {
+            INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_info_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_info_sizeof
+        case snd_ctl_elem_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_elem_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list
+        case snd_ctl_elem_list_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_list(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_alloc_space
+        case snd_ctl_elem_list_alloc_space_INDEX: {
+            INDEXED_int_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_alloc_space(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_clear
+        case snd_ctl_elem_list_clear_INDEX: {
+            INDEXED_void_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_list_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_copy
+        case snd_ctl_elem_list_copy_INDEX: {
+            INDEXED_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_list_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_free
+        case snd_ctl_elem_list_free_INDEX: {
+            INDEXED_void_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_list_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_free_space
+        case snd_ctl_elem_list_free_space_INDEX: {
+            INDEXED_void_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_list_free_space(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_count
+        case snd_ctl_elem_list_get_count_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_device
+        case snd_ctl_elem_list_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_id
+        case snd_ctl_elem_list_get_id_INDEX: {
+            INDEXED_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_list_get_id(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_index
+        case snd_ctl_elem_list_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_interface
+        case snd_ctl_elem_list_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_interface(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_name
+        case snd_ctl_elem_list_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_numid
+        case snd_ctl_elem_list_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_numid(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_subdevice
+        case snd_ctl_elem_list_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_get_used
+        case snd_ctl_elem_list_get_used_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_get_used(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_malloc
+        case snd_ctl_elem_list_malloc_INDEX: {
+            INDEXED_int_snd_ctl_elem_list_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_elem_list_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_elem_list_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_list_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_set_offset
+        case snd_ctl_elem_list_set_offset_INDEX: {
+            INDEXED_void_snd_ctl_elem_list_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_list_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_list_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_list_set_offset(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_list_sizeof
+        case snd_ctl_elem_list_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_elem_list_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_lock
+        case snd_ctl_elem_lock_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_lock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_read
+        case snd_ctl_elem_read_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_read(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_remove
+        case snd_ctl_elem_remove_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_remove(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_set_bytes
+        case snd_ctl_elem_set_bytes_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___void___GENPT___size_t *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___void___GENPT___size_t *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___void___GENPT___size_t args = unpacked->args;
+            snd_ctl_elem_set_bytes(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_tlv_command
+        case snd_ctl_elem_tlv_command_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_tlv_command(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_tlv_read
+        case snd_ctl_elem_tlv_read_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_tlv_read(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_tlv_write
+        case snd_ctl_elem_tlv_write_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_tlv_write(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_type_name
+        case snd_ctl_elem_type_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_ctl_elem_type_t *unpacked = (INDEXED_const_char___GENPT___snd_ctl_elem_type_t *)packed;
+            ARGS_const_char___GENPT___snd_ctl_elem_type_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_type_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_unlock
+        case snd_ctl_elem_unlock_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_unlock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_clear
+        case snd_ctl_elem_value_clear_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_copy
+        case snd_ctl_elem_value_copy_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_free
+        case snd_ctl_elem_value_free_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_boolean
+        case snd_ctl_elem_value_get_boolean_INDEX: {
+            INDEXED_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_boolean(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_byte
+        case snd_ctl_elem_value_get_byte_INDEX: {
+            INDEXED_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned char *ret = (unsigned char *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_byte(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_bytes
+        case snd_ctl_elem_value_get_bytes_INDEX: {
+            INDEXED_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            const void * *ret = (const void * *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_bytes(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_device
+        case snd_ctl_elem_value_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_enumerated
+        case snd_ctl_elem_value_get_enumerated_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_enumerated(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_id
+        case snd_ctl_elem_value_get_id_INDEX: {
+            INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_iec958
+        case snd_ctl_elem_value_get_iec958_INDEX: {
+            INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__ *unpacked = (INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__ *)packed;
+            ARGS_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_get_iec958(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_index
+        case snd_ctl_elem_value_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_integer
+        case snd_ctl_elem_value_get_integer_INDEX: {
+            INDEXED_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_integer64
+        case snd_ctl_elem_value_get_integer64_INDEX: {
+            INDEXED_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            long long *ret = (long long *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_integer64(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_interface
+        case snd_ctl_elem_value_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_interface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_name
+        case snd_ctl_elem_value_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_numid
+        case snd_ctl_elem_value_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_numid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_get_subdevice
+        case snd_ctl_elem_value_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_malloc
+        case snd_ctl_elem_value_malloc_INDEX: {
+            INDEXED_int_snd_ctl_elem_value_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_elem_value_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_elem_value_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_value_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_boolean
+        case snd_ctl_elem_value_set_boolean_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long args = unpacked->args;
+            snd_ctl_elem_value_set_boolean(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_byte
+        case snd_ctl_elem_value_set_byte_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_char *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_char *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_char args = unpacked->args;
+            snd_ctl_elem_value_set_byte(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_device
+        case snd_ctl_elem_value_set_device_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_value_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_enumerated
+        case snd_ctl_elem_value_set_enumerated_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int_unsigned_int args = unpacked->args;
+            snd_ctl_elem_value_set_enumerated(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_id
+        case snd_ctl_elem_value_set_id_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_set_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_iec958
+        case snd_ctl_elem_value_set_iec958_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_aes_iec958_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_aes_iec958_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_aes_iec958_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_set_iec958(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_index
+        case snd_ctl_elem_value_set_index_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_value_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_integer
+        case snd_ctl_elem_value_set_integer_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long args = unpacked->args;
+            snd_ctl_elem_value_set_integer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_integer64
+        case snd_ctl_elem_value_set_integer64_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long_long *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long_long *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int_long_long args = unpacked->args;
+            snd_ctl_elem_value_set_integer64(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_interface
+        case snd_ctl_elem_value_set_interface_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_iface_t *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_iface_t *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_iface_t args = unpacked->args;
+            snd_ctl_elem_value_set_interface(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_name
+        case snd_ctl_elem_value_set_name_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_ctl_elem_value_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_numid
+        case snd_ctl_elem_value_set_numid_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_value_set_numid(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_set_subdevice
+        case snd_ctl_elem_value_set_subdevice_INDEX: {
+            INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_ctl_elem_value_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_ctl_elem_value_t___GENPT___unsigned_int args = unpacked->args;
+            snd_ctl_elem_value_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_value_sizeof
+        case snd_ctl_elem_value_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_elem_value_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_elem_write
+        case snd_ctl_elem_write_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_elem_write(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_clear
+        case snd_ctl_event_clear_INDEX: {
+            INDEXED_void_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            snd_ctl_event_clear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_copy
+        case snd_ctl_event_copy_INDEX: {
+            INDEXED_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            snd_ctl_event_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_device
+        case snd_ctl_event_elem_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_id
+        case snd_ctl_event_elem_get_id_INDEX: {
+            INDEXED_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_ctl_event_elem_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_index
+        case snd_ctl_event_elem_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_interface
+        case snd_ctl_event_elem_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_interface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_mask
+        case snd_ctl_event_elem_get_mask_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_mask(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_name
+        case snd_ctl_event_elem_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_numid
+        case snd_ctl_event_elem_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_numid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_elem_get_subdevice
+        case snd_ctl_event_elem_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_ctl_event_elem_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_free
+        case snd_ctl_event_free_INDEX: {
+            INDEXED_void_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_void_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_void_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            snd_ctl_event_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_get_type
+        case snd_ctl_event_get_type_INDEX: {
+            INDEXED_snd_ctl_event_type_t_const_snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_snd_ctl_event_type_t_const_snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_snd_ctl_event_type_t_const_snd_ctl_event_t___GENPT__ args = unpacked->args;
+            snd_ctl_event_type_t *ret = (snd_ctl_event_type_t *)ret_v;
+            *ret =
+            snd_ctl_event_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_malloc
+        case snd_ctl_event_malloc_INDEX: {
+            INDEXED_int_snd_ctl_event_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_ctl_event_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_ctl_event_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_event_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_sizeof
+        case snd_ctl_event_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_ctl_event_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_event_type_name
+        case snd_ctl_event_type_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_ctl_event_type_t *unpacked = (INDEXED_const_char___GENPT___snd_ctl_event_type_t *)packed;
+            ARGS_const_char___GENPT___snd_ctl_event_type_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_event_type_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_get_power_state
+        case snd_ctl_get_power_state_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_get_power_state(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_hwdep_info
+        case snd_ctl_hwdep_info_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_hwdep_info_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_hwdep_info_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_hwdep_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_hwdep_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_hwdep_next_device
+        case snd_ctl_hwdep_next_device_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_hwdep_next_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_name
+        case snd_ctl_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_ctl_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_ctl_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_ctl_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_ctl_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_nonblock
+        case snd_ctl_nonblock_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_open
+        case snd_ctl_open_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_open_lconf
+        case snd_ctl_open_lconf_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_open_lconf(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_pcm_info
+        case snd_ctl_pcm_info_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_pcm_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_pcm_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_pcm_next_device
+        case snd_ctl_pcm_next_device_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_pcm_next_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_pcm_prefer_subdevice
+        case snd_ctl_pcm_prefer_subdevice_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_pcm_prefer_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_poll_descriptors
+        case snd_ctl_poll_descriptors_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_poll_descriptors_count
+        case snd_ctl_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_poll_descriptors_revents
+        case snd_ctl_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_rawmidi_info
+        case snd_ctl_rawmidi_info_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_rawmidi_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_rawmidi_next_device
+        case snd_ctl_rawmidi_next_device_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_rawmidi_next_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_rawmidi_prefer_subdevice
+        case snd_ctl_rawmidi_prefer_subdevice_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_rawmidi_prefer_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_read
+        case snd_ctl_read_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___snd_ctl_event_t___GENPT__ *unpacked = (INDEXED_int_snd_ctl_t___GENPT___snd_ctl_event_t___GENPT__ *)packed;
+            ARGS_int_snd_ctl_t___GENPT___snd_ctl_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_read(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_set_power_state
+        case snd_ctl_set_power_state_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_set_power_state(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_subscribe_events
+        case snd_ctl_subscribe_events_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_subscribe_events(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_type
+        case snd_ctl_type_INDEX: {
+            INDEXED_snd_ctl_type_t_snd_ctl_t___GENPT__ *unpacked = (INDEXED_snd_ctl_type_t_snd_ctl_t___GENPT__ *)packed;
+            ARGS_snd_ctl_type_t_snd_ctl_t___GENPT__ args = unpacked->args;
+            snd_ctl_type_t *ret = (snd_ctl_type_t *)ret_v;
+            *ret =
+            snd_ctl_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_ctl_wait
+        case snd_ctl_wait_INDEX: {
+            INDEXED_int_snd_ctl_t___GENPT___int *unpacked = (INDEXED_int_snd_ctl_t___GENPT___int *)packed;
+            ARGS_int_snd_ctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_ctl_wait(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_dlclose
+        case snd_dlclose_INDEX: {
+            INDEXED_int_void___GENPT__ *unpacked = (INDEXED_int_void___GENPT__ *)packed;
+            ARGS_int_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_dlclose(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_dlopen
+        case snd_dlopen_INDEX: {
+            INDEXED_void___GENPT___const_char___GENPT___int *unpacked = (INDEXED_void___GENPT___const_char___GENPT___int *)packed;
+            ARGS_void___GENPT___const_char___GENPT___int args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_dlopen(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_dlsym
+        case snd_dlsym_INDEX: {
+            INDEXED_void___GENPT___void___GENPT___const_char___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void___GENPT___void___GENPT___const_char___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void___GENPT___void___GENPT___const_char___GENPT___const_char___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_dlsym(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_close
+        case snd_hctl_close_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_compare_fast
+        case snd_hctl_compare_fast_INDEX: {
+            INDEXED_int_const_snd_hctl_elem_t___GENPT___const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_int_const_snd_hctl_elem_t___GENPT___const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_int_const_snd_hctl_elem_t___GENPT___const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_compare_fast(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_ctl
+        case snd_hctl_ctl_INDEX: {
+            INDEXED_snd_ctl_t___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_snd_ctl_t___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_snd_ctl_t___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            snd_ctl_t * *ret = (snd_ctl_t * *)ret_v;
+            *ret =
+            snd_hctl_ctl(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_callback_private
+        case snd_hctl_elem_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_hctl_elem_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_device
+        case snd_hctl_elem_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hctl_elem_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_hctl
+        case snd_hctl_elem_get_hctl_INDEX: {
+            INDEXED_snd_hctl_t___GENPT___snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_snd_hctl_t___GENPT___snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_snd_hctl_t___GENPT___snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            snd_hctl_t * *ret = (snd_hctl_t * *)ret_v;
+            *ret =
+            snd_hctl_elem_get_hctl(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_id
+        case snd_hctl_elem_get_id_INDEX: {
+            INDEXED_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_index
+        case snd_hctl_elem_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hctl_elem_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_interface
+        case snd_hctl_elem_get_interface_INDEX: {
+            INDEXED_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            snd_ctl_elem_iface_t *ret = (snd_ctl_elem_iface_t *)ret_v;
+            *ret =
+            snd_hctl_elem_get_interface(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_name
+        case snd_hctl_elem_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_hctl_elem_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_numid
+        case snd_hctl_elem_get_numid_INDEX: {
+            INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hctl_elem_get_numid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_get_subdevice
+        case snd_hctl_elem_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hctl_elem_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_info
+        case snd_hctl_elem_info_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_info_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_info_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_next
+        case snd_hctl_elem_next_INDEX: {
+            INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_t * *ret = (snd_hctl_elem_t * *)ret_v;
+            *ret =
+            snd_hctl_elem_next(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_prev
+        case snd_hctl_elem_prev_INDEX: {
+            INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_snd_hctl_elem_t___GENPT___snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_t * *ret = (snd_hctl_elem_t * *)ret_v;
+            *ret =
+            snd_hctl_elem_prev(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_read
+        case snd_hctl_elem_read_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_read(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_set_callback
+        case snd_hctl_elem_set_callback_INDEX: {
+            INDEXED_void_snd_hctl_elem_t___GENPT___snd_hctl_elem_callback_t *unpacked = (INDEXED_void_snd_hctl_elem_t___GENPT___snd_hctl_elem_callback_t *)packed;
+            ARGS_void_snd_hctl_elem_t___GENPT___snd_hctl_elem_callback_t args = unpacked->args;
+            snd_hctl_elem_set_callback(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_set_callback_private
+        case snd_hctl_elem_set_callback_private_INDEX: {
+            INDEXED_void_snd_hctl_elem_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_hctl_elem_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_hctl_elem_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_hctl_elem_set_callback_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_tlv_command
+        case snd_hctl_elem_tlv_command_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_tlv_command(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_tlv_read
+        case snd_hctl_elem_tlv_read_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___unsigned_int___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___unsigned_int___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___unsigned_int___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_tlv_read(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_tlv_write
+        case snd_hctl_elem_tlv_write_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_tlv_write(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_elem_write
+        case snd_hctl_elem_write_INDEX: {
+            INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_elem_t___GENPT___snd_ctl_elem_value_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_elem_write(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_find_elem
+        case snd_hctl_find_elem_INDEX: {
+            INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *unpacked = (INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ *)packed;
+            ARGS_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_t * *ret = (snd_hctl_elem_t * *)ret_v;
+            *ret =
+            snd_hctl_find_elem(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_first_elem
+        case snd_hctl_first_elem_INDEX: {
+            INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_t * *ret = (snd_hctl_elem_t * *)ret_v;
+            *ret =
+            snd_hctl_first_elem(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_free
+        case snd_hctl_free_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_get_callback_private
+        case snd_hctl_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_void___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_void___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_hctl_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_get_count
+        case snd_hctl_get_count_INDEX: {
+            INDEXED_unsigned_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hctl_get_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_handle_events
+        case snd_hctl_handle_events_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_handle_events(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_last_elem
+        case snd_hctl_last_elem_INDEX: {
+            INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            snd_hctl_elem_t * *ret = (snd_hctl_elem_t * *)ret_v;
+            *ret =
+            snd_hctl_last_elem(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_load
+        case snd_hctl_load_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_load(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_name
+        case snd_hctl_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_hctl_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_nonblock
+        case snd_hctl_nonblock_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT___int *unpacked = (INDEXED_int_snd_hctl_t___GENPT___int *)packed;
+            ARGS_int_snd_hctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_open
+        case snd_hctl_open_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_hctl_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_hctl_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_open_ctl
+        case snd_hctl_open_ctl_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT____GENPT___snd_ctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT____GENPT___snd_ctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT____GENPT___snd_ctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_open_ctl(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_poll_descriptors
+        case snd_hctl_poll_descriptors_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_poll_descriptors_count
+        case snd_hctl_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_poll_descriptors_revents
+        case snd_hctl_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_hctl_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_set_callback
+        case snd_hctl_set_callback_INDEX: {
+            INDEXED_void_snd_hctl_t___GENPT___snd_hctl_callback_t *unpacked = (INDEXED_void_snd_hctl_t___GENPT___snd_hctl_callback_t *)packed;
+            ARGS_void_snd_hctl_t___GENPT___snd_hctl_callback_t args = unpacked->args;
+            snd_hctl_set_callback(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_set_callback_private
+        case snd_hctl_set_callback_private_INDEX: {
+            INDEXED_void_snd_hctl_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_hctl_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_hctl_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_hctl_set_callback_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_set_compare
+        case snd_hctl_set_compare_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT___snd_hctl_compare_t *unpacked = (INDEXED_int_snd_hctl_t___GENPT___snd_hctl_compare_t *)packed;
+            ARGS_int_snd_hctl_t___GENPT___snd_hctl_compare_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_set_compare(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hctl_wait
+        case snd_hctl_wait_INDEX: {
+            INDEXED_int_snd_hctl_t___GENPT___int *unpacked = (INDEXED_int_snd_hctl_t___GENPT___int *)packed;
+            ARGS_int_snd_hctl_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hctl_wait(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_close
+        case snd_hwdep_close_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_copy
+        case snd_hwdep_dsp_image_copy_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_image_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_free
+        case snd_hwdep_dsp_image_free_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_image_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_get_image
+        case snd_hwdep_dsp_image_get_image_INDEX: {
+            INDEXED_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            const void * *ret = (const void * *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_get_image(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_get_index
+        case snd_hwdep_dsp_image_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_get_length
+        case snd_hwdep_dsp_image_get_length_INDEX: {
+            INDEXED_size_t_const_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_get_length(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_get_name
+        case snd_hwdep_dsp_image_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_malloc
+        case snd_hwdep_dsp_image_malloc_INDEX: {
+            INDEXED_int_snd_hwdep_dsp_image_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_hwdep_dsp_image_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_hwdep_dsp_image_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_set_image
+        case snd_hwdep_dsp_image_set_image_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_image_set_image(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_set_index
+        case snd_hwdep_dsp_image_set_index_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT___unsigned_int args = unpacked->args;
+            snd_hwdep_dsp_image_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_set_length
+        case snd_hwdep_dsp_image_set_length_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT___size_t *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT___size_t *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT___size_t args = unpacked->args;
+            snd_hwdep_dsp_image_set_length(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_set_name
+        case snd_hwdep_dsp_image_set_name_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_image_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_image_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_image_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_image_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_image_sizeof
+        case snd_hwdep_dsp_image_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_hwdep_dsp_image_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_load
+        case snd_hwdep_dsp_load_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_image_t___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_image_t___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_image_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_load(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status
+        case snd_hwdep_dsp_status_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_copy
+        case snd_hwdep_dsp_status_copy_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_status_t___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_status_t___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_status_t___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_status_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_free
+        case snd_hwdep_dsp_status_free_INDEX: {
+            INDEXED_void_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_void_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_void_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            snd_hwdep_dsp_status_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_get_chip_ready
+        case snd_hwdep_dsp_status_get_chip_ready_INDEX: {
+            INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_get_chip_ready(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_get_dsp_loaded
+        case snd_hwdep_dsp_status_get_dsp_loaded_INDEX: {
+            INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_get_dsp_loaded(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_get_id
+        case snd_hwdep_dsp_status_get_id_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_get_num_dsps
+        case snd_hwdep_dsp_status_get_num_dsps_INDEX: {
+            INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_get_num_dsps(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_get_version
+        case snd_hwdep_dsp_status_get_version_INDEX: {
+            INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_get_version(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_malloc
+        case snd_hwdep_dsp_status_malloc_INDEX: {
+            INDEXED_int_snd_hwdep_dsp_status_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_hwdep_dsp_status_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_hwdep_dsp_status_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_dsp_status_sizeof
+        case snd_hwdep_dsp_status_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_hwdep_dsp_status_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_info
+        case snd_hwdep_info_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_info_t___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___snd_hwdep_info_t___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___snd_hwdep_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_info_sizeof
+        case snd_hwdep_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_hwdep_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_ioctl
+        case snd_hwdep_ioctl_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___unsigned_int_void___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___unsigned_int_void___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___unsigned_int_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_ioctl(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_nonblock
+        case snd_hwdep_nonblock_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___int *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___int *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_open
+        case snd_hwdep_open_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_hwdep_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_hwdep_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_poll_descriptors
+        case snd_hwdep_poll_descriptors_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_poll_descriptors_revents
+        case snd_hwdep_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_hwdep_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_hwdep_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_read
+        case snd_hwdep_read_INDEX: {
+            INDEXED_ssize_t_snd_hwdep_t___GENPT___void___GENPT___size_t *unpacked = (INDEXED_ssize_t_snd_hwdep_t___GENPT___void___GENPT___size_t *)packed;
+            ARGS_ssize_t_snd_hwdep_t___GENPT___void___GENPT___size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_hwdep_read(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_hwdep_write
+        case snd_hwdep_write_INDEX: {
+            INDEXED_ssize_t_snd_hwdep_t___GENPT___const_void___GENPT___size_t *unpacked = (INDEXED_ssize_t_snd_hwdep_t___GENPT___const_void___GENPT___size_t *)packed;
+            ARGS_ssize_t_snd_hwdep_t___GENPT___const_void___GENPT___size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_hwdep_write(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_buffer_open
+        case snd_input_buffer_open_INDEX: {
+            INDEXED_int_snd_input_t___GENPT____GENPT___const_char___GENPT___ssize_t *unpacked = (INDEXED_int_snd_input_t___GENPT____GENPT___const_char___GENPT___ssize_t *)packed;
+            ARGS_int_snd_input_t___GENPT____GENPT___const_char___GENPT___ssize_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_buffer_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_close
+        case snd_input_close_INDEX: {
+            INDEXED_int_snd_input_t___GENPT__ *unpacked = (INDEXED_int_snd_input_t___GENPT__ *)packed;
+            ARGS_int_snd_input_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_getc
+        case snd_input_getc_INDEX: {
+            INDEXED_int_snd_input_t___GENPT__ *unpacked = (INDEXED_int_snd_input_t___GENPT__ *)packed;
+            ARGS_int_snd_input_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_getc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_gets
+        case snd_input_gets_INDEX: {
+            INDEXED_char___GENPT___snd_input_t___GENPT___char___GENPT___size_t *unpacked = (INDEXED_char___GENPT___snd_input_t___GENPT___char___GENPT___size_t *)packed;
+            ARGS_char___GENPT___snd_input_t___GENPT___char___GENPT___size_t args = unpacked->args;
+            char * *ret = (char * *)ret_v;
+            *ret =
+            snd_input_gets(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_stdio_attach
+        case snd_input_stdio_attach_INDEX: {
+            INDEXED_int_snd_input_t___GENPT____GENPT___FILE___GENPT___int *unpacked = (INDEXED_int_snd_input_t___GENPT____GENPT___FILE___GENPT___int *)packed;
+            ARGS_int_snd_input_t___GENPT____GENPT___FILE___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_stdio_attach(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_stdio_open
+        case snd_input_stdio_open_INDEX: {
+            INDEXED_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_stdio_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_input_ungetc
+        case snd_input_ungetc_INDEX: {
+            INDEXED_int_snd_input_t___GENPT___int *unpacked = (INDEXED_int_snd_input_t___GENPT___int *)packed;
+            ARGS_int_snd_input_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_input_ungetc(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_fm_convert_from_stream
+        case snd_instr_fm_convert_from_stream_INDEX: {
+            INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_fm_convert_from_stream(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_fm_convert_to_stream
+        case snd_instr_fm_convert_to_stream_INDEX: {
+            INDEXED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_fm_convert_to_stream(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_fm_free
+        case snd_instr_fm_free_INDEX: {
+            INDEXED_int_snd_instr_fm_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_fm_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_fm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_fm_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_copy
+        case snd_instr_header_copy_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            snd_instr_header_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_free
+        case snd_instr_header_free_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT__ args = unpacked->args;
+            snd_instr_header_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_alias
+        case snd_instr_header_get_alias_INDEX: {
+            INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            const snd_seq_instr_t * *ret = (const snd_seq_instr_t * *)ret_v;
+            *ret =
+            snd_instr_header_get_alias(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_cluster
+        case snd_instr_header_get_cluster_INDEX: {
+            INDEXED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            snd_seq_instr_cluster_t *ret = (snd_seq_instr_cluster_t *)ret_v;
+            *ret =
+            snd_instr_header_get_cluster(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_cmd
+        case snd_instr_header_get_cmd_INDEX: {
+            INDEXED_unsigned_int_const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_instr_header_get_cmd(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_data
+        case snd_instr_header_get_data_INDEX: {
+            INDEXED_void___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_instr_header_get_data(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_follow_alias
+        case snd_instr_header_get_follow_alias_INDEX: {
+            INDEXED_int_const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_int_const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_int_const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_header_get_follow_alias(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_format
+        case snd_instr_header_get_format_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_instr_header_get_format(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_id
+        case snd_instr_header_get_id_INDEX: {
+            INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            const snd_seq_instr_t * *ret = (const snd_seq_instr_t * *)ret_v;
+            *ret =
+            snd_instr_header_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_len
+        case snd_instr_header_get_len_INDEX: {
+            INDEXED_size_t_const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_instr_header_get_len(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_name
+        case snd_instr_header_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_instr_header_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_get_type
+        case snd_instr_header_get_type_INDEX: {
+            INDEXED_int_const_snd_instr_header_t___GENPT__ *unpacked = (INDEXED_int_const_snd_instr_header_t___GENPT__ *)packed;
+            ARGS_int_const_snd_instr_header_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_header_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_malloc
+        case snd_instr_header_malloc_INDEX: {
+            INDEXED_int_snd_instr_header_t___GENPT____GENPT___size_t *unpacked = (INDEXED_int_snd_instr_header_t___GENPT____GENPT___size_t *)packed;
+            ARGS_int_snd_instr_header_t___GENPT____GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_header_malloc(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_alias
+        case snd_instr_header_set_alias_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ args = unpacked->args;
+            snd_instr_header_set_alias(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_cluster
+        case snd_instr_header_set_cluster_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t args = unpacked->args;
+            snd_instr_header_set_cluster(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_cmd
+        case snd_instr_header_set_cmd_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___unsigned_int args = unpacked->args;
+            snd_instr_header_set_cmd(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_follow_alias
+        case snd_instr_header_set_follow_alias_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___int *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___int *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___int args = unpacked->args;
+            snd_instr_header_set_follow_alias(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_format
+        case snd_instr_header_set_format_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_instr_header_set_format(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_id
+        case snd_instr_header_set_id_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ args = unpacked->args;
+            snd_instr_header_set_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_len
+        case snd_instr_header_set_len_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___size_t *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___size_t *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___size_t args = unpacked->args;
+            snd_instr_header_set_len(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_name
+        case snd_instr_header_set_name_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_instr_header_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_set_type
+        case snd_instr_header_set_type_INDEX: {
+            INDEXED_void_snd_instr_header_t___GENPT___int *unpacked = (INDEXED_void_snd_instr_header_t___GENPT___int *)packed;
+            ARGS_void_snd_instr_header_t___GENPT___int args = unpacked->args;
+            snd_instr_header_set_type(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_header_sizeof
+        case snd_instr_header_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_instr_header_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_close
+        case snd_instr_iwffff_close_INDEX: {
+            INDEXED_int_snd_iwffff_handle_t___GENPT__ *unpacked = (INDEXED_int_snd_iwffff_handle_t___GENPT__ *)packed;
+            ARGS_int_snd_iwffff_handle_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_convert_from_stream
+        case snd_instr_iwffff_convert_from_stream_INDEX: {
+            INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_convert_from_stream(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_convert_to_stream
+        case snd_instr_iwffff_convert_to_stream_INDEX: {
+            INDEXED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_convert_to_stream(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_free
+        case snd_instr_iwffff_free_INDEX: {
+            INDEXED_int_snd_instr_iwffff_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_iwffff_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_iwffff_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_load
+        case snd_instr_iwffff_load_INDEX: {
+            INDEXED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_load(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_open
+        case snd_instr_iwffff_open_INDEX: {
+            INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_open_rom
+        case snd_instr_iwffff_open_rom_INDEX: {
+            INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int *unpacked = (INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int *)packed;
+            ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_open_rom(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_iwffff_open_rom_file
+        case snd_instr_iwffff_open_rom_file_INDEX: {
+            INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int *unpacked = (INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int *)packed;
+            ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_iwffff_open_rom_file(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_simple_convert_from_stream
+        case snd_instr_simple_convert_from_stream_INDEX: {
+            INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_simple_convert_from_stream(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_simple_convert_to_stream
+        case snd_instr_simple_convert_to_stream_INDEX: {
+            INDEXED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_simple_convert_to_stream(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_instr_simple_free
+        case snd_instr_simple_free_INDEX: {
+            INDEXED_int_snd_instr_simple_t___GENPT__ *unpacked = (INDEXED_int_snd_instr_simple_t___GENPT__ *)packed;
+            ARGS_int_snd_instr_simple_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_instr_simple_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_lib_error_set_handler
+        case snd_lib_error_set_handler_INDEX: {
+            INDEXED_int_ *unpacked = (INDEXED_int_ *)packed;
+            ARGS_int_ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_lib_error_set_handler(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_decode
+        case snd_midi_event_decode_INDEX: {
+            INDEXED_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_midi_event_decode(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_encode
+        case snd_midi_event_encode_INDEX: {
+            INDEXED_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_midi_event_encode(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_encode_byte
+        case snd_midi_event_encode_byte_INDEX: {
+            INDEXED_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_midi_event_encode_byte(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_free
+        case snd_midi_event_free_INDEX: {
+            INDEXED_void_snd_midi_event_t___GENPT__ *unpacked = (INDEXED_void_snd_midi_event_t___GENPT__ *)packed;
+            ARGS_void_snd_midi_event_t___GENPT__ args = unpacked->args;
+            snd_midi_event_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_init
+        case snd_midi_event_init_INDEX: {
+            INDEXED_void_snd_midi_event_t___GENPT__ *unpacked = (INDEXED_void_snd_midi_event_t___GENPT__ *)packed;
+            ARGS_void_snd_midi_event_t___GENPT__ args = unpacked->args;
+            snd_midi_event_init(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_new
+        case snd_midi_event_new_INDEX: {
+            INDEXED_int_size_t_snd_midi_event_t___GENPT____GENPT__ *unpacked = (INDEXED_int_size_t_snd_midi_event_t___GENPT____GENPT__ *)packed;
+            ARGS_int_size_t_snd_midi_event_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_midi_event_new(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_no_status
+        case snd_midi_event_no_status_INDEX: {
+            INDEXED_void_snd_midi_event_t___GENPT___int *unpacked = (INDEXED_void_snd_midi_event_t___GENPT___int *)packed;
+            ARGS_void_snd_midi_event_t___GENPT___int args = unpacked->args;
+            snd_midi_event_no_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_reset_decode
+        case snd_midi_event_reset_decode_INDEX: {
+            INDEXED_void_snd_midi_event_t___GENPT__ *unpacked = (INDEXED_void_snd_midi_event_t___GENPT__ *)packed;
+            ARGS_void_snd_midi_event_t___GENPT__ args = unpacked->args;
+            snd_midi_event_reset_decode(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_reset_encode
+        case snd_midi_event_reset_encode_INDEX: {
+            INDEXED_void_snd_midi_event_t___GENPT__ *unpacked = (INDEXED_void_snd_midi_event_t___GENPT__ *)packed;
+            ARGS_void_snd_midi_event_t___GENPT__ args = unpacked->args;
+            snd_midi_event_reset_encode(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_midi_event_resize_buffer
+        case snd_midi_event_resize_buffer_INDEX: {
+            INDEXED_int_snd_midi_event_t___GENPT___size_t *unpacked = (INDEXED_int_snd_midi_event_t___GENPT___size_t *)packed;
+            ARGS_int_snd_midi_event_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_midi_event_resize_buffer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_add_elem
+        case snd_mixer_add_elem_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_add_elem(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_attach
+        case snd_mixer_attach_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_attach(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_attach_hctl
+        case snd_mixer_attach_hctl_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_attach_hctl(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_copy
+        case snd_mixer_class_copy_INDEX: {
+            INDEXED_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            snd_mixer_class_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_free
+        case snd_mixer_class_free_INDEX: {
+            INDEXED_void_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            snd_mixer_class_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_get_compare
+        case snd_mixer_class_get_compare_INDEX: {
+            INDEXED_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            snd_mixer_compare_t *ret = (snd_mixer_compare_t *)ret_v;
+            *ret =
+            snd_mixer_class_get_compare(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_get_event
+        case snd_mixer_class_get_event_INDEX: {
+            INDEXED_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            snd_mixer_event_t *ret = (snd_mixer_event_t *)ret_v;
+            *ret =
+            snd_mixer_class_get_event(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_get_mixer
+        case snd_mixer_class_get_mixer_INDEX: {
+            INDEXED_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            snd_mixer_t * *ret = (snd_mixer_t * *)ret_v;
+            *ret =
+            snd_mixer_class_get_mixer(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_get_private
+        case snd_mixer_class_get_private_INDEX: {
+            INDEXED_void___GENPT___const_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_mixer_class_get_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_malloc
+        case snd_mixer_class_malloc_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_register
+        case snd_mixer_class_register_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_register(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_set_compare
+        case snd_mixer_class_set_compare_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_set_compare(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_set_event
+        case snd_mixer_class_set_event_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_event_t *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_event_t *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT___snd_mixer_event_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_set_event(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_set_private
+        case snd_mixer_class_set_private_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT___void___GENPT__ *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT___void___GENPT__ *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT___void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_set_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_sizeof
+        case snd_mixer_class_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_mixer_class_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_class_unregister
+        case snd_mixer_class_unregister_INDEX: {
+            INDEXED_int_snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_class_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_class_unregister(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_close
+        case snd_mixer_close_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_detach
+        case snd_mixer_detach_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_detach(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_detach_hctl
+        case snd_mixer_detach_hctl_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_detach_hctl(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_add
+        case snd_mixer_elem_add_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_add(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_attach
+        case snd_mixer_elem_attach_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_attach(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_detach
+        case snd_mixer_elem_detach_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_detach(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_empty
+        case snd_mixer_elem_empty_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_empty(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_free
+        case snd_mixer_elem_free_INDEX: {
+            INDEXED_void_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_get_callback_private
+        case snd_mixer_elem_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_mixer_elem_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_get_private
+        case snd_mixer_elem_get_private_INDEX: {
+            INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_mixer_elem_get_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_get_type
+        case snd_mixer_elem_get_type_INDEX: {
+            INDEXED_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_type_t *ret = (snd_mixer_elem_type_t *)ret_v;
+            *ret =
+            snd_mixer_elem_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_info
+        case snd_mixer_elem_info_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_info(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_next
+        case snd_mixer_elem_next_INDEX: {
+            INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_t * *ret = (snd_mixer_elem_t * *)ret_v;
+            *ret =
+            snd_mixer_elem_next(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_prev
+        case snd_mixer_elem_prev_INDEX: {
+            INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_t * *ret = (snd_mixer_elem_t * *)ret_v;
+            *ret =
+            snd_mixer_elem_prev(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_remove
+        case snd_mixer_elem_remove_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_remove(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_set_callback
+        case snd_mixer_elem_set_callback_INDEX: {
+            INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t *unpacked = (INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t *)packed;
+            ARGS_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t args = unpacked->args;
+            snd_mixer_elem_set_callback(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_set_callback_private
+        case snd_mixer_elem_set_callback_private_INDEX: {
+            INDEXED_void_snd_mixer_elem_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_mixer_elem_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_mixer_elem_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_mixer_elem_set_callback_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_elem_value
+        case snd_mixer_elem_value_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_elem_value(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_find_selem
+        case snd_mixer_find_selem_INDEX: {
+            INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_t * *ret = (snd_mixer_elem_t * *)ret_v;
+            *ret =
+            snd_mixer_find_selem(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_first_elem
+        case snd_mixer_first_elem_INDEX: {
+            INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_t * *ret = (snd_mixer_elem_t * *)ret_v;
+            *ret =
+            snd_mixer_first_elem(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_free
+        case snd_mixer_free_INDEX: {
+            INDEXED_void_snd_mixer_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_t___GENPT__ args = unpacked->args;
+            snd_mixer_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_get_callback_private
+        case snd_mixer_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___const_snd_mixer_t___GENPT__ *unpacked = (INDEXED_void___GENPT___const_snd_mixer_t___GENPT__ *)packed;
+            ARGS_void___GENPT___const_snd_mixer_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_mixer_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_get_count
+        case snd_mixer_get_count_INDEX: {
+            INDEXED_unsigned_int_const_snd_mixer_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_mixer_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_mixer_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_mixer_get_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_get_hctl
+        case snd_mixer_get_hctl_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_get_hctl(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_handle_events
+        case snd_mixer_handle_events_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_handle_events(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_last_elem
+        case snd_mixer_last_elem_INDEX: {
+            INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ *unpacked = (INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ *)packed;
+            ARGS_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__ args = unpacked->args;
+            snd_mixer_elem_t * *ret = (snd_mixer_elem_t * *)ret_v;
+            *ret =
+            snd_mixer_last_elem(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_load
+        case snd_mixer_load_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_load(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_open
+        case snd_mixer_open_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT____GENPT___int *unpacked = (INDEXED_int_snd_mixer_t___GENPT____GENPT___int *)packed;
+            ARGS_int_snd_mixer_t___GENPT____GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_open(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_poll_descriptors
+        case snd_mixer_poll_descriptors_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_poll_descriptors_count
+        case snd_mixer_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_poll_descriptors_revents
+        case snd_mixer_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_remove_elem
+        case snd_mixer_remove_elem_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_remove_elem(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_channel_name
+        case snd_mixer_selem_channel_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_mixer_selem_channel_id_t *unpacked = (INDEXED_const_char___GENPT___snd_mixer_selem_channel_id_t *)packed;
+            ARGS_const_char___GENPT___snd_mixer_selem_channel_id_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_mixer_selem_channel_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_dB
+        case snd_mixer_selem_get_capture_dB_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_dB(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_dB_range
+        case snd_mixer_selem_get_capture_dB_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_dB_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_group
+        case snd_mixer_selem_get_capture_group_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_group(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_switch
+        case snd_mixer_selem_get_capture_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_switch(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_volume
+        case snd_mixer_selem_get_capture_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_volume(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_capture_volume_range
+        case snd_mixer_selem_get_capture_volume_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_capture_volume_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_enum_item
+        case snd_mixer_selem_get_enum_item_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_enum_item(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_enum_item_name
+        case snd_mixer_selem_get_enum_item_name_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_enum_item_name(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_enum_items
+        case snd_mixer_selem_get_enum_items_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_enum_items(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_id
+        case snd_mixer_selem_get_id_INDEX: {
+            INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            snd_mixer_selem_get_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_index
+        case snd_mixer_selem_get_index_INDEX: {
+            INDEXED_unsigned_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_name
+        case snd_mixer_selem_get_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_mixer_selem_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_playback_dB
+        case snd_mixer_selem_get_playback_dB_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_playback_dB(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_playback_dB_range
+        case snd_mixer_selem_get_playback_dB_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_playback_dB_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_playback_switch
+        case snd_mixer_selem_get_playback_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_playback_switch(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_playback_volume
+        case snd_mixer_selem_get_playback_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_playback_volume(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_get_playback_volume_range
+        case snd_mixer_selem_get_playback_volume_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_get_playback_volume_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_channel
+        case snd_mixer_selem_has_capture_channel_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_channel(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_switch
+        case snd_mixer_selem_has_capture_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_switch(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_switch_exclusive
+        case snd_mixer_selem_has_capture_switch_exclusive_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_switch_exclusive(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_switch_joined
+        case snd_mixer_selem_has_capture_switch_joined_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_switch_joined(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_volume
+        case snd_mixer_selem_has_capture_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_volume(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_capture_volume_joined
+        case snd_mixer_selem_has_capture_volume_joined_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_capture_volume_joined(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_common_switch
+        case snd_mixer_selem_has_common_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_common_switch(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_common_volume
+        case snd_mixer_selem_has_common_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_common_volume(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_playback_channel
+        case snd_mixer_selem_has_playback_channel_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_playback_channel(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_playback_switch
+        case snd_mixer_selem_has_playback_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_playback_switch(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_playback_switch_joined
+        case snd_mixer_selem_has_playback_switch_joined_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_playback_switch_joined(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_playback_volume
+        case snd_mixer_selem_has_playback_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_playback_volume(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_has_playback_volume_joined
+        case snd_mixer_selem_has_playback_volume_joined_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_has_playback_volume_joined(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_copy
+        case snd_mixer_selem_id_copy_INDEX: {
+            INDEXED_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            snd_mixer_selem_id_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_free
+        case snd_mixer_selem_id_free_INDEX: {
+            INDEXED_void_snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_void_snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_void_snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            snd_mixer_selem_id_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_get_index
+        case snd_mixer_selem_id_get_index_INDEX: {
+            INDEXED_unsigned_int_const_snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_mixer_selem_id_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_get_name
+        case snd_mixer_selem_id_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_mixer_selem_id_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_malloc
+        case snd_mixer_selem_id_malloc_INDEX: {
+            INDEXED_int_snd_mixer_selem_id_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_mixer_selem_id_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_mixer_selem_id_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_id_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_set_index
+        case snd_mixer_selem_id_set_index_INDEX: {
+            INDEXED_void_snd_mixer_selem_id_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_mixer_selem_id_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_mixer_selem_id_t___GENPT___unsigned_int args = unpacked->args;
+            snd_mixer_selem_id_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_set_name
+        case snd_mixer_selem_id_set_name_INDEX: {
+            INDEXED_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_mixer_selem_id_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_id_sizeof
+        case snd_mixer_selem_id_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_mixer_selem_id_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_active
+        case snd_mixer_selem_is_active_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_active(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_capture_mono
+        case snd_mixer_selem_is_capture_mono_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_capture_mono(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_enum_capture
+        case snd_mixer_selem_is_enum_capture_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_enum_capture(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_enum_playback
+        case snd_mixer_selem_is_enum_playback_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_enum_playback(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_enumerated
+        case snd_mixer_selem_is_enumerated_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_enumerated(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_is_playback_mono
+        case snd_mixer_selem_is_playback_mono_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT__ *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_is_playback_mono(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_register
+        case snd_mixer_selem_register_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_register(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_dB
+        case snd_mixer_selem_set_capture_dB_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_dB(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_dB_all
+        case snd_mixer_selem_set_capture_dB_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_dB_all(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_switch
+        case snd_mixer_selem_set_capture_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_switch(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_switch_all
+        case snd_mixer_selem_set_capture_switch_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_switch_all(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_volume
+        case snd_mixer_selem_set_capture_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_volume(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_volume_all
+        case snd_mixer_selem_set_capture_volume_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_volume_all(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_capture_volume_range
+        case snd_mixer_selem_set_capture_volume_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long_long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long_long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_capture_volume_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_enum_item
+        case snd_mixer_selem_set_enum_item_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_enum_item(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_dB
+        case snd_mixer_selem_set_playback_dB_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_dB(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_dB_all
+        case snd_mixer_selem_set_playback_dB_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_dB_all(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_switch
+        case snd_mixer_selem_set_playback_switch_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_switch(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_switch_all
+        case snd_mixer_selem_set_playback_switch_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___int *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___int *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_switch_all(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_volume
+        case snd_mixer_selem_set_playback_volume_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_volume(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_volume_all
+        case snd_mixer_selem_set_playback_volume_all_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_volume_all(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_selem_set_playback_volume_range
+        case snd_mixer_selem_set_playback_volume_range_INDEX: {
+            INDEXED_int_snd_mixer_elem_t___GENPT___long_long *unpacked = (INDEXED_int_snd_mixer_elem_t___GENPT___long_long *)packed;
+            ARGS_int_snd_mixer_elem_t___GENPT___long_long args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_selem_set_playback_volume_range(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_set_callback
+        case snd_mixer_set_callback_INDEX: {
+            INDEXED_void_snd_mixer_t___GENPT___snd_mixer_callback_t *unpacked = (INDEXED_void_snd_mixer_t___GENPT___snd_mixer_callback_t *)packed;
+            ARGS_void_snd_mixer_t___GENPT___snd_mixer_callback_t args = unpacked->args;
+            snd_mixer_set_callback(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_set_callback_private
+        case snd_mixer_set_callback_private_INDEX: {
+            INDEXED_void_snd_mixer_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_mixer_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_mixer_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_mixer_set_callback_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_set_compare
+        case snd_mixer_set_compare_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___snd_mixer_compare_t *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_mixer_compare_t *)packed;
+            ARGS_int_snd_mixer_t___GENPT___snd_mixer_compare_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_set_compare(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_mixer_wait
+        case snd_mixer_wait_INDEX: {
+            INDEXED_int_snd_mixer_t___GENPT___int *unpacked = (INDEXED_int_snd_mixer_t___GENPT___int *)packed;
+            ARGS_int_snd_mixer_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_mixer_wait(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_names_list
+        case snd_names_list_INDEX: {
+            INDEXED_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__ *unpacked = (INDEXED_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__ *)packed;
+            ARGS_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_names_list(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_names_list_free
+        case snd_names_list_free_INDEX: {
+            INDEXED_void_snd_devname_t___GENPT__ *unpacked = (INDEXED_void_snd_devname_t___GENPT__ *)packed;
+            ARGS_void_snd_devname_t___GENPT__ args = unpacked->args;
+            snd_names_list_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_buffer_open
+        case snd_output_buffer_open_INDEX: {
+            INDEXED_int_snd_output_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_output_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_output_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_buffer_open(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_buffer_string
+        case snd_output_buffer_string_INDEX: {
+            INDEXED_size_t_snd_output_t___GENPT___char___GENPT____GENPT__ *unpacked = (INDEXED_size_t_snd_output_t___GENPT___char___GENPT____GENPT__ *)packed;
+            ARGS_size_t_snd_output_t___GENPT___char___GENPT____GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_output_buffer_string(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_close
+        case snd_output_close_INDEX: {
+            INDEXED_int_snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_flush
+        case snd_output_flush_INDEX: {
+            INDEXED_int_snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_flush(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_putc
+        case snd_output_putc_INDEX: {
+            INDEXED_int_snd_output_t___GENPT___int *unpacked = (INDEXED_int_snd_output_t___GENPT___int *)packed;
+            ARGS_int_snd_output_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_putc(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_puts
+        case snd_output_puts_INDEX: {
+            INDEXED_int_snd_output_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_output_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_output_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_puts(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_stdio_attach
+        case snd_output_stdio_attach_INDEX: {
+            INDEXED_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int *unpacked = (INDEXED_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int *)packed;
+            ARGS_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_stdio_attach(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_stdio_open
+        case snd_output_stdio_open_INDEX: {
+            INDEXED_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_stdio_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_output_vprintf
+        case snd_output_vprintf_INDEX: {
+            INDEXED_int_snd_output_t___GENPT___const_char___GENPT___va_list *unpacked = (INDEXED_int_snd_output_t___GENPT___const_char___GENPT___va_list *)packed;
+            ARGS_int_snd_output_t___GENPT___const_char___GENPT___va_list args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_output_vprintf(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_any
+        case snd_pcm_access_mask_any_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_access_mask_any(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_copy
+        case snd_pcm_access_mask_copy_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_access_mask_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_empty
+        case snd_pcm_access_mask_empty_INDEX: {
+            INDEXED_int_const_snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_access_mask_empty(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_free
+        case snd_pcm_access_mask_free_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_access_mask_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_malloc
+        case snd_pcm_access_mask_malloc_INDEX: {
+            INDEXED_int_snd_pcm_access_mask_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_access_mask_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_access_mask_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_access_mask_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_none
+        case snd_pcm_access_mask_none_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_access_mask_none(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_reset
+        case snd_pcm_access_mask_reset_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t args = unpacked->args;
+            snd_pcm_access_mask_reset(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_set
+        case snd_pcm_access_mask_set_INDEX: {
+            INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *)packed;
+            ARGS_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t args = unpacked->args;
+            snd_pcm_access_mask_set(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_mask_test
+        case snd_pcm_access_mask_test_INDEX: {
+            INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *)packed;
+            ARGS_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_access_mask_test(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_access_name
+        case snd_pcm_access_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_access_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_access_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_access_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_access_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_area_copy
+        case snd_pcm_area_copy_INDEX: {
+            INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t *unpacked = (INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t *)packed;
+            ARGS_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_area_copy(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_area_silence
+        case snd_pcm_area_silence_INDEX: {
+            INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t *unpacked = (INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t *)packed;
+            ARGS_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_area_silence(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_areas_copy
+        case snd_pcm_areas_copy_INDEX: {
+            INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t *unpacked = (INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t *)packed;
+            ARGS_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_areas_copy(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_areas_silence
+        case snd_pcm_areas_silence_INDEX: {
+            INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t *unpacked = (INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t *)packed;
+            ARGS_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_areas_silence(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_avail_update
+        case snd_pcm_avail_update_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_avail_update(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_build_linear_format
+        case snd_pcm_build_linear_format_INDEX: {
+            INDEXED_snd_pcm_format_t_int_int_int_int *unpacked = (INDEXED_snd_pcm_format_t_int_int_int_int *)packed;
+            ARGS_snd_pcm_format_t_int_int_int_int args = unpacked->args;
+            snd_pcm_format_t *ret = (snd_pcm_format_t *)ret_v;
+            *ret =
+            snd_pcm_build_linear_format(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_bytes_to_frames
+        case snd_pcm_bytes_to_frames_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_bytes_to_frames(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_bytes_to_samples
+        case snd_pcm_bytes_to_samples_INDEX: {
+            INDEXED_long_snd_pcm_t___GENPT___ssize_t *unpacked = (INDEXED_long_snd_pcm_t___GENPT___ssize_t *)packed;
+            ARGS_long_snd_pcm_t___GENPT___ssize_t args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_pcm_bytes_to_samples(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_close
+        case snd_pcm_close_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_delay
+        case snd_pcm_delay_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_delay(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_drain
+        case snd_pcm_drain_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_drain(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_drop
+        case snd_pcm_drop_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_drop(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_dump
+        case snd_pcm_dump_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_dump(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_dump_hw_setup
+        case snd_pcm_dump_hw_setup_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_dump_hw_setup(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_dump_setup
+        case snd_pcm_dump_setup_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_dump_setup(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_dump_sw_setup
+        case snd_pcm_dump_sw_setup_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_dump_sw_setup(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_big_endian
+        case snd_pcm_format_big_endian_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_big_endian(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_cpu_endian
+        case snd_pcm_format_cpu_endian_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_cpu_endian(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_description
+        case snd_pcm_format_description_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_format_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_format_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_format_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_format_description(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_float
+        case snd_pcm_format_float_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_float(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_linear
+        case snd_pcm_format_linear_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_linear(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_little_endian
+        case snd_pcm_format_little_endian_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_little_endian(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_any
+        case snd_pcm_format_mask_any_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_format_mask_any(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_copy
+        case snd_pcm_format_mask_copy_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_format_mask_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_empty
+        case snd_pcm_format_mask_empty_INDEX: {
+            INDEXED_int_const_snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_mask_empty(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_free
+        case snd_pcm_format_mask_free_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_format_mask_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_malloc
+        case snd_pcm_format_mask_malloc_INDEX: {
+            INDEXED_int_snd_pcm_format_mask_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_format_mask_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_format_mask_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_mask_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_none
+        case snd_pcm_format_mask_none_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_format_mask_none(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_reset
+        case snd_pcm_format_mask_reset_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t args = unpacked->args;
+            snd_pcm_format_mask_reset(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_set
+        case snd_pcm_format_mask_set_INDEX: {
+            INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *)packed;
+            ARGS_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t args = unpacked->args;
+            snd_pcm_format_mask_set(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_test
+        case snd_pcm_format_mask_test_INDEX: {
+            INDEXED_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *)packed;
+            ARGS_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_mask_test(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_name
+        case snd_pcm_format_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_format_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_format_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_format_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_format_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_physical_width
+        case snd_pcm_format_physical_width_INDEX: {
+            INDEXED_int_snd_pcm_format_t_format);_____/__GENPT___in *unpacked = (INDEXED_int_snd_pcm_format_t_format);_____/__GENPT___in *)packed;
+            ARGS_int_snd_pcm_format_t_format);_____/__GENPT___in args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_physical_width(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_set_silence
+        case snd_pcm_format_set_silence_INDEX: {
+            INDEXED_int_snd_pcm_format_t_void___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_format_t_void___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_format_t_void___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_set_silence(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_signed
+        case snd_pcm_format_signed_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_signed(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_silence
+        case snd_pcm_format_silence_INDEX: {
+            INDEXED_u_int8_t_snd_pcm_format_t *unpacked = (INDEXED_u_int8_t_snd_pcm_format_t *)packed;
+            ARGS_u_int8_t_snd_pcm_format_t args = unpacked->args;
+            u_int8_t *ret = (u_int8_t *)ret_v;
+            *ret =
+            snd_pcm_format_silence(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_silence_16
+        case snd_pcm_format_silence_16_INDEX: {
+            INDEXED_u_int16_t_snd_pcm_format_t *unpacked = (INDEXED_u_int16_t_snd_pcm_format_t *)packed;
+            ARGS_u_int16_t_snd_pcm_format_t args = unpacked->args;
+            u_int16_t *ret = (u_int16_t *)ret_v;
+            *ret =
+            snd_pcm_format_silence_16(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_silence_32
+        case snd_pcm_format_silence_32_INDEX: {
+            INDEXED_u_int32_t_snd_pcm_format_t *unpacked = (INDEXED_u_int32_t_snd_pcm_format_t *)packed;
+            ARGS_u_int32_t_snd_pcm_format_t args = unpacked->args;
+            u_int32_t *ret = (u_int32_t *)ret_v;
+            *ret =
+            snd_pcm_format_silence_32(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_silence_64
+        case snd_pcm_format_silence_64_INDEX: {
+            INDEXED_u_int64_t_snd_pcm_format_t *unpacked = (INDEXED_u_int64_t_snd_pcm_format_t *)packed;
+            ARGS_u_int64_t_snd_pcm_format_t args = unpacked->args;
+            u_int64_t *ret = (u_int64_t *)ret_v;
+            *ret =
+            snd_pcm_format_silence_64(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_size
+        case snd_pcm_format_size_INDEX: {
+            INDEXED_ssize_t_snd_pcm_format_t_size_t *unpacked = (INDEXED_ssize_t_snd_pcm_format_t_size_t *)packed;
+            ARGS_ssize_t_snd_pcm_format_t_size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_pcm_format_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_unsigned
+        case snd_pcm_format_unsigned_INDEX: {
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_unsigned(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_value
+        case snd_pcm_format_value_INDEX: {
+            INDEXED_snd_pcm_format_t_const_char__GENPT__ *unpacked = (INDEXED_snd_pcm_format_t_const_char__GENPT__ *)packed;
+            ARGS_snd_pcm_format_t_const_char__GENPT__ args = unpacked->args;
+            snd_pcm_format_t *ret = (snd_pcm_format_t *)ret_v;
+            *ret =
+            snd_pcm_format_value(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_width
+        case snd_pcm_format_width_INDEX: {
+            INDEXED_int_snd_pcm_format_t_format);__________/__GENPT___in *unpacked = (INDEXED_int_snd_pcm_format_t_format);__________/__GENPT___in *)packed;
+            ARGS_int_snd_pcm_format_t_format);__________/__GENPT___in args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_format_width(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_forward
+        case snd_pcm_forward_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_forward(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_frames_to_bytes
+        case snd_pcm_frames_to_bytes_INDEX: {
+            INDEXED_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t *unpacked = (INDEXED_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t *)packed;
+            ARGS_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_pcm_frames_to_bytes(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_get_params
+        case snd_pcm_get_params_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_get_params(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hook_add
+        case snd_pcm_hook_add_INDEX: {
+            INDEXED_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__ *unpacked = (INDEXED_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__ *)packed;
+            ARGS_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hook_add(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hook_get_pcm
+        case snd_pcm_hook_get_pcm_INDEX: {
+            INDEXED_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__ *unpacked = (INDEXED_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__ *)packed;
+            ARGS_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__ args = unpacked->args;
+            snd_pcm_t * *ret = (snd_pcm_t * *)ret_v;
+            *ret =
+            snd_pcm_hook_get_pcm(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hook_get_private
+        case snd_pcm_hook_get_private_INDEX: {
+            INDEXED_void___GENPT___snd_pcm_hook_t___GENPT__ *unpacked = (INDEXED_void___GENPT___snd_pcm_hook_t___GENPT__ *)packed;
+            ARGS_void___GENPT___snd_pcm_hook_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_pcm_hook_get_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hook_remove
+        case snd_pcm_hook_remove_INDEX: {
+            INDEXED_int_snd_pcm_hook_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_hook_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_hook_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hook_remove(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hook_set_private
+        case snd_pcm_hook_set_private_INDEX: {
+            INDEXED_void_snd_pcm_hook_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_pcm_hook_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_pcm_hook_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_pcm_hook_set_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_free
+        case snd_pcm_hw_free_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params
+        case snd_pcm_hw_params_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_any
+        case snd_pcm_hw_params_any_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_any(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_can_mmap_sample_resolution
+        case snd_pcm_hw_params_can_mmap_sample_resolution_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_can_mmap_sample_resolution(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_can_overrange
+        case snd_pcm_hw_params_can_overrange_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_can_overrange(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_can_pause
+        case snd_pcm_hw_params_can_pause_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_can_pause(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_can_resume
+        case snd_pcm_hw_params_can_resume_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_can_resume(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_can_sync_start
+        case snd_pcm_hw_params_can_sync_start_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_can_sync_start(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_copy
+        case snd_pcm_hw_params_copy_INDEX: {
+            INDEXED_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_hw_params_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_current
+        case snd_pcm_hw_params_current_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_current(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_dump
+        case snd_pcm_hw_params_dump_INDEX: {
+            INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_dump(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_free
+        case snd_pcm_hw_params_free_INDEX: {
+            INDEXED_void_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_hw_params_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_access
+        case snd_pcm_hw_params_get_access_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_access(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_access_mask
+        case snd_pcm_hw_params_get_access_mask_INDEX: {
+            INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_access_mask(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_size
+        case snd_pcm_hw_params_get_buffer_size_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_size_max
+        case snd_pcm_hw_params_get_buffer_size_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_size_max(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_size_min
+        case snd_pcm_hw_params_get_buffer_size_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_size_min(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_time
+        case snd_pcm_hw_params_get_buffer_time_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_time(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_time_max
+        case snd_pcm_hw_params_get_buffer_time_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_time_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_buffer_time_min
+        case snd_pcm_hw_params_get_buffer_time_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_buffer_time_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_channels
+        case snd_pcm_hw_params_get_channels_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_channels(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_channels_max
+        case snd_pcm_hw_params_get_channels_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_channels_max(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_channels_min
+        case snd_pcm_hw_params_get_channels_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_channels_min(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_export_buffer
+        case snd_pcm_hw_params_get_export_buffer_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_export_buffer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_fifo_size
+        case snd_pcm_hw_params_get_fifo_size_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_fifo_size(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_format
+        case snd_pcm_hw_params_get_format_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_format(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_format_mask
+        case snd_pcm_hw_params_get_format_mask_INDEX: {
+            INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_hw_params_get_format_mask(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_min_align
+        case snd_pcm_hw_params_get_min_align_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_min_align(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_size
+        case snd_pcm_hw_params_get_period_size_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_size(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_size_max
+        case snd_pcm_hw_params_get_period_size_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_size_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_size_min
+        case snd_pcm_hw_params_get_period_size_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_size_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_time
+        case snd_pcm_hw_params_get_period_time_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_time(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_time_max
+        case snd_pcm_hw_params_get_period_time_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_time_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_period_time_min
+        case snd_pcm_hw_params_get_period_time_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_period_time_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_periods
+        case snd_pcm_hw_params_get_periods_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_periods(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_periods_max
+        case snd_pcm_hw_params_get_periods_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_periods_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_periods_min
+        case snd_pcm_hw_params_get_periods_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_periods_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_rate
+        case snd_pcm_hw_params_get_rate_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_rate(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_rate_max
+        case snd_pcm_hw_params_get_rate_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_rate_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_rate_min
+        case snd_pcm_hw_params_get_rate_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_rate_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_rate_numden
+        case snd_pcm_hw_params_get_rate_numden_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_rate_numden(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_rate_resample
+        case snd_pcm_hw_params_get_rate_resample_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_rate_resample(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_sbits
+        case snd_pcm_hw_params_get_sbits_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_sbits(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_subformat
+        case snd_pcm_hw_params_get_subformat_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_subformat(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_subformat_mask
+        case snd_pcm_hw_params_get_subformat_mask_INDEX: {
+            INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_hw_params_get_subformat_mask(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_tick_time
+        case snd_pcm_hw_params_get_tick_time_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_tick_time(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_tick_time_max
+        case snd_pcm_hw_params_get_tick_time_max_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_tick_time_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_get_tick_time_min
+        case snd_pcm_hw_params_get_tick_time_min_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_get_tick_time_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_batch
+        case snd_pcm_hw_params_is_batch_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_batch(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_block_transfer
+        case snd_pcm_hw_params_is_block_transfer_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_block_transfer(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_double
+        case snd_pcm_hw_params_is_double_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_double(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_half_duplex
+        case snd_pcm_hw_params_is_half_duplex_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_half_duplex(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_joint_duplex
+        case snd_pcm_hw_params_is_joint_duplex_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_joint_duplex(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_malloc
+        case snd_pcm_hw_params_malloc_INDEX: {
+            INDEXED_int_snd_pcm_hw_params_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_hw_params_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_hw_params_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_access
+        case snd_pcm_hw_params_set_access_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_access(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_access_first
+        case snd_pcm_hw_params_set_access_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_access_first(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_access_last
+        case snd_pcm_hw_params_set_access_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_access_last(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_access_mask
+        case snd_pcm_hw_params_set_access_mask_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_access_mask(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size
+        case snd_pcm_hw_params_set_buffer_size_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_first
+        case snd_pcm_hw_params_set_buffer_size_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_first(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_last
+        case snd_pcm_hw_params_set_buffer_size_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_last(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_max
+        case snd_pcm_hw_params_set_buffer_size_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_min
+        case snd_pcm_hw_params_set_buffer_size_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_minmax
+        case snd_pcm_hw_params_set_buffer_size_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_minmax(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_size_near
+        case snd_pcm_hw_params_set_buffer_size_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_size_near(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time
+        case snd_pcm_hw_params_set_buffer_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_first
+        case snd_pcm_hw_params_set_buffer_time_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_last
+        case snd_pcm_hw_params_set_buffer_time_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_max
+        case snd_pcm_hw_params_set_buffer_time_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_min
+        case snd_pcm_hw_params_set_buffer_time_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_minmax
+        case snd_pcm_hw_params_set_buffer_time_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_buffer_time_near
+        case snd_pcm_hw_params_set_buffer_time_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_buffer_time_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels
+        case snd_pcm_hw_params_set_channels_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_first
+        case snd_pcm_hw_params_set_channels_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_first(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_last
+        case snd_pcm_hw_params_set_channels_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_last(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_max
+        case snd_pcm_hw_params_set_channels_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_max(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_min
+        case snd_pcm_hw_params_set_channels_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_minmax
+        case snd_pcm_hw_params_set_channels_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_minmax(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_channels_near
+        case snd_pcm_hw_params_set_channels_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_channels_near(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_export_buffer
+        case snd_pcm_hw_params_set_export_buffer_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_export_buffer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_format
+        case snd_pcm_hw_params_set_format_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_format(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_format_first
+        case snd_pcm_hw_params_set_format_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_format_first(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_format_last
+        case snd_pcm_hw_params_set_format_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_format_last(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_format_mask
+        case snd_pcm_hw_params_set_format_mask_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_format_mask(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size
+        case snd_pcm_hw_params_set_period_size_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_first
+        case snd_pcm_hw_params_set_period_size_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_integer
+        case snd_pcm_hw_params_set_period_size_integer_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_last
+        case snd_pcm_hw_params_set_period_size_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_max
+        case snd_pcm_hw_params_set_period_size_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_min
+        case snd_pcm_hw_params_set_period_size_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_minmax
+        case snd_pcm_hw_params_set_period_size_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_size_near
+        case snd_pcm_hw_params_set_period_size_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_size_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time
+        case snd_pcm_hw_params_set_period_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_first
+        case snd_pcm_hw_params_set_period_time_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_last
+        case snd_pcm_hw_params_set_period_time_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_max
+        case snd_pcm_hw_params_set_period_time_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_min
+        case snd_pcm_hw_params_set_period_time_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_minmax
+        case snd_pcm_hw_params_set_period_time_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_period_time_near
+        case snd_pcm_hw_params_set_period_time_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_period_time_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods
+        case snd_pcm_hw_params_set_periods_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_first
+        case snd_pcm_hw_params_set_periods_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_integer
+        case snd_pcm_hw_params_set_periods_integer_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_integer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_last
+        case snd_pcm_hw_params_set_periods_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_max
+        case snd_pcm_hw_params_set_periods_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_min
+        case snd_pcm_hw_params_set_periods_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_minmax
+        case snd_pcm_hw_params_set_periods_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_periods_near
+        case snd_pcm_hw_params_set_periods_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_periods_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate
+        case snd_pcm_hw_params_set_rate_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_first
+        case snd_pcm_hw_params_set_rate_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_last
+        case snd_pcm_hw_params_set_rate_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_max
+        case snd_pcm_hw_params_set_rate_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_min
+        case snd_pcm_hw_params_set_rate_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_minmax
+        case snd_pcm_hw_params_set_rate_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_near
+        case snd_pcm_hw_params_set_rate_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_rate_resample
+        case snd_pcm_hw_params_set_rate_resample_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_rate_resample(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_subformat
+        case snd_pcm_hw_params_set_subformat_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_subformat(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_subformat_first
+        case snd_pcm_hw_params_set_subformat_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_subformat_first(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_subformat_last
+        case snd_pcm_hw_params_set_subformat_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_subformat_last(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_subformat_mask
+        case snd_pcm_hw_params_set_subformat_mask_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_subformat_mask(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time
+        case snd_pcm_hw_params_set_tick_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_first
+        case snd_pcm_hw_params_set_tick_time_first_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_first(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_last
+        case snd_pcm_hw_params_set_tick_time_last_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_last(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_max
+        case snd_pcm_hw_params_set_tick_time_max_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_max(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_min
+        case snd_pcm_hw_params_set_tick_time_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_min(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_minmax
+        case snd_pcm_hw_params_set_tick_time_minmax_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_minmax(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_set_tick_time_near
+        case snd_pcm_hw_params_set_tick_time_near_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_set_tick_time_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_access
+        case snd_pcm_hw_params_test_access_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_access(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_buffer_size
+        case snd_pcm_hw_params_test_buffer_size_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_buffer_size(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_buffer_time
+        case snd_pcm_hw_params_test_buffer_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_buffer_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_channels
+        case snd_pcm_hw_params_test_channels_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_channels(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_format
+        case snd_pcm_hw_params_test_format_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_format(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_period_size
+        case snd_pcm_hw_params_test_period_size_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_period_size(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_period_time
+        case snd_pcm_hw_params_test_period_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_period_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_periods
+        case snd_pcm_hw_params_test_periods_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_periods(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_rate
+        case snd_pcm_hw_params_test_rate_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_rate(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_subformat
+        case snd_pcm_hw_params_test_subformat_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_subformat(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_test_tick_time
+        case snd_pcm_hw_params_test_tick_time_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_test_tick_time(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hwsync
+        case snd_pcm_hwsync_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hwsync(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info
+        case snd_pcm_info_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_copy
+        case snd_pcm_info_copy_INDEX: {
+            INDEXED_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_free
+        case snd_pcm_info_free_INDEX: {
+            INDEXED_void_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_card
+        case snd_pcm_info_get_card_INDEX: {
+            INDEXED_int_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_info_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_class
+        case snd_pcm_info_get_class_INDEX: {
+            INDEXED_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_class_t *ret = (snd_pcm_class_t *)ret_v;
+            *ret =
+            snd_pcm_info_get_class(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_device
+        case snd_pcm_info_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_info_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_id
+        case snd_pcm_info_get_id_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_info_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_name
+        case snd_pcm_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_stream
+        case snd_pcm_info_get_stream_INDEX: {
+            INDEXED_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_stream_t *ret = (snd_pcm_stream_t *)ret_v;
+            *ret =
+            snd_pcm_info_get_stream(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_subclass
+        case snd_pcm_info_get_subclass_INDEX: {
+            INDEXED_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_subclass_t *ret = (snd_pcm_subclass_t *)ret_v;
+            *ret =
+            snd_pcm_info_get_subclass(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_subdevice
+        case snd_pcm_info_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_info_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_subdevice_name
+        case snd_pcm_info_get_subdevice_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_info_get_subdevice_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_subdevices_avail
+        case snd_pcm_info_get_subdevices_avail_INDEX: {
+            INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_info_get_subdevices_avail(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_subdevices_count
+        case snd_pcm_info_get_subdevices_count_INDEX: {
+            INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_info_get_subdevices_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_get_sync
+        case snd_pcm_info_get_sync_INDEX: {
+            INDEXED_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__ *unpacked = (INDEXED_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__ *)packed;
+            ARGS_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__ args = unpacked->args;
+            snd_pcm_sync_id_t *ret = (snd_pcm_sync_id_t *)ret_v;
+            *ret =
+            snd_pcm_info_get_sync(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_malloc
+        case snd_pcm_info_malloc_INDEX: {
+            INDEXED_int_snd_pcm_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_set_device
+        case snd_pcm_info_set_device_INDEX: {
+            INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_pcm_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_pcm_info_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_set_stream
+        case snd_pcm_info_set_stream_INDEX: {
+            INDEXED_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t *unpacked = (INDEXED_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t *)packed;
+            ARGS_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t args = unpacked->args;
+            snd_pcm_info_set_stream(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_info_set_subdevice
+        case snd_pcm_info_set_subdevice_INDEX: {
+            INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_pcm_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_pcm_info_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_link
+        case snd_pcm_link_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_link(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_add_scope
+        case snd_pcm_meter_add_scope_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_meter_add_scope(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_get_boundary
+        case snd_pcm_meter_get_boundary_INDEX: {
+            INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_meter_get_boundary(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_get_bufsize
+        case snd_pcm_meter_get_bufsize_INDEX: {
+            INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_meter_get_bufsize(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_get_channels
+        case snd_pcm_meter_get_channels_INDEX: {
+            INDEXED_unsigned_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_meter_get_channels(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_get_now
+        case snd_pcm_meter_get_now_INDEX: {
+            INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_meter_get_now(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_get_rate
+        case snd_pcm_meter_get_rate_INDEX: {
+            INDEXED_unsigned_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_pcm_meter_get_rate(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_meter_search_scope
+        case snd_pcm_meter_search_scope_INDEX: {
+            INDEXED_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_pcm_scope_t * *ret = (snd_pcm_scope_t * *)ret_v;
+            *ret =
+            snd_pcm_meter_search_scope(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_begin
+        case snd_pcm_mmap_begin_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_mmap_begin(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_commit
+        case snd_pcm_mmap_commit_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_mmap_commit(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_readi
+        case snd_pcm_mmap_readi_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_mmap_readi(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_writei
+        case snd_pcm_mmap_writei_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_mmap_writei(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_writen
+        case snd_pcm_mmap_writen_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_mmap_writen(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_name
+        case snd_pcm_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_pcm_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_pcm_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_pcm_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_nonblock
+        case snd_pcm_nonblock_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_open
+        case snd_pcm_open_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_open(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_open_lconf
+        case snd_pcm_open_lconf_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_open_lconf(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_pause
+        case snd_pcm_pause_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_pause(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_poll_descriptors
+        case snd_pcm_poll_descriptors_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_poll_descriptors_count
+        case snd_pcm_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_poll_descriptors_revents
+        case snd_pcm_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_prepare
+        case snd_pcm_prepare_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_prepare(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_readi
+        case snd_pcm_readi_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_readi(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_readn
+        case snd_pcm_readn_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_readn(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_recover
+        case snd_pcm_recover_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___int_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___int_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_recover(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_reset
+        case snd_pcm_reset_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_reset(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_resume
+        case snd_pcm_resume_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_resume(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_rewind
+        case snd_pcm_rewind_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_rewind(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_samples_to_bytes
+        case snd_pcm_samples_to_bytes_INDEX: {
+            INDEXED_ssize_t_snd_pcm_t___GENPT___long *unpacked = (INDEXED_ssize_t_snd_pcm_t___GENPT___long *)packed;
+            ARGS_ssize_t_snd_pcm_t___GENPT___long args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_pcm_samples_to_bytes(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_get_callback_private
+        case snd_pcm_scope_get_callback_private_INDEX: {
+            INDEXED_void___GENPT___snd_pcm_scope_t___GENPT__ *unpacked = (INDEXED_void___GENPT___snd_pcm_scope_t___GENPT__ *)packed;
+            ARGS_void___GENPT___snd_pcm_scope_t___GENPT__ args = unpacked->args;
+            void * *ret = (void * *)ret_v;
+            *ret =
+            snd_pcm_scope_get_callback_private(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_get_name
+        case snd_pcm_scope_get_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_pcm_scope_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_pcm_scope_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_pcm_scope_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_scope_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_malloc
+        case snd_pcm_scope_malloc_INDEX: {
+            INDEXED_int_snd_pcm_scope_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_scope_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_scope_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_scope_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_s16_get_channel_buffer
+        case snd_pcm_scope_s16_get_channel_buffer_INDEX: {
+            INDEXED_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int *unpacked = (INDEXED_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int *)packed;
+            ARGS_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int args = unpacked->args;
+            int16_t * *ret = (int16_t * *)ret_v;
+            *ret =
+            snd_pcm_scope_s16_get_channel_buffer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_s16_open
+        case snd_pcm_scope_s16_open_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_scope_s16_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_set_callback_private
+        case snd_pcm_scope_set_callback_private_INDEX: {
+            INDEXED_void_snd_pcm_scope_t___GENPT___void___GENPT__ *unpacked = (INDEXED_void_snd_pcm_scope_t___GENPT___void___GENPT__ *)packed;
+            ARGS_void_snd_pcm_scope_t___GENPT___void___GENPT__ args = unpacked->args;
+            snd_pcm_scope_set_callback_private(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_set_name
+        case snd_pcm_scope_set_name_INDEX: {
+            INDEXED_void_snd_pcm_scope_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_pcm_scope_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_pcm_scope_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_pcm_scope_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_scope_set_ops
+        case snd_pcm_scope_set_ops_INDEX: {
+            INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ args = unpacked->args;
+            snd_pcm_scope_set_ops(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_set_params
+        case snd_pcm_set_params_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_set_params(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_start
+        case snd_pcm_start_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_start(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_start_mode_name
+        case snd_pcm_start_mode_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_pcm_start_t *unpacked = (INDEXED_const_char___GENPT___snd_pcm_start_t *)packed;
+            ARGS_const_char___GENPT___snd_pcm_start_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_start_mode_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_state
+        case snd_pcm_state_INDEX: {
+            INDEXED_snd_pcm_state_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_state_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_state_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_state_t *ret = (snd_pcm_state_t *)ret_v;
+            *ret =
+            snd_pcm_state(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_state_name
+        case snd_pcm_state_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_state_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_state_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_state_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_state_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status
+        case snd_pcm_status_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_copy
+        case snd_pcm_status_copy_INDEX: {
+            INDEXED_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_dump
+        case snd_pcm_status_dump_INDEX: {
+            INDEXED_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_status_dump(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_free
+        case snd_pcm_status_free_INDEX: {
+            INDEXED_void_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_avail
+        case snd_pcm_status_get_avail_INDEX: {
+            INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_status_get_avail(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_avail_max
+        case snd_pcm_status_get_avail_max_INDEX: {
+            INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_status_get_avail_max(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_delay
+        case snd_pcm_status_get_delay_INDEX: {
+            INDEXED_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_status_get_delay(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_htstamp
+        case snd_pcm_status_get_htstamp_INDEX: {
+            INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ *unpacked = (INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ *)packed;
+            ARGS_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_get_htstamp(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_overrange
+        case snd_pcm_status_get_overrange_INDEX: {
+            INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_uframes_t *ret = (snd_pcm_uframes_t *)ret_v;
+            *ret =
+            snd_pcm_status_get_overrange(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_state
+        case snd_pcm_status_get_state_INDEX: {
+            INDEXED_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__ *unpacked = (INDEXED_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__ *)packed;
+            ARGS_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__ args = unpacked->args;
+            snd_pcm_state_t *ret = (snd_pcm_state_t *)ret_v;
+            *ret =
+            snd_pcm_status_get_state(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_trigger_htstamp
+        case snd_pcm_status_get_trigger_htstamp_INDEX: {
+            INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ *unpacked = (INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ *)packed;
+            ARGS_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_get_trigger_htstamp(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_trigger_tstamp
+        case snd_pcm_status_get_trigger_tstamp_INDEX: {
+            INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ *unpacked = (INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ *)packed;
+            ARGS_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_get_trigger_tstamp(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_get_tstamp
+        case snd_pcm_status_get_tstamp_INDEX: {
+            INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ *unpacked = (INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ *)packed;
+            ARGS_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__ args = unpacked->args;
+            snd_pcm_status_get_tstamp(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_status_malloc
+        case snd_pcm_status_malloc_INDEX: {
+            INDEXED_int_snd_pcm_status_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_status_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_status_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_status_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_stream
+        case snd_pcm_stream_INDEX: {
+            INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_stream_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_stream_t *ret = (snd_pcm_stream_t *)ret_v;
+            *ret =
+            snd_pcm_stream(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_stream_name
+        case snd_pcm_stream_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_stream_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_stream_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_stream_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_stream_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_description
+        case snd_pcm_subformat_description_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_subformat_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_subformat_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_subformat_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_subformat_description(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_any
+        case snd_pcm_subformat_mask_any_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_subformat_mask_any(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_copy
+        case snd_pcm_subformat_mask_copy_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_subformat_mask_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_empty
+        case snd_pcm_subformat_mask_empty_INDEX: {
+            INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_subformat_mask_empty(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_free
+        case snd_pcm_subformat_mask_free_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_subformat_mask_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_malloc
+        case snd_pcm_subformat_mask_malloc_INDEX: {
+            INDEXED_int_snd_pcm_subformat_mask_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_subformat_mask_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_subformat_mask_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_subformat_mask_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_none
+        case snd_pcm_subformat_mask_none_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT__ args = unpacked->args;
+            snd_pcm_subformat_mask_none(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_reset
+        case snd_pcm_subformat_mask_reset_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
+            snd_pcm_subformat_mask_reset(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_set
+        case snd_pcm_subformat_mask_set_INDEX: {
+            INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *)packed;
+            ARGS_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
+            snd_pcm_subformat_mask_set(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_test
+        case snd_pcm_subformat_mask_test_INDEX: {
+            INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *)packed;
+            ARGS_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_subformat_mask_test(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_name
+        case snd_pcm_subformat_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_subformat_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_subformat_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_subformat_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_subformat_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params
+        case snd_pcm_sw_params_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_copy
+        case snd_pcm_sw_params_copy_INDEX: {
+            INDEXED_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_sw_params_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_current
+        case snd_pcm_sw_params_current_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_current(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_dump
+        case snd_pcm_sw_params_dump_INDEX: {
+            INDEXED_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_dump(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_free
+        case snd_pcm_sw_params_free_INDEX: {
+            INDEXED_void_snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_sw_params_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_avail_min
+        case snd_pcm_sw_params_get_avail_min_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_avail_min(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_boundary
+        case snd_pcm_sw_params_get_boundary_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_boundary(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_silence_size
+        case snd_pcm_sw_params_get_silence_size_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_silence_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_silence_threshold
+        case snd_pcm_sw_params_get_silence_threshold_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_silence_threshold(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_sleep_min
+        case snd_pcm_sw_params_get_sleep_min_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_sleep_min(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_start_mode
+        case snd_pcm_sw_params_get_start_mode_INDEX: {
+            INDEXED_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_start_t *ret = (snd_pcm_start_t *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_start_mode(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_start_threshold
+        case snd_pcm_sw_params_get_start_threshold_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_start_threshold(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_stop_threshold
+        case snd_pcm_sw_params_get_stop_threshold_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_stop_threshold(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_tstamp_mode
+        case snd_pcm_sw_params_get_tstamp_mode_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_tstamp_mode(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_xfer_align
+        case snd_pcm_sw_params_get_xfer_align_INDEX: {
+            INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_xfer_align(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_get_xrun_mode
+        case snd_pcm_sw_params_get_xrun_mode_INDEX: {
+            INDEXED_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__ *unpacked = (INDEXED_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__ *)packed;
+            ARGS_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__ args = unpacked->args;
+            snd_pcm_xrun_t *ret = (snd_pcm_xrun_t *)ret_v;
+            *ret =
+            snd_pcm_sw_params_get_xrun_mode(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_malloc
+        case snd_pcm_sw_params_malloc_INDEX: {
+            INDEXED_int_snd_pcm_sw_params_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_sw_params_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_pcm_sw_params_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_avail_min
+        case snd_pcm_sw_params_set_avail_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_avail_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_silence_size
+        case snd_pcm_sw_params_set_silence_size_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_silence_size(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_silence_threshold
+        case snd_pcm_sw_params_set_silence_threshold_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_silence_threshold(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_sleep_min
+        case snd_pcm_sw_params_set_sleep_min_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_sleep_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_start_mode
+        case snd_pcm_sw_params_set_start_mode_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_start_mode(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_start_threshold
+        case snd_pcm_sw_params_set_start_threshold_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_start_threshold(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_stop_threshold
+        case snd_pcm_sw_params_set_stop_threshold_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_stop_threshold(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_tstamp_mode
+        case snd_pcm_sw_params_set_tstamp_mode_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_tstamp_mode(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_xfer_align
+        case snd_pcm_sw_params_set_xfer_align_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_xfer_align(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_set_xrun_mode
+        case snd_pcm_sw_params_set_xrun_mode_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_sw_params_set_xrun_mode(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_tstamp_mode_name
+        case snd_pcm_tstamp_mode_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_pcm_tstamp_t *unpacked = (INDEXED_const_char___GENPT___const_snd_pcm_tstamp_t *)packed;
+            ARGS_const_char___GENPT___const_snd_pcm_tstamp_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_tstamp_mode_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_type
+        case snd_pcm_type_INDEX: {
+            INDEXED_snd_pcm_type_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_type_t_snd_pcm_t___GENPT__ *)packed;
+            ARGS_snd_pcm_type_t_snd_pcm_t___GENPT__ args = unpacked->args;
+            snd_pcm_type_t *ret = (snd_pcm_type_t *)ret_v;
+            *ret =
+            snd_pcm_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_type_name
+        case snd_pcm_type_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_pcm_type_t *unpacked = (INDEXED_const_char___GENPT___snd_pcm_type_t *)packed;
+            ARGS_const_char___GENPT___snd_pcm_type_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_type_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_unlink
+        case snd_pcm_unlink_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_unlink(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_wait
+        case snd_pcm_wait_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___int *unpacked = (INDEXED_int_snd_pcm_t___GENPT___int *)packed;
+            ARGS_int_snd_pcm_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_wait(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_writei
+        case snd_pcm_writei_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_writei(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_writen
+        case snd_pcm_writen_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_writen(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_xrun_mode_name
+        case snd_pcm_xrun_mode_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_pcm_xrun_t *unpacked = (INDEXED_const_char___GENPT___snd_pcm_xrun_t *)packed;
+            ARGS_const_char___GENPT___snd_pcm_xrun_t args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_pcm_xrun_mode_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_close
+        case snd_rawmidi_close_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_drain
+        case snd_rawmidi_drain_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_drain(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_drop
+        case snd_rawmidi_drop_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_drop(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info
+        case snd_rawmidi_info_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_copy
+        case snd_rawmidi_info_copy_INDEX: {
+            INDEXED_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_free
+        case snd_rawmidi_info_free_INDEX: {
+            INDEXED_void_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_card
+        case snd_rawmidi_info_get_card_INDEX: {
+            INDEXED_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_device
+        case snd_rawmidi_info_get_device_INDEX: {
+            INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_flags
+        case snd_rawmidi_info_get_flags_INDEX: {
+            INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_flags(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_id
+        case snd_rawmidi_info_get_id_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_name
+        case snd_rawmidi_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_stream
+        case snd_rawmidi_info_get_stream_INDEX: {
+            INDEXED_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_stream_t *ret = (snd_rawmidi_stream_t *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_stream(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_subdevice
+        case snd_rawmidi_info_get_subdevice_INDEX: {
+            INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_subdevice_name
+        case snd_rawmidi_info_get_subdevice_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_subdevice_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_subdevices_avail
+        case snd_rawmidi_info_get_subdevices_avail_INDEX: {
+            INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_subdevices_avail(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_get_subdevices_count
+        case snd_rawmidi_info_get_subdevices_count_INDEX: {
+            INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_rawmidi_info_get_subdevices_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_malloc
+        case snd_rawmidi_info_malloc_INDEX: {
+            INDEXED_int_snd_rawmidi_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_set_device
+        case snd_rawmidi_info_set_device_INDEX: {
+            INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_rawmidi_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_rawmidi_info_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_set_stream
+        case snd_rawmidi_info_set_stream_INDEX: {
+            INDEXED_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t *unpacked = (INDEXED_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t *)packed;
+            ARGS_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t args = unpacked->args;
+            snd_rawmidi_info_set_stream(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_set_subdevice
+        case snd_rawmidi_info_set_subdevice_INDEX: {
+            INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_rawmidi_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_rawmidi_info_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_info_sizeof
+        case snd_rawmidi_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_name
+        case snd_rawmidi_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_rawmidi_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_rawmidi_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_nonblock
+        case snd_rawmidi_nonblock_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___int *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___int *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_open
+        case snd_rawmidi_open_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_open(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_open_lconf
+        case snd_rawmidi_open_lconf_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_open_lconf(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params
+        case snd_rawmidi_params_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_copy
+        case snd_rawmidi_params_copy_INDEX: {
+            INDEXED_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_params_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_current
+        case snd_rawmidi_params_current_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_current(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_free
+        case snd_rawmidi_params_free_INDEX: {
+            INDEXED_void_snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_params_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_get_avail_min
+        case snd_rawmidi_params_get_avail_min_INDEX: {
+            INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_params_get_avail_min(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_get_buffer_size
+        case snd_rawmidi_params_get_buffer_size_INDEX: {
+            INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_params_get_buffer_size(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_get_no_active_sensing
+        case snd_rawmidi_params_get_no_active_sensing_INDEX: {
+            INDEXED_int_const_snd_rawmidi_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_rawmidi_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_rawmidi_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_get_no_active_sensing(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_malloc
+        case snd_rawmidi_params_malloc_INDEX: {
+            INDEXED_int_snd_rawmidi_params_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_params_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_params_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_set_avail_min
+        case snd_rawmidi_params_set_avail_min_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_set_avail_min(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_set_buffer_size
+        case snd_rawmidi_params_set_buffer_size_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_set_buffer_size(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_set_no_active_sensing
+        case snd_rawmidi_params_set_no_active_sensing_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_params_set_no_active_sensing(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_params_sizeof
+        case snd_rawmidi_params_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_params_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_poll_descriptors
+        case snd_rawmidi_poll_descriptors_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_poll_descriptors_count
+        case snd_rawmidi_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_poll_descriptors_revents
+        case snd_rawmidi_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_read
+        case snd_rawmidi_read_INDEX: {
+            INDEXED_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t *unpacked = (INDEXED_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t *)packed;
+            ARGS_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_rawmidi_read(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status
+        case snd_rawmidi_status_INDEX: {
+            INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_copy
+        case snd_rawmidi_status_copy_INDEX: {
+            INDEXED_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_status_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_free
+        case snd_rawmidi_status_free_INDEX: {
+            INDEXED_void_snd_rawmidi_status_t___GENPT__ *unpacked = (INDEXED_void_snd_rawmidi_status_t___GENPT__ *)packed;
+            ARGS_void_snd_rawmidi_status_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_status_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_get_avail
+        case snd_rawmidi_status_get_avail_INDEX: {
+            INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_rawmidi_status_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_status_get_avail(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_get_tstamp
+        case snd_rawmidi_status_get_tstamp_INDEX: {
+            INDEXED_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__ *unpacked = (INDEXED_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__ *)packed;
+            ARGS_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_status_get_tstamp(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_get_xruns
+        case snd_rawmidi_status_get_xruns_INDEX: {
+            INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_rawmidi_status_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_status_get_xruns(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_malloc
+        case snd_rawmidi_status_malloc_INDEX: {
+            INDEXED_int_snd_rawmidi_status_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_rawmidi_status_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_rawmidi_status_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_rawmidi_status_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_status_sizeof
+        case snd_rawmidi_status_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_rawmidi_status_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_stream
+        case snd_rawmidi_stream_INDEX: {
+            INDEXED_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_stream_t *ret = (snd_rawmidi_stream_t *)ret_v;
+            *ret =
+            snd_rawmidi_stream(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_type
+        case snd_rawmidi_type_INDEX: {
+            INDEXED_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__ *unpacked = (INDEXED_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__ *)packed;
+            ARGS_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__ args = unpacked->args;
+            snd_rawmidi_type_t *ret = (snd_rawmidi_type_t *)ret_v;
+            *ret =
+            snd_rawmidi_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_rawmidi_write
+        case snd_rawmidi_write_INDEX: {
+            INDEXED_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t *unpacked = (INDEXED_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t *)packed;
+            ARGS_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_rawmidi_write(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_sctl_build
+        case snd_sctl_build_INDEX: {
+            INDEXED_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int *unpacked = (INDEXED_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int *)packed;
+            ARGS_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_sctl_build(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_sctl_free
+        case snd_sctl_free_INDEX: {
+            INDEXED_int_snd_sctl_t___GENPT__ *unpacked = (INDEXED_int_snd_sctl_t___GENPT__ *)packed;
+            ARGS_int_snd_sctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_sctl_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_sctl_install
+        case snd_sctl_install_INDEX: {
+            INDEXED_int_snd_sctl_t___GENPT__ *unpacked = (INDEXED_int_snd_sctl_t___GENPT__ *)packed;
+            ARGS_int_snd_sctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_sctl_install(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_sctl_remove
+        case snd_sctl_remove_INDEX: {
+            INDEXED_int_snd_sctl_t___GENPT__ *unpacked = (INDEXED_int_snd_sctl_t___GENPT__ *)packed;
+            ARGS_int_snd_sctl_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_sctl_remove(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_alloc_named_queue
+        case snd_seq_alloc_named_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_alloc_named_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_alloc_queue
+        case snd_seq_alloc_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_alloc_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_change_bit
+        case snd_seq_change_bit_INDEX: {
+            INDEXED_int_int_void___GENPT__ *unpacked = (INDEXED_int_int_void___GENPT__ *)packed;
+            ARGS_int_int_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_change_bit(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_id
+        case snd_seq_client_id_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_copy
+        case snd_seq_client_info_copy_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            snd_seq_client_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_free
+        case snd_seq_client_info_free_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            snd_seq_client_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_broadcast_filter
+        case snd_seq_client_info_get_broadcast_filter_INDEX: {
+            INDEXED_int_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_get_broadcast_filter(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_client
+        case snd_seq_client_info_get_client_INDEX: {
+            INDEXED_int_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_get_client(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_error_bounce
+        case snd_seq_client_info_get_error_bounce_INDEX: {
+            INDEXED_int_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_get_error_bounce(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_event_filter
+        case snd_seq_client_info_get_event_filter_INDEX: {
+            INDEXED_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            const unsigned char * *ret = (const unsigned char * *)ret_v;
+            *ret =
+            snd_seq_client_info_get_event_filter(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_event_lost
+        case snd_seq_client_info_get_event_lost_INDEX: {
+            INDEXED_int_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_get_event_lost(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_name
+        case snd_seq_client_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_seq_client_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_num_ports
+        case snd_seq_client_info_get_num_ports_INDEX: {
+            INDEXED_int_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_get_num_ports(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_get_type
+        case snd_seq_client_info_get_type_INDEX: {
+            INDEXED_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            snd_seq_client_type_t *ret = (snd_seq_client_type_t *)ret_v;
+            *ret =
+            snd_seq_client_info_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_malloc
+        case snd_seq_client_info_malloc_INDEX: {
+            INDEXED_int_snd_seq_client_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_client_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_client_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_set_broadcast_filter
+        case snd_seq_client_info_set_broadcast_filter_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___int args = unpacked->args;
+            snd_seq_client_info_set_broadcast_filter(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_set_client
+        case snd_seq_client_info_set_client_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___int args = unpacked->args;
+            snd_seq_client_info_set_client(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_set_error_bounce
+        case snd_seq_client_info_set_error_bounce_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___int args = unpacked->args;
+            snd_seq_client_info_set_error_bounce(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_set_event_filter
+        case snd_seq_client_info_set_event_filter_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__ args = unpacked->args;
+            snd_seq_client_info_set_event_filter(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_set_name
+        case snd_seq_client_info_set_name_INDEX: {
+            INDEXED_void_snd_seq_client_info_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_info_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_info_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_seq_client_info_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_info_sizeof
+        case snd_seq_client_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_copy
+        case snd_seq_client_pool_copy_INDEX: {
+            INDEXED_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            snd_seq_client_pool_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_free
+        case snd_seq_client_pool_free_INDEX: {
+            INDEXED_void_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            snd_seq_client_pool_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_client
+        case snd_seq_client_pool_get_client_INDEX: {
+            INDEXED_int_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_client(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_input_free
+        case snd_seq_client_pool_get_input_free_INDEX: {
+            INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_input_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_input_pool
+        case snd_seq_client_pool_get_input_pool_INDEX: {
+            INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_input_pool(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_output_free
+        case snd_seq_client_pool_get_output_free_INDEX: {
+            INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_output_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_output_pool
+        case snd_seq_client_pool_get_output_pool_INDEX: {
+            INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_output_pool(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_get_output_room
+        case snd_seq_client_pool_get_output_room_INDEX: {
+            INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_size_t_const_snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_get_output_room(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_malloc
+        case snd_seq_client_pool_malloc_INDEX: {
+            INDEXED_int_snd_seq_client_pool_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_client_pool_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_client_pool_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_client_pool_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_set_input_pool
+        case snd_seq_client_pool_set_input_pool_INDEX: {
+            INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *unpacked = (INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *)packed;
+            ARGS_void_snd_seq_client_pool_t___GENPT___size_t args = unpacked->args;
+            snd_seq_client_pool_set_input_pool(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_set_output_pool
+        case snd_seq_client_pool_set_output_pool_INDEX: {
+            INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *unpacked = (INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *)packed;
+            ARGS_void_snd_seq_client_pool_t___GENPT___size_t args = unpacked->args;
+            snd_seq_client_pool_set_output_pool(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_set_output_room
+        case snd_seq_client_pool_set_output_room_INDEX: {
+            INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *unpacked = (INDEXED_void_snd_seq_client_pool_t___GENPT___size_t *)packed;
+            ARGS_void_snd_seq_client_pool_t___GENPT___size_t args = unpacked->args;
+            snd_seq_client_pool_set_output_room(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_client_pool_sizeof
+        case snd_seq_client_pool_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_client_pool_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_close
+        case snd_seq_close_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_create_port
+        case snd_seq_create_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_create_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_create_queue
+        case snd_seq_create_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_create_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_delete_port
+        case snd_seq_delete_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_delete_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_drain_output
+        case snd_seq_drain_output_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_drain_output(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_drop_input
+        case snd_seq_drop_input_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_drop_input(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_drop_input_buffer
+        case snd_seq_drop_input_buffer_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_drop_input_buffer(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_drop_output
+        case snd_seq_drop_output_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_drop_output(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_drop_output_buffer
+        case snd_seq_drop_output_buffer_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_drop_output_buffer(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_input
+        case snd_seq_event_input_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_input(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_input_pending
+        case snd_seq_event_input_pending_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_input_pending(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_length
+        case snd_seq_event_length_INDEX: {
+            INDEXED_ssize_t_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_ssize_t_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_ssize_t_snd_seq_event_t___GENPT__ args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_seq_event_length(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_output
+        case snd_seq_event_output_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_output(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_output_buffer
+        case snd_seq_event_output_buffer_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_output_buffer(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_output_direct
+        case snd_seq_event_output_direct_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_output_direct(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_event_output_pending
+        case snd_seq_event_output_pending_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_event_output_pending(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_extract_output
+        case snd_seq_extract_output_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_extract_output(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_free_event
+        case snd_seq_free_event_INDEX: {
+            INDEXED_int_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_free_event(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_free_queue
+        case snd_seq_free_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_free_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_any_client_info
+        case snd_seq_get_any_client_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_any_client_info(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_any_port_info
+        case snd_seq_get_any_port_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_any_port_info(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_bit
+        case snd_seq_get_bit_INDEX: {
+            INDEXED_int_int_void___GENPT__ *unpacked = (INDEXED_int_int_void___GENPT__ *)packed;
+            ARGS_int_int_void___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_bit(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_client_info
+        case snd_seq_get_client_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_client_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_client_pool
+        case snd_seq_get_client_pool_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_client_pool(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_input_buffer_size
+        case snd_seq_get_input_buffer_size_INDEX: {
+            INDEXED_size_t_snd_seq_t___GENPT__ *unpacked = (INDEXED_size_t_snd_seq_t___GENPT__ *)packed;
+            ARGS_size_t_snd_seq_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_get_input_buffer_size(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_output_buffer_size
+        case snd_seq_get_output_buffer_size_INDEX: {
+            INDEXED_size_t_snd_seq_t___GENPT__ *unpacked = (INDEXED_size_t_snd_seq_t___GENPT__ *)packed;
+            ARGS_size_t_snd_seq_t___GENPT__ args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_get_output_buffer_size(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_port_info
+        case snd_seq_get_port_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_port_info(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_port_subscription
+        case snd_seq_get_port_subscription_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_port_subscription(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_queue_info
+        case snd_seq_get_queue_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_queue_info(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_queue_status
+        case snd_seq_get_queue_status_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_queue_status(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_queue_tempo
+        case snd_seq_get_queue_tempo_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_queue_tempo(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_queue_timer
+        case snd_seq_get_queue_timer_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_queue_timer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_get_queue_usage
+        case snd_seq_get_queue_usage_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_get_queue_usage(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_name
+        case snd_seq_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_seq_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_seq_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_seq_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_seq_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_nonblock
+        case snd_seq_nonblock_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_nonblock(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_open
+        case snd_seq_open_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_open(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_open_lconf
+        case snd_seq_open_lconf_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_open_lconf(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_poll_descriptors
+        case snd_seq_poll_descriptors_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short *unpacked = (INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short *)packed;
+            ARGS_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_poll_descriptors(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_poll_descriptors_count
+        case snd_seq_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___short *unpacked = (INDEXED_int_snd_seq_t___GENPT___short *)packed;
+            ARGS_int_snd_seq_t___GENPT___short args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_poll_descriptors_count(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_poll_descriptors_revents
+        case snd_seq_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_copy
+        case snd_seq_port_info_copy_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            snd_seq_port_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_free
+        case snd_seq_port_info_free_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            snd_seq_port_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_addr
+        case snd_seq_port_info_get_addr_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_port_info_get_addr(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_capability
+        case snd_seq_port_info_get_capability_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_capability(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_client
+        case snd_seq_port_info_get_client_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_client(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_midi_channels
+        case snd_seq_port_info_get_midi_channels_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_midi_channels(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_midi_voices
+        case snd_seq_port_info_get_midi_voices_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_midi_voices(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_name
+        case snd_seq_port_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_seq_port_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_port
+        case snd_seq_port_info_get_port_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_port(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_port_specified
+        case snd_seq_port_info_get_port_specified_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_port_specified(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_read_use
+        case snd_seq_port_info_get_read_use_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_read_use(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_synth_voices
+        case snd_seq_port_info_get_synth_voices_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_synth_voices(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_timestamp_queue
+        case snd_seq_port_info_get_timestamp_queue_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_timestamp_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_timestamp_real
+        case snd_seq_port_info_get_timestamp_real_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_timestamp_real(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_timestamping
+        case snd_seq_port_info_get_timestamping_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_timestamping(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_type
+        case snd_seq_port_info_get_type_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_get_write_use
+        case snd_seq_port_info_get_write_use_INDEX: {
+            INDEXED_int_const_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_get_write_use(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_malloc
+        case snd_seq_port_info_malloc_INDEX: {
+            INDEXED_int_snd_seq_port_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_port_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_port_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_addr
+        case snd_seq_port_info_set_addr_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__ args = unpacked->args;
+            snd_seq_port_info_set_addr(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_capability
+        case snd_seq_port_info_set_capability_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_port_info_set_capability(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_client
+        case snd_seq_port_info_set_client_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_client(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_midi_channels
+        case snd_seq_port_info_set_midi_channels_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_midi_channels(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_midi_voices
+        case snd_seq_port_info_set_midi_voices_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_midi_voices(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_name
+        case snd_seq_port_info_set_name_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_seq_port_info_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_port
+        case snd_seq_port_info_set_port_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_port_specified
+        case snd_seq_port_info_set_port_specified_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_port_specified(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_synth_voices
+        case snd_seq_port_info_set_synth_voices_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_synth_voices(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_timestamp_queue
+        case snd_seq_port_info_set_timestamp_queue_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_timestamp_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_timestamp_real
+        case snd_seq_port_info_set_timestamp_real_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_timestamp_real(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_timestamping
+        case snd_seq_port_info_set_timestamping_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___int args = unpacked->args;
+            snd_seq_port_info_set_timestamping(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_set_type
+        case snd_seq_port_info_set_type_INDEX: {
+            INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_port_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_port_info_set_type(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_info_sizeof
+        case snd_seq_port_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_port_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_copy
+        case snd_seq_port_subscribe_copy_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            snd_seq_port_subscribe_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_free
+        case snd_seq_port_subscribe_free_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            snd_seq_port_subscribe_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_dest
+        case snd_seq_port_subscribe_get_dest_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_dest(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_exclusive
+        case snd_seq_port_subscribe_get_exclusive_INDEX: {
+            INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_exclusive(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_queue
+        case snd_seq_port_subscribe_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_sender
+        case snd_seq_port_subscribe_get_sender_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_sender(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_time_real
+        case snd_seq_port_subscribe_get_time_real_INDEX: {
+            INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_time_real(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_get_time_update
+        case snd_seq_port_subscribe_get_time_update_INDEX: {
+            INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_get_time_update(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_malloc
+        case snd_seq_port_subscribe_malloc_INDEX: {
+            INDEXED_int_snd_seq_port_subscribe_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_port_subscribe_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_port_subscribe_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_dest
+        case snd_seq_port_subscribe_set_dest_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ args = unpacked->args;
+            snd_seq_port_subscribe_set_dest(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_exclusive
+        case snd_seq_port_subscribe_set_exclusive_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_port_subscribe_set_exclusive(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_queue
+        case snd_seq_port_subscribe_set_queue_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_port_subscribe_set_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_sender
+        case snd_seq_port_subscribe_set_sender_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ args = unpacked->args;
+            snd_seq_port_subscribe_set_sender(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_time_real
+        case snd_seq_port_subscribe_set_time_real_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_port_subscribe_set_time_real(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_set_time_update
+        case snd_seq_port_subscribe_set_time_update_INDEX: {
+            INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_port_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_port_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_port_subscribe_set_time_update(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_port_subscribe_sizeof
+        case snd_seq_port_subscribe_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_port_subscribe_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_named_queue
+        case snd_seq_query_named_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_named_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_next_client
+        case snd_seq_query_next_client_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_next_client(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_next_port
+        case snd_seq_query_next_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_next_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_port_subscribers
+        case snd_seq_query_port_subscribers_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_port_subscribers(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_copy
+        case snd_seq_query_subscribe_copy_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            snd_seq_query_subscribe_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_free
+        case snd_seq_query_subscribe_free_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            snd_seq_query_subscribe_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_addr
+        case snd_seq_query_subscribe_get_addr_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_addr(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_client
+        case snd_seq_query_subscribe_get_client_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_client(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_exclusive
+        case snd_seq_query_subscribe_get_exclusive_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_exclusive(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_index
+        case snd_seq_query_subscribe_get_index_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_index(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_num_subs
+        case snd_seq_query_subscribe_get_num_subs_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_num_subs(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_port
+        case snd_seq_query_subscribe_get_port_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_port(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_queue
+        case snd_seq_query_subscribe_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_root
+        case snd_seq_query_subscribe_get_root_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_root(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_time_real
+        case snd_seq_query_subscribe_get_time_real_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_time_real(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_time_update
+        case snd_seq_query_subscribe_get_time_update_INDEX: {
+            INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_time_update(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_get_type
+        case snd_seq_query_subscribe_get_type_INDEX: {
+            INDEXED_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__ *unpacked = (INDEXED_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__ *)packed;
+            ARGS_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__ args = unpacked->args;
+            snd_seq_query_subs_type_t *ret = (snd_seq_query_subs_type_t *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_malloc
+        case snd_seq_query_subscribe_malloc_INDEX: {
+            INDEXED_int_snd_seq_query_subscribe_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_query_subscribe_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_query_subscribe_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_set_client
+        case snd_seq_query_subscribe_set_client_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_query_subscribe_set_client(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_set_index
+        case snd_seq_query_subscribe_set_index_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_query_subscribe_set_index(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_set_port
+        case snd_seq_query_subscribe_set_port_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___int args = unpacked->args;
+            snd_seq_query_subscribe_set_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_set_root
+        case snd_seq_query_subscribe_set_root_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__ args = unpacked->args;
+            snd_seq_query_subscribe_set_root(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_set_type
+        case snd_seq_query_subscribe_set_type_INDEX: {
+            INDEXED_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t *unpacked = (INDEXED_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t *)packed;
+            ARGS_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t args = unpacked->args;
+            snd_seq_query_subscribe_set_type(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_query_subscribe_sizeof
+        case snd_seq_query_subscribe_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_query_subscribe_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_copy
+        case snd_seq_queue_info_copy_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_free
+        case snd_seq_queue_info_free_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_get_flags
+        case snd_seq_queue_info_get_flags_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_info_get_flags(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_get_locked
+        case snd_seq_queue_info_get_locked_INDEX: {
+            INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_info_get_locked(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_get_name
+        case snd_seq_queue_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_seq_queue_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_get_owner
+        case snd_seq_queue_info_get_owner_INDEX: {
+            INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_info_get_owner(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_get_queue
+        case snd_seq_queue_info_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_info_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_malloc
+        case snd_seq_queue_info_malloc_INDEX: {
+            INDEXED_int_snd_seq_queue_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_queue_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_queue_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_set_flags
+        case snd_seq_queue_info_set_flags_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_queue_info_set_flags(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_set_locked
+        case snd_seq_queue_info_set_locked_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT___int args = unpacked->args;
+            snd_seq_queue_info_set_locked(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_set_name
+        case snd_seq_queue_info_set_name_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            snd_seq_queue_info_set_name(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_set_owner
+        case snd_seq_queue_info_set_owner_INDEX: {
+            INDEXED_void_snd_seq_queue_info_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_queue_info_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_queue_info_t___GENPT___int args = unpacked->args;
+            snd_seq_queue_info_set_owner(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_info_sizeof
+        case snd_seq_queue_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_queue_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_copy
+        case snd_seq_queue_status_copy_INDEX: {
+            INDEXED_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_status_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_free
+        case snd_seq_queue_status_free_INDEX: {
+            INDEXED_void_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_status_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_get_events
+        case snd_seq_queue_status_get_events_INDEX: {
+            INDEXED_int_const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_status_get_events(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_get_queue
+        case snd_seq_queue_status_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_status_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_get_real_time
+        case snd_seq_queue_status_get_real_time_INDEX: {
+            INDEXED_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            const snd_seq_real_time_t * *ret = (const snd_seq_real_time_t * *)ret_v;
+            *ret =
+            snd_seq_queue_status_get_real_time(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_get_status
+        case snd_seq_queue_status_get_status_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_status_get_status(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_get_tick_time
+        case snd_seq_queue_status_get_tick_time_INDEX: {
+            INDEXED_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__ *unpacked = (INDEXED_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__ *)packed;
+            ARGS_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__ args = unpacked->args;
+            snd_seq_tick_time_t *ret = (snd_seq_tick_time_t *)ret_v;
+            *ret =
+            snd_seq_queue_status_get_tick_time(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_malloc
+        case snd_seq_queue_status_malloc_INDEX: {
+            INDEXED_int_snd_seq_queue_status_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_queue_status_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_queue_status_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_status_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_status_sizeof
+        case snd_seq_queue_status_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_queue_status_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_copy
+        case snd_seq_queue_tempo_copy_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_tempo_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_free
+        case snd_seq_queue_tempo_free_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_tempo_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_get_ppq
+        case snd_seq_queue_tempo_get_ppq_INDEX: {
+            INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_get_ppq(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_get_queue
+        case snd_seq_queue_tempo_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_get_skew
+        case snd_seq_queue_tempo_get_skew_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_get_skew(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_get_skew_base
+        case snd_seq_queue_tempo_get_skew_base_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_get_skew_base(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_get_tempo
+        case snd_seq_queue_tempo_get_tempo_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_get_tempo(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_malloc
+        case snd_seq_queue_tempo_malloc_INDEX: {
+            INDEXED_int_snd_seq_queue_tempo_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_queue_tempo_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_queue_tempo_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_set_ppq
+        case snd_seq_queue_tempo_set_ppq_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT___int args = unpacked->args;
+            snd_seq_queue_tempo_set_ppq(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_set_skew
+        case snd_seq_queue_tempo_set_skew_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_queue_tempo_set_skew(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_set_skew_base
+        case snd_seq_queue_tempo_set_skew_base_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_queue_tempo_set_skew_base(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_set_tempo
+        case snd_seq_queue_tempo_set_tempo_INDEX: {
+            INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_queue_tempo_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_queue_tempo_set_tempo(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_tempo_sizeof
+        case snd_seq_queue_tempo_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_queue_tempo_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_copy
+        case snd_seq_queue_timer_copy_INDEX: {
+            INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_timer_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_free
+        case snd_seq_queue_timer_free_INDEX: {
+            INDEXED_void_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_timer_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_get_id
+        case snd_seq_queue_timer_get_id_INDEX: {
+            INDEXED_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            const snd_timer_id_t * *ret = (const snd_timer_id_t * *)ret_v;
+            *ret =
+            snd_seq_queue_timer_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_get_queue
+        case snd_seq_queue_timer_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_timer_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_get_resolution
+        case snd_seq_queue_timer_get_resolution_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_queue_timer_get_resolution(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_get_type
+        case snd_seq_queue_timer_get_type_INDEX: {
+            INDEXED_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_timer_type_t *ret = (snd_seq_queue_timer_type_t *)ret_v;
+            *ret =
+            snd_seq_queue_timer_get_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_malloc
+        case snd_seq_queue_timer_malloc_INDEX: {
+            INDEXED_int_snd_seq_queue_timer_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_queue_timer_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_queue_timer_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_queue_timer_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_set_id
+        case snd_seq_queue_timer_set_id_INDEX: {
+            INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__ args = unpacked->args;
+            snd_seq_queue_timer_set_id(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_set_resolution
+        case snd_seq_queue_timer_set_resolution_INDEX: {
+            INDEXED_void_snd_seq_queue_timer_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_queue_timer_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_queue_timer_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_queue_timer_set_resolution(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_set_type
+        case snd_seq_queue_timer_set_type_INDEX: {
+            INDEXED_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t *unpacked = (INDEXED_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t *)packed;
+            ARGS_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t args = unpacked->args;
+            snd_seq_queue_timer_set_type(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_queue_timer_sizeof
+        case snd_seq_queue_timer_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_queue_timer_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events
+        case snd_seq_remove_events_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_copy
+        case snd_seq_remove_events_copy_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            snd_seq_remove_events_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_free
+        case snd_seq_remove_events_free_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            snd_seq_remove_events_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_channel
+        case snd_seq_remove_events_get_channel_INDEX: {
+            INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_channel(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_condition
+        case snd_seq_remove_events_get_condition_INDEX: {
+            INDEXED_unsigned_int_const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_unsigned_int_const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_unsigned_int_const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_condition(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_dest
+        case snd_seq_remove_events_get_dest_INDEX: {
+            INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            const snd_seq_addr_t * *ret = (const snd_seq_addr_t * *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_dest(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_event_type
+        case snd_seq_remove_events_get_event_type_INDEX: {
+            INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_event_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_queue
+        case snd_seq_remove_events_get_queue_INDEX: {
+            INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_tag
+        case snd_seq_remove_events_get_tag_INDEX: {
+            INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_tag(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_get_time
+        case snd_seq_remove_events_get_time_INDEX: {
+            INDEXED_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *unpacked = (INDEXED_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__ *)packed;
+            ARGS_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__ args = unpacked->args;
+            const snd_seq_timestamp_t * *ret = (const snd_seq_timestamp_t * *)ret_v;
+            *ret =
+            snd_seq_remove_events_get_time(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_malloc
+        case snd_seq_remove_events_malloc_INDEX: {
+            INDEXED_int_snd_seq_remove_events_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_remove_events_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_remove_events_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_remove_events_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_channel
+        case snd_seq_remove_events_set_channel_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___int args = unpacked->args;
+            snd_seq_remove_events_set_channel(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_condition
+        case snd_seq_remove_events_set_condition_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___unsigned_int args = unpacked->args;
+            snd_seq_remove_events_set_condition(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_dest
+        case snd_seq_remove_events_set_dest_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__ args = unpacked->args;
+            snd_seq_remove_events_set_dest(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_event_type
+        case snd_seq_remove_events_set_event_type_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___int args = unpacked->args;
+            snd_seq_remove_events_set_event_type(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_queue
+        case snd_seq_remove_events_set_queue_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___int args = unpacked->args;
+            snd_seq_remove_events_set_queue(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_tag
+        case snd_seq_remove_events_set_tag_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___int *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___int *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___int args = unpacked->args;
+            snd_seq_remove_events_set_tag(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_set_time
+        case snd_seq_remove_events_set_time_INDEX: {
+            INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__ args = unpacked->args;
+            snd_seq_remove_events_set_time(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_remove_events_sizeof
+        case snd_seq_remove_events_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_remove_events_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_bit
+        case snd_seq_set_bit_INDEX: {
+            INDEXED_void_int_void___GENPT__ *unpacked = (INDEXED_void_int_void___GENPT__ *)packed;
+            ARGS_void_int_void___GENPT__ args = unpacked->args;
+            snd_seq_set_bit(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_client_info
+        case snd_seq_set_client_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_client_pool
+        case snd_seq_set_client_pool_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_pool(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_input_buffer_size
+        case snd_seq_set_input_buffer_size_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___size_t *unpacked = (INDEXED_int_snd_seq_t___GENPT___size_t *)packed;
+            ARGS_int_snd_seq_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_input_buffer_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_output_buffer_size
+        case snd_seq_set_output_buffer_size_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___size_t *unpacked = (INDEXED_int_snd_seq_t___GENPT___size_t *)packed;
+            ARGS_int_snd_seq_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_output_buffer_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_port_info
+        case snd_seq_set_port_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_port_info(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_queue_info
+        case snd_seq_set_queue_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_queue_info(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_queue_tempo
+        case snd_seq_set_queue_tempo_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_queue_tempo(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_queue_timer
+        case snd_seq_set_queue_timer_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_queue_timer(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_queue_usage
+        case snd_seq_set_queue_usage_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_queue_usage(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_subscribe_port
+        case snd_seq_subscribe_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_subscribe_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info
+        case snd_seq_system_info_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_copy
+        case snd_seq_system_info_copy_INDEX: {
+            INDEXED_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            snd_seq_system_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_free
+        case snd_seq_system_info_free_INDEX: {
+            INDEXED_void_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_void_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_void_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            snd_seq_system_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_channels
+        case snd_seq_system_info_get_channels_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_channels(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_clients
+        case snd_seq_system_info_get_clients_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_clients(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_cur_clients
+        case snd_seq_system_info_get_cur_clients_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_cur_clients(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_cur_queues
+        case snd_seq_system_info_get_cur_queues_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_cur_queues(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_ports
+        case snd_seq_system_info_get_ports_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_ports(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_get_queues
+        case snd_seq_system_info_get_queues_INDEX: {
+            INDEXED_int_const_snd_seq_system_info_t___GENPT__ *unpacked = (INDEXED_int_const_snd_seq_system_info_t___GENPT__ *)packed;
+            ARGS_int_const_snd_seq_system_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_get_queues(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_malloc
+        case snd_seq_system_info_malloc_INDEX: {
+            INDEXED_int_snd_seq_system_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_seq_system_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_seq_system_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_system_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_system_info_sizeof
+        case snd_seq_system_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_seq_system_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_type
+        case snd_seq_type_INDEX: {
+            INDEXED_snd_seq_type_t_snd_seq_t___GENPT__ *unpacked = (INDEXED_snd_seq_type_t_snd_seq_t___GENPT__ *)packed;
+            ARGS_snd_seq_type_t_snd_seq_t___GENPT__ args = unpacked->args;
+            snd_seq_type_t *ret = (snd_seq_type_t *)ret_v;
+            *ret =
+            snd_seq_type(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_unsubscribe_port
+        case snd_seq_unsubscribe_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_unsubscribe_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_shm_area_create
+        case snd_shm_area_create_INDEX: {
+            INDEXED_struct_snd_shm_area___GENPT___int_void___GENPT__ *unpacked = (INDEXED_struct_snd_shm_area___GENPT___int_void___GENPT__ *)packed;
+            ARGS_struct_snd_shm_area___GENPT___int_void___GENPT__ args = unpacked->args;
+            struct snd_shm_area * *ret = (struct snd_shm_area * *)ret_v;
+            *ret =
+            snd_shm_area_create(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_shm_area_destroy
+        case snd_shm_area_destroy_INDEX: {
+            INDEXED_int_struct_snd_shm_area___GENPT__ *unpacked = (INDEXED_int_struct_snd_shm_area___GENPT__ *)packed;
+            ARGS_int_struct_snd_shm_area___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_shm_area_destroy(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_shm_area_share
+        case snd_shm_area_share_INDEX: {
+            INDEXED_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__ *unpacked = (INDEXED_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__ *)packed;
+            ARGS_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__ args = unpacked->args;
+            struct snd_shm_area * *ret = (struct snd_shm_area * *)ret_v;
+            *ret =
+            snd_shm_area_share(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_spcm_init
+        case snd_spcm_init_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_spcm_init(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_spcm_init_duplex
+        case snd_spcm_init_duplex_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t *)packed;
+            ARGS_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_spcm_init_duplex(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8, args.a9, args.a10);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_spcm_init_get_params
+        case snd_spcm_init_get_params_INDEX: {
+            INDEXED_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ *)packed;
+            ARGS_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_spcm_init_get_params(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_close
+        case snd_timer_close_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_continue
+        case snd_timer_continue_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_continue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_copy
+        case snd_timer_ginfo_copy_INDEX: {
+            INDEXED_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            snd_timer_ginfo_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_free
+        case snd_timer_ginfo_free_INDEX: {
+            INDEXED_void_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            snd_timer_ginfo_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_card
+        case snd_timer_ginfo_get_card_INDEX: {
+            INDEXED_int_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_clients
+        case snd_timer_ginfo_get_clients_INDEX: {
+            INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_clients(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_flags
+        case snd_timer_ginfo_get_flags_INDEX: {
+            INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_flags(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_id
+        case snd_timer_ginfo_get_id_INDEX: {
+            INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_char___GENPT___snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            char * *ret = (char * *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_name
+        case snd_timer_ginfo_get_name_INDEX: {
+            INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_char___GENPT___snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            char * *ret = (char * *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_resolution
+        case snd_timer_ginfo_get_resolution_INDEX: {
+            INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_unsigned_long_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            unsigned long *ret = (unsigned long *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_resolution(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_resolution_max
+        case snd_timer_ginfo_get_resolution_max_INDEX: {
+            INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_unsigned_long_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            unsigned long *ret = (unsigned long *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_resolution_max(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_resolution_min
+        case snd_timer_ginfo_get_resolution_min_INDEX: {
+            INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_unsigned_long_snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            unsigned long *ret = (unsigned long *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_resolution_min(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_get_tid
+        case snd_timer_ginfo_get_tid_INDEX: {
+            INDEXED_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            snd_timer_id_t * *ret = (snd_timer_id_t * *)ret_v;
+            *ret =
+            snd_timer_ginfo_get_tid(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_malloc
+        case snd_timer_ginfo_malloc_INDEX: {
+            INDEXED_int_snd_timer_ginfo_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_timer_ginfo_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_timer_ginfo_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_ginfo_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_set_tid
+        case snd_timer_ginfo_set_tid_INDEX: {
+            INDEXED_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_ginfo_set_tid(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_ginfo_sizeof
+        case snd_timer_ginfo_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_timer_ginfo_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_copy
+        case snd_timer_id_copy_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__ args = unpacked->args;
+            snd_timer_id_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_free
+        case snd_timer_id_free_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_id_t___GENPT__ args = unpacked->args;
+            snd_timer_id_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_get_card
+        case snd_timer_id_get_card_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_get_class
+        case snd_timer_id_get_class_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_get_class(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_get_device
+        case snd_timer_id_get_device_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_get_device(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_get_sclass
+        case snd_timer_id_get_sclass_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_get_sclass(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_get_subdevice
+        case snd_timer_id_get_subdevice_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_get_subdevice(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_malloc
+        case snd_timer_id_malloc_INDEX: {
+            INDEXED_int_snd_timer_id_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_timer_id_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_timer_id_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_id_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_set_card
+        case snd_timer_id_set_card_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___int *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___int *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___int args = unpacked->args;
+            snd_timer_id_set_card(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_set_class
+        case snd_timer_id_set_class_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___int *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___int *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___int args = unpacked->args;
+            snd_timer_id_set_class(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_set_device
+        case snd_timer_id_set_device_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___int *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___int *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___int args = unpacked->args;
+            snd_timer_id_set_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_set_sclass
+        case snd_timer_id_set_sclass_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___int *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___int *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___int args = unpacked->args;
+            snd_timer_id_set_sclass(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_set_subdevice
+        case snd_timer_id_set_subdevice_INDEX: {
+            INDEXED_void_snd_timer_id_t___GENPT___int *unpacked = (INDEXED_void_snd_timer_id_t___GENPT___int *)packed;
+            ARGS_void_snd_timer_id_t___GENPT___int args = unpacked->args;
+            snd_timer_id_set_subdevice(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_id_sizeof
+        case snd_timer_id_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_timer_id_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info
+        case snd_timer_info_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_copy
+        case snd_timer_info_copy_INDEX: {
+            INDEXED_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__ args = unpacked->args;
+            snd_timer_info_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_free
+        case snd_timer_info_free_INDEX: {
+            INDEXED_void_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_info_t___GENPT__ args = unpacked->args;
+            snd_timer_info_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_get_card
+        case snd_timer_info_get_card_INDEX: {
+            INDEXED_int_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_info_get_card(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_get_id
+        case snd_timer_info_get_id_INDEX: {
+            INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_timer_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_timer_info_get_id(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_get_name
+        case snd_timer_info_get_name_INDEX: {
+            INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__ *unpacked = (INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__ *)packed;
+            ARGS_const_char___GENPT___snd_timer_info_t___GENPT__ args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_timer_info_get_name(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_get_resolution
+        case snd_timer_info_get_resolution_INDEX: {
+            INDEXED_long_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_info_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_info_get_resolution(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_get_ticks
+        case snd_timer_info_get_ticks_INDEX: {
+            INDEXED_long_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_info_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_info_get_ticks(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_is_slave
+        case snd_timer_info_is_slave_INDEX: {
+            INDEXED_int_snd_timer_info_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_info_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_info_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_info_is_slave(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_malloc
+        case snd_timer_info_malloc_INDEX: {
+            INDEXED_int_snd_timer_info_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_timer_info_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_timer_info_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_info_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_info_sizeof
+        case snd_timer_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_timer_info_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_open
+        case snd_timer_open_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_open_lconf
+        case snd_timer_open_lconf_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_open_lconf(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params
+        case snd_timer_params_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_copy
+        case snd_timer_params_copy_INDEX: {
+            INDEXED_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__ args = unpacked->args;
+            snd_timer_params_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_free
+        case snd_timer_params_free_INDEX: {
+            INDEXED_void_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_params_t___GENPT__ args = unpacked->args;
+            snd_timer_params_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_auto_start
+        case snd_timer_params_get_auto_start_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_get_auto_start(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_early_event
+        case snd_timer_params_get_early_event_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_get_early_event(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_exclusive
+        case snd_timer_params_get_exclusive_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_get_exclusive(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_filter
+        case snd_timer_params_get_filter_INDEX: {
+            INDEXED_unsigned_int_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_unsigned_int_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_unsigned_int_snd_timer_params_t___GENPT__ args = unpacked->args;
+            unsigned int *ret = (unsigned int *)ret_v;
+            *ret =
+            snd_timer_params_get_filter(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_queue_size
+        case snd_timer_params_get_queue_size_INDEX: {
+            INDEXED_long_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_params_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_params_get_queue_size(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_get_ticks
+        case snd_timer_params_get_ticks_INDEX: {
+            INDEXED_long_snd_timer_params_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_params_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_params_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_params_get_ticks(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_malloc
+        case snd_timer_params_malloc_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_timer_params_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_timer_params_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_auto_start
+        case snd_timer_params_set_auto_start_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT___int *unpacked = (INDEXED_int_snd_timer_params_t___GENPT___int *)packed;
+            ARGS_int_snd_timer_params_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_set_auto_start(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_early_event
+        case snd_timer_params_set_early_event_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT___int *unpacked = (INDEXED_int_snd_timer_params_t___GENPT___int *)packed;
+            ARGS_int_snd_timer_params_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_set_early_event(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_exclusive
+        case snd_timer_params_set_exclusive_INDEX: {
+            INDEXED_int_snd_timer_params_t___GENPT___int *unpacked = (INDEXED_int_snd_timer_params_t___GENPT___int *)packed;
+            ARGS_int_snd_timer_params_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_params_set_exclusive(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_filter
+        case snd_timer_params_set_filter_INDEX: {
+            INDEXED_void_snd_timer_params_t___GENPT___unsigned_int *unpacked = (INDEXED_void_snd_timer_params_t___GENPT___unsigned_int *)packed;
+            ARGS_void_snd_timer_params_t___GENPT___unsigned_int args = unpacked->args;
+            snd_timer_params_set_filter(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_queue_size
+        case snd_timer_params_set_queue_size_INDEX: {
+            INDEXED_void_snd_timer_params_t___GENPT___long *unpacked = (INDEXED_void_snd_timer_params_t___GENPT___long *)packed;
+            ARGS_void_snd_timer_params_t___GENPT___long args = unpacked->args;
+            snd_timer_params_set_queue_size(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_set_ticks
+        case snd_timer_params_set_ticks_INDEX: {
+            INDEXED_void_snd_timer_params_t___GENPT___long *unpacked = (INDEXED_void_snd_timer_params_t___GENPT___long *)packed;
+            ARGS_void_snd_timer_params_t___GENPT___long args = unpacked->args;
+            snd_timer_params_set_ticks(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_params_sizeof
+        case snd_timer_params_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_timer_params_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_poll_descriptors
+        case snd_timer_poll_descriptors_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int *unpacked = (INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int *)packed;
+            ARGS_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_poll_descriptors(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_poll_descriptors_count
+        case snd_timer_poll_descriptors_count_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_poll_descriptors_count(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_poll_descriptors_revents
+        case snd_timer_poll_descriptors_revents_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_close
+        case snd_timer_query_close_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_close(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_info
+        case snd_timer_query_info_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_info(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_next_device
+        case snd_timer_query_next_device_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_next_device(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_open
+        case snd_timer_query_open_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int *unpacked = (INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int *)packed;
+            ARGS_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_open(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_open_lconf
+        case snd_timer_query_open_lconf_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_open_lconf(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_params
+        case snd_timer_query_params_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_params(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_query_status
+        case snd_timer_query_status_INDEX: {
+            INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_query_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_read
+        case snd_timer_read_INDEX: {
+            INDEXED_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t *unpacked = (INDEXED_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t *)packed;
+            ARGS_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t args = unpacked->args;
+            ssize_t *ret = (ssize_t *)ret_v;
+            *ret =
+            snd_timer_read(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_start
+        case snd_timer_start_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_start(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status
+        case snd_timer_status_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_status(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_copy
+        case snd_timer_status_copy_INDEX: {
+            INDEXED_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__ args = unpacked->args;
+            snd_timer_status_copy(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_free
+        case snd_timer_status_free_INDEX: {
+            INDEXED_void_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_void_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_void_snd_timer_status_t___GENPT__ args = unpacked->args;
+            snd_timer_status_free(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_get_lost
+        case snd_timer_status_get_lost_INDEX: {
+            INDEXED_long_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_status_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_status_get_lost(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_get_overrun
+        case snd_timer_status_get_overrun_INDEX: {
+            INDEXED_long_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_status_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_status_get_overrun(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_get_queue
+        case snd_timer_status_get_queue_INDEX: {
+            INDEXED_long_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_status_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_status_get_queue(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_get_resolution
+        case snd_timer_status_get_resolution_INDEX: {
+            INDEXED_long_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_long_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_long_snd_timer_status_t___GENPT__ args = unpacked->args;
+            long *ret = (long *)ret_v;
+            *ret =
+            snd_timer_status_get_resolution(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_get_timestamp
+        case snd_timer_status_get_timestamp_INDEX: {
+            INDEXED_snd_htimestamp_t_snd_timer_status_t___GENPT__ *unpacked = (INDEXED_snd_htimestamp_t_snd_timer_status_t___GENPT__ *)packed;
+            ARGS_snd_htimestamp_t_snd_timer_status_t___GENPT__ args = unpacked->args;
+            snd_htimestamp_t *ret = (snd_htimestamp_t *)ret_v;
+            *ret =
+            snd_timer_status_get_timestamp(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_malloc
+        case snd_timer_status_malloc_INDEX: {
+            INDEXED_int_snd_timer_status_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_timer_status_t___GENPT____GENPT__ *)packed;
+            ARGS_int_snd_timer_status_t___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_status_malloc(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_status_sizeof
+        case snd_timer_status_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_timer_status_sizeof();
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_timer_stop
+        case snd_timer_stop_INDEX: {
+            INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;
+            ARGS_int_snd_timer_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_timer_stop(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_user_file
+        case snd_user_file_INDEX: {
+            INDEXED_int_const_char___GENPT___char___GENPT____GENPT__ *unpacked = (INDEXED_int_const_char___GENPT___char___GENPT____GENPT__ *)packed;
+            ARGS_int_const_char___GENPT___char___GENPT____GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_user_file(args.a1, args.a2);
+            break;
+        }
+        #endif
     }
 }
 #endif

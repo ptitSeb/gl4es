@@ -6453,6 +6453,14046 @@ void glXWaitX() {
     free(packed_data);
 }
 #endif
+#ifndef skip_client_snd_asoundlib_version
+const char * snd_asoundlib_version() {
+    snd_asoundlib_version_INDEXED *packed_data = malloc(sizeof(snd_asoundlib_version_INDEXED));
+    packed_data->func = snd_asoundlib_version_INDEX;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_add_ctl_handler
+int snd_async_add_ctl_handler(snd_async_handler_t ** handler, snd_ctl_t * ctl, snd_async_callback_t callback, void * private_data) {
+    snd_async_add_ctl_handler_INDEXED *packed_data = malloc(sizeof(snd_async_add_ctl_handler_INDEXED));
+    packed_data->func = snd_async_add_ctl_handler_INDEX;
+    packed_data->args.a1 = handler;
+    packed_data->args.a2 = ctl;
+    packed_data->args.a3 = callback;
+    packed_data->args.a4 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_add_handler
+int snd_async_add_handler(snd_async_handler_t ** handler, int fd, snd_async_callback_t callback, void * private_data) {
+    snd_async_add_handler_INDEXED *packed_data = malloc(sizeof(snd_async_add_handler_INDEXED));
+    packed_data->func = snd_async_add_handler_INDEX;
+    packed_data->args.a1 = handler;
+    packed_data->args.a2 = fd;
+    packed_data->args.a3 = callback;
+    packed_data->args.a4 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_add_pcm_handler
+int snd_async_add_pcm_handler(snd_async_handler_t ** handler, snd_pcm_t * pcm, snd_async_callback_t callback, void * private_data) {
+    snd_async_add_pcm_handler_INDEXED *packed_data = malloc(sizeof(snd_async_add_pcm_handler_INDEXED));
+    packed_data->func = snd_async_add_pcm_handler_INDEX;
+    packed_data->args.a1 = handler;
+    packed_data->args.a2 = pcm;
+    packed_data->args.a3 = callback;
+    packed_data->args.a4 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_add_timer_handler
+int snd_async_add_timer_handler(snd_async_handler_t ** handler, snd_timer_t * timer, snd_async_callback_t callback, void * private_data) {
+    snd_async_add_timer_handler_INDEXED *packed_data = malloc(sizeof(snd_async_add_timer_handler_INDEXED));
+    packed_data->func = snd_async_add_timer_handler_INDEX;
+    packed_data->args.a1 = handler;
+    packed_data->args.a2 = timer;
+    packed_data->args.a3 = callback;
+    packed_data->args.a4 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_del_handler
+int snd_async_del_handler(snd_async_handler_t * handler) {
+    snd_async_del_handler_INDEXED *packed_data = malloc(sizeof(snd_async_del_handler_INDEXED));
+    packed_data->func = snd_async_del_handler_INDEX;
+    packed_data->args.a1 = handler;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_callback_private
+void * snd_async_handler_get_callback_private(snd_async_handler_t * handler) {
+    snd_async_handler_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_callback_private_INDEXED));
+    packed_data->func = snd_async_handler_get_callback_private_INDEX;
+    packed_data->args.a1 = handler;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_ctl
+snd_ctl_t * snd_async_handler_get_ctl(snd_async_handler_t * handler) {
+    snd_async_handler_get_ctl_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_ctl_INDEXED));
+    packed_data->func = snd_async_handler_get_ctl_INDEX;
+    packed_data->args.a1 = handler;
+    snd_ctl_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_fd
+int snd_async_handler_get_fd(snd_async_handler_t * handler) {
+    snd_async_handler_get_fd_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_fd_INDEXED));
+    packed_data->func = snd_async_handler_get_fd_INDEX;
+    packed_data->args.a1 = handler;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_pcm
+snd_pcm_t * snd_async_handler_get_pcm(snd_async_handler_t * handler) {
+    snd_async_handler_get_pcm_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_pcm_INDEXED));
+    packed_data->func = snd_async_handler_get_pcm_INDEX;
+    packed_data->args.a1 = handler;
+    snd_pcm_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_signo
+int snd_async_handler_get_signo(snd_async_handler_t * handler) {
+    snd_async_handler_get_signo_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_signo_INDEXED));
+    packed_data->func = snd_async_handler_get_signo_INDEX;
+    packed_data->args.a1 = handler;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_async_handler_get_timer
+snd_timer_t * snd_async_handler_get_timer(snd_async_handler_t * handler) {
+    snd_async_handler_get_timer_INDEXED *packed_data = malloc(sizeof(snd_async_handler_get_timer_INDEXED));
+    packed_data->func = snd_async_handler_get_timer_INDEX;
+    packed_data->args.a1 = handler;
+    snd_timer_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_card_get_index
+int snd_card_get_index(const char * name) {
+    snd_card_get_index_INDEXED *packed_data = malloc(sizeof(snd_card_get_index_INDEXED));
+    packed_data->func = snd_card_get_index_INDEX;
+    packed_data->args.a1 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_card_get_longname
+int snd_card_get_longname(int card, char ** name) {
+    snd_card_get_longname_INDEXED *packed_data = malloc(sizeof(snd_card_get_longname_INDEXED));
+    packed_data->func = snd_card_get_longname_INDEX;
+    packed_data->args.a1 = card;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_card_get_name
+int snd_card_get_name(int card, char ** name) {
+    snd_card_get_name_INDEXED *packed_data = malloc(sizeof(snd_card_get_name_INDEXED));
+    packed_data->func = snd_card_get_name_INDEX;
+    packed_data->args.a1 = card;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_card_load
+int snd_card_load(int card) {
+    snd_card_load_INDEXED *packed_data = malloc(sizeof(snd_card_load_INDEXED));
+    packed_data->func = snd_card_load_INDEX;
+    packed_data->args.a1 = card;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_card_next
+int snd_card_next(int * card) {
+    snd_card_next_INDEXED *packed_data = malloc(sizeof(snd_card_next_INDEXED));
+    packed_data->func = snd_card_next_INDEX;
+    packed_data->args.a1 = card;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_add
+int snd_config_add(snd_config_t * config, snd_config_t * leaf) {
+    snd_config_add_INDEXED *packed_data = malloc(sizeof(snd_config_add_INDEXED));
+    packed_data->func = snd_config_add_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = leaf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_copy
+int snd_config_copy(snd_config_t ** dst, snd_config_t * src) {
+    snd_config_copy_INDEXED *packed_data = malloc(sizeof(snd_config_copy_INDEXED));
+    packed_data->func = snd_config_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_delete
+int snd_config_delete(snd_config_t * config) {
+    snd_config_delete_INDEXED *packed_data = malloc(sizeof(snd_config_delete_INDEXED));
+    packed_data->func = snd_config_delete_INDEX;
+    packed_data->args.a1 = config;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_delete_compound_members
+int snd_config_delete_compound_members(const snd_config_t * config) {
+    snd_config_delete_compound_members_INDEXED *packed_data = malloc(sizeof(snd_config_delete_compound_members_INDEXED));
+    packed_data->func = snd_config_delete_compound_members_INDEX;
+    packed_data->args.a1 = config;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_evaluate
+int snd_config_evaluate(snd_config_t * config, snd_config_t * root, snd_config_t * private_data, snd_config_t ** result) {
+    snd_config_evaluate_INDEXED *packed_data = malloc(sizeof(snd_config_evaluate_INDEXED));
+    packed_data->func = snd_config_evaluate_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = root;
+    packed_data->args.a3 = private_data;
+    packed_data->args.a4 = result;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_expand
+int snd_config_expand(snd_config_t * config, snd_config_t * root, const char * args, snd_config_t * private_data, snd_config_t ** result) {
+    snd_config_expand_INDEXED *packed_data = malloc(sizeof(snd_config_expand_INDEXED));
+    packed_data->func = snd_config_expand_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = root;
+    packed_data->args.a3 = args;
+    packed_data->args.a4 = private_data;
+    packed_data->args.a5 = result;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_ascii
+int snd_config_get_ascii(const snd_config_t * config, char ** value) {
+    snd_config_get_ascii_INDEXED *packed_data = malloc(sizeof(snd_config_get_ascii_INDEXED));
+    packed_data->func = snd_config_get_ascii_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_bool
+int snd_config_get_bool(const snd_config_t * conf) {
+    snd_config_get_bool_INDEXED *packed_data = malloc(sizeof(snd_config_get_bool_INDEXED));
+    packed_data->func = snd_config_get_bool_INDEX;
+    packed_data->args.a1 = conf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_bool_ascii
+int snd_config_get_bool_ascii(const char * ascii) {
+    snd_config_get_bool_ascii_INDEXED *packed_data = malloc(sizeof(snd_config_get_bool_ascii_INDEXED));
+    packed_data->func = snd_config_get_bool_ascii_INDEX;
+    packed_data->args.a1 = ascii;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_ctl_iface
+int snd_config_get_ctl_iface(const snd_config_t * conf) {
+    snd_config_get_ctl_iface_INDEXED *packed_data = malloc(sizeof(snd_config_get_ctl_iface_INDEXED));
+    packed_data->func = snd_config_get_ctl_iface_INDEX;
+    packed_data->args.a1 = conf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_ctl_iface_ascii
+int snd_config_get_ctl_iface_ascii(const char * ascii) {
+    snd_config_get_ctl_iface_ascii_INDEXED *packed_data = malloc(sizeof(snd_config_get_ctl_iface_ascii_INDEXED));
+    packed_data->func = snd_config_get_ctl_iface_ascii_INDEX;
+    packed_data->args.a1 = ascii;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_id
+int snd_config_get_id(const snd_config_t * config, const char ** value) {
+    snd_config_get_id_INDEXED *packed_data = malloc(sizeof(snd_config_get_id_INDEXED));
+    packed_data->func = snd_config_get_id_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_integer
+int snd_config_get_integer(const snd_config_t * config, long * value) {
+    snd_config_get_integer_INDEXED *packed_data = malloc(sizeof(snd_config_get_integer_INDEXED));
+    packed_data->func = snd_config_get_integer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_integer64
+int snd_config_get_integer64(const snd_config_t * config, long long * value) {
+    snd_config_get_integer64_INDEXED *packed_data = malloc(sizeof(snd_config_get_integer64_INDEXED));
+    packed_data->func = snd_config_get_integer64_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_ireal
+int snd_config_get_ireal(const snd_config_t * config, double * value) {
+    snd_config_get_ireal_INDEXED *packed_data = malloc(sizeof(snd_config_get_ireal_INDEXED));
+    packed_data->func = snd_config_get_ireal_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_pointer
+int snd_config_get_pointer(const snd_config_t * config, const void ** value) {
+    snd_config_get_pointer_INDEXED *packed_data = malloc(sizeof(snd_config_get_pointer_INDEXED));
+    packed_data->func = snd_config_get_pointer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_real
+int snd_config_get_real(const snd_config_t * config, double * value) {
+    snd_config_get_real_INDEXED *packed_data = malloc(sizeof(snd_config_get_real_INDEXED));
+    packed_data->func = snd_config_get_real_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_string
+int snd_config_get_string(const snd_config_t * config, const char ** value) {
+    snd_config_get_string_INDEXED *packed_data = malloc(sizeof(snd_config_get_string_INDEXED));
+    packed_data->func = snd_config_get_string_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_get_type
+snd_config_type_t snd_config_get_type(const snd_config_t * config) {
+    snd_config_get_type_INDEXED *packed_data = malloc(sizeof(snd_config_get_type_INDEXED));
+    packed_data->func = snd_config_get_type_INDEX;
+    packed_data->args.a1 = config;
+    snd_config_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_imake_integer
+int snd_config_imake_integer(snd_config_t ** config, const char * key, const long value) {
+    snd_config_imake_integer_INDEXED *packed_data = malloc(sizeof(snd_config_imake_integer_INDEXED));
+    packed_data->func = snd_config_imake_integer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_imake_integer64
+int snd_config_imake_integer64(snd_config_t ** config, const char * key, const long long value) {
+    snd_config_imake_integer64_INDEXED *packed_data = malloc(sizeof(snd_config_imake_integer64_INDEXED));
+    packed_data->func = snd_config_imake_integer64_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_imake_pointer
+int snd_config_imake_pointer(snd_config_t ** config, const char * key, const void * ptr) {
+    snd_config_imake_pointer_INDEXED *packed_data = malloc(sizeof(snd_config_imake_pointer_INDEXED));
+    packed_data->func = snd_config_imake_pointer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_imake_real
+int snd_config_imake_real(snd_config_t ** config, const char * key, const double value) {
+    snd_config_imake_real_INDEXED *packed_data = malloc(sizeof(snd_config_imake_real_INDEXED));
+    packed_data->func = snd_config_imake_real_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_imake_string
+int snd_config_imake_string(snd_config_t ** config, const char * key, const char * ascii) {
+    snd_config_imake_string_INDEXED *packed_data = malloc(sizeof(snd_config_imake_string_INDEXED));
+    packed_data->func = snd_config_imake_string_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = ascii;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_iterator_end
+snd_config_iterator_t snd_config_iterator_end(const snd_config_t * node) {
+    snd_config_iterator_end_INDEXED *packed_data = malloc(sizeof(snd_config_iterator_end_INDEXED));
+    packed_data->func = snd_config_iterator_end_INDEX;
+    packed_data->args.a1 = node;
+    snd_config_iterator_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_iterator_entry
+snd_config_t * snd_config_iterator_entry(const snd_config_iterator_t iterator) {
+    snd_config_iterator_entry_INDEXED *packed_data = malloc(sizeof(snd_config_iterator_entry_INDEXED));
+    packed_data->func = snd_config_iterator_entry_INDEX;
+    packed_data->args.a1 = iterator;
+    snd_config_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_iterator_first
+snd_config_iterator_t snd_config_iterator_first(const snd_config_t * node) {
+    snd_config_iterator_first_INDEXED *packed_data = malloc(sizeof(snd_config_iterator_first_INDEXED));
+    packed_data->func = snd_config_iterator_first_INDEX;
+    packed_data->args.a1 = node;
+    snd_config_iterator_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_iterator_next
+snd_config_iterator_t snd_config_iterator_next(const snd_config_iterator_t iterator) {
+    snd_config_iterator_next_INDEXED *packed_data = malloc(sizeof(snd_config_iterator_next_INDEXED));
+    packed_data->func = snd_config_iterator_next_INDEX;
+    packed_data->args.a1 = iterator;
+    snd_config_iterator_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_load
+int snd_config_load(snd_config_t * config, snd_input_t * in) {
+    snd_config_load_INDEXED *packed_data = malloc(sizeof(snd_config_load_INDEXED));
+    packed_data->func = snd_config_load_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = in;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_load_override
+int snd_config_load_override(snd_config_t * config, snd_input_t * in) {
+    snd_config_load_override_INDEXED *packed_data = malloc(sizeof(snd_config_load_override_INDEXED));
+    packed_data->func = snd_config_load_override_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = in;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make
+int snd_config_make(snd_config_t ** config, const char * key, snd_config_type_t type) {
+    snd_config_make_INDEXED *packed_data = malloc(sizeof(snd_config_make_INDEXED));
+    packed_data->func = snd_config_make_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_compound
+int snd_config_make_compound(snd_config_t ** config, const char * key, int join) {
+    snd_config_make_compound_INDEXED *packed_data = malloc(sizeof(snd_config_make_compound_INDEXED));
+    packed_data->func = snd_config_make_compound_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = join;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_integer
+int snd_config_make_integer(snd_config_t ** config, const char * key) {
+    snd_config_make_integer_INDEXED *packed_data = malloc(sizeof(snd_config_make_integer_INDEXED));
+    packed_data->func = snd_config_make_integer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_integer64
+int snd_config_make_integer64(snd_config_t ** config, const char * key) {
+    snd_config_make_integer64_INDEXED *packed_data = malloc(sizeof(snd_config_make_integer64_INDEXED));
+    packed_data->func = snd_config_make_integer64_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_pointer
+int snd_config_make_pointer(snd_config_t ** config, const char * key) {
+    snd_config_make_pointer_INDEXED *packed_data = malloc(sizeof(snd_config_make_pointer_INDEXED));
+    packed_data->func = snd_config_make_pointer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_real
+int snd_config_make_real(snd_config_t ** config, const char * key) {
+    snd_config_make_real_INDEXED *packed_data = malloc(sizeof(snd_config_make_real_INDEXED));
+    packed_data->func = snd_config_make_real_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_make_string
+int snd_config_make_string(snd_config_t ** config, const char * key) {
+    snd_config_make_string_INDEXED *packed_data = malloc(sizeof(snd_config_make_string_INDEXED));
+    packed_data->func = snd_config_make_string_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_save
+int snd_config_save(snd_config_t * config, snd_output_t * out) {
+    snd_config_save_INDEXED *packed_data = malloc(sizeof(snd_config_save_INDEXED));
+    packed_data->func = snd_config_save_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_search
+int snd_config_search(snd_config_t * config, const char * key, snd_config_t ** result) {
+    snd_config_search_INDEXED *packed_data = malloc(sizeof(snd_config_search_INDEXED));
+    packed_data->func = snd_config_search_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = key;
+    packed_data->args.a3 = result;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_search_definition
+int snd_config_search_definition(snd_config_t * config, const char * base, const char * key, snd_config_t ** result) {
+    snd_config_search_definition_INDEXED *packed_data = malloc(sizeof(snd_config_search_definition_INDEXED));
+    packed_data->func = snd_config_search_definition_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = base;
+    packed_data->args.a3 = key;
+    packed_data->args.a4 = result;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_ascii
+int snd_config_set_ascii(snd_config_t * config, const char * ascii) {
+    snd_config_set_ascii_INDEXED *packed_data = malloc(sizeof(snd_config_set_ascii_INDEXED));
+    packed_data->func = snd_config_set_ascii_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = ascii;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_id
+int snd_config_set_id(snd_config_t * config, const char * id) {
+    snd_config_set_id_INDEXED *packed_data = malloc(sizeof(snd_config_set_id_INDEXED));
+    packed_data->func = snd_config_set_id_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_integer
+int snd_config_set_integer(snd_config_t * config, long value) {
+    snd_config_set_integer_INDEXED *packed_data = malloc(sizeof(snd_config_set_integer_INDEXED));
+    packed_data->func = snd_config_set_integer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_integer64
+int snd_config_set_integer64(snd_config_t * config, long long value) {
+    snd_config_set_integer64_INDEXED *packed_data = malloc(sizeof(snd_config_set_integer64_INDEXED));
+    packed_data->func = snd_config_set_integer64_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_pointer
+int snd_config_set_pointer(snd_config_t * config, const void * ptr) {
+    snd_config_set_pointer_INDEXED *packed_data = malloc(sizeof(snd_config_set_pointer_INDEXED));
+    packed_data->func = snd_config_set_pointer_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_real
+int snd_config_set_real(snd_config_t * config, double value) {
+    snd_config_set_real_INDEXED *packed_data = malloc(sizeof(snd_config_set_real_INDEXED));
+    packed_data->func = snd_config_set_real_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_set_string
+int snd_config_set_string(snd_config_t * config, const char * value) {
+    snd_config_set_string_INDEXED *packed_data = malloc(sizeof(snd_config_set_string_INDEXED));
+    packed_data->func = snd_config_set_string_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_test_id
+int snd_config_test_id(const snd_config_t * config, const char * id) {
+    snd_config_test_id_INDEXED *packed_data = malloc(sizeof(snd_config_test_id_INDEXED));
+    packed_data->func = snd_config_test_id_INDEX;
+    packed_data->args.a1 = config;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_top
+int snd_config_top(snd_config_t ** config) {
+    snd_config_top_INDEXED *packed_data = malloc(sizeof(snd_config_top_INDEXED));
+    packed_data->func = snd_config_top_INDEX;
+    packed_data->args.a1 = config;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_update
+int snd_config_update() {
+    snd_config_update_INDEXED *packed_data = malloc(sizeof(snd_config_update_INDEXED));
+    packed_data->func = snd_config_update_INDEX;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_update_free
+int snd_config_update_free(snd_config_update_t * update) {
+    snd_config_update_free_INDEXED *packed_data = malloc(sizeof(snd_config_update_free_INDEXED));
+    packed_data->func = snd_config_update_free_INDEX;
+    packed_data->args.a1 = update;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_update_free_global
+int snd_config_update_free_global() {
+    snd_config_update_free_global_INDEXED *packed_data = malloc(sizeof(snd_config_update_free_global_INDEXED));
+    packed_data->func = snd_config_update_free_global_INDEX;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_config_update_r
+int snd_config_update_r(snd_config_t ** top, snd_config_update_t ** update, const char * path) {
+    snd_config_update_r_INDEXED *packed_data = malloc(sizeof(snd_config_update_r_INDEXED));
+    packed_data->func = snd_config_update_r_INDEX;
+    packed_data->args.a1 = top;
+    packed_data->args.a2 = update;
+    packed_data->args.a3 = path;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info
+int snd_ctl_card_info(snd_ctl_t * ctl, snd_ctl_card_info_t * info) {
+    snd_ctl_card_info_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_INDEXED));
+    packed_data->func = snd_ctl_card_info_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_clear
+void snd_ctl_card_info_clear(snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_clear_INDEXED));
+    packed_data->func = snd_ctl_card_info_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_copy
+void snd_ctl_card_info_copy(snd_ctl_card_info_t * dst, const snd_ctl_card_info_t * src) {
+    snd_ctl_card_info_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_copy_INDEXED));
+    packed_data->func = snd_ctl_card_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_free
+void snd_ctl_card_info_free(snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_free_INDEXED));
+    packed_data->func = snd_ctl_card_info_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_card
+int snd_ctl_card_info_get_card(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_card_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_card_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_card_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_components
+const char * snd_ctl_card_info_get_components(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_components_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_components_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_components_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_driver
+const char * snd_ctl_card_info_get_driver(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_driver_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_driver_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_driver_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_id
+const char * snd_ctl_card_info_get_id(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_id_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_longname
+const char * snd_ctl_card_info_get_longname(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_longname_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_longname_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_longname_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_mixername
+const char * snd_ctl_card_info_get_mixername(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_mixername_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_mixername_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_mixername_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_get_name
+const char * snd_ctl_card_info_get_name(const snd_ctl_card_info_t * obj) {
+    snd_ctl_card_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_get_name_INDEXED));
+    packed_data->func = snd_ctl_card_info_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_malloc
+int snd_ctl_card_info_malloc(snd_ctl_card_info_t ** ptr) {
+    snd_ctl_card_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_malloc_INDEXED));
+    packed_data->func = snd_ctl_card_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_card_info_sizeof
+size_t snd_ctl_card_info_sizeof() {
+    snd_ctl_card_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_card_info_sizeof_INDEXED));
+    packed_data->func = snd_ctl_card_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_close
+int snd_ctl_close(snd_ctl_t * ctl) {
+    snd_ctl_close_INDEXED *packed_data = malloc(sizeof(snd_ctl_close_INDEXED));
+    packed_data->func = snd_ctl_close_INDEX;
+    packed_data->args.a1 = ctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_add_boolean
+int snd_ctl_elem_add_boolean(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count) {
+    snd_ctl_elem_add_boolean_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_add_boolean_INDEXED));
+    packed_data->func = snd_ctl_elem_add_boolean_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = count;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_add_iec958
+int snd_ctl_elem_add_iec958(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id) {
+    snd_ctl_elem_add_iec958_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_add_iec958_INDEXED));
+    packed_data->func = snd_ctl_elem_add_iec958_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_add_integer
+int snd_ctl_elem_add_integer(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count, long imin, long imax, long istep) {
+    snd_ctl_elem_add_integer_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_add_integer_INDEXED));
+    packed_data->func = snd_ctl_elem_add_integer_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = count;
+    packed_data->args.a4 = imin;
+    packed_data->args.a5 = imax;
+    packed_data->args.a6 = istep;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_add_integer64
+int snd_ctl_elem_add_integer64(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count, long long imin, long long imax, long long istep) {
+    snd_ctl_elem_add_integer64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_add_integer64_INDEXED));
+    packed_data->func = snd_ctl_elem_add_integer64_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = count;
+    packed_data->args.a4 = imin;
+    packed_data->args.a5 = imax;
+    packed_data->args.a6 = istep;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_clear
+void snd_ctl_elem_id_clear(snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_clear_INDEXED));
+    packed_data->func = snd_ctl_elem_id_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_copy
+void snd_ctl_elem_id_copy(snd_ctl_elem_id_t * dst, const snd_ctl_elem_id_t * src) {
+    snd_ctl_elem_id_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_copy_INDEXED));
+    packed_data->func = snd_ctl_elem_id_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_free
+void snd_ctl_elem_id_free(snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_free_INDEXED));
+    packed_data->func = snd_ctl_elem_id_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_device
+unsigned int snd_ctl_elem_id_get_device(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_device_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_index
+unsigned int snd_ctl_elem_id_get_index(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_index_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_interface
+snd_ctl_elem_iface_t snd_ctl_elem_id_get_interface(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_name
+const char * snd_ctl_elem_id_get_name(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_name_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_numid
+unsigned int snd_ctl_elem_id_get_numid(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_get_subdevice
+unsigned int snd_ctl_elem_id_get_subdevice(const snd_ctl_elem_id_t * obj) {
+    snd_ctl_elem_id_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_get_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_id_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_malloc
+int snd_ctl_elem_id_malloc(snd_ctl_elem_id_t ** ptr) {
+    snd_ctl_elem_id_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_malloc_INDEXED));
+    packed_data->func = snd_ctl_elem_id_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_device
+void snd_ctl_elem_id_set_device(snd_ctl_elem_id_t * obj, unsigned int val) {
+    snd_ctl_elem_id_set_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_device_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_index
+void snd_ctl_elem_id_set_index(snd_ctl_elem_id_t * obj, unsigned int val) {
+    snd_ctl_elem_id_set_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_index_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_interface
+void snd_ctl_elem_id_set_interface(snd_ctl_elem_id_t * obj, snd_ctl_elem_iface_t val) {
+    snd_ctl_elem_id_set_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_interface_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_name
+void snd_ctl_elem_id_set_name(snd_ctl_elem_id_t * obj, const char * val) {
+    snd_ctl_elem_id_set_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_name_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_numid
+void snd_ctl_elem_id_set_numid(snd_ctl_elem_id_t * obj, unsigned int val) {
+    snd_ctl_elem_id_set_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_numid_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_set_subdevice
+void snd_ctl_elem_id_set_subdevice(snd_ctl_elem_id_t * obj, unsigned int val) {
+    snd_ctl_elem_id_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_set_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_id_set_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_id_sizeof
+size_t snd_ctl_elem_id_sizeof() {
+    snd_ctl_elem_id_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_id_sizeof_INDEXED));
+    packed_data->func = snd_ctl_elem_id_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_iface_name
+const char * snd_ctl_elem_iface_name(snd_ctl_elem_iface_t iface) {
+    snd_ctl_elem_iface_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_iface_name_INDEXED));
+    packed_data->func = snd_ctl_elem_iface_name_INDEX;
+    packed_data->args.a1 = iface;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info
+int snd_ctl_elem_info(snd_ctl_t * ctl, snd_ctl_elem_info_t * info) {
+    snd_ctl_elem_info_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_INDEXED));
+    packed_data->func = snd_ctl_elem_info_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_clear
+void snd_ctl_elem_info_clear(snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_clear_INDEXED));
+    packed_data->func = snd_ctl_elem_info_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_copy
+void snd_ctl_elem_info_copy(snd_ctl_elem_info_t * dst, const snd_ctl_elem_info_t * src) {
+    snd_ctl_elem_info_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_copy_INDEXED));
+    packed_data->func = snd_ctl_elem_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_free
+void snd_ctl_elem_info_free(snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_free_INDEXED));
+    packed_data->func = snd_ctl_elem_info_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_count
+unsigned int snd_ctl_elem_info_get_count(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_count_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_count_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_count_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_device
+unsigned int snd_ctl_elem_info_get_device(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_device_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_dimension
+int snd_ctl_elem_info_get_dimension(const snd_ctl_elem_info_t * obj, unsigned int idx) {
+    snd_ctl_elem_info_get_dimension_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_dimension_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_dimension_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_dimensions
+int snd_ctl_elem_info_get_dimensions(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_dimensions_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_dimensions_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_dimensions_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_id
+void snd_ctl_elem_info_get_id(const snd_ctl_elem_info_t * obj, snd_ctl_elem_id_t * ptr) {
+    snd_ctl_elem_info_get_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_id_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_index
+unsigned int snd_ctl_elem_info_get_index(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_index_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_interface
+snd_ctl_elem_iface_t snd_ctl_elem_info_get_interface(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_item_name
+const char * snd_ctl_elem_info_get_item_name(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_item_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_item_name_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_item_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_items
+unsigned int snd_ctl_elem_info_get_items(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_items_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_items_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_items_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_max
+long snd_ctl_elem_info_get_max(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_max_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_max_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_max_INDEX;
+    packed_data->args.a1 = obj;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_max64
+long long snd_ctl_elem_info_get_max64(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_max64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_max64_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_max64_INDEX;
+    packed_data->args.a1 = obj;
+    long long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_min
+long snd_ctl_elem_info_get_min(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_min_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_min_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_min_INDEX;
+    packed_data->args.a1 = obj;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_min64
+long long snd_ctl_elem_info_get_min64(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_min64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_min64_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_min64_INDEX;
+    packed_data->args.a1 = obj;
+    long long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_name
+const char * snd_ctl_elem_info_get_name(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_name_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_numid
+unsigned int snd_ctl_elem_info_get_numid(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_owner
+pid_t snd_ctl_elem_info_get_owner(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_owner_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_owner_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_owner_INDEX;
+    packed_data->args.a1 = obj;
+    pid_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_step
+long snd_ctl_elem_info_get_step(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_step_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_step_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_step_INDEX;
+    packed_data->args.a1 = obj;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_step64
+long long snd_ctl_elem_info_get_step64(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_step64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_step64_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_step64_INDEX;
+    packed_data->args.a1 = obj;
+    long long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_subdevice
+unsigned int snd_ctl_elem_info_get_subdevice(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_get_type
+snd_ctl_elem_type_t snd_ctl_elem_info_get_type(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_get_type_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_get_type_INDEXED));
+    packed_data->func = snd_ctl_elem_info_get_type_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_inactive
+int snd_ctl_elem_info_is_inactive(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_inactive_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_inactive_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_inactive_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_locked
+int snd_ctl_elem_info_is_locked(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_locked_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_locked_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_locked_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_owner
+int snd_ctl_elem_info_is_owner(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_owner_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_owner_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_owner_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_readable
+int snd_ctl_elem_info_is_readable(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_readable_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_readable_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_readable_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_tlv_commandable
+int snd_ctl_elem_info_is_tlv_commandable(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_tlv_commandable_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_tlv_commandable_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_tlv_commandable_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_tlv_readable
+int snd_ctl_elem_info_is_tlv_readable(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_tlv_readable_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_tlv_readable_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_tlv_readable_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_tlv_writable
+int snd_ctl_elem_info_is_tlv_writable(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_tlv_writable_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_tlv_writable_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_tlv_writable_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_user
+int snd_ctl_elem_info_is_user(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_user_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_user_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_user_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_volatile
+int snd_ctl_elem_info_is_volatile(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_volatile_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_volatile_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_volatile_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_is_writable
+int snd_ctl_elem_info_is_writable(const snd_ctl_elem_info_t * obj) {
+    snd_ctl_elem_info_is_writable_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_is_writable_INDEXED));
+    packed_data->func = snd_ctl_elem_info_is_writable_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_malloc
+int snd_ctl_elem_info_malloc(snd_ctl_elem_info_t ** ptr) {
+    snd_ctl_elem_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_malloc_INDEXED));
+    packed_data->func = snd_ctl_elem_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_device
+void snd_ctl_elem_info_set_device(snd_ctl_elem_info_t * obj, unsigned int val) {
+    snd_ctl_elem_info_set_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_device_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_id
+void snd_ctl_elem_info_set_id(snd_ctl_elem_info_t * obj, const snd_ctl_elem_id_t * ptr) {
+    snd_ctl_elem_info_set_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_id_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_index
+void snd_ctl_elem_info_set_index(snd_ctl_elem_info_t * obj, unsigned int val) {
+    snd_ctl_elem_info_set_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_index_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_interface
+void snd_ctl_elem_info_set_interface(snd_ctl_elem_info_t * obj, snd_ctl_elem_iface_t val) {
+    snd_ctl_elem_info_set_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_interface_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_item
+void snd_ctl_elem_info_set_item(snd_ctl_elem_info_t * obj, unsigned int val) {
+    snd_ctl_elem_info_set_item_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_item_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_item_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_name
+void snd_ctl_elem_info_set_name(snd_ctl_elem_info_t * obj, const char * val) {
+    snd_ctl_elem_info_set_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_name_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_numid
+void snd_ctl_elem_info_set_numid(snd_ctl_elem_info_t * obj, unsigned int val) {
+    snd_ctl_elem_info_set_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_numid_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_set_subdevice
+void snd_ctl_elem_info_set_subdevice(snd_ctl_elem_info_t * obj, unsigned int val) {
+    snd_ctl_elem_info_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_set_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_info_set_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_info_sizeof
+size_t snd_ctl_elem_info_sizeof() {
+    snd_ctl_elem_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_info_sizeof_INDEXED));
+    packed_data->func = snd_ctl_elem_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list
+int snd_ctl_elem_list(snd_ctl_t * ctl, snd_ctl_elem_list_t * list) {
+    snd_ctl_elem_list_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_INDEXED));
+    packed_data->func = snd_ctl_elem_list_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = list;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_alloc_space
+int snd_ctl_elem_list_alloc_space(snd_ctl_elem_list_t * obj, unsigned int entries) {
+    snd_ctl_elem_list_alloc_space_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_alloc_space_INDEXED));
+    packed_data->func = snd_ctl_elem_list_alloc_space_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = entries;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_clear
+void snd_ctl_elem_list_clear(snd_ctl_elem_list_t * obj) {
+    snd_ctl_elem_list_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_clear_INDEXED));
+    packed_data->func = snd_ctl_elem_list_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_copy
+void snd_ctl_elem_list_copy(snd_ctl_elem_list_t * dst, const snd_ctl_elem_list_t * src) {
+    snd_ctl_elem_list_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_copy_INDEXED));
+    packed_data->func = snd_ctl_elem_list_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_free
+void snd_ctl_elem_list_free(snd_ctl_elem_list_t * obj) {
+    snd_ctl_elem_list_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_free_INDEXED));
+    packed_data->func = snd_ctl_elem_list_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_free_space
+void snd_ctl_elem_list_free_space(snd_ctl_elem_list_t * obj) {
+    snd_ctl_elem_list_free_space_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_free_space_INDEXED));
+    packed_data->func = snd_ctl_elem_list_free_space_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_count
+unsigned int snd_ctl_elem_list_get_count(const snd_ctl_elem_list_t * obj) {
+    snd_ctl_elem_list_get_count_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_count_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_count_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_device
+unsigned int snd_ctl_elem_list_get_device(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_device_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_id
+void snd_ctl_elem_list_get_id(const snd_ctl_elem_list_t * obj, unsigned int idx, snd_ctl_elem_id_t * ptr) {
+    snd_ctl_elem_list_get_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_id_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_index
+unsigned int snd_ctl_elem_list_get_index(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_index_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_interface
+snd_ctl_elem_iface_t snd_ctl_elem_list_get_interface(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_name
+const char * snd_ctl_elem_list_get_name(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_name_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_numid
+unsigned int snd_ctl_elem_list_get_numid(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_subdevice
+unsigned int snd_ctl_elem_list_get_subdevice(const snd_ctl_elem_list_t * obj, unsigned int idx) {
+    snd_ctl_elem_list_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_get_used
+unsigned int snd_ctl_elem_list_get_used(const snd_ctl_elem_list_t * obj) {
+    snd_ctl_elem_list_get_used_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_get_used_INDEXED));
+    packed_data->func = snd_ctl_elem_list_get_used_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_malloc
+int snd_ctl_elem_list_malloc(snd_ctl_elem_list_t ** ptr) {
+    snd_ctl_elem_list_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_malloc_INDEXED));
+    packed_data->func = snd_ctl_elem_list_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_set_offset
+void snd_ctl_elem_list_set_offset(snd_ctl_elem_list_t * obj, unsigned int val) {
+    snd_ctl_elem_list_set_offset_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_set_offset_INDEXED));
+    packed_data->func = snd_ctl_elem_list_set_offset_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_list_sizeof
+size_t snd_ctl_elem_list_sizeof() {
+    snd_ctl_elem_list_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_list_sizeof_INDEXED));
+    packed_data->func = snd_ctl_elem_list_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_lock
+int snd_ctl_elem_lock(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
+    snd_ctl_elem_lock_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_lock_INDEXED));
+    packed_data->func = snd_ctl_elem_lock_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_read
+int snd_ctl_elem_read(snd_ctl_t * ctl, snd_ctl_elem_value_t * value) {
+    snd_ctl_elem_read_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_read_INDEXED));
+    packed_data->func = snd_ctl_elem_read_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_remove
+int snd_ctl_elem_remove(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
+    snd_ctl_elem_remove_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_remove_INDEXED));
+    packed_data->func = snd_ctl_elem_remove_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_set_bytes
+void snd_ctl_elem_set_bytes(snd_ctl_elem_value_t * obj, void * data, size_t size) {
+    snd_ctl_elem_set_bytes_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_set_bytes_INDEXED));
+    packed_data->func = snd_ctl_elem_set_bytes_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = data;
+    packed_data->args.a3 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_tlv_command
+int snd_ctl_elem_tlv_command(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, const unsigned int * tlv) {
+    snd_ctl_elem_tlv_command_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_tlv_command_INDEXED));
+    packed_data->func = snd_ctl_elem_tlv_command_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = tlv;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_tlv_read
+int snd_ctl_elem_tlv_read(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int * tlv, unsigned int tlv_size) {
+    snd_ctl_elem_tlv_read_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_tlv_read_INDEXED));
+    packed_data->func = snd_ctl_elem_tlv_read_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = tlv;
+    packed_data->args.a4 = tlv_size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_tlv_write
+int snd_ctl_elem_tlv_write(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, const unsigned int * tlv) {
+    snd_ctl_elem_tlv_write_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_tlv_write_INDEXED));
+    packed_data->func = snd_ctl_elem_tlv_write_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    packed_data->args.a3 = tlv;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_type_name
+const char * snd_ctl_elem_type_name(snd_ctl_elem_type_t type) {
+    snd_ctl_elem_type_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_type_name_INDEXED));
+    packed_data->func = snd_ctl_elem_type_name_INDEX;
+    packed_data->args.a1 = type;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_unlock
+int snd_ctl_elem_unlock(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
+    snd_ctl_elem_unlock_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_unlock_INDEXED));
+    packed_data->func = snd_ctl_elem_unlock_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_clear
+void snd_ctl_elem_value_clear(snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_clear_INDEXED));
+    packed_data->func = snd_ctl_elem_value_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_copy
+void snd_ctl_elem_value_copy(snd_ctl_elem_value_t * dst, const snd_ctl_elem_value_t * src) {
+    snd_ctl_elem_value_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_copy_INDEXED));
+    packed_data->func = snd_ctl_elem_value_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_free
+void snd_ctl_elem_value_free(snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_free_INDEXED));
+    packed_data->func = snd_ctl_elem_value_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_boolean
+int snd_ctl_elem_value_get_boolean(const snd_ctl_elem_value_t * obj, unsigned int idx) {
+    snd_ctl_elem_value_get_boolean_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_boolean_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_boolean_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_byte
+unsigned char snd_ctl_elem_value_get_byte(const snd_ctl_elem_value_t * obj, unsigned int idx) {
+    snd_ctl_elem_value_get_byte_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_byte_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_byte_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned char ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_bytes
+const void * snd_ctl_elem_value_get_bytes(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_bytes_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_bytes_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_bytes_INDEX;
+    packed_data->args.a1 = obj;
+    const void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_device
+unsigned int snd_ctl_elem_value_get_device(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_device_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_enumerated
+unsigned int snd_ctl_elem_value_get_enumerated(const snd_ctl_elem_value_t * obj, unsigned int idx) {
+    snd_ctl_elem_value_get_enumerated_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_enumerated_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_enumerated_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_id
+void snd_ctl_elem_value_get_id(const snd_ctl_elem_value_t * obj, snd_ctl_elem_id_t * ptr) {
+    snd_ctl_elem_value_get_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_id_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_iec958
+void snd_ctl_elem_value_get_iec958(const snd_ctl_elem_value_t * obj, snd_aes_iec958_t * ptr) {
+    snd_ctl_elem_value_get_iec958_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_iec958_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_iec958_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_index
+unsigned int snd_ctl_elem_value_get_index(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_index_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_integer
+long snd_ctl_elem_value_get_integer(const snd_ctl_elem_value_t * obj, unsigned int idx) {
+    snd_ctl_elem_value_get_integer_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_integer_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_integer_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_integer64
+long long snd_ctl_elem_value_get_integer64(const snd_ctl_elem_value_t * obj, unsigned int idx) {
+    snd_ctl_elem_value_get_integer64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_integer64_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_integer64_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    long long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_interface
+snd_ctl_elem_iface_t snd_ctl_elem_value_get_interface(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_name
+const char * snd_ctl_elem_value_get_name(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_name_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_numid
+unsigned int snd_ctl_elem_value_get_numid(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_get_subdevice
+unsigned int snd_ctl_elem_value_get_subdevice(const snd_ctl_elem_value_t * obj) {
+    snd_ctl_elem_value_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_get_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_value_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_malloc
+int snd_ctl_elem_value_malloc(snd_ctl_elem_value_t ** ptr) {
+    snd_ctl_elem_value_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_malloc_INDEXED));
+    packed_data->func = snd_ctl_elem_value_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_boolean
+void snd_ctl_elem_value_set_boolean(snd_ctl_elem_value_t * obj, unsigned int idx, long val) {
+    snd_ctl_elem_value_set_boolean_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_boolean_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_boolean_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_byte
+void snd_ctl_elem_value_set_byte(snd_ctl_elem_value_t * obj, unsigned int idx, unsigned char val) {
+    snd_ctl_elem_value_set_byte_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_byte_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_byte_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_device
+void snd_ctl_elem_value_set_device(snd_ctl_elem_value_t * obj, unsigned int val) {
+    snd_ctl_elem_value_set_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_device_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_enumerated
+void snd_ctl_elem_value_set_enumerated(snd_ctl_elem_value_t * obj, unsigned int idx, unsigned int val) {
+    snd_ctl_elem_value_set_enumerated_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_enumerated_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_enumerated_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_id
+void snd_ctl_elem_value_set_id(snd_ctl_elem_value_t * obj, const snd_ctl_elem_id_t * ptr) {
+    snd_ctl_elem_value_set_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_id_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_iec958
+void snd_ctl_elem_value_set_iec958(snd_ctl_elem_value_t * obj, const snd_aes_iec958_t * ptr) {
+    snd_ctl_elem_value_set_iec958_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_iec958_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_iec958_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_index
+void snd_ctl_elem_value_set_index(snd_ctl_elem_value_t * obj, unsigned int val) {
+    snd_ctl_elem_value_set_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_index_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_integer
+void snd_ctl_elem_value_set_integer(snd_ctl_elem_value_t * obj, unsigned int idx, long val) {
+    snd_ctl_elem_value_set_integer_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_integer_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_integer_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_integer64
+void snd_ctl_elem_value_set_integer64(snd_ctl_elem_value_t * obj, unsigned int idx, long long val) {
+    snd_ctl_elem_value_set_integer64_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_integer64_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_integer64_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_interface
+void snd_ctl_elem_value_set_interface(snd_ctl_elem_value_t * obj, snd_ctl_elem_iface_t val) {
+    snd_ctl_elem_value_set_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_interface_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_interface_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_name
+void snd_ctl_elem_value_set_name(snd_ctl_elem_value_t * obj, const char * val) {
+    snd_ctl_elem_value_set_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_name_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_numid
+void snd_ctl_elem_value_set_numid(snd_ctl_elem_value_t * obj, unsigned int val) {
+    snd_ctl_elem_value_set_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_numid_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_numid_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_set_subdevice
+void snd_ctl_elem_value_set_subdevice(snd_ctl_elem_value_t * obj, unsigned int val) {
+    snd_ctl_elem_value_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_set_subdevice_INDEXED));
+    packed_data->func = snd_ctl_elem_value_set_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_value_sizeof
+size_t snd_ctl_elem_value_sizeof() {
+    snd_ctl_elem_value_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_value_sizeof_INDEXED));
+    packed_data->func = snd_ctl_elem_value_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_elem_write
+int snd_ctl_elem_write(snd_ctl_t * ctl, snd_ctl_elem_value_t * value) {
+    snd_ctl_elem_write_INDEXED *packed_data = malloc(sizeof(snd_ctl_elem_write_INDEXED));
+    packed_data->func = snd_ctl_elem_write_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_clear
+void snd_ctl_event_clear(snd_ctl_event_t * obj) {
+    snd_ctl_event_clear_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_clear_INDEXED));
+    packed_data->func = snd_ctl_event_clear_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_event_copy
+void snd_ctl_event_copy(snd_ctl_event_t * dst, const snd_ctl_event_t * src) {
+    snd_ctl_event_copy_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_copy_INDEXED));
+    packed_data->func = snd_ctl_event_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_device
+unsigned int snd_ctl_event_elem_get_device(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_device_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_id
+void snd_ctl_event_elem_get_id(const snd_ctl_event_t * obj, snd_ctl_elem_id_t * ptr) {
+    snd_ctl_event_elem_get_id_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_id_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_index
+unsigned int snd_ctl_event_elem_get_index(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_index_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_index_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_interface
+snd_ctl_elem_iface_t snd_ctl_event_elem_get_interface(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_interface_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_interface_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_mask
+unsigned int snd_ctl_event_elem_get_mask(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_mask_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_mask_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_mask_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_name
+const char * snd_ctl_event_elem_get_name(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_name_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_numid
+unsigned int snd_ctl_event_elem_get_numid(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_numid_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_numid_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_elem_get_subdevice
+unsigned int snd_ctl_event_elem_get_subdevice(const snd_ctl_event_t * obj) {
+    snd_ctl_event_elem_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_elem_get_subdevice_INDEXED));
+    packed_data->func = snd_ctl_event_elem_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_free
+void snd_ctl_event_free(snd_ctl_event_t * obj) {
+    snd_ctl_event_free_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_free_INDEXED));
+    packed_data->func = snd_ctl_event_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_ctl_event_get_type
+snd_ctl_event_type_t snd_ctl_event_get_type(const snd_ctl_event_t * obj) {
+    snd_ctl_event_get_type_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_get_type_INDEXED));
+    packed_data->func = snd_ctl_event_get_type_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_event_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_malloc
+int snd_ctl_event_malloc(snd_ctl_event_t ** ptr) {
+    snd_ctl_event_malloc_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_malloc_INDEXED));
+    packed_data->func = snd_ctl_event_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_sizeof
+size_t snd_ctl_event_sizeof() {
+    snd_ctl_event_sizeof_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_sizeof_INDEXED));
+    packed_data->func = snd_ctl_event_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_event_type_name
+const char * snd_ctl_event_type_name(snd_ctl_event_type_t type) {
+    snd_ctl_event_type_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_event_type_name_INDEXED));
+    packed_data->func = snd_ctl_event_type_name_INDEX;
+    packed_data->args.a1 = type;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_get_power_state
+int snd_ctl_get_power_state(snd_ctl_t * ctl, unsigned int * state) {
+    snd_ctl_get_power_state_INDEXED *packed_data = malloc(sizeof(snd_ctl_get_power_state_INDEXED));
+    packed_data->func = snd_ctl_get_power_state_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = state;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_hwdep_info
+int snd_ctl_hwdep_info(snd_ctl_t * ctl, snd_hwdep_info_t * info) {
+    snd_ctl_hwdep_info_INDEXED *packed_data = malloc(sizeof(snd_ctl_hwdep_info_INDEXED));
+    packed_data->func = snd_ctl_hwdep_info_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_hwdep_next_device
+int snd_ctl_hwdep_next_device(snd_ctl_t * ctl, int * device) {
+    snd_ctl_hwdep_next_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_hwdep_next_device_INDEXED));
+    packed_data->func = snd_ctl_hwdep_next_device_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = device;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_name
+const char * snd_ctl_name(snd_ctl_t * ctl) {
+    snd_ctl_name_INDEXED *packed_data = malloc(sizeof(snd_ctl_name_INDEXED));
+    packed_data->func = snd_ctl_name_INDEX;
+    packed_data->args.a1 = ctl;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_nonblock
+int snd_ctl_nonblock(snd_ctl_t * ctl, int nonblock) {
+    snd_ctl_nonblock_INDEXED *packed_data = malloc(sizeof(snd_ctl_nonblock_INDEXED));
+    packed_data->func = snd_ctl_nonblock_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_open
+int snd_ctl_open(snd_ctl_t ** ctl, const char * name, int mode) {
+    snd_ctl_open_INDEXED *packed_data = malloc(sizeof(snd_ctl_open_INDEXED));
+    packed_data->func = snd_ctl_open_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_open_lconf
+int snd_ctl_open_lconf(snd_ctl_t ** ctl, const char * name, int mode, snd_config_t * lconf) {
+    snd_ctl_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_ctl_open_lconf_INDEXED));
+    packed_data->func = snd_ctl_open_lconf_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    packed_data->args.a4 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_pcm_info
+int snd_ctl_pcm_info(snd_ctl_t * ctl, snd_pcm_info_t * info) {
+    snd_ctl_pcm_info_INDEXED *packed_data = malloc(sizeof(snd_ctl_pcm_info_INDEXED));
+    packed_data->func = snd_ctl_pcm_info_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_pcm_next_device
+int snd_ctl_pcm_next_device(snd_ctl_t * ctl, int * device) {
+    snd_ctl_pcm_next_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_pcm_next_device_INDEXED));
+    packed_data->func = snd_ctl_pcm_next_device_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = device;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_pcm_prefer_subdevice
+int snd_ctl_pcm_prefer_subdevice(snd_ctl_t * ctl, int subdev) {
+    snd_ctl_pcm_prefer_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_pcm_prefer_subdevice_INDEXED));
+    packed_data->func = snd_ctl_pcm_prefer_subdevice_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = subdev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_poll_descriptors
+int snd_ctl_poll_descriptors(snd_ctl_t * ctl, struct pollfd * pfds, unsigned int space) {
+    snd_ctl_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_ctl_poll_descriptors_INDEXED));
+    packed_data->func = snd_ctl_poll_descriptors_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_poll_descriptors_count
+int snd_ctl_poll_descriptors_count(snd_ctl_t * ctl) {
+    snd_ctl_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_ctl_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_ctl_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = ctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_poll_descriptors_revents
+int snd_ctl_poll_descriptors_revents(snd_ctl_t * ctl, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_ctl_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_ctl_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_ctl_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_rawmidi_info
+int snd_ctl_rawmidi_info(snd_ctl_t * ctl, snd_rawmidi_info_t * info) {
+    snd_ctl_rawmidi_info_INDEXED *packed_data = malloc(sizeof(snd_ctl_rawmidi_info_INDEXED));
+    packed_data->func = snd_ctl_rawmidi_info_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_rawmidi_next_device
+int snd_ctl_rawmidi_next_device(snd_ctl_t * ctl, int * device) {
+    snd_ctl_rawmidi_next_device_INDEXED *packed_data = malloc(sizeof(snd_ctl_rawmidi_next_device_INDEXED));
+    packed_data->func = snd_ctl_rawmidi_next_device_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = device;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_rawmidi_prefer_subdevice
+int snd_ctl_rawmidi_prefer_subdevice(snd_ctl_t * ctl, int subdev) {
+    snd_ctl_rawmidi_prefer_subdevice_INDEXED *packed_data = malloc(sizeof(snd_ctl_rawmidi_prefer_subdevice_INDEXED));
+    packed_data->func = snd_ctl_rawmidi_prefer_subdevice_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = subdev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_read
+int snd_ctl_read(snd_ctl_t * ctl, snd_ctl_event_t * event) {
+    snd_ctl_read_INDEXED *packed_data = malloc(sizeof(snd_ctl_read_INDEXED));
+    packed_data->func = snd_ctl_read_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = event;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_set_power_state
+int snd_ctl_set_power_state(snd_ctl_t * ctl, unsigned int state) {
+    snd_ctl_set_power_state_INDEXED *packed_data = malloc(sizeof(snd_ctl_set_power_state_INDEXED));
+    packed_data->func = snd_ctl_set_power_state_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = state;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_subscribe_events
+int snd_ctl_subscribe_events(snd_ctl_t * ctl, int subscribe) {
+    snd_ctl_subscribe_events_INDEXED *packed_data = malloc(sizeof(snd_ctl_subscribe_events_INDEXED));
+    packed_data->func = snd_ctl_subscribe_events_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = subscribe;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_type
+snd_ctl_type_t snd_ctl_type(snd_ctl_t * ctl) {
+    snd_ctl_type_INDEXED *packed_data = malloc(sizeof(snd_ctl_type_INDEXED));
+    packed_data->func = snd_ctl_type_INDEX;
+    packed_data->args.a1 = ctl;
+    snd_ctl_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_ctl_wait
+int snd_ctl_wait(snd_ctl_t * ctl, int timeout) {
+    snd_ctl_wait_INDEXED *packed_data = malloc(sizeof(snd_ctl_wait_INDEXED));
+    packed_data->func = snd_ctl_wait_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = timeout;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_dlclose
+int snd_dlclose(void * handle) {
+    snd_dlclose_INDEXED *packed_data = malloc(sizeof(snd_dlclose_INDEXED));
+    packed_data->func = snd_dlclose_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_dlopen
+void * snd_dlopen(const char * file, int mode) {
+    snd_dlopen_INDEXED *packed_data = malloc(sizeof(snd_dlopen_INDEXED));
+    packed_data->func = snd_dlopen_INDEX;
+    packed_data->args.a1 = file;
+    packed_data->args.a2 = mode;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_dlsym
+void * snd_dlsym(void * handle, const char * name, const char * version) {
+    snd_dlsym_INDEXED *packed_data = malloc(sizeof(snd_dlsym_INDEXED));
+    packed_data->func = snd_dlsym_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = version;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_close
+int snd_hctl_close(snd_hctl_t * hctl) {
+    snd_hctl_close_INDEXED *packed_data = malloc(sizeof(snd_hctl_close_INDEXED));
+    packed_data->func = snd_hctl_close_INDEX;
+    packed_data->args.a1 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_compare_fast
+int snd_hctl_compare_fast(const snd_hctl_elem_t * c1, const snd_hctl_elem_t * c2) {
+    snd_hctl_compare_fast_INDEXED *packed_data = malloc(sizeof(snd_hctl_compare_fast_INDEXED));
+    packed_data->func = snd_hctl_compare_fast_INDEX;
+    packed_data->args.a1 = c1;
+    packed_data->args.a2 = c2;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_ctl
+snd_ctl_t * snd_hctl_ctl(snd_hctl_t * hctl) {
+    snd_hctl_ctl_INDEXED *packed_data = malloc(sizeof(snd_hctl_ctl_INDEXED));
+    packed_data->func = snd_hctl_ctl_INDEX;
+    packed_data->args.a1 = hctl;
+    snd_ctl_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_callback_private
+void * snd_hctl_elem_get_callback_private(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_callback_private_INDEXED));
+    packed_data->func = snd_hctl_elem_get_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_device
+unsigned int snd_hctl_elem_get_device(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_device_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_device_INDEXED));
+    packed_data->func = snd_hctl_elem_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_hctl
+snd_hctl_t * snd_hctl_elem_get_hctl(snd_hctl_elem_t * elem) {
+    snd_hctl_elem_get_hctl_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_hctl_INDEXED));
+    packed_data->func = snd_hctl_elem_get_hctl_INDEX;
+    packed_data->args.a1 = elem;
+    snd_hctl_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_id
+void snd_hctl_elem_get_id(const snd_hctl_elem_t * obj, snd_ctl_elem_id_t * ptr) {
+    snd_hctl_elem_get_id_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_id_INDEXED));
+    packed_data->func = snd_hctl_elem_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_index
+unsigned int snd_hctl_elem_get_index(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_index_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_index_INDEXED));
+    packed_data->func = snd_hctl_elem_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_interface
+snd_ctl_elem_iface_t snd_hctl_elem_get_interface(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_interface_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_interface_INDEXED));
+    packed_data->func = snd_hctl_elem_get_interface_INDEX;
+    packed_data->args.a1 = obj;
+    snd_ctl_elem_iface_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_name
+const char * snd_hctl_elem_get_name(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_name_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_name_INDEXED));
+    packed_data->func = snd_hctl_elem_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_numid
+unsigned int snd_hctl_elem_get_numid(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_numid_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_numid_INDEXED));
+    packed_data->func = snd_hctl_elem_get_numid_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_get_subdevice
+unsigned int snd_hctl_elem_get_subdevice(const snd_hctl_elem_t * obj) {
+    snd_hctl_elem_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_get_subdevice_INDEXED));
+    packed_data->func = snd_hctl_elem_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_info
+int snd_hctl_elem_info(snd_hctl_elem_t * elem, snd_ctl_elem_info_t * info) {
+    snd_hctl_elem_info_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_info_INDEXED));
+    packed_data->func = snd_hctl_elem_info_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_next
+snd_hctl_elem_t * snd_hctl_elem_next(snd_hctl_elem_t * elem) {
+    snd_hctl_elem_next_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_next_INDEXED));
+    packed_data->func = snd_hctl_elem_next_INDEX;
+    packed_data->args.a1 = elem;
+    snd_hctl_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_prev
+snd_hctl_elem_t * snd_hctl_elem_prev(snd_hctl_elem_t * elem) {
+    snd_hctl_elem_prev_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_prev_INDEXED));
+    packed_data->func = snd_hctl_elem_prev_INDEX;
+    packed_data->args.a1 = elem;
+    snd_hctl_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_read
+int snd_hctl_elem_read(snd_hctl_elem_t * elem, snd_ctl_elem_value_t * value) {
+    snd_hctl_elem_read_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_read_INDEXED));
+    packed_data->func = snd_hctl_elem_read_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_set_callback
+void snd_hctl_elem_set_callback(snd_hctl_elem_t * obj, snd_hctl_elem_callback_t val) {
+    snd_hctl_elem_set_callback_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_set_callback_INDEXED));
+    packed_data->func = snd_hctl_elem_set_callback_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_set_callback_private
+void snd_hctl_elem_set_callback_private(snd_hctl_elem_t * obj, void * val) {
+    snd_hctl_elem_set_callback_private_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_set_callback_private_INDEXED));
+    packed_data->func = snd_hctl_elem_set_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_tlv_command
+int snd_hctl_elem_tlv_command(snd_hctl_elem_t * elem, const unsigned int * tlv) {
+    snd_hctl_elem_tlv_command_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_tlv_command_INDEXED));
+    packed_data->func = snd_hctl_elem_tlv_command_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = tlv;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_tlv_read
+int snd_hctl_elem_tlv_read(snd_hctl_elem_t * elem, unsigned int * tlv, unsigned int tlv_size) {
+    snd_hctl_elem_tlv_read_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_tlv_read_INDEXED));
+    packed_data->func = snd_hctl_elem_tlv_read_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = tlv;
+    packed_data->args.a3 = tlv_size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_tlv_write
+int snd_hctl_elem_tlv_write(snd_hctl_elem_t * elem, const unsigned int * tlv) {
+    snd_hctl_elem_tlv_write_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_tlv_write_INDEXED));
+    packed_data->func = snd_hctl_elem_tlv_write_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = tlv;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_elem_write
+int snd_hctl_elem_write(snd_hctl_elem_t * elem, snd_ctl_elem_value_t * value) {
+    snd_hctl_elem_write_INDEXED *packed_data = malloc(sizeof(snd_hctl_elem_write_INDEXED));
+    packed_data->func = snd_hctl_elem_write_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_find_elem
+snd_hctl_elem_t * snd_hctl_find_elem(snd_hctl_t * hctl, const snd_ctl_elem_id_t * id) {
+    snd_hctl_find_elem_INDEXED *packed_data = malloc(sizeof(snd_hctl_find_elem_INDEXED));
+    packed_data->func = snd_hctl_find_elem_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = id;
+    snd_hctl_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_first_elem
+snd_hctl_elem_t * snd_hctl_first_elem(snd_hctl_t * hctl) {
+    snd_hctl_first_elem_INDEXED *packed_data = malloc(sizeof(snd_hctl_first_elem_INDEXED));
+    packed_data->func = snd_hctl_first_elem_INDEX;
+    packed_data->args.a1 = hctl;
+    snd_hctl_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_free
+int snd_hctl_free(snd_hctl_t * hctl) {
+    snd_hctl_free_INDEXED *packed_data = malloc(sizeof(snd_hctl_free_INDEXED));
+    packed_data->func = snd_hctl_free_INDEX;
+    packed_data->args.a1 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_get_callback_private
+void * snd_hctl_get_callback_private(snd_hctl_t * hctl) {
+    snd_hctl_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_hctl_get_callback_private_INDEXED));
+    packed_data->func = snd_hctl_get_callback_private_INDEX;
+    packed_data->args.a1 = hctl;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_get_count
+unsigned int snd_hctl_get_count(snd_hctl_t * hctl) {
+    snd_hctl_get_count_INDEXED *packed_data = malloc(sizeof(snd_hctl_get_count_INDEXED));
+    packed_data->func = snd_hctl_get_count_INDEX;
+    packed_data->args.a1 = hctl;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_handle_events
+int snd_hctl_handle_events(snd_hctl_t * hctl) {
+    snd_hctl_handle_events_INDEXED *packed_data = malloc(sizeof(snd_hctl_handle_events_INDEXED));
+    packed_data->func = snd_hctl_handle_events_INDEX;
+    packed_data->args.a1 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_last_elem
+snd_hctl_elem_t * snd_hctl_last_elem(snd_hctl_t * hctl) {
+    snd_hctl_last_elem_INDEXED *packed_data = malloc(sizeof(snd_hctl_last_elem_INDEXED));
+    packed_data->func = snd_hctl_last_elem_INDEX;
+    packed_data->args.a1 = hctl;
+    snd_hctl_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_load
+int snd_hctl_load(snd_hctl_t * hctl) {
+    snd_hctl_load_INDEXED *packed_data = malloc(sizeof(snd_hctl_load_INDEXED));
+    packed_data->func = snd_hctl_load_INDEX;
+    packed_data->args.a1 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_name
+const char * snd_hctl_name(snd_hctl_t * hctl) {
+    snd_hctl_name_INDEXED *packed_data = malloc(sizeof(snd_hctl_name_INDEXED));
+    packed_data->func = snd_hctl_name_INDEX;
+    packed_data->args.a1 = hctl;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_nonblock
+int snd_hctl_nonblock(snd_hctl_t * hctl, int nonblock) {
+    snd_hctl_nonblock_INDEXED *packed_data = malloc(sizeof(snd_hctl_nonblock_INDEXED));
+    packed_data->func = snd_hctl_nonblock_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_open
+int snd_hctl_open(snd_hctl_t ** hctl, const char * name, int mode) {
+    snd_hctl_open_INDEXED *packed_data = malloc(sizeof(snd_hctl_open_INDEXED));
+    packed_data->func = snd_hctl_open_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_open_ctl
+int snd_hctl_open_ctl(snd_hctl_t ** hctlp, snd_ctl_t * ctl) {
+    snd_hctl_open_ctl_INDEXED *packed_data = malloc(sizeof(snd_hctl_open_ctl_INDEXED));
+    packed_data->func = snd_hctl_open_ctl_INDEX;
+    packed_data->args.a1 = hctlp;
+    packed_data->args.a2 = ctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_poll_descriptors
+int snd_hctl_poll_descriptors(snd_hctl_t * hctl, struct pollfd * pfds, unsigned int space) {
+    snd_hctl_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_hctl_poll_descriptors_INDEXED));
+    packed_data->func = snd_hctl_poll_descriptors_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_poll_descriptors_count
+int snd_hctl_poll_descriptors_count(snd_hctl_t * hctl) {
+    snd_hctl_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_hctl_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_hctl_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_poll_descriptors_revents
+int snd_hctl_poll_descriptors_revents(snd_hctl_t * ctl, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_hctl_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_hctl_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_hctl_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_set_callback
+void snd_hctl_set_callback(snd_hctl_t * hctl, snd_hctl_callback_t callback) {
+    snd_hctl_set_callback_INDEXED *packed_data = malloc(sizeof(snd_hctl_set_callback_INDEXED));
+    packed_data->func = snd_hctl_set_callback_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = callback;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hctl_set_callback_private
+void snd_hctl_set_callback_private(snd_hctl_t * hctl, void * data) {
+    snd_hctl_set_callback_private_INDEXED *packed_data = malloc(sizeof(snd_hctl_set_callback_private_INDEXED));
+    packed_data->func = snd_hctl_set_callback_private_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hctl_set_compare
+int snd_hctl_set_compare(snd_hctl_t * hctl, snd_hctl_compare_t hsort) {
+    snd_hctl_set_compare_INDEXED *packed_data = malloc(sizeof(snd_hctl_set_compare_INDEXED));
+    packed_data->func = snd_hctl_set_compare_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = hsort;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hctl_wait
+int snd_hctl_wait(snd_hctl_t * hctl, int timeout) {
+    snd_hctl_wait_INDEXED *packed_data = malloc(sizeof(snd_hctl_wait_INDEXED));
+    packed_data->func = snd_hctl_wait_INDEX;
+    packed_data->args.a1 = hctl;
+    packed_data->args.a2 = timeout;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_close
+int snd_hwdep_close(snd_hwdep_t * hwdep) {
+    snd_hwdep_close_INDEXED *packed_data = malloc(sizeof(snd_hwdep_close_INDEXED));
+    packed_data->func = snd_hwdep_close_INDEX;
+    packed_data->args.a1 = hwdep;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_copy
+void snd_hwdep_dsp_image_copy(snd_hwdep_dsp_image_t * dst, const snd_hwdep_dsp_image_t * src) {
+    snd_hwdep_dsp_image_copy_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_copy_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_free
+void snd_hwdep_dsp_image_free(snd_hwdep_dsp_image_t * obj) {
+    snd_hwdep_dsp_image_free_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_free_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_get_image
+const void * snd_hwdep_dsp_image_get_image(const snd_hwdep_dsp_image_t * obj) {
+    snd_hwdep_dsp_image_get_image_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_get_image_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_get_image_INDEX;
+    packed_data->args.a1 = obj;
+    const void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_get_index
+unsigned int snd_hwdep_dsp_image_get_index(const snd_hwdep_dsp_image_t * obj) {
+    snd_hwdep_dsp_image_get_index_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_get_index_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_get_length
+size_t snd_hwdep_dsp_image_get_length(const snd_hwdep_dsp_image_t * obj) {
+    snd_hwdep_dsp_image_get_length_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_get_length_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_get_length_INDEX;
+    packed_data->args.a1 = obj;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_get_name
+const char * snd_hwdep_dsp_image_get_name(const snd_hwdep_dsp_image_t * obj) {
+    snd_hwdep_dsp_image_get_name_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_get_name_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_malloc
+int snd_hwdep_dsp_image_malloc(snd_hwdep_dsp_image_t ** ptr) {
+    snd_hwdep_dsp_image_malloc_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_malloc_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_set_image
+void snd_hwdep_dsp_image_set_image(snd_hwdep_dsp_image_t * obj, void * buffer) {
+    snd_hwdep_dsp_image_set_image_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_set_image_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_set_image_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = buffer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_set_index
+void snd_hwdep_dsp_image_set_index(snd_hwdep_dsp_image_t * obj, unsigned int _index) {
+    snd_hwdep_dsp_image_set_index_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_set_index_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_set_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = _index;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_set_length
+void snd_hwdep_dsp_image_set_length(snd_hwdep_dsp_image_t * obj, size_t length) {
+    snd_hwdep_dsp_image_set_length_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_set_length_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_set_length_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = length;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_set_name
+void snd_hwdep_dsp_image_set_name(snd_hwdep_dsp_image_t * obj, const char * name) {
+    snd_hwdep_dsp_image_set_name_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_set_name_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_set_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_image_sizeof
+size_t snd_hwdep_dsp_image_sizeof() {
+    snd_hwdep_dsp_image_sizeof_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_image_sizeof_INDEXED));
+    packed_data->func = snd_hwdep_dsp_image_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_load
+int snd_hwdep_dsp_load(snd_hwdep_t * hwdep, snd_hwdep_dsp_image_t * block) {
+    snd_hwdep_dsp_load_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_load_INDEXED));
+    packed_data->func = snd_hwdep_dsp_load_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = block;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status
+int snd_hwdep_dsp_status(snd_hwdep_t * hwdep, snd_hwdep_dsp_status_t * status) {
+    snd_hwdep_dsp_status_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_copy
+void snd_hwdep_dsp_status_copy(snd_hwdep_dsp_status_t * dst, const snd_hwdep_dsp_status_t * src) {
+    snd_hwdep_dsp_status_copy_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_copy_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_free
+void snd_hwdep_dsp_status_free(snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_free_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_free_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_get_chip_ready
+unsigned int snd_hwdep_dsp_status_get_chip_ready(const snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_get_chip_ready_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_get_chip_ready_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_get_chip_ready_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_get_dsp_loaded
+unsigned int snd_hwdep_dsp_status_get_dsp_loaded(const snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_get_dsp_loaded_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_get_dsp_loaded_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_get_dsp_loaded_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_get_id
+const char * snd_hwdep_dsp_status_get_id(const snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_get_id_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_get_id_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_get_num_dsps
+unsigned int snd_hwdep_dsp_status_get_num_dsps(const snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_get_num_dsps_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_get_num_dsps_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_get_num_dsps_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_get_version
+unsigned int snd_hwdep_dsp_status_get_version(const snd_hwdep_dsp_status_t * obj) {
+    snd_hwdep_dsp_status_get_version_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_get_version_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_get_version_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_malloc
+int snd_hwdep_dsp_status_malloc(snd_hwdep_dsp_status_t ** ptr) {
+    snd_hwdep_dsp_status_malloc_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_malloc_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_dsp_status_sizeof
+size_t snd_hwdep_dsp_status_sizeof() {
+    snd_hwdep_dsp_status_sizeof_INDEXED *packed_data = malloc(sizeof(snd_hwdep_dsp_status_sizeof_INDEXED));
+    packed_data->func = snd_hwdep_dsp_status_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_info
+int snd_hwdep_info(snd_hwdep_t * hwdep, snd_hwdep_info_t * info) {
+    snd_hwdep_info_INDEXED *packed_data = malloc(sizeof(snd_hwdep_info_INDEXED));
+    packed_data->func = snd_hwdep_info_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_info_sizeof
+size_t snd_hwdep_info_sizeof() {
+    snd_hwdep_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_hwdep_info_sizeof_INDEXED));
+    packed_data->func = snd_hwdep_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_ioctl
+int snd_hwdep_ioctl(snd_hwdep_t * hwdep, unsigned int request, void * arg) {
+    snd_hwdep_ioctl_INDEXED *packed_data = malloc(sizeof(snd_hwdep_ioctl_INDEXED));
+    packed_data->func = snd_hwdep_ioctl_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = request;
+    packed_data->args.a3 = arg;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_nonblock
+int snd_hwdep_nonblock(snd_hwdep_t * hwdep, int nonblock) {
+    snd_hwdep_nonblock_INDEXED *packed_data = malloc(sizeof(snd_hwdep_nonblock_INDEXED));
+    packed_data->func = snd_hwdep_nonblock_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_open
+int snd_hwdep_open(snd_hwdep_t ** hwdep, const char * name, int mode) {
+    snd_hwdep_open_INDEXED *packed_data = malloc(sizeof(snd_hwdep_open_INDEXED));
+    packed_data->func = snd_hwdep_open_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_poll_descriptors
+int snd_hwdep_poll_descriptors(snd_hwdep_t * hwdep, struct pollfd * pfds, unsigned int space) {
+    snd_hwdep_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_hwdep_poll_descriptors_INDEXED));
+    packed_data->func = snd_hwdep_poll_descriptors_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_poll_descriptors_revents
+int snd_hwdep_poll_descriptors_revents(snd_hwdep_t * hwdep, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_hwdep_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_hwdep_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_hwdep_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_read
+ssize_t snd_hwdep_read(snd_hwdep_t * hwdep, void * buffer, size_t size) {
+    snd_hwdep_read_INDEXED *packed_data = malloc(sizeof(snd_hwdep_read_INDEXED));
+    packed_data->func = snd_hwdep_read_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_hwdep_write
+ssize_t snd_hwdep_write(snd_hwdep_t * hwdep, const void * buffer, size_t size) {
+    snd_hwdep_write_INDEXED *packed_data = malloc(sizeof(snd_hwdep_write_INDEXED));
+    packed_data->func = snd_hwdep_write_INDEX;
+    packed_data->args.a1 = hwdep;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_buffer_open
+int snd_input_buffer_open(snd_input_t ** inputp, const char * buffer, ssize_t size) {
+    snd_input_buffer_open_INDEXED *packed_data = malloc(sizeof(snd_input_buffer_open_INDEXED));
+    packed_data->func = snd_input_buffer_open_INDEX;
+    packed_data->args.a1 = inputp;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_close
+int snd_input_close(snd_input_t * input) {
+    snd_input_close_INDEXED *packed_data = malloc(sizeof(snd_input_close_INDEXED));
+    packed_data->func = snd_input_close_INDEX;
+    packed_data->args.a1 = input;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_getc
+int snd_input_getc(snd_input_t * input) {
+    snd_input_getc_INDEXED *packed_data = malloc(sizeof(snd_input_getc_INDEXED));
+    packed_data->func = snd_input_getc_INDEX;
+    packed_data->args.a1 = input;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_gets
+char * snd_input_gets(snd_input_t * input, char * str, size_t size) {
+    snd_input_gets_INDEXED *packed_data = malloc(sizeof(snd_input_gets_INDEXED));
+    packed_data->func = snd_input_gets_INDEX;
+    packed_data->args.a1 = input;
+    packed_data->args.a2 = str;
+    packed_data->args.a3 = size;
+    char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_stdio_attach
+int snd_input_stdio_attach(snd_input_t ** inputp, FILE * fp, int _close) {
+    snd_input_stdio_attach_INDEXED *packed_data = malloc(sizeof(snd_input_stdio_attach_INDEXED));
+    packed_data->func = snd_input_stdio_attach_INDEX;
+    packed_data->args.a1 = inputp;
+    packed_data->args.a2 = fp;
+    packed_data->args.a3 = _close;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_stdio_open
+int snd_input_stdio_open(snd_input_t ** inputp, const char * file, const char * mode) {
+    snd_input_stdio_open_INDEXED *packed_data = malloc(sizeof(snd_input_stdio_open_INDEXED));
+    packed_data->func = snd_input_stdio_open_INDEX;
+    packed_data->args.a1 = inputp;
+    packed_data->args.a2 = file;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_input_ungetc
+int snd_input_ungetc(snd_input_t * input, int c) {
+    snd_input_ungetc_INDEXED *packed_data = malloc(sizeof(snd_input_ungetc_INDEXED));
+    packed_data->func = snd_input_ungetc_INDEX;
+    packed_data->args.a1 = input;
+    packed_data->args.a2 = c;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_fm_convert_from_stream
+int snd_instr_fm_convert_from_stream(snd_instr_header_t * data, size_t size, snd_instr_fm_t ** fm) {
+    snd_instr_fm_convert_from_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_fm_convert_from_stream_INDEXED));
+    packed_data->func = snd_instr_fm_convert_from_stream_INDEX;
+    packed_data->args.a1 = data;
+    packed_data->args.a2 = size;
+    packed_data->args.a3 = fm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_fm_convert_to_stream
+int snd_instr_fm_convert_to_stream(snd_instr_fm_t * fm, const char * name, snd_instr_header_t ** put, size_t * size) {
+    snd_instr_fm_convert_to_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_fm_convert_to_stream_INDEXED));
+    packed_data->func = snd_instr_fm_convert_to_stream_INDEX;
+    packed_data->args.a1 = fm;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = put;
+    packed_data->args.a4 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_fm_free
+int snd_instr_fm_free(snd_instr_fm_t * fm) {
+    snd_instr_fm_free_INDEXED *packed_data = malloc(sizeof(snd_instr_fm_free_INDEXED));
+    packed_data->func = snd_instr_fm_free_INDEX;
+    packed_data->args.a1 = fm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_copy
+void snd_instr_header_copy(snd_instr_header_t * dst, const snd_instr_header_t * src) {
+    snd_instr_header_copy_INDEXED *packed_data = malloc(sizeof(snd_instr_header_copy_INDEXED));
+    packed_data->func = snd_instr_header_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_free
+void snd_instr_header_free(snd_instr_header_t * ptr) {
+    snd_instr_header_free_INDEXED *packed_data = malloc(sizeof(snd_instr_header_free_INDEXED));
+    packed_data->func = snd_instr_header_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_alias
+const snd_seq_instr_t * snd_instr_header_get_alias(const snd_instr_header_t * info) {
+    snd_instr_header_get_alias_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_alias_INDEXED));
+    packed_data->func = snd_instr_header_get_alias_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_instr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_cluster
+snd_seq_instr_cluster_t snd_instr_header_get_cluster(const snd_instr_header_t * info) {
+    snd_instr_header_get_cluster_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_cluster_INDEXED));
+    packed_data->func = snd_instr_header_get_cluster_INDEX;
+    packed_data->args.a1 = info;
+    snd_seq_instr_cluster_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_cmd
+unsigned int snd_instr_header_get_cmd(const snd_instr_header_t * info) {
+    snd_instr_header_get_cmd_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_cmd_INDEXED));
+    packed_data->func = snd_instr_header_get_cmd_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_data
+void * snd_instr_header_get_data(const snd_instr_header_t * info) {
+    snd_instr_header_get_data_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_data_INDEXED));
+    packed_data->func = snd_instr_header_get_data_INDEX;
+    packed_data->args.a1 = info;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_follow_alias
+int snd_instr_header_get_follow_alias(const snd_instr_header_t * info) {
+    snd_instr_header_get_follow_alias_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_follow_alias_INDEXED));
+    packed_data->func = snd_instr_header_get_follow_alias_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_format
+const char * snd_instr_header_get_format(const snd_instr_header_t * info) {
+    snd_instr_header_get_format_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_format_INDEXED));
+    packed_data->func = snd_instr_header_get_format_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_id
+const snd_seq_instr_t * snd_instr_header_get_id(const snd_instr_header_t * info) {
+    snd_instr_header_get_id_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_id_INDEXED));
+    packed_data->func = snd_instr_header_get_id_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_instr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_len
+size_t snd_instr_header_get_len(const snd_instr_header_t * info) {
+    snd_instr_header_get_len_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_len_INDEXED));
+    packed_data->func = snd_instr_header_get_len_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_name
+const char * snd_instr_header_get_name(const snd_instr_header_t * info) {
+    snd_instr_header_get_name_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_name_INDEXED));
+    packed_data->func = snd_instr_header_get_name_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_get_type
+int snd_instr_header_get_type(const snd_instr_header_t * info) {
+    snd_instr_header_get_type_INDEXED *packed_data = malloc(sizeof(snd_instr_header_get_type_INDEXED));
+    packed_data->func = snd_instr_header_get_type_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_malloc
+int snd_instr_header_malloc(snd_instr_header_t ** ptr, size_t len) {
+    snd_instr_header_malloc_INDEXED *packed_data = malloc(sizeof(snd_instr_header_malloc_INDEXED));
+    packed_data->func = snd_instr_header_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    packed_data->args.a2 = len;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_alias
+void snd_instr_header_set_alias(snd_instr_header_t * info, const snd_seq_instr_t * instr) {
+    snd_instr_header_set_alias_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_alias_INDEXED));
+    packed_data->func = snd_instr_header_set_alias_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = instr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_cluster
+void snd_instr_header_set_cluster(snd_instr_header_t * info, snd_seq_instr_cluster_t cluster) {
+    snd_instr_header_set_cluster_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_cluster_INDEXED));
+    packed_data->func = snd_instr_header_set_cluster_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = cluster;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_cmd
+void snd_instr_header_set_cmd(snd_instr_header_t * info, unsigned int cmd) {
+    snd_instr_header_set_cmd_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_cmd_INDEXED));
+    packed_data->func = snd_instr_header_set_cmd_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = cmd;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_follow_alias
+void snd_instr_header_set_follow_alias(snd_instr_header_t * info, int val) {
+    snd_instr_header_set_follow_alias_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_follow_alias_INDEXED));
+    packed_data->func = snd_instr_header_set_follow_alias_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_format
+void snd_instr_header_set_format(snd_instr_header_t * info, const char * format) {
+    snd_instr_header_set_format_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_format_INDEXED));
+    packed_data->func = snd_instr_header_set_format_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_id
+void snd_instr_header_set_id(snd_instr_header_t * info, const snd_seq_instr_t * id) {
+    snd_instr_header_set_id_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_id_INDEXED));
+    packed_data->func = snd_instr_header_set_id_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_len
+void snd_instr_header_set_len(snd_instr_header_t * info, size_t len) {
+    snd_instr_header_set_len_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_len_INDEXED));
+    packed_data->func = snd_instr_header_set_len_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = len;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_name
+void snd_instr_header_set_name(snd_instr_header_t * info, const char * name) {
+    snd_instr_header_set_name_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_name_INDEXED));
+    packed_data->func = snd_instr_header_set_name_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_set_type
+void snd_instr_header_set_type(snd_instr_header_t * info, int type) {
+    snd_instr_header_set_type_INDEXED *packed_data = malloc(sizeof(snd_instr_header_set_type_INDEXED));
+    packed_data->func = snd_instr_header_set_type_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_instr_header_sizeof
+size_t snd_instr_header_sizeof() {
+    snd_instr_header_sizeof_INDEXED *packed_data = malloc(sizeof(snd_instr_header_sizeof_INDEXED));
+    packed_data->func = snd_instr_header_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_close
+int snd_instr_iwffff_close(snd_iwffff_handle_t * handle) {
+    snd_instr_iwffff_close_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_close_INDEXED));
+    packed_data->func = snd_instr_iwffff_close_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_convert_from_stream
+int snd_instr_iwffff_convert_from_stream(snd_instr_header_t * data, size_t size, snd_instr_iwffff_t ** iwffff) {
+    snd_instr_iwffff_convert_from_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_convert_from_stream_INDEXED));
+    packed_data->func = snd_instr_iwffff_convert_from_stream_INDEX;
+    packed_data->args.a1 = data;
+    packed_data->args.a2 = size;
+    packed_data->args.a3 = iwffff;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_convert_to_stream
+int snd_instr_iwffff_convert_to_stream(snd_instr_iwffff_t * iwffff, const char * name, snd_instr_header_t ** data, size_t * size) {
+    snd_instr_iwffff_convert_to_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_convert_to_stream_INDEXED));
+    packed_data->func = snd_instr_iwffff_convert_to_stream_INDEX;
+    packed_data->args.a1 = iwffff;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = data;
+    packed_data->args.a4 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_free
+int snd_instr_iwffff_free(snd_instr_iwffff_t * iwffff) {
+    snd_instr_iwffff_free_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_free_INDEXED));
+    packed_data->func = snd_instr_iwffff_free_INDEX;
+    packed_data->args.a1 = iwffff;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_load
+int snd_instr_iwffff_load(snd_iwffff_handle_t * handle, int bank, int prg, snd_instr_iwffff_t ** iwffff) {
+    snd_instr_iwffff_load_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_load_INDEXED));
+    packed_data->func = snd_instr_iwffff_load_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = bank;
+    packed_data->args.a3 = prg;
+    packed_data->args.a4 = iwffff;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_open
+int snd_instr_iwffff_open(snd_iwffff_handle_t ** handle, const char * name_fff, const char * name_dta) {
+    snd_instr_iwffff_open_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_open_INDEXED));
+    packed_data->func = snd_instr_iwffff_open_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name_fff;
+    packed_data->args.a3 = name_dta;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_open_rom
+int snd_instr_iwffff_open_rom(snd_iwffff_handle_t ** handle, int card, int bank, int file) {
+    snd_instr_iwffff_open_rom_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_open_rom_INDEXED));
+    packed_data->func = snd_instr_iwffff_open_rom_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = card;
+    packed_data->args.a3 = bank;
+    packed_data->args.a4 = file;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_iwffff_open_rom_file
+int snd_instr_iwffff_open_rom_file(snd_iwffff_handle_t ** handle, const char * name, int bank, int file) {
+    snd_instr_iwffff_open_rom_file_INDEXED *packed_data = malloc(sizeof(snd_instr_iwffff_open_rom_file_INDEXED));
+    packed_data->func = snd_instr_iwffff_open_rom_file_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = bank;
+    packed_data->args.a4 = file;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_simple_convert_from_stream
+int snd_instr_simple_convert_from_stream(snd_instr_header_t * data, size_t size, snd_instr_simple_t ** simple) {
+    snd_instr_simple_convert_from_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_simple_convert_from_stream_INDEXED));
+    packed_data->func = snd_instr_simple_convert_from_stream_INDEX;
+    packed_data->args.a1 = data;
+    packed_data->args.a2 = size;
+    packed_data->args.a3 = simple;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_simple_convert_to_stream
+int snd_instr_simple_convert_to_stream(snd_instr_simple_t * simple, const char * name, snd_instr_header_t ** put, size_t * size) {
+    snd_instr_simple_convert_to_stream_INDEXED *packed_data = malloc(sizeof(snd_instr_simple_convert_to_stream_INDEXED));
+    packed_data->func = snd_instr_simple_convert_to_stream_INDEX;
+    packed_data->args.a1 = simple;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = put;
+    packed_data->args.a4 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_instr_simple_free
+int snd_instr_simple_free(snd_instr_simple_t * simple) {
+    snd_instr_simple_free_INDEXED *packed_data = malloc(sizeof(snd_instr_simple_free_INDEXED));
+    packed_data->func = snd_instr_simple_free_INDEX;
+    packed_data->args.a1 = simple;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_lib_error_set_handler
+int snd_lib_error_set_handler( handler) {
+    snd_lib_error_set_handler_INDEXED *packed_data = malloc(sizeof(snd_lib_error_set_handler_INDEXED));
+    packed_data->func = snd_lib_error_set_handler_INDEX;
+    packed_data->args.a1 = handler;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_midi_event_decode
+long snd_midi_event_decode(snd_midi_event_t * dev, unsigned char * buf, long count, const snd_seq_event_t * ev) {
+    snd_midi_event_decode_INDEXED *packed_data = malloc(sizeof(snd_midi_event_decode_INDEXED));
+    packed_data->func = snd_midi_event_decode_INDEX;
+    packed_data->args.a1 = dev;
+    packed_data->args.a2 = buf;
+    packed_data->args.a3 = count;
+    packed_data->args.a4 = ev;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_midi_event_encode
+long snd_midi_event_encode(snd_midi_event_t * dev, const unsigned char * buf, long count, snd_seq_event_t * ev) {
+    snd_midi_event_encode_INDEXED *packed_data = malloc(sizeof(snd_midi_event_encode_INDEXED));
+    packed_data->func = snd_midi_event_encode_INDEX;
+    packed_data->args.a1 = dev;
+    packed_data->args.a2 = buf;
+    packed_data->args.a3 = count;
+    packed_data->args.a4 = ev;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_midi_event_encode_byte
+int snd_midi_event_encode_byte(snd_midi_event_t * dev, int c, snd_seq_event_t * ev) {
+    snd_midi_event_encode_byte_INDEXED *packed_data = malloc(sizeof(snd_midi_event_encode_byte_INDEXED));
+    packed_data->func = snd_midi_event_encode_byte_INDEX;
+    packed_data->args.a1 = dev;
+    packed_data->args.a2 = c;
+    packed_data->args.a3 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_midi_event_free
+void snd_midi_event_free(snd_midi_event_t * dev) {
+    snd_midi_event_free_INDEXED *packed_data = malloc(sizeof(snd_midi_event_free_INDEXED));
+    packed_data->func = snd_midi_event_free_INDEX;
+    packed_data->args.a1 = dev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_midi_event_init
+void snd_midi_event_init(snd_midi_event_t * dev) {
+    snd_midi_event_init_INDEXED *packed_data = malloc(sizeof(snd_midi_event_init_INDEXED));
+    packed_data->func = snd_midi_event_init_INDEX;
+    packed_data->args.a1 = dev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_midi_event_new
+int snd_midi_event_new(size_t bufsize, snd_midi_event_t ** rdev) {
+    snd_midi_event_new_INDEXED *packed_data = malloc(sizeof(snd_midi_event_new_INDEXED));
+    packed_data->func = snd_midi_event_new_INDEX;
+    packed_data->args.a1 = bufsize;
+    packed_data->args.a2 = rdev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_midi_event_no_status
+void snd_midi_event_no_status(snd_midi_event_t * dev, int on) {
+    snd_midi_event_no_status_INDEXED *packed_data = malloc(sizeof(snd_midi_event_no_status_INDEXED));
+    packed_data->func = snd_midi_event_no_status_INDEX;
+    packed_data->args.a1 = dev;
+    packed_data->args.a2 = on;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_midi_event_reset_decode
+void snd_midi_event_reset_decode(snd_midi_event_t * dev) {
+    snd_midi_event_reset_decode_INDEXED *packed_data = malloc(sizeof(snd_midi_event_reset_decode_INDEXED));
+    packed_data->func = snd_midi_event_reset_decode_INDEX;
+    packed_data->args.a1 = dev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_midi_event_reset_encode
+void snd_midi_event_reset_encode(snd_midi_event_t * dev) {
+    snd_midi_event_reset_encode_INDEXED *packed_data = malloc(sizeof(snd_midi_event_reset_encode_INDEXED));
+    packed_data->func = snd_midi_event_reset_encode_INDEX;
+    packed_data->args.a1 = dev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_midi_event_resize_buffer
+int snd_midi_event_resize_buffer(snd_midi_event_t * dev, size_t bufsize) {
+    snd_midi_event_resize_buffer_INDEXED *packed_data = malloc(sizeof(snd_midi_event_resize_buffer_INDEXED));
+    packed_data->func = snd_midi_event_resize_buffer_INDEX;
+    packed_data->args.a1 = dev;
+    packed_data->args.a2 = bufsize;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_add_elem
+int snd_mixer_add_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
+    snd_mixer_add_elem_INDEXED *packed_data = malloc(sizeof(snd_mixer_add_elem_INDEXED));
+    packed_data->func = snd_mixer_add_elem_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_attach
+int snd_mixer_attach(snd_mixer_t * mixer, const char * name) {
+    snd_mixer_attach_INDEXED *packed_data = malloc(sizeof(snd_mixer_attach_INDEXED));
+    packed_data->func = snd_mixer_attach_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_attach_hctl
+int snd_mixer_attach_hctl(snd_mixer_t * mixer, snd_hctl_t * hctl) {
+    snd_mixer_attach_hctl_INDEXED *packed_data = malloc(sizeof(snd_mixer_attach_hctl_INDEXED));
+    packed_data->func = snd_mixer_attach_hctl_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_copy
+void snd_mixer_class_copy(snd_mixer_class_t * dst, const snd_mixer_class_t * src) {
+    snd_mixer_class_copy_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_copy_INDEXED));
+    packed_data->func = snd_mixer_class_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_class_free
+void snd_mixer_class_free(snd_mixer_class_t * obj) {
+    snd_mixer_class_free_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_free_INDEXED));
+    packed_data->func = snd_mixer_class_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_class_get_compare
+snd_mixer_compare_t snd_mixer_class_get_compare(const snd_mixer_class_t * class_) {
+    snd_mixer_class_get_compare_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_get_compare_INDEXED));
+    packed_data->func = snd_mixer_class_get_compare_INDEX;
+    packed_data->args.a1 = class_;
+    snd_mixer_compare_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_get_event
+snd_mixer_event_t snd_mixer_class_get_event(const snd_mixer_class_t * class_) {
+    snd_mixer_class_get_event_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_get_event_INDEXED));
+    packed_data->func = snd_mixer_class_get_event_INDEX;
+    packed_data->args.a1 = class_;
+    snd_mixer_event_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_get_mixer
+snd_mixer_t * snd_mixer_class_get_mixer(const snd_mixer_class_t * class_) {
+    snd_mixer_class_get_mixer_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_get_mixer_INDEXED));
+    packed_data->func = snd_mixer_class_get_mixer_INDEX;
+    packed_data->args.a1 = class_;
+    snd_mixer_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_get_private
+void * snd_mixer_class_get_private(const snd_mixer_class_t * class_) {
+    snd_mixer_class_get_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_get_private_INDEXED));
+    packed_data->func = snd_mixer_class_get_private_INDEX;
+    packed_data->args.a1 = class_;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_malloc
+int snd_mixer_class_malloc(snd_mixer_class_t ** ptr) {
+    snd_mixer_class_malloc_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_malloc_INDEXED));
+    packed_data->func = snd_mixer_class_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_register
+int snd_mixer_class_register(snd_mixer_class_t * class_, snd_mixer_t * mixer) {
+    snd_mixer_class_register_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_register_INDEXED));
+    packed_data->func = snd_mixer_class_register_INDEX;
+    packed_data->args.a1 = class_;
+    packed_data->args.a2 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_set_compare
+int snd_mixer_class_set_compare(snd_mixer_class_t * class_, snd_mixer_compare_t compare) {
+    snd_mixer_class_set_compare_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_set_compare_INDEXED));
+    packed_data->func = snd_mixer_class_set_compare_INDEX;
+    packed_data->args.a1 = class_;
+    packed_data->args.a2 = compare;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_set_event
+int snd_mixer_class_set_event(snd_mixer_class_t * class_, snd_mixer_event_t event) {
+    snd_mixer_class_set_event_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_set_event_INDEXED));
+    packed_data->func = snd_mixer_class_set_event_INDEX;
+    packed_data->args.a1 = class_;
+    packed_data->args.a2 = event;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_set_private
+int snd_mixer_class_set_private(snd_mixer_class_t * class_, void * private_data) {
+    snd_mixer_class_set_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_set_private_INDEXED));
+    packed_data->func = snd_mixer_class_set_private_INDEX;
+    packed_data->args.a1 = class_;
+    packed_data->args.a2 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_sizeof
+size_t snd_mixer_class_sizeof() {
+    snd_mixer_class_sizeof_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_sizeof_INDEXED));
+    packed_data->func = snd_mixer_class_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_class_unregister
+int snd_mixer_class_unregister(snd_mixer_class_t * clss) {
+    snd_mixer_class_unregister_INDEXED *packed_data = malloc(sizeof(snd_mixer_class_unregister_INDEXED));
+    packed_data->func = snd_mixer_class_unregister_INDEX;
+    packed_data->args.a1 = clss;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_close
+int snd_mixer_close(snd_mixer_t * mixer) {
+    snd_mixer_close_INDEXED *packed_data = malloc(sizeof(snd_mixer_close_INDEXED));
+    packed_data->func = snd_mixer_close_INDEX;
+    packed_data->args.a1 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_detach
+int snd_mixer_detach(snd_mixer_t * mixer, const char * name) {
+    snd_mixer_detach_INDEXED *packed_data = malloc(sizeof(snd_mixer_detach_INDEXED));
+    packed_data->func = snd_mixer_detach_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_detach_hctl
+int snd_mixer_detach_hctl(snd_mixer_t * mixer, snd_hctl_t * hctl) {
+    snd_mixer_detach_hctl_INDEXED *packed_data = malloc(sizeof(snd_mixer_detach_hctl_INDEXED));
+    packed_data->func = snd_mixer_detach_hctl_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_add
+int snd_mixer_elem_add(snd_mixer_elem_t * elem, snd_mixer_class_t * class_) {
+    snd_mixer_elem_add_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_add_INDEXED));
+    packed_data->func = snd_mixer_elem_add_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = class_;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_attach
+int snd_mixer_elem_attach(snd_mixer_elem_t * melem, snd_hctl_elem_t * helem) {
+    snd_mixer_elem_attach_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_attach_INDEXED));
+    packed_data->func = snd_mixer_elem_attach_INDEX;
+    packed_data->args.a1 = melem;
+    packed_data->args.a2 = helem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_detach
+int snd_mixer_elem_detach(snd_mixer_elem_t * melem, snd_hctl_elem_t * helem) {
+    snd_mixer_elem_detach_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_detach_INDEXED));
+    packed_data->func = snd_mixer_elem_detach_INDEX;
+    packed_data->args.a1 = melem;
+    packed_data->args.a2 = helem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_empty
+int snd_mixer_elem_empty(snd_mixer_elem_t * melem) {
+    snd_mixer_elem_empty_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_empty_INDEXED));
+    packed_data->func = snd_mixer_elem_empty_INDEX;
+    packed_data->args.a1 = melem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_free
+void snd_mixer_elem_free(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_free_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_free_INDEXED));
+    packed_data->func = snd_mixer_elem_free_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_get_callback_private
+void * snd_mixer_elem_get_callback_private(const snd_mixer_elem_t * obj) {
+    snd_mixer_elem_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_get_callback_private_INDEXED));
+    packed_data->func = snd_mixer_elem_get_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_get_private
+void * snd_mixer_elem_get_private(const snd_mixer_elem_t * melem) {
+    snd_mixer_elem_get_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_get_private_INDEXED));
+    packed_data->func = snd_mixer_elem_get_private_INDEX;
+    packed_data->args.a1 = melem;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_get_type
+snd_mixer_elem_type_t snd_mixer_elem_get_type(const snd_mixer_elem_t * obj) {
+    snd_mixer_elem_get_type_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_get_type_INDEXED));
+    packed_data->func = snd_mixer_elem_get_type_INDEX;
+    packed_data->args.a1 = obj;
+    snd_mixer_elem_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_info
+int snd_mixer_elem_info(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_info_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_info_INDEXED));
+    packed_data->func = snd_mixer_elem_info_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_next
+snd_mixer_elem_t * snd_mixer_elem_next(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_next_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_next_INDEXED));
+    packed_data->func = snd_mixer_elem_next_INDEX;
+    packed_data->args.a1 = elem;
+    snd_mixer_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_prev
+snd_mixer_elem_t * snd_mixer_elem_prev(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_prev_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_prev_INDEXED));
+    packed_data->func = snd_mixer_elem_prev_INDEX;
+    packed_data->args.a1 = elem;
+    snd_mixer_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_remove
+int snd_mixer_elem_remove(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_remove_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_remove_INDEXED));
+    packed_data->func = snd_mixer_elem_remove_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_set_callback
+void snd_mixer_elem_set_callback(snd_mixer_elem_t * obj, snd_mixer_elem_callback_t val) {
+    snd_mixer_elem_set_callback_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_set_callback_INDEXED));
+    packed_data->func = snd_mixer_elem_set_callback_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_set_callback_private
+void snd_mixer_elem_set_callback_private(snd_mixer_elem_t * obj, void * val) {
+    snd_mixer_elem_set_callback_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_set_callback_private_INDEXED));
+    packed_data->func = snd_mixer_elem_set_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_elem_value
+int snd_mixer_elem_value(snd_mixer_elem_t * elem) {
+    snd_mixer_elem_value_INDEXED *packed_data = malloc(sizeof(snd_mixer_elem_value_INDEXED));
+    packed_data->func = snd_mixer_elem_value_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_find_selem
+snd_mixer_elem_t * snd_mixer_find_selem(snd_mixer_t * mixer, const snd_mixer_selem_id_t * id) {
+    snd_mixer_find_selem_INDEXED *packed_data = malloc(sizeof(snd_mixer_find_selem_INDEXED));
+    packed_data->func = snd_mixer_find_selem_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = id;
+    snd_mixer_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_first_elem
+snd_mixer_elem_t * snd_mixer_first_elem(snd_mixer_t * mixer) {
+    snd_mixer_first_elem_INDEXED *packed_data = malloc(sizeof(snd_mixer_first_elem_INDEXED));
+    packed_data->func = snd_mixer_first_elem_INDEX;
+    packed_data->args.a1 = mixer;
+    snd_mixer_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_free
+void snd_mixer_free(snd_mixer_t * mixer) {
+    snd_mixer_free_INDEXED *packed_data = malloc(sizeof(snd_mixer_free_INDEXED));
+    packed_data->func = snd_mixer_free_INDEX;
+    packed_data->args.a1 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_get_callback_private
+void * snd_mixer_get_callback_private(const snd_mixer_t * obj) {
+    snd_mixer_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_get_callback_private_INDEXED));
+    packed_data->func = snd_mixer_get_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_get_count
+unsigned int snd_mixer_get_count(const snd_mixer_t * obj) {
+    snd_mixer_get_count_INDEXED *packed_data = malloc(sizeof(snd_mixer_get_count_INDEXED));
+    packed_data->func = snd_mixer_get_count_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_get_hctl
+int snd_mixer_get_hctl(snd_mixer_t * mixer, const char * name, snd_hctl_t ** hctl) {
+    snd_mixer_get_hctl_INDEXED *packed_data = malloc(sizeof(snd_mixer_get_hctl_INDEXED));
+    packed_data->func = snd_mixer_get_hctl_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = hctl;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_handle_events
+int snd_mixer_handle_events(snd_mixer_t * mixer) {
+    snd_mixer_handle_events_INDEXED *packed_data = malloc(sizeof(snd_mixer_handle_events_INDEXED));
+    packed_data->func = snd_mixer_handle_events_INDEX;
+    packed_data->args.a1 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_last_elem
+snd_mixer_elem_t * snd_mixer_last_elem(snd_mixer_t * mixer) {
+    snd_mixer_last_elem_INDEXED *packed_data = malloc(sizeof(snd_mixer_last_elem_INDEXED));
+    packed_data->func = snd_mixer_last_elem_INDEX;
+    packed_data->args.a1 = mixer;
+    snd_mixer_elem_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_load
+int snd_mixer_load(snd_mixer_t * mixer) {
+    snd_mixer_load_INDEXED *packed_data = malloc(sizeof(snd_mixer_load_INDEXED));
+    packed_data->func = snd_mixer_load_INDEX;
+    packed_data->args.a1 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_open
+int snd_mixer_open(snd_mixer_t ** mixer, int mode) {
+    snd_mixer_open_INDEXED *packed_data = malloc(sizeof(snd_mixer_open_INDEXED));
+    packed_data->func = snd_mixer_open_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_poll_descriptors
+int snd_mixer_poll_descriptors(snd_mixer_t * mixer, struct pollfd * pfds, unsigned int space) {
+    snd_mixer_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_mixer_poll_descriptors_INDEXED));
+    packed_data->func = snd_mixer_poll_descriptors_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_poll_descriptors_count
+int snd_mixer_poll_descriptors_count(snd_mixer_t * mixer) {
+    snd_mixer_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_mixer_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_mixer_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = mixer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_poll_descriptors_revents
+int snd_mixer_poll_descriptors_revents(snd_mixer_t * mixer, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_mixer_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_mixer_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_mixer_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_remove_elem
+int snd_mixer_remove_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
+    snd_mixer_remove_elem_INDEXED *packed_data = malloc(sizeof(snd_mixer_remove_elem_INDEXED));
+    packed_data->func = snd_mixer_remove_elem_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_channel_name
+const char * snd_mixer_selem_channel_name(snd_mixer_selem_channel_id_t channel) {
+    snd_mixer_selem_channel_name_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_channel_name_INDEXED));
+    packed_data->func = snd_mixer_selem_channel_name_INDEX;
+    packed_data->args.a1 = channel;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_dB
+int snd_mixer_selem_get_capture_dB(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value) {
+    snd_mixer_selem_get_capture_dB_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_dB_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_dB_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_dB_range
+int snd_mixer_selem_get_capture_dB_range(snd_mixer_elem_t * elem, long * min, long * max) {
+    snd_mixer_selem_get_capture_dB_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_dB_range_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_dB_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_group
+int snd_mixer_selem_get_capture_group(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_get_capture_group_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_group_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_group_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_switch
+int snd_mixer_selem_get_capture_switch(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int * value) {
+    snd_mixer_selem_get_capture_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_switch_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_volume
+int snd_mixer_selem_get_capture_volume(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value) {
+    snd_mixer_selem_get_capture_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_volume_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_capture_volume_range
+int snd_mixer_selem_get_capture_volume_range(snd_mixer_elem_t * elem, long * min, long * max) {
+    snd_mixer_selem_get_capture_volume_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_capture_volume_range_INDEXED));
+    packed_data->func = snd_mixer_selem_get_capture_volume_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_enum_item
+int snd_mixer_selem_get_enum_item(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, unsigned int * idxp) {
+    snd_mixer_selem_get_enum_item_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_enum_item_INDEXED));
+    packed_data->func = snd_mixer_selem_get_enum_item_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = idxp;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_enum_item_name
+int snd_mixer_selem_get_enum_item_name(snd_mixer_elem_t * elem, unsigned int idx, size_t maxlen, char * str) {
+    snd_mixer_selem_get_enum_item_name_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_enum_item_name_INDEXED));
+    packed_data->func = snd_mixer_selem_get_enum_item_name_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = idx;
+    packed_data->args.a3 = maxlen;
+    packed_data->args.a4 = str;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_enum_items
+int snd_mixer_selem_get_enum_items(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_get_enum_items_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_enum_items_INDEXED));
+    packed_data->func = snd_mixer_selem_get_enum_items_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_id
+void snd_mixer_selem_get_id(snd_mixer_elem_t * element, snd_mixer_selem_id_t * id) {
+    snd_mixer_selem_get_id_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_id_INDEXED));
+    packed_data->func = snd_mixer_selem_get_id_INDEX;
+    packed_data->args.a1 = element;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_index
+unsigned int snd_mixer_selem_get_index(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_get_index_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_index_INDEXED));
+    packed_data->func = snd_mixer_selem_get_index_INDEX;
+    packed_data->args.a1 = elem;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_name
+const char * snd_mixer_selem_get_name(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_get_name_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_name_INDEXED));
+    packed_data->func = snd_mixer_selem_get_name_INDEX;
+    packed_data->args.a1 = elem;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_playback_dB
+int snd_mixer_selem_get_playback_dB(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value) {
+    snd_mixer_selem_get_playback_dB_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_playback_dB_INDEXED));
+    packed_data->func = snd_mixer_selem_get_playback_dB_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_playback_dB_range
+int snd_mixer_selem_get_playback_dB_range(snd_mixer_elem_t * elem, long * min, long * max) {
+    snd_mixer_selem_get_playback_dB_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_playback_dB_range_INDEXED));
+    packed_data->func = snd_mixer_selem_get_playback_dB_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_playback_switch
+int snd_mixer_selem_get_playback_switch(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int * value) {
+    snd_mixer_selem_get_playback_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_playback_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_get_playback_switch_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_playback_volume
+int snd_mixer_selem_get_playback_volume(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value) {
+    snd_mixer_selem_get_playback_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_playback_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_get_playback_volume_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_get_playback_volume_range
+int snd_mixer_selem_get_playback_volume_range(snd_mixer_elem_t * elem, long * min, long * max) {
+    snd_mixer_selem_get_playback_volume_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_get_playback_volume_range_INDEXED));
+    packed_data->func = snd_mixer_selem_get_playback_volume_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_channel
+int snd_mixer_selem_has_capture_channel(snd_mixer_elem_t * obj, snd_mixer_selem_channel_id_t channel) {
+    snd_mixer_selem_has_capture_channel_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_channel_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_channel_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = channel;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_switch
+int snd_mixer_selem_has_capture_switch(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_capture_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_switch_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_switch_exclusive
+int snd_mixer_selem_has_capture_switch_exclusive(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_capture_switch_exclusive_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_switch_exclusive_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_switch_exclusive_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_switch_joined
+int snd_mixer_selem_has_capture_switch_joined(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_capture_switch_joined_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_switch_joined_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_switch_joined_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_volume
+int snd_mixer_selem_has_capture_volume(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_capture_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_volume_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_capture_volume_joined
+int snd_mixer_selem_has_capture_volume_joined(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_capture_volume_joined_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_capture_volume_joined_INDEXED));
+    packed_data->func = snd_mixer_selem_has_capture_volume_joined_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_common_switch
+int snd_mixer_selem_has_common_switch(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_common_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_common_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_has_common_switch_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_common_volume
+int snd_mixer_selem_has_common_volume(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_common_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_common_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_has_common_volume_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_playback_channel
+int snd_mixer_selem_has_playback_channel(snd_mixer_elem_t * obj, snd_mixer_selem_channel_id_t channel) {
+    snd_mixer_selem_has_playback_channel_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_playback_channel_INDEXED));
+    packed_data->func = snd_mixer_selem_has_playback_channel_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = channel;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_playback_switch
+int snd_mixer_selem_has_playback_switch(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_playback_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_playback_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_has_playback_switch_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_playback_switch_joined
+int snd_mixer_selem_has_playback_switch_joined(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_playback_switch_joined_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_playback_switch_joined_INDEXED));
+    packed_data->func = snd_mixer_selem_has_playback_switch_joined_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_playback_volume
+int snd_mixer_selem_has_playback_volume(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_playback_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_playback_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_has_playback_volume_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_has_playback_volume_joined
+int snd_mixer_selem_has_playback_volume_joined(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_has_playback_volume_joined_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_has_playback_volume_joined_INDEXED));
+    packed_data->func = snd_mixer_selem_has_playback_volume_joined_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_copy
+void snd_mixer_selem_id_copy(snd_mixer_selem_id_t * dst, const snd_mixer_selem_id_t * src) {
+    snd_mixer_selem_id_copy_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_copy_INDEXED));
+    packed_data->func = snd_mixer_selem_id_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_free
+void snd_mixer_selem_id_free(snd_mixer_selem_id_t * obj) {
+    snd_mixer_selem_id_free_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_free_INDEXED));
+    packed_data->func = snd_mixer_selem_id_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_get_index
+unsigned int snd_mixer_selem_id_get_index(const snd_mixer_selem_id_t * obj) {
+    snd_mixer_selem_id_get_index_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_get_index_INDEXED));
+    packed_data->func = snd_mixer_selem_id_get_index_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_get_name
+const char * snd_mixer_selem_id_get_name(const snd_mixer_selem_id_t * obj) {
+    snd_mixer_selem_id_get_name_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_get_name_INDEXED));
+    packed_data->func = snd_mixer_selem_id_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_malloc
+int snd_mixer_selem_id_malloc(snd_mixer_selem_id_t ** ptr) {
+    snd_mixer_selem_id_malloc_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_malloc_INDEXED));
+    packed_data->func = snd_mixer_selem_id_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_set_index
+void snd_mixer_selem_id_set_index(snd_mixer_selem_id_t * obj, unsigned int val) {
+    snd_mixer_selem_id_set_index_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_set_index_INDEXED));
+    packed_data->func = snd_mixer_selem_id_set_index_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_set_name
+void snd_mixer_selem_id_set_name(snd_mixer_selem_id_t * obj, const char * val) {
+    snd_mixer_selem_id_set_name_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_set_name_INDEXED));
+    packed_data->func = snd_mixer_selem_id_set_name_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_id_sizeof
+size_t snd_mixer_selem_id_sizeof() {
+    snd_mixer_selem_id_sizeof_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_id_sizeof_INDEXED));
+    packed_data->func = snd_mixer_selem_id_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_active
+int snd_mixer_selem_is_active(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_active_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_active_INDEXED));
+    packed_data->func = snd_mixer_selem_is_active_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_capture_mono
+int snd_mixer_selem_is_capture_mono(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_capture_mono_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_capture_mono_INDEXED));
+    packed_data->func = snd_mixer_selem_is_capture_mono_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_enum_capture
+int snd_mixer_selem_is_enum_capture(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_enum_capture_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_enum_capture_INDEXED));
+    packed_data->func = snd_mixer_selem_is_enum_capture_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_enum_playback
+int snd_mixer_selem_is_enum_playback(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_enum_playback_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_enum_playback_INDEXED));
+    packed_data->func = snd_mixer_selem_is_enum_playback_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_enumerated
+int snd_mixer_selem_is_enumerated(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_enumerated_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_enumerated_INDEXED));
+    packed_data->func = snd_mixer_selem_is_enumerated_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_is_playback_mono
+int snd_mixer_selem_is_playback_mono(snd_mixer_elem_t * elem) {
+    snd_mixer_selem_is_playback_mono_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_is_playback_mono_INDEXED));
+    packed_data->func = snd_mixer_selem_is_playback_mono_INDEX;
+    packed_data->args.a1 = elem;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_register
+int snd_mixer_selem_register(snd_mixer_t * mixer, struct snd_mixer_selem_regopt * options, snd_mixer_class_t ** classp) {
+    snd_mixer_selem_register_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_register_INDEXED));
+    packed_data->func = snd_mixer_selem_register_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = options;
+    packed_data->args.a3 = classp;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_dB
+int snd_mixer_selem_set_capture_dB(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value, int dir) {
+    snd_mixer_selem_set_capture_dB_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_dB_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_dB_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_dB_all
+int snd_mixer_selem_set_capture_dB_all(snd_mixer_elem_t * elem, long value, int dir) {
+    snd_mixer_selem_set_capture_dB_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_dB_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_dB_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_switch
+int snd_mixer_selem_set_capture_switch(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int value) {
+    snd_mixer_selem_set_capture_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_switch_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_switch_all
+int snd_mixer_selem_set_capture_switch_all(snd_mixer_elem_t * elem, int value) {
+    snd_mixer_selem_set_capture_switch_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_switch_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_switch_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_volume
+int snd_mixer_selem_set_capture_volume(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value) {
+    snd_mixer_selem_set_capture_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_volume_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_volume_all
+int snd_mixer_selem_set_capture_volume_all(snd_mixer_elem_t * elem, long value) {
+    snd_mixer_selem_set_capture_volume_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_volume_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_volume_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_capture_volume_range
+int snd_mixer_selem_set_capture_volume_range(snd_mixer_elem_t * elem, long min, long max) {
+    snd_mixer_selem_set_capture_volume_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_capture_volume_range_INDEXED));
+    packed_data->func = snd_mixer_selem_set_capture_volume_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_enum_item
+int snd_mixer_selem_set_enum_item(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, unsigned int idx) {
+    snd_mixer_selem_set_enum_item_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_enum_item_INDEXED));
+    packed_data->func = snd_mixer_selem_set_enum_item_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = idx;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_dB
+int snd_mixer_selem_set_playback_dB(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value, int dir) {
+    snd_mixer_selem_set_playback_dB_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_dB_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_dB_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_dB_all
+int snd_mixer_selem_set_playback_dB_all(snd_mixer_elem_t * elem, long value, int dir) {
+    snd_mixer_selem_set_playback_dB_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_dB_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_dB_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_switch
+int snd_mixer_selem_set_playback_switch(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int value) {
+    snd_mixer_selem_set_playback_switch_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_switch_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_switch_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_switch_all
+int snd_mixer_selem_set_playback_switch_all(snd_mixer_elem_t * elem, int value) {
+    snd_mixer_selem_set_playback_switch_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_switch_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_switch_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_volume
+int snd_mixer_selem_set_playback_volume(snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value) {
+    snd_mixer_selem_set_playback_volume_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_volume_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_volume_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = channel;
+    packed_data->args.a3 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_volume_all
+int snd_mixer_selem_set_playback_volume_all(snd_mixer_elem_t * elem, long value) {
+    snd_mixer_selem_set_playback_volume_all_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_volume_all_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_volume_all_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = value;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_selem_set_playback_volume_range
+int snd_mixer_selem_set_playback_volume_range(snd_mixer_elem_t * elem, long min, long max) {
+    snd_mixer_selem_set_playback_volume_range_INDEXED *packed_data = malloc(sizeof(snd_mixer_selem_set_playback_volume_range_INDEXED));
+    packed_data->func = snd_mixer_selem_set_playback_volume_range_INDEX;
+    packed_data->args.a1 = elem;
+    packed_data->args.a2 = min;
+    packed_data->args.a3 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_set_callback
+void snd_mixer_set_callback(snd_mixer_t * obj, snd_mixer_callback_t val) {
+    snd_mixer_set_callback_INDEXED *packed_data = malloc(sizeof(snd_mixer_set_callback_INDEXED));
+    packed_data->func = snd_mixer_set_callback_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_set_callback_private
+void snd_mixer_set_callback_private(snd_mixer_t * obj, void * val) {
+    snd_mixer_set_callback_private_INDEXED *packed_data = malloc(sizeof(snd_mixer_set_callback_private_INDEXED));
+    packed_data->func = snd_mixer_set_callback_private_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_mixer_set_compare
+int snd_mixer_set_compare(snd_mixer_t * mixer, snd_mixer_compare_t msort) {
+    snd_mixer_set_compare_INDEXED *packed_data = malloc(sizeof(snd_mixer_set_compare_INDEXED));
+    packed_data->func = snd_mixer_set_compare_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = msort;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_mixer_wait
+int snd_mixer_wait(snd_mixer_t * mixer, int timeout) {
+    snd_mixer_wait_INDEXED *packed_data = malloc(sizeof(snd_mixer_wait_INDEXED));
+    packed_data->func = snd_mixer_wait_INDEX;
+    packed_data->args.a1 = mixer;
+    packed_data->args.a2 = timeout;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_names_list
+int snd_names_list(const char * iface, snd_devname_t ** list) {
+    snd_names_list_INDEXED *packed_data = malloc(sizeof(snd_names_list_INDEXED));
+    packed_data->func = snd_names_list_INDEX;
+    packed_data->args.a1 = iface;
+    packed_data->args.a2 = list;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_names_list_free
+void snd_names_list_free(snd_devname_t * list) {
+    snd_names_list_free_INDEXED *packed_data = malloc(sizeof(snd_names_list_free_INDEXED));
+    packed_data->func = snd_names_list_free_INDEX;
+    packed_data->args.a1 = list;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_output_buffer_open
+int snd_output_buffer_open(snd_output_t ** outputp) {
+    snd_output_buffer_open_INDEXED *packed_data = malloc(sizeof(snd_output_buffer_open_INDEXED));
+    packed_data->func = snd_output_buffer_open_INDEX;
+    packed_data->args.a1 = outputp;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_buffer_string
+size_t snd_output_buffer_string(snd_output_t * output, char ** buf) {
+    snd_output_buffer_string_INDEXED *packed_data = malloc(sizeof(snd_output_buffer_string_INDEXED));
+    packed_data->func = snd_output_buffer_string_INDEX;
+    packed_data->args.a1 = output;
+    packed_data->args.a2 = buf;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_close
+int snd_output_close(snd_output_t * output) {
+    snd_output_close_INDEXED *packed_data = malloc(sizeof(snd_output_close_INDEXED));
+    packed_data->func = snd_output_close_INDEX;
+    packed_data->args.a1 = output;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_flush
+int snd_output_flush(snd_output_t * output) {
+    snd_output_flush_INDEXED *packed_data = malloc(sizeof(snd_output_flush_INDEXED));
+    packed_data->func = snd_output_flush_INDEX;
+    packed_data->args.a1 = output;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_putc
+int snd_output_putc(snd_output_t * output, int c) {
+    snd_output_putc_INDEXED *packed_data = malloc(sizeof(snd_output_putc_INDEXED));
+    packed_data->func = snd_output_putc_INDEX;
+    packed_data->args.a1 = output;
+    packed_data->args.a2 = c;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_puts
+int snd_output_puts(snd_output_t * output, const char * str) {
+    snd_output_puts_INDEXED *packed_data = malloc(sizeof(snd_output_puts_INDEXED));
+    packed_data->func = snd_output_puts_INDEX;
+    packed_data->args.a1 = output;
+    packed_data->args.a2 = str;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_stdio_attach
+int snd_output_stdio_attach(snd_output_t ** outputp, FILE * fp, int _close) {
+    snd_output_stdio_attach_INDEXED *packed_data = malloc(sizeof(snd_output_stdio_attach_INDEXED));
+    packed_data->func = snd_output_stdio_attach_INDEX;
+    packed_data->args.a1 = outputp;
+    packed_data->args.a2 = fp;
+    packed_data->args.a3 = _close;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_stdio_open
+int snd_output_stdio_open(snd_output_t ** outputp, const char * file, const char * mode) {
+    snd_output_stdio_open_INDEXED *packed_data = malloc(sizeof(snd_output_stdio_open_INDEXED));
+    packed_data->func = snd_output_stdio_open_INDEX;
+    packed_data->args.a1 = outputp;
+    packed_data->args.a2 = file;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_output_vprintf
+int snd_output_vprintf(snd_output_t * output, const char * format, va_list args) {
+    snd_output_vprintf_INDEXED *packed_data = malloc(sizeof(snd_output_vprintf_INDEXED));
+    packed_data->func = snd_output_vprintf_INDEX;
+    packed_data->args.a1 = output;
+    packed_data->args.a2 = format;
+    packed_data->args.a3 = args;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_any
+void snd_pcm_access_mask_any(snd_pcm_access_mask_t * mask) {
+    snd_pcm_access_mask_any_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_any_INDEXED));
+    packed_data->func = snd_pcm_access_mask_any_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_copy
+void snd_pcm_access_mask_copy(snd_pcm_access_mask_t * dst, const snd_pcm_access_mask_t * src) {
+    snd_pcm_access_mask_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_copy_INDEXED));
+    packed_data->func = snd_pcm_access_mask_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_empty
+int snd_pcm_access_mask_empty(const snd_pcm_access_mask_t * mask) {
+    snd_pcm_access_mask_empty_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_empty_INDEXED));
+    packed_data->func = snd_pcm_access_mask_empty_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_free
+void snd_pcm_access_mask_free(snd_pcm_access_mask_t * obj) {
+    snd_pcm_access_mask_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_free_INDEXED));
+    packed_data->func = snd_pcm_access_mask_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_malloc
+int snd_pcm_access_mask_malloc(snd_pcm_access_mask_t ** ptr) {
+    snd_pcm_access_mask_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_malloc_INDEXED));
+    packed_data->func = snd_pcm_access_mask_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_none
+void snd_pcm_access_mask_none(snd_pcm_access_mask_t * mask) {
+    snd_pcm_access_mask_none_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_none_INDEXED));
+    packed_data->func = snd_pcm_access_mask_none_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_reset
+void snd_pcm_access_mask_reset(snd_pcm_access_mask_t * mask, snd_pcm_access_t val) {
+    snd_pcm_access_mask_reset_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_reset_INDEXED));
+    packed_data->func = snd_pcm_access_mask_reset_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_set
+void snd_pcm_access_mask_set(snd_pcm_access_mask_t * mask, snd_pcm_access_t val) {
+    snd_pcm_access_mask_set_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_set_INDEXED));
+    packed_data->func = snd_pcm_access_mask_set_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_access_mask_test
+int snd_pcm_access_mask_test(const snd_pcm_access_mask_t * mask, snd_pcm_access_t val) {
+    snd_pcm_access_mask_test_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_test_INDEXED));
+    packed_data->func = snd_pcm_access_mask_test_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_access_name
+const char * snd_pcm_access_name(const snd_pcm_access_t _access) {
+    snd_pcm_access_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_name_INDEXED));
+    packed_data->func = snd_pcm_access_name_INDEX;
+    packed_data->args.a1 = _access;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_area_copy
+int snd_pcm_area_copy(const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channel, snd_pcm_uframes_t src_offset, unsigned int samples, snd_pcm_format_t format) {
+    snd_pcm_area_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_area_copy_INDEXED));
+    packed_data->func = snd_pcm_area_copy_INDEX;
+    packed_data->args.a1 = dst_channel;
+    packed_data->args.a2 = dst_offset;
+    packed_data->args.a3 = src_channel;
+    packed_data->args.a4 = src_offset;
+    packed_data->args.a5 = samples;
+    packed_data->args.a6 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_area_silence
+int snd_pcm_area_silence(const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, unsigned int samples, snd_pcm_format_t format) {
+    snd_pcm_area_silence_INDEXED *packed_data = malloc(sizeof(snd_pcm_area_silence_INDEXED));
+    packed_data->func = snd_pcm_area_silence_INDEX;
+    packed_data->args.a1 = dst_channel;
+    packed_data->args.a2 = dst_offset;
+    packed_data->args.a3 = samples;
+    packed_data->args.a4 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_areas_copy
+int snd_pcm_areas_copy(const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channels, snd_pcm_uframes_t src_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format) {
+    snd_pcm_areas_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_areas_copy_INDEXED));
+    packed_data->func = snd_pcm_areas_copy_INDEX;
+    packed_data->args.a1 = dst_channels;
+    packed_data->args.a2 = dst_offset;
+    packed_data->args.a3 = src_channels;
+    packed_data->args.a4 = src_offset;
+    packed_data->args.a5 = channels;
+    packed_data->args.a6 = frames;
+    packed_data->args.a7 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_areas_silence
+int snd_pcm_areas_silence(const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format) {
+    snd_pcm_areas_silence_INDEXED *packed_data = malloc(sizeof(snd_pcm_areas_silence_INDEXED));
+    packed_data->func = snd_pcm_areas_silence_INDEX;
+    packed_data->args.a1 = dst_channels;
+    packed_data->args.a2 = dst_offset;
+    packed_data->args.a3 = channels;
+    packed_data->args.a4 = frames;
+    packed_data->args.a5 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_avail_update
+snd_pcm_sframes_t snd_pcm_avail_update(snd_pcm_t * pcm) {
+    snd_pcm_avail_update_INDEXED *packed_data = malloc(sizeof(snd_pcm_avail_update_INDEXED));
+    packed_data->func = snd_pcm_avail_update_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_build_linear_format
+snd_pcm_format_t snd_pcm_build_linear_format(int width, int pwidth, int unsignd, int big_endian) {
+    snd_pcm_build_linear_format_INDEXED *packed_data = malloc(sizeof(snd_pcm_build_linear_format_INDEXED));
+    packed_data->func = snd_pcm_build_linear_format_INDEX;
+    packed_data->args.a1 = width;
+    packed_data->args.a2 = pwidth;
+    packed_data->args.a3 = unsignd;
+    packed_data->args.a4 = big_endian;
+    snd_pcm_format_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_bytes_to_frames
+snd_pcm_sframes_t snd_pcm_bytes_to_frames(snd_pcm_t * pcm, ssize_t bytes) {
+    snd_pcm_bytes_to_frames_INDEXED *packed_data = malloc(sizeof(snd_pcm_bytes_to_frames_INDEXED));
+    packed_data->func = snd_pcm_bytes_to_frames_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bytes;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_bytes_to_samples
+long snd_pcm_bytes_to_samples(snd_pcm_t * pcm, ssize_t bytes) {
+    snd_pcm_bytes_to_samples_INDEXED *packed_data = malloc(sizeof(snd_pcm_bytes_to_samples_INDEXED));
+    packed_data->func = snd_pcm_bytes_to_samples_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bytes;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_close
+int snd_pcm_close(snd_pcm_t * pcm) {
+    snd_pcm_close_INDEXED *packed_data = malloc(sizeof(snd_pcm_close_INDEXED));
+    packed_data->func = snd_pcm_close_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_delay
+int snd_pcm_delay(snd_pcm_t * pcm, snd_pcm_sframes_t * delayp) {
+    snd_pcm_delay_INDEXED *packed_data = malloc(sizeof(snd_pcm_delay_INDEXED));
+    packed_data->func = snd_pcm_delay_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = delayp;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_drain
+int snd_pcm_drain(snd_pcm_t * pcm) {
+    snd_pcm_drain_INDEXED *packed_data = malloc(sizeof(snd_pcm_drain_INDEXED));
+    packed_data->func = snd_pcm_drain_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_drop
+int snd_pcm_drop(snd_pcm_t * pcm) {
+    snd_pcm_drop_INDEXED *packed_data = malloc(sizeof(snd_pcm_drop_INDEXED));
+    packed_data->func = snd_pcm_drop_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_dump
+int snd_pcm_dump(snd_pcm_t * pcm, snd_output_t * out) {
+    snd_pcm_dump_INDEXED *packed_data = malloc(sizeof(snd_pcm_dump_INDEXED));
+    packed_data->func = snd_pcm_dump_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_dump_hw_setup
+int snd_pcm_dump_hw_setup(snd_pcm_t * pcm, snd_output_t * out) {
+    snd_pcm_dump_hw_setup_INDEXED *packed_data = malloc(sizeof(snd_pcm_dump_hw_setup_INDEXED));
+    packed_data->func = snd_pcm_dump_hw_setup_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_dump_setup
+int snd_pcm_dump_setup(snd_pcm_t * pcm, snd_output_t * out) {
+    snd_pcm_dump_setup_INDEXED *packed_data = malloc(sizeof(snd_pcm_dump_setup_INDEXED));
+    packed_data->func = snd_pcm_dump_setup_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_dump_sw_setup
+int snd_pcm_dump_sw_setup(snd_pcm_t * pcm, snd_output_t * out) {
+    snd_pcm_dump_sw_setup_INDEXED *packed_data = malloc(sizeof(snd_pcm_dump_sw_setup_INDEXED));
+    packed_data->func = snd_pcm_dump_sw_setup_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_big_endian
+int snd_pcm_format_big_endian(snd_pcm_format_t format) {
+    snd_pcm_format_big_endian_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_big_endian_INDEXED));
+    packed_data->func = snd_pcm_format_big_endian_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_cpu_endian
+int snd_pcm_format_cpu_endian(snd_pcm_format_t format) {
+    snd_pcm_format_cpu_endian_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_cpu_endian_INDEXED));
+    packed_data->func = snd_pcm_format_cpu_endian_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_description
+const char * snd_pcm_format_description(const snd_pcm_format_t format) {
+    snd_pcm_format_description_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_description_INDEXED));
+    packed_data->func = snd_pcm_format_description_INDEX;
+    packed_data->args.a1 = format;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_float
+int snd_pcm_format_float(snd_pcm_format_t format) {
+    snd_pcm_format_float_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_float_INDEXED));
+    packed_data->func = snd_pcm_format_float_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_linear
+int snd_pcm_format_linear(snd_pcm_format_t format) {
+    snd_pcm_format_linear_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_linear_INDEXED));
+    packed_data->func = snd_pcm_format_linear_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_little_endian
+int snd_pcm_format_little_endian(snd_pcm_format_t format) {
+    snd_pcm_format_little_endian_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_little_endian_INDEXED));
+    packed_data->func = snd_pcm_format_little_endian_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_any
+void snd_pcm_format_mask_any(snd_pcm_format_mask_t * mask) {
+    snd_pcm_format_mask_any_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_any_INDEXED));
+    packed_data->func = snd_pcm_format_mask_any_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_copy
+void snd_pcm_format_mask_copy(snd_pcm_format_mask_t * dst, const snd_pcm_format_mask_t * src) {
+    snd_pcm_format_mask_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_copy_INDEXED));
+    packed_data->func = snd_pcm_format_mask_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_empty
+int snd_pcm_format_mask_empty(const snd_pcm_format_mask_t * mask) {
+    snd_pcm_format_mask_empty_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_empty_INDEXED));
+    packed_data->func = snd_pcm_format_mask_empty_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_free
+void snd_pcm_format_mask_free(snd_pcm_format_mask_t * obj) {
+    snd_pcm_format_mask_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_free_INDEXED));
+    packed_data->func = snd_pcm_format_mask_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_malloc
+int snd_pcm_format_mask_malloc(snd_pcm_format_mask_t ** ptr) {
+    snd_pcm_format_mask_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_malloc_INDEXED));
+    packed_data->func = snd_pcm_format_mask_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_none
+void snd_pcm_format_mask_none(snd_pcm_format_mask_t * mask) {
+    snd_pcm_format_mask_none_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_none_INDEXED));
+    packed_data->func = snd_pcm_format_mask_none_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_reset
+void snd_pcm_format_mask_reset(snd_pcm_format_mask_t * mask, snd_pcm_format_t val) {
+    snd_pcm_format_mask_reset_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_reset_INDEXED));
+    packed_data->func = snd_pcm_format_mask_reset_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_set
+void snd_pcm_format_mask_set(snd_pcm_format_mask_t * mask, snd_pcm_format_t val) {
+    snd_pcm_format_mask_set_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_set_INDEXED));
+    packed_data->func = snd_pcm_format_mask_set_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_test
+int snd_pcm_format_mask_test(const snd_pcm_format_mask_t * mask, snd_pcm_format_t val) {
+    snd_pcm_format_mask_test_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_test_INDEXED));
+    packed_data->func = snd_pcm_format_mask_test_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_name
+const char * snd_pcm_format_name(const snd_pcm_format_t format) {
+    snd_pcm_format_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_name_INDEXED));
+    packed_data->func = snd_pcm_format_name_INDEX;
+    packed_data->args.a1 = format;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_physical_width
+int snd_pcm_format_physical_width(snd_pcm_format_t format);     /* in bits) {
+    snd_pcm_format_physical_width_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_physical_width_INDEXED));
+    packed_data->func = snd_pcm_format_physical_width_INDEX;
+    packed_data->args.a1 = bits;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_set_silence
+int snd_pcm_format_set_silence(snd_pcm_format_t format, void * buf, unsigned int samples) {
+    snd_pcm_format_set_silence_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_set_silence_INDEXED));
+    packed_data->func = snd_pcm_format_set_silence_INDEX;
+    packed_data->args.a1 = format;
+    packed_data->args.a2 = buf;
+    packed_data->args.a3 = samples;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_signed
+int snd_pcm_format_signed(snd_pcm_format_t format) {
+    snd_pcm_format_signed_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_signed_INDEXED));
+    packed_data->func = snd_pcm_format_signed_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_silence
+u_int8_t snd_pcm_format_silence(snd_pcm_format_t format) {
+    snd_pcm_format_silence_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_silence_INDEXED));
+    packed_data->func = snd_pcm_format_silence_INDEX;
+    packed_data->args.a1 = format;
+    u_int8_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_silence_16
+u_int16_t snd_pcm_format_silence_16(snd_pcm_format_t format) {
+    snd_pcm_format_silence_16_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_silence_16_INDEXED));
+    packed_data->func = snd_pcm_format_silence_16_INDEX;
+    packed_data->args.a1 = format;
+    u_int16_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_silence_32
+u_int32_t snd_pcm_format_silence_32(snd_pcm_format_t format) {
+    snd_pcm_format_silence_32_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_silence_32_INDEXED));
+    packed_data->func = snd_pcm_format_silence_32_INDEX;
+    packed_data->args.a1 = format;
+    u_int32_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_silence_64
+u_int64_t snd_pcm_format_silence_64(snd_pcm_format_t format) {
+    snd_pcm_format_silence_64_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_silence_64_INDEXED));
+    packed_data->func = snd_pcm_format_silence_64_INDEX;
+    packed_data->args.a1 = format;
+    u_int64_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_size
+ssize_t snd_pcm_format_size(snd_pcm_format_t format, size_t samples) {
+    snd_pcm_format_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_size_INDEXED));
+    packed_data->func = snd_pcm_format_size_INDEX;
+    packed_data->args.a1 = format;
+    packed_data->args.a2 = samples;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_unsigned
+int snd_pcm_format_unsigned(snd_pcm_format_t format) {
+    snd_pcm_format_unsigned_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_unsigned_INDEXED));
+    packed_data->func = snd_pcm_format_unsigned_INDEX;
+    packed_data->args.a1 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_value
+snd_pcm_format_t snd_pcm_format_value(const char* name) {
+    snd_pcm_format_value_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_value_INDEXED));
+    packed_data->func = snd_pcm_format_value_INDEX;
+    packed_data->args.a1 = name;
+    snd_pcm_format_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_format_width
+int snd_pcm_format_width(snd_pcm_format_t format);          /* in bits) {
+    snd_pcm_format_width_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_width_INDEXED));
+    packed_data->func = snd_pcm_format_width_INDEX;
+    packed_data->args.a1 = bits;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_forward
+snd_pcm_sframes_t snd_pcm_forward(snd_pcm_t * pcm, snd_pcm_uframes_t frames) {
+    snd_pcm_forward_INDEXED *packed_data = malloc(sizeof(snd_pcm_forward_INDEXED));
+    packed_data->func = snd_pcm_forward_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = frames;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_frames_to_bytes
+ssize_t snd_pcm_frames_to_bytes(snd_pcm_t * pcm, snd_pcm_sframes_t frames) {
+    snd_pcm_frames_to_bytes_INDEXED *packed_data = malloc(sizeof(snd_pcm_frames_to_bytes_INDEXED));
+    packed_data->func = snd_pcm_frames_to_bytes_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = frames;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_get_params
+int snd_pcm_get_params(snd_pcm_t * pcm, snd_pcm_uframes_t * buffer_size, snd_pcm_uframes_t * period_size) {
+    snd_pcm_get_params_INDEXED *packed_data = malloc(sizeof(snd_pcm_get_params_INDEXED));
+    packed_data->func = snd_pcm_get_params_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = buffer_size;
+    packed_data->args.a3 = period_size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hook_add
+int snd_pcm_hook_add(snd_pcm_hook_t ** hookp, snd_pcm_t * pcm, snd_pcm_hook_type_t type, snd_pcm_hook_func_t func, void * private_data) {
+    snd_pcm_hook_add_INDEXED *packed_data = malloc(sizeof(snd_pcm_hook_add_INDEXED));
+    packed_data->func = snd_pcm_hook_add_INDEX;
+    packed_data->args.a1 = hookp;
+    packed_data->args.a2 = pcm;
+    packed_data->args.a3 = type;
+    packed_data->args.a4 = func;
+    packed_data->args.a5 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hook_get_pcm
+snd_pcm_t * snd_pcm_hook_get_pcm(snd_pcm_hook_t * hook) {
+    snd_pcm_hook_get_pcm_INDEXED *packed_data = malloc(sizeof(snd_pcm_hook_get_pcm_INDEXED));
+    packed_data->func = snd_pcm_hook_get_pcm_INDEX;
+    packed_data->args.a1 = hook;
+    snd_pcm_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hook_get_private
+void * snd_pcm_hook_get_private(snd_pcm_hook_t * hook) {
+    snd_pcm_hook_get_private_INDEXED *packed_data = malloc(sizeof(snd_pcm_hook_get_private_INDEXED));
+    packed_data->func = snd_pcm_hook_get_private_INDEX;
+    packed_data->args.a1 = hook;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hook_remove
+int snd_pcm_hook_remove(snd_pcm_hook_t * hook) {
+    snd_pcm_hook_remove_INDEXED *packed_data = malloc(sizeof(snd_pcm_hook_remove_INDEXED));
+    packed_data->func = snd_pcm_hook_remove_INDEX;
+    packed_data->args.a1 = hook;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hook_set_private
+void snd_pcm_hook_set_private(snd_pcm_hook_t * hook, void * private_data) {
+    snd_pcm_hook_set_private_INDEXED *packed_data = malloc(sizeof(snd_pcm_hook_set_private_INDEXED));
+    packed_data->func = snd_pcm_hook_set_private_INDEX;
+    packed_data->args.a1 = hook;
+    packed_data->args.a2 = private_data;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_free
+int snd_pcm_hw_free(snd_pcm_t * pcm) {
+    snd_pcm_hw_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_free_INDEXED));
+    packed_data->func = snd_pcm_hw_free_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params
+int snd_pcm_hw_params(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_INDEXED));
+    packed_data->func = snd_pcm_hw_params_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_any
+int snd_pcm_hw_params_any(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_any_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_any_INDEXED));
+    packed_data->func = snd_pcm_hw_params_any_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_can_mmap_sample_resolution
+int snd_pcm_hw_params_can_mmap_sample_resolution(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_can_mmap_sample_resolution_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_can_mmap_sample_resolution_INDEXED));
+    packed_data->func = snd_pcm_hw_params_can_mmap_sample_resolution_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_can_overrange
+int snd_pcm_hw_params_can_overrange(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_can_overrange_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_can_overrange_INDEXED));
+    packed_data->func = snd_pcm_hw_params_can_overrange_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_can_pause
+int snd_pcm_hw_params_can_pause(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_can_pause_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_can_pause_INDEXED));
+    packed_data->func = snd_pcm_hw_params_can_pause_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_can_resume
+int snd_pcm_hw_params_can_resume(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_can_resume_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_can_resume_INDEXED));
+    packed_data->func = snd_pcm_hw_params_can_resume_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_can_sync_start
+int snd_pcm_hw_params_can_sync_start(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_can_sync_start_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_can_sync_start_INDEXED));
+    packed_data->func = snd_pcm_hw_params_can_sync_start_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_copy
+void snd_pcm_hw_params_copy(snd_pcm_hw_params_t * dst, const snd_pcm_hw_params_t * src) {
+    snd_pcm_hw_params_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_copy_INDEXED));
+    packed_data->func = snd_pcm_hw_params_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_current
+int snd_pcm_hw_params_current(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_current_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_current_INDEXED));
+    packed_data->func = snd_pcm_hw_params_current_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_dump
+int snd_pcm_hw_params_dump(snd_pcm_hw_params_t * params, snd_output_t * out) {
+    snd_pcm_hw_params_dump_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_dump_INDEXED));
+    packed_data->func = snd_pcm_hw_params_dump_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_free
+void snd_pcm_hw_params_free(snd_pcm_hw_params_t * obj) {
+    snd_pcm_hw_params_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_free_INDEXED));
+    packed_data->func = snd_pcm_hw_params_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_access
+int snd_pcm_hw_params_get_access(const snd_pcm_hw_params_t * params, snd_pcm_access_t * _access) {
+    snd_pcm_hw_params_get_access_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_access_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_access_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = _access;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_access_mask
+int snd_pcm_hw_params_get_access_mask(snd_pcm_hw_params_t * params, snd_pcm_access_mask_t * mask) {
+    snd_pcm_hw_params_get_access_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_access_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_access_mask_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_size
+int snd_pcm_hw_params_get_buffer_size(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_get_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_size_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_size_max
+int snd_pcm_hw_params_get_buffer_size_max(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_get_buffer_size_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_size_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_size_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_size_min
+int snd_pcm_hw_params_get_buffer_size_min(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_get_buffer_size_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_size_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_size_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_time
+int snd_pcm_hw_params_get_buffer_time(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_buffer_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_time_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_time_max
+int snd_pcm_hw_params_get_buffer_time_max(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_buffer_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_time_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_buffer_time_min
+int snd_pcm_hw_params_get_buffer_time_min(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_buffer_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_buffer_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_buffer_time_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_channels
+int snd_pcm_hw_params_get_channels(const snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_get_channels_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_channels_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_channels_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_channels_max
+int snd_pcm_hw_params_get_channels_max(const snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_get_channels_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_channels_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_channels_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_channels_min
+int snd_pcm_hw_params_get_channels_min(const snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_get_channels_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_channels_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_channels_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_export_buffer
+int snd_pcm_hw_params_get_export_buffer(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_get_export_buffer_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_export_buffer_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_export_buffer_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_fifo_size
+int snd_pcm_hw_params_get_fifo_size(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_get_fifo_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_fifo_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_fifo_size_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_format
+int snd_pcm_hw_params_get_format(const snd_pcm_hw_params_t * params, snd_pcm_format_t * val) {
+    snd_pcm_hw_params_get_format_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_format_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_format_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_format_mask
+void snd_pcm_hw_params_get_format_mask(snd_pcm_hw_params_t * params, snd_pcm_format_mask_t * mask) {
+    snd_pcm_hw_params_get_format_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_format_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_format_mask_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_min_align
+int snd_pcm_hw_params_get_min_align(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_get_min_align_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_min_align_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_min_align_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_size
+int snd_pcm_hw_params_get_period_size(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir) {
+    snd_pcm_hw_params_get_period_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_size_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = frames;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_size_max
+int snd_pcm_hw_params_get_period_size_max(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir) {
+    snd_pcm_hw_params_get_period_size_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_size_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_size_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = frames;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_size_min
+int snd_pcm_hw_params_get_period_size_min(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir) {
+    snd_pcm_hw_params_get_period_size_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_size_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_size_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = frames;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_time
+int snd_pcm_hw_params_get_period_time(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_period_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_time_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_time_max
+int snd_pcm_hw_params_get_period_time_max(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_period_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_time_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_period_time_min
+int snd_pcm_hw_params_get_period_time_min(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_period_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_period_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_period_time_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_periods
+int snd_pcm_hw_params_get_periods(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_periods_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_periods_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_periods_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_periods_max
+int snd_pcm_hw_params_get_periods_max(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_periods_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_periods_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_periods_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_periods_min
+int snd_pcm_hw_params_get_periods_min(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_periods_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_periods_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_periods_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_rate
+int snd_pcm_hw_params_get_rate(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_rate_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_rate_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_rate_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_rate_max
+int snd_pcm_hw_params_get_rate_max(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_rate_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_rate_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_rate_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_rate_min
+int snd_pcm_hw_params_get_rate_min(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_rate_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_rate_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_rate_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_rate_numden
+int snd_pcm_hw_params_get_rate_numden(const snd_pcm_hw_params_t * params, unsigned int * rate_num, unsigned int * rate_den) {
+    snd_pcm_hw_params_get_rate_numden_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_rate_numden_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_rate_numden_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = rate_num;
+    packed_data->args.a3 = rate_den;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_rate_resample
+int snd_pcm_hw_params_get_rate_resample(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_get_rate_resample_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_rate_resample_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_rate_resample_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_sbits
+int snd_pcm_hw_params_get_sbits(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_get_sbits_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_sbits_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_sbits_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_subformat
+int snd_pcm_hw_params_get_subformat(const snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat) {
+    snd_pcm_hw_params_get_subformat_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_subformat_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_subformat_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = subformat;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_subformat_mask
+void snd_pcm_hw_params_get_subformat_mask(snd_pcm_hw_params_t * params, snd_pcm_subformat_mask_t * mask) {
+    snd_pcm_hw_params_get_subformat_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_subformat_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_subformat_mask_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_tick_time
+int snd_pcm_hw_params_get_tick_time(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_tick_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_tick_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_tick_time_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_tick_time_max
+int snd_pcm_hw_params_get_tick_time_max(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_tick_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_tick_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_tick_time_max_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_get_tick_time_min
+int snd_pcm_hw_params_get_tick_time_min(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_get_tick_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_get_tick_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_get_tick_time_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    packed_data->args.a3 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_is_batch
+int snd_pcm_hw_params_is_batch(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_batch_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_batch_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_batch_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_is_block_transfer
+int snd_pcm_hw_params_is_block_transfer(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_block_transfer_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_block_transfer_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_block_transfer_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_is_double
+int snd_pcm_hw_params_is_double(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_double_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_double_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_double_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_is_half_duplex
+int snd_pcm_hw_params_is_half_duplex(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_half_duplex_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_half_duplex_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_half_duplex_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_is_joint_duplex
+int snd_pcm_hw_params_is_joint_duplex(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_joint_duplex_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_joint_duplex_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_joint_duplex_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_malloc
+int snd_pcm_hw_params_malloc(snd_pcm_hw_params_t ** ptr) {
+    snd_pcm_hw_params_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_malloc_INDEXED));
+    packed_data->func = snd_pcm_hw_params_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_access
+int snd_pcm_hw_params_set_access(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t _access) {
+    snd_pcm_hw_params_set_access_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_access_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_access_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = _access;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_access_first
+int snd_pcm_hw_params_set_access_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t * _access) {
+    snd_pcm_hw_params_set_access_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_access_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_access_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = _access;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_access_last
+int snd_pcm_hw_params_set_access_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t * _access) {
+    snd_pcm_hw_params_set_access_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_access_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_access_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = _access;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_access_mask
+int snd_pcm_hw_params_set_access_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_mask_t * mask) {
+    snd_pcm_hw_params_set_access_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_access_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_access_mask_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size
+int snd_pcm_hw_params_set_buffer_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_hw_params_set_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_first
+int snd_pcm_hw_params_set_buffer_size_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_set_buffer_size_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_last
+int snd_pcm_hw_params_set_buffer_size_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_set_buffer_size_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_max
+int snd_pcm_hw_params_set_buffer_size_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_set_buffer_size_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_min
+int snd_pcm_hw_params_set_buffer_size_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_set_buffer_size_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_minmax
+int snd_pcm_hw_params_set_buffer_size_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * min, snd_pcm_uframes_t * max) {
+    snd_pcm_hw_params_set_buffer_size_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_size_near
+int snd_pcm_hw_params_set_buffer_size_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_hw_params_set_buffer_size_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_size_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_size_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time
+int snd_pcm_hw_params_set_buffer_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_set_buffer_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_first
+int snd_pcm_hw_params_set_buffer_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_buffer_time_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_last
+int snd_pcm_hw_params_set_buffer_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_buffer_time_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_max
+int snd_pcm_hw_params_set_buffer_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_buffer_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_min
+int snd_pcm_hw_params_set_buffer_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_buffer_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_minmax
+int snd_pcm_hw_params_set_buffer_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir) {
+    snd_pcm_hw_params_set_buffer_time_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_buffer_time_near
+int snd_pcm_hw_params_set_buffer_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_buffer_time_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_buffer_time_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_buffer_time_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels
+int snd_pcm_hw_params_set_channels(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val) {
+    snd_pcm_hw_params_set_channels_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_first
+int snd_pcm_hw_params_set_channels_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_set_channels_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_last
+int snd_pcm_hw_params_set_channels_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_set_channels_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_max
+int snd_pcm_hw_params_set_channels_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_set_channels_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_min
+int snd_pcm_hw_params_set_channels_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_set_channels_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_minmax
+int snd_pcm_hw_params_set_channels_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, unsigned int * max) {
+    snd_pcm_hw_params_set_channels_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = max;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_channels_near
+int snd_pcm_hw_params_set_channels_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val) {
+    snd_pcm_hw_params_set_channels_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_channels_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_channels_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_export_buffer
+int snd_pcm_hw_params_set_export_buffer(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val) {
+    snd_pcm_hw_params_set_export_buffer_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_export_buffer_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_export_buffer_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_format
+int snd_pcm_hw_params_set_format(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t val) {
+    snd_pcm_hw_params_set_format_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_format_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_format_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_format_first
+int snd_pcm_hw_params_set_format_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t * format) {
+    snd_pcm_hw_params_set_format_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_format_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_format_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_format_last
+int snd_pcm_hw_params_set_format_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t * format) {
+    snd_pcm_hw_params_set_format_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_format_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_format_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = format;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_format_mask
+int snd_pcm_hw_params_set_format_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_mask_t * mask) {
+    snd_pcm_hw_params_set_format_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_format_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_format_mask_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size
+int snd_pcm_hw_params_set_period_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val, int dir) {
+    snd_pcm_hw_params_set_period_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_first
+int snd_pcm_hw_params_set_period_size_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir) {
+    snd_pcm_hw_params_set_period_size_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_integer
+int snd_pcm_hw_params_set_period_size_integer(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_set_period_size_integer_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_integer_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_integer_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_last
+int snd_pcm_hw_params_set_period_size_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir) {
+    snd_pcm_hw_params_set_period_size_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_max
+int snd_pcm_hw_params_set_period_size_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir) {
+    snd_pcm_hw_params_set_period_size_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_min
+int snd_pcm_hw_params_set_period_size_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir) {
+    snd_pcm_hw_params_set_period_size_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_minmax
+int snd_pcm_hw_params_set_period_size_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * min, int * mindir, snd_pcm_uframes_t * max, int * maxdir) {
+    snd_pcm_hw_params_set_period_size_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_size_near
+int snd_pcm_hw_params_set_period_size_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir) {
+    snd_pcm_hw_params_set_period_size_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_size_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_size_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time
+int snd_pcm_hw_params_set_period_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_set_period_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_first
+int snd_pcm_hw_params_set_period_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_period_time_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_last
+int snd_pcm_hw_params_set_period_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_period_time_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_max
+int snd_pcm_hw_params_set_period_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_period_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_min
+int snd_pcm_hw_params_set_period_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_period_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_minmax
+int snd_pcm_hw_params_set_period_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir) {
+    snd_pcm_hw_params_set_period_time_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_period_time_near
+int snd_pcm_hw_params_set_period_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_period_time_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_period_time_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_period_time_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods
+int snd_pcm_hw_params_set_periods(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_set_periods_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_first
+int snd_pcm_hw_params_set_periods_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_periods_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_integer
+int snd_pcm_hw_params_set_periods_integer(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_set_periods_integer_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_integer_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_integer_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_last
+int snd_pcm_hw_params_set_periods_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_periods_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_max
+int snd_pcm_hw_params_set_periods_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_periods_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_min
+int snd_pcm_hw_params_set_periods_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_periods_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_minmax
+int snd_pcm_hw_params_set_periods_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir) {
+    snd_pcm_hw_params_set_periods_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_periods_near
+int snd_pcm_hw_params_set_periods_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_periods_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_periods_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_periods_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate
+int snd_pcm_hw_params_set_rate(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_set_rate_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_first
+int snd_pcm_hw_params_set_rate_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_rate_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_last
+int snd_pcm_hw_params_set_rate_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_rate_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_max
+int snd_pcm_hw_params_set_rate_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_rate_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_min
+int snd_pcm_hw_params_set_rate_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_rate_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_minmax
+int snd_pcm_hw_params_set_rate_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir) {
+    snd_pcm_hw_params_set_rate_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_near
+int snd_pcm_hw_params_set_rate_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_rate_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_rate_resample
+int snd_pcm_hw_params_set_rate_resample(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val) {
+    snd_pcm_hw_params_set_rate_resample_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_rate_resample_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_rate_resample_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_subformat
+int snd_pcm_hw_params_set_subformat(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t subformat) {
+    snd_pcm_hw_params_set_subformat_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_subformat_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_subformat_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = subformat;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_subformat_first
+int snd_pcm_hw_params_set_subformat_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat) {
+    snd_pcm_hw_params_set_subformat_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_subformat_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_subformat_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = subformat;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_subformat_last
+int snd_pcm_hw_params_set_subformat_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat) {
+    snd_pcm_hw_params_set_subformat_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_subformat_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_subformat_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = subformat;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_subformat_mask
+int snd_pcm_hw_params_set_subformat_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_mask_t * mask) {
+    snd_pcm_hw_params_set_subformat_mask_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_subformat_mask_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_subformat_mask_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time
+int snd_pcm_hw_params_set_tick_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_set_tick_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_first
+int snd_pcm_hw_params_set_tick_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_tick_time_first_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_first_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_first_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_last
+int snd_pcm_hw_params_set_tick_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_tick_time_last_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_last_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_last_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_max
+int snd_pcm_hw_params_set_tick_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_tick_time_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_max_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_max_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_min
+int snd_pcm_hw_params_set_tick_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_tick_time_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_min_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_minmax
+int snd_pcm_hw_params_set_tick_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir) {
+    snd_pcm_hw_params_set_tick_time_minmax_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_minmax_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_minmax_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = min;
+    packed_data->args.a4 = mindir;
+    packed_data->args.a5 = max;
+    packed_data->args.a6 = maxdir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_set_tick_time_near
+int snd_pcm_hw_params_set_tick_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir) {
+    snd_pcm_hw_params_set_tick_time_near_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_set_tick_time_near_INDEXED));
+    packed_data->func = snd_pcm_hw_params_set_tick_time_near_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_access
+int snd_pcm_hw_params_test_access(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t _access) {
+    snd_pcm_hw_params_test_access_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_access_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_access_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = _access;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_buffer_size
+int snd_pcm_hw_params_test_buffer_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_hw_params_test_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_buffer_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_buffer_size_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_buffer_time
+int snd_pcm_hw_params_test_buffer_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_test_buffer_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_buffer_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_buffer_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_channels
+int snd_pcm_hw_params_test_channels(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val) {
+    snd_pcm_hw_params_test_channels_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_channels_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_channels_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_format
+int snd_pcm_hw_params_test_format(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t val) {
+    snd_pcm_hw_params_test_format_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_format_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_format_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_period_size
+int snd_pcm_hw_params_test_period_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val, int dir) {
+    snd_pcm_hw_params_test_period_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_period_size_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_period_size_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_period_time
+int snd_pcm_hw_params_test_period_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_test_period_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_period_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_period_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_periods
+int snd_pcm_hw_params_test_periods(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_test_periods_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_periods_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_periods_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_rate
+int snd_pcm_hw_params_test_rate(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_test_rate_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_rate_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_rate_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_subformat
+int snd_pcm_hw_params_test_subformat(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t subformat) {
+    snd_pcm_hw_params_test_subformat_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_subformat_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_subformat_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = subformat;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_test_tick_time
+int snd_pcm_hw_params_test_tick_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir) {
+    snd_pcm_hw_params_test_tick_time_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_test_tick_time_INDEXED));
+    packed_data->func = snd_pcm_hw_params_test_tick_time_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    packed_data->args.a4 = dir;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hwsync
+int snd_pcm_hwsync(snd_pcm_t * pcm) {
+    snd_pcm_hwsync_INDEXED *packed_data = malloc(sizeof(snd_pcm_hwsync_INDEXED));
+    packed_data->func = snd_pcm_hwsync_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info
+int snd_pcm_info(snd_pcm_t * pcm, snd_pcm_info_t * info) {
+    snd_pcm_info_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_INDEXED));
+    packed_data->func = snd_pcm_info_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_copy
+void snd_pcm_info_copy(snd_pcm_info_t * dst, const snd_pcm_info_t * src) {
+    snd_pcm_info_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_copy_INDEXED));
+    packed_data->func = snd_pcm_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_info_free
+void snd_pcm_info_free(snd_pcm_info_t * obj) {
+    snd_pcm_info_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_free_INDEXED));
+    packed_data->func = snd_pcm_info_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_card
+int snd_pcm_info_get_card(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_card_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_card_INDEXED));
+    packed_data->func = snd_pcm_info_get_card_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_class
+snd_pcm_class_t snd_pcm_info_get_class(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_class_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_class_INDEXED));
+    packed_data->func = snd_pcm_info_get_class_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_class_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_device
+unsigned int snd_pcm_info_get_device(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_device_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_device_INDEXED));
+    packed_data->func = snd_pcm_info_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_id
+const char * snd_pcm_info_get_id(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_id_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_id_INDEXED));
+    packed_data->func = snd_pcm_info_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_name
+const char * snd_pcm_info_get_name(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_name_INDEXED));
+    packed_data->func = snd_pcm_info_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_stream
+snd_pcm_stream_t snd_pcm_info_get_stream(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_stream_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_stream_INDEXED));
+    packed_data->func = snd_pcm_info_get_stream_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_stream_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_subclass
+snd_pcm_subclass_t snd_pcm_info_get_subclass(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_subclass_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_subclass_INDEXED));
+    packed_data->func = snd_pcm_info_get_subclass_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_subclass_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_subdevice
+unsigned int snd_pcm_info_get_subdevice(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_subdevice_INDEXED));
+    packed_data->func = snd_pcm_info_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_subdevice_name
+const char * snd_pcm_info_get_subdevice_name(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_subdevice_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_subdevice_name_INDEXED));
+    packed_data->func = snd_pcm_info_get_subdevice_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_subdevices_avail
+unsigned int snd_pcm_info_get_subdevices_avail(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_subdevices_avail_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_subdevices_avail_INDEXED));
+    packed_data->func = snd_pcm_info_get_subdevices_avail_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_subdevices_count
+unsigned int snd_pcm_info_get_subdevices_count(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_subdevices_count_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_subdevices_count_INDEXED));
+    packed_data->func = snd_pcm_info_get_subdevices_count_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_get_sync
+snd_pcm_sync_id_t snd_pcm_info_get_sync(const snd_pcm_info_t * obj) {
+    snd_pcm_info_get_sync_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_get_sync_INDEXED));
+    packed_data->func = snd_pcm_info_get_sync_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_sync_id_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_malloc
+int snd_pcm_info_malloc(snd_pcm_info_t ** ptr) {
+    snd_pcm_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_malloc_INDEXED));
+    packed_data->func = snd_pcm_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_info_set_device
+void snd_pcm_info_set_device(snd_pcm_info_t * obj, unsigned int val) {
+    snd_pcm_info_set_device_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_set_device_INDEXED));
+    packed_data->func = snd_pcm_info_set_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_info_set_stream
+void snd_pcm_info_set_stream(snd_pcm_info_t * obj, snd_pcm_stream_t val) {
+    snd_pcm_info_set_stream_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_set_stream_INDEXED));
+    packed_data->func = snd_pcm_info_set_stream_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_info_set_subdevice
+void snd_pcm_info_set_subdevice(snd_pcm_info_t * obj, unsigned int val) {
+    snd_pcm_info_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_set_subdevice_INDEXED));
+    packed_data->func = snd_pcm_info_set_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_link
+int snd_pcm_link(snd_pcm_t * pcm1, snd_pcm_t * pcm2) {
+    snd_pcm_link_INDEXED *packed_data = malloc(sizeof(snd_pcm_link_INDEXED));
+    packed_data->func = snd_pcm_link_INDEX;
+    packed_data->args.a1 = pcm1;
+    packed_data->args.a2 = pcm2;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_add_scope
+int snd_pcm_meter_add_scope(snd_pcm_t * pcm, snd_pcm_scope_t * scope) {
+    snd_pcm_meter_add_scope_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_add_scope_INDEXED));
+    packed_data->func = snd_pcm_meter_add_scope_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = scope;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_get_boundary
+snd_pcm_uframes_t snd_pcm_meter_get_boundary(snd_pcm_t * pcm) {
+    snd_pcm_meter_get_boundary_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_get_boundary_INDEXED));
+    packed_data->func = snd_pcm_meter_get_boundary_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_get_bufsize
+snd_pcm_uframes_t snd_pcm_meter_get_bufsize(snd_pcm_t * pcm) {
+    snd_pcm_meter_get_bufsize_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_get_bufsize_INDEXED));
+    packed_data->func = snd_pcm_meter_get_bufsize_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_get_channels
+unsigned int snd_pcm_meter_get_channels(snd_pcm_t * pcm) {
+    snd_pcm_meter_get_channels_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_get_channels_INDEXED));
+    packed_data->func = snd_pcm_meter_get_channels_INDEX;
+    packed_data->args.a1 = pcm;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_get_now
+snd_pcm_uframes_t snd_pcm_meter_get_now(snd_pcm_t * pcm) {
+    snd_pcm_meter_get_now_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_get_now_INDEXED));
+    packed_data->func = snd_pcm_meter_get_now_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_get_rate
+unsigned int snd_pcm_meter_get_rate(snd_pcm_t * pcm) {
+    snd_pcm_meter_get_rate_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_get_rate_INDEXED));
+    packed_data->func = snd_pcm_meter_get_rate_INDEX;
+    packed_data->args.a1 = pcm;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_meter_search_scope
+snd_pcm_scope_t * snd_pcm_meter_search_scope(snd_pcm_t * pcm, const char * name) {
+    snd_pcm_meter_search_scope_INDEXED *packed_data = malloc(sizeof(snd_pcm_meter_search_scope_INDEXED));
+    packed_data->func = snd_pcm_meter_search_scope_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = name;
+    snd_pcm_scope_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_begin
+int snd_pcm_mmap_begin(snd_pcm_t * pcm, const snd_pcm_channel_area_t ** areas, snd_pcm_uframes_t * offset, snd_pcm_uframes_t * frames) {
+    snd_pcm_mmap_begin_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_begin_INDEXED));
+    packed_data->func = snd_pcm_mmap_begin_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = areas;
+    packed_data->args.a3 = offset;
+    packed_data->args.a4 = frames;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_commit
+snd_pcm_sframes_t snd_pcm_mmap_commit(snd_pcm_t * pcm, snd_pcm_uframes_t offset, snd_pcm_uframes_t frames) {
+    snd_pcm_mmap_commit_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_commit_INDEXED));
+    packed_data->func = snd_pcm_mmap_commit_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = offset;
+    packed_data->args.a3 = frames;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_readi
+snd_pcm_sframes_t snd_pcm_mmap_readi(snd_pcm_t * pcm, void * buffer, snd_pcm_uframes_t size) {
+    snd_pcm_mmap_readi_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_readi_INDEXED));
+    packed_data->func = snd_pcm_mmap_readi_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_writei
+snd_pcm_sframes_t snd_pcm_mmap_writei(snd_pcm_t * pcm, const void * buffer, snd_pcm_uframes_t size) {
+    snd_pcm_mmap_writei_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_writei_INDEXED));
+    packed_data->func = snd_pcm_mmap_writei_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_writen
+snd_pcm_sframes_t snd_pcm_mmap_writen(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size) {
+    snd_pcm_mmap_writen_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_writen_INDEXED));
+    packed_data->func = snd_pcm_mmap_writen_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bufs;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_name
+const char * snd_pcm_name(snd_pcm_t * pcm) {
+    snd_pcm_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_name_INDEXED));
+    packed_data->func = snd_pcm_name_INDEX;
+    packed_data->args.a1 = pcm;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_nonblock
+int snd_pcm_nonblock(snd_pcm_t * pcm, int nonblock) {
+    snd_pcm_nonblock_INDEXED *packed_data = malloc(sizeof(snd_pcm_nonblock_INDEXED));
+    packed_data->func = snd_pcm_nonblock_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_open
+int snd_pcm_open(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode) {
+    snd_pcm_open_INDEXED *packed_data = malloc(sizeof(snd_pcm_open_INDEXED));
+    packed_data->func = snd_pcm_open_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = stream;
+    packed_data->args.a4 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_open_lconf
+int snd_pcm_open_lconf(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode, snd_config_t * lconf) {
+    snd_pcm_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_pcm_open_lconf_INDEXED));
+    packed_data->func = snd_pcm_open_lconf_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = stream;
+    packed_data->args.a4 = mode;
+    packed_data->args.a5 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_pause
+int snd_pcm_pause(snd_pcm_t * pcm, int enable) {
+    snd_pcm_pause_INDEXED *packed_data = malloc(sizeof(snd_pcm_pause_INDEXED));
+    packed_data->func = snd_pcm_pause_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = enable;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_poll_descriptors
+int snd_pcm_poll_descriptors(snd_pcm_t * pcm, struct pollfd * pfds, unsigned int space) {
+    snd_pcm_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_pcm_poll_descriptors_INDEXED));
+    packed_data->func = snd_pcm_poll_descriptors_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_poll_descriptors_count
+int snd_pcm_poll_descriptors_count(snd_pcm_t * pcm) {
+    snd_pcm_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_pcm_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_pcm_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_poll_descriptors_revents
+int snd_pcm_poll_descriptors_revents(snd_pcm_t * pcm, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_pcm_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_pcm_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_pcm_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_prepare
+int snd_pcm_prepare(snd_pcm_t * pcm) {
+    snd_pcm_prepare_INDEXED *packed_data = malloc(sizeof(snd_pcm_prepare_INDEXED));
+    packed_data->func = snd_pcm_prepare_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_readi
+snd_pcm_sframes_t snd_pcm_readi(snd_pcm_t * pcm, void * buffer, snd_pcm_uframes_t size) {
+    snd_pcm_readi_INDEXED *packed_data = malloc(sizeof(snd_pcm_readi_INDEXED));
+    packed_data->func = snd_pcm_readi_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_readn
+snd_pcm_sframes_t snd_pcm_readn(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size) {
+    snd_pcm_readn_INDEXED *packed_data = malloc(sizeof(snd_pcm_readn_INDEXED));
+    packed_data->func = snd_pcm_readn_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bufs;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_recover
+int snd_pcm_recover(snd_pcm_t * pcm, int err, int silent) {
+    snd_pcm_recover_INDEXED *packed_data = malloc(sizeof(snd_pcm_recover_INDEXED));
+    packed_data->func = snd_pcm_recover_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = err;
+    packed_data->args.a3 = silent;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_reset
+int snd_pcm_reset(snd_pcm_t * pcm) {
+    snd_pcm_reset_INDEXED *packed_data = malloc(sizeof(snd_pcm_reset_INDEXED));
+    packed_data->func = snd_pcm_reset_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_resume
+int snd_pcm_resume(snd_pcm_t * pcm) {
+    snd_pcm_resume_INDEXED *packed_data = malloc(sizeof(snd_pcm_resume_INDEXED));
+    packed_data->func = snd_pcm_resume_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_rewind
+snd_pcm_sframes_t snd_pcm_rewind(snd_pcm_t * pcm, snd_pcm_uframes_t frames) {
+    snd_pcm_rewind_INDEXED *packed_data = malloc(sizeof(snd_pcm_rewind_INDEXED));
+    packed_data->func = snd_pcm_rewind_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = frames;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_samples_to_bytes
+ssize_t snd_pcm_samples_to_bytes(snd_pcm_t * pcm, long samples) {
+    snd_pcm_samples_to_bytes_INDEXED *packed_data = malloc(sizeof(snd_pcm_samples_to_bytes_INDEXED));
+    packed_data->func = snd_pcm_samples_to_bytes_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = samples;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_get_callback_private
+void * snd_pcm_scope_get_callback_private(snd_pcm_scope_t * scope) {
+    snd_pcm_scope_get_callback_private_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_get_callback_private_INDEXED));
+    packed_data->func = snd_pcm_scope_get_callback_private_INDEX;
+    packed_data->args.a1 = scope;
+    void * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_get_name
+const char * snd_pcm_scope_get_name(snd_pcm_scope_t * scope) {
+    snd_pcm_scope_get_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_get_name_INDEXED));
+    packed_data->func = snd_pcm_scope_get_name_INDEX;
+    packed_data->args.a1 = scope;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_malloc
+int snd_pcm_scope_malloc(snd_pcm_scope_t ** ptr) {
+    snd_pcm_scope_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_malloc_INDEXED));
+    packed_data->func = snd_pcm_scope_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_s16_get_channel_buffer
+int16_t * snd_pcm_scope_s16_get_channel_buffer(snd_pcm_scope_t * scope, unsigned int channel) {
+    snd_pcm_scope_s16_get_channel_buffer_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_s16_get_channel_buffer_INDEXED));
+    packed_data->func = snd_pcm_scope_s16_get_channel_buffer_INDEX;
+    packed_data->args.a1 = scope;
+    packed_data->args.a2 = channel;
+    int16_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_s16_open
+int snd_pcm_scope_s16_open(snd_pcm_t * pcm, const char * name, snd_pcm_scope_t ** scopep) {
+    snd_pcm_scope_s16_open_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_s16_open_INDEXED));
+    packed_data->func = snd_pcm_scope_s16_open_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = scopep;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_set_callback_private
+void snd_pcm_scope_set_callback_private(snd_pcm_scope_t * scope, void * val) {
+    snd_pcm_scope_set_callback_private_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_set_callback_private_INDEXED));
+    packed_data->func = snd_pcm_scope_set_callback_private_INDEX;
+    packed_data->args.a1 = scope;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_set_name
+void snd_pcm_scope_set_name(snd_pcm_scope_t * scope, const char * val) {
+    snd_pcm_scope_set_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_set_name_INDEXED));
+    packed_data->func = snd_pcm_scope_set_name_INDEX;
+    packed_data->args.a1 = scope;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_scope_set_ops
+void snd_pcm_scope_set_ops(snd_pcm_scope_t * scope, snd_pcm_scope_ops_t * val) {
+    snd_pcm_scope_set_ops_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_set_ops_INDEXED));
+    packed_data->func = snd_pcm_scope_set_ops_INDEX;
+    packed_data->args.a1 = scope;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_set_params
+int snd_pcm_set_params(snd_pcm_t * pcm, snd_pcm_format_t format, snd_pcm_access_t access, unsigned int channels, unsigned int rate, int soft_resample, unsigned int latency) {
+    snd_pcm_set_params_INDEXED *packed_data = malloc(sizeof(snd_pcm_set_params_INDEXED));
+    packed_data->func = snd_pcm_set_params_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = format;
+    packed_data->args.a3 = access;
+    packed_data->args.a4 = channels;
+    packed_data->args.a5 = rate;
+    packed_data->args.a6 = soft_resample;
+    packed_data->args.a7 = latency;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_start
+int snd_pcm_start(snd_pcm_t * pcm) {
+    snd_pcm_start_INDEXED *packed_data = malloc(sizeof(snd_pcm_start_INDEXED));
+    packed_data->func = snd_pcm_start_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_start_mode_name
+const char * snd_pcm_start_mode_name(snd_pcm_start_t mode) {
+    snd_pcm_start_mode_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_start_mode_name_INDEXED));
+    packed_data->func = snd_pcm_start_mode_name_INDEX;
+    packed_data->args.a1 = mode;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_state
+snd_pcm_state_t snd_pcm_state(snd_pcm_t * pcm) {
+    snd_pcm_state_INDEXED *packed_data = malloc(sizeof(snd_pcm_state_INDEXED));
+    packed_data->func = snd_pcm_state_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_state_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_state_name
+const char * snd_pcm_state_name(const snd_pcm_state_t state) {
+    snd_pcm_state_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_state_name_INDEXED));
+    packed_data->func = snd_pcm_state_name_INDEX;
+    packed_data->args.a1 = state;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status
+int snd_pcm_status(snd_pcm_t * pcm, snd_pcm_status_t * status) {
+    snd_pcm_status_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_INDEXED));
+    packed_data->func = snd_pcm_status_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_copy
+void snd_pcm_status_copy(snd_pcm_status_t * dst, const snd_pcm_status_t * src) {
+    snd_pcm_status_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_copy_INDEXED));
+    packed_data->func = snd_pcm_status_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_dump
+int snd_pcm_status_dump(snd_pcm_status_t * status, snd_output_t * out) {
+    snd_pcm_status_dump_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_dump_INDEXED));
+    packed_data->func = snd_pcm_status_dump_INDEX;
+    packed_data->args.a1 = status;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_free
+void snd_pcm_status_free(snd_pcm_status_t * obj) {
+    snd_pcm_status_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_free_INDEXED));
+    packed_data->func = snd_pcm_status_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_avail
+snd_pcm_uframes_t snd_pcm_status_get_avail(const snd_pcm_status_t * obj) {
+    snd_pcm_status_get_avail_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_avail_INDEXED));
+    packed_data->func = snd_pcm_status_get_avail_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_avail_max
+snd_pcm_uframes_t snd_pcm_status_get_avail_max(const snd_pcm_status_t * obj) {
+    snd_pcm_status_get_avail_max_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_avail_max_INDEXED));
+    packed_data->func = snd_pcm_status_get_avail_max_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_delay
+snd_pcm_sframes_t snd_pcm_status_get_delay(const snd_pcm_status_t * obj) {
+    snd_pcm_status_get_delay_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_delay_INDEXED));
+    packed_data->func = snd_pcm_status_get_delay_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_htstamp
+void snd_pcm_status_get_htstamp(const snd_pcm_status_t * obj, snd_htimestamp_t * ptr) {
+    snd_pcm_status_get_htstamp_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_htstamp_INDEXED));
+    packed_data->func = snd_pcm_status_get_htstamp_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_overrange
+snd_pcm_uframes_t snd_pcm_status_get_overrange(const snd_pcm_status_t * obj) {
+    snd_pcm_status_get_overrange_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_overrange_INDEXED));
+    packed_data->func = snd_pcm_status_get_overrange_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_uframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_state
+snd_pcm_state_t snd_pcm_status_get_state(const snd_pcm_status_t * obj) {
+    snd_pcm_status_get_state_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_state_INDEXED));
+    packed_data->func = snd_pcm_status_get_state_INDEX;
+    packed_data->args.a1 = obj;
+    snd_pcm_state_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_trigger_htstamp
+void snd_pcm_status_get_trigger_htstamp(const snd_pcm_status_t * obj, snd_htimestamp_t * ptr) {
+    snd_pcm_status_get_trigger_htstamp_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_trigger_htstamp_INDEXED));
+    packed_data->func = snd_pcm_status_get_trigger_htstamp_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_trigger_tstamp
+void snd_pcm_status_get_trigger_tstamp(const snd_pcm_status_t * obj, snd_timestamp_t * ptr) {
+    snd_pcm_status_get_trigger_tstamp_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_trigger_tstamp_INDEXED));
+    packed_data->func = snd_pcm_status_get_trigger_tstamp_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_get_tstamp
+void snd_pcm_status_get_tstamp(const snd_pcm_status_t * obj, snd_timestamp_t * ptr) {
+    snd_pcm_status_get_tstamp_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_get_tstamp_INDEXED));
+    packed_data->func = snd_pcm_status_get_tstamp_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_status_malloc
+int snd_pcm_status_malloc(snd_pcm_status_t ** ptr) {
+    snd_pcm_status_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_malloc_INDEXED));
+    packed_data->func = snd_pcm_status_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_stream
+snd_pcm_stream_t snd_pcm_stream(snd_pcm_t * pcm) {
+    snd_pcm_stream_INDEXED *packed_data = malloc(sizeof(snd_pcm_stream_INDEXED));
+    packed_data->func = snd_pcm_stream_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_stream_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_stream_name
+const char * snd_pcm_stream_name(const snd_pcm_stream_t stream) {
+    snd_pcm_stream_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_stream_name_INDEXED));
+    packed_data->func = snd_pcm_stream_name_INDEX;
+    packed_data->args.a1 = stream;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_description
+const char * snd_pcm_subformat_description(const snd_pcm_subformat_t subformat) {
+    snd_pcm_subformat_description_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_description_INDEXED));
+    packed_data->func = snd_pcm_subformat_description_INDEX;
+    packed_data->args.a1 = subformat;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_any
+void snd_pcm_subformat_mask_any(snd_pcm_subformat_mask_t * mask) {
+    snd_pcm_subformat_mask_any_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_any_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_any_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_copy
+void snd_pcm_subformat_mask_copy(snd_pcm_subformat_mask_t * dst, const snd_pcm_subformat_mask_t * src) {
+    snd_pcm_subformat_mask_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_copy_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_empty
+int snd_pcm_subformat_mask_empty(const snd_pcm_subformat_mask_t * mask) {
+    snd_pcm_subformat_mask_empty_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_empty_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_empty_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_free
+void snd_pcm_subformat_mask_free(snd_pcm_subformat_mask_t * obj) {
+    snd_pcm_subformat_mask_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_free_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_malloc
+int snd_pcm_subformat_mask_malloc(snd_pcm_subformat_mask_t ** ptr) {
+    snd_pcm_subformat_mask_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_malloc_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_none
+void snd_pcm_subformat_mask_none(snd_pcm_subformat_mask_t * mask) {
+    snd_pcm_subformat_mask_none_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_none_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_none_INDEX;
+    packed_data->args.a1 = mask;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_reset
+void snd_pcm_subformat_mask_reset(snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val) {
+    snd_pcm_subformat_mask_reset_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_reset_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_reset_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_set
+void snd_pcm_subformat_mask_set(snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val) {
+    snd_pcm_subformat_mask_set_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_set_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_set_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_test
+int snd_pcm_subformat_mask_test(const snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val) {
+    snd_pcm_subformat_mask_test_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_test_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_test_INDEX;
+    packed_data->args.a1 = mask;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_name
+const char * snd_pcm_subformat_name(const snd_pcm_subformat_t subformat) {
+    snd_pcm_subformat_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_name_INDEXED));
+    packed_data->func = snd_pcm_subformat_name_INDEX;
+    packed_data->args.a1 = subformat;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params
+int snd_pcm_sw_params(snd_pcm_t * pcm, snd_pcm_sw_params_t * params) {
+    snd_pcm_sw_params_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_INDEXED));
+    packed_data->func = snd_pcm_sw_params_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_copy
+void snd_pcm_sw_params_copy(snd_pcm_sw_params_t * dst, const snd_pcm_sw_params_t * src) {
+    snd_pcm_sw_params_copy_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_copy_INDEXED));
+    packed_data->func = snd_pcm_sw_params_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_current
+int snd_pcm_sw_params_current(snd_pcm_t * pcm, snd_pcm_sw_params_t * params) {
+    snd_pcm_sw_params_current_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_current_INDEXED));
+    packed_data->func = snd_pcm_sw_params_current_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_dump
+int snd_pcm_sw_params_dump(snd_pcm_sw_params_t * params, snd_output_t * out) {
+    snd_pcm_sw_params_dump_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_dump_INDEXED));
+    packed_data->func = snd_pcm_sw_params_dump_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = out;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_free
+void snd_pcm_sw_params_free(snd_pcm_sw_params_t * obj) {
+    snd_pcm_sw_params_free_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_free_INDEXED));
+    packed_data->func = snd_pcm_sw_params_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_avail_min
+int snd_pcm_sw_params_get_avail_min(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_avail_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_avail_min_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_avail_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_boundary
+int snd_pcm_sw_params_get_boundary(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_boundary_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_boundary_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_boundary_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_silence_size
+int snd_pcm_sw_params_get_silence_size(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_silence_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_silence_size_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_silence_size_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_silence_threshold
+int snd_pcm_sw_params_get_silence_threshold(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_silence_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_silence_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_silence_threshold_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_sleep_min
+int snd_pcm_sw_params_get_sleep_min(const snd_pcm_sw_params_t * params, unsigned int * val) {
+    snd_pcm_sw_params_get_sleep_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_sleep_min_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_sleep_min_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_start_mode
+snd_pcm_start_t snd_pcm_sw_params_get_start_mode(const snd_pcm_sw_params_t * params) {
+    snd_pcm_sw_params_get_start_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_start_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_start_mode_INDEX;
+    packed_data->args.a1 = params;
+    snd_pcm_start_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_start_threshold
+int snd_pcm_sw_params_get_start_threshold(const snd_pcm_sw_params_t * paramsm, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_start_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_start_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_start_threshold_INDEX;
+    packed_data->args.a1 = paramsm;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_stop_threshold
+int snd_pcm_sw_params_get_stop_threshold(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_stop_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_stop_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_stop_threshold_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_tstamp_mode
+int snd_pcm_sw_params_get_tstamp_mode(const snd_pcm_sw_params_t * params, snd_pcm_tstamp_t * val) {
+    snd_pcm_sw_params_get_tstamp_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_tstamp_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_tstamp_mode_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_xfer_align
+int snd_pcm_sw_params_get_xfer_align(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val) {
+    snd_pcm_sw_params_get_xfer_align_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_xfer_align_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_xfer_align_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_get_xrun_mode
+snd_pcm_xrun_t snd_pcm_sw_params_get_xrun_mode(const snd_pcm_sw_params_t * params) {
+    snd_pcm_sw_params_get_xrun_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_get_xrun_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_get_xrun_mode_INDEX;
+    packed_data->args.a1 = params;
+    snd_pcm_xrun_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_malloc
+int snd_pcm_sw_params_malloc(snd_pcm_sw_params_t ** ptr) {
+    snd_pcm_sw_params_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_malloc_INDEXED));
+    packed_data->func = snd_pcm_sw_params_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_avail_min
+int snd_pcm_sw_params_set_avail_min(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_avail_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_avail_min_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_avail_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_silence_size
+int snd_pcm_sw_params_set_silence_size(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_silence_size_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_silence_size_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_silence_size_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_silence_threshold
+int snd_pcm_sw_params_set_silence_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_silence_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_silence_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_silence_threshold_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_sleep_min
+int snd_pcm_sw_params_set_sleep_min(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, unsigned int val) {
+    snd_pcm_sw_params_set_sleep_min_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_sleep_min_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_sleep_min_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_start_mode
+int snd_pcm_sw_params_set_start_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_start_t val) {
+    snd_pcm_sw_params_set_start_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_start_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_start_mode_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_start_threshold
+int snd_pcm_sw_params_set_start_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_start_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_start_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_start_threshold_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_stop_threshold
+int snd_pcm_sw_params_set_stop_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_stop_threshold_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_stop_threshold_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_stop_threshold_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_tstamp_mode
+int snd_pcm_sw_params_set_tstamp_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_tstamp_t val) {
+    snd_pcm_sw_params_set_tstamp_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_tstamp_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_tstamp_mode_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_xfer_align
+int snd_pcm_sw_params_set_xfer_align(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val) {
+    snd_pcm_sw_params_set_xfer_align_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_xfer_align_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_xfer_align_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_set_xrun_mode
+int snd_pcm_sw_params_set_xrun_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_xrun_t val) {
+    snd_pcm_sw_params_set_xrun_mode_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_set_xrun_mode_INDEXED));
+    packed_data->func = snd_pcm_sw_params_set_xrun_mode_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_tstamp_mode_name
+const char * snd_pcm_tstamp_mode_name(const snd_pcm_tstamp_t mode) {
+    snd_pcm_tstamp_mode_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_tstamp_mode_name_INDEXED));
+    packed_data->func = snd_pcm_tstamp_mode_name_INDEX;
+    packed_data->args.a1 = mode;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_type
+snd_pcm_type_t snd_pcm_type(snd_pcm_t * pcm) {
+    snd_pcm_type_INDEXED *packed_data = malloc(sizeof(snd_pcm_type_INDEXED));
+    packed_data->func = snd_pcm_type_INDEX;
+    packed_data->args.a1 = pcm;
+    snd_pcm_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_type_name
+const char * snd_pcm_type_name(snd_pcm_type_t type) {
+    snd_pcm_type_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_type_name_INDEXED));
+    packed_data->func = snd_pcm_type_name_INDEX;
+    packed_data->args.a1 = type;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_unlink
+int snd_pcm_unlink(snd_pcm_t * pcm) {
+    snd_pcm_unlink_INDEXED *packed_data = malloc(sizeof(snd_pcm_unlink_INDEXED));
+    packed_data->func = snd_pcm_unlink_INDEX;
+    packed_data->args.a1 = pcm;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_wait
+int snd_pcm_wait(snd_pcm_t * pcm, int timeout) {
+    snd_pcm_wait_INDEXED *packed_data = malloc(sizeof(snd_pcm_wait_INDEXED));
+    packed_data->func = snd_pcm_wait_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = timeout;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_writei
+snd_pcm_sframes_t snd_pcm_writei(snd_pcm_t * pcm, const void * buffer, snd_pcm_uframes_t size) {
+    snd_pcm_writei_INDEXED *packed_data = malloc(sizeof(snd_pcm_writei_INDEXED));
+    packed_data->func = snd_pcm_writei_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_writen
+snd_pcm_sframes_t snd_pcm_writen(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size) {
+    snd_pcm_writen_INDEXED *packed_data = malloc(sizeof(snd_pcm_writen_INDEXED));
+    packed_data->func = snd_pcm_writen_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bufs;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_xrun_mode_name
+const char * snd_pcm_xrun_mode_name(snd_pcm_xrun_t mode) {
+    snd_pcm_xrun_mode_name_INDEXED *packed_data = malloc(sizeof(snd_pcm_xrun_mode_name_INDEXED));
+    packed_data->func = snd_pcm_xrun_mode_name_INDEX;
+    packed_data->args.a1 = mode;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_close
+int snd_rawmidi_close(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_close_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_close_INDEXED));
+    packed_data->func = snd_rawmidi_close_INDEX;
+    packed_data->args.a1 = rmidi;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_drain
+int snd_rawmidi_drain(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_drain_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_drain_INDEXED));
+    packed_data->func = snd_rawmidi_drain_INDEX;
+    packed_data->args.a1 = rmidi;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_drop
+int snd_rawmidi_drop(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_drop_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_drop_INDEXED));
+    packed_data->func = snd_rawmidi_drop_INDEX;
+    packed_data->args.a1 = rmidi;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info
+int snd_rawmidi_info(snd_rawmidi_t * rmidi, snd_rawmidi_info_t * info) {
+    snd_rawmidi_info_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_INDEXED));
+    packed_data->func = snd_rawmidi_info_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_copy
+void snd_rawmidi_info_copy(snd_rawmidi_info_t * dst, const snd_rawmidi_info_t * src) {
+    snd_rawmidi_info_copy_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_copy_INDEXED));
+    packed_data->func = snd_rawmidi_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_free
+void snd_rawmidi_info_free(snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_free_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_free_INDEXED));
+    packed_data->func = snd_rawmidi_info_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_card
+int snd_rawmidi_info_get_card(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_card_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_card_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_card_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_device
+unsigned int snd_rawmidi_info_get_device(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_device_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_device_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_device_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_flags
+unsigned int snd_rawmidi_info_get_flags(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_flags_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_flags_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_flags_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_id
+const char * snd_rawmidi_info_get_id(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_id_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_id_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_name
+const char * snd_rawmidi_info_get_name(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_name_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_stream
+snd_rawmidi_stream_t snd_rawmidi_info_get_stream(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_stream_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_stream_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_stream_INDEX;
+    packed_data->args.a1 = obj;
+    snd_rawmidi_stream_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_subdevice
+unsigned int snd_rawmidi_info_get_subdevice(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_subdevice_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_subdevice_name
+const char * snd_rawmidi_info_get_subdevice_name(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_subdevice_name_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_subdevice_name_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_subdevice_name_INDEX;
+    packed_data->args.a1 = obj;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_subdevices_avail
+unsigned int snd_rawmidi_info_get_subdevices_avail(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_subdevices_avail_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_subdevices_avail_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_subdevices_avail_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_get_subdevices_count
+unsigned int snd_rawmidi_info_get_subdevices_count(const snd_rawmidi_info_t * obj) {
+    snd_rawmidi_info_get_subdevices_count_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_get_subdevices_count_INDEXED));
+    packed_data->func = snd_rawmidi_info_get_subdevices_count_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_malloc
+int snd_rawmidi_info_malloc(snd_rawmidi_info_t ** ptr) {
+    snd_rawmidi_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_malloc_INDEXED));
+    packed_data->func = snd_rawmidi_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_set_device
+void snd_rawmidi_info_set_device(snd_rawmidi_info_t * obj, unsigned int val) {
+    snd_rawmidi_info_set_device_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_set_device_INDEXED));
+    packed_data->func = snd_rawmidi_info_set_device_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_set_stream
+void snd_rawmidi_info_set_stream(snd_rawmidi_info_t * obj, snd_rawmidi_stream_t val) {
+    snd_rawmidi_info_set_stream_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_set_stream_INDEXED));
+    packed_data->func = snd_rawmidi_info_set_stream_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_set_subdevice
+void snd_rawmidi_info_set_subdevice(snd_rawmidi_info_t * obj, unsigned int val) {
+    snd_rawmidi_info_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_set_subdevice_INDEXED));
+    packed_data->func = snd_rawmidi_info_set_subdevice_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_info_sizeof
+size_t snd_rawmidi_info_sizeof() {
+    snd_rawmidi_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_info_sizeof_INDEXED));
+    packed_data->func = snd_rawmidi_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_name
+const char * snd_rawmidi_name(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_name_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_name_INDEXED));
+    packed_data->func = snd_rawmidi_name_INDEX;
+    packed_data->args.a1 = rmidi;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_nonblock
+int snd_rawmidi_nonblock(snd_rawmidi_t * rmidi, int nonblock) {
+    snd_rawmidi_nonblock_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_nonblock_INDEXED));
+    packed_data->func = snd_rawmidi_nonblock_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_open
+int snd_rawmidi_open(snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi, const char * name, int mode) {
+    snd_rawmidi_open_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_open_INDEXED));
+    packed_data->func = snd_rawmidi_open_INDEX;
+    packed_data->args.a1 = in_rmidi;
+    packed_data->args.a2 = out_rmidi;
+    packed_data->args.a3 = name;
+    packed_data->args.a4 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_open_lconf
+int snd_rawmidi_open_lconf(snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi, const char * name, int mode, snd_config_t * lconf) {
+    snd_rawmidi_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_open_lconf_INDEXED));
+    packed_data->func = snd_rawmidi_open_lconf_INDEX;
+    packed_data->args.a1 = in_rmidi;
+    packed_data->args.a2 = out_rmidi;
+    packed_data->args.a3 = name;
+    packed_data->args.a4 = mode;
+    packed_data->args.a5 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params
+int snd_rawmidi_params(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params) {
+    snd_rawmidi_params_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_INDEXED));
+    packed_data->func = snd_rawmidi_params_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_copy
+void snd_rawmidi_params_copy(snd_rawmidi_params_t * dst, const snd_rawmidi_params_t * src) {
+    snd_rawmidi_params_copy_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_copy_INDEXED));
+    packed_data->func = snd_rawmidi_params_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_current
+int snd_rawmidi_params_current(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params) {
+    snd_rawmidi_params_current_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_current_INDEXED));
+    packed_data->func = snd_rawmidi_params_current_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_free
+void snd_rawmidi_params_free(snd_rawmidi_params_t * obj) {
+    snd_rawmidi_params_free_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_free_INDEXED));
+    packed_data->func = snd_rawmidi_params_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_get_avail_min
+size_t snd_rawmidi_params_get_avail_min(const snd_rawmidi_params_t * params) {
+    snd_rawmidi_params_get_avail_min_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_get_avail_min_INDEXED));
+    packed_data->func = snd_rawmidi_params_get_avail_min_INDEX;
+    packed_data->args.a1 = params;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_get_buffer_size
+size_t snd_rawmidi_params_get_buffer_size(const snd_rawmidi_params_t * params) {
+    snd_rawmidi_params_get_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_get_buffer_size_INDEXED));
+    packed_data->func = snd_rawmidi_params_get_buffer_size_INDEX;
+    packed_data->args.a1 = params;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_get_no_active_sensing
+int snd_rawmidi_params_get_no_active_sensing(const snd_rawmidi_params_t * params) {
+    snd_rawmidi_params_get_no_active_sensing_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_get_no_active_sensing_INDEXED));
+    packed_data->func = snd_rawmidi_params_get_no_active_sensing_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_malloc
+int snd_rawmidi_params_malloc(snd_rawmidi_params_t ** ptr) {
+    snd_rawmidi_params_malloc_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_malloc_INDEXED));
+    packed_data->func = snd_rawmidi_params_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_set_avail_min
+int snd_rawmidi_params_set_avail_min(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, size_t val) {
+    snd_rawmidi_params_set_avail_min_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_set_avail_min_INDEXED));
+    packed_data->func = snd_rawmidi_params_set_avail_min_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_set_buffer_size
+int snd_rawmidi_params_set_buffer_size(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, size_t val) {
+    snd_rawmidi_params_set_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_set_buffer_size_INDEXED));
+    packed_data->func = snd_rawmidi_params_set_buffer_size_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_set_no_active_sensing
+int snd_rawmidi_params_set_no_active_sensing(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, int val) {
+    snd_rawmidi_params_set_no_active_sensing_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_set_no_active_sensing_INDEXED));
+    packed_data->func = snd_rawmidi_params_set_no_active_sensing_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = params;
+    packed_data->args.a3 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_params_sizeof
+size_t snd_rawmidi_params_sizeof() {
+    snd_rawmidi_params_sizeof_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_params_sizeof_INDEXED));
+    packed_data->func = snd_rawmidi_params_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_poll_descriptors
+int snd_rawmidi_poll_descriptors(snd_rawmidi_t * rmidi, struct pollfd * pfds, unsigned int space) {
+    snd_rawmidi_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_poll_descriptors_INDEXED));
+    packed_data->func = snd_rawmidi_poll_descriptors_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_poll_descriptors_count
+int snd_rawmidi_poll_descriptors_count(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_rawmidi_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = rmidi;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_poll_descriptors_revents
+int snd_rawmidi_poll_descriptors_revents(snd_rawmidi_t * rawmidi, struct pollfd * pfds, unsigned int nfds, unsigned short * revent) {
+    snd_rawmidi_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_rawmidi_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = rawmidi;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revent;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_read
+ssize_t snd_rawmidi_read(snd_rawmidi_t * rmidi, void * buffer, size_t size) {
+    snd_rawmidi_read_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_read_INDEXED));
+    packed_data->func = snd_rawmidi_read_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status
+int snd_rawmidi_status(snd_rawmidi_t * rmidi, snd_rawmidi_status_t * status) {
+    snd_rawmidi_status_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_INDEXED));
+    packed_data->func = snd_rawmidi_status_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_copy
+void snd_rawmidi_status_copy(snd_rawmidi_status_t * dst, const snd_rawmidi_status_t * src) {
+    snd_rawmidi_status_copy_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_copy_INDEXED));
+    packed_data->func = snd_rawmidi_status_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_free
+void snd_rawmidi_status_free(snd_rawmidi_status_t * obj) {
+    snd_rawmidi_status_free_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_free_INDEXED));
+    packed_data->func = snd_rawmidi_status_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_get_avail
+size_t snd_rawmidi_status_get_avail(const snd_rawmidi_status_t * obj) {
+    snd_rawmidi_status_get_avail_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_get_avail_INDEXED));
+    packed_data->func = snd_rawmidi_status_get_avail_INDEX;
+    packed_data->args.a1 = obj;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_get_tstamp
+void snd_rawmidi_status_get_tstamp(const snd_rawmidi_status_t * obj, snd_htimestamp_t * ptr) {
+    snd_rawmidi_status_get_tstamp_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_get_tstamp_INDEXED));
+    packed_data->func = snd_rawmidi_status_get_tstamp_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_get_xruns
+size_t snd_rawmidi_status_get_xruns(const snd_rawmidi_status_t * obj) {
+    snd_rawmidi_status_get_xruns_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_get_xruns_INDEXED));
+    packed_data->func = snd_rawmidi_status_get_xruns_INDEX;
+    packed_data->args.a1 = obj;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_malloc
+int snd_rawmidi_status_malloc(snd_rawmidi_status_t ** ptr) {
+    snd_rawmidi_status_malloc_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_malloc_INDEXED));
+    packed_data->func = snd_rawmidi_status_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_status_sizeof
+size_t snd_rawmidi_status_sizeof() {
+    snd_rawmidi_status_sizeof_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_status_sizeof_INDEXED));
+    packed_data->func = snd_rawmidi_status_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_stream
+snd_rawmidi_stream_t snd_rawmidi_stream(snd_rawmidi_t * rawmidi) {
+    snd_rawmidi_stream_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_stream_INDEXED));
+    packed_data->func = snd_rawmidi_stream_INDEX;
+    packed_data->args.a1 = rawmidi;
+    snd_rawmidi_stream_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_type
+snd_rawmidi_type_t snd_rawmidi_type(snd_rawmidi_t * rmidi) {
+    snd_rawmidi_type_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_type_INDEXED));
+    packed_data->func = snd_rawmidi_type_INDEX;
+    packed_data->args.a1 = rmidi;
+    snd_rawmidi_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_rawmidi_write
+ssize_t snd_rawmidi_write(snd_rawmidi_t * rmidi, const void * buffer, size_t size) {
+    snd_rawmidi_write_INDEXED *packed_data = malloc(sizeof(snd_rawmidi_write_INDEXED));
+    packed_data->func = snd_rawmidi_write_INDEX;
+    packed_data->args.a1 = rmidi;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_sctl_build
+int snd_sctl_build(snd_sctl_t ** ctl, snd_ctl_t * handle, snd_config_t * config, snd_config_t * private_data, int mode) {
+    snd_sctl_build_INDEXED *packed_data = malloc(sizeof(snd_sctl_build_INDEXED));
+    packed_data->func = snd_sctl_build_INDEX;
+    packed_data->args.a1 = ctl;
+    packed_data->args.a2 = handle;
+    packed_data->args.a3 = config;
+    packed_data->args.a4 = private_data;
+    packed_data->args.a5 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_sctl_free
+int snd_sctl_free(snd_sctl_t * handle) {
+    snd_sctl_free_INDEXED *packed_data = malloc(sizeof(snd_sctl_free_INDEXED));
+    packed_data->func = snd_sctl_free_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_sctl_install
+int snd_sctl_install(snd_sctl_t * handle) {
+    snd_sctl_install_INDEXED *packed_data = malloc(sizeof(snd_sctl_install_INDEXED));
+    packed_data->func = snd_sctl_install_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_sctl_remove
+int snd_sctl_remove(snd_sctl_t * handle) {
+    snd_sctl_remove_INDEXED *packed_data = malloc(sizeof(snd_sctl_remove_INDEXED));
+    packed_data->func = snd_sctl_remove_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_alloc_named_queue
+int snd_seq_alloc_named_queue(snd_seq_t * seq, const char * name) {
+    snd_seq_alloc_named_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_alloc_named_queue_INDEXED));
+    packed_data->func = snd_seq_alloc_named_queue_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_alloc_queue
+int snd_seq_alloc_queue(snd_seq_t * handle) {
+    snd_seq_alloc_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_alloc_queue_INDEXED));
+    packed_data->func = snd_seq_alloc_queue_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_change_bit
+int snd_seq_change_bit(int nr, void * array) {
+    snd_seq_change_bit_INDEXED *packed_data = malloc(sizeof(snd_seq_change_bit_INDEXED));
+    packed_data->func = snd_seq_change_bit_INDEX;
+    packed_data->args.a1 = nr;
+    packed_data->args.a2 = array;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_id
+int snd_seq_client_id(snd_seq_t * handle) {
+    snd_seq_client_id_INDEXED *packed_data = malloc(sizeof(snd_seq_client_id_INDEXED));
+    packed_data->func = snd_seq_client_id_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_copy
+void snd_seq_client_info_copy(snd_seq_client_info_t * dst, const snd_seq_client_info_t * src) {
+    snd_seq_client_info_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_copy_INDEXED));
+    packed_data->func = snd_seq_client_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_free
+void snd_seq_client_info_free(snd_seq_client_info_t * ptr) {
+    snd_seq_client_info_free_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_free_INDEXED));
+    packed_data->func = snd_seq_client_info_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_broadcast_filter
+int snd_seq_client_info_get_broadcast_filter(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_broadcast_filter_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_broadcast_filter_INDEXED));
+    packed_data->func = snd_seq_client_info_get_broadcast_filter_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_client
+int snd_seq_client_info_get_client(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_client_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_client_INDEXED));
+    packed_data->func = snd_seq_client_info_get_client_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_error_bounce
+int snd_seq_client_info_get_error_bounce(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_error_bounce_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_error_bounce_INDEXED));
+    packed_data->func = snd_seq_client_info_get_error_bounce_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_event_filter
+const unsigned char * snd_seq_client_info_get_event_filter(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_event_filter_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_event_filter_INDEXED));
+    packed_data->func = snd_seq_client_info_get_event_filter_INDEX;
+    packed_data->args.a1 = info;
+    const unsigned char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_event_lost
+int snd_seq_client_info_get_event_lost(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_event_lost_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_event_lost_INDEXED));
+    packed_data->func = snd_seq_client_info_get_event_lost_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_name
+const char * snd_seq_client_info_get_name(snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_name_INDEXED));
+    packed_data->func = snd_seq_client_info_get_name_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_num_ports
+int snd_seq_client_info_get_num_ports(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_num_ports_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_num_ports_INDEXED));
+    packed_data->func = snd_seq_client_info_get_num_ports_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_get_type
+snd_seq_client_type_t snd_seq_client_info_get_type(const snd_seq_client_info_t * info) {
+    snd_seq_client_info_get_type_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_get_type_INDEXED));
+    packed_data->func = snd_seq_client_info_get_type_INDEX;
+    packed_data->args.a1 = info;
+    snd_seq_client_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_malloc
+int snd_seq_client_info_malloc(snd_seq_client_info_t ** ptr) {
+    snd_seq_client_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_malloc_INDEXED));
+    packed_data->func = snd_seq_client_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_set_broadcast_filter
+void snd_seq_client_info_set_broadcast_filter(snd_seq_client_info_t * info, int val) {
+    snd_seq_client_info_set_broadcast_filter_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_set_broadcast_filter_INDEXED));
+    packed_data->func = snd_seq_client_info_set_broadcast_filter_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_set_client
+void snd_seq_client_info_set_client(snd_seq_client_info_t * info, int client) {
+    snd_seq_client_info_set_client_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_set_client_INDEXED));
+    packed_data->func = snd_seq_client_info_set_client_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = client;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_set_error_bounce
+void snd_seq_client_info_set_error_bounce(snd_seq_client_info_t * info, int val) {
+    snd_seq_client_info_set_error_bounce_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_set_error_bounce_INDEXED));
+    packed_data->func = snd_seq_client_info_set_error_bounce_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_set_event_filter
+void snd_seq_client_info_set_event_filter(snd_seq_client_info_t * info, unsigned char * filter) {
+    snd_seq_client_info_set_event_filter_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_set_event_filter_INDEXED));
+    packed_data->func = snd_seq_client_info_set_event_filter_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = filter;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_set_name
+void snd_seq_client_info_set_name(snd_seq_client_info_t * info, const char * name) {
+    snd_seq_client_info_set_name_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_set_name_INDEXED));
+    packed_data->func = snd_seq_client_info_set_name_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_info_sizeof
+size_t snd_seq_client_info_sizeof() {
+    snd_seq_client_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_client_info_sizeof_INDEXED));
+    packed_data->func = snd_seq_client_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_copy
+void snd_seq_client_pool_copy(snd_seq_client_pool_t * dst, const snd_seq_client_pool_t * src) {
+    snd_seq_client_pool_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_copy_INDEXED));
+    packed_data->func = snd_seq_client_pool_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_free
+void snd_seq_client_pool_free(snd_seq_client_pool_t * ptr) {
+    snd_seq_client_pool_free_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_free_INDEXED));
+    packed_data->func = snd_seq_client_pool_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_client
+int snd_seq_client_pool_get_client(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_client_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_client_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_client_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_input_free
+size_t snd_seq_client_pool_get_input_free(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_input_free_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_input_free_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_input_free_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_input_pool
+size_t snd_seq_client_pool_get_input_pool(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_input_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_input_pool_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_input_pool_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_output_free
+size_t snd_seq_client_pool_get_output_free(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_output_free_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_output_free_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_output_free_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_output_pool
+size_t snd_seq_client_pool_get_output_pool(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_output_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_output_pool_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_output_pool_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_get_output_room
+size_t snd_seq_client_pool_get_output_room(const snd_seq_client_pool_t * info) {
+    snd_seq_client_pool_get_output_room_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_get_output_room_INDEXED));
+    packed_data->func = snd_seq_client_pool_get_output_room_INDEX;
+    packed_data->args.a1 = info;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_malloc
+int snd_seq_client_pool_malloc(snd_seq_client_pool_t ** ptr) {
+    snd_seq_client_pool_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_malloc_INDEXED));
+    packed_data->func = snd_seq_client_pool_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_set_input_pool
+void snd_seq_client_pool_set_input_pool(snd_seq_client_pool_t * info, size_t size) {
+    snd_seq_client_pool_set_input_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_set_input_pool_INDEXED));
+    packed_data->func = snd_seq_client_pool_set_input_pool_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_set_output_pool
+void snd_seq_client_pool_set_output_pool(snd_seq_client_pool_t * info, size_t size) {
+    snd_seq_client_pool_set_output_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_set_output_pool_INDEXED));
+    packed_data->func = snd_seq_client_pool_set_output_pool_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_set_output_room
+void snd_seq_client_pool_set_output_room(snd_seq_client_pool_t * info, size_t size) {
+    snd_seq_client_pool_set_output_room_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_set_output_room_INDEXED));
+    packed_data->func = snd_seq_client_pool_set_output_room_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_client_pool_sizeof
+size_t snd_seq_client_pool_sizeof() {
+    snd_seq_client_pool_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_client_pool_sizeof_INDEXED));
+    packed_data->func = snd_seq_client_pool_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_close
+int snd_seq_close(snd_seq_t * handle) {
+    snd_seq_close_INDEXED *packed_data = malloc(sizeof(snd_seq_close_INDEXED));
+    packed_data->func = snd_seq_close_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_create_port
+int snd_seq_create_port(snd_seq_t * handle, snd_seq_port_info_t * info) {
+    snd_seq_create_port_INDEXED *packed_data = malloc(sizeof(snd_seq_create_port_INDEXED));
+    packed_data->func = snd_seq_create_port_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_create_queue
+int snd_seq_create_queue(snd_seq_t * seq, snd_seq_queue_info_t * info) {
+    snd_seq_create_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_create_queue_INDEXED));
+    packed_data->func = snd_seq_create_queue_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_delete_port
+int snd_seq_delete_port(snd_seq_t * handle, int port) {
+    snd_seq_delete_port_INDEXED *packed_data = malloc(sizeof(snd_seq_delete_port_INDEXED));
+    packed_data->func = snd_seq_delete_port_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_drain_output
+int snd_seq_drain_output(snd_seq_t * handle) {
+    snd_seq_drain_output_INDEXED *packed_data = malloc(sizeof(snd_seq_drain_output_INDEXED));
+    packed_data->func = snd_seq_drain_output_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_drop_input
+int snd_seq_drop_input(snd_seq_t * handle) {
+    snd_seq_drop_input_INDEXED *packed_data = malloc(sizeof(snd_seq_drop_input_INDEXED));
+    packed_data->func = snd_seq_drop_input_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_drop_input_buffer
+int snd_seq_drop_input_buffer(snd_seq_t * handle) {
+    snd_seq_drop_input_buffer_INDEXED *packed_data = malloc(sizeof(snd_seq_drop_input_buffer_INDEXED));
+    packed_data->func = snd_seq_drop_input_buffer_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_drop_output
+int snd_seq_drop_output(snd_seq_t * handle) {
+    snd_seq_drop_output_INDEXED *packed_data = malloc(sizeof(snd_seq_drop_output_INDEXED));
+    packed_data->func = snd_seq_drop_output_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_drop_output_buffer
+int snd_seq_drop_output_buffer(snd_seq_t * handle) {
+    snd_seq_drop_output_buffer_INDEXED *packed_data = malloc(sizeof(snd_seq_drop_output_buffer_INDEXED));
+    packed_data->func = snd_seq_drop_output_buffer_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_input
+int snd_seq_event_input(snd_seq_t * handle, snd_seq_event_t ** ev) {
+    snd_seq_event_input_INDEXED *packed_data = malloc(sizeof(snd_seq_event_input_INDEXED));
+    packed_data->func = snd_seq_event_input_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_input_pending
+int snd_seq_event_input_pending(snd_seq_t * seq, int fetch_sequencer) {
+    snd_seq_event_input_pending_INDEXED *packed_data = malloc(sizeof(snd_seq_event_input_pending_INDEXED));
+    packed_data->func = snd_seq_event_input_pending_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = fetch_sequencer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_length
+ssize_t snd_seq_event_length(snd_seq_event_t * ev) {
+    snd_seq_event_length_INDEXED *packed_data = malloc(sizeof(snd_seq_event_length_INDEXED));
+    packed_data->func = snd_seq_event_length_INDEX;
+    packed_data->args.a1 = ev;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_output
+int snd_seq_event_output(snd_seq_t * handle, snd_seq_event_t * ev) {
+    snd_seq_event_output_INDEXED *packed_data = malloc(sizeof(snd_seq_event_output_INDEXED));
+    packed_data->func = snd_seq_event_output_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_output_buffer
+int snd_seq_event_output_buffer(snd_seq_t * handle, snd_seq_event_t * ev) {
+    snd_seq_event_output_buffer_INDEXED *packed_data = malloc(sizeof(snd_seq_event_output_buffer_INDEXED));
+    packed_data->func = snd_seq_event_output_buffer_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_output_direct
+int snd_seq_event_output_direct(snd_seq_t * handle, snd_seq_event_t * ev) {
+    snd_seq_event_output_direct_INDEXED *packed_data = malloc(sizeof(snd_seq_event_output_direct_INDEXED));
+    packed_data->func = snd_seq_event_output_direct_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_event_output_pending
+int snd_seq_event_output_pending(snd_seq_t * seq) {
+    snd_seq_event_output_pending_INDEXED *packed_data = malloc(sizeof(snd_seq_event_output_pending_INDEXED));
+    packed_data->func = snd_seq_event_output_pending_INDEX;
+    packed_data->args.a1 = seq;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_extract_output
+int snd_seq_extract_output(snd_seq_t * handle, snd_seq_event_t ** ev) {
+    snd_seq_extract_output_INDEXED *packed_data = malloc(sizeof(snd_seq_extract_output_INDEXED));
+    packed_data->func = snd_seq_extract_output_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_free_event
+int snd_seq_free_event(snd_seq_event_t * ev) {
+    snd_seq_free_event_INDEXED *packed_data = malloc(sizeof(snd_seq_free_event_INDEXED));
+    packed_data->func = snd_seq_free_event_INDEX;
+    packed_data->args.a1 = ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_free_queue
+int snd_seq_free_queue(snd_seq_t * handle, int q) {
+    snd_seq_free_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_free_queue_INDEXED));
+    packed_data->func = snd_seq_free_queue_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_any_client_info
+int snd_seq_get_any_client_info(snd_seq_t * handle, int client, snd_seq_client_info_t * info) {
+    snd_seq_get_any_client_info_INDEXED *packed_data = malloc(sizeof(snd_seq_get_any_client_info_INDEXED));
+    packed_data->func = snd_seq_get_any_client_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = client;
+    packed_data->args.a3 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_any_port_info
+int snd_seq_get_any_port_info(snd_seq_t * handle, int client, int port, snd_seq_port_info_t * info) {
+    snd_seq_get_any_port_info_INDEXED *packed_data = malloc(sizeof(snd_seq_get_any_port_info_INDEXED));
+    packed_data->func = snd_seq_get_any_port_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = client;
+    packed_data->args.a3 = port;
+    packed_data->args.a4 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_bit
+int snd_seq_get_bit(int nr, void * array) {
+    snd_seq_get_bit_INDEXED *packed_data = malloc(sizeof(snd_seq_get_bit_INDEXED));
+    packed_data->func = snd_seq_get_bit_INDEX;
+    packed_data->args.a1 = nr;
+    packed_data->args.a2 = array;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_client_info
+int snd_seq_get_client_info(snd_seq_t * handle, snd_seq_client_info_t * info) {
+    snd_seq_get_client_info_INDEXED *packed_data = malloc(sizeof(snd_seq_get_client_info_INDEXED));
+    packed_data->func = snd_seq_get_client_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_client_pool
+int snd_seq_get_client_pool(snd_seq_t * handle, snd_seq_client_pool_t * info) {
+    snd_seq_get_client_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_get_client_pool_INDEXED));
+    packed_data->func = snd_seq_get_client_pool_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_input_buffer_size
+size_t snd_seq_get_input_buffer_size(snd_seq_t * handle) {
+    snd_seq_get_input_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_seq_get_input_buffer_size_INDEXED));
+    packed_data->func = snd_seq_get_input_buffer_size_INDEX;
+    packed_data->args.a1 = handle;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_output_buffer_size
+size_t snd_seq_get_output_buffer_size(snd_seq_t * handle) {
+    snd_seq_get_output_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_seq_get_output_buffer_size_INDEXED));
+    packed_data->func = snd_seq_get_output_buffer_size_INDEX;
+    packed_data->args.a1 = handle;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_port_info
+int snd_seq_get_port_info(snd_seq_t * handle, int port, snd_seq_port_info_t * info) {
+    snd_seq_get_port_info_INDEXED *packed_data = malloc(sizeof(snd_seq_get_port_info_INDEXED));
+    packed_data->func = snd_seq_get_port_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = port;
+    packed_data->args.a3 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_port_subscription
+int snd_seq_get_port_subscription(snd_seq_t * handle, snd_seq_port_subscribe_t * sub) {
+    snd_seq_get_port_subscription_INDEXED *packed_data = malloc(sizeof(snd_seq_get_port_subscription_INDEXED));
+    packed_data->func = snd_seq_get_port_subscription_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = sub;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_queue_info
+int snd_seq_get_queue_info(snd_seq_t * seq, int q, snd_seq_queue_info_t * info) {
+    snd_seq_get_queue_info_INDEXED *packed_data = malloc(sizeof(snd_seq_get_queue_info_INDEXED));
+    packed_data->func = snd_seq_get_queue_info_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_queue_status
+int snd_seq_get_queue_status(snd_seq_t * handle, int q, snd_seq_queue_status_t * status) {
+    snd_seq_get_queue_status_INDEXED *packed_data = malloc(sizeof(snd_seq_get_queue_status_INDEXED));
+    packed_data->func = snd_seq_get_queue_status_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_queue_tempo
+int snd_seq_get_queue_tempo(snd_seq_t * handle, int q, snd_seq_queue_tempo_t * tempo) {
+    snd_seq_get_queue_tempo_INDEXED *packed_data = malloc(sizeof(snd_seq_get_queue_tempo_INDEXED));
+    packed_data->func = snd_seq_get_queue_tempo_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = tempo;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_queue_timer
+int snd_seq_get_queue_timer(snd_seq_t * handle, int q, snd_seq_queue_timer_t * timer) {
+    snd_seq_get_queue_timer_INDEXED *packed_data = malloc(sizeof(snd_seq_get_queue_timer_INDEXED));
+    packed_data->func = snd_seq_get_queue_timer_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = timer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_get_queue_usage
+int snd_seq_get_queue_usage(snd_seq_t * handle, int q) {
+    snd_seq_get_queue_usage_INDEXED *packed_data = malloc(sizeof(snd_seq_get_queue_usage_INDEXED));
+    packed_data->func = snd_seq_get_queue_usage_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_name
+const char * snd_seq_name(snd_seq_t * seq) {
+    snd_seq_name_INDEXED *packed_data = malloc(sizeof(snd_seq_name_INDEXED));
+    packed_data->func = snd_seq_name_INDEX;
+    packed_data->args.a1 = seq;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_nonblock
+int snd_seq_nonblock(snd_seq_t * handle, int nonblock) {
+    snd_seq_nonblock_INDEXED *packed_data = malloc(sizeof(snd_seq_nonblock_INDEXED));
+    packed_data->func = snd_seq_nonblock_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = nonblock;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_open
+int snd_seq_open(snd_seq_t ** handle, const char * name, int streams, int mode) {
+    snd_seq_open_INDEXED *packed_data = malloc(sizeof(snd_seq_open_INDEXED));
+    packed_data->func = snd_seq_open_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = streams;
+    packed_data->args.a4 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_open_lconf
+int snd_seq_open_lconf(snd_seq_t ** handle, const char * name, int streams, int mode, snd_config_t * lconf) {
+    snd_seq_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_seq_open_lconf_INDEXED));
+    packed_data->func = snd_seq_open_lconf_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = streams;
+    packed_data->args.a4 = mode;
+    packed_data->args.a5 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_poll_descriptors
+int snd_seq_poll_descriptors(snd_seq_t * handle, struct pollfd * pfds, unsigned int space, short events) {
+    snd_seq_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_seq_poll_descriptors_INDEXED));
+    packed_data->func = snd_seq_poll_descriptors_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    packed_data->args.a4 = events;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_poll_descriptors_count
+int snd_seq_poll_descriptors_count(snd_seq_t * handle, short events) {
+    snd_seq_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_seq_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_seq_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = events;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_poll_descriptors_revents
+int snd_seq_poll_descriptors_revents(snd_seq_t * seq, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_seq_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_seq_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_seq_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_copy
+void snd_seq_port_info_copy(snd_seq_port_info_t * dst, const snd_seq_port_info_t * src) {
+    snd_seq_port_info_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_copy_INDEXED));
+    packed_data->func = snd_seq_port_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_free
+void snd_seq_port_info_free(snd_seq_port_info_t * ptr) {
+    snd_seq_port_info_free_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_free_INDEXED));
+    packed_data->func = snd_seq_port_info_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_addr
+const snd_seq_addr_t * snd_seq_port_info_get_addr(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_addr_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_addr_INDEXED));
+    packed_data->func = snd_seq_port_info_get_addr_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_capability
+unsigned int snd_seq_port_info_get_capability(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_capability_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_capability_INDEXED));
+    packed_data->func = snd_seq_port_info_get_capability_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_client
+int snd_seq_port_info_get_client(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_client_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_client_INDEXED));
+    packed_data->func = snd_seq_port_info_get_client_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_midi_channels
+int snd_seq_port_info_get_midi_channels(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_midi_channels_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_midi_channels_INDEXED));
+    packed_data->func = snd_seq_port_info_get_midi_channels_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_midi_voices
+int snd_seq_port_info_get_midi_voices(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_midi_voices_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_midi_voices_INDEXED));
+    packed_data->func = snd_seq_port_info_get_midi_voices_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_name
+const char * snd_seq_port_info_get_name(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_name_INDEXED));
+    packed_data->func = snd_seq_port_info_get_name_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_port
+int snd_seq_port_info_get_port(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_port_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_port_INDEXED));
+    packed_data->func = snd_seq_port_info_get_port_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_port_specified
+int snd_seq_port_info_get_port_specified(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_port_specified_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_port_specified_INDEXED));
+    packed_data->func = snd_seq_port_info_get_port_specified_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_read_use
+int snd_seq_port_info_get_read_use(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_read_use_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_read_use_INDEXED));
+    packed_data->func = snd_seq_port_info_get_read_use_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_synth_voices
+int snd_seq_port_info_get_synth_voices(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_synth_voices_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_synth_voices_INDEXED));
+    packed_data->func = snd_seq_port_info_get_synth_voices_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_timestamp_queue
+int snd_seq_port_info_get_timestamp_queue(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_timestamp_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_timestamp_queue_INDEXED));
+    packed_data->func = snd_seq_port_info_get_timestamp_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_timestamp_real
+int snd_seq_port_info_get_timestamp_real(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_timestamp_real_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_timestamp_real_INDEXED));
+    packed_data->func = snd_seq_port_info_get_timestamp_real_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_timestamping
+int snd_seq_port_info_get_timestamping(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_timestamping_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_timestamping_INDEXED));
+    packed_data->func = snd_seq_port_info_get_timestamping_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_type
+unsigned int snd_seq_port_info_get_type(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_type_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_type_INDEXED));
+    packed_data->func = snd_seq_port_info_get_type_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_get_write_use
+int snd_seq_port_info_get_write_use(const snd_seq_port_info_t * info) {
+    snd_seq_port_info_get_write_use_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_get_write_use_INDEXED));
+    packed_data->func = snd_seq_port_info_get_write_use_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_malloc
+int snd_seq_port_info_malloc(snd_seq_port_info_t ** ptr) {
+    snd_seq_port_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_malloc_INDEXED));
+    packed_data->func = snd_seq_port_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_addr
+void snd_seq_port_info_set_addr(snd_seq_port_info_t * info, const snd_seq_addr_t * addr) {
+    snd_seq_port_info_set_addr_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_addr_INDEXED));
+    packed_data->func = snd_seq_port_info_set_addr_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = addr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_capability
+void snd_seq_port_info_set_capability(snd_seq_port_info_t * info, unsigned int capability) {
+    snd_seq_port_info_set_capability_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_capability_INDEXED));
+    packed_data->func = snd_seq_port_info_set_capability_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = capability;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_client
+void snd_seq_port_info_set_client(snd_seq_port_info_t * info, int client) {
+    snd_seq_port_info_set_client_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_client_INDEXED));
+    packed_data->func = snd_seq_port_info_set_client_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = client;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_midi_channels
+void snd_seq_port_info_set_midi_channels(snd_seq_port_info_t * info, int channels) {
+    snd_seq_port_info_set_midi_channels_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_midi_channels_INDEXED));
+    packed_data->func = snd_seq_port_info_set_midi_channels_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = channels;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_midi_voices
+void snd_seq_port_info_set_midi_voices(snd_seq_port_info_t * info, int voices) {
+    snd_seq_port_info_set_midi_voices_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_midi_voices_INDEXED));
+    packed_data->func = snd_seq_port_info_set_midi_voices_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = voices;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_name
+void snd_seq_port_info_set_name(snd_seq_port_info_t * info, const char * name) {
+    snd_seq_port_info_set_name_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_name_INDEXED));
+    packed_data->func = snd_seq_port_info_set_name_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_port
+void snd_seq_port_info_set_port(snd_seq_port_info_t * info, int port) {
+    snd_seq_port_info_set_port_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_port_INDEXED));
+    packed_data->func = snd_seq_port_info_set_port_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_port_specified
+void snd_seq_port_info_set_port_specified(snd_seq_port_info_t * info, int val) {
+    snd_seq_port_info_set_port_specified_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_port_specified_INDEXED));
+    packed_data->func = snd_seq_port_info_set_port_specified_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_synth_voices
+void snd_seq_port_info_set_synth_voices(snd_seq_port_info_t * info, int voices) {
+    snd_seq_port_info_set_synth_voices_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_synth_voices_INDEXED));
+    packed_data->func = snd_seq_port_info_set_synth_voices_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = voices;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_timestamp_queue
+void snd_seq_port_info_set_timestamp_queue(snd_seq_port_info_t * info, int queue) {
+    snd_seq_port_info_set_timestamp_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_timestamp_queue_INDEXED));
+    packed_data->func = snd_seq_port_info_set_timestamp_queue_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = queue;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_timestamp_real
+void snd_seq_port_info_set_timestamp_real(snd_seq_port_info_t * info, int realtime) {
+    snd_seq_port_info_set_timestamp_real_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_timestamp_real_INDEXED));
+    packed_data->func = snd_seq_port_info_set_timestamp_real_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = realtime;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_timestamping
+void snd_seq_port_info_set_timestamping(snd_seq_port_info_t * info, int enable) {
+    snd_seq_port_info_set_timestamping_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_timestamping_INDEXED));
+    packed_data->func = snd_seq_port_info_set_timestamping_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = enable;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_set_type
+void snd_seq_port_info_set_type(snd_seq_port_info_t * info, unsigned int type) {
+    snd_seq_port_info_set_type_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_set_type_INDEXED));
+    packed_data->func = snd_seq_port_info_set_type_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_info_sizeof
+size_t snd_seq_port_info_sizeof() {
+    snd_seq_port_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_port_info_sizeof_INDEXED));
+    packed_data->func = snd_seq_port_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_copy
+void snd_seq_port_subscribe_copy(snd_seq_port_subscribe_t * dst, const snd_seq_port_subscribe_t * src) {
+    snd_seq_port_subscribe_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_copy_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_free
+void snd_seq_port_subscribe_free(snd_seq_port_subscribe_t * ptr) {
+    snd_seq_port_subscribe_free_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_free_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_dest
+const snd_seq_addr_t * snd_seq_port_subscribe_get_dest(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_dest_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_dest_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_dest_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_exclusive
+int snd_seq_port_subscribe_get_exclusive(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_exclusive_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_exclusive_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_exclusive_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_queue
+int snd_seq_port_subscribe_get_queue(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_queue_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_sender
+const snd_seq_addr_t * snd_seq_port_subscribe_get_sender(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_sender_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_sender_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_sender_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_time_real
+int snd_seq_port_subscribe_get_time_real(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_time_real_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_time_real_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_time_real_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_get_time_update
+int snd_seq_port_subscribe_get_time_update(const snd_seq_port_subscribe_t * info) {
+    snd_seq_port_subscribe_get_time_update_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_get_time_update_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_get_time_update_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_malloc
+int snd_seq_port_subscribe_malloc(snd_seq_port_subscribe_t ** ptr) {
+    snd_seq_port_subscribe_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_malloc_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_dest
+void snd_seq_port_subscribe_set_dest(snd_seq_port_subscribe_t * info, const snd_seq_addr_t * addr) {
+    snd_seq_port_subscribe_set_dest_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_dest_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_dest_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = addr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_exclusive
+void snd_seq_port_subscribe_set_exclusive(snd_seq_port_subscribe_t * info, int val) {
+    snd_seq_port_subscribe_set_exclusive_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_exclusive_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_exclusive_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_queue
+void snd_seq_port_subscribe_set_queue(snd_seq_port_subscribe_t * info, int q) {
+    snd_seq_port_subscribe_set_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_queue_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_queue_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = q;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_sender
+void snd_seq_port_subscribe_set_sender(snd_seq_port_subscribe_t * info, const snd_seq_addr_t * addr) {
+    snd_seq_port_subscribe_set_sender_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_sender_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_sender_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = addr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_time_real
+void snd_seq_port_subscribe_set_time_real(snd_seq_port_subscribe_t * info, int val) {
+    snd_seq_port_subscribe_set_time_real_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_time_real_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_time_real_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_set_time_update
+void snd_seq_port_subscribe_set_time_update(snd_seq_port_subscribe_t * info, int val) {
+    snd_seq_port_subscribe_set_time_update_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_set_time_update_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_set_time_update_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = val;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_port_subscribe_sizeof
+size_t snd_seq_port_subscribe_sizeof() {
+    snd_seq_port_subscribe_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_port_subscribe_sizeof_INDEXED));
+    packed_data->func = snd_seq_port_subscribe_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_named_queue
+int snd_seq_query_named_queue(snd_seq_t * seq, const char * name) {
+    snd_seq_query_named_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_query_named_queue_INDEXED));
+    packed_data->func = snd_seq_query_named_queue_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_next_client
+int snd_seq_query_next_client(snd_seq_t * handle, snd_seq_client_info_t * info) {
+    snd_seq_query_next_client_INDEXED *packed_data = malloc(sizeof(snd_seq_query_next_client_INDEXED));
+    packed_data->func = snd_seq_query_next_client_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_next_port
+int snd_seq_query_next_port(snd_seq_t * handle, snd_seq_port_info_t * info) {
+    snd_seq_query_next_port_INDEXED *packed_data = malloc(sizeof(snd_seq_query_next_port_INDEXED));
+    packed_data->func = snd_seq_query_next_port_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_port_subscribers
+int snd_seq_query_port_subscribers(snd_seq_t * seq, snd_seq_query_subscribe_t * subs) {
+    snd_seq_query_port_subscribers_INDEXED *packed_data = malloc(sizeof(snd_seq_query_port_subscribers_INDEXED));
+    packed_data->func = snd_seq_query_port_subscribers_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = subs;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_copy
+void snd_seq_query_subscribe_copy(snd_seq_query_subscribe_t * dst, const snd_seq_query_subscribe_t * src) {
+    snd_seq_query_subscribe_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_copy_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_free
+void snd_seq_query_subscribe_free(snd_seq_query_subscribe_t * ptr) {
+    snd_seq_query_subscribe_free_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_free_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_addr
+const snd_seq_addr_t * snd_seq_query_subscribe_get_addr(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_addr_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_addr_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_addr_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_client
+int snd_seq_query_subscribe_get_client(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_client_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_client_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_client_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_exclusive
+int snd_seq_query_subscribe_get_exclusive(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_exclusive_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_exclusive_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_exclusive_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_index
+int snd_seq_query_subscribe_get_index(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_index_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_index_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_index_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_num_subs
+int snd_seq_query_subscribe_get_num_subs(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_num_subs_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_num_subs_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_num_subs_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_port
+int snd_seq_query_subscribe_get_port(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_port_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_port_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_port_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_queue
+int snd_seq_query_subscribe_get_queue(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_queue_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_root
+const snd_seq_addr_t * snd_seq_query_subscribe_get_root(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_root_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_root_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_root_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_time_real
+int snd_seq_query_subscribe_get_time_real(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_time_real_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_time_real_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_time_real_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_time_update
+int snd_seq_query_subscribe_get_time_update(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_time_update_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_time_update_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_time_update_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_get_type
+snd_seq_query_subs_type_t snd_seq_query_subscribe_get_type(const snd_seq_query_subscribe_t * info) {
+    snd_seq_query_subscribe_get_type_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_get_type_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_get_type_INDEX;
+    packed_data->args.a1 = info;
+    snd_seq_query_subs_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_malloc
+int snd_seq_query_subscribe_malloc(snd_seq_query_subscribe_t ** ptr) {
+    snd_seq_query_subscribe_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_malloc_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_set_client
+void snd_seq_query_subscribe_set_client(snd_seq_query_subscribe_t * info, int client) {
+    snd_seq_query_subscribe_set_client_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_set_client_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_set_client_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = client;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_set_index
+void snd_seq_query_subscribe_set_index(snd_seq_query_subscribe_t * info, int _index) {
+    snd_seq_query_subscribe_set_index_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_set_index_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_set_index_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = _index;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_set_port
+void snd_seq_query_subscribe_set_port(snd_seq_query_subscribe_t * info, int port) {
+    snd_seq_query_subscribe_set_port_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_set_port_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_set_port_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_set_root
+void snd_seq_query_subscribe_set_root(snd_seq_query_subscribe_t * info, const snd_seq_addr_t * addr) {
+    snd_seq_query_subscribe_set_root_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_set_root_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_set_root_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = addr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_set_type
+void snd_seq_query_subscribe_set_type(snd_seq_query_subscribe_t * info, snd_seq_query_subs_type_t type) {
+    snd_seq_query_subscribe_set_type_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_set_type_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_set_type_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_query_subscribe_sizeof
+size_t snd_seq_query_subscribe_sizeof() {
+    snd_seq_query_subscribe_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_query_subscribe_sizeof_INDEXED));
+    packed_data->func = snd_seq_query_subscribe_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_copy
+void snd_seq_queue_info_copy(snd_seq_queue_info_t * dst, const snd_seq_queue_info_t * src) {
+    snd_seq_queue_info_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_copy_INDEXED));
+    packed_data->func = snd_seq_queue_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_free
+void snd_seq_queue_info_free(snd_seq_queue_info_t * ptr) {
+    snd_seq_queue_info_free_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_free_INDEXED));
+    packed_data->func = snd_seq_queue_info_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_get_flags
+unsigned int snd_seq_queue_info_get_flags(const snd_seq_queue_info_t * info) {
+    snd_seq_queue_info_get_flags_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_get_flags_INDEXED));
+    packed_data->func = snd_seq_queue_info_get_flags_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_get_locked
+int snd_seq_queue_info_get_locked(const snd_seq_queue_info_t * info) {
+    snd_seq_queue_info_get_locked_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_get_locked_INDEXED));
+    packed_data->func = snd_seq_queue_info_get_locked_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_get_name
+const char * snd_seq_queue_info_get_name(const snd_seq_queue_info_t * info) {
+    snd_seq_queue_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_get_name_INDEXED));
+    packed_data->func = snd_seq_queue_info_get_name_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_get_owner
+int snd_seq_queue_info_get_owner(const snd_seq_queue_info_t * info) {
+    snd_seq_queue_info_get_owner_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_get_owner_INDEXED));
+    packed_data->func = snd_seq_queue_info_get_owner_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_get_queue
+int snd_seq_queue_info_get_queue(const snd_seq_queue_info_t * info) {
+    snd_seq_queue_info_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_get_queue_INDEXED));
+    packed_data->func = snd_seq_queue_info_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_malloc
+int snd_seq_queue_info_malloc(snd_seq_queue_info_t ** ptr) {
+    snd_seq_queue_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_malloc_INDEXED));
+    packed_data->func = snd_seq_queue_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_set_flags
+void snd_seq_queue_info_set_flags(snd_seq_queue_info_t * info, unsigned int flags) {
+    snd_seq_queue_info_set_flags_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_set_flags_INDEXED));
+    packed_data->func = snd_seq_queue_info_set_flags_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = flags;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_set_locked
+void snd_seq_queue_info_set_locked(snd_seq_queue_info_t * info, int locked) {
+    snd_seq_queue_info_set_locked_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_set_locked_INDEXED));
+    packed_data->func = snd_seq_queue_info_set_locked_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = locked;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_set_name
+void snd_seq_queue_info_set_name(snd_seq_queue_info_t * info, const char * name) {
+    snd_seq_queue_info_set_name_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_set_name_INDEXED));
+    packed_data->func = snd_seq_queue_info_set_name_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_set_owner
+void snd_seq_queue_info_set_owner(snd_seq_queue_info_t * info, int owner) {
+    snd_seq_queue_info_set_owner_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_set_owner_INDEXED));
+    packed_data->func = snd_seq_queue_info_set_owner_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = owner;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_info_sizeof
+size_t snd_seq_queue_info_sizeof() {
+    snd_seq_queue_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_info_sizeof_INDEXED));
+    packed_data->func = snd_seq_queue_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_copy
+void snd_seq_queue_status_copy(snd_seq_queue_status_t * dst, const snd_seq_queue_status_t * src) {
+    snd_seq_queue_status_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_copy_INDEXED));
+    packed_data->func = snd_seq_queue_status_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_free
+void snd_seq_queue_status_free(snd_seq_queue_status_t * ptr) {
+    snd_seq_queue_status_free_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_free_INDEXED));
+    packed_data->func = snd_seq_queue_status_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_get_events
+int snd_seq_queue_status_get_events(const snd_seq_queue_status_t * info) {
+    snd_seq_queue_status_get_events_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_get_events_INDEXED));
+    packed_data->func = snd_seq_queue_status_get_events_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_get_queue
+int snd_seq_queue_status_get_queue(const snd_seq_queue_status_t * info) {
+    snd_seq_queue_status_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_get_queue_INDEXED));
+    packed_data->func = snd_seq_queue_status_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_get_real_time
+const snd_seq_real_time_t * snd_seq_queue_status_get_real_time(const snd_seq_queue_status_t * info) {
+    snd_seq_queue_status_get_real_time_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_get_real_time_INDEXED));
+    packed_data->func = snd_seq_queue_status_get_real_time_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_real_time_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_get_status
+unsigned int snd_seq_queue_status_get_status(const snd_seq_queue_status_t * info) {
+    snd_seq_queue_status_get_status_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_get_status_INDEXED));
+    packed_data->func = snd_seq_queue_status_get_status_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_get_tick_time
+snd_seq_tick_time_t snd_seq_queue_status_get_tick_time(const snd_seq_queue_status_t * info) {
+    snd_seq_queue_status_get_tick_time_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_get_tick_time_INDEXED));
+    packed_data->func = snd_seq_queue_status_get_tick_time_INDEX;
+    packed_data->args.a1 = info;
+    snd_seq_tick_time_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_malloc
+int snd_seq_queue_status_malloc(snd_seq_queue_status_t ** ptr) {
+    snd_seq_queue_status_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_malloc_INDEXED));
+    packed_data->func = snd_seq_queue_status_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_status_sizeof
+size_t snd_seq_queue_status_sizeof() {
+    snd_seq_queue_status_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_status_sizeof_INDEXED));
+    packed_data->func = snd_seq_queue_status_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_copy
+void snd_seq_queue_tempo_copy(snd_seq_queue_tempo_t * dst, const snd_seq_queue_tempo_t * src) {
+    snd_seq_queue_tempo_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_copy_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_free
+void snd_seq_queue_tempo_free(snd_seq_queue_tempo_t * ptr) {
+    snd_seq_queue_tempo_free_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_free_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_get_ppq
+int snd_seq_queue_tempo_get_ppq(const snd_seq_queue_tempo_t * info) {
+    snd_seq_queue_tempo_get_ppq_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_get_ppq_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_get_ppq_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_get_queue
+int snd_seq_queue_tempo_get_queue(const snd_seq_queue_tempo_t * info) {
+    snd_seq_queue_tempo_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_get_queue_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_get_skew
+unsigned int snd_seq_queue_tempo_get_skew(const snd_seq_queue_tempo_t * info) {
+    snd_seq_queue_tempo_get_skew_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_get_skew_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_get_skew_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_get_skew_base
+unsigned int snd_seq_queue_tempo_get_skew_base(const snd_seq_queue_tempo_t * info) {
+    snd_seq_queue_tempo_get_skew_base_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_get_skew_base_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_get_skew_base_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_get_tempo
+unsigned int snd_seq_queue_tempo_get_tempo(const snd_seq_queue_tempo_t * info) {
+    snd_seq_queue_tempo_get_tempo_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_get_tempo_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_get_tempo_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_malloc
+int snd_seq_queue_tempo_malloc(snd_seq_queue_tempo_t ** ptr) {
+    snd_seq_queue_tempo_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_malloc_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_set_ppq
+void snd_seq_queue_tempo_set_ppq(snd_seq_queue_tempo_t * info, int ppq) {
+    snd_seq_queue_tempo_set_ppq_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_set_ppq_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_set_ppq_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = ppq;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_set_skew
+void snd_seq_queue_tempo_set_skew(snd_seq_queue_tempo_t * info, unsigned int skew) {
+    snd_seq_queue_tempo_set_skew_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_set_skew_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_set_skew_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = skew;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_set_skew_base
+void snd_seq_queue_tempo_set_skew_base(snd_seq_queue_tempo_t * info, unsigned int base) {
+    snd_seq_queue_tempo_set_skew_base_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_set_skew_base_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_set_skew_base_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = base;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_set_tempo
+void snd_seq_queue_tempo_set_tempo(snd_seq_queue_tempo_t * info, unsigned int tempo) {
+    snd_seq_queue_tempo_set_tempo_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_set_tempo_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_set_tempo_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = tempo;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_tempo_sizeof
+size_t snd_seq_queue_tempo_sizeof() {
+    snd_seq_queue_tempo_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_tempo_sizeof_INDEXED));
+    packed_data->func = snd_seq_queue_tempo_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_copy
+void snd_seq_queue_timer_copy(snd_seq_queue_timer_t * dst, const snd_seq_queue_timer_t * src) {
+    snd_seq_queue_timer_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_copy_INDEXED));
+    packed_data->func = snd_seq_queue_timer_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_free
+void snd_seq_queue_timer_free(snd_seq_queue_timer_t * ptr) {
+    snd_seq_queue_timer_free_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_free_INDEXED));
+    packed_data->func = snd_seq_queue_timer_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_get_id
+const snd_timer_id_t * snd_seq_queue_timer_get_id(const snd_seq_queue_timer_t * info) {
+    snd_seq_queue_timer_get_id_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_get_id_INDEXED));
+    packed_data->func = snd_seq_queue_timer_get_id_INDEX;
+    packed_data->args.a1 = info;
+    const snd_timer_id_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_get_queue
+int snd_seq_queue_timer_get_queue(const snd_seq_queue_timer_t * info) {
+    snd_seq_queue_timer_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_get_queue_INDEXED));
+    packed_data->func = snd_seq_queue_timer_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_get_resolution
+unsigned int snd_seq_queue_timer_get_resolution(const snd_seq_queue_timer_t * info) {
+    snd_seq_queue_timer_get_resolution_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_get_resolution_INDEXED));
+    packed_data->func = snd_seq_queue_timer_get_resolution_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_get_type
+snd_seq_queue_timer_type_t snd_seq_queue_timer_get_type(const snd_seq_queue_timer_t * info) {
+    snd_seq_queue_timer_get_type_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_get_type_INDEXED));
+    packed_data->func = snd_seq_queue_timer_get_type_INDEX;
+    packed_data->args.a1 = info;
+    snd_seq_queue_timer_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_malloc
+int snd_seq_queue_timer_malloc(snd_seq_queue_timer_t ** ptr) {
+    snd_seq_queue_timer_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_malloc_INDEXED));
+    packed_data->func = snd_seq_queue_timer_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_set_id
+void snd_seq_queue_timer_set_id(snd_seq_queue_timer_t * info, const snd_timer_id_t * id) {
+    snd_seq_queue_timer_set_id_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_set_id_INDEXED));
+    packed_data->func = snd_seq_queue_timer_set_id_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_set_resolution
+void snd_seq_queue_timer_set_resolution(snd_seq_queue_timer_t * info, unsigned int resolution) {
+    snd_seq_queue_timer_set_resolution_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_set_resolution_INDEXED));
+    packed_data->func = snd_seq_queue_timer_set_resolution_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = resolution;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_set_type
+void snd_seq_queue_timer_set_type(snd_seq_queue_timer_t * info, snd_seq_queue_timer_type_t type) {
+    snd_seq_queue_timer_set_type_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_set_type_INDEXED));
+    packed_data->func = snd_seq_queue_timer_set_type_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_queue_timer_sizeof
+size_t snd_seq_queue_timer_sizeof() {
+    snd_seq_queue_timer_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_queue_timer_sizeof_INDEXED));
+    packed_data->func = snd_seq_queue_timer_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events
+int snd_seq_remove_events(snd_seq_t * handle, snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_INDEXED));
+    packed_data->func = snd_seq_remove_events_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_copy
+void snd_seq_remove_events_copy(snd_seq_remove_events_t * dst, const snd_seq_remove_events_t * src) {
+    snd_seq_remove_events_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_copy_INDEXED));
+    packed_data->func = snd_seq_remove_events_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_free
+void snd_seq_remove_events_free(snd_seq_remove_events_t * ptr) {
+    snd_seq_remove_events_free_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_free_INDEXED));
+    packed_data->func = snd_seq_remove_events_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_channel
+int snd_seq_remove_events_get_channel(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_channel_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_channel_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_channel_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_condition
+unsigned int snd_seq_remove_events_get_condition(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_condition_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_condition_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_condition_INDEX;
+    packed_data->args.a1 = info;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_dest
+const snd_seq_addr_t * snd_seq_remove_events_get_dest(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_dest_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_dest_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_dest_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_addr_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_event_type
+int snd_seq_remove_events_get_event_type(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_event_type_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_event_type_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_event_type_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_queue
+int snd_seq_remove_events_get_queue(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_queue_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_queue_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_tag
+int snd_seq_remove_events_get_tag(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_tag_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_tag_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_tag_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_get_time
+const snd_seq_timestamp_t * snd_seq_remove_events_get_time(const snd_seq_remove_events_t * info) {
+    snd_seq_remove_events_get_time_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_get_time_INDEXED));
+    packed_data->func = snd_seq_remove_events_get_time_INDEX;
+    packed_data->args.a1 = info;
+    const snd_seq_timestamp_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_malloc
+int snd_seq_remove_events_malloc(snd_seq_remove_events_t ** ptr) {
+    snd_seq_remove_events_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_malloc_INDEXED));
+    packed_data->func = snd_seq_remove_events_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_channel
+void snd_seq_remove_events_set_channel(snd_seq_remove_events_t * info, int channel) {
+    snd_seq_remove_events_set_channel_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_channel_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_channel_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = channel;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_condition
+void snd_seq_remove_events_set_condition(snd_seq_remove_events_t * info, unsigned int flags) {
+    snd_seq_remove_events_set_condition_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_condition_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_condition_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = flags;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_dest
+void snd_seq_remove_events_set_dest(snd_seq_remove_events_t * info, const snd_seq_addr_t * addr) {
+    snd_seq_remove_events_set_dest_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_dest_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_dest_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = addr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_event_type
+void snd_seq_remove_events_set_event_type(snd_seq_remove_events_t * info, int type) {
+    snd_seq_remove_events_set_event_type_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_event_type_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_event_type_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_queue
+void snd_seq_remove_events_set_queue(snd_seq_remove_events_t * info, int queue) {
+    snd_seq_remove_events_set_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_queue_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_queue_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = queue;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_tag
+void snd_seq_remove_events_set_tag(snd_seq_remove_events_t * info, int tag) {
+    snd_seq_remove_events_set_tag_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_tag_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_tag_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = tag;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_set_time
+void snd_seq_remove_events_set_time(snd_seq_remove_events_t * info, const snd_seq_timestamp_t * time) {
+    snd_seq_remove_events_set_time_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_set_time_INDEXED));
+    packed_data->func = snd_seq_remove_events_set_time_INDEX;
+    packed_data->args.a1 = info;
+    packed_data->args.a2 = time;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_remove_events_sizeof
+size_t snd_seq_remove_events_sizeof() {
+    snd_seq_remove_events_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_remove_events_sizeof_INDEXED));
+    packed_data->func = snd_seq_remove_events_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_bit
+void snd_seq_set_bit(int nr, void * array) {
+    snd_seq_set_bit_INDEXED *packed_data = malloc(sizeof(snd_seq_set_bit_INDEXED));
+    packed_data->func = snd_seq_set_bit_INDEX;
+    packed_data->args.a1 = nr;
+    packed_data->args.a2 = array;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_set_client_info
+int snd_seq_set_client_info(snd_seq_t * handle, snd_seq_client_info_t * info) {
+    snd_seq_set_client_info_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_info_INDEXED));
+    packed_data->func = snd_seq_set_client_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_client_pool
+int snd_seq_set_client_pool(snd_seq_t * handle, snd_seq_client_pool_t * info) {
+    snd_seq_set_client_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_pool_INDEXED));
+    packed_data->func = snd_seq_set_client_pool_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_input_buffer_size
+int snd_seq_set_input_buffer_size(snd_seq_t * handle, size_t size) {
+    snd_seq_set_input_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_seq_set_input_buffer_size_INDEXED));
+    packed_data->func = snd_seq_set_input_buffer_size_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_output_buffer_size
+int snd_seq_set_output_buffer_size(snd_seq_t * handle, size_t size) {
+    snd_seq_set_output_buffer_size_INDEXED *packed_data = malloc(sizeof(snd_seq_set_output_buffer_size_INDEXED));
+    packed_data->func = snd_seq_set_output_buffer_size_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_port_info
+int snd_seq_set_port_info(snd_seq_t * handle, int port, snd_seq_port_info_t * info) {
+    snd_seq_set_port_info_INDEXED *packed_data = malloc(sizeof(snd_seq_set_port_info_INDEXED));
+    packed_data->func = snd_seq_set_port_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = port;
+    packed_data->args.a3 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_queue_info
+int snd_seq_set_queue_info(snd_seq_t * seq, int q, snd_seq_queue_info_t * info) {
+    snd_seq_set_queue_info_INDEXED *packed_data = malloc(sizeof(snd_seq_set_queue_info_INDEXED));
+    packed_data->func = snd_seq_set_queue_info_INDEX;
+    packed_data->args.a1 = seq;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_queue_tempo
+int snd_seq_set_queue_tempo(snd_seq_t * handle, int q, snd_seq_queue_tempo_t * tempo) {
+    snd_seq_set_queue_tempo_INDEXED *packed_data = malloc(sizeof(snd_seq_set_queue_tempo_INDEXED));
+    packed_data->func = snd_seq_set_queue_tempo_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = tempo;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_queue_timer
+int snd_seq_set_queue_timer(snd_seq_t * handle, int q, snd_seq_queue_timer_t * timer) {
+    snd_seq_set_queue_timer_INDEXED *packed_data = malloc(sizeof(snd_seq_set_queue_timer_INDEXED));
+    packed_data->func = snd_seq_set_queue_timer_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = timer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_queue_usage
+int snd_seq_set_queue_usage(snd_seq_t * handle, int q, int used) {
+    snd_seq_set_queue_usage_INDEXED *packed_data = malloc(sizeof(snd_seq_set_queue_usage_INDEXED));
+    packed_data->func = snd_seq_set_queue_usage_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = q;
+    packed_data->args.a3 = used;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_subscribe_port
+int snd_seq_subscribe_port(snd_seq_t * handle, snd_seq_port_subscribe_t * sub) {
+    snd_seq_subscribe_port_INDEXED *packed_data = malloc(sizeof(snd_seq_subscribe_port_INDEXED));
+    packed_data->func = snd_seq_subscribe_port_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = sub;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info
+int snd_seq_system_info(snd_seq_t * handle, snd_seq_system_info_t * info) {
+    snd_seq_system_info_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_INDEXED));
+    packed_data->func = snd_seq_system_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_copy
+void snd_seq_system_info_copy(snd_seq_system_info_t * dst, const snd_seq_system_info_t * src) {
+    snd_seq_system_info_copy_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_copy_INDEXED));
+    packed_data->func = snd_seq_system_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_free
+void snd_seq_system_info_free(snd_seq_system_info_t * ptr) {
+    snd_seq_system_info_free_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_free_INDEXED));
+    packed_data->func = snd_seq_system_info_free_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_channels
+int snd_seq_system_info_get_channels(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_channels_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_channels_INDEXED));
+    packed_data->func = snd_seq_system_info_get_channels_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_clients
+int snd_seq_system_info_get_clients(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_clients_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_clients_INDEXED));
+    packed_data->func = snd_seq_system_info_get_clients_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_cur_clients
+int snd_seq_system_info_get_cur_clients(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_cur_clients_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_cur_clients_INDEXED));
+    packed_data->func = snd_seq_system_info_get_cur_clients_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_cur_queues
+int snd_seq_system_info_get_cur_queues(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_cur_queues_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_cur_queues_INDEXED));
+    packed_data->func = snd_seq_system_info_get_cur_queues_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_ports
+int snd_seq_system_info_get_ports(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_ports_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_ports_INDEXED));
+    packed_data->func = snd_seq_system_info_get_ports_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_get_queues
+int snd_seq_system_info_get_queues(const snd_seq_system_info_t * info) {
+    snd_seq_system_info_get_queues_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_get_queues_INDEXED));
+    packed_data->func = snd_seq_system_info_get_queues_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_malloc
+int snd_seq_system_info_malloc(snd_seq_system_info_t ** ptr) {
+    snd_seq_system_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_malloc_INDEXED));
+    packed_data->func = snd_seq_system_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_system_info_sizeof
+size_t snd_seq_system_info_sizeof() {
+    snd_seq_system_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_seq_system_info_sizeof_INDEXED));
+    packed_data->func = snd_seq_system_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_type
+snd_seq_type_t snd_seq_type(snd_seq_t * seq) {
+    snd_seq_type_INDEXED *packed_data = malloc(sizeof(snd_seq_type_INDEXED));
+    packed_data->func = snd_seq_type_INDEX;
+    packed_data->args.a1 = seq;
+    snd_seq_type_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_unsubscribe_port
+int snd_seq_unsubscribe_port(snd_seq_t * handle, snd_seq_port_subscribe_t * sub) {
+    snd_seq_unsubscribe_port_INDEXED *packed_data = malloc(sizeof(snd_seq_unsubscribe_port_INDEXED));
+    packed_data->func = snd_seq_unsubscribe_port_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = sub;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_shm_area_create
+struct snd_shm_area * snd_shm_area_create(int shmid, void * ptr) {
+    snd_shm_area_create_INDEXED *packed_data = malloc(sizeof(snd_shm_area_create_INDEXED));
+    packed_data->func = snd_shm_area_create_INDEX;
+    packed_data->args.a1 = shmid;
+    packed_data->args.a2 = ptr;
+    struct snd_shm_area * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_shm_area_destroy
+int snd_shm_area_destroy(struct snd_shm_area * area) {
+    snd_shm_area_destroy_INDEXED *packed_data = malloc(sizeof(snd_shm_area_destroy_INDEXED));
+    packed_data->func = snd_shm_area_destroy_INDEX;
+    packed_data->args.a1 = area;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_shm_area_share
+struct snd_shm_area * snd_shm_area_share(struct snd_shm_area * area) {
+    snd_shm_area_share_INDEXED *packed_data = malloc(sizeof(snd_shm_area_share_INDEXED));
+    packed_data->func = snd_shm_area_share_INDEX;
+    packed_data->args.a1 = area;
+    struct snd_shm_area * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_spcm_init
+int snd_spcm_init(snd_pcm_t * pcm, unsigned int rate, unsigned int channels, snd_pcm_format_t format, snd_pcm_subformat_t subformat, snd_spcm_latency_t latency, snd_pcm_access_t _access, snd_spcm_xrun_type_t xrun_type) {
+    snd_spcm_init_INDEXED *packed_data = malloc(sizeof(snd_spcm_init_INDEXED));
+    packed_data->func = snd_spcm_init_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = rate;
+    packed_data->args.a3 = channels;
+    packed_data->args.a4 = format;
+    packed_data->args.a5 = subformat;
+    packed_data->args.a6 = latency;
+    packed_data->args.a7 = _access;
+    packed_data->args.a8 = xrun_type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_spcm_init_duplex
+int snd_spcm_init_duplex(snd_pcm_t * playback_pcm, snd_pcm_t * capture_pcm, unsigned int rate, unsigned int channels, snd_pcm_format_t format, snd_pcm_subformat_t subformat, snd_spcm_latency_t latency, snd_pcm_access_t _access, snd_spcm_xrun_type_t xrun_type, snd_spcm_duplex_type_t duplex_type) {
+    snd_spcm_init_duplex_INDEXED *packed_data = malloc(sizeof(snd_spcm_init_duplex_INDEXED));
+    packed_data->func = snd_spcm_init_duplex_INDEX;
+    packed_data->args.a1 = playback_pcm;
+    packed_data->args.a2 = capture_pcm;
+    packed_data->args.a3 = rate;
+    packed_data->args.a4 = channels;
+    packed_data->args.a5 = format;
+    packed_data->args.a6 = subformat;
+    packed_data->args.a7 = latency;
+    packed_data->args.a8 = _access;
+    packed_data->args.a9 = xrun_type;
+    packed_data->args.a10 = duplex_type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_spcm_init_get_params
+int snd_spcm_init_get_params(snd_pcm_t * pcm, unsigned int * rate, snd_pcm_uframes_t * buffer_size, snd_pcm_uframes_t * period_size) {
+    snd_spcm_init_get_params_INDEXED *packed_data = malloc(sizeof(snd_spcm_init_get_params_INDEXED));
+    packed_data->func = snd_spcm_init_get_params_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = rate;
+    packed_data->args.a3 = buffer_size;
+    packed_data->args.a4 = period_size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_close
+int snd_timer_close(snd_timer_t * handle) {
+    snd_timer_close_INDEXED *packed_data = malloc(sizeof(snd_timer_close_INDEXED));
+    packed_data->func = snd_timer_close_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_continue
+int snd_timer_continue(snd_timer_t * handle) {
+    snd_timer_continue_INDEXED *packed_data = malloc(sizeof(snd_timer_continue_INDEXED));
+    packed_data->func = snd_timer_continue_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_copy
+void snd_timer_ginfo_copy(snd_timer_ginfo_t * dst, const snd_timer_ginfo_t * src) {
+    snd_timer_ginfo_copy_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_copy_INDEXED));
+    packed_data->func = snd_timer_ginfo_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_free
+void snd_timer_ginfo_free(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_free_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_free_INDEXED));
+    packed_data->func = snd_timer_ginfo_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_card
+int snd_timer_ginfo_get_card(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_card_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_card_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_card_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_clients
+unsigned int snd_timer_ginfo_get_clients(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_clients_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_clients_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_clients_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_flags
+unsigned int snd_timer_ginfo_get_flags(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_flags_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_flags_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_flags_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_id
+char * snd_timer_ginfo_get_id(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_id_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_id_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_id_INDEX;
+    packed_data->args.a1 = obj;
+    char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_name
+char * snd_timer_ginfo_get_name(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_name_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_name_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_name_INDEX;
+    packed_data->args.a1 = obj;
+    char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_resolution
+unsigned long snd_timer_ginfo_get_resolution(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_resolution_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_resolution_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_resolution_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_resolution_max
+unsigned long snd_timer_ginfo_get_resolution_max(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_resolution_max_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_resolution_max_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_resolution_max_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_resolution_min
+unsigned long snd_timer_ginfo_get_resolution_min(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_resolution_min_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_resolution_min_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_resolution_min_INDEX;
+    packed_data->args.a1 = obj;
+    unsigned long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_get_tid
+snd_timer_id_t * snd_timer_ginfo_get_tid(snd_timer_ginfo_t * obj) {
+    snd_timer_ginfo_get_tid_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_get_tid_INDEXED));
+    packed_data->func = snd_timer_ginfo_get_tid_INDEX;
+    packed_data->args.a1 = obj;
+    snd_timer_id_t * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_malloc
+int snd_timer_ginfo_malloc(snd_timer_ginfo_t ** ptr) {
+    snd_timer_ginfo_malloc_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_malloc_INDEXED));
+    packed_data->func = snd_timer_ginfo_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_set_tid
+int snd_timer_ginfo_set_tid(snd_timer_ginfo_t * obj, snd_timer_id_t * tid) {
+    snd_timer_ginfo_set_tid_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_set_tid_INDEXED));
+    packed_data->func = snd_timer_ginfo_set_tid_INDEX;
+    packed_data->args.a1 = obj;
+    packed_data->args.a2 = tid;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_ginfo_sizeof
+size_t snd_timer_ginfo_sizeof() {
+    snd_timer_ginfo_sizeof_INDEXED *packed_data = malloc(sizeof(snd_timer_ginfo_sizeof_INDEXED));
+    packed_data->func = snd_timer_ginfo_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_copy
+void snd_timer_id_copy(snd_timer_id_t * dst, const snd_timer_id_t * src) {
+    snd_timer_id_copy_INDEXED *packed_data = malloc(sizeof(snd_timer_id_copy_INDEXED));
+    packed_data->func = snd_timer_id_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_free
+void snd_timer_id_free(snd_timer_id_t * obj) {
+    snd_timer_id_free_INDEXED *packed_data = malloc(sizeof(snd_timer_id_free_INDEXED));
+    packed_data->func = snd_timer_id_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_get_card
+int snd_timer_id_get_card(snd_timer_id_t * id) {
+    snd_timer_id_get_card_INDEXED *packed_data = malloc(sizeof(snd_timer_id_get_card_INDEXED));
+    packed_data->func = snd_timer_id_get_card_INDEX;
+    packed_data->args.a1 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_get_class
+int snd_timer_id_get_class(snd_timer_id_t * id) {
+    snd_timer_id_get_class_INDEXED *packed_data = malloc(sizeof(snd_timer_id_get_class_INDEXED));
+    packed_data->func = snd_timer_id_get_class_INDEX;
+    packed_data->args.a1 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_get_device
+int snd_timer_id_get_device(snd_timer_id_t * id) {
+    snd_timer_id_get_device_INDEXED *packed_data = malloc(sizeof(snd_timer_id_get_device_INDEXED));
+    packed_data->func = snd_timer_id_get_device_INDEX;
+    packed_data->args.a1 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_get_sclass
+int snd_timer_id_get_sclass(snd_timer_id_t * id) {
+    snd_timer_id_get_sclass_INDEXED *packed_data = malloc(sizeof(snd_timer_id_get_sclass_INDEXED));
+    packed_data->func = snd_timer_id_get_sclass_INDEX;
+    packed_data->args.a1 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_get_subdevice
+int snd_timer_id_get_subdevice(snd_timer_id_t * id) {
+    snd_timer_id_get_subdevice_INDEXED *packed_data = malloc(sizeof(snd_timer_id_get_subdevice_INDEXED));
+    packed_data->func = snd_timer_id_get_subdevice_INDEX;
+    packed_data->args.a1 = id;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_malloc
+int snd_timer_id_malloc(snd_timer_id_t ** ptr) {
+    snd_timer_id_malloc_INDEXED *packed_data = malloc(sizeof(snd_timer_id_malloc_INDEXED));
+    packed_data->func = snd_timer_id_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_id_set_card
+void snd_timer_id_set_card(snd_timer_id_t * id, int card) {
+    snd_timer_id_set_card_INDEXED *packed_data = malloc(sizeof(snd_timer_id_set_card_INDEXED));
+    packed_data->func = snd_timer_id_set_card_INDEX;
+    packed_data->args.a1 = id;
+    packed_data->args.a2 = card;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_set_class
+void snd_timer_id_set_class(snd_timer_id_t * id, int dev_class) {
+    snd_timer_id_set_class_INDEXED *packed_data = malloc(sizeof(snd_timer_id_set_class_INDEXED));
+    packed_data->func = snd_timer_id_set_class_INDEX;
+    packed_data->args.a1 = id;
+    packed_data->args.a2 = dev_class;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_set_device
+void snd_timer_id_set_device(snd_timer_id_t * id, int device) {
+    snd_timer_id_set_device_INDEXED *packed_data = malloc(sizeof(snd_timer_id_set_device_INDEXED));
+    packed_data->func = snd_timer_id_set_device_INDEX;
+    packed_data->args.a1 = id;
+    packed_data->args.a2 = device;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_set_sclass
+void snd_timer_id_set_sclass(snd_timer_id_t * id, int dev_sclass) {
+    snd_timer_id_set_sclass_INDEXED *packed_data = malloc(sizeof(snd_timer_id_set_sclass_INDEXED));
+    packed_data->func = snd_timer_id_set_sclass_INDEX;
+    packed_data->args.a1 = id;
+    packed_data->args.a2 = dev_sclass;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_set_subdevice
+void snd_timer_id_set_subdevice(snd_timer_id_t * id, int subdevice) {
+    snd_timer_id_set_subdevice_INDEXED *packed_data = malloc(sizeof(snd_timer_id_set_subdevice_INDEXED));
+    packed_data->func = snd_timer_id_set_subdevice_INDEX;
+    packed_data->args.a1 = id;
+    packed_data->args.a2 = subdevice;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_id_sizeof
+size_t snd_timer_id_sizeof() {
+    snd_timer_id_sizeof_INDEXED *packed_data = malloc(sizeof(snd_timer_id_sizeof_INDEXED));
+    packed_data->func = snd_timer_id_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info
+int snd_timer_info(snd_timer_t * handle, snd_timer_info_t * timer) {
+    snd_timer_info_INDEXED *packed_data = malloc(sizeof(snd_timer_info_INDEXED));
+    packed_data->func = snd_timer_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = timer;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_copy
+void snd_timer_info_copy(snd_timer_info_t * dst, const snd_timer_info_t * src) {
+    snd_timer_info_copy_INDEXED *packed_data = malloc(sizeof(snd_timer_info_copy_INDEXED));
+    packed_data->func = snd_timer_info_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_info_free
+void snd_timer_info_free(snd_timer_info_t * obj) {
+    snd_timer_info_free_INDEXED *packed_data = malloc(sizeof(snd_timer_info_free_INDEXED));
+    packed_data->func = snd_timer_info_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_info_get_card
+int snd_timer_info_get_card(snd_timer_info_t * info) {
+    snd_timer_info_get_card_INDEXED *packed_data = malloc(sizeof(snd_timer_info_get_card_INDEXED));
+    packed_data->func = snd_timer_info_get_card_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_get_id
+const char * snd_timer_info_get_id(snd_timer_info_t * info) {
+    snd_timer_info_get_id_INDEXED *packed_data = malloc(sizeof(snd_timer_info_get_id_INDEXED));
+    packed_data->func = snd_timer_info_get_id_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_get_name
+const char * snd_timer_info_get_name(snd_timer_info_t * info) {
+    snd_timer_info_get_name_INDEXED *packed_data = malloc(sizeof(snd_timer_info_get_name_INDEXED));
+    packed_data->func = snd_timer_info_get_name_INDEX;
+    packed_data->args.a1 = info;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_get_resolution
+long snd_timer_info_get_resolution(snd_timer_info_t * info) {
+    snd_timer_info_get_resolution_INDEXED *packed_data = malloc(sizeof(snd_timer_info_get_resolution_INDEXED));
+    packed_data->func = snd_timer_info_get_resolution_INDEX;
+    packed_data->args.a1 = info;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_get_ticks
+long snd_timer_info_get_ticks(snd_timer_info_t * info) {
+    snd_timer_info_get_ticks_INDEXED *packed_data = malloc(sizeof(snd_timer_info_get_ticks_INDEXED));
+    packed_data->func = snd_timer_info_get_ticks_INDEX;
+    packed_data->args.a1 = info;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_is_slave
+int snd_timer_info_is_slave(snd_timer_info_t * info) {
+    snd_timer_info_is_slave_INDEXED *packed_data = malloc(sizeof(snd_timer_info_is_slave_INDEXED));
+    packed_data->func = snd_timer_info_is_slave_INDEX;
+    packed_data->args.a1 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_malloc
+int snd_timer_info_malloc(snd_timer_info_t ** ptr) {
+    snd_timer_info_malloc_INDEXED *packed_data = malloc(sizeof(snd_timer_info_malloc_INDEXED));
+    packed_data->func = snd_timer_info_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_info_sizeof
+size_t snd_timer_info_sizeof() {
+    snd_timer_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_timer_info_sizeof_INDEXED));
+    packed_data->func = snd_timer_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_open
+int snd_timer_open(snd_timer_t ** handle, const char * name, int mode) {
+    snd_timer_open_INDEXED *packed_data = malloc(sizeof(snd_timer_open_INDEXED));
+    packed_data->func = snd_timer_open_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_open_lconf
+int snd_timer_open_lconf(snd_timer_t ** handle, const char * name, int mode, snd_config_t * lconf) {
+    snd_timer_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_timer_open_lconf_INDEXED));
+    packed_data->func = snd_timer_open_lconf_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    packed_data->args.a4 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params
+int snd_timer_params(snd_timer_t * handle, snd_timer_params_t * params) {
+    snd_timer_params_INDEXED *packed_data = malloc(sizeof(snd_timer_params_INDEXED));
+    packed_data->func = snd_timer_params_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_copy
+void snd_timer_params_copy(snd_timer_params_t * dst, const snd_timer_params_t * src) {
+    snd_timer_params_copy_INDEXED *packed_data = malloc(sizeof(snd_timer_params_copy_INDEXED));
+    packed_data->func = snd_timer_params_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_params_free
+void snd_timer_params_free(snd_timer_params_t * obj) {
+    snd_timer_params_free_INDEXED *packed_data = malloc(sizeof(snd_timer_params_free_INDEXED));
+    packed_data->func = snd_timer_params_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_auto_start
+int snd_timer_params_get_auto_start(snd_timer_params_t * params) {
+    snd_timer_params_get_auto_start_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_auto_start_INDEXED));
+    packed_data->func = snd_timer_params_get_auto_start_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_early_event
+int snd_timer_params_get_early_event(snd_timer_params_t * params) {
+    snd_timer_params_get_early_event_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_early_event_INDEXED));
+    packed_data->func = snd_timer_params_get_early_event_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_exclusive
+int snd_timer_params_get_exclusive(snd_timer_params_t * params) {
+    snd_timer_params_get_exclusive_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_exclusive_INDEXED));
+    packed_data->func = snd_timer_params_get_exclusive_INDEX;
+    packed_data->args.a1 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_filter
+unsigned int snd_timer_params_get_filter(snd_timer_params_t * params) {
+    snd_timer_params_get_filter_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_filter_INDEXED));
+    packed_data->func = snd_timer_params_get_filter_INDEX;
+    packed_data->args.a1 = params;
+    unsigned int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_queue_size
+long snd_timer_params_get_queue_size(snd_timer_params_t * params) {
+    snd_timer_params_get_queue_size_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_queue_size_INDEXED));
+    packed_data->func = snd_timer_params_get_queue_size_INDEX;
+    packed_data->args.a1 = params;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_get_ticks
+long snd_timer_params_get_ticks(snd_timer_params_t * params) {
+    snd_timer_params_get_ticks_INDEXED *packed_data = malloc(sizeof(snd_timer_params_get_ticks_INDEXED));
+    packed_data->func = snd_timer_params_get_ticks_INDEX;
+    packed_data->args.a1 = params;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_malloc
+int snd_timer_params_malloc(snd_timer_params_t ** ptr) {
+    snd_timer_params_malloc_INDEXED *packed_data = malloc(sizeof(snd_timer_params_malloc_INDEXED));
+    packed_data->func = snd_timer_params_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_auto_start
+int snd_timer_params_set_auto_start(snd_timer_params_t * params, int auto_start) {
+    snd_timer_params_set_auto_start_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_auto_start_INDEXED));
+    packed_data->func = snd_timer_params_set_auto_start_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = auto_start;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_early_event
+int snd_timer_params_set_early_event(snd_timer_params_t * params, int early_event) {
+    snd_timer_params_set_early_event_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_early_event_INDEXED));
+    packed_data->func = snd_timer_params_set_early_event_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = early_event;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_exclusive
+int snd_timer_params_set_exclusive(snd_timer_params_t * params, int exclusive) {
+    snd_timer_params_set_exclusive_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_exclusive_INDEXED));
+    packed_data->func = snd_timer_params_set_exclusive_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = exclusive;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_filter
+void snd_timer_params_set_filter(snd_timer_params_t * params, unsigned int filter) {
+    snd_timer_params_set_filter_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_filter_INDEXED));
+    packed_data->func = snd_timer_params_set_filter_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = filter;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_queue_size
+void snd_timer_params_set_queue_size(snd_timer_params_t * params, long queue_size) {
+    snd_timer_params_set_queue_size_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_queue_size_INDEXED));
+    packed_data->func = snd_timer_params_set_queue_size_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = queue_size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_params_set_ticks
+void snd_timer_params_set_ticks(snd_timer_params_t * params, long ticks) {
+    snd_timer_params_set_ticks_INDEXED *packed_data = malloc(sizeof(snd_timer_params_set_ticks_INDEXED));
+    packed_data->func = snd_timer_params_set_ticks_INDEX;
+    packed_data->args.a1 = params;
+    packed_data->args.a2 = ticks;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_params_sizeof
+size_t snd_timer_params_sizeof() {
+    snd_timer_params_sizeof_INDEXED *packed_data = malloc(sizeof(snd_timer_params_sizeof_INDEXED));
+    packed_data->func = snd_timer_params_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_poll_descriptors
+int snd_timer_poll_descriptors(snd_timer_t * handle, struct pollfd * pfds, unsigned int space) {
+    snd_timer_poll_descriptors_INDEXED *packed_data = malloc(sizeof(snd_timer_poll_descriptors_INDEXED));
+    packed_data->func = snd_timer_poll_descriptors_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = space;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_poll_descriptors_count
+int snd_timer_poll_descriptors_count(snd_timer_t * handle) {
+    snd_timer_poll_descriptors_count_INDEXED *packed_data = malloc(sizeof(snd_timer_poll_descriptors_count_INDEXED));
+    packed_data->func = snd_timer_poll_descriptors_count_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_poll_descriptors_revents
+int snd_timer_poll_descriptors_revents(snd_timer_t * timer, struct pollfd * pfds, unsigned int nfds, unsigned short * revents) {
+    snd_timer_poll_descriptors_revents_INDEXED *packed_data = malloc(sizeof(snd_timer_poll_descriptors_revents_INDEXED));
+    packed_data->func = snd_timer_poll_descriptors_revents_INDEX;
+    packed_data->args.a1 = timer;
+    packed_data->args.a2 = pfds;
+    packed_data->args.a3 = nfds;
+    packed_data->args.a4 = revents;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_close
+int snd_timer_query_close(snd_timer_query_t * handle) {
+    snd_timer_query_close_INDEXED *packed_data = malloc(sizeof(snd_timer_query_close_INDEXED));
+    packed_data->func = snd_timer_query_close_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_info
+int snd_timer_query_info(snd_timer_query_t * handle, snd_timer_ginfo_t * info) {
+    snd_timer_query_info_INDEXED *packed_data = malloc(sizeof(snd_timer_query_info_INDEXED));
+    packed_data->func = snd_timer_query_info_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_next_device
+int snd_timer_query_next_device(snd_timer_query_t * handle, snd_timer_id_t * tid) {
+    snd_timer_query_next_device_INDEXED *packed_data = malloc(sizeof(snd_timer_query_next_device_INDEXED));
+    packed_data->func = snd_timer_query_next_device_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = tid;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_open
+int snd_timer_query_open(snd_timer_query_t ** handle, const char * name, int mode) {
+    snd_timer_query_open_INDEXED *packed_data = malloc(sizeof(snd_timer_query_open_INDEXED));
+    packed_data->func = snd_timer_query_open_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_open_lconf
+int snd_timer_query_open_lconf(snd_timer_query_t ** handle, const char * name, int mode, snd_config_t * lconf) {
+    snd_timer_query_open_lconf_INDEXED *packed_data = malloc(sizeof(snd_timer_query_open_lconf_INDEXED));
+    packed_data->func = snd_timer_query_open_lconf_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = name;
+    packed_data->args.a3 = mode;
+    packed_data->args.a4 = lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_params
+int snd_timer_query_params(snd_timer_query_t * handle, snd_timer_gparams_t * params) {
+    snd_timer_query_params_INDEXED *packed_data = malloc(sizeof(snd_timer_query_params_INDEXED));
+    packed_data->func = snd_timer_query_params_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_query_status
+int snd_timer_query_status(snd_timer_query_t * handle, snd_timer_gstatus_t * status) {
+    snd_timer_query_status_INDEXED *packed_data = malloc(sizeof(snd_timer_query_status_INDEXED));
+    packed_data->func = snd_timer_query_status_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_read
+ssize_t snd_timer_read(snd_timer_t * handle, void * buffer, size_t size) {
+    snd_timer_read_INDEXED *packed_data = malloc(sizeof(snd_timer_read_INDEXED));
+    packed_data->func = snd_timer_read_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    ssize_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_start
+int snd_timer_start(snd_timer_t * handle) {
+    snd_timer_start_INDEXED *packed_data = malloc(sizeof(snd_timer_start_INDEXED));
+    packed_data->func = snd_timer_start_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status
+int snd_timer_status(snd_timer_t * handle, snd_timer_status_t * status) {
+    snd_timer_status_INDEXED *packed_data = malloc(sizeof(snd_timer_status_INDEXED));
+    packed_data->func = snd_timer_status_INDEX;
+    packed_data->args.a1 = handle;
+    packed_data->args.a2 = status;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_copy
+void snd_timer_status_copy(snd_timer_status_t * dst, const snd_timer_status_t * src) {
+    snd_timer_status_copy_INDEXED *packed_data = malloc(sizeof(snd_timer_status_copy_INDEXED));
+    packed_data->func = snd_timer_status_copy_INDEX;
+    packed_data->args.a1 = dst;
+    packed_data->args.a2 = src;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_status_free
+void snd_timer_status_free(snd_timer_status_t * obj) {
+    snd_timer_status_free_INDEXED *packed_data = malloc(sizeof(snd_timer_status_free_INDEXED));
+    packed_data->func = snd_timer_status_free_INDEX;
+    packed_data->args.a1 = obj;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_timer_status_get_lost
+long snd_timer_status_get_lost(snd_timer_status_t * status) {
+    snd_timer_status_get_lost_INDEXED *packed_data = malloc(sizeof(snd_timer_status_get_lost_INDEXED));
+    packed_data->func = snd_timer_status_get_lost_INDEX;
+    packed_data->args.a1 = status;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_get_overrun
+long snd_timer_status_get_overrun(snd_timer_status_t * status) {
+    snd_timer_status_get_overrun_INDEXED *packed_data = malloc(sizeof(snd_timer_status_get_overrun_INDEXED));
+    packed_data->func = snd_timer_status_get_overrun_INDEX;
+    packed_data->args.a1 = status;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_get_queue
+long snd_timer_status_get_queue(snd_timer_status_t * status) {
+    snd_timer_status_get_queue_INDEXED *packed_data = malloc(sizeof(snd_timer_status_get_queue_INDEXED));
+    packed_data->func = snd_timer_status_get_queue_INDEX;
+    packed_data->args.a1 = status;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_get_resolution
+long snd_timer_status_get_resolution(snd_timer_status_t * status) {
+    snd_timer_status_get_resolution_INDEXED *packed_data = malloc(sizeof(snd_timer_status_get_resolution_INDEXED));
+    packed_data->func = snd_timer_status_get_resolution_INDEX;
+    packed_data->args.a1 = status;
+    long ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_get_timestamp
+snd_htimestamp_t snd_timer_status_get_timestamp(snd_timer_status_t * status) {
+    snd_timer_status_get_timestamp_INDEXED *packed_data = malloc(sizeof(snd_timer_status_get_timestamp_INDEXED));
+    packed_data->func = snd_timer_status_get_timestamp_INDEX;
+    packed_data->args.a1 = status;
+    snd_htimestamp_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_malloc
+int snd_timer_status_malloc(snd_timer_status_t ** ptr) {
+    snd_timer_status_malloc_INDEXED *packed_data = malloc(sizeof(snd_timer_status_malloc_INDEXED));
+    packed_data->func = snd_timer_status_malloc_INDEX;
+    packed_data->args.a1 = ptr;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_status_sizeof
+size_t snd_timer_status_sizeof() {
+    snd_timer_status_sizeof_INDEXED *packed_data = malloc(sizeof(snd_timer_status_sizeof_INDEXED));
+    packed_data->func = snd_timer_status_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_timer_stop
+int snd_timer_stop(snd_timer_t * handle) {
+    snd_timer_stop_INDEXED *packed_data = malloc(sizeof(snd_timer_stop_INDEXED));
+    packed_data->func = snd_timer_stop_INDEX;
+    packed_data->args.a1 = handle;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_user_file
+int snd_user_file(const char * file, char ** result) {
+    snd_user_file_INDEXED *packed_data = malloc(sizeof(snd_user_file_INDEXED));
+    packed_data->func = snd_user_file_INDEX;
+    packed_data->args.a1 = file;
+    packed_data->args.a2 = result;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 
 
 __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
@@ -8120,6 +22160,3621 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "glXWaitX") == 0) {
         return (void *)glXWaitX;
+    }
+    if (strcmp(name, "snd_asoundlib_version") == 0) {
+        return (void *)snd_asoundlib_version;
+    }
+    if (strcmp(name, "snd_async_add_ctl_handler") == 0) {
+        return (void *)snd_async_add_ctl_handler;
+    }
+    if (strcmp(name, "snd_async_add_handler") == 0) {
+        return (void *)snd_async_add_handler;
+    }
+    if (strcmp(name, "snd_async_add_pcm_handler") == 0) {
+        return (void *)snd_async_add_pcm_handler;
+    }
+    if (strcmp(name, "snd_async_add_timer_handler") == 0) {
+        return (void *)snd_async_add_timer_handler;
+    }
+    if (strcmp(name, "snd_async_del_handler") == 0) {
+        return (void *)snd_async_del_handler;
+    }
+    if (strcmp(name, "snd_async_handler_get_callback_private") == 0) {
+        return (void *)snd_async_handler_get_callback_private;
+    }
+    if (strcmp(name, "snd_async_handler_get_ctl") == 0) {
+        return (void *)snd_async_handler_get_ctl;
+    }
+    if (strcmp(name, "snd_async_handler_get_fd") == 0) {
+        return (void *)snd_async_handler_get_fd;
+    }
+    if (strcmp(name, "snd_async_handler_get_pcm") == 0) {
+        return (void *)snd_async_handler_get_pcm;
+    }
+    if (strcmp(name, "snd_async_handler_get_signo") == 0) {
+        return (void *)snd_async_handler_get_signo;
+    }
+    if (strcmp(name, "snd_async_handler_get_timer") == 0) {
+        return (void *)snd_async_handler_get_timer;
+    }
+    if (strcmp(name, "snd_card_get_index") == 0) {
+        return (void *)snd_card_get_index;
+    }
+    if (strcmp(name, "snd_card_get_longname") == 0) {
+        return (void *)snd_card_get_longname;
+    }
+    if (strcmp(name, "snd_card_get_name") == 0) {
+        return (void *)snd_card_get_name;
+    }
+    if (strcmp(name, "snd_card_load") == 0) {
+        return (void *)snd_card_load;
+    }
+    if (strcmp(name, "snd_card_next") == 0) {
+        return (void *)snd_card_next;
+    }
+    if (strcmp(name, "snd_config_add") == 0) {
+        return (void *)snd_config_add;
+    }
+    if (strcmp(name, "snd_config_copy") == 0) {
+        return (void *)snd_config_copy;
+    }
+    if (strcmp(name, "snd_config_delete") == 0) {
+        return (void *)snd_config_delete;
+    }
+    if (strcmp(name, "snd_config_delete_compound_members") == 0) {
+        return (void *)snd_config_delete_compound_members;
+    }
+    if (strcmp(name, "snd_config_evaluate") == 0) {
+        return (void *)snd_config_evaluate;
+    }
+    if (strcmp(name, "snd_config_expand") == 0) {
+        return (void *)snd_config_expand;
+    }
+    if (strcmp(name, "snd_config_get_ascii") == 0) {
+        return (void *)snd_config_get_ascii;
+    }
+    if (strcmp(name, "snd_config_get_bool") == 0) {
+        return (void *)snd_config_get_bool;
+    }
+    if (strcmp(name, "snd_config_get_bool_ascii") == 0) {
+        return (void *)snd_config_get_bool_ascii;
+    }
+    if (strcmp(name, "snd_config_get_ctl_iface") == 0) {
+        return (void *)snd_config_get_ctl_iface;
+    }
+    if (strcmp(name, "snd_config_get_ctl_iface_ascii") == 0) {
+        return (void *)snd_config_get_ctl_iface_ascii;
+    }
+    if (strcmp(name, "snd_config_get_id") == 0) {
+        return (void *)snd_config_get_id;
+    }
+    if (strcmp(name, "snd_config_get_integer") == 0) {
+        return (void *)snd_config_get_integer;
+    }
+    if (strcmp(name, "snd_config_get_integer64") == 0) {
+        return (void *)snd_config_get_integer64;
+    }
+    if (strcmp(name, "snd_config_get_ireal") == 0) {
+        return (void *)snd_config_get_ireal;
+    }
+    if (strcmp(name, "snd_config_get_pointer") == 0) {
+        return (void *)snd_config_get_pointer;
+    }
+    if (strcmp(name, "snd_config_get_real") == 0) {
+        return (void *)snd_config_get_real;
+    }
+    if (strcmp(name, "snd_config_get_string") == 0) {
+        return (void *)snd_config_get_string;
+    }
+    if (strcmp(name, "snd_config_get_type") == 0) {
+        return (void *)snd_config_get_type;
+    }
+    if (strcmp(name, "snd_config_imake_integer") == 0) {
+        return (void *)snd_config_imake_integer;
+    }
+    if (strcmp(name, "snd_config_imake_integer64") == 0) {
+        return (void *)snd_config_imake_integer64;
+    }
+    if (strcmp(name, "snd_config_imake_pointer") == 0) {
+        return (void *)snd_config_imake_pointer;
+    }
+    if (strcmp(name, "snd_config_imake_real") == 0) {
+        return (void *)snd_config_imake_real;
+    }
+    if (strcmp(name, "snd_config_imake_string") == 0) {
+        return (void *)snd_config_imake_string;
+    }
+    if (strcmp(name, "snd_config_iterator_end") == 0) {
+        return (void *)snd_config_iterator_end;
+    }
+    if (strcmp(name, "snd_config_iterator_entry") == 0) {
+        return (void *)snd_config_iterator_entry;
+    }
+    if (strcmp(name, "snd_config_iterator_first") == 0) {
+        return (void *)snd_config_iterator_first;
+    }
+    if (strcmp(name, "snd_config_iterator_next") == 0) {
+        return (void *)snd_config_iterator_next;
+    }
+    if (strcmp(name, "snd_config_load") == 0) {
+        return (void *)snd_config_load;
+    }
+    if (strcmp(name, "snd_config_load_override") == 0) {
+        return (void *)snd_config_load_override;
+    }
+    if (strcmp(name, "snd_config_make") == 0) {
+        return (void *)snd_config_make;
+    }
+    if (strcmp(name, "snd_config_make_compound") == 0) {
+        return (void *)snd_config_make_compound;
+    }
+    if (strcmp(name, "snd_config_make_integer") == 0) {
+        return (void *)snd_config_make_integer;
+    }
+    if (strcmp(name, "snd_config_make_integer64") == 0) {
+        return (void *)snd_config_make_integer64;
+    }
+    if (strcmp(name, "snd_config_make_pointer") == 0) {
+        return (void *)snd_config_make_pointer;
+    }
+    if (strcmp(name, "snd_config_make_real") == 0) {
+        return (void *)snd_config_make_real;
+    }
+    if (strcmp(name, "snd_config_make_string") == 0) {
+        return (void *)snd_config_make_string;
+    }
+    if (strcmp(name, "snd_config_save") == 0) {
+        return (void *)snd_config_save;
+    }
+    if (strcmp(name, "snd_config_search") == 0) {
+        return (void *)snd_config_search;
+    }
+    if (strcmp(name, "snd_config_search_definition") == 0) {
+        return (void *)snd_config_search_definition;
+    }
+    if (strcmp(name, "snd_config_set_ascii") == 0) {
+        return (void *)snd_config_set_ascii;
+    }
+    if (strcmp(name, "snd_config_set_id") == 0) {
+        return (void *)snd_config_set_id;
+    }
+    if (strcmp(name, "snd_config_set_integer") == 0) {
+        return (void *)snd_config_set_integer;
+    }
+    if (strcmp(name, "snd_config_set_integer64") == 0) {
+        return (void *)snd_config_set_integer64;
+    }
+    if (strcmp(name, "snd_config_set_pointer") == 0) {
+        return (void *)snd_config_set_pointer;
+    }
+    if (strcmp(name, "snd_config_set_real") == 0) {
+        return (void *)snd_config_set_real;
+    }
+    if (strcmp(name, "snd_config_set_string") == 0) {
+        return (void *)snd_config_set_string;
+    }
+    if (strcmp(name, "snd_config_test_id") == 0) {
+        return (void *)snd_config_test_id;
+    }
+    if (strcmp(name, "snd_config_top") == 0) {
+        return (void *)snd_config_top;
+    }
+    if (strcmp(name, "snd_config_update") == 0) {
+        return (void *)snd_config_update;
+    }
+    if (strcmp(name, "snd_config_update_free") == 0) {
+        return (void *)snd_config_update_free;
+    }
+    if (strcmp(name, "snd_config_update_free_global") == 0) {
+        return (void *)snd_config_update_free_global;
+    }
+    if (strcmp(name, "snd_config_update_r") == 0) {
+        return (void *)snd_config_update_r;
+    }
+    if (strcmp(name, "snd_ctl_card_info") == 0) {
+        return (void *)snd_ctl_card_info;
+    }
+    if (strcmp(name, "snd_ctl_card_info_clear") == 0) {
+        return (void *)snd_ctl_card_info_clear;
+    }
+    if (strcmp(name, "snd_ctl_card_info_copy") == 0) {
+        return (void *)snd_ctl_card_info_copy;
+    }
+    if (strcmp(name, "snd_ctl_card_info_free") == 0) {
+        return (void *)snd_ctl_card_info_free;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_card") == 0) {
+        return (void *)snd_ctl_card_info_get_card;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_components") == 0) {
+        return (void *)snd_ctl_card_info_get_components;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_driver") == 0) {
+        return (void *)snd_ctl_card_info_get_driver;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_id") == 0) {
+        return (void *)snd_ctl_card_info_get_id;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_longname") == 0) {
+        return (void *)snd_ctl_card_info_get_longname;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_mixername") == 0) {
+        return (void *)snd_ctl_card_info_get_mixername;
+    }
+    if (strcmp(name, "snd_ctl_card_info_get_name") == 0) {
+        return (void *)snd_ctl_card_info_get_name;
+    }
+    if (strcmp(name, "snd_ctl_card_info_malloc") == 0) {
+        return (void *)snd_ctl_card_info_malloc;
+    }
+    if (strcmp(name, "snd_ctl_card_info_sizeof") == 0) {
+        return (void *)snd_ctl_card_info_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_close") == 0) {
+        return (void *)snd_ctl_close;
+    }
+    if (strcmp(name, "snd_ctl_elem_add_boolean") == 0) {
+        return (void *)snd_ctl_elem_add_boolean;
+    }
+    if (strcmp(name, "snd_ctl_elem_add_iec958") == 0) {
+        return (void *)snd_ctl_elem_add_iec958;
+    }
+    if (strcmp(name, "snd_ctl_elem_add_integer") == 0) {
+        return (void *)snd_ctl_elem_add_integer;
+    }
+    if (strcmp(name, "snd_ctl_elem_add_integer64") == 0) {
+        return (void *)snd_ctl_elem_add_integer64;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_clear") == 0) {
+        return (void *)snd_ctl_elem_id_clear;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_copy") == 0) {
+        return (void *)snd_ctl_elem_id_copy;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_free") == 0) {
+        return (void *)snd_ctl_elem_id_free;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_device") == 0) {
+        return (void *)snd_ctl_elem_id_get_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_index") == 0) {
+        return (void *)snd_ctl_elem_id_get_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_interface") == 0) {
+        return (void *)snd_ctl_elem_id_get_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_name") == 0) {
+        return (void *)snd_ctl_elem_id_get_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_numid") == 0) {
+        return (void *)snd_ctl_elem_id_get_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_get_subdevice") == 0) {
+        return (void *)snd_ctl_elem_id_get_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_malloc") == 0) {
+        return (void *)snd_ctl_elem_id_malloc;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_device") == 0) {
+        return (void *)snd_ctl_elem_id_set_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_index") == 0) {
+        return (void *)snd_ctl_elem_id_set_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_interface") == 0) {
+        return (void *)snd_ctl_elem_id_set_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_name") == 0) {
+        return (void *)snd_ctl_elem_id_set_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_numid") == 0) {
+        return (void *)snd_ctl_elem_id_set_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_set_subdevice") == 0) {
+        return (void *)snd_ctl_elem_id_set_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_id_sizeof") == 0) {
+        return (void *)snd_ctl_elem_id_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_elem_iface_name") == 0) {
+        return (void *)snd_ctl_elem_iface_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_info") == 0) {
+        return (void *)snd_ctl_elem_info;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_clear") == 0) {
+        return (void *)snd_ctl_elem_info_clear;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_copy") == 0) {
+        return (void *)snd_ctl_elem_info_copy;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_free") == 0) {
+        return (void *)snd_ctl_elem_info_free;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_count") == 0) {
+        return (void *)snd_ctl_elem_info_get_count;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_device") == 0) {
+        return (void *)snd_ctl_elem_info_get_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_dimension") == 0) {
+        return (void *)snd_ctl_elem_info_get_dimension;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_dimensions") == 0) {
+        return (void *)snd_ctl_elem_info_get_dimensions;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_id") == 0) {
+        return (void *)snd_ctl_elem_info_get_id;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_index") == 0) {
+        return (void *)snd_ctl_elem_info_get_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_interface") == 0) {
+        return (void *)snd_ctl_elem_info_get_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_item_name") == 0) {
+        return (void *)snd_ctl_elem_info_get_item_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_items") == 0) {
+        return (void *)snd_ctl_elem_info_get_items;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_max") == 0) {
+        return (void *)snd_ctl_elem_info_get_max;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_max64") == 0) {
+        return (void *)snd_ctl_elem_info_get_max64;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_min") == 0) {
+        return (void *)snd_ctl_elem_info_get_min;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_min64") == 0) {
+        return (void *)snd_ctl_elem_info_get_min64;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_name") == 0) {
+        return (void *)snd_ctl_elem_info_get_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_numid") == 0) {
+        return (void *)snd_ctl_elem_info_get_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_owner") == 0) {
+        return (void *)snd_ctl_elem_info_get_owner;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_step") == 0) {
+        return (void *)snd_ctl_elem_info_get_step;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_step64") == 0) {
+        return (void *)snd_ctl_elem_info_get_step64;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_subdevice") == 0) {
+        return (void *)snd_ctl_elem_info_get_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_get_type") == 0) {
+        return (void *)snd_ctl_elem_info_get_type;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_inactive") == 0) {
+        return (void *)snd_ctl_elem_info_is_inactive;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_locked") == 0) {
+        return (void *)snd_ctl_elem_info_is_locked;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_owner") == 0) {
+        return (void *)snd_ctl_elem_info_is_owner;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_readable") == 0) {
+        return (void *)snd_ctl_elem_info_is_readable;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_tlv_commandable") == 0) {
+        return (void *)snd_ctl_elem_info_is_tlv_commandable;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_tlv_readable") == 0) {
+        return (void *)snd_ctl_elem_info_is_tlv_readable;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_tlv_writable") == 0) {
+        return (void *)snd_ctl_elem_info_is_tlv_writable;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_user") == 0) {
+        return (void *)snd_ctl_elem_info_is_user;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_volatile") == 0) {
+        return (void *)snd_ctl_elem_info_is_volatile;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_is_writable") == 0) {
+        return (void *)snd_ctl_elem_info_is_writable;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_malloc") == 0) {
+        return (void *)snd_ctl_elem_info_malloc;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_device") == 0) {
+        return (void *)snd_ctl_elem_info_set_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_id") == 0) {
+        return (void *)snd_ctl_elem_info_set_id;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_index") == 0) {
+        return (void *)snd_ctl_elem_info_set_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_interface") == 0) {
+        return (void *)snd_ctl_elem_info_set_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_item") == 0) {
+        return (void *)snd_ctl_elem_info_set_item;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_name") == 0) {
+        return (void *)snd_ctl_elem_info_set_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_numid") == 0) {
+        return (void *)snd_ctl_elem_info_set_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_set_subdevice") == 0) {
+        return (void *)snd_ctl_elem_info_set_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_info_sizeof") == 0) {
+        return (void *)snd_ctl_elem_info_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_elem_list") == 0) {
+        return (void *)snd_ctl_elem_list;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_alloc_space") == 0) {
+        return (void *)snd_ctl_elem_list_alloc_space;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_clear") == 0) {
+        return (void *)snd_ctl_elem_list_clear;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_copy") == 0) {
+        return (void *)snd_ctl_elem_list_copy;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_free") == 0) {
+        return (void *)snd_ctl_elem_list_free;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_free_space") == 0) {
+        return (void *)snd_ctl_elem_list_free_space;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_count") == 0) {
+        return (void *)snd_ctl_elem_list_get_count;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_device") == 0) {
+        return (void *)snd_ctl_elem_list_get_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_id") == 0) {
+        return (void *)snd_ctl_elem_list_get_id;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_index") == 0) {
+        return (void *)snd_ctl_elem_list_get_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_interface") == 0) {
+        return (void *)snd_ctl_elem_list_get_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_name") == 0) {
+        return (void *)snd_ctl_elem_list_get_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_numid") == 0) {
+        return (void *)snd_ctl_elem_list_get_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_subdevice") == 0) {
+        return (void *)snd_ctl_elem_list_get_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_get_used") == 0) {
+        return (void *)snd_ctl_elem_list_get_used;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_malloc") == 0) {
+        return (void *)snd_ctl_elem_list_malloc;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_set_offset") == 0) {
+        return (void *)snd_ctl_elem_list_set_offset;
+    }
+    if (strcmp(name, "snd_ctl_elem_list_sizeof") == 0) {
+        return (void *)snd_ctl_elem_list_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_elem_lock") == 0) {
+        return (void *)snd_ctl_elem_lock;
+    }
+    if (strcmp(name, "snd_ctl_elem_read") == 0) {
+        return (void *)snd_ctl_elem_read;
+    }
+    if (strcmp(name, "snd_ctl_elem_remove") == 0) {
+        return (void *)snd_ctl_elem_remove;
+    }
+    if (strcmp(name, "snd_ctl_elem_set_bytes") == 0) {
+        return (void *)snd_ctl_elem_set_bytes;
+    }
+    if (strcmp(name, "snd_ctl_elem_tlv_command") == 0) {
+        return (void *)snd_ctl_elem_tlv_command;
+    }
+    if (strcmp(name, "snd_ctl_elem_tlv_read") == 0) {
+        return (void *)snd_ctl_elem_tlv_read;
+    }
+    if (strcmp(name, "snd_ctl_elem_tlv_write") == 0) {
+        return (void *)snd_ctl_elem_tlv_write;
+    }
+    if (strcmp(name, "snd_ctl_elem_type_name") == 0) {
+        return (void *)snd_ctl_elem_type_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_unlock") == 0) {
+        return (void *)snd_ctl_elem_unlock;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_clear") == 0) {
+        return (void *)snd_ctl_elem_value_clear;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_copy") == 0) {
+        return (void *)snd_ctl_elem_value_copy;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_free") == 0) {
+        return (void *)snd_ctl_elem_value_free;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_boolean") == 0) {
+        return (void *)snd_ctl_elem_value_get_boolean;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_byte") == 0) {
+        return (void *)snd_ctl_elem_value_get_byte;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_bytes") == 0) {
+        return (void *)snd_ctl_elem_value_get_bytes;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_device") == 0) {
+        return (void *)snd_ctl_elem_value_get_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_enumerated") == 0) {
+        return (void *)snd_ctl_elem_value_get_enumerated;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_id") == 0) {
+        return (void *)snd_ctl_elem_value_get_id;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_iec958") == 0) {
+        return (void *)snd_ctl_elem_value_get_iec958;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_index") == 0) {
+        return (void *)snd_ctl_elem_value_get_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_integer") == 0) {
+        return (void *)snd_ctl_elem_value_get_integer;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_integer64") == 0) {
+        return (void *)snd_ctl_elem_value_get_integer64;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_interface") == 0) {
+        return (void *)snd_ctl_elem_value_get_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_name") == 0) {
+        return (void *)snd_ctl_elem_value_get_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_numid") == 0) {
+        return (void *)snd_ctl_elem_value_get_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_get_subdevice") == 0) {
+        return (void *)snd_ctl_elem_value_get_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_malloc") == 0) {
+        return (void *)snd_ctl_elem_value_malloc;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_boolean") == 0) {
+        return (void *)snd_ctl_elem_value_set_boolean;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_byte") == 0) {
+        return (void *)snd_ctl_elem_value_set_byte;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_device") == 0) {
+        return (void *)snd_ctl_elem_value_set_device;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_enumerated") == 0) {
+        return (void *)snd_ctl_elem_value_set_enumerated;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_id") == 0) {
+        return (void *)snd_ctl_elem_value_set_id;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_iec958") == 0) {
+        return (void *)snd_ctl_elem_value_set_iec958;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_index") == 0) {
+        return (void *)snd_ctl_elem_value_set_index;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_integer") == 0) {
+        return (void *)snd_ctl_elem_value_set_integer;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_integer64") == 0) {
+        return (void *)snd_ctl_elem_value_set_integer64;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_interface") == 0) {
+        return (void *)snd_ctl_elem_value_set_interface;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_name") == 0) {
+        return (void *)snd_ctl_elem_value_set_name;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_numid") == 0) {
+        return (void *)snd_ctl_elem_value_set_numid;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_set_subdevice") == 0) {
+        return (void *)snd_ctl_elem_value_set_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_elem_value_sizeof") == 0) {
+        return (void *)snd_ctl_elem_value_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_elem_write") == 0) {
+        return (void *)snd_ctl_elem_write;
+    }
+    if (strcmp(name, "snd_ctl_event_clear") == 0) {
+        return (void *)snd_ctl_event_clear;
+    }
+    if (strcmp(name, "snd_ctl_event_copy") == 0) {
+        return (void *)snd_ctl_event_copy;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_device") == 0) {
+        return (void *)snd_ctl_event_elem_get_device;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_id") == 0) {
+        return (void *)snd_ctl_event_elem_get_id;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_index") == 0) {
+        return (void *)snd_ctl_event_elem_get_index;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_interface") == 0) {
+        return (void *)snd_ctl_event_elem_get_interface;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_mask") == 0) {
+        return (void *)snd_ctl_event_elem_get_mask;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_name") == 0) {
+        return (void *)snd_ctl_event_elem_get_name;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_numid") == 0) {
+        return (void *)snd_ctl_event_elem_get_numid;
+    }
+    if (strcmp(name, "snd_ctl_event_elem_get_subdevice") == 0) {
+        return (void *)snd_ctl_event_elem_get_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_event_free") == 0) {
+        return (void *)snd_ctl_event_free;
+    }
+    if (strcmp(name, "snd_ctl_event_get_type") == 0) {
+        return (void *)snd_ctl_event_get_type;
+    }
+    if (strcmp(name, "snd_ctl_event_malloc") == 0) {
+        return (void *)snd_ctl_event_malloc;
+    }
+    if (strcmp(name, "snd_ctl_event_sizeof") == 0) {
+        return (void *)snd_ctl_event_sizeof;
+    }
+    if (strcmp(name, "snd_ctl_event_type_name") == 0) {
+        return (void *)snd_ctl_event_type_name;
+    }
+    if (strcmp(name, "snd_ctl_get_power_state") == 0) {
+        return (void *)snd_ctl_get_power_state;
+    }
+    if (strcmp(name, "snd_ctl_hwdep_info") == 0) {
+        return (void *)snd_ctl_hwdep_info;
+    }
+    if (strcmp(name, "snd_ctl_hwdep_next_device") == 0) {
+        return (void *)snd_ctl_hwdep_next_device;
+    }
+    if (strcmp(name, "snd_ctl_name") == 0) {
+        return (void *)snd_ctl_name;
+    }
+    if (strcmp(name, "snd_ctl_nonblock") == 0) {
+        return (void *)snd_ctl_nonblock;
+    }
+    if (strcmp(name, "snd_ctl_open") == 0) {
+        return (void *)snd_ctl_open;
+    }
+    if (strcmp(name, "snd_ctl_open_lconf") == 0) {
+        return (void *)snd_ctl_open_lconf;
+    }
+    if (strcmp(name, "snd_ctl_pcm_info") == 0) {
+        return (void *)snd_ctl_pcm_info;
+    }
+    if (strcmp(name, "snd_ctl_pcm_next_device") == 0) {
+        return (void *)snd_ctl_pcm_next_device;
+    }
+    if (strcmp(name, "snd_ctl_pcm_prefer_subdevice") == 0) {
+        return (void *)snd_ctl_pcm_prefer_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_poll_descriptors") == 0) {
+        return (void *)snd_ctl_poll_descriptors;
+    }
+    if (strcmp(name, "snd_ctl_poll_descriptors_count") == 0) {
+        return (void *)snd_ctl_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_ctl_poll_descriptors_revents") == 0) {
+        return (void *)snd_ctl_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_ctl_rawmidi_info") == 0) {
+        return (void *)snd_ctl_rawmidi_info;
+    }
+    if (strcmp(name, "snd_ctl_rawmidi_next_device") == 0) {
+        return (void *)snd_ctl_rawmidi_next_device;
+    }
+    if (strcmp(name, "snd_ctl_rawmidi_prefer_subdevice") == 0) {
+        return (void *)snd_ctl_rawmidi_prefer_subdevice;
+    }
+    if (strcmp(name, "snd_ctl_read") == 0) {
+        return (void *)snd_ctl_read;
+    }
+    if (strcmp(name, "snd_ctl_set_power_state") == 0) {
+        return (void *)snd_ctl_set_power_state;
+    }
+    if (strcmp(name, "snd_ctl_subscribe_events") == 0) {
+        return (void *)snd_ctl_subscribe_events;
+    }
+    if (strcmp(name, "snd_ctl_type") == 0) {
+        return (void *)snd_ctl_type;
+    }
+    if (strcmp(name, "snd_ctl_wait") == 0) {
+        return (void *)snd_ctl_wait;
+    }
+    if (strcmp(name, "snd_dlclose") == 0) {
+        return (void *)snd_dlclose;
+    }
+    if (strcmp(name, "snd_dlopen") == 0) {
+        return (void *)snd_dlopen;
+    }
+    if (strcmp(name, "snd_dlsym") == 0) {
+        return (void *)snd_dlsym;
+    }
+    if (strcmp(name, "snd_hctl_close") == 0) {
+        return (void *)snd_hctl_close;
+    }
+    if (strcmp(name, "snd_hctl_compare_fast") == 0) {
+        return (void *)snd_hctl_compare_fast;
+    }
+    if (strcmp(name, "snd_hctl_ctl") == 0) {
+        return (void *)snd_hctl_ctl;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_callback_private") == 0) {
+        return (void *)snd_hctl_elem_get_callback_private;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_device") == 0) {
+        return (void *)snd_hctl_elem_get_device;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_hctl") == 0) {
+        return (void *)snd_hctl_elem_get_hctl;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_id") == 0) {
+        return (void *)snd_hctl_elem_get_id;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_index") == 0) {
+        return (void *)snd_hctl_elem_get_index;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_interface") == 0) {
+        return (void *)snd_hctl_elem_get_interface;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_name") == 0) {
+        return (void *)snd_hctl_elem_get_name;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_numid") == 0) {
+        return (void *)snd_hctl_elem_get_numid;
+    }
+    if (strcmp(name, "snd_hctl_elem_get_subdevice") == 0) {
+        return (void *)snd_hctl_elem_get_subdevice;
+    }
+    if (strcmp(name, "snd_hctl_elem_info") == 0) {
+        return (void *)snd_hctl_elem_info;
+    }
+    if (strcmp(name, "snd_hctl_elem_next") == 0) {
+        return (void *)snd_hctl_elem_next;
+    }
+    if (strcmp(name, "snd_hctl_elem_prev") == 0) {
+        return (void *)snd_hctl_elem_prev;
+    }
+    if (strcmp(name, "snd_hctl_elem_read") == 0) {
+        return (void *)snd_hctl_elem_read;
+    }
+    if (strcmp(name, "snd_hctl_elem_set_callback") == 0) {
+        return (void *)snd_hctl_elem_set_callback;
+    }
+    if (strcmp(name, "snd_hctl_elem_set_callback_private") == 0) {
+        return (void *)snd_hctl_elem_set_callback_private;
+    }
+    if (strcmp(name, "snd_hctl_elem_tlv_command") == 0) {
+        return (void *)snd_hctl_elem_tlv_command;
+    }
+    if (strcmp(name, "snd_hctl_elem_tlv_read") == 0) {
+        return (void *)snd_hctl_elem_tlv_read;
+    }
+    if (strcmp(name, "snd_hctl_elem_tlv_write") == 0) {
+        return (void *)snd_hctl_elem_tlv_write;
+    }
+    if (strcmp(name, "snd_hctl_elem_write") == 0) {
+        return (void *)snd_hctl_elem_write;
+    }
+    if (strcmp(name, "snd_hctl_find_elem") == 0) {
+        return (void *)snd_hctl_find_elem;
+    }
+    if (strcmp(name, "snd_hctl_first_elem") == 0) {
+        return (void *)snd_hctl_first_elem;
+    }
+    if (strcmp(name, "snd_hctl_free") == 0) {
+        return (void *)snd_hctl_free;
+    }
+    if (strcmp(name, "snd_hctl_get_callback_private") == 0) {
+        return (void *)snd_hctl_get_callback_private;
+    }
+    if (strcmp(name, "snd_hctl_get_count") == 0) {
+        return (void *)snd_hctl_get_count;
+    }
+    if (strcmp(name, "snd_hctl_handle_events") == 0) {
+        return (void *)snd_hctl_handle_events;
+    }
+    if (strcmp(name, "snd_hctl_last_elem") == 0) {
+        return (void *)snd_hctl_last_elem;
+    }
+    if (strcmp(name, "snd_hctl_load") == 0) {
+        return (void *)snd_hctl_load;
+    }
+    if (strcmp(name, "snd_hctl_name") == 0) {
+        return (void *)snd_hctl_name;
+    }
+    if (strcmp(name, "snd_hctl_nonblock") == 0) {
+        return (void *)snd_hctl_nonblock;
+    }
+    if (strcmp(name, "snd_hctl_open") == 0) {
+        return (void *)snd_hctl_open;
+    }
+    if (strcmp(name, "snd_hctl_open_ctl") == 0) {
+        return (void *)snd_hctl_open_ctl;
+    }
+    if (strcmp(name, "snd_hctl_poll_descriptors") == 0) {
+        return (void *)snd_hctl_poll_descriptors;
+    }
+    if (strcmp(name, "snd_hctl_poll_descriptors_count") == 0) {
+        return (void *)snd_hctl_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_hctl_poll_descriptors_revents") == 0) {
+        return (void *)snd_hctl_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_hctl_set_callback") == 0) {
+        return (void *)snd_hctl_set_callback;
+    }
+    if (strcmp(name, "snd_hctl_set_callback_private") == 0) {
+        return (void *)snd_hctl_set_callback_private;
+    }
+    if (strcmp(name, "snd_hctl_set_compare") == 0) {
+        return (void *)snd_hctl_set_compare;
+    }
+    if (strcmp(name, "snd_hctl_wait") == 0) {
+        return (void *)snd_hctl_wait;
+    }
+    if (strcmp(name, "snd_hwdep_close") == 0) {
+        return (void *)snd_hwdep_close;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_copy") == 0) {
+        return (void *)snd_hwdep_dsp_image_copy;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_free") == 0) {
+        return (void *)snd_hwdep_dsp_image_free;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_get_image") == 0) {
+        return (void *)snd_hwdep_dsp_image_get_image;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_get_index") == 0) {
+        return (void *)snd_hwdep_dsp_image_get_index;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_get_length") == 0) {
+        return (void *)snd_hwdep_dsp_image_get_length;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_get_name") == 0) {
+        return (void *)snd_hwdep_dsp_image_get_name;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_malloc") == 0) {
+        return (void *)snd_hwdep_dsp_image_malloc;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_set_image") == 0) {
+        return (void *)snd_hwdep_dsp_image_set_image;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_set_index") == 0) {
+        return (void *)snd_hwdep_dsp_image_set_index;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_set_length") == 0) {
+        return (void *)snd_hwdep_dsp_image_set_length;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_set_name") == 0) {
+        return (void *)snd_hwdep_dsp_image_set_name;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_image_sizeof") == 0) {
+        return (void *)snd_hwdep_dsp_image_sizeof;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_load") == 0) {
+        return (void *)snd_hwdep_dsp_load;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status") == 0) {
+        return (void *)snd_hwdep_dsp_status;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_copy") == 0) {
+        return (void *)snd_hwdep_dsp_status_copy;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_free") == 0) {
+        return (void *)snd_hwdep_dsp_status_free;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_get_chip_ready") == 0) {
+        return (void *)snd_hwdep_dsp_status_get_chip_ready;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_get_dsp_loaded") == 0) {
+        return (void *)snd_hwdep_dsp_status_get_dsp_loaded;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_get_id") == 0) {
+        return (void *)snd_hwdep_dsp_status_get_id;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_get_num_dsps") == 0) {
+        return (void *)snd_hwdep_dsp_status_get_num_dsps;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_get_version") == 0) {
+        return (void *)snd_hwdep_dsp_status_get_version;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_malloc") == 0) {
+        return (void *)snd_hwdep_dsp_status_malloc;
+    }
+    if (strcmp(name, "snd_hwdep_dsp_status_sizeof") == 0) {
+        return (void *)snd_hwdep_dsp_status_sizeof;
+    }
+    if (strcmp(name, "snd_hwdep_info") == 0) {
+        return (void *)snd_hwdep_info;
+    }
+    if (strcmp(name, "snd_hwdep_info_sizeof") == 0) {
+        return (void *)snd_hwdep_info_sizeof;
+    }
+    if (strcmp(name, "snd_hwdep_ioctl") == 0) {
+        return (void *)snd_hwdep_ioctl;
+    }
+    if (strcmp(name, "snd_hwdep_nonblock") == 0) {
+        return (void *)snd_hwdep_nonblock;
+    }
+    if (strcmp(name, "snd_hwdep_open") == 0) {
+        return (void *)snd_hwdep_open;
+    }
+    if (strcmp(name, "snd_hwdep_poll_descriptors") == 0) {
+        return (void *)snd_hwdep_poll_descriptors;
+    }
+    if (strcmp(name, "snd_hwdep_poll_descriptors_revents") == 0) {
+        return (void *)snd_hwdep_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_hwdep_read") == 0) {
+        return (void *)snd_hwdep_read;
+    }
+    if (strcmp(name, "snd_hwdep_write") == 0) {
+        return (void *)snd_hwdep_write;
+    }
+    if (strcmp(name, "snd_input_buffer_open") == 0) {
+        return (void *)snd_input_buffer_open;
+    }
+    if (strcmp(name, "snd_input_close") == 0) {
+        return (void *)snd_input_close;
+    }
+    if (strcmp(name, "snd_input_getc") == 0) {
+        return (void *)snd_input_getc;
+    }
+    if (strcmp(name, "snd_input_gets") == 0) {
+        return (void *)snd_input_gets;
+    }
+    if (strcmp(name, "snd_input_stdio_attach") == 0) {
+        return (void *)snd_input_stdio_attach;
+    }
+    if (strcmp(name, "snd_input_stdio_open") == 0) {
+        return (void *)snd_input_stdio_open;
+    }
+    if (strcmp(name, "snd_input_ungetc") == 0) {
+        return (void *)snd_input_ungetc;
+    }
+    if (strcmp(name, "snd_instr_fm_convert_from_stream") == 0) {
+        return (void *)snd_instr_fm_convert_from_stream;
+    }
+    if (strcmp(name, "snd_instr_fm_convert_to_stream") == 0) {
+        return (void *)snd_instr_fm_convert_to_stream;
+    }
+    if (strcmp(name, "snd_instr_fm_free") == 0) {
+        return (void *)snd_instr_fm_free;
+    }
+    if (strcmp(name, "snd_instr_header_copy") == 0) {
+        return (void *)snd_instr_header_copy;
+    }
+    if (strcmp(name, "snd_instr_header_free") == 0) {
+        return (void *)snd_instr_header_free;
+    }
+    if (strcmp(name, "snd_instr_header_get_alias") == 0) {
+        return (void *)snd_instr_header_get_alias;
+    }
+    if (strcmp(name, "snd_instr_header_get_cluster") == 0) {
+        return (void *)snd_instr_header_get_cluster;
+    }
+    if (strcmp(name, "snd_instr_header_get_cmd") == 0) {
+        return (void *)snd_instr_header_get_cmd;
+    }
+    if (strcmp(name, "snd_instr_header_get_data") == 0) {
+        return (void *)snd_instr_header_get_data;
+    }
+    if (strcmp(name, "snd_instr_header_get_follow_alias") == 0) {
+        return (void *)snd_instr_header_get_follow_alias;
+    }
+    if (strcmp(name, "snd_instr_header_get_format") == 0) {
+        return (void *)snd_instr_header_get_format;
+    }
+    if (strcmp(name, "snd_instr_header_get_id") == 0) {
+        return (void *)snd_instr_header_get_id;
+    }
+    if (strcmp(name, "snd_instr_header_get_len") == 0) {
+        return (void *)snd_instr_header_get_len;
+    }
+    if (strcmp(name, "snd_instr_header_get_name") == 0) {
+        return (void *)snd_instr_header_get_name;
+    }
+    if (strcmp(name, "snd_instr_header_get_type") == 0) {
+        return (void *)snd_instr_header_get_type;
+    }
+    if (strcmp(name, "snd_instr_header_malloc") == 0) {
+        return (void *)snd_instr_header_malloc;
+    }
+    if (strcmp(name, "snd_instr_header_set_alias") == 0) {
+        return (void *)snd_instr_header_set_alias;
+    }
+    if (strcmp(name, "snd_instr_header_set_cluster") == 0) {
+        return (void *)snd_instr_header_set_cluster;
+    }
+    if (strcmp(name, "snd_instr_header_set_cmd") == 0) {
+        return (void *)snd_instr_header_set_cmd;
+    }
+    if (strcmp(name, "snd_instr_header_set_follow_alias") == 0) {
+        return (void *)snd_instr_header_set_follow_alias;
+    }
+    if (strcmp(name, "snd_instr_header_set_format") == 0) {
+        return (void *)snd_instr_header_set_format;
+    }
+    if (strcmp(name, "snd_instr_header_set_id") == 0) {
+        return (void *)snd_instr_header_set_id;
+    }
+    if (strcmp(name, "snd_instr_header_set_len") == 0) {
+        return (void *)snd_instr_header_set_len;
+    }
+    if (strcmp(name, "snd_instr_header_set_name") == 0) {
+        return (void *)snd_instr_header_set_name;
+    }
+    if (strcmp(name, "snd_instr_header_set_type") == 0) {
+        return (void *)snd_instr_header_set_type;
+    }
+    if (strcmp(name, "snd_instr_header_sizeof") == 0) {
+        return (void *)snd_instr_header_sizeof;
+    }
+    if (strcmp(name, "snd_instr_iwffff_close") == 0) {
+        return (void *)snd_instr_iwffff_close;
+    }
+    if (strcmp(name, "snd_instr_iwffff_convert_from_stream") == 0) {
+        return (void *)snd_instr_iwffff_convert_from_stream;
+    }
+    if (strcmp(name, "snd_instr_iwffff_convert_to_stream") == 0) {
+        return (void *)snd_instr_iwffff_convert_to_stream;
+    }
+    if (strcmp(name, "snd_instr_iwffff_free") == 0) {
+        return (void *)snd_instr_iwffff_free;
+    }
+    if (strcmp(name, "snd_instr_iwffff_load") == 0) {
+        return (void *)snd_instr_iwffff_load;
+    }
+    if (strcmp(name, "snd_instr_iwffff_open") == 0) {
+        return (void *)snd_instr_iwffff_open;
+    }
+    if (strcmp(name, "snd_instr_iwffff_open_rom") == 0) {
+        return (void *)snd_instr_iwffff_open_rom;
+    }
+    if (strcmp(name, "snd_instr_iwffff_open_rom_file") == 0) {
+        return (void *)snd_instr_iwffff_open_rom_file;
+    }
+    if (strcmp(name, "snd_instr_simple_convert_from_stream") == 0) {
+        return (void *)snd_instr_simple_convert_from_stream;
+    }
+    if (strcmp(name, "snd_instr_simple_convert_to_stream") == 0) {
+        return (void *)snd_instr_simple_convert_to_stream;
+    }
+    if (strcmp(name, "snd_instr_simple_free") == 0) {
+        return (void *)snd_instr_simple_free;
+    }
+    if (strcmp(name, "snd_lib_error_set_handler") == 0) {
+        return (void *)snd_lib_error_set_handler;
+    }
+    if (strcmp(name, "snd_midi_event_decode") == 0) {
+        return (void *)snd_midi_event_decode;
+    }
+    if (strcmp(name, "snd_midi_event_encode") == 0) {
+        return (void *)snd_midi_event_encode;
+    }
+    if (strcmp(name, "snd_midi_event_encode_byte") == 0) {
+        return (void *)snd_midi_event_encode_byte;
+    }
+    if (strcmp(name, "snd_midi_event_free") == 0) {
+        return (void *)snd_midi_event_free;
+    }
+    if (strcmp(name, "snd_midi_event_init") == 0) {
+        return (void *)snd_midi_event_init;
+    }
+    if (strcmp(name, "snd_midi_event_new") == 0) {
+        return (void *)snd_midi_event_new;
+    }
+    if (strcmp(name, "snd_midi_event_no_status") == 0) {
+        return (void *)snd_midi_event_no_status;
+    }
+    if (strcmp(name, "snd_midi_event_reset_decode") == 0) {
+        return (void *)snd_midi_event_reset_decode;
+    }
+    if (strcmp(name, "snd_midi_event_reset_encode") == 0) {
+        return (void *)snd_midi_event_reset_encode;
+    }
+    if (strcmp(name, "snd_midi_event_resize_buffer") == 0) {
+        return (void *)snd_midi_event_resize_buffer;
+    }
+    if (strcmp(name, "snd_mixer_add_elem") == 0) {
+        return (void *)snd_mixer_add_elem;
+    }
+    if (strcmp(name, "snd_mixer_attach") == 0) {
+        return (void *)snd_mixer_attach;
+    }
+    if (strcmp(name, "snd_mixer_attach_hctl") == 0) {
+        return (void *)snd_mixer_attach_hctl;
+    }
+    if (strcmp(name, "snd_mixer_class_copy") == 0) {
+        return (void *)snd_mixer_class_copy;
+    }
+    if (strcmp(name, "snd_mixer_class_free") == 0) {
+        return (void *)snd_mixer_class_free;
+    }
+    if (strcmp(name, "snd_mixer_class_get_compare") == 0) {
+        return (void *)snd_mixer_class_get_compare;
+    }
+    if (strcmp(name, "snd_mixer_class_get_event") == 0) {
+        return (void *)snd_mixer_class_get_event;
+    }
+    if (strcmp(name, "snd_mixer_class_get_mixer") == 0) {
+        return (void *)snd_mixer_class_get_mixer;
+    }
+    if (strcmp(name, "snd_mixer_class_get_private") == 0) {
+        return (void *)snd_mixer_class_get_private;
+    }
+    if (strcmp(name, "snd_mixer_class_malloc") == 0) {
+        return (void *)snd_mixer_class_malloc;
+    }
+    if (strcmp(name, "snd_mixer_class_register") == 0) {
+        return (void *)snd_mixer_class_register;
+    }
+    if (strcmp(name, "snd_mixer_class_set_compare") == 0) {
+        return (void *)snd_mixer_class_set_compare;
+    }
+    if (strcmp(name, "snd_mixer_class_set_event") == 0) {
+        return (void *)snd_mixer_class_set_event;
+    }
+    if (strcmp(name, "snd_mixer_class_set_private") == 0) {
+        return (void *)snd_mixer_class_set_private;
+    }
+    if (strcmp(name, "snd_mixer_class_sizeof") == 0) {
+        return (void *)snd_mixer_class_sizeof;
+    }
+    if (strcmp(name, "snd_mixer_class_unregister") == 0) {
+        return (void *)snd_mixer_class_unregister;
+    }
+    if (strcmp(name, "snd_mixer_close") == 0) {
+        return (void *)snd_mixer_close;
+    }
+    if (strcmp(name, "snd_mixer_detach") == 0) {
+        return (void *)snd_mixer_detach;
+    }
+    if (strcmp(name, "snd_mixer_detach_hctl") == 0) {
+        return (void *)snd_mixer_detach_hctl;
+    }
+    if (strcmp(name, "snd_mixer_elem_add") == 0) {
+        return (void *)snd_mixer_elem_add;
+    }
+    if (strcmp(name, "snd_mixer_elem_attach") == 0) {
+        return (void *)snd_mixer_elem_attach;
+    }
+    if (strcmp(name, "snd_mixer_elem_detach") == 0) {
+        return (void *)snd_mixer_elem_detach;
+    }
+    if (strcmp(name, "snd_mixer_elem_empty") == 0) {
+        return (void *)snd_mixer_elem_empty;
+    }
+    if (strcmp(name, "snd_mixer_elem_free") == 0) {
+        return (void *)snd_mixer_elem_free;
+    }
+    if (strcmp(name, "snd_mixer_elem_get_callback_private") == 0) {
+        return (void *)snd_mixer_elem_get_callback_private;
+    }
+    if (strcmp(name, "snd_mixer_elem_get_private") == 0) {
+        return (void *)snd_mixer_elem_get_private;
+    }
+    if (strcmp(name, "snd_mixer_elem_get_type") == 0) {
+        return (void *)snd_mixer_elem_get_type;
+    }
+    if (strcmp(name, "snd_mixer_elem_info") == 0) {
+        return (void *)snd_mixer_elem_info;
+    }
+    if (strcmp(name, "snd_mixer_elem_next") == 0) {
+        return (void *)snd_mixer_elem_next;
+    }
+    if (strcmp(name, "snd_mixer_elem_prev") == 0) {
+        return (void *)snd_mixer_elem_prev;
+    }
+    if (strcmp(name, "snd_mixer_elem_remove") == 0) {
+        return (void *)snd_mixer_elem_remove;
+    }
+    if (strcmp(name, "snd_mixer_elem_set_callback") == 0) {
+        return (void *)snd_mixer_elem_set_callback;
+    }
+    if (strcmp(name, "snd_mixer_elem_set_callback_private") == 0) {
+        return (void *)snd_mixer_elem_set_callback_private;
+    }
+    if (strcmp(name, "snd_mixer_elem_value") == 0) {
+        return (void *)snd_mixer_elem_value;
+    }
+    if (strcmp(name, "snd_mixer_find_selem") == 0) {
+        return (void *)snd_mixer_find_selem;
+    }
+    if (strcmp(name, "snd_mixer_first_elem") == 0) {
+        return (void *)snd_mixer_first_elem;
+    }
+    if (strcmp(name, "snd_mixer_free") == 0) {
+        return (void *)snd_mixer_free;
+    }
+    if (strcmp(name, "snd_mixer_get_callback_private") == 0) {
+        return (void *)snd_mixer_get_callback_private;
+    }
+    if (strcmp(name, "snd_mixer_get_count") == 0) {
+        return (void *)snd_mixer_get_count;
+    }
+    if (strcmp(name, "snd_mixer_get_hctl") == 0) {
+        return (void *)snd_mixer_get_hctl;
+    }
+    if (strcmp(name, "snd_mixer_handle_events") == 0) {
+        return (void *)snd_mixer_handle_events;
+    }
+    if (strcmp(name, "snd_mixer_last_elem") == 0) {
+        return (void *)snd_mixer_last_elem;
+    }
+    if (strcmp(name, "snd_mixer_load") == 0) {
+        return (void *)snd_mixer_load;
+    }
+    if (strcmp(name, "snd_mixer_open") == 0) {
+        return (void *)snd_mixer_open;
+    }
+    if (strcmp(name, "snd_mixer_poll_descriptors") == 0) {
+        return (void *)snd_mixer_poll_descriptors;
+    }
+    if (strcmp(name, "snd_mixer_poll_descriptors_count") == 0) {
+        return (void *)snd_mixer_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_mixer_poll_descriptors_revents") == 0) {
+        return (void *)snd_mixer_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_mixer_remove_elem") == 0) {
+        return (void *)snd_mixer_remove_elem;
+    }
+    if (strcmp(name, "snd_mixer_selem_channel_name") == 0) {
+        return (void *)snd_mixer_selem_channel_name;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_dB") == 0) {
+        return (void *)snd_mixer_selem_get_capture_dB;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_dB_range") == 0) {
+        return (void *)snd_mixer_selem_get_capture_dB_range;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_group") == 0) {
+        return (void *)snd_mixer_selem_get_capture_group;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_switch") == 0) {
+        return (void *)snd_mixer_selem_get_capture_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_volume") == 0) {
+        return (void *)snd_mixer_selem_get_capture_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_capture_volume_range") == 0) {
+        return (void *)snd_mixer_selem_get_capture_volume_range;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_enum_item") == 0) {
+        return (void *)snd_mixer_selem_get_enum_item;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_enum_item_name") == 0) {
+        return (void *)snd_mixer_selem_get_enum_item_name;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_enum_items") == 0) {
+        return (void *)snd_mixer_selem_get_enum_items;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_id") == 0) {
+        return (void *)snd_mixer_selem_get_id;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_index") == 0) {
+        return (void *)snd_mixer_selem_get_index;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_name") == 0) {
+        return (void *)snd_mixer_selem_get_name;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_playback_dB") == 0) {
+        return (void *)snd_mixer_selem_get_playback_dB;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_playback_dB_range") == 0) {
+        return (void *)snd_mixer_selem_get_playback_dB_range;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_playback_switch") == 0) {
+        return (void *)snd_mixer_selem_get_playback_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_playback_volume") == 0) {
+        return (void *)snd_mixer_selem_get_playback_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_get_playback_volume_range") == 0) {
+        return (void *)snd_mixer_selem_get_playback_volume_range;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_channel") == 0) {
+        return (void *)snd_mixer_selem_has_capture_channel;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_switch") == 0) {
+        return (void *)snd_mixer_selem_has_capture_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_switch_exclusive") == 0) {
+        return (void *)snd_mixer_selem_has_capture_switch_exclusive;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_switch_joined") == 0) {
+        return (void *)snd_mixer_selem_has_capture_switch_joined;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_volume") == 0) {
+        return (void *)snd_mixer_selem_has_capture_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_capture_volume_joined") == 0) {
+        return (void *)snd_mixer_selem_has_capture_volume_joined;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_common_switch") == 0) {
+        return (void *)snd_mixer_selem_has_common_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_common_volume") == 0) {
+        return (void *)snd_mixer_selem_has_common_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_playback_channel") == 0) {
+        return (void *)snd_mixer_selem_has_playback_channel;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_playback_switch") == 0) {
+        return (void *)snd_mixer_selem_has_playback_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_playback_switch_joined") == 0) {
+        return (void *)snd_mixer_selem_has_playback_switch_joined;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_playback_volume") == 0) {
+        return (void *)snd_mixer_selem_has_playback_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_has_playback_volume_joined") == 0) {
+        return (void *)snd_mixer_selem_has_playback_volume_joined;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_copy") == 0) {
+        return (void *)snd_mixer_selem_id_copy;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_free") == 0) {
+        return (void *)snd_mixer_selem_id_free;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_get_index") == 0) {
+        return (void *)snd_mixer_selem_id_get_index;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_get_name") == 0) {
+        return (void *)snd_mixer_selem_id_get_name;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_malloc") == 0) {
+        return (void *)snd_mixer_selem_id_malloc;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_set_index") == 0) {
+        return (void *)snd_mixer_selem_id_set_index;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_set_name") == 0) {
+        return (void *)snd_mixer_selem_id_set_name;
+    }
+    if (strcmp(name, "snd_mixer_selem_id_sizeof") == 0) {
+        return (void *)snd_mixer_selem_id_sizeof;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_active") == 0) {
+        return (void *)snd_mixer_selem_is_active;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_capture_mono") == 0) {
+        return (void *)snd_mixer_selem_is_capture_mono;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_enum_capture") == 0) {
+        return (void *)snd_mixer_selem_is_enum_capture;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_enum_playback") == 0) {
+        return (void *)snd_mixer_selem_is_enum_playback;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_enumerated") == 0) {
+        return (void *)snd_mixer_selem_is_enumerated;
+    }
+    if (strcmp(name, "snd_mixer_selem_is_playback_mono") == 0) {
+        return (void *)snd_mixer_selem_is_playback_mono;
+    }
+    if (strcmp(name, "snd_mixer_selem_register") == 0) {
+        return (void *)snd_mixer_selem_register;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_dB") == 0) {
+        return (void *)snd_mixer_selem_set_capture_dB;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_dB_all") == 0) {
+        return (void *)snd_mixer_selem_set_capture_dB_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_switch") == 0) {
+        return (void *)snd_mixer_selem_set_capture_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_switch_all") == 0) {
+        return (void *)snd_mixer_selem_set_capture_switch_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_volume") == 0) {
+        return (void *)snd_mixer_selem_set_capture_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_volume_all") == 0) {
+        return (void *)snd_mixer_selem_set_capture_volume_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_capture_volume_range") == 0) {
+        return (void *)snd_mixer_selem_set_capture_volume_range;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_enum_item") == 0) {
+        return (void *)snd_mixer_selem_set_enum_item;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_dB") == 0) {
+        return (void *)snd_mixer_selem_set_playback_dB;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_dB_all") == 0) {
+        return (void *)snd_mixer_selem_set_playback_dB_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_switch") == 0) {
+        return (void *)snd_mixer_selem_set_playback_switch;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_switch_all") == 0) {
+        return (void *)snd_mixer_selem_set_playback_switch_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_volume") == 0) {
+        return (void *)snd_mixer_selem_set_playback_volume;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_volume_all") == 0) {
+        return (void *)snd_mixer_selem_set_playback_volume_all;
+    }
+    if (strcmp(name, "snd_mixer_selem_set_playback_volume_range") == 0) {
+        return (void *)snd_mixer_selem_set_playback_volume_range;
+    }
+    if (strcmp(name, "snd_mixer_set_callback") == 0) {
+        return (void *)snd_mixer_set_callback;
+    }
+    if (strcmp(name, "snd_mixer_set_callback_private") == 0) {
+        return (void *)snd_mixer_set_callback_private;
+    }
+    if (strcmp(name, "snd_mixer_set_compare") == 0) {
+        return (void *)snd_mixer_set_compare;
+    }
+    if (strcmp(name, "snd_mixer_wait") == 0) {
+        return (void *)snd_mixer_wait;
+    }
+    if (strcmp(name, "snd_names_list") == 0) {
+        return (void *)snd_names_list;
+    }
+    if (strcmp(name, "snd_names_list_free") == 0) {
+        return (void *)snd_names_list_free;
+    }
+    if (strcmp(name, "snd_output_buffer_open") == 0) {
+        return (void *)snd_output_buffer_open;
+    }
+    if (strcmp(name, "snd_output_buffer_string") == 0) {
+        return (void *)snd_output_buffer_string;
+    }
+    if (strcmp(name, "snd_output_close") == 0) {
+        return (void *)snd_output_close;
+    }
+    if (strcmp(name, "snd_output_flush") == 0) {
+        return (void *)snd_output_flush;
+    }
+    if (strcmp(name, "snd_output_putc") == 0) {
+        return (void *)snd_output_putc;
+    }
+    if (strcmp(name, "snd_output_puts") == 0) {
+        return (void *)snd_output_puts;
+    }
+    if (strcmp(name, "snd_output_stdio_attach") == 0) {
+        return (void *)snd_output_stdio_attach;
+    }
+    if (strcmp(name, "snd_output_stdio_open") == 0) {
+        return (void *)snd_output_stdio_open;
+    }
+    if (strcmp(name, "snd_output_vprintf") == 0) {
+        return (void *)snd_output_vprintf;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_any") == 0) {
+        return (void *)snd_pcm_access_mask_any;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_copy") == 0) {
+        return (void *)snd_pcm_access_mask_copy;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_empty") == 0) {
+        return (void *)snd_pcm_access_mask_empty;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_free") == 0) {
+        return (void *)snd_pcm_access_mask_free;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_malloc") == 0) {
+        return (void *)snd_pcm_access_mask_malloc;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_none") == 0) {
+        return (void *)snd_pcm_access_mask_none;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_reset") == 0) {
+        return (void *)snd_pcm_access_mask_reset;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_set") == 0) {
+        return (void *)snd_pcm_access_mask_set;
+    }
+    if (strcmp(name, "snd_pcm_access_mask_test") == 0) {
+        return (void *)snd_pcm_access_mask_test;
+    }
+    if (strcmp(name, "snd_pcm_access_name") == 0) {
+        return (void *)snd_pcm_access_name;
+    }
+    if (strcmp(name, "snd_pcm_area_copy") == 0) {
+        return (void *)snd_pcm_area_copy;
+    }
+    if (strcmp(name, "snd_pcm_area_silence") == 0) {
+        return (void *)snd_pcm_area_silence;
+    }
+    if (strcmp(name, "snd_pcm_areas_copy") == 0) {
+        return (void *)snd_pcm_areas_copy;
+    }
+    if (strcmp(name, "snd_pcm_areas_silence") == 0) {
+        return (void *)snd_pcm_areas_silence;
+    }
+    if (strcmp(name, "snd_pcm_avail_update") == 0) {
+        return (void *)snd_pcm_avail_update;
+    }
+    if (strcmp(name, "snd_pcm_build_linear_format") == 0) {
+        return (void *)snd_pcm_build_linear_format;
+    }
+    if (strcmp(name, "snd_pcm_bytes_to_frames") == 0) {
+        return (void *)snd_pcm_bytes_to_frames;
+    }
+    if (strcmp(name, "snd_pcm_bytes_to_samples") == 0) {
+        return (void *)snd_pcm_bytes_to_samples;
+    }
+    if (strcmp(name, "snd_pcm_close") == 0) {
+        return (void *)snd_pcm_close;
+    }
+    if (strcmp(name, "snd_pcm_delay") == 0) {
+        return (void *)snd_pcm_delay;
+    }
+    if (strcmp(name, "snd_pcm_drain") == 0) {
+        return (void *)snd_pcm_drain;
+    }
+    if (strcmp(name, "snd_pcm_drop") == 0) {
+        return (void *)snd_pcm_drop;
+    }
+    if (strcmp(name, "snd_pcm_dump") == 0) {
+        return (void *)snd_pcm_dump;
+    }
+    if (strcmp(name, "snd_pcm_dump_hw_setup") == 0) {
+        return (void *)snd_pcm_dump_hw_setup;
+    }
+    if (strcmp(name, "snd_pcm_dump_setup") == 0) {
+        return (void *)snd_pcm_dump_setup;
+    }
+    if (strcmp(name, "snd_pcm_dump_sw_setup") == 0) {
+        return (void *)snd_pcm_dump_sw_setup;
+    }
+    if (strcmp(name, "snd_pcm_format_big_endian") == 0) {
+        return (void *)snd_pcm_format_big_endian;
+    }
+    if (strcmp(name, "snd_pcm_format_cpu_endian") == 0) {
+        return (void *)snd_pcm_format_cpu_endian;
+    }
+    if (strcmp(name, "snd_pcm_format_description") == 0) {
+        return (void *)snd_pcm_format_description;
+    }
+    if (strcmp(name, "snd_pcm_format_float") == 0) {
+        return (void *)snd_pcm_format_float;
+    }
+    if (strcmp(name, "snd_pcm_format_linear") == 0) {
+        return (void *)snd_pcm_format_linear;
+    }
+    if (strcmp(name, "snd_pcm_format_little_endian") == 0) {
+        return (void *)snd_pcm_format_little_endian;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_any") == 0) {
+        return (void *)snd_pcm_format_mask_any;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_copy") == 0) {
+        return (void *)snd_pcm_format_mask_copy;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_empty") == 0) {
+        return (void *)snd_pcm_format_mask_empty;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_free") == 0) {
+        return (void *)snd_pcm_format_mask_free;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_malloc") == 0) {
+        return (void *)snd_pcm_format_mask_malloc;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_none") == 0) {
+        return (void *)snd_pcm_format_mask_none;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_reset") == 0) {
+        return (void *)snd_pcm_format_mask_reset;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_set") == 0) {
+        return (void *)snd_pcm_format_mask_set;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_test") == 0) {
+        return (void *)snd_pcm_format_mask_test;
+    }
+    if (strcmp(name, "snd_pcm_format_name") == 0) {
+        return (void *)snd_pcm_format_name;
+    }
+    if (strcmp(name, "snd_pcm_format_physical_width") == 0) {
+        return (void *)snd_pcm_format_physical_width;
+    }
+    if (strcmp(name, "snd_pcm_format_set_silence") == 0) {
+        return (void *)snd_pcm_format_set_silence;
+    }
+    if (strcmp(name, "snd_pcm_format_signed") == 0) {
+        return (void *)snd_pcm_format_signed;
+    }
+    if (strcmp(name, "snd_pcm_format_silence") == 0) {
+        return (void *)snd_pcm_format_silence;
+    }
+    if (strcmp(name, "snd_pcm_format_silence_16") == 0) {
+        return (void *)snd_pcm_format_silence_16;
+    }
+    if (strcmp(name, "snd_pcm_format_silence_32") == 0) {
+        return (void *)snd_pcm_format_silence_32;
+    }
+    if (strcmp(name, "snd_pcm_format_silence_64") == 0) {
+        return (void *)snd_pcm_format_silence_64;
+    }
+    if (strcmp(name, "snd_pcm_format_size") == 0) {
+        return (void *)snd_pcm_format_size;
+    }
+    if (strcmp(name, "snd_pcm_format_unsigned") == 0) {
+        return (void *)snd_pcm_format_unsigned;
+    }
+    if (strcmp(name, "snd_pcm_format_value") == 0) {
+        return (void *)snd_pcm_format_value;
+    }
+    if (strcmp(name, "snd_pcm_format_width") == 0) {
+        return (void *)snd_pcm_format_width;
+    }
+    if (strcmp(name, "snd_pcm_forward") == 0) {
+        return (void *)snd_pcm_forward;
+    }
+    if (strcmp(name, "snd_pcm_frames_to_bytes") == 0) {
+        return (void *)snd_pcm_frames_to_bytes;
+    }
+    if (strcmp(name, "snd_pcm_get_params") == 0) {
+        return (void *)snd_pcm_get_params;
+    }
+    if (strcmp(name, "snd_pcm_hook_add") == 0) {
+        return (void *)snd_pcm_hook_add;
+    }
+    if (strcmp(name, "snd_pcm_hook_get_pcm") == 0) {
+        return (void *)snd_pcm_hook_get_pcm;
+    }
+    if (strcmp(name, "snd_pcm_hook_get_private") == 0) {
+        return (void *)snd_pcm_hook_get_private;
+    }
+    if (strcmp(name, "snd_pcm_hook_remove") == 0) {
+        return (void *)snd_pcm_hook_remove;
+    }
+    if (strcmp(name, "snd_pcm_hook_set_private") == 0) {
+        return (void *)snd_pcm_hook_set_private;
+    }
+    if (strcmp(name, "snd_pcm_hw_free") == 0) {
+        return (void *)snd_pcm_hw_free;
+    }
+    if (strcmp(name, "snd_pcm_hw_params") == 0) {
+        return (void *)snd_pcm_hw_params;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_any") == 0) {
+        return (void *)snd_pcm_hw_params_any;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_can_mmap_sample_resolution") == 0) {
+        return (void *)snd_pcm_hw_params_can_mmap_sample_resolution;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_can_overrange") == 0) {
+        return (void *)snd_pcm_hw_params_can_overrange;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_can_pause") == 0) {
+        return (void *)snd_pcm_hw_params_can_pause;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_can_resume") == 0) {
+        return (void *)snd_pcm_hw_params_can_resume;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_can_sync_start") == 0) {
+        return (void *)snd_pcm_hw_params_can_sync_start;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_copy") == 0) {
+        return (void *)snd_pcm_hw_params_copy;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_current") == 0) {
+        return (void *)snd_pcm_hw_params_current;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_dump") == 0) {
+        return (void *)snd_pcm_hw_params_dump;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_free") == 0) {
+        return (void *)snd_pcm_hw_params_free;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_access") == 0) {
+        return (void *)snd_pcm_hw_params_get_access;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_access_mask") == 0) {
+        return (void *)snd_pcm_hw_params_get_access_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_size") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_size_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_size_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_size_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_size_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_time") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_buffer_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_buffer_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_channels") == 0) {
+        return (void *)snd_pcm_hw_params_get_channels;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_channels_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_channels_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_channels_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_channels_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_export_buffer") == 0) {
+        return (void *)snd_pcm_hw_params_get_export_buffer;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_fifo_size") == 0) {
+        return (void *)snd_pcm_hw_params_get_fifo_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_format") == 0) {
+        return (void *)snd_pcm_hw_params_get_format;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_format_mask") == 0) {
+        return (void *)snd_pcm_hw_params_get_format_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_min_align") == 0) {
+        return (void *)snd_pcm_hw_params_get_min_align;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_size") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_size_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_size_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_size_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_size_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_time") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_period_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_period_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_periods") == 0) {
+        return (void *)snd_pcm_hw_params_get_periods;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_periods_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_periods_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_periods_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_periods_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_rate") == 0) {
+        return (void *)snd_pcm_hw_params_get_rate;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_rate_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_rate_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_rate_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_rate_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_rate_numden") == 0) {
+        return (void *)snd_pcm_hw_params_get_rate_numden;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_rate_resample") == 0) {
+        return (void *)snd_pcm_hw_params_get_rate_resample;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_sbits") == 0) {
+        return (void *)snd_pcm_hw_params_get_sbits;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_subformat") == 0) {
+        return (void *)snd_pcm_hw_params_get_subformat;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_subformat_mask") == 0) {
+        return (void *)snd_pcm_hw_params_get_subformat_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_tick_time") == 0) {
+        return (void *)snd_pcm_hw_params_get_tick_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_tick_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_get_tick_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_get_tick_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_get_tick_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_is_batch") == 0) {
+        return (void *)snd_pcm_hw_params_is_batch;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_is_block_transfer") == 0) {
+        return (void *)snd_pcm_hw_params_is_block_transfer;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_is_double") == 0) {
+        return (void *)snd_pcm_hw_params_is_double;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_is_half_duplex") == 0) {
+        return (void *)snd_pcm_hw_params_is_half_duplex;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_is_joint_duplex") == 0) {
+        return (void *)snd_pcm_hw_params_is_joint_duplex;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_malloc") == 0) {
+        return (void *)snd_pcm_hw_params_malloc;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_access") == 0) {
+        return (void *)snd_pcm_hw_params_set_access;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_access_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_access_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_access_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_access_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_access_mask") == 0) {
+        return (void *)snd_pcm_hw_params_set_access_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_size_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_size_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_buffer_time_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_buffer_time_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_channels_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_channels_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_export_buffer") == 0) {
+        return (void *)snd_pcm_hw_params_set_export_buffer;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_format") == 0) {
+        return (void *)snd_pcm_hw_params_set_format;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_format_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_format_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_format_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_format_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_format_mask") == 0) {
+        return (void *)snd_pcm_hw_params_set_format_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_integer") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_integer;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_size_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_size_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_period_time_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_period_time_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_integer") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_integer;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_periods_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_periods_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_rate_resample") == 0) {
+        return (void *)snd_pcm_hw_params_set_rate_resample;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_subformat") == 0) {
+        return (void *)snd_pcm_hw_params_set_subformat;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_subformat_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_subformat_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_subformat_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_subformat_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_subformat_mask") == 0) {
+        return (void *)snd_pcm_hw_params_set_subformat_mask;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_first") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_first;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_last") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_last;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_max") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_max;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_min") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_min;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_minmax") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_minmax;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_set_tick_time_near") == 0) {
+        return (void *)snd_pcm_hw_params_set_tick_time_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_access") == 0) {
+        return (void *)snd_pcm_hw_params_test_access;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_buffer_size") == 0) {
+        return (void *)snd_pcm_hw_params_test_buffer_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_buffer_time") == 0) {
+        return (void *)snd_pcm_hw_params_test_buffer_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_channels") == 0) {
+        return (void *)snd_pcm_hw_params_test_channels;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_format") == 0) {
+        return (void *)snd_pcm_hw_params_test_format;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_period_size") == 0) {
+        return (void *)snd_pcm_hw_params_test_period_size;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_period_time") == 0) {
+        return (void *)snd_pcm_hw_params_test_period_time;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_periods") == 0) {
+        return (void *)snd_pcm_hw_params_test_periods;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_rate") == 0) {
+        return (void *)snd_pcm_hw_params_test_rate;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_subformat") == 0) {
+        return (void *)snd_pcm_hw_params_test_subformat;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_test_tick_time") == 0) {
+        return (void *)snd_pcm_hw_params_test_tick_time;
+    }
+    if (strcmp(name, "snd_pcm_hwsync") == 0) {
+        return (void *)snd_pcm_hwsync;
+    }
+    if (strcmp(name, "snd_pcm_info") == 0) {
+        return (void *)snd_pcm_info;
+    }
+    if (strcmp(name, "snd_pcm_info_copy") == 0) {
+        return (void *)snd_pcm_info_copy;
+    }
+    if (strcmp(name, "snd_pcm_info_free") == 0) {
+        return (void *)snd_pcm_info_free;
+    }
+    if (strcmp(name, "snd_pcm_info_get_card") == 0) {
+        return (void *)snd_pcm_info_get_card;
+    }
+    if (strcmp(name, "snd_pcm_info_get_class") == 0) {
+        return (void *)snd_pcm_info_get_class;
+    }
+    if (strcmp(name, "snd_pcm_info_get_device") == 0) {
+        return (void *)snd_pcm_info_get_device;
+    }
+    if (strcmp(name, "snd_pcm_info_get_id") == 0) {
+        return (void *)snd_pcm_info_get_id;
+    }
+    if (strcmp(name, "snd_pcm_info_get_name") == 0) {
+        return (void *)snd_pcm_info_get_name;
+    }
+    if (strcmp(name, "snd_pcm_info_get_stream") == 0) {
+        return (void *)snd_pcm_info_get_stream;
+    }
+    if (strcmp(name, "snd_pcm_info_get_subclass") == 0) {
+        return (void *)snd_pcm_info_get_subclass;
+    }
+    if (strcmp(name, "snd_pcm_info_get_subdevice") == 0) {
+        return (void *)snd_pcm_info_get_subdevice;
+    }
+    if (strcmp(name, "snd_pcm_info_get_subdevice_name") == 0) {
+        return (void *)snd_pcm_info_get_subdevice_name;
+    }
+    if (strcmp(name, "snd_pcm_info_get_subdevices_avail") == 0) {
+        return (void *)snd_pcm_info_get_subdevices_avail;
+    }
+    if (strcmp(name, "snd_pcm_info_get_subdevices_count") == 0) {
+        return (void *)snd_pcm_info_get_subdevices_count;
+    }
+    if (strcmp(name, "snd_pcm_info_get_sync") == 0) {
+        return (void *)snd_pcm_info_get_sync;
+    }
+    if (strcmp(name, "snd_pcm_info_malloc") == 0) {
+        return (void *)snd_pcm_info_malloc;
+    }
+    if (strcmp(name, "snd_pcm_info_set_device") == 0) {
+        return (void *)snd_pcm_info_set_device;
+    }
+    if (strcmp(name, "snd_pcm_info_set_stream") == 0) {
+        return (void *)snd_pcm_info_set_stream;
+    }
+    if (strcmp(name, "snd_pcm_info_set_subdevice") == 0) {
+        return (void *)snd_pcm_info_set_subdevice;
+    }
+    if (strcmp(name, "snd_pcm_link") == 0) {
+        return (void *)snd_pcm_link;
+    }
+    if (strcmp(name, "snd_pcm_meter_add_scope") == 0) {
+        return (void *)snd_pcm_meter_add_scope;
+    }
+    if (strcmp(name, "snd_pcm_meter_get_boundary") == 0) {
+        return (void *)snd_pcm_meter_get_boundary;
+    }
+    if (strcmp(name, "snd_pcm_meter_get_bufsize") == 0) {
+        return (void *)snd_pcm_meter_get_bufsize;
+    }
+    if (strcmp(name, "snd_pcm_meter_get_channels") == 0) {
+        return (void *)snd_pcm_meter_get_channels;
+    }
+    if (strcmp(name, "snd_pcm_meter_get_now") == 0) {
+        return (void *)snd_pcm_meter_get_now;
+    }
+    if (strcmp(name, "snd_pcm_meter_get_rate") == 0) {
+        return (void *)snd_pcm_meter_get_rate;
+    }
+    if (strcmp(name, "snd_pcm_meter_search_scope") == 0) {
+        return (void *)snd_pcm_meter_search_scope;
+    }
+    if (strcmp(name, "snd_pcm_mmap_begin") == 0) {
+        return (void *)snd_pcm_mmap_begin;
+    }
+    if (strcmp(name, "snd_pcm_mmap_commit") == 0) {
+        return (void *)snd_pcm_mmap_commit;
+    }
+    if (strcmp(name, "snd_pcm_mmap_readi") == 0) {
+        return (void *)snd_pcm_mmap_readi;
+    }
+    if (strcmp(name, "snd_pcm_mmap_writei") == 0) {
+        return (void *)snd_pcm_mmap_writei;
+    }
+    if (strcmp(name, "snd_pcm_mmap_writen") == 0) {
+        return (void *)snd_pcm_mmap_writen;
+    }
+    if (strcmp(name, "snd_pcm_name") == 0) {
+        return (void *)snd_pcm_name;
+    }
+    if (strcmp(name, "snd_pcm_nonblock") == 0) {
+        return (void *)snd_pcm_nonblock;
+    }
+    if (strcmp(name, "snd_pcm_open") == 0) {
+        return (void *)snd_pcm_open;
+    }
+    if (strcmp(name, "snd_pcm_open_lconf") == 0) {
+        return (void *)snd_pcm_open_lconf;
+    }
+    if (strcmp(name, "snd_pcm_pause") == 0) {
+        return (void *)snd_pcm_pause;
+    }
+    if (strcmp(name, "snd_pcm_poll_descriptors") == 0) {
+        return (void *)snd_pcm_poll_descriptors;
+    }
+    if (strcmp(name, "snd_pcm_poll_descriptors_count") == 0) {
+        return (void *)snd_pcm_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_pcm_poll_descriptors_revents") == 0) {
+        return (void *)snd_pcm_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_pcm_prepare") == 0) {
+        return (void *)snd_pcm_prepare;
+    }
+    if (strcmp(name, "snd_pcm_readi") == 0) {
+        return (void *)snd_pcm_readi;
+    }
+    if (strcmp(name, "snd_pcm_readn") == 0) {
+        return (void *)snd_pcm_readn;
+    }
+    if (strcmp(name, "snd_pcm_recover") == 0) {
+        return (void *)snd_pcm_recover;
+    }
+    if (strcmp(name, "snd_pcm_reset") == 0) {
+        return (void *)snd_pcm_reset;
+    }
+    if (strcmp(name, "snd_pcm_resume") == 0) {
+        return (void *)snd_pcm_resume;
+    }
+    if (strcmp(name, "snd_pcm_rewind") == 0) {
+        return (void *)snd_pcm_rewind;
+    }
+    if (strcmp(name, "snd_pcm_samples_to_bytes") == 0) {
+        return (void *)snd_pcm_samples_to_bytes;
+    }
+    if (strcmp(name, "snd_pcm_scope_get_callback_private") == 0) {
+        return (void *)snd_pcm_scope_get_callback_private;
+    }
+    if (strcmp(name, "snd_pcm_scope_get_name") == 0) {
+        return (void *)snd_pcm_scope_get_name;
+    }
+    if (strcmp(name, "snd_pcm_scope_malloc") == 0) {
+        return (void *)snd_pcm_scope_malloc;
+    }
+    if (strcmp(name, "snd_pcm_scope_s16_get_channel_buffer") == 0) {
+        return (void *)snd_pcm_scope_s16_get_channel_buffer;
+    }
+    if (strcmp(name, "snd_pcm_scope_s16_open") == 0) {
+        return (void *)snd_pcm_scope_s16_open;
+    }
+    if (strcmp(name, "snd_pcm_scope_set_callback_private") == 0) {
+        return (void *)snd_pcm_scope_set_callback_private;
+    }
+    if (strcmp(name, "snd_pcm_scope_set_name") == 0) {
+        return (void *)snd_pcm_scope_set_name;
+    }
+    if (strcmp(name, "snd_pcm_scope_set_ops") == 0) {
+        return (void *)snd_pcm_scope_set_ops;
+    }
+    if (strcmp(name, "snd_pcm_set_params") == 0) {
+        return (void *)snd_pcm_set_params;
+    }
+    if (strcmp(name, "snd_pcm_start") == 0) {
+        return (void *)snd_pcm_start;
+    }
+    if (strcmp(name, "snd_pcm_start_mode_name") == 0) {
+        return (void *)snd_pcm_start_mode_name;
+    }
+    if (strcmp(name, "snd_pcm_state") == 0) {
+        return (void *)snd_pcm_state;
+    }
+    if (strcmp(name, "snd_pcm_state_name") == 0) {
+        return (void *)snd_pcm_state_name;
+    }
+    if (strcmp(name, "snd_pcm_status") == 0) {
+        return (void *)snd_pcm_status;
+    }
+    if (strcmp(name, "snd_pcm_status_copy") == 0) {
+        return (void *)snd_pcm_status_copy;
+    }
+    if (strcmp(name, "snd_pcm_status_dump") == 0) {
+        return (void *)snd_pcm_status_dump;
+    }
+    if (strcmp(name, "snd_pcm_status_free") == 0) {
+        return (void *)snd_pcm_status_free;
+    }
+    if (strcmp(name, "snd_pcm_status_get_avail") == 0) {
+        return (void *)snd_pcm_status_get_avail;
+    }
+    if (strcmp(name, "snd_pcm_status_get_avail_max") == 0) {
+        return (void *)snd_pcm_status_get_avail_max;
+    }
+    if (strcmp(name, "snd_pcm_status_get_delay") == 0) {
+        return (void *)snd_pcm_status_get_delay;
+    }
+    if (strcmp(name, "snd_pcm_status_get_htstamp") == 0) {
+        return (void *)snd_pcm_status_get_htstamp;
+    }
+    if (strcmp(name, "snd_pcm_status_get_overrange") == 0) {
+        return (void *)snd_pcm_status_get_overrange;
+    }
+    if (strcmp(name, "snd_pcm_status_get_state") == 0) {
+        return (void *)snd_pcm_status_get_state;
+    }
+    if (strcmp(name, "snd_pcm_status_get_trigger_htstamp") == 0) {
+        return (void *)snd_pcm_status_get_trigger_htstamp;
+    }
+    if (strcmp(name, "snd_pcm_status_get_trigger_tstamp") == 0) {
+        return (void *)snd_pcm_status_get_trigger_tstamp;
+    }
+    if (strcmp(name, "snd_pcm_status_get_tstamp") == 0) {
+        return (void *)snd_pcm_status_get_tstamp;
+    }
+    if (strcmp(name, "snd_pcm_status_malloc") == 0) {
+        return (void *)snd_pcm_status_malloc;
+    }
+    if (strcmp(name, "snd_pcm_stream") == 0) {
+        return (void *)snd_pcm_stream;
+    }
+    if (strcmp(name, "snd_pcm_stream_name") == 0) {
+        return (void *)snd_pcm_stream_name;
+    }
+    if (strcmp(name, "snd_pcm_subformat_description") == 0) {
+        return (void *)snd_pcm_subformat_description;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_any") == 0) {
+        return (void *)snd_pcm_subformat_mask_any;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_copy") == 0) {
+        return (void *)snd_pcm_subformat_mask_copy;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_empty") == 0) {
+        return (void *)snd_pcm_subformat_mask_empty;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_free") == 0) {
+        return (void *)snd_pcm_subformat_mask_free;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_malloc") == 0) {
+        return (void *)snd_pcm_subformat_mask_malloc;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_none") == 0) {
+        return (void *)snd_pcm_subformat_mask_none;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_reset") == 0) {
+        return (void *)snd_pcm_subformat_mask_reset;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_set") == 0) {
+        return (void *)snd_pcm_subformat_mask_set;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_test") == 0) {
+        return (void *)snd_pcm_subformat_mask_test;
+    }
+    if (strcmp(name, "snd_pcm_subformat_name") == 0) {
+        return (void *)snd_pcm_subformat_name;
+    }
+    if (strcmp(name, "snd_pcm_sw_params") == 0) {
+        return (void *)snd_pcm_sw_params;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_copy") == 0) {
+        return (void *)snd_pcm_sw_params_copy;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_current") == 0) {
+        return (void *)snd_pcm_sw_params_current;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_dump") == 0) {
+        return (void *)snd_pcm_sw_params_dump;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_free") == 0) {
+        return (void *)snd_pcm_sw_params_free;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_avail_min") == 0) {
+        return (void *)snd_pcm_sw_params_get_avail_min;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_boundary") == 0) {
+        return (void *)snd_pcm_sw_params_get_boundary;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_silence_size") == 0) {
+        return (void *)snd_pcm_sw_params_get_silence_size;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_silence_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_get_silence_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_sleep_min") == 0) {
+        return (void *)snd_pcm_sw_params_get_sleep_min;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_start_mode") == 0) {
+        return (void *)snd_pcm_sw_params_get_start_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_start_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_get_start_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_stop_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_get_stop_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_tstamp_mode") == 0) {
+        return (void *)snd_pcm_sw_params_get_tstamp_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_xfer_align") == 0) {
+        return (void *)snd_pcm_sw_params_get_xfer_align;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_get_xrun_mode") == 0) {
+        return (void *)snd_pcm_sw_params_get_xrun_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_malloc") == 0) {
+        return (void *)snd_pcm_sw_params_malloc;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_avail_min") == 0) {
+        return (void *)snd_pcm_sw_params_set_avail_min;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_silence_size") == 0) {
+        return (void *)snd_pcm_sw_params_set_silence_size;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_silence_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_set_silence_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_sleep_min") == 0) {
+        return (void *)snd_pcm_sw_params_set_sleep_min;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_start_mode") == 0) {
+        return (void *)snd_pcm_sw_params_set_start_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_start_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_set_start_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_stop_threshold") == 0) {
+        return (void *)snd_pcm_sw_params_set_stop_threshold;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_tstamp_mode") == 0) {
+        return (void *)snd_pcm_sw_params_set_tstamp_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_xfer_align") == 0) {
+        return (void *)snd_pcm_sw_params_set_xfer_align;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_set_xrun_mode") == 0) {
+        return (void *)snd_pcm_sw_params_set_xrun_mode;
+    }
+    if (strcmp(name, "snd_pcm_tstamp_mode_name") == 0) {
+        return (void *)snd_pcm_tstamp_mode_name;
+    }
+    if (strcmp(name, "snd_pcm_type") == 0) {
+        return (void *)snd_pcm_type;
+    }
+    if (strcmp(name, "snd_pcm_type_name") == 0) {
+        return (void *)snd_pcm_type_name;
+    }
+    if (strcmp(name, "snd_pcm_unlink") == 0) {
+        return (void *)snd_pcm_unlink;
+    }
+    if (strcmp(name, "snd_pcm_wait") == 0) {
+        return (void *)snd_pcm_wait;
+    }
+    if (strcmp(name, "snd_pcm_writei") == 0) {
+        return (void *)snd_pcm_writei;
+    }
+    if (strcmp(name, "snd_pcm_writen") == 0) {
+        return (void *)snd_pcm_writen;
+    }
+    if (strcmp(name, "snd_pcm_xrun_mode_name") == 0) {
+        return (void *)snd_pcm_xrun_mode_name;
+    }
+    if (strcmp(name, "snd_rawmidi_close") == 0) {
+        return (void *)snd_rawmidi_close;
+    }
+    if (strcmp(name, "snd_rawmidi_drain") == 0) {
+        return (void *)snd_rawmidi_drain;
+    }
+    if (strcmp(name, "snd_rawmidi_drop") == 0) {
+        return (void *)snd_rawmidi_drop;
+    }
+    if (strcmp(name, "snd_rawmidi_info") == 0) {
+        return (void *)snd_rawmidi_info;
+    }
+    if (strcmp(name, "snd_rawmidi_info_copy") == 0) {
+        return (void *)snd_rawmidi_info_copy;
+    }
+    if (strcmp(name, "snd_rawmidi_info_free") == 0) {
+        return (void *)snd_rawmidi_info_free;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_card") == 0) {
+        return (void *)snd_rawmidi_info_get_card;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_device") == 0) {
+        return (void *)snd_rawmidi_info_get_device;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_flags") == 0) {
+        return (void *)snd_rawmidi_info_get_flags;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_id") == 0) {
+        return (void *)snd_rawmidi_info_get_id;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_name") == 0) {
+        return (void *)snd_rawmidi_info_get_name;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_stream") == 0) {
+        return (void *)snd_rawmidi_info_get_stream;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_subdevice") == 0) {
+        return (void *)snd_rawmidi_info_get_subdevice;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_subdevice_name") == 0) {
+        return (void *)snd_rawmidi_info_get_subdevice_name;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_subdevices_avail") == 0) {
+        return (void *)snd_rawmidi_info_get_subdevices_avail;
+    }
+    if (strcmp(name, "snd_rawmidi_info_get_subdevices_count") == 0) {
+        return (void *)snd_rawmidi_info_get_subdevices_count;
+    }
+    if (strcmp(name, "snd_rawmidi_info_malloc") == 0) {
+        return (void *)snd_rawmidi_info_malloc;
+    }
+    if (strcmp(name, "snd_rawmidi_info_set_device") == 0) {
+        return (void *)snd_rawmidi_info_set_device;
+    }
+    if (strcmp(name, "snd_rawmidi_info_set_stream") == 0) {
+        return (void *)snd_rawmidi_info_set_stream;
+    }
+    if (strcmp(name, "snd_rawmidi_info_set_subdevice") == 0) {
+        return (void *)snd_rawmidi_info_set_subdevice;
+    }
+    if (strcmp(name, "snd_rawmidi_info_sizeof") == 0) {
+        return (void *)snd_rawmidi_info_sizeof;
+    }
+    if (strcmp(name, "snd_rawmidi_name") == 0) {
+        return (void *)snd_rawmidi_name;
+    }
+    if (strcmp(name, "snd_rawmidi_nonblock") == 0) {
+        return (void *)snd_rawmidi_nonblock;
+    }
+    if (strcmp(name, "snd_rawmidi_open") == 0) {
+        return (void *)snd_rawmidi_open;
+    }
+    if (strcmp(name, "snd_rawmidi_open_lconf") == 0) {
+        return (void *)snd_rawmidi_open_lconf;
+    }
+    if (strcmp(name, "snd_rawmidi_params") == 0) {
+        return (void *)snd_rawmidi_params;
+    }
+    if (strcmp(name, "snd_rawmidi_params_copy") == 0) {
+        return (void *)snd_rawmidi_params_copy;
+    }
+    if (strcmp(name, "snd_rawmidi_params_current") == 0) {
+        return (void *)snd_rawmidi_params_current;
+    }
+    if (strcmp(name, "snd_rawmidi_params_free") == 0) {
+        return (void *)snd_rawmidi_params_free;
+    }
+    if (strcmp(name, "snd_rawmidi_params_get_avail_min") == 0) {
+        return (void *)snd_rawmidi_params_get_avail_min;
+    }
+    if (strcmp(name, "snd_rawmidi_params_get_buffer_size") == 0) {
+        return (void *)snd_rawmidi_params_get_buffer_size;
+    }
+    if (strcmp(name, "snd_rawmidi_params_get_no_active_sensing") == 0) {
+        return (void *)snd_rawmidi_params_get_no_active_sensing;
+    }
+    if (strcmp(name, "snd_rawmidi_params_malloc") == 0) {
+        return (void *)snd_rawmidi_params_malloc;
+    }
+    if (strcmp(name, "snd_rawmidi_params_set_avail_min") == 0) {
+        return (void *)snd_rawmidi_params_set_avail_min;
+    }
+    if (strcmp(name, "snd_rawmidi_params_set_buffer_size") == 0) {
+        return (void *)snd_rawmidi_params_set_buffer_size;
+    }
+    if (strcmp(name, "snd_rawmidi_params_set_no_active_sensing") == 0) {
+        return (void *)snd_rawmidi_params_set_no_active_sensing;
+    }
+    if (strcmp(name, "snd_rawmidi_params_sizeof") == 0) {
+        return (void *)snd_rawmidi_params_sizeof;
+    }
+    if (strcmp(name, "snd_rawmidi_poll_descriptors") == 0) {
+        return (void *)snd_rawmidi_poll_descriptors;
+    }
+    if (strcmp(name, "snd_rawmidi_poll_descriptors_count") == 0) {
+        return (void *)snd_rawmidi_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_rawmidi_poll_descriptors_revents") == 0) {
+        return (void *)snd_rawmidi_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_rawmidi_read") == 0) {
+        return (void *)snd_rawmidi_read;
+    }
+    if (strcmp(name, "snd_rawmidi_status") == 0) {
+        return (void *)snd_rawmidi_status;
+    }
+    if (strcmp(name, "snd_rawmidi_status_copy") == 0) {
+        return (void *)snd_rawmidi_status_copy;
+    }
+    if (strcmp(name, "snd_rawmidi_status_free") == 0) {
+        return (void *)snd_rawmidi_status_free;
+    }
+    if (strcmp(name, "snd_rawmidi_status_get_avail") == 0) {
+        return (void *)snd_rawmidi_status_get_avail;
+    }
+    if (strcmp(name, "snd_rawmidi_status_get_tstamp") == 0) {
+        return (void *)snd_rawmidi_status_get_tstamp;
+    }
+    if (strcmp(name, "snd_rawmidi_status_get_xruns") == 0) {
+        return (void *)snd_rawmidi_status_get_xruns;
+    }
+    if (strcmp(name, "snd_rawmidi_status_malloc") == 0) {
+        return (void *)snd_rawmidi_status_malloc;
+    }
+    if (strcmp(name, "snd_rawmidi_status_sizeof") == 0) {
+        return (void *)snd_rawmidi_status_sizeof;
+    }
+    if (strcmp(name, "snd_rawmidi_stream") == 0) {
+        return (void *)snd_rawmidi_stream;
+    }
+    if (strcmp(name, "snd_rawmidi_type") == 0) {
+        return (void *)snd_rawmidi_type;
+    }
+    if (strcmp(name, "snd_rawmidi_write") == 0) {
+        return (void *)snd_rawmidi_write;
+    }
+    if (strcmp(name, "snd_sctl_build") == 0) {
+        return (void *)snd_sctl_build;
+    }
+    if (strcmp(name, "snd_sctl_free") == 0) {
+        return (void *)snd_sctl_free;
+    }
+    if (strcmp(name, "snd_sctl_install") == 0) {
+        return (void *)snd_sctl_install;
+    }
+    if (strcmp(name, "snd_sctl_remove") == 0) {
+        return (void *)snd_sctl_remove;
+    }
+    if (strcmp(name, "snd_seq_alloc_named_queue") == 0) {
+        return (void *)snd_seq_alloc_named_queue;
+    }
+    if (strcmp(name, "snd_seq_alloc_queue") == 0) {
+        return (void *)snd_seq_alloc_queue;
+    }
+    if (strcmp(name, "snd_seq_change_bit") == 0) {
+        return (void *)snd_seq_change_bit;
+    }
+    if (strcmp(name, "snd_seq_client_id") == 0) {
+        return (void *)snd_seq_client_id;
+    }
+    if (strcmp(name, "snd_seq_client_info_copy") == 0) {
+        return (void *)snd_seq_client_info_copy;
+    }
+    if (strcmp(name, "snd_seq_client_info_free") == 0) {
+        return (void *)snd_seq_client_info_free;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_broadcast_filter") == 0) {
+        return (void *)snd_seq_client_info_get_broadcast_filter;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_client") == 0) {
+        return (void *)snd_seq_client_info_get_client;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_error_bounce") == 0) {
+        return (void *)snd_seq_client_info_get_error_bounce;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_event_filter") == 0) {
+        return (void *)snd_seq_client_info_get_event_filter;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_event_lost") == 0) {
+        return (void *)snd_seq_client_info_get_event_lost;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_name") == 0) {
+        return (void *)snd_seq_client_info_get_name;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_num_ports") == 0) {
+        return (void *)snd_seq_client_info_get_num_ports;
+    }
+    if (strcmp(name, "snd_seq_client_info_get_type") == 0) {
+        return (void *)snd_seq_client_info_get_type;
+    }
+    if (strcmp(name, "snd_seq_client_info_malloc") == 0) {
+        return (void *)snd_seq_client_info_malloc;
+    }
+    if (strcmp(name, "snd_seq_client_info_set_broadcast_filter") == 0) {
+        return (void *)snd_seq_client_info_set_broadcast_filter;
+    }
+    if (strcmp(name, "snd_seq_client_info_set_client") == 0) {
+        return (void *)snd_seq_client_info_set_client;
+    }
+    if (strcmp(name, "snd_seq_client_info_set_error_bounce") == 0) {
+        return (void *)snd_seq_client_info_set_error_bounce;
+    }
+    if (strcmp(name, "snd_seq_client_info_set_event_filter") == 0) {
+        return (void *)snd_seq_client_info_set_event_filter;
+    }
+    if (strcmp(name, "snd_seq_client_info_set_name") == 0) {
+        return (void *)snd_seq_client_info_set_name;
+    }
+    if (strcmp(name, "snd_seq_client_info_sizeof") == 0) {
+        return (void *)snd_seq_client_info_sizeof;
+    }
+    if (strcmp(name, "snd_seq_client_pool_copy") == 0) {
+        return (void *)snd_seq_client_pool_copy;
+    }
+    if (strcmp(name, "snd_seq_client_pool_free") == 0) {
+        return (void *)snd_seq_client_pool_free;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_client") == 0) {
+        return (void *)snd_seq_client_pool_get_client;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_input_free") == 0) {
+        return (void *)snd_seq_client_pool_get_input_free;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_input_pool") == 0) {
+        return (void *)snd_seq_client_pool_get_input_pool;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_output_free") == 0) {
+        return (void *)snd_seq_client_pool_get_output_free;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_output_pool") == 0) {
+        return (void *)snd_seq_client_pool_get_output_pool;
+    }
+    if (strcmp(name, "snd_seq_client_pool_get_output_room") == 0) {
+        return (void *)snd_seq_client_pool_get_output_room;
+    }
+    if (strcmp(name, "snd_seq_client_pool_malloc") == 0) {
+        return (void *)snd_seq_client_pool_malloc;
+    }
+    if (strcmp(name, "snd_seq_client_pool_set_input_pool") == 0) {
+        return (void *)snd_seq_client_pool_set_input_pool;
+    }
+    if (strcmp(name, "snd_seq_client_pool_set_output_pool") == 0) {
+        return (void *)snd_seq_client_pool_set_output_pool;
+    }
+    if (strcmp(name, "snd_seq_client_pool_set_output_room") == 0) {
+        return (void *)snd_seq_client_pool_set_output_room;
+    }
+    if (strcmp(name, "snd_seq_client_pool_sizeof") == 0) {
+        return (void *)snd_seq_client_pool_sizeof;
+    }
+    if (strcmp(name, "snd_seq_close") == 0) {
+        return (void *)snd_seq_close;
+    }
+    if (strcmp(name, "snd_seq_create_port") == 0) {
+        return (void *)snd_seq_create_port;
+    }
+    if (strcmp(name, "snd_seq_create_queue") == 0) {
+        return (void *)snd_seq_create_queue;
+    }
+    if (strcmp(name, "snd_seq_delete_port") == 0) {
+        return (void *)snd_seq_delete_port;
+    }
+    if (strcmp(name, "snd_seq_drain_output") == 0) {
+        return (void *)snd_seq_drain_output;
+    }
+    if (strcmp(name, "snd_seq_drop_input") == 0) {
+        return (void *)snd_seq_drop_input;
+    }
+    if (strcmp(name, "snd_seq_drop_input_buffer") == 0) {
+        return (void *)snd_seq_drop_input_buffer;
+    }
+    if (strcmp(name, "snd_seq_drop_output") == 0) {
+        return (void *)snd_seq_drop_output;
+    }
+    if (strcmp(name, "snd_seq_drop_output_buffer") == 0) {
+        return (void *)snd_seq_drop_output_buffer;
+    }
+    if (strcmp(name, "snd_seq_event_input") == 0) {
+        return (void *)snd_seq_event_input;
+    }
+    if (strcmp(name, "snd_seq_event_input_pending") == 0) {
+        return (void *)snd_seq_event_input_pending;
+    }
+    if (strcmp(name, "snd_seq_event_length") == 0) {
+        return (void *)snd_seq_event_length;
+    }
+    if (strcmp(name, "snd_seq_event_output") == 0) {
+        return (void *)snd_seq_event_output;
+    }
+    if (strcmp(name, "snd_seq_event_output_buffer") == 0) {
+        return (void *)snd_seq_event_output_buffer;
+    }
+    if (strcmp(name, "snd_seq_event_output_direct") == 0) {
+        return (void *)snd_seq_event_output_direct;
+    }
+    if (strcmp(name, "snd_seq_event_output_pending") == 0) {
+        return (void *)snd_seq_event_output_pending;
+    }
+    if (strcmp(name, "snd_seq_extract_output") == 0) {
+        return (void *)snd_seq_extract_output;
+    }
+    if (strcmp(name, "snd_seq_free_event") == 0) {
+        return (void *)snd_seq_free_event;
+    }
+    if (strcmp(name, "snd_seq_free_queue") == 0) {
+        return (void *)snd_seq_free_queue;
+    }
+    if (strcmp(name, "snd_seq_get_any_client_info") == 0) {
+        return (void *)snd_seq_get_any_client_info;
+    }
+    if (strcmp(name, "snd_seq_get_any_port_info") == 0) {
+        return (void *)snd_seq_get_any_port_info;
+    }
+    if (strcmp(name, "snd_seq_get_bit") == 0) {
+        return (void *)snd_seq_get_bit;
+    }
+    if (strcmp(name, "snd_seq_get_client_info") == 0) {
+        return (void *)snd_seq_get_client_info;
+    }
+    if (strcmp(name, "snd_seq_get_client_pool") == 0) {
+        return (void *)snd_seq_get_client_pool;
+    }
+    if (strcmp(name, "snd_seq_get_input_buffer_size") == 0) {
+        return (void *)snd_seq_get_input_buffer_size;
+    }
+    if (strcmp(name, "snd_seq_get_output_buffer_size") == 0) {
+        return (void *)snd_seq_get_output_buffer_size;
+    }
+    if (strcmp(name, "snd_seq_get_port_info") == 0) {
+        return (void *)snd_seq_get_port_info;
+    }
+    if (strcmp(name, "snd_seq_get_port_subscription") == 0) {
+        return (void *)snd_seq_get_port_subscription;
+    }
+    if (strcmp(name, "snd_seq_get_queue_info") == 0) {
+        return (void *)snd_seq_get_queue_info;
+    }
+    if (strcmp(name, "snd_seq_get_queue_status") == 0) {
+        return (void *)snd_seq_get_queue_status;
+    }
+    if (strcmp(name, "snd_seq_get_queue_tempo") == 0) {
+        return (void *)snd_seq_get_queue_tempo;
+    }
+    if (strcmp(name, "snd_seq_get_queue_timer") == 0) {
+        return (void *)snd_seq_get_queue_timer;
+    }
+    if (strcmp(name, "snd_seq_get_queue_usage") == 0) {
+        return (void *)snd_seq_get_queue_usage;
+    }
+    if (strcmp(name, "snd_seq_name") == 0) {
+        return (void *)snd_seq_name;
+    }
+    if (strcmp(name, "snd_seq_nonblock") == 0) {
+        return (void *)snd_seq_nonblock;
+    }
+    if (strcmp(name, "snd_seq_open") == 0) {
+        return (void *)snd_seq_open;
+    }
+    if (strcmp(name, "snd_seq_open_lconf") == 0) {
+        return (void *)snd_seq_open_lconf;
+    }
+    if (strcmp(name, "snd_seq_poll_descriptors") == 0) {
+        return (void *)snd_seq_poll_descriptors;
+    }
+    if (strcmp(name, "snd_seq_poll_descriptors_count") == 0) {
+        return (void *)snd_seq_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_seq_poll_descriptors_revents") == 0) {
+        return (void *)snd_seq_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_seq_port_info_copy") == 0) {
+        return (void *)snd_seq_port_info_copy;
+    }
+    if (strcmp(name, "snd_seq_port_info_free") == 0) {
+        return (void *)snd_seq_port_info_free;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_addr") == 0) {
+        return (void *)snd_seq_port_info_get_addr;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_capability") == 0) {
+        return (void *)snd_seq_port_info_get_capability;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_client") == 0) {
+        return (void *)snd_seq_port_info_get_client;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_midi_channels") == 0) {
+        return (void *)snd_seq_port_info_get_midi_channels;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_midi_voices") == 0) {
+        return (void *)snd_seq_port_info_get_midi_voices;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_name") == 0) {
+        return (void *)snd_seq_port_info_get_name;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_port") == 0) {
+        return (void *)snd_seq_port_info_get_port;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_port_specified") == 0) {
+        return (void *)snd_seq_port_info_get_port_specified;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_read_use") == 0) {
+        return (void *)snd_seq_port_info_get_read_use;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_synth_voices") == 0) {
+        return (void *)snd_seq_port_info_get_synth_voices;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_timestamp_queue") == 0) {
+        return (void *)snd_seq_port_info_get_timestamp_queue;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_timestamp_real") == 0) {
+        return (void *)snd_seq_port_info_get_timestamp_real;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_timestamping") == 0) {
+        return (void *)snd_seq_port_info_get_timestamping;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_type") == 0) {
+        return (void *)snd_seq_port_info_get_type;
+    }
+    if (strcmp(name, "snd_seq_port_info_get_write_use") == 0) {
+        return (void *)snd_seq_port_info_get_write_use;
+    }
+    if (strcmp(name, "snd_seq_port_info_malloc") == 0) {
+        return (void *)snd_seq_port_info_malloc;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_addr") == 0) {
+        return (void *)snd_seq_port_info_set_addr;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_capability") == 0) {
+        return (void *)snd_seq_port_info_set_capability;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_client") == 0) {
+        return (void *)snd_seq_port_info_set_client;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_midi_channels") == 0) {
+        return (void *)snd_seq_port_info_set_midi_channels;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_midi_voices") == 0) {
+        return (void *)snd_seq_port_info_set_midi_voices;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_name") == 0) {
+        return (void *)snd_seq_port_info_set_name;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_port") == 0) {
+        return (void *)snd_seq_port_info_set_port;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_port_specified") == 0) {
+        return (void *)snd_seq_port_info_set_port_specified;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_synth_voices") == 0) {
+        return (void *)snd_seq_port_info_set_synth_voices;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_timestamp_queue") == 0) {
+        return (void *)snd_seq_port_info_set_timestamp_queue;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_timestamp_real") == 0) {
+        return (void *)snd_seq_port_info_set_timestamp_real;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_timestamping") == 0) {
+        return (void *)snd_seq_port_info_set_timestamping;
+    }
+    if (strcmp(name, "snd_seq_port_info_set_type") == 0) {
+        return (void *)snd_seq_port_info_set_type;
+    }
+    if (strcmp(name, "snd_seq_port_info_sizeof") == 0) {
+        return (void *)snd_seq_port_info_sizeof;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_copy") == 0) {
+        return (void *)snd_seq_port_subscribe_copy;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_free") == 0) {
+        return (void *)snd_seq_port_subscribe_free;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_dest") == 0) {
+        return (void *)snd_seq_port_subscribe_get_dest;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_exclusive") == 0) {
+        return (void *)snd_seq_port_subscribe_get_exclusive;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_queue") == 0) {
+        return (void *)snd_seq_port_subscribe_get_queue;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_sender") == 0) {
+        return (void *)snd_seq_port_subscribe_get_sender;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_time_real") == 0) {
+        return (void *)snd_seq_port_subscribe_get_time_real;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_get_time_update") == 0) {
+        return (void *)snd_seq_port_subscribe_get_time_update;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_malloc") == 0) {
+        return (void *)snd_seq_port_subscribe_malloc;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_dest") == 0) {
+        return (void *)snd_seq_port_subscribe_set_dest;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_exclusive") == 0) {
+        return (void *)snd_seq_port_subscribe_set_exclusive;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_queue") == 0) {
+        return (void *)snd_seq_port_subscribe_set_queue;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_sender") == 0) {
+        return (void *)snd_seq_port_subscribe_set_sender;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_time_real") == 0) {
+        return (void *)snd_seq_port_subscribe_set_time_real;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_set_time_update") == 0) {
+        return (void *)snd_seq_port_subscribe_set_time_update;
+    }
+    if (strcmp(name, "snd_seq_port_subscribe_sizeof") == 0) {
+        return (void *)snd_seq_port_subscribe_sizeof;
+    }
+    if (strcmp(name, "snd_seq_query_named_queue") == 0) {
+        return (void *)snd_seq_query_named_queue;
+    }
+    if (strcmp(name, "snd_seq_query_next_client") == 0) {
+        return (void *)snd_seq_query_next_client;
+    }
+    if (strcmp(name, "snd_seq_query_next_port") == 0) {
+        return (void *)snd_seq_query_next_port;
+    }
+    if (strcmp(name, "snd_seq_query_port_subscribers") == 0) {
+        return (void *)snd_seq_query_port_subscribers;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_copy") == 0) {
+        return (void *)snd_seq_query_subscribe_copy;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_free") == 0) {
+        return (void *)snd_seq_query_subscribe_free;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_addr") == 0) {
+        return (void *)snd_seq_query_subscribe_get_addr;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_client") == 0) {
+        return (void *)snd_seq_query_subscribe_get_client;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_exclusive") == 0) {
+        return (void *)snd_seq_query_subscribe_get_exclusive;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_index") == 0) {
+        return (void *)snd_seq_query_subscribe_get_index;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_num_subs") == 0) {
+        return (void *)snd_seq_query_subscribe_get_num_subs;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_port") == 0) {
+        return (void *)snd_seq_query_subscribe_get_port;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_queue") == 0) {
+        return (void *)snd_seq_query_subscribe_get_queue;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_root") == 0) {
+        return (void *)snd_seq_query_subscribe_get_root;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_time_real") == 0) {
+        return (void *)snd_seq_query_subscribe_get_time_real;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_time_update") == 0) {
+        return (void *)snd_seq_query_subscribe_get_time_update;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_get_type") == 0) {
+        return (void *)snd_seq_query_subscribe_get_type;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_malloc") == 0) {
+        return (void *)snd_seq_query_subscribe_malloc;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_set_client") == 0) {
+        return (void *)snd_seq_query_subscribe_set_client;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_set_index") == 0) {
+        return (void *)snd_seq_query_subscribe_set_index;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_set_port") == 0) {
+        return (void *)snd_seq_query_subscribe_set_port;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_set_root") == 0) {
+        return (void *)snd_seq_query_subscribe_set_root;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_set_type") == 0) {
+        return (void *)snd_seq_query_subscribe_set_type;
+    }
+    if (strcmp(name, "snd_seq_query_subscribe_sizeof") == 0) {
+        return (void *)snd_seq_query_subscribe_sizeof;
+    }
+    if (strcmp(name, "snd_seq_queue_info_copy") == 0) {
+        return (void *)snd_seq_queue_info_copy;
+    }
+    if (strcmp(name, "snd_seq_queue_info_free") == 0) {
+        return (void *)snd_seq_queue_info_free;
+    }
+    if (strcmp(name, "snd_seq_queue_info_get_flags") == 0) {
+        return (void *)snd_seq_queue_info_get_flags;
+    }
+    if (strcmp(name, "snd_seq_queue_info_get_locked") == 0) {
+        return (void *)snd_seq_queue_info_get_locked;
+    }
+    if (strcmp(name, "snd_seq_queue_info_get_name") == 0) {
+        return (void *)snd_seq_queue_info_get_name;
+    }
+    if (strcmp(name, "snd_seq_queue_info_get_owner") == 0) {
+        return (void *)snd_seq_queue_info_get_owner;
+    }
+    if (strcmp(name, "snd_seq_queue_info_get_queue") == 0) {
+        return (void *)snd_seq_queue_info_get_queue;
+    }
+    if (strcmp(name, "snd_seq_queue_info_malloc") == 0) {
+        return (void *)snd_seq_queue_info_malloc;
+    }
+    if (strcmp(name, "snd_seq_queue_info_set_flags") == 0) {
+        return (void *)snd_seq_queue_info_set_flags;
+    }
+    if (strcmp(name, "snd_seq_queue_info_set_locked") == 0) {
+        return (void *)snd_seq_queue_info_set_locked;
+    }
+    if (strcmp(name, "snd_seq_queue_info_set_name") == 0) {
+        return (void *)snd_seq_queue_info_set_name;
+    }
+    if (strcmp(name, "snd_seq_queue_info_set_owner") == 0) {
+        return (void *)snd_seq_queue_info_set_owner;
+    }
+    if (strcmp(name, "snd_seq_queue_info_sizeof") == 0) {
+        return (void *)snd_seq_queue_info_sizeof;
+    }
+    if (strcmp(name, "snd_seq_queue_status_copy") == 0) {
+        return (void *)snd_seq_queue_status_copy;
+    }
+    if (strcmp(name, "snd_seq_queue_status_free") == 0) {
+        return (void *)snd_seq_queue_status_free;
+    }
+    if (strcmp(name, "snd_seq_queue_status_get_events") == 0) {
+        return (void *)snd_seq_queue_status_get_events;
+    }
+    if (strcmp(name, "snd_seq_queue_status_get_queue") == 0) {
+        return (void *)snd_seq_queue_status_get_queue;
+    }
+    if (strcmp(name, "snd_seq_queue_status_get_real_time") == 0) {
+        return (void *)snd_seq_queue_status_get_real_time;
+    }
+    if (strcmp(name, "snd_seq_queue_status_get_status") == 0) {
+        return (void *)snd_seq_queue_status_get_status;
+    }
+    if (strcmp(name, "snd_seq_queue_status_get_tick_time") == 0) {
+        return (void *)snd_seq_queue_status_get_tick_time;
+    }
+    if (strcmp(name, "snd_seq_queue_status_malloc") == 0) {
+        return (void *)snd_seq_queue_status_malloc;
+    }
+    if (strcmp(name, "snd_seq_queue_status_sizeof") == 0) {
+        return (void *)snd_seq_queue_status_sizeof;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_copy") == 0) {
+        return (void *)snd_seq_queue_tempo_copy;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_free") == 0) {
+        return (void *)snd_seq_queue_tempo_free;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_get_ppq") == 0) {
+        return (void *)snd_seq_queue_tempo_get_ppq;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_get_queue") == 0) {
+        return (void *)snd_seq_queue_tempo_get_queue;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_get_skew") == 0) {
+        return (void *)snd_seq_queue_tempo_get_skew;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_get_skew_base") == 0) {
+        return (void *)snd_seq_queue_tempo_get_skew_base;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_get_tempo") == 0) {
+        return (void *)snd_seq_queue_tempo_get_tempo;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_malloc") == 0) {
+        return (void *)snd_seq_queue_tempo_malloc;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_set_ppq") == 0) {
+        return (void *)snd_seq_queue_tempo_set_ppq;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_set_skew") == 0) {
+        return (void *)snd_seq_queue_tempo_set_skew;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_set_skew_base") == 0) {
+        return (void *)snd_seq_queue_tempo_set_skew_base;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_set_tempo") == 0) {
+        return (void *)snd_seq_queue_tempo_set_tempo;
+    }
+    if (strcmp(name, "snd_seq_queue_tempo_sizeof") == 0) {
+        return (void *)snd_seq_queue_tempo_sizeof;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_copy") == 0) {
+        return (void *)snd_seq_queue_timer_copy;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_free") == 0) {
+        return (void *)snd_seq_queue_timer_free;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_get_id") == 0) {
+        return (void *)snd_seq_queue_timer_get_id;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_get_queue") == 0) {
+        return (void *)snd_seq_queue_timer_get_queue;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_get_resolution") == 0) {
+        return (void *)snd_seq_queue_timer_get_resolution;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_get_type") == 0) {
+        return (void *)snd_seq_queue_timer_get_type;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_malloc") == 0) {
+        return (void *)snd_seq_queue_timer_malloc;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_set_id") == 0) {
+        return (void *)snd_seq_queue_timer_set_id;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_set_resolution") == 0) {
+        return (void *)snd_seq_queue_timer_set_resolution;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_set_type") == 0) {
+        return (void *)snd_seq_queue_timer_set_type;
+    }
+    if (strcmp(name, "snd_seq_queue_timer_sizeof") == 0) {
+        return (void *)snd_seq_queue_timer_sizeof;
+    }
+    if (strcmp(name, "snd_seq_remove_events") == 0) {
+        return (void *)snd_seq_remove_events;
+    }
+    if (strcmp(name, "snd_seq_remove_events_copy") == 0) {
+        return (void *)snd_seq_remove_events_copy;
+    }
+    if (strcmp(name, "snd_seq_remove_events_free") == 0) {
+        return (void *)snd_seq_remove_events_free;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_channel") == 0) {
+        return (void *)snd_seq_remove_events_get_channel;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_condition") == 0) {
+        return (void *)snd_seq_remove_events_get_condition;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_dest") == 0) {
+        return (void *)snd_seq_remove_events_get_dest;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_event_type") == 0) {
+        return (void *)snd_seq_remove_events_get_event_type;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_queue") == 0) {
+        return (void *)snd_seq_remove_events_get_queue;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_tag") == 0) {
+        return (void *)snd_seq_remove_events_get_tag;
+    }
+    if (strcmp(name, "snd_seq_remove_events_get_time") == 0) {
+        return (void *)snd_seq_remove_events_get_time;
+    }
+    if (strcmp(name, "snd_seq_remove_events_malloc") == 0) {
+        return (void *)snd_seq_remove_events_malloc;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_channel") == 0) {
+        return (void *)snd_seq_remove_events_set_channel;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_condition") == 0) {
+        return (void *)snd_seq_remove_events_set_condition;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_dest") == 0) {
+        return (void *)snd_seq_remove_events_set_dest;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_event_type") == 0) {
+        return (void *)snd_seq_remove_events_set_event_type;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_queue") == 0) {
+        return (void *)snd_seq_remove_events_set_queue;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_tag") == 0) {
+        return (void *)snd_seq_remove_events_set_tag;
+    }
+    if (strcmp(name, "snd_seq_remove_events_set_time") == 0) {
+        return (void *)snd_seq_remove_events_set_time;
+    }
+    if (strcmp(name, "snd_seq_remove_events_sizeof") == 0) {
+        return (void *)snd_seq_remove_events_sizeof;
+    }
+    if (strcmp(name, "snd_seq_set_bit") == 0) {
+        return (void *)snd_seq_set_bit;
+    }
+    if (strcmp(name, "snd_seq_set_client_info") == 0) {
+        return (void *)snd_seq_set_client_info;
+    }
+    if (strcmp(name, "snd_seq_set_client_pool") == 0) {
+        return (void *)snd_seq_set_client_pool;
+    }
+    if (strcmp(name, "snd_seq_set_input_buffer_size") == 0) {
+        return (void *)snd_seq_set_input_buffer_size;
+    }
+    if (strcmp(name, "snd_seq_set_output_buffer_size") == 0) {
+        return (void *)snd_seq_set_output_buffer_size;
+    }
+    if (strcmp(name, "snd_seq_set_port_info") == 0) {
+        return (void *)snd_seq_set_port_info;
+    }
+    if (strcmp(name, "snd_seq_set_queue_info") == 0) {
+        return (void *)snd_seq_set_queue_info;
+    }
+    if (strcmp(name, "snd_seq_set_queue_tempo") == 0) {
+        return (void *)snd_seq_set_queue_tempo;
+    }
+    if (strcmp(name, "snd_seq_set_queue_timer") == 0) {
+        return (void *)snd_seq_set_queue_timer;
+    }
+    if (strcmp(name, "snd_seq_set_queue_usage") == 0) {
+        return (void *)snd_seq_set_queue_usage;
+    }
+    if (strcmp(name, "snd_seq_subscribe_port") == 0) {
+        return (void *)snd_seq_subscribe_port;
+    }
+    if (strcmp(name, "snd_seq_system_info") == 0) {
+        return (void *)snd_seq_system_info;
+    }
+    if (strcmp(name, "snd_seq_system_info_copy") == 0) {
+        return (void *)snd_seq_system_info_copy;
+    }
+    if (strcmp(name, "snd_seq_system_info_free") == 0) {
+        return (void *)snd_seq_system_info_free;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_channels") == 0) {
+        return (void *)snd_seq_system_info_get_channels;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_clients") == 0) {
+        return (void *)snd_seq_system_info_get_clients;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_cur_clients") == 0) {
+        return (void *)snd_seq_system_info_get_cur_clients;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_cur_queues") == 0) {
+        return (void *)snd_seq_system_info_get_cur_queues;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_ports") == 0) {
+        return (void *)snd_seq_system_info_get_ports;
+    }
+    if (strcmp(name, "snd_seq_system_info_get_queues") == 0) {
+        return (void *)snd_seq_system_info_get_queues;
+    }
+    if (strcmp(name, "snd_seq_system_info_malloc") == 0) {
+        return (void *)snd_seq_system_info_malloc;
+    }
+    if (strcmp(name, "snd_seq_system_info_sizeof") == 0) {
+        return (void *)snd_seq_system_info_sizeof;
+    }
+    if (strcmp(name, "snd_seq_type") == 0) {
+        return (void *)snd_seq_type;
+    }
+    if (strcmp(name, "snd_seq_unsubscribe_port") == 0) {
+        return (void *)snd_seq_unsubscribe_port;
+    }
+    if (strcmp(name, "snd_shm_area_create") == 0) {
+        return (void *)snd_shm_area_create;
+    }
+    if (strcmp(name, "snd_shm_area_destroy") == 0) {
+        return (void *)snd_shm_area_destroy;
+    }
+    if (strcmp(name, "snd_shm_area_share") == 0) {
+        return (void *)snd_shm_area_share;
+    }
+    if (strcmp(name, "snd_spcm_init") == 0) {
+        return (void *)snd_spcm_init;
+    }
+    if (strcmp(name, "snd_spcm_init_duplex") == 0) {
+        return (void *)snd_spcm_init_duplex;
+    }
+    if (strcmp(name, "snd_spcm_init_get_params") == 0) {
+        return (void *)snd_spcm_init_get_params;
+    }
+    if (strcmp(name, "snd_timer_close") == 0) {
+        return (void *)snd_timer_close;
+    }
+    if (strcmp(name, "snd_timer_continue") == 0) {
+        return (void *)snd_timer_continue;
+    }
+    if (strcmp(name, "snd_timer_ginfo_copy") == 0) {
+        return (void *)snd_timer_ginfo_copy;
+    }
+    if (strcmp(name, "snd_timer_ginfo_free") == 0) {
+        return (void *)snd_timer_ginfo_free;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_card") == 0) {
+        return (void *)snd_timer_ginfo_get_card;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_clients") == 0) {
+        return (void *)snd_timer_ginfo_get_clients;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_flags") == 0) {
+        return (void *)snd_timer_ginfo_get_flags;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_id") == 0) {
+        return (void *)snd_timer_ginfo_get_id;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_name") == 0) {
+        return (void *)snd_timer_ginfo_get_name;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_resolution") == 0) {
+        return (void *)snd_timer_ginfo_get_resolution;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_resolution_max") == 0) {
+        return (void *)snd_timer_ginfo_get_resolution_max;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_resolution_min") == 0) {
+        return (void *)snd_timer_ginfo_get_resolution_min;
+    }
+    if (strcmp(name, "snd_timer_ginfo_get_tid") == 0) {
+        return (void *)snd_timer_ginfo_get_tid;
+    }
+    if (strcmp(name, "snd_timer_ginfo_malloc") == 0) {
+        return (void *)snd_timer_ginfo_malloc;
+    }
+    if (strcmp(name, "snd_timer_ginfo_set_tid") == 0) {
+        return (void *)snd_timer_ginfo_set_tid;
+    }
+    if (strcmp(name, "snd_timer_ginfo_sizeof") == 0) {
+        return (void *)snd_timer_ginfo_sizeof;
+    }
+    if (strcmp(name, "snd_timer_id_copy") == 0) {
+        return (void *)snd_timer_id_copy;
+    }
+    if (strcmp(name, "snd_timer_id_free") == 0) {
+        return (void *)snd_timer_id_free;
+    }
+    if (strcmp(name, "snd_timer_id_get_card") == 0) {
+        return (void *)snd_timer_id_get_card;
+    }
+    if (strcmp(name, "snd_timer_id_get_class") == 0) {
+        return (void *)snd_timer_id_get_class;
+    }
+    if (strcmp(name, "snd_timer_id_get_device") == 0) {
+        return (void *)snd_timer_id_get_device;
+    }
+    if (strcmp(name, "snd_timer_id_get_sclass") == 0) {
+        return (void *)snd_timer_id_get_sclass;
+    }
+    if (strcmp(name, "snd_timer_id_get_subdevice") == 0) {
+        return (void *)snd_timer_id_get_subdevice;
+    }
+    if (strcmp(name, "snd_timer_id_malloc") == 0) {
+        return (void *)snd_timer_id_malloc;
+    }
+    if (strcmp(name, "snd_timer_id_set_card") == 0) {
+        return (void *)snd_timer_id_set_card;
+    }
+    if (strcmp(name, "snd_timer_id_set_class") == 0) {
+        return (void *)snd_timer_id_set_class;
+    }
+    if (strcmp(name, "snd_timer_id_set_device") == 0) {
+        return (void *)snd_timer_id_set_device;
+    }
+    if (strcmp(name, "snd_timer_id_set_sclass") == 0) {
+        return (void *)snd_timer_id_set_sclass;
+    }
+    if (strcmp(name, "snd_timer_id_set_subdevice") == 0) {
+        return (void *)snd_timer_id_set_subdevice;
+    }
+    if (strcmp(name, "snd_timer_id_sizeof") == 0) {
+        return (void *)snd_timer_id_sizeof;
+    }
+    if (strcmp(name, "snd_timer_info") == 0) {
+        return (void *)snd_timer_info;
+    }
+    if (strcmp(name, "snd_timer_info_copy") == 0) {
+        return (void *)snd_timer_info_copy;
+    }
+    if (strcmp(name, "snd_timer_info_free") == 0) {
+        return (void *)snd_timer_info_free;
+    }
+    if (strcmp(name, "snd_timer_info_get_card") == 0) {
+        return (void *)snd_timer_info_get_card;
+    }
+    if (strcmp(name, "snd_timer_info_get_id") == 0) {
+        return (void *)snd_timer_info_get_id;
+    }
+    if (strcmp(name, "snd_timer_info_get_name") == 0) {
+        return (void *)snd_timer_info_get_name;
+    }
+    if (strcmp(name, "snd_timer_info_get_resolution") == 0) {
+        return (void *)snd_timer_info_get_resolution;
+    }
+    if (strcmp(name, "snd_timer_info_get_ticks") == 0) {
+        return (void *)snd_timer_info_get_ticks;
+    }
+    if (strcmp(name, "snd_timer_info_is_slave") == 0) {
+        return (void *)snd_timer_info_is_slave;
+    }
+    if (strcmp(name, "snd_timer_info_malloc") == 0) {
+        return (void *)snd_timer_info_malloc;
+    }
+    if (strcmp(name, "snd_timer_info_sizeof") == 0) {
+        return (void *)snd_timer_info_sizeof;
+    }
+    if (strcmp(name, "snd_timer_open") == 0) {
+        return (void *)snd_timer_open;
+    }
+    if (strcmp(name, "snd_timer_open_lconf") == 0) {
+        return (void *)snd_timer_open_lconf;
+    }
+    if (strcmp(name, "snd_timer_params") == 0) {
+        return (void *)snd_timer_params;
+    }
+    if (strcmp(name, "snd_timer_params_copy") == 0) {
+        return (void *)snd_timer_params_copy;
+    }
+    if (strcmp(name, "snd_timer_params_free") == 0) {
+        return (void *)snd_timer_params_free;
+    }
+    if (strcmp(name, "snd_timer_params_get_auto_start") == 0) {
+        return (void *)snd_timer_params_get_auto_start;
+    }
+    if (strcmp(name, "snd_timer_params_get_early_event") == 0) {
+        return (void *)snd_timer_params_get_early_event;
+    }
+    if (strcmp(name, "snd_timer_params_get_exclusive") == 0) {
+        return (void *)snd_timer_params_get_exclusive;
+    }
+    if (strcmp(name, "snd_timer_params_get_filter") == 0) {
+        return (void *)snd_timer_params_get_filter;
+    }
+    if (strcmp(name, "snd_timer_params_get_queue_size") == 0) {
+        return (void *)snd_timer_params_get_queue_size;
+    }
+    if (strcmp(name, "snd_timer_params_get_ticks") == 0) {
+        return (void *)snd_timer_params_get_ticks;
+    }
+    if (strcmp(name, "snd_timer_params_malloc") == 0) {
+        return (void *)snd_timer_params_malloc;
+    }
+    if (strcmp(name, "snd_timer_params_set_auto_start") == 0) {
+        return (void *)snd_timer_params_set_auto_start;
+    }
+    if (strcmp(name, "snd_timer_params_set_early_event") == 0) {
+        return (void *)snd_timer_params_set_early_event;
+    }
+    if (strcmp(name, "snd_timer_params_set_exclusive") == 0) {
+        return (void *)snd_timer_params_set_exclusive;
+    }
+    if (strcmp(name, "snd_timer_params_set_filter") == 0) {
+        return (void *)snd_timer_params_set_filter;
+    }
+    if (strcmp(name, "snd_timer_params_set_queue_size") == 0) {
+        return (void *)snd_timer_params_set_queue_size;
+    }
+    if (strcmp(name, "snd_timer_params_set_ticks") == 0) {
+        return (void *)snd_timer_params_set_ticks;
+    }
+    if (strcmp(name, "snd_timer_params_sizeof") == 0) {
+        return (void *)snd_timer_params_sizeof;
+    }
+    if (strcmp(name, "snd_timer_poll_descriptors") == 0) {
+        return (void *)snd_timer_poll_descriptors;
+    }
+    if (strcmp(name, "snd_timer_poll_descriptors_count") == 0) {
+        return (void *)snd_timer_poll_descriptors_count;
+    }
+    if (strcmp(name, "snd_timer_poll_descriptors_revents") == 0) {
+        return (void *)snd_timer_poll_descriptors_revents;
+    }
+    if (strcmp(name, "snd_timer_query_close") == 0) {
+        return (void *)snd_timer_query_close;
+    }
+    if (strcmp(name, "snd_timer_query_info") == 0) {
+        return (void *)snd_timer_query_info;
+    }
+    if (strcmp(name, "snd_timer_query_next_device") == 0) {
+        return (void *)snd_timer_query_next_device;
+    }
+    if (strcmp(name, "snd_timer_query_open") == 0) {
+        return (void *)snd_timer_query_open;
+    }
+    if (strcmp(name, "snd_timer_query_open_lconf") == 0) {
+        return (void *)snd_timer_query_open_lconf;
+    }
+    if (strcmp(name, "snd_timer_query_params") == 0) {
+        return (void *)snd_timer_query_params;
+    }
+    if (strcmp(name, "snd_timer_query_status") == 0) {
+        return (void *)snd_timer_query_status;
+    }
+    if (strcmp(name, "snd_timer_read") == 0) {
+        return (void *)snd_timer_read;
+    }
+    if (strcmp(name, "snd_timer_start") == 0) {
+        return (void *)snd_timer_start;
+    }
+    if (strcmp(name, "snd_timer_status") == 0) {
+        return (void *)snd_timer_status;
+    }
+    if (strcmp(name, "snd_timer_status_copy") == 0) {
+        return (void *)snd_timer_status_copy;
+    }
+    if (strcmp(name, "snd_timer_status_free") == 0) {
+        return (void *)snd_timer_status_free;
+    }
+    if (strcmp(name, "snd_timer_status_get_lost") == 0) {
+        return (void *)snd_timer_status_get_lost;
+    }
+    if (strcmp(name, "snd_timer_status_get_overrun") == 0) {
+        return (void *)snd_timer_status_get_overrun;
+    }
+    if (strcmp(name, "snd_timer_status_get_queue") == 0) {
+        return (void *)snd_timer_status_get_queue;
+    }
+    if (strcmp(name, "snd_timer_status_get_resolution") == 0) {
+        return (void *)snd_timer_status_get_resolution;
+    }
+    if (strcmp(name, "snd_timer_status_get_timestamp") == 0) {
+        return (void *)snd_timer_status_get_timestamp;
+    }
+    if (strcmp(name, "snd_timer_status_malloc") == 0) {
+        return (void *)snd_timer_status_malloc;
+    }
+    if (strcmp(name, "snd_timer_status_sizeof") == 0) {
+        return (void *)snd_timer_status_sizeof;
+    }
+    if (strcmp(name, "snd_timer_stop") == 0) {
+        return (void *)snd_timer_stop;
+    }
+    if (strcmp(name, "snd_user_file") == 0) {
+        return (void *)snd_user_file;
     }
     printf("glXGetProcAddress(%s) not found\n", name);
     return NULL;
