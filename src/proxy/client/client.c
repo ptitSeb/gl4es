@@ -14535,6 +14535,16 @@ void snd_pcm_info_set_subdevice(snd_pcm_info_t * obj, unsigned int val) {
     free(packed_data);
 }
 #endif
+#ifndef skip_client_snd_pcm_info_sizeof
+size_t snd_pcm_info_sizeof() {
+    snd_pcm_info_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_info_sizeof_INDEXED));
+    packed_data->func = snd_pcm_info_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_pcm_link
 int snd_pcm_link(snd_pcm_t * pcm1, snd_pcm_t * pcm2) {
     snd_pcm_link_INDEXED *packed_data = malloc(sizeof(snd_pcm_link_INDEXED));
@@ -23790,6 +23800,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_info_set_subdevice") == 0) {
         return (void *)snd_pcm_info_set_subdevice;
+    }
+    if (strcmp(name, "snd_pcm_info_sizeof") == 0) {
+        return (void *)snd_pcm_info_sizeof;
     }
     if (strcmp(name, "snd_pcm_link") == 0) {
         return (void *)snd_pcm_link;

@@ -11154,6 +11154,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_pcm_info_sizeof
+        case snd_pcm_info_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_info_sizeof();
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_pcm_link
         case snd_pcm_link_INDEX: {
             INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__ *unpacked = (INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__ *)packed;
