@@ -38,7 +38,7 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
 {% endblock %}
 
 {% block call %}
-    {{ func.name }}_INDEXED *packed_data = malloc(sizeof({{ func.name }}_INDEXED));
+    {{ func.name }}_INDEXED *packed_data;
     packed_data->func = {{ func.name }}_INDEX;
     {% for arg in func.args %}
     packed_data->args.a{{ loop.index }} = ({{ arg.type|unconst }}){{ arg.name }};
@@ -49,7 +49,6 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
     int ret;
     {% endif %}
     syscall(SYS_proxy, (void *)packed_data, &ret);
-    free(packed_data);
     {% if not func.void %}
     return ret;
     {% endif %}
