@@ -9086,6 +9086,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_pcm_access_mask_sizeof
+        case snd_pcm_access_mask_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_access_mask_sizeof();
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_pcm_access_mask_test
         case snd_pcm_access_mask_test_INDEX: {
             INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *unpacked = (INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t *)packed;
@@ -9391,6 +9401,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *unpacked = (INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t *)packed;
             ARGS_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t args = unpacked->args;
             snd_pcm_format_mask_set(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_format_mask_sizeof
+        case snd_pcm_format_mask_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_format_mask_sizeof();
             break;
         }
         #endif
@@ -11736,6 +11756,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_pcm_status_sizeof
+        case snd_pcm_status_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_status_sizeof();
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_pcm_stream
         case snd_pcm_stream_INDEX: {
             INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__ *unpacked = (INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__ *)packed;
@@ -11831,6 +11861,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *unpacked = (INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t *)packed;
             ARGS_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t args = unpacked->args;
             snd_pcm_subformat_mask_set(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_subformat_mask_sizeof
+        case snd_pcm_subformat_mask_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_subformat_mask_sizeof();
             break;
         }
         #endif

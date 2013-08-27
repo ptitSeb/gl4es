@@ -11906,6 +11906,16 @@ void snd_pcm_access_mask_set(snd_pcm_access_mask_t * mask, snd_pcm_access_t val)
     free(packed_data);
 }
 #endif
+#ifndef skip_client_snd_pcm_access_mask_sizeof
+size_t snd_pcm_access_mask_sizeof() {
+    snd_pcm_access_mask_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_sizeof_INDEXED));
+    packed_data->func = snd_pcm_access_mask_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_pcm_access_mask_test
 int snd_pcm_access_mask_test(const snd_pcm_access_mask_t * mask, snd_pcm_access_t val) {
     snd_pcm_access_mask_test_INDEXED *packed_data = malloc(sizeof(snd_pcm_access_mask_test_INDEXED));
@@ -12282,6 +12292,16 @@ void snd_pcm_format_mask_set(snd_pcm_format_mask_t * mask, snd_pcm_format_t val)
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_format_mask_sizeof
+size_t snd_pcm_format_mask_sizeof() {
+    snd_pcm_format_mask_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_mask_sizeof_INDEXED));
+    packed_data->func = snd_pcm_format_mask_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_test
@@ -15242,6 +15262,16 @@ int snd_pcm_status_malloc(snd_pcm_status_t ** ptr) {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_pcm_status_sizeof
+size_t snd_pcm_status_sizeof() {
+    snd_pcm_status_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_status_sizeof_INDEXED));
+    packed_data->func = snd_pcm_status_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_pcm_stream
 snd_pcm_stream_t snd_pcm_stream(snd_pcm_t * pcm) {
     snd_pcm_stream_INDEXED *packed_data = malloc(sizeof(snd_pcm_stream_INDEXED));
@@ -15358,6 +15388,16 @@ void snd_pcm_subformat_mask_set(snd_pcm_subformat_mask_t * mask, snd_pcm_subform
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_pcm_subformat_mask_sizeof
+size_t snd_pcm_subformat_mask_sizeof() {
+    snd_pcm_subformat_mask_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_subformat_mask_sizeof_INDEXED));
+    packed_data->func = snd_pcm_subformat_mask_sizeof_INDEX;
+    size_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_test
@@ -23407,6 +23447,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "snd_pcm_access_mask_set") == 0) {
         return (void *)snd_pcm_access_mask_set;
     }
+    if (strcmp(name, "snd_pcm_access_mask_sizeof") == 0) {
+        return (void *)snd_pcm_access_mask_sizeof;
+    }
     if (strcmp(name, "snd_pcm_access_mask_test") == 0) {
         return (void *)snd_pcm_access_mask_test;
     }
@@ -23502,6 +23545,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_format_mask_set") == 0) {
         return (void *)snd_pcm_format_mask_set;
+    }
+    if (strcmp(name, "snd_pcm_format_mask_sizeof") == 0) {
+        return (void *)snd_pcm_format_mask_sizeof;
     }
     if (strcmp(name, "snd_pcm_format_mask_test") == 0) {
         return (void *)snd_pcm_format_mask_test;
@@ -24217,6 +24263,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "snd_pcm_status_malloc") == 0) {
         return (void *)snd_pcm_status_malloc;
     }
+    if (strcmp(name, "snd_pcm_status_sizeof") == 0) {
+        return (void *)snd_pcm_status_sizeof;
+    }
     if (strcmp(name, "snd_pcm_stream") == 0) {
         return (void *)snd_pcm_stream;
     }
@@ -24249,6 +24298,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_subformat_mask_set") == 0) {
         return (void *)snd_pcm_subformat_mask_set;
+    }
+    if (strcmp(name, "snd_pcm_subformat_mask_sizeof") == 0) {
+        return (void *)snd_pcm_subformat_mask_sizeof;
     }
     if (strcmp(name, "snd_pcm_subformat_mask_test") == 0) {
         return (void *)snd_pcm_subformat_mask_test;
