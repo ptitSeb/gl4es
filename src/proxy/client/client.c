@@ -1,3 +1,4 @@
+
 #include <sys/syscall.h>
 #include <unistd.h>
 #include <string.h>
@@ -20307,6 +20308,8 @@ int snd_user_file(const char * file, char ** result) {
 }
 #endif
 
+
+snd_config_t *snd_config = NULL;
 
 __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "glAccum") == 0) {
