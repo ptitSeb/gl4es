@@ -16,9 +16,11 @@ snd_config_t *snd_config = NULL;
 
 __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     {% for func in functions %}
+    {% if not func.name.startswith('snd_') %}
     if (strcmp(name, "{{ func.name }}") == 0) {
         return (void *){{ func.name }};
     }
+    {% endif %}
     {% endfor %}
     printf("glXGetProcAddress(%s) not found\n", name);
     return NULL;
