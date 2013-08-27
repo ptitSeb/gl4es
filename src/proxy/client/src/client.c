@@ -6396,10 +6396,22 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
     free(packed_data);
 }
 #endif
+#ifndef skip_client_glXSwapIntervalMESA
+int glXSwapIntervalMESA(unsigned int interval) {
+    glXSwapIntervalMESA_INDEXED *packed_data = malloc(sizeof(glXSwapIntervalMESA_INDEXED));
+    packed_data->func = glXSwapIntervalMESA_INDEX;
+    packed_data->args.a1 = (unsigned int)interval;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_glXSwapIntervalSGI
-void glXSwapIntervalSGI() {
+void glXSwapIntervalSGI(unsigned int interval) {
     glXSwapIntervalSGI_INDEXED *packed_data = malloc(sizeof(glXSwapIntervalSGI_INDEXED));
     packed_data->func = glXSwapIntervalSGI_INDEX;
+    packed_data->args.a1 = (unsigned int)interval;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -22009,6 +22021,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "glXSwapBuffers") == 0) {
         return (void *)glXSwapBuffers;
+    }
+    if (strcmp(name, "glXSwapIntervalMESA") == 0) {
+        return (void *)glXSwapIntervalMESA;
     }
     if (strcmp(name, "glXSwapIntervalSGI") == 0) {
         return (void *)glXSwapIntervalSGI;

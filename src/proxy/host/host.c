@@ -4490,11 +4490,21 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXSwapIntervalMESA
+        case glXSwapIntervalMESA_INDEX: {
+            INDEXED_int_unsigned_int *unpacked = (INDEXED_int_unsigned_int *)packed;
+            ARGS_int_unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            glXSwapIntervalMESA(args.a1);
+            break;
+        }
+        #endif
         #ifndef skip_index_glXSwapIntervalSGI
         case glXSwapIntervalSGI_INDEX: {
-            INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
-            glXSwapIntervalSGI();
+            INDEXED_void_unsigned_int *unpacked = (INDEXED_void_unsigned_int *)packed;
+            ARGS_void_unsigned_int args = unpacked->args;
+            glXSwapIntervalSGI(args.a1);
             break;
         }
         #endif
