@@ -40,7 +40,7 @@ snd_output_flush: [int, snd_output_t *output]
 
 # error.h
 # callback-based functions won't work
-snd_lib_error_set_handler: [int, void *handler]
+snd_lib_error_set_handler: [int, snd_lib_error_handler_t handler]
 
 # conf.h
 snd_config_top: [int, snd_config_t **config]
