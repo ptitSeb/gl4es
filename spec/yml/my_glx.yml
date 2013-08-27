@@ -63,6 +63,7 @@ glx:
   glXQueryMaxSwapBarriersSGIX: [void]
   glXQueryServerString: [const char *, Display *dpy, int screen, int name]
   glXQueryVersion: [Bool, Display *dpy, int *maj, int *min]
+  glXReleaseBuffersMESA: [Bool, Display *dpy, GLXDrawable drawable]
   glXRender: [void]
   glXRenderLarge: [void]
   glXSwapBuffers: [void, Display *dpy, GLXDrawable drawable]

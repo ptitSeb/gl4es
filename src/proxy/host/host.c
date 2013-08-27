@@ -4458,6 +4458,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXReleaseBuffersMESA
+        case glXReleaseBuffersMESA_INDEX: {
+            INDEXED_Bool_Display___GENPT___GLXDrawable *unpacked = (INDEXED_Bool_Display___GENPT___GLXDrawable *)packed;
+            ARGS_Bool_Display___GENPT___GLXDrawable args = unpacked->args;
+            Bool *ret = (Bool *)ret_v;
+            *ret =
+            glXReleaseBuffersMESA(args.a1, args.a2);
+            break;
+        }
+        #endif
         #ifndef skip_index_glXRender
         case glXRender_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;

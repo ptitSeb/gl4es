@@ -6355,6 +6355,18 @@ Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
     return ret;
 }
 #endif
+#ifndef skip_client_glXReleaseBuffersMESA
+Bool glXReleaseBuffersMESA(Display * dpy, GLXDrawable drawable) {
+    glXReleaseBuffersMESA_INDEXED *packed_data = malloc(sizeof(glXReleaseBuffersMESA_INDEXED));
+    packed_data->func = glXReleaseBuffersMESA_INDEX;
+    packed_data->args.a1 = (Display *)dpy;
+    packed_data->args.a2 = (GLXDrawable)drawable;
+    Bool ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_glXRender
 void glXRender() {
     glXRender_INDEXED *packed_data = malloc(sizeof(glXRender_INDEXED));
@@ -22009,6 +22021,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "glXQueryVersion") == 0) {
         return (void *)glXQueryVersion;
+    }
+    if (strcmp(name, "glXReleaseBuffersMESA") == 0) {
+        return (void *)glXReleaseBuffersMESA;
     }
     if (strcmp(name, "glXRender") == 0) {
         return (void *)glXRender;
