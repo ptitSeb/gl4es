@@ -13165,6 +13165,17 @@ int snd_pcm_hw_params_is_joint_duplex(const snd_pcm_hw_params_t * params) {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_pcm_hw_params_is_monotonic
+int snd_pcm_hw_params_is_monotonic(const snd_pcm_hw_params_t * params) {
+    snd_pcm_hw_params_is_monotonic_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_is_monotonic_INDEXED));
+    packed_data->func = snd_pcm_hw_params_is_monotonic_INDEX;
+    packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_pcm_hw_params_malloc
 int snd_pcm_hw_params_malloc(snd_pcm_hw_params_t ** ptr) {
     snd_pcm_hw_params_malloc_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_malloc_INDEXED));
@@ -14161,6 +14172,16 @@ int snd_pcm_hw_params_set_tick_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_hw_params_sizeof
+size_t snd_pcm_hw_params_sizeof() {
+    snd_pcm_hw_params_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_hw_params_sizeof_INDEXED));
+    packed_data->func = snd_pcm_hw_params_sizeof_INDEX;
+    size_t ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
     return ret;
@@ -15684,6 +15705,16 @@ int snd_pcm_sw_params_set_xrun_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * param
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_xrun_t)val;
     int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_sw_params_sizeof
+size_t snd_pcm_sw_params_sizeof() {
+    snd_pcm_sw_params_sizeof_INDEXED *packed_data = malloc(sizeof(snd_pcm_sw_params_sizeof_INDEXED));
+    packed_data->func = snd_pcm_sw_params_sizeof_INDEX;
+    size_t ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
     return ret;
@@ -23489,6 +23520,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "snd_pcm_hw_params_is_joint_duplex") == 0) {
         return (void *)snd_pcm_hw_params_is_joint_duplex;
     }
+    if (strcmp(name, "snd_pcm_hw_params_is_monotonic") == 0) {
+        return (void *)snd_pcm_hw_params_is_monotonic;
+    }
     if (strcmp(name, "snd_pcm_hw_params_malloc") == 0) {
         return (void *)snd_pcm_hw_params_malloc;
     }
@@ -23707,6 +23741,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_hw_params_set_tick_time_near") == 0) {
         return (void *)snd_pcm_hw_params_set_tick_time_near;
+    }
+    if (strcmp(name, "snd_pcm_hw_params_sizeof") == 0) {
+        return (void *)snd_pcm_hw_params_sizeof;
     }
     if (strcmp(name, "snd_pcm_hw_params_test_access") == 0) {
         return (void *)snd_pcm_hw_params_test_access;
@@ -24094,6 +24131,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_sw_params_set_xrun_mode") == 0) {
         return (void *)snd_pcm_sw_params_set_xrun_mode;
+    }
+    if (strcmp(name, "snd_pcm_sw_params_sizeof") == 0) {
+        return (void *)snd_pcm_sw_params_sizeof;
     }
     if (strcmp(name, "snd_pcm_tstamp_mode_name") == 0) {
         return (void *)snd_pcm_tstamp_mode_name;

@@ -10124,6 +10124,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_pcm_hw_params_is_monotonic
+        case snd_pcm_hw_params_is_monotonic_INDEX: {
+            INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *unpacked = (INDEXED_int_const_snd_pcm_hw_params_t___GENPT__ *)packed;
+            ARGS_int_const_snd_pcm_hw_params_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_pcm_hw_params_is_monotonic(args.a1);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_pcm_hw_params_malloc
         case snd_pcm_hw_params_malloc_INDEX: {
             INDEXED_int_snd_pcm_hw_params_t___GENPT____GENPT__ *unpacked = (INDEXED_int_snd_pcm_hw_params_t___GENPT____GENPT__ *)packed;
@@ -10851,6 +10861,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_pcm_hw_params_set_tick_time_near(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_hw_params_sizeof
+        case snd_pcm_hw_params_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_hw_params_sizeof();
             break;
         }
         #endif
@@ -12097,6 +12117,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_pcm_sw_params_set_xrun_mode(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_sw_params_sizeof
+        case snd_pcm_sw_params_sizeof_INDEX: {
+            INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
+            ARGS_size_t args = unpacked->args;
+            size_t *ret = (size_t *)ret_v;
+            *ret =
+            snd_pcm_sw_params_sizeof();
             break;
         }
         #endif
