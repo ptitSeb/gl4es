@@ -1,5 +1,6 @@
-aux_source_directory(. CLIENT_SOURCES)
+aux_source_directory(src CLIENT_SOURCES)
 add_library(client SHARED ${CLIENT_SOURCES})
+include_directories(.)
 
 set_target_properties(client PROPERTIES
     VERSION "2.0.0"
