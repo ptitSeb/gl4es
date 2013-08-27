@@ -53,8 +53,15 @@ def printf(args):
 
     return ', '.join('%' + t for t in types)
 
+def unconst(s):
+    split = s.split(' ')
+    while 'const' in split:
+        split.remove('const')
+    return ' '.join(split)
+
 env.filters['args'] = args
 env.filters['printf'] = printf
+env.filters['unconst'] = unconst
 
 def split_arg(arg):
     match = split_re.match(arg)

@@ -10678,7 +10678,7 @@ int snd_instr_simple_free(snd_instr_simple_t * simple) {
 }
 #endif
 #ifndef skip_client_snd_lib_error_set_handler
-int snd_lib_error_set_handler(void * handler) {
+int snd_lib_error_set_handler(snd_lib_error_handler_t handler) {
     snd_lib_error_set_handler_INDEXED *packed_data = malloc(sizeof(snd_lib_error_set_handler_INDEXED));
     packed_data->func = snd_lib_error_set_handler_INDEX;
     packed_data->args.a1 = handler;

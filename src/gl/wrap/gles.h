@@ -166,7 +166,7 @@ typedef void (*FUNC_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum)(GLenum
 typedef struct {
     GLenum a1;
     GLsizeiptr a2;
-    const GLvoid * a3;
+    GLvoid * a3;
     GLenum a4;
 } ARGS_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum;
 typedef struct {
@@ -183,7 +183,7 @@ typedef struct {
     GLenum a1;
     GLintptr a2;
     GLsizeiptr a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -281,7 +281,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLfloat___GENPT__)(GLenum plane, const GLfloat * equation);
 typedef struct {
     GLenum a1;
-    const GLfloat * a2;
+    GLfloat * a2;
 } ARGS_void_GLenum_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -295,7 +295,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLfixed___GENPT__)(GLenum plane, const GLfixed * equation);
 typedef struct {
     GLenum a1;
-    const GLfixed * a2;
+    GLfixed * a2;
 } ARGS_void_GLenum_const_GLfixed___GENPT__;
 typedef struct {
     int format;
@@ -375,7 +375,7 @@ typedef struct {
     GLint a1;
     GLenum a2;
     GLsizei a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -395,7 +395,7 @@ typedef struct {
     GLsizei a5;
     GLint a6;
     GLsizei a7;
-    const GLvoid * a8;
+    GLvoid * a8;
 } ARGS_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -416,7 +416,7 @@ typedef struct {
     GLsizei a6;
     GLenum a7;
     GLsizei a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -470,7 +470,7 @@ typedef struct {
 typedef void (*FUNC_void_GLsizei_const_GLuint___GENPT__)(GLsizei n, const GLuint * buffers);
 typedef struct {
     GLsizei a1;
-    const GLuint * a2;
+    GLuint * a2;
 } ARGS_void_GLsizei_const_GLuint___GENPT__;
 typedef struct {
     int format;
@@ -542,7 +542,7 @@ typedef struct {
     GLenum a1;
     GLsizei a2;
     GLenum a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -828,7 +828,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLfloat___GENPT__)(GLenum light, GL
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLfloat * a3;
+    GLfloat * a3;
 } ARGS_void_GLenum_GLenum_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -858,7 +858,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLfixed___GENPT__)(GLenum light, GL
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLfixed * a3;
+    GLfixed * a3;
 } ARGS_void_GLenum_GLenum_const_GLfixed___GENPT__;
 typedef struct {
     int format;
@@ -897,7 +897,7 @@ typedef struct {
 } INDEXED_void_GLfixed;
 typedef void (*FUNC_void_const_GLfloat___GENPT__)(const GLfloat * m);
 typedef struct {
-    const GLfloat * a1;
+    GLfloat * a1;
 } ARGS_void_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -910,7 +910,7 @@ typedef struct {
 } INDEXED_void_const_GLfloat___GENPT__;
 typedef void (*FUNC_void_const_GLfixed___GENPT__)(const GLfixed * m);
 typedef struct {
-    const GLfixed * a1;
+    GLfixed * a1;
 } ARGS_void_const_GLfixed___GENPT__;
 typedef struct {
     int format;
@@ -989,7 +989,7 @@ typedef void (*FUNC_void_GLenum_GLsizei_const_GLvoid___GENPT__)(GLenum type, GLs
 typedef struct {
     GLenum a1;
     GLsizei a2;
-    const GLvoid * a3;
+    GLvoid * a3;
 } ARGS_void_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1167,7 +1167,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLint___GENPT__)(GLenum target, GLe
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLint * a3;
+    GLint * a3;
 } ARGS_void_GLenum_GLenum_const_GLint___GENPT__;
 typedef struct {
     int format;
@@ -1188,7 +1188,7 @@ typedef struct {
     GLint a6;
     GLenum a7;
     GLenum a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1209,7 +1209,7 @@ typedef struct {
     GLsizei a6;
     GLenum a7;
     GLenum a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;

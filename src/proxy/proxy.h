@@ -484,6 +484,7 @@ enum FORMAT {
     FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__,
     FORMAT_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__,
     FORMAT_int_snd_instr_simple_t___GENPT__,
+    FORMAT_int_snd_lib_error_handler_t,
     FORMAT_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__,
     FORMAT_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__,
     FORMAT_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__,
@@ -976,7 +977,7 @@ typedef struct {
 typedef GLboolean (*FUNC_GLboolean_GLsizei_const_GLuint___GENPT___GLboolean___GENPT__)(GLsizei n, const GLuint * textures, GLboolean * residences);
 typedef struct {
     GLsizei a1;
-    const GLuint * a2;
+    GLuint * a2;
     GLboolean * a3;
 } ARGS_GLboolean_GLsizei_const_GLuint___GENPT___GLboolean___GENPT__;
 typedef struct {
@@ -1023,7 +1024,7 @@ typedef struct {
     GLfloat a4;
     GLfloat a5;
     GLfloat a6;
-    const GLubyte * a7;
+    GLubyte * a7;
 } ARGS_void_GLsizei_GLsizei_GLfloat_GLfloat_GLfloat_GLfloat_const_GLubyte___GENPT__;
 typedef struct {
     int format;
@@ -1084,7 +1085,7 @@ typedef void (*FUNC_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum)(GLenum
 typedef struct {
     GLenum a1;
     GLsizeiptr a2;
-    const GLvoid * a3;
+    GLvoid * a3;
     GLenum a4;
 } ARGS_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum;
 typedef struct {
@@ -1101,7 +1102,7 @@ typedef struct {
     GLenum a1;
     GLintptr a2;
     GLsizeiptr a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1129,7 +1130,7 @@ typedef void (*FUNC_void_GLsizei_GLenum_const_GLvoid___GENPT__)(GLsizei n, GLenu
 typedef struct {
     GLsizei a1;
     GLenum a2;
-    const GLvoid * a3;
+    GLvoid * a3;
 } ARGS_void_GLsizei_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1182,7 +1183,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLdouble___GENPT__)(GLenum plane, const GLdouble * equation);
 typedef struct {
     GLenum a1;
-    const GLdouble * a2;
+    GLdouble * a2;
 } ARGS_void_GLenum_const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -1210,7 +1211,7 @@ typedef struct {
 } INDEXED_void_GLbyte_GLbyte_GLbyte;
 typedef void (*FUNC_void_const_GLbyte___GENPT__)(const GLbyte * v);
 typedef struct {
-    const GLbyte * a1;
+    GLbyte * a1;
 } ARGS_void_const_GLbyte___GENPT__;
 typedef struct {
     int format;
@@ -1238,7 +1239,7 @@ typedef struct {
 } INDEXED_void_GLdouble_GLdouble_GLdouble;
 typedef void (*FUNC_void_const_GLdouble___GENPT__)(const GLdouble * v);
 typedef struct {
-    const GLdouble * a1;
+    GLdouble * a1;
 } ARGS_void_const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -1266,7 +1267,7 @@ typedef struct {
 } INDEXED_void_GLfloat_GLfloat_GLfloat;
 typedef void (*FUNC_void_const_GLfloat___GENPT__)(const GLfloat * v);
 typedef struct {
-    const GLfloat * a1;
+    GLfloat * a1;
 } ARGS_void_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -1294,7 +1295,7 @@ typedef struct {
 } INDEXED_void_GLint_GLint_GLint;
 typedef void (*FUNC_void_const_GLint___GENPT__)(const GLint * v);
 typedef struct {
-    const GLint * a1;
+    GLint * a1;
 } ARGS_void_const_GLint___GENPT__;
 typedef struct {
     int format;
@@ -1322,7 +1323,7 @@ typedef struct {
 } INDEXED_void_GLshort_GLshort_GLshort;
 typedef void (*FUNC_void_const_GLshort___GENPT__)(const GLshort * v);
 typedef struct {
-    const GLshort * a1;
+    GLshort * a1;
 } ARGS_void_const_GLshort___GENPT__;
 typedef struct {
     int format;
@@ -1350,7 +1351,7 @@ typedef struct {
 } INDEXED_void_GLubyte_GLubyte_GLubyte;
 typedef void (*FUNC_void_const_GLubyte___GENPT__)(const GLubyte * v);
 typedef struct {
-    const GLubyte * a1;
+    GLubyte * a1;
 } ARGS_void_const_GLubyte___GENPT__;
 typedef struct {
     int format;
@@ -1378,7 +1379,7 @@ typedef struct {
 } INDEXED_void_GLuint_GLuint_GLuint;
 typedef void (*FUNC_void_const_GLuint___GENPT__)(const GLuint * v);
 typedef struct {
-    const GLuint * a1;
+    GLuint * a1;
 } ARGS_void_const_GLuint___GENPT__;
 typedef struct {
     int format;
@@ -1406,7 +1407,7 @@ typedef struct {
 } INDEXED_void_GLushort_GLushort_GLushort;
 typedef void (*FUNC_void_const_GLushort___GENPT__)(const GLushort * v);
 typedef struct {
-    const GLushort * a1;
+    GLushort * a1;
 } ARGS_void_const_GLushort___GENPT__;
 typedef struct {
     int format;
@@ -1550,7 +1551,7 @@ typedef struct {
     GLint a1;
     GLenum a2;
     GLsizei a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1568,7 +1569,7 @@ typedef struct {
     GLsizei a3;
     GLenum a4;
     GLenum a5;
-    const GLvoid * a6;
+    GLvoid * a6;
 } ARGS_void_GLenum_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1586,7 +1587,7 @@ typedef struct {
     GLsizei a3;
     GLenum a4;
     GLenum a5;
-    const GLvoid * a6;
+    GLvoid * a6;
 } ARGS_void_GLenum_GLenum_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1601,7 +1602,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLfloat___GENPT__)(GLenum target, G
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLfloat * a3;
+    GLfloat * a3;
 } ARGS_void_GLenum_GLenum_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -1616,7 +1617,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLint___GENPT__)(GLenum target, GLe
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLint * a3;
+    GLint * a3;
 } ARGS_void_GLenum_GLenum_const_GLint___GENPT__;
 typedef struct {
     int format;
@@ -1635,7 +1636,7 @@ typedef struct {
     GLsizei a4;
     GLint a5;
     GLsizei a6;
-    const GLvoid * a7;
+    GLvoid * a7;
 } ARGS_void_GLenum_GLint_GLenum_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1655,7 +1656,7 @@ typedef struct {
     GLsizei a5;
     GLint a6;
     GLsizei a7;
-    const GLvoid * a8;
+    GLvoid * a8;
 } ARGS_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1676,7 +1677,7 @@ typedef struct {
     GLsizei a6;
     GLint a7;
     GLsizei a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1695,7 +1696,7 @@ typedef struct {
     GLsizei a4;
     GLenum a5;
     GLsizei a6;
-    const GLvoid * a7;
+    GLvoid * a7;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1716,7 +1717,7 @@ typedef struct {
     GLsizei a6;
     GLenum a7;
     GLsizei a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1739,7 +1740,7 @@ typedef struct {
     GLsizei a8;
     GLenum a9;
     GLsizei a10;
-    const GLvoid * a11;
+    GLvoid * a11;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1758,7 +1759,7 @@ typedef struct {
     GLsizei a4;
     GLenum a5;
     GLenum a6;
-    const GLvoid * a7;
+    GLvoid * a7;
 } ARGS_void_GLenum_GLenum_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -1969,7 +1970,7 @@ typedef struct {
 typedef void (*FUNC_void_GLsizei_const_GLuint___GENPT__)(GLsizei n, const GLuint * buffers);
 typedef struct {
     GLsizei a1;
-    const GLuint * a2;
+    GLuint * a2;
 } ARGS_void_GLsizei_const_GLuint___GENPT__;
 typedef struct {
     int format;
@@ -2041,7 +2042,7 @@ typedef struct {
     GLenum a1;
     GLsizei a2;
     GLenum a3;
-    const GLvoid * a4;
+    GLvoid * a4;
 } ARGS_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -2058,7 +2059,7 @@ typedef struct {
     GLsizei a2;
     GLenum a3;
     GLenum a4;
-    const GLvoid * a5;
+    GLvoid * a5;
 } ARGS_void_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -2076,7 +2077,7 @@ typedef struct {
     GLuint a3;
     GLsizei a4;
     GLenum a5;
-    const GLvoid * a6;
+    GLvoid * a6;
 } ARGS_void_GLenum_GLuint_GLuint_GLsizei_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -2090,7 +2091,7 @@ typedef struct {
 typedef void (*FUNC_void_GLsizei_const_GLvoid___GENPT__)(GLsizei stride, const GLvoid * pointer);
 typedef struct {
     GLsizei a1;
-    const GLvoid * a2;
+    GLvoid * a2;
 } ARGS_void_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -2103,7 +2104,7 @@ typedef struct {
 } INDEXED_void_GLsizei_const_GLvoid___GENPT__;
 typedef void (*FUNC_void_const_GLboolean___GENPT__)(const GLboolean * flag);
 typedef struct {
-    const GLboolean * a1;
+    GLboolean * a1;
 } ARGS_void_const_GLboolean___GENPT__;
 typedef struct {
     int format;
@@ -2205,7 +2206,7 @@ typedef void (*FUNC_void_GLenum_GLsizei_const_GLvoid___GENPT__)(GLenum type, GLs
 typedef struct {
     GLenum a1;
     GLsizei a2;
-    const GLvoid * a3;
+    GLvoid * a3;
 } ARGS_void_GLenum_GLsizei_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -2219,7 +2220,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLfloat___GENPT__)(GLenum pname, const GLfloat * params);
 typedef struct {
     GLenum a1;
-    const GLfloat * a2;
+    GLfloat * a2;
 } ARGS_void_GLenum_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -2247,7 +2248,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLint___GENPT__)(GLenum pname, const GLint * params);
 typedef struct {
     GLenum a1;
-    const GLint * a2;
+    GLint * a2;
 } ARGS_void_GLenum_const_GLint___GENPT__;
 typedef struct {
     int format;
@@ -2749,7 +2750,7 @@ typedef struct {
     GLdouble a3 __attribute__ ((aligned(8)));
     GLint a4;
     GLint a5;
-    const GLdouble * a6;
+    GLdouble * a6;
 } ARGS_void_GLenum_GLdouble_GLdouble_GLint_GLint_const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -2767,7 +2768,7 @@ typedef struct {
     GLfloat a3;
     GLint a4;
     GLint a5;
-    const GLfloat * a6;
+    GLfloat * a6;
 } ARGS_void_GLenum_GLfloat_GLfloat_GLint_GLint_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -2789,7 +2790,7 @@ typedef struct {
     GLdouble a7 __attribute__ ((aligned(8)));
     GLint a8;
     GLint a9;
-    const GLdouble * a10;
+    GLdouble * a10;
 } ARGS_void_GLenum_GLdouble_GLdouble_GLint_GLint_GLdouble_GLdouble_GLint_GLint_const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -2811,7 +2812,7 @@ typedef struct {
     GLfloat a7;
     GLint a8;
     GLint a9;
-    const GLfloat * a10;
+    GLfloat * a10;
 } ARGS_void_GLenum_GLfloat_GLfloat_GLint_GLint_GLfloat_GLfloat_GLint_GLint_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -2920,8 +2921,8 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLint___GENPT___const_GLsizei___GENPT___GLsizei)(GLenum mode, const GLint * first, const GLsizei * count, GLsizei drawcount);
 typedef struct {
     GLenum a1;
-    const GLint * a2;
-    const GLsizei * a3;
+    GLint * a2;
+    GLsizei * a3;
     GLsizei a4;
 } ARGS_void_GLenum_const_GLint___GENPT___const_GLsizei___GENPT___GLsizei;
 typedef struct {
@@ -2936,7 +2937,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLsizei___GENPT___GLenum_GLvoid__GENPT__const___GENPT___GLsizei)(GLenum mode, const GLsizei * count, GLenum type, GLvoid*const * indices, GLsizei drawcount);
 typedef struct {
     GLenum a1;
-    const GLsizei * a2;
+    GLsizei * a2;
     GLenum a3;
     GLvoid*const * a4;
     GLsizei a5;
@@ -2981,7 +2982,7 @@ typedef struct {
 typedef void (*FUNC_void_GLenum_const_GLshort___GENPT__)(GLenum target, const GLshort * v);
 typedef struct {
     GLenum a1;
-    const GLshort * a2;
+    GLshort * a2;
 } ARGS_void_GLenum_const_GLshort___GENPT__;
 typedef struct {
     int format;
@@ -3170,7 +3171,7 @@ typedef void (*FUNC_void_GLenum_GLsizei_const_GLfloat___GENPT__)(GLenum map, GLs
 typedef struct {
     GLenum a1;
     GLsizei a2;
-    const GLfloat * a3;
+    GLfloat * a3;
 } ARGS_void_GLenum_GLsizei_const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -3185,7 +3186,7 @@ typedef void (*FUNC_void_GLenum_GLsizei_const_GLuint___GENPT__)(GLenum map, GLsi
 typedef struct {
     GLenum a1;
     GLsizei a2;
-    const GLuint * a3;
+    GLuint * a3;
 } ARGS_void_GLenum_GLsizei_const_GLuint___GENPT__;
 typedef struct {
     int format;
@@ -3200,7 +3201,7 @@ typedef void (*FUNC_void_GLenum_GLsizei_const_GLushort___GENPT__)(GLenum map, GL
 typedef struct {
     GLenum a1;
     GLsizei a2;
-    const GLushort * a3;
+    GLushort * a3;
 } ARGS_void_GLenum_GLsizei_const_GLushort___GENPT__;
 typedef struct {
     int format;
@@ -3214,8 +3215,8 @@ typedef struct {
 typedef void (*FUNC_void_GLsizei_const_GLuint___GENPT___const_GLfloat___GENPT__)(GLsizei n, const GLuint * textures, const GLfloat * priorities);
 typedef struct {
     GLsizei a1;
-    const GLuint * a2;
-    const GLfloat * a3;
+    GLuint * a2;
+    GLfloat * a3;
 } ARGS_void_GLsizei_const_GLuint___GENPT___const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -3261,8 +3262,8 @@ typedef struct {
 } INDEXED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__;
 typedef void (*FUNC_void_const_GLdouble___GENPT___const_GLdouble___GENPT__)(const GLdouble * v1, const GLdouble * v2);
 typedef struct {
-    const GLdouble * a1;
-    const GLdouble * a2;
+    GLdouble * a1;
+    GLdouble * a2;
 } ARGS_void_const_GLdouble___GENPT___const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -3275,8 +3276,8 @@ typedef struct {
 } INDEXED_void_const_GLdouble___GENPT___const_GLdouble___GENPT__;
 typedef void (*FUNC_void_const_GLfloat___GENPT___const_GLfloat___GENPT__)(const GLfloat * v1, const GLfloat * v2);
 typedef struct {
-    const GLfloat * a1;
-    const GLfloat * a2;
+    GLfloat * a1;
+    GLfloat * a2;
 } ARGS_void_const_GLfloat___GENPT___const_GLfloat___GENPT__;
 typedef struct {
     int format;
@@ -3289,8 +3290,8 @@ typedef struct {
 } INDEXED_void_const_GLfloat___GENPT___const_GLfloat___GENPT__;
 typedef void (*FUNC_void_const_GLint___GENPT___const_GLint___GENPT__)(const GLint * v1, const GLint * v2);
 typedef struct {
-    const GLint * a1;
-    const GLint * a2;
+    GLint * a1;
+    GLint * a2;
 } ARGS_void_const_GLint___GENPT___const_GLint___GENPT__;
 typedef struct {
     int format;
@@ -3303,8 +3304,8 @@ typedef struct {
 } INDEXED_void_const_GLint___GENPT___const_GLint___GENPT__;
 typedef void (*FUNC_void_const_GLshort___GENPT___const_GLshort___GENPT__)(const GLshort * v1, const GLshort * v2);
 typedef struct {
-    const GLshort * a1;
-    const GLshort * a2;
+    GLshort * a1;
+    GLshort * a2;
 } ARGS_void_const_GLshort___GENPT___const_GLshort___GENPT__;
 typedef struct {
     int format;
@@ -3366,8 +3367,8 @@ typedef struct {
     GLsizei a4;
     GLenum a5;
     GLenum a6;
-    const GLvoid * a7;
-    const GLvoid * a8;
+    GLvoid * a7;
+    GLvoid * a8;
 } ARGS_void_GLenum_GLenum_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT___const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3427,7 +3428,7 @@ typedef void (*FUNC_void_GLenum_GLenum_const_GLdouble___GENPT__)(GLenum coord, G
 typedef struct {
     GLenum a1;
     GLenum a2;
-    const GLdouble * a3;
+    GLdouble * a3;
 } ARGS_void_GLenum_GLenum_const_GLdouble___GENPT__;
 typedef struct {
     int format;
@@ -3447,7 +3448,7 @@ typedef struct {
     GLint a5;
     GLenum a6;
     GLenum a7;
-    const GLvoid * a8;
+    GLvoid * a8;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3468,7 +3469,7 @@ typedef struct {
     GLint a6;
     GLenum a7;
     GLenum a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3490,7 +3491,7 @@ typedef struct {
     GLint a7;
     GLenum a8;
     GLenum a9;
-    const GLvoid * a10;
+    GLvoid * a10;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3509,7 +3510,7 @@ typedef struct {
     GLsizei a4;
     GLenum a5;
     GLenum a6;
-    const GLvoid * a7;
+    GLvoid * a7;
 } ARGS_void_GLenum_GLint_GLint_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3530,7 +3531,7 @@ typedef struct {
     GLsizei a6;
     GLenum a7;
     GLenum a8;
-    const GLvoid * a9;
+    GLvoid * a9;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3553,7 +3554,7 @@ typedef struct {
     GLsizei a8;
     GLenum a9;
     GLenum a10;
-    const GLvoid * a11;
+    GLvoid * a11;
 } ARGS_void_GLenum_GLint_GLint_GLint_GLint_GLsizei_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
 typedef struct {
     int format;
@@ -3658,7 +3659,7 @@ typedef struct {
     void * a2;
     GLXContext a3;
     Bool a4;
-    const int * a5;
+    int * a5;
 } ARGS_GLXContext_Display___GENPT___void___GENPT___GLXContext_Bool_const_int___GENPT__;
 typedef struct {
     int format;
@@ -3835,7 +3836,7 @@ typedef struct {
     int a2;
     int a3;
     int a4;
-    const void * a5;
+    void * a5;
 } ARGS_int_Display___GENPT___int_int_int_const_void___GENPT__;
 typedef struct {
     int format;
@@ -3913,7 +3914,7 @@ typedef struct {
     int a2;
     int a3;
     int a4;
-    const void * a5;
+    void * a5;
     void * a6;
 } ARGS_int_Display___GENPT___int_int_int_const_void___GENPT___void___GENPT__;
 typedef struct {
@@ -4003,7 +4004,7 @@ typedef GLXFBConfig * (*FUNC_GLXFBConfig___GENPT___Display___GENPT___int_const_i
 typedef struct {
     Display * a1;
     int a2;
-    const int * a3;
+    int * a3;
     int * a4;
 } ARGS_GLXFBConfig___GENPT___Display___GENPT___int_const_int___GENPT___int___GENPT__;
 typedef struct {
@@ -4036,7 +4037,7 @@ typedef GLXPbuffer (*FUNC_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___G
 typedef struct {
     Display * a1;
     GLXFBConfig a2;
-    const int * a3;
+    int * a3;
 } ARGS_GLXPbuffer_Display___GENPT___GLXFBConfig_const_int___GENPT__;
 typedef struct {
     int format;
@@ -4052,7 +4053,7 @@ typedef struct {
     Display * a1;
     GLXFBConfig a2;
     Pixmap a3;
-    const int * a4;
+    int * a4;
 } ARGS_GLXPixmap_Display___GENPT___GLXFBConfig_Pixmap_const_int___GENPT__;
 typedef struct {
     int format;
@@ -4068,7 +4069,7 @@ typedef struct {
     Display * a1;
     GLXFBConfig a2;
     Window a3;
-    const int * a4;
+    int * a4;
 } ARGS_GLXWindow_Display___GENPT___GLXFBConfig_Window_const_int___GENPT__;
 typedef struct {
     int format;
@@ -4152,7 +4153,7 @@ typedef struct {
 } INDEXED_GLXFBConfig___GENPT___Display___GENPT___int_int___GENPT__;
 typedef __GLXextFuncPtr (*FUNC___GLXextFuncPtr_const_GLubyte___GENPT__)(const GLubyte * procName);
 typedef struct {
-    const GLubyte * a1;
+    GLubyte * a1;
 } ARGS___GLXextFuncPtr_const_GLubyte___GENPT__;
 typedef struct {
     int format;
@@ -4398,7 +4399,7 @@ typedef struct {
 } INDEXED_snd_timer_t___GENPT___snd_async_handler_t___GENPT__;
 typedef int (*FUNC_int_const_char___GENPT__)(const char * name);
 typedef struct {
-    const char * a1;
+    char * a1;
 } ARGS_int_const_char___GENPT__;
 typedef struct {
     int format;
@@ -4492,7 +4493,7 @@ typedef struct {
 } INDEXED_int_snd_config_t___GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT__)(const snd_config_t * config);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
 } ARGS_int_const_snd_config_t___GENPT__;
 typedef struct {
     int format;
@@ -4523,7 +4524,7 @@ typedef int (*FUNC_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char_
 typedef struct {
     snd_config_t * a1;
     snd_config_t * a2;
-    const char * a3;
+    char * a3;
     snd_config_t * a4;
     snd_config_t ** a5;
 } ARGS_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__;
@@ -4538,7 +4539,7 @@ typedef struct {
 } INDEXED_int_snd_config_t___GENPT___snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT___snd_config_t___GENPT____GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___char___GENPT____GENPT__)(const snd_config_t * config, char ** value);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
     char ** a2;
 } ARGS_int_const_snd_config_t___GENPT___char___GENPT____GENPT__;
 typedef struct {
@@ -4552,8 +4553,8 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___char___GENPT____GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__)(const snd_config_t * config, const char ** value);
 typedef struct {
-    const snd_config_t * a1;
-    const char ** a2;
+    snd_config_t * a1;
+    char ** a2;
 } ARGS_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__;
 typedef struct {
     int format;
@@ -4566,7 +4567,7 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___const_char___GENPT____GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___long___GENPT__)(const snd_config_t * config, long * value);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
     long * a2;
 } ARGS_int_const_snd_config_t___GENPT___long___GENPT__;
 typedef struct {
@@ -4580,7 +4581,7 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___long___GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___long_long___GENPT__)(const snd_config_t * config, long long * value);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
     long long * a2;
 } ARGS_int_const_snd_config_t___GENPT___long_long___GENPT__;
 typedef struct {
@@ -4594,7 +4595,7 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___long_long___GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___double___GENPT__)(const snd_config_t * config, double * value);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
     double * a2;
 } ARGS_int_const_snd_config_t___GENPT___double___GENPT__;
 typedef struct {
@@ -4608,8 +4609,8 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___double___GENPT__;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__)(const snd_config_t * config, const void ** value);
 typedef struct {
-    const snd_config_t * a1;
-    const void ** a2;
+    snd_config_t * a1;
+    void ** a2;
 } ARGS_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__;
 typedef struct {
     int format;
@@ -4622,7 +4623,7 @@ typedef struct {
 } INDEXED_int_const_snd_config_t___GENPT___const_void___GENPT____GENPT__;
 typedef snd_config_type_t (*FUNC_snd_config_type_t_const_snd_config_t___GENPT__)(const snd_config_t * config);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
 } ARGS_snd_config_type_t_const_snd_config_t___GENPT__;
 typedef struct {
     int format;
@@ -4636,8 +4637,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long)(snd_config_t ** config, const char * key, const long value);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
-    const long a3;
+    char * a2;
+    long a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long;
 typedef struct {
     int format;
@@ -4651,8 +4652,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long_long)(snd_config_t ** config, const char * key, const long long value);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
-    const long long a3;
+    char * a2;
+    long long a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_long_long;
 typedef struct {
     int format;
@@ -4666,8 +4667,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_void___GENPT__)(snd_config_t ** config, const char * key, const void * ptr);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
-    const void * a3;
+    char * a2;
+    void * a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_void___GENPT__;
 typedef struct {
     int format;
@@ -4681,8 +4682,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_double)(snd_config_t ** config, const char * key, const double value);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
-    const double a3;
+    char * a2;
+    double a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_double;
 typedef struct {
     int format;
@@ -4696,8 +4697,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__)(snd_config_t ** config, const char * key, const char * ascii);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -4710,7 +4711,7 @@ typedef struct {
 } INDEXED_int_snd_config_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
 typedef snd_config_iterator_t (*FUNC_snd_config_iterator_t_const_snd_config_t___GENPT__)(const snd_config_t * node);
 typedef struct {
-    const snd_config_t * a1;
+    snd_config_t * a1;
 } ARGS_snd_config_iterator_t_const_snd_config_t___GENPT__;
 typedef struct {
     int format;
@@ -4723,7 +4724,7 @@ typedef struct {
 } INDEXED_snd_config_iterator_t_const_snd_config_t___GENPT__;
 typedef snd_config_t * (*FUNC_snd_config_t___GENPT___const_snd_config_iterator_t)(const snd_config_iterator_t iterator);
 typedef struct {
-    const snd_config_iterator_t a1;
+    snd_config_iterator_t a1;
 } ARGS_snd_config_t___GENPT___const_snd_config_iterator_t;
 typedef struct {
     int format;
@@ -4736,7 +4737,7 @@ typedef struct {
 } INDEXED_snd_config_t___GENPT___const_snd_config_iterator_t;
 typedef snd_config_iterator_t (*FUNC_snd_config_iterator_t_const_snd_config_iterator_t)(const snd_config_iterator_t iterator);
 typedef struct {
-    const snd_config_iterator_t a1;
+    snd_config_iterator_t a1;
 } ARGS_snd_config_iterator_t_const_snd_config_iterator_t;
 typedef struct {
     int format;
@@ -4764,7 +4765,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___snd_config_type_t)(snd_config_t ** config, const char * key, snd_config_type_t type);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
+    char * a2;
     snd_config_type_t a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___snd_config_type_t;
 typedef struct {
@@ -4779,7 +4780,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT___int)(snd_config_t ** config, const char * key, int join);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -4794,7 +4795,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___const_char___GENPT__)(snd_config_t ** config, const char * key);
 typedef struct {
     snd_config_t ** a1;
-    const char * a2;
+    char * a2;
 } ARGS_int_snd_config_t___GENPT____GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -4822,7 +4823,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__)(snd_config_t * config, const char * key, snd_config_t ** result);
 typedef struct {
     snd_config_t * a1;
-    const char * a2;
+    char * a2;
     snd_config_t ** a3;
 } ARGS_int_snd_config_t___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__;
 typedef struct {
@@ -4837,8 +4838,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT___const_char___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__)(snd_config_t * config, const char * base, const char * key, snd_config_t ** result);
 typedef struct {
     snd_config_t * a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
     snd_config_t ** a4;
 } ARGS_int_snd_config_t___GENPT___const_char___GENPT___const_char___GENPT___snd_config_t___GENPT____GENPT__;
 typedef struct {
@@ -4853,7 +4854,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT___const_char___GENPT__)(snd_config_t * config, const char * ascii);
 typedef struct {
     snd_config_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_int_snd_config_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -4895,7 +4896,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_config_t___GENPT___const_void___GENPT__)(snd_config_t * config, const void * ptr);
 typedef struct {
     snd_config_t * a1;
-    const void * a2;
+    void * a2;
 } ARGS_int_snd_config_t___GENPT___const_void___GENPT__;
 typedef struct {
     int format;
@@ -4922,8 +4923,8 @@ typedef struct {
 } INDEXED_int_snd_config_t___GENPT___double;
 typedef int (*FUNC_int_const_snd_config_t___GENPT___const_char___GENPT__)(const snd_config_t * config, const char * id);
 typedef struct {
-    const snd_config_t * a1;
-    const char * a2;
+    snd_config_t * a1;
+    char * a2;
 } ARGS_int_const_snd_config_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -4976,7 +4977,7 @@ typedef int (*FUNC_int_snd_config_t___GENPT____GENPT___snd_config_update_t___GEN
 typedef struct {
     snd_config_t ** a1;
     snd_config_update_t ** a2;
-    const char * a3;
+    char * a3;
 } ARGS_int_snd_config_t___GENPT____GENPT___snd_config_update_t___GENPT____GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -5017,7 +5018,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__)(snd_ctl_card_info_t * dst, const snd_ctl_card_info_t * src);
 typedef struct {
     snd_ctl_card_info_t * a1;
-    const snd_ctl_card_info_t * a2;
+    snd_ctl_card_info_t * a2;
 } ARGS_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5030,7 +5031,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_card_info_t___GENPT___const_snd_ctl_card_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_ctl_card_info_t___GENPT__)(const snd_ctl_card_info_t * obj);
 typedef struct {
-    const snd_ctl_card_info_t * a1;
+    snd_ctl_card_info_t * a1;
 } ARGS_int_const_snd_ctl_card_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5043,7 +5044,7 @@ typedef struct {
 } INDEXED_int_const_snd_ctl_card_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__)(const snd_ctl_card_info_t * obj);
 typedef struct {
-    const snd_ctl_card_info_t * a1;
+    snd_ctl_card_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_ctl_card_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5095,7 +5096,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
     unsigned int a3;
 } ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int;
 typedef struct {
@@ -5110,7 +5111,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
 } ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5124,7 +5125,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count, long imin, long imax, long istep);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
     unsigned int a3;
     long a4;
     long a5;
@@ -5142,7 +5143,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int_long_long_long_long_long_long)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int count, long long imin, long long imax, long long istep);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
     unsigned int a3;
     long long a4;
     long long a5;
@@ -5173,7 +5174,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__)(snd_ctl_elem_id_t * dst, const snd_ctl_elem_id_t * src);
 typedef struct {
     snd_ctl_elem_id_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
 } ARGS_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5186,7 +5187,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_elem_id_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_id_t * obj);
 typedef struct {
-    const snd_ctl_elem_id_t * a1;
+    snd_ctl_elem_id_t * a1;
 } ARGS_unsigned_int_const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5199,7 +5200,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_id_t___GENPT__;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_id_t * obj);
 typedef struct {
-    const snd_ctl_elem_id_t * a1;
+    snd_ctl_elem_id_t * a1;
 } ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5212,7 +5213,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_id_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_id_t * obj);
 typedef struct {
-    const snd_ctl_elem_id_t * a1;
+    snd_ctl_elem_id_t * a1;
 } ARGS_const_char___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5267,7 +5268,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_id_t___GENPT___const_char___GENPT__)(snd_ctl_elem_id_t * obj, const char * val);
 typedef struct {
     snd_ctl_elem_id_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_ctl_elem_id_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -5321,7 +5322,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__)(snd_ctl_elem_info_t * dst, const snd_ctl_elem_info_t * src);
 typedef struct {
     snd_ctl_elem_info_t * a1;
-    const snd_ctl_elem_info_t * a2;
+    snd_ctl_elem_info_t * a2;
 } ARGS_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5334,7 +5335,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_info_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_unsigned_int_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5347,7 +5348,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int)(const snd_ctl_elem_info_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
     unsigned int a2;
 } ARGS_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int;
 typedef struct {
@@ -5361,7 +5362,7 @@ typedef struct {
 } INDEXED_int_const_snd_ctl_elem_info_t___GENPT___unsigned_int;
 typedef int (*FUNC_int_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_int_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5374,7 +5375,7 @@ typedef struct {
 } INDEXED_int_const_snd_ctl_elem_info_t___GENPT__;
 typedef void (*FUNC_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_info_t * obj, snd_ctl_elem_id_t * ptr);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
     snd_ctl_elem_id_t * a2;
 } ARGS_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef struct {
@@ -5388,7 +5389,7 @@ typedef struct {
 } INDEXED_void_const_snd_ctl_elem_info_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5401,7 +5402,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5414,7 +5415,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_ctl_elem_info_t___GENPT__;
 typedef long (*FUNC_long_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_long_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5427,7 +5428,7 @@ typedef struct {
 } INDEXED_long_const_snd_ctl_elem_info_t___GENPT__;
 typedef long long (*FUNC_long_long_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_long_long_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5440,7 +5441,7 @@ typedef struct {
 } INDEXED_long_long_const_snd_ctl_elem_info_t___GENPT__;
 typedef pid_t (*FUNC_pid_t_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_pid_t_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5453,7 +5454,7 @@ typedef struct {
 } INDEXED_pid_t_const_snd_ctl_elem_info_t___GENPT__;
 typedef snd_ctl_elem_type_t (*FUNC_snd_ctl_elem_type_t_const_snd_ctl_elem_info_t___GENPT__)(const snd_ctl_elem_info_t * obj);
 typedef struct {
-    const snd_ctl_elem_info_t * a1;
+    snd_ctl_elem_info_t * a1;
 } ARGS_snd_ctl_elem_type_t_const_snd_ctl_elem_info_t___GENPT__;
 typedef struct {
     int format;
@@ -5494,7 +5495,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_id_t___GENPT__)(snd_ctl_elem_info_t * obj, const snd_ctl_elem_id_t * ptr);
 typedef struct {
     snd_ctl_elem_info_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
 } ARGS_void_snd_ctl_elem_info_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -5522,7 +5523,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_info_t___GENPT___const_char___GENPT__)(snd_ctl_elem_info_t * obj, const char * val);
 typedef struct {
     snd_ctl_elem_info_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_ctl_elem_info_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -5577,7 +5578,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__)(snd_ctl_elem_list_t * dst, const snd_ctl_elem_list_t * src);
 typedef struct {
     snd_ctl_elem_list_t * a1;
-    const snd_ctl_elem_list_t * a2;
+    snd_ctl_elem_list_t * a2;
 } ARGS_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__;
 typedef struct {
     int format;
@@ -5590,7 +5591,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_elem_list_t___GENPT___const_snd_ctl_elem_list_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_list_t___GENPT__)(const snd_ctl_elem_list_t * obj);
 typedef struct {
-    const snd_ctl_elem_list_t * a1;
+    snd_ctl_elem_list_t * a1;
 } ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT__;
 typedef struct {
     int format;
@@ -5603,7 +5604,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int)(const snd_ctl_elem_list_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_list_t * a1;
+    snd_ctl_elem_list_t * a1;
     unsigned int a2;
 } ARGS_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int;
 typedef struct {
@@ -5617,7 +5618,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_list_t___GENPT___unsigned_int;
 typedef void (*FUNC_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_list_t * obj, unsigned int idx, snd_ctl_elem_id_t * ptr);
 typedef struct {
-    const snd_ctl_elem_list_t * a1;
+    snd_ctl_elem_list_t * a1;
     unsigned int a2;
     snd_ctl_elem_id_t * a3;
 } ARGS_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__;
@@ -5632,7 +5633,7 @@ typedef struct {
 } INDEXED_void_const_snd_ctl_elem_list_t___GENPT___unsigned_int_snd_ctl_elem_id_t___GENPT__;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int)(const snd_ctl_elem_list_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_list_t * a1;
+    snd_ctl_elem_list_t * a1;
     unsigned int a2;
 } ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int;
 typedef struct {
@@ -5646,7 +5647,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_list_t___GENPT___unsigned_int;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_elem_list_t___GENPT___unsigned_int)(const snd_ctl_elem_list_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_list_t * a1;
+    snd_ctl_elem_list_t * a1;
     unsigned int a2;
 } ARGS_const_char___GENPT___const_snd_ctl_elem_list_t___GENPT___unsigned_int;
 typedef struct {
@@ -5731,8 +5732,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, const unsigned int * tlv);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
-    const unsigned int * a3;
+    snd_ctl_elem_id_t * a2;
+    unsigned int * a3;
 } ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___const_unsigned_int___GENPT__;
 typedef struct {
     int format;
@@ -5746,7 +5747,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int___GENPT___unsigned_int)(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigned int * tlv, unsigned int tlv_size);
 typedef struct {
     snd_ctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
     unsigned int * a3;
     unsigned int a4;
 } ARGS_int_snd_ctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT___unsigned_int___GENPT___unsigned_int;
@@ -5788,7 +5789,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__)(snd_ctl_elem_value_t * dst, const snd_ctl_elem_value_t * src);
 typedef struct {
     snd_ctl_elem_value_t * a1;
-    const snd_ctl_elem_value_t * a2;
+    snd_ctl_elem_value_t * a2;
 } ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__;
 typedef struct {
     int format;
@@ -5801,7 +5802,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_value_t___GENPT__;
 typedef int (*FUNC_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int)(const snd_ctl_elem_value_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     unsigned int a2;
 } ARGS_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef struct {
@@ -5815,7 +5816,7 @@ typedef struct {
 } INDEXED_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef unsigned char (*FUNC_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int)(const snd_ctl_elem_value_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     unsigned int a2;
 } ARGS_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef struct {
@@ -5829,7 +5830,7 @@ typedef struct {
 } INDEXED_unsigned_char_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef const void * (*FUNC_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__)(const snd_ctl_elem_value_t * obj);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
 } ARGS_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__;
 typedef struct {
     int format;
@@ -5842,7 +5843,7 @@ typedef struct {
 } INDEXED_const_void___GENPT___const_snd_ctl_elem_value_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_value_t___GENPT__)(const snd_ctl_elem_value_t * obj);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
 } ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT__;
 typedef struct {
     int format;
@@ -5855,7 +5856,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int)(const snd_ctl_elem_value_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     unsigned int a2;
 } ARGS_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef struct {
@@ -5869,7 +5870,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef void (*FUNC_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__)(const snd_ctl_elem_value_t * obj, snd_ctl_elem_id_t * ptr);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     snd_ctl_elem_id_t * a2;
 } ARGS_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef struct {
@@ -5883,7 +5884,7 @@ typedef struct {
 } INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef void (*FUNC_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__)(const snd_ctl_elem_value_t * obj, snd_aes_iec958_t * ptr);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     snd_aes_iec958_t * a2;
 } ARGS_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__;
 typedef struct {
@@ -5897,7 +5898,7 @@ typedef struct {
 } INDEXED_void_const_snd_ctl_elem_value_t___GENPT___snd_aes_iec958_t___GENPT__;
 typedef long (*FUNC_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int)(const snd_ctl_elem_value_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     unsigned int a2;
 } ARGS_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef struct {
@@ -5911,7 +5912,7 @@ typedef struct {
 } INDEXED_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef long long (*FUNC_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int)(const snd_ctl_elem_value_t * obj, unsigned int idx);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
     unsigned int a2;
 } ARGS_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef struct {
@@ -5925,7 +5926,7 @@ typedef struct {
 } INDEXED_long_long_const_snd_ctl_elem_value_t___GENPT___unsigned_int;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__)(const snd_ctl_elem_value_t * obj);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
 } ARGS_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__;
 typedef struct {
     int format;
@@ -5938,7 +5939,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_elem_value_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_elem_value_t___GENPT__)(const snd_ctl_elem_value_t * obj);
 typedef struct {
-    const snd_ctl_elem_value_t * a1;
+    snd_ctl_elem_value_t * a1;
 } ARGS_const_char___GENPT___const_snd_ctl_elem_value_t___GENPT__;
 typedef struct {
     int format;
@@ -6024,7 +6025,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_id_t___GENPT__)(snd_ctl_elem_value_t * obj, const snd_ctl_elem_id_t * ptr);
 typedef struct {
     snd_ctl_elem_value_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
 } ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -6038,7 +6039,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_value_t___GENPT___const_snd_aes_iec958_t___GENPT__)(snd_ctl_elem_value_t * obj, const snd_aes_iec958_t * ptr);
 typedef struct {
     snd_ctl_elem_value_t * a1;
-    const snd_aes_iec958_t * a2;
+    snd_aes_iec958_t * a2;
 } ARGS_void_snd_ctl_elem_value_t___GENPT___const_snd_aes_iec958_t___GENPT__;
 typedef struct {
     int format;
@@ -6081,7 +6082,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_elem_value_t___GENPT___const_char___GENPT__)(snd_ctl_elem_value_t * obj, const char * val);
 typedef struct {
     snd_ctl_elem_value_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_ctl_elem_value_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -6108,7 +6109,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__)(snd_ctl_event_t * dst, const snd_ctl_event_t * src);
 typedef struct {
     snd_ctl_event_t * a1;
-    const snd_ctl_event_t * a2;
+    snd_ctl_event_t * a2;
 } ARGS_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__;
 typedef struct {
     int format;
@@ -6121,7 +6122,7 @@ typedef struct {
 } INDEXED_void_snd_ctl_event_t___GENPT___const_snd_ctl_event_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_ctl_event_t___GENPT__)(const snd_ctl_event_t * obj);
 typedef struct {
-    const snd_ctl_event_t * a1;
+    snd_ctl_event_t * a1;
 } ARGS_unsigned_int_const_snd_ctl_event_t___GENPT__;
 typedef struct {
     int format;
@@ -6134,7 +6135,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_ctl_event_t___GENPT__;
 typedef void (*FUNC_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__)(const snd_ctl_event_t * obj, snd_ctl_elem_id_t * ptr);
 typedef struct {
-    const snd_ctl_event_t * a1;
+    snd_ctl_event_t * a1;
     snd_ctl_elem_id_t * a2;
 } ARGS_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef struct {
@@ -6148,7 +6149,7 @@ typedef struct {
 } INDEXED_void_const_snd_ctl_event_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__)(const snd_ctl_event_t * obj);
 typedef struct {
-    const snd_ctl_event_t * a1;
+    snd_ctl_event_t * a1;
 } ARGS_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__;
 typedef struct {
     int format;
@@ -6161,7 +6162,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_ctl_event_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_ctl_event_t___GENPT__)(const snd_ctl_event_t * obj);
 typedef struct {
-    const snd_ctl_event_t * a1;
+    snd_ctl_event_t * a1;
 } ARGS_const_char___GENPT___const_snd_ctl_event_t___GENPT__;
 typedef struct {
     int format;
@@ -6174,7 +6175,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_ctl_event_t___GENPT__;
 typedef snd_ctl_event_type_t (*FUNC_snd_ctl_event_type_t_const_snd_ctl_event_t___GENPT__)(const snd_ctl_event_t * obj);
 typedef struct {
-    const snd_ctl_event_t * a1;
+    snd_ctl_event_t * a1;
 } ARGS_snd_ctl_event_type_t_const_snd_ctl_event_t___GENPT__;
 typedef struct {
     int format;
@@ -6283,7 +6284,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int)(snd_ctl_t ** ctl, const char * name, int mode);
 typedef struct {
     snd_ctl_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -6298,7 +6299,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__)(snd_ctl_t ** ctl, const char * name, int mode, snd_config_t * lconf);
 typedef struct {
     snd_ctl_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     snd_config_t * a4;
 } ARGS_int_snd_ctl_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__;
@@ -6426,7 +6427,7 @@ typedef struct {
 } INDEXED_int_void___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_char___GENPT___int)(const char * file, int mode);
 typedef struct {
-    const char * a1;
+    char * a1;
     int a2;
 } ARGS_void___GENPT___const_char___GENPT___int;
 typedef struct {
@@ -6441,8 +6442,8 @@ typedef struct {
 typedef void * (*FUNC_void___GENPT___void___GENPT___const_char___GENPT___const_char___GENPT__)(void * handle, const char * name, const char * version);
 typedef struct {
     void * a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
 } ARGS_void___GENPT___void___GENPT___const_char___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -6468,8 +6469,8 @@ typedef struct {
 } INDEXED_int_snd_hctl_t___GENPT__;
 typedef int (*FUNC_int_const_snd_hctl_elem_t___GENPT___const_snd_hctl_elem_t___GENPT__)(const snd_hctl_elem_t * c1, const snd_hctl_elem_t * c2);
 typedef struct {
-    const snd_hctl_elem_t * a1;
-    const snd_hctl_elem_t * a2;
+    snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a2;
 } ARGS_int_const_snd_hctl_elem_t___GENPT___const_snd_hctl_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -6495,7 +6496,7 @@ typedef struct {
 } INDEXED_snd_ctl_t___GENPT___snd_hctl_t___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_snd_hctl_elem_t___GENPT__)(const snd_hctl_elem_t * obj);
 typedef struct {
-    const snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a1;
 } ARGS_void___GENPT___const_snd_hctl_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -6508,7 +6509,7 @@ typedef struct {
 } INDEXED_void___GENPT___const_snd_hctl_elem_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_hctl_elem_t___GENPT__)(const snd_hctl_elem_t * obj);
 typedef struct {
-    const snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a1;
 } ARGS_unsigned_int_const_snd_hctl_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -6534,7 +6535,7 @@ typedef struct {
 } INDEXED_snd_hctl_t___GENPT___snd_hctl_elem_t___GENPT__;
 typedef void (*FUNC_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__)(const snd_hctl_elem_t * obj, snd_ctl_elem_id_t * ptr);
 typedef struct {
-    const snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a1;
     snd_ctl_elem_id_t * a2;
 } ARGS_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef struct {
@@ -6548,7 +6549,7 @@ typedef struct {
 } INDEXED_void_const_snd_hctl_elem_t___GENPT___snd_ctl_elem_id_t___GENPT__;
 typedef snd_ctl_elem_iface_t (*FUNC_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__)(const snd_hctl_elem_t * obj);
 typedef struct {
-    const snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a1;
 } ARGS_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -6561,7 +6562,7 @@ typedef struct {
 } INDEXED_snd_ctl_elem_iface_t_const_snd_hctl_elem_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_hctl_elem_t___GENPT__)(const snd_hctl_elem_t * obj);
 typedef struct {
-    const snd_hctl_elem_t * a1;
+    snd_hctl_elem_t * a1;
 } ARGS_const_char___GENPT___const_snd_hctl_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -6644,7 +6645,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__)(snd_hctl_elem_t * elem, const unsigned int * tlv);
 typedef struct {
     snd_hctl_elem_t * a1;
-    const unsigned int * a2;
+    unsigned int * a2;
 } ARGS_int_snd_hctl_elem_t___GENPT___const_unsigned_int___GENPT__;
 typedef struct {
     int format;
@@ -6673,7 +6674,7 @@ typedef struct {
 typedef snd_hctl_elem_t * (*FUNC_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__)(snd_hctl_t * hctl, const snd_ctl_elem_id_t * id);
 typedef struct {
     snd_hctl_t * a1;
-    const snd_ctl_elem_id_t * a2;
+    snd_ctl_elem_id_t * a2;
 } ARGS_snd_hctl_elem_t___GENPT___snd_hctl_t___GENPT___const_snd_ctl_elem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -6753,7 +6754,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_hctl_t___GENPT____GENPT___const_char___GENPT___int)(snd_hctl_t ** hctl, const char * name, int mode);
 typedef struct {
     snd_hctl_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_hctl_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -6868,7 +6869,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_hwdep_dsp_image_t___GENPT___const_snd_hwdep_dsp_image_t___GENPT__)(snd_hwdep_dsp_image_t * dst, const snd_hwdep_dsp_image_t * src);
 typedef struct {
     snd_hwdep_dsp_image_t * a1;
-    const snd_hwdep_dsp_image_t * a2;
+    snd_hwdep_dsp_image_t * a2;
 } ARGS_void_snd_hwdep_dsp_image_t___GENPT___const_snd_hwdep_dsp_image_t___GENPT__;
 typedef struct {
     int format;
@@ -6894,7 +6895,7 @@ typedef struct {
 } INDEXED_void_snd_hwdep_dsp_image_t___GENPT__;
 typedef const void * (*FUNC_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__)(const snd_hwdep_dsp_image_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_image_t * a1;
+    snd_hwdep_dsp_image_t * a1;
 } ARGS_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__;
 typedef struct {
     int format;
@@ -6907,7 +6908,7 @@ typedef struct {
 } INDEXED_const_void___GENPT___const_snd_hwdep_dsp_image_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__)(const snd_hwdep_dsp_image_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_image_t * a1;
+    snd_hwdep_dsp_image_t * a1;
 } ARGS_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__;
 typedef struct {
     int format;
@@ -6920,7 +6921,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_hwdep_dsp_image_t___GENPT__;
 typedef size_t (*FUNC_size_t_const_snd_hwdep_dsp_image_t___GENPT__)(const snd_hwdep_dsp_image_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_image_t * a1;
+    snd_hwdep_dsp_image_t * a1;
 } ARGS_size_t_const_snd_hwdep_dsp_image_t___GENPT__;
 typedef struct {
     int format;
@@ -6933,7 +6934,7 @@ typedef struct {
 } INDEXED_size_t_const_snd_hwdep_dsp_image_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_hwdep_dsp_image_t___GENPT__)(const snd_hwdep_dsp_image_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_image_t * a1;
+    snd_hwdep_dsp_image_t * a1;
 } ARGS_const_char___GENPT___const_snd_hwdep_dsp_image_t___GENPT__;
 typedef struct {
     int format;
@@ -7002,7 +7003,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_hwdep_dsp_image_t___GENPT___const_char___GENPT__)(snd_hwdep_dsp_image_t * obj, const char * name);
 typedef struct {
     snd_hwdep_dsp_image_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_hwdep_dsp_image_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -7044,7 +7045,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_hwdep_dsp_status_t___GENPT___const_snd_hwdep_dsp_status_t___GENPT__)(snd_hwdep_dsp_status_t * dst, const snd_hwdep_dsp_status_t * src);
 typedef struct {
     snd_hwdep_dsp_status_t * a1;
-    const snd_hwdep_dsp_status_t * a2;
+    snd_hwdep_dsp_status_t * a2;
 } ARGS_void_snd_hwdep_dsp_status_t___GENPT___const_snd_hwdep_dsp_status_t___GENPT__;
 typedef struct {
     int format;
@@ -7070,7 +7071,7 @@ typedef struct {
 } INDEXED_void_snd_hwdep_dsp_status_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__)(const snd_hwdep_dsp_status_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_status_t * a1;
+    snd_hwdep_dsp_status_t * a1;
 } ARGS_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__;
 typedef struct {
     int format;
@@ -7083,7 +7084,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_hwdep_dsp_status_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_hwdep_dsp_status_t___GENPT__)(const snd_hwdep_dsp_status_t * obj);
 typedef struct {
-    const snd_hwdep_dsp_status_t * a1;
+    snd_hwdep_dsp_status_t * a1;
 } ARGS_const_char___GENPT___const_snd_hwdep_dsp_status_t___GENPT__;
 typedef struct {
     int format;
@@ -7153,7 +7154,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_hwdep_t___GENPT____GENPT___const_char___GENPT___int)(snd_hwdep_t ** hwdep, const char * name, int mode);
 typedef struct {
     snd_hwdep_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_hwdep_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -7214,7 +7215,7 @@ typedef struct {
 typedef ssize_t (*FUNC_ssize_t_snd_hwdep_t___GENPT___const_void___GENPT___size_t)(snd_hwdep_t * hwdep, const void * buffer, size_t size);
 typedef struct {
     snd_hwdep_t * a1;
-    const void * a2;
+    void * a2;
     size_t a3;
 } ARGS_ssize_t_snd_hwdep_t___GENPT___const_void___GENPT___size_t;
 typedef struct {
@@ -7229,7 +7230,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_input_t___GENPT____GENPT___const_char___GENPT___ssize_t)(snd_input_t ** inputp, const char * buffer, ssize_t size);
 typedef struct {
     snd_input_t ** a1;
-    const char * a2;
+    char * a2;
     ssize_t a3;
 } ARGS_int_snd_input_t___GENPT____GENPT___const_char___GENPT___ssize_t;
 typedef struct {
@@ -7287,8 +7288,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__)(snd_input_t ** inputp, const char * file, const char * mode);
 typedef struct {
     snd_input_t ** a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
 } ARGS_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -7331,7 +7332,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_fm_t * fm, const char * name, snd_instr_header_t ** put, size_t * size);
 typedef struct {
     snd_instr_fm_t * a1;
-    const char * a2;
+    char * a2;
     snd_instr_header_t ** a3;
     size_t * a4;
 } ARGS_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
@@ -7360,7 +7361,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__)(snd_instr_header_t * dst, const snd_instr_header_t * src);
 typedef struct {
     snd_instr_header_t * a1;
-    const snd_instr_header_t * a2;
+    snd_instr_header_t * a2;
 } ARGS_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7386,7 +7387,7 @@ typedef struct {
 } INDEXED_void_snd_instr_header_t___GENPT__;
 typedef const snd_seq_instr_t * (*FUNC_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7399,7 +7400,7 @@ typedef struct {
 } INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__;
 typedef snd_seq_instr_cluster_t (*FUNC_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7412,7 +7413,7 @@ typedef struct {
 } INDEXED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_unsigned_int_const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7425,7 +7426,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_instr_header_t___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_void___GENPT___const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7438,7 +7439,7 @@ typedef struct {
 } INDEXED_void___GENPT___const_snd_instr_header_t___GENPT__;
 typedef int (*FUNC_int_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_int_const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7451,7 +7452,7 @@ typedef struct {
 } INDEXED_int_const_snd_instr_header_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7464,7 +7465,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__;
 typedef size_t (*FUNC_size_t_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
 typedef struct {
-    const snd_instr_header_t * a1;
+    snd_instr_header_t * a1;
 } ARGS_size_t_const_snd_instr_header_t___GENPT__;
 typedef struct {
     int format;
@@ -7492,7 +7493,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__)(snd_instr_header_t * info, const snd_seq_instr_t * instr);
 typedef struct {
     snd_instr_header_t * a1;
-    const snd_seq_instr_t * a2;
+    snd_seq_instr_t * a2;
 } ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__;
 typedef struct {
     int format;
@@ -7548,7 +7549,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_char___GENPT__)(snd_instr_header_t * info, const char * format);
 typedef struct {
     snd_instr_header_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -7604,7 +7605,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_iwffff_t * iwffff, const char * name, snd_instr_header_t ** data, size_t * size);
 typedef struct {
     snd_instr_iwffff_t * a1;
-    const char * a2;
+    char * a2;
     snd_instr_header_t ** a3;
     size_t * a4;
 } ARGS_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
@@ -7649,8 +7650,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__)(snd_iwffff_handle_t ** handle, const char * name_fff, const char * name_dta);
 typedef struct {
     snd_iwffff_handle_t ** a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
 } ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -7680,7 +7681,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int)(snd_iwffff_handle_t ** handle, const char * name, int bank, int file);
 typedef struct {
     snd_iwffff_handle_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     int a4;
 } ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int;
@@ -7711,7 +7712,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_simple_t * simple, const char * name, snd_instr_header_t ** put, size_t * size);
 typedef struct {
     snd_instr_simple_t * a1;
-    const char * a2;
+    char * a2;
     snd_instr_header_t ** a3;
     size_t * a4;
 } ARGS_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
@@ -7737,12 +7738,25 @@ typedef struct {
     int func;
     ARGS_int_snd_instr_simple_t___GENPT__ args;
 } INDEXED_int_snd_instr_simple_t___GENPT__;
+typedef int (*FUNC_int_snd_lib_error_handler_t)(snd_lib_error_handler_t handler);
+typedef struct {
+    snd_lib_error_handler_t a1;
+} ARGS_int_snd_lib_error_handler_t;
+typedef struct {
+    int format;
+    FUNC_int_snd_lib_error_handler_t func;
+    ARGS_int_snd_lib_error_handler_t args;
+} PACKED_int_snd_lib_error_handler_t;
+typedef struct {
+    int func;
+    ARGS_int_snd_lib_error_handler_t args;
+} INDEXED_int_snd_lib_error_handler_t;
 typedef long (*FUNC_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__)(snd_midi_event_t * dev, unsigned char * buf, long count, const snd_seq_event_t * ev);
 typedef struct {
     snd_midi_event_t * a1;
     unsigned char * a2;
     long a3;
-    const snd_seq_event_t * a4;
+    snd_seq_event_t * a4;
 } ARGS_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__;
 typedef struct {
     int format;
@@ -7756,7 +7770,7 @@ typedef struct {
 typedef long (*FUNC_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__)(snd_midi_event_t * dev, const unsigned char * buf, long count, snd_seq_event_t * ev);
 typedef struct {
     snd_midi_event_t * a1;
-    const unsigned char * a2;
+    unsigned char * a2;
     long a3;
     snd_seq_event_t * a4;
 } ARGS_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__;
@@ -7856,7 +7870,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_mixer_t___GENPT___const_char___GENPT__)(snd_mixer_t * mixer, const char * name);
 typedef struct {
     snd_mixer_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_int_snd_mixer_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -7884,7 +7898,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__)(snd_mixer_class_t * dst, const snd_mixer_class_t * src);
 typedef struct {
     snd_mixer_class_t * a1;
-    const snd_mixer_class_t * a2;
+    snd_mixer_class_t * a2;
 } ARGS_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__;
 typedef struct {
     int format;
@@ -7910,7 +7924,7 @@ typedef struct {
 } INDEXED_void_snd_mixer_class_t___GENPT__;
 typedef snd_mixer_compare_t (*FUNC_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__)(const snd_mixer_class_t * class_);
 typedef struct {
-    const snd_mixer_class_t * a1;
+    snd_mixer_class_t * a1;
 } ARGS_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__;
 typedef struct {
     int format;
@@ -7923,7 +7937,7 @@ typedef struct {
 } INDEXED_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__;
 typedef snd_mixer_event_t (*FUNC_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__)(const snd_mixer_class_t * class_);
 typedef struct {
-    const snd_mixer_class_t * a1;
+    snd_mixer_class_t * a1;
 } ARGS_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__;
 typedef struct {
     int format;
@@ -7936,7 +7950,7 @@ typedef struct {
 } INDEXED_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__;
 typedef snd_mixer_t * (*FUNC_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__)(const snd_mixer_class_t * class_);
 typedef struct {
-    const snd_mixer_class_t * a1;
+    snd_mixer_class_t * a1;
 } ARGS_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__;
 typedef struct {
     int format;
@@ -7949,7 +7963,7 @@ typedef struct {
 } INDEXED_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_snd_mixer_class_t___GENPT__)(const snd_mixer_class_t * class_);
 typedef struct {
-    const snd_mixer_class_t * a1;
+    snd_mixer_class_t * a1;
 } ARGS_void___GENPT___const_snd_mixer_class_t___GENPT__;
 typedef struct {
     int format;
@@ -8111,7 +8125,7 @@ typedef struct {
 } INDEXED_void_snd_mixer_elem_t___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_snd_mixer_elem_t___GENPT__)(const snd_mixer_elem_t * obj);
 typedef struct {
-    const snd_mixer_elem_t * a1;
+    snd_mixer_elem_t * a1;
 } ARGS_void___GENPT___const_snd_mixer_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -8124,7 +8138,7 @@ typedef struct {
 } INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__;
 typedef snd_mixer_elem_type_t (*FUNC_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__)(const snd_mixer_elem_t * obj);
 typedef struct {
-    const snd_mixer_elem_t * a1;
+    snd_mixer_elem_t * a1;
 } ARGS_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__;
 typedef struct {
     int format;
@@ -8179,7 +8193,7 @@ typedef struct {
 typedef snd_mixer_elem_t * (*FUNC_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__)(snd_mixer_t * mixer, const snd_mixer_selem_id_t * id);
 typedef struct {
     snd_mixer_t * a1;
-    const snd_mixer_selem_id_t * a2;
+    snd_mixer_selem_id_t * a2;
 } ARGS_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -8218,7 +8232,7 @@ typedef struct {
 } INDEXED_void_snd_mixer_t___GENPT__;
 typedef void * (*FUNC_void___GENPT___const_snd_mixer_t___GENPT__)(const snd_mixer_t * obj);
 typedef struct {
-    const snd_mixer_t * a1;
+    snd_mixer_t * a1;
 } ARGS_void___GENPT___const_snd_mixer_t___GENPT__;
 typedef struct {
     int format;
@@ -8231,7 +8245,7 @@ typedef struct {
 } INDEXED_void___GENPT___const_snd_mixer_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_mixer_t___GENPT__)(const snd_mixer_t * obj);
 typedef struct {
-    const snd_mixer_t * a1;
+    snd_mixer_t * a1;
 } ARGS_unsigned_int_const_snd_mixer_t___GENPT__;
 typedef struct {
     int format;
@@ -8245,7 +8259,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__)(snd_mixer_t * mixer, const char * name, snd_hctl_t ** hctl);
 typedef struct {
     snd_mixer_t * a1;
-    const char * a2;
+    char * a2;
     snd_hctl_t ** a3;
 } ARGS_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__;
 typedef struct {
@@ -8448,7 +8462,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__)(snd_mixer_selem_id_t * dst, const snd_mixer_selem_id_t * src);
 typedef struct {
     snd_mixer_selem_id_t * a1;
-    const snd_mixer_selem_id_t * a2;
+    snd_mixer_selem_id_t * a2;
 } ARGS_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -8474,7 +8488,7 @@ typedef struct {
 } INDEXED_void_snd_mixer_selem_id_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_mixer_selem_id_t___GENPT__)(const snd_mixer_selem_id_t * obj);
 typedef struct {
-    const snd_mixer_selem_id_t * a1;
+    snd_mixer_selem_id_t * a1;
 } ARGS_unsigned_int_const_snd_mixer_selem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -8487,7 +8501,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_mixer_selem_id_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__)(const snd_mixer_selem_id_t * obj);
 typedef struct {
-    const snd_mixer_selem_id_t * a1;
+    snd_mixer_selem_id_t * a1;
 } ARGS_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__;
 typedef struct {
     int format;
@@ -8528,7 +8542,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__)(snd_mixer_selem_id_t * obj, const char * val);
 typedef struct {
     snd_mixer_selem_id_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -8731,7 +8745,7 @@ typedef struct {
 } INDEXED_int_snd_mixer_t___GENPT___int;
 typedef int (*FUNC_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__)(const char * iface, snd_devname_t ** list);
 typedef struct {
-    const char * a1;
+    char * a1;
     snd_devname_t ** a2;
 } ARGS_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__;
 typedef struct {
@@ -8813,7 +8827,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_output_t___GENPT___const_char___GENPT__)(snd_output_t * output, const char * str);
 typedef struct {
     snd_output_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_int_snd_output_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -8842,8 +8856,8 @@ typedef struct {
 typedef int (*FUNC_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__)(snd_output_t ** outputp, const char * file, const char * mode);
 typedef struct {
     snd_output_t ** a1;
-    const char * a2;
-    const char * a3;
+    char * a2;
+    char * a3;
 } ARGS_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -8857,7 +8871,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_output_t___GENPT___const_char___GENPT___va_list)(snd_output_t * output, const char * format, va_list args);
 typedef struct {
     snd_output_t * a1;
-    const char * a2;
+    char * a2;
     va_list a3;
 } ARGS_int_snd_output_t___GENPT___const_char___GENPT___va_list;
 typedef struct {
@@ -8885,7 +8899,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__)(snd_pcm_access_mask_t * dst, const snd_pcm_access_mask_t * src);
 typedef struct {
     snd_pcm_access_mask_t * a1;
-    const snd_pcm_access_mask_t * a2;
+    snd_pcm_access_mask_t * a2;
 } ARGS_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -8898,7 +8912,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_access_mask_t___GENPT__)(const snd_pcm_access_mask_t * mask);
 typedef struct {
-    const snd_pcm_access_mask_t * a1;
+    snd_pcm_access_mask_t * a1;
 } ARGS_int_const_snd_pcm_access_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -8938,7 +8952,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t;
 typedef int (*FUNC_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t)(const snd_pcm_access_mask_t * mask, snd_pcm_access_t val);
 typedef struct {
-    const snd_pcm_access_mask_t * a1;
+    snd_pcm_access_mask_t * a1;
     snd_pcm_access_t a2;
 } ARGS_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t;
 typedef struct {
@@ -8952,7 +8966,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_access_t)(const snd_pcm_access_t _access);
 typedef struct {
-    const snd_pcm_access_t a1;
+    snd_pcm_access_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_access_t;
 typedef struct {
     int format;
@@ -8965,9 +8979,9 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_pcm_access_t;
 typedef int (*FUNC_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t)(const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channel, snd_pcm_uframes_t src_offset, unsigned int samples, snd_pcm_format_t format);
 typedef struct {
-    const snd_pcm_channel_area_t * a1;
+    snd_pcm_channel_area_t * a1;
     snd_pcm_uframes_t a2;
-    const snd_pcm_channel_area_t * a3;
+    snd_pcm_channel_area_t * a3;
     snd_pcm_uframes_t a4;
     unsigned int a5;
     snd_pcm_format_t a6;
@@ -8983,7 +8997,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t;
 typedef int (*FUNC_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t)(const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, unsigned int samples, snd_pcm_format_t format);
 typedef struct {
-    const snd_pcm_channel_area_t * a1;
+    snd_pcm_channel_area_t * a1;
     snd_pcm_uframes_t a2;
     unsigned int a3;
     snd_pcm_format_t a4;
@@ -8999,9 +9013,9 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t;
 typedef int (*FUNC_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t)(const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channels, snd_pcm_uframes_t src_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format);
 typedef struct {
-    const snd_pcm_channel_area_t * a1;
+    snd_pcm_channel_area_t * a1;
     snd_pcm_uframes_t a2;
-    const snd_pcm_channel_area_t * a3;
+    snd_pcm_channel_area_t * a3;
     snd_pcm_uframes_t a4;
     unsigned int a5;
     snd_pcm_uframes_t a6;
@@ -9018,7 +9032,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t;
 typedef int (*FUNC_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t)(const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format);
 typedef struct {
-    const snd_pcm_channel_area_t * a1;
+    snd_pcm_channel_area_t * a1;
     snd_pcm_uframes_t a2;
     unsigned int a3;
     snd_pcm_uframes_t a4;
@@ -9146,7 +9160,7 @@ typedef struct {
 } INDEXED_int_snd_pcm_format_t;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_format_t)(const snd_pcm_format_t format);
 typedef struct {
-    const snd_pcm_format_t a1;
+    snd_pcm_format_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_format_t;
 typedef struct {
     int format;
@@ -9173,7 +9187,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__)(snd_pcm_format_mask_t * dst, const snd_pcm_format_mask_t * src);
 typedef struct {
     snd_pcm_format_mask_t * a1;
-    const snd_pcm_format_mask_t * a2;
+    snd_pcm_format_mask_t * a2;
 } ARGS_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -9186,7 +9200,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_format_mask_t___GENPT__)(const snd_pcm_format_mask_t * mask);
 typedef struct {
-    const snd_pcm_format_mask_t * a1;
+    snd_pcm_format_mask_t * a1;
 } ARGS_int_const_snd_pcm_format_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -9226,7 +9240,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t;
 typedef int (*FUNC_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t)(const snd_pcm_format_mask_t * mask, snd_pcm_format_t val);
 typedef struct {
-    const snd_pcm_format_mask_t * a1;
+    snd_pcm_format_mask_t * a1;
     snd_pcm_format_t a2;
 } ARGS_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t;
 typedef struct {
@@ -9321,7 +9335,7 @@ typedef struct {
 } INDEXED_ssize_t_snd_pcm_format_t_size_t;
 typedef snd_pcm_format_t (*FUNC_snd_pcm_format_t_const_char__GENPT__)(const char* name);
 typedef struct {
-    const char* a1;
+    char* a1;
 } ARGS_snd_pcm_format_t_const_char__GENPT__;
 typedef struct {
     int format;
@@ -9461,7 +9475,7 @@ typedef struct {
 } INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT__)(const snd_pcm_hw_params_t * params);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT__;
 typedef struct {
     int format;
@@ -9475,7 +9489,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__)(snd_pcm_hw_params_t * dst, const snd_pcm_hw_params_t * src);
 typedef struct {
     snd_pcm_hw_params_t * a1;
-    const snd_pcm_hw_params_t * a2;
+    snd_pcm_hw_params_t * a2;
 } ARGS_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__;
 typedef struct {
     int format;
@@ -9515,7 +9529,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_hw_params_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__)(const snd_pcm_hw_params_t * params, snd_pcm_access_t * _access);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     snd_pcm_access_t * a2;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__;
 typedef struct {
@@ -9543,7 +9557,7 @@ typedef struct {
 } INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__)(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     snd_pcm_uframes_t * a2;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__;
 typedef struct {
@@ -9557,7 +9571,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__)(const snd_pcm_hw_params_t * params, unsigned int * val, int * dir);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     unsigned int * a2;
     int * a3;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__;
@@ -9572,7 +9586,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__)(const snd_pcm_hw_params_t * params, unsigned int * val);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     unsigned int * a2;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__;
 typedef struct {
@@ -9601,7 +9615,7 @@ typedef struct {
 } INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__)(const snd_pcm_hw_params_t * params, snd_pcm_format_t * val);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     snd_pcm_format_t * a2;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__;
 typedef struct {
@@ -9629,7 +9643,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__)(const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     snd_pcm_uframes_t * a2;
     int * a3;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__;
@@ -9644,7 +9658,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__)(const snd_pcm_hw_params_t * params, unsigned int * rate_num, unsigned int * rate_den);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     unsigned int * a2;
     unsigned int * a3;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__;
@@ -9659,7 +9673,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__)(const snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat);
 typedef struct {
-    const snd_pcm_hw_params_t * a1;
+    snd_pcm_hw_params_t * a1;
     snd_pcm_subformat_t * a2;
 } ARGS_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__;
 typedef struct {
@@ -10027,7 +10041,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__)(snd_pcm_info_t * dst, const snd_pcm_info_t * src);
 typedef struct {
     snd_pcm_info_t * a1;
-    const snd_pcm_info_t * a2;
+    snd_pcm_info_t * a2;
 } ARGS_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10053,7 +10067,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_int_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10066,7 +10080,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_info_t___GENPT__;
 typedef snd_pcm_class_t (*FUNC_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10079,7 +10093,7 @@ typedef struct {
 } INDEXED_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_unsigned_int_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10092,7 +10106,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10105,7 +10119,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__;
 typedef snd_pcm_stream_t (*FUNC_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10118,7 +10132,7 @@ typedef struct {
 } INDEXED_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__;
 typedef snd_pcm_subclass_t (*FUNC_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10131,7 +10145,7 @@ typedef struct {
 } INDEXED_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__;
 typedef snd_pcm_sync_id_t (*FUNC_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__)(const snd_pcm_info_t * obj);
 typedef struct {
-    const snd_pcm_info_t * a1;
+    snd_pcm_info_t * a1;
 } ARGS_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__;
 typedef struct {
     int format;
@@ -10240,7 +10254,7 @@ typedef struct {
 typedef snd_pcm_scope_t * (*FUNC_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__)(snd_pcm_t * pcm, const char * name);
 typedef struct {
     snd_pcm_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -10254,7 +10268,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__)(snd_pcm_t * pcm, const snd_pcm_channel_area_t ** areas, snd_pcm_uframes_t * offset, snd_pcm_uframes_t * frames);
 typedef struct {
     snd_pcm_t * a1;
-    const snd_pcm_channel_area_t ** a2;
+    snd_pcm_channel_area_t ** a2;
     snd_pcm_uframes_t * a3;
     snd_pcm_uframes_t * a4;
 } ARGS_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__;
@@ -10315,7 +10329,7 @@ typedef struct {
 typedef snd_pcm_sframes_t (*FUNC_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t)(snd_pcm_t * pcm, const void * buffer, snd_pcm_uframes_t size);
 typedef struct {
     snd_pcm_t * a1;
-    const void * a2;
+    void * a2;
     snd_pcm_uframes_t a3;
 } ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t;
 typedef struct {
@@ -10357,7 +10371,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int)(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode);
 typedef struct {
     snd_pcm_t ** a1;
-    const char * a2;
+    char * a2;
     snd_pcm_stream_t a3;
     int a4;
 } ARGS_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int;
@@ -10373,7 +10387,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__)(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode, snd_config_t * lconf);
 typedef struct {
     snd_pcm_t ** a1;
-    const char * a2;
+    char * a2;
     snd_pcm_stream_t a3;
     int a4;
     snd_config_t * a5;
@@ -10503,7 +10517,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__)(snd_pcm_t * pcm, const char * name, snd_pcm_scope_t ** scopep);
 typedef struct {
     snd_pcm_t * a1;
-    const char * a2;
+    char * a2;
     snd_pcm_scope_t ** a3;
 } ARGS_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__;
 typedef struct {
@@ -10532,7 +10546,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_scope_t___GENPT___const_char___GENPT__)(snd_pcm_scope_t * scope, const char * val);
 typedef struct {
     snd_pcm_scope_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_pcm_scope_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -10604,7 +10618,7 @@ typedef struct {
 } INDEXED_snd_pcm_state_t_snd_pcm_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_state_t)(const snd_pcm_state_t state);
 typedef struct {
-    const snd_pcm_state_t a1;
+    snd_pcm_state_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_state_t;
 typedef struct {
     int format;
@@ -10632,7 +10646,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__)(snd_pcm_status_t * dst, const snd_pcm_status_t * src);
 typedef struct {
     snd_pcm_status_t * a1;
-    const snd_pcm_status_t * a2;
+    snd_pcm_status_t * a2;
 } ARGS_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__;
 typedef struct {
     int format;
@@ -10672,7 +10686,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_status_t___GENPT__;
 typedef snd_pcm_uframes_t (*FUNC_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__)(const snd_pcm_status_t * obj);
 typedef struct {
-    const snd_pcm_status_t * a1;
+    snd_pcm_status_t * a1;
 } ARGS_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__;
 typedef struct {
     int format;
@@ -10685,7 +10699,7 @@ typedef struct {
 } INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__;
 typedef snd_pcm_sframes_t (*FUNC_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__)(const snd_pcm_status_t * obj);
 typedef struct {
-    const snd_pcm_status_t * a1;
+    snd_pcm_status_t * a1;
 } ARGS_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__;
 typedef struct {
     int format;
@@ -10698,7 +10712,7 @@ typedef struct {
 } INDEXED_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__;
 typedef void (*FUNC_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__)(const snd_pcm_status_t * obj, snd_htimestamp_t * ptr);
 typedef struct {
-    const snd_pcm_status_t * a1;
+    snd_pcm_status_t * a1;
     snd_htimestamp_t * a2;
 } ARGS_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__;
 typedef struct {
@@ -10712,7 +10726,7 @@ typedef struct {
 } INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__;
 typedef snd_pcm_state_t (*FUNC_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__)(const snd_pcm_status_t * obj);
 typedef struct {
-    const snd_pcm_status_t * a1;
+    snd_pcm_status_t * a1;
 } ARGS_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__;
 typedef struct {
     int format;
@@ -10725,7 +10739,7 @@ typedef struct {
 } INDEXED_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__;
 typedef void (*FUNC_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__)(const snd_pcm_status_t * obj, snd_timestamp_t * ptr);
 typedef struct {
-    const snd_pcm_status_t * a1;
+    snd_pcm_status_t * a1;
     snd_timestamp_t * a2;
 } ARGS_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__;
 typedef struct {
@@ -10765,7 +10779,7 @@ typedef struct {
 } INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_stream_t)(const snd_pcm_stream_t stream);
 typedef struct {
-    const snd_pcm_stream_t a1;
+    snd_pcm_stream_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_stream_t;
 typedef struct {
     int format;
@@ -10778,7 +10792,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_pcm_stream_t;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_subformat_t)(const snd_pcm_subformat_t subformat);
 typedef struct {
-    const snd_pcm_subformat_t a1;
+    snd_pcm_subformat_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_subformat_t;
 typedef struct {
     int format;
@@ -10805,7 +10819,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__)(snd_pcm_subformat_mask_t * dst, const snd_pcm_subformat_mask_t * src);
 typedef struct {
     snd_pcm_subformat_mask_t * a1;
-    const snd_pcm_subformat_mask_t * a2;
+    snd_pcm_subformat_mask_t * a2;
 } ARGS_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -10818,7 +10832,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_subformat_mask_t___GENPT__)(const snd_pcm_subformat_mask_t * mask);
 typedef struct {
-    const snd_pcm_subformat_mask_t * a1;
+    snd_pcm_subformat_mask_t * a1;
 } ARGS_int_const_snd_pcm_subformat_mask_t___GENPT__;
 typedef struct {
     int format;
@@ -10858,7 +10872,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t;
 typedef int (*FUNC_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t)(const snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val);
 typedef struct {
-    const snd_pcm_subformat_mask_t * a1;
+    snd_pcm_subformat_mask_t * a1;
     snd_pcm_subformat_t a2;
 } ARGS_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t;
 typedef struct {
@@ -10887,7 +10901,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__)(snd_pcm_sw_params_t * dst, const snd_pcm_sw_params_t * src);
 typedef struct {
     snd_pcm_sw_params_t * a1;
-    const snd_pcm_sw_params_t * a2;
+    snd_pcm_sw_params_t * a2;
 } ARGS_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__;
 typedef struct {
     int format;
@@ -10927,7 +10941,7 @@ typedef struct {
 } INDEXED_void_snd_pcm_sw_params_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__)(const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val);
 typedef struct {
-    const snd_pcm_sw_params_t * a1;
+    snd_pcm_sw_params_t * a1;
     snd_pcm_uframes_t * a2;
 } ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__;
 typedef struct {
@@ -10941,7 +10955,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__)(const snd_pcm_sw_params_t * params, unsigned int * val);
 typedef struct {
-    const snd_pcm_sw_params_t * a1;
+    snd_pcm_sw_params_t * a1;
     unsigned int * a2;
 } ARGS_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__;
 typedef struct {
@@ -10955,7 +10969,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__;
 typedef snd_pcm_start_t (*FUNC_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__)(const snd_pcm_sw_params_t * params);
 typedef struct {
-    const snd_pcm_sw_params_t * a1;
+    snd_pcm_sw_params_t * a1;
 } ARGS_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__;
 typedef struct {
     int format;
@@ -10968,7 +10982,7 @@ typedef struct {
 } INDEXED_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__;
 typedef int (*FUNC_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__)(const snd_pcm_sw_params_t * params, snd_pcm_tstamp_t * val);
 typedef struct {
-    const snd_pcm_sw_params_t * a1;
+    snd_pcm_sw_params_t * a1;
     snd_pcm_tstamp_t * a2;
 } ARGS_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__;
 typedef struct {
@@ -10982,7 +10996,7 @@ typedef struct {
 } INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__;
 typedef snd_pcm_xrun_t (*FUNC_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__)(const snd_pcm_sw_params_t * params);
 typedef struct {
-    const snd_pcm_sw_params_t * a1;
+    snd_pcm_sw_params_t * a1;
 } ARGS_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__;
 typedef struct {
     int format;
@@ -11083,7 +11097,7 @@ typedef struct {
 } INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_pcm_tstamp_t)(const snd_pcm_tstamp_t mode);
 typedef struct {
-    const snd_pcm_tstamp_t a1;
+    snd_pcm_tstamp_t a1;
 } ARGS_const_char___GENPT___const_snd_pcm_tstamp_t;
 typedef struct {
     int format;
@@ -11163,7 +11177,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__)(snd_rawmidi_info_t * dst, const snd_rawmidi_info_t * src);
 typedef struct {
     snd_rawmidi_info_t * a1;
-    const snd_rawmidi_info_t * a2;
+    snd_rawmidi_info_t * a2;
 } ARGS_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11189,7 +11203,7 @@ typedef struct {
 } INDEXED_void_snd_rawmidi_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_rawmidi_info_t___GENPT__)(const snd_rawmidi_info_t * obj);
 typedef struct {
-    const snd_rawmidi_info_t * a1;
+    snd_rawmidi_info_t * a1;
 } ARGS_int_const_snd_rawmidi_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11202,7 +11216,7 @@ typedef struct {
 } INDEXED_int_const_snd_rawmidi_info_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_rawmidi_info_t___GENPT__)(const snd_rawmidi_info_t * obj);
 typedef struct {
-    const snd_rawmidi_info_t * a1;
+    snd_rawmidi_info_t * a1;
 } ARGS_unsigned_int_const_snd_rawmidi_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11215,7 +11229,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__)(const snd_rawmidi_info_t * obj);
 typedef struct {
-    const snd_rawmidi_info_t * a1;
+    snd_rawmidi_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11228,7 +11242,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__;
 typedef snd_rawmidi_stream_t (*FUNC_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__)(const snd_rawmidi_info_t * obj);
 typedef struct {
-    const snd_rawmidi_info_t * a1;
+    snd_rawmidi_info_t * a1;
 } ARGS_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11311,7 +11325,7 @@ typedef int (*FUNC_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT___
 typedef struct {
     snd_rawmidi_t ** a1;
     snd_rawmidi_t ** a2;
-    const char * a3;
+    char * a3;
     int a4;
 } ARGS_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -11327,7 +11341,7 @@ typedef int (*FUNC_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT___
 typedef struct {
     snd_rawmidi_t ** a1;
     snd_rawmidi_t ** a2;
-    const char * a3;
+    char * a3;
     int a4;
     snd_config_t * a5;
 } ARGS_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__;
@@ -11357,7 +11371,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__)(snd_rawmidi_params_t * dst, const snd_rawmidi_params_t * src);
 typedef struct {
     snd_rawmidi_params_t * a1;
-    const snd_rawmidi_params_t * a2;
+    snd_rawmidi_params_t * a2;
 } ARGS_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__;
 typedef struct {
     int format;
@@ -11383,7 +11397,7 @@ typedef struct {
 } INDEXED_void_snd_rawmidi_params_t___GENPT__;
 typedef size_t (*FUNC_size_t_const_snd_rawmidi_params_t___GENPT__)(const snd_rawmidi_params_t * params);
 typedef struct {
-    const snd_rawmidi_params_t * a1;
+    snd_rawmidi_params_t * a1;
 } ARGS_size_t_const_snd_rawmidi_params_t___GENPT__;
 typedef struct {
     int format;
@@ -11396,7 +11410,7 @@ typedef struct {
 } INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__;
 typedef int (*FUNC_int_const_snd_rawmidi_params_t___GENPT__)(const snd_rawmidi_params_t * params);
 typedef struct {
-    const snd_rawmidi_params_t * a1;
+    snd_rawmidi_params_t * a1;
 } ARGS_int_const_snd_rawmidi_params_t___GENPT__;
 typedef struct {
     int format;
@@ -11513,7 +11527,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__)(snd_rawmidi_status_t * dst, const snd_rawmidi_status_t * src);
 typedef struct {
     snd_rawmidi_status_t * a1;
-    const snd_rawmidi_status_t * a2;
+    snd_rawmidi_status_t * a2;
 } ARGS_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__;
 typedef struct {
     int format;
@@ -11539,7 +11553,7 @@ typedef struct {
 } INDEXED_void_snd_rawmidi_status_t___GENPT__;
 typedef size_t (*FUNC_size_t_const_snd_rawmidi_status_t___GENPT__)(const snd_rawmidi_status_t * obj);
 typedef struct {
-    const snd_rawmidi_status_t * a1;
+    snd_rawmidi_status_t * a1;
 } ARGS_size_t_const_snd_rawmidi_status_t___GENPT__;
 typedef struct {
     int format;
@@ -11552,7 +11566,7 @@ typedef struct {
 } INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__;
 typedef void (*FUNC_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__)(const snd_rawmidi_status_t * obj, snd_htimestamp_t * ptr);
 typedef struct {
-    const snd_rawmidi_status_t * a1;
+    snd_rawmidi_status_t * a1;
     snd_htimestamp_t * a2;
 } ARGS_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__;
 typedef struct {
@@ -11606,7 +11620,7 @@ typedef struct {
 typedef ssize_t (*FUNC_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t)(snd_rawmidi_t * rmidi, const void * buffer, size_t size);
 typedef struct {
     snd_rawmidi_t * a1;
-    const void * a2;
+    void * a2;
     size_t a3;
 } ARGS_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t;
 typedef struct {
@@ -11651,7 +11665,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_seq_t___GENPT___const_char___GENPT__)(snd_seq_t * seq, const char * name);
 typedef struct {
     snd_seq_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_int_snd_seq_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -11692,7 +11706,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__)(snd_seq_client_info_t * dst, const snd_seq_client_info_t * src);
 typedef struct {
     snd_seq_client_info_t * a1;
-    const snd_seq_client_info_t * a2;
+    snd_seq_client_info_t * a2;
 } ARGS_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11718,7 +11732,7 @@ typedef struct {
 } INDEXED_void_snd_seq_client_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_client_info_t___GENPT__)(const snd_seq_client_info_t * info);
 typedef struct {
-    const snd_seq_client_info_t * a1;
+    snd_seq_client_info_t * a1;
 } ARGS_int_const_snd_seq_client_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11731,7 +11745,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_client_info_t___GENPT__;
 typedef const unsigned char * (*FUNC_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__)(const snd_seq_client_info_t * info);
 typedef struct {
-    const snd_seq_client_info_t * a1;
+    snd_seq_client_info_t * a1;
 } ARGS_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11757,7 +11771,7 @@ typedef struct {
 } INDEXED_const_char___GENPT___snd_seq_client_info_t___GENPT__;
 typedef snd_seq_client_type_t (*FUNC_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__)(const snd_seq_client_info_t * info);
 typedef struct {
-    const snd_seq_client_info_t * a1;
+    snd_seq_client_info_t * a1;
 } ARGS_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__;
 typedef struct {
     int format;
@@ -11812,7 +11826,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_client_info_t___GENPT___const_char___GENPT__)(snd_seq_client_info_t * info, const char * name);
 typedef struct {
     snd_seq_client_info_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_seq_client_info_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -11826,7 +11840,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__)(snd_seq_client_pool_t * dst, const snd_seq_client_pool_t * src);
 typedef struct {
     snd_seq_client_pool_t * a1;
-    const snd_seq_client_pool_t * a2;
+    snd_seq_client_pool_t * a2;
 } ARGS_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__;
 typedef struct {
     int format;
@@ -11852,7 +11866,7 @@ typedef struct {
 } INDEXED_void_snd_seq_client_pool_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_client_pool_t___GENPT__)(const snd_seq_client_pool_t * info);
 typedef struct {
-    const snd_seq_client_pool_t * a1;
+    snd_seq_client_pool_t * a1;
 } ARGS_int_const_snd_seq_client_pool_t___GENPT__;
 typedef struct {
     int format;
@@ -11865,7 +11879,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_client_pool_t___GENPT__;
 typedef size_t (*FUNC_size_t_const_snd_seq_client_pool_t___GENPT__)(const snd_seq_client_pool_t * info);
 typedef struct {
-    const snd_seq_client_pool_t * a1;
+    snd_seq_client_pool_t * a1;
 } ARGS_size_t_const_snd_seq_client_pool_t___GENPT__;
 typedef struct {
     int format;
@@ -12176,7 +12190,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int)(snd_seq_t ** handle, const char * name, int streams, int mode);
 typedef struct {
     snd_seq_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     int a4;
 } ARGS_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int;
@@ -12192,7 +12206,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__)(snd_seq_t ** handle, const char * name, int streams, int mode, snd_config_t * lconf);
 typedef struct {
     snd_seq_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     int a4;
     snd_config_t * a5;
@@ -12255,7 +12269,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__)(snd_seq_port_info_t * dst, const snd_seq_port_info_t * src);
 typedef struct {
     snd_seq_port_info_t * a1;
-    const snd_seq_port_info_t * a2;
+    snd_seq_port_info_t * a2;
 } ARGS_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12281,7 +12295,7 @@ typedef struct {
 } INDEXED_void_snd_seq_port_info_t___GENPT__;
 typedef const snd_seq_addr_t * (*FUNC_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__)(const snd_seq_port_info_t * info);
 typedef struct {
-    const snd_seq_port_info_t * a1;
+    snd_seq_port_info_t * a1;
 } ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12294,7 +12308,7 @@ typedef struct {
 } INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_port_info_t___GENPT__)(const snd_seq_port_info_t * info);
 typedef struct {
-    const snd_seq_port_info_t * a1;
+    snd_seq_port_info_t * a1;
 } ARGS_unsigned_int_const_snd_seq_port_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12307,7 +12321,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_port_info_t___GENPT__)(const snd_seq_port_info_t * info);
 typedef struct {
-    const snd_seq_port_info_t * a1;
+    snd_seq_port_info_t * a1;
 } ARGS_int_const_snd_seq_port_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12320,7 +12334,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_port_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_seq_port_info_t___GENPT__)(const snd_seq_port_info_t * info);
 typedef struct {
-    const snd_seq_port_info_t * a1;
+    snd_seq_port_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_seq_port_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12347,7 +12361,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__)(snd_seq_port_info_t * info, const snd_seq_addr_t * addr);
 typedef struct {
     snd_seq_port_info_t * a1;
-    const snd_seq_addr_t * a2;
+    snd_seq_addr_t * a2;
 } ARGS_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__;
 typedef struct {
     int format;
@@ -12389,7 +12403,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_port_info_t___GENPT___const_char___GENPT__)(snd_seq_port_info_t * info, const char * name);
 typedef struct {
     snd_seq_port_info_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_seq_port_info_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -12403,7 +12417,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__)(snd_seq_port_subscribe_t * dst, const snd_seq_port_subscribe_t * src);
 typedef struct {
     snd_seq_port_subscribe_t * a1;
-    const snd_seq_port_subscribe_t * a2;
+    snd_seq_port_subscribe_t * a2;
 } ARGS_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12429,7 +12443,7 @@ typedef struct {
 } INDEXED_void_snd_seq_port_subscribe_t___GENPT__;
 typedef const snd_seq_addr_t * (*FUNC_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__)(const snd_seq_port_subscribe_t * info);
 typedef struct {
-    const snd_seq_port_subscribe_t * a1;
+    snd_seq_port_subscribe_t * a1;
 } ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12442,7 +12456,7 @@ typedef struct {
 } INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_port_subscribe_t___GENPT__)(const snd_seq_port_subscribe_t * info);
 typedef struct {
-    const snd_seq_port_subscribe_t * a1;
+    snd_seq_port_subscribe_t * a1;
 } ARGS_int_const_snd_seq_port_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12469,7 +12483,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__)(snd_seq_port_subscribe_t * info, const snd_seq_addr_t * addr);
 typedef struct {
     snd_seq_port_subscribe_t * a1;
-    const snd_seq_addr_t * a2;
+    snd_seq_addr_t * a2;
 } ARGS_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__;
 typedef struct {
     int format;
@@ -12511,7 +12525,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__)(snd_seq_query_subscribe_t * dst, const snd_seq_query_subscribe_t * src);
 typedef struct {
     snd_seq_query_subscribe_t * a1;
-    const snd_seq_query_subscribe_t * a2;
+    snd_seq_query_subscribe_t * a2;
 } ARGS_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12537,7 +12551,7 @@ typedef struct {
 } INDEXED_void_snd_seq_query_subscribe_t___GENPT__;
 typedef const snd_seq_addr_t * (*FUNC_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__)(const snd_seq_query_subscribe_t * info);
 typedef struct {
-    const snd_seq_query_subscribe_t * a1;
+    snd_seq_query_subscribe_t * a1;
 } ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12550,7 +12564,7 @@ typedef struct {
 } INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_query_subscribe_t___GENPT__)(const snd_seq_query_subscribe_t * info);
 typedef struct {
-    const snd_seq_query_subscribe_t * a1;
+    snd_seq_query_subscribe_t * a1;
 } ARGS_int_const_snd_seq_query_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12563,7 +12577,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__;
 typedef snd_seq_query_subs_type_t (*FUNC_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__)(const snd_seq_query_subscribe_t * info);
 typedef struct {
-    const snd_seq_query_subscribe_t * a1;
+    snd_seq_query_subscribe_t * a1;
 } ARGS_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__;
 typedef struct {
     int format;
@@ -12604,7 +12618,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__)(snd_seq_query_subscribe_t * info, const snd_seq_addr_t * addr);
 typedef struct {
     snd_seq_query_subscribe_t * a1;
-    const snd_seq_addr_t * a2;
+    snd_seq_addr_t * a2;
 } ARGS_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__;
 typedef struct {
     int format;
@@ -12632,7 +12646,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__)(snd_seq_queue_info_t * dst, const snd_seq_queue_info_t * src);
 typedef struct {
     snd_seq_queue_info_t * a1;
-    const snd_seq_queue_info_t * a2;
+    snd_seq_queue_info_t * a2;
 } ARGS_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12658,7 +12672,7 @@ typedef struct {
 } INDEXED_void_snd_seq_queue_info_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_queue_info_t___GENPT__)(const snd_seq_queue_info_t * info);
 typedef struct {
-    const snd_seq_queue_info_t * a1;
+    snd_seq_queue_info_t * a1;
 } ARGS_unsigned_int_const_snd_seq_queue_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12671,7 +12685,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_seq_queue_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_queue_info_t___GENPT__)(const snd_seq_queue_info_t * info);
 typedef struct {
-    const snd_seq_queue_info_t * a1;
+    snd_seq_queue_info_t * a1;
 } ARGS_int_const_snd_seq_queue_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12684,7 +12698,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_queue_info_t___GENPT__;
 typedef const char * (*FUNC_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__)(const snd_seq_queue_info_t * info);
 typedef struct {
-    const snd_seq_queue_info_t * a1;
+    snd_seq_queue_info_t * a1;
 } ARGS_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__;
 typedef struct {
     int format;
@@ -12739,7 +12753,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__)(snd_seq_queue_info_t * info, const char * name);
 typedef struct {
     snd_seq_queue_info_t * a1;
-    const char * a2;
+    char * a2;
 } ARGS_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__;
 typedef struct {
     int format;
@@ -12753,7 +12767,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__)(snd_seq_queue_status_t * dst, const snd_seq_queue_status_t * src);
 typedef struct {
     snd_seq_queue_status_t * a1;
-    const snd_seq_queue_status_t * a2;
+    snd_seq_queue_status_t * a2;
 } ARGS_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__;
 typedef struct {
     int format;
@@ -12779,7 +12793,7 @@ typedef struct {
 } INDEXED_void_snd_seq_queue_status_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_queue_status_t___GENPT__)(const snd_seq_queue_status_t * info);
 typedef struct {
-    const snd_seq_queue_status_t * a1;
+    snd_seq_queue_status_t * a1;
 } ARGS_int_const_snd_seq_queue_status_t___GENPT__;
 typedef struct {
     int format;
@@ -12792,7 +12806,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_queue_status_t___GENPT__;
 typedef const snd_seq_real_time_t * (*FUNC_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__)(const snd_seq_queue_status_t * info);
 typedef struct {
-    const snd_seq_queue_status_t * a1;
+    snd_seq_queue_status_t * a1;
 } ARGS_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__;
 typedef struct {
     int format;
@@ -12805,7 +12819,7 @@ typedef struct {
 } INDEXED_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_queue_status_t___GENPT__)(const snd_seq_queue_status_t * info);
 typedef struct {
-    const snd_seq_queue_status_t * a1;
+    snd_seq_queue_status_t * a1;
 } ARGS_unsigned_int_const_snd_seq_queue_status_t___GENPT__;
 typedef struct {
     int format;
@@ -12818,7 +12832,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_seq_queue_status_t___GENPT__;
 typedef snd_seq_tick_time_t (*FUNC_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__)(const snd_seq_queue_status_t * info);
 typedef struct {
-    const snd_seq_queue_status_t * a1;
+    snd_seq_queue_status_t * a1;
 } ARGS_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__;
 typedef struct {
     int format;
@@ -12845,7 +12859,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__)(snd_seq_queue_tempo_t * dst, const snd_seq_queue_tempo_t * src);
 typedef struct {
     snd_seq_queue_tempo_t * a1;
-    const snd_seq_queue_tempo_t * a2;
+    snd_seq_queue_tempo_t * a2;
 } ARGS_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__;
 typedef struct {
     int format;
@@ -12871,7 +12885,7 @@ typedef struct {
 } INDEXED_void_snd_seq_queue_tempo_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_queue_tempo_t___GENPT__)(const snd_seq_queue_tempo_t * info);
 typedef struct {
-    const snd_seq_queue_tempo_t * a1;
+    snd_seq_queue_tempo_t * a1;
 } ARGS_int_const_snd_seq_queue_tempo_t___GENPT__;
 typedef struct {
     int format;
@@ -12884,7 +12898,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__)(const snd_seq_queue_tempo_t * info);
 typedef struct {
-    const snd_seq_queue_tempo_t * a1;
+    snd_seq_queue_tempo_t * a1;
 } ARGS_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__;
 typedef struct {
     int format;
@@ -12939,7 +12953,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__)(snd_seq_queue_timer_t * dst, const snd_seq_queue_timer_t * src);
 typedef struct {
     snd_seq_queue_timer_t * a1;
-    const snd_seq_queue_timer_t * a2;
+    snd_seq_queue_timer_t * a2;
 } ARGS_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__;
 typedef struct {
     int format;
@@ -12965,7 +12979,7 @@ typedef struct {
 } INDEXED_void_snd_seq_queue_timer_t___GENPT__;
 typedef const snd_timer_id_t * (*FUNC_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__)(const snd_seq_queue_timer_t * info);
 typedef struct {
-    const snd_seq_queue_timer_t * a1;
+    snd_seq_queue_timer_t * a1;
 } ARGS_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__;
 typedef struct {
     int format;
@@ -12978,7 +12992,7 @@ typedef struct {
 } INDEXED_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_queue_timer_t___GENPT__)(const snd_seq_queue_timer_t * info);
 typedef struct {
-    const snd_seq_queue_timer_t * a1;
+    snd_seq_queue_timer_t * a1;
 } ARGS_int_const_snd_seq_queue_timer_t___GENPT__;
 typedef struct {
     int format;
@@ -12991,7 +13005,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_queue_timer_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_queue_timer_t___GENPT__)(const snd_seq_queue_timer_t * info);
 typedef struct {
-    const snd_seq_queue_timer_t * a1;
+    snd_seq_queue_timer_t * a1;
 } ARGS_unsigned_int_const_snd_seq_queue_timer_t___GENPT__;
 typedef struct {
     int format;
@@ -13004,7 +13018,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_seq_queue_timer_t___GENPT__;
 typedef snd_seq_queue_timer_type_t (*FUNC_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__)(const snd_seq_queue_timer_t * info);
 typedef struct {
-    const snd_seq_queue_timer_t * a1;
+    snd_seq_queue_timer_t * a1;
 } ARGS_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__;
 typedef struct {
     int format;
@@ -13031,7 +13045,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__)(snd_seq_queue_timer_t * info, const snd_timer_id_t * id);
 typedef struct {
     snd_seq_queue_timer_t * a1;
-    const snd_timer_id_t * a2;
+    snd_timer_id_t * a2;
 } ARGS_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__;
 typedef struct {
     int format;
@@ -13087,7 +13101,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__)(snd_seq_remove_events_t * dst, const snd_seq_remove_events_t * src);
 typedef struct {
     snd_seq_remove_events_t * a1;
-    const snd_seq_remove_events_t * a2;
+    snd_seq_remove_events_t * a2;
 } ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__;
 typedef struct {
     int format;
@@ -13113,7 +13127,7 @@ typedef struct {
 } INDEXED_void_snd_seq_remove_events_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_remove_events_t___GENPT__)(const snd_seq_remove_events_t * info);
 typedef struct {
-    const snd_seq_remove_events_t * a1;
+    snd_seq_remove_events_t * a1;
 } ARGS_int_const_snd_seq_remove_events_t___GENPT__;
 typedef struct {
     int format;
@@ -13126,7 +13140,7 @@ typedef struct {
 } INDEXED_int_const_snd_seq_remove_events_t___GENPT__;
 typedef unsigned int (*FUNC_unsigned_int_const_snd_seq_remove_events_t___GENPT__)(const snd_seq_remove_events_t * info);
 typedef struct {
-    const snd_seq_remove_events_t * a1;
+    snd_seq_remove_events_t * a1;
 } ARGS_unsigned_int_const_snd_seq_remove_events_t___GENPT__;
 typedef struct {
     int format;
@@ -13139,7 +13153,7 @@ typedef struct {
 } INDEXED_unsigned_int_const_snd_seq_remove_events_t___GENPT__;
 typedef const snd_seq_addr_t * (*FUNC_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__)(const snd_seq_remove_events_t * info);
 typedef struct {
-    const snd_seq_remove_events_t * a1;
+    snd_seq_remove_events_t * a1;
 } ARGS_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__;
 typedef struct {
     int format;
@@ -13152,7 +13166,7 @@ typedef struct {
 } INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__;
 typedef const snd_seq_timestamp_t * (*FUNC_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__)(const snd_seq_remove_events_t * info);
 typedef struct {
-    const snd_seq_remove_events_t * a1;
+    snd_seq_remove_events_t * a1;
 } ARGS_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__;
 typedef struct {
     int format;
@@ -13207,7 +13221,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__)(snd_seq_remove_events_t * info, const snd_seq_addr_t * addr);
 typedef struct {
     snd_seq_remove_events_t * a1;
-    const snd_seq_addr_t * a2;
+    snd_seq_addr_t * a2;
 } ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__;
 typedef struct {
     int format;
@@ -13221,7 +13235,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__)(snd_seq_remove_events_t * info, const snd_seq_timestamp_t * time);
 typedef struct {
     snd_seq_remove_events_t * a1;
-    const snd_seq_timestamp_t * a2;
+    snd_seq_timestamp_t * a2;
 } ARGS_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__;
 typedef struct {
     int format;
@@ -13292,7 +13306,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__)(snd_seq_system_info_t * dst, const snd_seq_system_info_t * src);
 typedef struct {
     snd_seq_system_info_t * a1;
-    const snd_seq_system_info_t * a2;
+    snd_seq_system_info_t * a2;
 } ARGS_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__;
 typedef struct {
     int format;
@@ -13318,7 +13332,7 @@ typedef struct {
 } INDEXED_void_snd_seq_system_info_t___GENPT__;
 typedef int (*FUNC_int_const_snd_seq_system_info_t___GENPT__)(const snd_seq_system_info_t * info);
 typedef struct {
-    const snd_seq_system_info_t * a1;
+    snd_seq_system_info_t * a1;
 } ARGS_int_const_snd_seq_system_info_t___GENPT__;
 typedef struct {
     int format;
@@ -13469,7 +13483,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__)(snd_timer_ginfo_t * dst, const snd_timer_ginfo_t * src);
 typedef struct {
     snd_timer_ginfo_t * a1;
-    const snd_timer_ginfo_t * a2;
+    snd_timer_ginfo_t * a2;
 } ARGS_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__;
 typedef struct {
     int format;
@@ -13588,7 +13602,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__)(snd_timer_id_t * dst, const snd_timer_id_t * src);
 typedef struct {
     snd_timer_id_t * a1;
-    const snd_timer_id_t * a2;
+    snd_timer_id_t * a2;
 } ARGS_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__;
 typedef struct {
     int format;
@@ -13669,7 +13683,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__)(snd_timer_info_t * dst, const snd_timer_info_t * src);
 typedef struct {
     snd_timer_info_t * a1;
-    const snd_timer_info_t * a2;
+    snd_timer_info_t * a2;
 } ARGS_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__;
 typedef struct {
     int format;
@@ -13748,7 +13762,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int)(snd_timer_t ** handle, const char * name, int mode);
 typedef struct {
     snd_timer_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -13763,7 +13777,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__)(snd_timer_t ** handle, const char * name, int mode, snd_config_t * lconf);
 typedef struct {
     snd_timer_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     snd_config_t * a4;
 } ARGS_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__;
@@ -13793,7 +13807,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__)(snd_timer_params_t * dst, const snd_timer_params_t * src);
 typedef struct {
     snd_timer_params_t * a1;
-    const snd_timer_params_t * a2;
+    snd_timer_params_t * a2;
 } ARGS_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__;
 typedef struct {
     int format;
@@ -13986,7 +14000,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int)(snd_timer_query_t ** handle, const char * name, int mode);
 typedef struct {
     snd_timer_query_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
 } ARGS_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int;
 typedef struct {
@@ -14001,7 +14015,7 @@ typedef struct {
 typedef int (*FUNC_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__)(snd_timer_query_t ** handle, const char * name, int mode, snd_config_t * lconf);
 typedef struct {
     snd_timer_query_t ** a1;
-    const char * a2;
+    char * a2;
     int a3;
     snd_config_t * a4;
 } ARGS_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__;
@@ -14074,7 +14088,7 @@ typedef struct {
 typedef void (*FUNC_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__)(snd_timer_status_t * dst, const snd_timer_status_t * src);
 typedef struct {
     snd_timer_status_t * a1;
-    const snd_timer_status_t * a2;
+    snd_timer_status_t * a2;
 } ARGS_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__;
 typedef struct {
     int format;
@@ -14139,7 +14153,7 @@ typedef struct {
 } INDEXED_int_snd_timer_status_t___GENPT____GENPT__;
 typedef int (*FUNC_int_const_char___GENPT___char___GENPT____GENPT__)(const char * file, char ** result);
 typedef struct {
-    const char * a1;
+    char * a1;
     char ** a2;
 } ARGS_int_const_char___GENPT___char___GENPT____GENPT__;
 typedef struct {
@@ -20613,10 +20627,10 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 #define snd_lib_error_set_handler_INDEX 923
 #define snd_lib_error_set_handler_RETURN int
 #define snd_lib_error_set_handler_ARG_NAMES handler
-#define snd_lib_error_set_handler_ARG_EXPAND void * handler
-#define snd_lib_error_set_handler_PACKED PACKED_int_void___GENPT__
-#define snd_lib_error_set_handler_INDEXED INDEXED_int_void___GENPT__
-#define snd_lib_error_set_handler_FORMAT FORMAT_int_void___GENPT__
+#define snd_lib_error_set_handler_ARG_EXPAND snd_lib_error_handler_t handler
+#define snd_lib_error_set_handler_PACKED PACKED_int_snd_lib_error_handler_t
+#define snd_lib_error_set_handler_INDEXED INDEXED_int_snd_lib_error_handler_t
+#define snd_lib_error_set_handler_FORMAT FORMAT_int_snd_lib_error_handler_t
 #define snd_midi_event_decode_INDEX 924
 #define snd_midi_event_decode_RETURN long
 #define snd_midi_event_decode_ARG_NAMES dev, buf, count, ev

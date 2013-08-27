@@ -8056,8 +8056,8 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #endif
         #ifndef skip_index_snd_lib_error_set_handler
         case snd_lib_error_set_handler_INDEX: {
-            INDEXED_int_void___GENPT__ *unpacked = (INDEXED_int_void___GENPT__ *)packed;
-            ARGS_int_void___GENPT__ args = unpacked->args;
+            INDEXED_int_snd_lib_error_handler_t *unpacked = (INDEXED_int_snd_lib_error_handler_t *)packed;
+            ARGS_int_snd_lib_error_handler_t args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_lib_error_set_handler(args.a1);
