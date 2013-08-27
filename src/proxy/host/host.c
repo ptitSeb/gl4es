@@ -11522,8 +11522,8 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #endif
         #ifndef skip_index_snd_pcm_scope_set_ops
         case snd_pcm_scope_set_ops_INDEX: {
-            INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ *)packed;
-            ARGS_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ args = unpacked->args;
+            INDEXED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ *unpacked = (INDEXED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ *)packed;
+            ARGS_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ args = unpacked->args;
             snd_pcm_scope_set_ops(args.a1, args.a2);
             break;
         }

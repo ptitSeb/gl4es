@@ -14984,7 +14984,7 @@ void snd_pcm_scope_set_name(snd_pcm_scope_t * scope, const char * val) {
 }
 #endif
 #ifndef skip_client_snd_pcm_scope_set_ops
-void snd_pcm_scope_set_ops(snd_pcm_scope_t * scope, snd_pcm_scope_ops_t * val) {
+void snd_pcm_scope_set_ops(snd_pcm_scope_t * scope, const snd_pcm_scope_ops_t * val) {
     snd_pcm_scope_set_ops_INDEXED *packed_data = malloc(sizeof(snd_pcm_scope_set_ops_INDEXED));
     packed_data->func = snd_pcm_scope_set_ops_INDEX;
     packed_data->args.a1 = scope;

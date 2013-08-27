@@ -653,7 +653,7 @@ enum FORMAT {
     FORMAT_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__,
     FORMAT_void_snd_pcm_scope_t___GENPT___void___GENPT__,
     FORMAT_void_snd_pcm_scope_t___GENPT___const_char___GENPT__,
-    FORMAT_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__,
+    FORMAT_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__,
     FORMAT_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int,
     FORMAT_const_char___GENPT___snd_pcm_start_t,
     FORMAT_snd_pcm_state_t_snd_pcm_t___GENPT__,
@@ -10103,20 +10103,20 @@ typedef struct {
     int func;
     ARGS_void_snd_pcm_scope_t___GENPT___const_char___GENPT__ args;
 } INDEXED_void_snd_pcm_scope_t___GENPT___const_char___GENPT__;
-typedef void (*FUNC_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__)(snd_pcm_scope_t * scope, snd_pcm_scope_ops_t * val);
+typedef void (*FUNC_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__)(snd_pcm_scope_t * scope, const snd_pcm_scope_ops_t * val);
 typedef struct {
     snd_pcm_scope_t * a1;
     snd_pcm_scope_ops_t * a2;
-} ARGS_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__;
+} ARGS_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__;
 typedef struct {
     int format;
-    FUNC_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ func;
-    ARGS_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ args;
-} PACKED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__;
+    FUNC_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ func;
+    ARGS_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ args;
+} PACKED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__;
 typedef struct {
     int func;
-    ARGS_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__ args;
-} INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__;
+    ARGS_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__ args;
+} INDEXED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__;
 typedef int (*FUNC_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int)(snd_pcm_t * pcm, snd_pcm_format_t format, snd_pcm_access_t access, unsigned int channels, unsigned int rate, int soft_resample, unsigned int latency);
 typedef struct {
     snd_pcm_t * a1;
@@ -22644,10 +22644,10 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 #define snd_pcm_scope_set_ops_INDEX 1276
 #define snd_pcm_scope_set_ops_RETURN void
 #define snd_pcm_scope_set_ops_ARG_NAMES scope, val
-#define snd_pcm_scope_set_ops_ARG_EXPAND snd_pcm_scope_t * scope, snd_pcm_scope_ops_t * val
-#define snd_pcm_scope_set_ops_PACKED PACKED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
-#define snd_pcm_scope_set_ops_INDEXED INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
-#define snd_pcm_scope_set_ops_FORMAT FORMAT_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
+#define snd_pcm_scope_set_ops_ARG_EXPAND snd_pcm_scope_t * scope, const snd_pcm_scope_ops_t * val
+#define snd_pcm_scope_set_ops_PACKED PACKED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__
+#define snd_pcm_scope_set_ops_INDEXED INDEXED_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__
+#define snd_pcm_scope_set_ops_FORMAT FORMAT_void_snd_pcm_scope_t___GENPT___const_snd_pcm_scope_ops_t___GENPT__
 #define snd_pcm_set_params_INDEX 1277
 #define snd_pcm_set_params_RETURN int
 #define snd_pcm_set_params_ARG_NAMES pcm, format, access, channels, rate, soft_resample, latency

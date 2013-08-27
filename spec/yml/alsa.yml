@@ -358,7 +358,7 @@ snd_pcm_scope_s16_get_channel_buffer: [int16_t *, snd_pcm_scope_t *scope, unsign
 snd_pcm_scope_s16_open: [int, snd_pcm_t *pcm, const char *name, snd_pcm_scope_t **scopep]
 snd_pcm_scope_set_callback_private: [void, snd_pcm_scope_t *scope, void *val]
 snd_pcm_scope_set_name: [void, snd_pcm_scope_t *scope, const char *val]
-snd_pcm_scope_set_ops: [void, snd_pcm_scope_t *scope, snd_pcm_scope_ops_t *val]
+snd_pcm_scope_set_ops: [void, snd_pcm_scope_t *scope, const snd_pcm_scope_ops_t *val]
 snd_pcm_set_params: [int, snd_pcm_t *pcm, snd_pcm_format_t format, snd_pcm_access_t access, unsigned int channels, unsigned int rate, int soft_resample, unsigned int latency]
 snd_pcm_start: [int, snd_pcm_t *pcm]
 snd_pcm_start_mode_name: [const char *, snd_pcm_start_t mode]
