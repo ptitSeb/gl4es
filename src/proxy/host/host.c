@@ -13076,6 +13076,36 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_seq_connect_from
+        case snd_seq_connect_from_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_connect_from(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_connect_to
+        case snd_seq_connect_to_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_connect_to(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_control_queue
+        case snd_seq_control_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_int_snd_seq_event_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_int_snd_seq_event_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_int_snd_seq_event_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_control_queue(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_seq_create_port
         case snd_seq_create_port_INDEX: {
             INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__ *)packed;
@@ -13096,6 +13126,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_seq_create_simple_port
+        case snd_seq_create_simple_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___const_char___GENPT___unsigned_int_unsigned_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___const_char___GENPT___unsigned_int_unsigned_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___const_char___GENPT___unsigned_int_unsigned_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_create_simple_port(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_seq_delete_port
         case snd_seq_delete_port_INDEX: {
             INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
@@ -13103,6 +13143,36 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_seq_delete_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_delete_simple_port
+        case snd_seq_delete_simple_port_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_delete_simple_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_disconnect_from
+        case snd_seq_disconnect_from_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_disconnect_from(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_disconnect_to
+        case snd_seq_disconnect_to_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int_int_int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int_int_int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int_int_int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_disconnect_to(args.a1, args.a2, args.a3, args.a4);
             break;
         }
         #endif
@@ -13433,6 +13503,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_seq_open_lconf(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_parse_address
+        case snd_seq_parse_address_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___snd_seq_addr_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_addr_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___snd_seq_addr_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_parse_address(args.a1, args.a2, args.a3);
             break;
         }
         #endif
@@ -14720,11 +14800,41 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_seq_reset_pool_input
+        case snd_seq_reset_pool_input_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_reset_pool_input(args.a1);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_reset_pool_output
+        case snd_seq_reset_pool_output_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_reset_pool_output(args.a1);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_seq_set_bit
         case snd_seq_set_bit_INDEX: {
             INDEXED_void_int_void___GENPT__ *unpacked = (INDEXED_void_int_void___GENPT__ *)packed;
             ARGS_void_int_void___GENPT__ args = unpacked->args;
             snd_seq_set_bit(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_client_event_filter
+        case snd_seq_set_client_event_filter_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___int *unpacked = (INDEXED_int_snd_seq_t___GENPT___int *)packed;
+            ARGS_int_snd_seq_t___GENPT___int args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_event_filter(args.a1, args.a2);
             break;
         }
         #endif
@@ -14738,6 +14848,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_seq_set_client_name
+        case snd_seq_set_client_name_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT___const_char___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_name(args.a1, args.a2);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_seq_set_client_pool
         case snd_seq_set_client_pool_INDEX: {
             INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__ *)packed;
@@ -14745,6 +14865,26 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_seq_set_client_pool(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_client_pool_input
+        case snd_seq_set_client_pool_input_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___size_t *unpacked = (INDEXED_int_snd_seq_t___GENPT___size_t *)packed;
+            ARGS_int_snd_seq_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_pool_input(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_set_client_pool_output_room
+        case snd_seq_set_client_pool_output_room_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT___size_t *unpacked = (INDEXED_int_snd_seq_t___GENPT___size_t *)packed;
+            ARGS_int_snd_seq_t___GENPT___size_t args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_set_client_pool_output_room(args.a1, args.a2);
             break;
         }
         #endif
@@ -14825,6 +14965,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_seq_subscribe_port(args.a1, args.a2);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_seq_sync_output_queue
+        case snd_seq_sync_output_queue_INDEX: {
+            INDEXED_int_snd_seq_t___GENPT__ *unpacked = (INDEXED_int_snd_seq_t___GENPT__ *)packed;
+            ARGS_int_snd_seq_t___GENPT__ args = unpacked->args;
+            int *ret = (int *)ret_v;
+            *ret =
+            snd_seq_sync_output_queue(args.a1);
             break;
         }
         #endif

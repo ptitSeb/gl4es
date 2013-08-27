@@ -16837,6 +16837,49 @@ int snd_seq_close(snd_seq_t * handle) {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_seq_connect_from
+int snd_seq_connect_from(snd_seq_t * seq, int myport, int src_client, int src_port) {
+    snd_seq_connect_from_INDEXED *packed_data = malloc(sizeof(snd_seq_connect_from_INDEXED));
+    packed_data->func = snd_seq_connect_from_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)myport;
+    packed_data->args.a3 = (int)src_client;
+    packed_data->args.a4 = (int)src_port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_connect_to
+int snd_seq_connect_to(snd_seq_t * seq, int myport, int dest_client, int dest_port) {
+    snd_seq_connect_to_INDEXED *packed_data = malloc(sizeof(snd_seq_connect_to_INDEXED));
+    packed_data->func = snd_seq_connect_to_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)myport;
+    packed_data->args.a3 = (int)dest_client;
+    packed_data->args.a4 = (int)dest_port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_control_queue
+int snd_seq_control_queue(snd_seq_t * seq, int q, int type, int value, snd_seq_event_t * ev) {
+    snd_seq_control_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_control_queue_INDEXED));
+    packed_data->func = snd_seq_control_queue_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)q;
+    packed_data->args.a3 = (int)type;
+    packed_data->args.a4 = (int)value;
+    packed_data->args.a5 = (snd_seq_event_t *)ev;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_seq_create_port
 int snd_seq_create_port(snd_seq_t * handle, snd_seq_port_info_t * info) {
     snd_seq_create_port_INDEXED *packed_data = malloc(sizeof(snd_seq_create_port_INDEXED));
@@ -16861,12 +16904,66 @@ int snd_seq_create_queue(snd_seq_t * seq, snd_seq_queue_info_t * info) {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_seq_create_simple_port
+int snd_seq_create_simple_port(snd_seq_t * seq, const char * name, unsigned int caps, unsigned int type) {
+    snd_seq_create_simple_port_INDEXED *packed_data = malloc(sizeof(snd_seq_create_simple_port_INDEXED));
+    packed_data->func = snd_seq_create_simple_port_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (char *)name;
+    packed_data->args.a3 = (unsigned int)caps;
+    packed_data->args.a4 = (unsigned int)type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_seq_delete_port
 int snd_seq_delete_port(snd_seq_t * handle, int port) {
     snd_seq_delete_port_INDEXED *packed_data = malloc(sizeof(snd_seq_delete_port_INDEXED));
     packed_data->func = snd_seq_delete_port_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (int)port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_delete_simple_port
+int snd_seq_delete_simple_port(snd_seq_t * seq, int port) {
+    snd_seq_delete_simple_port_INDEXED *packed_data = malloc(sizeof(snd_seq_delete_simple_port_INDEXED));
+    packed_data->func = snd_seq_delete_simple_port_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_disconnect_from
+int snd_seq_disconnect_from(snd_seq_t * seq, int myport, int src_client, int src_port) {
+    snd_seq_disconnect_from_INDEXED *packed_data = malloc(sizeof(snd_seq_disconnect_from_INDEXED));
+    packed_data->func = snd_seq_disconnect_from_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)myport;
+    packed_data->args.a3 = (int)src_client;
+    packed_data->args.a4 = (int)src_port;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_disconnect_to
+int snd_seq_disconnect_to(snd_seq_t * seq, int myport, int dest_client, int dest_port) {
+    snd_seq_disconnect_to_INDEXED *packed_data = malloc(sizeof(snd_seq_disconnect_to_INDEXED));
+    packed_data->func = snd_seq_disconnect_to_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)myport;
+    packed_data->args.a3 = (int)dest_client;
+    packed_data->args.a4 = (int)dest_port;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -17265,6 +17362,19 @@ int snd_seq_open_lconf(snd_seq_t ** handle, const char * name, int streams, int 
     packed_data->args.a3 = (int)streams;
     packed_data->args.a4 = (int)mode;
     packed_data->args.a5 = (snd_config_t *)lconf;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_parse_address
+int snd_seq_parse_address(snd_seq_t * seq, snd_seq_addr_t * addr, const char * arg) {
+    snd_seq_parse_address_INDEXED *packed_data = malloc(sizeof(snd_seq_parse_address_INDEXED));
+    packed_data->func = snd_seq_parse_address_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (snd_seq_addr_t *)addr;
+    packed_data->args.a3 = (char *)arg;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -18807,6 +18917,28 @@ size_t snd_seq_remove_events_sizeof() {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_seq_reset_pool_input
+int snd_seq_reset_pool_input(snd_seq_t * seq) {
+    snd_seq_reset_pool_input_INDEXED *packed_data = malloc(sizeof(snd_seq_reset_pool_input_INDEXED));
+    packed_data->func = snd_seq_reset_pool_input_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_reset_pool_output
+int snd_seq_reset_pool_output(snd_seq_t * seq) {
+    snd_seq_reset_pool_output_INDEXED *packed_data = malloc(sizeof(snd_seq_reset_pool_output_INDEXED));
+    packed_data->func = snd_seq_reset_pool_output_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_seq_set_bit
 void snd_seq_set_bit(int nr, void * array) {
     snd_seq_set_bit_INDEXED *packed_data = malloc(sizeof(snd_seq_set_bit_INDEXED));
@@ -18816,6 +18948,18 @@ void snd_seq_set_bit(int nr, void * array) {
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
+}
+#endif
+#ifndef skip_client_snd_seq_set_client_event_filter
+int snd_seq_set_client_event_filter(snd_seq_t * seq, int event_type) {
+    snd_seq_set_client_event_filter_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_event_filter_INDEXED));
+    packed_data->func = snd_seq_set_client_event_filter_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (int)event_type;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
 }
 #endif
 #ifndef skip_client_snd_seq_set_client_info
@@ -18830,12 +18974,48 @@ int snd_seq_set_client_info(snd_seq_t * handle, snd_seq_client_info_t * info) {
     return ret;
 }
 #endif
+#ifndef skip_client_snd_seq_set_client_name
+int snd_seq_set_client_name(snd_seq_t * seq, const char * name) {
+    snd_seq_set_client_name_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_name_INDEXED));
+    packed_data->func = snd_seq_set_client_name_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (char *)name;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_seq_set_client_pool
 int snd_seq_set_client_pool(snd_seq_t * handle, snd_seq_client_pool_t * info) {
     snd_seq_set_client_pool_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_pool_INDEXED));
     packed_data->func = snd_seq_set_client_pool_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_pool_t *)info;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_client_pool_input
+int snd_seq_set_client_pool_input(snd_seq_t * seq, size_t size) {
+    snd_seq_set_client_pool_input_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_pool_input_INDEXED));
+    packed_data->func = snd_seq_set_client_pool_input_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (size_t)size;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_set_client_pool_output_room
+int snd_seq_set_client_pool_output_room(snd_seq_t * seq, size_t size) {
+    snd_seq_set_client_pool_output_room_INDEXED *packed_data = malloc(sizeof(snd_seq_set_client_pool_output_room_INDEXED));
+    packed_data->func = snd_seq_set_client_pool_output_room_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
+    packed_data->args.a2 = (size_t)size;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -18937,6 +19117,17 @@ int snd_seq_subscribe_port(snd_seq_t * handle, snd_seq_port_subscribe_t * sub) {
     packed_data->func = snd_seq_subscribe_port_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)sub;
+    int ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_seq_sync_output_queue
+int snd_seq_sync_output_queue(snd_seq_t * seq) {
+    snd_seq_sync_output_queue_INDEXED *packed_data = malloc(sizeof(snd_seq_sync_output_queue_INDEXED));
+    packed_data->func = snd_seq_sync_output_queue_INDEX;
+    packed_data->args.a1 = (snd_seq_t *)seq;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -24432,14 +24623,35 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "snd_seq_close") == 0) {
         return (void *)snd_seq_close;
     }
+    if (strcmp(name, "snd_seq_connect_from") == 0) {
+        return (void *)snd_seq_connect_from;
+    }
+    if (strcmp(name, "snd_seq_connect_to") == 0) {
+        return (void *)snd_seq_connect_to;
+    }
+    if (strcmp(name, "snd_seq_control_queue") == 0) {
+        return (void *)snd_seq_control_queue;
+    }
     if (strcmp(name, "snd_seq_create_port") == 0) {
         return (void *)snd_seq_create_port;
     }
     if (strcmp(name, "snd_seq_create_queue") == 0) {
         return (void *)snd_seq_create_queue;
     }
+    if (strcmp(name, "snd_seq_create_simple_port") == 0) {
+        return (void *)snd_seq_create_simple_port;
+    }
     if (strcmp(name, "snd_seq_delete_port") == 0) {
         return (void *)snd_seq_delete_port;
+    }
+    if (strcmp(name, "snd_seq_delete_simple_port") == 0) {
+        return (void *)snd_seq_delete_simple_port;
+    }
+    if (strcmp(name, "snd_seq_disconnect_from") == 0) {
+        return (void *)snd_seq_disconnect_from;
+    }
+    if (strcmp(name, "snd_seq_disconnect_to") == 0) {
+        return (void *)snd_seq_disconnect_to;
     }
     if (strcmp(name, "snd_seq_drain_output") == 0) {
         return (void *)snd_seq_drain_output;
@@ -24539,6 +24751,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_seq_open_lconf") == 0) {
         return (void *)snd_seq_open_lconf;
+    }
+    if (strcmp(name, "snd_seq_parse_address") == 0) {
+        return (void *)snd_seq_parse_address;
     }
     if (strcmp(name, "snd_seq_poll_descriptors") == 0) {
         return (void *)snd_seq_poll_descriptors;
@@ -24960,14 +25175,32 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     if (strcmp(name, "snd_seq_remove_events_sizeof") == 0) {
         return (void *)snd_seq_remove_events_sizeof;
     }
+    if (strcmp(name, "snd_seq_reset_pool_input") == 0) {
+        return (void *)snd_seq_reset_pool_input;
+    }
+    if (strcmp(name, "snd_seq_reset_pool_output") == 0) {
+        return (void *)snd_seq_reset_pool_output;
+    }
     if (strcmp(name, "snd_seq_set_bit") == 0) {
         return (void *)snd_seq_set_bit;
+    }
+    if (strcmp(name, "snd_seq_set_client_event_filter") == 0) {
+        return (void *)snd_seq_set_client_event_filter;
     }
     if (strcmp(name, "snd_seq_set_client_info") == 0) {
         return (void *)snd_seq_set_client_info;
     }
+    if (strcmp(name, "snd_seq_set_client_name") == 0) {
+        return (void *)snd_seq_set_client_name;
+    }
     if (strcmp(name, "snd_seq_set_client_pool") == 0) {
         return (void *)snd_seq_set_client_pool;
+    }
+    if (strcmp(name, "snd_seq_set_client_pool_input") == 0) {
+        return (void *)snd_seq_set_client_pool_input;
+    }
+    if (strcmp(name, "snd_seq_set_client_pool_output_room") == 0) {
+        return (void *)snd_seq_set_client_pool_output_room;
     }
     if (strcmp(name, "snd_seq_set_input_buffer_size") == 0) {
         return (void *)snd_seq_set_input_buffer_size;
@@ -24992,6 +25225,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_seq_subscribe_port") == 0) {
         return (void *)snd_seq_subscribe_port;
+    }
+    if (strcmp(name, "snd_seq_sync_output_queue") == 0) {
+        return (void *)snd_seq_sync_output_queue;
     }
     if (strcmp(name, "snd_seq_system_info") == 0) {
         return (void *)snd_seq_system_info;
