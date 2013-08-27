@@ -10678,7 +10678,7 @@ int snd_instr_simple_free(snd_instr_simple_t * simple) {
 }
 #endif
 #ifndef skip_client_snd_lib_error_set_handler
-int snd_lib_error_set_handler( handler) {
+int snd_lib_error_set_handler(void * handler) {
     snd_lib_error_set_handler_INDEXED *packed_data = malloc(sizeof(snd_lib_error_set_handler_INDEXED));
     packed_data->func = snd_lib_error_set_handler_INDEX;
     packed_data->args.a1 = handler;
@@ -12739,10 +12739,10 @@ const char * snd_pcm_format_name(const snd_pcm_format_t format) {
 }
 #endif
 #ifndef skip_client_snd_pcm_format_physical_width
-int snd_pcm_format_physical_width(snd_pcm_format_t format);     /* in bits) {
+int snd_pcm_format_physical_width(snd_pcm_format_t format) {
     snd_pcm_format_physical_width_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_physical_width_INDEXED));
     packed_data->func = snd_pcm_format_physical_width_INDEX;
-    packed_data->args.a1 = bits;
+    packed_data->args.a1 = format;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -12852,10 +12852,10 @@ snd_pcm_format_t snd_pcm_format_value(const char* name) {
 }
 #endif
 #ifndef skip_client_snd_pcm_format_width
-int snd_pcm_format_width(snd_pcm_format_t format);          /* in bits) {
+int snd_pcm_format_width(snd_pcm_format_t format) {
     snd_pcm_format_width_INDEXED *packed_data = malloc(sizeof(snd_pcm_format_width_INDEXED));
     packed_data->func = snd_pcm_format_width_INDEX;
-    packed_data->args.a1 = bits;
+    packed_data->args.a1 = format;
     int ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
     free(packed_data);
@@ -15091,6 +15091,19 @@ snd_pcm_sframes_t snd_pcm_mmap_readi(snd_pcm_t * pcm, void * buffer, snd_pcm_ufr
     packed_data->func = snd_pcm_mmap_readi_INDEX;
     packed_data->args.a1 = pcm;
     packed_data->args.a2 = buffer;
+    packed_data->args.a3 = size;
+    snd_pcm_sframes_t ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
+#ifndef skip_client_snd_pcm_mmap_readn
+snd_pcm_sframes_t snd_pcm_mmap_readn(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size) {
+    snd_pcm_mmap_readn_INDEXED *packed_data = malloc(sizeof(snd_pcm_mmap_readn_INDEXED));
+    packed_data->func = snd_pcm_mmap_readn_INDEX;
+    packed_data->args.a1 = pcm;
+    packed_data->args.a2 = bufs;
     packed_data->args.a3 = size;
     snd_pcm_sframes_t ret;
     syscall(SYS_proxy, (void *)packed_data, &ret);
@@ -24353,6 +24366,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_pcm_mmap_readi") == 0) {
         return (void *)snd_pcm_mmap_readi;
+    }
+    if (strcmp(name, "snd_pcm_mmap_readn") == 0) {
+        return (void *)snd_pcm_mmap_readn;
     }
     if (strcmp(name, "snd_pcm_mmap_writei") == 0) {
         return (void *)snd_pcm_mmap_writei;

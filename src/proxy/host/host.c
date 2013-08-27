@@ -8056,8 +8056,8 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #endif
         #ifndef skip_index_snd_lib_error_set_handler
         case snd_lib_error_set_handler_INDEX: {
-            INDEXED_int_ *unpacked = (INDEXED_int_ *)packed;
-            ARGS_int_ args = unpacked->args;
+            INDEXED_int_void___GENPT__ *unpacked = (INDEXED_int_void___GENPT__ *)packed;
+            ARGS_int_void___GENPT__ args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_lib_error_set_handler(args.a1);
@@ -9764,8 +9764,8 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #endif
         #ifndef skip_index_snd_pcm_format_physical_width
         case snd_pcm_format_physical_width_INDEX: {
-            INDEXED_int_snd_pcm_format_t_format);_____/__GENPT___in *unpacked = (INDEXED_int_snd_pcm_format_t_format);_____/__GENPT___in *)packed;
-            ARGS_int_snd_pcm_format_t_format);_____/__GENPT___in args = unpacked->args;
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_pcm_format_physical_width(args.a1);
@@ -9864,8 +9864,8 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #endif
         #ifndef skip_index_snd_pcm_format_width
         case snd_pcm_format_width_INDEX: {
-            INDEXED_int_snd_pcm_format_t_format);__________/__GENPT___in *unpacked = (INDEXED_int_snd_pcm_format_t_format);__________/__GENPT___in *)packed;
-            ARGS_int_snd_pcm_format_t_format);__________/__GENPT___in args = unpacked->args;
+            INDEXED_int_snd_pcm_format_t *unpacked = (INDEXED_int_snd_pcm_format_t *)packed;
+            ARGS_int_snd_pcm_format_t args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_pcm_format_width(args.a1);
@@ -11609,6 +11609,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
             *ret =
             snd_pcm_mmap_readi(args.a1, args.a2, args.a3);
+            break;
+        }
+        #endif
+        #ifndef skip_index_snd_pcm_mmap_readn
+        case snd_pcm_mmap_readn_INDEX: {
+            INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *unpacked = (INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t *)packed;
+            ARGS_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t args = unpacked->args;
+            snd_pcm_sframes_t *ret = (snd_pcm_sframes_t *)ret_v;
+            *ret =
+            snd_pcm_mmap_readn(args.a1, args.a2, args.a3);
             break;
         }
         #endif
