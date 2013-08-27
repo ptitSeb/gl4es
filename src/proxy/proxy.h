@@ -454,36 +454,6 @@ enum FORMAT {
     FORMAT_int_snd_input_t___GENPT____GENPT___FILE___GENPT___int,
     FORMAT_int_snd_input_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__,
     FORMAT_int_snd_input_t___GENPT___int,
-    FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__,
-    FORMAT_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__,
-    FORMAT_int_snd_instr_fm_t___GENPT__,
-    FORMAT_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__,
-    FORMAT_void_snd_instr_header_t___GENPT__,
-    FORMAT_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__,
-    FORMAT_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__,
-    FORMAT_unsigned_int_const_snd_instr_header_t___GENPT__,
-    FORMAT_void___GENPT___const_snd_instr_header_t___GENPT__,
-    FORMAT_int_const_snd_instr_header_t___GENPT__,
-    FORMAT_const_char___GENPT___const_snd_instr_header_t___GENPT__,
-    FORMAT_size_t_const_snd_instr_header_t___GENPT__,
-    FORMAT_int_snd_instr_header_t___GENPT____GENPT___size_t,
-    FORMAT_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__,
-    FORMAT_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t,
-    FORMAT_void_snd_instr_header_t___GENPT___unsigned_int,
-    FORMAT_void_snd_instr_header_t___GENPT___int,
-    FORMAT_void_snd_instr_header_t___GENPT___const_char___GENPT__,
-    FORMAT_void_snd_instr_header_t___GENPT___size_t,
-    FORMAT_int_snd_iwffff_handle_t___GENPT__,
-    FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__,
-    FORMAT_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__,
-    FORMAT_int_snd_instr_iwffff_t___GENPT__,
-    FORMAT_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__,
-    FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__,
-    FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int,
-    FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int,
-    FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__,
-    FORMAT_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__,
-    FORMAT_int_snd_instr_simple_t___GENPT__,
     FORMAT_int_snd_lib_error_handler_t,
     FORMAT_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__,
     FORMAT_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__,
@@ -7314,430 +7284,6 @@ typedef struct {
     int func;
     ARGS_int_snd_input_t___GENPT___int args;
 } INDEXED_int_snd_input_t___GENPT___int;
-typedef int (*FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__)(snd_instr_header_t * data, size_t size, snd_instr_fm_t ** fm);
-typedef struct {
-    snd_instr_header_t * a1;
-    size_t a2;
-    snd_instr_fm_t ** a3;
-} ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ args;
-} PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__ args;
-} INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__;
-typedef int (*FUNC_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_fm_t * fm, const char * name, snd_instr_header_t ** put, size_t * size);
-typedef struct {
-    snd_instr_fm_t * a1;
-    char * a2;
-    snd_instr_header_t ** a3;
-    size_t * a4;
-} ARGS_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ func;
-    ARGS_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} PACKED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} INDEXED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef int (*FUNC_int_snd_instr_fm_t___GENPT__)(snd_instr_fm_t * fm);
-typedef struct {
-    snd_instr_fm_t * a1;
-} ARGS_int_snd_instr_fm_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_fm_t___GENPT__ func;
-    ARGS_int_snd_instr_fm_t___GENPT__ args;
-} PACKED_int_snd_instr_fm_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_fm_t___GENPT__ args;
-} INDEXED_int_snd_instr_fm_t___GENPT__;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__)(snd_instr_header_t * dst, const snd_instr_header_t * src);
-typedef struct {
-    snd_instr_header_t * a1;
-    snd_instr_header_t * a2;
-} ARGS_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ func;
-    ARGS_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ args;
-} PACKED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__ args;
-} INDEXED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT__)(snd_instr_header_t * ptr);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_void_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT__ func;
-    ARGS_void_snd_instr_header_t___GENPT__ args;
-} PACKED_void_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT__ args;
-} INDEXED_void_snd_instr_header_t___GENPT__;
-typedef const snd_seq_instr_t * (*FUNC_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ func;
-    ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ args;
-} PACKED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__ args;
-} INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__;
-typedef snd_seq_instr_cluster_t (*FUNC_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ func;
-    ARGS_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ args;
-} PACKED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__ args;
-} INDEXED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__;
-typedef unsigned int (*FUNC_unsigned_int_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_unsigned_int_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_unsigned_int_const_snd_instr_header_t___GENPT__ func;
-    ARGS_unsigned_int_const_snd_instr_header_t___GENPT__ args;
-} PACKED_unsigned_int_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_unsigned_int_const_snd_instr_header_t___GENPT__ args;
-} INDEXED_unsigned_int_const_snd_instr_header_t___GENPT__;
-typedef void * (*FUNC_void___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_void___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_void___GENPT___const_snd_instr_header_t___GENPT__ func;
-    ARGS_void___GENPT___const_snd_instr_header_t___GENPT__ args;
-} PACKED_void___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_void___GENPT___const_snd_instr_header_t___GENPT__ args;
-} INDEXED_void___GENPT___const_snd_instr_header_t___GENPT__;
-typedef int (*FUNC_int_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_int_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_const_snd_instr_header_t___GENPT__ func;
-    ARGS_int_const_snd_instr_header_t___GENPT__ args;
-} PACKED_int_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_const_snd_instr_header_t___GENPT__ args;
-} INDEXED_int_const_snd_instr_header_t___GENPT__;
-typedef const char * (*FUNC_const_char___GENPT___const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_const_char___GENPT___const_snd_instr_header_t___GENPT__ func;
-    ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__ args;
-} PACKED_const_char___GENPT___const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_const_char___GENPT___const_snd_instr_header_t___GENPT__ args;
-} INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__;
-typedef size_t (*FUNC_size_t_const_snd_instr_header_t___GENPT__)(const snd_instr_header_t * info);
-typedef struct {
-    snd_instr_header_t * a1;
-} ARGS_size_t_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_size_t_const_snd_instr_header_t___GENPT__ func;
-    ARGS_size_t_const_snd_instr_header_t___GENPT__ args;
-} PACKED_size_t_const_snd_instr_header_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_size_t_const_snd_instr_header_t___GENPT__ args;
-} INDEXED_size_t_const_snd_instr_header_t___GENPT__;
-typedef int (*FUNC_int_snd_instr_header_t___GENPT____GENPT___size_t)(snd_instr_header_t ** ptr, size_t len);
-typedef struct {
-    snd_instr_header_t ** a1;
-    size_t a2;
-} ARGS_int_snd_instr_header_t___GENPT____GENPT___size_t;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_header_t___GENPT____GENPT___size_t func;
-    ARGS_int_snd_instr_header_t___GENPT____GENPT___size_t args;
-} PACKED_int_snd_instr_header_t___GENPT____GENPT___size_t;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_header_t___GENPT____GENPT___size_t args;
-} INDEXED_int_snd_instr_header_t___GENPT____GENPT___size_t;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__)(snd_instr_header_t * info, const snd_seq_instr_t * instr);
-typedef struct {
-    snd_instr_header_t * a1;
-    snd_seq_instr_t * a2;
-} ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ func;
-    ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ args;
-} PACKED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__ args;
-} INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t)(snd_instr_header_t * info, snd_seq_instr_cluster_t cluster);
-typedef struct {
-    snd_instr_header_t * a1;
-    snd_seq_instr_cluster_t a2;
-} ARGS_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t func;
-    ARGS_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t args;
-} PACKED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t args;
-} INDEXED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___unsigned_int)(snd_instr_header_t * info, unsigned int cmd);
-typedef struct {
-    snd_instr_header_t * a1;
-    unsigned int a2;
-} ARGS_void_snd_instr_header_t___GENPT___unsigned_int;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___unsigned_int func;
-    ARGS_void_snd_instr_header_t___GENPT___unsigned_int args;
-} PACKED_void_snd_instr_header_t___GENPT___unsigned_int;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___unsigned_int args;
-} INDEXED_void_snd_instr_header_t___GENPT___unsigned_int;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___int)(snd_instr_header_t * info, int val);
-typedef struct {
-    snd_instr_header_t * a1;
-    int a2;
-} ARGS_void_snd_instr_header_t___GENPT___int;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___int func;
-    ARGS_void_snd_instr_header_t___GENPT___int args;
-} PACKED_void_snd_instr_header_t___GENPT___int;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___int args;
-} INDEXED_void_snd_instr_header_t___GENPT___int;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___const_char___GENPT__)(snd_instr_header_t * info, const char * format);
-typedef struct {
-    snd_instr_header_t * a1;
-    char * a2;
-} ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___const_char___GENPT__ func;
-    ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__ args;
-} PACKED_void_snd_instr_header_t___GENPT___const_char___GENPT__;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___const_char___GENPT__ args;
-} INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__;
-typedef void (*FUNC_void_snd_instr_header_t___GENPT___size_t)(snd_instr_header_t * info, size_t len);
-typedef struct {
-    snd_instr_header_t * a1;
-    size_t a2;
-} ARGS_void_snd_instr_header_t___GENPT___size_t;
-typedef struct {
-    int format;
-    FUNC_void_snd_instr_header_t___GENPT___size_t func;
-    ARGS_void_snd_instr_header_t___GENPT___size_t args;
-} PACKED_void_snd_instr_header_t___GENPT___size_t;
-typedef struct {
-    int func;
-    ARGS_void_snd_instr_header_t___GENPT___size_t args;
-} INDEXED_void_snd_instr_header_t___GENPT___size_t;
-typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT__)(snd_iwffff_handle_t * handle);
-typedef struct {
-    snd_iwffff_handle_t * a1;
-} ARGS_int_snd_iwffff_handle_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_iwffff_handle_t___GENPT__ func;
-    ARGS_int_snd_iwffff_handle_t___GENPT__ args;
-} PACKED_int_snd_iwffff_handle_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT__ args;
-} INDEXED_int_snd_iwffff_handle_t___GENPT__;
-typedef int (*FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__)(snd_instr_header_t * data, size_t size, snd_instr_iwffff_t ** iwffff);
-typedef struct {
-    snd_instr_header_t * a1;
-    size_t a2;
-    snd_instr_iwffff_t ** a3;
-} ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ args;
-} PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__ args;
-} INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef int (*FUNC_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_iwffff_t * iwffff, const char * name, snd_instr_header_t ** data, size_t * size);
-typedef struct {
-    snd_instr_iwffff_t * a1;
-    char * a2;
-    snd_instr_header_t ** a3;
-    size_t * a4;
-} ARGS_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ func;
-    ARGS_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} PACKED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} INDEXED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef int (*FUNC_int_snd_instr_iwffff_t___GENPT__)(snd_instr_iwffff_t * iwffff);
-typedef struct {
-    snd_instr_iwffff_t * a1;
-} ARGS_int_snd_instr_iwffff_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_iwffff_t___GENPT__ func;
-    ARGS_int_snd_instr_iwffff_t___GENPT__ args;
-} PACKED_int_snd_instr_iwffff_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_iwffff_t___GENPT__ args;
-} INDEXED_int_snd_instr_iwffff_t___GENPT__;
-typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__)(snd_iwffff_handle_t * handle, int bank, int prg, snd_instr_iwffff_t ** iwffff);
-typedef struct {
-    snd_iwffff_handle_t * a1;
-    int a2;
-    int a3;
-    snd_instr_iwffff_t ** a4;
-} ARGS_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ func;
-    ARGS_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ args;
-} PACKED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__ args;
-} INDEXED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__;
-typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__)(snd_iwffff_handle_t ** handle, const char * name_fff, const char * name_dta);
-typedef struct {
-    snd_iwffff_handle_t ** a1;
-    char * a2;
-    char * a3;
-} ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args;
-} PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__ args;
-} INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__;
-typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int)(snd_iwffff_handle_t ** handle, int card, int bank, int file);
-typedef struct {
-    snd_iwffff_handle_t ** a1;
-    int a2;
-    int a3;
-    int a4;
-} ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int;
-typedef struct {
-    int format;
-    FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int args;
-} PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int;
-typedef struct {
-    int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int args;
-} INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int;
-typedef int (*FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int)(snd_iwffff_handle_t ** handle, const char * name, int bank, int file);
-typedef struct {
-    snd_iwffff_handle_t ** a1;
-    char * a2;
-    int a3;
-    int a4;
-} ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int;
-typedef struct {
-    int format;
-    FUNC_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int args;
-} PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int;
-typedef struct {
-    int func;
-    ARGS_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int args;
-} INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int;
-typedef int (*FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__)(snd_instr_header_t * data, size_t size, snd_instr_simple_t ** simple);
-typedef struct {
-    snd_instr_header_t * a1;
-    size_t a2;
-    snd_instr_simple_t ** a3;
-} ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ args;
-} PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__ args;
-} INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__;
-typedef int (*FUNC_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__)(snd_instr_simple_t * simple, const char * name, snd_instr_header_t ** put, size_t * size);
-typedef struct {
-    snd_instr_simple_t * a1;
-    char * a2;
-    snd_instr_header_t ** a3;
-    size_t * a4;
-} ARGS_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ func;
-    ARGS_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} PACKED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__ args;
-} INDEXED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__;
-typedef int (*FUNC_int_snd_instr_simple_t___GENPT__)(snd_instr_simple_t * simple);
-typedef struct {
-    snd_instr_simple_t * a1;
-} ARGS_int_snd_instr_simple_t___GENPT__;
-typedef struct {
-    int format;
-    FUNC_int_snd_instr_simple_t___GENPT__ func;
-    ARGS_int_snd_instr_simple_t___GENPT__ args;
-} PACKED_int_snd_instr_simple_t___GENPT__;
-typedef struct {
-    int func;
-    ARGS_int_snd_instr_simple_t___GENPT__ args;
-} INDEXED_int_snd_instr_simple_t___GENPT__;
 typedef int (*FUNC_int_snd_lib_error_handler_t)(snd_lib_error_handler_t handler);
 typedef struct {
     snd_lib_error_handler_t a1;
@@ -20365,6132 +19911,5873 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 #define snd_input_ungetc_PACKED PACKED_int_snd_input_t___GENPT___int
 #define snd_input_ungetc_INDEXED INDEXED_int_snd_input_t___GENPT___int
 #define snd_input_ungetc_FORMAT FORMAT_int_snd_input_t___GENPT___int
-#define snd_instr_fm_convert_from_stream_INDEX 886
-#define snd_instr_fm_convert_from_stream_RETURN int
-#define snd_instr_fm_convert_from_stream_ARG_NAMES data, size, fm
-#define snd_instr_fm_convert_from_stream_ARG_EXPAND snd_instr_header_t * data, size_t size, snd_instr_fm_t ** fm
-#define snd_instr_fm_convert_from_stream_PACKED PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__
-#define snd_instr_fm_convert_from_stream_INDEXED INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__
-#define snd_instr_fm_convert_from_stream_FORMAT FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_fm_t___GENPT____GENPT__
-#define snd_instr_fm_convert_to_stream_INDEX 887
-#define snd_instr_fm_convert_to_stream_RETURN int
-#define snd_instr_fm_convert_to_stream_ARG_NAMES fm, name, put, size
-#define snd_instr_fm_convert_to_stream_ARG_EXPAND snd_instr_fm_t * fm, const char * name, snd_instr_header_t ** put, size_t * size
-#define snd_instr_fm_convert_to_stream_PACKED PACKED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_fm_convert_to_stream_INDEXED INDEXED_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_fm_convert_to_stream_FORMAT FORMAT_int_snd_instr_fm_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_fm_free_INDEX 888
-#define snd_instr_fm_free_RETURN int
-#define snd_instr_fm_free_ARG_NAMES fm
-#define snd_instr_fm_free_ARG_EXPAND snd_instr_fm_t * fm
-#define snd_instr_fm_free_PACKED PACKED_int_snd_instr_fm_t___GENPT__
-#define snd_instr_fm_free_INDEXED INDEXED_int_snd_instr_fm_t___GENPT__
-#define snd_instr_fm_free_FORMAT FORMAT_int_snd_instr_fm_t___GENPT__
-#define snd_instr_header_copy_INDEX 889
-#define snd_instr_header_copy_RETURN void
-#define snd_instr_header_copy_ARG_NAMES dst, src
-#define snd_instr_header_copy_ARG_EXPAND snd_instr_header_t * dst, const snd_instr_header_t * src
-#define snd_instr_header_copy_PACKED PACKED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_copy_INDEXED INDEXED_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_copy_FORMAT FORMAT_void_snd_instr_header_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_free_INDEX 890
-#define snd_instr_header_free_RETURN void
-#define snd_instr_header_free_ARG_NAMES ptr
-#define snd_instr_header_free_ARG_EXPAND snd_instr_header_t * ptr
-#define snd_instr_header_free_PACKED PACKED_void_snd_instr_header_t___GENPT__
-#define snd_instr_header_free_INDEXED INDEXED_void_snd_instr_header_t___GENPT__
-#define snd_instr_header_free_FORMAT FORMAT_void_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_alias_INDEX 891
-#define snd_instr_header_get_alias_RETURN const snd_seq_instr_t *
-#define snd_instr_header_get_alias_ARG_NAMES info
-#define snd_instr_header_get_alias_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_alias_PACKED PACKED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_alias_INDEXED INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_alias_FORMAT FORMAT_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cluster_INDEX 892
-#define snd_instr_header_get_cluster_RETURN snd_seq_instr_cluster_t
-#define snd_instr_header_get_cluster_ARG_NAMES info
-#define snd_instr_header_get_cluster_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_cluster_PACKED PACKED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cluster_INDEXED INDEXED_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cluster_FORMAT FORMAT_snd_seq_instr_cluster_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cmd_INDEX 893
-#define snd_instr_header_get_cmd_RETURN unsigned int
-#define snd_instr_header_get_cmd_ARG_NAMES info
-#define snd_instr_header_get_cmd_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_cmd_PACKED PACKED_unsigned_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cmd_INDEXED INDEXED_unsigned_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_cmd_FORMAT FORMAT_unsigned_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_data_INDEX 894
-#define snd_instr_header_get_data_RETURN void *
-#define snd_instr_header_get_data_ARG_NAMES info
-#define snd_instr_header_get_data_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_data_PACKED PACKED_void___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_data_INDEXED INDEXED_void___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_data_FORMAT FORMAT_void___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_follow_alias_INDEX 895
-#define snd_instr_header_get_follow_alias_RETURN int
-#define snd_instr_header_get_follow_alias_ARG_NAMES info
-#define snd_instr_header_get_follow_alias_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_follow_alias_PACKED PACKED_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_follow_alias_INDEXED INDEXED_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_follow_alias_FORMAT FORMAT_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_format_INDEX 896
-#define snd_instr_header_get_format_RETURN const char *
-#define snd_instr_header_get_format_ARG_NAMES info
-#define snd_instr_header_get_format_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_format_PACKED PACKED_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_format_INDEXED INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_format_FORMAT FORMAT_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_id_INDEX 897
-#define snd_instr_header_get_id_RETURN const snd_seq_instr_t *
-#define snd_instr_header_get_id_ARG_NAMES info
-#define snd_instr_header_get_id_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_id_PACKED PACKED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_id_INDEXED INDEXED_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_id_FORMAT FORMAT_const_snd_seq_instr_t___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_len_INDEX 898
-#define snd_instr_header_get_len_RETURN size_t
-#define snd_instr_header_get_len_ARG_NAMES info
-#define snd_instr_header_get_len_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_len_PACKED PACKED_size_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_len_INDEXED INDEXED_size_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_len_FORMAT FORMAT_size_t_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_name_INDEX 899
-#define snd_instr_header_get_name_RETURN const char *
-#define snd_instr_header_get_name_ARG_NAMES info
-#define snd_instr_header_get_name_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_name_PACKED PACKED_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_type_INDEX 900
-#define snd_instr_header_get_type_RETURN int
-#define snd_instr_header_get_type_ARG_NAMES info
-#define snd_instr_header_get_type_ARG_EXPAND const snd_instr_header_t * info
-#define snd_instr_header_get_type_PACKED PACKED_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_type_INDEXED INDEXED_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_get_type_FORMAT FORMAT_int_const_snd_instr_header_t___GENPT__
-#define snd_instr_header_malloc_INDEX 901
-#define snd_instr_header_malloc_RETURN int
-#define snd_instr_header_malloc_ARG_NAMES ptr, len
-#define snd_instr_header_malloc_ARG_EXPAND snd_instr_header_t ** ptr, size_t len
-#define snd_instr_header_malloc_PACKED PACKED_int_snd_instr_header_t___GENPT____GENPT___size_t
-#define snd_instr_header_malloc_INDEXED INDEXED_int_snd_instr_header_t___GENPT____GENPT___size_t
-#define snd_instr_header_malloc_FORMAT FORMAT_int_snd_instr_header_t___GENPT____GENPT___size_t
-#define snd_instr_header_set_alias_INDEX 902
-#define snd_instr_header_set_alias_RETURN void
-#define snd_instr_header_set_alias_ARG_NAMES info, instr
-#define snd_instr_header_set_alias_ARG_EXPAND snd_instr_header_t * info, const snd_seq_instr_t * instr
-#define snd_instr_header_set_alias_PACKED PACKED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_alias_INDEXED INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_alias_FORMAT FORMAT_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_cluster_INDEX 903
-#define snd_instr_header_set_cluster_RETURN void
-#define snd_instr_header_set_cluster_ARG_NAMES info, cluster
-#define snd_instr_header_set_cluster_ARG_EXPAND snd_instr_header_t * info, snd_seq_instr_cluster_t cluster
-#define snd_instr_header_set_cluster_PACKED PACKED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t
-#define snd_instr_header_set_cluster_INDEXED INDEXED_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t
-#define snd_instr_header_set_cluster_FORMAT FORMAT_void_snd_instr_header_t___GENPT___snd_seq_instr_cluster_t
-#define snd_instr_header_set_cmd_INDEX 904
-#define snd_instr_header_set_cmd_RETURN void
-#define snd_instr_header_set_cmd_ARG_NAMES info, cmd
-#define snd_instr_header_set_cmd_ARG_EXPAND snd_instr_header_t * info, unsigned int cmd
-#define snd_instr_header_set_cmd_PACKED PACKED_void_snd_instr_header_t___GENPT___unsigned_int
-#define snd_instr_header_set_cmd_INDEXED INDEXED_void_snd_instr_header_t___GENPT___unsigned_int
-#define snd_instr_header_set_cmd_FORMAT FORMAT_void_snd_instr_header_t___GENPT___unsigned_int
-#define snd_instr_header_set_follow_alias_INDEX 905
-#define snd_instr_header_set_follow_alias_RETURN void
-#define snd_instr_header_set_follow_alias_ARG_NAMES info, val
-#define snd_instr_header_set_follow_alias_ARG_EXPAND snd_instr_header_t * info, int val
-#define snd_instr_header_set_follow_alias_PACKED PACKED_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_set_follow_alias_INDEXED INDEXED_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_set_follow_alias_FORMAT FORMAT_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_set_format_INDEX 906
-#define snd_instr_header_set_format_RETURN void
-#define snd_instr_header_set_format_ARG_NAMES info, format
-#define snd_instr_header_set_format_ARG_EXPAND snd_instr_header_t * info, const char * format
-#define snd_instr_header_set_format_PACKED PACKED_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_format_INDEXED INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_format_FORMAT FORMAT_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_id_INDEX 907
-#define snd_instr_header_set_id_RETURN void
-#define snd_instr_header_set_id_ARG_NAMES info, id
-#define snd_instr_header_set_id_ARG_EXPAND snd_instr_header_t * info, const snd_seq_instr_t * id
-#define snd_instr_header_set_id_PACKED PACKED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_id_INDEXED INDEXED_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_id_FORMAT FORMAT_void_snd_instr_header_t___GENPT___const_snd_seq_instr_t___GENPT__
-#define snd_instr_header_set_len_INDEX 908
-#define snd_instr_header_set_len_RETURN void
-#define snd_instr_header_set_len_ARG_NAMES info, len
-#define snd_instr_header_set_len_ARG_EXPAND snd_instr_header_t * info, size_t len
-#define snd_instr_header_set_len_PACKED PACKED_void_snd_instr_header_t___GENPT___size_t
-#define snd_instr_header_set_len_INDEXED INDEXED_void_snd_instr_header_t___GENPT___size_t
-#define snd_instr_header_set_len_FORMAT FORMAT_void_snd_instr_header_t___GENPT___size_t
-#define snd_instr_header_set_name_INDEX 909
-#define snd_instr_header_set_name_RETURN void
-#define snd_instr_header_set_name_ARG_NAMES info, name
-#define snd_instr_header_set_name_ARG_EXPAND snd_instr_header_t * info, const char * name
-#define snd_instr_header_set_name_PACKED PACKED_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_name_INDEXED INDEXED_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_name_FORMAT FORMAT_void_snd_instr_header_t___GENPT___const_char___GENPT__
-#define snd_instr_header_set_type_INDEX 910
-#define snd_instr_header_set_type_RETURN void
-#define snd_instr_header_set_type_ARG_NAMES info, type
-#define snd_instr_header_set_type_ARG_EXPAND snd_instr_header_t * info, int type
-#define snd_instr_header_set_type_PACKED PACKED_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_set_type_INDEXED INDEXED_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_set_type_FORMAT FORMAT_void_snd_instr_header_t___GENPT___int
-#define snd_instr_header_sizeof_INDEX 911
-#define snd_instr_header_sizeof_RETURN size_t
-#define snd_instr_header_sizeof_ARG_NAMES 
-#define snd_instr_header_sizeof_ARG_EXPAND 
-#define snd_instr_header_sizeof_PACKED PACKED_size_t
-#define snd_instr_header_sizeof_INDEXED INDEXED_size_t
-#define snd_instr_header_sizeof_FORMAT FORMAT_size_t
-#define snd_instr_iwffff_close_INDEX 912
-#define snd_instr_iwffff_close_RETURN int
-#define snd_instr_iwffff_close_ARG_NAMES handle
-#define snd_instr_iwffff_close_ARG_EXPAND snd_iwffff_handle_t * handle
-#define snd_instr_iwffff_close_PACKED PACKED_int_snd_iwffff_handle_t___GENPT__
-#define snd_instr_iwffff_close_INDEXED INDEXED_int_snd_iwffff_handle_t___GENPT__
-#define snd_instr_iwffff_close_FORMAT FORMAT_int_snd_iwffff_handle_t___GENPT__
-#define snd_instr_iwffff_convert_from_stream_INDEX 913
-#define snd_instr_iwffff_convert_from_stream_RETURN int
-#define snd_instr_iwffff_convert_from_stream_ARG_NAMES data, size, iwffff
-#define snd_instr_iwffff_convert_from_stream_ARG_EXPAND snd_instr_header_t * data, size_t size, snd_instr_iwffff_t ** iwffff
-#define snd_instr_iwffff_convert_from_stream_PACKED PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_convert_from_stream_INDEXED INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_convert_from_stream_FORMAT FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_convert_to_stream_INDEX 914
-#define snd_instr_iwffff_convert_to_stream_RETURN int
-#define snd_instr_iwffff_convert_to_stream_ARG_NAMES iwffff, name, data, size
-#define snd_instr_iwffff_convert_to_stream_ARG_EXPAND snd_instr_iwffff_t * iwffff, const char * name, snd_instr_header_t ** data, size_t * size
-#define snd_instr_iwffff_convert_to_stream_PACKED PACKED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_iwffff_convert_to_stream_INDEXED INDEXED_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_iwffff_convert_to_stream_FORMAT FORMAT_int_snd_instr_iwffff_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_iwffff_free_INDEX 915
-#define snd_instr_iwffff_free_RETURN int
-#define snd_instr_iwffff_free_ARG_NAMES iwffff
-#define snd_instr_iwffff_free_ARG_EXPAND snd_instr_iwffff_t * iwffff
-#define snd_instr_iwffff_free_PACKED PACKED_int_snd_instr_iwffff_t___GENPT__
-#define snd_instr_iwffff_free_INDEXED INDEXED_int_snd_instr_iwffff_t___GENPT__
-#define snd_instr_iwffff_free_FORMAT FORMAT_int_snd_instr_iwffff_t___GENPT__
-#define snd_instr_iwffff_load_INDEX 916
-#define snd_instr_iwffff_load_RETURN int
-#define snd_instr_iwffff_load_ARG_NAMES handle, bank, prg, iwffff
-#define snd_instr_iwffff_load_ARG_EXPAND snd_iwffff_handle_t * handle, int bank, int prg, snd_instr_iwffff_t ** iwffff
-#define snd_instr_iwffff_load_PACKED PACKED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_load_INDEXED INDEXED_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_load_FORMAT FORMAT_int_snd_iwffff_handle_t___GENPT___int_int_snd_instr_iwffff_t___GENPT____GENPT__
-#define snd_instr_iwffff_open_INDEX 917
-#define snd_instr_iwffff_open_RETURN int
-#define snd_instr_iwffff_open_ARG_NAMES handle, name_fff, name_dta
-#define snd_instr_iwffff_open_ARG_EXPAND snd_iwffff_handle_t ** handle, const char * name_fff, const char * name_dta
-#define snd_instr_iwffff_open_PACKED PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
-#define snd_instr_iwffff_open_INDEXED INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
-#define snd_instr_iwffff_open_FORMAT FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
-#define snd_instr_iwffff_open_rom_INDEX 918
-#define snd_instr_iwffff_open_rom_RETURN int
-#define snd_instr_iwffff_open_rom_ARG_NAMES handle, card, bank, file
-#define snd_instr_iwffff_open_rom_ARG_EXPAND snd_iwffff_handle_t ** handle, int card, int bank, int file
-#define snd_instr_iwffff_open_rom_PACKED PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int
-#define snd_instr_iwffff_open_rom_INDEXED INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int
-#define snd_instr_iwffff_open_rom_FORMAT FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___int_int_int
-#define snd_instr_iwffff_open_rom_file_INDEX 919
-#define snd_instr_iwffff_open_rom_file_RETURN int
-#define snd_instr_iwffff_open_rom_file_ARG_NAMES handle, name, bank, file
-#define snd_instr_iwffff_open_rom_file_ARG_EXPAND snd_iwffff_handle_t ** handle, const char * name, int bank, int file
-#define snd_instr_iwffff_open_rom_file_PACKED PACKED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int
-#define snd_instr_iwffff_open_rom_file_INDEXED INDEXED_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int
-#define snd_instr_iwffff_open_rom_file_FORMAT FORMAT_int_snd_iwffff_handle_t___GENPT____GENPT___const_char___GENPT___int_int
-#define snd_instr_simple_convert_from_stream_INDEX 920
-#define snd_instr_simple_convert_from_stream_RETURN int
-#define snd_instr_simple_convert_from_stream_ARG_NAMES data, size, simple
-#define snd_instr_simple_convert_from_stream_ARG_EXPAND snd_instr_header_t * data, size_t size, snd_instr_simple_t ** simple
-#define snd_instr_simple_convert_from_stream_PACKED PACKED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__
-#define snd_instr_simple_convert_from_stream_INDEXED INDEXED_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__
-#define snd_instr_simple_convert_from_stream_FORMAT FORMAT_int_snd_instr_header_t___GENPT___size_t_snd_instr_simple_t___GENPT____GENPT__
-#define snd_instr_simple_convert_to_stream_INDEX 921
-#define snd_instr_simple_convert_to_stream_RETURN int
-#define snd_instr_simple_convert_to_stream_ARG_NAMES simple, name, put, size
-#define snd_instr_simple_convert_to_stream_ARG_EXPAND snd_instr_simple_t * simple, const char * name, snd_instr_header_t ** put, size_t * size
-#define snd_instr_simple_convert_to_stream_PACKED PACKED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_simple_convert_to_stream_INDEXED INDEXED_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_simple_convert_to_stream_FORMAT FORMAT_int_snd_instr_simple_t___GENPT___const_char___GENPT___snd_instr_header_t___GENPT____GENPT___size_t___GENPT__
-#define snd_instr_simple_free_INDEX 922
-#define snd_instr_simple_free_RETURN int
-#define snd_instr_simple_free_ARG_NAMES simple
-#define snd_instr_simple_free_ARG_EXPAND snd_instr_simple_t * simple
-#define snd_instr_simple_free_PACKED PACKED_int_snd_instr_simple_t___GENPT__
-#define snd_instr_simple_free_INDEXED INDEXED_int_snd_instr_simple_t___GENPT__
-#define snd_instr_simple_free_FORMAT FORMAT_int_snd_instr_simple_t___GENPT__
-#define snd_lib_error_set_handler_INDEX 923
+#define snd_lib_error_set_handler_INDEX 886
 #define snd_lib_error_set_handler_RETURN int
 #define snd_lib_error_set_handler_ARG_NAMES handler
 #define snd_lib_error_set_handler_ARG_EXPAND snd_lib_error_handler_t handler
 #define snd_lib_error_set_handler_PACKED PACKED_int_snd_lib_error_handler_t
 #define snd_lib_error_set_handler_INDEXED INDEXED_int_snd_lib_error_handler_t
 #define snd_lib_error_set_handler_FORMAT FORMAT_int_snd_lib_error_handler_t
-#define snd_midi_event_decode_INDEX 924
+#define snd_midi_event_decode_INDEX 887
 #define snd_midi_event_decode_RETURN long
 #define snd_midi_event_decode_ARG_NAMES dev, buf, count, ev
 #define snd_midi_event_decode_ARG_EXPAND snd_midi_event_t * dev, unsigned char * buf, long count, const snd_seq_event_t * ev
 #define snd_midi_event_decode_PACKED PACKED_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__
 #define snd_midi_event_decode_INDEXED INDEXED_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__
 #define snd_midi_event_decode_FORMAT FORMAT_long_snd_midi_event_t___GENPT___unsigned_char___GENPT___long_const_snd_seq_event_t___GENPT__
-#define snd_midi_event_encode_INDEX 925
+#define snd_midi_event_encode_INDEX 888
 #define snd_midi_event_encode_RETURN long
 #define snd_midi_event_encode_ARG_NAMES dev, buf, count, ev
 #define snd_midi_event_encode_ARG_EXPAND snd_midi_event_t * dev, const unsigned char * buf, long count, snd_seq_event_t * ev
 #define snd_midi_event_encode_PACKED PACKED_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__
 #define snd_midi_event_encode_INDEXED INDEXED_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__
 #define snd_midi_event_encode_FORMAT FORMAT_long_snd_midi_event_t___GENPT___const_unsigned_char___GENPT___long_snd_seq_event_t___GENPT__
-#define snd_midi_event_encode_byte_INDEX 926
+#define snd_midi_event_encode_byte_INDEX 889
 #define snd_midi_event_encode_byte_RETURN int
 #define snd_midi_event_encode_byte_ARG_NAMES dev, c, ev
 #define snd_midi_event_encode_byte_ARG_EXPAND snd_midi_event_t * dev, int c, snd_seq_event_t * ev
 #define snd_midi_event_encode_byte_PACKED PACKED_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__
 #define snd_midi_event_encode_byte_INDEXED INDEXED_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__
 #define snd_midi_event_encode_byte_FORMAT FORMAT_int_snd_midi_event_t___GENPT___int_snd_seq_event_t___GENPT__
-#define snd_midi_event_free_INDEX 927
+#define snd_midi_event_free_INDEX 890
 #define snd_midi_event_free_RETURN void
 #define snd_midi_event_free_ARG_NAMES dev
 #define snd_midi_event_free_ARG_EXPAND snd_midi_event_t * dev
 #define snd_midi_event_free_PACKED PACKED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_free_INDEXED INDEXED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_free_FORMAT FORMAT_void_snd_midi_event_t___GENPT__
-#define snd_midi_event_init_INDEX 928
+#define snd_midi_event_init_INDEX 891
 #define snd_midi_event_init_RETURN void
 #define snd_midi_event_init_ARG_NAMES dev
 #define snd_midi_event_init_ARG_EXPAND snd_midi_event_t * dev
 #define snd_midi_event_init_PACKED PACKED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_init_INDEXED INDEXED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_init_FORMAT FORMAT_void_snd_midi_event_t___GENPT__
-#define snd_midi_event_new_INDEX 929
+#define snd_midi_event_new_INDEX 892
 #define snd_midi_event_new_RETURN int
 #define snd_midi_event_new_ARG_NAMES bufsize, rdev
 #define snd_midi_event_new_ARG_EXPAND size_t bufsize, snd_midi_event_t ** rdev
 #define snd_midi_event_new_PACKED PACKED_int_size_t_snd_midi_event_t___GENPT____GENPT__
 #define snd_midi_event_new_INDEXED INDEXED_int_size_t_snd_midi_event_t___GENPT____GENPT__
 #define snd_midi_event_new_FORMAT FORMAT_int_size_t_snd_midi_event_t___GENPT____GENPT__
-#define snd_midi_event_no_status_INDEX 930
+#define snd_midi_event_no_status_INDEX 893
 #define snd_midi_event_no_status_RETURN void
 #define snd_midi_event_no_status_ARG_NAMES dev, on
 #define snd_midi_event_no_status_ARG_EXPAND snd_midi_event_t * dev, int on
 #define snd_midi_event_no_status_PACKED PACKED_void_snd_midi_event_t___GENPT___int
 #define snd_midi_event_no_status_INDEXED INDEXED_void_snd_midi_event_t___GENPT___int
 #define snd_midi_event_no_status_FORMAT FORMAT_void_snd_midi_event_t___GENPT___int
-#define snd_midi_event_reset_decode_INDEX 931
+#define snd_midi_event_reset_decode_INDEX 894
 #define snd_midi_event_reset_decode_RETURN void
 #define snd_midi_event_reset_decode_ARG_NAMES dev
 #define snd_midi_event_reset_decode_ARG_EXPAND snd_midi_event_t * dev
 #define snd_midi_event_reset_decode_PACKED PACKED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_reset_decode_INDEXED INDEXED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_reset_decode_FORMAT FORMAT_void_snd_midi_event_t___GENPT__
-#define snd_midi_event_reset_encode_INDEX 932
+#define snd_midi_event_reset_encode_INDEX 895
 #define snd_midi_event_reset_encode_RETURN void
 #define snd_midi_event_reset_encode_ARG_NAMES dev
 #define snd_midi_event_reset_encode_ARG_EXPAND snd_midi_event_t * dev
 #define snd_midi_event_reset_encode_PACKED PACKED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_reset_encode_INDEXED INDEXED_void_snd_midi_event_t___GENPT__
 #define snd_midi_event_reset_encode_FORMAT FORMAT_void_snd_midi_event_t___GENPT__
-#define snd_midi_event_resize_buffer_INDEX 933
+#define snd_midi_event_resize_buffer_INDEX 896
 #define snd_midi_event_resize_buffer_RETURN int
 #define snd_midi_event_resize_buffer_ARG_NAMES dev, bufsize
 #define snd_midi_event_resize_buffer_ARG_EXPAND snd_midi_event_t * dev, size_t bufsize
 #define snd_midi_event_resize_buffer_PACKED PACKED_int_snd_midi_event_t___GENPT___size_t
 #define snd_midi_event_resize_buffer_INDEXED INDEXED_int_snd_midi_event_t___GENPT___size_t
 #define snd_midi_event_resize_buffer_FORMAT FORMAT_int_snd_midi_event_t___GENPT___size_t
-#define snd_mixer_add_elem_INDEX 934
+#define snd_mixer_add_elem_INDEX 897
 #define snd_mixer_add_elem_RETURN int
 #define snd_mixer_add_elem_ARG_NAMES mixer, elem
 #define snd_mixer_add_elem_ARG_EXPAND snd_mixer_t * mixer, snd_mixer_elem_t * elem
 #define snd_mixer_add_elem_PACKED PACKED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_add_elem_INDEXED INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_add_elem_FORMAT FORMAT_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
-#define snd_mixer_attach_INDEX 935
+#define snd_mixer_attach_INDEX 898
 #define snd_mixer_attach_RETURN int
 #define snd_mixer_attach_ARG_NAMES mixer, name
 #define snd_mixer_attach_ARG_EXPAND snd_mixer_t * mixer, const char * name
 #define snd_mixer_attach_PACKED PACKED_int_snd_mixer_t___GENPT___const_char___GENPT__
 #define snd_mixer_attach_INDEXED INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__
 #define snd_mixer_attach_FORMAT FORMAT_int_snd_mixer_t___GENPT___const_char___GENPT__
-#define snd_mixer_attach_hctl_INDEX 936
+#define snd_mixer_attach_hctl_INDEX 899
 #define snd_mixer_attach_hctl_RETURN int
 #define snd_mixer_attach_hctl_ARG_NAMES mixer, hctl
 #define snd_mixer_attach_hctl_ARG_EXPAND snd_mixer_t * mixer, snd_hctl_t * hctl
 #define snd_mixer_attach_hctl_PACKED PACKED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
 #define snd_mixer_attach_hctl_INDEXED INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
 #define snd_mixer_attach_hctl_FORMAT FORMAT_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
-#define snd_mixer_class_copy_INDEX 937
+#define snd_mixer_class_copy_INDEX 900
 #define snd_mixer_class_copy_RETURN void
 #define snd_mixer_class_copy_ARG_NAMES dst, src
 #define snd_mixer_class_copy_ARG_EXPAND snd_mixer_class_t * dst, const snd_mixer_class_t * src
 #define snd_mixer_class_copy_PACKED PACKED_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_copy_INDEXED INDEXED_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_copy_FORMAT FORMAT_void_snd_mixer_class_t___GENPT___const_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_free_INDEX 938
+#define snd_mixer_class_free_INDEX 901
 #define snd_mixer_class_free_RETURN void
 #define snd_mixer_class_free_ARG_NAMES obj
 #define snd_mixer_class_free_ARG_EXPAND snd_mixer_class_t * obj
 #define snd_mixer_class_free_PACKED PACKED_void_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_free_INDEXED INDEXED_void_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_free_FORMAT FORMAT_void_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_get_compare_INDEX 939
+#define snd_mixer_class_get_compare_INDEX 902
 #define snd_mixer_class_get_compare_RETURN snd_mixer_compare_t
 #define snd_mixer_class_get_compare_ARG_NAMES class_
 #define snd_mixer_class_get_compare_ARG_EXPAND const snd_mixer_class_t * class_
 #define snd_mixer_class_get_compare_PACKED PACKED_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_compare_INDEXED INDEXED_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_compare_FORMAT FORMAT_snd_mixer_compare_t_const_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_get_event_INDEX 940
+#define snd_mixer_class_get_event_INDEX 903
 #define snd_mixer_class_get_event_RETURN snd_mixer_event_t
 #define snd_mixer_class_get_event_ARG_NAMES class_
 #define snd_mixer_class_get_event_ARG_EXPAND const snd_mixer_class_t * class_
 #define snd_mixer_class_get_event_PACKED PACKED_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_event_INDEXED INDEXED_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_event_FORMAT FORMAT_snd_mixer_event_t_const_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_get_mixer_INDEX 941
+#define snd_mixer_class_get_mixer_INDEX 904
 #define snd_mixer_class_get_mixer_RETURN snd_mixer_t *
 #define snd_mixer_class_get_mixer_ARG_NAMES class_
 #define snd_mixer_class_get_mixer_ARG_EXPAND const snd_mixer_class_t * class_
 #define snd_mixer_class_get_mixer_PACKED PACKED_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_mixer_INDEXED INDEXED_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_mixer_FORMAT FORMAT_snd_mixer_t___GENPT___const_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_get_private_INDEX 942
+#define snd_mixer_class_get_private_INDEX 905
 #define snd_mixer_class_get_private_RETURN void *
 #define snd_mixer_class_get_private_ARG_NAMES class_
 #define snd_mixer_class_get_private_ARG_EXPAND const snd_mixer_class_t * class_
 #define snd_mixer_class_get_private_PACKED PACKED_void___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_private_INDEXED INDEXED_void___GENPT___const_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_get_private_FORMAT FORMAT_void___GENPT___const_snd_mixer_class_t___GENPT__
-#define snd_mixer_class_malloc_INDEX 943
+#define snd_mixer_class_malloc_INDEX 906
 #define snd_mixer_class_malloc_RETURN int
 #define snd_mixer_class_malloc_ARG_NAMES ptr
 #define snd_mixer_class_malloc_ARG_EXPAND snd_mixer_class_t ** ptr
 #define snd_mixer_class_malloc_PACKED PACKED_int_snd_mixer_class_t___GENPT____GENPT__
 #define snd_mixer_class_malloc_INDEXED INDEXED_int_snd_mixer_class_t___GENPT____GENPT__
 #define snd_mixer_class_malloc_FORMAT FORMAT_int_snd_mixer_class_t___GENPT____GENPT__
-#define snd_mixer_class_register_INDEX 944
+#define snd_mixer_class_register_INDEX 907
 #define snd_mixer_class_register_RETURN int
 #define snd_mixer_class_register_ARG_NAMES class_, mixer
 #define snd_mixer_class_register_ARG_EXPAND snd_mixer_class_t * class_, snd_mixer_t * mixer
 #define snd_mixer_class_register_PACKED PACKED_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_class_register_INDEXED INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_class_register_FORMAT FORMAT_int_snd_mixer_class_t___GENPT___snd_mixer_t___GENPT__
-#define snd_mixer_class_set_compare_INDEX 945
+#define snd_mixer_class_set_compare_INDEX 908
 #define snd_mixer_class_set_compare_RETURN int
 #define snd_mixer_class_set_compare_ARG_NAMES class_, compare
 #define snd_mixer_class_set_compare_ARG_EXPAND snd_mixer_class_t * class_, snd_mixer_compare_t compare
 #define snd_mixer_class_set_compare_PACKED PACKED_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t
 #define snd_mixer_class_set_compare_INDEXED INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t
 #define snd_mixer_class_set_compare_FORMAT FORMAT_int_snd_mixer_class_t___GENPT___snd_mixer_compare_t
-#define snd_mixer_class_set_event_INDEX 946
+#define snd_mixer_class_set_event_INDEX 909
 #define snd_mixer_class_set_event_RETURN int
 #define snd_mixer_class_set_event_ARG_NAMES class_, event
 #define snd_mixer_class_set_event_ARG_EXPAND snd_mixer_class_t * class_, snd_mixer_event_t event
 #define snd_mixer_class_set_event_PACKED PACKED_int_snd_mixer_class_t___GENPT___snd_mixer_event_t
 #define snd_mixer_class_set_event_INDEXED INDEXED_int_snd_mixer_class_t___GENPT___snd_mixer_event_t
 #define snd_mixer_class_set_event_FORMAT FORMAT_int_snd_mixer_class_t___GENPT___snd_mixer_event_t
-#define snd_mixer_class_set_private_INDEX 947
+#define snd_mixer_class_set_private_INDEX 910
 #define snd_mixer_class_set_private_RETURN int
 #define snd_mixer_class_set_private_ARG_NAMES class_, private_data
 #define snd_mixer_class_set_private_ARG_EXPAND snd_mixer_class_t * class_, void * private_data
 #define snd_mixer_class_set_private_PACKED PACKED_int_snd_mixer_class_t___GENPT___void___GENPT__
 #define snd_mixer_class_set_private_INDEXED INDEXED_int_snd_mixer_class_t___GENPT___void___GENPT__
 #define snd_mixer_class_set_private_FORMAT FORMAT_int_snd_mixer_class_t___GENPT___void___GENPT__
-#define snd_mixer_class_sizeof_INDEX 948
+#define snd_mixer_class_sizeof_INDEX 911
 #define snd_mixer_class_sizeof_RETURN size_t
 #define snd_mixer_class_sizeof_ARG_NAMES 
 #define snd_mixer_class_sizeof_ARG_EXPAND 
 #define snd_mixer_class_sizeof_PACKED PACKED_size_t
 #define snd_mixer_class_sizeof_INDEXED INDEXED_size_t
 #define snd_mixer_class_sizeof_FORMAT FORMAT_size_t
-#define snd_mixer_class_unregister_INDEX 949
+#define snd_mixer_class_unregister_INDEX 912
 #define snd_mixer_class_unregister_RETURN int
 #define snd_mixer_class_unregister_ARG_NAMES clss
 #define snd_mixer_class_unregister_ARG_EXPAND snd_mixer_class_t * clss
 #define snd_mixer_class_unregister_PACKED PACKED_int_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_unregister_INDEXED INDEXED_int_snd_mixer_class_t___GENPT__
 #define snd_mixer_class_unregister_FORMAT FORMAT_int_snd_mixer_class_t___GENPT__
-#define snd_mixer_close_INDEX 950
+#define snd_mixer_close_INDEX 913
 #define snd_mixer_close_RETURN int
 #define snd_mixer_close_ARG_NAMES mixer
 #define snd_mixer_close_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_close_PACKED PACKED_int_snd_mixer_t___GENPT__
 #define snd_mixer_close_INDEXED INDEXED_int_snd_mixer_t___GENPT__
 #define snd_mixer_close_FORMAT FORMAT_int_snd_mixer_t___GENPT__
-#define snd_mixer_detach_INDEX 951
+#define snd_mixer_detach_INDEX 914
 #define snd_mixer_detach_RETURN int
 #define snd_mixer_detach_ARG_NAMES mixer, name
 #define snd_mixer_detach_ARG_EXPAND snd_mixer_t * mixer, const char * name
 #define snd_mixer_detach_PACKED PACKED_int_snd_mixer_t___GENPT___const_char___GENPT__
 #define snd_mixer_detach_INDEXED INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__
 #define snd_mixer_detach_FORMAT FORMAT_int_snd_mixer_t___GENPT___const_char___GENPT__
-#define snd_mixer_detach_hctl_INDEX 952
+#define snd_mixer_detach_hctl_INDEX 915
 #define snd_mixer_detach_hctl_RETURN int
 #define snd_mixer_detach_hctl_ARG_NAMES mixer, hctl
 #define snd_mixer_detach_hctl_ARG_EXPAND snd_mixer_t * mixer, snd_hctl_t * hctl
 #define snd_mixer_detach_hctl_PACKED PACKED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
 #define snd_mixer_detach_hctl_INDEXED INDEXED_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
 #define snd_mixer_detach_hctl_FORMAT FORMAT_int_snd_mixer_t___GENPT___snd_hctl_t___GENPT__
-#define snd_mixer_elem_add_INDEX 953
+#define snd_mixer_elem_add_INDEX 916
 #define snd_mixer_elem_add_RETURN int
 #define snd_mixer_elem_add_ARG_NAMES elem, class_
 #define snd_mixer_elem_add_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_class_t * class_
 #define snd_mixer_elem_add_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__
 #define snd_mixer_elem_add_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__
 #define snd_mixer_elem_add_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_class_t___GENPT__
-#define snd_mixer_elem_attach_INDEX 954
+#define snd_mixer_elem_attach_INDEX 917
 #define snd_mixer_elem_attach_RETURN int
 #define snd_mixer_elem_attach_ARG_NAMES melem, helem
 #define snd_mixer_elem_attach_ARG_EXPAND snd_mixer_elem_t * melem, snd_hctl_elem_t * helem
 #define snd_mixer_elem_attach_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
 #define snd_mixer_elem_attach_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
 #define snd_mixer_elem_attach_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
-#define snd_mixer_elem_detach_INDEX 955
+#define snd_mixer_elem_detach_INDEX 918
 #define snd_mixer_elem_detach_RETURN int
 #define snd_mixer_elem_detach_ARG_NAMES melem, helem
 #define snd_mixer_elem_detach_ARG_EXPAND snd_mixer_elem_t * melem, snd_hctl_elem_t * helem
 #define snd_mixer_elem_detach_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
 #define snd_mixer_elem_detach_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
 #define snd_mixer_elem_detach_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_hctl_elem_t___GENPT__
-#define snd_mixer_elem_empty_INDEX 956
+#define snd_mixer_elem_empty_INDEX 919
 #define snd_mixer_elem_empty_RETURN int
 #define snd_mixer_elem_empty_ARG_NAMES melem
 #define snd_mixer_elem_empty_ARG_EXPAND snd_mixer_elem_t * melem
 #define snd_mixer_elem_empty_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_empty_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_empty_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_free_INDEX 957
+#define snd_mixer_elem_free_INDEX 920
 #define snd_mixer_elem_free_RETURN void
 #define snd_mixer_elem_free_ARG_NAMES elem
 #define snd_mixer_elem_free_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_free_PACKED PACKED_void_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_free_INDEXED INDEXED_void_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_free_FORMAT FORMAT_void_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_get_callback_private_INDEX 958
+#define snd_mixer_elem_get_callback_private_INDEX 921
 #define snd_mixer_elem_get_callback_private_RETURN void *
 #define snd_mixer_elem_get_callback_private_ARG_NAMES obj
 #define snd_mixer_elem_get_callback_private_ARG_EXPAND const snd_mixer_elem_t * obj
 #define snd_mixer_elem_get_callback_private_PACKED PACKED_void___GENPT___const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_callback_private_INDEXED INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_callback_private_FORMAT FORMAT_void___GENPT___const_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_get_private_INDEX 959
+#define snd_mixer_elem_get_private_INDEX 922
 #define snd_mixer_elem_get_private_RETURN void *
 #define snd_mixer_elem_get_private_ARG_NAMES melem
 #define snd_mixer_elem_get_private_ARG_EXPAND const snd_mixer_elem_t * melem
 #define snd_mixer_elem_get_private_PACKED PACKED_void___GENPT___const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_private_INDEXED INDEXED_void___GENPT___const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_private_FORMAT FORMAT_void___GENPT___const_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_get_type_INDEX 960
+#define snd_mixer_elem_get_type_INDEX 923
 #define snd_mixer_elem_get_type_RETURN snd_mixer_elem_type_t
 #define snd_mixer_elem_get_type_ARG_NAMES obj
 #define snd_mixer_elem_get_type_ARG_EXPAND const snd_mixer_elem_t * obj
 #define snd_mixer_elem_get_type_PACKED PACKED_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_type_INDEXED INDEXED_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_get_type_FORMAT FORMAT_snd_mixer_elem_type_t_const_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_info_INDEX 961
+#define snd_mixer_elem_info_INDEX 924
 #define snd_mixer_elem_info_RETURN int
 #define snd_mixer_elem_info_ARG_NAMES elem
 #define snd_mixer_elem_info_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_info_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_info_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_info_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_next_INDEX 962
+#define snd_mixer_elem_next_INDEX 925
 #define snd_mixer_elem_next_RETURN snd_mixer_elem_t *
 #define snd_mixer_elem_next_ARG_NAMES elem
 #define snd_mixer_elem_next_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_next_PACKED PACKED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_next_INDEXED INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_next_FORMAT FORMAT_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_prev_INDEX 963
+#define snd_mixer_elem_prev_INDEX 926
 #define snd_mixer_elem_prev_RETURN snd_mixer_elem_t *
 #define snd_mixer_elem_prev_ARG_NAMES elem
 #define snd_mixer_elem_prev_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_prev_PACKED PACKED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_prev_INDEXED INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_prev_FORMAT FORMAT_snd_mixer_elem_t___GENPT___snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_remove_INDEX 964
+#define snd_mixer_elem_remove_INDEX 927
 #define snd_mixer_elem_remove_RETURN int
 #define snd_mixer_elem_remove_ARG_NAMES elem
 #define snd_mixer_elem_remove_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_remove_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_remove_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_remove_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_elem_set_callback_INDEX 965
+#define snd_mixer_elem_set_callback_INDEX 928
 #define snd_mixer_elem_set_callback_RETURN void
 #define snd_mixer_elem_set_callback_ARG_NAMES obj, val
 #define snd_mixer_elem_set_callback_ARG_EXPAND snd_mixer_elem_t * obj, snd_mixer_elem_callback_t val
 #define snd_mixer_elem_set_callback_PACKED PACKED_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t
 #define snd_mixer_elem_set_callback_INDEXED INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t
 #define snd_mixer_elem_set_callback_FORMAT FORMAT_void_snd_mixer_elem_t___GENPT___snd_mixer_elem_callback_t
-#define snd_mixer_elem_set_callback_private_INDEX 966
+#define snd_mixer_elem_set_callback_private_INDEX 929
 #define snd_mixer_elem_set_callback_private_RETURN void
 #define snd_mixer_elem_set_callback_private_ARG_NAMES obj, val
 #define snd_mixer_elem_set_callback_private_ARG_EXPAND snd_mixer_elem_t * obj, void * val
 #define snd_mixer_elem_set_callback_private_PACKED PACKED_void_snd_mixer_elem_t___GENPT___void___GENPT__
 #define snd_mixer_elem_set_callback_private_INDEXED INDEXED_void_snd_mixer_elem_t___GENPT___void___GENPT__
 #define snd_mixer_elem_set_callback_private_FORMAT FORMAT_void_snd_mixer_elem_t___GENPT___void___GENPT__
-#define snd_mixer_elem_value_INDEX 967
+#define snd_mixer_elem_value_INDEX 930
 #define snd_mixer_elem_value_RETURN int
 #define snd_mixer_elem_value_ARG_NAMES elem
 #define snd_mixer_elem_value_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_elem_value_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_value_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_elem_value_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_find_selem_INDEX 968
+#define snd_mixer_find_selem_INDEX 931
 #define snd_mixer_find_selem_RETURN snd_mixer_elem_t *
 #define snd_mixer_find_selem_ARG_NAMES mixer, id
 #define snd_mixer_find_selem_ARG_EXPAND snd_mixer_t * mixer, const snd_mixer_selem_id_t * id
 #define snd_mixer_find_selem_PACKED PACKED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_find_selem_INDEXED INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_find_selem_FORMAT FORMAT_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_first_elem_INDEX 969
+#define snd_mixer_first_elem_INDEX 932
 #define snd_mixer_first_elem_RETURN snd_mixer_elem_t *
 #define snd_mixer_first_elem_ARG_NAMES mixer
 #define snd_mixer_first_elem_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_first_elem_PACKED PACKED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_first_elem_INDEXED INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_first_elem_FORMAT FORMAT_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
-#define snd_mixer_free_INDEX 970
+#define snd_mixer_free_INDEX 933
 #define snd_mixer_free_RETURN void
 #define snd_mixer_free_ARG_NAMES mixer
 #define snd_mixer_free_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_free_PACKED PACKED_void_snd_mixer_t___GENPT__
 #define snd_mixer_free_INDEXED INDEXED_void_snd_mixer_t___GENPT__
 #define snd_mixer_free_FORMAT FORMAT_void_snd_mixer_t___GENPT__
-#define snd_mixer_get_callback_private_INDEX 971
+#define snd_mixer_get_callback_private_INDEX 934
 #define snd_mixer_get_callback_private_RETURN void *
 #define snd_mixer_get_callback_private_ARG_NAMES obj
 #define snd_mixer_get_callback_private_ARG_EXPAND const snd_mixer_t * obj
 #define snd_mixer_get_callback_private_PACKED PACKED_void___GENPT___const_snd_mixer_t___GENPT__
 #define snd_mixer_get_callback_private_INDEXED INDEXED_void___GENPT___const_snd_mixer_t___GENPT__
 #define snd_mixer_get_callback_private_FORMAT FORMAT_void___GENPT___const_snd_mixer_t___GENPT__
-#define snd_mixer_get_count_INDEX 972
+#define snd_mixer_get_count_INDEX 935
 #define snd_mixer_get_count_RETURN unsigned int
 #define snd_mixer_get_count_ARG_NAMES obj
 #define snd_mixer_get_count_ARG_EXPAND const snd_mixer_t * obj
 #define snd_mixer_get_count_PACKED PACKED_unsigned_int_const_snd_mixer_t___GENPT__
 #define snd_mixer_get_count_INDEXED INDEXED_unsigned_int_const_snd_mixer_t___GENPT__
 #define snd_mixer_get_count_FORMAT FORMAT_unsigned_int_const_snd_mixer_t___GENPT__
-#define snd_mixer_get_hctl_INDEX 973
+#define snd_mixer_get_hctl_INDEX 936
 #define snd_mixer_get_hctl_RETURN int
 #define snd_mixer_get_hctl_ARG_NAMES mixer, name, hctl
 #define snd_mixer_get_hctl_ARG_EXPAND snd_mixer_t * mixer, const char * name, snd_hctl_t ** hctl
 #define snd_mixer_get_hctl_PACKED PACKED_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__
 #define snd_mixer_get_hctl_INDEXED INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__
 #define snd_mixer_get_hctl_FORMAT FORMAT_int_snd_mixer_t___GENPT___const_char___GENPT___snd_hctl_t___GENPT____GENPT__
-#define snd_mixer_handle_events_INDEX 974
+#define snd_mixer_handle_events_INDEX 937
 #define snd_mixer_handle_events_RETURN int
 #define snd_mixer_handle_events_ARG_NAMES mixer
 #define snd_mixer_handle_events_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_handle_events_PACKED PACKED_int_snd_mixer_t___GENPT__
 #define snd_mixer_handle_events_INDEXED INDEXED_int_snd_mixer_t___GENPT__
 #define snd_mixer_handle_events_FORMAT FORMAT_int_snd_mixer_t___GENPT__
-#define snd_mixer_last_elem_INDEX 975
+#define snd_mixer_last_elem_INDEX 938
 #define snd_mixer_last_elem_RETURN snd_mixer_elem_t *
 #define snd_mixer_last_elem_ARG_NAMES mixer
 #define snd_mixer_last_elem_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_last_elem_PACKED PACKED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_last_elem_INDEXED INDEXED_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
 #define snd_mixer_last_elem_FORMAT FORMAT_snd_mixer_elem_t___GENPT___snd_mixer_t___GENPT__
-#define snd_mixer_load_INDEX 976
+#define snd_mixer_load_INDEX 939
 #define snd_mixer_load_RETURN int
 #define snd_mixer_load_ARG_NAMES mixer
 #define snd_mixer_load_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_load_PACKED PACKED_int_snd_mixer_t___GENPT__
 #define snd_mixer_load_INDEXED INDEXED_int_snd_mixer_t___GENPT__
 #define snd_mixer_load_FORMAT FORMAT_int_snd_mixer_t___GENPT__
-#define snd_mixer_open_INDEX 977
+#define snd_mixer_open_INDEX 940
 #define snd_mixer_open_RETURN int
 #define snd_mixer_open_ARG_NAMES mixer, mode
 #define snd_mixer_open_ARG_EXPAND snd_mixer_t ** mixer, int mode
 #define snd_mixer_open_PACKED PACKED_int_snd_mixer_t___GENPT____GENPT___int
 #define snd_mixer_open_INDEXED INDEXED_int_snd_mixer_t___GENPT____GENPT___int
 #define snd_mixer_open_FORMAT FORMAT_int_snd_mixer_t___GENPT____GENPT___int
-#define snd_mixer_poll_descriptors_INDEX 978
+#define snd_mixer_poll_descriptors_INDEX 941
 #define snd_mixer_poll_descriptors_RETURN int
 #define snd_mixer_poll_descriptors_ARG_NAMES mixer, pfds, space
 #define snd_mixer_poll_descriptors_ARG_EXPAND snd_mixer_t * mixer, struct pollfd * pfds, unsigned int space
 #define snd_mixer_poll_descriptors_PACKED PACKED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_mixer_poll_descriptors_INDEXED INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_mixer_poll_descriptors_FORMAT FORMAT_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int
-#define snd_mixer_poll_descriptors_count_INDEX 979
+#define snd_mixer_poll_descriptors_count_INDEX 942
 #define snd_mixer_poll_descriptors_count_RETURN int
 #define snd_mixer_poll_descriptors_count_ARG_NAMES mixer
 #define snd_mixer_poll_descriptors_count_ARG_EXPAND snd_mixer_t * mixer
 #define snd_mixer_poll_descriptors_count_PACKED PACKED_int_snd_mixer_t___GENPT__
 #define snd_mixer_poll_descriptors_count_INDEXED INDEXED_int_snd_mixer_t___GENPT__
 #define snd_mixer_poll_descriptors_count_FORMAT FORMAT_int_snd_mixer_t___GENPT__
-#define snd_mixer_poll_descriptors_revents_INDEX 980
+#define snd_mixer_poll_descriptors_revents_INDEX 943
 #define snd_mixer_poll_descriptors_revents_RETURN int
 #define snd_mixer_poll_descriptors_revents_ARG_NAMES mixer, pfds, nfds, revents
 #define snd_mixer_poll_descriptors_revents_ARG_EXPAND snd_mixer_t * mixer, struct pollfd * pfds, unsigned int nfds, unsigned short * revents
 #define snd_mixer_poll_descriptors_revents_PACKED PACKED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_mixer_poll_descriptors_revents_INDEXED INDEXED_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_mixer_poll_descriptors_revents_FORMAT FORMAT_int_snd_mixer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
-#define snd_mixer_remove_elem_INDEX 981
+#define snd_mixer_remove_elem_INDEX 944
 #define snd_mixer_remove_elem_RETURN int
 #define snd_mixer_remove_elem_ARG_NAMES mixer, elem
 #define snd_mixer_remove_elem_ARG_EXPAND snd_mixer_t * mixer, snd_mixer_elem_t * elem
 #define snd_mixer_remove_elem_PACKED PACKED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_remove_elem_INDEXED INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_remove_elem_FORMAT FORMAT_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_channel_name_INDEX 982
+#define snd_mixer_selem_channel_name_INDEX 945
 #define snd_mixer_selem_channel_name_RETURN const char *
 #define snd_mixer_selem_channel_name_ARG_NAMES channel
 #define snd_mixer_selem_channel_name_ARG_EXPAND snd_mixer_selem_channel_id_t channel
 #define snd_mixer_selem_channel_name_PACKED PACKED_const_char___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_channel_name_INDEXED INDEXED_const_char___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_channel_name_FORMAT FORMAT_const_char___GENPT___snd_mixer_selem_channel_id_t
-#define snd_mixer_selem_get_capture_dB_INDEX 983
+#define snd_mixer_selem_get_capture_dB_INDEX 946
 #define snd_mixer_selem_get_capture_dB_RETURN int
 #define snd_mixer_selem_get_capture_dB_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_capture_dB_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value
 #define snd_mixer_selem_get_capture_dB_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_capture_dB_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_capture_dB_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
-#define snd_mixer_selem_get_capture_dB_range_INDEX 984
+#define snd_mixer_selem_get_capture_dB_range_INDEX 947
 #define snd_mixer_selem_get_capture_dB_range_RETURN int
 #define snd_mixer_selem_get_capture_dB_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_get_capture_dB_range_ARG_EXPAND snd_mixer_elem_t * elem, long * min, long * max
 #define snd_mixer_selem_get_capture_dB_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_capture_dB_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_capture_dB_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
-#define snd_mixer_selem_get_capture_group_INDEX 985
+#define snd_mixer_selem_get_capture_group_INDEX 948
 #define snd_mixer_selem_get_capture_group_RETURN int
 #define snd_mixer_selem_get_capture_group_ARG_NAMES elem
 #define snd_mixer_selem_get_capture_group_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_get_capture_group_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_capture_group_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_capture_group_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_get_capture_switch_INDEX 986
+#define snd_mixer_selem_get_capture_switch_INDEX 949
 #define snd_mixer_selem_get_capture_switch_RETURN int
 #define snd_mixer_selem_get_capture_switch_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_capture_switch_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int * value
 #define snd_mixer_selem_get_capture_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
 #define snd_mixer_selem_get_capture_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
 #define snd_mixer_selem_get_capture_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
-#define snd_mixer_selem_get_capture_volume_INDEX 987
+#define snd_mixer_selem_get_capture_volume_INDEX 950
 #define snd_mixer_selem_get_capture_volume_RETURN int
 #define snd_mixer_selem_get_capture_volume_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_capture_volume_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value
 #define snd_mixer_selem_get_capture_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_capture_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_capture_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
-#define snd_mixer_selem_get_capture_volume_range_INDEX 988
+#define snd_mixer_selem_get_capture_volume_range_INDEX 951
 #define snd_mixer_selem_get_capture_volume_range_RETURN int
 #define snd_mixer_selem_get_capture_volume_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_get_capture_volume_range_ARG_EXPAND snd_mixer_elem_t * elem, long * min, long * max
 #define snd_mixer_selem_get_capture_volume_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_capture_volume_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_capture_volume_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
-#define snd_mixer_selem_get_enum_item_INDEX 989
+#define snd_mixer_selem_get_enum_item_INDEX 952
 #define snd_mixer_selem_get_enum_item_RETURN int
 #define snd_mixer_selem_get_enum_item_ARG_NAMES elem, channel, idxp
 #define snd_mixer_selem_get_enum_item_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, unsigned int * idxp
 #define snd_mixer_selem_get_enum_item_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__
 #define snd_mixer_selem_get_enum_item_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__
 #define snd_mixer_selem_get_enum_item_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int___GENPT__
-#define snd_mixer_selem_get_enum_item_name_INDEX 990
+#define snd_mixer_selem_get_enum_item_name_INDEX 953
 #define snd_mixer_selem_get_enum_item_name_RETURN int
 #define snd_mixer_selem_get_enum_item_name_ARG_NAMES elem, idx, maxlen, str
 #define snd_mixer_selem_get_enum_item_name_ARG_EXPAND snd_mixer_elem_t * elem, unsigned int idx, size_t maxlen, char * str
 #define snd_mixer_selem_get_enum_item_name_PACKED PACKED_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__
 #define snd_mixer_selem_get_enum_item_name_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__
 #define snd_mixer_selem_get_enum_item_name_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___unsigned_int_size_t_char___GENPT__
-#define snd_mixer_selem_get_enum_items_INDEX 991
+#define snd_mixer_selem_get_enum_items_INDEX 954
 #define snd_mixer_selem_get_enum_items_RETURN int
 #define snd_mixer_selem_get_enum_items_ARG_NAMES elem
 #define snd_mixer_selem_get_enum_items_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_get_enum_items_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_enum_items_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_enum_items_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_get_id_INDEX 992
+#define snd_mixer_selem_get_id_INDEX 955
 #define snd_mixer_selem_get_id_RETURN void
 #define snd_mixer_selem_get_id_ARG_NAMES element, id
 #define snd_mixer_selem_get_id_ARG_EXPAND snd_mixer_elem_t * element, snd_mixer_selem_id_t * id
 #define snd_mixer_selem_get_id_PACKED PACKED_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_get_id_INDEXED INDEXED_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_get_id_FORMAT FORMAT_void_snd_mixer_elem_t___GENPT___snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_selem_get_index_INDEX 993
+#define snd_mixer_selem_get_index_INDEX 956
 #define snd_mixer_selem_get_index_RETURN unsigned int
 #define snd_mixer_selem_get_index_ARG_NAMES elem
 #define snd_mixer_selem_get_index_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_get_index_PACKED PACKED_unsigned_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_index_INDEXED INDEXED_unsigned_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_index_FORMAT FORMAT_unsigned_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_get_name_INDEX 994
+#define snd_mixer_selem_get_name_INDEX 957
 #define snd_mixer_selem_get_name_RETURN const char *
 #define snd_mixer_selem_get_name_ARG_NAMES elem
 #define snd_mixer_selem_get_name_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_get_name_PACKED PACKED_const_char___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_name_INDEXED INDEXED_const_char___GENPT___snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_get_name_FORMAT FORMAT_const_char___GENPT___snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_get_playback_dB_INDEX 995
+#define snd_mixer_selem_get_playback_dB_INDEX 958
 #define snd_mixer_selem_get_playback_dB_RETURN int
 #define snd_mixer_selem_get_playback_dB_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_playback_dB_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value
 #define snd_mixer_selem_get_playback_dB_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_playback_dB_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_playback_dB_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
-#define snd_mixer_selem_get_playback_dB_range_INDEX 996
+#define snd_mixer_selem_get_playback_dB_range_INDEX 959
 #define snd_mixer_selem_get_playback_dB_range_RETURN int
 #define snd_mixer_selem_get_playback_dB_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_get_playback_dB_range_ARG_EXPAND snd_mixer_elem_t * elem, long * min, long * max
 #define snd_mixer_selem_get_playback_dB_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_playback_dB_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_playback_dB_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
-#define snd_mixer_selem_get_playback_switch_INDEX 997
+#define snd_mixer_selem_get_playback_switch_INDEX 960
 #define snd_mixer_selem_get_playback_switch_RETURN int
 #define snd_mixer_selem_get_playback_switch_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_playback_switch_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int * value
 #define snd_mixer_selem_get_playback_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
 #define snd_mixer_selem_get_playback_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
 #define snd_mixer_selem_get_playback_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int___GENPT__
-#define snd_mixer_selem_get_playback_volume_INDEX 998
+#define snd_mixer_selem_get_playback_volume_INDEX 961
 #define snd_mixer_selem_get_playback_volume_RETURN int
 #define snd_mixer_selem_get_playback_volume_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_get_playback_volume_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long * value
 #define snd_mixer_selem_get_playback_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_playback_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
 #define snd_mixer_selem_get_playback_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long___GENPT__
-#define snd_mixer_selem_get_playback_volume_range_INDEX 999
+#define snd_mixer_selem_get_playback_volume_range_INDEX 962
 #define snd_mixer_selem_get_playback_volume_range_RETURN int
 #define snd_mixer_selem_get_playback_volume_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_get_playback_volume_range_ARG_EXPAND snd_mixer_elem_t * elem, long * min, long * max
 #define snd_mixer_selem_get_playback_volume_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_playback_volume_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
 #define snd_mixer_selem_get_playback_volume_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long___GENPT___long___GENPT__
-#define snd_mixer_selem_has_capture_channel_INDEX 1000
+#define snd_mixer_selem_has_capture_channel_INDEX 963
 #define snd_mixer_selem_has_capture_channel_RETURN int
 #define snd_mixer_selem_has_capture_channel_ARG_NAMES obj, channel
 #define snd_mixer_selem_has_capture_channel_ARG_EXPAND snd_mixer_elem_t * obj, snd_mixer_selem_channel_id_t channel
 #define snd_mixer_selem_has_capture_channel_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_has_capture_channel_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_has_capture_channel_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
-#define snd_mixer_selem_has_capture_switch_INDEX 1001
+#define snd_mixer_selem_has_capture_switch_INDEX 964
 #define snd_mixer_selem_has_capture_switch_RETURN int
 #define snd_mixer_selem_has_capture_switch_ARG_NAMES elem
 #define snd_mixer_selem_has_capture_switch_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_capture_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_capture_switch_exclusive_INDEX 1002
+#define snd_mixer_selem_has_capture_switch_exclusive_INDEX 965
 #define snd_mixer_selem_has_capture_switch_exclusive_RETURN int
 #define snd_mixer_selem_has_capture_switch_exclusive_ARG_NAMES elem
 #define snd_mixer_selem_has_capture_switch_exclusive_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_capture_switch_exclusive_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_exclusive_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_exclusive_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_capture_switch_joined_INDEX 1003
+#define snd_mixer_selem_has_capture_switch_joined_INDEX 966
 #define snd_mixer_selem_has_capture_switch_joined_RETURN int
 #define snd_mixer_selem_has_capture_switch_joined_ARG_NAMES elem
 #define snd_mixer_selem_has_capture_switch_joined_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_capture_switch_joined_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_joined_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_switch_joined_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_capture_volume_INDEX 1004
+#define snd_mixer_selem_has_capture_volume_INDEX 967
 #define snd_mixer_selem_has_capture_volume_RETURN int
 #define snd_mixer_selem_has_capture_volume_ARG_NAMES elem
 #define snd_mixer_selem_has_capture_volume_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_capture_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_capture_volume_joined_INDEX 1005
+#define snd_mixer_selem_has_capture_volume_joined_INDEX 968
 #define snd_mixer_selem_has_capture_volume_joined_RETURN int
 #define snd_mixer_selem_has_capture_volume_joined_ARG_NAMES elem
 #define snd_mixer_selem_has_capture_volume_joined_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_capture_volume_joined_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_volume_joined_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_capture_volume_joined_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_common_switch_INDEX 1006
+#define snd_mixer_selem_has_common_switch_INDEX 969
 #define snd_mixer_selem_has_common_switch_RETURN int
 #define snd_mixer_selem_has_common_switch_ARG_NAMES elem
 #define snd_mixer_selem_has_common_switch_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_common_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_common_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_common_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_common_volume_INDEX 1007
+#define snd_mixer_selem_has_common_volume_INDEX 970
 #define snd_mixer_selem_has_common_volume_RETURN int
 #define snd_mixer_selem_has_common_volume_ARG_NAMES elem
 #define snd_mixer_selem_has_common_volume_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_common_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_common_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_common_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_playback_channel_INDEX 1008
+#define snd_mixer_selem_has_playback_channel_INDEX 971
 #define snd_mixer_selem_has_playback_channel_RETURN int
 #define snd_mixer_selem_has_playback_channel_ARG_NAMES obj, channel
 #define snd_mixer_selem_has_playback_channel_ARG_EXPAND snd_mixer_elem_t * obj, snd_mixer_selem_channel_id_t channel
 #define snd_mixer_selem_has_playback_channel_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_has_playback_channel_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
 #define snd_mixer_selem_has_playback_channel_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t
-#define snd_mixer_selem_has_playback_switch_INDEX 1009
+#define snd_mixer_selem_has_playback_switch_INDEX 972
 #define snd_mixer_selem_has_playback_switch_RETURN int
 #define snd_mixer_selem_has_playback_switch_ARG_NAMES elem
 #define snd_mixer_selem_has_playback_switch_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_playback_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_playback_switch_joined_INDEX 1010
+#define snd_mixer_selem_has_playback_switch_joined_INDEX 973
 #define snd_mixer_selem_has_playback_switch_joined_RETURN int
 #define snd_mixer_selem_has_playback_switch_joined_ARG_NAMES elem
 #define snd_mixer_selem_has_playback_switch_joined_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_playback_switch_joined_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_switch_joined_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_switch_joined_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_playback_volume_INDEX 1011
+#define snd_mixer_selem_has_playback_volume_INDEX 974
 #define snd_mixer_selem_has_playback_volume_RETURN int
 #define snd_mixer_selem_has_playback_volume_ARG_NAMES elem
 #define snd_mixer_selem_has_playback_volume_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_playback_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_has_playback_volume_joined_INDEX 1012
+#define snd_mixer_selem_has_playback_volume_joined_INDEX 975
 #define snd_mixer_selem_has_playback_volume_joined_RETURN int
 #define snd_mixer_selem_has_playback_volume_joined_ARG_NAMES elem
 #define snd_mixer_selem_has_playback_volume_joined_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_has_playback_volume_joined_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_volume_joined_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_has_playback_volume_joined_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_id_copy_INDEX 1013
+#define snd_mixer_selem_id_copy_INDEX 976
 #define snd_mixer_selem_id_copy_RETURN void
 #define snd_mixer_selem_id_copy_ARG_NAMES dst, src
 #define snd_mixer_selem_id_copy_ARG_EXPAND snd_mixer_selem_id_t * dst, const snd_mixer_selem_id_t * src
 #define snd_mixer_selem_id_copy_PACKED PACKED_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_copy_INDEXED INDEXED_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_copy_FORMAT FORMAT_void_snd_mixer_selem_id_t___GENPT___const_snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_selem_id_free_INDEX 1014
+#define snd_mixer_selem_id_free_INDEX 977
 #define snd_mixer_selem_id_free_RETURN void
 #define snd_mixer_selem_id_free_ARG_NAMES obj
 #define snd_mixer_selem_id_free_ARG_EXPAND snd_mixer_selem_id_t * obj
 #define snd_mixer_selem_id_free_PACKED PACKED_void_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_free_INDEXED INDEXED_void_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_free_FORMAT FORMAT_void_snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_selem_id_get_index_INDEX 1015
+#define snd_mixer_selem_id_get_index_INDEX 978
 #define snd_mixer_selem_id_get_index_RETURN unsigned int
 #define snd_mixer_selem_id_get_index_ARG_NAMES obj
 #define snd_mixer_selem_id_get_index_ARG_EXPAND const snd_mixer_selem_id_t * obj
 #define snd_mixer_selem_id_get_index_PACKED PACKED_unsigned_int_const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_get_index_INDEXED INDEXED_unsigned_int_const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_get_index_FORMAT FORMAT_unsigned_int_const_snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_selem_id_get_name_INDEX 1016
+#define snd_mixer_selem_id_get_name_INDEX 979
 #define snd_mixer_selem_id_get_name_RETURN const char *
 #define snd_mixer_selem_id_get_name_ARG_NAMES obj
 #define snd_mixer_selem_id_get_name_ARG_EXPAND const snd_mixer_selem_id_t * obj
 #define snd_mixer_selem_id_get_name_PACKED PACKED_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__
 #define snd_mixer_selem_id_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_mixer_selem_id_t___GENPT__
-#define snd_mixer_selem_id_malloc_INDEX 1017
+#define snd_mixer_selem_id_malloc_INDEX 980
 #define snd_mixer_selem_id_malloc_RETURN int
 #define snd_mixer_selem_id_malloc_ARG_NAMES ptr
 #define snd_mixer_selem_id_malloc_ARG_EXPAND snd_mixer_selem_id_t ** ptr
 #define snd_mixer_selem_id_malloc_PACKED PACKED_int_snd_mixer_selem_id_t___GENPT____GENPT__
 #define snd_mixer_selem_id_malloc_INDEXED INDEXED_int_snd_mixer_selem_id_t___GENPT____GENPT__
 #define snd_mixer_selem_id_malloc_FORMAT FORMAT_int_snd_mixer_selem_id_t___GENPT____GENPT__
-#define snd_mixer_selem_id_set_index_INDEX 1018
+#define snd_mixer_selem_id_set_index_INDEX 981
 #define snd_mixer_selem_id_set_index_RETURN void
 #define snd_mixer_selem_id_set_index_ARG_NAMES obj, val
 #define snd_mixer_selem_id_set_index_ARG_EXPAND snd_mixer_selem_id_t * obj, unsigned int val
 #define snd_mixer_selem_id_set_index_PACKED PACKED_void_snd_mixer_selem_id_t___GENPT___unsigned_int
 #define snd_mixer_selem_id_set_index_INDEXED INDEXED_void_snd_mixer_selem_id_t___GENPT___unsigned_int
 #define snd_mixer_selem_id_set_index_FORMAT FORMAT_void_snd_mixer_selem_id_t___GENPT___unsigned_int
-#define snd_mixer_selem_id_set_name_INDEX 1019
+#define snd_mixer_selem_id_set_name_INDEX 982
 #define snd_mixer_selem_id_set_name_RETURN void
 #define snd_mixer_selem_id_set_name_ARG_NAMES obj, val
 #define snd_mixer_selem_id_set_name_ARG_EXPAND snd_mixer_selem_id_t * obj, const char * val
 #define snd_mixer_selem_id_set_name_PACKED PACKED_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__
 #define snd_mixer_selem_id_set_name_INDEXED INDEXED_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__
 #define snd_mixer_selem_id_set_name_FORMAT FORMAT_void_snd_mixer_selem_id_t___GENPT___const_char___GENPT__
-#define snd_mixer_selem_id_sizeof_INDEX 1020
+#define snd_mixer_selem_id_sizeof_INDEX 983
 #define snd_mixer_selem_id_sizeof_RETURN size_t
 #define snd_mixer_selem_id_sizeof_ARG_NAMES 
 #define snd_mixer_selem_id_sizeof_ARG_EXPAND 
 #define snd_mixer_selem_id_sizeof_PACKED PACKED_size_t
 #define snd_mixer_selem_id_sizeof_INDEXED INDEXED_size_t
 #define snd_mixer_selem_id_sizeof_FORMAT FORMAT_size_t
-#define snd_mixer_selem_is_active_INDEX 1021
+#define snd_mixer_selem_is_active_INDEX 984
 #define snd_mixer_selem_is_active_RETURN int
 #define snd_mixer_selem_is_active_ARG_NAMES elem
 #define snd_mixer_selem_is_active_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_active_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_active_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_active_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_is_capture_mono_INDEX 1022
+#define snd_mixer_selem_is_capture_mono_INDEX 985
 #define snd_mixer_selem_is_capture_mono_RETURN int
 #define snd_mixer_selem_is_capture_mono_ARG_NAMES elem
 #define snd_mixer_selem_is_capture_mono_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_capture_mono_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_capture_mono_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_capture_mono_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_is_enum_capture_INDEX 1023
+#define snd_mixer_selem_is_enum_capture_INDEX 986
 #define snd_mixer_selem_is_enum_capture_RETURN int
 #define snd_mixer_selem_is_enum_capture_ARG_NAMES elem
 #define snd_mixer_selem_is_enum_capture_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_enum_capture_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enum_capture_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enum_capture_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_is_enum_playback_INDEX 1024
+#define snd_mixer_selem_is_enum_playback_INDEX 987
 #define snd_mixer_selem_is_enum_playback_RETURN int
 #define snd_mixer_selem_is_enum_playback_ARG_NAMES elem
 #define snd_mixer_selem_is_enum_playback_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_enum_playback_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enum_playback_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enum_playback_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_is_enumerated_INDEX 1025
+#define snd_mixer_selem_is_enumerated_INDEX 988
 #define snd_mixer_selem_is_enumerated_RETURN int
 #define snd_mixer_selem_is_enumerated_ARG_NAMES elem
 #define snd_mixer_selem_is_enumerated_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_enumerated_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enumerated_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_enumerated_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_is_playback_mono_INDEX 1026
+#define snd_mixer_selem_is_playback_mono_INDEX 989
 #define snd_mixer_selem_is_playback_mono_RETURN int
 #define snd_mixer_selem_is_playback_mono_ARG_NAMES elem
 #define snd_mixer_selem_is_playback_mono_ARG_EXPAND snd_mixer_elem_t * elem
 #define snd_mixer_selem_is_playback_mono_PACKED PACKED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_playback_mono_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT__
 #define snd_mixer_selem_is_playback_mono_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT__
-#define snd_mixer_selem_register_INDEX 1027
+#define snd_mixer_selem_register_INDEX 990
 #define snd_mixer_selem_register_RETURN int
 #define snd_mixer_selem_register_ARG_NAMES mixer, options, classp
 #define snd_mixer_selem_register_ARG_EXPAND snd_mixer_t * mixer, struct snd_mixer_selem_regopt * options, snd_mixer_class_t ** classp
 #define snd_mixer_selem_register_PACKED PACKED_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__
 #define snd_mixer_selem_register_INDEXED INDEXED_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__
 #define snd_mixer_selem_register_FORMAT FORMAT_int_snd_mixer_t___GENPT___struct_snd_mixer_selem_regopt___GENPT___snd_mixer_class_t___GENPT____GENPT__
-#define snd_mixer_selem_set_capture_dB_INDEX 1028
+#define snd_mixer_selem_set_capture_dB_INDEX 991
 #define snd_mixer_selem_set_capture_dB_RETURN int
 #define snd_mixer_selem_set_capture_dB_ARG_NAMES elem, channel, value, dir
 #define snd_mixer_selem_set_capture_dB_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value, int dir
 #define snd_mixer_selem_set_capture_dB_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
 #define snd_mixer_selem_set_capture_dB_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
 #define snd_mixer_selem_set_capture_dB_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
-#define snd_mixer_selem_set_capture_dB_all_INDEX 1029
+#define snd_mixer_selem_set_capture_dB_all_INDEX 992
 #define snd_mixer_selem_set_capture_dB_all_RETURN int
 #define snd_mixer_selem_set_capture_dB_all_ARG_NAMES elem, value, dir
 #define snd_mixer_selem_set_capture_dB_all_ARG_EXPAND snd_mixer_elem_t * elem, long value, int dir
 #define snd_mixer_selem_set_capture_dB_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long_int
 #define snd_mixer_selem_set_capture_dB_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long_int
 #define snd_mixer_selem_set_capture_dB_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long_int
-#define snd_mixer_selem_set_capture_switch_INDEX 1030
+#define snd_mixer_selem_set_capture_switch_INDEX 993
 #define snd_mixer_selem_set_capture_switch_RETURN int
 #define snd_mixer_selem_set_capture_switch_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_set_capture_switch_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int value
 #define snd_mixer_selem_set_capture_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
 #define snd_mixer_selem_set_capture_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
 #define snd_mixer_selem_set_capture_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
-#define snd_mixer_selem_set_capture_switch_all_INDEX 1031
+#define snd_mixer_selem_set_capture_switch_all_INDEX 994
 #define snd_mixer_selem_set_capture_switch_all_RETURN int
 #define snd_mixer_selem_set_capture_switch_all_ARG_NAMES elem, value
 #define snd_mixer_selem_set_capture_switch_all_ARG_EXPAND snd_mixer_elem_t * elem, int value
 #define snd_mixer_selem_set_capture_switch_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___int
 #define snd_mixer_selem_set_capture_switch_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___int
 #define snd_mixer_selem_set_capture_switch_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___int
-#define snd_mixer_selem_set_capture_volume_INDEX 1032
+#define snd_mixer_selem_set_capture_volume_INDEX 995
 #define snd_mixer_selem_set_capture_volume_RETURN int
 #define snd_mixer_selem_set_capture_volume_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_set_capture_volume_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value
 #define snd_mixer_selem_set_capture_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
 #define snd_mixer_selem_set_capture_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
 #define snd_mixer_selem_set_capture_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
-#define snd_mixer_selem_set_capture_volume_all_INDEX 1033
+#define snd_mixer_selem_set_capture_volume_all_INDEX 996
 #define snd_mixer_selem_set_capture_volume_all_RETURN int
 #define snd_mixer_selem_set_capture_volume_all_ARG_NAMES elem, value
 #define snd_mixer_selem_set_capture_volume_all_ARG_EXPAND snd_mixer_elem_t * elem, long value
 #define snd_mixer_selem_set_capture_volume_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long
 #define snd_mixer_selem_set_capture_volume_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long
 #define snd_mixer_selem_set_capture_volume_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long
-#define snd_mixer_selem_set_capture_volume_range_INDEX 1034
+#define snd_mixer_selem_set_capture_volume_range_INDEX 997
 #define snd_mixer_selem_set_capture_volume_range_RETURN int
 #define snd_mixer_selem_set_capture_volume_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_set_capture_volume_range_ARG_EXPAND snd_mixer_elem_t * elem, long min, long max
 #define snd_mixer_selem_set_capture_volume_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long_long
 #define snd_mixer_selem_set_capture_volume_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long_long
 #define snd_mixer_selem_set_capture_volume_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long_long
-#define snd_mixer_selem_set_enum_item_INDEX 1035
+#define snd_mixer_selem_set_enum_item_INDEX 998
 #define snd_mixer_selem_set_enum_item_RETURN int
 #define snd_mixer_selem_set_enum_item_ARG_NAMES elem, channel, idx
 #define snd_mixer_selem_set_enum_item_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, unsigned int idx
 #define snd_mixer_selem_set_enum_item_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int
 #define snd_mixer_selem_set_enum_item_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int
 #define snd_mixer_selem_set_enum_item_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_unsigned_int
-#define snd_mixer_selem_set_playback_dB_INDEX 1036
+#define snd_mixer_selem_set_playback_dB_INDEX 999
 #define snd_mixer_selem_set_playback_dB_RETURN int
 #define snd_mixer_selem_set_playback_dB_ARG_NAMES elem, channel, value, dir
 #define snd_mixer_selem_set_playback_dB_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value, int dir
 #define snd_mixer_selem_set_playback_dB_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
 #define snd_mixer_selem_set_playback_dB_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
 #define snd_mixer_selem_set_playback_dB_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long_int
-#define snd_mixer_selem_set_playback_dB_all_INDEX 1037
+#define snd_mixer_selem_set_playback_dB_all_INDEX 1000
 #define snd_mixer_selem_set_playback_dB_all_RETURN int
 #define snd_mixer_selem_set_playback_dB_all_ARG_NAMES elem, value, dir
 #define snd_mixer_selem_set_playback_dB_all_ARG_EXPAND snd_mixer_elem_t * elem, long value, int dir
 #define snd_mixer_selem_set_playback_dB_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long_int
 #define snd_mixer_selem_set_playback_dB_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long_int
 #define snd_mixer_selem_set_playback_dB_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long_int
-#define snd_mixer_selem_set_playback_switch_INDEX 1038
+#define snd_mixer_selem_set_playback_switch_INDEX 1001
 #define snd_mixer_selem_set_playback_switch_RETURN int
 #define snd_mixer_selem_set_playback_switch_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_set_playback_switch_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, int value
 #define snd_mixer_selem_set_playback_switch_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
 #define snd_mixer_selem_set_playback_switch_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
 #define snd_mixer_selem_set_playback_switch_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_int
-#define snd_mixer_selem_set_playback_switch_all_INDEX 1039
+#define snd_mixer_selem_set_playback_switch_all_INDEX 1002
 #define snd_mixer_selem_set_playback_switch_all_RETURN int
 #define snd_mixer_selem_set_playback_switch_all_ARG_NAMES elem, value
 #define snd_mixer_selem_set_playback_switch_all_ARG_EXPAND snd_mixer_elem_t * elem, int value
 #define snd_mixer_selem_set_playback_switch_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___int
 #define snd_mixer_selem_set_playback_switch_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___int
 #define snd_mixer_selem_set_playback_switch_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___int
-#define snd_mixer_selem_set_playback_volume_INDEX 1040
+#define snd_mixer_selem_set_playback_volume_INDEX 1003
 #define snd_mixer_selem_set_playback_volume_RETURN int
 #define snd_mixer_selem_set_playback_volume_ARG_NAMES elem, channel, value
 #define snd_mixer_selem_set_playback_volume_ARG_EXPAND snd_mixer_elem_t * elem, snd_mixer_selem_channel_id_t channel, long value
 #define snd_mixer_selem_set_playback_volume_PACKED PACKED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
 #define snd_mixer_selem_set_playback_volume_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
 #define snd_mixer_selem_set_playback_volume_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___snd_mixer_selem_channel_id_t_long
-#define snd_mixer_selem_set_playback_volume_all_INDEX 1041
+#define snd_mixer_selem_set_playback_volume_all_INDEX 1004
 #define snd_mixer_selem_set_playback_volume_all_RETURN int
 #define snd_mixer_selem_set_playback_volume_all_ARG_NAMES elem, value
 #define snd_mixer_selem_set_playback_volume_all_ARG_EXPAND snd_mixer_elem_t * elem, long value
 #define snd_mixer_selem_set_playback_volume_all_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long
 #define snd_mixer_selem_set_playback_volume_all_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long
 #define snd_mixer_selem_set_playback_volume_all_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long
-#define snd_mixer_selem_set_playback_volume_range_INDEX 1042
+#define snd_mixer_selem_set_playback_volume_range_INDEX 1005
 #define snd_mixer_selem_set_playback_volume_range_RETURN int
 #define snd_mixer_selem_set_playback_volume_range_ARG_NAMES elem, min, max
 #define snd_mixer_selem_set_playback_volume_range_ARG_EXPAND snd_mixer_elem_t * elem, long min, long max
 #define snd_mixer_selem_set_playback_volume_range_PACKED PACKED_int_snd_mixer_elem_t___GENPT___long_long
 #define snd_mixer_selem_set_playback_volume_range_INDEXED INDEXED_int_snd_mixer_elem_t___GENPT___long_long
 #define snd_mixer_selem_set_playback_volume_range_FORMAT FORMAT_int_snd_mixer_elem_t___GENPT___long_long
-#define snd_mixer_set_callback_INDEX 1043
+#define snd_mixer_set_callback_INDEX 1006
 #define snd_mixer_set_callback_RETURN void
 #define snd_mixer_set_callback_ARG_NAMES obj, val
 #define snd_mixer_set_callback_ARG_EXPAND snd_mixer_t * obj, snd_mixer_callback_t val
 #define snd_mixer_set_callback_PACKED PACKED_void_snd_mixer_t___GENPT___snd_mixer_callback_t
 #define snd_mixer_set_callback_INDEXED INDEXED_void_snd_mixer_t___GENPT___snd_mixer_callback_t
 #define snd_mixer_set_callback_FORMAT FORMAT_void_snd_mixer_t___GENPT___snd_mixer_callback_t
-#define snd_mixer_set_callback_private_INDEX 1044
+#define snd_mixer_set_callback_private_INDEX 1007
 #define snd_mixer_set_callback_private_RETURN void
 #define snd_mixer_set_callback_private_ARG_NAMES obj, val
 #define snd_mixer_set_callback_private_ARG_EXPAND snd_mixer_t * obj, void * val
 #define snd_mixer_set_callback_private_PACKED PACKED_void_snd_mixer_t___GENPT___void___GENPT__
 #define snd_mixer_set_callback_private_INDEXED INDEXED_void_snd_mixer_t___GENPT___void___GENPT__
 #define snd_mixer_set_callback_private_FORMAT FORMAT_void_snd_mixer_t___GENPT___void___GENPT__
-#define snd_mixer_set_compare_INDEX 1045
+#define snd_mixer_set_compare_INDEX 1008
 #define snd_mixer_set_compare_RETURN int
 #define snd_mixer_set_compare_ARG_NAMES mixer, msort
 #define snd_mixer_set_compare_ARG_EXPAND snd_mixer_t * mixer, snd_mixer_compare_t msort
 #define snd_mixer_set_compare_PACKED PACKED_int_snd_mixer_t___GENPT___snd_mixer_compare_t
 #define snd_mixer_set_compare_INDEXED INDEXED_int_snd_mixer_t___GENPT___snd_mixer_compare_t
 #define snd_mixer_set_compare_FORMAT FORMAT_int_snd_mixer_t___GENPT___snd_mixer_compare_t
-#define snd_mixer_wait_INDEX 1046
+#define snd_mixer_wait_INDEX 1009
 #define snd_mixer_wait_RETURN int
 #define snd_mixer_wait_ARG_NAMES mixer, timeout
 #define snd_mixer_wait_ARG_EXPAND snd_mixer_t * mixer, int timeout
 #define snd_mixer_wait_PACKED PACKED_int_snd_mixer_t___GENPT___int
 #define snd_mixer_wait_INDEXED INDEXED_int_snd_mixer_t___GENPT___int
 #define snd_mixer_wait_FORMAT FORMAT_int_snd_mixer_t___GENPT___int
-#define snd_names_list_INDEX 1047
+#define snd_names_list_INDEX 1010
 #define snd_names_list_RETURN int
 #define snd_names_list_ARG_NAMES iface, list
 #define snd_names_list_ARG_EXPAND const char * iface, snd_devname_t ** list
 #define snd_names_list_PACKED PACKED_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__
 #define snd_names_list_INDEXED INDEXED_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__
 #define snd_names_list_FORMAT FORMAT_int_const_char___GENPT___snd_devname_t___GENPT____GENPT__
-#define snd_names_list_free_INDEX 1048
+#define snd_names_list_free_INDEX 1011
 #define snd_names_list_free_RETURN void
 #define snd_names_list_free_ARG_NAMES list
 #define snd_names_list_free_ARG_EXPAND snd_devname_t * list
 #define snd_names_list_free_PACKED PACKED_void_snd_devname_t___GENPT__
 #define snd_names_list_free_INDEXED INDEXED_void_snd_devname_t___GENPT__
 #define snd_names_list_free_FORMAT FORMAT_void_snd_devname_t___GENPT__
-#define snd_output_buffer_open_INDEX 1049
+#define snd_output_buffer_open_INDEX 1012
 #define snd_output_buffer_open_RETURN int
 #define snd_output_buffer_open_ARG_NAMES outputp
 #define snd_output_buffer_open_ARG_EXPAND snd_output_t ** outputp
 #define snd_output_buffer_open_PACKED PACKED_int_snd_output_t___GENPT____GENPT__
 #define snd_output_buffer_open_INDEXED INDEXED_int_snd_output_t___GENPT____GENPT__
 #define snd_output_buffer_open_FORMAT FORMAT_int_snd_output_t___GENPT____GENPT__
-#define snd_output_buffer_string_INDEX 1050
+#define snd_output_buffer_string_INDEX 1013
 #define snd_output_buffer_string_RETURN size_t
 #define snd_output_buffer_string_ARG_NAMES output, buf
 #define snd_output_buffer_string_ARG_EXPAND snd_output_t * output, char ** buf
 #define snd_output_buffer_string_PACKED PACKED_size_t_snd_output_t___GENPT___char___GENPT____GENPT__
 #define snd_output_buffer_string_INDEXED INDEXED_size_t_snd_output_t___GENPT___char___GENPT____GENPT__
 #define snd_output_buffer_string_FORMAT FORMAT_size_t_snd_output_t___GENPT___char___GENPT____GENPT__
-#define snd_output_close_INDEX 1051
+#define snd_output_close_INDEX 1014
 #define snd_output_close_RETURN int
 #define snd_output_close_ARG_NAMES output
 #define snd_output_close_ARG_EXPAND snd_output_t * output
 #define snd_output_close_PACKED PACKED_int_snd_output_t___GENPT__
 #define snd_output_close_INDEXED INDEXED_int_snd_output_t___GENPT__
 #define snd_output_close_FORMAT FORMAT_int_snd_output_t___GENPT__
-#define snd_output_flush_INDEX 1052
+#define snd_output_flush_INDEX 1015
 #define snd_output_flush_RETURN int
 #define snd_output_flush_ARG_NAMES output
 #define snd_output_flush_ARG_EXPAND snd_output_t * output
 #define snd_output_flush_PACKED PACKED_int_snd_output_t___GENPT__
 #define snd_output_flush_INDEXED INDEXED_int_snd_output_t___GENPT__
 #define snd_output_flush_FORMAT FORMAT_int_snd_output_t___GENPT__
-#define snd_output_putc_INDEX 1053
+#define snd_output_putc_INDEX 1016
 #define snd_output_putc_RETURN int
 #define snd_output_putc_ARG_NAMES output, c
 #define snd_output_putc_ARG_EXPAND snd_output_t * output, int c
 #define snd_output_putc_PACKED PACKED_int_snd_output_t___GENPT___int
 #define snd_output_putc_INDEXED INDEXED_int_snd_output_t___GENPT___int
 #define snd_output_putc_FORMAT FORMAT_int_snd_output_t___GENPT___int
-#define snd_output_puts_INDEX 1054
+#define snd_output_puts_INDEX 1017
 #define snd_output_puts_RETURN int
 #define snd_output_puts_ARG_NAMES output, str
 #define snd_output_puts_ARG_EXPAND snd_output_t * output, const char * str
 #define snd_output_puts_PACKED PACKED_int_snd_output_t___GENPT___const_char___GENPT__
 #define snd_output_puts_INDEXED INDEXED_int_snd_output_t___GENPT___const_char___GENPT__
 #define snd_output_puts_FORMAT FORMAT_int_snd_output_t___GENPT___const_char___GENPT__
-#define snd_output_stdio_attach_INDEX 1055
+#define snd_output_stdio_attach_INDEX 1018
 #define snd_output_stdio_attach_RETURN int
 #define snd_output_stdio_attach_ARG_NAMES outputp, fp, _close
 #define snd_output_stdio_attach_ARG_EXPAND snd_output_t ** outputp, FILE * fp, int _close
 #define snd_output_stdio_attach_PACKED PACKED_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int
 #define snd_output_stdio_attach_INDEXED INDEXED_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int
 #define snd_output_stdio_attach_FORMAT FORMAT_int_snd_output_t___GENPT____GENPT___FILE___GENPT___int
-#define snd_output_stdio_open_INDEX 1056
+#define snd_output_stdio_open_INDEX 1019
 #define snd_output_stdio_open_RETURN int
 #define snd_output_stdio_open_ARG_NAMES outputp, file, mode
 #define snd_output_stdio_open_ARG_EXPAND snd_output_t ** outputp, const char * file, const char * mode
 #define snd_output_stdio_open_PACKED PACKED_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
 #define snd_output_stdio_open_INDEXED INDEXED_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
 #define snd_output_stdio_open_FORMAT FORMAT_int_snd_output_t___GENPT____GENPT___const_char___GENPT___const_char___GENPT__
-#define snd_output_vprintf_INDEX 1057
+#define snd_output_vprintf_INDEX 1020
 #define snd_output_vprintf_RETURN int
 #define snd_output_vprintf_ARG_NAMES output, format, args
 #define snd_output_vprintf_ARG_EXPAND snd_output_t * output, const char * format, va_list args
 #define snd_output_vprintf_PACKED PACKED_int_snd_output_t___GENPT___const_char___GENPT___va_list
 #define snd_output_vprintf_INDEXED INDEXED_int_snd_output_t___GENPT___const_char___GENPT___va_list
 #define snd_output_vprintf_FORMAT FORMAT_int_snd_output_t___GENPT___const_char___GENPT___va_list
-#define snd_pcm_access_mask_any_INDEX 1058
+#define snd_pcm_access_mask_any_INDEX 1021
 #define snd_pcm_access_mask_any_RETURN void
 #define snd_pcm_access_mask_any_ARG_NAMES mask
 #define snd_pcm_access_mask_any_ARG_EXPAND snd_pcm_access_mask_t * mask
 #define snd_pcm_access_mask_any_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_any_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_any_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_access_mask_copy_INDEX 1059
+#define snd_pcm_access_mask_copy_INDEX 1022
 #define snd_pcm_access_mask_copy_RETURN void
 #define snd_pcm_access_mask_copy_ARG_NAMES dst, src
 #define snd_pcm_access_mask_copy_ARG_EXPAND snd_pcm_access_mask_t * dst, const snd_pcm_access_mask_t * src
 #define snd_pcm_access_mask_copy_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_copy_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_copy_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT___const_snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_access_mask_empty_INDEX 1060
+#define snd_pcm_access_mask_empty_INDEX 1023
 #define snd_pcm_access_mask_empty_RETURN int
 #define snd_pcm_access_mask_empty_ARG_NAMES mask
 #define snd_pcm_access_mask_empty_ARG_EXPAND const snd_pcm_access_mask_t * mask
 #define snd_pcm_access_mask_empty_PACKED PACKED_int_const_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_empty_INDEXED INDEXED_int_const_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_empty_FORMAT FORMAT_int_const_snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_access_mask_free_INDEX 1061
+#define snd_pcm_access_mask_free_INDEX 1024
 #define snd_pcm_access_mask_free_RETURN void
 #define snd_pcm_access_mask_free_ARG_NAMES obj
 #define snd_pcm_access_mask_free_ARG_EXPAND snd_pcm_access_mask_t * obj
 #define snd_pcm_access_mask_free_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_free_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_free_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_access_mask_malloc_INDEX 1062
+#define snd_pcm_access_mask_malloc_INDEX 1025
 #define snd_pcm_access_mask_malloc_RETURN int
 #define snd_pcm_access_mask_malloc_ARG_NAMES ptr
 #define snd_pcm_access_mask_malloc_ARG_EXPAND snd_pcm_access_mask_t ** ptr
 #define snd_pcm_access_mask_malloc_PACKED PACKED_int_snd_pcm_access_mask_t___GENPT____GENPT__
 #define snd_pcm_access_mask_malloc_INDEXED INDEXED_int_snd_pcm_access_mask_t___GENPT____GENPT__
 #define snd_pcm_access_mask_malloc_FORMAT FORMAT_int_snd_pcm_access_mask_t___GENPT____GENPT__
-#define snd_pcm_access_mask_none_INDEX 1063
+#define snd_pcm_access_mask_none_INDEX 1026
 #define snd_pcm_access_mask_none_RETURN void
 #define snd_pcm_access_mask_none_ARG_NAMES mask
 #define snd_pcm_access_mask_none_ARG_EXPAND snd_pcm_access_mask_t * mask
 #define snd_pcm_access_mask_none_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_none_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_access_mask_none_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_access_mask_reset_INDEX 1064
+#define snd_pcm_access_mask_reset_INDEX 1027
 #define snd_pcm_access_mask_reset_RETURN void
 #define snd_pcm_access_mask_reset_ARG_NAMES mask, val
 #define snd_pcm_access_mask_reset_ARG_EXPAND snd_pcm_access_mask_t * mask, snd_pcm_access_t val
 #define snd_pcm_access_mask_reset_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_reset_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_reset_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
-#define snd_pcm_access_mask_set_INDEX 1065
+#define snd_pcm_access_mask_set_INDEX 1028
 #define snd_pcm_access_mask_set_RETURN void
 #define snd_pcm_access_mask_set_ARG_NAMES mask, val
 #define snd_pcm_access_mask_set_ARG_EXPAND snd_pcm_access_mask_t * mask, snd_pcm_access_t val
 #define snd_pcm_access_mask_set_PACKED PACKED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_set_INDEXED INDEXED_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_set_FORMAT FORMAT_void_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
-#define snd_pcm_access_mask_test_INDEX 1066
+#define snd_pcm_access_mask_test_INDEX 1029
 #define snd_pcm_access_mask_test_RETURN int
 #define snd_pcm_access_mask_test_ARG_NAMES mask, val
 #define snd_pcm_access_mask_test_ARG_EXPAND const snd_pcm_access_mask_t * mask, snd_pcm_access_t val
 #define snd_pcm_access_mask_test_PACKED PACKED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_test_INDEXED INDEXED_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
 #define snd_pcm_access_mask_test_FORMAT FORMAT_int_const_snd_pcm_access_mask_t___GENPT___snd_pcm_access_t
-#define snd_pcm_access_name_INDEX 1067
+#define snd_pcm_access_name_INDEX 1030
 #define snd_pcm_access_name_RETURN const char *
 #define snd_pcm_access_name_ARG_NAMES _access
 #define snd_pcm_access_name_ARG_EXPAND const snd_pcm_access_t _access
 #define snd_pcm_access_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_access_t
 #define snd_pcm_access_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_access_t
 #define snd_pcm_access_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_access_t
-#define snd_pcm_area_copy_INDEX 1068
+#define snd_pcm_area_copy_INDEX 1031
 #define snd_pcm_area_copy_RETURN int
 #define snd_pcm_area_copy_ARG_NAMES dst_channel, dst_offset, src_channel, src_offset, samples, format
 #define snd_pcm_area_copy_ARG_EXPAND const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channel, snd_pcm_uframes_t src_offset, unsigned int samples, snd_pcm_format_t format
 #define snd_pcm_area_copy_PACKED PACKED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
 #define snd_pcm_area_copy_INDEXED INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
 #define snd_pcm_area_copy_FORMAT FORMAT_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
-#define snd_pcm_area_silence_INDEX 1069
+#define snd_pcm_area_silence_INDEX 1032
 #define snd_pcm_area_silence_RETURN int
 #define snd_pcm_area_silence_ARG_NAMES dst_channel, dst_offset, samples, format
 #define snd_pcm_area_silence_ARG_EXPAND const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframes_t dst_offset, unsigned int samples, snd_pcm_format_t format
 #define snd_pcm_area_silence_PACKED PACKED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
 #define snd_pcm_area_silence_INDEXED INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
 #define snd_pcm_area_silence_FORMAT FORMAT_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_format_t
-#define snd_pcm_areas_copy_INDEX 1070
+#define snd_pcm_areas_copy_INDEX 1033
 #define snd_pcm_areas_copy_RETURN int
 #define snd_pcm_areas_copy_ARG_NAMES dst_channels, dst_offset, src_channels, src_offset, channels, frames, format
 #define snd_pcm_areas_copy_ARG_EXPAND const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, const snd_pcm_channel_area_t * src_channels, snd_pcm_uframes_t src_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format
 #define snd_pcm_areas_copy_PACKED PACKED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
 #define snd_pcm_areas_copy_INDEXED INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
 #define snd_pcm_areas_copy_FORMAT FORMAT_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
-#define snd_pcm_areas_silence_INDEX 1071
+#define snd_pcm_areas_silence_INDEX 1034
 #define snd_pcm_areas_silence_RETURN int
 #define snd_pcm_areas_silence_ARG_NAMES dst_channels, dst_offset, channels, frames, format
 #define snd_pcm_areas_silence_ARG_EXPAND const snd_pcm_channel_area_t * dst_channels, snd_pcm_uframes_t dst_offset, unsigned int channels, snd_pcm_uframes_t frames, snd_pcm_format_t format
 #define snd_pcm_areas_silence_PACKED PACKED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
 #define snd_pcm_areas_silence_INDEXED INDEXED_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
 #define snd_pcm_areas_silence_FORMAT FORMAT_int_const_snd_pcm_channel_area_t___GENPT___snd_pcm_uframes_t_unsigned_int_snd_pcm_uframes_t_snd_pcm_format_t
-#define snd_pcm_avail_update_INDEX 1072
+#define snd_pcm_avail_update_INDEX 1035
 #define snd_pcm_avail_update_RETURN snd_pcm_sframes_t
 #define snd_pcm_avail_update_ARG_NAMES pcm
 #define snd_pcm_avail_update_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_avail_update_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_avail_update_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_avail_update_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT__
-#define snd_pcm_build_linear_format_INDEX 1073
+#define snd_pcm_build_linear_format_INDEX 1036
 #define snd_pcm_build_linear_format_RETURN snd_pcm_format_t
 #define snd_pcm_build_linear_format_ARG_NAMES width, pwidth, unsignd, big_endian
 #define snd_pcm_build_linear_format_ARG_EXPAND int width, int pwidth, int unsignd, int big_endian
 #define snd_pcm_build_linear_format_PACKED PACKED_snd_pcm_format_t_int_int_int_int
 #define snd_pcm_build_linear_format_INDEXED INDEXED_snd_pcm_format_t_int_int_int_int
 #define snd_pcm_build_linear_format_FORMAT FORMAT_snd_pcm_format_t_int_int_int_int
-#define snd_pcm_bytes_to_frames_INDEX 1074
+#define snd_pcm_bytes_to_frames_INDEX 1037
 #define snd_pcm_bytes_to_frames_RETURN snd_pcm_sframes_t
 #define snd_pcm_bytes_to_frames_ARG_NAMES pcm, bytes
 #define snd_pcm_bytes_to_frames_ARG_EXPAND snd_pcm_t * pcm, ssize_t bytes
 #define snd_pcm_bytes_to_frames_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t
 #define snd_pcm_bytes_to_frames_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t
 #define snd_pcm_bytes_to_frames_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___ssize_t
-#define snd_pcm_bytes_to_samples_INDEX 1075
+#define snd_pcm_bytes_to_samples_INDEX 1038
 #define snd_pcm_bytes_to_samples_RETURN long
 #define snd_pcm_bytes_to_samples_ARG_NAMES pcm, bytes
 #define snd_pcm_bytes_to_samples_ARG_EXPAND snd_pcm_t * pcm, ssize_t bytes
 #define snd_pcm_bytes_to_samples_PACKED PACKED_long_snd_pcm_t___GENPT___ssize_t
 #define snd_pcm_bytes_to_samples_INDEXED INDEXED_long_snd_pcm_t___GENPT___ssize_t
 #define snd_pcm_bytes_to_samples_FORMAT FORMAT_long_snd_pcm_t___GENPT___ssize_t
-#define snd_pcm_close_INDEX 1076
+#define snd_pcm_close_INDEX 1039
 #define snd_pcm_close_RETURN int
 #define snd_pcm_close_ARG_NAMES pcm
 #define snd_pcm_close_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_close_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_close_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_close_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_delay_INDEX 1077
+#define snd_pcm_delay_INDEX 1040
 #define snd_pcm_delay_RETURN int
 #define snd_pcm_delay_ARG_NAMES pcm, delayp
 #define snd_pcm_delay_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sframes_t * delayp
 #define snd_pcm_delay_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__
 #define snd_pcm_delay_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__
 #define snd_pcm_delay_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sframes_t___GENPT__
-#define snd_pcm_drain_INDEX 1078
+#define snd_pcm_drain_INDEX 1041
 #define snd_pcm_drain_RETURN int
 #define snd_pcm_drain_ARG_NAMES pcm
 #define snd_pcm_drain_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_drain_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_drain_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_drain_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_drop_INDEX 1079
+#define snd_pcm_drop_INDEX 1042
 #define snd_pcm_drop_RETURN int
 #define snd_pcm_drop_ARG_NAMES pcm
 #define snd_pcm_drop_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_drop_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_drop_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_drop_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_dump_INDEX 1080
+#define snd_pcm_dump_INDEX 1043
 #define snd_pcm_dump_RETURN int
 #define snd_pcm_dump_ARG_NAMES pcm, out
 #define snd_pcm_dump_ARG_EXPAND snd_pcm_t * pcm, snd_output_t * out
 #define snd_pcm_dump_PACKED PACKED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_dump_hw_setup_INDEX 1081
+#define snd_pcm_dump_hw_setup_INDEX 1044
 #define snd_pcm_dump_hw_setup_RETURN int
 #define snd_pcm_dump_hw_setup_ARG_NAMES pcm, out
 #define snd_pcm_dump_hw_setup_ARG_EXPAND snd_pcm_t * pcm, snd_output_t * out
 #define snd_pcm_dump_hw_setup_PACKED PACKED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_hw_setup_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_hw_setup_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_dump_setup_INDEX 1082
+#define snd_pcm_dump_setup_INDEX 1045
 #define snd_pcm_dump_setup_RETURN int
 #define snd_pcm_dump_setup_ARG_NAMES pcm, out
 #define snd_pcm_dump_setup_ARG_EXPAND snd_pcm_t * pcm, snd_output_t * out
 #define snd_pcm_dump_setup_PACKED PACKED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_setup_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_setup_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_dump_sw_setup_INDEX 1083
+#define snd_pcm_dump_sw_setup_INDEX 1046
 #define snd_pcm_dump_sw_setup_RETURN int
 #define snd_pcm_dump_sw_setup_ARG_NAMES pcm, out
 #define snd_pcm_dump_sw_setup_ARG_EXPAND snd_pcm_t * pcm, snd_output_t * out
 #define snd_pcm_dump_sw_setup_PACKED PACKED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_sw_setup_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_dump_sw_setup_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_format_big_endian_INDEX 1084
+#define snd_pcm_format_big_endian_INDEX 1047
 #define snd_pcm_format_big_endian_RETURN int
 #define snd_pcm_format_big_endian_ARG_NAMES format
 #define snd_pcm_format_big_endian_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_big_endian_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_big_endian_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_big_endian_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_cpu_endian_INDEX 1085
+#define snd_pcm_format_cpu_endian_INDEX 1048
 #define snd_pcm_format_cpu_endian_RETURN int
 #define snd_pcm_format_cpu_endian_ARG_NAMES format
 #define snd_pcm_format_cpu_endian_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_cpu_endian_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_cpu_endian_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_cpu_endian_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_description_INDEX 1086
+#define snd_pcm_format_description_INDEX 1049
 #define snd_pcm_format_description_RETURN const char *
 #define snd_pcm_format_description_ARG_NAMES format
 #define snd_pcm_format_description_ARG_EXPAND const snd_pcm_format_t format
 #define snd_pcm_format_description_PACKED PACKED_const_char___GENPT___const_snd_pcm_format_t
 #define snd_pcm_format_description_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_format_t
 #define snd_pcm_format_description_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_format_t
-#define snd_pcm_format_float_INDEX 1087
+#define snd_pcm_format_float_INDEX 1050
 #define snd_pcm_format_float_RETURN int
 #define snd_pcm_format_float_ARG_NAMES format
 #define snd_pcm_format_float_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_float_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_float_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_float_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_linear_INDEX 1088
+#define snd_pcm_format_linear_INDEX 1051
 #define snd_pcm_format_linear_RETURN int
 #define snd_pcm_format_linear_ARG_NAMES format
 #define snd_pcm_format_linear_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_linear_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_linear_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_linear_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_little_endian_INDEX 1089
+#define snd_pcm_format_little_endian_INDEX 1052
 #define snd_pcm_format_little_endian_RETURN int
 #define snd_pcm_format_little_endian_ARG_NAMES format
 #define snd_pcm_format_little_endian_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_little_endian_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_little_endian_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_little_endian_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_mask_any_INDEX 1090
+#define snd_pcm_format_mask_any_INDEX 1053
 #define snd_pcm_format_mask_any_RETURN void
 #define snd_pcm_format_mask_any_ARG_NAMES mask
 #define snd_pcm_format_mask_any_ARG_EXPAND snd_pcm_format_mask_t * mask
 #define snd_pcm_format_mask_any_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_any_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_any_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_format_mask_copy_INDEX 1091
+#define snd_pcm_format_mask_copy_INDEX 1054
 #define snd_pcm_format_mask_copy_RETURN void
 #define snd_pcm_format_mask_copy_ARG_NAMES dst, src
 #define snd_pcm_format_mask_copy_ARG_EXPAND snd_pcm_format_mask_t * dst, const snd_pcm_format_mask_t * src
 #define snd_pcm_format_mask_copy_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_copy_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_copy_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT___const_snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_format_mask_empty_INDEX 1092
+#define snd_pcm_format_mask_empty_INDEX 1055
 #define snd_pcm_format_mask_empty_RETURN int
 #define snd_pcm_format_mask_empty_ARG_NAMES mask
 #define snd_pcm_format_mask_empty_ARG_EXPAND const snd_pcm_format_mask_t * mask
 #define snd_pcm_format_mask_empty_PACKED PACKED_int_const_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_empty_INDEXED INDEXED_int_const_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_empty_FORMAT FORMAT_int_const_snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_format_mask_free_INDEX 1093
+#define snd_pcm_format_mask_free_INDEX 1056
 #define snd_pcm_format_mask_free_RETURN void
 #define snd_pcm_format_mask_free_ARG_NAMES obj
 #define snd_pcm_format_mask_free_ARG_EXPAND snd_pcm_format_mask_t * obj
 #define snd_pcm_format_mask_free_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_free_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_free_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_format_mask_malloc_INDEX 1094
+#define snd_pcm_format_mask_malloc_INDEX 1057
 #define snd_pcm_format_mask_malloc_RETURN int
 #define snd_pcm_format_mask_malloc_ARG_NAMES ptr
 #define snd_pcm_format_mask_malloc_ARG_EXPAND snd_pcm_format_mask_t ** ptr
 #define snd_pcm_format_mask_malloc_PACKED PACKED_int_snd_pcm_format_mask_t___GENPT____GENPT__
 #define snd_pcm_format_mask_malloc_INDEXED INDEXED_int_snd_pcm_format_mask_t___GENPT____GENPT__
 #define snd_pcm_format_mask_malloc_FORMAT FORMAT_int_snd_pcm_format_mask_t___GENPT____GENPT__
-#define snd_pcm_format_mask_none_INDEX 1095
+#define snd_pcm_format_mask_none_INDEX 1058
 #define snd_pcm_format_mask_none_RETURN void
 #define snd_pcm_format_mask_none_ARG_NAMES mask
 #define snd_pcm_format_mask_none_ARG_EXPAND snd_pcm_format_mask_t * mask
 #define snd_pcm_format_mask_none_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_none_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_format_mask_none_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_format_mask_reset_INDEX 1096
+#define snd_pcm_format_mask_reset_INDEX 1059
 #define snd_pcm_format_mask_reset_RETURN void
 #define snd_pcm_format_mask_reset_ARG_NAMES mask, val
 #define snd_pcm_format_mask_reset_ARG_EXPAND snd_pcm_format_mask_t * mask, snd_pcm_format_t val
 #define snd_pcm_format_mask_reset_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_reset_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_reset_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
-#define snd_pcm_format_mask_set_INDEX 1097
+#define snd_pcm_format_mask_set_INDEX 1060
 #define snd_pcm_format_mask_set_RETURN void
 #define snd_pcm_format_mask_set_ARG_NAMES mask, val
 #define snd_pcm_format_mask_set_ARG_EXPAND snd_pcm_format_mask_t * mask, snd_pcm_format_t val
 #define snd_pcm_format_mask_set_PACKED PACKED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_set_INDEXED INDEXED_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_set_FORMAT FORMAT_void_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
-#define snd_pcm_format_mask_test_INDEX 1098
+#define snd_pcm_format_mask_test_INDEX 1061
 #define snd_pcm_format_mask_test_RETURN int
 #define snd_pcm_format_mask_test_ARG_NAMES mask, val
 #define snd_pcm_format_mask_test_ARG_EXPAND const snd_pcm_format_mask_t * mask, snd_pcm_format_t val
 #define snd_pcm_format_mask_test_PACKED PACKED_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_test_INDEXED INDEXED_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
 #define snd_pcm_format_mask_test_FORMAT FORMAT_int_const_snd_pcm_format_mask_t___GENPT___snd_pcm_format_t
-#define snd_pcm_format_name_INDEX 1099
+#define snd_pcm_format_name_INDEX 1062
 #define snd_pcm_format_name_RETURN const char *
 #define snd_pcm_format_name_ARG_NAMES format
 #define snd_pcm_format_name_ARG_EXPAND const snd_pcm_format_t format
 #define snd_pcm_format_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_format_t
 #define snd_pcm_format_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_format_t
 #define snd_pcm_format_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_format_t
-#define snd_pcm_format_physical_width_INDEX 1100
+#define snd_pcm_format_physical_width_INDEX 1063
 #define snd_pcm_format_physical_width_RETURN int
 #define snd_pcm_format_physical_width_ARG_NAMES format
 #define snd_pcm_format_physical_width_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_physical_width_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_physical_width_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_physical_width_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_set_silence_INDEX 1101
+#define snd_pcm_format_set_silence_INDEX 1064
 #define snd_pcm_format_set_silence_RETURN int
 #define snd_pcm_format_set_silence_ARG_NAMES format, buf, samples
 #define snd_pcm_format_set_silence_ARG_EXPAND snd_pcm_format_t format, void * buf, unsigned int samples
 #define snd_pcm_format_set_silence_PACKED PACKED_int_snd_pcm_format_t_void___GENPT___unsigned_int
 #define snd_pcm_format_set_silence_INDEXED INDEXED_int_snd_pcm_format_t_void___GENPT___unsigned_int
 #define snd_pcm_format_set_silence_FORMAT FORMAT_int_snd_pcm_format_t_void___GENPT___unsigned_int
-#define snd_pcm_format_signed_INDEX 1102
+#define snd_pcm_format_signed_INDEX 1065
 #define snd_pcm_format_signed_RETURN int
 #define snd_pcm_format_signed_ARG_NAMES format
 #define snd_pcm_format_signed_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_signed_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_signed_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_signed_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_silence_INDEX 1103
+#define snd_pcm_format_silence_INDEX 1066
 #define snd_pcm_format_silence_RETURN u_int8_t
 #define snd_pcm_format_silence_ARG_NAMES format
 #define snd_pcm_format_silence_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_silence_PACKED PACKED_u_int8_t_snd_pcm_format_t
 #define snd_pcm_format_silence_INDEXED INDEXED_u_int8_t_snd_pcm_format_t
 #define snd_pcm_format_silence_FORMAT FORMAT_u_int8_t_snd_pcm_format_t
-#define snd_pcm_format_silence_16_INDEX 1104
+#define snd_pcm_format_silence_16_INDEX 1067
 #define snd_pcm_format_silence_16_RETURN u_int16_t
 #define snd_pcm_format_silence_16_ARG_NAMES format
 #define snd_pcm_format_silence_16_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_silence_16_PACKED PACKED_u_int16_t_snd_pcm_format_t
 #define snd_pcm_format_silence_16_INDEXED INDEXED_u_int16_t_snd_pcm_format_t
 #define snd_pcm_format_silence_16_FORMAT FORMAT_u_int16_t_snd_pcm_format_t
-#define snd_pcm_format_silence_32_INDEX 1105
+#define snd_pcm_format_silence_32_INDEX 1068
 #define snd_pcm_format_silence_32_RETURN u_int32_t
 #define snd_pcm_format_silence_32_ARG_NAMES format
 #define snd_pcm_format_silence_32_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_silence_32_PACKED PACKED_u_int32_t_snd_pcm_format_t
 #define snd_pcm_format_silence_32_INDEXED INDEXED_u_int32_t_snd_pcm_format_t
 #define snd_pcm_format_silence_32_FORMAT FORMAT_u_int32_t_snd_pcm_format_t
-#define snd_pcm_format_silence_64_INDEX 1106
+#define snd_pcm_format_silence_64_INDEX 1069
 #define snd_pcm_format_silence_64_RETURN u_int64_t
 #define snd_pcm_format_silence_64_ARG_NAMES format
 #define snd_pcm_format_silence_64_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_silence_64_PACKED PACKED_u_int64_t_snd_pcm_format_t
 #define snd_pcm_format_silence_64_INDEXED INDEXED_u_int64_t_snd_pcm_format_t
 #define snd_pcm_format_silence_64_FORMAT FORMAT_u_int64_t_snd_pcm_format_t
-#define snd_pcm_format_size_INDEX 1107
+#define snd_pcm_format_size_INDEX 1070
 #define snd_pcm_format_size_RETURN ssize_t
 #define snd_pcm_format_size_ARG_NAMES format, samples
 #define snd_pcm_format_size_ARG_EXPAND snd_pcm_format_t format, size_t samples
 #define snd_pcm_format_size_PACKED PACKED_ssize_t_snd_pcm_format_t_size_t
 #define snd_pcm_format_size_INDEXED INDEXED_ssize_t_snd_pcm_format_t_size_t
 #define snd_pcm_format_size_FORMAT FORMAT_ssize_t_snd_pcm_format_t_size_t
-#define snd_pcm_format_unsigned_INDEX 1108
+#define snd_pcm_format_unsigned_INDEX 1071
 #define snd_pcm_format_unsigned_RETURN int
 #define snd_pcm_format_unsigned_ARG_NAMES format
 #define snd_pcm_format_unsigned_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_unsigned_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_unsigned_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_unsigned_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_format_value_INDEX 1109
+#define snd_pcm_format_value_INDEX 1072
 #define snd_pcm_format_value_RETURN snd_pcm_format_t
 #define snd_pcm_format_value_ARG_NAMES name
 #define snd_pcm_format_value_ARG_EXPAND const char* name
 #define snd_pcm_format_value_PACKED PACKED_snd_pcm_format_t_const_char__GENPT__
 #define snd_pcm_format_value_INDEXED INDEXED_snd_pcm_format_t_const_char__GENPT__
 #define snd_pcm_format_value_FORMAT FORMAT_snd_pcm_format_t_const_char__GENPT__
-#define snd_pcm_format_width_INDEX 1110
+#define snd_pcm_format_width_INDEX 1073
 #define snd_pcm_format_width_RETURN int
 #define snd_pcm_format_width_ARG_NAMES format
 #define snd_pcm_format_width_ARG_EXPAND snd_pcm_format_t format
 #define snd_pcm_format_width_PACKED PACKED_int_snd_pcm_format_t
 #define snd_pcm_format_width_INDEXED INDEXED_int_snd_pcm_format_t
 #define snd_pcm_format_width_FORMAT FORMAT_int_snd_pcm_format_t
-#define snd_pcm_forward_INDEX 1111
+#define snd_pcm_forward_INDEX 1074
 #define snd_pcm_forward_RETURN snd_pcm_sframes_t
 #define snd_pcm_forward_ARG_NAMES pcm, frames
 #define snd_pcm_forward_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_uframes_t frames
 #define snd_pcm_forward_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_forward_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_forward_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_frames_to_bytes_INDEX 1112
+#define snd_pcm_frames_to_bytes_INDEX 1075
 #define snd_pcm_frames_to_bytes_RETURN ssize_t
 #define snd_pcm_frames_to_bytes_ARG_NAMES pcm, frames
 #define snd_pcm_frames_to_bytes_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sframes_t frames
 #define snd_pcm_frames_to_bytes_PACKED PACKED_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t
 #define snd_pcm_frames_to_bytes_INDEXED INDEXED_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t
 #define snd_pcm_frames_to_bytes_FORMAT FORMAT_ssize_t_snd_pcm_t___GENPT___snd_pcm_sframes_t
-#define snd_pcm_get_params_INDEX 1113
+#define snd_pcm_get_params_INDEX 1076
 #define snd_pcm_get_params_RETURN int
 #define snd_pcm_get_params_ARG_NAMES pcm, buffer_size, period_size
 #define snd_pcm_get_params_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_uframes_t * buffer_size, snd_pcm_uframes_t * period_size
 #define snd_pcm_get_params_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_get_params_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_get_params_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hook_add_INDEX 1114
+#define snd_pcm_hook_add_INDEX 1077
 #define snd_pcm_hook_add_RETURN int
 #define snd_pcm_hook_add_ARG_NAMES hookp, pcm, type, func, private_data
 #define snd_pcm_hook_add_ARG_EXPAND snd_pcm_hook_t ** hookp, snd_pcm_t * pcm, snd_pcm_hook_type_t type, snd_pcm_hook_func_t func, void * private_data
 #define snd_pcm_hook_add_PACKED PACKED_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__
 #define snd_pcm_hook_add_INDEXED INDEXED_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__
 #define snd_pcm_hook_add_FORMAT FORMAT_int_snd_pcm_hook_t___GENPT____GENPT___snd_pcm_t___GENPT___snd_pcm_hook_type_t_snd_pcm_hook_func_t_void___GENPT__
-#define snd_pcm_hook_get_pcm_INDEX 1115
+#define snd_pcm_hook_get_pcm_INDEX 1078
 #define snd_pcm_hook_get_pcm_RETURN snd_pcm_t *
 #define snd_pcm_hook_get_pcm_ARG_NAMES hook
 #define snd_pcm_hook_get_pcm_ARG_EXPAND snd_pcm_hook_t * hook
 #define snd_pcm_hook_get_pcm_PACKED PACKED_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_get_pcm_INDEXED INDEXED_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_get_pcm_FORMAT FORMAT_snd_pcm_t___GENPT___snd_pcm_hook_t___GENPT__
-#define snd_pcm_hook_get_private_INDEX 1116
+#define snd_pcm_hook_get_private_INDEX 1079
 #define snd_pcm_hook_get_private_RETURN void *
 #define snd_pcm_hook_get_private_ARG_NAMES hook
 #define snd_pcm_hook_get_private_ARG_EXPAND snd_pcm_hook_t * hook
 #define snd_pcm_hook_get_private_PACKED PACKED_void___GENPT___snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_get_private_INDEXED INDEXED_void___GENPT___snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_get_private_FORMAT FORMAT_void___GENPT___snd_pcm_hook_t___GENPT__
-#define snd_pcm_hook_remove_INDEX 1117
+#define snd_pcm_hook_remove_INDEX 1080
 #define snd_pcm_hook_remove_RETURN int
 #define snd_pcm_hook_remove_ARG_NAMES hook
 #define snd_pcm_hook_remove_ARG_EXPAND snd_pcm_hook_t * hook
 #define snd_pcm_hook_remove_PACKED PACKED_int_snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_remove_INDEXED INDEXED_int_snd_pcm_hook_t___GENPT__
 #define snd_pcm_hook_remove_FORMAT FORMAT_int_snd_pcm_hook_t___GENPT__
-#define snd_pcm_hook_set_private_INDEX 1118
+#define snd_pcm_hook_set_private_INDEX 1081
 #define snd_pcm_hook_set_private_RETURN void
 #define snd_pcm_hook_set_private_ARG_NAMES hook, private_data
 #define snd_pcm_hook_set_private_ARG_EXPAND snd_pcm_hook_t * hook, void * private_data
 #define snd_pcm_hook_set_private_PACKED PACKED_void_snd_pcm_hook_t___GENPT___void___GENPT__
 #define snd_pcm_hook_set_private_INDEXED INDEXED_void_snd_pcm_hook_t___GENPT___void___GENPT__
 #define snd_pcm_hook_set_private_FORMAT FORMAT_void_snd_pcm_hook_t___GENPT___void___GENPT__
-#define snd_pcm_hw_free_INDEX 1119
+#define snd_pcm_hw_free_INDEX 1082
 #define snd_pcm_hw_free_RETURN int
 #define snd_pcm_hw_free_ARG_NAMES pcm
 #define snd_pcm_hw_free_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_hw_free_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_hw_free_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_hw_free_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_hw_params_INDEX 1120
+#define snd_pcm_hw_params_INDEX 1083
 #define snd_pcm_hw_params_RETURN int
 #define snd_pcm_hw_params_ARG_NAMES pcm, params
 #define snd_pcm_hw_params_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_any_INDEX 1121
+#define snd_pcm_hw_params_any_INDEX 1084
 #define snd_pcm_hw_params_any_RETURN int
 #define snd_pcm_hw_params_any_ARG_NAMES pcm, params
 #define snd_pcm_hw_params_any_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_any_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_any_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_any_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_can_mmap_sample_resolution_INDEX 1122
+#define snd_pcm_hw_params_can_mmap_sample_resolution_INDEX 1085
 #define snd_pcm_hw_params_can_mmap_sample_resolution_RETURN int
 #define snd_pcm_hw_params_can_mmap_sample_resolution_ARG_NAMES params
 #define snd_pcm_hw_params_can_mmap_sample_resolution_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_can_mmap_sample_resolution_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_mmap_sample_resolution_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_mmap_sample_resolution_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_can_overrange_INDEX 1123
+#define snd_pcm_hw_params_can_overrange_INDEX 1086
 #define snd_pcm_hw_params_can_overrange_RETURN int
 #define snd_pcm_hw_params_can_overrange_ARG_NAMES params
 #define snd_pcm_hw_params_can_overrange_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_can_overrange_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_overrange_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_overrange_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_can_pause_INDEX 1124
+#define snd_pcm_hw_params_can_pause_INDEX 1087
 #define snd_pcm_hw_params_can_pause_RETURN int
 #define snd_pcm_hw_params_can_pause_ARG_NAMES params
 #define snd_pcm_hw_params_can_pause_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_can_pause_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_pause_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_pause_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_can_resume_INDEX 1125
+#define snd_pcm_hw_params_can_resume_INDEX 1088
 #define snd_pcm_hw_params_can_resume_RETURN int
 #define snd_pcm_hw_params_can_resume_ARG_NAMES params
 #define snd_pcm_hw_params_can_resume_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_can_resume_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_resume_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_resume_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_can_sync_start_INDEX 1126
+#define snd_pcm_hw_params_can_sync_start_INDEX 1089
 #define snd_pcm_hw_params_can_sync_start_RETURN int
 #define snd_pcm_hw_params_can_sync_start_ARG_NAMES params
 #define snd_pcm_hw_params_can_sync_start_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_can_sync_start_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_sync_start_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_can_sync_start_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_copy_INDEX 1127
+#define snd_pcm_hw_params_copy_INDEX 1090
 #define snd_pcm_hw_params_copy_RETURN void
 #define snd_pcm_hw_params_copy_ARG_NAMES dst, src
 #define snd_pcm_hw_params_copy_ARG_EXPAND snd_pcm_hw_params_t * dst, const snd_pcm_hw_params_t * src
 #define snd_pcm_hw_params_copy_PACKED PACKED_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_copy_INDEXED INDEXED_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_copy_FORMAT FORMAT_void_snd_pcm_hw_params_t___GENPT___const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_current_INDEX 1128
+#define snd_pcm_hw_params_current_INDEX 1091
 #define snd_pcm_hw_params_current_RETURN int
 #define snd_pcm_hw_params_current_ARG_NAMES pcm, params
 #define snd_pcm_hw_params_current_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_current_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_current_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_current_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_dump_INDEX 1129
+#define snd_pcm_hw_params_dump_INDEX 1092
 #define snd_pcm_hw_params_dump_RETURN int
 #define snd_pcm_hw_params_dump_ARG_NAMES params, out
 #define snd_pcm_hw_params_dump_ARG_EXPAND snd_pcm_hw_params_t * params, snd_output_t * out
 #define snd_pcm_hw_params_dump_PACKED PACKED_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_hw_params_dump_INDEXED INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_hw_params_dump_FORMAT FORMAT_int_snd_pcm_hw_params_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_hw_params_free_INDEX 1130
+#define snd_pcm_hw_params_free_INDEX 1093
 #define snd_pcm_hw_params_free_RETURN void
 #define snd_pcm_hw_params_free_ARG_NAMES obj
 #define snd_pcm_hw_params_free_ARG_EXPAND snd_pcm_hw_params_t * obj
 #define snd_pcm_hw_params_free_PACKED PACKED_void_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_free_INDEXED INDEXED_void_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_free_FORMAT FORMAT_void_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_get_access_INDEX 1131
+#define snd_pcm_hw_params_get_access_INDEX 1094
 #define snd_pcm_hw_params_get_access_RETURN int
 #define snd_pcm_hw_params_get_access_ARG_NAMES params, _access
 #define snd_pcm_hw_params_get_access_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_access_t * _access
 #define snd_pcm_hw_params_get_access_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_get_access_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_get_access_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
-#define snd_pcm_hw_params_get_access_mask_INDEX 1132
+#define snd_pcm_hw_params_get_access_mask_INDEX 1095
 #define snd_pcm_hw_params_get_access_mask_RETURN int
 #define snd_pcm_hw_params_get_access_mask_ARG_NAMES params, mask
 #define snd_pcm_hw_params_get_access_mask_ARG_EXPAND snd_pcm_hw_params_t * params, snd_pcm_access_mask_t * mask
 #define snd_pcm_hw_params_get_access_mask_PACKED PACKED_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_hw_params_get_access_mask_INDEXED INDEXED_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_hw_params_get_access_mask_FORMAT FORMAT_int_snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_hw_params_get_buffer_size_INDEX 1133
+#define snd_pcm_hw_params_get_buffer_size_INDEX 1096
 #define snd_pcm_hw_params_get_buffer_size_RETURN int
 #define snd_pcm_hw_params_get_buffer_size_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_buffer_size_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_get_buffer_size_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_get_buffer_size_max_INDEX 1134
+#define snd_pcm_hw_params_get_buffer_size_max_INDEX 1097
 #define snd_pcm_hw_params_get_buffer_size_max_RETURN int
 #define snd_pcm_hw_params_get_buffer_size_max_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_buffer_size_max_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_get_buffer_size_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_get_buffer_size_min_INDEX 1135
+#define snd_pcm_hw_params_get_buffer_size_min_INDEX 1098
 #define snd_pcm_hw_params_get_buffer_size_min_RETURN int
 #define snd_pcm_hw_params_get_buffer_size_min_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_buffer_size_min_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_get_buffer_size_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_buffer_size_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_get_buffer_time_INDEX 1136
+#define snd_pcm_hw_params_get_buffer_time_INDEX 1099
 #define snd_pcm_hw_params_get_buffer_time_RETURN int
 #define snd_pcm_hw_params_get_buffer_time_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_buffer_time_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_buffer_time_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_buffer_time_max_INDEX 1137
+#define snd_pcm_hw_params_get_buffer_time_max_INDEX 1100
 #define snd_pcm_hw_params_get_buffer_time_max_RETURN int
 #define snd_pcm_hw_params_get_buffer_time_max_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_buffer_time_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_buffer_time_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_buffer_time_min_INDEX 1138
+#define snd_pcm_hw_params_get_buffer_time_min_INDEX 1101
 #define snd_pcm_hw_params_get_buffer_time_min_RETURN int
 #define snd_pcm_hw_params_get_buffer_time_min_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_buffer_time_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_buffer_time_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_buffer_time_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_channels_INDEX 1139
+#define snd_pcm_hw_params_get_channels_INDEX 1102
 #define snd_pcm_hw_params_get_channels_RETURN int
 #define snd_pcm_hw_params_get_channels_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_channels_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_get_channels_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_channels_max_INDEX 1140
+#define snd_pcm_hw_params_get_channels_max_INDEX 1103
 #define snd_pcm_hw_params_get_channels_max_RETURN int
 #define snd_pcm_hw_params_get_channels_max_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_channels_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_get_channels_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_channels_min_INDEX 1141
+#define snd_pcm_hw_params_get_channels_min_INDEX 1104
 #define snd_pcm_hw_params_get_channels_min_RETURN int
 #define snd_pcm_hw_params_get_channels_min_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_channels_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_get_channels_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_channels_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_export_buffer_INDEX 1142
+#define snd_pcm_hw_params_get_export_buffer_INDEX 1105
 #define snd_pcm_hw_params_get_export_buffer_RETURN int
 #define snd_pcm_hw_params_get_export_buffer_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_get_export_buffer_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_get_export_buffer_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_export_buffer_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_export_buffer_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_fifo_size_INDEX 1143
+#define snd_pcm_hw_params_get_fifo_size_INDEX 1106
 #define snd_pcm_hw_params_get_fifo_size_RETURN int
 #define snd_pcm_hw_params_get_fifo_size_ARG_NAMES params
 #define snd_pcm_hw_params_get_fifo_size_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_get_fifo_size_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_get_fifo_size_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_get_fifo_size_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_get_format_INDEX 1144
+#define snd_pcm_hw_params_get_format_INDEX 1107
 #define snd_pcm_hw_params_get_format_RETURN int
 #define snd_pcm_hw_params_get_format_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_format_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_format_t * val
 #define snd_pcm_hw_params_get_format_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_get_format_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_get_format_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
-#define snd_pcm_hw_params_get_format_mask_INDEX 1145
+#define snd_pcm_hw_params_get_format_mask_INDEX 1108
 #define snd_pcm_hw_params_get_format_mask_RETURN void
 #define snd_pcm_hw_params_get_format_mask_ARG_NAMES params, mask
 #define snd_pcm_hw_params_get_format_mask_ARG_EXPAND snd_pcm_hw_params_t * params, snd_pcm_format_mask_t * mask
 #define snd_pcm_hw_params_get_format_mask_PACKED PACKED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_hw_params_get_format_mask_INDEXED INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_hw_params_get_format_mask_FORMAT FORMAT_void_snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_hw_params_get_min_align_INDEX 1146
+#define snd_pcm_hw_params_get_min_align_INDEX 1109
 #define snd_pcm_hw_params_get_min_align_RETURN int
 #define snd_pcm_hw_params_get_min_align_ARG_NAMES params, val
 #define snd_pcm_hw_params_get_min_align_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_get_min_align_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_min_align_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_get_min_align_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_get_period_size_INDEX 1147
+#define snd_pcm_hw_params_get_period_size_INDEX 1110
 #define snd_pcm_hw_params_get_period_size_RETURN int
 #define snd_pcm_hw_params_get_period_size_ARG_NAMES params, frames, dir
 #define snd_pcm_hw_params_get_period_size_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir
 #define snd_pcm_hw_params_get_period_size_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_period_size_max_INDEX 1148
+#define snd_pcm_hw_params_get_period_size_max_INDEX 1111
 #define snd_pcm_hw_params_get_period_size_max_RETURN int
 #define snd_pcm_hw_params_get_period_size_max_ARG_NAMES params, frames, dir
 #define snd_pcm_hw_params_get_period_size_max_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir
 #define snd_pcm_hw_params_get_period_size_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_period_size_min_INDEX 1149
+#define snd_pcm_hw_params_get_period_size_min_INDEX 1112
 #define snd_pcm_hw_params_get_period_size_min_RETURN int
 #define snd_pcm_hw_params_get_period_size_min_ARG_NAMES params, frames, dir
 #define snd_pcm_hw_params_get_period_size_min_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_uframes_t * frames, int * dir
 #define snd_pcm_hw_params_get_period_size_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_size_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_period_time_INDEX 1150
+#define snd_pcm_hw_params_get_period_time_INDEX 1113
 #define snd_pcm_hw_params_get_period_time_RETURN int
 #define snd_pcm_hw_params_get_period_time_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_period_time_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_period_time_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_period_time_max_INDEX 1151
+#define snd_pcm_hw_params_get_period_time_max_INDEX 1114
 #define snd_pcm_hw_params_get_period_time_max_RETURN int
 #define snd_pcm_hw_params_get_period_time_max_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_period_time_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_period_time_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_period_time_min_INDEX 1152
+#define snd_pcm_hw_params_get_period_time_min_INDEX 1115
 #define snd_pcm_hw_params_get_period_time_min_RETURN int
 #define snd_pcm_hw_params_get_period_time_min_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_period_time_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_period_time_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_period_time_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_periods_INDEX 1153
+#define snd_pcm_hw_params_get_periods_INDEX 1116
 #define snd_pcm_hw_params_get_periods_RETURN int
 #define snd_pcm_hw_params_get_periods_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_periods_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_periods_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_periods_max_INDEX 1154
+#define snd_pcm_hw_params_get_periods_max_INDEX 1117
 #define snd_pcm_hw_params_get_periods_max_RETURN int
 #define snd_pcm_hw_params_get_periods_max_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_periods_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_periods_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_periods_min_INDEX 1155
+#define snd_pcm_hw_params_get_periods_min_INDEX 1118
 #define snd_pcm_hw_params_get_periods_min_RETURN int
 #define snd_pcm_hw_params_get_periods_min_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_periods_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_periods_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_periods_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_rate_INDEX 1156
+#define snd_pcm_hw_params_get_rate_INDEX 1119
 #define snd_pcm_hw_params_get_rate_RETURN int
 #define snd_pcm_hw_params_get_rate_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_rate_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_rate_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_rate_max_INDEX 1157
+#define snd_pcm_hw_params_get_rate_max_INDEX 1120
 #define snd_pcm_hw_params_get_rate_max_RETURN int
 #define snd_pcm_hw_params_get_rate_max_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_rate_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_rate_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_rate_min_INDEX 1158
+#define snd_pcm_hw_params_get_rate_min_INDEX 1121
 #define snd_pcm_hw_params_get_rate_min_RETURN int
 #define snd_pcm_hw_params_get_rate_min_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_rate_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_rate_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_rate_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_rate_numden_INDEX 1159
+#define snd_pcm_hw_params_get_rate_numden_INDEX 1122
 #define snd_pcm_hw_params_get_rate_numden_RETURN int
 #define snd_pcm_hw_params_get_rate_numden_ARG_NAMES params, rate_num, rate_den
 #define snd_pcm_hw_params_get_rate_numden_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * rate_num, unsigned int * rate_den
 #define snd_pcm_hw_params_get_rate_numden_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_rate_numden_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_rate_numden_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_rate_resample_INDEX 1160
+#define snd_pcm_hw_params_get_rate_resample_INDEX 1123
 #define snd_pcm_hw_params_get_rate_resample_RETURN int
 #define snd_pcm_hw_params_get_rate_resample_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_get_rate_resample_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_get_rate_resample_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_rate_resample_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_get_rate_resample_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_get_sbits_INDEX 1161
+#define snd_pcm_hw_params_get_sbits_INDEX 1124
 #define snd_pcm_hw_params_get_sbits_RETURN int
 #define snd_pcm_hw_params_get_sbits_ARG_NAMES params
 #define snd_pcm_hw_params_get_sbits_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_get_sbits_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_get_sbits_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_get_sbits_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_get_subformat_INDEX 1162
+#define snd_pcm_hw_params_get_subformat_INDEX 1125
 #define snd_pcm_hw_params_get_subformat_RETURN int
 #define snd_pcm_hw_params_get_subformat_ARG_NAMES params, subformat
 #define snd_pcm_hw_params_get_subformat_ARG_EXPAND const snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat
 #define snd_pcm_hw_params_get_subformat_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_get_subformat_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_get_subformat_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
-#define snd_pcm_hw_params_get_subformat_mask_INDEX 1163
+#define snd_pcm_hw_params_get_subformat_mask_INDEX 1126
 #define snd_pcm_hw_params_get_subformat_mask_RETURN void
 #define snd_pcm_hw_params_get_subformat_mask_ARG_NAMES params, mask
 #define snd_pcm_hw_params_get_subformat_mask_ARG_EXPAND snd_pcm_hw_params_t * params, snd_pcm_subformat_mask_t * mask
 #define snd_pcm_hw_params_get_subformat_mask_PACKED PACKED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_hw_params_get_subformat_mask_INDEXED INDEXED_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_hw_params_get_subformat_mask_FORMAT FORMAT_void_snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_hw_params_get_tick_time_INDEX 1164
+#define snd_pcm_hw_params_get_tick_time_INDEX 1127
 #define snd_pcm_hw_params_get_tick_time_RETURN int
 #define snd_pcm_hw_params_get_tick_time_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_tick_time_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_tick_time_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_tick_time_max_INDEX 1165
+#define snd_pcm_hw_params_get_tick_time_max_INDEX 1128
 #define snd_pcm_hw_params_get_tick_time_max_RETURN int
 #define snd_pcm_hw_params_get_tick_time_max_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_tick_time_max_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_tick_time_max_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_max_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_max_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_get_tick_time_min_INDEX 1166
+#define snd_pcm_hw_params_get_tick_time_min_INDEX 1129
 #define snd_pcm_hw_params_get_tick_time_min_RETURN int
 #define snd_pcm_hw_params_get_tick_time_min_ARG_NAMES params, val, dir
 #define snd_pcm_hw_params_get_tick_time_min_ARG_EXPAND const snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_get_tick_time_min_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_min_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_get_tick_time_min_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_is_batch_INDEX 1167
+#define snd_pcm_hw_params_is_batch_INDEX 1130
 #define snd_pcm_hw_params_is_batch_RETURN int
 #define snd_pcm_hw_params_is_batch_ARG_NAMES params
 #define snd_pcm_hw_params_is_batch_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_is_batch_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_batch_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_batch_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_is_block_transfer_INDEX 1168
+#define snd_pcm_hw_params_is_block_transfer_INDEX 1131
 #define snd_pcm_hw_params_is_block_transfer_RETURN int
 #define snd_pcm_hw_params_is_block_transfer_ARG_NAMES params
 #define snd_pcm_hw_params_is_block_transfer_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_is_block_transfer_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_block_transfer_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_block_transfer_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_is_double_INDEX 1169
+#define snd_pcm_hw_params_is_double_INDEX 1132
 #define snd_pcm_hw_params_is_double_RETURN int
 #define snd_pcm_hw_params_is_double_ARG_NAMES params
 #define snd_pcm_hw_params_is_double_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_is_double_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_double_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_double_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_is_half_duplex_INDEX 1170
+#define snd_pcm_hw_params_is_half_duplex_INDEX 1133
 #define snd_pcm_hw_params_is_half_duplex_RETURN int
 #define snd_pcm_hw_params_is_half_duplex_ARG_NAMES params
 #define snd_pcm_hw_params_is_half_duplex_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_is_half_duplex_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_half_duplex_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_half_duplex_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_is_joint_duplex_INDEX 1171
+#define snd_pcm_hw_params_is_joint_duplex_INDEX 1134
 #define snd_pcm_hw_params_is_joint_duplex_RETURN int
 #define snd_pcm_hw_params_is_joint_duplex_ARG_NAMES params
 #define snd_pcm_hw_params_is_joint_duplex_ARG_EXPAND const snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_is_joint_duplex_PACKED PACKED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_joint_duplex_INDEXED INDEXED_int_const_snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_is_joint_duplex_FORMAT FORMAT_int_const_snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_malloc_INDEX 1172
+#define snd_pcm_hw_params_malloc_INDEX 1135
 #define snd_pcm_hw_params_malloc_RETURN int
 #define snd_pcm_hw_params_malloc_ARG_NAMES ptr
 #define snd_pcm_hw_params_malloc_ARG_EXPAND snd_pcm_hw_params_t ** ptr
 #define snd_pcm_hw_params_malloc_PACKED PACKED_int_snd_pcm_hw_params_t___GENPT____GENPT__
 #define snd_pcm_hw_params_malloc_INDEXED INDEXED_int_snd_pcm_hw_params_t___GENPT____GENPT__
 #define snd_pcm_hw_params_malloc_FORMAT FORMAT_int_snd_pcm_hw_params_t___GENPT____GENPT__
-#define snd_pcm_hw_params_set_access_INDEX 1173
+#define snd_pcm_hw_params_set_access_INDEX 1136
 #define snd_pcm_hw_params_set_access_RETURN int
 #define snd_pcm_hw_params_set_access_ARG_NAMES pcm, params, _access
 #define snd_pcm_hw_params_set_access_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t _access
 #define snd_pcm_hw_params_set_access_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
 #define snd_pcm_hw_params_set_access_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
 #define snd_pcm_hw_params_set_access_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
-#define snd_pcm_hw_params_set_access_first_INDEX 1174
+#define snd_pcm_hw_params_set_access_first_INDEX 1137
 #define snd_pcm_hw_params_set_access_first_RETURN int
 #define snd_pcm_hw_params_set_access_first_ARG_NAMES pcm, params, _access
 #define snd_pcm_hw_params_set_access_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t * _access
 #define snd_pcm_hw_params_set_access_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_set_access_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_set_access_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
-#define snd_pcm_hw_params_set_access_last_INDEX 1175
+#define snd_pcm_hw_params_set_access_last_INDEX 1138
 #define snd_pcm_hw_params_set_access_last_RETURN int
 #define snd_pcm_hw_params_set_access_last_ARG_NAMES pcm, params, _access
 #define snd_pcm_hw_params_set_access_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t * _access
 #define snd_pcm_hw_params_set_access_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_set_access_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
 #define snd_pcm_hw_params_set_access_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t___GENPT__
-#define snd_pcm_hw_params_set_access_mask_INDEX 1176
+#define snd_pcm_hw_params_set_access_mask_INDEX 1139
 #define snd_pcm_hw_params_set_access_mask_RETURN int
 #define snd_pcm_hw_params_set_access_mask_ARG_NAMES pcm, params, mask
 #define snd_pcm_hw_params_set_access_mask_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_mask_t * mask
 #define snd_pcm_hw_params_set_access_mask_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_hw_params_set_access_mask_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
 #define snd_pcm_hw_params_set_access_mask_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_mask_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_INDEX 1177
+#define snd_pcm_hw_params_set_buffer_size_INDEX 1140
 #define snd_pcm_hw_params_set_buffer_size_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_hw_params_set_buffer_size_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_hw_params_set_buffer_size_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_hw_params_set_buffer_size_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_hw_params_set_buffer_size_first_INDEX 1178
+#define snd_pcm_hw_params_set_buffer_size_first_INDEX 1141
 #define snd_pcm_hw_params_set_buffer_size_first_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_first_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_set_buffer_size_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_last_INDEX 1179
+#define snd_pcm_hw_params_set_buffer_size_last_INDEX 1142
 #define snd_pcm_hw_params_set_buffer_size_last_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_last_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_set_buffer_size_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_max_INDEX 1180
+#define snd_pcm_hw_params_set_buffer_size_max_INDEX 1143
 #define snd_pcm_hw_params_set_buffer_size_max_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_max_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_set_buffer_size_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_min_INDEX 1181
+#define snd_pcm_hw_params_set_buffer_size_min_INDEX 1144
 #define snd_pcm_hw_params_set_buffer_size_min_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_min_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_set_buffer_size_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_minmax_INDEX 1182
+#define snd_pcm_hw_params_set_buffer_size_minmax_INDEX 1145
 #define snd_pcm_hw_params_set_buffer_size_minmax_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_minmax_ARG_NAMES pcm, params, min, max
 #define snd_pcm_hw_params_set_buffer_size_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * min, snd_pcm_uframes_t * max
 #define snd_pcm_hw_params_set_buffer_size_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_size_near_INDEX 1183
+#define snd_pcm_hw_params_set_buffer_size_near_INDEX 1146
 #define snd_pcm_hw_params_set_buffer_size_near_RETURN int
 #define snd_pcm_hw_params_set_buffer_size_near_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_buffer_size_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_hw_params_set_buffer_size_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_hw_params_set_buffer_size_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_INDEX 1184
+#define snd_pcm_hw_params_set_buffer_time_INDEX 1147
 #define snd_pcm_hw_params_set_buffer_time_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_set_buffer_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_buffer_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_buffer_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_set_buffer_time_first_INDEX 1185
+#define snd_pcm_hw_params_set_buffer_time_first_INDEX 1148
 #define snd_pcm_hw_params_set_buffer_time_first_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_buffer_time_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_last_INDEX 1186
+#define snd_pcm_hw_params_set_buffer_time_last_INDEX 1149
 #define snd_pcm_hw_params_set_buffer_time_last_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_buffer_time_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_max_INDEX 1187
+#define snd_pcm_hw_params_set_buffer_time_max_INDEX 1150
 #define snd_pcm_hw_params_set_buffer_time_max_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_buffer_time_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_min_INDEX 1188
+#define snd_pcm_hw_params_set_buffer_time_min_INDEX 1151
 #define snd_pcm_hw_params_set_buffer_time_min_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_buffer_time_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_minmax_INDEX 1189
+#define snd_pcm_hw_params_set_buffer_time_minmax_INDEX 1152
 #define snd_pcm_hw_params_set_buffer_time_minmax_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_buffer_time_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir
 #define snd_pcm_hw_params_set_buffer_time_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_buffer_time_near_INDEX 1190
+#define snd_pcm_hw_params_set_buffer_time_near_INDEX 1153
 #define snd_pcm_hw_params_set_buffer_time_near_RETURN int
 #define snd_pcm_hw_params_set_buffer_time_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_buffer_time_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_buffer_time_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_buffer_time_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_channels_INDEX 1191
+#define snd_pcm_hw_params_set_channels_INDEX 1154
 #define snd_pcm_hw_params_set_channels_RETURN int
 #define snd_pcm_hw_params_set_channels_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val
 #define snd_pcm_hw_params_set_channels_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_channels_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_channels_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
-#define snd_pcm_hw_params_set_channels_first_INDEX 1192
+#define snd_pcm_hw_params_set_channels_first_INDEX 1155
 #define snd_pcm_hw_params_set_channels_first_RETURN int
 #define snd_pcm_hw_params_set_channels_first_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_set_channels_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_channels_last_INDEX 1193
+#define snd_pcm_hw_params_set_channels_last_INDEX 1156
 #define snd_pcm_hw_params_set_channels_last_RETURN int
 #define snd_pcm_hw_params_set_channels_last_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_set_channels_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_channels_max_INDEX 1194
+#define snd_pcm_hw_params_set_channels_max_INDEX 1157
 #define snd_pcm_hw_params_set_channels_max_RETURN int
 #define snd_pcm_hw_params_set_channels_max_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_set_channels_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_channels_min_INDEX 1195
+#define snd_pcm_hw_params_set_channels_min_INDEX 1158
 #define snd_pcm_hw_params_set_channels_min_RETURN int
 #define snd_pcm_hw_params_set_channels_min_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_set_channels_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_channels_minmax_INDEX 1196
+#define snd_pcm_hw_params_set_channels_minmax_INDEX 1159
 #define snd_pcm_hw_params_set_channels_minmax_RETURN int
 #define snd_pcm_hw_params_set_channels_minmax_ARG_NAMES pcm, params, min, max
 #define snd_pcm_hw_params_set_channels_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, unsigned int * max
 #define snd_pcm_hw_params_set_channels_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_channels_near_INDEX 1197
+#define snd_pcm_hw_params_set_channels_near_INDEX 1160
 #define snd_pcm_hw_params_set_channels_near_RETURN int
 #define snd_pcm_hw_params_set_channels_near_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_channels_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val
 #define snd_pcm_hw_params_set_channels_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_hw_params_set_channels_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_hw_params_set_export_buffer_INDEX 1198
+#define snd_pcm_hw_params_set_export_buffer_INDEX 1161
 #define snd_pcm_hw_params_set_export_buffer_RETURN int
 #define snd_pcm_hw_params_set_export_buffer_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_export_buffer_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val
 #define snd_pcm_hw_params_set_export_buffer_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_export_buffer_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_export_buffer_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
-#define snd_pcm_hw_params_set_format_INDEX 1199
+#define snd_pcm_hw_params_set_format_INDEX 1162
 #define snd_pcm_hw_params_set_format_RETURN int
 #define snd_pcm_hw_params_set_format_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_format_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t val
 #define snd_pcm_hw_params_set_format_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
 #define snd_pcm_hw_params_set_format_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
 #define snd_pcm_hw_params_set_format_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
-#define snd_pcm_hw_params_set_format_first_INDEX 1200
+#define snd_pcm_hw_params_set_format_first_INDEX 1163
 #define snd_pcm_hw_params_set_format_first_RETURN int
 #define snd_pcm_hw_params_set_format_first_ARG_NAMES pcm, params, format
 #define snd_pcm_hw_params_set_format_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t * format
 #define snd_pcm_hw_params_set_format_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_set_format_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_set_format_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
-#define snd_pcm_hw_params_set_format_last_INDEX 1201
+#define snd_pcm_hw_params_set_format_last_INDEX 1164
 #define snd_pcm_hw_params_set_format_last_RETURN int
 #define snd_pcm_hw_params_set_format_last_ARG_NAMES pcm, params, format
 #define snd_pcm_hw_params_set_format_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t * format
 #define snd_pcm_hw_params_set_format_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_set_format_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
 #define snd_pcm_hw_params_set_format_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t___GENPT__
-#define snd_pcm_hw_params_set_format_mask_INDEX 1202
+#define snd_pcm_hw_params_set_format_mask_INDEX 1165
 #define snd_pcm_hw_params_set_format_mask_RETURN int
 #define snd_pcm_hw_params_set_format_mask_ARG_NAMES pcm, params, mask
 #define snd_pcm_hw_params_set_format_mask_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_mask_t * mask
 #define snd_pcm_hw_params_set_format_mask_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_hw_params_set_format_mask_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
 #define snd_pcm_hw_params_set_format_mask_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_mask_t___GENPT__
-#define snd_pcm_hw_params_set_period_size_INDEX 1203
+#define snd_pcm_hw_params_set_period_size_INDEX 1166
 #define snd_pcm_hw_params_set_period_size_RETURN int
 #define snd_pcm_hw_params_set_period_size_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val, int dir
 #define snd_pcm_hw_params_set_period_size_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
 #define snd_pcm_hw_params_set_period_size_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
 #define snd_pcm_hw_params_set_period_size_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
-#define snd_pcm_hw_params_set_period_size_first_INDEX 1204
+#define snd_pcm_hw_params_set_period_size_first_INDEX 1167
 #define snd_pcm_hw_params_set_period_size_first_RETURN int
 #define snd_pcm_hw_params_set_period_size_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir
 #define snd_pcm_hw_params_set_period_size_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_size_integer_INDEX 1205
+#define snd_pcm_hw_params_set_period_size_integer_INDEX 1168
 #define snd_pcm_hw_params_set_period_size_integer_RETURN int
 #define snd_pcm_hw_params_set_period_size_integer_ARG_NAMES pcm, params
 #define snd_pcm_hw_params_set_period_size_integer_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_set_period_size_integer_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_set_period_size_integer_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_set_period_size_integer_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_set_period_size_last_INDEX 1206
+#define snd_pcm_hw_params_set_period_size_last_INDEX 1169
 #define snd_pcm_hw_params_set_period_size_last_RETURN int
 #define snd_pcm_hw_params_set_period_size_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir
 #define snd_pcm_hw_params_set_period_size_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_size_max_INDEX 1207
+#define snd_pcm_hw_params_set_period_size_max_INDEX 1170
 #define snd_pcm_hw_params_set_period_size_max_RETURN int
 #define snd_pcm_hw_params_set_period_size_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir
 #define snd_pcm_hw_params_set_period_size_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_size_min_INDEX 1208
+#define snd_pcm_hw_params_set_period_size_min_INDEX 1171
 #define snd_pcm_hw_params_set_period_size_min_RETURN int
 #define snd_pcm_hw_params_set_period_size_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir
 #define snd_pcm_hw_params_set_period_size_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_size_minmax_INDEX 1209
+#define snd_pcm_hw_params_set_period_size_minmax_INDEX 1172
 #define snd_pcm_hw_params_set_period_size_minmax_RETURN int
 #define snd_pcm_hw_params_set_period_size_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_period_size_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * min, int * mindir, snd_pcm_uframes_t * max, int * maxdir
 #define snd_pcm_hw_params_set_period_size_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_size_near_INDEX 1210
+#define snd_pcm_hw_params_set_period_size_near_INDEX 1173
 #define snd_pcm_hw_params_set_period_size_near_RETURN int
 #define snd_pcm_hw_params_set_period_size_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_size_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t * val, int * dir
 #define snd_pcm_hw_params_set_period_size_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_size_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_INDEX 1211
+#define snd_pcm_hw_params_set_period_time_INDEX 1174
 #define snd_pcm_hw_params_set_period_time_RETURN int
 #define snd_pcm_hw_params_set_period_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_set_period_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_period_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_period_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_set_period_time_first_INDEX 1212
+#define snd_pcm_hw_params_set_period_time_first_INDEX 1175
 #define snd_pcm_hw_params_set_period_time_first_RETURN int
 #define snd_pcm_hw_params_set_period_time_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_period_time_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_last_INDEX 1213
+#define snd_pcm_hw_params_set_period_time_last_INDEX 1176
 #define snd_pcm_hw_params_set_period_time_last_RETURN int
 #define snd_pcm_hw_params_set_period_time_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_period_time_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_max_INDEX 1214
+#define snd_pcm_hw_params_set_period_time_max_INDEX 1177
 #define snd_pcm_hw_params_set_period_time_max_RETURN int
 #define snd_pcm_hw_params_set_period_time_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_period_time_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_min_INDEX 1215
+#define snd_pcm_hw_params_set_period_time_min_INDEX 1178
 #define snd_pcm_hw_params_set_period_time_min_RETURN int
 #define snd_pcm_hw_params_set_period_time_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_period_time_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_minmax_INDEX 1216
+#define snd_pcm_hw_params_set_period_time_minmax_INDEX 1179
 #define snd_pcm_hw_params_set_period_time_minmax_RETURN int
 #define snd_pcm_hw_params_set_period_time_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_period_time_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir
 #define snd_pcm_hw_params_set_period_time_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_period_time_near_INDEX 1217
+#define snd_pcm_hw_params_set_period_time_near_INDEX 1180
 #define snd_pcm_hw_params_set_period_time_near_RETURN int
 #define snd_pcm_hw_params_set_period_time_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_period_time_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_period_time_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_period_time_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_INDEX 1218
+#define snd_pcm_hw_params_set_periods_INDEX 1181
 #define snd_pcm_hw_params_set_periods_RETURN int
 #define snd_pcm_hw_params_set_periods_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_set_periods_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_periods_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_periods_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_set_periods_first_INDEX 1219
+#define snd_pcm_hw_params_set_periods_first_INDEX 1182
 #define snd_pcm_hw_params_set_periods_first_RETURN int
 #define snd_pcm_hw_params_set_periods_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_periods_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_integer_INDEX 1220
+#define snd_pcm_hw_params_set_periods_integer_INDEX 1183
 #define snd_pcm_hw_params_set_periods_integer_RETURN int
 #define snd_pcm_hw_params_set_periods_integer_ARG_NAMES pcm, params
 #define snd_pcm_hw_params_set_periods_integer_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params
 #define snd_pcm_hw_params_set_periods_integer_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_set_periods_integer_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
 #define snd_pcm_hw_params_set_periods_integer_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT__
-#define snd_pcm_hw_params_set_periods_last_INDEX 1221
+#define snd_pcm_hw_params_set_periods_last_INDEX 1184
 #define snd_pcm_hw_params_set_periods_last_RETURN int
 #define snd_pcm_hw_params_set_periods_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_periods_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_max_INDEX 1222
+#define snd_pcm_hw_params_set_periods_max_INDEX 1185
 #define snd_pcm_hw_params_set_periods_max_RETURN int
 #define snd_pcm_hw_params_set_periods_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_periods_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_min_INDEX 1223
+#define snd_pcm_hw_params_set_periods_min_INDEX 1186
 #define snd_pcm_hw_params_set_periods_min_RETURN int
 #define snd_pcm_hw_params_set_periods_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_periods_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_minmax_INDEX 1224
+#define snd_pcm_hw_params_set_periods_minmax_INDEX 1187
 #define snd_pcm_hw_params_set_periods_minmax_RETURN int
 #define snd_pcm_hw_params_set_periods_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_periods_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir
 #define snd_pcm_hw_params_set_periods_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_periods_near_INDEX 1225
+#define snd_pcm_hw_params_set_periods_near_INDEX 1188
 #define snd_pcm_hw_params_set_periods_near_RETURN int
 #define snd_pcm_hw_params_set_periods_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_periods_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_periods_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_periods_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_INDEX 1226
+#define snd_pcm_hw_params_set_rate_INDEX 1189
 #define snd_pcm_hw_params_set_rate_RETURN int
 #define snd_pcm_hw_params_set_rate_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_set_rate_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_rate_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_rate_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_set_rate_first_INDEX 1227
+#define snd_pcm_hw_params_set_rate_first_INDEX 1190
 #define snd_pcm_hw_params_set_rate_first_RETURN int
 #define snd_pcm_hw_params_set_rate_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_rate_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_last_INDEX 1228
+#define snd_pcm_hw_params_set_rate_last_INDEX 1191
 #define snd_pcm_hw_params_set_rate_last_RETURN int
 #define snd_pcm_hw_params_set_rate_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_rate_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_max_INDEX 1229
+#define snd_pcm_hw_params_set_rate_max_INDEX 1192
 #define snd_pcm_hw_params_set_rate_max_RETURN int
 #define snd_pcm_hw_params_set_rate_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_rate_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_min_INDEX 1230
+#define snd_pcm_hw_params_set_rate_min_INDEX 1193
 #define snd_pcm_hw_params_set_rate_min_RETURN int
 #define snd_pcm_hw_params_set_rate_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_rate_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_minmax_INDEX 1231
+#define snd_pcm_hw_params_set_rate_minmax_INDEX 1194
 #define snd_pcm_hw_params_set_rate_minmax_RETURN int
 #define snd_pcm_hw_params_set_rate_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_rate_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir
 #define snd_pcm_hw_params_set_rate_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_near_INDEX 1232
+#define snd_pcm_hw_params_set_rate_near_INDEX 1195
 #define snd_pcm_hw_params_set_rate_near_RETURN int
 #define snd_pcm_hw_params_set_rate_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_rate_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_rate_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_rate_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_rate_resample_INDEX 1233
+#define snd_pcm_hw_params_set_rate_resample_INDEX 1196
 #define snd_pcm_hw_params_set_rate_resample_RETURN int
 #define snd_pcm_hw_params_set_rate_resample_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_set_rate_resample_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val
 #define snd_pcm_hw_params_set_rate_resample_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_rate_resample_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_set_rate_resample_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
-#define snd_pcm_hw_params_set_subformat_INDEX 1234
+#define snd_pcm_hw_params_set_subformat_INDEX 1197
 #define snd_pcm_hw_params_set_subformat_RETURN int
 #define snd_pcm_hw_params_set_subformat_ARG_NAMES pcm, params, subformat
 #define snd_pcm_hw_params_set_subformat_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t subformat
 #define snd_pcm_hw_params_set_subformat_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_hw_params_set_subformat_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_hw_params_set_subformat_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
-#define snd_pcm_hw_params_set_subformat_first_INDEX 1235
+#define snd_pcm_hw_params_set_subformat_first_INDEX 1198
 #define snd_pcm_hw_params_set_subformat_first_RETURN int
 #define snd_pcm_hw_params_set_subformat_first_ARG_NAMES pcm, params, subformat
 #define snd_pcm_hw_params_set_subformat_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat
 #define snd_pcm_hw_params_set_subformat_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
-#define snd_pcm_hw_params_set_subformat_last_INDEX 1236
+#define snd_pcm_hw_params_set_subformat_last_INDEX 1199
 #define snd_pcm_hw_params_set_subformat_last_RETURN int
 #define snd_pcm_hw_params_set_subformat_last_ARG_NAMES pcm, params, subformat
 #define snd_pcm_hw_params_set_subformat_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t * subformat
 #define snd_pcm_hw_params_set_subformat_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t___GENPT__
-#define snd_pcm_hw_params_set_subformat_mask_INDEX 1237
+#define snd_pcm_hw_params_set_subformat_mask_INDEX 1200
 #define snd_pcm_hw_params_set_subformat_mask_RETURN int
 #define snd_pcm_hw_params_set_subformat_mask_ARG_NAMES pcm, params, mask
 #define snd_pcm_hw_params_set_subformat_mask_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_mask_t * mask
 #define snd_pcm_hw_params_set_subformat_mask_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_mask_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_hw_params_set_subformat_mask_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_hw_params_set_tick_time_INDEX 1238
+#define snd_pcm_hw_params_set_tick_time_INDEX 1201
 #define snd_pcm_hw_params_set_tick_time_RETURN int
 #define snd_pcm_hw_params_set_tick_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_set_tick_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_tick_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_set_tick_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_set_tick_time_first_INDEX 1239
+#define snd_pcm_hw_params_set_tick_time_first_INDEX 1202
 #define snd_pcm_hw_params_set_tick_time_first_RETURN int
 #define snd_pcm_hw_params_set_tick_time_first_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_first_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_tick_time_first_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_first_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_first_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_tick_time_last_INDEX 1240
+#define snd_pcm_hw_params_set_tick_time_last_INDEX 1203
 #define snd_pcm_hw_params_set_tick_time_last_RETURN int
 #define snd_pcm_hw_params_set_tick_time_last_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_last_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_tick_time_last_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_last_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_last_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_tick_time_max_INDEX 1241
+#define snd_pcm_hw_params_set_tick_time_max_INDEX 1204
 #define snd_pcm_hw_params_set_tick_time_max_RETURN int
 #define snd_pcm_hw_params_set_tick_time_max_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_max_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_tick_time_max_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_max_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_max_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_tick_time_min_INDEX 1242
+#define snd_pcm_hw_params_set_tick_time_min_INDEX 1205
 #define snd_pcm_hw_params_set_tick_time_min_RETURN int
 #define snd_pcm_hw_params_set_tick_time_min_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_tick_time_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_tick_time_minmax_INDEX 1243
+#define snd_pcm_hw_params_set_tick_time_minmax_INDEX 1206
 #define snd_pcm_hw_params_set_tick_time_minmax_RETURN int
 #define snd_pcm_hw_params_set_tick_time_minmax_ARG_NAMES pcm, params, min, mindir, max, maxdir
 #define snd_pcm_hw_params_set_tick_time_minmax_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * min, int * mindir, unsigned int * max, int * maxdir
 #define snd_pcm_hw_params_set_tick_time_minmax_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_minmax_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_minmax_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_set_tick_time_near_INDEX 1244
+#define snd_pcm_hw_params_set_tick_time_near_INDEX 1207
 #define snd_pcm_hw_params_set_tick_time_near_RETURN int
 #define snd_pcm_hw_params_set_tick_time_near_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_set_tick_time_near_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int * val, int * dir
 #define snd_pcm_hw_params_set_tick_time_near_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_near_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
 #define snd_pcm_hw_params_set_tick_time_near_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int___GENPT___int___GENPT__
-#define snd_pcm_hw_params_test_access_INDEX 1245
+#define snd_pcm_hw_params_test_access_INDEX 1208
 #define snd_pcm_hw_params_test_access_RETURN int
 #define snd_pcm_hw_params_test_access_ARG_NAMES pcm, params, _access
 #define snd_pcm_hw_params_test_access_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_access_t _access
 #define snd_pcm_hw_params_test_access_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
 #define snd_pcm_hw_params_test_access_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
 #define snd_pcm_hw_params_test_access_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_access_t
-#define snd_pcm_hw_params_test_buffer_size_INDEX 1246
+#define snd_pcm_hw_params_test_buffer_size_INDEX 1209
 #define snd_pcm_hw_params_test_buffer_size_RETURN int
 #define snd_pcm_hw_params_test_buffer_size_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_test_buffer_size_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_hw_params_test_buffer_size_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_hw_params_test_buffer_size_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_hw_params_test_buffer_size_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_hw_params_test_buffer_time_INDEX 1247
+#define snd_pcm_hw_params_test_buffer_time_INDEX 1210
 #define snd_pcm_hw_params_test_buffer_time_RETURN int
 #define snd_pcm_hw_params_test_buffer_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_buffer_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_test_buffer_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_buffer_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_buffer_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_test_channels_INDEX 1248
+#define snd_pcm_hw_params_test_channels_INDEX 1211
 #define snd_pcm_hw_params_test_channels_RETURN int
 #define snd_pcm_hw_params_test_channels_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_test_channels_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val
 #define snd_pcm_hw_params_test_channels_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_test_channels_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
 #define snd_pcm_hw_params_test_channels_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int
-#define snd_pcm_hw_params_test_format_INDEX 1249
+#define snd_pcm_hw_params_test_format_INDEX 1212
 #define snd_pcm_hw_params_test_format_RETURN int
 #define snd_pcm_hw_params_test_format_ARG_NAMES pcm, params, val
 #define snd_pcm_hw_params_test_format_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_format_t val
 #define snd_pcm_hw_params_test_format_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
 #define snd_pcm_hw_params_test_format_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
 #define snd_pcm_hw_params_test_format_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_format_t
-#define snd_pcm_hw_params_test_period_size_INDEX 1250
+#define snd_pcm_hw_params_test_period_size_INDEX 1213
 #define snd_pcm_hw_params_test_period_size_RETURN int
 #define snd_pcm_hw_params_test_period_size_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_period_size_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_uframes_t val, int dir
 #define snd_pcm_hw_params_test_period_size_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
 #define snd_pcm_hw_params_test_period_size_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
 #define snd_pcm_hw_params_test_period_size_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_uframes_t_int
-#define snd_pcm_hw_params_test_period_time_INDEX 1251
+#define snd_pcm_hw_params_test_period_time_INDEX 1214
 #define snd_pcm_hw_params_test_period_time_RETURN int
 #define snd_pcm_hw_params_test_period_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_period_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_test_period_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_period_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_period_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_test_periods_INDEX 1252
+#define snd_pcm_hw_params_test_periods_INDEX 1215
 #define snd_pcm_hw_params_test_periods_RETURN int
 #define snd_pcm_hw_params_test_periods_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_periods_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_test_periods_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_periods_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_periods_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_test_rate_INDEX 1253
+#define snd_pcm_hw_params_test_rate_INDEX 1216
 #define snd_pcm_hw_params_test_rate_RETURN int
 #define snd_pcm_hw_params_test_rate_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_rate_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_test_rate_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_rate_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_rate_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hw_params_test_subformat_INDEX 1254
+#define snd_pcm_hw_params_test_subformat_INDEX 1217
 #define snd_pcm_hw_params_test_subformat_RETURN int
 #define snd_pcm_hw_params_test_subformat_ARG_NAMES pcm, params, subformat
 #define snd_pcm_hw_params_test_subformat_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, snd_pcm_subformat_t subformat
 #define snd_pcm_hw_params_test_subformat_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_hw_params_test_subformat_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_hw_params_test_subformat_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___snd_pcm_subformat_t
-#define snd_pcm_hw_params_test_tick_time_INDEX 1255
+#define snd_pcm_hw_params_test_tick_time_INDEX 1218
 #define snd_pcm_hw_params_test_tick_time_RETURN int
 #define snd_pcm_hw_params_test_tick_time_ARG_NAMES pcm, params, val, dir
 #define snd_pcm_hw_params_test_tick_time_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_hw_params_t * params, unsigned int val, int dir
 #define snd_pcm_hw_params_test_tick_time_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_tick_time_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
 #define snd_pcm_hw_params_test_tick_time_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_hw_params_t___GENPT___unsigned_int_int
-#define snd_pcm_hwsync_INDEX 1256
+#define snd_pcm_hwsync_INDEX 1219
 #define snd_pcm_hwsync_RETURN int
 #define snd_pcm_hwsync_ARG_NAMES pcm
 #define snd_pcm_hwsync_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_hwsync_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_hwsync_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_hwsync_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_info_INDEX 1257
+#define snd_pcm_info_INDEX 1220
 #define snd_pcm_info_RETURN int
 #define snd_pcm_info_ARG_NAMES pcm, info
 #define snd_pcm_info_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_info_t * info
 #define snd_pcm_info_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__
 #define snd_pcm_info_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__
 #define snd_pcm_info_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_info_t___GENPT__
-#define snd_pcm_info_copy_INDEX 1258
+#define snd_pcm_info_copy_INDEX 1221
 #define snd_pcm_info_copy_RETURN void
 #define snd_pcm_info_copy_ARG_NAMES dst, src
 #define snd_pcm_info_copy_ARG_EXPAND snd_pcm_info_t * dst, const snd_pcm_info_t * src
 #define snd_pcm_info_copy_PACKED PACKED_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_copy_INDEXED INDEXED_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_copy_FORMAT FORMAT_void_snd_pcm_info_t___GENPT___const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_free_INDEX 1259
+#define snd_pcm_info_free_INDEX 1222
 #define snd_pcm_info_free_RETURN void
 #define snd_pcm_info_free_ARG_NAMES obj
 #define snd_pcm_info_free_ARG_EXPAND snd_pcm_info_t * obj
 #define snd_pcm_info_free_PACKED PACKED_void_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_free_INDEXED INDEXED_void_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_free_FORMAT FORMAT_void_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_card_INDEX 1260
+#define snd_pcm_info_get_card_INDEX 1223
 #define snd_pcm_info_get_card_RETURN int
 #define snd_pcm_info_get_card_ARG_NAMES obj
 #define snd_pcm_info_get_card_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_card_PACKED PACKED_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_card_INDEXED INDEXED_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_card_FORMAT FORMAT_int_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_class_INDEX 1261
+#define snd_pcm_info_get_class_INDEX 1224
 #define snd_pcm_info_get_class_RETURN snd_pcm_class_t
 #define snd_pcm_info_get_class_ARG_NAMES obj
 #define snd_pcm_info_get_class_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_class_PACKED PACKED_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_class_INDEXED INDEXED_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_class_FORMAT FORMAT_snd_pcm_class_t_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_device_INDEX 1262
+#define snd_pcm_info_get_device_INDEX 1225
 #define snd_pcm_info_get_device_RETURN unsigned int
 #define snd_pcm_info_get_device_ARG_NAMES obj
 #define snd_pcm_info_get_device_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_device_PACKED PACKED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_device_INDEXED INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_device_FORMAT FORMAT_unsigned_int_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_id_INDEX 1263
+#define snd_pcm_info_get_id_INDEX 1226
 #define snd_pcm_info_get_id_RETURN const char *
 #define snd_pcm_info_get_id_ARG_NAMES obj
 #define snd_pcm_info_get_id_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_id_PACKED PACKED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_id_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_id_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_name_INDEX 1264
+#define snd_pcm_info_get_name_INDEX 1227
 #define snd_pcm_info_get_name_RETURN const char *
 #define snd_pcm_info_get_name_ARG_NAMES obj
 #define snd_pcm_info_get_name_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_stream_INDEX 1265
+#define snd_pcm_info_get_stream_INDEX 1228
 #define snd_pcm_info_get_stream_RETURN snd_pcm_stream_t
 #define snd_pcm_info_get_stream_ARG_NAMES obj
 #define snd_pcm_info_get_stream_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_stream_PACKED PACKED_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_stream_INDEXED INDEXED_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_stream_FORMAT FORMAT_snd_pcm_stream_t_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_subclass_INDEX 1266
+#define snd_pcm_info_get_subclass_INDEX 1229
 #define snd_pcm_info_get_subclass_RETURN snd_pcm_subclass_t
 #define snd_pcm_info_get_subclass_ARG_NAMES obj
 #define snd_pcm_info_get_subclass_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_subclass_PACKED PACKED_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subclass_INDEXED INDEXED_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subclass_FORMAT FORMAT_snd_pcm_subclass_t_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_subdevice_INDEX 1267
+#define snd_pcm_info_get_subdevice_INDEX 1230
 #define snd_pcm_info_get_subdevice_RETURN unsigned int
 #define snd_pcm_info_get_subdevice_ARG_NAMES obj
 #define snd_pcm_info_get_subdevice_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_subdevice_PACKED PACKED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevice_INDEXED INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevice_FORMAT FORMAT_unsigned_int_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_subdevice_name_INDEX 1268
+#define snd_pcm_info_get_subdevice_name_INDEX 1231
 #define snd_pcm_info_get_subdevice_name_RETURN const char *
 #define snd_pcm_info_get_subdevice_name_ARG_NAMES obj
 #define snd_pcm_info_get_subdevice_name_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_subdevice_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevice_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevice_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_subdevices_avail_INDEX 1269
+#define snd_pcm_info_get_subdevices_avail_INDEX 1232
 #define snd_pcm_info_get_subdevices_avail_RETURN unsigned int
 #define snd_pcm_info_get_subdevices_avail_ARG_NAMES obj
 #define snd_pcm_info_get_subdevices_avail_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_subdevices_avail_PACKED PACKED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevices_avail_INDEXED INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevices_avail_FORMAT FORMAT_unsigned_int_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_subdevices_count_INDEX 1270
+#define snd_pcm_info_get_subdevices_count_INDEX 1233
 #define snd_pcm_info_get_subdevices_count_RETURN unsigned int
 #define snd_pcm_info_get_subdevices_count_ARG_NAMES obj
 #define snd_pcm_info_get_subdevices_count_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_subdevices_count_PACKED PACKED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevices_count_INDEXED INDEXED_unsigned_int_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_subdevices_count_FORMAT FORMAT_unsigned_int_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_get_sync_INDEX 1271
+#define snd_pcm_info_get_sync_INDEX 1234
 #define snd_pcm_info_get_sync_RETURN snd_pcm_sync_id_t
 #define snd_pcm_info_get_sync_ARG_NAMES obj
 #define snd_pcm_info_get_sync_ARG_EXPAND const snd_pcm_info_t * obj
 #define snd_pcm_info_get_sync_PACKED PACKED_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_sync_INDEXED INDEXED_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__
 #define snd_pcm_info_get_sync_FORMAT FORMAT_snd_pcm_sync_id_t_const_snd_pcm_info_t___GENPT__
-#define snd_pcm_info_malloc_INDEX 1272
+#define snd_pcm_info_malloc_INDEX 1235
 #define snd_pcm_info_malloc_RETURN int
 #define snd_pcm_info_malloc_ARG_NAMES ptr
 #define snd_pcm_info_malloc_ARG_EXPAND snd_pcm_info_t ** ptr
 #define snd_pcm_info_malloc_PACKED PACKED_int_snd_pcm_info_t___GENPT____GENPT__
 #define snd_pcm_info_malloc_INDEXED INDEXED_int_snd_pcm_info_t___GENPT____GENPT__
 #define snd_pcm_info_malloc_FORMAT FORMAT_int_snd_pcm_info_t___GENPT____GENPT__
-#define snd_pcm_info_set_device_INDEX 1273
+#define snd_pcm_info_set_device_INDEX 1236
 #define snd_pcm_info_set_device_RETURN void
 #define snd_pcm_info_set_device_ARG_NAMES obj, val
 #define snd_pcm_info_set_device_ARG_EXPAND snd_pcm_info_t * obj, unsigned int val
 #define snd_pcm_info_set_device_PACKED PACKED_void_snd_pcm_info_t___GENPT___unsigned_int
 #define snd_pcm_info_set_device_INDEXED INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int
 #define snd_pcm_info_set_device_FORMAT FORMAT_void_snd_pcm_info_t___GENPT___unsigned_int
-#define snd_pcm_info_set_stream_INDEX 1274
+#define snd_pcm_info_set_stream_INDEX 1237
 #define snd_pcm_info_set_stream_RETURN void
 #define snd_pcm_info_set_stream_ARG_NAMES obj, val
 #define snd_pcm_info_set_stream_ARG_EXPAND snd_pcm_info_t * obj, snd_pcm_stream_t val
 #define snd_pcm_info_set_stream_PACKED PACKED_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t
 #define snd_pcm_info_set_stream_INDEXED INDEXED_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t
 #define snd_pcm_info_set_stream_FORMAT FORMAT_void_snd_pcm_info_t___GENPT___snd_pcm_stream_t
-#define snd_pcm_info_set_subdevice_INDEX 1275
+#define snd_pcm_info_set_subdevice_INDEX 1238
 #define snd_pcm_info_set_subdevice_RETURN void
 #define snd_pcm_info_set_subdevice_ARG_NAMES obj, val
 #define snd_pcm_info_set_subdevice_ARG_EXPAND snd_pcm_info_t * obj, unsigned int val
 #define snd_pcm_info_set_subdevice_PACKED PACKED_void_snd_pcm_info_t___GENPT___unsigned_int
 #define snd_pcm_info_set_subdevice_INDEXED INDEXED_void_snd_pcm_info_t___GENPT___unsigned_int
 #define snd_pcm_info_set_subdevice_FORMAT FORMAT_void_snd_pcm_info_t___GENPT___unsigned_int
-#define snd_pcm_link_INDEX 1276
+#define snd_pcm_link_INDEX 1239
 #define snd_pcm_link_RETURN int
 #define snd_pcm_link_ARG_NAMES pcm1, pcm2
 #define snd_pcm_link_ARG_EXPAND snd_pcm_t * pcm1, snd_pcm_t * pcm2
 #define snd_pcm_link_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__
 #define snd_pcm_link_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__
 #define snd_pcm_link_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT__
-#define snd_pcm_meter_add_scope_INDEX 1277
+#define snd_pcm_meter_add_scope_INDEX 1240
 #define snd_pcm_meter_add_scope_RETURN int
 #define snd_pcm_meter_add_scope_ARG_NAMES pcm, scope
 #define snd_pcm_meter_add_scope_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_scope_t * scope
 #define snd_pcm_meter_add_scope_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_meter_add_scope_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_meter_add_scope_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_scope_t___GENPT__
-#define snd_pcm_meter_get_boundary_INDEX 1278
+#define snd_pcm_meter_get_boundary_INDEX 1241
 #define snd_pcm_meter_get_boundary_RETURN snd_pcm_uframes_t
 #define snd_pcm_meter_get_boundary_ARG_NAMES pcm
 #define snd_pcm_meter_get_boundary_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_meter_get_boundary_PACKED PACKED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_boundary_INDEXED INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_boundary_FORMAT FORMAT_snd_pcm_uframes_t_snd_pcm_t___GENPT__
-#define snd_pcm_meter_get_bufsize_INDEX 1279
+#define snd_pcm_meter_get_bufsize_INDEX 1242
 #define snd_pcm_meter_get_bufsize_RETURN snd_pcm_uframes_t
 #define snd_pcm_meter_get_bufsize_ARG_NAMES pcm
 #define snd_pcm_meter_get_bufsize_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_meter_get_bufsize_PACKED PACKED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_bufsize_INDEXED INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_bufsize_FORMAT FORMAT_snd_pcm_uframes_t_snd_pcm_t___GENPT__
-#define snd_pcm_meter_get_channels_INDEX 1280
+#define snd_pcm_meter_get_channels_INDEX 1243
 #define snd_pcm_meter_get_channels_RETURN unsigned int
 #define snd_pcm_meter_get_channels_ARG_NAMES pcm
 #define snd_pcm_meter_get_channels_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_meter_get_channels_PACKED PACKED_unsigned_int_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_channels_INDEXED INDEXED_unsigned_int_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_channels_FORMAT FORMAT_unsigned_int_snd_pcm_t___GENPT__
-#define snd_pcm_meter_get_now_INDEX 1281
+#define snd_pcm_meter_get_now_INDEX 1244
 #define snd_pcm_meter_get_now_RETURN snd_pcm_uframes_t
 #define snd_pcm_meter_get_now_ARG_NAMES pcm
 #define snd_pcm_meter_get_now_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_meter_get_now_PACKED PACKED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_now_INDEXED INDEXED_snd_pcm_uframes_t_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_now_FORMAT FORMAT_snd_pcm_uframes_t_snd_pcm_t___GENPT__
-#define snd_pcm_meter_get_rate_INDEX 1282
+#define snd_pcm_meter_get_rate_INDEX 1245
 #define snd_pcm_meter_get_rate_RETURN unsigned int
 #define snd_pcm_meter_get_rate_ARG_NAMES pcm
 #define snd_pcm_meter_get_rate_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_meter_get_rate_PACKED PACKED_unsigned_int_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_rate_INDEXED INDEXED_unsigned_int_snd_pcm_t___GENPT__
 #define snd_pcm_meter_get_rate_FORMAT FORMAT_unsigned_int_snd_pcm_t___GENPT__
-#define snd_pcm_meter_search_scope_INDEX 1283
+#define snd_pcm_meter_search_scope_INDEX 1246
 #define snd_pcm_meter_search_scope_RETURN snd_pcm_scope_t *
 #define snd_pcm_meter_search_scope_ARG_NAMES pcm, name
 #define snd_pcm_meter_search_scope_ARG_EXPAND snd_pcm_t * pcm, const char * name
 #define snd_pcm_meter_search_scope_PACKED PACKED_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__
 #define snd_pcm_meter_search_scope_INDEXED INDEXED_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__
 #define snd_pcm_meter_search_scope_FORMAT FORMAT_snd_pcm_scope_t___GENPT___snd_pcm_t___GENPT___const_char___GENPT__
-#define snd_pcm_mmap_begin_INDEX 1284
+#define snd_pcm_mmap_begin_INDEX 1247
 #define snd_pcm_mmap_begin_RETURN int
 #define snd_pcm_mmap_begin_ARG_NAMES pcm, areas, offset, frames
 #define snd_pcm_mmap_begin_ARG_EXPAND snd_pcm_t * pcm, const snd_pcm_channel_area_t ** areas, snd_pcm_uframes_t * offset, snd_pcm_uframes_t * frames
 #define snd_pcm_mmap_begin_PACKED PACKED_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_mmap_begin_INDEXED INDEXED_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_mmap_begin_FORMAT FORMAT_int_snd_pcm_t___GENPT___const_snd_pcm_channel_area_t___GENPT____GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_mmap_commit_INDEX 1285
+#define snd_pcm_mmap_commit_INDEX 1248
 #define snd_pcm_mmap_commit_RETURN snd_pcm_sframes_t
 #define snd_pcm_mmap_commit_ARG_NAMES pcm, offset, frames
 #define snd_pcm_mmap_commit_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_uframes_t offset, snd_pcm_uframes_t frames
 #define snd_pcm_mmap_commit_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t
 #define snd_pcm_mmap_commit_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t
 #define snd_pcm_mmap_commit_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t_snd_pcm_uframes_t
-#define snd_pcm_mmap_readi_INDEX 1286
+#define snd_pcm_mmap_readi_INDEX 1249
 #define snd_pcm_mmap_readi_RETURN snd_pcm_sframes_t
 #define snd_pcm_mmap_readi_ARG_NAMES pcm, buffer, size
 #define snd_pcm_mmap_readi_ARG_EXPAND snd_pcm_t * pcm, void * buffer, snd_pcm_uframes_t size
 #define snd_pcm_mmap_readi_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_readi_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_readi_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
-#define snd_pcm_mmap_readn_INDEX 1287
+#define snd_pcm_mmap_readn_INDEX 1250
 #define snd_pcm_mmap_readn_RETURN snd_pcm_sframes_t
 #define snd_pcm_mmap_readn_ARG_NAMES pcm, bufs, size
 #define snd_pcm_mmap_readn_ARG_EXPAND snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size
 #define snd_pcm_mmap_readn_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_readn_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_readn_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
-#define snd_pcm_mmap_writei_INDEX 1288
+#define snd_pcm_mmap_writei_INDEX 1251
 #define snd_pcm_mmap_writei_RETURN snd_pcm_sframes_t
 #define snd_pcm_mmap_writei_ARG_NAMES pcm, buffer, size
 #define snd_pcm_mmap_writei_ARG_EXPAND snd_pcm_t * pcm, const void * buffer, snd_pcm_uframes_t size
 #define snd_pcm_mmap_writei_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_writei_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_writei_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
-#define snd_pcm_mmap_writen_INDEX 1289
+#define snd_pcm_mmap_writen_INDEX 1252
 #define snd_pcm_mmap_writen_RETURN snd_pcm_sframes_t
 #define snd_pcm_mmap_writen_ARG_NAMES pcm, bufs, size
 #define snd_pcm_mmap_writen_ARG_EXPAND snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size
 #define snd_pcm_mmap_writen_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_writen_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_mmap_writen_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
-#define snd_pcm_name_INDEX 1290
+#define snd_pcm_name_INDEX 1253
 #define snd_pcm_name_RETURN const char *
 #define snd_pcm_name_ARG_NAMES pcm
 #define snd_pcm_name_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_name_PACKED PACKED_const_char___GENPT___snd_pcm_t___GENPT__
 #define snd_pcm_name_INDEXED INDEXED_const_char___GENPT___snd_pcm_t___GENPT__
 #define snd_pcm_name_FORMAT FORMAT_const_char___GENPT___snd_pcm_t___GENPT__
-#define snd_pcm_nonblock_INDEX 1291
+#define snd_pcm_nonblock_INDEX 1254
 #define snd_pcm_nonblock_RETURN int
 #define snd_pcm_nonblock_ARG_NAMES pcm, nonblock
 #define snd_pcm_nonblock_ARG_EXPAND snd_pcm_t * pcm, int nonblock
 #define snd_pcm_nonblock_PACKED PACKED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_nonblock_INDEXED INDEXED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_nonblock_FORMAT FORMAT_int_snd_pcm_t___GENPT___int
-#define snd_pcm_open_INDEX 1292
+#define snd_pcm_open_INDEX 1255
 #define snd_pcm_open_RETURN int
 #define snd_pcm_open_ARG_NAMES pcm, name, stream, mode
 #define snd_pcm_open_ARG_EXPAND snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode
 #define snd_pcm_open_PACKED PACKED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int
 #define snd_pcm_open_INDEXED INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int
 #define snd_pcm_open_FORMAT FORMAT_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int
-#define snd_pcm_open_lconf_INDEX 1293
+#define snd_pcm_open_lconf_INDEX 1256
 #define snd_pcm_open_lconf_RETURN int
 #define snd_pcm_open_lconf_ARG_NAMES pcm, name, stream, mode, lconf
 #define snd_pcm_open_lconf_ARG_EXPAND snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, int mode, snd_config_t * lconf
 #define snd_pcm_open_lconf_PACKED PACKED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__
 #define snd_pcm_open_lconf_INDEXED INDEXED_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__
 #define snd_pcm_open_lconf_FORMAT FORMAT_int_snd_pcm_t___GENPT____GENPT___const_char___GENPT___snd_pcm_stream_t_int_snd_config_t___GENPT__
-#define snd_pcm_pause_INDEX 1294
+#define snd_pcm_pause_INDEX 1257
 #define snd_pcm_pause_RETURN int
 #define snd_pcm_pause_ARG_NAMES pcm, enable
 #define snd_pcm_pause_ARG_EXPAND snd_pcm_t * pcm, int enable
 #define snd_pcm_pause_PACKED PACKED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_pause_INDEXED INDEXED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_pause_FORMAT FORMAT_int_snd_pcm_t___GENPT___int
-#define snd_pcm_poll_descriptors_INDEX 1295
+#define snd_pcm_poll_descriptors_INDEX 1258
 #define snd_pcm_poll_descriptors_RETURN int
 #define snd_pcm_poll_descriptors_ARG_NAMES pcm, pfds, space
 #define snd_pcm_poll_descriptors_ARG_EXPAND snd_pcm_t * pcm, struct pollfd * pfds, unsigned int space
 #define snd_pcm_poll_descriptors_PACKED PACKED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_pcm_poll_descriptors_INDEXED INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_pcm_poll_descriptors_FORMAT FORMAT_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int
-#define snd_pcm_poll_descriptors_count_INDEX 1296
+#define snd_pcm_poll_descriptors_count_INDEX 1259
 #define snd_pcm_poll_descriptors_count_RETURN int
 #define snd_pcm_poll_descriptors_count_ARG_NAMES pcm
 #define snd_pcm_poll_descriptors_count_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_poll_descriptors_count_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_poll_descriptors_count_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_poll_descriptors_count_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_poll_descriptors_revents_INDEX 1297
+#define snd_pcm_poll_descriptors_revents_INDEX 1260
 #define snd_pcm_poll_descriptors_revents_RETURN int
 #define snd_pcm_poll_descriptors_revents_ARG_NAMES pcm, pfds, nfds, revents
 #define snd_pcm_poll_descriptors_revents_ARG_EXPAND snd_pcm_t * pcm, struct pollfd * pfds, unsigned int nfds, unsigned short * revents
 #define snd_pcm_poll_descriptors_revents_PACKED PACKED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_pcm_poll_descriptors_revents_INDEXED INDEXED_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_pcm_poll_descriptors_revents_FORMAT FORMAT_int_snd_pcm_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
-#define snd_pcm_prepare_INDEX 1298
+#define snd_pcm_prepare_INDEX 1261
 #define snd_pcm_prepare_RETURN int
 #define snd_pcm_prepare_ARG_NAMES pcm
 #define snd_pcm_prepare_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_prepare_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_prepare_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_prepare_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_readi_INDEX 1299
+#define snd_pcm_readi_INDEX 1262
 #define snd_pcm_readi_RETURN snd_pcm_sframes_t
 #define snd_pcm_readi_ARG_NAMES pcm, buffer, size
 #define snd_pcm_readi_ARG_EXPAND snd_pcm_t * pcm, void * buffer, snd_pcm_uframes_t size
 #define snd_pcm_readi_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_readi_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_readi_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT___snd_pcm_uframes_t
-#define snd_pcm_readn_INDEX 1300
+#define snd_pcm_readn_INDEX 1263
 #define snd_pcm_readn_RETURN snd_pcm_sframes_t
 #define snd_pcm_readn_ARG_NAMES pcm, bufs, size
 #define snd_pcm_readn_ARG_EXPAND snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size
 #define snd_pcm_readn_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_readn_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_readn_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
-#define snd_pcm_recover_INDEX 1301
+#define snd_pcm_recover_INDEX 1264
 #define snd_pcm_recover_RETURN int
 #define snd_pcm_recover_ARG_NAMES pcm, err, silent
 #define snd_pcm_recover_ARG_EXPAND snd_pcm_t * pcm, int err, int silent
 #define snd_pcm_recover_PACKED PACKED_int_snd_pcm_t___GENPT___int_int
 #define snd_pcm_recover_INDEXED INDEXED_int_snd_pcm_t___GENPT___int_int
 #define snd_pcm_recover_FORMAT FORMAT_int_snd_pcm_t___GENPT___int_int
-#define snd_pcm_reset_INDEX 1302
+#define snd_pcm_reset_INDEX 1265
 #define snd_pcm_reset_RETURN int
 #define snd_pcm_reset_ARG_NAMES pcm
 #define snd_pcm_reset_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_reset_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_reset_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_reset_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_resume_INDEX 1303
+#define snd_pcm_resume_INDEX 1266
 #define snd_pcm_resume_RETURN int
 #define snd_pcm_resume_ARG_NAMES pcm
 #define snd_pcm_resume_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_resume_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_resume_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_resume_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_rewind_INDEX 1304
+#define snd_pcm_rewind_INDEX 1267
 #define snd_pcm_rewind_RETURN snd_pcm_sframes_t
 #define snd_pcm_rewind_ARG_NAMES pcm, frames
 #define snd_pcm_rewind_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_uframes_t frames
 #define snd_pcm_rewind_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_rewind_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_rewind_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_samples_to_bytes_INDEX 1305
+#define snd_pcm_samples_to_bytes_INDEX 1268
 #define snd_pcm_samples_to_bytes_RETURN ssize_t
 #define snd_pcm_samples_to_bytes_ARG_NAMES pcm, samples
 #define snd_pcm_samples_to_bytes_ARG_EXPAND snd_pcm_t * pcm, long samples
 #define snd_pcm_samples_to_bytes_PACKED PACKED_ssize_t_snd_pcm_t___GENPT___long
 #define snd_pcm_samples_to_bytes_INDEXED INDEXED_ssize_t_snd_pcm_t___GENPT___long
 #define snd_pcm_samples_to_bytes_FORMAT FORMAT_ssize_t_snd_pcm_t___GENPT___long
-#define snd_pcm_scope_get_callback_private_INDEX 1306
+#define snd_pcm_scope_get_callback_private_INDEX 1269
 #define snd_pcm_scope_get_callback_private_RETURN void *
 #define snd_pcm_scope_get_callback_private_ARG_NAMES scope
 #define snd_pcm_scope_get_callback_private_ARG_EXPAND snd_pcm_scope_t * scope
 #define snd_pcm_scope_get_callback_private_PACKED PACKED_void___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_scope_get_callback_private_INDEXED INDEXED_void___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_scope_get_callback_private_FORMAT FORMAT_void___GENPT___snd_pcm_scope_t___GENPT__
-#define snd_pcm_scope_get_name_INDEX 1307
+#define snd_pcm_scope_get_name_INDEX 1270
 #define snd_pcm_scope_get_name_RETURN const char *
 #define snd_pcm_scope_get_name_ARG_NAMES scope
 #define snd_pcm_scope_get_name_ARG_EXPAND snd_pcm_scope_t * scope
 #define snd_pcm_scope_get_name_PACKED PACKED_const_char___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_scope_get_name_INDEXED INDEXED_const_char___GENPT___snd_pcm_scope_t___GENPT__
 #define snd_pcm_scope_get_name_FORMAT FORMAT_const_char___GENPT___snd_pcm_scope_t___GENPT__
-#define snd_pcm_scope_malloc_INDEX 1308
+#define snd_pcm_scope_malloc_INDEX 1271
 #define snd_pcm_scope_malloc_RETURN int
 #define snd_pcm_scope_malloc_ARG_NAMES ptr
 #define snd_pcm_scope_malloc_ARG_EXPAND snd_pcm_scope_t ** ptr
 #define snd_pcm_scope_malloc_PACKED PACKED_int_snd_pcm_scope_t___GENPT____GENPT__
 #define snd_pcm_scope_malloc_INDEXED INDEXED_int_snd_pcm_scope_t___GENPT____GENPT__
 #define snd_pcm_scope_malloc_FORMAT FORMAT_int_snd_pcm_scope_t___GENPT____GENPT__
-#define snd_pcm_scope_s16_get_channel_buffer_INDEX 1309
+#define snd_pcm_scope_s16_get_channel_buffer_INDEX 1272
 #define snd_pcm_scope_s16_get_channel_buffer_RETURN int16_t *
 #define snd_pcm_scope_s16_get_channel_buffer_ARG_NAMES scope, channel
 #define snd_pcm_scope_s16_get_channel_buffer_ARG_EXPAND snd_pcm_scope_t * scope, unsigned int channel
 #define snd_pcm_scope_s16_get_channel_buffer_PACKED PACKED_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int
 #define snd_pcm_scope_s16_get_channel_buffer_INDEXED INDEXED_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int
 #define snd_pcm_scope_s16_get_channel_buffer_FORMAT FORMAT_int16_t___GENPT___snd_pcm_scope_t___GENPT___unsigned_int
-#define snd_pcm_scope_s16_open_INDEX 1310
+#define snd_pcm_scope_s16_open_INDEX 1273
 #define snd_pcm_scope_s16_open_RETURN int
 #define snd_pcm_scope_s16_open_ARG_NAMES pcm, name, scopep
 #define snd_pcm_scope_s16_open_ARG_EXPAND snd_pcm_t * pcm, const char * name, snd_pcm_scope_t ** scopep
 #define snd_pcm_scope_s16_open_PACKED PACKED_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__
 #define snd_pcm_scope_s16_open_INDEXED INDEXED_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__
 #define snd_pcm_scope_s16_open_FORMAT FORMAT_int_snd_pcm_t___GENPT___const_char___GENPT___snd_pcm_scope_t___GENPT____GENPT__
-#define snd_pcm_scope_set_callback_private_INDEX 1311
+#define snd_pcm_scope_set_callback_private_INDEX 1274
 #define snd_pcm_scope_set_callback_private_RETURN void
 #define snd_pcm_scope_set_callback_private_ARG_NAMES scope, val
 #define snd_pcm_scope_set_callback_private_ARG_EXPAND snd_pcm_scope_t * scope, void * val
 #define snd_pcm_scope_set_callback_private_PACKED PACKED_void_snd_pcm_scope_t___GENPT___void___GENPT__
 #define snd_pcm_scope_set_callback_private_INDEXED INDEXED_void_snd_pcm_scope_t___GENPT___void___GENPT__
 #define snd_pcm_scope_set_callback_private_FORMAT FORMAT_void_snd_pcm_scope_t___GENPT___void___GENPT__
-#define snd_pcm_scope_set_name_INDEX 1312
+#define snd_pcm_scope_set_name_INDEX 1275
 #define snd_pcm_scope_set_name_RETURN void
 #define snd_pcm_scope_set_name_ARG_NAMES scope, val
 #define snd_pcm_scope_set_name_ARG_EXPAND snd_pcm_scope_t * scope, const char * val
 #define snd_pcm_scope_set_name_PACKED PACKED_void_snd_pcm_scope_t___GENPT___const_char___GENPT__
 #define snd_pcm_scope_set_name_INDEXED INDEXED_void_snd_pcm_scope_t___GENPT___const_char___GENPT__
 #define snd_pcm_scope_set_name_FORMAT FORMAT_void_snd_pcm_scope_t___GENPT___const_char___GENPT__
-#define snd_pcm_scope_set_ops_INDEX 1313
+#define snd_pcm_scope_set_ops_INDEX 1276
 #define snd_pcm_scope_set_ops_RETURN void
 #define snd_pcm_scope_set_ops_ARG_NAMES scope, val
 #define snd_pcm_scope_set_ops_ARG_EXPAND snd_pcm_scope_t * scope, snd_pcm_scope_ops_t * val
 #define snd_pcm_scope_set_ops_PACKED PACKED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
 #define snd_pcm_scope_set_ops_INDEXED INDEXED_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
 #define snd_pcm_scope_set_ops_FORMAT FORMAT_void_snd_pcm_scope_t___GENPT___snd_pcm_scope_ops_t___GENPT__
-#define snd_pcm_set_params_INDEX 1314
+#define snd_pcm_set_params_INDEX 1277
 #define snd_pcm_set_params_RETURN int
 #define snd_pcm_set_params_ARG_NAMES pcm, format, access, channels, rate, soft_resample, latency
 #define snd_pcm_set_params_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_format_t format, snd_pcm_access_t access, unsigned int channels, unsigned int rate, int soft_resample, unsigned int latency
 #define snd_pcm_set_params_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int
 #define snd_pcm_set_params_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int
 #define snd_pcm_set_params_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_format_t_snd_pcm_access_t_unsigned_int_unsigned_int_int_unsigned_int
-#define snd_pcm_start_INDEX 1315
+#define snd_pcm_start_INDEX 1278
 #define snd_pcm_start_RETURN int
 #define snd_pcm_start_ARG_NAMES pcm
 #define snd_pcm_start_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_start_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_start_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_start_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_start_mode_name_INDEX 1316
+#define snd_pcm_start_mode_name_INDEX 1279
 #define snd_pcm_start_mode_name_RETURN const char *
 #define snd_pcm_start_mode_name_ARG_NAMES mode
 #define snd_pcm_start_mode_name_ARG_EXPAND snd_pcm_start_t mode
 #define snd_pcm_start_mode_name_PACKED PACKED_const_char___GENPT___snd_pcm_start_t
 #define snd_pcm_start_mode_name_INDEXED INDEXED_const_char___GENPT___snd_pcm_start_t
 #define snd_pcm_start_mode_name_FORMAT FORMAT_const_char___GENPT___snd_pcm_start_t
-#define snd_pcm_state_INDEX 1317
+#define snd_pcm_state_INDEX 1280
 #define snd_pcm_state_RETURN snd_pcm_state_t
 #define snd_pcm_state_ARG_NAMES pcm
 #define snd_pcm_state_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_state_PACKED PACKED_snd_pcm_state_t_snd_pcm_t___GENPT__
 #define snd_pcm_state_INDEXED INDEXED_snd_pcm_state_t_snd_pcm_t___GENPT__
 #define snd_pcm_state_FORMAT FORMAT_snd_pcm_state_t_snd_pcm_t___GENPT__
-#define snd_pcm_state_name_INDEX 1318
+#define snd_pcm_state_name_INDEX 1281
 #define snd_pcm_state_name_RETURN const char *
 #define snd_pcm_state_name_ARG_NAMES state
 #define snd_pcm_state_name_ARG_EXPAND const snd_pcm_state_t state
 #define snd_pcm_state_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_state_t
 #define snd_pcm_state_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_state_t
 #define snd_pcm_state_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_state_t
-#define snd_pcm_status_INDEX 1319
+#define snd_pcm_status_INDEX 1282
 #define snd_pcm_status_RETURN int
 #define snd_pcm_status_ARG_NAMES pcm, status
 #define snd_pcm_status_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_status_t * status
 #define snd_pcm_status_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__
 #define snd_pcm_status_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__
 #define snd_pcm_status_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_status_t___GENPT__
-#define snd_pcm_status_copy_INDEX 1320
+#define snd_pcm_status_copy_INDEX 1283
 #define snd_pcm_status_copy_RETURN void
 #define snd_pcm_status_copy_ARG_NAMES dst, src
 #define snd_pcm_status_copy_ARG_EXPAND snd_pcm_status_t * dst, const snd_pcm_status_t * src
 #define snd_pcm_status_copy_PACKED PACKED_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_copy_INDEXED INDEXED_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_copy_FORMAT FORMAT_void_snd_pcm_status_t___GENPT___const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_dump_INDEX 1321
+#define snd_pcm_status_dump_INDEX 1284
 #define snd_pcm_status_dump_RETURN int
 #define snd_pcm_status_dump_ARG_NAMES status, out
 #define snd_pcm_status_dump_ARG_EXPAND snd_pcm_status_t * status, snd_output_t * out
 #define snd_pcm_status_dump_PACKED PACKED_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_status_dump_INDEXED INDEXED_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_status_dump_FORMAT FORMAT_int_snd_pcm_status_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_status_free_INDEX 1322
+#define snd_pcm_status_free_INDEX 1285
 #define snd_pcm_status_free_RETURN void
 #define snd_pcm_status_free_ARG_NAMES obj
 #define snd_pcm_status_free_ARG_EXPAND snd_pcm_status_t * obj
 #define snd_pcm_status_free_PACKED PACKED_void_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_free_INDEXED INDEXED_void_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_free_FORMAT FORMAT_void_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_avail_INDEX 1323
+#define snd_pcm_status_get_avail_INDEX 1286
 #define snd_pcm_status_get_avail_RETURN snd_pcm_uframes_t
 #define snd_pcm_status_get_avail_ARG_NAMES obj
 #define snd_pcm_status_get_avail_ARG_EXPAND const snd_pcm_status_t * obj
 #define snd_pcm_status_get_avail_PACKED PACKED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_avail_INDEXED INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_avail_FORMAT FORMAT_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_avail_max_INDEX 1324
+#define snd_pcm_status_get_avail_max_INDEX 1287
 #define snd_pcm_status_get_avail_max_RETURN snd_pcm_uframes_t
 #define snd_pcm_status_get_avail_max_ARG_NAMES obj
 #define snd_pcm_status_get_avail_max_ARG_EXPAND const snd_pcm_status_t * obj
 #define snd_pcm_status_get_avail_max_PACKED PACKED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_avail_max_INDEXED INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_avail_max_FORMAT FORMAT_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_delay_INDEX 1325
+#define snd_pcm_status_get_delay_INDEX 1288
 #define snd_pcm_status_get_delay_RETURN snd_pcm_sframes_t
 #define snd_pcm_status_get_delay_ARG_NAMES obj
 #define snd_pcm_status_get_delay_ARG_EXPAND const snd_pcm_status_t * obj
 #define snd_pcm_status_get_delay_PACKED PACKED_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_delay_INDEXED INDEXED_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_delay_FORMAT FORMAT_snd_pcm_sframes_t_const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_htstamp_INDEX 1326
+#define snd_pcm_status_get_htstamp_INDEX 1289
 #define snd_pcm_status_get_htstamp_RETURN void
 #define snd_pcm_status_get_htstamp_ARG_NAMES obj, ptr
 #define snd_pcm_status_get_htstamp_ARG_EXPAND const snd_pcm_status_t * obj, snd_htimestamp_t * ptr
 #define snd_pcm_status_get_htstamp_PACKED PACKED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_pcm_status_get_htstamp_INDEXED INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_pcm_status_get_htstamp_FORMAT FORMAT_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
-#define snd_pcm_status_get_overrange_INDEX 1327
+#define snd_pcm_status_get_overrange_INDEX 1290
 #define snd_pcm_status_get_overrange_RETURN snd_pcm_uframes_t
 #define snd_pcm_status_get_overrange_ARG_NAMES obj
 #define snd_pcm_status_get_overrange_ARG_EXPAND const snd_pcm_status_t * obj
 #define snd_pcm_status_get_overrange_PACKED PACKED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_overrange_INDEXED INDEXED_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_overrange_FORMAT FORMAT_snd_pcm_uframes_t_const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_state_INDEX 1328
+#define snd_pcm_status_get_state_INDEX 1291
 #define snd_pcm_status_get_state_RETURN snd_pcm_state_t
 #define snd_pcm_status_get_state_ARG_NAMES obj
 #define snd_pcm_status_get_state_ARG_EXPAND const snd_pcm_status_t * obj
 #define snd_pcm_status_get_state_PACKED PACKED_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_state_INDEXED INDEXED_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__
 #define snd_pcm_status_get_state_FORMAT FORMAT_snd_pcm_state_t_const_snd_pcm_status_t___GENPT__
-#define snd_pcm_status_get_trigger_htstamp_INDEX 1329
+#define snd_pcm_status_get_trigger_htstamp_INDEX 1292
 #define snd_pcm_status_get_trigger_htstamp_RETURN void
 #define snd_pcm_status_get_trigger_htstamp_ARG_NAMES obj, ptr
 #define snd_pcm_status_get_trigger_htstamp_ARG_EXPAND const snd_pcm_status_t * obj, snd_htimestamp_t * ptr
 #define snd_pcm_status_get_trigger_htstamp_PACKED PACKED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_pcm_status_get_trigger_htstamp_INDEXED INDEXED_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_pcm_status_get_trigger_htstamp_FORMAT FORMAT_void_const_snd_pcm_status_t___GENPT___snd_htimestamp_t___GENPT__
-#define snd_pcm_status_get_trigger_tstamp_INDEX 1330
+#define snd_pcm_status_get_trigger_tstamp_INDEX 1293
 #define snd_pcm_status_get_trigger_tstamp_RETURN void
 #define snd_pcm_status_get_trigger_tstamp_ARG_NAMES obj, ptr
 #define snd_pcm_status_get_trigger_tstamp_ARG_EXPAND const snd_pcm_status_t * obj, snd_timestamp_t * ptr
 #define snd_pcm_status_get_trigger_tstamp_PACKED PACKED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
 #define snd_pcm_status_get_trigger_tstamp_INDEXED INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
 #define snd_pcm_status_get_trigger_tstamp_FORMAT FORMAT_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
-#define snd_pcm_status_get_tstamp_INDEX 1331
+#define snd_pcm_status_get_tstamp_INDEX 1294
 #define snd_pcm_status_get_tstamp_RETURN void
 #define snd_pcm_status_get_tstamp_ARG_NAMES obj, ptr
 #define snd_pcm_status_get_tstamp_ARG_EXPAND const snd_pcm_status_t * obj, snd_timestamp_t * ptr
 #define snd_pcm_status_get_tstamp_PACKED PACKED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
 #define snd_pcm_status_get_tstamp_INDEXED INDEXED_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
 #define snd_pcm_status_get_tstamp_FORMAT FORMAT_void_const_snd_pcm_status_t___GENPT___snd_timestamp_t___GENPT__
-#define snd_pcm_status_malloc_INDEX 1332
+#define snd_pcm_status_malloc_INDEX 1295
 #define snd_pcm_status_malloc_RETURN int
 #define snd_pcm_status_malloc_ARG_NAMES ptr
 #define snd_pcm_status_malloc_ARG_EXPAND snd_pcm_status_t ** ptr
 #define snd_pcm_status_malloc_PACKED PACKED_int_snd_pcm_status_t___GENPT____GENPT__
 #define snd_pcm_status_malloc_INDEXED INDEXED_int_snd_pcm_status_t___GENPT____GENPT__
 #define snd_pcm_status_malloc_FORMAT FORMAT_int_snd_pcm_status_t___GENPT____GENPT__
-#define snd_pcm_stream_INDEX 1333
+#define snd_pcm_stream_INDEX 1296
 #define snd_pcm_stream_RETURN snd_pcm_stream_t
 #define snd_pcm_stream_ARG_NAMES pcm
 #define snd_pcm_stream_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_stream_PACKED PACKED_snd_pcm_stream_t_snd_pcm_t___GENPT__
 #define snd_pcm_stream_INDEXED INDEXED_snd_pcm_stream_t_snd_pcm_t___GENPT__
 #define snd_pcm_stream_FORMAT FORMAT_snd_pcm_stream_t_snd_pcm_t___GENPT__
-#define snd_pcm_stream_name_INDEX 1334
+#define snd_pcm_stream_name_INDEX 1297
 #define snd_pcm_stream_name_RETURN const char *
 #define snd_pcm_stream_name_ARG_NAMES stream
 #define snd_pcm_stream_name_ARG_EXPAND const snd_pcm_stream_t stream
 #define snd_pcm_stream_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_stream_t
 #define snd_pcm_stream_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_stream_t
 #define snd_pcm_stream_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_stream_t
-#define snd_pcm_subformat_description_INDEX 1335
+#define snd_pcm_subformat_description_INDEX 1298
 #define snd_pcm_subformat_description_RETURN const char *
 #define snd_pcm_subformat_description_ARG_NAMES subformat
 #define snd_pcm_subformat_description_ARG_EXPAND const snd_pcm_subformat_t subformat
 #define snd_pcm_subformat_description_PACKED PACKED_const_char___GENPT___const_snd_pcm_subformat_t
 #define snd_pcm_subformat_description_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_subformat_t
 #define snd_pcm_subformat_description_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_subformat_t
-#define snd_pcm_subformat_mask_any_INDEX 1336
+#define snd_pcm_subformat_mask_any_INDEX 1299
 #define snd_pcm_subformat_mask_any_RETURN void
 #define snd_pcm_subformat_mask_any_ARG_NAMES mask
 #define snd_pcm_subformat_mask_any_ARG_EXPAND snd_pcm_subformat_mask_t * mask
 #define snd_pcm_subformat_mask_any_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_any_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_any_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_subformat_mask_copy_INDEX 1337
+#define snd_pcm_subformat_mask_copy_INDEX 1300
 #define snd_pcm_subformat_mask_copy_RETURN void
 #define snd_pcm_subformat_mask_copy_ARG_NAMES dst, src
 #define snd_pcm_subformat_mask_copy_ARG_EXPAND snd_pcm_subformat_mask_t * dst, const snd_pcm_subformat_mask_t * src
 #define snd_pcm_subformat_mask_copy_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_copy_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_copy_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT___const_snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_subformat_mask_empty_INDEX 1338
+#define snd_pcm_subformat_mask_empty_INDEX 1301
 #define snd_pcm_subformat_mask_empty_RETURN int
 #define snd_pcm_subformat_mask_empty_ARG_NAMES mask
 #define snd_pcm_subformat_mask_empty_ARG_EXPAND const snd_pcm_subformat_mask_t * mask
 #define snd_pcm_subformat_mask_empty_PACKED PACKED_int_const_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_empty_INDEXED INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_empty_FORMAT FORMAT_int_const_snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_subformat_mask_free_INDEX 1339
+#define snd_pcm_subformat_mask_free_INDEX 1302
 #define snd_pcm_subformat_mask_free_RETURN void
 #define snd_pcm_subformat_mask_free_ARG_NAMES obj
 #define snd_pcm_subformat_mask_free_ARG_EXPAND snd_pcm_subformat_mask_t * obj
 #define snd_pcm_subformat_mask_free_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_free_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_free_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_subformat_mask_malloc_INDEX 1340
+#define snd_pcm_subformat_mask_malloc_INDEX 1303
 #define snd_pcm_subformat_mask_malloc_RETURN int
 #define snd_pcm_subformat_mask_malloc_ARG_NAMES ptr
 #define snd_pcm_subformat_mask_malloc_ARG_EXPAND snd_pcm_subformat_mask_t ** ptr
 #define snd_pcm_subformat_mask_malloc_PACKED PACKED_int_snd_pcm_subformat_mask_t___GENPT____GENPT__
 #define snd_pcm_subformat_mask_malloc_INDEXED INDEXED_int_snd_pcm_subformat_mask_t___GENPT____GENPT__
 #define snd_pcm_subformat_mask_malloc_FORMAT FORMAT_int_snd_pcm_subformat_mask_t___GENPT____GENPT__
-#define snd_pcm_subformat_mask_none_INDEX 1341
+#define snd_pcm_subformat_mask_none_INDEX 1304
 #define snd_pcm_subformat_mask_none_RETURN void
 #define snd_pcm_subformat_mask_none_ARG_NAMES mask
 #define snd_pcm_subformat_mask_none_ARG_EXPAND snd_pcm_subformat_mask_t * mask
 #define snd_pcm_subformat_mask_none_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_none_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT__
 #define snd_pcm_subformat_mask_none_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT__
-#define snd_pcm_subformat_mask_reset_INDEX 1342
+#define snd_pcm_subformat_mask_reset_INDEX 1305
 #define snd_pcm_subformat_mask_reset_RETURN void
 #define snd_pcm_subformat_mask_reset_ARG_NAMES mask, val
 #define snd_pcm_subformat_mask_reset_ARG_EXPAND snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val
 #define snd_pcm_subformat_mask_reset_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_reset_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_reset_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
-#define snd_pcm_subformat_mask_set_INDEX 1343
+#define snd_pcm_subformat_mask_set_INDEX 1306
 #define snd_pcm_subformat_mask_set_RETURN void
 #define snd_pcm_subformat_mask_set_ARG_NAMES mask, val
 #define snd_pcm_subformat_mask_set_ARG_EXPAND snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val
 #define snd_pcm_subformat_mask_set_PACKED PACKED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_set_INDEXED INDEXED_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_set_FORMAT FORMAT_void_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
-#define snd_pcm_subformat_mask_test_INDEX 1344
+#define snd_pcm_subformat_mask_test_INDEX 1307
 #define snd_pcm_subformat_mask_test_RETURN int
 #define snd_pcm_subformat_mask_test_ARG_NAMES mask, val
 #define snd_pcm_subformat_mask_test_ARG_EXPAND const snd_pcm_subformat_mask_t * mask, snd_pcm_subformat_t val
 #define snd_pcm_subformat_mask_test_PACKED PACKED_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_test_INDEXED INDEXED_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
 #define snd_pcm_subformat_mask_test_FORMAT FORMAT_int_const_snd_pcm_subformat_mask_t___GENPT___snd_pcm_subformat_t
-#define snd_pcm_subformat_name_INDEX 1345
+#define snd_pcm_subformat_name_INDEX 1308
 #define snd_pcm_subformat_name_RETURN const char *
 #define snd_pcm_subformat_name_ARG_NAMES subformat
 #define snd_pcm_subformat_name_ARG_EXPAND const snd_pcm_subformat_t subformat
 #define snd_pcm_subformat_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_subformat_t
 #define snd_pcm_subformat_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_subformat_t
 #define snd_pcm_subformat_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_subformat_t
-#define snd_pcm_sw_params_INDEX 1346
+#define snd_pcm_sw_params_INDEX 1309
 #define snd_pcm_sw_params_RETURN int
 #define snd_pcm_sw_params_ARG_NAMES pcm, params
 #define snd_pcm_sw_params_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params
 #define snd_pcm_sw_params_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_copy_INDEX 1347
+#define snd_pcm_sw_params_copy_INDEX 1310
 #define snd_pcm_sw_params_copy_RETURN void
 #define snd_pcm_sw_params_copy_ARG_NAMES dst, src
 #define snd_pcm_sw_params_copy_ARG_EXPAND snd_pcm_sw_params_t * dst, const snd_pcm_sw_params_t * src
 #define snd_pcm_sw_params_copy_PACKED PACKED_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_copy_INDEXED INDEXED_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_copy_FORMAT FORMAT_void_snd_pcm_sw_params_t___GENPT___const_snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_current_INDEX 1348
+#define snd_pcm_sw_params_current_INDEX 1311
 #define snd_pcm_sw_params_current_RETURN int
 #define snd_pcm_sw_params_current_ARG_NAMES pcm, params
 #define snd_pcm_sw_params_current_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params
 #define snd_pcm_sw_params_current_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_current_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_current_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_dump_INDEX 1349
+#define snd_pcm_sw_params_dump_INDEX 1312
 #define snd_pcm_sw_params_dump_RETURN int
 #define snd_pcm_sw_params_dump_ARG_NAMES params, out
 #define snd_pcm_sw_params_dump_ARG_EXPAND snd_pcm_sw_params_t * params, snd_output_t * out
 #define snd_pcm_sw_params_dump_PACKED PACKED_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_sw_params_dump_INDEXED INDEXED_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__
 #define snd_pcm_sw_params_dump_FORMAT FORMAT_int_snd_pcm_sw_params_t___GENPT___snd_output_t___GENPT__
-#define snd_pcm_sw_params_free_INDEX 1350
+#define snd_pcm_sw_params_free_INDEX 1313
 #define snd_pcm_sw_params_free_RETURN void
 #define snd_pcm_sw_params_free_ARG_NAMES obj
 #define snd_pcm_sw_params_free_ARG_EXPAND snd_pcm_sw_params_t * obj
 #define snd_pcm_sw_params_free_PACKED PACKED_void_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_free_INDEXED INDEXED_void_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_free_FORMAT FORMAT_void_snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_get_avail_min_INDEX 1351
+#define snd_pcm_sw_params_get_avail_min_INDEX 1314
 #define snd_pcm_sw_params_get_avail_min_RETURN int
 #define snd_pcm_sw_params_get_avail_min_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_avail_min_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_avail_min_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_avail_min_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_avail_min_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_boundary_INDEX 1352
+#define snd_pcm_sw_params_get_boundary_INDEX 1315
 #define snd_pcm_sw_params_get_boundary_RETURN int
 #define snd_pcm_sw_params_get_boundary_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_boundary_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_boundary_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_boundary_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_boundary_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_silence_size_INDEX 1353
+#define snd_pcm_sw_params_get_silence_size_INDEX 1316
 #define snd_pcm_sw_params_get_silence_size_RETURN int
 #define snd_pcm_sw_params_get_silence_size_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_silence_size_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_silence_size_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_silence_size_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_silence_size_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_silence_threshold_INDEX 1354
+#define snd_pcm_sw_params_get_silence_threshold_INDEX 1317
 #define snd_pcm_sw_params_get_silence_threshold_RETURN int
 #define snd_pcm_sw_params_get_silence_threshold_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_silence_threshold_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_silence_threshold_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_silence_threshold_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_silence_threshold_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_sleep_min_INDEX 1355
+#define snd_pcm_sw_params_get_sleep_min_INDEX 1318
 #define snd_pcm_sw_params_get_sleep_min_RETURN int
 #define snd_pcm_sw_params_get_sleep_min_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_sleep_min_ARG_EXPAND const snd_pcm_sw_params_t * params, unsigned int * val
 #define snd_pcm_sw_params_get_sleep_min_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_sw_params_get_sleep_min_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__
 #define snd_pcm_sw_params_get_sleep_min_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___unsigned_int___GENPT__
-#define snd_pcm_sw_params_get_start_mode_INDEX 1356
+#define snd_pcm_sw_params_get_start_mode_INDEX 1319
 #define snd_pcm_sw_params_get_start_mode_RETURN snd_pcm_start_t
 #define snd_pcm_sw_params_get_start_mode_ARG_NAMES params
 #define snd_pcm_sw_params_get_start_mode_ARG_EXPAND const snd_pcm_sw_params_t * params
 #define snd_pcm_sw_params_get_start_mode_PACKED PACKED_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_get_start_mode_INDEXED INDEXED_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_get_start_mode_FORMAT FORMAT_snd_pcm_start_t_const_snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_get_start_threshold_INDEX 1357
+#define snd_pcm_sw_params_get_start_threshold_INDEX 1320
 #define snd_pcm_sw_params_get_start_threshold_RETURN int
 #define snd_pcm_sw_params_get_start_threshold_ARG_NAMES paramsm, val
 #define snd_pcm_sw_params_get_start_threshold_ARG_EXPAND const snd_pcm_sw_params_t * paramsm, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_start_threshold_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_start_threshold_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_start_threshold_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_stop_threshold_INDEX 1358
+#define snd_pcm_sw_params_get_stop_threshold_INDEX 1321
 #define snd_pcm_sw_params_get_stop_threshold_RETURN int
 #define snd_pcm_sw_params_get_stop_threshold_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_stop_threshold_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_stop_threshold_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_stop_threshold_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_stop_threshold_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_tstamp_mode_INDEX 1359
+#define snd_pcm_sw_params_get_tstamp_mode_INDEX 1322
 #define snd_pcm_sw_params_get_tstamp_mode_RETURN int
 #define snd_pcm_sw_params_get_tstamp_mode_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_tstamp_mode_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_tstamp_t * val
 #define snd_pcm_sw_params_get_tstamp_mode_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__
 #define snd_pcm_sw_params_get_tstamp_mode_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__
 #define snd_pcm_sw_params_get_tstamp_mode_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t___GENPT__
-#define snd_pcm_sw_params_get_xfer_align_INDEX 1360
+#define snd_pcm_sw_params_get_xfer_align_INDEX 1323
 #define snd_pcm_sw_params_get_xfer_align_RETURN int
 #define snd_pcm_sw_params_get_xfer_align_ARG_NAMES params, val
 #define snd_pcm_sw_params_get_xfer_align_ARG_EXPAND const snd_pcm_sw_params_t * params, snd_pcm_uframes_t * val
 #define snd_pcm_sw_params_get_xfer_align_PACKED PACKED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_xfer_align_INDEXED INDEXED_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_pcm_sw_params_get_xfer_align_FORMAT FORMAT_int_const_snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_pcm_sw_params_get_xrun_mode_INDEX 1361
+#define snd_pcm_sw_params_get_xrun_mode_INDEX 1324
 #define snd_pcm_sw_params_get_xrun_mode_RETURN snd_pcm_xrun_t
 #define snd_pcm_sw_params_get_xrun_mode_ARG_NAMES params
 #define snd_pcm_sw_params_get_xrun_mode_ARG_EXPAND const snd_pcm_sw_params_t * params
 #define snd_pcm_sw_params_get_xrun_mode_PACKED PACKED_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_get_xrun_mode_INDEXED INDEXED_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__
 #define snd_pcm_sw_params_get_xrun_mode_FORMAT FORMAT_snd_pcm_xrun_t_const_snd_pcm_sw_params_t___GENPT__
-#define snd_pcm_sw_params_malloc_INDEX 1362
+#define snd_pcm_sw_params_malloc_INDEX 1325
 #define snd_pcm_sw_params_malloc_RETURN int
 #define snd_pcm_sw_params_malloc_ARG_NAMES ptr
 #define snd_pcm_sw_params_malloc_ARG_EXPAND snd_pcm_sw_params_t ** ptr
 #define snd_pcm_sw_params_malloc_PACKED PACKED_int_snd_pcm_sw_params_t___GENPT____GENPT__
 #define snd_pcm_sw_params_malloc_INDEXED INDEXED_int_snd_pcm_sw_params_t___GENPT____GENPT__
 #define snd_pcm_sw_params_malloc_FORMAT FORMAT_int_snd_pcm_sw_params_t___GENPT____GENPT__
-#define snd_pcm_sw_params_set_avail_min_INDEX 1363
+#define snd_pcm_sw_params_set_avail_min_INDEX 1326
 #define snd_pcm_sw_params_set_avail_min_RETURN int
 #define snd_pcm_sw_params_set_avail_min_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_avail_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_avail_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_avail_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_avail_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_silence_size_INDEX 1364
+#define snd_pcm_sw_params_set_silence_size_INDEX 1327
 #define snd_pcm_sw_params_set_silence_size_RETURN int
 #define snd_pcm_sw_params_set_silence_size_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_silence_size_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_silence_size_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_silence_size_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_silence_size_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_silence_threshold_INDEX 1365
+#define snd_pcm_sw_params_set_silence_threshold_INDEX 1328
 #define snd_pcm_sw_params_set_silence_threshold_RETURN int
 #define snd_pcm_sw_params_set_silence_threshold_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_silence_threshold_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_silence_threshold_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_silence_threshold_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_silence_threshold_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_sleep_min_INDEX 1366
+#define snd_pcm_sw_params_set_sleep_min_INDEX 1329
 #define snd_pcm_sw_params_set_sleep_min_RETURN int
 #define snd_pcm_sw_params_set_sleep_min_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_sleep_min_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, unsigned int val
 #define snd_pcm_sw_params_set_sleep_min_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int
 #define snd_pcm_sw_params_set_sleep_min_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int
 #define snd_pcm_sw_params_set_sleep_min_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___unsigned_int
-#define snd_pcm_sw_params_set_start_mode_INDEX 1367
+#define snd_pcm_sw_params_set_start_mode_INDEX 1330
 #define snd_pcm_sw_params_set_start_mode_RETURN int
 #define snd_pcm_sw_params_set_start_mode_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_start_mode_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_start_t val
 #define snd_pcm_sw_params_set_start_mode_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t
 #define snd_pcm_sw_params_set_start_mode_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t
 #define snd_pcm_sw_params_set_start_mode_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_start_t
-#define snd_pcm_sw_params_set_start_threshold_INDEX 1368
+#define snd_pcm_sw_params_set_start_threshold_INDEX 1331
 #define snd_pcm_sw_params_set_start_threshold_RETURN int
 #define snd_pcm_sw_params_set_start_threshold_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_start_threshold_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_start_threshold_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_start_threshold_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_start_threshold_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_stop_threshold_INDEX 1369
+#define snd_pcm_sw_params_set_stop_threshold_INDEX 1332
 #define snd_pcm_sw_params_set_stop_threshold_RETURN int
 #define snd_pcm_sw_params_set_stop_threshold_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_stop_threshold_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_stop_threshold_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_stop_threshold_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_stop_threshold_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_tstamp_mode_INDEX 1370
+#define snd_pcm_sw_params_set_tstamp_mode_INDEX 1333
 #define snd_pcm_sw_params_set_tstamp_mode_RETURN int
 #define snd_pcm_sw_params_set_tstamp_mode_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_tstamp_mode_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_tstamp_t val
 #define snd_pcm_sw_params_set_tstamp_mode_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t
 #define snd_pcm_sw_params_set_tstamp_mode_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t
 #define snd_pcm_sw_params_set_tstamp_mode_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_tstamp_t
-#define snd_pcm_sw_params_set_xfer_align_INDEX 1371
+#define snd_pcm_sw_params_set_xfer_align_INDEX 1334
 #define snd_pcm_sw_params_set_xfer_align_RETURN int
 #define snd_pcm_sw_params_set_xfer_align_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_xfer_align_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_uframes_t val
 #define snd_pcm_sw_params_set_xfer_align_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_xfer_align_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
 #define snd_pcm_sw_params_set_xfer_align_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_uframes_t
-#define snd_pcm_sw_params_set_xrun_mode_INDEX 1372
+#define snd_pcm_sw_params_set_xrun_mode_INDEX 1335
 #define snd_pcm_sw_params_set_xrun_mode_RETURN int
 #define snd_pcm_sw_params_set_xrun_mode_ARG_NAMES pcm, params, val
 #define snd_pcm_sw_params_set_xrun_mode_ARG_EXPAND snd_pcm_t * pcm, snd_pcm_sw_params_t * params, snd_pcm_xrun_t val
 #define snd_pcm_sw_params_set_xrun_mode_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t
 #define snd_pcm_sw_params_set_xrun_mode_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t
 #define snd_pcm_sw_params_set_xrun_mode_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_sw_params_t___GENPT___snd_pcm_xrun_t
-#define snd_pcm_tstamp_mode_name_INDEX 1373
+#define snd_pcm_tstamp_mode_name_INDEX 1336
 #define snd_pcm_tstamp_mode_name_RETURN const char *
 #define snd_pcm_tstamp_mode_name_ARG_NAMES mode
 #define snd_pcm_tstamp_mode_name_ARG_EXPAND const snd_pcm_tstamp_t mode
 #define snd_pcm_tstamp_mode_name_PACKED PACKED_const_char___GENPT___const_snd_pcm_tstamp_t
 #define snd_pcm_tstamp_mode_name_INDEXED INDEXED_const_char___GENPT___const_snd_pcm_tstamp_t
 #define snd_pcm_tstamp_mode_name_FORMAT FORMAT_const_char___GENPT___const_snd_pcm_tstamp_t
-#define snd_pcm_type_INDEX 1374
+#define snd_pcm_type_INDEX 1337
 #define snd_pcm_type_RETURN snd_pcm_type_t
 #define snd_pcm_type_ARG_NAMES pcm
 #define snd_pcm_type_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_type_PACKED PACKED_snd_pcm_type_t_snd_pcm_t___GENPT__
 #define snd_pcm_type_INDEXED INDEXED_snd_pcm_type_t_snd_pcm_t___GENPT__
 #define snd_pcm_type_FORMAT FORMAT_snd_pcm_type_t_snd_pcm_t___GENPT__
-#define snd_pcm_type_name_INDEX 1375
+#define snd_pcm_type_name_INDEX 1338
 #define snd_pcm_type_name_RETURN const char *
 #define snd_pcm_type_name_ARG_NAMES type
 #define snd_pcm_type_name_ARG_EXPAND snd_pcm_type_t type
 #define snd_pcm_type_name_PACKED PACKED_const_char___GENPT___snd_pcm_type_t
 #define snd_pcm_type_name_INDEXED INDEXED_const_char___GENPT___snd_pcm_type_t
 #define snd_pcm_type_name_FORMAT FORMAT_const_char___GENPT___snd_pcm_type_t
-#define snd_pcm_unlink_INDEX 1376
+#define snd_pcm_unlink_INDEX 1339
 #define snd_pcm_unlink_RETURN int
 #define snd_pcm_unlink_ARG_NAMES pcm
 #define snd_pcm_unlink_ARG_EXPAND snd_pcm_t * pcm
 #define snd_pcm_unlink_PACKED PACKED_int_snd_pcm_t___GENPT__
 #define snd_pcm_unlink_INDEXED INDEXED_int_snd_pcm_t___GENPT__
 #define snd_pcm_unlink_FORMAT FORMAT_int_snd_pcm_t___GENPT__
-#define snd_pcm_wait_INDEX 1377
+#define snd_pcm_wait_INDEX 1340
 #define snd_pcm_wait_RETURN int
 #define snd_pcm_wait_ARG_NAMES pcm, timeout
 #define snd_pcm_wait_ARG_EXPAND snd_pcm_t * pcm, int timeout
 #define snd_pcm_wait_PACKED PACKED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_wait_INDEXED INDEXED_int_snd_pcm_t___GENPT___int
 #define snd_pcm_wait_FORMAT FORMAT_int_snd_pcm_t___GENPT___int
-#define snd_pcm_writei_INDEX 1378
+#define snd_pcm_writei_INDEX 1341
 #define snd_pcm_writei_RETURN snd_pcm_sframes_t
 #define snd_pcm_writei_ARG_NAMES pcm, buffer, size
 #define snd_pcm_writei_ARG_EXPAND snd_pcm_t * pcm, const void * buffer, snd_pcm_uframes_t size
 #define snd_pcm_writei_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_writei_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
 #define snd_pcm_writei_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___const_void___GENPT___snd_pcm_uframes_t
-#define snd_pcm_writen_INDEX 1379
+#define snd_pcm_writen_INDEX 1342
 #define snd_pcm_writen_RETURN snd_pcm_sframes_t
 #define snd_pcm_writen_ARG_NAMES pcm, bufs, size
 #define snd_pcm_writen_ARG_EXPAND snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t size
 #define snd_pcm_writen_PACKED PACKED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_writen_INDEXED INDEXED_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
 #define snd_pcm_writen_FORMAT FORMAT_snd_pcm_sframes_t_snd_pcm_t___GENPT___void___GENPT____GENPT___snd_pcm_uframes_t
-#define snd_pcm_xrun_mode_name_INDEX 1380
+#define snd_pcm_xrun_mode_name_INDEX 1343
 #define snd_pcm_xrun_mode_name_RETURN const char *
 #define snd_pcm_xrun_mode_name_ARG_NAMES mode
 #define snd_pcm_xrun_mode_name_ARG_EXPAND snd_pcm_xrun_t mode
 #define snd_pcm_xrun_mode_name_PACKED PACKED_const_char___GENPT___snd_pcm_xrun_t
 #define snd_pcm_xrun_mode_name_INDEXED INDEXED_const_char___GENPT___snd_pcm_xrun_t
 #define snd_pcm_xrun_mode_name_FORMAT FORMAT_const_char___GENPT___snd_pcm_xrun_t
-#define snd_rawmidi_close_INDEX 1381
+#define snd_rawmidi_close_INDEX 1344
 #define snd_rawmidi_close_RETURN int
 #define snd_rawmidi_close_ARG_NAMES rmidi
 #define snd_rawmidi_close_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_close_PACKED PACKED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_close_INDEXED INDEXED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_close_FORMAT FORMAT_int_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_drain_INDEX 1382
+#define snd_rawmidi_drain_INDEX 1345
 #define snd_rawmidi_drain_RETURN int
 #define snd_rawmidi_drain_ARG_NAMES rmidi
 #define snd_rawmidi_drain_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_drain_PACKED PACKED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_drain_INDEXED INDEXED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_drain_FORMAT FORMAT_int_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_drop_INDEX 1383
+#define snd_rawmidi_drop_INDEX 1346
 #define snd_rawmidi_drop_RETURN int
 #define snd_rawmidi_drop_ARG_NAMES rmidi
 #define snd_rawmidi_drop_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_drop_PACKED PACKED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_drop_INDEXED INDEXED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_drop_FORMAT FORMAT_int_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_info_INDEX 1384
+#define snd_rawmidi_info_INDEX 1347
 #define snd_rawmidi_info_RETURN int
 #define snd_rawmidi_info_ARG_NAMES rmidi, info
 #define snd_rawmidi_info_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_info_t * info
 #define snd_rawmidi_info_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_copy_INDEX 1385
+#define snd_rawmidi_info_copy_INDEX 1348
 #define snd_rawmidi_info_copy_RETURN void
 #define snd_rawmidi_info_copy_ARG_NAMES dst, src
 #define snd_rawmidi_info_copy_ARG_EXPAND snd_rawmidi_info_t * dst, const snd_rawmidi_info_t * src
 #define snd_rawmidi_info_copy_PACKED PACKED_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_copy_INDEXED INDEXED_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_copy_FORMAT FORMAT_void_snd_rawmidi_info_t___GENPT___const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_free_INDEX 1386
+#define snd_rawmidi_info_free_INDEX 1349
 #define snd_rawmidi_info_free_RETURN void
 #define snd_rawmidi_info_free_ARG_NAMES obj
 #define snd_rawmidi_info_free_ARG_EXPAND snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_free_PACKED PACKED_void_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_free_INDEXED INDEXED_void_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_free_FORMAT FORMAT_void_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_card_INDEX 1387
+#define snd_rawmidi_info_get_card_INDEX 1350
 #define snd_rawmidi_info_get_card_RETURN int
 #define snd_rawmidi_info_get_card_ARG_NAMES obj
 #define snd_rawmidi_info_get_card_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_card_PACKED PACKED_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_card_INDEXED INDEXED_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_card_FORMAT FORMAT_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_device_INDEX 1388
+#define snd_rawmidi_info_get_device_INDEX 1351
 #define snd_rawmidi_info_get_device_RETURN unsigned int
 #define snd_rawmidi_info_get_device_ARG_NAMES obj
 #define snd_rawmidi_info_get_device_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_device_PACKED PACKED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_device_INDEXED INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_device_FORMAT FORMAT_unsigned_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_flags_INDEX 1389
+#define snd_rawmidi_info_get_flags_INDEX 1352
 #define snd_rawmidi_info_get_flags_RETURN unsigned int
 #define snd_rawmidi_info_get_flags_ARG_NAMES obj
 #define snd_rawmidi_info_get_flags_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_flags_PACKED PACKED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_flags_INDEXED INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_flags_FORMAT FORMAT_unsigned_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_id_INDEX 1390
+#define snd_rawmidi_info_get_id_INDEX 1353
 #define snd_rawmidi_info_get_id_RETURN const char *
 #define snd_rawmidi_info_get_id_ARG_NAMES obj
 #define snd_rawmidi_info_get_id_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_id_PACKED PACKED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_id_INDEXED INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_id_FORMAT FORMAT_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_name_INDEX 1391
+#define snd_rawmidi_info_get_name_INDEX 1354
 #define snd_rawmidi_info_get_name_RETURN const char *
 #define snd_rawmidi_info_get_name_ARG_NAMES obj
 #define snd_rawmidi_info_get_name_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_name_PACKED PACKED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_stream_INDEX 1392
+#define snd_rawmidi_info_get_stream_INDEX 1355
 #define snd_rawmidi_info_get_stream_RETURN snd_rawmidi_stream_t
 #define snd_rawmidi_info_get_stream_ARG_NAMES obj
 #define snd_rawmidi_info_get_stream_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_stream_PACKED PACKED_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_stream_INDEXED INDEXED_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_stream_FORMAT FORMAT_snd_rawmidi_stream_t_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_subdevice_INDEX 1393
+#define snd_rawmidi_info_get_subdevice_INDEX 1356
 #define snd_rawmidi_info_get_subdevice_RETURN unsigned int
 #define snd_rawmidi_info_get_subdevice_ARG_NAMES obj
 #define snd_rawmidi_info_get_subdevice_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_subdevice_PACKED PACKED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevice_INDEXED INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevice_FORMAT FORMAT_unsigned_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_subdevice_name_INDEX 1394
+#define snd_rawmidi_info_get_subdevice_name_INDEX 1357
 #define snd_rawmidi_info_get_subdevice_name_RETURN const char *
 #define snd_rawmidi_info_get_subdevice_name_ARG_NAMES obj
 #define snd_rawmidi_info_get_subdevice_name_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_subdevice_name_PACKED PACKED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevice_name_INDEXED INDEXED_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevice_name_FORMAT FORMAT_const_char___GENPT___const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_subdevices_avail_INDEX 1395
+#define snd_rawmidi_info_get_subdevices_avail_INDEX 1358
 #define snd_rawmidi_info_get_subdevices_avail_RETURN unsigned int
 #define snd_rawmidi_info_get_subdevices_avail_ARG_NAMES obj
 #define snd_rawmidi_info_get_subdevices_avail_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_subdevices_avail_PACKED PACKED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevices_avail_INDEXED INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevices_avail_FORMAT FORMAT_unsigned_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_get_subdevices_count_INDEX 1396
+#define snd_rawmidi_info_get_subdevices_count_INDEX 1359
 #define snd_rawmidi_info_get_subdevices_count_RETURN unsigned int
 #define snd_rawmidi_info_get_subdevices_count_ARG_NAMES obj
 #define snd_rawmidi_info_get_subdevices_count_ARG_EXPAND const snd_rawmidi_info_t * obj
 #define snd_rawmidi_info_get_subdevices_count_PACKED PACKED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevices_count_INDEXED INDEXED_unsigned_int_const_snd_rawmidi_info_t___GENPT__
 #define snd_rawmidi_info_get_subdevices_count_FORMAT FORMAT_unsigned_int_const_snd_rawmidi_info_t___GENPT__
-#define snd_rawmidi_info_malloc_INDEX 1397
+#define snd_rawmidi_info_malloc_INDEX 1360
 #define snd_rawmidi_info_malloc_RETURN int
 #define snd_rawmidi_info_malloc_ARG_NAMES ptr
 #define snd_rawmidi_info_malloc_ARG_EXPAND snd_rawmidi_info_t ** ptr
 #define snd_rawmidi_info_malloc_PACKED PACKED_int_snd_rawmidi_info_t___GENPT____GENPT__
 #define snd_rawmidi_info_malloc_INDEXED INDEXED_int_snd_rawmidi_info_t___GENPT____GENPT__
 #define snd_rawmidi_info_malloc_FORMAT FORMAT_int_snd_rawmidi_info_t___GENPT____GENPT__
-#define snd_rawmidi_info_set_device_INDEX 1398
+#define snd_rawmidi_info_set_device_INDEX 1361
 #define snd_rawmidi_info_set_device_RETURN void
 #define snd_rawmidi_info_set_device_ARG_NAMES obj, val
 #define snd_rawmidi_info_set_device_ARG_EXPAND snd_rawmidi_info_t * obj, unsigned int val
 #define snd_rawmidi_info_set_device_PACKED PACKED_void_snd_rawmidi_info_t___GENPT___unsigned_int
 #define snd_rawmidi_info_set_device_INDEXED INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int
 #define snd_rawmidi_info_set_device_FORMAT FORMAT_void_snd_rawmidi_info_t___GENPT___unsigned_int
-#define snd_rawmidi_info_set_stream_INDEX 1399
+#define snd_rawmidi_info_set_stream_INDEX 1362
 #define snd_rawmidi_info_set_stream_RETURN void
 #define snd_rawmidi_info_set_stream_ARG_NAMES obj, val
 #define snd_rawmidi_info_set_stream_ARG_EXPAND snd_rawmidi_info_t * obj, snd_rawmidi_stream_t val
 #define snd_rawmidi_info_set_stream_PACKED PACKED_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t
 #define snd_rawmidi_info_set_stream_INDEXED INDEXED_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t
 #define snd_rawmidi_info_set_stream_FORMAT FORMAT_void_snd_rawmidi_info_t___GENPT___snd_rawmidi_stream_t
-#define snd_rawmidi_info_set_subdevice_INDEX 1400
+#define snd_rawmidi_info_set_subdevice_INDEX 1363
 #define snd_rawmidi_info_set_subdevice_RETURN void
 #define snd_rawmidi_info_set_subdevice_ARG_NAMES obj, val
 #define snd_rawmidi_info_set_subdevice_ARG_EXPAND snd_rawmidi_info_t * obj, unsigned int val
 #define snd_rawmidi_info_set_subdevice_PACKED PACKED_void_snd_rawmidi_info_t___GENPT___unsigned_int
 #define snd_rawmidi_info_set_subdevice_INDEXED INDEXED_void_snd_rawmidi_info_t___GENPT___unsigned_int
 #define snd_rawmidi_info_set_subdevice_FORMAT FORMAT_void_snd_rawmidi_info_t___GENPT___unsigned_int
-#define snd_rawmidi_info_sizeof_INDEX 1401
+#define snd_rawmidi_info_sizeof_INDEX 1364
 #define snd_rawmidi_info_sizeof_RETURN size_t
 #define snd_rawmidi_info_sizeof_ARG_NAMES 
 #define snd_rawmidi_info_sizeof_ARG_EXPAND 
 #define snd_rawmidi_info_sizeof_PACKED PACKED_size_t
 #define snd_rawmidi_info_sizeof_INDEXED INDEXED_size_t
 #define snd_rawmidi_info_sizeof_FORMAT FORMAT_size_t
-#define snd_rawmidi_name_INDEX 1402
+#define snd_rawmidi_name_INDEX 1365
 #define snd_rawmidi_name_RETURN const char *
 #define snd_rawmidi_name_ARG_NAMES rmidi
 #define snd_rawmidi_name_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_name_PACKED PACKED_const_char___GENPT___snd_rawmidi_t___GENPT__
 #define snd_rawmidi_name_INDEXED INDEXED_const_char___GENPT___snd_rawmidi_t___GENPT__
 #define snd_rawmidi_name_FORMAT FORMAT_const_char___GENPT___snd_rawmidi_t___GENPT__
-#define snd_rawmidi_nonblock_INDEX 1403
+#define snd_rawmidi_nonblock_INDEX 1366
 #define snd_rawmidi_nonblock_RETURN int
 #define snd_rawmidi_nonblock_ARG_NAMES rmidi, nonblock
 #define snd_rawmidi_nonblock_ARG_EXPAND snd_rawmidi_t * rmidi, int nonblock
 #define snd_rawmidi_nonblock_PACKED PACKED_int_snd_rawmidi_t___GENPT___int
 #define snd_rawmidi_nonblock_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___int
 #define snd_rawmidi_nonblock_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___int
-#define snd_rawmidi_open_INDEX 1404
+#define snd_rawmidi_open_INDEX 1367
 #define snd_rawmidi_open_RETURN int
 #define snd_rawmidi_open_ARG_NAMES in_rmidi, out_rmidi, name, mode
 #define snd_rawmidi_open_ARG_EXPAND snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi, const char * name, int mode
 #define snd_rawmidi_open_PACKED PACKED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_rawmidi_open_INDEXED INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_rawmidi_open_FORMAT FORMAT_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int
-#define snd_rawmidi_open_lconf_INDEX 1405
+#define snd_rawmidi_open_lconf_INDEX 1368
 #define snd_rawmidi_open_lconf_RETURN int
 #define snd_rawmidi_open_lconf_ARG_NAMES in_rmidi, out_rmidi, name, mode, lconf
 #define snd_rawmidi_open_lconf_ARG_EXPAND snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi, const char * name, int mode, snd_config_t * lconf
 #define snd_rawmidi_open_lconf_PACKED PACKED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_rawmidi_open_lconf_INDEXED INDEXED_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_rawmidi_open_lconf_FORMAT FORMAT_int_snd_rawmidi_t___GENPT____GENPT___snd_rawmidi_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
-#define snd_rawmidi_params_INDEX 1406
+#define snd_rawmidi_params_INDEX 1369
 #define snd_rawmidi_params_RETURN int
 #define snd_rawmidi_params_ARG_NAMES rmidi, params
 #define snd_rawmidi_params_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params
 #define snd_rawmidi_params_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_copy_INDEX 1407
+#define snd_rawmidi_params_copy_INDEX 1370
 #define snd_rawmidi_params_copy_RETURN void
 #define snd_rawmidi_params_copy_ARG_NAMES dst, src
 #define snd_rawmidi_params_copy_ARG_EXPAND snd_rawmidi_params_t * dst, const snd_rawmidi_params_t * src
 #define snd_rawmidi_params_copy_PACKED PACKED_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_copy_INDEXED INDEXED_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_copy_FORMAT FORMAT_void_snd_rawmidi_params_t___GENPT___const_snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_current_INDEX 1408
+#define snd_rawmidi_params_current_INDEX 1371
 #define snd_rawmidi_params_current_RETURN int
 #define snd_rawmidi_params_current_ARG_NAMES rmidi, params
 #define snd_rawmidi_params_current_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params
 #define snd_rawmidi_params_current_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_current_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_current_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_free_INDEX 1409
+#define snd_rawmidi_params_free_INDEX 1372
 #define snd_rawmidi_params_free_RETURN void
 #define snd_rawmidi_params_free_ARG_NAMES obj
 #define snd_rawmidi_params_free_ARG_EXPAND snd_rawmidi_params_t * obj
 #define snd_rawmidi_params_free_PACKED PACKED_void_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_free_INDEXED INDEXED_void_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_free_FORMAT FORMAT_void_snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_get_avail_min_INDEX 1410
+#define snd_rawmidi_params_get_avail_min_INDEX 1373
 #define snd_rawmidi_params_get_avail_min_RETURN size_t
 #define snd_rawmidi_params_get_avail_min_ARG_NAMES params
 #define snd_rawmidi_params_get_avail_min_ARG_EXPAND const snd_rawmidi_params_t * params
 #define snd_rawmidi_params_get_avail_min_PACKED PACKED_size_t_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_avail_min_INDEXED INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_avail_min_FORMAT FORMAT_size_t_const_snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_get_buffer_size_INDEX 1411
+#define snd_rawmidi_params_get_buffer_size_INDEX 1374
 #define snd_rawmidi_params_get_buffer_size_RETURN size_t
 #define snd_rawmidi_params_get_buffer_size_ARG_NAMES params
 #define snd_rawmidi_params_get_buffer_size_ARG_EXPAND const snd_rawmidi_params_t * params
 #define snd_rawmidi_params_get_buffer_size_PACKED PACKED_size_t_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_buffer_size_INDEXED INDEXED_size_t_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_buffer_size_FORMAT FORMAT_size_t_const_snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_get_no_active_sensing_INDEX 1412
+#define snd_rawmidi_params_get_no_active_sensing_INDEX 1375
 #define snd_rawmidi_params_get_no_active_sensing_RETURN int
 #define snd_rawmidi_params_get_no_active_sensing_ARG_NAMES params
 #define snd_rawmidi_params_get_no_active_sensing_ARG_EXPAND const snd_rawmidi_params_t * params
 #define snd_rawmidi_params_get_no_active_sensing_PACKED PACKED_int_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_no_active_sensing_INDEXED INDEXED_int_const_snd_rawmidi_params_t___GENPT__
 #define snd_rawmidi_params_get_no_active_sensing_FORMAT FORMAT_int_const_snd_rawmidi_params_t___GENPT__
-#define snd_rawmidi_params_malloc_INDEX 1413
+#define snd_rawmidi_params_malloc_INDEX 1376
 #define snd_rawmidi_params_malloc_RETURN int
 #define snd_rawmidi_params_malloc_ARG_NAMES ptr
 #define snd_rawmidi_params_malloc_ARG_EXPAND snd_rawmidi_params_t ** ptr
 #define snd_rawmidi_params_malloc_PACKED PACKED_int_snd_rawmidi_params_t___GENPT____GENPT__
 #define snd_rawmidi_params_malloc_INDEXED INDEXED_int_snd_rawmidi_params_t___GENPT____GENPT__
 #define snd_rawmidi_params_malloc_FORMAT FORMAT_int_snd_rawmidi_params_t___GENPT____GENPT__
-#define snd_rawmidi_params_set_avail_min_INDEX 1414
+#define snd_rawmidi_params_set_avail_min_INDEX 1377
 #define snd_rawmidi_params_set_avail_min_RETURN int
 #define snd_rawmidi_params_set_avail_min_ARG_NAMES rmidi, params, val
 #define snd_rawmidi_params_set_avail_min_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, size_t val
 #define snd_rawmidi_params_set_avail_min_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
 #define snd_rawmidi_params_set_avail_min_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
 #define snd_rawmidi_params_set_avail_min_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
-#define snd_rawmidi_params_set_buffer_size_INDEX 1415
+#define snd_rawmidi_params_set_buffer_size_INDEX 1378
 #define snd_rawmidi_params_set_buffer_size_RETURN int
 #define snd_rawmidi_params_set_buffer_size_ARG_NAMES rmidi, params, val
 #define snd_rawmidi_params_set_buffer_size_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, size_t val
 #define snd_rawmidi_params_set_buffer_size_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
 #define snd_rawmidi_params_set_buffer_size_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
 #define snd_rawmidi_params_set_buffer_size_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___size_t
-#define snd_rawmidi_params_set_no_active_sensing_INDEX 1416
+#define snd_rawmidi_params_set_no_active_sensing_INDEX 1379
 #define snd_rawmidi_params_set_no_active_sensing_RETURN int
 #define snd_rawmidi_params_set_no_active_sensing_ARG_NAMES rmidi, params, val
 #define snd_rawmidi_params_set_no_active_sensing_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params, int val
 #define snd_rawmidi_params_set_no_active_sensing_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int
 #define snd_rawmidi_params_set_no_active_sensing_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int
 #define snd_rawmidi_params_set_no_active_sensing_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_params_t___GENPT___int
-#define snd_rawmidi_params_sizeof_INDEX 1417
+#define snd_rawmidi_params_sizeof_INDEX 1380
 #define snd_rawmidi_params_sizeof_RETURN size_t
 #define snd_rawmidi_params_sizeof_ARG_NAMES 
 #define snd_rawmidi_params_sizeof_ARG_EXPAND 
 #define snd_rawmidi_params_sizeof_PACKED PACKED_size_t
 #define snd_rawmidi_params_sizeof_INDEXED INDEXED_size_t
 #define snd_rawmidi_params_sizeof_FORMAT FORMAT_size_t
-#define snd_rawmidi_poll_descriptors_INDEX 1418
+#define snd_rawmidi_poll_descriptors_INDEX 1381
 #define snd_rawmidi_poll_descriptors_RETURN int
 #define snd_rawmidi_poll_descriptors_ARG_NAMES rmidi, pfds, space
 #define snd_rawmidi_poll_descriptors_ARG_EXPAND snd_rawmidi_t * rmidi, struct pollfd * pfds, unsigned int space
 #define snd_rawmidi_poll_descriptors_PACKED PACKED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_rawmidi_poll_descriptors_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_rawmidi_poll_descriptors_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int
-#define snd_rawmidi_poll_descriptors_count_INDEX 1419
+#define snd_rawmidi_poll_descriptors_count_INDEX 1382
 #define snd_rawmidi_poll_descriptors_count_RETURN int
 #define snd_rawmidi_poll_descriptors_count_ARG_NAMES rmidi
 #define snd_rawmidi_poll_descriptors_count_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_poll_descriptors_count_PACKED PACKED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_poll_descriptors_count_INDEXED INDEXED_int_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_poll_descriptors_count_FORMAT FORMAT_int_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_poll_descriptors_revents_INDEX 1420
+#define snd_rawmidi_poll_descriptors_revents_INDEX 1383
 #define snd_rawmidi_poll_descriptors_revents_RETURN int
 #define snd_rawmidi_poll_descriptors_revents_ARG_NAMES rawmidi, pfds, nfds, revent
 #define snd_rawmidi_poll_descriptors_revents_ARG_EXPAND snd_rawmidi_t * rawmidi, struct pollfd * pfds, unsigned int nfds, unsigned short * revent
 #define snd_rawmidi_poll_descriptors_revents_PACKED PACKED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_rawmidi_poll_descriptors_revents_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_rawmidi_poll_descriptors_revents_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
-#define snd_rawmidi_read_INDEX 1421
+#define snd_rawmidi_read_INDEX 1384
 #define snd_rawmidi_read_RETURN ssize_t
 #define snd_rawmidi_read_ARG_NAMES rmidi, buffer, size
 #define snd_rawmidi_read_ARG_EXPAND snd_rawmidi_t * rmidi, void * buffer, size_t size
 #define snd_rawmidi_read_PACKED PACKED_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t
 #define snd_rawmidi_read_INDEXED INDEXED_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t
 #define snd_rawmidi_read_FORMAT FORMAT_ssize_t_snd_rawmidi_t___GENPT___void___GENPT___size_t
-#define snd_rawmidi_status_INDEX 1422
+#define snd_rawmidi_status_INDEX 1385
 #define snd_rawmidi_status_RETURN int
 #define snd_rawmidi_status_ARG_NAMES rmidi, status
 #define snd_rawmidi_status_ARG_EXPAND snd_rawmidi_t * rmidi, snd_rawmidi_status_t * status
 #define snd_rawmidi_status_PACKED PACKED_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_INDEXED INDEXED_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_FORMAT FORMAT_int_snd_rawmidi_t___GENPT___snd_rawmidi_status_t___GENPT__
-#define snd_rawmidi_status_copy_INDEX 1423
+#define snd_rawmidi_status_copy_INDEX 1386
 #define snd_rawmidi_status_copy_RETURN void
 #define snd_rawmidi_status_copy_ARG_NAMES dst, src
 #define snd_rawmidi_status_copy_ARG_EXPAND snd_rawmidi_status_t * dst, const snd_rawmidi_status_t * src
 #define snd_rawmidi_status_copy_PACKED PACKED_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_copy_INDEXED INDEXED_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_copy_FORMAT FORMAT_void_snd_rawmidi_status_t___GENPT___const_snd_rawmidi_status_t___GENPT__
-#define snd_rawmidi_status_free_INDEX 1424
+#define snd_rawmidi_status_free_INDEX 1387
 #define snd_rawmidi_status_free_RETURN void
 #define snd_rawmidi_status_free_ARG_NAMES obj
 #define snd_rawmidi_status_free_ARG_EXPAND snd_rawmidi_status_t * obj
 #define snd_rawmidi_status_free_PACKED PACKED_void_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_free_INDEXED INDEXED_void_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_free_FORMAT FORMAT_void_snd_rawmidi_status_t___GENPT__
-#define snd_rawmidi_status_get_avail_INDEX 1425
+#define snd_rawmidi_status_get_avail_INDEX 1388
 #define snd_rawmidi_status_get_avail_RETURN size_t
 #define snd_rawmidi_status_get_avail_ARG_NAMES obj
 #define snd_rawmidi_status_get_avail_ARG_EXPAND const snd_rawmidi_status_t * obj
 #define snd_rawmidi_status_get_avail_PACKED PACKED_size_t_const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_get_avail_INDEXED INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_get_avail_FORMAT FORMAT_size_t_const_snd_rawmidi_status_t___GENPT__
-#define snd_rawmidi_status_get_tstamp_INDEX 1426
+#define snd_rawmidi_status_get_tstamp_INDEX 1389
 #define snd_rawmidi_status_get_tstamp_RETURN void
 #define snd_rawmidi_status_get_tstamp_ARG_NAMES obj, ptr
 #define snd_rawmidi_status_get_tstamp_ARG_EXPAND const snd_rawmidi_status_t * obj, snd_htimestamp_t * ptr
 #define snd_rawmidi_status_get_tstamp_PACKED PACKED_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_rawmidi_status_get_tstamp_INDEXED INDEXED_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__
 #define snd_rawmidi_status_get_tstamp_FORMAT FORMAT_void_const_snd_rawmidi_status_t___GENPT___snd_htimestamp_t___GENPT__
-#define snd_rawmidi_status_get_xruns_INDEX 1427
+#define snd_rawmidi_status_get_xruns_INDEX 1390
 #define snd_rawmidi_status_get_xruns_RETURN size_t
 #define snd_rawmidi_status_get_xruns_ARG_NAMES obj
 #define snd_rawmidi_status_get_xruns_ARG_EXPAND const snd_rawmidi_status_t * obj
 #define snd_rawmidi_status_get_xruns_PACKED PACKED_size_t_const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_get_xruns_INDEXED INDEXED_size_t_const_snd_rawmidi_status_t___GENPT__
 #define snd_rawmidi_status_get_xruns_FORMAT FORMAT_size_t_const_snd_rawmidi_status_t___GENPT__
-#define snd_rawmidi_status_malloc_INDEX 1428
+#define snd_rawmidi_status_malloc_INDEX 1391
 #define snd_rawmidi_status_malloc_RETURN int
 #define snd_rawmidi_status_malloc_ARG_NAMES ptr
 #define snd_rawmidi_status_malloc_ARG_EXPAND snd_rawmidi_status_t ** ptr
 #define snd_rawmidi_status_malloc_PACKED PACKED_int_snd_rawmidi_status_t___GENPT____GENPT__
 #define snd_rawmidi_status_malloc_INDEXED INDEXED_int_snd_rawmidi_status_t___GENPT____GENPT__
 #define snd_rawmidi_status_malloc_FORMAT FORMAT_int_snd_rawmidi_status_t___GENPT____GENPT__
-#define snd_rawmidi_status_sizeof_INDEX 1429
+#define snd_rawmidi_status_sizeof_INDEX 1392
 #define snd_rawmidi_status_sizeof_RETURN size_t
 #define snd_rawmidi_status_sizeof_ARG_NAMES 
 #define snd_rawmidi_status_sizeof_ARG_EXPAND 
 #define snd_rawmidi_status_sizeof_PACKED PACKED_size_t
 #define snd_rawmidi_status_sizeof_INDEXED INDEXED_size_t
 #define snd_rawmidi_status_sizeof_FORMAT FORMAT_size_t
-#define snd_rawmidi_stream_INDEX 1430
+#define snd_rawmidi_stream_INDEX 1393
 #define snd_rawmidi_stream_RETURN snd_rawmidi_stream_t
 #define snd_rawmidi_stream_ARG_NAMES rawmidi
 #define snd_rawmidi_stream_ARG_EXPAND snd_rawmidi_t * rawmidi
 #define snd_rawmidi_stream_PACKED PACKED_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_stream_INDEXED INDEXED_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_stream_FORMAT FORMAT_snd_rawmidi_stream_t_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_type_INDEX 1431
+#define snd_rawmidi_type_INDEX 1394
 #define snd_rawmidi_type_RETURN snd_rawmidi_type_t
 #define snd_rawmidi_type_ARG_NAMES rmidi
 #define snd_rawmidi_type_ARG_EXPAND snd_rawmidi_t * rmidi
 #define snd_rawmidi_type_PACKED PACKED_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_type_INDEXED INDEXED_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__
 #define snd_rawmidi_type_FORMAT FORMAT_snd_rawmidi_type_t_snd_rawmidi_t___GENPT__
-#define snd_rawmidi_write_INDEX 1432
+#define snd_rawmidi_write_INDEX 1395
 #define snd_rawmidi_write_RETURN ssize_t
 #define snd_rawmidi_write_ARG_NAMES rmidi, buffer, size
 #define snd_rawmidi_write_ARG_EXPAND snd_rawmidi_t * rmidi, const void * buffer, size_t size
 #define snd_rawmidi_write_PACKED PACKED_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t
 #define snd_rawmidi_write_INDEXED INDEXED_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t
 #define snd_rawmidi_write_FORMAT FORMAT_ssize_t_snd_rawmidi_t___GENPT___const_void___GENPT___size_t
-#define snd_sctl_build_INDEX 1433
+#define snd_sctl_build_INDEX 1396
 #define snd_sctl_build_RETURN int
 #define snd_sctl_build_ARG_NAMES ctl, handle, config, private_data, mode
 #define snd_sctl_build_ARG_EXPAND snd_sctl_t ** ctl, snd_ctl_t * handle, snd_config_t * config, snd_config_t * private_data, int mode
 #define snd_sctl_build_PACKED PACKED_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int
 #define snd_sctl_build_INDEXED INDEXED_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int
 #define snd_sctl_build_FORMAT FORMAT_int_snd_sctl_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_config_t___GENPT___snd_config_t___GENPT___int
-#define snd_sctl_free_INDEX 1434
+#define snd_sctl_free_INDEX 1397
 #define snd_sctl_free_RETURN int
 #define snd_sctl_free_ARG_NAMES handle
 #define snd_sctl_free_ARG_EXPAND snd_sctl_t * handle
 #define snd_sctl_free_PACKED PACKED_int_snd_sctl_t___GENPT__
 #define snd_sctl_free_INDEXED INDEXED_int_snd_sctl_t___GENPT__
 #define snd_sctl_free_FORMAT FORMAT_int_snd_sctl_t___GENPT__
-#define snd_sctl_install_INDEX 1435
+#define snd_sctl_install_INDEX 1398
 #define snd_sctl_install_RETURN int
 #define snd_sctl_install_ARG_NAMES handle
 #define snd_sctl_install_ARG_EXPAND snd_sctl_t * handle
 #define snd_sctl_install_PACKED PACKED_int_snd_sctl_t___GENPT__
 #define snd_sctl_install_INDEXED INDEXED_int_snd_sctl_t___GENPT__
 #define snd_sctl_install_FORMAT FORMAT_int_snd_sctl_t___GENPT__
-#define snd_sctl_remove_INDEX 1436
+#define snd_sctl_remove_INDEX 1399
 #define snd_sctl_remove_RETURN int
 #define snd_sctl_remove_ARG_NAMES handle
 #define snd_sctl_remove_ARG_EXPAND snd_sctl_t * handle
 #define snd_sctl_remove_PACKED PACKED_int_snd_sctl_t___GENPT__
 #define snd_sctl_remove_INDEXED INDEXED_int_snd_sctl_t___GENPT__
 #define snd_sctl_remove_FORMAT FORMAT_int_snd_sctl_t___GENPT__
-#define snd_seq_alloc_named_queue_INDEX 1437
+#define snd_seq_alloc_named_queue_INDEX 1400
 #define snd_seq_alloc_named_queue_RETURN int
 #define snd_seq_alloc_named_queue_ARG_NAMES seq, name
 #define snd_seq_alloc_named_queue_ARG_EXPAND snd_seq_t * seq, const char * name
 #define snd_seq_alloc_named_queue_PACKED PACKED_int_snd_seq_t___GENPT___const_char___GENPT__
 #define snd_seq_alloc_named_queue_INDEXED INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__
 #define snd_seq_alloc_named_queue_FORMAT FORMAT_int_snd_seq_t___GENPT___const_char___GENPT__
-#define snd_seq_alloc_queue_INDEX 1438
+#define snd_seq_alloc_queue_INDEX 1401
 #define snd_seq_alloc_queue_RETURN int
 #define snd_seq_alloc_queue_ARG_NAMES handle
 #define snd_seq_alloc_queue_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_alloc_queue_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_alloc_queue_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_alloc_queue_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_change_bit_INDEX 1439
+#define snd_seq_change_bit_INDEX 1402
 #define snd_seq_change_bit_RETURN int
 #define snd_seq_change_bit_ARG_NAMES nr, array
 #define snd_seq_change_bit_ARG_EXPAND int nr, void * array
 #define snd_seq_change_bit_PACKED PACKED_int_int_void___GENPT__
 #define snd_seq_change_bit_INDEXED INDEXED_int_int_void___GENPT__
 #define snd_seq_change_bit_FORMAT FORMAT_int_int_void___GENPT__
-#define snd_seq_client_id_INDEX 1440
+#define snd_seq_client_id_INDEX 1403
 #define snd_seq_client_id_RETURN int
 #define snd_seq_client_id_ARG_NAMES handle
 #define snd_seq_client_id_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_client_id_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_client_id_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_client_id_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_client_info_copy_INDEX 1441
+#define snd_seq_client_info_copy_INDEX 1404
 #define snd_seq_client_info_copy_RETURN void
 #define snd_seq_client_info_copy_ARG_NAMES dst, src
 #define snd_seq_client_info_copy_ARG_EXPAND snd_seq_client_info_t * dst, const snd_seq_client_info_t * src
 #define snd_seq_client_info_copy_PACKED PACKED_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_copy_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_copy_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_free_INDEX 1442
+#define snd_seq_client_info_free_INDEX 1405
 #define snd_seq_client_info_free_RETURN void
 #define snd_seq_client_info_free_ARG_NAMES ptr
 #define snd_seq_client_info_free_ARG_EXPAND snd_seq_client_info_t * ptr
 #define snd_seq_client_info_free_PACKED PACKED_void_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_free_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_free_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_broadcast_filter_INDEX 1443
+#define snd_seq_client_info_get_broadcast_filter_INDEX 1406
 #define snd_seq_client_info_get_broadcast_filter_RETURN int
 #define snd_seq_client_info_get_broadcast_filter_ARG_NAMES info
 #define snd_seq_client_info_get_broadcast_filter_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_broadcast_filter_PACKED PACKED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_broadcast_filter_INDEXED INDEXED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_broadcast_filter_FORMAT FORMAT_int_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_client_INDEX 1444
+#define snd_seq_client_info_get_client_INDEX 1407
 #define snd_seq_client_info_get_client_RETURN int
 #define snd_seq_client_info_get_client_ARG_NAMES info
 #define snd_seq_client_info_get_client_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_client_PACKED PACKED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_client_INDEXED INDEXED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_client_FORMAT FORMAT_int_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_error_bounce_INDEX 1445
+#define snd_seq_client_info_get_error_bounce_INDEX 1408
 #define snd_seq_client_info_get_error_bounce_RETURN int
 #define snd_seq_client_info_get_error_bounce_ARG_NAMES info
 #define snd_seq_client_info_get_error_bounce_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_error_bounce_PACKED PACKED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_error_bounce_INDEXED INDEXED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_error_bounce_FORMAT FORMAT_int_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_event_filter_INDEX 1446
+#define snd_seq_client_info_get_event_filter_INDEX 1409
 #define snd_seq_client_info_get_event_filter_RETURN const unsigned char *
 #define snd_seq_client_info_get_event_filter_ARG_NAMES info
 #define snd_seq_client_info_get_event_filter_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_event_filter_PACKED PACKED_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_event_filter_INDEXED INDEXED_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_event_filter_FORMAT FORMAT_const_unsigned_char___GENPT___const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_event_lost_INDEX 1447
+#define snd_seq_client_info_get_event_lost_INDEX 1410
 #define snd_seq_client_info_get_event_lost_RETURN int
 #define snd_seq_client_info_get_event_lost_ARG_NAMES info
 #define snd_seq_client_info_get_event_lost_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_event_lost_PACKED PACKED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_event_lost_INDEXED INDEXED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_event_lost_FORMAT FORMAT_int_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_name_INDEX 1448
+#define snd_seq_client_info_get_name_INDEX 1411
 #define snd_seq_client_info_get_name_RETURN const char *
 #define snd_seq_client_info_get_name_ARG_NAMES info
 #define snd_seq_client_info_get_name_ARG_EXPAND snd_seq_client_info_t * info
 #define snd_seq_client_info_get_name_PACKED PACKED_const_char___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_name_INDEXED INDEXED_const_char___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_name_FORMAT FORMAT_const_char___GENPT___snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_num_ports_INDEX 1449
+#define snd_seq_client_info_get_num_ports_INDEX 1412
 #define snd_seq_client_info_get_num_ports_RETURN int
 #define snd_seq_client_info_get_num_ports_ARG_NAMES info
 #define snd_seq_client_info_get_num_ports_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_num_ports_PACKED PACKED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_num_ports_INDEXED INDEXED_int_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_num_ports_FORMAT FORMAT_int_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_get_type_INDEX 1450
+#define snd_seq_client_info_get_type_INDEX 1413
 #define snd_seq_client_info_get_type_RETURN snd_seq_client_type_t
 #define snd_seq_client_info_get_type_ARG_NAMES info
 #define snd_seq_client_info_get_type_ARG_EXPAND const snd_seq_client_info_t * info
 #define snd_seq_client_info_get_type_PACKED PACKED_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_type_INDEXED INDEXED_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__
 #define snd_seq_client_info_get_type_FORMAT FORMAT_snd_seq_client_type_t_const_snd_seq_client_info_t___GENPT__
-#define snd_seq_client_info_malloc_INDEX 1451
+#define snd_seq_client_info_malloc_INDEX 1414
 #define snd_seq_client_info_malloc_RETURN int
 #define snd_seq_client_info_malloc_ARG_NAMES ptr
 #define snd_seq_client_info_malloc_ARG_EXPAND snd_seq_client_info_t ** ptr
 #define snd_seq_client_info_malloc_PACKED PACKED_int_snd_seq_client_info_t___GENPT____GENPT__
 #define snd_seq_client_info_malloc_INDEXED INDEXED_int_snd_seq_client_info_t___GENPT____GENPT__
 #define snd_seq_client_info_malloc_FORMAT FORMAT_int_snd_seq_client_info_t___GENPT____GENPT__
-#define snd_seq_client_info_set_broadcast_filter_INDEX 1452
+#define snd_seq_client_info_set_broadcast_filter_INDEX 1415
 #define snd_seq_client_info_set_broadcast_filter_RETURN void
 #define snd_seq_client_info_set_broadcast_filter_ARG_NAMES info, val
 #define snd_seq_client_info_set_broadcast_filter_ARG_EXPAND snd_seq_client_info_t * info, int val
 #define snd_seq_client_info_set_broadcast_filter_PACKED PACKED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_broadcast_filter_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_broadcast_filter_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___int
-#define snd_seq_client_info_set_client_INDEX 1453
+#define snd_seq_client_info_set_client_INDEX 1416
 #define snd_seq_client_info_set_client_RETURN void
 #define snd_seq_client_info_set_client_ARG_NAMES info, client
 #define snd_seq_client_info_set_client_ARG_EXPAND snd_seq_client_info_t * info, int client
 #define snd_seq_client_info_set_client_PACKED PACKED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_client_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_client_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___int
-#define snd_seq_client_info_set_error_bounce_INDEX 1454
+#define snd_seq_client_info_set_error_bounce_INDEX 1417
 #define snd_seq_client_info_set_error_bounce_RETURN void
 #define snd_seq_client_info_set_error_bounce_ARG_NAMES info, val
 #define snd_seq_client_info_set_error_bounce_ARG_EXPAND snd_seq_client_info_t * info, int val
 #define snd_seq_client_info_set_error_bounce_PACKED PACKED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_error_bounce_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___int
 #define snd_seq_client_info_set_error_bounce_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___int
-#define snd_seq_client_info_set_event_filter_INDEX 1455
+#define snd_seq_client_info_set_event_filter_INDEX 1418
 #define snd_seq_client_info_set_event_filter_RETURN void
 #define snd_seq_client_info_set_event_filter_ARG_NAMES info, filter
 #define snd_seq_client_info_set_event_filter_ARG_EXPAND snd_seq_client_info_t * info, unsigned char * filter
 #define snd_seq_client_info_set_event_filter_PACKED PACKED_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__
 #define snd_seq_client_info_set_event_filter_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__
 #define snd_seq_client_info_set_event_filter_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___unsigned_char___GENPT__
-#define snd_seq_client_info_set_name_INDEX 1456
+#define snd_seq_client_info_set_name_INDEX 1419
 #define snd_seq_client_info_set_name_RETURN void
 #define snd_seq_client_info_set_name_ARG_NAMES info, name
 #define snd_seq_client_info_set_name_ARG_EXPAND snd_seq_client_info_t * info, const char * name
 #define snd_seq_client_info_set_name_PACKED PACKED_void_snd_seq_client_info_t___GENPT___const_char___GENPT__
 #define snd_seq_client_info_set_name_INDEXED INDEXED_void_snd_seq_client_info_t___GENPT___const_char___GENPT__
 #define snd_seq_client_info_set_name_FORMAT FORMAT_void_snd_seq_client_info_t___GENPT___const_char___GENPT__
-#define snd_seq_client_info_sizeof_INDEX 1457
+#define snd_seq_client_info_sizeof_INDEX 1420
 #define snd_seq_client_info_sizeof_RETURN size_t
 #define snd_seq_client_info_sizeof_ARG_NAMES 
 #define snd_seq_client_info_sizeof_ARG_EXPAND 
 #define snd_seq_client_info_sizeof_PACKED PACKED_size_t
 #define snd_seq_client_info_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_client_info_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_client_pool_copy_INDEX 1458
+#define snd_seq_client_pool_copy_INDEX 1421
 #define snd_seq_client_pool_copy_RETURN void
 #define snd_seq_client_pool_copy_ARG_NAMES dst, src
 #define snd_seq_client_pool_copy_ARG_EXPAND snd_seq_client_pool_t * dst, const snd_seq_client_pool_t * src
 #define snd_seq_client_pool_copy_PACKED PACKED_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_copy_INDEXED INDEXED_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_copy_FORMAT FORMAT_void_snd_seq_client_pool_t___GENPT___const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_free_INDEX 1459
+#define snd_seq_client_pool_free_INDEX 1422
 #define snd_seq_client_pool_free_RETURN void
 #define snd_seq_client_pool_free_ARG_NAMES ptr
 #define snd_seq_client_pool_free_ARG_EXPAND snd_seq_client_pool_t * ptr
 #define snd_seq_client_pool_free_PACKED PACKED_void_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_free_INDEXED INDEXED_void_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_free_FORMAT FORMAT_void_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_client_INDEX 1460
+#define snd_seq_client_pool_get_client_INDEX 1423
 #define snd_seq_client_pool_get_client_RETURN int
 #define snd_seq_client_pool_get_client_ARG_NAMES info
 #define snd_seq_client_pool_get_client_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_client_PACKED PACKED_int_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_client_INDEXED INDEXED_int_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_client_FORMAT FORMAT_int_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_input_free_INDEX 1461
+#define snd_seq_client_pool_get_input_free_INDEX 1424
 #define snd_seq_client_pool_get_input_free_RETURN size_t
 #define snd_seq_client_pool_get_input_free_ARG_NAMES info
 #define snd_seq_client_pool_get_input_free_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_input_free_PACKED PACKED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_input_free_INDEXED INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_input_free_FORMAT FORMAT_size_t_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_input_pool_INDEX 1462
+#define snd_seq_client_pool_get_input_pool_INDEX 1425
 #define snd_seq_client_pool_get_input_pool_RETURN size_t
 #define snd_seq_client_pool_get_input_pool_ARG_NAMES info
 #define snd_seq_client_pool_get_input_pool_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_input_pool_PACKED PACKED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_input_pool_INDEXED INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_input_pool_FORMAT FORMAT_size_t_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_output_free_INDEX 1463
+#define snd_seq_client_pool_get_output_free_INDEX 1426
 #define snd_seq_client_pool_get_output_free_RETURN size_t
 #define snd_seq_client_pool_get_output_free_ARG_NAMES info
 #define snd_seq_client_pool_get_output_free_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_output_free_PACKED PACKED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_free_INDEXED INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_free_FORMAT FORMAT_size_t_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_output_pool_INDEX 1464
+#define snd_seq_client_pool_get_output_pool_INDEX 1427
 #define snd_seq_client_pool_get_output_pool_RETURN size_t
 #define snd_seq_client_pool_get_output_pool_ARG_NAMES info
 #define snd_seq_client_pool_get_output_pool_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_output_pool_PACKED PACKED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_pool_INDEXED INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_pool_FORMAT FORMAT_size_t_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_get_output_room_INDEX 1465
+#define snd_seq_client_pool_get_output_room_INDEX 1428
 #define snd_seq_client_pool_get_output_room_RETURN size_t
 #define snd_seq_client_pool_get_output_room_ARG_NAMES info
 #define snd_seq_client_pool_get_output_room_ARG_EXPAND const snd_seq_client_pool_t * info
 #define snd_seq_client_pool_get_output_room_PACKED PACKED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_room_INDEXED INDEXED_size_t_const_snd_seq_client_pool_t___GENPT__
 #define snd_seq_client_pool_get_output_room_FORMAT FORMAT_size_t_const_snd_seq_client_pool_t___GENPT__
-#define snd_seq_client_pool_malloc_INDEX 1466
+#define snd_seq_client_pool_malloc_INDEX 1429
 #define snd_seq_client_pool_malloc_RETURN int
 #define snd_seq_client_pool_malloc_ARG_NAMES ptr
 #define snd_seq_client_pool_malloc_ARG_EXPAND snd_seq_client_pool_t ** ptr
 #define snd_seq_client_pool_malloc_PACKED PACKED_int_snd_seq_client_pool_t___GENPT____GENPT__
 #define snd_seq_client_pool_malloc_INDEXED INDEXED_int_snd_seq_client_pool_t___GENPT____GENPT__
 #define snd_seq_client_pool_malloc_FORMAT FORMAT_int_snd_seq_client_pool_t___GENPT____GENPT__
-#define snd_seq_client_pool_set_input_pool_INDEX 1467
+#define snd_seq_client_pool_set_input_pool_INDEX 1430
 #define snd_seq_client_pool_set_input_pool_RETURN void
 #define snd_seq_client_pool_set_input_pool_ARG_NAMES info, size
 #define snd_seq_client_pool_set_input_pool_ARG_EXPAND snd_seq_client_pool_t * info, size_t size
 #define snd_seq_client_pool_set_input_pool_PACKED PACKED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_input_pool_INDEXED INDEXED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_input_pool_FORMAT FORMAT_void_snd_seq_client_pool_t___GENPT___size_t
-#define snd_seq_client_pool_set_output_pool_INDEX 1468
+#define snd_seq_client_pool_set_output_pool_INDEX 1431
 #define snd_seq_client_pool_set_output_pool_RETURN void
 #define snd_seq_client_pool_set_output_pool_ARG_NAMES info, size
 #define snd_seq_client_pool_set_output_pool_ARG_EXPAND snd_seq_client_pool_t * info, size_t size
 #define snd_seq_client_pool_set_output_pool_PACKED PACKED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_output_pool_INDEXED INDEXED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_output_pool_FORMAT FORMAT_void_snd_seq_client_pool_t___GENPT___size_t
-#define snd_seq_client_pool_set_output_room_INDEX 1469
+#define snd_seq_client_pool_set_output_room_INDEX 1432
 #define snd_seq_client_pool_set_output_room_RETURN void
 #define snd_seq_client_pool_set_output_room_ARG_NAMES info, size
 #define snd_seq_client_pool_set_output_room_ARG_EXPAND snd_seq_client_pool_t * info, size_t size
 #define snd_seq_client_pool_set_output_room_PACKED PACKED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_output_room_INDEXED INDEXED_void_snd_seq_client_pool_t___GENPT___size_t
 #define snd_seq_client_pool_set_output_room_FORMAT FORMAT_void_snd_seq_client_pool_t___GENPT___size_t
-#define snd_seq_client_pool_sizeof_INDEX 1470
+#define snd_seq_client_pool_sizeof_INDEX 1433
 #define snd_seq_client_pool_sizeof_RETURN size_t
 #define snd_seq_client_pool_sizeof_ARG_NAMES 
 #define snd_seq_client_pool_sizeof_ARG_EXPAND 
 #define snd_seq_client_pool_sizeof_PACKED PACKED_size_t
 #define snd_seq_client_pool_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_client_pool_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_close_INDEX 1471
+#define snd_seq_close_INDEX 1434
 #define snd_seq_close_RETURN int
 #define snd_seq_close_ARG_NAMES handle
 #define snd_seq_close_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_close_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_close_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_close_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_create_port_INDEX 1472
+#define snd_seq_create_port_INDEX 1435
 #define snd_seq_create_port_RETURN int
 #define snd_seq_create_port_ARG_NAMES handle, info
 #define snd_seq_create_port_ARG_EXPAND snd_seq_t * handle, snd_seq_port_info_t * info
 #define snd_seq_create_port_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
 #define snd_seq_create_port_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
 #define snd_seq_create_port_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
-#define snd_seq_create_queue_INDEX 1473
+#define snd_seq_create_queue_INDEX 1436
 #define snd_seq_create_queue_RETURN int
 #define snd_seq_create_queue_ARG_NAMES seq, info
 #define snd_seq_create_queue_ARG_EXPAND snd_seq_t * seq, snd_seq_queue_info_t * info
 #define snd_seq_create_queue_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__
 #define snd_seq_create_queue_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__
 #define snd_seq_create_queue_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_queue_info_t___GENPT__
-#define snd_seq_delete_port_INDEX 1474
+#define snd_seq_delete_port_INDEX 1437
 #define snd_seq_delete_port_RETURN int
 #define snd_seq_delete_port_ARG_NAMES handle, port
 #define snd_seq_delete_port_ARG_EXPAND snd_seq_t * handle, int port
 #define snd_seq_delete_port_PACKED PACKED_int_snd_seq_t___GENPT___int
 #define snd_seq_delete_port_INDEXED INDEXED_int_snd_seq_t___GENPT___int
 #define snd_seq_delete_port_FORMAT FORMAT_int_snd_seq_t___GENPT___int
-#define snd_seq_drain_output_INDEX 1475
+#define snd_seq_drain_output_INDEX 1438
 #define snd_seq_drain_output_RETURN int
 #define snd_seq_drain_output_ARG_NAMES handle
 #define snd_seq_drain_output_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_drain_output_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_drain_output_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_drain_output_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_drop_input_INDEX 1476
+#define snd_seq_drop_input_INDEX 1439
 #define snd_seq_drop_input_RETURN int
 #define snd_seq_drop_input_ARG_NAMES handle
 #define snd_seq_drop_input_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_drop_input_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_input_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_input_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_drop_input_buffer_INDEX 1477
+#define snd_seq_drop_input_buffer_INDEX 1440
 #define snd_seq_drop_input_buffer_RETURN int
 #define snd_seq_drop_input_buffer_ARG_NAMES handle
 #define snd_seq_drop_input_buffer_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_drop_input_buffer_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_input_buffer_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_input_buffer_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_drop_output_INDEX 1478
+#define snd_seq_drop_output_INDEX 1441
 #define snd_seq_drop_output_RETURN int
 #define snd_seq_drop_output_ARG_NAMES handle
 #define snd_seq_drop_output_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_drop_output_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_output_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_output_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_drop_output_buffer_INDEX 1479
+#define snd_seq_drop_output_buffer_INDEX 1442
 #define snd_seq_drop_output_buffer_RETURN int
 #define snd_seq_drop_output_buffer_ARG_NAMES handle
 #define snd_seq_drop_output_buffer_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_drop_output_buffer_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_output_buffer_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_drop_output_buffer_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_event_input_INDEX 1480
+#define snd_seq_event_input_INDEX 1443
 #define snd_seq_event_input_RETURN int
 #define snd_seq_event_input_ARG_NAMES handle, ev
 #define snd_seq_event_input_ARG_EXPAND snd_seq_t * handle, snd_seq_event_t ** ev
 #define snd_seq_event_input_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
 #define snd_seq_event_input_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
 #define snd_seq_event_input_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
-#define snd_seq_event_input_pending_INDEX 1481
+#define snd_seq_event_input_pending_INDEX 1444
 #define snd_seq_event_input_pending_RETURN int
 #define snd_seq_event_input_pending_ARG_NAMES seq, fetch_sequencer
 #define snd_seq_event_input_pending_ARG_EXPAND snd_seq_t * seq, int fetch_sequencer
 #define snd_seq_event_input_pending_PACKED PACKED_int_snd_seq_t___GENPT___int
 #define snd_seq_event_input_pending_INDEXED INDEXED_int_snd_seq_t___GENPT___int
 #define snd_seq_event_input_pending_FORMAT FORMAT_int_snd_seq_t___GENPT___int
-#define snd_seq_event_length_INDEX 1482
+#define snd_seq_event_length_INDEX 1445
 #define snd_seq_event_length_RETURN ssize_t
 #define snd_seq_event_length_ARG_NAMES ev
 #define snd_seq_event_length_ARG_EXPAND snd_seq_event_t * ev
 #define snd_seq_event_length_PACKED PACKED_ssize_t_snd_seq_event_t___GENPT__
 #define snd_seq_event_length_INDEXED INDEXED_ssize_t_snd_seq_event_t___GENPT__
 #define snd_seq_event_length_FORMAT FORMAT_ssize_t_snd_seq_event_t___GENPT__
-#define snd_seq_event_output_INDEX 1483
+#define snd_seq_event_output_INDEX 1446
 #define snd_seq_event_output_RETURN int
 #define snd_seq_event_output_ARG_NAMES handle, ev
 #define snd_seq_event_output_ARG_EXPAND snd_seq_t * handle, snd_seq_event_t * ev
 #define snd_seq_event_output_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
-#define snd_seq_event_output_buffer_INDEX 1484
+#define snd_seq_event_output_buffer_INDEX 1447
 #define snd_seq_event_output_buffer_RETURN int
 #define snd_seq_event_output_buffer_ARG_NAMES handle, ev
 #define snd_seq_event_output_buffer_ARG_EXPAND snd_seq_t * handle, snd_seq_event_t * ev
 #define snd_seq_event_output_buffer_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_buffer_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_buffer_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
-#define snd_seq_event_output_direct_INDEX 1485
+#define snd_seq_event_output_direct_INDEX 1448
 #define snd_seq_event_output_direct_RETURN int
 #define snd_seq_event_output_direct_ARG_NAMES handle, ev
 #define snd_seq_event_output_direct_ARG_EXPAND snd_seq_t * handle, snd_seq_event_t * ev
 #define snd_seq_event_output_direct_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_direct_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
 #define snd_seq_event_output_direct_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT__
-#define snd_seq_event_output_pending_INDEX 1486
+#define snd_seq_event_output_pending_INDEX 1449
 #define snd_seq_event_output_pending_RETURN int
 #define snd_seq_event_output_pending_ARG_NAMES seq
 #define snd_seq_event_output_pending_ARG_EXPAND snd_seq_t * seq
 #define snd_seq_event_output_pending_PACKED PACKED_int_snd_seq_t___GENPT__
 #define snd_seq_event_output_pending_INDEXED INDEXED_int_snd_seq_t___GENPT__
 #define snd_seq_event_output_pending_FORMAT FORMAT_int_snd_seq_t___GENPT__
-#define snd_seq_extract_output_INDEX 1487
+#define snd_seq_extract_output_INDEX 1450
 #define snd_seq_extract_output_RETURN int
 #define snd_seq_extract_output_ARG_NAMES handle, ev
 #define snd_seq_extract_output_ARG_EXPAND snd_seq_t * handle, snd_seq_event_t ** ev
 #define snd_seq_extract_output_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
 #define snd_seq_extract_output_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
 #define snd_seq_extract_output_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_event_t___GENPT____GENPT__
-#define snd_seq_free_event_INDEX 1488
+#define snd_seq_free_event_INDEX 1451
 #define snd_seq_free_event_RETURN int
 #define snd_seq_free_event_ARG_NAMES ev
 #define snd_seq_free_event_ARG_EXPAND snd_seq_event_t * ev
 #define snd_seq_free_event_PACKED PACKED_int_snd_seq_event_t___GENPT__
 #define snd_seq_free_event_INDEXED INDEXED_int_snd_seq_event_t___GENPT__
 #define snd_seq_free_event_FORMAT FORMAT_int_snd_seq_event_t___GENPT__
-#define snd_seq_free_queue_INDEX 1489
+#define snd_seq_free_queue_INDEX 1452
 #define snd_seq_free_queue_RETURN int
 #define snd_seq_free_queue_ARG_NAMES handle, q
 #define snd_seq_free_queue_ARG_EXPAND snd_seq_t * handle, int q
 #define snd_seq_free_queue_PACKED PACKED_int_snd_seq_t___GENPT___int
 #define snd_seq_free_queue_INDEXED INDEXED_int_snd_seq_t___GENPT___int
 #define snd_seq_free_queue_FORMAT FORMAT_int_snd_seq_t___GENPT___int
-#define snd_seq_get_any_client_info_INDEX 1490
+#define snd_seq_get_any_client_info_INDEX 1453
 #define snd_seq_get_any_client_info_RETURN int
 #define snd_seq_get_any_client_info_ARG_NAMES handle, client, info
 #define snd_seq_get_any_client_info_ARG_EXPAND snd_seq_t * handle, int client, snd_seq_client_info_t * info
 #define snd_seq_get_any_client_info_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__
 #define snd_seq_get_any_client_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__
 #define snd_seq_get_any_client_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_client_info_t___GENPT__
-#define snd_seq_get_any_port_info_INDEX 1491
+#define snd_seq_get_any_port_info_INDEX 1454
 #define snd_seq_get_any_port_info_RETURN int
 #define snd_seq_get_any_port_info_ARG_NAMES handle, client, port, info
 #define snd_seq_get_any_port_info_ARG_EXPAND snd_seq_t * handle, int client, int port, snd_seq_port_info_t * info
 #define snd_seq_get_any_port_info_PACKED PACKED_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__
 #define snd_seq_get_any_port_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__
 #define snd_seq_get_any_port_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_int_snd_seq_port_info_t___GENPT__
-#define snd_seq_get_bit_INDEX 1492
+#define snd_seq_get_bit_INDEX 1455
 #define snd_seq_get_bit_RETURN int
 #define snd_seq_get_bit_ARG_NAMES nr, array
 #define snd_seq_get_bit_ARG_EXPAND int nr, void * array
 #define snd_seq_get_bit_PACKED PACKED_int_int_void___GENPT__
 #define snd_seq_get_bit_INDEXED INDEXED_int_int_void___GENPT__
 #define snd_seq_get_bit_FORMAT FORMAT_int_int_void___GENPT__
-#define snd_seq_get_client_info_INDEX 1493
+#define snd_seq_get_client_info_INDEX 1456
 #define snd_seq_get_client_info_RETURN int
 #define snd_seq_get_client_info_ARG_NAMES handle, info
 #define snd_seq_get_client_info_ARG_EXPAND snd_seq_t * handle, snd_seq_client_info_t * info
 #define snd_seq_get_client_info_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_get_client_info_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_get_client_info_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
-#define snd_seq_get_client_pool_INDEX 1494
+#define snd_seq_get_client_pool_INDEX 1457
 #define snd_seq_get_client_pool_RETURN int
 #define snd_seq_get_client_pool_ARG_NAMES handle, info
 #define snd_seq_get_client_pool_ARG_EXPAND snd_seq_t * handle, snd_seq_client_pool_t * info
 #define snd_seq_get_client_pool_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
 #define snd_seq_get_client_pool_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
 #define snd_seq_get_client_pool_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
-#define snd_seq_get_input_buffer_size_INDEX 1495
+#define snd_seq_get_input_buffer_size_INDEX 1458
 #define snd_seq_get_input_buffer_size_RETURN size_t
 #define snd_seq_get_input_buffer_size_ARG_NAMES handle
 #define snd_seq_get_input_buffer_size_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_get_input_buffer_size_PACKED PACKED_size_t_snd_seq_t___GENPT__
 #define snd_seq_get_input_buffer_size_INDEXED INDEXED_size_t_snd_seq_t___GENPT__
 #define snd_seq_get_input_buffer_size_FORMAT FORMAT_size_t_snd_seq_t___GENPT__
-#define snd_seq_get_output_buffer_size_INDEX 1496
+#define snd_seq_get_output_buffer_size_INDEX 1459
 #define snd_seq_get_output_buffer_size_RETURN size_t
 #define snd_seq_get_output_buffer_size_ARG_NAMES handle
 #define snd_seq_get_output_buffer_size_ARG_EXPAND snd_seq_t * handle
 #define snd_seq_get_output_buffer_size_PACKED PACKED_size_t_snd_seq_t___GENPT__
 #define snd_seq_get_output_buffer_size_INDEXED INDEXED_size_t_snd_seq_t___GENPT__
 #define snd_seq_get_output_buffer_size_FORMAT FORMAT_size_t_snd_seq_t___GENPT__
-#define snd_seq_get_port_info_INDEX 1497
+#define snd_seq_get_port_info_INDEX 1460
 #define snd_seq_get_port_info_RETURN int
 #define snd_seq_get_port_info_ARG_NAMES handle, port, info
 #define snd_seq_get_port_info_ARG_EXPAND snd_seq_t * handle, int port, snd_seq_port_info_t * info
 #define snd_seq_get_port_info_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
 #define snd_seq_get_port_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
 #define snd_seq_get_port_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
-#define snd_seq_get_port_subscription_INDEX 1498
+#define snd_seq_get_port_subscription_INDEX 1461
 #define snd_seq_get_port_subscription_RETURN int
 #define snd_seq_get_port_subscription_ARG_NAMES handle, sub
 #define snd_seq_get_port_subscription_ARG_EXPAND snd_seq_t * handle, snd_seq_port_subscribe_t * sub
 #define snd_seq_get_port_subscription_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_get_port_subscription_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_get_port_subscription_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_get_queue_info_INDEX 1499
+#define snd_seq_get_queue_info_INDEX 1462
 #define snd_seq_get_queue_info_RETURN int
 #define snd_seq_get_queue_info_ARG_NAMES seq, q, info
 #define snd_seq_get_queue_info_ARG_EXPAND snd_seq_t * seq, int q, snd_seq_queue_info_t * info
 #define snd_seq_get_queue_info_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
 #define snd_seq_get_queue_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
 #define snd_seq_get_queue_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
-#define snd_seq_get_queue_status_INDEX 1500
+#define snd_seq_get_queue_status_INDEX 1463
 #define snd_seq_get_queue_status_RETURN int
 #define snd_seq_get_queue_status_ARG_NAMES handle, q, status
 #define snd_seq_get_queue_status_ARG_EXPAND snd_seq_t * handle, int q, snd_seq_queue_status_t * status
 #define snd_seq_get_queue_status_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__
 #define snd_seq_get_queue_status_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__
 #define snd_seq_get_queue_status_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_status_t___GENPT__
-#define snd_seq_get_queue_tempo_INDEX 1501
+#define snd_seq_get_queue_tempo_INDEX 1464
 #define snd_seq_get_queue_tempo_RETURN int
 #define snd_seq_get_queue_tempo_ARG_NAMES handle, q, tempo
 #define snd_seq_get_queue_tempo_ARG_EXPAND snd_seq_t * handle, int q, snd_seq_queue_tempo_t * tempo
 #define snd_seq_get_queue_tempo_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_get_queue_tempo_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_get_queue_tempo_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_get_queue_timer_INDEX 1502
+#define snd_seq_get_queue_timer_INDEX 1465
 #define snd_seq_get_queue_timer_RETURN int
 #define snd_seq_get_queue_timer_ARG_NAMES handle, q, timer
 #define snd_seq_get_queue_timer_ARG_EXPAND snd_seq_t * handle, int q, snd_seq_queue_timer_t * timer
 #define snd_seq_get_queue_timer_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_get_queue_timer_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_get_queue_timer_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_get_queue_usage_INDEX 1503
+#define snd_seq_get_queue_usage_INDEX 1466
 #define snd_seq_get_queue_usage_RETURN int
 #define snd_seq_get_queue_usage_ARG_NAMES handle, q
 #define snd_seq_get_queue_usage_ARG_EXPAND snd_seq_t * handle, int q
 #define snd_seq_get_queue_usage_PACKED PACKED_int_snd_seq_t___GENPT___int
 #define snd_seq_get_queue_usage_INDEXED INDEXED_int_snd_seq_t___GENPT___int
 #define snd_seq_get_queue_usage_FORMAT FORMAT_int_snd_seq_t___GENPT___int
-#define snd_seq_name_INDEX 1504
+#define snd_seq_name_INDEX 1467
 #define snd_seq_name_RETURN const char *
 #define snd_seq_name_ARG_NAMES seq
 #define snd_seq_name_ARG_EXPAND snd_seq_t * seq
 #define snd_seq_name_PACKED PACKED_const_char___GENPT___snd_seq_t___GENPT__
 #define snd_seq_name_INDEXED INDEXED_const_char___GENPT___snd_seq_t___GENPT__
 #define snd_seq_name_FORMAT FORMAT_const_char___GENPT___snd_seq_t___GENPT__
-#define snd_seq_nonblock_INDEX 1505
+#define snd_seq_nonblock_INDEX 1468
 #define snd_seq_nonblock_RETURN int
 #define snd_seq_nonblock_ARG_NAMES handle, nonblock
 #define snd_seq_nonblock_ARG_EXPAND snd_seq_t * handle, int nonblock
 #define snd_seq_nonblock_PACKED PACKED_int_snd_seq_t___GENPT___int
 #define snd_seq_nonblock_INDEXED INDEXED_int_snd_seq_t___GENPT___int
 #define snd_seq_nonblock_FORMAT FORMAT_int_snd_seq_t___GENPT___int
-#define snd_seq_open_INDEX 1506
+#define snd_seq_open_INDEX 1469
 #define snd_seq_open_RETURN int
 #define snd_seq_open_ARG_NAMES handle, name, streams, mode
 #define snd_seq_open_ARG_EXPAND snd_seq_t ** handle, const char * name, int streams, int mode
 #define snd_seq_open_PACKED PACKED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int
 #define snd_seq_open_INDEXED INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int
 #define snd_seq_open_FORMAT FORMAT_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int
-#define snd_seq_open_lconf_INDEX 1507
+#define snd_seq_open_lconf_INDEX 1470
 #define snd_seq_open_lconf_RETURN int
 #define snd_seq_open_lconf_ARG_NAMES handle, name, streams, mode, lconf
 #define snd_seq_open_lconf_ARG_EXPAND snd_seq_t ** handle, const char * name, int streams, int mode, snd_config_t * lconf
 #define snd_seq_open_lconf_PACKED PACKED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__
 #define snd_seq_open_lconf_INDEXED INDEXED_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__
 #define snd_seq_open_lconf_FORMAT FORMAT_int_snd_seq_t___GENPT____GENPT___const_char___GENPT___int_int_snd_config_t___GENPT__
-#define snd_seq_poll_descriptors_INDEX 1508
+#define snd_seq_poll_descriptors_INDEX 1471
 #define snd_seq_poll_descriptors_RETURN int
 #define snd_seq_poll_descriptors_ARG_NAMES handle, pfds, space, events
 #define snd_seq_poll_descriptors_ARG_EXPAND snd_seq_t * handle, struct pollfd * pfds, unsigned int space, short events
 #define snd_seq_poll_descriptors_PACKED PACKED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short
 #define snd_seq_poll_descriptors_INDEXED INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short
 #define snd_seq_poll_descriptors_FORMAT FORMAT_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_short
-#define snd_seq_poll_descriptors_count_INDEX 1509
+#define snd_seq_poll_descriptors_count_INDEX 1472
 #define snd_seq_poll_descriptors_count_RETURN int
 #define snd_seq_poll_descriptors_count_ARG_NAMES handle, events
 #define snd_seq_poll_descriptors_count_ARG_EXPAND snd_seq_t * handle, short events
 #define snd_seq_poll_descriptors_count_PACKED PACKED_int_snd_seq_t___GENPT___short
 #define snd_seq_poll_descriptors_count_INDEXED INDEXED_int_snd_seq_t___GENPT___short
 #define snd_seq_poll_descriptors_count_FORMAT FORMAT_int_snd_seq_t___GENPT___short
-#define snd_seq_poll_descriptors_revents_INDEX 1510
+#define snd_seq_poll_descriptors_revents_INDEX 1473
 #define snd_seq_poll_descriptors_revents_RETURN int
 #define snd_seq_poll_descriptors_revents_ARG_NAMES seq, pfds, nfds, revents
 #define snd_seq_poll_descriptors_revents_ARG_EXPAND snd_seq_t * seq, struct pollfd * pfds, unsigned int nfds, unsigned short * revents
 #define snd_seq_poll_descriptors_revents_PACKED PACKED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_seq_poll_descriptors_revents_INDEXED INDEXED_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_seq_poll_descriptors_revents_FORMAT FORMAT_int_snd_seq_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
-#define snd_seq_port_info_copy_INDEX 1511
+#define snd_seq_port_info_copy_INDEX 1474
 #define snd_seq_port_info_copy_RETURN void
 #define snd_seq_port_info_copy_ARG_NAMES dst, src
 #define snd_seq_port_info_copy_ARG_EXPAND snd_seq_port_info_t * dst, const snd_seq_port_info_t * src
 #define snd_seq_port_info_copy_PACKED PACKED_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_copy_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_copy_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_free_INDEX 1512
+#define snd_seq_port_info_free_INDEX 1475
 #define snd_seq_port_info_free_RETURN void
 #define snd_seq_port_info_free_ARG_NAMES ptr
 #define snd_seq_port_info_free_ARG_EXPAND snd_seq_port_info_t * ptr
 #define snd_seq_port_info_free_PACKED PACKED_void_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_free_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_free_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_addr_INDEX 1513
+#define snd_seq_port_info_get_addr_INDEX 1476
 #define snd_seq_port_info_get_addr_RETURN const snd_seq_addr_t *
 #define snd_seq_port_info_get_addr_ARG_NAMES info
 #define snd_seq_port_info_get_addr_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_addr_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_addr_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_addr_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_capability_INDEX 1514
+#define snd_seq_port_info_get_capability_INDEX 1477
 #define snd_seq_port_info_get_capability_RETURN unsigned int
 #define snd_seq_port_info_get_capability_ARG_NAMES info
 #define snd_seq_port_info_get_capability_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_capability_PACKED PACKED_unsigned_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_capability_INDEXED INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_capability_FORMAT FORMAT_unsigned_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_client_INDEX 1515
+#define snd_seq_port_info_get_client_INDEX 1478
 #define snd_seq_port_info_get_client_RETURN int
 #define snd_seq_port_info_get_client_ARG_NAMES info
 #define snd_seq_port_info_get_client_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_client_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_client_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_client_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_midi_channels_INDEX 1516
+#define snd_seq_port_info_get_midi_channels_INDEX 1479
 #define snd_seq_port_info_get_midi_channels_RETURN int
 #define snd_seq_port_info_get_midi_channels_ARG_NAMES info
 #define snd_seq_port_info_get_midi_channels_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_midi_channels_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_midi_channels_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_midi_channels_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_midi_voices_INDEX 1517
+#define snd_seq_port_info_get_midi_voices_INDEX 1480
 #define snd_seq_port_info_get_midi_voices_RETURN int
 #define snd_seq_port_info_get_midi_voices_ARG_NAMES info
 #define snd_seq_port_info_get_midi_voices_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_midi_voices_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_midi_voices_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_midi_voices_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_name_INDEX 1518
+#define snd_seq_port_info_get_name_INDEX 1481
 #define snd_seq_port_info_get_name_RETURN const char *
 #define snd_seq_port_info_get_name_ARG_NAMES info
 #define snd_seq_port_info_get_name_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_name_PACKED PACKED_const_char___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_port_INDEX 1519
+#define snd_seq_port_info_get_port_INDEX 1482
 #define snd_seq_port_info_get_port_RETURN int
 #define snd_seq_port_info_get_port_ARG_NAMES info
 #define snd_seq_port_info_get_port_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_port_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_port_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_port_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_port_specified_INDEX 1520
+#define snd_seq_port_info_get_port_specified_INDEX 1483
 #define snd_seq_port_info_get_port_specified_RETURN int
 #define snd_seq_port_info_get_port_specified_ARG_NAMES info
 #define snd_seq_port_info_get_port_specified_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_port_specified_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_port_specified_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_port_specified_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_read_use_INDEX 1521
+#define snd_seq_port_info_get_read_use_INDEX 1484
 #define snd_seq_port_info_get_read_use_RETURN int
 #define snd_seq_port_info_get_read_use_ARG_NAMES info
 #define snd_seq_port_info_get_read_use_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_read_use_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_read_use_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_read_use_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_synth_voices_INDEX 1522
+#define snd_seq_port_info_get_synth_voices_INDEX 1485
 #define snd_seq_port_info_get_synth_voices_RETURN int
 #define snd_seq_port_info_get_synth_voices_ARG_NAMES info
 #define snd_seq_port_info_get_synth_voices_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_synth_voices_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_synth_voices_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_synth_voices_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_timestamp_queue_INDEX 1523
+#define snd_seq_port_info_get_timestamp_queue_INDEX 1486
 #define snd_seq_port_info_get_timestamp_queue_RETURN int
 #define snd_seq_port_info_get_timestamp_queue_ARG_NAMES info
 #define snd_seq_port_info_get_timestamp_queue_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_timestamp_queue_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamp_queue_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamp_queue_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_timestamp_real_INDEX 1524
+#define snd_seq_port_info_get_timestamp_real_INDEX 1487
 #define snd_seq_port_info_get_timestamp_real_RETURN int
 #define snd_seq_port_info_get_timestamp_real_ARG_NAMES info
 #define snd_seq_port_info_get_timestamp_real_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_timestamp_real_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamp_real_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamp_real_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_timestamping_INDEX 1525
+#define snd_seq_port_info_get_timestamping_INDEX 1488
 #define snd_seq_port_info_get_timestamping_RETURN int
 #define snd_seq_port_info_get_timestamping_ARG_NAMES info
 #define snd_seq_port_info_get_timestamping_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_timestamping_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamping_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_timestamping_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_type_INDEX 1526
+#define snd_seq_port_info_get_type_INDEX 1489
 #define snd_seq_port_info_get_type_RETURN unsigned int
 #define snd_seq_port_info_get_type_ARG_NAMES info
 #define snd_seq_port_info_get_type_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_type_PACKED PACKED_unsigned_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_type_INDEXED INDEXED_unsigned_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_type_FORMAT FORMAT_unsigned_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_get_write_use_INDEX 1527
+#define snd_seq_port_info_get_write_use_INDEX 1490
 #define snd_seq_port_info_get_write_use_RETURN int
 #define snd_seq_port_info_get_write_use_ARG_NAMES info
 #define snd_seq_port_info_get_write_use_ARG_EXPAND const snd_seq_port_info_t * info
 #define snd_seq_port_info_get_write_use_PACKED PACKED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_write_use_INDEXED INDEXED_int_const_snd_seq_port_info_t___GENPT__
 #define snd_seq_port_info_get_write_use_FORMAT FORMAT_int_const_snd_seq_port_info_t___GENPT__
-#define snd_seq_port_info_malloc_INDEX 1528
+#define snd_seq_port_info_malloc_INDEX 1491
 #define snd_seq_port_info_malloc_RETURN int
 #define snd_seq_port_info_malloc_ARG_NAMES ptr
 #define snd_seq_port_info_malloc_ARG_EXPAND snd_seq_port_info_t ** ptr
 #define snd_seq_port_info_malloc_PACKED PACKED_int_snd_seq_port_info_t___GENPT____GENPT__
 #define snd_seq_port_info_malloc_INDEXED INDEXED_int_snd_seq_port_info_t___GENPT____GENPT__
 #define snd_seq_port_info_malloc_FORMAT FORMAT_int_snd_seq_port_info_t___GENPT____GENPT__
-#define snd_seq_port_info_set_addr_INDEX 1529
+#define snd_seq_port_info_set_addr_INDEX 1492
 #define snd_seq_port_info_set_addr_RETURN void
 #define snd_seq_port_info_set_addr_ARG_NAMES info, addr
 #define snd_seq_port_info_set_addr_ARG_EXPAND snd_seq_port_info_t * info, const snd_seq_addr_t * addr
 #define snd_seq_port_info_set_addr_PACKED PACKED_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_info_set_addr_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_info_set_addr_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___const_snd_seq_addr_t___GENPT__
-#define snd_seq_port_info_set_capability_INDEX 1530
+#define snd_seq_port_info_set_capability_INDEX 1493
 #define snd_seq_port_info_set_capability_RETURN void
 #define snd_seq_port_info_set_capability_ARG_NAMES info, capability
 #define snd_seq_port_info_set_capability_ARG_EXPAND snd_seq_port_info_t * info, unsigned int capability
 #define snd_seq_port_info_set_capability_PACKED PACKED_void_snd_seq_port_info_t___GENPT___unsigned_int
 #define snd_seq_port_info_set_capability_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int
 #define snd_seq_port_info_set_capability_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___unsigned_int
-#define snd_seq_port_info_set_client_INDEX 1531
+#define snd_seq_port_info_set_client_INDEX 1494
 #define snd_seq_port_info_set_client_RETURN void
 #define snd_seq_port_info_set_client_ARG_NAMES info, client
 #define snd_seq_port_info_set_client_ARG_EXPAND snd_seq_port_info_t * info, int client
 #define snd_seq_port_info_set_client_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_client_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_client_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_midi_channels_INDEX 1532
+#define snd_seq_port_info_set_midi_channels_INDEX 1495
 #define snd_seq_port_info_set_midi_channels_RETURN void
 #define snd_seq_port_info_set_midi_channels_ARG_NAMES info, channels
 #define snd_seq_port_info_set_midi_channels_ARG_EXPAND snd_seq_port_info_t * info, int channels
 #define snd_seq_port_info_set_midi_channels_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_midi_channels_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_midi_channels_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_midi_voices_INDEX 1533
+#define snd_seq_port_info_set_midi_voices_INDEX 1496
 #define snd_seq_port_info_set_midi_voices_RETURN void
 #define snd_seq_port_info_set_midi_voices_ARG_NAMES info, voices
 #define snd_seq_port_info_set_midi_voices_ARG_EXPAND snd_seq_port_info_t * info, int voices
 #define snd_seq_port_info_set_midi_voices_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_midi_voices_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_midi_voices_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_name_INDEX 1534
+#define snd_seq_port_info_set_name_INDEX 1497
 #define snd_seq_port_info_set_name_RETURN void
 #define snd_seq_port_info_set_name_ARG_NAMES info, name
 #define snd_seq_port_info_set_name_ARG_EXPAND snd_seq_port_info_t * info, const char * name
 #define snd_seq_port_info_set_name_PACKED PACKED_void_snd_seq_port_info_t___GENPT___const_char___GENPT__
 #define snd_seq_port_info_set_name_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___const_char___GENPT__
 #define snd_seq_port_info_set_name_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___const_char___GENPT__
-#define snd_seq_port_info_set_port_INDEX 1535
+#define snd_seq_port_info_set_port_INDEX 1498
 #define snd_seq_port_info_set_port_RETURN void
 #define snd_seq_port_info_set_port_ARG_NAMES info, port
 #define snd_seq_port_info_set_port_ARG_EXPAND snd_seq_port_info_t * info, int port
 #define snd_seq_port_info_set_port_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_port_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_port_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_port_specified_INDEX 1536
+#define snd_seq_port_info_set_port_specified_INDEX 1499
 #define snd_seq_port_info_set_port_specified_RETURN void
 #define snd_seq_port_info_set_port_specified_ARG_NAMES info, val
 #define snd_seq_port_info_set_port_specified_ARG_EXPAND snd_seq_port_info_t * info, int val
 #define snd_seq_port_info_set_port_specified_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_port_specified_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_port_specified_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_synth_voices_INDEX 1537
+#define snd_seq_port_info_set_synth_voices_INDEX 1500
 #define snd_seq_port_info_set_synth_voices_RETURN void
 #define snd_seq_port_info_set_synth_voices_ARG_NAMES info, voices
 #define snd_seq_port_info_set_synth_voices_ARG_EXPAND snd_seq_port_info_t * info, int voices
 #define snd_seq_port_info_set_synth_voices_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_synth_voices_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_synth_voices_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_timestamp_queue_INDEX 1538
+#define snd_seq_port_info_set_timestamp_queue_INDEX 1501
 #define snd_seq_port_info_set_timestamp_queue_RETURN void
 #define snd_seq_port_info_set_timestamp_queue_ARG_NAMES info, queue
 #define snd_seq_port_info_set_timestamp_queue_ARG_EXPAND snd_seq_port_info_t * info, int queue
 #define snd_seq_port_info_set_timestamp_queue_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamp_queue_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamp_queue_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_timestamp_real_INDEX 1539
+#define snd_seq_port_info_set_timestamp_real_INDEX 1502
 #define snd_seq_port_info_set_timestamp_real_RETURN void
 #define snd_seq_port_info_set_timestamp_real_ARG_NAMES info, realtime
 #define snd_seq_port_info_set_timestamp_real_ARG_EXPAND snd_seq_port_info_t * info, int realtime
 #define snd_seq_port_info_set_timestamp_real_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamp_real_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamp_real_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_timestamping_INDEX 1540
+#define snd_seq_port_info_set_timestamping_INDEX 1503
 #define snd_seq_port_info_set_timestamping_RETURN void
 #define snd_seq_port_info_set_timestamping_ARG_NAMES info, enable
 #define snd_seq_port_info_set_timestamping_ARG_EXPAND snd_seq_port_info_t * info, int enable
 #define snd_seq_port_info_set_timestamping_PACKED PACKED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamping_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___int
 #define snd_seq_port_info_set_timestamping_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___int
-#define snd_seq_port_info_set_type_INDEX 1541
+#define snd_seq_port_info_set_type_INDEX 1504
 #define snd_seq_port_info_set_type_RETURN void
 #define snd_seq_port_info_set_type_ARG_NAMES info, type
 #define snd_seq_port_info_set_type_ARG_EXPAND snd_seq_port_info_t * info, unsigned int type
 #define snd_seq_port_info_set_type_PACKED PACKED_void_snd_seq_port_info_t___GENPT___unsigned_int
 #define snd_seq_port_info_set_type_INDEXED INDEXED_void_snd_seq_port_info_t___GENPT___unsigned_int
 #define snd_seq_port_info_set_type_FORMAT FORMAT_void_snd_seq_port_info_t___GENPT___unsigned_int
-#define snd_seq_port_info_sizeof_INDEX 1542
+#define snd_seq_port_info_sizeof_INDEX 1505
 #define snd_seq_port_info_sizeof_RETURN size_t
 #define snd_seq_port_info_sizeof_ARG_NAMES 
 #define snd_seq_port_info_sizeof_ARG_EXPAND 
 #define snd_seq_port_info_sizeof_PACKED PACKED_size_t
 #define snd_seq_port_info_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_port_info_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_port_subscribe_copy_INDEX 1543
+#define snd_seq_port_subscribe_copy_INDEX 1506
 #define snd_seq_port_subscribe_copy_RETURN void
 #define snd_seq_port_subscribe_copy_ARG_NAMES dst, src
 #define snd_seq_port_subscribe_copy_ARG_EXPAND snd_seq_port_subscribe_t * dst, const snd_seq_port_subscribe_t * src
 #define snd_seq_port_subscribe_copy_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_copy_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_copy_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_free_INDEX 1544
+#define snd_seq_port_subscribe_free_INDEX 1507
 #define snd_seq_port_subscribe_free_RETURN void
 #define snd_seq_port_subscribe_free_ARG_NAMES ptr
 #define snd_seq_port_subscribe_free_ARG_EXPAND snd_seq_port_subscribe_t * ptr
 #define snd_seq_port_subscribe_free_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_free_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_free_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_dest_INDEX 1545
+#define snd_seq_port_subscribe_get_dest_INDEX 1508
 #define snd_seq_port_subscribe_get_dest_RETURN const snd_seq_addr_t *
 #define snd_seq_port_subscribe_get_dest_ARG_NAMES info
 #define snd_seq_port_subscribe_get_dest_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_dest_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_dest_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_dest_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_exclusive_INDEX 1546
+#define snd_seq_port_subscribe_get_exclusive_INDEX 1509
 #define snd_seq_port_subscribe_get_exclusive_RETURN int
 #define snd_seq_port_subscribe_get_exclusive_ARG_NAMES info
 #define snd_seq_port_subscribe_get_exclusive_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_exclusive_PACKED PACKED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_exclusive_INDEXED INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_exclusive_FORMAT FORMAT_int_const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_queue_INDEX 1547
+#define snd_seq_port_subscribe_get_queue_INDEX 1510
 #define snd_seq_port_subscribe_get_queue_RETURN int
 #define snd_seq_port_subscribe_get_queue_ARG_NAMES info
 #define snd_seq_port_subscribe_get_queue_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_queue_PACKED PACKED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_queue_INDEXED INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_queue_FORMAT FORMAT_int_const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_sender_INDEX 1548
+#define snd_seq_port_subscribe_get_sender_INDEX 1511
 #define snd_seq_port_subscribe_get_sender_RETURN const snd_seq_addr_t *
 #define snd_seq_port_subscribe_get_sender_ARG_NAMES info
 #define snd_seq_port_subscribe_get_sender_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_sender_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_sender_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_sender_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_time_real_INDEX 1549
+#define snd_seq_port_subscribe_get_time_real_INDEX 1512
 #define snd_seq_port_subscribe_get_time_real_RETURN int
 #define snd_seq_port_subscribe_get_time_real_ARG_NAMES info
 #define snd_seq_port_subscribe_get_time_real_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_time_real_PACKED PACKED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_time_real_INDEXED INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_time_real_FORMAT FORMAT_int_const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_get_time_update_INDEX 1550
+#define snd_seq_port_subscribe_get_time_update_INDEX 1513
 #define snd_seq_port_subscribe_get_time_update_RETURN int
 #define snd_seq_port_subscribe_get_time_update_ARG_NAMES info
 #define snd_seq_port_subscribe_get_time_update_ARG_EXPAND const snd_seq_port_subscribe_t * info
 #define snd_seq_port_subscribe_get_time_update_PACKED PACKED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_time_update_INDEXED INDEXED_int_const_snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_port_subscribe_get_time_update_FORMAT FORMAT_int_const_snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_port_subscribe_malloc_INDEX 1551
+#define snd_seq_port_subscribe_malloc_INDEX 1514
 #define snd_seq_port_subscribe_malloc_RETURN int
 #define snd_seq_port_subscribe_malloc_ARG_NAMES ptr
 #define snd_seq_port_subscribe_malloc_ARG_EXPAND snd_seq_port_subscribe_t ** ptr
 #define snd_seq_port_subscribe_malloc_PACKED PACKED_int_snd_seq_port_subscribe_t___GENPT____GENPT__
 #define snd_seq_port_subscribe_malloc_INDEXED INDEXED_int_snd_seq_port_subscribe_t___GENPT____GENPT__
 #define snd_seq_port_subscribe_malloc_FORMAT FORMAT_int_snd_seq_port_subscribe_t___GENPT____GENPT__
-#define snd_seq_port_subscribe_set_dest_INDEX 1552
+#define snd_seq_port_subscribe_set_dest_INDEX 1515
 #define snd_seq_port_subscribe_set_dest_RETURN void
 #define snd_seq_port_subscribe_set_dest_ARG_NAMES info, addr
 #define snd_seq_port_subscribe_set_dest_ARG_EXPAND snd_seq_port_subscribe_t * info, const snd_seq_addr_t * addr
 #define snd_seq_port_subscribe_set_dest_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_subscribe_set_dest_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_subscribe_set_dest_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
-#define snd_seq_port_subscribe_set_exclusive_INDEX 1553
+#define snd_seq_port_subscribe_set_exclusive_INDEX 1516
 #define snd_seq_port_subscribe_set_exclusive_RETURN void
 #define snd_seq_port_subscribe_set_exclusive_ARG_NAMES info, val
 #define snd_seq_port_subscribe_set_exclusive_ARG_EXPAND snd_seq_port_subscribe_t * info, int val
 #define snd_seq_port_subscribe_set_exclusive_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_exclusive_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_exclusive_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___int
-#define snd_seq_port_subscribe_set_queue_INDEX 1554
+#define snd_seq_port_subscribe_set_queue_INDEX 1517
 #define snd_seq_port_subscribe_set_queue_RETURN void
 #define snd_seq_port_subscribe_set_queue_ARG_NAMES info, q
 #define snd_seq_port_subscribe_set_queue_ARG_EXPAND snd_seq_port_subscribe_t * info, int q
 #define snd_seq_port_subscribe_set_queue_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_queue_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_queue_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___int
-#define snd_seq_port_subscribe_set_sender_INDEX 1555
+#define snd_seq_port_subscribe_set_sender_INDEX 1518
 #define snd_seq_port_subscribe_set_sender_RETURN void
 #define snd_seq_port_subscribe_set_sender_ARG_NAMES info, addr
 #define snd_seq_port_subscribe_set_sender_ARG_EXPAND snd_seq_port_subscribe_t * info, const snd_seq_addr_t * addr
 #define snd_seq_port_subscribe_set_sender_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_subscribe_set_sender_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_port_subscribe_set_sender_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
-#define snd_seq_port_subscribe_set_time_real_INDEX 1556
+#define snd_seq_port_subscribe_set_time_real_INDEX 1519
 #define snd_seq_port_subscribe_set_time_real_RETURN void
 #define snd_seq_port_subscribe_set_time_real_ARG_NAMES info, val
 #define snd_seq_port_subscribe_set_time_real_ARG_EXPAND snd_seq_port_subscribe_t * info, int val
 #define snd_seq_port_subscribe_set_time_real_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_time_real_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_time_real_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___int
-#define snd_seq_port_subscribe_set_time_update_INDEX 1557
+#define snd_seq_port_subscribe_set_time_update_INDEX 1520
 #define snd_seq_port_subscribe_set_time_update_RETURN void
 #define snd_seq_port_subscribe_set_time_update_ARG_NAMES info, val
 #define snd_seq_port_subscribe_set_time_update_ARG_EXPAND snd_seq_port_subscribe_t * info, int val
 #define snd_seq_port_subscribe_set_time_update_PACKED PACKED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_time_update_INDEXED INDEXED_void_snd_seq_port_subscribe_t___GENPT___int
 #define snd_seq_port_subscribe_set_time_update_FORMAT FORMAT_void_snd_seq_port_subscribe_t___GENPT___int
-#define snd_seq_port_subscribe_sizeof_INDEX 1558
+#define snd_seq_port_subscribe_sizeof_INDEX 1521
 #define snd_seq_port_subscribe_sizeof_RETURN size_t
 #define snd_seq_port_subscribe_sizeof_ARG_NAMES 
 #define snd_seq_port_subscribe_sizeof_ARG_EXPAND 
 #define snd_seq_port_subscribe_sizeof_PACKED PACKED_size_t
 #define snd_seq_port_subscribe_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_port_subscribe_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_query_named_queue_INDEX 1559
+#define snd_seq_query_named_queue_INDEX 1522
 #define snd_seq_query_named_queue_RETURN int
 #define snd_seq_query_named_queue_ARG_NAMES seq, name
 #define snd_seq_query_named_queue_ARG_EXPAND snd_seq_t * seq, const char * name
 #define snd_seq_query_named_queue_PACKED PACKED_int_snd_seq_t___GENPT___const_char___GENPT__
 #define snd_seq_query_named_queue_INDEXED INDEXED_int_snd_seq_t___GENPT___const_char___GENPT__
 #define snd_seq_query_named_queue_FORMAT FORMAT_int_snd_seq_t___GENPT___const_char___GENPT__
-#define snd_seq_query_next_client_INDEX 1560
+#define snd_seq_query_next_client_INDEX 1523
 #define snd_seq_query_next_client_RETURN int
 #define snd_seq_query_next_client_ARG_NAMES handle, info
 #define snd_seq_query_next_client_ARG_EXPAND snd_seq_t * handle, snd_seq_client_info_t * info
 #define snd_seq_query_next_client_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_query_next_client_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_query_next_client_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
-#define snd_seq_query_next_port_INDEX 1561
+#define snd_seq_query_next_port_INDEX 1524
 #define snd_seq_query_next_port_RETURN int
 #define snd_seq_query_next_port_ARG_NAMES handle, info
 #define snd_seq_query_next_port_ARG_EXPAND snd_seq_t * handle, snd_seq_port_info_t * info
 #define snd_seq_query_next_port_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
 #define snd_seq_query_next_port_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
 #define snd_seq_query_next_port_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_port_info_t___GENPT__
-#define snd_seq_query_port_subscribers_INDEX 1562
+#define snd_seq_query_port_subscribers_INDEX 1525
 #define snd_seq_query_port_subscribers_RETURN int
 #define snd_seq_query_port_subscribers_ARG_NAMES seq, subs
 #define snd_seq_query_port_subscribers_ARG_EXPAND snd_seq_t * seq, snd_seq_query_subscribe_t * subs
 #define snd_seq_query_port_subscribers_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_port_subscribers_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_port_subscribers_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_copy_INDEX 1563
+#define snd_seq_query_subscribe_copy_INDEX 1526
 #define snd_seq_query_subscribe_copy_RETURN void
 #define snd_seq_query_subscribe_copy_ARG_NAMES dst, src
 #define snd_seq_query_subscribe_copy_ARG_EXPAND snd_seq_query_subscribe_t * dst, const snd_seq_query_subscribe_t * src
 #define snd_seq_query_subscribe_copy_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_copy_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_copy_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_free_INDEX 1564
+#define snd_seq_query_subscribe_free_INDEX 1527
 #define snd_seq_query_subscribe_free_RETURN void
 #define snd_seq_query_subscribe_free_ARG_NAMES ptr
 #define snd_seq_query_subscribe_free_ARG_EXPAND snd_seq_query_subscribe_t * ptr
 #define snd_seq_query_subscribe_free_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_free_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_free_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_addr_INDEX 1565
+#define snd_seq_query_subscribe_get_addr_INDEX 1528
 #define snd_seq_query_subscribe_get_addr_RETURN const snd_seq_addr_t *
 #define snd_seq_query_subscribe_get_addr_ARG_NAMES info
 #define snd_seq_query_subscribe_get_addr_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_addr_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_addr_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_addr_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_client_INDEX 1566
+#define snd_seq_query_subscribe_get_client_INDEX 1529
 #define snd_seq_query_subscribe_get_client_RETURN int
 #define snd_seq_query_subscribe_get_client_ARG_NAMES info
 #define snd_seq_query_subscribe_get_client_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_client_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_client_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_client_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_exclusive_INDEX 1567
+#define snd_seq_query_subscribe_get_exclusive_INDEX 1530
 #define snd_seq_query_subscribe_get_exclusive_RETURN int
 #define snd_seq_query_subscribe_get_exclusive_ARG_NAMES info
 #define snd_seq_query_subscribe_get_exclusive_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_exclusive_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_exclusive_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_exclusive_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_index_INDEX 1568
+#define snd_seq_query_subscribe_get_index_INDEX 1531
 #define snd_seq_query_subscribe_get_index_RETURN int
 #define snd_seq_query_subscribe_get_index_ARG_NAMES info
 #define snd_seq_query_subscribe_get_index_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_index_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_index_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_index_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_num_subs_INDEX 1569
+#define snd_seq_query_subscribe_get_num_subs_INDEX 1532
 #define snd_seq_query_subscribe_get_num_subs_RETURN int
 #define snd_seq_query_subscribe_get_num_subs_ARG_NAMES info
 #define snd_seq_query_subscribe_get_num_subs_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_num_subs_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_num_subs_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_num_subs_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_port_INDEX 1570
+#define snd_seq_query_subscribe_get_port_INDEX 1533
 #define snd_seq_query_subscribe_get_port_RETURN int
 #define snd_seq_query_subscribe_get_port_ARG_NAMES info
 #define snd_seq_query_subscribe_get_port_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_port_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_port_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_port_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_queue_INDEX 1571
+#define snd_seq_query_subscribe_get_queue_INDEX 1534
 #define snd_seq_query_subscribe_get_queue_RETURN int
 #define snd_seq_query_subscribe_get_queue_ARG_NAMES info
 #define snd_seq_query_subscribe_get_queue_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_queue_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_queue_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_queue_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_root_INDEX 1572
+#define snd_seq_query_subscribe_get_root_INDEX 1535
 #define snd_seq_query_subscribe_get_root_RETURN const snd_seq_addr_t *
 #define snd_seq_query_subscribe_get_root_ARG_NAMES info
 #define snd_seq_query_subscribe_get_root_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_root_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_root_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_root_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_time_real_INDEX 1573
+#define snd_seq_query_subscribe_get_time_real_INDEX 1536
 #define snd_seq_query_subscribe_get_time_real_RETURN int
 #define snd_seq_query_subscribe_get_time_real_ARG_NAMES info
 #define snd_seq_query_subscribe_get_time_real_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_time_real_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_time_real_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_time_real_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_time_update_INDEX 1574
+#define snd_seq_query_subscribe_get_time_update_INDEX 1537
 #define snd_seq_query_subscribe_get_time_update_RETURN int
 #define snd_seq_query_subscribe_get_time_update_ARG_NAMES info
 #define snd_seq_query_subscribe_get_time_update_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_time_update_PACKED PACKED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_time_update_INDEXED INDEXED_int_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_time_update_FORMAT FORMAT_int_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_get_type_INDEX 1575
+#define snd_seq_query_subscribe_get_type_INDEX 1538
 #define snd_seq_query_subscribe_get_type_RETURN snd_seq_query_subs_type_t
 #define snd_seq_query_subscribe_get_type_ARG_NAMES info
 #define snd_seq_query_subscribe_get_type_ARG_EXPAND const snd_seq_query_subscribe_t * info
 #define snd_seq_query_subscribe_get_type_PACKED PACKED_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_type_INDEXED INDEXED_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__
 #define snd_seq_query_subscribe_get_type_FORMAT FORMAT_snd_seq_query_subs_type_t_const_snd_seq_query_subscribe_t___GENPT__
-#define snd_seq_query_subscribe_malloc_INDEX 1576
+#define snd_seq_query_subscribe_malloc_INDEX 1539
 #define snd_seq_query_subscribe_malloc_RETURN int
 #define snd_seq_query_subscribe_malloc_ARG_NAMES ptr
 #define snd_seq_query_subscribe_malloc_ARG_EXPAND snd_seq_query_subscribe_t ** ptr
 #define snd_seq_query_subscribe_malloc_PACKED PACKED_int_snd_seq_query_subscribe_t___GENPT____GENPT__
 #define snd_seq_query_subscribe_malloc_INDEXED INDEXED_int_snd_seq_query_subscribe_t___GENPT____GENPT__
 #define snd_seq_query_subscribe_malloc_FORMAT FORMAT_int_snd_seq_query_subscribe_t___GENPT____GENPT__
-#define snd_seq_query_subscribe_set_client_INDEX 1577
+#define snd_seq_query_subscribe_set_client_INDEX 1540
 #define snd_seq_query_subscribe_set_client_RETURN void
 #define snd_seq_query_subscribe_set_client_ARG_NAMES info, client
 #define snd_seq_query_subscribe_set_client_ARG_EXPAND snd_seq_query_subscribe_t * info, int client
 #define snd_seq_query_subscribe_set_client_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_client_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_client_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___int
-#define snd_seq_query_subscribe_set_index_INDEX 1578
+#define snd_seq_query_subscribe_set_index_INDEX 1541
 #define snd_seq_query_subscribe_set_index_RETURN void
 #define snd_seq_query_subscribe_set_index_ARG_NAMES info, _index
 #define snd_seq_query_subscribe_set_index_ARG_EXPAND snd_seq_query_subscribe_t * info, int _index
 #define snd_seq_query_subscribe_set_index_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_index_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_index_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___int
-#define snd_seq_query_subscribe_set_port_INDEX 1579
+#define snd_seq_query_subscribe_set_port_INDEX 1542
 #define snd_seq_query_subscribe_set_port_RETURN void
 #define snd_seq_query_subscribe_set_port_ARG_NAMES info, port
 #define snd_seq_query_subscribe_set_port_ARG_EXPAND snd_seq_query_subscribe_t * info, int port
 #define snd_seq_query_subscribe_set_port_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_port_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___int
 #define snd_seq_query_subscribe_set_port_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___int
-#define snd_seq_query_subscribe_set_root_INDEX 1580
+#define snd_seq_query_subscribe_set_root_INDEX 1543
 #define snd_seq_query_subscribe_set_root_RETURN void
 #define snd_seq_query_subscribe_set_root_ARG_NAMES info, addr
 #define snd_seq_query_subscribe_set_root_ARG_EXPAND snd_seq_query_subscribe_t * info, const snd_seq_addr_t * addr
 #define snd_seq_query_subscribe_set_root_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_query_subscribe_set_root_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_query_subscribe_set_root_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___const_snd_seq_addr_t___GENPT__
-#define snd_seq_query_subscribe_set_type_INDEX 1581
+#define snd_seq_query_subscribe_set_type_INDEX 1544
 #define snd_seq_query_subscribe_set_type_RETURN void
 #define snd_seq_query_subscribe_set_type_ARG_NAMES info, type
 #define snd_seq_query_subscribe_set_type_ARG_EXPAND snd_seq_query_subscribe_t * info, snd_seq_query_subs_type_t type
 #define snd_seq_query_subscribe_set_type_PACKED PACKED_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t
 #define snd_seq_query_subscribe_set_type_INDEXED INDEXED_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t
 #define snd_seq_query_subscribe_set_type_FORMAT FORMAT_void_snd_seq_query_subscribe_t___GENPT___snd_seq_query_subs_type_t
-#define snd_seq_query_subscribe_sizeof_INDEX 1582
+#define snd_seq_query_subscribe_sizeof_INDEX 1545
 #define snd_seq_query_subscribe_sizeof_RETURN size_t
 #define snd_seq_query_subscribe_sizeof_ARG_NAMES 
 #define snd_seq_query_subscribe_sizeof_ARG_EXPAND 
 #define snd_seq_query_subscribe_sizeof_PACKED PACKED_size_t
 #define snd_seq_query_subscribe_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_query_subscribe_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_queue_info_copy_INDEX 1583
+#define snd_seq_queue_info_copy_INDEX 1546
 #define snd_seq_queue_info_copy_RETURN void
 #define snd_seq_queue_info_copy_ARG_NAMES dst, src
 #define snd_seq_queue_info_copy_ARG_EXPAND snd_seq_queue_info_t * dst, const snd_seq_queue_info_t * src
 #define snd_seq_queue_info_copy_PACKED PACKED_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_copy_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_copy_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT___const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_free_INDEX 1584
+#define snd_seq_queue_info_free_INDEX 1547
 #define snd_seq_queue_info_free_RETURN void
 #define snd_seq_queue_info_free_ARG_NAMES ptr
 #define snd_seq_queue_info_free_ARG_EXPAND snd_seq_queue_info_t * ptr
 #define snd_seq_queue_info_free_PACKED PACKED_void_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_free_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_free_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_get_flags_INDEX 1585
+#define snd_seq_queue_info_get_flags_INDEX 1548
 #define snd_seq_queue_info_get_flags_RETURN unsigned int
 #define snd_seq_queue_info_get_flags_ARG_NAMES info
 #define snd_seq_queue_info_get_flags_ARG_EXPAND const snd_seq_queue_info_t * info
 #define snd_seq_queue_info_get_flags_PACKED PACKED_unsigned_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_flags_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_flags_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_get_locked_INDEX 1586
+#define snd_seq_queue_info_get_locked_INDEX 1549
 #define snd_seq_queue_info_get_locked_RETURN int
 #define snd_seq_queue_info_get_locked_ARG_NAMES info
 #define snd_seq_queue_info_get_locked_ARG_EXPAND const snd_seq_queue_info_t * info
 #define snd_seq_queue_info_get_locked_PACKED PACKED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_locked_INDEXED INDEXED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_locked_FORMAT FORMAT_int_const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_get_name_INDEX 1587
+#define snd_seq_queue_info_get_name_INDEX 1550
 #define snd_seq_queue_info_get_name_RETURN const char *
 #define snd_seq_queue_info_get_name_ARG_NAMES info
 #define snd_seq_queue_info_get_name_ARG_EXPAND const snd_seq_queue_info_t * info
 #define snd_seq_queue_info_get_name_PACKED PACKED_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_name_INDEXED INDEXED_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_name_FORMAT FORMAT_const_char___GENPT___const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_get_owner_INDEX 1588
+#define snd_seq_queue_info_get_owner_INDEX 1551
 #define snd_seq_queue_info_get_owner_RETURN int
 #define snd_seq_queue_info_get_owner_ARG_NAMES info
 #define snd_seq_queue_info_get_owner_ARG_EXPAND const snd_seq_queue_info_t * info
 #define snd_seq_queue_info_get_owner_PACKED PACKED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_owner_INDEXED INDEXED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_owner_FORMAT FORMAT_int_const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_get_queue_INDEX 1589
+#define snd_seq_queue_info_get_queue_INDEX 1552
 #define snd_seq_queue_info_get_queue_RETURN int
 #define snd_seq_queue_info_get_queue_ARG_NAMES info
 #define snd_seq_queue_info_get_queue_ARG_EXPAND const snd_seq_queue_info_t * info
 #define snd_seq_queue_info_get_queue_PACKED PACKED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_queue_INDEXED INDEXED_int_const_snd_seq_queue_info_t___GENPT__
 #define snd_seq_queue_info_get_queue_FORMAT FORMAT_int_const_snd_seq_queue_info_t___GENPT__
-#define snd_seq_queue_info_malloc_INDEX 1590
+#define snd_seq_queue_info_malloc_INDEX 1553
 #define snd_seq_queue_info_malloc_RETURN int
 #define snd_seq_queue_info_malloc_ARG_NAMES ptr
 #define snd_seq_queue_info_malloc_ARG_EXPAND snd_seq_queue_info_t ** ptr
 #define snd_seq_queue_info_malloc_PACKED PACKED_int_snd_seq_queue_info_t___GENPT____GENPT__
 #define snd_seq_queue_info_malloc_INDEXED INDEXED_int_snd_seq_queue_info_t___GENPT____GENPT__
 #define snd_seq_queue_info_malloc_FORMAT FORMAT_int_snd_seq_queue_info_t___GENPT____GENPT__
-#define snd_seq_queue_info_set_flags_INDEX 1591
+#define snd_seq_queue_info_set_flags_INDEX 1554
 #define snd_seq_queue_info_set_flags_RETURN void
 #define snd_seq_queue_info_set_flags_ARG_NAMES info, flags
 #define snd_seq_queue_info_set_flags_ARG_EXPAND snd_seq_queue_info_t * info, unsigned int flags
 #define snd_seq_queue_info_set_flags_PACKED PACKED_void_snd_seq_queue_info_t___GENPT___unsigned_int
 #define snd_seq_queue_info_set_flags_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT___unsigned_int
 #define snd_seq_queue_info_set_flags_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT___unsigned_int
-#define snd_seq_queue_info_set_locked_INDEX 1592
+#define snd_seq_queue_info_set_locked_INDEX 1555
 #define snd_seq_queue_info_set_locked_RETURN void
 #define snd_seq_queue_info_set_locked_ARG_NAMES info, locked
 #define snd_seq_queue_info_set_locked_ARG_EXPAND snd_seq_queue_info_t * info, int locked
 #define snd_seq_queue_info_set_locked_PACKED PACKED_void_snd_seq_queue_info_t___GENPT___int
 #define snd_seq_queue_info_set_locked_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT___int
 #define snd_seq_queue_info_set_locked_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT___int
-#define snd_seq_queue_info_set_name_INDEX 1593
+#define snd_seq_queue_info_set_name_INDEX 1556
 #define snd_seq_queue_info_set_name_RETURN void
 #define snd_seq_queue_info_set_name_ARG_NAMES info, name
 #define snd_seq_queue_info_set_name_ARG_EXPAND snd_seq_queue_info_t * info, const char * name
 #define snd_seq_queue_info_set_name_PACKED PACKED_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__
 #define snd_seq_queue_info_set_name_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__
 #define snd_seq_queue_info_set_name_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT___const_char___GENPT__
-#define snd_seq_queue_info_set_owner_INDEX 1594
+#define snd_seq_queue_info_set_owner_INDEX 1557
 #define snd_seq_queue_info_set_owner_RETURN void
 #define snd_seq_queue_info_set_owner_ARG_NAMES info, owner
 #define snd_seq_queue_info_set_owner_ARG_EXPAND snd_seq_queue_info_t * info, int owner
 #define snd_seq_queue_info_set_owner_PACKED PACKED_void_snd_seq_queue_info_t___GENPT___int
 #define snd_seq_queue_info_set_owner_INDEXED INDEXED_void_snd_seq_queue_info_t___GENPT___int
 #define snd_seq_queue_info_set_owner_FORMAT FORMAT_void_snd_seq_queue_info_t___GENPT___int
-#define snd_seq_queue_info_sizeof_INDEX 1595
+#define snd_seq_queue_info_sizeof_INDEX 1558
 #define snd_seq_queue_info_sizeof_RETURN size_t
 #define snd_seq_queue_info_sizeof_ARG_NAMES 
 #define snd_seq_queue_info_sizeof_ARG_EXPAND 
 #define snd_seq_queue_info_sizeof_PACKED PACKED_size_t
 #define snd_seq_queue_info_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_queue_info_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_queue_status_copy_INDEX 1596
+#define snd_seq_queue_status_copy_INDEX 1559
 #define snd_seq_queue_status_copy_RETURN void
 #define snd_seq_queue_status_copy_ARG_NAMES dst, src
 #define snd_seq_queue_status_copy_ARG_EXPAND snd_seq_queue_status_t * dst, const snd_seq_queue_status_t * src
 #define snd_seq_queue_status_copy_PACKED PACKED_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_copy_INDEXED INDEXED_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_copy_FORMAT FORMAT_void_snd_seq_queue_status_t___GENPT___const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_free_INDEX 1597
+#define snd_seq_queue_status_free_INDEX 1560
 #define snd_seq_queue_status_free_RETURN void
 #define snd_seq_queue_status_free_ARG_NAMES ptr
 #define snd_seq_queue_status_free_ARG_EXPAND snd_seq_queue_status_t * ptr
 #define snd_seq_queue_status_free_PACKED PACKED_void_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_free_INDEXED INDEXED_void_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_free_FORMAT FORMAT_void_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_get_events_INDEX 1598
+#define snd_seq_queue_status_get_events_INDEX 1561
 #define snd_seq_queue_status_get_events_RETURN int
 #define snd_seq_queue_status_get_events_ARG_NAMES info
 #define snd_seq_queue_status_get_events_ARG_EXPAND const snd_seq_queue_status_t * info
 #define snd_seq_queue_status_get_events_PACKED PACKED_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_events_INDEXED INDEXED_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_events_FORMAT FORMAT_int_const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_get_queue_INDEX 1599
+#define snd_seq_queue_status_get_queue_INDEX 1562
 #define snd_seq_queue_status_get_queue_RETURN int
 #define snd_seq_queue_status_get_queue_ARG_NAMES info
 #define snd_seq_queue_status_get_queue_ARG_EXPAND const snd_seq_queue_status_t * info
 #define snd_seq_queue_status_get_queue_PACKED PACKED_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_queue_INDEXED INDEXED_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_queue_FORMAT FORMAT_int_const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_get_real_time_INDEX 1600
+#define snd_seq_queue_status_get_real_time_INDEX 1563
 #define snd_seq_queue_status_get_real_time_RETURN const snd_seq_real_time_t *
 #define snd_seq_queue_status_get_real_time_ARG_NAMES info
 #define snd_seq_queue_status_get_real_time_ARG_EXPAND const snd_seq_queue_status_t * info
 #define snd_seq_queue_status_get_real_time_PACKED PACKED_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_real_time_INDEXED INDEXED_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_real_time_FORMAT FORMAT_const_snd_seq_real_time_t___GENPT___const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_get_status_INDEX 1601
+#define snd_seq_queue_status_get_status_INDEX 1564
 #define snd_seq_queue_status_get_status_RETURN unsigned int
 #define snd_seq_queue_status_get_status_ARG_NAMES info
 #define snd_seq_queue_status_get_status_ARG_EXPAND const snd_seq_queue_status_t * info
 #define snd_seq_queue_status_get_status_PACKED PACKED_unsigned_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_status_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_status_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_get_tick_time_INDEX 1602
+#define snd_seq_queue_status_get_tick_time_INDEX 1565
 #define snd_seq_queue_status_get_tick_time_RETURN snd_seq_tick_time_t
 #define snd_seq_queue_status_get_tick_time_ARG_NAMES info
 #define snd_seq_queue_status_get_tick_time_ARG_EXPAND const snd_seq_queue_status_t * info
 #define snd_seq_queue_status_get_tick_time_PACKED PACKED_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_tick_time_INDEXED INDEXED_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__
 #define snd_seq_queue_status_get_tick_time_FORMAT FORMAT_snd_seq_tick_time_t_const_snd_seq_queue_status_t___GENPT__
-#define snd_seq_queue_status_malloc_INDEX 1603
+#define snd_seq_queue_status_malloc_INDEX 1566
 #define snd_seq_queue_status_malloc_RETURN int
 #define snd_seq_queue_status_malloc_ARG_NAMES ptr
 #define snd_seq_queue_status_malloc_ARG_EXPAND snd_seq_queue_status_t ** ptr
 #define snd_seq_queue_status_malloc_PACKED PACKED_int_snd_seq_queue_status_t___GENPT____GENPT__
 #define snd_seq_queue_status_malloc_INDEXED INDEXED_int_snd_seq_queue_status_t___GENPT____GENPT__
 #define snd_seq_queue_status_malloc_FORMAT FORMAT_int_snd_seq_queue_status_t___GENPT____GENPT__
-#define snd_seq_queue_status_sizeof_INDEX 1604
+#define snd_seq_queue_status_sizeof_INDEX 1567
 #define snd_seq_queue_status_sizeof_RETURN size_t
 #define snd_seq_queue_status_sizeof_ARG_NAMES 
 #define snd_seq_queue_status_sizeof_ARG_EXPAND 
 #define snd_seq_queue_status_sizeof_PACKED PACKED_size_t
 #define snd_seq_queue_status_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_queue_status_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_queue_tempo_copy_INDEX 1605
+#define snd_seq_queue_tempo_copy_INDEX 1568
 #define snd_seq_queue_tempo_copy_RETURN void
 #define snd_seq_queue_tempo_copy_ARG_NAMES dst, src
 #define snd_seq_queue_tempo_copy_ARG_EXPAND snd_seq_queue_tempo_t * dst, const snd_seq_queue_tempo_t * src
 #define snd_seq_queue_tempo_copy_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_copy_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_copy_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT___const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_free_INDEX 1606
+#define snd_seq_queue_tempo_free_INDEX 1569
 #define snd_seq_queue_tempo_free_RETURN void
 #define snd_seq_queue_tempo_free_ARG_NAMES ptr
 #define snd_seq_queue_tempo_free_ARG_EXPAND snd_seq_queue_tempo_t * ptr
 #define snd_seq_queue_tempo_free_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_free_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_free_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_get_ppq_INDEX 1607
+#define snd_seq_queue_tempo_get_ppq_INDEX 1570
 #define snd_seq_queue_tempo_get_ppq_RETURN int
 #define snd_seq_queue_tempo_get_ppq_ARG_NAMES info
 #define snd_seq_queue_tempo_get_ppq_ARG_EXPAND const snd_seq_queue_tempo_t * info
 #define snd_seq_queue_tempo_get_ppq_PACKED PACKED_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_ppq_INDEXED INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_ppq_FORMAT FORMAT_int_const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_get_queue_INDEX 1608
+#define snd_seq_queue_tempo_get_queue_INDEX 1571
 #define snd_seq_queue_tempo_get_queue_RETURN int
 #define snd_seq_queue_tempo_get_queue_ARG_NAMES info
 #define snd_seq_queue_tempo_get_queue_ARG_EXPAND const snd_seq_queue_tempo_t * info
 #define snd_seq_queue_tempo_get_queue_PACKED PACKED_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_queue_INDEXED INDEXED_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_queue_FORMAT FORMAT_int_const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_get_skew_INDEX 1609
+#define snd_seq_queue_tempo_get_skew_INDEX 1572
 #define snd_seq_queue_tempo_get_skew_RETURN unsigned int
 #define snd_seq_queue_tempo_get_skew_ARG_NAMES info
 #define snd_seq_queue_tempo_get_skew_ARG_EXPAND const snd_seq_queue_tempo_t * info
 #define snd_seq_queue_tempo_get_skew_PACKED PACKED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_skew_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_skew_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_get_skew_base_INDEX 1610
+#define snd_seq_queue_tempo_get_skew_base_INDEX 1573
 #define snd_seq_queue_tempo_get_skew_base_RETURN unsigned int
 #define snd_seq_queue_tempo_get_skew_base_ARG_NAMES info
 #define snd_seq_queue_tempo_get_skew_base_ARG_EXPAND const snd_seq_queue_tempo_t * info
 #define snd_seq_queue_tempo_get_skew_base_PACKED PACKED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_skew_base_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_skew_base_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_get_tempo_INDEX 1611
+#define snd_seq_queue_tempo_get_tempo_INDEX 1574
 #define snd_seq_queue_tempo_get_tempo_RETURN unsigned int
 #define snd_seq_queue_tempo_get_tempo_ARG_NAMES info
 #define snd_seq_queue_tempo_get_tempo_ARG_EXPAND const snd_seq_queue_tempo_t * info
 #define snd_seq_queue_tempo_get_tempo_PACKED PACKED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_tempo_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_queue_tempo_get_tempo_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_queue_tempo_malloc_INDEX 1612
+#define snd_seq_queue_tempo_malloc_INDEX 1575
 #define snd_seq_queue_tempo_malloc_RETURN int
 #define snd_seq_queue_tempo_malloc_ARG_NAMES ptr
 #define snd_seq_queue_tempo_malloc_ARG_EXPAND snd_seq_queue_tempo_t ** ptr
 #define snd_seq_queue_tempo_malloc_PACKED PACKED_int_snd_seq_queue_tempo_t___GENPT____GENPT__
 #define snd_seq_queue_tempo_malloc_INDEXED INDEXED_int_snd_seq_queue_tempo_t___GENPT____GENPT__
 #define snd_seq_queue_tempo_malloc_FORMAT FORMAT_int_snd_seq_queue_tempo_t___GENPT____GENPT__
-#define snd_seq_queue_tempo_set_ppq_INDEX 1613
+#define snd_seq_queue_tempo_set_ppq_INDEX 1576
 #define snd_seq_queue_tempo_set_ppq_RETURN void
 #define snd_seq_queue_tempo_set_ppq_ARG_NAMES info, ppq
 #define snd_seq_queue_tempo_set_ppq_ARG_EXPAND snd_seq_queue_tempo_t * info, int ppq
 #define snd_seq_queue_tempo_set_ppq_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT___int
 #define snd_seq_queue_tempo_set_ppq_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT___int
 #define snd_seq_queue_tempo_set_ppq_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT___int
-#define snd_seq_queue_tempo_set_skew_INDEX 1614
+#define snd_seq_queue_tempo_set_skew_INDEX 1577
 #define snd_seq_queue_tempo_set_skew_RETURN void
 #define snd_seq_queue_tempo_set_skew_ARG_NAMES info, skew
 #define snd_seq_queue_tempo_set_skew_ARG_EXPAND snd_seq_queue_tempo_t * info, unsigned int skew
 #define snd_seq_queue_tempo_set_skew_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_skew_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_skew_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
-#define snd_seq_queue_tempo_set_skew_base_INDEX 1615
+#define snd_seq_queue_tempo_set_skew_base_INDEX 1578
 #define snd_seq_queue_tempo_set_skew_base_RETURN void
 #define snd_seq_queue_tempo_set_skew_base_ARG_NAMES info, base
 #define snd_seq_queue_tempo_set_skew_base_ARG_EXPAND snd_seq_queue_tempo_t * info, unsigned int base
 #define snd_seq_queue_tempo_set_skew_base_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_skew_base_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_skew_base_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
-#define snd_seq_queue_tempo_set_tempo_INDEX 1616
+#define snd_seq_queue_tempo_set_tempo_INDEX 1579
 #define snd_seq_queue_tempo_set_tempo_RETURN void
 #define snd_seq_queue_tempo_set_tempo_ARG_NAMES info, tempo
 #define snd_seq_queue_tempo_set_tempo_ARG_EXPAND snd_seq_queue_tempo_t * info, unsigned int tempo
 #define snd_seq_queue_tempo_set_tempo_PACKED PACKED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_tempo_INDEXED INDEXED_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
 #define snd_seq_queue_tempo_set_tempo_FORMAT FORMAT_void_snd_seq_queue_tempo_t___GENPT___unsigned_int
-#define snd_seq_queue_tempo_sizeof_INDEX 1617
+#define snd_seq_queue_tempo_sizeof_INDEX 1580
 #define snd_seq_queue_tempo_sizeof_RETURN size_t
 #define snd_seq_queue_tempo_sizeof_ARG_NAMES 
 #define snd_seq_queue_tempo_sizeof_ARG_EXPAND 
 #define snd_seq_queue_tempo_sizeof_PACKED PACKED_size_t
 #define snd_seq_queue_tempo_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_queue_tempo_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_queue_timer_copy_INDEX 1618
+#define snd_seq_queue_timer_copy_INDEX 1581
 #define snd_seq_queue_timer_copy_RETURN void
 #define snd_seq_queue_timer_copy_ARG_NAMES dst, src
 #define snd_seq_queue_timer_copy_ARG_EXPAND snd_seq_queue_timer_t * dst, const snd_seq_queue_timer_t * src
 #define snd_seq_queue_timer_copy_PACKED PACKED_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_copy_INDEXED INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_copy_FORMAT FORMAT_void_snd_seq_queue_timer_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_free_INDEX 1619
+#define snd_seq_queue_timer_free_INDEX 1582
 #define snd_seq_queue_timer_free_RETURN void
 #define snd_seq_queue_timer_free_ARG_NAMES ptr
 #define snd_seq_queue_timer_free_ARG_EXPAND snd_seq_queue_timer_t * ptr
 #define snd_seq_queue_timer_free_PACKED PACKED_void_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_free_INDEXED INDEXED_void_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_free_FORMAT FORMAT_void_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_get_id_INDEX 1620
+#define snd_seq_queue_timer_get_id_INDEX 1583
 #define snd_seq_queue_timer_get_id_RETURN const snd_timer_id_t *
 #define snd_seq_queue_timer_get_id_ARG_NAMES info
 #define snd_seq_queue_timer_get_id_ARG_EXPAND const snd_seq_queue_timer_t * info
 #define snd_seq_queue_timer_get_id_PACKED PACKED_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_id_INDEXED INDEXED_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_id_FORMAT FORMAT_const_snd_timer_id_t___GENPT___const_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_get_queue_INDEX 1621
+#define snd_seq_queue_timer_get_queue_INDEX 1584
 #define snd_seq_queue_timer_get_queue_RETURN int
 #define snd_seq_queue_timer_get_queue_ARG_NAMES info
 #define snd_seq_queue_timer_get_queue_ARG_EXPAND const snd_seq_queue_timer_t * info
 #define snd_seq_queue_timer_get_queue_PACKED PACKED_int_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_queue_INDEXED INDEXED_int_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_queue_FORMAT FORMAT_int_const_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_get_resolution_INDEX 1622
+#define snd_seq_queue_timer_get_resolution_INDEX 1585
 #define snd_seq_queue_timer_get_resolution_RETURN unsigned int
 #define snd_seq_queue_timer_get_resolution_ARG_NAMES info
 #define snd_seq_queue_timer_get_resolution_ARG_EXPAND const snd_seq_queue_timer_t * info
 #define snd_seq_queue_timer_get_resolution_PACKED PACKED_unsigned_int_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_resolution_INDEXED INDEXED_unsigned_int_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_resolution_FORMAT FORMAT_unsigned_int_const_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_get_type_INDEX 1623
+#define snd_seq_queue_timer_get_type_INDEX 1586
 #define snd_seq_queue_timer_get_type_RETURN snd_seq_queue_timer_type_t
 #define snd_seq_queue_timer_get_type_ARG_NAMES info
 #define snd_seq_queue_timer_get_type_ARG_EXPAND const snd_seq_queue_timer_t * info
 #define snd_seq_queue_timer_get_type_PACKED PACKED_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_type_INDEXED INDEXED_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_queue_timer_get_type_FORMAT FORMAT_snd_seq_queue_timer_type_t_const_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_queue_timer_malloc_INDEX 1624
+#define snd_seq_queue_timer_malloc_INDEX 1587
 #define snd_seq_queue_timer_malloc_RETURN int
 #define snd_seq_queue_timer_malloc_ARG_NAMES ptr
 #define snd_seq_queue_timer_malloc_ARG_EXPAND snd_seq_queue_timer_t ** ptr
 #define snd_seq_queue_timer_malloc_PACKED PACKED_int_snd_seq_queue_timer_t___GENPT____GENPT__
 #define snd_seq_queue_timer_malloc_INDEXED INDEXED_int_snd_seq_queue_timer_t___GENPT____GENPT__
 #define snd_seq_queue_timer_malloc_FORMAT FORMAT_int_snd_seq_queue_timer_t___GENPT____GENPT__
-#define snd_seq_queue_timer_set_id_INDEX 1625
+#define snd_seq_queue_timer_set_id_INDEX 1588
 #define snd_seq_queue_timer_set_id_RETURN void
 #define snd_seq_queue_timer_set_id_ARG_NAMES info, id
 #define snd_seq_queue_timer_set_id_ARG_EXPAND snd_seq_queue_timer_t * info, const snd_timer_id_t * id
 #define snd_seq_queue_timer_set_id_PACKED PACKED_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__
 #define snd_seq_queue_timer_set_id_INDEXED INDEXED_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__
 #define snd_seq_queue_timer_set_id_FORMAT FORMAT_void_snd_seq_queue_timer_t___GENPT___const_snd_timer_id_t___GENPT__
-#define snd_seq_queue_timer_set_resolution_INDEX 1626
+#define snd_seq_queue_timer_set_resolution_INDEX 1589
 #define snd_seq_queue_timer_set_resolution_RETURN void
 #define snd_seq_queue_timer_set_resolution_ARG_NAMES info, resolution
 #define snd_seq_queue_timer_set_resolution_ARG_EXPAND snd_seq_queue_timer_t * info, unsigned int resolution
 #define snd_seq_queue_timer_set_resolution_PACKED PACKED_void_snd_seq_queue_timer_t___GENPT___unsigned_int
 #define snd_seq_queue_timer_set_resolution_INDEXED INDEXED_void_snd_seq_queue_timer_t___GENPT___unsigned_int
 #define snd_seq_queue_timer_set_resolution_FORMAT FORMAT_void_snd_seq_queue_timer_t___GENPT___unsigned_int
-#define snd_seq_queue_timer_set_type_INDEX 1627
+#define snd_seq_queue_timer_set_type_INDEX 1590
 #define snd_seq_queue_timer_set_type_RETURN void
 #define snd_seq_queue_timer_set_type_ARG_NAMES info, type
 #define snd_seq_queue_timer_set_type_ARG_EXPAND snd_seq_queue_timer_t * info, snd_seq_queue_timer_type_t type
 #define snd_seq_queue_timer_set_type_PACKED PACKED_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t
 #define snd_seq_queue_timer_set_type_INDEXED INDEXED_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t
 #define snd_seq_queue_timer_set_type_FORMAT FORMAT_void_snd_seq_queue_timer_t___GENPT___snd_seq_queue_timer_type_t
-#define snd_seq_queue_timer_sizeof_INDEX 1628
+#define snd_seq_queue_timer_sizeof_INDEX 1591
 #define snd_seq_queue_timer_sizeof_RETURN size_t
 #define snd_seq_queue_timer_sizeof_ARG_NAMES 
 #define snd_seq_queue_timer_sizeof_ARG_EXPAND 
 #define snd_seq_queue_timer_sizeof_PACKED PACKED_size_t
 #define snd_seq_queue_timer_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_queue_timer_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_remove_events_INDEX 1629
+#define snd_seq_remove_events_INDEX 1592
 #define snd_seq_remove_events_RETURN int
 #define snd_seq_remove_events_ARG_NAMES handle, info
 #define snd_seq_remove_events_ARG_EXPAND snd_seq_t * handle, snd_seq_remove_events_t * info
 #define snd_seq_remove_events_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_copy_INDEX 1630
+#define snd_seq_remove_events_copy_INDEX 1593
 #define snd_seq_remove_events_copy_RETURN void
 #define snd_seq_remove_events_copy_ARG_NAMES dst, src
 #define snd_seq_remove_events_copy_ARG_EXPAND snd_seq_remove_events_t * dst, const snd_seq_remove_events_t * src
 #define snd_seq_remove_events_copy_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_copy_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_copy_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_free_INDEX 1631
+#define snd_seq_remove_events_free_INDEX 1594
 #define snd_seq_remove_events_free_RETURN void
 #define snd_seq_remove_events_free_ARG_NAMES ptr
 #define snd_seq_remove_events_free_ARG_EXPAND snd_seq_remove_events_t * ptr
 #define snd_seq_remove_events_free_PACKED PACKED_void_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_free_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_free_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_channel_INDEX 1632
+#define snd_seq_remove_events_get_channel_INDEX 1595
 #define snd_seq_remove_events_get_channel_RETURN int
 #define snd_seq_remove_events_get_channel_ARG_NAMES info
 #define snd_seq_remove_events_get_channel_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_channel_PACKED PACKED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_channel_INDEXED INDEXED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_channel_FORMAT FORMAT_int_const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_condition_INDEX 1633
+#define snd_seq_remove_events_get_condition_INDEX 1596
 #define snd_seq_remove_events_get_condition_RETURN unsigned int
 #define snd_seq_remove_events_get_condition_ARG_NAMES info
 #define snd_seq_remove_events_get_condition_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_condition_PACKED PACKED_unsigned_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_condition_INDEXED INDEXED_unsigned_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_condition_FORMAT FORMAT_unsigned_int_const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_dest_INDEX 1634
+#define snd_seq_remove_events_get_dest_INDEX 1597
 #define snd_seq_remove_events_get_dest_RETURN const snd_seq_addr_t *
 #define snd_seq_remove_events_get_dest_ARG_NAMES info
 #define snd_seq_remove_events_get_dest_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_dest_PACKED PACKED_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_dest_INDEXED INDEXED_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_dest_FORMAT FORMAT_const_snd_seq_addr_t___GENPT___const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_event_type_INDEX 1635
+#define snd_seq_remove_events_get_event_type_INDEX 1598
 #define snd_seq_remove_events_get_event_type_RETURN int
 #define snd_seq_remove_events_get_event_type_ARG_NAMES info
 #define snd_seq_remove_events_get_event_type_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_event_type_PACKED PACKED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_event_type_INDEXED INDEXED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_event_type_FORMAT FORMAT_int_const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_queue_INDEX 1636
+#define snd_seq_remove_events_get_queue_INDEX 1599
 #define snd_seq_remove_events_get_queue_RETURN int
 #define snd_seq_remove_events_get_queue_ARG_NAMES info
 #define snd_seq_remove_events_get_queue_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_queue_PACKED PACKED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_queue_INDEXED INDEXED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_queue_FORMAT FORMAT_int_const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_tag_INDEX 1637
+#define snd_seq_remove_events_get_tag_INDEX 1600
 #define snd_seq_remove_events_get_tag_RETURN int
 #define snd_seq_remove_events_get_tag_ARG_NAMES info
 #define snd_seq_remove_events_get_tag_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_tag_PACKED PACKED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_tag_INDEXED INDEXED_int_const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_tag_FORMAT FORMAT_int_const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_get_time_INDEX 1638
+#define snd_seq_remove_events_get_time_INDEX 1601
 #define snd_seq_remove_events_get_time_RETURN const snd_seq_timestamp_t *
 #define snd_seq_remove_events_get_time_ARG_NAMES info
 #define snd_seq_remove_events_get_time_ARG_EXPAND const snd_seq_remove_events_t * info
 #define snd_seq_remove_events_get_time_PACKED PACKED_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_time_INDEXED INDEXED_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__
 #define snd_seq_remove_events_get_time_FORMAT FORMAT_const_snd_seq_timestamp_t___GENPT___const_snd_seq_remove_events_t___GENPT__
-#define snd_seq_remove_events_malloc_INDEX 1639
+#define snd_seq_remove_events_malloc_INDEX 1602
 #define snd_seq_remove_events_malloc_RETURN int
 #define snd_seq_remove_events_malloc_ARG_NAMES ptr
 #define snd_seq_remove_events_malloc_ARG_EXPAND snd_seq_remove_events_t ** ptr
 #define snd_seq_remove_events_malloc_PACKED PACKED_int_snd_seq_remove_events_t___GENPT____GENPT__
 #define snd_seq_remove_events_malloc_INDEXED INDEXED_int_snd_seq_remove_events_t___GENPT____GENPT__
 #define snd_seq_remove_events_malloc_FORMAT FORMAT_int_snd_seq_remove_events_t___GENPT____GENPT__
-#define snd_seq_remove_events_set_channel_INDEX 1640
+#define snd_seq_remove_events_set_channel_INDEX 1603
 #define snd_seq_remove_events_set_channel_RETURN void
 #define snd_seq_remove_events_set_channel_ARG_NAMES info, channel
 #define snd_seq_remove_events_set_channel_ARG_EXPAND snd_seq_remove_events_t * info, int channel
 #define snd_seq_remove_events_set_channel_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_channel_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_channel_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___int
-#define snd_seq_remove_events_set_condition_INDEX 1641
+#define snd_seq_remove_events_set_condition_INDEX 1604
 #define snd_seq_remove_events_set_condition_RETURN void
 #define snd_seq_remove_events_set_condition_ARG_NAMES info, flags
 #define snd_seq_remove_events_set_condition_ARG_EXPAND snd_seq_remove_events_t * info, unsigned int flags
 #define snd_seq_remove_events_set_condition_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___unsigned_int
 #define snd_seq_remove_events_set_condition_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___unsigned_int
 #define snd_seq_remove_events_set_condition_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___unsigned_int
-#define snd_seq_remove_events_set_dest_INDEX 1642
+#define snd_seq_remove_events_set_dest_INDEX 1605
 #define snd_seq_remove_events_set_dest_RETURN void
 #define snd_seq_remove_events_set_dest_ARG_NAMES info, addr
 #define snd_seq_remove_events_set_dest_ARG_EXPAND snd_seq_remove_events_t * info, const snd_seq_addr_t * addr
 #define snd_seq_remove_events_set_dest_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_remove_events_set_dest_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__
 #define snd_seq_remove_events_set_dest_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___const_snd_seq_addr_t___GENPT__
-#define snd_seq_remove_events_set_event_type_INDEX 1643
+#define snd_seq_remove_events_set_event_type_INDEX 1606
 #define snd_seq_remove_events_set_event_type_RETURN void
 #define snd_seq_remove_events_set_event_type_ARG_NAMES info, type
 #define snd_seq_remove_events_set_event_type_ARG_EXPAND snd_seq_remove_events_t * info, int type
 #define snd_seq_remove_events_set_event_type_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_event_type_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_event_type_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___int
-#define snd_seq_remove_events_set_queue_INDEX 1644
+#define snd_seq_remove_events_set_queue_INDEX 1607
 #define snd_seq_remove_events_set_queue_RETURN void
 #define snd_seq_remove_events_set_queue_ARG_NAMES info, queue
 #define snd_seq_remove_events_set_queue_ARG_EXPAND snd_seq_remove_events_t * info, int queue
 #define snd_seq_remove_events_set_queue_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_queue_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_queue_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___int
-#define snd_seq_remove_events_set_tag_INDEX 1645
+#define snd_seq_remove_events_set_tag_INDEX 1608
 #define snd_seq_remove_events_set_tag_RETURN void
 #define snd_seq_remove_events_set_tag_ARG_NAMES info, tag
 #define snd_seq_remove_events_set_tag_ARG_EXPAND snd_seq_remove_events_t * info, int tag
 #define snd_seq_remove_events_set_tag_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_tag_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___int
 #define snd_seq_remove_events_set_tag_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___int
-#define snd_seq_remove_events_set_time_INDEX 1646
+#define snd_seq_remove_events_set_time_INDEX 1609
 #define snd_seq_remove_events_set_time_RETURN void
 #define snd_seq_remove_events_set_time_ARG_NAMES info, time
 #define snd_seq_remove_events_set_time_ARG_EXPAND snd_seq_remove_events_t * info, const snd_seq_timestamp_t * time
 #define snd_seq_remove_events_set_time_PACKED PACKED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__
 #define snd_seq_remove_events_set_time_INDEXED INDEXED_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__
 #define snd_seq_remove_events_set_time_FORMAT FORMAT_void_snd_seq_remove_events_t___GENPT___const_snd_seq_timestamp_t___GENPT__
-#define snd_seq_remove_events_sizeof_INDEX 1647
+#define snd_seq_remove_events_sizeof_INDEX 1610
 #define snd_seq_remove_events_sizeof_RETURN size_t
 #define snd_seq_remove_events_sizeof_ARG_NAMES 
 #define snd_seq_remove_events_sizeof_ARG_EXPAND 
 #define snd_seq_remove_events_sizeof_PACKED PACKED_size_t
 #define snd_seq_remove_events_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_remove_events_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_set_bit_INDEX 1648
+#define snd_seq_set_bit_INDEX 1611
 #define snd_seq_set_bit_RETURN void
 #define snd_seq_set_bit_ARG_NAMES nr, array
 #define snd_seq_set_bit_ARG_EXPAND int nr, void * array
 #define snd_seq_set_bit_PACKED PACKED_void_int_void___GENPT__
 #define snd_seq_set_bit_INDEXED INDEXED_void_int_void___GENPT__
 #define snd_seq_set_bit_FORMAT FORMAT_void_int_void___GENPT__
-#define snd_seq_set_client_info_INDEX 1649
+#define snd_seq_set_client_info_INDEX 1612
 #define snd_seq_set_client_info_RETURN int
 #define snd_seq_set_client_info_ARG_NAMES handle, info
 #define snd_seq_set_client_info_ARG_EXPAND snd_seq_t * handle, snd_seq_client_info_t * info
 #define snd_seq_set_client_info_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_set_client_info_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
 #define snd_seq_set_client_info_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_client_info_t___GENPT__
-#define snd_seq_set_client_pool_INDEX 1650
+#define snd_seq_set_client_pool_INDEX 1613
 #define snd_seq_set_client_pool_RETURN int
 #define snd_seq_set_client_pool_ARG_NAMES handle, info
 #define snd_seq_set_client_pool_ARG_EXPAND snd_seq_t * handle, snd_seq_client_pool_t * info
 #define snd_seq_set_client_pool_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
 #define snd_seq_set_client_pool_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
 #define snd_seq_set_client_pool_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_client_pool_t___GENPT__
-#define snd_seq_set_input_buffer_size_INDEX 1651
+#define snd_seq_set_input_buffer_size_INDEX 1614
 #define snd_seq_set_input_buffer_size_RETURN int
 #define snd_seq_set_input_buffer_size_ARG_NAMES handle, size
 #define snd_seq_set_input_buffer_size_ARG_EXPAND snd_seq_t * handle, size_t size
 #define snd_seq_set_input_buffer_size_PACKED PACKED_int_snd_seq_t___GENPT___size_t
 #define snd_seq_set_input_buffer_size_INDEXED INDEXED_int_snd_seq_t___GENPT___size_t
 #define snd_seq_set_input_buffer_size_FORMAT FORMAT_int_snd_seq_t___GENPT___size_t
-#define snd_seq_set_output_buffer_size_INDEX 1652
+#define snd_seq_set_output_buffer_size_INDEX 1615
 #define snd_seq_set_output_buffer_size_RETURN int
 #define snd_seq_set_output_buffer_size_ARG_NAMES handle, size
 #define snd_seq_set_output_buffer_size_ARG_EXPAND snd_seq_t * handle, size_t size
 #define snd_seq_set_output_buffer_size_PACKED PACKED_int_snd_seq_t___GENPT___size_t
 #define snd_seq_set_output_buffer_size_INDEXED INDEXED_int_snd_seq_t___GENPT___size_t
 #define snd_seq_set_output_buffer_size_FORMAT FORMAT_int_snd_seq_t___GENPT___size_t
-#define snd_seq_set_port_info_INDEX 1653
+#define snd_seq_set_port_info_INDEX 1616
 #define snd_seq_set_port_info_RETURN int
 #define snd_seq_set_port_info_ARG_NAMES handle, port, info
 #define snd_seq_set_port_info_ARG_EXPAND snd_seq_t * handle, int port, snd_seq_port_info_t * info
 #define snd_seq_set_port_info_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
 #define snd_seq_set_port_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
 #define snd_seq_set_port_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_port_info_t___GENPT__
-#define snd_seq_set_queue_info_INDEX 1654
+#define snd_seq_set_queue_info_INDEX 1617
 #define snd_seq_set_queue_info_RETURN int
 #define snd_seq_set_queue_info_ARG_NAMES seq, q, info
 #define snd_seq_set_queue_info_ARG_EXPAND snd_seq_t * seq, int q, snd_seq_queue_info_t * info
 #define snd_seq_set_queue_info_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
 #define snd_seq_set_queue_info_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
 #define snd_seq_set_queue_info_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_info_t___GENPT__
-#define snd_seq_set_queue_tempo_INDEX 1655
+#define snd_seq_set_queue_tempo_INDEX 1618
 #define snd_seq_set_queue_tempo_RETURN int
 #define snd_seq_set_queue_tempo_ARG_NAMES handle, q, tempo
 #define snd_seq_set_queue_tempo_ARG_EXPAND snd_seq_t * handle, int q, snd_seq_queue_tempo_t * tempo
 #define snd_seq_set_queue_tempo_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_set_queue_tempo_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
 #define snd_seq_set_queue_tempo_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_tempo_t___GENPT__
-#define snd_seq_set_queue_timer_INDEX 1656
+#define snd_seq_set_queue_timer_INDEX 1619
 #define snd_seq_set_queue_timer_RETURN int
 #define snd_seq_set_queue_timer_ARG_NAMES handle, q, timer
 #define snd_seq_set_queue_timer_ARG_EXPAND snd_seq_t * handle, int q, snd_seq_queue_timer_t * timer
 #define snd_seq_set_queue_timer_PACKED PACKED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_set_queue_timer_INDEXED INDEXED_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
 #define snd_seq_set_queue_timer_FORMAT FORMAT_int_snd_seq_t___GENPT___int_snd_seq_queue_timer_t___GENPT__
-#define snd_seq_set_queue_usage_INDEX 1657
+#define snd_seq_set_queue_usage_INDEX 1620
 #define snd_seq_set_queue_usage_RETURN int
 #define snd_seq_set_queue_usage_ARG_NAMES handle, q, used
 #define snd_seq_set_queue_usage_ARG_EXPAND snd_seq_t * handle, int q, int used
 #define snd_seq_set_queue_usage_PACKED PACKED_int_snd_seq_t___GENPT___int_int
 #define snd_seq_set_queue_usage_INDEXED INDEXED_int_snd_seq_t___GENPT___int_int
 #define snd_seq_set_queue_usage_FORMAT FORMAT_int_snd_seq_t___GENPT___int_int
-#define snd_seq_subscribe_port_INDEX 1658
+#define snd_seq_subscribe_port_INDEX 1621
 #define snd_seq_subscribe_port_RETURN int
 #define snd_seq_subscribe_port_ARG_NAMES handle, sub
 #define snd_seq_subscribe_port_ARG_EXPAND snd_seq_t * handle, snd_seq_port_subscribe_t * sub
 #define snd_seq_subscribe_port_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_subscribe_port_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_subscribe_port_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
-#define snd_seq_system_info_INDEX 1659
+#define snd_seq_system_info_INDEX 1622
 #define snd_seq_system_info_RETURN int
 #define snd_seq_system_info_ARG_NAMES handle, info
 #define snd_seq_system_info_ARG_EXPAND snd_seq_t * handle, snd_seq_system_info_t * info
 #define snd_seq_system_info_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_copy_INDEX 1660
+#define snd_seq_system_info_copy_INDEX 1623
 #define snd_seq_system_info_copy_RETURN void
 #define snd_seq_system_info_copy_ARG_NAMES dst, src
 #define snd_seq_system_info_copy_ARG_EXPAND snd_seq_system_info_t * dst, const snd_seq_system_info_t * src
 #define snd_seq_system_info_copy_PACKED PACKED_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_copy_INDEXED INDEXED_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_copy_FORMAT FORMAT_void_snd_seq_system_info_t___GENPT___const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_free_INDEX 1661
+#define snd_seq_system_info_free_INDEX 1624
 #define snd_seq_system_info_free_RETURN void
 #define snd_seq_system_info_free_ARG_NAMES ptr
 #define snd_seq_system_info_free_ARG_EXPAND snd_seq_system_info_t * ptr
 #define snd_seq_system_info_free_PACKED PACKED_void_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_free_INDEXED INDEXED_void_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_free_FORMAT FORMAT_void_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_channels_INDEX 1662
+#define snd_seq_system_info_get_channels_INDEX 1625
 #define snd_seq_system_info_get_channels_RETURN int
 #define snd_seq_system_info_get_channels_ARG_NAMES info
 #define snd_seq_system_info_get_channels_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_channels_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_channels_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_channels_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_clients_INDEX 1663
+#define snd_seq_system_info_get_clients_INDEX 1626
 #define snd_seq_system_info_get_clients_RETURN int
 #define snd_seq_system_info_get_clients_ARG_NAMES info
 #define snd_seq_system_info_get_clients_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_clients_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_clients_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_clients_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_cur_clients_INDEX 1664
+#define snd_seq_system_info_get_cur_clients_INDEX 1627
 #define snd_seq_system_info_get_cur_clients_RETURN int
 #define snd_seq_system_info_get_cur_clients_ARG_NAMES info
 #define snd_seq_system_info_get_cur_clients_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_cur_clients_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_cur_clients_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_cur_clients_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_cur_queues_INDEX 1665
+#define snd_seq_system_info_get_cur_queues_INDEX 1628
 #define snd_seq_system_info_get_cur_queues_RETURN int
 #define snd_seq_system_info_get_cur_queues_ARG_NAMES info
 #define snd_seq_system_info_get_cur_queues_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_cur_queues_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_cur_queues_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_cur_queues_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_ports_INDEX 1666
+#define snd_seq_system_info_get_ports_INDEX 1629
 #define snd_seq_system_info_get_ports_RETURN int
 #define snd_seq_system_info_get_ports_ARG_NAMES info
 #define snd_seq_system_info_get_ports_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_ports_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_ports_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_ports_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_get_queues_INDEX 1667
+#define snd_seq_system_info_get_queues_INDEX 1630
 #define snd_seq_system_info_get_queues_RETURN int
 #define snd_seq_system_info_get_queues_ARG_NAMES info
 #define snd_seq_system_info_get_queues_ARG_EXPAND const snd_seq_system_info_t * info
 #define snd_seq_system_info_get_queues_PACKED PACKED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_queues_INDEXED INDEXED_int_const_snd_seq_system_info_t___GENPT__
 #define snd_seq_system_info_get_queues_FORMAT FORMAT_int_const_snd_seq_system_info_t___GENPT__
-#define snd_seq_system_info_malloc_INDEX 1668
+#define snd_seq_system_info_malloc_INDEX 1631
 #define snd_seq_system_info_malloc_RETURN int
 #define snd_seq_system_info_malloc_ARG_NAMES ptr
 #define snd_seq_system_info_malloc_ARG_EXPAND snd_seq_system_info_t ** ptr
 #define snd_seq_system_info_malloc_PACKED PACKED_int_snd_seq_system_info_t___GENPT____GENPT__
 #define snd_seq_system_info_malloc_INDEXED INDEXED_int_snd_seq_system_info_t___GENPT____GENPT__
 #define snd_seq_system_info_malloc_FORMAT FORMAT_int_snd_seq_system_info_t___GENPT____GENPT__
-#define snd_seq_system_info_sizeof_INDEX 1669
+#define snd_seq_system_info_sizeof_INDEX 1632
 #define snd_seq_system_info_sizeof_RETURN size_t
 #define snd_seq_system_info_sizeof_ARG_NAMES 
 #define snd_seq_system_info_sizeof_ARG_EXPAND 
 #define snd_seq_system_info_sizeof_PACKED PACKED_size_t
 #define snd_seq_system_info_sizeof_INDEXED INDEXED_size_t
 #define snd_seq_system_info_sizeof_FORMAT FORMAT_size_t
-#define snd_seq_type_INDEX 1670
+#define snd_seq_type_INDEX 1633
 #define snd_seq_type_RETURN snd_seq_type_t
 #define snd_seq_type_ARG_NAMES seq
 #define snd_seq_type_ARG_EXPAND snd_seq_t * seq
 #define snd_seq_type_PACKED PACKED_snd_seq_type_t_snd_seq_t___GENPT__
 #define snd_seq_type_INDEXED INDEXED_snd_seq_type_t_snd_seq_t___GENPT__
 #define snd_seq_type_FORMAT FORMAT_snd_seq_type_t_snd_seq_t___GENPT__
-#define snd_seq_unsubscribe_port_INDEX 1671
+#define snd_seq_unsubscribe_port_INDEX 1634
 #define snd_seq_unsubscribe_port_RETURN int
 #define snd_seq_unsubscribe_port_ARG_NAMES handle, sub
 #define snd_seq_unsubscribe_port_ARG_EXPAND snd_seq_t * handle, snd_seq_port_subscribe_t * sub
 #define snd_seq_unsubscribe_port_PACKED PACKED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_unsubscribe_port_INDEXED INDEXED_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
 #define snd_seq_unsubscribe_port_FORMAT FORMAT_int_snd_seq_t___GENPT___snd_seq_port_subscribe_t___GENPT__
-#define snd_shm_area_create_INDEX 1672
+#define snd_shm_area_create_INDEX 1635
 #define snd_shm_area_create_RETURN struct snd_shm_area *
 #define snd_shm_area_create_ARG_NAMES shmid, ptr
 #define snd_shm_area_create_ARG_EXPAND int shmid, void * ptr
 #define snd_shm_area_create_PACKED PACKED_struct_snd_shm_area___GENPT___int_void___GENPT__
 #define snd_shm_area_create_INDEXED INDEXED_struct_snd_shm_area___GENPT___int_void___GENPT__
 #define snd_shm_area_create_FORMAT FORMAT_struct_snd_shm_area___GENPT___int_void___GENPT__
-#define snd_shm_area_destroy_INDEX 1673
+#define snd_shm_area_destroy_INDEX 1636
 #define snd_shm_area_destroy_RETURN int
 #define snd_shm_area_destroy_ARG_NAMES area
 #define snd_shm_area_destroy_ARG_EXPAND struct snd_shm_area * area
 #define snd_shm_area_destroy_PACKED PACKED_int_struct_snd_shm_area___GENPT__
 #define snd_shm_area_destroy_INDEXED INDEXED_int_struct_snd_shm_area___GENPT__
 #define snd_shm_area_destroy_FORMAT FORMAT_int_struct_snd_shm_area___GENPT__
-#define snd_shm_area_share_INDEX 1674
+#define snd_shm_area_share_INDEX 1637
 #define snd_shm_area_share_RETURN struct snd_shm_area *
 #define snd_shm_area_share_ARG_NAMES area
 #define snd_shm_area_share_ARG_EXPAND struct snd_shm_area * area
 #define snd_shm_area_share_PACKED PACKED_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__
 #define snd_shm_area_share_INDEXED INDEXED_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__
 #define snd_shm_area_share_FORMAT FORMAT_struct_snd_shm_area___GENPT___struct_snd_shm_area___GENPT__
-#define snd_spcm_init_INDEX 1675
+#define snd_spcm_init_INDEX 1638
 #define snd_spcm_init_RETURN int
 #define snd_spcm_init_ARG_NAMES pcm, rate, channels, format, subformat, latency, _access, xrun_type
 #define snd_spcm_init_ARG_EXPAND snd_pcm_t * pcm, unsigned int rate, unsigned int channels, snd_pcm_format_t format, snd_pcm_subformat_t subformat, snd_spcm_latency_t latency, snd_pcm_access_t _access, snd_spcm_xrun_type_t xrun_type
 #define snd_spcm_init_PACKED PACKED_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t
 #define snd_spcm_init_INDEXED INDEXED_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t
 #define snd_spcm_init_FORMAT FORMAT_int_snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t
-#define snd_spcm_init_duplex_INDEX 1676
+#define snd_spcm_init_duplex_INDEX 1639
 #define snd_spcm_init_duplex_RETURN int
 #define snd_spcm_init_duplex_ARG_NAMES playback_pcm, capture_pcm, rate, channels, format, subformat, latency, _access, xrun_type, duplex_type
 #define snd_spcm_init_duplex_ARG_EXPAND snd_pcm_t * playback_pcm, snd_pcm_t * capture_pcm, unsigned int rate, unsigned int channels, snd_pcm_format_t format, snd_pcm_subformat_t subformat, snd_spcm_latency_t latency, snd_pcm_access_t _access, snd_spcm_xrun_type_t xrun_type, snd_spcm_duplex_type_t duplex_type
 #define snd_spcm_init_duplex_PACKED PACKED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t
 #define snd_spcm_init_duplex_INDEXED INDEXED_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t
 #define snd_spcm_init_duplex_FORMAT FORMAT_int_snd_pcm_t___GENPT___snd_pcm_t___GENPT___unsigned_int_unsigned_int_snd_pcm_format_t_snd_pcm_subformat_t_snd_spcm_latency_t_snd_pcm_access_t_snd_spcm_xrun_type_t_snd_spcm_duplex_type_t
-#define snd_spcm_init_get_params_INDEX 1677
+#define snd_spcm_init_get_params_INDEX 1640
 #define snd_spcm_init_get_params_RETURN int
 #define snd_spcm_init_get_params_ARG_NAMES pcm, rate, buffer_size, period_size
 #define snd_spcm_init_get_params_ARG_EXPAND snd_pcm_t * pcm, unsigned int * rate, snd_pcm_uframes_t * buffer_size, snd_pcm_uframes_t * period_size
 #define snd_spcm_init_get_params_PACKED PACKED_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_spcm_init_get_params_INDEXED INDEXED_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
 #define snd_spcm_init_get_params_FORMAT FORMAT_int_snd_pcm_t___GENPT___unsigned_int___GENPT___snd_pcm_uframes_t___GENPT___snd_pcm_uframes_t___GENPT__
-#define snd_timer_close_INDEX 1678
+#define snd_timer_close_INDEX 1641
 #define snd_timer_close_RETURN int
 #define snd_timer_close_ARG_NAMES handle
 #define snd_timer_close_ARG_EXPAND snd_timer_t * handle
 #define snd_timer_close_PACKED PACKED_int_snd_timer_t___GENPT__
 #define snd_timer_close_INDEXED INDEXED_int_snd_timer_t___GENPT__
 #define snd_timer_close_FORMAT FORMAT_int_snd_timer_t___GENPT__
-#define snd_timer_continue_INDEX 1679
+#define snd_timer_continue_INDEX 1642
 #define snd_timer_continue_RETURN int
 #define snd_timer_continue_ARG_NAMES handle
 #define snd_timer_continue_ARG_EXPAND snd_timer_t * handle
 #define snd_timer_continue_PACKED PACKED_int_snd_timer_t___GENPT__
 #define snd_timer_continue_INDEXED INDEXED_int_snd_timer_t___GENPT__
 #define snd_timer_continue_FORMAT FORMAT_int_snd_timer_t___GENPT__
-#define snd_timer_ginfo_copy_INDEX 1680
+#define snd_timer_ginfo_copy_INDEX 1643
 #define snd_timer_ginfo_copy_RETURN void
 #define snd_timer_ginfo_copy_ARG_NAMES dst, src
 #define snd_timer_ginfo_copy_ARG_EXPAND snd_timer_ginfo_t * dst, const snd_timer_ginfo_t * src
 #define snd_timer_ginfo_copy_PACKED PACKED_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_copy_INDEXED INDEXED_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_copy_FORMAT FORMAT_void_snd_timer_ginfo_t___GENPT___const_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_free_INDEX 1681
+#define snd_timer_ginfo_free_INDEX 1644
 #define snd_timer_ginfo_free_RETURN void
 #define snd_timer_ginfo_free_ARG_NAMES obj
 #define snd_timer_ginfo_free_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_free_PACKED PACKED_void_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_free_INDEXED INDEXED_void_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_free_FORMAT FORMAT_void_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_card_INDEX 1682
+#define snd_timer_ginfo_get_card_INDEX 1645
 #define snd_timer_ginfo_get_card_RETURN int
 #define snd_timer_ginfo_get_card_ARG_NAMES obj
 #define snd_timer_ginfo_get_card_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_card_PACKED PACKED_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_card_INDEXED INDEXED_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_card_FORMAT FORMAT_int_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_clients_INDEX 1683
+#define snd_timer_ginfo_get_clients_INDEX 1646
 #define snd_timer_ginfo_get_clients_RETURN unsigned int
 #define snd_timer_ginfo_get_clients_ARG_NAMES obj
 #define snd_timer_ginfo_get_clients_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_clients_PACKED PACKED_unsigned_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_clients_INDEXED INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_clients_FORMAT FORMAT_unsigned_int_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_flags_INDEX 1684
+#define snd_timer_ginfo_get_flags_INDEX 1647
 #define snd_timer_ginfo_get_flags_RETURN unsigned int
 #define snd_timer_ginfo_get_flags_ARG_NAMES obj
 #define snd_timer_ginfo_get_flags_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_flags_PACKED PACKED_unsigned_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_flags_INDEXED INDEXED_unsigned_int_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_flags_FORMAT FORMAT_unsigned_int_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_id_INDEX 1685
+#define snd_timer_ginfo_get_id_INDEX 1648
 #define snd_timer_ginfo_get_id_RETURN char *
 #define snd_timer_ginfo_get_id_ARG_NAMES obj
 #define snd_timer_ginfo_get_id_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_id_PACKED PACKED_char___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_id_INDEXED INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_id_FORMAT FORMAT_char___GENPT___snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_name_INDEX 1686
+#define snd_timer_ginfo_get_name_INDEX 1649
 #define snd_timer_ginfo_get_name_RETURN char *
 #define snd_timer_ginfo_get_name_ARG_NAMES obj
 #define snd_timer_ginfo_get_name_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_name_PACKED PACKED_char___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_name_INDEXED INDEXED_char___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_name_FORMAT FORMAT_char___GENPT___snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_resolution_INDEX 1687
+#define snd_timer_ginfo_get_resolution_INDEX 1650
 #define snd_timer_ginfo_get_resolution_RETURN unsigned long
 #define snd_timer_ginfo_get_resolution_ARG_NAMES obj
 #define snd_timer_ginfo_get_resolution_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_resolution_PACKED PACKED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_INDEXED INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_FORMAT FORMAT_unsigned_long_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_resolution_max_INDEX 1688
+#define snd_timer_ginfo_get_resolution_max_INDEX 1651
 #define snd_timer_ginfo_get_resolution_max_RETURN unsigned long
 #define snd_timer_ginfo_get_resolution_max_ARG_NAMES obj
 #define snd_timer_ginfo_get_resolution_max_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_resolution_max_PACKED PACKED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_max_INDEXED INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_max_FORMAT FORMAT_unsigned_long_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_resolution_min_INDEX 1689
+#define snd_timer_ginfo_get_resolution_min_INDEX 1652
 #define snd_timer_ginfo_get_resolution_min_RETURN unsigned long
 #define snd_timer_ginfo_get_resolution_min_ARG_NAMES obj
 #define snd_timer_ginfo_get_resolution_min_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_resolution_min_PACKED PACKED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_min_INDEXED INDEXED_unsigned_long_snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_resolution_min_FORMAT FORMAT_unsigned_long_snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_get_tid_INDEX 1690
+#define snd_timer_ginfo_get_tid_INDEX 1653
 #define snd_timer_ginfo_get_tid_RETURN snd_timer_id_t *
 #define snd_timer_ginfo_get_tid_ARG_NAMES obj
 #define snd_timer_ginfo_get_tid_ARG_EXPAND snd_timer_ginfo_t * obj
 #define snd_timer_ginfo_get_tid_PACKED PACKED_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_tid_INDEXED INDEXED_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_ginfo_get_tid_FORMAT FORMAT_snd_timer_id_t___GENPT___snd_timer_ginfo_t___GENPT__
-#define snd_timer_ginfo_malloc_INDEX 1691
+#define snd_timer_ginfo_malloc_INDEX 1654
 #define snd_timer_ginfo_malloc_RETURN int
 #define snd_timer_ginfo_malloc_ARG_NAMES ptr
 #define snd_timer_ginfo_malloc_ARG_EXPAND snd_timer_ginfo_t ** ptr
 #define snd_timer_ginfo_malloc_PACKED PACKED_int_snd_timer_ginfo_t___GENPT____GENPT__
 #define snd_timer_ginfo_malloc_INDEXED INDEXED_int_snd_timer_ginfo_t___GENPT____GENPT__
 #define snd_timer_ginfo_malloc_FORMAT FORMAT_int_snd_timer_ginfo_t___GENPT____GENPT__
-#define snd_timer_ginfo_set_tid_INDEX 1692
+#define snd_timer_ginfo_set_tid_INDEX 1655
 #define snd_timer_ginfo_set_tid_RETURN int
 #define snd_timer_ginfo_set_tid_ARG_NAMES obj, tid
 #define snd_timer_ginfo_set_tid_ARG_EXPAND snd_timer_ginfo_t * obj, snd_timer_id_t * tid
 #define snd_timer_ginfo_set_tid_PACKED PACKED_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__
 #define snd_timer_ginfo_set_tid_INDEXED INDEXED_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__
 #define snd_timer_ginfo_set_tid_FORMAT FORMAT_int_snd_timer_ginfo_t___GENPT___snd_timer_id_t___GENPT__
-#define snd_timer_ginfo_sizeof_INDEX 1693
+#define snd_timer_ginfo_sizeof_INDEX 1656
 #define snd_timer_ginfo_sizeof_RETURN size_t
 #define snd_timer_ginfo_sizeof_ARG_NAMES 
 #define snd_timer_ginfo_sizeof_ARG_EXPAND 
 #define snd_timer_ginfo_sizeof_PACKED PACKED_size_t
 #define snd_timer_ginfo_sizeof_INDEXED INDEXED_size_t
 #define snd_timer_ginfo_sizeof_FORMAT FORMAT_size_t
-#define snd_timer_id_copy_INDEX 1694
+#define snd_timer_id_copy_INDEX 1657
 #define snd_timer_id_copy_RETURN void
 #define snd_timer_id_copy_ARG_NAMES dst, src
 #define snd_timer_id_copy_ARG_EXPAND snd_timer_id_t * dst, const snd_timer_id_t * src
 #define snd_timer_id_copy_PACKED PACKED_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__
 #define snd_timer_id_copy_INDEXED INDEXED_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__
 #define snd_timer_id_copy_FORMAT FORMAT_void_snd_timer_id_t___GENPT___const_snd_timer_id_t___GENPT__
-#define snd_timer_id_free_INDEX 1695
+#define snd_timer_id_free_INDEX 1658
 #define snd_timer_id_free_RETURN void
 #define snd_timer_id_free_ARG_NAMES obj
 #define snd_timer_id_free_ARG_EXPAND snd_timer_id_t * obj
 #define snd_timer_id_free_PACKED PACKED_void_snd_timer_id_t___GENPT__
 #define snd_timer_id_free_INDEXED INDEXED_void_snd_timer_id_t___GENPT__
 #define snd_timer_id_free_FORMAT FORMAT_void_snd_timer_id_t___GENPT__
-#define snd_timer_id_get_card_INDEX 1696
+#define snd_timer_id_get_card_INDEX 1659
 #define snd_timer_id_get_card_RETURN int
 #define snd_timer_id_get_card_ARG_NAMES id
 #define snd_timer_id_get_card_ARG_EXPAND snd_timer_id_t * id
 #define snd_timer_id_get_card_PACKED PACKED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_card_INDEXED INDEXED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_card_FORMAT FORMAT_int_snd_timer_id_t___GENPT__
-#define snd_timer_id_get_class_INDEX 1697
+#define snd_timer_id_get_class_INDEX 1660
 #define snd_timer_id_get_class_RETURN int
 #define snd_timer_id_get_class_ARG_NAMES id
 #define snd_timer_id_get_class_ARG_EXPAND snd_timer_id_t * id
 #define snd_timer_id_get_class_PACKED PACKED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_class_INDEXED INDEXED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_class_FORMAT FORMAT_int_snd_timer_id_t___GENPT__
-#define snd_timer_id_get_device_INDEX 1698
+#define snd_timer_id_get_device_INDEX 1661
 #define snd_timer_id_get_device_RETURN int
 #define snd_timer_id_get_device_ARG_NAMES id
 #define snd_timer_id_get_device_ARG_EXPAND snd_timer_id_t * id
 #define snd_timer_id_get_device_PACKED PACKED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_device_INDEXED INDEXED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_device_FORMAT FORMAT_int_snd_timer_id_t___GENPT__
-#define snd_timer_id_get_sclass_INDEX 1699
+#define snd_timer_id_get_sclass_INDEX 1662
 #define snd_timer_id_get_sclass_RETURN int
 #define snd_timer_id_get_sclass_ARG_NAMES id
 #define snd_timer_id_get_sclass_ARG_EXPAND snd_timer_id_t * id
 #define snd_timer_id_get_sclass_PACKED PACKED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_sclass_INDEXED INDEXED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_sclass_FORMAT FORMAT_int_snd_timer_id_t___GENPT__
-#define snd_timer_id_get_subdevice_INDEX 1700
+#define snd_timer_id_get_subdevice_INDEX 1663
 #define snd_timer_id_get_subdevice_RETURN int
 #define snd_timer_id_get_subdevice_ARG_NAMES id
 #define snd_timer_id_get_subdevice_ARG_EXPAND snd_timer_id_t * id
 #define snd_timer_id_get_subdevice_PACKED PACKED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_subdevice_INDEXED INDEXED_int_snd_timer_id_t___GENPT__
 #define snd_timer_id_get_subdevice_FORMAT FORMAT_int_snd_timer_id_t___GENPT__
-#define snd_timer_id_malloc_INDEX 1701
+#define snd_timer_id_malloc_INDEX 1664
 #define snd_timer_id_malloc_RETURN int
 #define snd_timer_id_malloc_ARG_NAMES ptr
 #define snd_timer_id_malloc_ARG_EXPAND snd_timer_id_t ** ptr
 #define snd_timer_id_malloc_PACKED PACKED_int_snd_timer_id_t___GENPT____GENPT__
 #define snd_timer_id_malloc_INDEXED INDEXED_int_snd_timer_id_t___GENPT____GENPT__
 #define snd_timer_id_malloc_FORMAT FORMAT_int_snd_timer_id_t___GENPT____GENPT__
-#define snd_timer_id_set_card_INDEX 1702
+#define snd_timer_id_set_card_INDEX 1665
 #define snd_timer_id_set_card_RETURN void
 #define snd_timer_id_set_card_ARG_NAMES id, card
 #define snd_timer_id_set_card_ARG_EXPAND snd_timer_id_t * id, int card
 #define snd_timer_id_set_card_PACKED PACKED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_card_INDEXED INDEXED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_card_FORMAT FORMAT_void_snd_timer_id_t___GENPT___int
-#define snd_timer_id_set_class_INDEX 1703
+#define snd_timer_id_set_class_INDEX 1666
 #define snd_timer_id_set_class_RETURN void
 #define snd_timer_id_set_class_ARG_NAMES id, dev_class
 #define snd_timer_id_set_class_ARG_EXPAND snd_timer_id_t * id, int dev_class
 #define snd_timer_id_set_class_PACKED PACKED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_class_INDEXED INDEXED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_class_FORMAT FORMAT_void_snd_timer_id_t___GENPT___int
-#define snd_timer_id_set_device_INDEX 1704
+#define snd_timer_id_set_device_INDEX 1667
 #define snd_timer_id_set_device_RETURN void
 #define snd_timer_id_set_device_ARG_NAMES id, device
 #define snd_timer_id_set_device_ARG_EXPAND snd_timer_id_t * id, int device
 #define snd_timer_id_set_device_PACKED PACKED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_device_INDEXED INDEXED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_device_FORMAT FORMAT_void_snd_timer_id_t___GENPT___int
-#define snd_timer_id_set_sclass_INDEX 1705
+#define snd_timer_id_set_sclass_INDEX 1668
 #define snd_timer_id_set_sclass_RETURN void
 #define snd_timer_id_set_sclass_ARG_NAMES id, dev_sclass
 #define snd_timer_id_set_sclass_ARG_EXPAND snd_timer_id_t * id, int dev_sclass
 #define snd_timer_id_set_sclass_PACKED PACKED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_sclass_INDEXED INDEXED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_sclass_FORMAT FORMAT_void_snd_timer_id_t___GENPT___int
-#define snd_timer_id_set_subdevice_INDEX 1706
+#define snd_timer_id_set_subdevice_INDEX 1669
 #define snd_timer_id_set_subdevice_RETURN void
 #define snd_timer_id_set_subdevice_ARG_NAMES id, subdevice
 #define snd_timer_id_set_subdevice_ARG_EXPAND snd_timer_id_t * id, int subdevice
 #define snd_timer_id_set_subdevice_PACKED PACKED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_subdevice_INDEXED INDEXED_void_snd_timer_id_t___GENPT___int
 #define snd_timer_id_set_subdevice_FORMAT FORMAT_void_snd_timer_id_t___GENPT___int
-#define snd_timer_id_sizeof_INDEX 1707
+#define snd_timer_id_sizeof_INDEX 1670
 #define snd_timer_id_sizeof_RETURN size_t
 #define snd_timer_id_sizeof_ARG_NAMES 
 #define snd_timer_id_sizeof_ARG_EXPAND 
 #define snd_timer_id_sizeof_PACKED PACKED_size_t
 #define snd_timer_id_sizeof_INDEXED INDEXED_size_t
 #define snd_timer_id_sizeof_FORMAT FORMAT_size_t
-#define snd_timer_info_INDEX 1708
+#define snd_timer_info_INDEX 1671
 #define snd_timer_info_RETURN int
 #define snd_timer_info_ARG_NAMES handle, timer
 #define snd_timer_info_ARG_EXPAND snd_timer_t * handle, snd_timer_info_t * timer
 #define snd_timer_info_PACKED PACKED_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_INDEXED INDEXED_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_FORMAT FORMAT_int_snd_timer_t___GENPT___snd_timer_info_t___GENPT__
-#define snd_timer_info_copy_INDEX 1709
+#define snd_timer_info_copy_INDEX 1672
 #define snd_timer_info_copy_RETURN void
 #define snd_timer_info_copy_ARG_NAMES dst, src
 #define snd_timer_info_copy_ARG_EXPAND snd_timer_info_t * dst, const snd_timer_info_t * src
 #define snd_timer_info_copy_PACKED PACKED_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__
 #define snd_timer_info_copy_INDEXED INDEXED_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__
 #define snd_timer_info_copy_FORMAT FORMAT_void_snd_timer_info_t___GENPT___const_snd_timer_info_t___GENPT__
-#define snd_timer_info_free_INDEX 1710
+#define snd_timer_info_free_INDEX 1673
 #define snd_timer_info_free_RETURN void
 #define snd_timer_info_free_ARG_NAMES obj
 #define snd_timer_info_free_ARG_EXPAND snd_timer_info_t * obj
 #define snd_timer_info_free_PACKED PACKED_void_snd_timer_info_t___GENPT__
 #define snd_timer_info_free_INDEXED INDEXED_void_snd_timer_info_t___GENPT__
 #define snd_timer_info_free_FORMAT FORMAT_void_snd_timer_info_t___GENPT__
-#define snd_timer_info_get_card_INDEX 1711
+#define snd_timer_info_get_card_INDEX 1674
 #define snd_timer_info_get_card_RETURN int
 #define snd_timer_info_get_card_ARG_NAMES info
 #define snd_timer_info_get_card_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_get_card_PACKED PACKED_int_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_card_INDEXED INDEXED_int_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_card_FORMAT FORMAT_int_snd_timer_info_t___GENPT__
-#define snd_timer_info_get_id_INDEX 1712
+#define snd_timer_info_get_id_INDEX 1675
 #define snd_timer_info_get_id_RETURN const char *
 #define snd_timer_info_get_id_ARG_NAMES info
 #define snd_timer_info_get_id_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_get_id_PACKED PACKED_const_char___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_get_id_INDEXED INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_get_id_FORMAT FORMAT_const_char___GENPT___snd_timer_info_t___GENPT__
-#define snd_timer_info_get_name_INDEX 1713
+#define snd_timer_info_get_name_INDEX 1676
 #define snd_timer_info_get_name_RETURN const char *
 #define snd_timer_info_get_name_ARG_NAMES info
 #define snd_timer_info_get_name_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_get_name_PACKED PACKED_const_char___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_get_name_INDEXED INDEXED_const_char___GENPT___snd_timer_info_t___GENPT__
 #define snd_timer_info_get_name_FORMAT FORMAT_const_char___GENPT___snd_timer_info_t___GENPT__
-#define snd_timer_info_get_resolution_INDEX 1714
+#define snd_timer_info_get_resolution_INDEX 1677
 #define snd_timer_info_get_resolution_RETURN long
 #define snd_timer_info_get_resolution_ARG_NAMES info
 #define snd_timer_info_get_resolution_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_get_resolution_PACKED PACKED_long_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_resolution_INDEXED INDEXED_long_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_resolution_FORMAT FORMAT_long_snd_timer_info_t___GENPT__
-#define snd_timer_info_get_ticks_INDEX 1715
+#define snd_timer_info_get_ticks_INDEX 1678
 #define snd_timer_info_get_ticks_RETURN long
 #define snd_timer_info_get_ticks_ARG_NAMES info
 #define snd_timer_info_get_ticks_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_get_ticks_PACKED PACKED_long_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_ticks_INDEXED INDEXED_long_snd_timer_info_t___GENPT__
 #define snd_timer_info_get_ticks_FORMAT FORMAT_long_snd_timer_info_t___GENPT__
-#define snd_timer_info_is_slave_INDEX 1716
+#define snd_timer_info_is_slave_INDEX 1679
 #define snd_timer_info_is_slave_RETURN int
 #define snd_timer_info_is_slave_ARG_NAMES info
 #define snd_timer_info_is_slave_ARG_EXPAND snd_timer_info_t * info
 #define snd_timer_info_is_slave_PACKED PACKED_int_snd_timer_info_t___GENPT__
 #define snd_timer_info_is_slave_INDEXED INDEXED_int_snd_timer_info_t___GENPT__
 #define snd_timer_info_is_slave_FORMAT FORMAT_int_snd_timer_info_t___GENPT__
-#define snd_timer_info_malloc_INDEX 1717
+#define snd_timer_info_malloc_INDEX 1680
 #define snd_timer_info_malloc_RETURN int
 #define snd_timer_info_malloc_ARG_NAMES ptr
 #define snd_timer_info_malloc_ARG_EXPAND snd_timer_info_t ** ptr
 #define snd_timer_info_malloc_PACKED PACKED_int_snd_timer_info_t___GENPT____GENPT__
 #define snd_timer_info_malloc_INDEXED INDEXED_int_snd_timer_info_t___GENPT____GENPT__
 #define snd_timer_info_malloc_FORMAT FORMAT_int_snd_timer_info_t___GENPT____GENPT__
-#define snd_timer_info_sizeof_INDEX 1718
+#define snd_timer_info_sizeof_INDEX 1681
 #define snd_timer_info_sizeof_RETURN size_t
 #define snd_timer_info_sizeof_ARG_NAMES 
 #define snd_timer_info_sizeof_ARG_EXPAND 
 #define snd_timer_info_sizeof_PACKED PACKED_size_t
 #define snd_timer_info_sizeof_INDEXED INDEXED_size_t
 #define snd_timer_info_sizeof_FORMAT FORMAT_size_t
-#define snd_timer_open_INDEX 1719
+#define snd_timer_open_INDEX 1682
 #define snd_timer_open_RETURN int
 #define snd_timer_open_ARG_NAMES handle, name, mode
 #define snd_timer_open_ARG_EXPAND snd_timer_t ** handle, const char * name, int mode
 #define snd_timer_open_PACKED PACKED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_timer_open_INDEXED INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_timer_open_FORMAT FORMAT_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int
-#define snd_timer_open_lconf_INDEX 1720
+#define snd_timer_open_lconf_INDEX 1683
 #define snd_timer_open_lconf_RETURN int
 #define snd_timer_open_lconf_ARG_NAMES handle, name, mode, lconf
 #define snd_timer_open_lconf_ARG_EXPAND snd_timer_t ** handle, const char * name, int mode, snd_config_t * lconf
 #define snd_timer_open_lconf_PACKED PACKED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_timer_open_lconf_INDEXED INDEXED_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_timer_open_lconf_FORMAT FORMAT_int_snd_timer_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
-#define snd_timer_params_INDEX 1721
+#define snd_timer_params_INDEX 1684
 #define snd_timer_params_RETURN int
 #define snd_timer_params_ARG_NAMES handle, params
 #define snd_timer_params_ARG_EXPAND snd_timer_t * handle, snd_timer_params_t * params
 #define snd_timer_params_PACKED PACKED_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__
 #define snd_timer_params_INDEXED INDEXED_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__
 #define snd_timer_params_FORMAT FORMAT_int_snd_timer_t___GENPT___snd_timer_params_t___GENPT__
-#define snd_timer_params_copy_INDEX 1722
+#define snd_timer_params_copy_INDEX 1685
 #define snd_timer_params_copy_RETURN void
 #define snd_timer_params_copy_ARG_NAMES dst, src
 #define snd_timer_params_copy_ARG_EXPAND snd_timer_params_t * dst, const snd_timer_params_t * src
 #define snd_timer_params_copy_PACKED PACKED_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__
 #define snd_timer_params_copy_INDEXED INDEXED_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__
 #define snd_timer_params_copy_FORMAT FORMAT_void_snd_timer_params_t___GENPT___const_snd_timer_params_t___GENPT__
-#define snd_timer_params_free_INDEX 1723
+#define snd_timer_params_free_INDEX 1686
 #define snd_timer_params_free_RETURN void
 #define snd_timer_params_free_ARG_NAMES obj
 #define snd_timer_params_free_ARG_EXPAND snd_timer_params_t * obj
 #define snd_timer_params_free_PACKED PACKED_void_snd_timer_params_t___GENPT__
 #define snd_timer_params_free_INDEXED INDEXED_void_snd_timer_params_t___GENPT__
 #define snd_timer_params_free_FORMAT FORMAT_void_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_auto_start_INDEX 1724
+#define snd_timer_params_get_auto_start_INDEX 1687
 #define snd_timer_params_get_auto_start_RETURN int
 #define snd_timer_params_get_auto_start_ARG_NAMES params
 #define snd_timer_params_get_auto_start_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_auto_start_PACKED PACKED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_auto_start_INDEXED INDEXED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_auto_start_FORMAT FORMAT_int_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_early_event_INDEX 1725
+#define snd_timer_params_get_early_event_INDEX 1688
 #define snd_timer_params_get_early_event_RETURN int
 #define snd_timer_params_get_early_event_ARG_NAMES params
 #define snd_timer_params_get_early_event_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_early_event_PACKED PACKED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_early_event_INDEXED INDEXED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_early_event_FORMAT FORMAT_int_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_exclusive_INDEX 1726
+#define snd_timer_params_get_exclusive_INDEX 1689
 #define snd_timer_params_get_exclusive_RETURN int
 #define snd_timer_params_get_exclusive_ARG_NAMES params
 #define snd_timer_params_get_exclusive_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_exclusive_PACKED PACKED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_exclusive_INDEXED INDEXED_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_exclusive_FORMAT FORMAT_int_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_filter_INDEX 1727
+#define snd_timer_params_get_filter_INDEX 1690
 #define snd_timer_params_get_filter_RETURN unsigned int
 #define snd_timer_params_get_filter_ARG_NAMES params
 #define snd_timer_params_get_filter_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_filter_PACKED PACKED_unsigned_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_filter_INDEXED INDEXED_unsigned_int_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_filter_FORMAT FORMAT_unsigned_int_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_queue_size_INDEX 1728
+#define snd_timer_params_get_queue_size_INDEX 1691
 #define snd_timer_params_get_queue_size_RETURN long
 #define snd_timer_params_get_queue_size_ARG_NAMES params
 #define snd_timer_params_get_queue_size_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_queue_size_PACKED PACKED_long_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_queue_size_INDEXED INDEXED_long_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_queue_size_FORMAT FORMAT_long_snd_timer_params_t___GENPT__
-#define snd_timer_params_get_ticks_INDEX 1729
+#define snd_timer_params_get_ticks_INDEX 1692
 #define snd_timer_params_get_ticks_RETURN long
 #define snd_timer_params_get_ticks_ARG_NAMES params
 #define snd_timer_params_get_ticks_ARG_EXPAND snd_timer_params_t * params
 #define snd_timer_params_get_ticks_PACKED PACKED_long_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_ticks_INDEXED INDEXED_long_snd_timer_params_t___GENPT__
 #define snd_timer_params_get_ticks_FORMAT FORMAT_long_snd_timer_params_t___GENPT__
-#define snd_timer_params_malloc_INDEX 1730
+#define snd_timer_params_malloc_INDEX 1693
 #define snd_timer_params_malloc_RETURN int
 #define snd_timer_params_malloc_ARG_NAMES ptr
 #define snd_timer_params_malloc_ARG_EXPAND snd_timer_params_t ** ptr
 #define snd_timer_params_malloc_PACKED PACKED_int_snd_timer_params_t___GENPT____GENPT__
 #define snd_timer_params_malloc_INDEXED INDEXED_int_snd_timer_params_t___GENPT____GENPT__
 #define snd_timer_params_malloc_FORMAT FORMAT_int_snd_timer_params_t___GENPT____GENPT__
-#define snd_timer_params_set_auto_start_INDEX 1731
+#define snd_timer_params_set_auto_start_INDEX 1694
 #define snd_timer_params_set_auto_start_RETURN int
 #define snd_timer_params_set_auto_start_ARG_NAMES params, auto_start
 #define snd_timer_params_set_auto_start_ARG_EXPAND snd_timer_params_t * params, int auto_start
 #define snd_timer_params_set_auto_start_PACKED PACKED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_auto_start_INDEXED INDEXED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_auto_start_FORMAT FORMAT_int_snd_timer_params_t___GENPT___int
-#define snd_timer_params_set_early_event_INDEX 1732
+#define snd_timer_params_set_early_event_INDEX 1695
 #define snd_timer_params_set_early_event_RETURN int
 #define snd_timer_params_set_early_event_ARG_NAMES params, early_event
 #define snd_timer_params_set_early_event_ARG_EXPAND snd_timer_params_t * params, int early_event
 #define snd_timer_params_set_early_event_PACKED PACKED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_early_event_INDEXED INDEXED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_early_event_FORMAT FORMAT_int_snd_timer_params_t___GENPT___int
-#define snd_timer_params_set_exclusive_INDEX 1733
+#define snd_timer_params_set_exclusive_INDEX 1696
 #define snd_timer_params_set_exclusive_RETURN int
 #define snd_timer_params_set_exclusive_ARG_NAMES params, exclusive
 #define snd_timer_params_set_exclusive_ARG_EXPAND snd_timer_params_t * params, int exclusive
 #define snd_timer_params_set_exclusive_PACKED PACKED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_exclusive_INDEXED INDEXED_int_snd_timer_params_t___GENPT___int
 #define snd_timer_params_set_exclusive_FORMAT FORMAT_int_snd_timer_params_t___GENPT___int
-#define snd_timer_params_set_filter_INDEX 1734
+#define snd_timer_params_set_filter_INDEX 1697
 #define snd_timer_params_set_filter_RETURN void
 #define snd_timer_params_set_filter_ARG_NAMES params, filter
 #define snd_timer_params_set_filter_ARG_EXPAND snd_timer_params_t * params, unsigned int filter
 #define snd_timer_params_set_filter_PACKED PACKED_void_snd_timer_params_t___GENPT___unsigned_int
 #define snd_timer_params_set_filter_INDEXED INDEXED_void_snd_timer_params_t___GENPT___unsigned_int
 #define snd_timer_params_set_filter_FORMAT FORMAT_void_snd_timer_params_t___GENPT___unsigned_int
-#define snd_timer_params_set_queue_size_INDEX 1735
+#define snd_timer_params_set_queue_size_INDEX 1698
 #define snd_timer_params_set_queue_size_RETURN void
 #define snd_timer_params_set_queue_size_ARG_NAMES params, queue_size
 #define snd_timer_params_set_queue_size_ARG_EXPAND snd_timer_params_t * params, long queue_size
 #define snd_timer_params_set_queue_size_PACKED PACKED_void_snd_timer_params_t___GENPT___long
 #define snd_timer_params_set_queue_size_INDEXED INDEXED_void_snd_timer_params_t___GENPT___long
 #define snd_timer_params_set_queue_size_FORMAT FORMAT_void_snd_timer_params_t___GENPT___long
-#define snd_timer_params_set_ticks_INDEX 1736
+#define snd_timer_params_set_ticks_INDEX 1699
 #define snd_timer_params_set_ticks_RETURN void
 #define snd_timer_params_set_ticks_ARG_NAMES params, ticks
 #define snd_timer_params_set_ticks_ARG_EXPAND snd_timer_params_t * params, long ticks
 #define snd_timer_params_set_ticks_PACKED PACKED_void_snd_timer_params_t___GENPT___long
 #define snd_timer_params_set_ticks_INDEXED INDEXED_void_snd_timer_params_t___GENPT___long
 #define snd_timer_params_set_ticks_FORMAT FORMAT_void_snd_timer_params_t___GENPT___long
-#define snd_timer_params_sizeof_INDEX 1737
+#define snd_timer_params_sizeof_INDEX 1700
 #define snd_timer_params_sizeof_RETURN size_t
 #define snd_timer_params_sizeof_ARG_NAMES 
 #define snd_timer_params_sizeof_ARG_EXPAND 
 #define snd_timer_params_sizeof_PACKED PACKED_size_t
 #define snd_timer_params_sizeof_INDEXED INDEXED_size_t
 #define snd_timer_params_sizeof_FORMAT FORMAT_size_t
-#define snd_timer_poll_descriptors_INDEX 1738
+#define snd_timer_poll_descriptors_INDEX 1701
 #define snd_timer_poll_descriptors_RETURN int
 #define snd_timer_poll_descriptors_ARG_NAMES handle, pfds, space
 #define snd_timer_poll_descriptors_ARG_EXPAND snd_timer_t * handle, struct pollfd * pfds, unsigned int space
 #define snd_timer_poll_descriptors_PACKED PACKED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_timer_poll_descriptors_INDEXED INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int
 #define snd_timer_poll_descriptors_FORMAT FORMAT_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int
-#define snd_timer_poll_descriptors_count_INDEX 1739
+#define snd_timer_poll_descriptors_count_INDEX 1702
 #define snd_timer_poll_descriptors_count_RETURN int
 #define snd_timer_poll_descriptors_count_ARG_NAMES handle
 #define snd_timer_poll_descriptors_count_ARG_EXPAND snd_timer_t * handle
 #define snd_timer_poll_descriptors_count_PACKED PACKED_int_snd_timer_t___GENPT__
 #define snd_timer_poll_descriptors_count_INDEXED INDEXED_int_snd_timer_t___GENPT__
 #define snd_timer_poll_descriptors_count_FORMAT FORMAT_int_snd_timer_t___GENPT__
-#define snd_timer_poll_descriptors_revents_INDEX 1740
+#define snd_timer_poll_descriptors_revents_INDEX 1703
 #define snd_timer_poll_descriptors_revents_RETURN int
 #define snd_timer_poll_descriptors_revents_ARG_NAMES timer, pfds, nfds, revents
 #define snd_timer_poll_descriptors_revents_ARG_EXPAND snd_timer_t * timer, struct pollfd * pfds, unsigned int nfds, unsigned short * revents
 #define snd_timer_poll_descriptors_revents_PACKED PACKED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_timer_poll_descriptors_revents_INDEXED INDEXED_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
 #define snd_timer_poll_descriptors_revents_FORMAT FORMAT_int_snd_timer_t___GENPT___struct_pollfd___GENPT___unsigned_int_unsigned_short___GENPT__
-#define snd_timer_query_close_INDEX 1741
+#define snd_timer_query_close_INDEX 1704
 #define snd_timer_query_close_RETURN int
 #define snd_timer_query_close_ARG_NAMES handle
 #define snd_timer_query_close_ARG_EXPAND snd_timer_query_t * handle
 #define snd_timer_query_close_PACKED PACKED_int_snd_timer_query_t___GENPT__
 #define snd_timer_query_close_INDEXED INDEXED_int_snd_timer_query_t___GENPT__
 #define snd_timer_query_close_FORMAT FORMAT_int_snd_timer_query_t___GENPT__
-#define snd_timer_query_info_INDEX 1742
+#define snd_timer_query_info_INDEX 1705
 #define snd_timer_query_info_RETURN int
 #define snd_timer_query_info_ARG_NAMES handle, info
 #define snd_timer_query_info_ARG_EXPAND snd_timer_query_t * handle, snd_timer_ginfo_t * info
 #define snd_timer_query_info_PACKED PACKED_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_query_info_INDEXED INDEXED_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__
 #define snd_timer_query_info_FORMAT FORMAT_int_snd_timer_query_t___GENPT___snd_timer_ginfo_t___GENPT__
-#define snd_timer_query_next_device_INDEX 1743
+#define snd_timer_query_next_device_INDEX 1706
 #define snd_timer_query_next_device_RETURN int
 #define snd_timer_query_next_device_ARG_NAMES handle, tid
 #define snd_timer_query_next_device_ARG_EXPAND snd_timer_query_t * handle, snd_timer_id_t * tid
 #define snd_timer_query_next_device_PACKED PACKED_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__
 #define snd_timer_query_next_device_INDEXED INDEXED_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__
 #define snd_timer_query_next_device_FORMAT FORMAT_int_snd_timer_query_t___GENPT___snd_timer_id_t___GENPT__
-#define snd_timer_query_open_INDEX 1744
+#define snd_timer_query_open_INDEX 1707
 #define snd_timer_query_open_RETURN int
 #define snd_timer_query_open_ARG_NAMES handle, name, mode
 #define snd_timer_query_open_ARG_EXPAND snd_timer_query_t ** handle, const char * name, int mode
 #define snd_timer_query_open_PACKED PACKED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_timer_query_open_INDEXED INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int
 #define snd_timer_query_open_FORMAT FORMAT_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int
-#define snd_timer_query_open_lconf_INDEX 1745
+#define snd_timer_query_open_lconf_INDEX 1708
 #define snd_timer_query_open_lconf_RETURN int
 #define snd_timer_query_open_lconf_ARG_NAMES handle, name, mode, lconf
 #define snd_timer_query_open_lconf_ARG_EXPAND snd_timer_query_t ** handle, const char * name, int mode, snd_config_t * lconf
 #define snd_timer_query_open_lconf_PACKED PACKED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_timer_query_open_lconf_INDEXED INDEXED_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
 #define snd_timer_query_open_lconf_FORMAT FORMAT_int_snd_timer_query_t___GENPT____GENPT___const_char___GENPT___int_snd_config_t___GENPT__
-#define snd_timer_query_params_INDEX 1746
+#define snd_timer_query_params_INDEX 1709
 #define snd_timer_query_params_RETURN int
 #define snd_timer_query_params_ARG_NAMES handle, params
 #define snd_timer_query_params_ARG_EXPAND snd_timer_query_t * handle, snd_timer_gparams_t * params
 #define snd_timer_query_params_PACKED PACKED_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__
 #define snd_timer_query_params_INDEXED INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__
 #define snd_timer_query_params_FORMAT FORMAT_int_snd_timer_query_t___GENPT___snd_timer_gparams_t___GENPT__
-#define snd_timer_query_status_INDEX 1747
+#define snd_timer_query_status_INDEX 1710
 #define snd_timer_query_status_RETURN int
 #define snd_timer_query_status_ARG_NAMES handle, status
 #define snd_timer_query_status_ARG_EXPAND snd_timer_query_t * handle, snd_timer_gstatus_t * status
 #define snd_timer_query_status_PACKED PACKED_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__
 #define snd_timer_query_status_INDEXED INDEXED_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__
 #define snd_timer_query_status_FORMAT FORMAT_int_snd_timer_query_t___GENPT___snd_timer_gstatus_t___GENPT__
-#define snd_timer_read_INDEX 1748
+#define snd_timer_read_INDEX 1711
 #define snd_timer_read_RETURN ssize_t
 #define snd_timer_read_ARG_NAMES handle, buffer, size
 #define snd_timer_read_ARG_EXPAND snd_timer_t * handle, void * buffer, size_t size
 #define snd_timer_read_PACKED PACKED_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t
 #define snd_timer_read_INDEXED INDEXED_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t
 #define snd_timer_read_FORMAT FORMAT_ssize_t_snd_timer_t___GENPT___void___GENPT___size_t
-#define snd_timer_start_INDEX 1749
+#define snd_timer_start_INDEX 1712
 #define snd_timer_start_RETURN int
 #define snd_timer_start_ARG_NAMES handle
 #define snd_timer_start_ARG_EXPAND snd_timer_t * handle
 #define snd_timer_start_PACKED PACKED_int_snd_timer_t___GENPT__
 #define snd_timer_start_INDEXED INDEXED_int_snd_timer_t___GENPT__
 #define snd_timer_start_FORMAT FORMAT_int_snd_timer_t___GENPT__
-#define snd_timer_status_INDEX 1750
+#define snd_timer_status_INDEX 1713
 #define snd_timer_status_RETURN int
 #define snd_timer_status_ARG_NAMES handle, status
 #define snd_timer_status_ARG_EXPAND snd_timer_t * handle, snd_timer_status_t * status
 #define snd_timer_status_PACKED PACKED_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__
 #define snd_timer_status_INDEXED INDEXED_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__
 #define snd_timer_status_FORMAT FORMAT_int_snd_timer_t___GENPT___snd_timer_status_t___GENPT__
-#define snd_timer_status_copy_INDEX 1751
+#define snd_timer_status_copy_INDEX 1714
 #define snd_timer_status_copy_RETURN void
 #define snd_timer_status_copy_ARG_NAMES dst, src
 #define snd_timer_status_copy_ARG_EXPAND snd_timer_status_t * dst, const snd_timer_status_t * src
 #define snd_timer_status_copy_PACKED PACKED_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__
 #define snd_timer_status_copy_INDEXED INDEXED_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__
 #define snd_timer_status_copy_FORMAT FORMAT_void_snd_timer_status_t___GENPT___const_snd_timer_status_t___GENPT__
-#define snd_timer_status_free_INDEX 1752
+#define snd_timer_status_free_INDEX 1715
 #define snd_timer_status_free_RETURN void
 #define snd_timer_status_free_ARG_NAMES obj
 #define snd_timer_status_free_ARG_EXPAND snd_timer_status_t * obj
 #define snd_timer_status_free_PACKED PACKED_void_snd_timer_status_t___GENPT__
 #define snd_timer_status_free_INDEXED INDEXED_void_snd_timer_status_t___GENPT__
 #define snd_timer_status_free_FORMAT FORMAT_void_snd_timer_status_t___GENPT__
-#define snd_timer_status_get_lost_INDEX 1753
+#define snd_timer_status_get_lost_INDEX 1716
 #define snd_timer_status_get_lost_RETURN long
 #define snd_timer_status_get_lost_ARG_NAMES status
 #define snd_timer_status_get_lost_ARG_EXPAND snd_timer_status_t * status
 #define snd_timer_status_get_lost_PACKED PACKED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_lost_INDEXED INDEXED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_lost_FORMAT FORMAT_long_snd_timer_status_t___GENPT__
-#define snd_timer_status_get_overrun_INDEX 1754
+#define snd_timer_status_get_overrun_INDEX 1717
 #define snd_timer_status_get_overrun_RETURN long
 #define snd_timer_status_get_overrun_ARG_NAMES status
 #define snd_timer_status_get_overrun_ARG_EXPAND snd_timer_status_t * status
 #define snd_timer_status_get_overrun_PACKED PACKED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_overrun_INDEXED INDEXED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_overrun_FORMAT FORMAT_long_snd_timer_status_t___GENPT__
-#define snd_timer_status_get_queue_INDEX 1755
+#define snd_timer_status_get_queue_INDEX 1718
 #define snd_timer_status_get_queue_RETURN long
 #define snd_timer_status_get_queue_ARG_NAMES status
 #define snd_timer_status_get_queue_ARG_EXPAND snd_timer_status_t * status
 #define snd_timer_status_get_queue_PACKED PACKED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_queue_INDEXED INDEXED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_queue_FORMAT FORMAT_long_snd_timer_status_t___GENPT__
-#define snd_timer_status_get_resolution_INDEX 1756
+#define snd_timer_status_get_resolution_INDEX 1719
 #define snd_timer_status_get_resolution_RETURN long
 #define snd_timer_status_get_resolution_ARG_NAMES status
 #define snd_timer_status_get_resolution_ARG_EXPAND snd_timer_status_t * status
 #define snd_timer_status_get_resolution_PACKED PACKED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_resolution_INDEXED INDEXED_long_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_resolution_FORMAT FORMAT_long_snd_timer_status_t___GENPT__
-#define snd_timer_status_get_timestamp_INDEX 1757
+#define snd_timer_status_get_timestamp_INDEX 1720
 #define snd_timer_status_get_timestamp_RETURN snd_htimestamp_t
 #define snd_timer_status_get_timestamp_ARG_NAMES status
 #define snd_timer_status_get_timestamp_ARG_EXPAND snd_timer_status_t * status
 #define snd_timer_status_get_timestamp_PACKED PACKED_snd_htimestamp_t_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_timestamp_INDEXED INDEXED_snd_htimestamp_t_snd_timer_status_t___GENPT__
 #define snd_timer_status_get_timestamp_FORMAT FORMAT_snd_htimestamp_t_snd_timer_status_t___GENPT__
-#define snd_timer_status_malloc_INDEX 1758
+#define snd_timer_status_malloc_INDEX 1721
 #define snd_timer_status_malloc_RETURN int
 #define snd_timer_status_malloc_ARG_NAMES ptr
 #define snd_timer_status_malloc_ARG_EXPAND snd_timer_status_t ** ptr
 #define snd_timer_status_malloc_PACKED PACKED_int_snd_timer_status_t___GENPT____GENPT__
 #define snd_timer_status_malloc_INDEXED INDEXED_int_snd_timer_status_t___GENPT____GENPT__
 #define snd_timer_status_malloc_FORMAT FORMAT_int_snd_timer_status_t___GENPT____GENPT__
-#define snd_timer_status_sizeof_INDEX 1759
+#define snd_timer_status_sizeof_INDEX 1722
 #define snd_timer_status_sizeof_RETURN size_t
 #define snd_timer_status_sizeof_ARG_NAMES 
 #define snd_timer_status_sizeof_ARG_EXPAND 
 #define snd_timer_status_sizeof_PACKED PACKED_size_t
 #define snd_timer_status_sizeof_INDEXED INDEXED_size_t
 #define snd_timer_status_sizeof_FORMAT FORMAT_size_t
-#define snd_timer_stop_INDEX 1760
+#define snd_timer_stop_INDEX 1723
 #define snd_timer_stop_RETURN int
 #define snd_timer_stop_ARG_NAMES handle
 #define snd_timer_stop_ARG_EXPAND snd_timer_t * handle
 #define snd_timer_stop_PACKED PACKED_int_snd_timer_t___GENPT__
 #define snd_timer_stop_INDEXED INDEXED_int_snd_timer_t___GENPT__
 #define snd_timer_stop_FORMAT FORMAT_int_snd_timer_t___GENPT__
-#define snd_user_file_INDEX 1761
+#define snd_user_file_INDEX 1724
 #define snd_user_file_RETURN int
 #define snd_user_file_ARG_NAMES file, result
 #define snd_user_file_ARG_EXPAND const char * file, char ** result
@@ -28268,80 +27555,6 @@ int snd_input_stdio_open(snd_input_stdio_open_ARG_EXPAND);
 typedef int (*snd_input_stdio_open_PTR)(snd_input_stdio_open_ARG_EXPAND);
 int snd_input_ungetc(snd_input_ungetc_ARG_EXPAND);
 typedef int (*snd_input_ungetc_PTR)(snd_input_ungetc_ARG_EXPAND);
-int snd_instr_fm_convert_from_stream(snd_instr_fm_convert_from_stream_ARG_EXPAND);
-typedef int (*snd_instr_fm_convert_from_stream_PTR)(snd_instr_fm_convert_from_stream_ARG_EXPAND);
-int snd_instr_fm_convert_to_stream(snd_instr_fm_convert_to_stream_ARG_EXPAND);
-typedef int (*snd_instr_fm_convert_to_stream_PTR)(snd_instr_fm_convert_to_stream_ARG_EXPAND);
-int snd_instr_fm_free(snd_instr_fm_free_ARG_EXPAND);
-typedef int (*snd_instr_fm_free_PTR)(snd_instr_fm_free_ARG_EXPAND);
-void snd_instr_header_copy(snd_instr_header_copy_ARG_EXPAND);
-typedef void (*snd_instr_header_copy_PTR)(snd_instr_header_copy_ARG_EXPAND);
-void snd_instr_header_free(snd_instr_header_free_ARG_EXPAND);
-typedef void (*snd_instr_header_free_PTR)(snd_instr_header_free_ARG_EXPAND);
-const snd_seq_instr_t * snd_instr_header_get_alias(snd_instr_header_get_alias_ARG_EXPAND);
-typedef const snd_seq_instr_t * (*snd_instr_header_get_alias_PTR)(snd_instr_header_get_alias_ARG_EXPAND);
-snd_seq_instr_cluster_t snd_instr_header_get_cluster(snd_instr_header_get_cluster_ARG_EXPAND);
-typedef snd_seq_instr_cluster_t (*snd_instr_header_get_cluster_PTR)(snd_instr_header_get_cluster_ARG_EXPAND);
-unsigned int snd_instr_header_get_cmd(snd_instr_header_get_cmd_ARG_EXPAND);
-typedef unsigned int (*snd_instr_header_get_cmd_PTR)(snd_instr_header_get_cmd_ARG_EXPAND);
-void * snd_instr_header_get_data(snd_instr_header_get_data_ARG_EXPAND);
-typedef void * (*snd_instr_header_get_data_PTR)(snd_instr_header_get_data_ARG_EXPAND);
-int snd_instr_header_get_follow_alias(snd_instr_header_get_follow_alias_ARG_EXPAND);
-typedef int (*snd_instr_header_get_follow_alias_PTR)(snd_instr_header_get_follow_alias_ARG_EXPAND);
-const char * snd_instr_header_get_format(snd_instr_header_get_format_ARG_EXPAND);
-typedef const char * (*snd_instr_header_get_format_PTR)(snd_instr_header_get_format_ARG_EXPAND);
-const snd_seq_instr_t * snd_instr_header_get_id(snd_instr_header_get_id_ARG_EXPAND);
-typedef const snd_seq_instr_t * (*snd_instr_header_get_id_PTR)(snd_instr_header_get_id_ARG_EXPAND);
-size_t snd_instr_header_get_len(snd_instr_header_get_len_ARG_EXPAND);
-typedef size_t (*snd_instr_header_get_len_PTR)(snd_instr_header_get_len_ARG_EXPAND);
-const char * snd_instr_header_get_name(snd_instr_header_get_name_ARG_EXPAND);
-typedef const char * (*snd_instr_header_get_name_PTR)(snd_instr_header_get_name_ARG_EXPAND);
-int snd_instr_header_get_type(snd_instr_header_get_type_ARG_EXPAND);
-typedef int (*snd_instr_header_get_type_PTR)(snd_instr_header_get_type_ARG_EXPAND);
-int snd_instr_header_malloc(snd_instr_header_malloc_ARG_EXPAND);
-typedef int (*snd_instr_header_malloc_PTR)(snd_instr_header_malloc_ARG_EXPAND);
-void snd_instr_header_set_alias(snd_instr_header_set_alias_ARG_EXPAND);
-typedef void (*snd_instr_header_set_alias_PTR)(snd_instr_header_set_alias_ARG_EXPAND);
-void snd_instr_header_set_cluster(snd_instr_header_set_cluster_ARG_EXPAND);
-typedef void (*snd_instr_header_set_cluster_PTR)(snd_instr_header_set_cluster_ARG_EXPAND);
-void snd_instr_header_set_cmd(snd_instr_header_set_cmd_ARG_EXPAND);
-typedef void (*snd_instr_header_set_cmd_PTR)(snd_instr_header_set_cmd_ARG_EXPAND);
-void snd_instr_header_set_follow_alias(snd_instr_header_set_follow_alias_ARG_EXPAND);
-typedef void (*snd_instr_header_set_follow_alias_PTR)(snd_instr_header_set_follow_alias_ARG_EXPAND);
-void snd_instr_header_set_format(snd_instr_header_set_format_ARG_EXPAND);
-typedef void (*snd_instr_header_set_format_PTR)(snd_instr_header_set_format_ARG_EXPAND);
-void snd_instr_header_set_id(snd_instr_header_set_id_ARG_EXPAND);
-typedef void (*snd_instr_header_set_id_PTR)(snd_instr_header_set_id_ARG_EXPAND);
-void snd_instr_header_set_len(snd_instr_header_set_len_ARG_EXPAND);
-typedef void (*snd_instr_header_set_len_PTR)(snd_instr_header_set_len_ARG_EXPAND);
-void snd_instr_header_set_name(snd_instr_header_set_name_ARG_EXPAND);
-typedef void (*snd_instr_header_set_name_PTR)(snd_instr_header_set_name_ARG_EXPAND);
-void snd_instr_header_set_type(snd_instr_header_set_type_ARG_EXPAND);
-typedef void (*snd_instr_header_set_type_PTR)(snd_instr_header_set_type_ARG_EXPAND);
-size_t snd_instr_header_sizeof(snd_instr_header_sizeof_ARG_EXPAND);
-typedef size_t (*snd_instr_header_sizeof_PTR)(snd_instr_header_sizeof_ARG_EXPAND);
-int snd_instr_iwffff_close(snd_instr_iwffff_close_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_close_PTR)(snd_instr_iwffff_close_ARG_EXPAND);
-int snd_instr_iwffff_convert_from_stream(snd_instr_iwffff_convert_from_stream_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_convert_from_stream_PTR)(snd_instr_iwffff_convert_from_stream_ARG_EXPAND);
-int snd_instr_iwffff_convert_to_stream(snd_instr_iwffff_convert_to_stream_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_convert_to_stream_PTR)(snd_instr_iwffff_convert_to_stream_ARG_EXPAND);
-int snd_instr_iwffff_free(snd_instr_iwffff_free_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_free_PTR)(snd_instr_iwffff_free_ARG_EXPAND);
-int snd_instr_iwffff_load(snd_instr_iwffff_load_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_load_PTR)(snd_instr_iwffff_load_ARG_EXPAND);
-int snd_instr_iwffff_open(snd_instr_iwffff_open_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_open_PTR)(snd_instr_iwffff_open_ARG_EXPAND);
-int snd_instr_iwffff_open_rom(snd_instr_iwffff_open_rom_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_open_rom_PTR)(snd_instr_iwffff_open_rom_ARG_EXPAND);
-int snd_instr_iwffff_open_rom_file(snd_instr_iwffff_open_rom_file_ARG_EXPAND);
-typedef int (*snd_instr_iwffff_open_rom_file_PTR)(snd_instr_iwffff_open_rom_file_ARG_EXPAND);
-int snd_instr_simple_convert_from_stream(snd_instr_simple_convert_from_stream_ARG_EXPAND);
-typedef int (*snd_instr_simple_convert_from_stream_PTR)(snd_instr_simple_convert_from_stream_ARG_EXPAND);
-int snd_instr_simple_convert_to_stream(snd_instr_simple_convert_to_stream_ARG_EXPAND);
-typedef int (*snd_instr_simple_convert_to_stream_PTR)(snd_instr_simple_convert_to_stream_ARG_EXPAND);
-int snd_instr_simple_free(snd_instr_simple_free_ARG_EXPAND);
-typedef int (*snd_instr_simple_free_PTR)(snd_instr_simple_free_ARG_EXPAND);
 int snd_lib_error_set_handler(snd_lib_error_set_handler_ARG_EXPAND);
 typedef int (*snd_lib_error_set_handler_PTR)(snd_lib_error_set_handler_ARG_EXPAND);
 long snd_midi_event_decode(snd_midi_event_decode_ARG_EXPAND);
