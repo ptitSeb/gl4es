@@ -12,8 +12,7 @@ void glAccum(GLenum op, GLfloat value) {
     packed_data->func = glAccum_INDEX;
     packed_data->args.a1 = (GLenum)op;
     packed_data->args.a2 = (GLfloat)value;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glActiveTexture
@@ -21,8 +20,7 @@ void glActiveTexture(GLenum texture) {
     glActiveTexture_INDEXED *packed_data;
     packed_data->func = glActiveTexture_INDEX;
     packed_data->args.a1 = (GLenum)texture;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glAlphaFunc
@@ -31,8 +29,7 @@ void glAlphaFunc(GLenum func, GLfloat ref) {
     packed_data->func = glAlphaFunc_INDEX;
     packed_data->args.a1 = (GLenum)func;
     packed_data->args.a2 = (GLfloat)ref;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glAreTexturesResident
@@ -52,8 +49,7 @@ void glArrayElement(GLint i) {
     glArrayElement_INDEXED *packed_data;
     packed_data->func = glArrayElement_INDEX;
     packed_data->args.a1 = (GLint)i;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBegin
@@ -61,8 +57,7 @@ void glBegin(GLenum mode) {
     glBegin_INDEXED *packed_data;
     packed_data->func = glBegin_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBeginQuery
@@ -71,8 +66,7 @@ void glBeginQuery(GLenum target, GLuint id) {
     packed_data->func = glBeginQuery_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)id;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBindBuffer
@@ -81,8 +75,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     packed_data->func = glBindBuffer_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)buffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBindTexture
@@ -91,8 +84,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     packed_data->func = glBindTexture_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)texture;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBitmap
@@ -106,8 +98,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLflo
     packed_data->args.a5 = (GLfloat)xmove;
     packed_data->args.a6 = (GLfloat)ymove;
     packed_data->args.a7 = (GLubyte *)bitmap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendColor
@@ -118,8 +109,7 @@ void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendEquation
@@ -127,8 +117,7 @@ void glBlendEquation(GLenum mode) {
     glBlendEquation_INDEXED *packed_data;
     packed_data->func = glBlendEquation_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendFunc
@@ -137,8 +126,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     packed_data->func = glBlendFunc_INDEX;
     packed_data->args.a1 = (GLenum)sfactor;
     packed_data->args.a2 = (GLenum)dfactor;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendFuncSeparate
@@ -149,8 +137,7 @@ void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlp
     packed_data->args.a2 = (GLenum)dfactorRGB;
     packed_data->args.a3 = (GLenum)sfactorAlpha;
     packed_data->args.a4 = (GLenum)dfactorAlpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBufferData
@@ -161,8 +148,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     packed_data->args.a2 = (GLsizeiptr)size;
     packed_data->args.a3 = (GLvoid *)data;
     packed_data->args.a4 = (GLenum)usage;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBufferSubData
@@ -173,8 +159,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     packed_data->args.a2 = (GLintptr)offset;
     packed_data->args.a3 = (GLsizeiptr)size;
     packed_data->args.a4 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCallList
@@ -182,8 +167,7 @@ void glCallList(GLuint list) {
     glCallList_INDEXED *packed_data;
     packed_data->func = glCallList_INDEX;
     packed_data->args.a1 = (GLuint)list;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCallLists
@@ -193,8 +177,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid * lists) {
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLvoid *)lists;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClear
@@ -202,8 +185,7 @@ void glClear(GLbitfield mask) {
     glClear_INDEXED *packed_data;
     packed_data->func = glClear_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearAccum
@@ -214,8 +196,7 @@ void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearColor
@@ -226,8 +207,7 @@ void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearDepth
@@ -235,8 +215,7 @@ void glClearDepth(GLdouble depth) {
     glClearDepth_INDEXED *packed_data;
     packed_data->func = glClearDepth_INDEX;
     packed_data->args.a1 = (GLdouble)depth;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearIndex
@@ -244,8 +223,7 @@ void glClearIndex(GLfloat c) {
     glClearIndex_INDEXED *packed_data;
     packed_data->func = glClearIndex_INDEX;
     packed_data->args.a1 = (GLfloat)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearStencil
@@ -253,8 +231,7 @@ void glClearStencil(GLint s) {
     glClearStencil_INDEXED *packed_data;
     packed_data->func = glClearStencil_INDEX;
     packed_data->args.a1 = (GLint)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClientActiveTexture
@@ -262,8 +239,7 @@ void glClientActiveTexture(GLenum texture) {
     glClientActiveTexture_INDEXED *packed_data;
     packed_data->func = glClientActiveTexture_INDEX;
     packed_data->args.a1 = (GLenum)texture;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClipPlane
@@ -272,8 +248,7 @@ void glClipPlane(GLenum plane, const GLdouble * equation) {
     packed_data->func = glClipPlane_INDEX;
     packed_data->args.a1 = (GLenum)plane;
     packed_data->args.a2 = (GLdouble *)equation;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3b
@@ -283,8 +258,7 @@ void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a1 = (GLbyte)red;
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3bv
@@ -292,8 +266,7 @@ void glColor3bv(const GLbyte * v) {
     glColor3bv_INDEXED *packed_data;
     packed_data->func = glColor3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3d
@@ -303,8 +276,7 @@ void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a1 = (GLdouble)red;
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3dv
@@ -312,8 +284,7 @@ void glColor3dv(const GLdouble * v) {
     glColor3dv_INDEXED *packed_data;
     packed_data->func = glColor3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3f
@@ -323,8 +294,7 @@ void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a1 = (GLfloat)red;
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3fv
@@ -332,8 +302,7 @@ void glColor3fv(const GLfloat * v) {
     glColor3fv_INDEXED *packed_data;
     packed_data->func = glColor3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3i
@@ -343,8 +312,7 @@ void glColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a1 = (GLint)red;
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3iv
@@ -352,8 +320,7 @@ void glColor3iv(const GLint * v) {
     glColor3iv_INDEXED *packed_data;
     packed_data->func = glColor3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3s
@@ -363,8 +330,7 @@ void glColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a1 = (GLshort)red;
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3sv
@@ -372,8 +338,7 @@ void glColor3sv(const GLshort * v) {
     glColor3sv_INDEXED *packed_data;
     packed_data->func = glColor3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ub
@@ -383,8 +348,7 @@ void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a1 = (GLubyte)red;
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ubv
@@ -392,8 +356,7 @@ void glColor3ubv(const GLubyte * v) {
     glColor3ubv_INDEXED *packed_data;
     packed_data->func = glColor3ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ui
@@ -403,8 +366,7 @@ void glColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a1 = (GLuint)red;
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3uiv
@@ -412,8 +374,7 @@ void glColor3uiv(const GLuint * v) {
     glColor3uiv_INDEXED *packed_data;
     packed_data->func = glColor3uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3us
@@ -423,8 +384,7 @@ void glColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a1 = (GLushort)red;
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3usv
@@ -432,8 +392,7 @@ void glColor3usv(const GLushort * v) {
     glColor3usv_INDEXED *packed_data;
     packed_data->func = glColor3usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4b
@@ -444,8 +403,7 @@ void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
     packed_data->args.a4 = (GLbyte)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4bv
@@ -453,8 +411,7 @@ void glColor4bv(const GLbyte * v) {
     glColor4bv_INDEXED *packed_data;
     packed_data->func = glColor4bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4d
@@ -465,8 +422,7 @@ void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
     packed_data->args.a4 = (GLdouble)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4dv
@@ -474,8 +430,7 @@ void glColor4dv(const GLdouble * v) {
     glColor4dv_INDEXED *packed_data;
     packed_data->func = glColor4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4f
@@ -486,8 +441,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4fv
@@ -495,8 +449,7 @@ void glColor4fv(const GLfloat * v) {
     glColor4fv_INDEXED *packed_data;
     packed_data->func = glColor4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4i
@@ -507,8 +460,7 @@ void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
     packed_data->args.a4 = (GLint)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4iv
@@ -516,8 +468,7 @@ void glColor4iv(const GLint * v) {
     glColor4iv_INDEXED *packed_data;
     packed_data->func = glColor4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4s
@@ -528,8 +479,7 @@ void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
     packed_data->args.a4 = (GLshort)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4sv
@@ -537,8 +487,7 @@ void glColor4sv(const GLshort * v) {
     glColor4sv_INDEXED *packed_data;
     packed_data->func = glColor4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ub
@@ -549,8 +498,7 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
     packed_data->args.a4 = (GLubyte)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ubv
@@ -558,8 +506,7 @@ void glColor4ubv(const GLubyte * v) {
     glColor4ubv_INDEXED *packed_data;
     packed_data->func = glColor4ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ui
@@ -570,8 +517,7 @@ void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
     packed_data->args.a4 = (GLuint)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4uiv
@@ -579,8 +525,7 @@ void glColor4uiv(const GLuint * v) {
     glColor4uiv_INDEXED *packed_data;
     packed_data->func = glColor4uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4us
@@ -591,8 +536,7 @@ void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
     packed_data->args.a4 = (GLushort)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4usv
@@ -600,8 +544,7 @@ void glColor4usv(const GLushort * v) {
     glColor4usv_INDEXED *packed_data;
     packed_data->func = glColor4usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorMask
@@ -612,8 +555,7 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
     packed_data->args.a2 = (GLboolean)green;
     packed_data->args.a3 = (GLboolean)blue;
     packed_data->args.a4 = (GLboolean)alpha;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorMaterial
@@ -622,8 +564,7 @@ void glColorMaterial(GLenum face, GLenum mode) {
     packed_data->func = glColorMaterial_INDEX;
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorPointer
@@ -634,8 +575,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorSubTable
@@ -648,8 +588,7 @@ void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format,
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTable
@@ -662,8 +601,7 @@ void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum fo
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)table;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTableParameterfv
@@ -673,8 +611,7 @@ void glColorTableParameterfv(GLenum target, GLenum pname, const GLfloat * params
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTableParameteriv
@@ -684,8 +621,7 @@ void glColorTableParameteriv(GLenum target, GLenum pname, const GLint * params) 
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage1D
@@ -699,8 +635,7 @@ void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a5 = (GLint)border;
     packed_data->args.a6 = (GLsizei)imageSize;
     packed_data->args.a7 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage2D
@@ -715,8 +650,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a6 = (GLint)border;
     packed_data->args.a7 = (GLsizei)imageSize;
     packed_data->args.a8 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage3D
@@ -732,8 +666,7 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a7 = (GLint)border;
     packed_data->args.a8 = (GLsizei)imageSize;
     packed_data->args.a9 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage1D
@@ -747,8 +680,7 @@ void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsize
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLsizei)imageSize;
     packed_data->args.a7 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage2D
@@ -764,8 +696,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLsizei)imageSize;
     packed_data->args.a9 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage3D
@@ -783,8 +714,7 @@ void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a9 = (GLenum)format;
     packed_data->args.a10 = (GLsizei)imageSize;
     packed_data->args.a11 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter1D
@@ -797,8 +727,7 @@ void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)image;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter2D
@@ -812,8 +741,7 @@ void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)image;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterf
@@ -823,8 +751,7 @@ void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterfv
@@ -834,8 +761,7 @@ void glConvolutionParameterfv(GLenum target, GLenum pname, const GLfloat * param
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteri
@@ -845,8 +771,7 @@ void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteriv
@@ -856,8 +781,7 @@ void glConvolutionParameteriv(GLenum target, GLenum pname, const GLint * params)
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyColorSubTable
@@ -869,8 +793,7 @@ void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyColorTable
@@ -882,8 +805,7 @@ void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GL
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter1D
@@ -895,8 +817,7 @@ void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter2D
@@ -909,8 +830,7 @@ void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
     packed_data->args.a6 = (GLsizei)height;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyPixels
@@ -922,8 +842,7 @@ void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) 
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
     packed_data->args.a5 = (GLenum)type;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexImage1D
@@ -937,8 +856,7 @@ void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a5 = (GLint)y;
     packed_data->args.a6 = (GLsizei)width;
     packed_data->args.a7 = (GLint)border;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexImage2D
@@ -953,8 +871,7 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a6 = (GLsizei)width;
     packed_data->args.a7 = (GLsizei)height;
     packed_data->args.a8 = (GLint)border;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage1D
@@ -967,8 +884,7 @@ void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLi
     packed_data->args.a4 = (GLint)x;
     packed_data->args.a5 = (GLint)y;
     packed_data->args.a6 = (GLsizei)width;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage2D
@@ -983,8 +899,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a6 = (GLint)y;
     packed_data->args.a7 = (GLsizei)width;
     packed_data->args.a8 = (GLsizei)height;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage3D
@@ -1000,8 +915,7 @@ void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a7 = (GLint)y;
     packed_data->args.a8 = (GLsizei)width;
     packed_data->args.a9 = (GLsizei)height;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCullFace
@@ -1009,8 +923,7 @@ void glCullFace(GLenum mode) {
     glCullFace_INDEXED *packed_data;
     packed_data->func = glCullFace_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteBuffers
@@ -1019,8 +932,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     packed_data->func = glDeleteBuffers_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)buffers;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteLists
@@ -1029,8 +941,7 @@ void glDeleteLists(GLuint list, GLsizei range) {
     packed_data->func = glDeleteLists_INDEX;
     packed_data->args.a1 = (GLuint)list;
     packed_data->args.a2 = (GLsizei)range;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteQueries
@@ -1039,8 +950,7 @@ void glDeleteQueries(GLsizei n, const GLuint * ids) {
     packed_data->func = glDeleteQueries_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)ids;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteTextures
@@ -1049,8 +959,7 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
     packed_data->func = glDeleteTextures_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthFunc
@@ -1058,8 +967,7 @@ void glDepthFunc(GLenum func) {
     glDepthFunc_INDEXED *packed_data;
     packed_data->func = glDepthFunc_INDEX;
     packed_data->args.a1 = (GLenum)func;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthMask
@@ -1067,8 +975,7 @@ void glDepthMask(GLboolean flag) {
     glDepthMask_INDEXED *packed_data;
     packed_data->func = glDepthMask_INDEX;
     packed_data->args.a1 = (GLboolean)flag;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthRange
@@ -1077,8 +984,7 @@ void glDepthRange(GLdouble near, GLdouble far) {
     packed_data->func = glDepthRange_INDEX;
     packed_data->args.a1 = (GLdouble)near;
     packed_data->args.a2 = (GLdouble)far;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDisable
@@ -1086,8 +992,7 @@ void glDisable(GLenum cap) {
     glDisable_INDEXED *packed_data;
     packed_data->func = glDisable_INDEX;
     packed_data->args.a1 = (GLenum)cap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDisableClientState
@@ -1095,8 +1000,7 @@ void glDisableClientState(GLenum array) {
     glDisableClientState_INDEXED *packed_data;
     packed_data->func = glDisableClientState_INDEX;
     packed_data->args.a1 = (GLenum)array;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawArrays
@@ -1106,8 +1010,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     packed_data->args.a1 = (GLenum)mode;
     packed_data->args.a2 = (GLint)first;
     packed_data->args.a3 = (GLsizei)count;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawBuffer
@@ -1115,8 +1018,7 @@ void glDrawBuffer(GLenum mode) {
     glDrawBuffer_INDEXED *packed_data;
     packed_data->func = glDrawBuffer_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawElements
@@ -1127,8 +1029,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
     packed_data->args.a2 = (GLsizei)count;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)indices;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawPixels
@@ -1140,8 +1041,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, con
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawRangeElements
@@ -1154,8 +1054,7 @@ void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, G
     packed_data->args.a4 = (GLsizei)count;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)indices;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlag
@@ -1163,8 +1062,7 @@ void glEdgeFlag(GLboolean flag) {
     glEdgeFlag_INDEXED *packed_data;
     packed_data->func = glEdgeFlag_INDEX;
     packed_data->args.a1 = (GLboolean)flag;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlagPointer
@@ -1173,8 +1071,7 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     packed_data->func = glEdgeFlagPointer_INDEX;
     packed_data->args.a1 = (GLsizei)stride;
     packed_data->args.a2 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlagv
@@ -1182,8 +1079,7 @@ void glEdgeFlagv(const GLboolean * flag) {
     glEdgeFlagv_INDEXED *packed_data;
     packed_data->func = glEdgeFlagv_INDEX;
     packed_data->args.a1 = (GLboolean *)flag;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnable
@@ -1191,8 +1087,7 @@ void glEnable(GLenum cap) {
     glEnable_INDEXED *packed_data;
     packed_data->func = glEnable_INDEX;
     packed_data->args.a1 = (GLenum)cap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnableClientState
@@ -1200,24 +1095,21 @@ void glEnableClientState(GLenum array) {
     glEnableClientState_INDEXED *packed_data;
     packed_data->func = glEnableClientState_INDEX;
     packed_data->args.a1 = (GLenum)array;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnd
 void glEnd() {
     glEnd_INDEXED *packed_data;
     packed_data->func = glEnd_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEndList
 void glEndList() {
     glEndList_INDEXED *packed_data;
     packed_data->func = glEndList_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEndQuery
@@ -1225,8 +1117,7 @@ void glEndQuery(GLenum target) {
     glEndQuery_INDEXED *packed_data;
     packed_data->func = glEndQuery_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1d
@@ -1234,8 +1125,7 @@ void glEvalCoord1d(GLdouble u) {
     glEvalCoord1d_INDEXED *packed_data;
     packed_data->func = glEvalCoord1d_INDEX;
     packed_data->args.a1 = (GLdouble)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1dv
@@ -1243,8 +1133,7 @@ void glEvalCoord1dv(const GLdouble * u) {
     glEvalCoord1dv_INDEXED *packed_data;
     packed_data->func = glEvalCoord1dv_INDEX;
     packed_data->args.a1 = (GLdouble *)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1f
@@ -1252,8 +1141,7 @@ void glEvalCoord1f(GLfloat u) {
     glEvalCoord1f_INDEXED *packed_data;
     packed_data->func = glEvalCoord1f_INDEX;
     packed_data->args.a1 = (GLfloat)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1fv
@@ -1261,8 +1149,7 @@ void glEvalCoord1fv(const GLfloat * u) {
     glEvalCoord1fv_INDEXED *packed_data;
     packed_data->func = glEvalCoord1fv_INDEX;
     packed_data->args.a1 = (GLfloat *)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2d
@@ -1271,8 +1158,7 @@ void glEvalCoord2d(GLdouble u, GLdouble v) {
     packed_data->func = glEvalCoord2d_INDEX;
     packed_data->args.a1 = (GLdouble)u;
     packed_data->args.a2 = (GLdouble)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2dv
@@ -1280,8 +1166,7 @@ void glEvalCoord2dv(const GLdouble * u) {
     glEvalCoord2dv_INDEXED *packed_data;
     packed_data->func = glEvalCoord2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2f
@@ -1290,8 +1175,7 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
     packed_data->func = glEvalCoord2f_INDEX;
     packed_data->args.a1 = (GLfloat)u;
     packed_data->args.a2 = (GLfloat)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2fv
@@ -1299,8 +1183,7 @@ void glEvalCoord2fv(const GLfloat * u) {
     glEvalCoord2fv_INDEXED *packed_data;
     packed_data->func = glEvalCoord2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)u;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalMesh1
@@ -1310,8 +1193,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     packed_data->args.a1 = (GLenum)mode;
     packed_data->args.a2 = (GLint)i1;
     packed_data->args.a3 = (GLint)i2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalMesh2
@@ -1323,8 +1205,7 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     packed_data->args.a3 = (GLint)i2;
     packed_data->args.a4 = (GLint)j1;
     packed_data->args.a5 = (GLint)j2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalPoint1
@@ -1332,8 +1213,7 @@ void glEvalPoint1(GLint i) {
     glEvalPoint1_INDEXED *packed_data;
     packed_data->func = glEvalPoint1_INDEX;
     packed_data->args.a1 = (GLint)i;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalPoint2
@@ -1342,8 +1222,7 @@ void glEvalPoint2(GLint i, GLint j) {
     packed_data->func = glEvalPoint2_INDEX;
     packed_data->args.a1 = (GLint)i;
     packed_data->args.a2 = (GLint)j;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFeedbackBuffer
@@ -1353,24 +1232,21 @@ void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat * buffer) {
     packed_data->args.a1 = (GLsizei)size;
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLfloat *)buffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFinish
 void glFinish() {
     glFinish_INDEXED *packed_data;
     packed_data->func = glFinish_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFlush
 void glFlush() {
     glFlush_INDEXED *packed_data;
     packed_data->func = glFlush_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordPointer
@@ -1380,8 +1256,7 @@ void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordd
@@ -1389,8 +1264,7 @@ void glFogCoordd(GLdouble coord) {
     glFogCoordd_INDEXED *packed_data;
     packed_data->func = glFogCoordd_INDEX;
     packed_data->args.a1 = (GLdouble)coord;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoorddv
@@ -1398,8 +1272,7 @@ void glFogCoorddv(const GLdouble * coord) {
     glFogCoorddv_INDEXED *packed_data;
     packed_data->func = glFogCoorddv_INDEX;
     packed_data->args.a1 = (GLdouble *)coord;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordf
@@ -1407,8 +1280,7 @@ void glFogCoordf(GLfloat coord) {
     glFogCoordf_INDEXED *packed_data;
     packed_data->func = glFogCoordf_INDEX;
     packed_data->args.a1 = (GLfloat)coord;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordfv
@@ -1416,8 +1288,7 @@ void glFogCoordfv(const GLfloat * coord) {
     glFogCoordfv_INDEXED *packed_data;
     packed_data->func = glFogCoordfv_INDEX;
     packed_data->args.a1 = (GLfloat *)coord;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogf
@@ -1426,8 +1297,7 @@ void glFogf(GLenum pname, GLfloat param) {
     packed_data->func = glFogf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogfv
@@ -1436,8 +1306,7 @@ void glFogfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glFogfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogi
@@ -1446,8 +1315,7 @@ void glFogi(GLenum pname, GLint param) {
     packed_data->func = glFogi_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogiv
@@ -1456,8 +1324,7 @@ void glFogiv(GLenum pname, const GLint * params) {
     packed_data->func = glFogiv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFrontFace
@@ -1465,8 +1332,7 @@ void glFrontFace(GLenum mode) {
     glFrontFace_INDEXED *packed_data;
     packed_data->func = glFrontFace_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFrustum
@@ -1479,8 +1345,7 @@ void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLd
     packed_data->args.a4 = (GLdouble)top;
     packed_data->args.a5 = (GLdouble)zNear;
     packed_data->args.a6 = (GLdouble)zFar;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenBuffers
@@ -1489,8 +1354,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     packed_data->func = glGenBuffers_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)buffers;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenLists
@@ -1509,8 +1373,7 @@ void glGenQueries(GLsizei n, GLuint * ids) {
     packed_data->func = glGenQueries_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)ids;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenTextures
@@ -1519,8 +1382,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
     packed_data->func = glGenTextures_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBooleanv
@@ -1529,8 +1391,7 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
     packed_data->func = glGetBooleanv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLboolean *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferParameteriv
@@ -1540,8 +1401,7 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferPointerv
@@ -1551,8 +1411,7 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLvoid *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferSubData
@@ -1563,8 +1422,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
     packed_data->args.a2 = (GLintptr)offset;
     packed_data->args.a3 = (GLsizeiptr)size;
     packed_data->args.a4 = (GLvoid *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetClipPlane
@@ -1573,8 +1431,7 @@ void glGetClipPlane(GLenum plane, GLdouble * equation) {
     packed_data->func = glGetClipPlane_INDEX;
     packed_data->args.a1 = (GLenum)plane;
     packed_data->args.a2 = (GLdouble *)equation;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTable
@@ -1585,8 +1442,7 @@ void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid * table) 
     packed_data->args.a2 = (GLenum)format;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)table;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameterfv
@@ -1596,8 +1452,7 @@ void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameteriv
@@ -1607,8 +1462,7 @@ void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetCompressedTexImage
@@ -1618,8 +1472,7 @@ void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * img) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLvoid *)img;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionFilter
@@ -1630,8 +1483,7 @@ void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid * 
     packed_data->args.a2 = (GLenum)format;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)image;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameterfv
@@ -1641,8 +1493,7 @@ void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat * params) 
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameteriv
@@ -1652,8 +1503,7 @@ void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetDoublev
@@ -1662,8 +1512,7 @@ void glGetDoublev(GLenum pname, GLdouble * params) {
     packed_data->func = glGetDoublev_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLdouble *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetError
@@ -1681,8 +1530,7 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
     packed_data->func = glGetFloatv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogram
@@ -1694,8 +1542,7 @@ void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, 
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameterfv
@@ -1705,8 +1552,7 @@ void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameteriv
@@ -1716,8 +1562,7 @@ void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetIntegerv
@@ -1726,8 +1571,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
     packed_data->func = glGetIntegerv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetLightfv
@@ -1737,8 +1581,7 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetLightiv
@@ -1748,8 +1591,7 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapdv
@@ -1759,8 +1601,7 @@ void glGetMapdv(GLenum target, GLenum query, GLdouble * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapfv
@@ -1770,8 +1611,7 @@ void glGetMapfv(GLenum target, GLenum query, GLfloat * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapiv
@@ -1781,8 +1621,7 @@ void glGetMapiv(GLenum target, GLenum query, GLint * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMaterialfv
@@ -1792,8 +1631,7 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMaterialiv
@@ -1803,8 +1641,7 @@ void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmax
@@ -1816,8 +1653,7 @@ void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLv
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameterfv
@@ -1827,8 +1663,7 @@ void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameteriv
@@ -1838,8 +1673,7 @@ void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapfv
@@ -1848,8 +1682,7 @@ void glGetPixelMapfv(GLenum map, GLfloat * values) {
     packed_data->func = glGetPixelMapfv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLfloat *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapuiv
@@ -1858,8 +1691,7 @@ void glGetPixelMapuiv(GLenum map, GLuint * values) {
     packed_data->func = glGetPixelMapuiv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLuint *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapusv
@@ -1868,8 +1700,7 @@ void glGetPixelMapusv(GLenum map, GLushort * values) {
     packed_data->func = glGetPixelMapusv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLushort *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPointerv
@@ -1878,8 +1709,7 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
     packed_data->func = glGetPointerv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLvoid **)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPolygonStipple
@@ -1887,8 +1717,7 @@ void glGetPolygonStipple(GLubyte * mask) {
     glGetPolygonStipple_INDEXED *packed_data;
     packed_data->func = glGetPolygonStipple_INDEX;
     packed_data->args.a1 = (GLubyte *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectiv
@@ -1898,8 +1727,7 @@ void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLuint)id;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectuiv
@@ -1909,8 +1737,7 @@ void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) {
     packed_data->args.a1 = (GLuint)id;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLuint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryiv
@@ -1920,8 +1747,7 @@ void glGetQueryiv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetSeparableFilter
@@ -1934,8 +1760,7 @@ void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid * ro
     packed_data->args.a4 = (GLvoid *)row;
     packed_data->args.a5 = (GLvoid *)column;
     packed_data->args.a6 = (GLvoid *)span;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetString
@@ -1955,8 +1780,7 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexEnviv
@@ -1966,8 +1790,7 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGendv
@@ -1977,8 +1800,7 @@ void glGetTexGendv(GLenum coord, GLenum pname, GLdouble * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGenfv
@@ -1988,8 +1810,7 @@ void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGeniv
@@ -1999,8 +1820,7 @@ void glGetTexGeniv(GLenum coord, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexImage
@@ -2012,8 +1832,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameterfv
@@ -2024,8 +1843,7 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLenum)pname;
     packed_data->args.a4 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameteriv
@@ -2036,8 +1854,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * 
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLenum)pname;
     packed_data->args.a4 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexParameterfv
@@ -2047,8 +1864,7 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexParameteriv
@@ -2058,8 +1874,7 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glHint
@@ -2068,8 +1883,7 @@ void glHint(GLenum target, GLenum mode) {
     packed_data->func = glHint_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glHistogram
@@ -2080,8 +1894,7 @@ void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean 
     packed_data->args.a2 = (GLsizei)width;
     packed_data->args.a3 = (GLenum)internalformat;
     packed_data->args.a4 = (GLboolean)sink;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexMask
@@ -2089,8 +1902,7 @@ void glIndexMask(GLuint mask) {
     glIndexMask_INDEXED *packed_data;
     packed_data->func = glIndexMask_INDEX;
     packed_data->args.a1 = (GLuint)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexPointer
@@ -2100,8 +1912,7 @@ void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexd
@@ -2109,8 +1920,7 @@ void glIndexd(GLdouble c) {
     glIndexd_INDEXED *packed_data;
     packed_data->func = glIndexd_INDEX;
     packed_data->args.a1 = (GLdouble)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexdv
@@ -2118,8 +1928,7 @@ void glIndexdv(const GLdouble * c) {
     glIndexdv_INDEXED *packed_data;
     packed_data->func = glIndexdv_INDEX;
     packed_data->args.a1 = (GLdouble *)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexf
@@ -2127,8 +1936,7 @@ void glIndexf(GLfloat c) {
     glIndexf_INDEXED *packed_data;
     packed_data->func = glIndexf_INDEX;
     packed_data->args.a1 = (GLfloat)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexfv
@@ -2136,8 +1944,7 @@ void glIndexfv(const GLfloat * c) {
     glIndexfv_INDEXED *packed_data;
     packed_data->func = glIndexfv_INDEX;
     packed_data->args.a1 = (GLfloat *)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexi
@@ -2145,8 +1952,7 @@ void glIndexi(GLint c) {
     glIndexi_INDEXED *packed_data;
     packed_data->func = glIndexi_INDEX;
     packed_data->args.a1 = (GLint)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexiv
@@ -2154,8 +1960,7 @@ void glIndexiv(const GLint * c) {
     glIndexiv_INDEXED *packed_data;
     packed_data->func = glIndexiv_INDEX;
     packed_data->args.a1 = (GLint *)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexs
@@ -2163,8 +1968,7 @@ void glIndexs(GLshort c) {
     glIndexs_INDEXED *packed_data;
     packed_data->func = glIndexs_INDEX;
     packed_data->args.a1 = (GLshort)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexsv
@@ -2172,8 +1976,7 @@ void glIndexsv(const GLshort * c) {
     glIndexsv_INDEXED *packed_data;
     packed_data->func = glIndexsv_INDEX;
     packed_data->args.a1 = (GLshort *)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexub
@@ -2181,8 +1984,7 @@ void glIndexub(GLubyte c) {
     glIndexub_INDEXED *packed_data;
     packed_data->func = glIndexub_INDEX;
     packed_data->args.a1 = (GLubyte)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexubv
@@ -2190,16 +1992,14 @@ void glIndexubv(const GLubyte * c) {
     glIndexubv_INDEXED *packed_data;
     packed_data->func = glIndexubv_INDEX;
     packed_data->args.a1 = (GLubyte *)c;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glInitNames
 void glInitNames() {
     glInitNames_INDEXED *packed_data;
     packed_data->func = glInitNames_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glInterleavedArrays
@@ -2209,8 +2009,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid * pointer) 
     packed_data->args.a1 = (GLenum)format;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIsBuffer
@@ -2269,8 +2068,7 @@ void glLightModelf(GLenum pname, GLfloat param) {
     packed_data->func = glLightModelf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModelfv
@@ -2279,8 +2077,7 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glLightModelfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModeli
@@ -2289,8 +2086,7 @@ void glLightModeli(GLenum pname, GLint param) {
     packed_data->func = glLightModeli_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModeliv
@@ -2299,8 +2095,7 @@ void glLightModeliv(GLenum pname, const GLint * params) {
     packed_data->func = glLightModeliv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightf
@@ -2310,8 +2105,7 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightfv
@@ -2321,8 +2115,7 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLighti
@@ -2332,8 +2125,7 @@ void glLighti(GLenum light, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightiv
@@ -2343,8 +2135,7 @@ void glLightiv(GLenum light, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLineStipple
@@ -2353,8 +2144,7 @@ void glLineStipple(GLint factor, GLushort pattern) {
     packed_data->func = glLineStipple_INDEX;
     packed_data->args.a1 = (GLint)factor;
     packed_data->args.a2 = (GLushort)pattern;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLineWidth
@@ -2362,8 +2152,7 @@ void glLineWidth(GLfloat width) {
     glLineWidth_INDEXED *packed_data;
     packed_data->func = glLineWidth_INDEX;
     packed_data->args.a1 = (GLfloat)width;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glListBase
@@ -2371,16 +2160,14 @@ void glListBase(GLuint base) {
     glListBase_INDEXED *packed_data;
     packed_data->func = glListBase_INDEX;
     packed_data->args.a1 = (GLuint)base;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadIdentity
 void glLoadIdentity() {
     glLoadIdentity_INDEXED *packed_data;
     packed_data->func = glLoadIdentity_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadMatrixd
@@ -2388,8 +2175,7 @@ void glLoadMatrixd(const GLdouble * m) {
     glLoadMatrixd_INDEXED *packed_data;
     packed_data->func = glLoadMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadMatrixf
@@ -2397,8 +2183,7 @@ void glLoadMatrixf(const GLfloat * m) {
     glLoadMatrixf_INDEXED *packed_data;
     packed_data->func = glLoadMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadName
@@ -2406,8 +2191,7 @@ void glLoadName(GLuint name) {
     glLoadName_INDEXED *packed_data;
     packed_data->func = glLoadName_INDEX;
     packed_data->args.a1 = (GLuint)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixd
@@ -2415,8 +2199,7 @@ void glLoadTransposeMatrixd(const GLdouble * m) {
     glLoadTransposeMatrixd_INDEXED *packed_data;
     packed_data->func = glLoadTransposeMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixf
@@ -2424,8 +2207,7 @@ void glLoadTransposeMatrixf(const GLfloat * m) {
     glLoadTransposeMatrixf_INDEXED *packed_data;
     packed_data->func = glLoadTransposeMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLogicOp
@@ -2433,8 +2215,7 @@ void glLogicOp(GLenum opcode) {
     glLogicOp_INDEXED *packed_data;
     packed_data->func = glLogicOp_INDEX;
     packed_data->args.a1 = (GLenum)opcode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap1d
@@ -2447,8 +2228,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order,
     packed_data->args.a4 = (GLint)stride;
     packed_data->args.a5 = (GLint)order;
     packed_data->args.a6 = (GLdouble *)points;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap1f
@@ -2461,8 +2241,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, c
     packed_data->args.a4 = (GLint)stride;
     packed_data->args.a5 = (GLint)order;
     packed_data->args.a6 = (GLfloat *)points;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap2d
@@ -2479,8 +2258,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorde
     packed_data->args.a8 = (GLint)vstride;
     packed_data->args.a9 = (GLint)vorder;
     packed_data->args.a10 = (GLdouble *)points;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap2f
@@ -2497,8 +2275,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder,
     packed_data->args.a8 = (GLint)vstride;
     packed_data->args.a9 = (GLint)vorder;
     packed_data->args.a10 = (GLfloat *)points;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapBuffer
@@ -2519,8 +2296,7 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
     packed_data->args.a1 = (GLint)un;
     packed_data->args.a2 = (GLdouble)u1;
     packed_data->args.a3 = (GLdouble)u2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid1f
@@ -2530,8 +2306,7 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     packed_data->args.a1 = (GLint)un;
     packed_data->args.a2 = (GLfloat)u1;
     packed_data->args.a3 = (GLfloat)u2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid2d
@@ -2544,8 +2319,7 @@ void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdo
     packed_data->args.a4 = (GLint)vn;
     packed_data->args.a5 = (GLdouble)v1;
     packed_data->args.a6 = (GLdouble)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid2f
@@ -2558,8 +2332,7 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat
     packed_data->args.a4 = (GLint)vn;
     packed_data->args.a5 = (GLfloat)v1;
     packed_data->args.a6 = (GLfloat)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialf
@@ -2569,8 +2342,7 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialfv
@@ -2580,8 +2352,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMateriali
@@ -2591,8 +2362,7 @@ void glMateriali(GLenum face, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialiv
@@ -2602,8 +2372,7 @@ void glMaterialiv(GLenum face, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMatrixMode
@@ -2611,8 +2380,7 @@ void glMatrixMode(GLenum mode) {
     glMatrixMode_INDEXED *packed_data;
     packed_data->func = glMatrixMode_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMinmax
@@ -2622,8 +2390,7 @@ void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)internalformat;
     packed_data->args.a3 = (GLboolean)sink;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultMatrixd
@@ -2631,8 +2398,7 @@ void glMultMatrixd(const GLdouble * m) {
     glMultMatrixd_INDEXED *packed_data;
     packed_data->func = glMultMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultMatrixf
@@ -2640,8 +2406,7 @@ void glMultMatrixf(const GLfloat * m) {
     glMultMatrixf_INDEXED *packed_data;
     packed_data->func = glMultMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixd
@@ -2649,8 +2414,7 @@ void glMultTransposeMatrixd(const GLdouble * m) {
     glMultTransposeMatrixd_INDEXED *packed_data;
     packed_data->func = glMultTransposeMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixf
@@ -2658,8 +2422,7 @@ void glMultTransposeMatrixf(const GLfloat * m) {
     glMultTransposeMatrixf_INDEXED *packed_data;
     packed_data->func = glMultTransposeMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiDrawArrays
@@ -2670,8 +2433,7 @@ void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, 
     packed_data->args.a2 = (GLint *)first;
     packed_data->args.a3 = (GLsizei *)count;
     packed_data->args.a4 = (GLsizei)drawcount;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiDrawElements
@@ -2683,8 +2445,7 @@ void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, GLvoid
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid*const *)indices;
     packed_data->args.a5 = (GLsizei)drawcount;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1d
@@ -2693,8 +2454,7 @@ void glMultiTexCoord1d(GLenum target, GLdouble s) {
     packed_data->func = glMultiTexCoord1d_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1dv
@@ -2703,8 +2463,7 @@ void glMultiTexCoord1dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord1dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1f
@@ -2713,8 +2472,7 @@ void glMultiTexCoord1f(GLenum target, GLfloat s) {
     packed_data->func = glMultiTexCoord1f_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1fv
@@ -2723,8 +2481,7 @@ void glMultiTexCoord1fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord1fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1i
@@ -2733,8 +2490,7 @@ void glMultiTexCoord1i(GLenum target, GLint s) {
     packed_data->func = glMultiTexCoord1i_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1iv
@@ -2743,8 +2499,7 @@ void glMultiTexCoord1iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord1iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1s
@@ -2753,8 +2508,7 @@ void glMultiTexCoord1s(GLenum target, GLshort s) {
     packed_data->func = glMultiTexCoord1s_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1sv
@@ -2763,8 +2517,7 @@ void glMultiTexCoord1sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord1sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2d
@@ -2774,8 +2527,7 @@ void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble)s;
     packed_data->args.a3 = (GLdouble)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2dv
@@ -2784,8 +2536,7 @@ void glMultiTexCoord2dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord2dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2f
@@ -2795,8 +2546,7 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat)s;
     packed_data->args.a3 = (GLfloat)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2fv
@@ -2805,8 +2555,7 @@ void glMultiTexCoord2fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord2fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2i
@@ -2816,8 +2565,7 @@ void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)s;
     packed_data->args.a3 = (GLint)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2iv
@@ -2826,8 +2574,7 @@ void glMultiTexCoord2iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord2iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2s
@@ -2837,8 +2584,7 @@ void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort)s;
     packed_data->args.a3 = (GLshort)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2sv
@@ -2847,8 +2593,7 @@ void glMultiTexCoord2sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord2sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3d
@@ -2859,8 +2604,7 @@ void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a2 = (GLdouble)s;
     packed_data->args.a3 = (GLdouble)t;
     packed_data->args.a4 = (GLdouble)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3dv
@@ -2869,8 +2613,7 @@ void glMultiTexCoord3dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord3dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3f
@@ -2881,8 +2624,7 @@ void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a2 = (GLfloat)s;
     packed_data->args.a3 = (GLfloat)t;
     packed_data->args.a4 = (GLfloat)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3fv
@@ -2891,8 +2633,7 @@ void glMultiTexCoord3fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord3fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3i
@@ -2903,8 +2644,7 @@ void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
     packed_data->args.a2 = (GLint)s;
     packed_data->args.a3 = (GLint)t;
     packed_data->args.a4 = (GLint)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3iv
@@ -2913,8 +2653,7 @@ void glMultiTexCoord3iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord3iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3s
@@ -2925,8 +2664,7 @@ void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
     packed_data->args.a2 = (GLshort)s;
     packed_data->args.a3 = (GLshort)t;
     packed_data->args.a4 = (GLshort)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3sv
@@ -2935,8 +2673,7 @@ void glMultiTexCoord3sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord3sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4d
@@ -2948,8 +2685,7 @@ void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdoub
     packed_data->args.a3 = (GLdouble)t;
     packed_data->args.a4 = (GLdouble)r;
     packed_data->args.a5 = (GLdouble)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4dv
@@ -2958,8 +2694,7 @@ void glMultiTexCoord4dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord4dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4f
@@ -2971,8 +2706,7 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
     packed_data->args.a3 = (GLfloat)t;
     packed_data->args.a4 = (GLfloat)r;
     packed_data->args.a5 = (GLfloat)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4fv
@@ -2981,8 +2715,7 @@ void glMultiTexCoord4fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord4fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4i
@@ -2994,8 +2727,7 @@ void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a3 = (GLint)t;
     packed_data->args.a4 = (GLint)r;
     packed_data->args.a5 = (GLint)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4iv
@@ -3004,8 +2736,7 @@ void glMultiTexCoord4iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord4iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4s
@@ -3017,8 +2748,7 @@ void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q
     packed_data->args.a3 = (GLshort)t;
     packed_data->args.a4 = (GLshort)r;
     packed_data->args.a5 = (GLshort)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4sv
@@ -3027,8 +2757,7 @@ void glMultiTexCoord4sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord4sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNewList
@@ -3037,8 +2766,7 @@ void glNewList(GLuint list, GLenum mode) {
     packed_data->func = glNewList_INDEX;
     packed_data->args.a1 = (GLuint)list;
     packed_data->args.a2 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3b
@@ -3048,8 +2776,7 @@ void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
     packed_data->args.a1 = (GLbyte)nx;
     packed_data->args.a2 = (GLbyte)ny;
     packed_data->args.a3 = (GLbyte)nz;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3bv
@@ -3057,8 +2784,7 @@ void glNormal3bv(const GLbyte * v) {
     glNormal3bv_INDEXED *packed_data;
     packed_data->func = glNormal3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3d
@@ -3068,8 +2794,7 @@ void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
     packed_data->args.a1 = (GLdouble)nx;
     packed_data->args.a2 = (GLdouble)ny;
     packed_data->args.a3 = (GLdouble)nz;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3dv
@@ -3077,8 +2802,7 @@ void glNormal3dv(const GLdouble * v) {
     glNormal3dv_INDEXED *packed_data;
     packed_data->func = glNormal3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3f
@@ -3088,8 +2812,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     packed_data->args.a1 = (GLfloat)nx;
     packed_data->args.a2 = (GLfloat)ny;
     packed_data->args.a3 = (GLfloat)nz;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3fv
@@ -3097,8 +2820,7 @@ void glNormal3fv(const GLfloat * v) {
     glNormal3fv_INDEXED *packed_data;
     packed_data->func = glNormal3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3i
@@ -3108,8 +2830,7 @@ void glNormal3i(GLint nx, GLint ny, GLint nz) {
     packed_data->args.a1 = (GLint)nx;
     packed_data->args.a2 = (GLint)ny;
     packed_data->args.a3 = (GLint)nz;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3iv
@@ -3117,8 +2838,7 @@ void glNormal3iv(const GLint * v) {
     glNormal3iv_INDEXED *packed_data;
     packed_data->func = glNormal3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3s
@@ -3128,8 +2848,7 @@ void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
     packed_data->args.a1 = (GLshort)nx;
     packed_data->args.a2 = (GLshort)ny;
     packed_data->args.a3 = (GLshort)nz;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3sv
@@ -3137,8 +2856,7 @@ void glNormal3sv(const GLshort * v) {
     glNormal3sv_INDEXED *packed_data;
     packed_data->func = glNormal3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormalPointer
@@ -3148,8 +2866,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glOrtho
@@ -3162,8 +2879,7 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
     packed_data->args.a4 = (GLdouble)top;
     packed_data->args.a5 = (GLdouble)zNear;
     packed_data->args.a6 = (GLdouble)zFar;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPassThrough
@@ -3171,8 +2887,7 @@ void glPassThrough(GLfloat token) {
     glPassThrough_INDEXED *packed_data;
     packed_data->func = glPassThrough_INDEX;
     packed_data->args.a1 = (GLfloat)token;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapfv
@@ -3182,8 +2897,7 @@ void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLfloat *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapuiv
@@ -3193,8 +2907,7 @@ void glPixelMapuiv(GLenum map, GLsizei mapsize, const GLuint * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLuint *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapusv
@@ -3204,8 +2917,7 @@ void glPixelMapusv(GLenum map, GLsizei mapsize, const GLushort * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLushort *)values;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelStoref
@@ -3214,8 +2926,7 @@ void glPixelStoref(GLenum pname, GLfloat param) {
     packed_data->func = glPixelStoref_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelStorei
@@ -3224,8 +2935,7 @@ void glPixelStorei(GLenum pname, GLint param) {
     packed_data->func = glPixelStorei_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelTransferf
@@ -3234,8 +2944,7 @@ void glPixelTransferf(GLenum pname, GLfloat param) {
     packed_data->func = glPixelTransferf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelTransferi
@@ -3244,8 +2953,7 @@ void glPixelTransferi(GLenum pname, GLint param) {
     packed_data->func = glPixelTransferi_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelZoom
@@ -3254,8 +2962,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     packed_data->func = glPixelZoom_INDEX;
     packed_data->args.a1 = (GLfloat)xfactor;
     packed_data->args.a2 = (GLfloat)yfactor;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameterf
@@ -3264,8 +2971,7 @@ void glPointParameterf(GLenum pname, GLfloat param) {
     packed_data->func = glPointParameterf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameterfv
@@ -3274,8 +2980,7 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glPointParameterfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameteri
@@ -3284,8 +2989,7 @@ void glPointParameteri(GLenum pname, GLint param) {
     packed_data->func = glPointParameteri_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameteriv
@@ -3294,8 +2998,7 @@ void glPointParameteriv(GLenum pname, const GLint * params) {
     packed_data->func = glPointParameteriv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointSize
@@ -3303,8 +3006,7 @@ void glPointSize(GLfloat size) {
     glPointSize_INDEXED *packed_data;
     packed_data->func = glPointSize_INDEX;
     packed_data->args.a1 = (GLfloat)size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonMode
@@ -3313,8 +3015,7 @@ void glPolygonMode(GLenum face, GLenum mode) {
     packed_data->func = glPolygonMode_INDEX;
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonOffset
@@ -3323,8 +3024,7 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
     packed_data->func = glPolygonOffset_INDEX;
     packed_data->args.a1 = (GLfloat)factor;
     packed_data->args.a2 = (GLfloat)units;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonStipple
@@ -3332,40 +3032,35 @@ void glPolygonStipple(const GLubyte * mask) {
     glPolygonStipple_INDEXED *packed_data;
     packed_data->func = glPolygonStipple_INDEX;
     packed_data->args.a1 = (GLubyte *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopAttrib
 void glPopAttrib() {
     glPopAttrib_INDEXED *packed_data;
     packed_data->func = glPopAttrib_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopClientAttrib
 void glPopClientAttrib() {
     glPopClientAttrib_INDEXED *packed_data;
     packed_data->func = glPopClientAttrib_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopMatrix
 void glPopMatrix() {
     glPopMatrix_INDEXED *packed_data;
     packed_data->func = glPopMatrix_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopName
 void glPopName() {
     glPopName_INDEXED *packed_data;
     packed_data->func = glPopName_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPrioritizeTextures
@@ -3375,8 +3070,7 @@ void glPrioritizeTextures(GLsizei n, const GLuint * textures, const GLfloat * pr
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
     packed_data->args.a3 = (GLfloat *)priorities;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushAttrib
@@ -3384,8 +3078,7 @@ void glPushAttrib(GLbitfield mask) {
     glPushAttrib_INDEXED *packed_data;
     packed_data->func = glPushAttrib_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushClientAttrib
@@ -3393,16 +3086,14 @@ void glPushClientAttrib(GLbitfield mask) {
     glPushClientAttrib_INDEXED *packed_data;
     packed_data->func = glPushClientAttrib_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushMatrix
 void glPushMatrix() {
     glPushMatrix_INDEXED *packed_data;
     packed_data->func = glPushMatrix_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushName
@@ -3410,8 +3101,7 @@ void glPushName(GLuint name) {
     glPushName_INDEXED *packed_data;
     packed_data->func = glPushName_INDEX;
     packed_data->args.a1 = (GLuint)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2d
@@ -3420,8 +3110,7 @@ void glRasterPos2d(GLdouble x, GLdouble y) {
     packed_data->func = glRasterPos2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2dv
@@ -3429,8 +3118,7 @@ void glRasterPos2dv(const GLdouble * v) {
     glRasterPos2dv_INDEXED *packed_data;
     packed_data->func = glRasterPos2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2f
@@ -3439,8 +3127,7 @@ void glRasterPos2f(GLfloat x, GLfloat y) {
     packed_data->func = glRasterPos2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2fv
@@ -3448,8 +3135,7 @@ void glRasterPos2fv(const GLfloat * v) {
     glRasterPos2fv_INDEXED *packed_data;
     packed_data->func = glRasterPos2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2i
@@ -3458,8 +3144,7 @@ void glRasterPos2i(GLint x, GLint y) {
     packed_data->func = glRasterPos2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2iv
@@ -3467,8 +3152,7 @@ void glRasterPos2iv(const GLint * v) {
     glRasterPos2iv_INDEXED *packed_data;
     packed_data->func = glRasterPos2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2s
@@ -3477,8 +3161,7 @@ void glRasterPos2s(GLshort x, GLshort y) {
     packed_data->func = glRasterPos2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2sv
@@ -3486,8 +3169,7 @@ void glRasterPos2sv(const GLshort * v) {
     glRasterPos2sv_INDEXED *packed_data;
     packed_data->func = glRasterPos2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3d
@@ -3497,8 +3179,7 @@ void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3dv
@@ -3506,8 +3187,7 @@ void glRasterPos3dv(const GLdouble * v) {
     glRasterPos3dv_INDEXED *packed_data;
     packed_data->func = glRasterPos3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3f
@@ -3517,8 +3197,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3fv
@@ -3526,8 +3205,7 @@ void glRasterPos3fv(const GLfloat * v) {
     glRasterPos3fv_INDEXED *packed_data;
     packed_data->func = glRasterPos3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3i
@@ -3537,8 +3215,7 @@ void glRasterPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3iv
@@ -3546,8 +3223,7 @@ void glRasterPos3iv(const GLint * v) {
     glRasterPos3iv_INDEXED *packed_data;
     packed_data->func = glRasterPos3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3s
@@ -3557,8 +3233,7 @@ void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3sv
@@ -3566,8 +3241,7 @@ void glRasterPos3sv(const GLshort * v) {
     glRasterPos3sv_INDEXED *packed_data;
     packed_data->func = glRasterPos3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4d
@@ -3578,8 +3252,7 @@ void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
     packed_data->args.a4 = (GLdouble)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4dv
@@ -3587,8 +3260,7 @@ void glRasterPos4dv(const GLdouble * v) {
     glRasterPos4dv_INDEXED *packed_data;
     packed_data->func = glRasterPos4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4f
@@ -3599,8 +3271,7 @@ void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
     packed_data->args.a4 = (GLfloat)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4fv
@@ -3608,8 +3279,7 @@ void glRasterPos4fv(const GLfloat * v) {
     glRasterPos4fv_INDEXED *packed_data;
     packed_data->func = glRasterPos4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4i
@@ -3620,8 +3290,7 @@ void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
     packed_data->args.a4 = (GLint)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4iv
@@ -3629,8 +3298,7 @@ void glRasterPos4iv(const GLint * v) {
     glRasterPos4iv_INDEXED *packed_data;
     packed_data->func = glRasterPos4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4s
@@ -3641,8 +3309,7 @@ void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
     packed_data->args.a4 = (GLshort)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4sv
@@ -3650,8 +3317,7 @@ void glRasterPos4sv(const GLshort * v) {
     glRasterPos4sv_INDEXED *packed_data;
     packed_data->func = glRasterPos4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glReadBuffer
@@ -3659,8 +3325,7 @@ void glReadBuffer(GLenum mode) {
     glReadBuffer_INDEXED *packed_data;
     packed_data->func = glReadBuffer_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glReadPixels
@@ -3674,8 +3339,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectd
@@ -3686,8 +3350,7 @@ void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
     packed_data->args.a2 = (GLdouble)y1;
     packed_data->args.a3 = (GLdouble)x2;
     packed_data->args.a4 = (GLdouble)y2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectdv
@@ -3696,8 +3359,7 @@ void glRectdv(const GLdouble * v1, const GLdouble * v2) {
     packed_data->func = glRectdv_INDEX;
     packed_data->args.a1 = (GLdouble *)v1;
     packed_data->args.a2 = (GLdouble *)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectf
@@ -3708,8 +3370,7 @@ void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
     packed_data->args.a2 = (GLfloat)y1;
     packed_data->args.a3 = (GLfloat)x2;
     packed_data->args.a4 = (GLfloat)y2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectfv
@@ -3718,8 +3379,7 @@ void glRectfv(const GLfloat * v1, const GLfloat * v2) {
     packed_data->func = glRectfv_INDEX;
     packed_data->args.a1 = (GLfloat *)v1;
     packed_data->args.a2 = (GLfloat *)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRecti
@@ -3730,8 +3390,7 @@ void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
     packed_data->args.a2 = (GLint)y1;
     packed_data->args.a3 = (GLint)x2;
     packed_data->args.a4 = (GLint)y2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectiv
@@ -3740,8 +3399,7 @@ void glRectiv(const GLint * v1, const GLint * v2) {
     packed_data->func = glRectiv_INDEX;
     packed_data->args.a1 = (GLint *)v1;
     packed_data->args.a2 = (GLint *)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRects
@@ -3752,8 +3410,7 @@ void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
     packed_data->args.a2 = (GLshort)y1;
     packed_data->args.a3 = (GLshort)x2;
     packed_data->args.a4 = (GLshort)y2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectsv
@@ -3762,8 +3419,7 @@ void glRectsv(const GLshort * v1, const GLshort * v2) {
     packed_data->func = glRectsv_INDEX;
     packed_data->args.a1 = (GLshort *)v1;
     packed_data->args.a2 = (GLshort *)v2;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRenderMode
@@ -3781,8 +3437,7 @@ void glResetHistogram(GLenum target) {
     glResetHistogram_INDEXED *packed_data;
     packed_data->func = glResetHistogram_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glResetMinmax
@@ -3790,8 +3445,7 @@ void glResetMinmax(GLenum target) {
     glResetMinmax_INDEXED *packed_data;
     packed_data->func = glResetMinmax_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRotated
@@ -3802,8 +3456,7 @@ void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a2 = (GLdouble)x;
     packed_data->args.a3 = (GLdouble)y;
     packed_data->args.a4 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRotatef
@@ -3814,8 +3467,7 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a2 = (GLfloat)x;
     packed_data->args.a3 = (GLfloat)y;
     packed_data->args.a4 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSampleCoverage
@@ -3824,8 +3476,7 @@ void glSampleCoverage(GLfloat value, GLboolean invert) {
     packed_data->func = glSampleCoverage_INDEX;
     packed_data->args.a1 = (GLfloat)value;
     packed_data->args.a2 = (GLboolean)invert;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScaled
@@ -3835,8 +3486,7 @@ void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScalef
@@ -3846,8 +3496,7 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScissor
@@ -3858,8 +3507,7 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3b
@@ -3869,8 +3517,7 @@ void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a1 = (GLbyte)red;
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3bv
@@ -3878,8 +3525,7 @@ void glSecondaryColor3bv(const GLbyte * v) {
     glSecondaryColor3bv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3d
@@ -3889,8 +3535,7 @@ void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a1 = (GLdouble)red;
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3dv
@@ -3898,8 +3543,7 @@ void glSecondaryColor3dv(const GLdouble * v) {
     glSecondaryColor3dv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3f
@@ -3909,8 +3553,7 @@ void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a1 = (GLfloat)red;
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3fv
@@ -3918,8 +3561,7 @@ void glSecondaryColor3fv(const GLfloat * v) {
     glSecondaryColor3fv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3i
@@ -3929,8 +3571,7 @@ void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a1 = (GLint)red;
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3iv
@@ -3938,8 +3579,7 @@ void glSecondaryColor3iv(const GLint * v) {
     glSecondaryColor3iv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3s
@@ -3949,8 +3589,7 @@ void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a1 = (GLshort)red;
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3sv
@@ -3958,8 +3597,7 @@ void glSecondaryColor3sv(const GLshort * v) {
     glSecondaryColor3sv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ub
@@ -3969,8 +3607,7 @@ void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a1 = (GLubyte)red;
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ubv
@@ -3978,8 +3615,7 @@ void glSecondaryColor3ubv(const GLubyte * v) {
     glSecondaryColor3ubv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ui
@@ -3989,8 +3625,7 @@ void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a1 = (GLuint)red;
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3uiv
@@ -3998,8 +3633,7 @@ void glSecondaryColor3uiv(const GLuint * v) {
     glSecondaryColor3uiv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3us
@@ -4009,8 +3643,7 @@ void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a1 = (GLushort)red;
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3usv
@@ -4018,8 +3651,7 @@ void glSecondaryColor3usv(const GLushort * v) {
     glSecondaryColor3usv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColorPointer
@@ -4030,8 +3662,7 @@ void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvo
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSelectBuffer
@@ -4040,8 +3671,7 @@ void glSelectBuffer(GLsizei size, GLuint * buffer) {
     packed_data->func = glSelectBuffer_INDEX;
     packed_data->args.a1 = (GLsizei)size;
     packed_data->args.a2 = (GLuint *)buffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSeparableFilter2D
@@ -4056,8 +3686,7 @@ void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GL
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)row;
     packed_data->args.a8 = (GLvoid *)column;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glShadeModel
@@ -4065,8 +3694,7 @@ void glShadeModel(GLenum mode) {
     glShadeModel_INDEXED *packed_data;
     packed_data->func = glShadeModel_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilFunc
@@ -4076,8 +3704,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     packed_data->args.a1 = (GLenum)func;
     packed_data->args.a2 = (GLint)ref;
     packed_data->args.a3 = (GLuint)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilMask
@@ -4085,8 +3712,7 @@ void glStencilMask(GLuint mask) {
     glStencilMask_INDEXED *packed_data;
     packed_data->func = glStencilMask_INDEX;
     packed_data->args.a1 = (GLuint)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilOp
@@ -4096,8 +3722,7 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     packed_data->args.a1 = (GLenum)fail;
     packed_data->args.a2 = (GLenum)zfail;
     packed_data->args.a3 = (GLenum)zpass;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1d
@@ -4105,8 +3730,7 @@ void glTexCoord1d(GLdouble s) {
     glTexCoord1d_INDEXED *packed_data;
     packed_data->func = glTexCoord1d_INDEX;
     packed_data->args.a1 = (GLdouble)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1dv
@@ -4114,8 +3738,7 @@ void glTexCoord1dv(const GLdouble * v) {
     glTexCoord1dv_INDEXED *packed_data;
     packed_data->func = glTexCoord1dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1f
@@ -4123,8 +3746,7 @@ void glTexCoord1f(GLfloat s) {
     glTexCoord1f_INDEXED *packed_data;
     packed_data->func = glTexCoord1f_INDEX;
     packed_data->args.a1 = (GLfloat)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1fv
@@ -4132,8 +3754,7 @@ void glTexCoord1fv(const GLfloat * v) {
     glTexCoord1fv_INDEXED *packed_data;
     packed_data->func = glTexCoord1fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1i
@@ -4141,8 +3762,7 @@ void glTexCoord1i(GLint s) {
     glTexCoord1i_INDEXED *packed_data;
     packed_data->func = glTexCoord1i_INDEX;
     packed_data->args.a1 = (GLint)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1iv
@@ -4150,8 +3770,7 @@ void glTexCoord1iv(const GLint * v) {
     glTexCoord1iv_INDEXED *packed_data;
     packed_data->func = glTexCoord1iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1s
@@ -4159,8 +3778,7 @@ void glTexCoord1s(GLshort s) {
     glTexCoord1s_INDEXED *packed_data;
     packed_data->func = glTexCoord1s_INDEX;
     packed_data->args.a1 = (GLshort)s;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1sv
@@ -4168,8 +3786,7 @@ void glTexCoord1sv(const GLshort * v) {
     glTexCoord1sv_INDEXED *packed_data;
     packed_data->func = glTexCoord1sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2d
@@ -4178,8 +3795,7 @@ void glTexCoord2d(GLdouble s, GLdouble t) {
     packed_data->func = glTexCoord2d_INDEX;
     packed_data->args.a1 = (GLdouble)s;
     packed_data->args.a2 = (GLdouble)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2dv
@@ -4187,8 +3803,7 @@ void glTexCoord2dv(const GLdouble * v) {
     glTexCoord2dv_INDEXED *packed_data;
     packed_data->func = glTexCoord2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2f
@@ -4197,8 +3812,7 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
     packed_data->func = glTexCoord2f_INDEX;
     packed_data->args.a1 = (GLfloat)s;
     packed_data->args.a2 = (GLfloat)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2fv
@@ -4206,8 +3820,7 @@ void glTexCoord2fv(const GLfloat * v) {
     glTexCoord2fv_INDEXED *packed_data;
     packed_data->func = glTexCoord2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2i
@@ -4216,8 +3829,7 @@ void glTexCoord2i(GLint s, GLint t) {
     packed_data->func = glTexCoord2i_INDEX;
     packed_data->args.a1 = (GLint)s;
     packed_data->args.a2 = (GLint)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2iv
@@ -4225,8 +3837,7 @@ void glTexCoord2iv(const GLint * v) {
     glTexCoord2iv_INDEXED *packed_data;
     packed_data->func = glTexCoord2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2s
@@ -4235,8 +3846,7 @@ void glTexCoord2s(GLshort s, GLshort t) {
     packed_data->func = glTexCoord2s_INDEX;
     packed_data->args.a1 = (GLshort)s;
     packed_data->args.a2 = (GLshort)t;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2sv
@@ -4244,8 +3854,7 @@ void glTexCoord2sv(const GLshort * v) {
     glTexCoord2sv_INDEXED *packed_data;
     packed_data->func = glTexCoord2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3d
@@ -4255,8 +3864,7 @@ void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a1 = (GLdouble)s;
     packed_data->args.a2 = (GLdouble)t;
     packed_data->args.a3 = (GLdouble)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3dv
@@ -4264,8 +3872,7 @@ void glTexCoord3dv(const GLdouble * v) {
     glTexCoord3dv_INDEXED *packed_data;
     packed_data->func = glTexCoord3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3f
@@ -4275,8 +3882,7 @@ void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a1 = (GLfloat)s;
     packed_data->args.a2 = (GLfloat)t;
     packed_data->args.a3 = (GLfloat)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3fv
@@ -4284,8 +3890,7 @@ void glTexCoord3fv(const GLfloat * v) {
     glTexCoord3fv_INDEXED *packed_data;
     packed_data->func = glTexCoord3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3i
@@ -4295,8 +3900,7 @@ void glTexCoord3i(GLint s, GLint t, GLint r) {
     packed_data->args.a1 = (GLint)s;
     packed_data->args.a2 = (GLint)t;
     packed_data->args.a3 = (GLint)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3iv
@@ -4304,8 +3908,7 @@ void glTexCoord3iv(const GLint * v) {
     glTexCoord3iv_INDEXED *packed_data;
     packed_data->func = glTexCoord3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3s
@@ -4315,8 +3918,7 @@ void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
     packed_data->args.a1 = (GLshort)s;
     packed_data->args.a2 = (GLshort)t;
     packed_data->args.a3 = (GLshort)r;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3sv
@@ -4324,8 +3926,7 @@ void glTexCoord3sv(const GLshort * v) {
     glTexCoord3sv_INDEXED *packed_data;
     packed_data->func = glTexCoord3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4d
@@ -4336,8 +3937,7 @@ void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
     packed_data->args.a2 = (GLdouble)t;
     packed_data->args.a3 = (GLdouble)r;
     packed_data->args.a4 = (GLdouble)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4dv
@@ -4345,8 +3945,7 @@ void glTexCoord4dv(const GLdouble * v) {
     glTexCoord4dv_INDEXED *packed_data;
     packed_data->func = glTexCoord4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4f
@@ -4357,8 +3956,7 @@ void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     packed_data->args.a2 = (GLfloat)t;
     packed_data->args.a3 = (GLfloat)r;
     packed_data->args.a4 = (GLfloat)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4fv
@@ -4366,8 +3964,7 @@ void glTexCoord4fv(const GLfloat * v) {
     glTexCoord4fv_INDEXED *packed_data;
     packed_data->func = glTexCoord4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4i
@@ -4378,8 +3975,7 @@ void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a2 = (GLint)t;
     packed_data->args.a3 = (GLint)r;
     packed_data->args.a4 = (GLint)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4iv
@@ -4387,8 +3983,7 @@ void glTexCoord4iv(const GLint * v) {
     glTexCoord4iv_INDEXED *packed_data;
     packed_data->func = glTexCoord4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4s
@@ -4399,8 +3994,7 @@ void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
     packed_data->args.a2 = (GLshort)t;
     packed_data->args.a3 = (GLshort)r;
     packed_data->args.a4 = (GLshort)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4sv
@@ -4408,8 +4002,7 @@ void glTexCoord4sv(const GLshort * v) {
     glTexCoord4sv_INDEXED *packed_data;
     packed_data->func = glTexCoord4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoordPointer
@@ -4420,8 +4013,7 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvf
@@ -4431,8 +4023,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvfv
@@ -4442,8 +4033,7 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvi
@@ -4453,8 +4043,7 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnviv
@@ -4464,8 +4053,7 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGend
@@ -4475,8 +4063,7 @@ void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGendv
@@ -4486,8 +4073,7 @@ void glTexGendv(GLenum coord, GLenum pname, const GLdouble * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGenf
@@ -4497,8 +4083,7 @@ void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGenfv
@@ -4508,8 +4093,7 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGeni
@@ -4519,8 +4103,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGeniv
@@ -4530,8 +4113,7 @@ void glTexGeniv(GLenum coord, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage1D
@@ -4546,8 +4128,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a6 = (GLenum)format;
     packed_data->args.a7 = (GLenum)type;
     packed_data->args.a8 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage2D
@@ -4563,8 +4144,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLenum)type;
     packed_data->args.a9 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage3D
@@ -4581,8 +4161,7 @@ void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a8 = (GLenum)format;
     packed_data->args.a9 = (GLenum)type;
     packed_data->args.a10 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameterf
@@ -4592,8 +4171,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameterfv
@@ -4603,8 +4181,7 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameteri
@@ -4614,8 +4191,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameteriv
@@ -4625,8 +4201,7 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage1D
@@ -4640,8 +4215,7 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, G
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage2D
@@ -4657,8 +4231,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLenum)type;
     packed_data->args.a9 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage3D
@@ -4676,8 +4249,7 @@ void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a9 = (GLenum)format;
     packed_data->args.a10 = (GLenum)type;
     packed_data->args.a11 = (GLvoid *)pixels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTranslated
@@ -4687,8 +4259,7 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTranslatef
@@ -4698,8 +4269,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glUnmapBuffer
@@ -4718,8 +4288,7 @@ void glVertex2d(GLdouble x, GLdouble y) {
     packed_data->func = glVertex2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2dv
@@ -4727,8 +4296,7 @@ void glVertex2dv(const GLdouble * v) {
     glVertex2dv_INDEXED *packed_data;
     packed_data->func = glVertex2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2f
@@ -4737,8 +4305,7 @@ void glVertex2f(GLfloat x, GLfloat y) {
     packed_data->func = glVertex2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2fv
@@ -4746,8 +4313,7 @@ void glVertex2fv(const GLfloat * v) {
     glVertex2fv_INDEXED *packed_data;
     packed_data->func = glVertex2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2i
@@ -4756,8 +4322,7 @@ void glVertex2i(GLint x, GLint y) {
     packed_data->func = glVertex2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2iv
@@ -4765,8 +4330,7 @@ void glVertex2iv(const GLint * v) {
     glVertex2iv_INDEXED *packed_data;
     packed_data->func = glVertex2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2s
@@ -4775,8 +4339,7 @@ void glVertex2s(GLshort x, GLshort y) {
     packed_data->func = glVertex2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2sv
@@ -4784,8 +4347,7 @@ void glVertex2sv(const GLshort * v) {
     glVertex2sv_INDEXED *packed_data;
     packed_data->func = glVertex2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3d
@@ -4795,8 +4357,7 @@ void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3dv
@@ -4804,8 +4365,7 @@ void glVertex3dv(const GLdouble * v) {
     glVertex3dv_INDEXED *packed_data;
     packed_data->func = glVertex3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3f
@@ -4815,8 +4375,7 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3fv
@@ -4824,8 +4383,7 @@ void glVertex3fv(const GLfloat * v) {
     glVertex3fv_INDEXED *packed_data;
     packed_data->func = glVertex3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3i
@@ -4835,8 +4393,7 @@ void glVertex3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3iv
@@ -4844,8 +4401,7 @@ void glVertex3iv(const GLint * v) {
     glVertex3iv_INDEXED *packed_data;
     packed_data->func = glVertex3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3s
@@ -4855,8 +4411,7 @@ void glVertex3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3sv
@@ -4864,8 +4419,7 @@ void glVertex3sv(const GLshort * v) {
     glVertex3sv_INDEXED *packed_data;
     packed_data->func = glVertex3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4d
@@ -4876,8 +4430,7 @@ void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
     packed_data->args.a4 = (GLdouble)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4dv
@@ -4885,8 +4438,7 @@ void glVertex4dv(const GLdouble * v) {
     glVertex4dv_INDEXED *packed_data;
     packed_data->func = glVertex4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4f
@@ -4897,8 +4449,7 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
     packed_data->args.a4 = (GLfloat)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4fv
@@ -4906,8 +4457,7 @@ void glVertex4fv(const GLfloat * v) {
     glVertex4fv_INDEXED *packed_data;
     packed_data->func = glVertex4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4i
@@ -4918,8 +4468,7 @@ void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
     packed_data->args.a4 = (GLint)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4iv
@@ -4927,8 +4476,7 @@ void glVertex4iv(const GLint * v) {
     glVertex4iv_INDEXED *packed_data;
     packed_data->func = glVertex4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4s
@@ -4939,8 +4487,7 @@ void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
     packed_data->args.a4 = (GLshort)w;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4sv
@@ -4948,8 +4495,7 @@ void glVertex4sv(const GLshort * v) {
     glVertex4sv_INDEXED *packed_data;
     packed_data->func = glVertex4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertexPointer
@@ -4960,8 +4506,7 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glViewport
@@ -4972,8 +4517,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2d
@@ -4982,8 +4526,7 @@ void glWindowPos2d(GLdouble x, GLdouble y) {
     packed_data->func = glWindowPos2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2dv
@@ -4991,8 +4534,7 @@ void glWindowPos2dv(const GLdouble * v) {
     glWindowPos2dv_INDEXED *packed_data;
     packed_data->func = glWindowPos2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2f
@@ -5001,8 +4543,7 @@ void glWindowPos2f(GLfloat x, GLfloat y) {
     packed_data->func = glWindowPos2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2fv
@@ -5010,8 +4551,7 @@ void glWindowPos2fv(const GLfloat * v) {
     glWindowPos2fv_INDEXED *packed_data;
     packed_data->func = glWindowPos2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2i
@@ -5020,8 +4560,7 @@ void glWindowPos2i(GLint x, GLint y) {
     packed_data->func = glWindowPos2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2iv
@@ -5029,8 +4568,7 @@ void glWindowPos2iv(const GLint * v) {
     glWindowPos2iv_INDEXED *packed_data;
     packed_data->func = glWindowPos2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2s
@@ -5039,8 +4577,7 @@ void glWindowPos2s(GLshort x, GLshort y) {
     packed_data->func = glWindowPos2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2sv
@@ -5048,8 +4585,7 @@ void glWindowPos2sv(const GLshort * v) {
     glWindowPos2sv_INDEXED *packed_data;
     packed_data->func = glWindowPos2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3d
@@ -5059,8 +4595,7 @@ void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3dv
@@ -5068,8 +4603,7 @@ void glWindowPos3dv(const GLdouble * v) {
     glWindowPos3dv_INDEXED *packed_data;
     packed_data->func = glWindowPos3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3f
@@ -5079,8 +4613,7 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3fv
@@ -5088,8 +4621,7 @@ void glWindowPos3fv(const GLfloat * v) {
     glWindowPos3fv_INDEXED *packed_data;
     packed_data->func = glWindowPos3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3i
@@ -5099,8 +4631,7 @@ void glWindowPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3iv
@@ -5108,8 +4639,7 @@ void glWindowPos3iv(const GLint * v) {
     glWindowPos3iv_INDEXED *packed_data;
     packed_data->func = glWindowPos3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3s
@@ -5119,8 +4649,7 @@ void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3sv
@@ -5128,8 +4657,7 @@ void glWindowPos3sv(const GLshort * v) {
     glWindowPos3sv_INDEXED *packed_data;
     packed_data->func = glWindowPos3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXBindHyperpipeSGIX
@@ -5149,8 +4677,7 @@ void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier) {
     packed_data->func = glXBindSwapBarrierSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)window;
     packed_data->args.a2 = (uint32_t)barrier;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributes
@@ -5158,8 +4685,7 @@ void glXChangeDrawableAttributes(uint32_t drawable) {
     glXChangeDrawableAttributes_INDEXED *packed_data;
     packed_data->func = glXChangeDrawableAttributes_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributesSGIX
@@ -5167,8 +4693,7 @@ void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
     glXChangeDrawableAttributesSGIX_INDEXED *packed_data;
     packed_data->func = glXChangeDrawableAttributesSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChooseFBConfig
@@ -5200,8 +4725,7 @@ XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
 void glXClientInfo() {
     glXClientInfo_INDEXED *packed_data;
     packed_data->func = glXClientInfo_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCopyContext
@@ -5212,8 +4736,7 @@ void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long
     packed_data->args.a2 = (GLXContext)src;
     packed_data->args.a3 = (GLXContext)dst;
     packed_data->args.a4 = (unsigned long)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateContext
@@ -5251,8 +4774,7 @@ void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t co
     packed_data->args.a2 = (uint32_t)screen;
     packed_data->args.a3 = (uint32_t)config;
     packed_data->args.a4 = (uint32_t)share_list;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPbufferSGIX
@@ -5261,8 +4783,7 @@ void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
     packed_data->func = glXCreateGLXPbufferSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)config;
     packed_data->args.a2 = (uint32_t)pbuffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPixmap
@@ -5284,8 +4805,7 @@ void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t
     packed_data->args.a1 = (uint32_t)config;
     packed_data->args.a2 = (uint32_t)pixmap;
     packed_data->args.a3 = (uint32_t)glxpixmap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXVideoSourceSGIX
@@ -5298,8 +4818,7 @@ void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server
     packed_data->args.a4 = (uint32_t)path;
     packed_data->args.a5 = (uint32_t)class;
     packed_data->args.a6 = (uint32_t)node;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateNewContext
@@ -5360,8 +4879,7 @@ void glXDestroyContext(Display * dpy, GLXContext ctx) {
     packed_data->func = glXDestroyContext_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXContext)ctx;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPbufferSGIX
@@ -5369,8 +4887,7 @@ void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
     glXDestroyGLXPbufferSGIX_INDEXED *packed_data;
     packed_data->func = glXDestroyGLXPbufferSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)pbuffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPixmap
@@ -5379,8 +4896,7 @@ void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->func = glXDestroyGLXPixmap_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPixmap)pixmap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXVideoSourceSGIX
@@ -5389,8 +4905,7 @@ void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
     packed_data->func = glXDestroyGLXVideoSourceSGIX_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (uint32_t)glxvideosource;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyHyperpipeConfigSGIX
@@ -5410,8 +4925,7 @@ void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     packed_data->func = glXDestroyPbuffer_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPbuffer)pbuf;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyPixmap
@@ -5420,8 +4934,7 @@ void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->func = glXDestroyPixmap_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPixmap)pixmap;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyWindow
@@ -5430,8 +4943,7 @@ void glXDestroyWindow(Display * dpy, GLXWindow win) {
     packed_data->func = glXDestroyWindow_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXWindow)win;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetClientString
@@ -5499,8 +5011,7 @@ void glXGetDrawableAttributes(uint32_t drawable) {
     glXGetDrawableAttributes_INDEXED *packed_data;
     packed_data->func = glXGetDrawableAttributes_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetDrawableAttributesSGIX
@@ -5508,8 +5019,7 @@ void glXGetDrawableAttributesSGIX(uint32_t drawable) {
     glXGetDrawableAttributesSGIX_INDEXED *packed_data;
     packed_data->func = glXGetDrawableAttributesSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetFBConfigAttrib
@@ -5541,8 +5051,7 @@ GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
 void glXGetFBConfigsSGIX() {
     glXGetFBConfigsSGIX_INDEXED *packed_data;
     packed_data->func = glXGetFBConfigsSGIX_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetProcAddress
@@ -5562,16 +5071,14 @@ void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (unsigned long *)event_mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetVisualConfigs
 void glXGetVisualConfigs() {
     glXGetVisualConfigs_INDEXED *packed_data;
     packed_data->func = glXGetVisualConfigs_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetVisualFromFBConfig
@@ -5630,8 +5137,7 @@ void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group) {
     packed_data->func = glXJoinSwapGroupSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)window;
     packed_data->args.a2 = (uint32_t)group;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXMakeContextCurrent
@@ -5666,8 +5172,7 @@ void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t co
     packed_data->args.a1 = (uint32_t)drawable;
     packed_data->args.a2 = (uint32_t)readdrawable;
     packed_data->args.a3 = (uint32_t)context;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryContext
@@ -5687,8 +5192,7 @@ int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
 void glXQueryContextInfoEXT() {
     glXQueryContextInfoEXT_INDEXED *packed_data;
     packed_data->func = glXQueryContextInfoEXT_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryDrawable
@@ -5699,8 +5203,7 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (int)attribute;
     packed_data->args.a4 = (unsigned int *)value;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryExtension
@@ -5782,8 +5285,7 @@ GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npip
 void glXQueryMaxSwapBarriersSGIX() {
     glXQueryMaxSwapBarriersSGIX_INDEXED *packed_data;
     packed_data->func = glXQueryMaxSwapBarriersSGIX_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryServerString
@@ -5825,16 +5327,14 @@ Bool glXReleaseBuffersMESA(Display * dpy, GLXDrawable drawable) {
 void glXRender() {
     glXRender_INDEXED *packed_data;
     packed_data->func = glXRender_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXRenderLarge
 void glXRenderLarge() {
     glXRenderLarge_INDEXED *packed_data;
     packed_data->func = glXRenderLarge_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSelectEvent
@@ -5844,8 +5344,7 @@ void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (unsigned long)event_mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSwapBuffers
@@ -5854,8 +5353,7 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
     packed_data->func = glXSwapBuffers_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)drawable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSwapIntervalMESA
@@ -5873,8 +5371,7 @@ void glXSwapIntervalSGI(unsigned int interval) {
     glXSwapIntervalSGI_INDEXED *packed_data;
     packed_data->func = glXSwapIntervalSGI_INDEX;
     packed_data->args.a1 = (unsigned int)interval;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXUseXFont
@@ -5885,40 +5382,35 @@ void glXUseXFont(Font font, int first, int count, int list) {
     packed_data->args.a2 = (int)first;
     packed_data->args.a3 = (int)count;
     packed_data->args.a4 = (int)list;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXVendorPrivate
 void glXVendorPrivate() {
     glXVendorPrivate_INDEXED *packed_data;
     packed_data->func = glXVendorPrivate_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXVendorPrivateWithReply
 void glXVendorPrivateWithReply() {
     glXVendorPrivateWithReply_INDEXED *packed_data;
     packed_data->func = glXVendorPrivateWithReply_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXWaitGL
 void glXWaitGL() {
     glXWaitGL_INDEXED *packed_data;
     packed_data->func = glXWaitGL_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXWaitX
 void glXWaitX() {
     glXWaitX_INDEXED *packed_data;
     packed_data->func = glXWaitX_INDEX;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_asoundlib_version
@@ -6702,8 +6194,7 @@ void snd_ctl_card_info_clear(snd_ctl_card_info_t * obj) {
     snd_ctl_card_info_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_card_info_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_copy
@@ -6712,8 +6203,7 @@ void snd_ctl_card_info_copy(snd_ctl_card_info_t * dst, const snd_ctl_card_info_t
     packed_data->func = snd_ctl_card_info_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)dst;
     packed_data->args.a2 = (snd_ctl_card_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_free
@@ -6721,8 +6211,7 @@ void snd_ctl_card_info_free(snd_ctl_card_info_t * obj) {
     snd_ctl_card_info_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_card_info_free_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_get_card
@@ -6882,8 +6371,7 @@ void snd_ctl_elem_id_clear(snd_ctl_elem_id_t * obj) {
     snd_ctl_elem_id_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_id_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_copy
@@ -6892,8 +6380,7 @@ void snd_ctl_elem_id_copy(snd_ctl_elem_id_t * dst, const snd_ctl_elem_id_t * src
     packed_data->func = snd_ctl_elem_id_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_free
@@ -6901,8 +6388,7 @@ void snd_ctl_elem_id_free(snd_ctl_elem_id_t * obj) {
     snd_ctl_elem_id_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_id_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_get_device
@@ -6981,8 +6467,7 @@ void snd_ctl_elem_id_set_device(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_index
@@ -6991,8 +6476,7 @@ void snd_ctl_elem_id_set_index(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_interface
@@ -7001,8 +6485,7 @@ void snd_ctl_elem_id_set_interface(snd_ctl_elem_id_t * obj, snd_ctl_elem_iface_t
     packed_data->func = snd_ctl_elem_id_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_name
@@ -7011,8 +6494,7 @@ void snd_ctl_elem_id_set_name(snd_ctl_elem_id_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_id_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (char *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_numid
@@ -7021,8 +6503,7 @@ void snd_ctl_elem_id_set_numid(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_subdevice
@@ -7031,8 +6512,7 @@ void snd_ctl_elem_id_set_subdevice(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_sizeof
@@ -7070,8 +6550,7 @@ void snd_ctl_elem_info_clear(snd_ctl_elem_info_t * obj) {
     snd_ctl_elem_info_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_info_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_copy
@@ -7080,8 +6559,7 @@ void snd_ctl_elem_info_copy(snd_ctl_elem_info_t * dst, const snd_ctl_elem_info_t
     packed_data->func = snd_ctl_elem_info_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_free
@@ -7089,8 +6567,7 @@ void snd_ctl_elem_info_free(snd_ctl_elem_info_t * obj) {
     snd_ctl_elem_info_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_info_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_get_count
@@ -7140,8 +6617,7 @@ void snd_ctl_elem_info_get_id(const snd_ctl_elem_info_t * obj, snd_ctl_elem_id_t
     packed_data->func = snd_ctl_elem_info_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_get_index
@@ -7410,8 +6886,7 @@ void snd_ctl_elem_info_set_device(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_id
@@ -7420,8 +6895,7 @@ void snd_ctl_elem_info_set_id(snd_ctl_elem_info_t * obj, const snd_ctl_elem_id_t
     packed_data->func = snd_ctl_elem_info_set_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_index
@@ -7430,8 +6904,7 @@ void snd_ctl_elem_info_set_index(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_interface
@@ -7440,8 +6913,7 @@ void snd_ctl_elem_info_set_interface(snd_ctl_elem_info_t * obj, snd_ctl_elem_ifa
     packed_data->func = snd_ctl_elem_info_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_item
@@ -7450,8 +6922,7 @@ void snd_ctl_elem_info_set_item(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_item_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_name
@@ -7460,8 +6931,7 @@ void snd_ctl_elem_info_set_name(snd_ctl_elem_info_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_info_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (char *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_numid
@@ -7470,8 +6940,7 @@ void snd_ctl_elem_info_set_numid(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_subdevice
@@ -7480,8 +6949,7 @@ void snd_ctl_elem_info_set_subdevice(snd_ctl_elem_info_t * obj, unsigned int val
     packed_data->func = snd_ctl_elem_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_sizeof
@@ -7520,8 +6988,7 @@ void snd_ctl_elem_list_clear(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_copy
@@ -7530,8 +6997,7 @@ void snd_ctl_elem_list_copy(snd_ctl_elem_list_t * dst, const snd_ctl_elem_list_t
     packed_data->func = snd_ctl_elem_list_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_list_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_free
@@ -7539,8 +7005,7 @@ void snd_ctl_elem_list_free(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_free_space
@@ -7548,8 +7013,7 @@ void snd_ctl_elem_list_free_space(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_free_space_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_free_space_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_get_count
@@ -7580,8 +7044,7 @@ void snd_ctl_elem_list_get_id(const snd_ctl_elem_list_t * obj, unsigned int idx,
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_get_index
@@ -7665,8 +7128,7 @@ void snd_ctl_elem_list_set_offset(snd_ctl_elem_list_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_list_set_offset_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_sizeof
@@ -7718,8 +7180,7 @@ void snd_ctl_elem_set_bytes(snd_ctl_elem_value_t * obj, void * data, size_t size
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (void *)data;
     packed_data->args.a3 = (size_t)size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_tlv_command
@@ -7785,8 +7246,7 @@ void snd_ctl_elem_value_clear(snd_ctl_elem_value_t * obj) {
     snd_ctl_elem_value_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_value_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_copy
@@ -7795,8 +7255,7 @@ void snd_ctl_elem_value_copy(snd_ctl_elem_value_t * dst, const snd_ctl_elem_valu
     packed_data->func = snd_ctl_elem_value_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_free
@@ -7804,8 +7263,7 @@ void snd_ctl_elem_value_free(snd_ctl_elem_value_t * obj) {
     snd_ctl_elem_value_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_value_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_boolean
@@ -7867,8 +7325,7 @@ void snd_ctl_elem_value_get_id(const snd_ctl_elem_value_t * obj, snd_ctl_elem_id
     packed_data->func = snd_ctl_elem_value_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_iec958
@@ -7877,8 +7334,7 @@ void snd_ctl_elem_value_get_iec958(const snd_ctl_elem_value_t * obj, snd_aes_iec
     packed_data->func = snd_ctl_elem_value_get_iec958_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_aes_iec958_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_index
@@ -7970,8 +7426,7 @@ void snd_ctl_elem_value_set_boolean(snd_ctl_elem_value_t * obj, unsigned int idx
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_byte
@@ -7981,8 +7436,7 @@ void snd_ctl_elem_value_set_byte(snd_ctl_elem_value_t * obj, unsigned int idx, u
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (unsigned char)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_device
@@ -7991,8 +7445,7 @@ void snd_ctl_elem_value_set_device(snd_ctl_elem_value_t * obj, unsigned int val)
     packed_data->func = snd_ctl_elem_value_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_enumerated
@@ -8002,8 +7455,7 @@ void snd_ctl_elem_value_set_enumerated(snd_ctl_elem_value_t * obj, unsigned int 
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_id
@@ -8012,8 +7464,7 @@ void snd_ctl_elem_value_set_id(snd_ctl_elem_value_t * obj, const snd_ctl_elem_id
     packed_data->func = snd_ctl_elem_value_set_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_iec958
@@ -8022,8 +7473,7 @@ void snd_ctl_elem_value_set_iec958(snd_ctl_elem_value_t * obj, const snd_aes_iec
     packed_data->func = snd_ctl_elem_value_set_iec958_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_aes_iec958_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_index
@@ -8032,8 +7482,7 @@ void snd_ctl_elem_value_set_index(snd_ctl_elem_value_t * obj, unsigned int val) 
     packed_data->func = snd_ctl_elem_value_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_integer
@@ -8043,8 +7492,7 @@ void snd_ctl_elem_value_set_integer(snd_ctl_elem_value_t * obj, unsigned int idx
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_integer64
@@ -8054,8 +7502,7 @@ void snd_ctl_elem_value_set_integer64(snd_ctl_elem_value_t * obj, unsigned int i
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long long)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_interface
@@ -8064,8 +7511,7 @@ void snd_ctl_elem_value_set_interface(snd_ctl_elem_value_t * obj, snd_ctl_elem_i
     packed_data->func = snd_ctl_elem_value_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_name
@@ -8074,8 +7520,7 @@ void snd_ctl_elem_value_set_name(snd_ctl_elem_value_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_value_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (char *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_numid
@@ -8084,8 +7529,7 @@ void snd_ctl_elem_value_set_numid(snd_ctl_elem_value_t * obj, unsigned int val) 
     packed_data->func = snd_ctl_elem_value_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_subdevice
@@ -8094,8 +7538,7 @@ void snd_ctl_elem_value_set_subdevice(snd_ctl_elem_value_t * obj, unsigned int v
     packed_data->func = snd_ctl_elem_value_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_sizeof
@@ -8123,8 +7566,7 @@ void snd_ctl_event_clear(snd_ctl_event_t * obj) {
     snd_ctl_event_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_event_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_copy
@@ -8133,8 +7575,7 @@ void snd_ctl_event_copy(snd_ctl_event_t * dst, const snd_ctl_event_t * src) {
     packed_data->func = snd_ctl_event_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)dst;
     packed_data->args.a2 = (snd_ctl_event_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_elem_get_device
@@ -8153,8 +7594,7 @@ void snd_ctl_event_elem_get_id(const snd_ctl_event_t * obj, snd_ctl_elem_id_t * 
     packed_data->func = snd_ctl_event_elem_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_elem_get_index
@@ -8222,8 +7662,7 @@ void snd_ctl_event_free(snd_ctl_event_t * obj) {
     snd_ctl_event_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_event_free_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_get_type
@@ -8599,8 +8038,7 @@ void snd_hctl_elem_get_id(const snd_hctl_elem_t * obj, snd_ctl_elem_id_t * ptr) 
     packed_data->func = snd_hctl_elem_get_id_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_get_index
@@ -8701,8 +8139,7 @@ void snd_hctl_elem_set_callback(snd_hctl_elem_t * obj, snd_hctl_elem_callback_t 
     packed_data->func = snd_hctl_elem_set_callback_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (snd_hctl_elem_callback_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_set_callback_private
@@ -8711,8 +8148,7 @@ void snd_hctl_elem_set_callback_private(snd_hctl_elem_t * obj, void * val) {
     packed_data->func = snd_hctl_elem_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (void *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_tlv_command
@@ -8926,8 +8362,7 @@ void snd_hctl_set_callback(snd_hctl_t * hctl, snd_hctl_callback_t callback) {
     packed_data->func = snd_hctl_set_callback_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (snd_hctl_callback_t)callback;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_set_callback_private
@@ -8936,8 +8371,7 @@ void snd_hctl_set_callback_private(snd_hctl_t * hctl, void * data) {
     packed_data->func = snd_hctl_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (void *)data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_set_compare
@@ -8978,8 +8412,7 @@ void snd_hwdep_dsp_image_copy(snd_hwdep_dsp_image_t * dst, const snd_hwdep_dsp_i
     packed_data->func = snd_hwdep_dsp_image_copy_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)dst;
     packed_data->args.a2 = (snd_hwdep_dsp_image_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_free
@@ -8987,8 +8420,7 @@ void snd_hwdep_dsp_image_free(snd_hwdep_dsp_image_t * obj) {
     snd_hwdep_dsp_image_free_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_image_free_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_get_image
@@ -9047,8 +8479,7 @@ void snd_hwdep_dsp_image_set_image(snd_hwdep_dsp_image_t * obj, void * buffer) {
     packed_data->func = snd_hwdep_dsp_image_set_image_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (void *)buffer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_index
@@ -9057,8 +8488,7 @@ void snd_hwdep_dsp_image_set_index(snd_hwdep_dsp_image_t * obj, unsigned int _in
     packed_data->func = snd_hwdep_dsp_image_set_index_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (unsigned int)_index;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_length
@@ -9067,8 +8497,7 @@ void snd_hwdep_dsp_image_set_length(snd_hwdep_dsp_image_t * obj, size_t length) 
     packed_data->func = snd_hwdep_dsp_image_set_length_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (size_t)length;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_name
@@ -9077,8 +8506,7 @@ void snd_hwdep_dsp_image_set_name(snd_hwdep_dsp_image_t * obj, const char * name
     packed_data->func = snd_hwdep_dsp_image_set_name_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (char *)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_sizeof
@@ -9118,8 +8546,7 @@ void snd_hwdep_dsp_status_copy(snd_hwdep_dsp_status_t * dst, const snd_hwdep_dsp
     packed_data->func = snd_hwdep_dsp_status_copy_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)dst;
     packed_data->args.a2 = (snd_hwdep_dsp_status_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_status_free
@@ -9127,8 +8554,7 @@ void snd_hwdep_dsp_status_free(snd_hwdep_dsp_status_t * obj) {
     snd_hwdep_dsp_status_free_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_status_free_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_status_get_chip_ready
@@ -9436,8 +8862,7 @@ void snd_midi_event_free(snd_midi_event_t * dev) {
     snd_midi_event_free_INDEXED *packed_data;
     packed_data->func = snd_midi_event_free_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_init
@@ -9445,8 +8870,7 @@ void snd_midi_event_init(snd_midi_event_t * dev) {
     snd_midi_event_init_INDEXED *packed_data;
     packed_data->func = snd_midi_event_init_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_new
@@ -9466,8 +8890,7 @@ void snd_midi_event_no_status(snd_midi_event_t * dev, int on) {
     packed_data->func = snd_midi_event_no_status_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
     packed_data->args.a2 = (int)on;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_reset_decode
@@ -9475,8 +8898,7 @@ void snd_midi_event_reset_decode(snd_midi_event_t * dev) {
     snd_midi_event_reset_decode_INDEXED *packed_data;
     packed_data->func = snd_midi_event_reset_decode_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_reset_encode
@@ -9484,8 +8906,7 @@ void snd_midi_event_reset_encode(snd_midi_event_t * dev) {
     snd_midi_event_reset_encode_INDEXED *packed_data;
     packed_data->func = snd_midi_event_reset_encode_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_resize_buffer
@@ -9538,8 +8959,7 @@ void snd_mixer_class_copy(snd_mixer_class_t * dst, const snd_mixer_class_t * src
     packed_data->func = snd_mixer_class_copy_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)dst;
     packed_data->args.a2 = (snd_mixer_class_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_class_free
@@ -9547,8 +8967,7 @@ void snd_mixer_class_free(snd_mixer_class_t * obj) {
     snd_mixer_class_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_class_free_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_class_get_compare
@@ -9744,8 +9163,7 @@ void snd_mixer_elem_free(snd_mixer_elem_t * elem) {
     snd_mixer_elem_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_elem_free_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_get_callback_private
@@ -9824,8 +9242,7 @@ void snd_mixer_elem_set_callback(snd_mixer_elem_t * obj, snd_mixer_elem_callback
     packed_data->func = snd_mixer_elem_set_callback_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (snd_mixer_elem_callback_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_set_callback_private
@@ -9834,8 +9251,7 @@ void snd_mixer_elem_set_callback_private(snd_mixer_elem_t * obj, void * val) {
     packed_data->func = snd_mixer_elem_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (void *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_value
@@ -9874,8 +9290,7 @@ void snd_mixer_free(snd_mixer_t * mixer) {
     snd_mixer_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_free_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_get_callback_private
@@ -10118,8 +9533,7 @@ void snd_mixer_selem_get_id(snd_mixer_elem_t * element, snd_mixer_selem_id_t * i
     packed_data->func = snd_mixer_selem_get_id_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)element;
     packed_data->args.a2 = (snd_mixer_selem_id_t *)id;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_get_index
@@ -10340,8 +9754,7 @@ void snd_mixer_selem_id_copy(snd_mixer_selem_id_t * dst, const snd_mixer_selem_i
     packed_data->func = snd_mixer_selem_id_copy_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)dst;
     packed_data->args.a2 = (snd_mixer_selem_id_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_free
@@ -10349,8 +9762,7 @@ void snd_mixer_selem_id_free(snd_mixer_selem_id_t * obj) {
     snd_mixer_selem_id_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_selem_id_free_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_get_index
@@ -10389,8 +9801,7 @@ void snd_mixer_selem_id_set_index(snd_mixer_selem_id_t * obj, unsigned int val) 
     packed_data->func = snd_mixer_selem_id_set_index_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_set_name
@@ -10399,8 +9810,7 @@ void snd_mixer_selem_id_set_name(snd_mixer_selem_id_t * obj, const char * val) {
     packed_data->func = snd_mixer_selem_id_set_name_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     packed_data->args.a2 = (char *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_sizeof
@@ -10668,8 +10078,7 @@ void snd_mixer_set_callback(snd_mixer_t * obj, snd_mixer_callback_t val) {
     packed_data->func = snd_mixer_set_callback_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     packed_data->args.a2 = (snd_mixer_callback_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_set_callback_private
@@ -10678,8 +10087,7 @@ void snd_mixer_set_callback_private(snd_mixer_t * obj, void * val) {
     packed_data->func = snd_mixer_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     packed_data->args.a2 = (void *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_set_compare
@@ -10720,8 +10128,7 @@ void snd_names_list_free(snd_devname_t * list) {
     snd_names_list_free_INDEXED *packed_data;
     packed_data->func = snd_names_list_free_INDEX;
     packed_data->args.a1 = (snd_devname_t *)list;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_output_buffer_open
@@ -10828,8 +10235,7 @@ void snd_pcm_access_mask_any(snd_pcm_access_mask_t * mask) {
     snd_pcm_access_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_copy
@@ -10838,8 +10244,7 @@ void snd_pcm_access_mask_copy(snd_pcm_access_mask_t * dst, const snd_pcm_access_
     packed_data->func = snd_pcm_access_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_access_mask_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_empty
@@ -10857,8 +10262,7 @@ void snd_pcm_access_mask_free(snd_pcm_access_mask_t * obj) {
     snd_pcm_access_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_malloc
@@ -10876,8 +10280,7 @@ void snd_pcm_access_mask_none(snd_pcm_access_mask_t * mask) {
     snd_pcm_access_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_reset
@@ -10886,8 +10289,7 @@ void snd_pcm_access_mask_reset(snd_pcm_access_mask_t * mask, snd_pcm_access_t va
     packed_data->func = snd_pcm_access_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_access_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_set
@@ -10896,8 +10298,7 @@ void snd_pcm_access_mask_set(snd_pcm_access_mask_t * mask, snd_pcm_access_t val)
     packed_data->func = snd_pcm_access_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_access_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_sizeof
@@ -11183,8 +10584,7 @@ void snd_pcm_format_mask_any(snd_pcm_format_mask_t * mask) {
     snd_pcm_format_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_copy
@@ -11193,8 +10593,7 @@ void snd_pcm_format_mask_copy(snd_pcm_format_mask_t * dst, const snd_pcm_format_
     packed_data->func = snd_pcm_format_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_format_mask_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_empty
@@ -11212,8 +10611,7 @@ void snd_pcm_format_mask_free(snd_pcm_format_mask_t * obj) {
     snd_pcm_format_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_malloc
@@ -11231,8 +10629,7 @@ void snd_pcm_format_mask_none(snd_pcm_format_mask_t * mask) {
     snd_pcm_format_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_reset
@@ -11241,8 +10638,7 @@ void snd_pcm_format_mask_reset(snd_pcm_format_mask_t * mask, snd_pcm_format_t va
     packed_data->func = snd_pcm_format_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_format_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_set
@@ -11251,8 +10647,7 @@ void snd_pcm_format_mask_set(snd_pcm_format_mask_t * mask, snd_pcm_format_t val)
     packed_data->func = snd_pcm_format_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_format_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_sizeof
@@ -11482,8 +10877,7 @@ void snd_pcm_hook_set_private(snd_pcm_hook_t * hook, void * private_data) {
     packed_data->func = snd_pcm_hook_set_private_INDEX;
     packed_data->args.a1 = (snd_pcm_hook_t *)hook;
     packed_data->args.a2 = (void *)private_data;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_free
@@ -11574,8 +10968,7 @@ void snd_pcm_hw_params_copy(snd_pcm_hw_params_t * dst, const snd_pcm_hw_params_t
     packed_data->func = snd_pcm_hw_params_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)dst;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_current
@@ -11605,8 +10998,7 @@ void snd_pcm_hw_params_free(snd_pcm_hw_params_t * obj) {
     snd_pcm_hw_params_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_hw_params_free_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_access
@@ -11772,8 +11164,7 @@ void snd_pcm_hw_params_get_format_mask(snd_pcm_hw_params_t * params, snd_pcm_for
     packed_data->func = snd_pcm_hw_params_get_format_mask_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_format_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_min_align
@@ -11982,8 +11373,7 @@ void snd_pcm_hw_params_get_subformat_mask(snd_pcm_hw_params_t * params, snd_pcm_
     packed_data->func = snd_pcm_hw_params_get_subformat_mask_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_subformat_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_tick_time
@@ -13184,8 +12574,7 @@ void snd_pcm_info_copy(snd_pcm_info_t * dst, const snd_pcm_info_t * src) {
     packed_data->func = snd_pcm_info_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)dst;
     packed_data->args.a2 = (snd_pcm_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_free
@@ -13193,8 +12582,7 @@ void snd_pcm_info_free(snd_pcm_info_t * obj) {
     snd_pcm_info_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_info_free_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_get_card
@@ -13333,8 +12721,7 @@ void snd_pcm_info_set_device(snd_pcm_info_t * obj, unsigned int val) {
     packed_data->func = snd_pcm_info_set_device_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_set_stream
@@ -13343,8 +12730,7 @@ void snd_pcm_info_set_stream(snd_pcm_info_t * obj, snd_pcm_stream_t val) {
     packed_data->func = snd_pcm_info_set_stream_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (snd_pcm_stream_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_set_subdevice
@@ -13353,8 +12739,7 @@ void snd_pcm_info_set_subdevice(snd_pcm_info_t * obj, unsigned int val) {
     packed_data->func = snd_pcm_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_sizeof
@@ -13763,8 +13148,7 @@ void snd_pcm_scope_set_callback_private(snd_pcm_scope_t * scope, void * val) {
     packed_data->func = snd_pcm_scope_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (void *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_scope_set_name
@@ -13773,8 +13157,7 @@ void snd_pcm_scope_set_name(snd_pcm_scope_t * scope, const char * val) {
     packed_data->func = snd_pcm_scope_set_name_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (char *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_scope_set_ops
@@ -13783,8 +13166,7 @@ void snd_pcm_scope_set_ops(snd_pcm_scope_t * scope, const snd_pcm_scope_ops_t * 
     packed_data->func = snd_pcm_scope_set_ops_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (snd_pcm_scope_ops_t *)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_set_params
@@ -13860,8 +13242,7 @@ void snd_pcm_status_copy(snd_pcm_status_t * dst, const snd_pcm_status_t * src) {
     packed_data->func = snd_pcm_status_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)dst;
     packed_data->args.a2 = (snd_pcm_status_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_dump
@@ -13880,8 +13261,7 @@ void snd_pcm_status_free(snd_pcm_status_t * obj) {
     snd_pcm_status_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_status_free_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_avail
@@ -13920,8 +13300,7 @@ void snd_pcm_status_get_htstamp(const snd_pcm_status_t * obj, snd_htimestamp_t *
     packed_data->func = snd_pcm_status_get_htstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_overrange
@@ -13950,8 +13329,7 @@ void snd_pcm_status_get_trigger_htstamp(const snd_pcm_status_t * obj, snd_htimes
     packed_data->func = snd_pcm_status_get_trigger_htstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_trigger_tstamp
@@ -13960,8 +13338,7 @@ void snd_pcm_status_get_trigger_tstamp(const snd_pcm_status_t * obj, snd_timesta
     packed_data->func = snd_pcm_status_get_trigger_tstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_timestamp_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_tstamp
@@ -13970,8 +13347,7 @@ void snd_pcm_status_get_tstamp(const snd_pcm_status_t * obj, snd_timestamp_t * p
     packed_data->func = snd_pcm_status_get_tstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_timestamp_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_malloc
@@ -14028,8 +13404,7 @@ void snd_pcm_subformat_mask_any(snd_pcm_subformat_mask_t * mask) {
     snd_pcm_subformat_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_copy
@@ -14038,8 +13413,7 @@ void snd_pcm_subformat_mask_copy(snd_pcm_subformat_mask_t * dst, const snd_pcm_s
     packed_data->func = snd_pcm_subformat_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_subformat_mask_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_empty
@@ -14057,8 +13431,7 @@ void snd_pcm_subformat_mask_free(snd_pcm_subformat_mask_t * obj) {
     snd_pcm_subformat_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_malloc
@@ -14076,8 +13449,7 @@ void snd_pcm_subformat_mask_none(snd_pcm_subformat_mask_t * mask) {
     snd_pcm_subformat_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_reset
@@ -14086,8 +13458,7 @@ void snd_pcm_subformat_mask_reset(snd_pcm_subformat_mask_t * mask, snd_pcm_subfo
     packed_data->func = snd_pcm_subformat_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_subformat_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_set
@@ -14096,8 +13467,7 @@ void snd_pcm_subformat_mask_set(snd_pcm_subformat_mask_t * mask, snd_pcm_subform
     packed_data->func = snd_pcm_subformat_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_subformat_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_sizeof
@@ -14147,8 +13517,7 @@ void snd_pcm_sw_params_copy(snd_pcm_sw_params_t * dst, const snd_pcm_sw_params_t
     packed_data->func = snd_pcm_sw_params_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)dst;
     packed_data->args.a2 = (snd_pcm_sw_params_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_sw_params_current
@@ -14178,8 +13547,7 @@ void snd_pcm_sw_params_free(snd_pcm_sw_params_t * obj) {
     snd_pcm_sw_params_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_sw_params_free_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_sw_params_get_avail_min
@@ -14572,8 +13940,7 @@ void snd_rawmidi_info_copy(snd_rawmidi_info_t * dst, const snd_rawmidi_info_t * 
     packed_data->func = snd_rawmidi_info_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_free
@@ -14581,8 +13948,7 @@ void snd_rawmidi_info_free(snd_rawmidi_info_t * obj) {
     snd_rawmidi_info_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_info_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_get_card
@@ -14701,8 +14067,7 @@ void snd_rawmidi_info_set_device(snd_rawmidi_info_t * obj, unsigned int val) {
     packed_data->func = snd_rawmidi_info_set_device_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_set_stream
@@ -14711,8 +14076,7 @@ void snd_rawmidi_info_set_stream(snd_rawmidi_info_t * obj, snd_rawmidi_stream_t 
     packed_data->func = snd_rawmidi_info_set_stream_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (snd_rawmidi_stream_t)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_set_subdevice
@@ -14721,8 +14085,7 @@ void snd_rawmidi_info_set_subdevice(snd_rawmidi_info_t * obj, unsigned int val) 
     packed_data->func = snd_rawmidi_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_sizeof
@@ -14799,8 +14162,7 @@ void snd_rawmidi_params_copy(snd_rawmidi_params_t * dst, const snd_rawmidi_param
     packed_data->func = snd_rawmidi_params_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_params_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_params_current
@@ -14819,8 +14181,7 @@ void snd_rawmidi_params_free(snd_rawmidi_params_t * obj) {
     snd_rawmidi_params_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_params_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_params_get_avail_min
@@ -14972,8 +14333,7 @@ void snd_rawmidi_status_copy(snd_rawmidi_status_t * dst, const snd_rawmidi_statu
     packed_data->func = snd_rawmidi_status_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_status_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_free
@@ -14981,8 +14341,7 @@ void snd_rawmidi_status_free(snd_rawmidi_status_t * obj) {
     snd_rawmidi_status_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_status_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_get_avail
@@ -15001,8 +14360,7 @@ void snd_rawmidi_status_get_tstamp(const snd_rawmidi_status_t * obj, snd_htimest
     packed_data->func = snd_rawmidi_status_get_tstamp_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_get_xruns
@@ -15158,8 +14516,7 @@ void snd_seq_client_info_copy(snd_seq_client_info_t * dst, const snd_seq_client_
     packed_data->func = snd_seq_client_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)dst;
     packed_data->args.a2 = (snd_seq_client_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_free
@@ -15167,8 +14524,7 @@ void snd_seq_client_info_free(snd_seq_client_info_t * ptr) {
     snd_seq_client_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_client_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_get_broadcast_filter
@@ -15267,8 +14623,7 @@ void snd_seq_client_info_set_broadcast_filter(snd_seq_client_info_t * info, int 
     packed_data->func = snd_seq_client_info_set_broadcast_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_client
@@ -15277,8 +14632,7 @@ void snd_seq_client_info_set_client(snd_seq_client_info_t * info, int client) {
     packed_data->func = snd_seq_client_info_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)client;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_error_bounce
@@ -15287,8 +14641,7 @@ void snd_seq_client_info_set_error_bounce(snd_seq_client_info_t * info, int val)
     packed_data->func = snd_seq_client_info_set_error_bounce_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_event_filter
@@ -15297,8 +14650,7 @@ void snd_seq_client_info_set_event_filter(snd_seq_client_info_t * info, unsigned
     packed_data->func = snd_seq_client_info_set_event_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (unsigned char *)filter;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_name
@@ -15307,8 +14659,7 @@ void snd_seq_client_info_set_name(snd_seq_client_info_t * info, const char * nam
     packed_data->func = snd_seq_client_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_sizeof
@@ -15326,8 +14677,7 @@ void snd_seq_client_pool_copy(snd_seq_client_pool_t * dst, const snd_seq_client_
     packed_data->func = snd_seq_client_pool_copy_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)dst;
     packed_data->args.a2 = (snd_seq_client_pool_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_free
@@ -15335,8 +14685,7 @@ void snd_seq_client_pool_free(snd_seq_client_pool_t * ptr) {
     snd_seq_client_pool_free_INDEXED *packed_data;
     packed_data->func = snd_seq_client_pool_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_get_client
@@ -15415,8 +14764,7 @@ void snd_seq_client_pool_set_input_pool(snd_seq_client_pool_t * info, size_t siz
     packed_data->func = snd_seq_client_pool_set_input_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_set_output_pool
@@ -15425,8 +14773,7 @@ void snd_seq_client_pool_set_output_pool(snd_seq_client_pool_t * info, size_t si
     packed_data->func = snd_seq_client_pool_set_output_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_set_output_room
@@ -15435,8 +14782,7 @@ void snd_seq_client_pool_set_output_room(snd_seq_client_pool_t * info, size_t si
     packed_data->func = snd_seq_client_pool_set_output_room_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_sizeof
@@ -16001,8 +15347,7 @@ void snd_seq_port_info_copy(snd_seq_port_info_t * dst, const snd_seq_port_info_t
     packed_data->func = snd_seq_port_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)dst;
     packed_data->args.a2 = (snd_seq_port_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_free
@@ -16010,8 +15355,7 @@ void snd_seq_port_info_free(snd_seq_port_info_t * ptr) {
     snd_seq_port_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_port_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_get_addr
@@ -16180,8 +15524,7 @@ void snd_seq_port_info_set_addr(snd_seq_port_info_t * info, const snd_seq_addr_t
     packed_data->func = snd_seq_port_info_set_addr_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_capability
@@ -16190,8 +15533,7 @@ void snd_seq_port_info_set_capability(snd_seq_port_info_t * info, unsigned int c
     packed_data->func = snd_seq_port_info_set_capability_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (unsigned int)capability;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_client
@@ -16200,8 +15542,7 @@ void snd_seq_port_info_set_client(snd_seq_port_info_t * info, int client) {
     packed_data->func = snd_seq_port_info_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)client;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_midi_channels
@@ -16210,8 +15551,7 @@ void snd_seq_port_info_set_midi_channels(snd_seq_port_info_t * info, int channel
     packed_data->func = snd_seq_port_info_set_midi_channels_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)channels;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_midi_voices
@@ -16220,8 +15560,7 @@ void snd_seq_port_info_set_midi_voices(snd_seq_port_info_t * info, int voices) {
     packed_data->func = snd_seq_port_info_set_midi_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)voices;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_name
@@ -16230,8 +15569,7 @@ void snd_seq_port_info_set_name(snd_seq_port_info_t * info, const char * name) {
     packed_data->func = snd_seq_port_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_port
@@ -16240,8 +15578,7 @@ void snd_seq_port_info_set_port(snd_seq_port_info_t * info, int port) {
     packed_data->func = snd_seq_port_info_set_port_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)port;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_port_specified
@@ -16250,8 +15587,7 @@ void snd_seq_port_info_set_port_specified(snd_seq_port_info_t * info, int val) {
     packed_data->func = snd_seq_port_info_set_port_specified_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_synth_voices
@@ -16260,8 +15596,7 @@ void snd_seq_port_info_set_synth_voices(snd_seq_port_info_t * info, int voices) 
     packed_data->func = snd_seq_port_info_set_synth_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)voices;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamp_queue
@@ -16270,8 +15605,7 @@ void snd_seq_port_info_set_timestamp_queue(snd_seq_port_info_t * info, int queue
     packed_data->func = snd_seq_port_info_set_timestamp_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)queue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamp_real
@@ -16280,8 +15614,7 @@ void snd_seq_port_info_set_timestamp_real(snd_seq_port_info_t * info, int realti
     packed_data->func = snd_seq_port_info_set_timestamp_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)realtime;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamping
@@ -16290,8 +15623,7 @@ void snd_seq_port_info_set_timestamping(snd_seq_port_info_t * info, int enable) 
     packed_data->func = snd_seq_port_info_set_timestamping_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)enable;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_type
@@ -16300,8 +15632,7 @@ void snd_seq_port_info_set_type(snd_seq_port_info_t * info, unsigned int type) {
     packed_data->func = snd_seq_port_info_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (unsigned int)type;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_sizeof
@@ -16319,8 +15650,7 @@ void snd_seq_port_subscribe_copy(snd_seq_port_subscribe_t * dst, const snd_seq_p
     packed_data->func = snd_seq_port_subscribe_copy_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)dst;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_free
@@ -16328,8 +15658,7 @@ void snd_seq_port_subscribe_free(snd_seq_port_subscribe_t * ptr) {
     snd_seq_port_subscribe_free_INDEXED *packed_data;
     packed_data->func = snd_seq_port_subscribe_free_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_get_dest
@@ -16408,8 +15737,7 @@ void snd_seq_port_subscribe_set_dest(snd_seq_port_subscribe_t * info, const snd_
     packed_data->func = snd_seq_port_subscribe_set_dest_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_exclusive
@@ -16418,8 +15746,7 @@ void snd_seq_port_subscribe_set_exclusive(snd_seq_port_subscribe_t * info, int v
     packed_data->func = snd_seq_port_subscribe_set_exclusive_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_queue
@@ -16428,8 +15755,7 @@ void snd_seq_port_subscribe_set_queue(snd_seq_port_subscribe_t * info, int q) {
     packed_data->func = snd_seq_port_subscribe_set_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)q;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_sender
@@ -16438,8 +15764,7 @@ void snd_seq_port_subscribe_set_sender(snd_seq_port_subscribe_t * info, const sn
     packed_data->func = snd_seq_port_subscribe_set_sender_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_time_real
@@ -16448,8 +15773,7 @@ void snd_seq_port_subscribe_set_time_real(snd_seq_port_subscribe_t * info, int v
     packed_data->func = snd_seq_port_subscribe_set_time_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_time_update
@@ -16458,8 +15782,7 @@ void snd_seq_port_subscribe_set_time_update(snd_seq_port_subscribe_t * info, int
     packed_data->func = snd_seq_port_subscribe_set_time_update_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_sizeof
@@ -16521,8 +15844,7 @@ void snd_seq_query_subscribe_copy(snd_seq_query_subscribe_t * dst, const snd_seq
     packed_data->func = snd_seq_query_subscribe_copy_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)dst;
     packed_data->args.a2 = (snd_seq_query_subscribe_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_free
@@ -16530,8 +15852,7 @@ void snd_seq_query_subscribe_free(snd_seq_query_subscribe_t * ptr) {
     snd_seq_query_subscribe_free_INDEXED *packed_data;
     packed_data->func = snd_seq_query_subscribe_free_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_get_addr
@@ -16660,8 +15981,7 @@ void snd_seq_query_subscribe_set_client(snd_seq_query_subscribe_t * info, int cl
     packed_data->func = snd_seq_query_subscribe_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)client;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_index
@@ -16670,8 +15990,7 @@ void snd_seq_query_subscribe_set_index(snd_seq_query_subscribe_t * info, int _in
     packed_data->func = snd_seq_query_subscribe_set_index_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)_index;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_port
@@ -16680,8 +15999,7 @@ void snd_seq_query_subscribe_set_port(snd_seq_query_subscribe_t * info, int port
     packed_data->func = snd_seq_query_subscribe_set_port_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)port;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_root
@@ -16690,8 +16008,7 @@ void snd_seq_query_subscribe_set_root(snd_seq_query_subscribe_t * info, const sn
     packed_data->func = snd_seq_query_subscribe_set_root_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_type
@@ -16700,8 +16017,7 @@ void snd_seq_query_subscribe_set_type(snd_seq_query_subscribe_t * info, snd_seq_
     packed_data->func = snd_seq_query_subscribe_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_query_subs_type_t)type;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_sizeof
@@ -16719,8 +16035,7 @@ void snd_seq_queue_info_copy(snd_seq_queue_info_t * dst, const snd_seq_queue_inf
     packed_data->func = snd_seq_queue_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_free
@@ -16728,8 +16043,7 @@ void snd_seq_queue_info_free(snd_seq_queue_info_t * ptr) {
     snd_seq_queue_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_get_flags
@@ -16798,8 +16112,7 @@ void snd_seq_queue_info_set_flags(snd_seq_queue_info_t * info, unsigned int flag
     packed_data->func = snd_seq_queue_info_set_flags_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (unsigned int)flags;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_locked
@@ -16808,8 +16121,7 @@ void snd_seq_queue_info_set_locked(snd_seq_queue_info_t * info, int locked) {
     packed_data->func = snd_seq_queue_info_set_locked_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (int)locked;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_name
@@ -16818,8 +16130,7 @@ void snd_seq_queue_info_set_name(snd_seq_queue_info_t * info, const char * name)
     packed_data->func = snd_seq_queue_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_owner
@@ -16828,8 +16139,7 @@ void snd_seq_queue_info_set_owner(snd_seq_queue_info_t * info, int owner) {
     packed_data->func = snd_seq_queue_info_set_owner_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (int)owner;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_sizeof
@@ -16847,8 +16157,7 @@ void snd_seq_queue_status_copy(snd_seq_queue_status_t * dst, const snd_seq_queue
     packed_data->func = snd_seq_queue_status_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_status_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_status_free
@@ -16856,8 +16165,7 @@ void snd_seq_queue_status_free(snd_seq_queue_status_t * ptr) {
     snd_seq_queue_status_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_status_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_status_get_events
@@ -16935,8 +16243,7 @@ void snd_seq_queue_tempo_copy(snd_seq_queue_tempo_t * dst, const snd_seq_queue_t
     packed_data->func = snd_seq_queue_tempo_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_tempo_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_free
@@ -16944,8 +16251,7 @@ void snd_seq_queue_tempo_free(snd_seq_queue_tempo_t * ptr) {
     snd_seq_queue_tempo_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_tempo_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_get_ppq
@@ -17014,8 +16320,7 @@ void snd_seq_queue_tempo_set_ppq(snd_seq_queue_tempo_t * info, int ppq) {
     packed_data->func = snd_seq_queue_tempo_set_ppq_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (int)ppq;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_skew
@@ -17024,8 +16329,7 @@ void snd_seq_queue_tempo_set_skew(snd_seq_queue_tempo_t * info, unsigned int ske
     packed_data->func = snd_seq_queue_tempo_set_skew_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)skew;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_skew_base
@@ -17034,8 +16338,7 @@ void snd_seq_queue_tempo_set_skew_base(snd_seq_queue_tempo_t * info, unsigned in
     packed_data->func = snd_seq_queue_tempo_set_skew_base_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)base;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_tempo
@@ -17044,8 +16347,7 @@ void snd_seq_queue_tempo_set_tempo(snd_seq_queue_tempo_t * info, unsigned int te
     packed_data->func = snd_seq_queue_tempo_set_tempo_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)tempo;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_sizeof
@@ -17063,8 +16365,7 @@ void snd_seq_queue_timer_copy(snd_seq_queue_timer_t * dst, const snd_seq_queue_t
     packed_data->func = snd_seq_queue_timer_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_timer_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_free
@@ -17072,8 +16373,7 @@ void snd_seq_queue_timer_free(snd_seq_queue_timer_t * ptr) {
     snd_seq_queue_timer_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_timer_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_get_id
@@ -17132,8 +16432,7 @@ void snd_seq_queue_timer_set_id(snd_seq_queue_timer_t * info, const snd_timer_id
     packed_data->func = snd_seq_queue_timer_set_id_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (snd_timer_id_t *)id;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_set_resolution
@@ -17142,8 +16441,7 @@ void snd_seq_queue_timer_set_resolution(snd_seq_queue_timer_t * info, unsigned i
     packed_data->func = snd_seq_queue_timer_set_resolution_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (unsigned int)resolution;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_set_type
@@ -17152,8 +16450,7 @@ void snd_seq_queue_timer_set_type(snd_seq_queue_timer_t * info, snd_seq_queue_ti
     packed_data->func = snd_seq_queue_timer_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (snd_seq_queue_timer_type_t)type;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_sizeof
@@ -17182,8 +16479,7 @@ void snd_seq_remove_events_copy(snd_seq_remove_events_t * dst, const snd_seq_rem
     packed_data->func = snd_seq_remove_events_copy_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)dst;
     packed_data->args.a2 = (snd_seq_remove_events_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_free
@@ -17191,8 +16487,7 @@ void snd_seq_remove_events_free(snd_seq_remove_events_t * ptr) {
     snd_seq_remove_events_free_INDEXED *packed_data;
     packed_data->func = snd_seq_remove_events_free_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_get_channel
@@ -17281,8 +16576,7 @@ void snd_seq_remove_events_set_channel(snd_seq_remove_events_t * info, int chann
     packed_data->func = snd_seq_remove_events_set_channel_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)channel;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_condition
@@ -17291,8 +16585,7 @@ void snd_seq_remove_events_set_condition(snd_seq_remove_events_t * info, unsigne
     packed_data->func = snd_seq_remove_events_set_condition_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (unsigned int)flags;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_dest
@@ -17301,8 +16594,7 @@ void snd_seq_remove_events_set_dest(snd_seq_remove_events_t * info, const snd_se
     packed_data->func = snd_seq_remove_events_set_dest_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_event_type
@@ -17311,8 +16603,7 @@ void snd_seq_remove_events_set_event_type(snd_seq_remove_events_t * info, int ty
     packed_data->func = snd_seq_remove_events_set_event_type_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)type;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_queue
@@ -17321,8 +16612,7 @@ void snd_seq_remove_events_set_queue(snd_seq_remove_events_t * info, int queue) 
     packed_data->func = snd_seq_remove_events_set_queue_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)queue;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_tag
@@ -17331,8 +16621,7 @@ void snd_seq_remove_events_set_tag(snd_seq_remove_events_t * info, int tag) {
     packed_data->func = snd_seq_remove_events_set_tag_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)tag;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_time
@@ -17341,8 +16630,7 @@ void snd_seq_remove_events_set_time(snd_seq_remove_events_t * info, const snd_se
     packed_data->func = snd_seq_remove_events_set_time_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (snd_seq_timestamp_t *)time;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_sizeof
@@ -17380,8 +16668,7 @@ void snd_seq_set_bit(int nr, void * array) {
     packed_data->func = snd_seq_set_bit_INDEX;
     packed_data->args.a1 = (int)nr;
     packed_data->args.a2 = (void *)array;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_set_client_event_filter
@@ -17570,8 +16857,7 @@ void snd_seq_system_info_copy(snd_seq_system_info_t * dst, const snd_seq_system_
     packed_data->func = snd_seq_system_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)dst;
     packed_data->args.a2 = (snd_seq_system_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_system_info_free
@@ -17579,8 +16865,7 @@ void snd_seq_system_info_free(snd_seq_system_info_t * ptr) {
     snd_seq_system_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_system_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)ptr;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_system_info_get_channels
@@ -17799,8 +17084,7 @@ void snd_timer_ginfo_copy(snd_timer_ginfo_t * dst, const snd_timer_ginfo_t * src
     packed_data->func = snd_timer_ginfo_copy_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)dst;
     packed_data->args.a2 = (snd_timer_ginfo_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_ginfo_free
@@ -17808,8 +17092,7 @@ void snd_timer_ginfo_free(snd_timer_ginfo_t * obj) {
     snd_timer_ginfo_free_INDEXED *packed_data;
     packed_data->func = snd_timer_ginfo_free_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_ginfo_get_card
@@ -17938,8 +17221,7 @@ void snd_timer_id_copy(snd_timer_id_t * dst, const snd_timer_id_t * src) {
     packed_data->func = snd_timer_id_copy_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)dst;
     packed_data->args.a2 = (snd_timer_id_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_free
@@ -17947,8 +17229,7 @@ void snd_timer_id_free(snd_timer_id_t * obj) {
     snd_timer_id_free_INDEXED *packed_data;
     packed_data->func = snd_timer_id_free_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_get_card
@@ -18017,8 +17298,7 @@ void snd_timer_id_set_card(snd_timer_id_t * id, int card) {
     packed_data->func = snd_timer_id_set_card_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)card;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_class
@@ -18027,8 +17307,7 @@ void snd_timer_id_set_class(snd_timer_id_t * id, int dev_class) {
     packed_data->func = snd_timer_id_set_class_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)dev_class;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_device
@@ -18037,8 +17316,7 @@ void snd_timer_id_set_device(snd_timer_id_t * id, int device) {
     packed_data->func = snd_timer_id_set_device_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)device;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_sclass
@@ -18047,8 +17325,7 @@ void snd_timer_id_set_sclass(snd_timer_id_t * id, int dev_sclass) {
     packed_data->func = snd_timer_id_set_sclass_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)dev_sclass;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_subdevice
@@ -18057,8 +17334,7 @@ void snd_timer_id_set_subdevice(snd_timer_id_t * id, int subdevice) {
     packed_data->func = snd_timer_id_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)subdevice;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_sizeof
@@ -18087,8 +17363,7 @@ void snd_timer_info_copy(snd_timer_info_t * dst, const snd_timer_info_t * src) {
     packed_data->func = snd_timer_info_copy_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)dst;
     packed_data->args.a2 = (snd_timer_info_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_info_free
@@ -18096,8 +17371,7 @@ void snd_timer_info_free(snd_timer_info_t * obj) {
     snd_timer_info_free_INDEXED *packed_data;
     packed_data->func = snd_timer_info_free_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_info_get_card
@@ -18221,8 +17495,7 @@ void snd_timer_params_copy(snd_timer_params_t * dst, const snd_timer_params_t * 
     packed_data->func = snd_timer_params_copy_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)dst;
     packed_data->args.a2 = (snd_timer_params_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_free
@@ -18230,8 +17503,7 @@ void snd_timer_params_free(snd_timer_params_t * obj) {
     snd_timer_params_free_INDEXED *packed_data;
     packed_data->func = snd_timer_params_free_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_get_auto_start
@@ -18343,8 +17615,7 @@ void snd_timer_params_set_filter(snd_timer_params_t * params, unsigned int filte
     packed_data->func = snd_timer_params_set_filter_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (unsigned int)filter;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_set_queue_size
@@ -18353,8 +17624,7 @@ void snd_timer_params_set_queue_size(snd_timer_params_t * params, long queue_siz
     packed_data->func = snd_timer_params_set_queue_size_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (long)queue_size;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_set_ticks
@@ -18363,8 +17633,7 @@ void snd_timer_params_set_ticks(snd_timer_params_t * params, long ticks) {
     packed_data->func = snd_timer_params_set_ticks_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (long)ticks;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_sizeof
@@ -18529,8 +17798,7 @@ void snd_timer_status_copy(snd_timer_status_t * dst, const snd_timer_status_t * 
     packed_data->func = snd_timer_status_copy_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)dst;
     packed_data->args.a2 = (snd_timer_status_t *)src;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_status_free
@@ -18538,8 +17806,7 @@ void snd_timer_status_free(snd_timer_status_t * obj) {
     snd_timer_status_free_INDEXED *packed_data;
     packed_data->func = snd_timer_status_free_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)obj;
-    int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_status_get_lost
