@@ -60,6 +60,8 @@ def split_arg(arg):
     match = split_re.match(arg)
     if match:
         return match.groupdict()
+    else:
+        return {'type': 'unknown', 'name': arg}
 
 def gen(files, template, guard_name, headers,
         deep=False, cats=(), ifdef=None, ifndef=None):
