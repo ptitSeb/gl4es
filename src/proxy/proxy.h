@@ -2095,15 +2095,11 @@ typedef struct {
 } INDEXED_void_const_GLboolean___GENPT__;
 typedef void (*FUNC_void)();
 typedef struct {
-} ARGS_void;
-typedef struct {
     int format;
     FUNC_void func;
-    ARGS_void args;
 } PACKED_void;
 typedef struct {
     int func;
-    ARGS_void args;
 } INDEXED_void;
 typedef void (*FUNC_void_GLfloat_GLfloat)(GLfloat u, GLfloat v);
 typedef struct {
@@ -2404,15 +2400,11 @@ typedef struct {
 } INDEXED_void_GLenum_GLint_GLvoid___GENPT__;
 typedef GLenum (*FUNC_GLenum)();
 typedef struct {
-} ARGS_GLenum;
-typedef struct {
     int format;
     FUNC_GLenum func;
-    ARGS_GLenum args;
 } PACKED_GLenum;
 typedef struct {
     int func;
-    ARGS_GLenum args;
 } INDEXED_GLenum;
 typedef void (*FUNC_void_GLenum_GLfloat___GENPT__)(GLenum pname, GLfloat * params);
 typedef struct {
@@ -3786,27 +3778,19 @@ typedef struct {
 } INDEXED_int_Display___GENPT___XVisualInfo___GENPT___int_int___GENPT__;
 typedef GLXContext (*FUNC_GLXContext)();
 typedef struct {
-} ARGS_GLXContext;
-typedef struct {
     int format;
     FUNC_GLXContext func;
-    ARGS_GLXContext args;
 } PACKED_GLXContext;
 typedef struct {
     int func;
-    ARGS_GLXContext args;
 } INDEXED_GLXContext;
 typedef GLXDrawable (*FUNC_GLXDrawable)();
 typedef struct {
-} ARGS_GLXDrawable;
-typedef struct {
     int format;
     FUNC_GLXDrawable func;
-    ARGS_GLXDrawable args;
 } PACKED_GLXDrawable;
 typedef struct {
     int func;
-    ARGS_GLXDrawable args;
 } INDEXED_GLXDrawable;
 typedef int (*FUNC_int_Display___GENPT___int_int_int_const_void___GENPT__)(Display * dpy, int timeSlice, int attrib, int size, const void * attribList);
 typedef struct {
@@ -4128,15 +4112,11 @@ typedef struct {
 } INDEXED_void_Display___GENPT___GLXWindow;
 typedef Display * (*FUNC_Display___GENPT__)();
 typedef struct {
-} ARGS_Display___GENPT__;
-typedef struct {
     int format;
     FUNC_Display___GENPT__ func;
-    ARGS_Display___GENPT__ args;
 } PACKED_Display___GENPT__;
 typedef struct {
     int func;
-    ARGS_Display___GENPT__ args;
 } INDEXED_Display___GENPT__;
 typedef int (*FUNC_int_Display___GENPT___GLXFBConfig_int_int___GENPT__)(Display * dpy, GLXFBConfig config, int attribute, int * value);
 typedef struct {
@@ -4276,15 +4256,11 @@ typedef struct {
 } INDEXED_void_Display___GENPT___GLXDrawable_unsigned_long;
 typedef const char * (*FUNC_const_char___GENPT__)();
 typedef struct {
-} ARGS_const_char___GENPT__;
-typedef struct {
     int format;
     FUNC_const_char___GENPT__ func;
-    ARGS_const_char___GENPT__ args;
 } PACKED_const_char___GENPT__;
 typedef struct {
     int func;
-    ARGS_const_char___GENPT__ args;
 } INDEXED_const_char___GENPT__;
 typedef int (*FUNC_int_snd_async_handler_t___GENPT____GENPT___snd_ctl_t___GENPT___snd_async_callback_t_void___GENPT__)(snd_async_handler_t ** handler, snd_ctl_t * ctl, snd_async_callback_t callback, void * private_data);
 typedef struct {
@@ -4968,15 +4944,11 @@ typedef struct {
 } INDEXED_int_snd_config_t___GENPT____GENPT__;
 typedef int (*FUNC_int)();
 typedef struct {
-} ARGS_int;
-typedef struct {
     int format;
     FUNC_int func;
-    ARGS_int args;
 } PACKED_int;
 typedef struct {
     int func;
-    ARGS_int args;
 } INDEXED_int;
 typedef int (*FUNC_int_snd_config_update_t___GENPT__)(snd_config_update_t * update);
 typedef struct {
@@ -5088,15 +5060,11 @@ typedef struct {
 } INDEXED_int_snd_ctl_card_info_t___GENPT____GENPT__;
 typedef size_t (*FUNC_size_t)();
 typedef struct {
-} ARGS_size_t;
-typedef struct {
     int format;
     FUNC_size_t func;
-    ARGS_size_t args;
 } PACKED_size_t;
 typedef struct {
     int func;
-    ARGS_size_t args;
 } INDEXED_size_t;
 typedef int (*FUNC_int_snd_ctl_t___GENPT__)(snd_ctl_t * ctl);
 typedef struct {

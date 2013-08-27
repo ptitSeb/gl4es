@@ -555,15 +555,11 @@ typedef struct {
 } INDEXED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__;
 typedef void (*FUNC_void)();
 typedef struct {
-} ARGS_void;
-typedef struct {
     int format;
     FUNC_void func;
-    ARGS_void args;
 } PACKED_void;
 typedef struct {
     int func;
-    ARGS_void args;
 } INDEXED_void;
 typedef void (*FUNC_void_GLenum_GLfloat)(GLenum pname, GLfloat param);
 typedef struct {
@@ -702,15 +698,11 @@ typedef struct {
 } INDEXED_void_GLenum_GLfixed___GENPT__;
 typedef GLenum (*FUNC_GLenum)();
 typedef struct {
-} ARGS_GLenum;
-typedef struct {
     int format;
     FUNC_GLenum func;
-    ARGS_GLenum args;
 } PACKED_GLenum;
 typedef struct {
     int func;
-    ARGS_GLenum args;
 } INDEXED_GLenum;
 typedef void (*FUNC_void_GLenum_GLint___GENPT__)(GLenum pname, GLint * params);
 typedef struct {

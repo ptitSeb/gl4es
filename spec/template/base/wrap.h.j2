@@ -20,19 +20,25 @@ enum FORMAT {
 
 {% for f in formats %}
 typedef {{ f.return }} (*FUNC_{{ f.types }})({{ f.args|args }});
+{% if f.args %}
 typedef struct {
     {% for arg in f.args %}
     {{ arg.type|unconst }} a{{ loop.index }}{% if arg.type == 'GLdouble' %} __attribute__ ((aligned(8))){% endif %};
     {% endfor %}
 } ARGS_{{ f.types }};
+{% endif %}
 typedef struct {
     int format;
     FUNC_{{ f.types }} func;
+    {% if f.args %}
     ARGS_{{ f.types }} args;
+    {% endif %}
 } PACKED_{{ f.types }};
 typedef struct {
     int func;
+    {% if f.args %}
     ARGS_{{ f.types }} args;
+    {% endif %}
 } INDEXED_{{ f.types }};
 {% endfor %}
 
