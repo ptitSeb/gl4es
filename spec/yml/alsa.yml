@@ -39,6 +39,7 @@ snd_output_putc: [int, snd_output_t *output, int c]
 snd_output_flush: [int, snd_output_t *output]
 
 # error.h
+snd_strerror: [const char *, int errnum]
 # callback-based functions won't work
 snd_lib_error_set_handler: [int, snd_lib_error_handler_t handler]
 

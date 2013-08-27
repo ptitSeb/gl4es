@@ -15164,6 +15164,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_snd_strerror
+        case snd_strerror_INDEX: {
+            INDEXED_const_char___GENPT___int *unpacked = (INDEXED_const_char___GENPT___int *)packed;
+            ARGS_const_char___GENPT___int args = unpacked->args;
+            const char * *ret = (const char * *)ret_v;
+            *ret =
+            snd_strerror(args.a1);
+            break;
+        }
+        #endif
         #ifndef skip_index_snd_timer_close
         case snd_timer_close_INDEX: {
             INDEXED_int_snd_timer_t___GENPT__ *unpacked = (INDEXED_int_snd_timer_t___GENPT__ *)packed;

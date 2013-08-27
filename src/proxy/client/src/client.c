@@ -19364,6 +19364,17 @@ int snd_spcm_init_get_params(snd_pcm_t * pcm, unsigned int * rate, snd_pcm_ufram
     return ret;
 }
 #endif
+#ifndef skip_client_snd_strerror
+const char * snd_strerror(int errnum) {
+    snd_strerror_INDEXED *packed_data = malloc(sizeof(snd_strerror_INDEXED));
+    packed_data->func = snd_strerror_INDEX;
+    packed_data->args.a1 = (int)errnum;
+    const char * ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_snd_timer_close
 int snd_timer_close(snd_timer_t * handle) {
     snd_timer_close_INDEXED *packed_data = malloc(sizeof(snd_timer_close_INDEXED));
@@ -25288,6 +25299,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "snd_spcm_init_get_params") == 0) {
         return (void *)snd_spcm_init_get_params;
+    }
+    if (strcmp(name, "snd_strerror") == 0) {
+        return (void *)snd_strerror;
     }
     if (strcmp(name, "snd_timer_close") == 0) {
         return (void *)snd_timer_close;
