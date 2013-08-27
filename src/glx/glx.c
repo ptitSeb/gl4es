@@ -312,6 +312,12 @@ GLXContext glXCreateContext(Display *display,
     return fake;
 }
 
+GLXContext glXCreateContextAttribsARB(Display *display, void *config,
+                                      GLXContext share_context, Bool direct,
+                                      const int *attrib_list) {
+    return glXCreateContext(display, NULL, NULL, true);
+}
+
 void glXDestroyContext(Display *display, GLXContext ctx) {
     if (eglContext) {
         EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);

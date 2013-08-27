@@ -3980,6 +3980,16 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
+        #ifndef skip_index_glXCreateContextAttribsARB
+        case glXCreateContextAttribsARB_INDEX: {
+            INDEXED_GLXContext_Display___GENPT___void___GENPT___GLXContext_Bool_const_int___GENPT__ *unpacked = (INDEXED_GLXContext_Display___GENPT___void___GENPT___GLXContext_Bool_const_int___GENPT__ *)packed;
+            ARGS_GLXContext_Display___GENPT___void___GENPT___GLXContext_Bool_const_int___GENPT__ args = unpacked->args;
+            GLXContext *ret = (GLXContext *)ret_v;
+            *ret =
+            glXCreateContextAttribsARB(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        #endif
         #ifndef skip_index_glXCreateContextWithConfigSGIX
         case glXCreateContextWithConfigSGIX_INDEX: {
             INDEXED_void_uint32_t_uint32_t_uint32_t_uint32_t *unpacked = (INDEXED_void_uint32_t_uint32_t_uint32_t_uint32_t *)packed;

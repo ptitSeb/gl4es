@@ -227,3 +227,5 @@ XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config);
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count);
 GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count);
 int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value);
+
+GLXContext glXCreateContextAttribsARB(Display *display, void *config, GLXContext share_context, Bool direct, const int *attrib_list);

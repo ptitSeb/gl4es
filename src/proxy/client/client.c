@@ -5721,6 +5721,21 @@ GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareLi
     return ret;
 }
 #endif
+#ifndef skip_client_glXCreateContextAttribsARB
+GLXContext glXCreateContextAttribsARB(Display * display, void * config, GLXContext share_context, Bool direct, const int * attrib_list) {
+    glXCreateContextAttribsARB_INDEXED *packed_data = malloc(sizeof(glXCreateContextAttribsARB_INDEXED));
+    packed_data->func = glXCreateContextAttribsARB_INDEX;
+    packed_data->args.a1 = display;
+    packed_data->args.a2 = config;
+    packed_data->args.a3 = share_context;
+    packed_data->args.a4 = direct;
+    packed_data->args.a5 = attrib_list;
+    GLXContext ret;
+    syscall(SYS_proxy, (void *)packed_data, &ret);
+    free(packed_data);
+    return ret;
+}
+#endif
 #ifndef skip_client_glXCreateContextWithConfigSGIX
 void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t config, uint32_t share_list) {
     glXCreateContextWithConfigSGIX_INDEXED *packed_data = malloc(sizeof(glXCreateContextWithConfigSGIX_INDEXED));
@@ -7919,6 +7934,9 @@ __GLXextFuncPtr glXGetProcAddressARB(const GLubyte *name) {
     }
     if (strcmp(name, "glXCreateContext") == 0) {
         return (void *)glXCreateContext;
+    }
+    if (strcmp(name, "glXCreateContextAttribsARB") == 0) {
+        return (void *)glXCreateContextAttribsARB;
     }
     if (strcmp(name, "glXCreateContextWithConfigSGIX") == 0) {
         return (void *)glXCreateContextWithConfigSGIX;
