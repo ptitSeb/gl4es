@@ -4,7 +4,9 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_{{ f.name }}
         case {{ f.name }}_INDEX: {
             INDEXED_{{ f.types }} *unpacked = (INDEXED_{{ f.types }} *)packed;
+            {% if f.args %}
             ARGS_{{ f.types }} args = unpacked->args;
+            {% endif %}
             {% if not f.void %}
             {{ f.return }} *ret = ({{ f.return }} *)ret_v;
             *ret =

@@ -865,7 +865,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glEnd
         case glEnd_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glEnd();
             break;
         }
@@ -873,7 +872,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glEndList
         case glEndList_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glEndList();
             break;
         }
@@ -993,7 +991,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glFinish
         case glFinish_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glFinish();
             break;
         }
@@ -1001,7 +998,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glFlush
         case glFlush_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glFlush();
             break;
         }
@@ -1235,7 +1231,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glGetError
         case glGetError_INDEX: {
             INDEXED_GLenum *unpacked = (INDEXED_GLenum *)packed;
-            ARGS_GLenum args = unpacked->args;
             GLenum *ret = (GLenum *)ret_v;
             *ret =
             glGetError();
@@ -1639,7 +1634,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glInitNames
         case glInitNames_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glInitNames();
             break;
         }
@@ -1793,7 +1787,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glLoadIdentity
         case glLoadIdentity_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glLoadIdentity();
             break;
         }
@@ -2515,7 +2508,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glPopAttrib
         case glPopAttrib_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glPopAttrib();
             break;
         }
@@ -2523,7 +2515,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glPopClientAttrib
         case glPopClientAttrib_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glPopClientAttrib();
             break;
         }
@@ -2531,7 +2522,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glPopMatrix
         case glPopMatrix_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glPopMatrix();
             break;
         }
@@ -2539,7 +2529,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glPopName
         case glPopName_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glPopName();
             break;
         }
@@ -2571,7 +2560,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glPushMatrix
         case glPushMatrix_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glPushMatrix();
             break;
         }
@@ -3957,7 +3945,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXClientInfo
         case glXClientInfo_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXClientInfo();
             break;
         }
@@ -4161,7 +4148,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetCurrentContext
         case glXGetCurrentContext_INDEX: {
             INDEXED_GLXContext *unpacked = (INDEXED_GLXContext *)packed;
-            ARGS_GLXContext args = unpacked->args;
             GLXContext *ret = (GLXContext *)ret_v;
             *ret =
             glXGetCurrentContext();
@@ -4171,7 +4157,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetCurrentDisplay
         case glXGetCurrentDisplay_INDEX: {
             INDEXED_Display___GENPT__ *unpacked = (INDEXED_Display___GENPT__ *)packed;
-            ARGS_Display___GENPT__ args = unpacked->args;
             Display * *ret = (Display * *)ret_v;
             *ret =
             glXGetCurrentDisplay();
@@ -4181,7 +4166,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetCurrentDrawable
         case glXGetCurrentDrawable_INDEX: {
             INDEXED_GLXDrawable *unpacked = (INDEXED_GLXDrawable *)packed;
-            ARGS_GLXDrawable args = unpacked->args;
             GLXDrawable *ret = (GLXDrawable *)ret_v;
             *ret =
             glXGetCurrentDrawable();
@@ -4191,7 +4175,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetCurrentReadDrawable
         case glXGetCurrentReadDrawable_INDEX: {
             INDEXED_GLXDrawable *unpacked = (INDEXED_GLXDrawable *)packed;
-            ARGS_GLXDrawable args = unpacked->args;
             GLXDrawable *ret = (GLXDrawable *)ret_v;
             *ret =
             glXGetCurrentReadDrawable();
@@ -4237,7 +4220,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetFBConfigsSGIX
         case glXGetFBConfigsSGIX_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXGetFBConfigsSGIX();
             break;
         }
@@ -4263,7 +4245,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXGetVisualConfigs
         case glXGetVisualConfigs_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXGetVisualConfigs();
             break;
         }
@@ -4357,7 +4338,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXQueryContextInfoEXT
         case glXQueryContextInfoEXT_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXQueryContextInfoEXT();
             break;
         }
@@ -4433,7 +4413,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXQueryMaxSwapBarriersSGIX
         case glXQueryMaxSwapBarriersSGIX_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXQueryMaxSwapBarriersSGIX();
             break;
         }
@@ -4471,7 +4450,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXRender
         case glXRender_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXRender();
             break;
         }
@@ -4479,7 +4457,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXRenderLarge
         case glXRenderLarge_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXRenderLarge();
             break;
         }
@@ -4529,7 +4506,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXVendorPrivate
         case glXVendorPrivate_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXVendorPrivate();
             break;
         }
@@ -4537,7 +4513,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXVendorPrivateWithReply
         case glXVendorPrivateWithReply_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXVendorPrivateWithReply();
             break;
         }
@@ -4545,7 +4520,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXWaitGL
         case glXWaitGL_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXWaitGL();
             break;
         }
@@ -4553,7 +4527,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_glXWaitX
         case glXWaitX_INDEX: {
             INDEXED_void *unpacked = (INDEXED_void *)packed;
-            ARGS_void args = unpacked->args;
             glXWaitX();
             break;
         }
@@ -4561,7 +4534,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_asoundlib_version
         case snd_asoundlib_version_INDEX: {
             INDEXED_const_char___GENPT__ *unpacked = (INDEXED_const_char___GENPT__ *)packed;
-            ARGS_const_char___GENPT__ args = unpacked->args;
             const char * *ret = (const char * *)ret_v;
             *ret =
             snd_asoundlib_version();
@@ -5221,7 +5193,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_config_update
         case snd_config_update_INDEX: {
             INDEXED_int *unpacked = (INDEXED_int *)packed;
-            ARGS_int args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_config_update();
@@ -5241,7 +5212,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_config_update_free_global
         case snd_config_update_free_global_INDEX: {
             INDEXED_int *unpacked = (INDEXED_int *)packed;
-            ARGS_int args = unpacked->args;
             int *ret = (int *)ret_v;
             *ret =
             snd_config_update_free_global();
@@ -5375,7 +5345,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_card_info_sizeof
         case snd_ctl_card_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_card_info_sizeof();
@@ -5577,7 +5546,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_elem_id_sizeof
         case snd_ctl_elem_id_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_elem_id_sizeof();
@@ -6003,7 +5971,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_elem_info_sizeof
         case snd_ctl_elem_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_elem_info_sizeof();
@@ -6171,7 +6138,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_elem_list_sizeof
         case snd_ctl_elem_list_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_elem_list_sizeof();
@@ -6543,7 +6509,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_elem_value_sizeof
         case snd_ctl_elem_value_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_elem_value_sizeof();
@@ -6685,7 +6650,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_ctl_event_sizeof
         case snd_ctl_event_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_ctl_event_sizeof();
@@ -7453,7 +7417,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_hwdep_dsp_image_sizeof
         case snd_hwdep_dsp_image_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_hwdep_dsp_image_sizeof();
@@ -7559,7 +7522,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_hwdep_dsp_status_sizeof
         case snd_hwdep_dsp_status_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_hwdep_dsp_status_sizeof();
@@ -7579,7 +7541,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_hwdep_info_sizeof
         case snd_hwdep_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_hwdep_info_sizeof();
@@ -7965,7 +7926,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_mixer_class_sizeof
         case snd_mixer_class_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_mixer_class_sizeof();
@@ -8667,7 +8627,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_mixer_selem_id_sizeof
         case snd_mixer_selem_id_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_mixer_selem_id_sizeof();
@@ -9109,7 +9068,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_access_mask_sizeof
         case snd_pcm_access_mask_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_access_mask_sizeof();
@@ -9427,7 +9385,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_format_mask_sizeof
         case snd_pcm_format_mask_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_format_mask_sizeof();
@@ -10907,7 +10864,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_hw_params_sizeof
         case snd_pcm_hw_params_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_hw_params_sizeof();
@@ -11217,7 +11173,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_info_sizeof
         case snd_pcm_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_info_sizeof();
@@ -11779,7 +11734,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_status_sizeof
         case snd_pcm_status_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_status_sizeof();
@@ -11887,7 +11841,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_subformat_mask_sizeof
         case snd_pcm_subformat_mask_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_subformat_mask_sizeof();
@@ -12183,7 +12136,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_pcm_sw_params_sizeof
         case snd_pcm_sw_params_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_pcm_sw_params_sizeof();
@@ -12463,7 +12415,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_rawmidi_info_sizeof
         case snd_rawmidi_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_rawmidi_info_sizeof();
@@ -12619,7 +12570,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_rawmidi_params_sizeof
         case snd_rawmidi_params_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_rawmidi_params_sizeof();
@@ -12733,7 +12683,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_rawmidi_status_sizeof
         case snd_rawmidi_status_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_rawmidi_status_sizeof();
@@ -12999,7 +12948,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_client_info_sizeof
         case snd_seq_client_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_client_info_sizeof();
@@ -13119,7 +13067,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_client_pool_sizeof
         case snd_seq_client_pool_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_client_pool_sizeof();
@@ -13889,7 +13836,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_port_info_sizeof
         case snd_seq_port_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_port_info_sizeof();
@@ -14033,7 +13979,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_port_subscribe_sizeof
         case snd_seq_port_subscribe_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_port_subscribe_sizeof();
@@ -14259,7 +14204,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_query_subscribe_sizeof
         case snd_seq_query_subscribe_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_query_subscribe_sizeof();
@@ -14377,7 +14321,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_queue_info_sizeof
         case snd_seq_queue_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_queue_info_sizeof();
@@ -14463,7 +14406,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_queue_status_sizeof
         case snd_seq_queue_status_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_queue_status_sizeof();
@@ -14581,7 +14523,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_queue_tempo_sizeof
         case snd_seq_queue_tempo_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_queue_tempo_sizeof();
@@ -14681,7 +14622,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_queue_timer_sizeof
         case snd_seq_queue_timer_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_queue_timer_sizeof();
@@ -14853,7 +14793,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_remove_events_sizeof
         case snd_seq_remove_events_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_remove_events_sizeof();
@@ -15137,7 +15076,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_seq_system_info_sizeof
         case snd_seq_system_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_seq_system_info_sizeof();
@@ -15383,7 +15321,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_timer_ginfo_sizeof
         case snd_timer_ginfo_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_timer_ginfo_sizeof();
@@ -15509,7 +15446,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_timer_id_sizeof
         case snd_timer_id_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_timer_id_sizeof();
@@ -15615,7 +15551,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_timer_info_sizeof
         case snd_timer_info_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_timer_info_sizeof();
@@ -15795,7 +15730,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_timer_params_sizeof
         case snd_timer_params_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_timer_params_sizeof();
@@ -16011,7 +15945,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
         #ifndef skip_index_snd_timer_status_sizeof
         case snd_timer_status_sizeof_INDEX: {
             INDEXED_size_t *unpacked = (INDEXED_size_t *)packed;
-            ARGS_size_t args = unpacked->args;
             size_t *ret = (size_t *)ret_v;
             *ret =
             snd_timer_status_sizeof();
