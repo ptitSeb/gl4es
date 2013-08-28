@@ -11,7 +11,7 @@ void glAccum(GLenum op, GLfloat value) {
     packed_data->func = glAccum_INDEX;
     packed_data->args.a1 = (GLenum)op;
     packed_data->args.a2 = (GLfloat)value;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glActiveTexture
@@ -19,7 +19,7 @@ void glActiveTexture(GLenum texture) {
     glActiveTexture_INDEXED *packed_data;
     packed_data->func = glActiveTexture_INDEX;
     packed_data->args.a1 = (GLenum)texture;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glAlphaFunc
@@ -28,7 +28,7 @@ void glAlphaFunc(GLenum func, GLfloat ref) {
     packed_data->func = glAlphaFunc_INDEX;
     packed_data->args.a1 = (GLenum)func;
     packed_data->args.a2 = (GLfloat)ref;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glAreTexturesResident
@@ -39,7 +39,7 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint * textures, GLboolean * 
     packed_data->args.a2 = (GLuint *)textures;
     packed_data->args.a3 = (GLboolean *)residences;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -48,7 +48,7 @@ void glArrayElement(GLint i) {
     glArrayElement_INDEXED *packed_data;
     packed_data->func = glArrayElement_INDEX;
     packed_data->args.a1 = (GLint)i;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBegin
@@ -56,7 +56,7 @@ void glBegin(GLenum mode) {
     glBegin_INDEXED *packed_data;
     packed_data->func = glBegin_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBeginQuery
@@ -65,7 +65,7 @@ void glBeginQuery(GLenum target, GLuint id) {
     packed_data->func = glBeginQuery_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)id;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBindBuffer
@@ -74,7 +74,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     packed_data->func = glBindBuffer_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)buffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBindTexture
@@ -83,7 +83,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     packed_data->func = glBindTexture_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLuint)texture;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBitmap
@@ -97,7 +97,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLflo
     packed_data->args.a5 = (GLfloat)xmove;
     packed_data->args.a6 = (GLfloat)ymove;
     packed_data->args.a7 = (GLubyte *)bitmap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendColor
@@ -108,7 +108,7 @@ void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendEquation
@@ -116,7 +116,7 @@ void glBlendEquation(GLenum mode) {
     glBlendEquation_INDEXED *packed_data;
     packed_data->func = glBlendEquation_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendFunc
@@ -125,7 +125,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     packed_data->func = glBlendFunc_INDEX;
     packed_data->args.a1 = (GLenum)sfactor;
     packed_data->args.a2 = (GLenum)dfactor;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBlendFuncSeparate
@@ -136,7 +136,7 @@ void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlp
     packed_data->args.a2 = (GLenum)dfactorRGB;
     packed_data->args.a3 = (GLenum)sfactorAlpha;
     packed_data->args.a4 = (GLenum)dfactorAlpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBufferData
@@ -147,7 +147,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     packed_data->args.a2 = (GLsizeiptr)size;
     packed_data->args.a3 = (GLvoid *)data;
     packed_data->args.a4 = (GLenum)usage;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glBufferSubData
@@ -158,7 +158,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     packed_data->args.a2 = (GLintptr)offset;
     packed_data->args.a3 = (GLsizeiptr)size;
     packed_data->args.a4 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCallList
@@ -166,7 +166,7 @@ void glCallList(GLuint list) {
     glCallList_INDEXED *packed_data;
     packed_data->func = glCallList_INDEX;
     packed_data->args.a1 = (GLuint)list;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCallLists
@@ -176,7 +176,7 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid * lists) {
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLvoid *)lists;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClear
@@ -184,7 +184,7 @@ void glClear(GLbitfield mask) {
     glClear_INDEXED *packed_data;
     packed_data->func = glClear_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearAccum
@@ -195,7 +195,7 @@ void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearColor
@@ -206,7 +206,7 @@ void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearDepth
@@ -214,7 +214,7 @@ void glClearDepth(GLdouble depth) {
     glClearDepth_INDEXED *packed_data;
     packed_data->func = glClearDepth_INDEX;
     packed_data->args.a1 = (GLdouble)depth;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearIndex
@@ -222,7 +222,7 @@ void glClearIndex(GLfloat c) {
     glClearIndex_INDEXED *packed_data;
     packed_data->func = glClearIndex_INDEX;
     packed_data->args.a1 = (GLfloat)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClearStencil
@@ -230,7 +230,7 @@ void glClearStencil(GLint s) {
     glClearStencil_INDEXED *packed_data;
     packed_data->func = glClearStencil_INDEX;
     packed_data->args.a1 = (GLint)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClientActiveTexture
@@ -238,7 +238,7 @@ void glClientActiveTexture(GLenum texture) {
     glClientActiveTexture_INDEXED *packed_data;
     packed_data->func = glClientActiveTexture_INDEX;
     packed_data->args.a1 = (GLenum)texture;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glClipPlane
@@ -247,7 +247,7 @@ void glClipPlane(GLenum plane, const GLdouble * equation) {
     packed_data->func = glClipPlane_INDEX;
     packed_data->args.a1 = (GLenum)plane;
     packed_data->args.a2 = (GLdouble *)equation;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3b
@@ -257,7 +257,7 @@ void glColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a1 = (GLbyte)red;
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3bv
@@ -265,7 +265,7 @@ void glColor3bv(const GLbyte * v) {
     glColor3bv_INDEXED *packed_data;
     packed_data->func = glColor3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3d
@@ -275,7 +275,7 @@ void glColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a1 = (GLdouble)red;
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3dv
@@ -283,7 +283,7 @@ void glColor3dv(const GLdouble * v) {
     glColor3dv_INDEXED *packed_data;
     packed_data->func = glColor3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3f
@@ -293,7 +293,7 @@ void glColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a1 = (GLfloat)red;
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3fv
@@ -301,7 +301,7 @@ void glColor3fv(const GLfloat * v) {
     glColor3fv_INDEXED *packed_data;
     packed_data->func = glColor3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3i
@@ -311,7 +311,7 @@ void glColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a1 = (GLint)red;
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3iv
@@ -319,7 +319,7 @@ void glColor3iv(const GLint * v) {
     glColor3iv_INDEXED *packed_data;
     packed_data->func = glColor3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3s
@@ -329,7 +329,7 @@ void glColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a1 = (GLshort)red;
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3sv
@@ -337,7 +337,7 @@ void glColor3sv(const GLshort * v) {
     glColor3sv_INDEXED *packed_data;
     packed_data->func = glColor3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ub
@@ -347,7 +347,7 @@ void glColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a1 = (GLubyte)red;
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ubv
@@ -355,7 +355,7 @@ void glColor3ubv(const GLubyte * v) {
     glColor3ubv_INDEXED *packed_data;
     packed_data->func = glColor3ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3ui
@@ -365,7 +365,7 @@ void glColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a1 = (GLuint)red;
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3uiv
@@ -373,7 +373,7 @@ void glColor3uiv(const GLuint * v) {
     glColor3uiv_INDEXED *packed_data;
     packed_data->func = glColor3uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3us
@@ -383,7 +383,7 @@ void glColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a1 = (GLushort)red;
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor3usv
@@ -391,7 +391,7 @@ void glColor3usv(const GLushort * v) {
     glColor3usv_INDEXED *packed_data;
     packed_data->func = glColor3usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4b
@@ -402,7 +402,7 @@ void glColor4b(GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha) {
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
     packed_data->args.a4 = (GLbyte)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4bv
@@ -410,7 +410,7 @@ void glColor4bv(const GLbyte * v) {
     glColor4bv_INDEXED *packed_data;
     packed_data->func = glColor4bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4d
@@ -421,7 +421,7 @@ void glColor4d(GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha) {
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
     packed_data->args.a4 = (GLdouble)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4dv
@@ -429,7 +429,7 @@ void glColor4dv(const GLdouble * v) {
     glColor4dv_INDEXED *packed_data;
     packed_data->func = glColor4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4f
@@ -440,7 +440,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
     packed_data->args.a4 = (GLfloat)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4fv
@@ -448,7 +448,7 @@ void glColor4fv(const GLfloat * v) {
     glColor4fv_INDEXED *packed_data;
     packed_data->func = glColor4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4i
@@ -459,7 +459,7 @@ void glColor4i(GLint red, GLint green, GLint blue, GLint alpha) {
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
     packed_data->args.a4 = (GLint)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4iv
@@ -467,7 +467,7 @@ void glColor4iv(const GLint * v) {
     glColor4iv_INDEXED *packed_data;
     packed_data->func = glColor4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4s
@@ -478,7 +478,7 @@ void glColor4s(GLshort red, GLshort green, GLshort blue, GLshort alpha) {
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
     packed_data->args.a4 = (GLshort)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4sv
@@ -486,7 +486,7 @@ void glColor4sv(const GLshort * v) {
     glColor4sv_INDEXED *packed_data;
     packed_data->func = glColor4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ub
@@ -497,7 +497,7 @@ void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
     packed_data->args.a4 = (GLubyte)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ubv
@@ -505,7 +505,7 @@ void glColor4ubv(const GLubyte * v) {
     glColor4ubv_INDEXED *packed_data;
     packed_data->func = glColor4ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4ui
@@ -516,7 +516,7 @@ void glColor4ui(GLuint red, GLuint green, GLuint blue, GLuint alpha) {
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
     packed_data->args.a4 = (GLuint)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4uiv
@@ -524,7 +524,7 @@ void glColor4uiv(const GLuint * v) {
     glColor4uiv_INDEXED *packed_data;
     packed_data->func = glColor4uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4us
@@ -535,7 +535,7 @@ void glColor4us(GLushort red, GLushort green, GLushort blue, GLushort alpha) {
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
     packed_data->args.a4 = (GLushort)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColor4usv
@@ -543,7 +543,7 @@ void glColor4usv(const GLushort * v) {
     glColor4usv_INDEXED *packed_data;
     packed_data->func = glColor4usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorMask
@@ -554,7 +554,7 @@ void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha
     packed_data->args.a2 = (GLboolean)green;
     packed_data->args.a3 = (GLboolean)blue;
     packed_data->args.a4 = (GLboolean)alpha;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorMaterial
@@ -563,7 +563,7 @@ void glColorMaterial(GLenum face, GLenum mode) {
     packed_data->func = glColorMaterial_INDEX;
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorPointer
@@ -574,7 +574,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poin
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorSubTable
@@ -587,7 +587,7 @@ void glColorSubTable(GLenum target, GLsizei start, GLsizei count, GLenum format,
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTable
@@ -600,7 +600,7 @@ void glColorTable(GLenum target, GLenum internalformat, GLsizei width, GLenum fo
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)table;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTableParameterfv
@@ -610,7 +610,7 @@ void glColorTableParameterfv(GLenum target, GLenum pname, const GLfloat * params
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glColorTableParameteriv
@@ -620,7 +620,7 @@ void glColorTableParameteriv(GLenum target, GLenum pname, const GLint * params) 
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage1D
@@ -634,7 +634,7 @@ void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a5 = (GLint)border;
     packed_data->args.a6 = (GLsizei)imageSize;
     packed_data->args.a7 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage2D
@@ -649,7 +649,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a6 = (GLint)border;
     packed_data->args.a7 = (GLsizei)imageSize;
     packed_data->args.a8 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexImage3D
@@ -665,7 +665,7 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, G
     packed_data->args.a7 = (GLint)border;
     packed_data->args.a8 = (GLsizei)imageSize;
     packed_data->args.a9 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage1D
@@ -679,7 +679,7 @@ void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsize
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLsizei)imageSize;
     packed_data->args.a7 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage2D
@@ -695,7 +695,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLsizei)imageSize;
     packed_data->args.a9 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCompressedTexSubImage3D
@@ -713,7 +713,7 @@ void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint 
     packed_data->args.a9 = (GLenum)format;
     packed_data->args.a10 = (GLsizei)imageSize;
     packed_data->args.a11 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter1D
@@ -726,7 +726,7 @@ void glConvolutionFilter1D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a4 = (GLenum)format;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)image;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionFilter2D
@@ -740,7 +740,7 @@ void glConvolutionFilter2D(GLenum target, GLenum internalformat, GLsizei width, 
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)image;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterf
@@ -750,7 +750,7 @@ void glConvolutionParameterf(GLenum target, GLenum pname, GLfloat params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameterfv
@@ -760,7 +760,7 @@ void glConvolutionParameterfv(GLenum target, GLenum pname, const GLfloat * param
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteri
@@ -770,7 +770,7 @@ void glConvolutionParameteri(GLenum target, GLenum pname, GLint params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glConvolutionParameteriv
@@ -780,7 +780,7 @@ void glConvolutionParameteriv(GLenum target, GLenum pname, const GLint * params)
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyColorSubTable
@@ -792,7 +792,7 @@ void glCopyColorSubTable(GLenum target, GLsizei start, GLint x, GLint y, GLsizei
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyColorTable
@@ -804,7 +804,7 @@ void glCopyColorTable(GLenum target, GLenum internalformat, GLint x, GLint y, GL
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter1D
@@ -816,7 +816,7 @@ void glCopyConvolutionFilter1D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a3 = (GLint)x;
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyConvolutionFilter2D
@@ -829,7 +829,7 @@ void glCopyConvolutionFilter2D(GLenum target, GLenum internalformat, GLint x, GL
     packed_data->args.a4 = (GLint)y;
     packed_data->args.a5 = (GLsizei)width;
     packed_data->args.a6 = (GLsizei)height;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyPixels
@@ -841,7 +841,7 @@ void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type) 
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
     packed_data->args.a5 = (GLenum)type;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexImage1D
@@ -855,7 +855,7 @@ void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a5 = (GLint)y;
     packed_data->args.a6 = (GLsizei)width;
     packed_data->args.a7 = (GLint)border;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexImage2D
@@ -870,7 +870,7 @@ void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x
     packed_data->args.a6 = (GLsizei)width;
     packed_data->args.a7 = (GLsizei)height;
     packed_data->args.a8 = (GLint)border;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage1D
@@ -883,7 +883,7 @@ void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLi
     packed_data->args.a4 = (GLint)x;
     packed_data->args.a5 = (GLint)y;
     packed_data->args.a6 = (GLsizei)width;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage2D
@@ -898,7 +898,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a6 = (GLint)y;
     packed_data->args.a7 = (GLsizei)width;
     packed_data->args.a8 = (GLsizei)height;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCopyTexSubImage3D
@@ -914,7 +914,7 @@ void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     packed_data->args.a7 = (GLint)y;
     packed_data->args.a8 = (GLsizei)width;
     packed_data->args.a9 = (GLsizei)height;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glCullFace
@@ -922,7 +922,7 @@ void glCullFace(GLenum mode) {
     glCullFace_INDEXED *packed_data;
     packed_data->func = glCullFace_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteBuffers
@@ -931,7 +931,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     packed_data->func = glDeleteBuffers_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)buffers;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteLists
@@ -940,7 +940,7 @@ void glDeleteLists(GLuint list, GLsizei range) {
     packed_data->func = glDeleteLists_INDEX;
     packed_data->args.a1 = (GLuint)list;
     packed_data->args.a2 = (GLsizei)range;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteQueries
@@ -949,7 +949,7 @@ void glDeleteQueries(GLsizei n, const GLuint * ids) {
     packed_data->func = glDeleteQueries_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)ids;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDeleteTextures
@@ -958,7 +958,7 @@ void glDeleteTextures(GLsizei n, const GLuint * textures) {
     packed_data->func = glDeleteTextures_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthFunc
@@ -966,7 +966,7 @@ void glDepthFunc(GLenum func) {
     glDepthFunc_INDEXED *packed_data;
     packed_data->func = glDepthFunc_INDEX;
     packed_data->args.a1 = (GLenum)func;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthMask
@@ -974,7 +974,7 @@ void glDepthMask(GLboolean flag) {
     glDepthMask_INDEXED *packed_data;
     packed_data->func = glDepthMask_INDEX;
     packed_data->args.a1 = (GLboolean)flag;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDepthRange
@@ -983,7 +983,7 @@ void glDepthRange(GLdouble near, GLdouble far) {
     packed_data->func = glDepthRange_INDEX;
     packed_data->args.a1 = (GLdouble)near;
     packed_data->args.a2 = (GLdouble)far;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDisable
@@ -991,7 +991,7 @@ void glDisable(GLenum cap) {
     glDisable_INDEXED *packed_data;
     packed_data->func = glDisable_INDEX;
     packed_data->args.a1 = (GLenum)cap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDisableClientState
@@ -999,7 +999,7 @@ void glDisableClientState(GLenum array) {
     glDisableClientState_INDEXED *packed_data;
     packed_data->func = glDisableClientState_INDEX;
     packed_data->args.a1 = (GLenum)array;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawArrays
@@ -1009,7 +1009,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     packed_data->args.a1 = (GLenum)mode;
     packed_data->args.a2 = (GLint)first;
     packed_data->args.a3 = (GLsizei)count;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawBuffer
@@ -1017,7 +1017,7 @@ void glDrawBuffer(GLenum mode) {
     glDrawBuffer_INDEXED *packed_data;
     packed_data->func = glDrawBuffer_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawElements
@@ -1028,7 +1028,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indi
     packed_data->args.a2 = (GLsizei)count;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)indices;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawPixels
@@ -1040,7 +1040,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, con
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glDrawRangeElements
@@ -1053,7 +1053,7 @@ void glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, G
     packed_data->args.a4 = (GLsizei)count;
     packed_data->args.a5 = (GLenum)type;
     packed_data->args.a6 = (GLvoid *)indices;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlag
@@ -1061,7 +1061,7 @@ void glEdgeFlag(GLboolean flag) {
     glEdgeFlag_INDEXED *packed_data;
     packed_data->func = glEdgeFlag_INDEX;
     packed_data->args.a1 = (GLboolean)flag;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlagPointer
@@ -1070,7 +1070,7 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     packed_data->func = glEdgeFlagPointer_INDEX;
     packed_data->args.a1 = (GLsizei)stride;
     packed_data->args.a2 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEdgeFlagv
@@ -1078,7 +1078,7 @@ void glEdgeFlagv(const GLboolean * flag) {
     glEdgeFlagv_INDEXED *packed_data;
     packed_data->func = glEdgeFlagv_INDEX;
     packed_data->args.a1 = (GLboolean *)flag;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnable
@@ -1086,7 +1086,7 @@ void glEnable(GLenum cap) {
     glEnable_INDEXED *packed_data;
     packed_data->func = glEnable_INDEX;
     packed_data->args.a1 = (GLenum)cap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnableClientState
@@ -1094,21 +1094,21 @@ void glEnableClientState(GLenum array) {
     glEnableClientState_INDEXED *packed_data;
     packed_data->func = glEnableClientState_INDEX;
     packed_data->args.a1 = (GLenum)array;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEnd
 void glEnd() {
     glEnd_INDEXED *packed_data;
     packed_data->func = glEnd_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEndList
 void glEndList() {
     glEndList_INDEXED *packed_data;
     packed_data->func = glEndList_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEndQuery
@@ -1116,7 +1116,7 @@ void glEndQuery(GLenum target) {
     glEndQuery_INDEXED *packed_data;
     packed_data->func = glEndQuery_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1d
@@ -1124,7 +1124,7 @@ void glEvalCoord1d(GLdouble u) {
     glEvalCoord1d_INDEXED *packed_data;
     packed_data->func = glEvalCoord1d_INDEX;
     packed_data->args.a1 = (GLdouble)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1dv
@@ -1132,7 +1132,7 @@ void glEvalCoord1dv(const GLdouble * u) {
     glEvalCoord1dv_INDEXED *packed_data;
     packed_data->func = glEvalCoord1dv_INDEX;
     packed_data->args.a1 = (GLdouble *)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1f
@@ -1140,7 +1140,7 @@ void glEvalCoord1f(GLfloat u) {
     glEvalCoord1f_INDEXED *packed_data;
     packed_data->func = glEvalCoord1f_INDEX;
     packed_data->args.a1 = (GLfloat)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord1fv
@@ -1148,7 +1148,7 @@ void glEvalCoord1fv(const GLfloat * u) {
     glEvalCoord1fv_INDEXED *packed_data;
     packed_data->func = glEvalCoord1fv_INDEX;
     packed_data->args.a1 = (GLfloat *)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2d
@@ -1157,7 +1157,7 @@ void glEvalCoord2d(GLdouble u, GLdouble v) {
     packed_data->func = glEvalCoord2d_INDEX;
     packed_data->args.a1 = (GLdouble)u;
     packed_data->args.a2 = (GLdouble)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2dv
@@ -1165,7 +1165,7 @@ void glEvalCoord2dv(const GLdouble * u) {
     glEvalCoord2dv_INDEXED *packed_data;
     packed_data->func = glEvalCoord2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2f
@@ -1174,7 +1174,7 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
     packed_data->func = glEvalCoord2f_INDEX;
     packed_data->args.a1 = (GLfloat)u;
     packed_data->args.a2 = (GLfloat)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalCoord2fv
@@ -1182,7 +1182,7 @@ void glEvalCoord2fv(const GLfloat * u) {
     glEvalCoord2fv_INDEXED *packed_data;
     packed_data->func = glEvalCoord2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)u;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalMesh1
@@ -1192,7 +1192,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     packed_data->args.a1 = (GLenum)mode;
     packed_data->args.a2 = (GLint)i1;
     packed_data->args.a3 = (GLint)i2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalMesh2
@@ -1204,7 +1204,7 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     packed_data->args.a3 = (GLint)i2;
     packed_data->args.a4 = (GLint)j1;
     packed_data->args.a5 = (GLint)j2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalPoint1
@@ -1212,7 +1212,7 @@ void glEvalPoint1(GLint i) {
     glEvalPoint1_INDEXED *packed_data;
     packed_data->func = glEvalPoint1_INDEX;
     packed_data->args.a1 = (GLint)i;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glEvalPoint2
@@ -1221,7 +1221,7 @@ void glEvalPoint2(GLint i, GLint j) {
     packed_data->func = glEvalPoint2_INDEX;
     packed_data->args.a1 = (GLint)i;
     packed_data->args.a2 = (GLint)j;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFeedbackBuffer
@@ -1231,21 +1231,21 @@ void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat * buffer) {
     packed_data->args.a1 = (GLsizei)size;
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLfloat *)buffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFinish
 void glFinish() {
     glFinish_INDEXED *packed_data;
     packed_data->func = glFinish_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFlush
 void glFlush() {
     glFlush_INDEXED *packed_data;
     packed_data->func = glFlush_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordPointer
@@ -1255,7 +1255,7 @@ void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordd
@@ -1263,7 +1263,7 @@ void glFogCoordd(GLdouble coord) {
     glFogCoordd_INDEXED *packed_data;
     packed_data->func = glFogCoordd_INDEX;
     packed_data->args.a1 = (GLdouble)coord;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoorddv
@@ -1271,7 +1271,7 @@ void glFogCoorddv(const GLdouble * coord) {
     glFogCoorddv_INDEXED *packed_data;
     packed_data->func = glFogCoorddv_INDEX;
     packed_data->args.a1 = (GLdouble *)coord;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordf
@@ -1279,7 +1279,7 @@ void glFogCoordf(GLfloat coord) {
     glFogCoordf_INDEXED *packed_data;
     packed_data->func = glFogCoordf_INDEX;
     packed_data->args.a1 = (GLfloat)coord;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogCoordfv
@@ -1287,7 +1287,7 @@ void glFogCoordfv(const GLfloat * coord) {
     glFogCoordfv_INDEXED *packed_data;
     packed_data->func = glFogCoordfv_INDEX;
     packed_data->args.a1 = (GLfloat *)coord;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogf
@@ -1296,7 +1296,7 @@ void glFogf(GLenum pname, GLfloat param) {
     packed_data->func = glFogf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogfv
@@ -1305,7 +1305,7 @@ void glFogfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glFogfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogi
@@ -1314,7 +1314,7 @@ void glFogi(GLenum pname, GLint param) {
     packed_data->func = glFogi_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFogiv
@@ -1323,7 +1323,7 @@ void glFogiv(GLenum pname, const GLint * params) {
     packed_data->func = glFogiv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFrontFace
@@ -1331,7 +1331,7 @@ void glFrontFace(GLenum mode) {
     glFrontFace_INDEXED *packed_data;
     packed_data->func = glFrontFace_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glFrustum
@@ -1344,7 +1344,7 @@ void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLd
     packed_data->args.a4 = (GLdouble)top;
     packed_data->args.a5 = (GLdouble)zNear;
     packed_data->args.a6 = (GLdouble)zFar;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenBuffers
@@ -1353,7 +1353,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     packed_data->func = glGenBuffers_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)buffers;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenLists
@@ -1362,7 +1362,7 @@ GLuint glGenLists(GLsizei range) {
     packed_data->func = glGenLists_INDEX;
     packed_data->args.a1 = (GLsizei)range;
     GLuint ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -1372,7 +1372,7 @@ void glGenQueries(GLsizei n, GLuint * ids) {
     packed_data->func = glGenQueries_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)ids;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGenTextures
@@ -1381,7 +1381,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
     packed_data->func = glGenTextures_INDEX;
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBooleanv
@@ -1390,7 +1390,7 @@ void glGetBooleanv(GLenum pname, GLboolean * params) {
     packed_data->func = glGetBooleanv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLboolean *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferParameteriv
@@ -1400,7 +1400,7 @@ void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferPointerv
@@ -1410,7 +1410,7 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLvoid *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetBufferSubData
@@ -1421,7 +1421,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
     packed_data->args.a2 = (GLintptr)offset;
     packed_data->args.a3 = (GLsizeiptr)size;
     packed_data->args.a4 = (GLvoid *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetClipPlane
@@ -1430,7 +1430,7 @@ void glGetClipPlane(GLenum plane, GLdouble * equation) {
     packed_data->func = glGetClipPlane_INDEX;
     packed_data->args.a1 = (GLenum)plane;
     packed_data->args.a2 = (GLdouble *)equation;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTable
@@ -1441,7 +1441,7 @@ void glGetColorTable(GLenum target, GLenum format, GLenum type, GLvoid * table) 
     packed_data->args.a2 = (GLenum)format;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)table;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameterfv
@@ -1451,7 +1451,7 @@ void glGetColorTableParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetColorTableParameteriv
@@ -1461,7 +1461,7 @@ void glGetColorTableParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetCompressedTexImage
@@ -1471,7 +1471,7 @@ void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * img) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLvoid *)img;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionFilter
@@ -1482,7 +1482,7 @@ void glGetConvolutionFilter(GLenum target, GLenum format, GLenum type, GLvoid * 
     packed_data->args.a2 = (GLenum)format;
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid *)image;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameterfv
@@ -1492,7 +1492,7 @@ void glGetConvolutionParameterfv(GLenum target, GLenum pname, GLfloat * params) 
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetConvolutionParameteriv
@@ -1502,7 +1502,7 @@ void glGetConvolutionParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetDoublev
@@ -1511,7 +1511,7 @@ void glGetDoublev(GLenum pname, GLdouble * params) {
     packed_data->func = glGetDoublev_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLdouble *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetError
@@ -1519,7 +1519,7 @@ GLenum glGetError() {
     glGetError_INDEXED *packed_data;
     packed_data->func = glGetError_INDEX;
     GLenum ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -1529,7 +1529,7 @@ void glGetFloatv(GLenum pname, GLfloat * params) {
     packed_data->func = glGetFloatv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogram
@@ -1541,7 +1541,7 @@ void glGetHistogram(GLenum target, GLboolean reset, GLenum format, GLenum type, 
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameterfv
@@ -1551,7 +1551,7 @@ void glGetHistogramParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetHistogramParameteriv
@@ -1561,7 +1561,7 @@ void glGetHistogramParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetIntegerv
@@ -1570,7 +1570,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
     packed_data->func = glGetIntegerv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetLightfv
@@ -1580,7 +1580,7 @@ void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetLightiv
@@ -1590,7 +1590,7 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapdv
@@ -1600,7 +1600,7 @@ void glGetMapdv(GLenum target, GLenum query, GLdouble * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapfv
@@ -1610,7 +1610,7 @@ void glGetMapfv(GLenum target, GLenum query, GLfloat * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMapiv
@@ -1620,7 +1620,7 @@ void glGetMapiv(GLenum target, GLenum query, GLint * v) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)query;
     packed_data->args.a3 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMaterialfv
@@ -1630,7 +1630,7 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMaterialiv
@@ -1640,7 +1640,7 @@ void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmax
@@ -1652,7 +1652,7 @@ void glGetMinmax(GLenum target, GLboolean reset, GLenum format, GLenum type, GLv
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameterfv
@@ -1662,7 +1662,7 @@ void glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetMinmaxParameteriv
@@ -1672,7 +1672,7 @@ void glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapfv
@@ -1681,7 +1681,7 @@ void glGetPixelMapfv(GLenum map, GLfloat * values) {
     packed_data->func = glGetPixelMapfv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLfloat *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapuiv
@@ -1690,7 +1690,7 @@ void glGetPixelMapuiv(GLenum map, GLuint * values) {
     packed_data->func = glGetPixelMapuiv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLuint *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPixelMapusv
@@ -1699,7 +1699,7 @@ void glGetPixelMapusv(GLenum map, GLushort * values) {
     packed_data->func = glGetPixelMapusv_INDEX;
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLushort *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPointerv
@@ -1708,7 +1708,7 @@ void glGetPointerv(GLenum pname, GLvoid ** params) {
     packed_data->func = glGetPointerv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLvoid **)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetPolygonStipple
@@ -1716,7 +1716,7 @@ void glGetPolygonStipple(GLubyte * mask) {
     glGetPolygonStipple_INDEXED *packed_data;
     packed_data->func = glGetPolygonStipple_INDEX;
     packed_data->args.a1 = (GLubyte *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectiv
@@ -1726,7 +1726,7 @@ void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLuint)id;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryObjectuiv
@@ -1736,7 +1736,7 @@ void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) {
     packed_data->args.a1 = (GLuint)id;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLuint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetQueryiv
@@ -1746,7 +1746,7 @@ void glGetQueryiv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetSeparableFilter
@@ -1759,7 +1759,7 @@ void glGetSeparableFilter(GLenum target, GLenum format, GLenum type, GLvoid * ro
     packed_data->args.a4 = (GLvoid *)row;
     packed_data->args.a5 = (GLvoid *)column;
     packed_data->args.a6 = (GLvoid *)span;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetString
@@ -1768,7 +1768,7 @@ const GLubyte * glGetString(GLenum name) {
     packed_data->func = glGetString_INDEX;
     packed_data->args.a1 = (GLenum)name;
     const GLubyte * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -1779,7 +1779,7 @@ void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexEnviv
@@ -1789,7 +1789,7 @@ void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGendv
@@ -1799,7 +1799,7 @@ void glGetTexGendv(GLenum coord, GLenum pname, GLdouble * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGenfv
@@ -1809,7 +1809,7 @@ void glGetTexGenfv(GLenum coord, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexGeniv
@@ -1819,7 +1819,7 @@ void glGetTexGeniv(GLenum coord, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexImage
@@ -1831,7 +1831,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     packed_data->args.a3 = (GLenum)format;
     packed_data->args.a4 = (GLenum)type;
     packed_data->args.a5 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameterfv
@@ -1842,7 +1842,7 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLenum)pname;
     packed_data->args.a4 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexLevelParameteriv
@@ -1853,7 +1853,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * 
     packed_data->args.a2 = (GLint)level;
     packed_data->args.a3 = (GLenum)pname;
     packed_data->args.a4 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexParameterfv
@@ -1863,7 +1863,7 @@ void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glGetTexParameteriv
@@ -1873,7 +1873,7 @@ void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glHint
@@ -1882,7 +1882,7 @@ void glHint(GLenum target, GLenum mode) {
     packed_data->func = glHint_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glHistogram
@@ -1893,7 +1893,7 @@ void glHistogram(GLenum target, GLsizei width, GLenum internalformat, GLboolean 
     packed_data->args.a2 = (GLsizei)width;
     packed_data->args.a3 = (GLenum)internalformat;
     packed_data->args.a4 = (GLboolean)sink;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexMask
@@ -1901,7 +1901,7 @@ void glIndexMask(GLuint mask) {
     glIndexMask_INDEXED *packed_data;
     packed_data->func = glIndexMask_INDEX;
     packed_data->args.a1 = (GLuint)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexPointer
@@ -1911,7 +1911,7 @@ void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexd
@@ -1919,7 +1919,7 @@ void glIndexd(GLdouble c) {
     glIndexd_INDEXED *packed_data;
     packed_data->func = glIndexd_INDEX;
     packed_data->args.a1 = (GLdouble)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexdv
@@ -1927,7 +1927,7 @@ void glIndexdv(const GLdouble * c) {
     glIndexdv_INDEXED *packed_data;
     packed_data->func = glIndexdv_INDEX;
     packed_data->args.a1 = (GLdouble *)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexf
@@ -1935,7 +1935,7 @@ void glIndexf(GLfloat c) {
     glIndexf_INDEXED *packed_data;
     packed_data->func = glIndexf_INDEX;
     packed_data->args.a1 = (GLfloat)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexfv
@@ -1943,7 +1943,7 @@ void glIndexfv(const GLfloat * c) {
     glIndexfv_INDEXED *packed_data;
     packed_data->func = glIndexfv_INDEX;
     packed_data->args.a1 = (GLfloat *)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexi
@@ -1951,7 +1951,7 @@ void glIndexi(GLint c) {
     glIndexi_INDEXED *packed_data;
     packed_data->func = glIndexi_INDEX;
     packed_data->args.a1 = (GLint)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexiv
@@ -1959,7 +1959,7 @@ void glIndexiv(const GLint * c) {
     glIndexiv_INDEXED *packed_data;
     packed_data->func = glIndexiv_INDEX;
     packed_data->args.a1 = (GLint *)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexs
@@ -1967,7 +1967,7 @@ void glIndexs(GLshort c) {
     glIndexs_INDEXED *packed_data;
     packed_data->func = glIndexs_INDEX;
     packed_data->args.a1 = (GLshort)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexsv
@@ -1975,7 +1975,7 @@ void glIndexsv(const GLshort * c) {
     glIndexsv_INDEXED *packed_data;
     packed_data->func = glIndexsv_INDEX;
     packed_data->args.a1 = (GLshort *)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexub
@@ -1983,7 +1983,7 @@ void glIndexub(GLubyte c) {
     glIndexub_INDEXED *packed_data;
     packed_data->func = glIndexub_INDEX;
     packed_data->args.a1 = (GLubyte)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIndexubv
@@ -1991,14 +1991,14 @@ void glIndexubv(const GLubyte * c) {
     glIndexubv_INDEXED *packed_data;
     packed_data->func = glIndexubv_INDEX;
     packed_data->args.a1 = (GLubyte *)c;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glInitNames
 void glInitNames() {
     glInitNames_INDEXED *packed_data;
     packed_data->func = glInitNames_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glInterleavedArrays
@@ -2008,7 +2008,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid * pointer) 
     packed_data->args.a1 = (GLenum)format;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glIsBuffer
@@ -2017,7 +2017,7 @@ GLboolean glIsBuffer(GLuint buffer) {
     packed_data->func = glIsBuffer_INDEX;
     packed_data->args.a1 = (GLuint)buffer;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2027,7 +2027,7 @@ GLboolean glIsEnabled(GLenum cap) {
     packed_data->func = glIsEnabled_INDEX;
     packed_data->args.a1 = (GLenum)cap;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2037,7 +2037,7 @@ GLboolean glIsList(GLuint list) {
     packed_data->func = glIsList_INDEX;
     packed_data->args.a1 = (GLuint)list;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2047,7 +2047,7 @@ GLboolean glIsQuery(GLuint id) {
     packed_data->func = glIsQuery_INDEX;
     packed_data->args.a1 = (GLuint)id;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2057,7 +2057,7 @@ GLboolean glIsTexture(GLuint texture) {
     packed_data->func = glIsTexture_INDEX;
     packed_data->args.a1 = (GLuint)texture;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2067,7 +2067,7 @@ void glLightModelf(GLenum pname, GLfloat param) {
     packed_data->func = glLightModelf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModelfv
@@ -2076,7 +2076,7 @@ void glLightModelfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glLightModelfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModeli
@@ -2085,7 +2085,7 @@ void glLightModeli(GLenum pname, GLint param) {
     packed_data->func = glLightModeli_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightModeliv
@@ -2094,7 +2094,7 @@ void glLightModeliv(GLenum pname, const GLint * params) {
     packed_data->func = glLightModeliv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightf
@@ -2104,7 +2104,7 @@ void glLightf(GLenum light, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightfv
@@ -2114,7 +2114,7 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLighti
@@ -2124,7 +2124,7 @@ void glLighti(GLenum light, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLightiv
@@ -2134,7 +2134,7 @@ void glLightiv(GLenum light, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)light;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLineStipple
@@ -2143,7 +2143,7 @@ void glLineStipple(GLint factor, GLushort pattern) {
     packed_data->func = glLineStipple_INDEX;
     packed_data->args.a1 = (GLint)factor;
     packed_data->args.a2 = (GLushort)pattern;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLineWidth
@@ -2151,7 +2151,7 @@ void glLineWidth(GLfloat width) {
     glLineWidth_INDEXED *packed_data;
     packed_data->func = glLineWidth_INDEX;
     packed_data->args.a1 = (GLfloat)width;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glListBase
@@ -2159,14 +2159,14 @@ void glListBase(GLuint base) {
     glListBase_INDEXED *packed_data;
     packed_data->func = glListBase_INDEX;
     packed_data->args.a1 = (GLuint)base;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadIdentity
 void glLoadIdentity() {
     glLoadIdentity_INDEXED *packed_data;
     packed_data->func = glLoadIdentity_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadMatrixd
@@ -2174,7 +2174,7 @@ void glLoadMatrixd(const GLdouble * m) {
     glLoadMatrixd_INDEXED *packed_data;
     packed_data->func = glLoadMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadMatrixf
@@ -2182,7 +2182,7 @@ void glLoadMatrixf(const GLfloat * m) {
     glLoadMatrixf_INDEXED *packed_data;
     packed_data->func = glLoadMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadName
@@ -2190,7 +2190,7 @@ void glLoadName(GLuint name) {
     glLoadName_INDEXED *packed_data;
     packed_data->func = glLoadName_INDEX;
     packed_data->args.a1 = (GLuint)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixd
@@ -2198,7 +2198,7 @@ void glLoadTransposeMatrixd(const GLdouble * m) {
     glLoadTransposeMatrixd_INDEXED *packed_data;
     packed_data->func = glLoadTransposeMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLoadTransposeMatrixf
@@ -2206,7 +2206,7 @@ void glLoadTransposeMatrixf(const GLfloat * m) {
     glLoadTransposeMatrixf_INDEXED *packed_data;
     packed_data->func = glLoadTransposeMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glLogicOp
@@ -2214,7 +2214,7 @@ void glLogicOp(GLenum opcode) {
     glLogicOp_INDEXED *packed_data;
     packed_data->func = glLogicOp_INDEX;
     packed_data->args.a1 = (GLenum)opcode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap1d
@@ -2227,7 +2227,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order,
     packed_data->args.a4 = (GLint)stride;
     packed_data->args.a5 = (GLint)order;
     packed_data->args.a6 = (GLdouble *)points;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap1f
@@ -2240,7 +2240,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, c
     packed_data->args.a4 = (GLint)stride;
     packed_data->args.a5 = (GLint)order;
     packed_data->args.a6 = (GLfloat *)points;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap2d
@@ -2257,7 +2257,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorde
     packed_data->args.a8 = (GLint)vstride;
     packed_data->args.a9 = (GLint)vorder;
     packed_data->args.a10 = (GLdouble *)points;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMap2f
@@ -2274,7 +2274,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder,
     packed_data->args.a8 = (GLint)vstride;
     packed_data->args.a9 = (GLint)vorder;
     packed_data->args.a10 = (GLfloat *)points;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapBuffer
@@ -2284,7 +2284,7 @@ GLvoid * glMapBuffer(GLenum target, GLenum access) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)access;
     GLvoid * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -2295,7 +2295,7 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
     packed_data->args.a1 = (GLint)un;
     packed_data->args.a2 = (GLdouble)u1;
     packed_data->args.a3 = (GLdouble)u2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid1f
@@ -2305,7 +2305,7 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     packed_data->args.a1 = (GLint)un;
     packed_data->args.a2 = (GLfloat)u1;
     packed_data->args.a3 = (GLfloat)u2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid2d
@@ -2318,7 +2318,7 @@ void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdo
     packed_data->args.a4 = (GLint)vn;
     packed_data->args.a5 = (GLdouble)v1;
     packed_data->args.a6 = (GLdouble)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMapGrid2f
@@ -2331,7 +2331,7 @@ void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat
     packed_data->args.a4 = (GLint)vn;
     packed_data->args.a5 = (GLfloat)v1;
     packed_data->args.a6 = (GLfloat)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialf
@@ -2341,7 +2341,7 @@ void glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialfv
@@ -2351,7 +2351,7 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMateriali
@@ -2361,7 +2361,7 @@ void glMateriali(GLenum face, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMaterialiv
@@ -2371,7 +2371,7 @@ void glMaterialiv(GLenum face, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMatrixMode
@@ -2379,7 +2379,7 @@ void glMatrixMode(GLenum mode) {
     glMatrixMode_INDEXED *packed_data;
     packed_data->func = glMatrixMode_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMinmax
@@ -2389,7 +2389,7 @@ void glMinmax(GLenum target, GLenum internalformat, GLboolean sink) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)internalformat;
     packed_data->args.a3 = (GLboolean)sink;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultMatrixd
@@ -2397,7 +2397,7 @@ void glMultMatrixd(const GLdouble * m) {
     glMultMatrixd_INDEXED *packed_data;
     packed_data->func = glMultMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultMatrixf
@@ -2405,7 +2405,7 @@ void glMultMatrixf(const GLfloat * m) {
     glMultMatrixf_INDEXED *packed_data;
     packed_data->func = glMultMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixd
@@ -2413,7 +2413,7 @@ void glMultTransposeMatrixd(const GLdouble * m) {
     glMultTransposeMatrixd_INDEXED *packed_data;
     packed_data->func = glMultTransposeMatrixd_INDEX;
     packed_data->args.a1 = (GLdouble *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultTransposeMatrixf
@@ -2421,7 +2421,7 @@ void glMultTransposeMatrixf(const GLfloat * m) {
     glMultTransposeMatrixf_INDEXED *packed_data;
     packed_data->func = glMultTransposeMatrixf_INDEX;
     packed_data->args.a1 = (GLfloat *)m;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiDrawArrays
@@ -2432,7 +2432,7 @@ void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, 
     packed_data->args.a2 = (GLint *)first;
     packed_data->args.a3 = (GLsizei *)count;
     packed_data->args.a4 = (GLsizei)drawcount;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiDrawElements
@@ -2444,7 +2444,7 @@ void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, GLvoid
     packed_data->args.a3 = (GLenum)type;
     packed_data->args.a4 = (GLvoid*const *)indices;
     packed_data->args.a5 = (GLsizei)drawcount;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1d
@@ -2453,7 +2453,7 @@ void glMultiTexCoord1d(GLenum target, GLdouble s) {
     packed_data->func = glMultiTexCoord1d_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1dv
@@ -2462,7 +2462,7 @@ void glMultiTexCoord1dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord1dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1f
@@ -2471,7 +2471,7 @@ void glMultiTexCoord1f(GLenum target, GLfloat s) {
     packed_data->func = glMultiTexCoord1f_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1fv
@@ -2480,7 +2480,7 @@ void glMultiTexCoord1fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord1fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1i
@@ -2489,7 +2489,7 @@ void glMultiTexCoord1i(GLenum target, GLint s) {
     packed_data->func = glMultiTexCoord1i_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1iv
@@ -2498,7 +2498,7 @@ void glMultiTexCoord1iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord1iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1s
@@ -2507,7 +2507,7 @@ void glMultiTexCoord1s(GLenum target, GLshort s) {
     packed_data->func = glMultiTexCoord1s_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord1sv
@@ -2516,7 +2516,7 @@ void glMultiTexCoord1sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord1sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2d
@@ -2526,7 +2526,7 @@ void glMultiTexCoord2d(GLenum target, GLdouble s, GLdouble t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble)s;
     packed_data->args.a3 = (GLdouble)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2dv
@@ -2535,7 +2535,7 @@ void glMultiTexCoord2dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord2dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2f
@@ -2545,7 +2545,7 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat)s;
     packed_data->args.a3 = (GLfloat)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2fv
@@ -2554,7 +2554,7 @@ void glMultiTexCoord2fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord2fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2i
@@ -2564,7 +2564,7 @@ void glMultiTexCoord2i(GLenum target, GLint s, GLint t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint)s;
     packed_data->args.a3 = (GLint)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2iv
@@ -2573,7 +2573,7 @@ void glMultiTexCoord2iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord2iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2s
@@ -2583,7 +2583,7 @@ void glMultiTexCoord2s(GLenum target, GLshort s, GLshort t) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort)s;
     packed_data->args.a3 = (GLshort)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord2sv
@@ -2592,7 +2592,7 @@ void glMultiTexCoord2sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord2sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3d
@@ -2603,7 +2603,7 @@ void glMultiTexCoord3d(GLenum target, GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a2 = (GLdouble)s;
     packed_data->args.a3 = (GLdouble)t;
     packed_data->args.a4 = (GLdouble)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3dv
@@ -2612,7 +2612,7 @@ void glMultiTexCoord3dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord3dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3f
@@ -2623,7 +2623,7 @@ void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a2 = (GLfloat)s;
     packed_data->args.a3 = (GLfloat)t;
     packed_data->args.a4 = (GLfloat)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3fv
@@ -2632,7 +2632,7 @@ void glMultiTexCoord3fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord3fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3i
@@ -2643,7 +2643,7 @@ void glMultiTexCoord3i(GLenum target, GLint s, GLint t, GLint r) {
     packed_data->args.a2 = (GLint)s;
     packed_data->args.a3 = (GLint)t;
     packed_data->args.a4 = (GLint)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3iv
@@ -2652,7 +2652,7 @@ void glMultiTexCoord3iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord3iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3s
@@ -2663,7 +2663,7 @@ void glMultiTexCoord3s(GLenum target, GLshort s, GLshort t, GLshort r) {
     packed_data->args.a2 = (GLshort)s;
     packed_data->args.a3 = (GLshort)t;
     packed_data->args.a4 = (GLshort)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord3sv
@@ -2672,7 +2672,7 @@ void glMultiTexCoord3sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord3sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4d
@@ -2684,7 +2684,7 @@ void glMultiTexCoord4d(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdoub
     packed_data->args.a3 = (GLdouble)t;
     packed_data->args.a4 = (GLdouble)r;
     packed_data->args.a5 = (GLdouble)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4dv
@@ -2693,7 +2693,7 @@ void glMultiTexCoord4dv(GLenum target, const GLdouble * v) {
     packed_data->func = glMultiTexCoord4dv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4f
@@ -2705,7 +2705,7 @@ void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q
     packed_data->args.a3 = (GLfloat)t;
     packed_data->args.a4 = (GLfloat)r;
     packed_data->args.a5 = (GLfloat)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4fv
@@ -2714,7 +2714,7 @@ void glMultiTexCoord4fv(GLenum target, const GLfloat * v) {
     packed_data->func = glMultiTexCoord4fv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4i
@@ -2726,7 +2726,7 @@ void glMultiTexCoord4i(GLenum target, GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a3 = (GLint)t;
     packed_data->args.a4 = (GLint)r;
     packed_data->args.a5 = (GLint)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4iv
@@ -2735,7 +2735,7 @@ void glMultiTexCoord4iv(GLenum target, const GLint * v) {
     packed_data->func = glMultiTexCoord4iv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4s
@@ -2747,7 +2747,7 @@ void glMultiTexCoord4s(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q
     packed_data->args.a3 = (GLshort)t;
     packed_data->args.a4 = (GLshort)r;
     packed_data->args.a5 = (GLshort)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glMultiTexCoord4sv
@@ -2756,7 +2756,7 @@ void glMultiTexCoord4sv(GLenum target, const GLshort * v) {
     packed_data->func = glMultiTexCoord4sv_INDEX;
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNewList
@@ -2765,7 +2765,7 @@ void glNewList(GLuint list, GLenum mode) {
     packed_data->func = glNewList_INDEX;
     packed_data->args.a1 = (GLuint)list;
     packed_data->args.a2 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3b
@@ -2775,7 +2775,7 @@ void glNormal3b(GLbyte nx, GLbyte ny, GLbyte nz) {
     packed_data->args.a1 = (GLbyte)nx;
     packed_data->args.a2 = (GLbyte)ny;
     packed_data->args.a3 = (GLbyte)nz;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3bv
@@ -2783,7 +2783,7 @@ void glNormal3bv(const GLbyte * v) {
     glNormal3bv_INDEXED *packed_data;
     packed_data->func = glNormal3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3d
@@ -2793,7 +2793,7 @@ void glNormal3d(GLdouble nx, GLdouble ny, GLdouble nz) {
     packed_data->args.a1 = (GLdouble)nx;
     packed_data->args.a2 = (GLdouble)ny;
     packed_data->args.a3 = (GLdouble)nz;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3dv
@@ -2801,7 +2801,7 @@ void glNormal3dv(const GLdouble * v) {
     glNormal3dv_INDEXED *packed_data;
     packed_data->func = glNormal3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3f
@@ -2811,7 +2811,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     packed_data->args.a1 = (GLfloat)nx;
     packed_data->args.a2 = (GLfloat)ny;
     packed_data->args.a3 = (GLfloat)nz;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3fv
@@ -2819,7 +2819,7 @@ void glNormal3fv(const GLfloat * v) {
     glNormal3fv_INDEXED *packed_data;
     packed_data->func = glNormal3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3i
@@ -2829,7 +2829,7 @@ void glNormal3i(GLint nx, GLint ny, GLint nz) {
     packed_data->args.a1 = (GLint)nx;
     packed_data->args.a2 = (GLint)ny;
     packed_data->args.a3 = (GLint)nz;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3iv
@@ -2837,7 +2837,7 @@ void glNormal3iv(const GLint * v) {
     glNormal3iv_INDEXED *packed_data;
     packed_data->func = glNormal3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3s
@@ -2847,7 +2847,7 @@ void glNormal3s(GLshort nx, GLshort ny, GLshort nz) {
     packed_data->args.a1 = (GLshort)nx;
     packed_data->args.a2 = (GLshort)ny;
     packed_data->args.a3 = (GLshort)nz;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormal3sv
@@ -2855,7 +2855,7 @@ void glNormal3sv(const GLshort * v) {
     glNormal3sv_INDEXED *packed_data;
     packed_data->func = glNormal3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glNormalPointer
@@ -2865,7 +2865,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     packed_data->args.a1 = (GLenum)type;
     packed_data->args.a2 = (GLsizei)stride;
     packed_data->args.a3 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glOrtho
@@ -2878,7 +2878,7 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
     packed_data->args.a4 = (GLdouble)top;
     packed_data->args.a5 = (GLdouble)zNear;
     packed_data->args.a6 = (GLdouble)zFar;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPassThrough
@@ -2886,7 +2886,7 @@ void glPassThrough(GLfloat token) {
     glPassThrough_INDEXED *packed_data;
     packed_data->func = glPassThrough_INDEX;
     packed_data->args.a1 = (GLfloat)token;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapfv
@@ -2896,7 +2896,7 @@ void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLfloat *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapuiv
@@ -2906,7 +2906,7 @@ void glPixelMapuiv(GLenum map, GLsizei mapsize, const GLuint * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLuint *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelMapusv
@@ -2916,7 +2916,7 @@ void glPixelMapusv(GLenum map, GLsizei mapsize, const GLushort * values) {
     packed_data->args.a1 = (GLenum)map;
     packed_data->args.a2 = (GLsizei)mapsize;
     packed_data->args.a3 = (GLushort *)values;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelStoref
@@ -2925,7 +2925,7 @@ void glPixelStoref(GLenum pname, GLfloat param) {
     packed_data->func = glPixelStoref_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelStorei
@@ -2934,7 +2934,7 @@ void glPixelStorei(GLenum pname, GLint param) {
     packed_data->func = glPixelStorei_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelTransferf
@@ -2943,7 +2943,7 @@ void glPixelTransferf(GLenum pname, GLfloat param) {
     packed_data->func = glPixelTransferf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelTransferi
@@ -2952,7 +2952,7 @@ void glPixelTransferi(GLenum pname, GLint param) {
     packed_data->func = glPixelTransferi_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPixelZoom
@@ -2961,7 +2961,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     packed_data->func = glPixelZoom_INDEX;
     packed_data->args.a1 = (GLfloat)xfactor;
     packed_data->args.a2 = (GLfloat)yfactor;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameterf
@@ -2970,7 +2970,7 @@ void glPointParameterf(GLenum pname, GLfloat param) {
     packed_data->func = glPointParameterf_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameterfv
@@ -2979,7 +2979,7 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) {
     packed_data->func = glPointParameterfv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameteri
@@ -2988,7 +2988,7 @@ void glPointParameteri(GLenum pname, GLint param) {
     packed_data->func = glPointParameteri_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointParameteriv
@@ -2997,7 +2997,7 @@ void glPointParameteriv(GLenum pname, const GLint * params) {
     packed_data->func = glPointParameteriv_INDEX;
     packed_data->args.a1 = (GLenum)pname;
     packed_data->args.a2 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPointSize
@@ -3005,7 +3005,7 @@ void glPointSize(GLfloat size) {
     glPointSize_INDEXED *packed_data;
     packed_data->func = glPointSize_INDEX;
     packed_data->args.a1 = (GLfloat)size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonMode
@@ -3014,7 +3014,7 @@ void glPolygonMode(GLenum face, GLenum mode) {
     packed_data->func = glPolygonMode_INDEX;
     packed_data->args.a1 = (GLenum)face;
     packed_data->args.a2 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonOffset
@@ -3023,7 +3023,7 @@ void glPolygonOffset(GLfloat factor, GLfloat units) {
     packed_data->func = glPolygonOffset_INDEX;
     packed_data->args.a1 = (GLfloat)factor;
     packed_data->args.a2 = (GLfloat)units;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPolygonStipple
@@ -3031,35 +3031,35 @@ void glPolygonStipple(const GLubyte * mask) {
     glPolygonStipple_INDEXED *packed_data;
     packed_data->func = glPolygonStipple_INDEX;
     packed_data->args.a1 = (GLubyte *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopAttrib
 void glPopAttrib() {
     glPopAttrib_INDEXED *packed_data;
     packed_data->func = glPopAttrib_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopClientAttrib
 void glPopClientAttrib() {
     glPopClientAttrib_INDEXED *packed_data;
     packed_data->func = glPopClientAttrib_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopMatrix
 void glPopMatrix() {
     glPopMatrix_INDEXED *packed_data;
     packed_data->func = glPopMatrix_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPopName
 void glPopName() {
     glPopName_INDEXED *packed_data;
     packed_data->func = glPopName_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPrioritizeTextures
@@ -3069,7 +3069,7 @@ void glPrioritizeTextures(GLsizei n, const GLuint * textures, const GLfloat * pr
     packed_data->args.a1 = (GLsizei)n;
     packed_data->args.a2 = (GLuint *)textures;
     packed_data->args.a3 = (GLfloat *)priorities;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushAttrib
@@ -3077,7 +3077,7 @@ void glPushAttrib(GLbitfield mask) {
     glPushAttrib_INDEXED *packed_data;
     packed_data->func = glPushAttrib_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushClientAttrib
@@ -3085,14 +3085,14 @@ void glPushClientAttrib(GLbitfield mask) {
     glPushClientAttrib_INDEXED *packed_data;
     packed_data->func = glPushClientAttrib_INDEX;
     packed_data->args.a1 = (GLbitfield)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushMatrix
 void glPushMatrix() {
     glPushMatrix_INDEXED *packed_data;
     packed_data->func = glPushMatrix_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glPushName
@@ -3100,7 +3100,7 @@ void glPushName(GLuint name) {
     glPushName_INDEXED *packed_data;
     packed_data->func = glPushName_INDEX;
     packed_data->args.a1 = (GLuint)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2d
@@ -3109,7 +3109,7 @@ void glRasterPos2d(GLdouble x, GLdouble y) {
     packed_data->func = glRasterPos2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2dv
@@ -3117,7 +3117,7 @@ void glRasterPos2dv(const GLdouble * v) {
     glRasterPos2dv_INDEXED *packed_data;
     packed_data->func = glRasterPos2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2f
@@ -3126,7 +3126,7 @@ void glRasterPos2f(GLfloat x, GLfloat y) {
     packed_data->func = glRasterPos2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2fv
@@ -3134,7 +3134,7 @@ void glRasterPos2fv(const GLfloat * v) {
     glRasterPos2fv_INDEXED *packed_data;
     packed_data->func = glRasterPos2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2i
@@ -3143,7 +3143,7 @@ void glRasterPos2i(GLint x, GLint y) {
     packed_data->func = glRasterPos2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2iv
@@ -3151,7 +3151,7 @@ void glRasterPos2iv(const GLint * v) {
     glRasterPos2iv_INDEXED *packed_data;
     packed_data->func = glRasterPos2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2s
@@ -3160,7 +3160,7 @@ void glRasterPos2s(GLshort x, GLshort y) {
     packed_data->func = glRasterPos2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos2sv
@@ -3168,7 +3168,7 @@ void glRasterPos2sv(const GLshort * v) {
     glRasterPos2sv_INDEXED *packed_data;
     packed_data->func = glRasterPos2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3d
@@ -3178,7 +3178,7 @@ void glRasterPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3dv
@@ -3186,7 +3186,7 @@ void glRasterPos3dv(const GLdouble * v) {
     glRasterPos3dv_INDEXED *packed_data;
     packed_data->func = glRasterPos3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3f
@@ -3196,7 +3196,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3fv
@@ -3204,7 +3204,7 @@ void glRasterPos3fv(const GLfloat * v) {
     glRasterPos3fv_INDEXED *packed_data;
     packed_data->func = glRasterPos3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3i
@@ -3214,7 +3214,7 @@ void glRasterPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3iv
@@ -3222,7 +3222,7 @@ void glRasterPos3iv(const GLint * v) {
     glRasterPos3iv_INDEXED *packed_data;
     packed_data->func = glRasterPos3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3s
@@ -3232,7 +3232,7 @@ void glRasterPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos3sv
@@ -3240,7 +3240,7 @@ void glRasterPos3sv(const GLshort * v) {
     glRasterPos3sv_INDEXED *packed_data;
     packed_data->func = glRasterPos3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4d
@@ -3251,7 +3251,7 @@ void glRasterPos4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
     packed_data->args.a4 = (GLdouble)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4dv
@@ -3259,7 +3259,7 @@ void glRasterPos4dv(const GLdouble * v) {
     glRasterPos4dv_INDEXED *packed_data;
     packed_data->func = glRasterPos4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4f
@@ -3270,7 +3270,7 @@ void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
     packed_data->args.a4 = (GLfloat)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4fv
@@ -3278,7 +3278,7 @@ void glRasterPos4fv(const GLfloat * v) {
     glRasterPos4fv_INDEXED *packed_data;
     packed_data->func = glRasterPos4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4i
@@ -3289,7 +3289,7 @@ void glRasterPos4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
     packed_data->args.a4 = (GLint)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4iv
@@ -3297,7 +3297,7 @@ void glRasterPos4iv(const GLint * v) {
     glRasterPos4iv_INDEXED *packed_data;
     packed_data->func = glRasterPos4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4s
@@ -3308,7 +3308,7 @@ void glRasterPos4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
     packed_data->args.a4 = (GLshort)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRasterPos4sv
@@ -3316,7 +3316,7 @@ void glRasterPos4sv(const GLshort * v) {
     glRasterPos4sv_INDEXED *packed_data;
     packed_data->func = glRasterPos4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glReadBuffer
@@ -3324,7 +3324,7 @@ void glReadBuffer(GLenum mode) {
     glReadBuffer_INDEXED *packed_data;
     packed_data->func = glReadBuffer_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glReadPixels
@@ -3338,7 +3338,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectd
@@ -3349,7 +3349,7 @@ void glRectd(GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2) {
     packed_data->args.a2 = (GLdouble)y1;
     packed_data->args.a3 = (GLdouble)x2;
     packed_data->args.a4 = (GLdouble)y2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectdv
@@ -3358,7 +3358,7 @@ void glRectdv(const GLdouble * v1, const GLdouble * v2) {
     packed_data->func = glRectdv_INDEX;
     packed_data->args.a1 = (GLdouble *)v1;
     packed_data->args.a2 = (GLdouble *)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectf
@@ -3369,7 +3369,7 @@ void glRectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
     packed_data->args.a2 = (GLfloat)y1;
     packed_data->args.a3 = (GLfloat)x2;
     packed_data->args.a4 = (GLfloat)y2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectfv
@@ -3378,7 +3378,7 @@ void glRectfv(const GLfloat * v1, const GLfloat * v2) {
     packed_data->func = glRectfv_INDEX;
     packed_data->args.a1 = (GLfloat *)v1;
     packed_data->args.a2 = (GLfloat *)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRecti
@@ -3389,7 +3389,7 @@ void glRecti(GLint x1, GLint y1, GLint x2, GLint y2) {
     packed_data->args.a2 = (GLint)y1;
     packed_data->args.a3 = (GLint)x2;
     packed_data->args.a4 = (GLint)y2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectiv
@@ -3398,7 +3398,7 @@ void glRectiv(const GLint * v1, const GLint * v2) {
     packed_data->func = glRectiv_INDEX;
     packed_data->args.a1 = (GLint *)v1;
     packed_data->args.a2 = (GLint *)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRects
@@ -3409,7 +3409,7 @@ void glRects(GLshort x1, GLshort y1, GLshort x2, GLshort y2) {
     packed_data->args.a2 = (GLshort)y1;
     packed_data->args.a3 = (GLshort)x2;
     packed_data->args.a4 = (GLshort)y2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRectsv
@@ -3418,7 +3418,7 @@ void glRectsv(const GLshort * v1, const GLshort * v2) {
     packed_data->func = glRectsv_INDEX;
     packed_data->args.a1 = (GLshort *)v1;
     packed_data->args.a2 = (GLshort *)v2;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRenderMode
@@ -3427,7 +3427,7 @@ GLint glRenderMode(GLenum mode) {
     packed_data->func = glRenderMode_INDEX;
     packed_data->args.a1 = (GLenum)mode;
     GLint ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -3436,7 +3436,7 @@ void glResetHistogram(GLenum target) {
     glResetHistogram_INDEXED *packed_data;
     packed_data->func = glResetHistogram_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glResetMinmax
@@ -3444,7 +3444,7 @@ void glResetMinmax(GLenum target) {
     glResetMinmax_INDEXED *packed_data;
     packed_data->func = glResetMinmax_INDEX;
     packed_data->args.a1 = (GLenum)target;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRotated
@@ -3455,7 +3455,7 @@ void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a2 = (GLdouble)x;
     packed_data->args.a3 = (GLdouble)y;
     packed_data->args.a4 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glRotatef
@@ -3466,7 +3466,7 @@ void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a2 = (GLfloat)x;
     packed_data->args.a3 = (GLfloat)y;
     packed_data->args.a4 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSampleCoverage
@@ -3475,7 +3475,7 @@ void glSampleCoverage(GLfloat value, GLboolean invert) {
     packed_data->func = glSampleCoverage_INDEX;
     packed_data->args.a1 = (GLfloat)value;
     packed_data->args.a2 = (GLboolean)invert;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScaled
@@ -3485,7 +3485,7 @@ void glScaled(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScalef
@@ -3495,7 +3495,7 @@ void glScalef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glScissor
@@ -3506,7 +3506,7 @@ void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3b
@@ -3516,7 +3516,7 @@ void glSecondaryColor3b(GLbyte red, GLbyte green, GLbyte blue) {
     packed_data->args.a1 = (GLbyte)red;
     packed_data->args.a2 = (GLbyte)green;
     packed_data->args.a3 = (GLbyte)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3bv
@@ -3524,7 +3524,7 @@ void glSecondaryColor3bv(const GLbyte * v) {
     glSecondaryColor3bv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3bv_INDEX;
     packed_data->args.a1 = (GLbyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3d
@@ -3534,7 +3534,7 @@ void glSecondaryColor3d(GLdouble red, GLdouble green, GLdouble blue) {
     packed_data->args.a1 = (GLdouble)red;
     packed_data->args.a2 = (GLdouble)green;
     packed_data->args.a3 = (GLdouble)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3dv
@@ -3542,7 +3542,7 @@ void glSecondaryColor3dv(const GLdouble * v) {
     glSecondaryColor3dv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3f
@@ -3552,7 +3552,7 @@ void glSecondaryColor3f(GLfloat red, GLfloat green, GLfloat blue) {
     packed_data->args.a1 = (GLfloat)red;
     packed_data->args.a2 = (GLfloat)green;
     packed_data->args.a3 = (GLfloat)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3fv
@@ -3560,7 +3560,7 @@ void glSecondaryColor3fv(const GLfloat * v) {
     glSecondaryColor3fv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3i
@@ -3570,7 +3570,7 @@ void glSecondaryColor3i(GLint red, GLint green, GLint blue) {
     packed_data->args.a1 = (GLint)red;
     packed_data->args.a2 = (GLint)green;
     packed_data->args.a3 = (GLint)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3iv
@@ -3578,7 +3578,7 @@ void glSecondaryColor3iv(const GLint * v) {
     glSecondaryColor3iv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3s
@@ -3588,7 +3588,7 @@ void glSecondaryColor3s(GLshort red, GLshort green, GLshort blue) {
     packed_data->args.a1 = (GLshort)red;
     packed_data->args.a2 = (GLshort)green;
     packed_data->args.a3 = (GLshort)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3sv
@@ -3596,7 +3596,7 @@ void glSecondaryColor3sv(const GLshort * v) {
     glSecondaryColor3sv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ub
@@ -3606,7 +3606,7 @@ void glSecondaryColor3ub(GLubyte red, GLubyte green, GLubyte blue) {
     packed_data->args.a1 = (GLubyte)red;
     packed_data->args.a2 = (GLubyte)green;
     packed_data->args.a3 = (GLubyte)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ubv
@@ -3614,7 +3614,7 @@ void glSecondaryColor3ubv(const GLubyte * v) {
     glSecondaryColor3ubv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3ubv_INDEX;
     packed_data->args.a1 = (GLubyte *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3ui
@@ -3624,7 +3624,7 @@ void glSecondaryColor3ui(GLuint red, GLuint green, GLuint blue) {
     packed_data->args.a1 = (GLuint)red;
     packed_data->args.a2 = (GLuint)green;
     packed_data->args.a3 = (GLuint)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3uiv
@@ -3632,7 +3632,7 @@ void glSecondaryColor3uiv(const GLuint * v) {
     glSecondaryColor3uiv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3uiv_INDEX;
     packed_data->args.a1 = (GLuint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3us
@@ -3642,7 +3642,7 @@ void glSecondaryColor3us(GLushort red, GLushort green, GLushort blue) {
     packed_data->args.a1 = (GLushort)red;
     packed_data->args.a2 = (GLushort)green;
     packed_data->args.a3 = (GLushort)blue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColor3usv
@@ -3650,7 +3650,7 @@ void glSecondaryColor3usv(const GLushort * v) {
     glSecondaryColor3usv_INDEXED *packed_data;
     packed_data->func = glSecondaryColor3usv_INDEX;
     packed_data->args.a1 = (GLushort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSecondaryColorPointer
@@ -3661,7 +3661,7 @@ void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvo
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSelectBuffer
@@ -3670,7 +3670,7 @@ void glSelectBuffer(GLsizei size, GLuint * buffer) {
     packed_data->func = glSelectBuffer_INDEX;
     packed_data->args.a1 = (GLsizei)size;
     packed_data->args.a2 = (GLuint *)buffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glSeparableFilter2D
@@ -3685,7 +3685,7 @@ void glSeparableFilter2D(GLenum target, GLenum internalformat, GLsizei width, GL
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)row;
     packed_data->args.a8 = (GLvoid *)column;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glShadeModel
@@ -3693,7 +3693,7 @@ void glShadeModel(GLenum mode) {
     glShadeModel_INDEXED *packed_data;
     packed_data->func = glShadeModel_INDEX;
     packed_data->args.a1 = (GLenum)mode;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilFunc
@@ -3703,7 +3703,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask) {
     packed_data->args.a1 = (GLenum)func;
     packed_data->args.a2 = (GLint)ref;
     packed_data->args.a3 = (GLuint)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilMask
@@ -3711,7 +3711,7 @@ void glStencilMask(GLuint mask) {
     glStencilMask_INDEXED *packed_data;
     packed_data->func = glStencilMask_INDEX;
     packed_data->args.a1 = (GLuint)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glStencilOp
@@ -3721,7 +3721,7 @@ void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     packed_data->args.a1 = (GLenum)fail;
     packed_data->args.a2 = (GLenum)zfail;
     packed_data->args.a3 = (GLenum)zpass;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1d
@@ -3729,7 +3729,7 @@ void glTexCoord1d(GLdouble s) {
     glTexCoord1d_INDEXED *packed_data;
     packed_data->func = glTexCoord1d_INDEX;
     packed_data->args.a1 = (GLdouble)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1dv
@@ -3737,7 +3737,7 @@ void glTexCoord1dv(const GLdouble * v) {
     glTexCoord1dv_INDEXED *packed_data;
     packed_data->func = glTexCoord1dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1f
@@ -3745,7 +3745,7 @@ void glTexCoord1f(GLfloat s) {
     glTexCoord1f_INDEXED *packed_data;
     packed_data->func = glTexCoord1f_INDEX;
     packed_data->args.a1 = (GLfloat)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1fv
@@ -3753,7 +3753,7 @@ void glTexCoord1fv(const GLfloat * v) {
     glTexCoord1fv_INDEXED *packed_data;
     packed_data->func = glTexCoord1fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1i
@@ -3761,7 +3761,7 @@ void glTexCoord1i(GLint s) {
     glTexCoord1i_INDEXED *packed_data;
     packed_data->func = glTexCoord1i_INDEX;
     packed_data->args.a1 = (GLint)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1iv
@@ -3769,7 +3769,7 @@ void glTexCoord1iv(const GLint * v) {
     glTexCoord1iv_INDEXED *packed_data;
     packed_data->func = glTexCoord1iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1s
@@ -3777,7 +3777,7 @@ void glTexCoord1s(GLshort s) {
     glTexCoord1s_INDEXED *packed_data;
     packed_data->func = glTexCoord1s_INDEX;
     packed_data->args.a1 = (GLshort)s;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord1sv
@@ -3785,7 +3785,7 @@ void glTexCoord1sv(const GLshort * v) {
     glTexCoord1sv_INDEXED *packed_data;
     packed_data->func = glTexCoord1sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2d
@@ -3794,7 +3794,7 @@ void glTexCoord2d(GLdouble s, GLdouble t) {
     packed_data->func = glTexCoord2d_INDEX;
     packed_data->args.a1 = (GLdouble)s;
     packed_data->args.a2 = (GLdouble)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2dv
@@ -3802,7 +3802,7 @@ void glTexCoord2dv(const GLdouble * v) {
     glTexCoord2dv_INDEXED *packed_data;
     packed_data->func = glTexCoord2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2f
@@ -3811,7 +3811,7 @@ void glTexCoord2f(GLfloat s, GLfloat t) {
     packed_data->func = glTexCoord2f_INDEX;
     packed_data->args.a1 = (GLfloat)s;
     packed_data->args.a2 = (GLfloat)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2fv
@@ -3819,7 +3819,7 @@ void glTexCoord2fv(const GLfloat * v) {
     glTexCoord2fv_INDEXED *packed_data;
     packed_data->func = glTexCoord2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2i
@@ -3828,7 +3828,7 @@ void glTexCoord2i(GLint s, GLint t) {
     packed_data->func = glTexCoord2i_INDEX;
     packed_data->args.a1 = (GLint)s;
     packed_data->args.a2 = (GLint)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2iv
@@ -3836,7 +3836,7 @@ void glTexCoord2iv(const GLint * v) {
     glTexCoord2iv_INDEXED *packed_data;
     packed_data->func = glTexCoord2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2s
@@ -3845,7 +3845,7 @@ void glTexCoord2s(GLshort s, GLshort t) {
     packed_data->func = glTexCoord2s_INDEX;
     packed_data->args.a1 = (GLshort)s;
     packed_data->args.a2 = (GLshort)t;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord2sv
@@ -3853,7 +3853,7 @@ void glTexCoord2sv(const GLshort * v) {
     glTexCoord2sv_INDEXED *packed_data;
     packed_data->func = glTexCoord2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3d
@@ -3863,7 +3863,7 @@ void glTexCoord3d(GLdouble s, GLdouble t, GLdouble r) {
     packed_data->args.a1 = (GLdouble)s;
     packed_data->args.a2 = (GLdouble)t;
     packed_data->args.a3 = (GLdouble)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3dv
@@ -3871,7 +3871,7 @@ void glTexCoord3dv(const GLdouble * v) {
     glTexCoord3dv_INDEXED *packed_data;
     packed_data->func = glTexCoord3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3f
@@ -3881,7 +3881,7 @@ void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     packed_data->args.a1 = (GLfloat)s;
     packed_data->args.a2 = (GLfloat)t;
     packed_data->args.a3 = (GLfloat)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3fv
@@ -3889,7 +3889,7 @@ void glTexCoord3fv(const GLfloat * v) {
     glTexCoord3fv_INDEXED *packed_data;
     packed_data->func = glTexCoord3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3i
@@ -3899,7 +3899,7 @@ void glTexCoord3i(GLint s, GLint t, GLint r) {
     packed_data->args.a1 = (GLint)s;
     packed_data->args.a2 = (GLint)t;
     packed_data->args.a3 = (GLint)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3iv
@@ -3907,7 +3907,7 @@ void glTexCoord3iv(const GLint * v) {
     glTexCoord3iv_INDEXED *packed_data;
     packed_data->func = glTexCoord3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3s
@@ -3917,7 +3917,7 @@ void glTexCoord3s(GLshort s, GLshort t, GLshort r) {
     packed_data->args.a1 = (GLshort)s;
     packed_data->args.a2 = (GLshort)t;
     packed_data->args.a3 = (GLshort)r;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord3sv
@@ -3925,7 +3925,7 @@ void glTexCoord3sv(const GLshort * v) {
     glTexCoord3sv_INDEXED *packed_data;
     packed_data->func = glTexCoord3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4d
@@ -3936,7 +3936,7 @@ void glTexCoord4d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) {
     packed_data->args.a2 = (GLdouble)t;
     packed_data->args.a3 = (GLdouble)r;
     packed_data->args.a4 = (GLdouble)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4dv
@@ -3944,7 +3944,7 @@ void glTexCoord4dv(const GLdouble * v) {
     glTexCoord4dv_INDEXED *packed_data;
     packed_data->func = glTexCoord4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4f
@@ -3955,7 +3955,7 @@ void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     packed_data->args.a2 = (GLfloat)t;
     packed_data->args.a3 = (GLfloat)r;
     packed_data->args.a4 = (GLfloat)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4fv
@@ -3963,7 +3963,7 @@ void glTexCoord4fv(const GLfloat * v) {
     glTexCoord4fv_INDEXED *packed_data;
     packed_data->func = glTexCoord4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4i
@@ -3974,7 +3974,7 @@ void glTexCoord4i(GLint s, GLint t, GLint r, GLint q) {
     packed_data->args.a2 = (GLint)t;
     packed_data->args.a3 = (GLint)r;
     packed_data->args.a4 = (GLint)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4iv
@@ -3982,7 +3982,7 @@ void glTexCoord4iv(const GLint * v) {
     glTexCoord4iv_INDEXED *packed_data;
     packed_data->func = glTexCoord4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4s
@@ -3993,7 +3993,7 @@ void glTexCoord4s(GLshort s, GLshort t, GLshort r, GLshort q) {
     packed_data->args.a2 = (GLshort)t;
     packed_data->args.a3 = (GLshort)r;
     packed_data->args.a4 = (GLshort)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoord4sv
@@ -4001,7 +4001,7 @@ void glTexCoord4sv(const GLshort * v) {
     glTexCoord4sv_INDEXED *packed_data;
     packed_data->func = glTexCoord4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexCoordPointer
@@ -4012,7 +4012,7 @@ void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * p
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvf
@@ -4022,7 +4022,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvfv
@@ -4032,7 +4032,7 @@ void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnvi
@@ -4042,7 +4042,7 @@ void glTexEnvi(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexEnviv
@@ -4052,7 +4052,7 @@ void glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGend
@@ -4062,7 +4062,7 @@ void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGendv
@@ -4072,7 +4072,7 @@ void glTexGendv(GLenum coord, GLenum pname, const GLdouble * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLdouble *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGenf
@@ -4082,7 +4082,7 @@ void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGenfv
@@ -4092,7 +4092,7 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGeni
@@ -4102,7 +4102,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexGeniv
@@ -4112,7 +4112,7 @@ void glTexGeniv(GLenum coord, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)coord;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage1D
@@ -4127,7 +4127,7 @@ void glTexImage1D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a6 = (GLenum)format;
     packed_data->args.a7 = (GLenum)type;
     packed_data->args.a8 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage2D
@@ -4143,7 +4143,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLenum)type;
     packed_data->args.a9 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexImage3D
@@ -4160,7 +4160,7 @@ void glTexImage3D(GLenum target, GLint level, GLint internalformat, GLsizei widt
     packed_data->args.a8 = (GLenum)format;
     packed_data->args.a9 = (GLenum)type;
     packed_data->args.a10 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameterf
@@ -4170,7 +4170,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameterfv
@@ -4180,7 +4180,7 @@ void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLfloat *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameteri
@@ -4190,7 +4190,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint)param;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexParameteriv
@@ -4200,7 +4200,7 @@ void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     packed_data->args.a1 = (GLenum)target;
     packed_data->args.a2 = (GLenum)pname;
     packed_data->args.a3 = (GLint *)params;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage1D
@@ -4214,7 +4214,7 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, G
     packed_data->args.a5 = (GLenum)format;
     packed_data->args.a6 = (GLenum)type;
     packed_data->args.a7 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage2D
@@ -4230,7 +4230,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a7 = (GLenum)format;
     packed_data->args.a8 = (GLenum)type;
     packed_data->args.a9 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTexSubImage3D
@@ -4248,7 +4248,7 @@ void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, G
     packed_data->args.a9 = (GLenum)format;
     packed_data->args.a10 = (GLenum)type;
     packed_data->args.a11 = (GLvoid *)pixels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTranslated
@@ -4258,7 +4258,7 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glTranslatef
@@ -4268,7 +4268,7 @@ void glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glUnmapBuffer
@@ -4277,7 +4277,7 @@ GLboolean glUnmapBuffer(GLenum target) {
     packed_data->func = glUnmapBuffer_INDEX;
     packed_data->args.a1 = (GLenum)target;
     GLboolean ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4287,7 +4287,7 @@ void glVertex2d(GLdouble x, GLdouble y) {
     packed_data->func = glVertex2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2dv
@@ -4295,7 +4295,7 @@ void glVertex2dv(const GLdouble * v) {
     glVertex2dv_INDEXED *packed_data;
     packed_data->func = glVertex2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2f
@@ -4304,7 +4304,7 @@ void glVertex2f(GLfloat x, GLfloat y) {
     packed_data->func = glVertex2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2fv
@@ -4312,7 +4312,7 @@ void glVertex2fv(const GLfloat * v) {
     glVertex2fv_INDEXED *packed_data;
     packed_data->func = glVertex2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2i
@@ -4321,7 +4321,7 @@ void glVertex2i(GLint x, GLint y) {
     packed_data->func = glVertex2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2iv
@@ -4329,7 +4329,7 @@ void glVertex2iv(const GLint * v) {
     glVertex2iv_INDEXED *packed_data;
     packed_data->func = glVertex2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2s
@@ -4338,7 +4338,7 @@ void glVertex2s(GLshort x, GLshort y) {
     packed_data->func = glVertex2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex2sv
@@ -4346,7 +4346,7 @@ void glVertex2sv(const GLshort * v) {
     glVertex2sv_INDEXED *packed_data;
     packed_data->func = glVertex2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3d
@@ -4356,7 +4356,7 @@ void glVertex3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3dv
@@ -4364,7 +4364,7 @@ void glVertex3dv(const GLdouble * v) {
     glVertex3dv_INDEXED *packed_data;
     packed_data->func = glVertex3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3f
@@ -4374,7 +4374,7 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3fv
@@ -4382,7 +4382,7 @@ void glVertex3fv(const GLfloat * v) {
     glVertex3fv_INDEXED *packed_data;
     packed_data->func = glVertex3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3i
@@ -4392,7 +4392,7 @@ void glVertex3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3iv
@@ -4400,7 +4400,7 @@ void glVertex3iv(const GLint * v) {
     glVertex3iv_INDEXED *packed_data;
     packed_data->func = glVertex3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3s
@@ -4410,7 +4410,7 @@ void glVertex3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex3sv
@@ -4418,7 +4418,7 @@ void glVertex3sv(const GLshort * v) {
     glVertex3sv_INDEXED *packed_data;
     packed_data->func = glVertex3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4d
@@ -4429,7 +4429,7 @@ void glVertex4d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) {
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
     packed_data->args.a4 = (GLdouble)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4dv
@@ -4437,7 +4437,7 @@ void glVertex4dv(const GLdouble * v) {
     glVertex4dv_INDEXED *packed_data;
     packed_data->func = glVertex4dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4f
@@ -4448,7 +4448,7 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
     packed_data->args.a4 = (GLfloat)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4fv
@@ -4456,7 +4456,7 @@ void glVertex4fv(const GLfloat * v) {
     glVertex4fv_INDEXED *packed_data;
     packed_data->func = glVertex4fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4i
@@ -4467,7 +4467,7 @@ void glVertex4i(GLint x, GLint y, GLint z, GLint w) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
     packed_data->args.a4 = (GLint)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4iv
@@ -4475,7 +4475,7 @@ void glVertex4iv(const GLint * v) {
     glVertex4iv_INDEXED *packed_data;
     packed_data->func = glVertex4iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4s
@@ -4486,7 +4486,7 @@ void glVertex4s(GLshort x, GLshort y, GLshort z, GLshort w) {
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
     packed_data->args.a4 = (GLshort)w;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertex4sv
@@ -4494,7 +4494,7 @@ void glVertex4sv(const GLshort * v) {
     glVertex4sv_INDEXED *packed_data;
     packed_data->func = glVertex4sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glVertexPointer
@@ -4505,7 +4505,7 @@ void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * poi
     packed_data->args.a2 = (GLenum)type;
     packed_data->args.a3 = (GLsizei)stride;
     packed_data->args.a4 = (GLvoid *)pointer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glViewport
@@ -4516,7 +4516,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLsizei)width;
     packed_data->args.a4 = (GLsizei)height;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2d
@@ -4525,7 +4525,7 @@ void glWindowPos2d(GLdouble x, GLdouble y) {
     packed_data->func = glWindowPos2d_INDEX;
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2dv
@@ -4533,7 +4533,7 @@ void glWindowPos2dv(const GLdouble * v) {
     glWindowPos2dv_INDEXED *packed_data;
     packed_data->func = glWindowPos2dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2f
@@ -4542,7 +4542,7 @@ void glWindowPos2f(GLfloat x, GLfloat y) {
     packed_data->func = glWindowPos2f_INDEX;
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2fv
@@ -4550,7 +4550,7 @@ void glWindowPos2fv(const GLfloat * v) {
     glWindowPos2fv_INDEXED *packed_data;
     packed_data->func = glWindowPos2fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2i
@@ -4559,7 +4559,7 @@ void glWindowPos2i(GLint x, GLint y) {
     packed_data->func = glWindowPos2i_INDEX;
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2iv
@@ -4567,7 +4567,7 @@ void glWindowPos2iv(const GLint * v) {
     glWindowPos2iv_INDEXED *packed_data;
     packed_data->func = glWindowPos2iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2s
@@ -4576,7 +4576,7 @@ void glWindowPos2s(GLshort x, GLshort y) {
     packed_data->func = glWindowPos2s_INDEX;
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos2sv
@@ -4584,7 +4584,7 @@ void glWindowPos2sv(const GLshort * v) {
     glWindowPos2sv_INDEXED *packed_data;
     packed_data->func = glWindowPos2sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3d
@@ -4594,7 +4594,7 @@ void glWindowPos3d(GLdouble x, GLdouble y, GLdouble z) {
     packed_data->args.a1 = (GLdouble)x;
     packed_data->args.a2 = (GLdouble)y;
     packed_data->args.a3 = (GLdouble)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3dv
@@ -4602,7 +4602,7 @@ void glWindowPos3dv(const GLdouble * v) {
     glWindowPos3dv_INDEXED *packed_data;
     packed_data->func = glWindowPos3dv_INDEX;
     packed_data->args.a1 = (GLdouble *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3f
@@ -4612,7 +4612,7 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     packed_data->args.a1 = (GLfloat)x;
     packed_data->args.a2 = (GLfloat)y;
     packed_data->args.a3 = (GLfloat)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3fv
@@ -4620,7 +4620,7 @@ void glWindowPos3fv(const GLfloat * v) {
     glWindowPos3fv_INDEXED *packed_data;
     packed_data->func = glWindowPos3fv_INDEX;
     packed_data->args.a1 = (GLfloat *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3i
@@ -4630,7 +4630,7 @@ void glWindowPos3i(GLint x, GLint y, GLint z) {
     packed_data->args.a1 = (GLint)x;
     packed_data->args.a2 = (GLint)y;
     packed_data->args.a3 = (GLint)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3iv
@@ -4638,7 +4638,7 @@ void glWindowPos3iv(const GLint * v) {
     glWindowPos3iv_INDEXED *packed_data;
     packed_data->func = glWindowPos3iv_INDEX;
     packed_data->args.a1 = (GLint *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3s
@@ -4648,7 +4648,7 @@ void glWindowPos3s(GLshort x, GLshort y, GLshort z) {
     packed_data->args.a1 = (GLshort)x;
     packed_data->args.a2 = (GLshort)y;
     packed_data->args.a3 = (GLshort)z;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glWindowPos3sv
@@ -4656,7 +4656,7 @@ void glWindowPos3sv(const GLshort * v) {
     glWindowPos3sv_INDEXED *packed_data;
     packed_data->func = glWindowPos3sv_INDEX;
     packed_data->args.a1 = (GLshort *)v;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXBindHyperpipeSGIX
@@ -4666,7 +4666,7 @@ int glXBindHyperpipeSGIX(Display * dpy, int hpId) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (int)hpId;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4676,7 +4676,7 @@ void glXBindSwapBarrierSGIX(uint32_t window, uint32_t barrier) {
     packed_data->func = glXBindSwapBarrierSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)window;
     packed_data->args.a2 = (uint32_t)barrier;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributes
@@ -4684,7 +4684,7 @@ void glXChangeDrawableAttributes(uint32_t drawable) {
     glXChangeDrawableAttributes_INDEXED *packed_data;
     packed_data->func = glXChangeDrawableAttributes_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChangeDrawableAttributesSGIX
@@ -4692,7 +4692,7 @@ void glXChangeDrawableAttributesSGIX(uint32_t drawable) {
     glXChangeDrawableAttributesSGIX_INDEXED *packed_data;
     packed_data->func = glXChangeDrawableAttributesSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXChooseFBConfig
@@ -4704,7 +4704,7 @@ GLXFBConfig * glXChooseFBConfig(Display * dpy, int screen, const int * attrib_li
     packed_data->args.a3 = (int *)attrib_list;
     packed_data->args.a4 = (int *)nelements;
     GLXFBConfig * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4716,7 +4716,7 @@ XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
     packed_data->args.a2 = (int)screen;
     packed_data->args.a3 = (int *)attribList;
     XVisualInfo * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4724,7 +4724,7 @@ XVisualInfo * glXChooseVisual(Display * dpy, int screen, int * attribList) {
 void glXClientInfo() {
     glXClientInfo_INDEXED *packed_data;
     packed_data->func = glXClientInfo_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCopyContext
@@ -4735,7 +4735,7 @@ void glXCopyContext(Display * dpy, GLXContext src, GLXContext dst, unsigned long
     packed_data->args.a2 = (GLXContext)src;
     packed_data->args.a3 = (GLXContext)dst;
     packed_data->args.a4 = (unsigned long)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateContext
@@ -4747,7 +4747,7 @@ GLXContext glXCreateContext(Display * dpy, XVisualInfo * vis, GLXContext shareLi
     packed_data->args.a3 = (GLXContext)shareList;
     packed_data->args.a4 = (Bool)direct;
     GLXContext ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4761,7 +4761,7 @@ GLXContext glXCreateContextAttribsARB(Display * display, void * config, GLXConte
     packed_data->args.a4 = (Bool)direct;
     packed_data->args.a5 = (int *)attrib_list;
     GLXContext ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4773,7 +4773,7 @@ void glXCreateContextWithConfigSGIX(uint32_t gc_id, uint32_t screen, uint32_t co
     packed_data->args.a2 = (uint32_t)screen;
     packed_data->args.a3 = (uint32_t)config;
     packed_data->args.a4 = (uint32_t)share_list;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPbufferSGIX
@@ -4782,7 +4782,7 @@ void glXCreateGLXPbufferSGIX(uint32_t config, uint32_t pbuffer) {
     packed_data->func = glXCreateGLXPbufferSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)config;
     packed_data->args.a2 = (uint32_t)pbuffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXPixmap
@@ -4793,7 +4793,7 @@ GLXPixmap glXCreateGLXPixmap(Display * dpy, XVisualInfo * visual, Pixmap pixmap)
     packed_data->args.a2 = (XVisualInfo *)visual;
     packed_data->args.a3 = (Pixmap)pixmap;
     GLXPixmap ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4804,7 +4804,7 @@ void glXCreateGLXPixmapWithConfigSGIX(uint32_t config, uint32_t pixmap, uint32_t
     packed_data->args.a1 = (uint32_t)config;
     packed_data->args.a2 = (uint32_t)pixmap;
     packed_data->args.a3 = (uint32_t)glxpixmap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateGLXVideoSourceSGIX
@@ -4817,7 +4817,7 @@ void glXCreateGLXVideoSourceSGIX(Display * dpy, uint32_t screen, uint32_t server
     packed_data->args.a4 = (uint32_t)path;
     packed_data->args.a5 = (uint32_t)class;
     packed_data->args.a6 = (uint32_t)node;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXCreateNewContext
@@ -4830,7 +4830,7 @@ GLXContext glXCreateNewContext(Display * dpy, GLXFBConfig config, int render_typ
     packed_data->args.a4 = (GLXContext)share_list;
     packed_data->args.a5 = (Bool)direct;
     GLXContext ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4842,7 +4842,7 @@ GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attri
     packed_data->args.a2 = (GLXFBConfig)config;
     packed_data->args.a3 = (int *)attrib_list;
     GLXPbuffer ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4855,7 +4855,7 @@ GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, cons
     packed_data->args.a3 = (Pixmap)pixmap;
     packed_data->args.a4 = (int *)attrib_list;
     GLXPixmap ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4868,7 +4868,7 @@ GLXWindow glXCreateWindow(Display * dpy, GLXFBConfig config, Window win, const i
     packed_data->args.a3 = (Window)win;
     packed_data->args.a4 = (int *)attrib_list;
     GLXWindow ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4878,7 +4878,7 @@ void glXDestroyContext(Display * dpy, GLXContext ctx) {
     packed_data->func = glXDestroyContext_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXContext)ctx;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPbufferSGIX
@@ -4886,7 +4886,7 @@ void glXDestroyGLXPbufferSGIX(uint32_t pbuffer) {
     glXDestroyGLXPbufferSGIX_INDEXED *packed_data;
     packed_data->func = glXDestroyGLXPbufferSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)pbuffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXPixmap
@@ -4895,7 +4895,7 @@ void glXDestroyGLXPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->func = glXDestroyGLXPixmap_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPixmap)pixmap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyGLXVideoSourceSGIX
@@ -4904,7 +4904,7 @@ void glXDestroyGLXVideoSourceSGIX(Display * dpy, uint32_t glxvideosource) {
     packed_data->func = glXDestroyGLXVideoSourceSGIX_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (uint32_t)glxvideosource;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyHyperpipeConfigSGIX
@@ -4914,7 +4914,7 @@ int glXDestroyHyperpipeConfigSGIX(Display * dpy, int hpId) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (int)hpId;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4924,7 +4924,7 @@ void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     packed_data->func = glXDestroyPbuffer_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPbuffer)pbuf;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyPixmap
@@ -4933,7 +4933,7 @@ void glXDestroyPixmap(Display * dpy, GLXPixmap pixmap) {
     packed_data->func = glXDestroyPixmap_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXPixmap)pixmap;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXDestroyWindow
@@ -4942,7 +4942,7 @@ void glXDestroyWindow(Display * dpy, GLXWindow win) {
     packed_data->func = glXDestroyWindow_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXWindow)win;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetClientString
@@ -4952,7 +4952,7 @@ const char * glXGetClientString(Display * display, int name) {
     packed_data->args.a1 = (Display *)display;
     packed_data->args.a2 = (int)name;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4965,7 +4965,7 @@ int glXGetConfig(Display * display, XVisualInfo * visual, int attribute, int * v
     packed_data->args.a3 = (int)attribute;
     packed_data->args.a4 = (int *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4974,7 +4974,7 @@ GLXContext glXGetCurrentContext() {
     glXGetCurrentContext_INDEXED *packed_data;
     packed_data->func = glXGetCurrentContext_INDEX;
     GLXContext ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4983,7 +4983,7 @@ Display * glXGetCurrentDisplay() {
     glXGetCurrentDisplay_INDEXED *packed_data;
     packed_data->func = glXGetCurrentDisplay_INDEX;
     Display * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -4992,7 +4992,7 @@ GLXDrawable glXGetCurrentDrawable() {
     glXGetCurrentDrawable_INDEXED *packed_data;
     packed_data->func = glXGetCurrentDrawable_INDEX;
     GLXDrawable ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5001,7 +5001,7 @@ GLXDrawable glXGetCurrentReadDrawable() {
     glXGetCurrentReadDrawable_INDEXED *packed_data;
     packed_data->func = glXGetCurrentReadDrawable_INDEX;
     GLXDrawable ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5010,7 +5010,7 @@ void glXGetDrawableAttributes(uint32_t drawable) {
     glXGetDrawableAttributes_INDEXED *packed_data;
     packed_data->func = glXGetDrawableAttributes_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetDrawableAttributesSGIX
@@ -5018,7 +5018,7 @@ void glXGetDrawableAttributesSGIX(uint32_t drawable) {
     glXGetDrawableAttributesSGIX_INDEXED *packed_data;
     packed_data->func = glXGetDrawableAttributesSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)drawable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetFBConfigAttrib
@@ -5030,7 +5030,7 @@ int glXGetFBConfigAttrib(Display * dpy, GLXFBConfig config, int attribute, int *
     packed_data->args.a3 = (int)attribute;
     packed_data->args.a4 = (int *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5042,7 +5042,7 @@ GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
     packed_data->args.a2 = (int)screen;
     packed_data->args.a3 = (int *)nelements;
     GLXFBConfig * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5050,7 +5050,7 @@ GLXFBConfig * glXGetFBConfigs(Display * dpy, int screen, int * nelements) {
 void glXGetFBConfigsSGIX() {
     glXGetFBConfigsSGIX_INDEXED *packed_data;
     packed_data->func = glXGetFBConfigsSGIX_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetProcAddress
@@ -5059,7 +5059,7 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte * procName) {
     packed_data->func = glXGetProcAddress_INDEX;
     packed_data->args.a1 = (GLubyte *)procName;
     __GLXextFuncPtr ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5070,14 +5070,14 @@ void glXGetSelectedEvent(Display * dpy, GLXDrawable draw, unsigned long * event_
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (unsigned long *)event_mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetVisualConfigs
 void glXGetVisualConfigs() {
     glXGetVisualConfigs_INDEXED *packed_data;
     packed_data->func = glXGetVisualConfigs_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXGetVisualFromFBConfig
@@ -5087,7 +5087,7 @@ XVisualInfo * glXGetVisualFromFBConfig(Display * dpy, GLXFBConfig config) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXFBConfig)config;
     XVisualInfo * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5101,7 +5101,7 @@ int glXHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int size, c
     packed_data->args.a4 = (int)size;
     packed_data->args.a5 = (void *)attribList;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5115,7 +5115,7 @@ int glXHyperpipeConfigSGIX(Display * dpy, int networkId, int npipes, GLXHyperpip
     packed_data->args.a4 = (GLXHyperpipeConfigSGIX)cfg;
     packed_data->args.a5 = (int *)hpId;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5126,7 +5126,7 @@ Bool glXIsDirect(Display * dpy, GLXContext ctx) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXContext)ctx;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5136,7 +5136,7 @@ void glXJoinSwapGroupSGIX(uint32_t window, uint32_t group) {
     packed_data->func = glXJoinSwapGroupSGIX_INDEX;
     packed_data->args.a1 = (uint32_t)window;
     packed_data->args.a2 = (uint32_t)group;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXMakeContextCurrent
@@ -5148,7 +5148,7 @@ Bool glXMakeContextCurrent(Display * dpy, GLXDrawable draw, GLXDrawable read, GL
     packed_data->args.a3 = (GLXDrawable)read;
     packed_data->args.a4 = (GLXContext)ctx;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5160,7 +5160,7 @@ Bool glXMakeCurrent(Display * dpy, GLXDrawable drawable, GLXContext ctx) {
     packed_data->args.a2 = (GLXDrawable)drawable;
     packed_data->args.a3 = (GLXContext)ctx;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5171,7 +5171,7 @@ void glXMakeCurrentReadSGI(uint32_t drawable, uint32_t readdrawable, uint32_t co
     packed_data->args.a1 = (uint32_t)drawable;
     packed_data->args.a2 = (uint32_t)readdrawable;
     packed_data->args.a3 = (uint32_t)context;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryContext
@@ -5183,7 +5183,7 @@ int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
     packed_data->args.a3 = (int)attribute;
     packed_data->args.a4 = (int *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5191,7 +5191,7 @@ int glXQueryContext(Display * dpy, GLXContext ctx, int attribute, int * value) {
 void glXQueryContextInfoEXT() {
     glXQueryContextInfoEXT_INDEXED *packed_data;
     packed_data->func = glXQueryContextInfoEXT_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryDrawable
@@ -5202,7 +5202,7 @@ void glXQueryDrawable(Display * dpy, GLXDrawable draw, int attribute, unsigned i
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (int)attribute;
     packed_data->args.a4 = (unsigned int *)value;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryExtension
@@ -5213,7 +5213,7 @@ Bool glXQueryExtension(Display * display, int * errorBase, int * eventBase) {
     packed_data->args.a2 = (int *)errorBase;
     packed_data->args.a3 = (int *)eventBase;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5224,7 +5224,7 @@ const char * glXQueryExtensionsString(Display * dpy, int screen) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (int)screen;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5238,7 +5238,7 @@ int glXQueryHyperpipeAttribSGIX(Display * dpy, int timeSlice, int attrib, int si
     packed_data->args.a4 = (int)size;
     packed_data->args.a5 = (void *)returnAttribList;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5253,7 +5253,7 @@ int glXQueryHyperpipeBestAttribSGIX(Display * dpy, int timeSlice, int attrib, in
     packed_data->args.a5 = (void *)attribList;
     packed_data->args.a6 = (void *)returnAttribList;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5265,7 +5265,7 @@ GLXHyperpipeConfigSGIX * glXQueryHyperpipeConfigSGIX(Display * dpy, int hpId, in
     packed_data->args.a2 = (int)hpId;
     packed_data->args.a3 = (int *)npipes;
     GLXHyperpipeConfigSGIX * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5276,7 +5276,7 @@ GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npip
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (int *)npipes;
     GLXHyperpipeNetworkSGIX * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5284,7 +5284,7 @@ GLXHyperpipeNetworkSGIX * glXQueryHyperpipeNetworkSGIX(Display * dpy, int * npip
 void glXQueryMaxSwapBarriersSGIX() {
     glXQueryMaxSwapBarriersSGIX_INDEXED *packed_data;
     packed_data->func = glXQueryMaxSwapBarriersSGIX_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXQueryServerString
@@ -5295,7 +5295,7 @@ const char * glXQueryServerString(Display * dpy, int screen, int name) {
     packed_data->args.a2 = (int)screen;
     packed_data->args.a3 = (int)name;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5307,7 +5307,7 @@ Bool glXQueryVersion(Display * dpy, int * maj, int * min) {
     packed_data->args.a2 = (int *)maj;
     packed_data->args.a3 = (int *)min;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5318,7 +5318,7 @@ Bool glXReleaseBuffersMESA(Display * dpy, GLXDrawable drawable) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)drawable;
     Bool ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5326,14 +5326,14 @@ Bool glXReleaseBuffersMESA(Display * dpy, GLXDrawable drawable) {
 void glXRender() {
     glXRender_INDEXED *packed_data;
     packed_data->func = glXRender_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXRenderLarge
 void glXRenderLarge() {
     glXRenderLarge_INDEXED *packed_data;
     packed_data->func = glXRenderLarge_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSelectEvent
@@ -5343,7 +5343,7 @@ void glXSelectEvent(Display * dpy, GLXDrawable draw, unsigned long event_mask) {
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)draw;
     packed_data->args.a3 = (unsigned long)event_mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSwapBuffers
@@ -5352,7 +5352,7 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
     packed_data->func = glXSwapBuffers_INDEX;
     packed_data->args.a1 = (Display *)dpy;
     packed_data->args.a2 = (GLXDrawable)drawable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXSwapIntervalMESA
@@ -5361,7 +5361,7 @@ int glXSwapIntervalMESA(unsigned int interval) {
     packed_data->func = glXSwapIntervalMESA_INDEX;
     packed_data->args.a1 = (unsigned int)interval;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5370,7 +5370,7 @@ void glXSwapIntervalSGI(unsigned int interval) {
     glXSwapIntervalSGI_INDEXED *packed_data;
     packed_data->func = glXSwapIntervalSGI_INDEX;
     packed_data->args.a1 = (unsigned int)interval;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXUseXFont
@@ -5381,35 +5381,35 @@ void glXUseXFont(Font font, int first, int count, int list) {
     packed_data->args.a2 = (int)first;
     packed_data->args.a3 = (int)count;
     packed_data->args.a4 = (int)list;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXVendorPrivate
 void glXVendorPrivate() {
     glXVendorPrivate_INDEXED *packed_data;
     packed_data->func = glXVendorPrivate_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXVendorPrivateWithReply
 void glXVendorPrivateWithReply() {
     glXVendorPrivateWithReply_INDEXED *packed_data;
     packed_data->func = glXVendorPrivateWithReply_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXWaitGL
 void glXWaitGL() {
     glXWaitGL_INDEXED *packed_data;
     packed_data->func = glXWaitGL_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_glXWaitX
 void glXWaitX() {
     glXWaitX_INDEXED *packed_data;
     packed_data->func = glXWaitX_INDEX;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_asoundlib_version
@@ -5417,7 +5417,7 @@ const char * snd_asoundlib_version() {
     snd_asoundlib_version_INDEXED *packed_data;
     packed_data->func = snd_asoundlib_version_INDEX;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5430,7 +5430,7 @@ int snd_async_add_ctl_handler(snd_async_handler_t ** handler, snd_ctl_t * ctl, s
     packed_data->args.a3 = (snd_async_callback_t)callback;
     packed_data->args.a4 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5443,7 +5443,7 @@ int snd_async_add_handler(snd_async_handler_t ** handler, int fd, snd_async_call
     packed_data->args.a3 = (snd_async_callback_t)callback;
     packed_data->args.a4 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5456,7 +5456,7 @@ int snd_async_add_pcm_handler(snd_async_handler_t ** handler, snd_pcm_t * pcm, s
     packed_data->args.a3 = (snd_async_callback_t)callback;
     packed_data->args.a4 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5469,7 +5469,7 @@ int snd_async_add_timer_handler(snd_async_handler_t ** handler, snd_timer_t * ti
     packed_data->args.a3 = (snd_async_callback_t)callback;
     packed_data->args.a4 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5479,7 +5479,7 @@ int snd_async_del_handler(snd_async_handler_t * handler) {
     packed_data->func = snd_async_del_handler_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5489,7 +5489,7 @@ void * snd_async_handler_get_callback_private(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5499,7 +5499,7 @@ snd_ctl_t * snd_async_handler_get_ctl(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_ctl_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     snd_ctl_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5509,7 +5509,7 @@ int snd_async_handler_get_fd(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_fd_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5519,7 +5519,7 @@ snd_pcm_t * snd_async_handler_get_pcm(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_pcm_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     snd_pcm_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5529,7 +5529,7 @@ int snd_async_handler_get_signo(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_signo_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5539,7 +5539,7 @@ snd_timer_t * snd_async_handler_get_timer(snd_async_handler_t * handler) {
     packed_data->func = snd_async_handler_get_timer_INDEX;
     packed_data->args.a1 = (snd_async_handler_t *)handler;
     snd_timer_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5549,7 +5549,7 @@ int snd_card_get_index(const char * name) {
     packed_data->func = snd_card_get_index_INDEX;
     packed_data->args.a1 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5560,7 +5560,7 @@ int snd_card_get_longname(int card, char ** name) {
     packed_data->args.a1 = (int)card;
     packed_data->args.a2 = (char **)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5571,7 +5571,7 @@ int snd_card_get_name(int card, char ** name) {
     packed_data->args.a1 = (int)card;
     packed_data->args.a2 = (char **)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5581,7 +5581,7 @@ int snd_card_load(int card) {
     packed_data->func = snd_card_load_INDEX;
     packed_data->args.a1 = (int)card;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5591,7 +5591,7 @@ int snd_card_next(int * card) {
     packed_data->func = snd_card_next_INDEX;
     packed_data->args.a1 = (int *)card;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5602,7 +5602,7 @@ int snd_config_add(snd_config_t * config, snd_config_t * leaf) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (snd_config_t *)leaf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5613,7 +5613,7 @@ int snd_config_copy(snd_config_t ** dst, snd_config_t * src) {
     packed_data->args.a1 = (snd_config_t **)dst;
     packed_data->args.a2 = (snd_config_t *)src;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5623,7 +5623,7 @@ int snd_config_delete(snd_config_t * config) {
     packed_data->func = snd_config_delete_INDEX;
     packed_data->args.a1 = (snd_config_t *)config;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5633,7 +5633,7 @@ int snd_config_delete_compound_members(const snd_config_t * config) {
     packed_data->func = snd_config_delete_compound_members_INDEX;
     packed_data->args.a1 = (snd_config_t *)config;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5646,7 +5646,7 @@ int snd_config_evaluate(snd_config_t * config, snd_config_t * root, snd_config_t
     packed_data->args.a3 = (snd_config_t *)private_data;
     packed_data->args.a4 = (snd_config_t **)result;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5660,7 +5660,7 @@ int snd_config_expand(snd_config_t * config, snd_config_t * root, const char * a
     packed_data->args.a4 = (snd_config_t *)private_data;
     packed_data->args.a5 = (snd_config_t **)result;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5671,7 +5671,7 @@ int snd_config_get_ascii(const snd_config_t * config, char ** value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char **)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5681,7 +5681,7 @@ int snd_config_get_bool(const snd_config_t * conf) {
     packed_data->func = snd_config_get_bool_INDEX;
     packed_data->args.a1 = (snd_config_t *)conf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5691,7 +5691,7 @@ int snd_config_get_bool_ascii(const char * ascii) {
     packed_data->func = snd_config_get_bool_ascii_INDEX;
     packed_data->args.a1 = (char *)ascii;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5701,7 +5701,7 @@ int snd_config_get_ctl_iface(const snd_config_t * conf) {
     packed_data->func = snd_config_get_ctl_iface_INDEX;
     packed_data->args.a1 = (snd_config_t *)conf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5711,7 +5711,7 @@ int snd_config_get_ctl_iface_ascii(const char * ascii) {
     packed_data->func = snd_config_get_ctl_iface_ascii_INDEX;
     packed_data->args.a1 = (char *)ascii;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5722,7 +5722,7 @@ int snd_config_get_id(const snd_config_t * config, const char ** value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char **)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5733,7 +5733,7 @@ int snd_config_get_integer(const snd_config_t * config, long * value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5744,7 +5744,7 @@ int snd_config_get_integer64(const snd_config_t * config, long long * value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (long long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5755,7 +5755,7 @@ int snd_config_get_ireal(const snd_config_t * config, double * value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (double *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5766,7 +5766,7 @@ int snd_config_get_pointer(const snd_config_t * config, const void ** value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (void **)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5777,7 +5777,7 @@ int snd_config_get_real(const snd_config_t * config, double * value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (double *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5788,7 +5788,7 @@ int snd_config_get_string(const snd_config_t * config, const char ** value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char **)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5798,7 +5798,7 @@ snd_config_type_t snd_config_get_type(const snd_config_t * config) {
     packed_data->func = snd_config_get_type_INDEX;
     packed_data->args.a1 = (snd_config_t *)config;
     snd_config_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5810,7 +5810,7 @@ int snd_config_imake_integer(snd_config_t ** config, const char * key, const lon
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5822,7 +5822,7 @@ int snd_config_imake_integer64(snd_config_t ** config, const char * key, const l
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (long long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5834,7 +5834,7 @@ int snd_config_imake_pointer(snd_config_t ** config, const char * key, const voi
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (void *)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5846,7 +5846,7 @@ int snd_config_imake_real(snd_config_t ** config, const char * key, const double
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (double)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5858,7 +5858,7 @@ int snd_config_imake_string(snd_config_t ** config, const char * key, const char
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (char *)ascii;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5868,7 +5868,7 @@ snd_config_iterator_t snd_config_iterator_end(const snd_config_t * node) {
     packed_data->func = snd_config_iterator_end_INDEX;
     packed_data->args.a1 = (snd_config_t *)node;
     snd_config_iterator_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5878,7 +5878,7 @@ snd_config_t * snd_config_iterator_entry(const snd_config_iterator_t iterator) {
     packed_data->func = snd_config_iterator_entry_INDEX;
     packed_data->args.a1 = (snd_config_iterator_t)iterator;
     snd_config_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5888,7 +5888,7 @@ snd_config_iterator_t snd_config_iterator_first(const snd_config_t * node) {
     packed_data->func = snd_config_iterator_first_INDEX;
     packed_data->args.a1 = (snd_config_t *)node;
     snd_config_iterator_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5898,7 +5898,7 @@ snd_config_iterator_t snd_config_iterator_next(const snd_config_iterator_t itera
     packed_data->func = snd_config_iterator_next_INDEX;
     packed_data->args.a1 = (snd_config_iterator_t)iterator;
     snd_config_iterator_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5909,7 +5909,7 @@ int snd_config_load(snd_config_t * config, snd_input_t * in) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (snd_input_t *)in;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5920,7 +5920,7 @@ int snd_config_load_override(snd_config_t * config, snd_input_t * in) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (snd_input_t *)in;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5932,7 +5932,7 @@ int snd_config_make(snd_config_t ** config, const char * key, snd_config_type_t 
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (snd_config_type_t)type;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5944,7 +5944,7 @@ int snd_config_make_compound(snd_config_t ** config, const char * key, int join)
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (int)join;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5955,7 +5955,7 @@ int snd_config_make_integer(snd_config_t ** config, const char * key) {
     packed_data->args.a1 = (snd_config_t **)config;
     packed_data->args.a2 = (char *)key;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5966,7 +5966,7 @@ int snd_config_make_integer64(snd_config_t ** config, const char * key) {
     packed_data->args.a1 = (snd_config_t **)config;
     packed_data->args.a2 = (char *)key;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5977,7 +5977,7 @@ int snd_config_make_pointer(snd_config_t ** config, const char * key) {
     packed_data->args.a1 = (snd_config_t **)config;
     packed_data->args.a2 = (char *)key;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5988,7 +5988,7 @@ int snd_config_make_real(snd_config_t ** config, const char * key) {
     packed_data->args.a1 = (snd_config_t **)config;
     packed_data->args.a2 = (char *)key;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -5999,7 +5999,7 @@ int snd_config_make_string(snd_config_t ** config, const char * key) {
     packed_data->args.a1 = (snd_config_t **)config;
     packed_data->args.a2 = (char *)key;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6010,7 +6010,7 @@ int snd_config_save(snd_config_t * config, snd_output_t * out) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6022,7 +6022,7 @@ int snd_config_search(snd_config_t * config, const char * key, snd_config_t ** r
     packed_data->args.a2 = (char *)key;
     packed_data->args.a3 = (snd_config_t **)result;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6035,7 +6035,7 @@ int snd_config_search_definition(snd_config_t * config, const char * base, const
     packed_data->args.a3 = (char *)key;
     packed_data->args.a4 = (snd_config_t **)result;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6046,7 +6046,7 @@ int snd_config_set_ascii(snd_config_t * config, const char * ascii) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char *)ascii;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6057,7 +6057,7 @@ int snd_config_set_id(snd_config_t * config, const char * id) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6068,7 +6068,7 @@ int snd_config_set_integer(snd_config_t * config, long value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6079,7 +6079,7 @@ int snd_config_set_integer64(snd_config_t * config, long long value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (long long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6090,7 +6090,7 @@ int snd_config_set_pointer(snd_config_t * config, const void * ptr) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (void *)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6101,7 +6101,7 @@ int snd_config_set_real(snd_config_t * config, double value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (double)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6112,7 +6112,7 @@ int snd_config_set_string(snd_config_t * config, const char * value) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6123,7 +6123,7 @@ int snd_config_test_id(const snd_config_t * config, const char * id) {
     packed_data->args.a1 = (snd_config_t *)config;
     packed_data->args.a2 = (char *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6133,7 +6133,7 @@ int snd_config_top(snd_config_t ** config) {
     packed_data->func = snd_config_top_INDEX;
     packed_data->args.a1 = (snd_config_t **)config;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6142,7 +6142,7 @@ int snd_config_update() {
     snd_config_update_INDEXED *packed_data;
     packed_data->func = snd_config_update_INDEX;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6152,7 +6152,7 @@ int snd_config_update_free(snd_config_update_t * update) {
     packed_data->func = snd_config_update_free_INDEX;
     packed_data->args.a1 = (snd_config_update_t *)update;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6161,7 +6161,7 @@ int snd_config_update_free_global() {
     snd_config_update_free_global_INDEXED *packed_data;
     packed_data->func = snd_config_update_free_global_INDEX;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6173,7 +6173,7 @@ int snd_config_update_r(snd_config_t ** top, snd_config_update_t ** update, cons
     packed_data->args.a2 = (snd_config_update_t **)update;
     packed_data->args.a3 = (char *)path;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6184,7 +6184,7 @@ int snd_ctl_card_info(snd_ctl_t * ctl, snd_ctl_card_info_t * info) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_card_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6193,7 +6193,7 @@ void snd_ctl_card_info_clear(snd_ctl_card_info_t * obj) {
     snd_ctl_card_info_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_card_info_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_copy
@@ -6202,7 +6202,7 @@ void snd_ctl_card_info_copy(snd_ctl_card_info_t * dst, const snd_ctl_card_info_t
     packed_data->func = snd_ctl_card_info_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)dst;
     packed_data->args.a2 = (snd_ctl_card_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_free
@@ -6210,7 +6210,7 @@ void snd_ctl_card_info_free(snd_ctl_card_info_t * obj) {
     snd_ctl_card_info_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_card_info_free_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_card_info_get_card
@@ -6219,7 +6219,7 @@ int snd_ctl_card_info_get_card(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_card_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6229,7 +6229,7 @@ const char * snd_ctl_card_info_get_components(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_components_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6239,7 +6239,7 @@ const char * snd_ctl_card_info_get_driver(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_driver_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6249,7 +6249,7 @@ const char * snd_ctl_card_info_get_id(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6259,7 +6259,7 @@ const char * snd_ctl_card_info_get_longname(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_longname_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6269,7 +6269,7 @@ const char * snd_ctl_card_info_get_mixername(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_mixername_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6279,7 +6279,7 @@ const char * snd_ctl_card_info_get_name(const snd_ctl_card_info_t * obj) {
     packed_data->func = snd_ctl_card_info_get_name_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6289,7 +6289,7 @@ int snd_ctl_card_info_malloc(snd_ctl_card_info_t ** ptr) {
     packed_data->func = snd_ctl_card_info_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_card_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6298,7 +6298,7 @@ size_t snd_ctl_card_info_sizeof() {
     snd_ctl_card_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_card_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6308,7 +6308,7 @@ int snd_ctl_close(snd_ctl_t * ctl) {
     packed_data->func = snd_ctl_close_INDEX;
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6320,7 +6320,7 @@ int snd_ctl_elem_add_boolean(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsi
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     packed_data->args.a3 = (unsigned int)count;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6331,7 +6331,7 @@ int snd_ctl_elem_add_iec958(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6346,7 +6346,7 @@ int snd_ctl_elem_add_integer(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsi
     packed_data->args.a5 = (long)imax;
     packed_data->args.a6 = (long)istep;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6361,7 +6361,7 @@ int snd_ctl_elem_add_integer64(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, un
     packed_data->args.a5 = (long long)imax;
     packed_data->args.a6 = (long long)istep;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6370,7 +6370,7 @@ void snd_ctl_elem_id_clear(snd_ctl_elem_id_t * obj) {
     snd_ctl_elem_id_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_id_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_copy
@@ -6379,7 +6379,7 @@ void snd_ctl_elem_id_copy(snd_ctl_elem_id_t * dst, const snd_ctl_elem_id_t * src
     packed_data->func = snd_ctl_elem_id_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_free
@@ -6387,7 +6387,7 @@ void snd_ctl_elem_id_free(snd_ctl_elem_id_t * obj) {
     snd_ctl_elem_id_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_id_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_get_device
@@ -6396,7 +6396,7 @@ unsigned int snd_ctl_elem_id_get_device(const snd_ctl_elem_id_t * obj) {
     packed_data->func = snd_ctl_elem_id_get_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6406,7 +6406,7 @@ unsigned int snd_ctl_elem_id_get_index(const snd_ctl_elem_id_t * obj) {
     packed_data->func = snd_ctl_elem_id_get_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6416,7 +6416,7 @@ snd_ctl_elem_iface_t snd_ctl_elem_id_get_interface(const snd_ctl_elem_id_t * obj
     packed_data->func = snd_ctl_elem_id_get_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6426,7 +6426,7 @@ const char * snd_ctl_elem_id_get_name(const snd_ctl_elem_id_t * obj) {
     packed_data->func = snd_ctl_elem_id_get_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6436,7 +6436,7 @@ unsigned int snd_ctl_elem_id_get_numid(const snd_ctl_elem_id_t * obj) {
     packed_data->func = snd_ctl_elem_id_get_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6446,7 +6446,7 @@ unsigned int snd_ctl_elem_id_get_subdevice(const snd_ctl_elem_id_t * obj) {
     packed_data->func = snd_ctl_elem_id_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6456,7 +6456,7 @@ int snd_ctl_elem_id_malloc(snd_ctl_elem_id_t ** ptr) {
     packed_data->func = snd_ctl_elem_id_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6466,7 +6466,7 @@ void snd_ctl_elem_id_set_device(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_index
@@ -6475,7 +6475,7 @@ void snd_ctl_elem_id_set_index(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_interface
@@ -6484,7 +6484,7 @@ void snd_ctl_elem_id_set_interface(snd_ctl_elem_id_t * obj, snd_ctl_elem_iface_t
     packed_data->func = snd_ctl_elem_id_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_name
@@ -6493,7 +6493,7 @@ void snd_ctl_elem_id_set_name(snd_ctl_elem_id_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_id_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (char *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_numid
@@ -6502,7 +6502,7 @@ void snd_ctl_elem_id_set_numid(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_set_subdevice
@@ -6511,7 +6511,7 @@ void snd_ctl_elem_id_set_subdevice(snd_ctl_elem_id_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_id_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_id_sizeof
@@ -6519,7 +6519,7 @@ size_t snd_ctl_elem_id_sizeof() {
     snd_ctl_elem_id_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_id_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6529,7 +6529,7 @@ const char * snd_ctl_elem_iface_name(snd_ctl_elem_iface_t iface) {
     packed_data->func = snd_ctl_elem_iface_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_iface_t)iface;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6540,7 +6540,7 @@ int snd_ctl_elem_info(snd_ctl_t * ctl, snd_ctl_elem_info_t * info) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6549,7 +6549,7 @@ void snd_ctl_elem_info_clear(snd_ctl_elem_info_t * obj) {
     snd_ctl_elem_info_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_info_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_copy
@@ -6558,7 +6558,7 @@ void snd_ctl_elem_info_copy(snd_ctl_elem_info_t * dst, const snd_ctl_elem_info_t
     packed_data->func = snd_ctl_elem_info_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_free
@@ -6566,7 +6566,7 @@ void snd_ctl_elem_info_free(snd_ctl_elem_info_t * obj) {
     snd_ctl_elem_info_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_info_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_get_count
@@ -6575,7 +6575,7 @@ unsigned int snd_ctl_elem_info_get_count(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_count_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6585,7 +6585,7 @@ unsigned int snd_ctl_elem_info_get_device(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6596,7 +6596,7 @@ int snd_ctl_elem_info_get_dimension(const snd_ctl_elem_info_t * obj, unsigned in
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6606,7 +6606,7 @@ int snd_ctl_elem_info_get_dimensions(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_dimensions_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6616,7 +6616,7 @@ void snd_ctl_elem_info_get_id(const snd_ctl_elem_info_t * obj, snd_ctl_elem_id_t
     packed_data->func = snd_ctl_elem_info_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_get_index
@@ -6625,7 +6625,7 @@ unsigned int snd_ctl_elem_info_get_index(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6635,7 +6635,7 @@ snd_ctl_elem_iface_t snd_ctl_elem_info_get_interface(const snd_ctl_elem_info_t *
     packed_data->func = snd_ctl_elem_info_get_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6645,7 +6645,7 @@ const char * snd_ctl_elem_info_get_item_name(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_item_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6655,7 +6655,7 @@ unsigned int snd_ctl_elem_info_get_items(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_items_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6665,7 +6665,7 @@ long snd_ctl_elem_info_get_max(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_max_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6675,7 +6675,7 @@ long long snd_ctl_elem_info_get_max64(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_max64_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6685,7 +6685,7 @@ long snd_ctl_elem_info_get_min(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_min_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6695,7 +6695,7 @@ long long snd_ctl_elem_info_get_min64(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_min64_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6705,7 +6705,7 @@ const char * snd_ctl_elem_info_get_name(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6715,7 +6715,7 @@ unsigned int snd_ctl_elem_info_get_numid(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6725,7 +6725,7 @@ pid_t snd_ctl_elem_info_get_owner(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_owner_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     pid_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6735,7 +6735,7 @@ long snd_ctl_elem_info_get_step(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_step_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6745,7 +6745,7 @@ long long snd_ctl_elem_info_get_step64(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_step64_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     long long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6755,7 +6755,7 @@ unsigned int snd_ctl_elem_info_get_subdevice(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6765,7 +6765,7 @@ snd_ctl_elem_type_t snd_ctl_elem_info_get_type(const snd_ctl_elem_info_t * obj) 
     packed_data->func = snd_ctl_elem_info_get_type_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     snd_ctl_elem_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6775,7 +6775,7 @@ int snd_ctl_elem_info_is_inactive(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_inactive_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6785,7 +6785,7 @@ int snd_ctl_elem_info_is_locked(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_locked_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6795,7 +6795,7 @@ int snd_ctl_elem_info_is_owner(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_owner_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6805,7 +6805,7 @@ int snd_ctl_elem_info_is_readable(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_readable_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6815,7 +6815,7 @@ int snd_ctl_elem_info_is_tlv_commandable(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_tlv_commandable_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6825,7 +6825,7 @@ int snd_ctl_elem_info_is_tlv_readable(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_tlv_readable_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6835,7 +6835,7 @@ int snd_ctl_elem_info_is_tlv_writable(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_tlv_writable_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6845,7 +6845,7 @@ int snd_ctl_elem_info_is_user(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_user_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6855,7 +6855,7 @@ int snd_ctl_elem_info_is_volatile(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_volatile_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6865,7 +6865,7 @@ int snd_ctl_elem_info_is_writable(const snd_ctl_elem_info_t * obj) {
     packed_data->func = snd_ctl_elem_info_is_writable_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6875,7 +6875,7 @@ int snd_ctl_elem_info_malloc(snd_ctl_elem_info_t ** ptr) {
     packed_data->func = snd_ctl_elem_info_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6885,7 +6885,7 @@ void snd_ctl_elem_info_set_device(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_id
@@ -6894,7 +6894,7 @@ void snd_ctl_elem_info_set_id(snd_ctl_elem_info_t * obj, const snd_ctl_elem_id_t
     packed_data->func = snd_ctl_elem_info_set_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_index
@@ -6903,7 +6903,7 @@ void snd_ctl_elem_info_set_index(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_interface
@@ -6912,7 +6912,7 @@ void snd_ctl_elem_info_set_interface(snd_ctl_elem_info_t * obj, snd_ctl_elem_ifa
     packed_data->func = snd_ctl_elem_info_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_item
@@ -6921,7 +6921,7 @@ void snd_ctl_elem_info_set_item(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_item_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_name
@@ -6930,7 +6930,7 @@ void snd_ctl_elem_info_set_name(snd_ctl_elem_info_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_info_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (char *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_numid
@@ -6939,7 +6939,7 @@ void snd_ctl_elem_info_set_numid(snd_ctl_elem_info_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_info_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_set_subdevice
@@ -6948,7 +6948,7 @@ void snd_ctl_elem_info_set_subdevice(snd_ctl_elem_info_t * obj, unsigned int val
     packed_data->func = snd_ctl_elem_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_info_sizeof
@@ -6956,7 +6956,7 @@ size_t snd_ctl_elem_info_sizeof() {
     snd_ctl_elem_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6967,7 +6967,7 @@ int snd_ctl_elem_list(snd_ctl_t * ctl, snd_ctl_elem_list_t * list) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_list_t *)list;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6978,7 +6978,7 @@ int snd_ctl_elem_list_alloc_space(snd_ctl_elem_list_t * obj, unsigned int entrie
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)entries;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -6987,7 +6987,7 @@ void snd_ctl_elem_list_clear(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_copy
@@ -6996,7 +6996,7 @@ void snd_ctl_elem_list_copy(snd_ctl_elem_list_t * dst, const snd_ctl_elem_list_t
     packed_data->func = snd_ctl_elem_list_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_list_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_free
@@ -7004,7 +7004,7 @@ void snd_ctl_elem_list_free(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_free_space
@@ -7012,7 +7012,7 @@ void snd_ctl_elem_list_free_space(snd_ctl_elem_list_t * obj) {
     snd_ctl_elem_list_free_space_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_free_space_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_get_count
@@ -7021,7 +7021,7 @@ unsigned int snd_ctl_elem_list_get_count(const snd_ctl_elem_list_t * obj) {
     packed_data->func = snd_ctl_elem_list_get_count_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7032,7 +7032,7 @@ unsigned int snd_ctl_elem_list_get_device(const snd_ctl_elem_list_t * obj, unsig
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7043,7 +7043,7 @@ void snd_ctl_elem_list_get_id(const snd_ctl_elem_list_t * obj, unsigned int idx,
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_get_index
@@ -7053,7 +7053,7 @@ unsigned int snd_ctl_elem_list_get_index(const snd_ctl_elem_list_t * obj, unsign
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7064,7 +7064,7 @@ snd_ctl_elem_iface_t snd_ctl_elem_list_get_interface(const snd_ctl_elem_list_t *
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7075,7 +7075,7 @@ const char * snd_ctl_elem_list_get_name(const snd_ctl_elem_list_t * obj, unsigne
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7086,7 +7086,7 @@ unsigned int snd_ctl_elem_list_get_numid(const snd_ctl_elem_list_t * obj, unsign
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7097,7 +7097,7 @@ unsigned int snd_ctl_elem_list_get_subdevice(const snd_ctl_elem_list_t * obj, un
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7107,7 +7107,7 @@ unsigned int snd_ctl_elem_list_get_used(const snd_ctl_elem_list_t * obj) {
     packed_data->func = snd_ctl_elem_list_get_used_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7117,7 +7117,7 @@ int snd_ctl_elem_list_malloc(snd_ctl_elem_list_t ** ptr) {
     packed_data->func = snd_ctl_elem_list_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7127,7 +7127,7 @@ void snd_ctl_elem_list_set_offset(snd_ctl_elem_list_t * obj, unsigned int val) {
     packed_data->func = snd_ctl_elem_list_set_offset_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_list_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_list_sizeof
@@ -7135,7 +7135,7 @@ size_t snd_ctl_elem_list_sizeof() {
     snd_ctl_elem_list_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_list_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7146,7 +7146,7 @@ int snd_ctl_elem_lock(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7157,7 +7157,7 @@ int snd_ctl_elem_read(snd_ctl_t * ctl, snd_ctl_elem_value_t * value) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7168,7 +7168,7 @@ int snd_ctl_elem_remove(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7179,7 +7179,7 @@ void snd_ctl_elem_set_bytes(snd_ctl_elem_value_t * obj, void * data, size_t size
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (void *)data;
     packed_data->args.a3 = (size_t)size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_tlv_command
@@ -7190,7 +7190,7 @@ int snd_ctl_elem_tlv_command(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, cons
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     packed_data->args.a3 = (unsigned int *)tlv;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7203,7 +7203,7 @@ int snd_ctl_elem_tlv_read(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, unsigne
     packed_data->args.a3 = (unsigned int *)tlv;
     packed_data->args.a4 = (unsigned int)tlv_size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7215,7 +7215,7 @@ int snd_ctl_elem_tlv_write(snd_ctl_t * ctl, const snd_ctl_elem_id_t * id, const 
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     packed_data->args.a3 = (unsigned int *)tlv;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7225,7 +7225,7 @@ const char * snd_ctl_elem_type_name(snd_ctl_elem_type_t type) {
     packed_data->func = snd_ctl_elem_type_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_type_t)type;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7236,7 +7236,7 @@ int snd_ctl_elem_unlock(snd_ctl_t * ctl, snd_ctl_elem_id_t * id) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7245,7 +7245,7 @@ void snd_ctl_elem_value_clear(snd_ctl_elem_value_t * obj) {
     snd_ctl_elem_value_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_value_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_copy
@@ -7254,7 +7254,7 @@ void snd_ctl_elem_value_copy(snd_ctl_elem_value_t * dst, const snd_ctl_elem_valu
     packed_data->func = snd_ctl_elem_value_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)dst;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_free
@@ -7262,7 +7262,7 @@ void snd_ctl_elem_value_free(snd_ctl_elem_value_t * obj) {
     snd_ctl_elem_value_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_value_free_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_boolean
@@ -7272,7 +7272,7 @@ int snd_ctl_elem_value_get_boolean(const snd_ctl_elem_value_t * obj, unsigned in
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7283,7 +7283,7 @@ unsigned char snd_ctl_elem_value_get_byte(const snd_ctl_elem_value_t * obj, unsi
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned char ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7293,7 +7293,7 @@ const void * snd_ctl_elem_value_get_bytes(const snd_ctl_elem_value_t * obj) {
     packed_data->func = snd_ctl_elem_value_get_bytes_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     const void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7303,7 +7303,7 @@ unsigned int snd_ctl_elem_value_get_device(const snd_ctl_elem_value_t * obj) {
     packed_data->func = snd_ctl_elem_value_get_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7314,7 +7314,7 @@ unsigned int snd_ctl_elem_value_get_enumerated(const snd_ctl_elem_value_t * obj,
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7324,7 +7324,7 @@ void snd_ctl_elem_value_get_id(const snd_ctl_elem_value_t * obj, snd_ctl_elem_id
     packed_data->func = snd_ctl_elem_value_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_iec958
@@ -7333,7 +7333,7 @@ void snd_ctl_elem_value_get_iec958(const snd_ctl_elem_value_t * obj, snd_aes_iec
     packed_data->func = snd_ctl_elem_value_get_iec958_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_aes_iec958_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_get_index
@@ -7342,7 +7342,7 @@ unsigned int snd_ctl_elem_value_get_index(const snd_ctl_elem_value_t * obj) {
     packed_data->func = snd_ctl_elem_value_get_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7353,7 +7353,7 @@ long snd_ctl_elem_value_get_integer(const snd_ctl_elem_value_t * obj, unsigned i
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7364,7 +7364,7 @@ long long snd_ctl_elem_value_get_integer64(const snd_ctl_elem_value_t * obj, uns
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     long long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7374,7 +7374,7 @@ snd_ctl_elem_iface_t snd_ctl_elem_value_get_interface(const snd_ctl_elem_value_t
     packed_data->func = snd_ctl_elem_value_get_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7384,7 +7384,7 @@ const char * snd_ctl_elem_value_get_name(const snd_ctl_elem_value_t * obj) {
     packed_data->func = snd_ctl_elem_value_get_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7394,7 +7394,7 @@ unsigned int snd_ctl_elem_value_get_numid(const snd_ctl_elem_value_t * obj) {
     packed_data->func = snd_ctl_elem_value_get_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7404,7 +7404,7 @@ unsigned int snd_ctl_elem_value_get_subdevice(const snd_ctl_elem_value_t * obj) 
     packed_data->func = snd_ctl_elem_value_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7414,7 +7414,7 @@ int snd_ctl_elem_value_malloc(snd_ctl_elem_value_t ** ptr) {
     packed_data->func = snd_ctl_elem_value_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7425,7 +7425,7 @@ void snd_ctl_elem_value_set_boolean(snd_ctl_elem_value_t * obj, unsigned int idx
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_byte
@@ -7435,7 +7435,7 @@ void snd_ctl_elem_value_set_byte(snd_ctl_elem_value_t * obj, unsigned int idx, u
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (unsigned char)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_device
@@ -7444,7 +7444,7 @@ void snd_ctl_elem_value_set_device(snd_ctl_elem_value_t * obj, unsigned int val)
     packed_data->func = snd_ctl_elem_value_set_device_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_enumerated
@@ -7454,7 +7454,7 @@ void snd_ctl_elem_value_set_enumerated(snd_ctl_elem_value_t * obj, unsigned int 
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_id
@@ -7463,7 +7463,7 @@ void snd_ctl_elem_value_set_id(snd_ctl_elem_value_t * obj, const snd_ctl_elem_id
     packed_data->func = snd_ctl_elem_value_set_id_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_iec958
@@ -7472,7 +7472,7 @@ void snd_ctl_elem_value_set_iec958(snd_ctl_elem_value_t * obj, const snd_aes_iec
     packed_data->func = snd_ctl_elem_value_set_iec958_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_aes_iec958_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_index
@@ -7481,7 +7481,7 @@ void snd_ctl_elem_value_set_index(snd_ctl_elem_value_t * obj, unsigned int val) 
     packed_data->func = snd_ctl_elem_value_set_index_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_integer
@@ -7491,7 +7491,7 @@ void snd_ctl_elem_value_set_integer(snd_ctl_elem_value_t * obj, unsigned int idx
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_integer64
@@ -7501,7 +7501,7 @@ void snd_ctl_elem_value_set_integer64(snd_ctl_elem_value_t * obj, unsigned int i
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)idx;
     packed_data->args.a3 = (long long)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_interface
@@ -7510,7 +7510,7 @@ void snd_ctl_elem_value_set_interface(snd_ctl_elem_value_t * obj, snd_ctl_elem_i
     packed_data->func = snd_ctl_elem_value_set_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_iface_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_name
@@ -7519,7 +7519,7 @@ void snd_ctl_elem_value_set_name(snd_ctl_elem_value_t * obj, const char * val) {
     packed_data->func = snd_ctl_elem_value_set_name_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (char *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_numid
@@ -7528,7 +7528,7 @@ void snd_ctl_elem_value_set_numid(snd_ctl_elem_value_t * obj, unsigned int val) 
     packed_data->func = snd_ctl_elem_value_set_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_set_subdevice
@@ -7537,7 +7537,7 @@ void snd_ctl_elem_value_set_subdevice(snd_ctl_elem_value_t * obj, unsigned int v
     packed_data->func = snd_ctl_elem_value_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_elem_value_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_elem_value_sizeof
@@ -7545,7 +7545,7 @@ size_t snd_ctl_elem_value_sizeof() {
     snd_ctl_elem_value_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_elem_value_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7556,7 +7556,7 @@ int snd_ctl_elem_write(snd_ctl_t * ctl, snd_ctl_elem_value_t * value) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7565,7 +7565,7 @@ void snd_ctl_event_clear(snd_ctl_event_t * obj) {
     snd_ctl_event_clear_INDEXED *packed_data;
     packed_data->func = snd_ctl_event_clear_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_copy
@@ -7574,7 +7574,7 @@ void snd_ctl_event_copy(snd_ctl_event_t * dst, const snd_ctl_event_t * src) {
     packed_data->func = snd_ctl_event_copy_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)dst;
     packed_data->args.a2 = (snd_ctl_event_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_elem_get_device
@@ -7583,7 +7583,7 @@ unsigned int snd_ctl_event_elem_get_device(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_device_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7593,7 +7593,7 @@ void snd_ctl_event_elem_get_id(const snd_ctl_event_t * obj, snd_ctl_elem_id_t * 
     packed_data->func = snd_ctl_event_elem_get_id_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_elem_get_index
@@ -7602,7 +7602,7 @@ unsigned int snd_ctl_event_elem_get_index(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_index_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7612,7 +7612,7 @@ snd_ctl_elem_iface_t snd_ctl_event_elem_get_interface(const snd_ctl_event_t * ob
     packed_data->func = snd_ctl_event_elem_get_interface_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7622,7 +7622,7 @@ unsigned int snd_ctl_event_elem_get_mask(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_mask_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7632,7 +7632,7 @@ const char * snd_ctl_event_elem_get_name(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_name_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7642,7 +7642,7 @@ unsigned int snd_ctl_event_elem_get_numid(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_numid_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7652,7 +7652,7 @@ unsigned int snd_ctl_event_elem_get_subdevice(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_elem_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7661,7 +7661,7 @@ void snd_ctl_event_free(snd_ctl_event_t * obj) {
     snd_ctl_event_free_INDEXED *packed_data;
     packed_data->func = snd_ctl_event_free_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_ctl_event_get_type
@@ -7670,7 +7670,7 @@ snd_ctl_event_type_t snd_ctl_event_get_type(const snd_ctl_event_t * obj) {
     packed_data->func = snd_ctl_event_get_type_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t *)obj;
     snd_ctl_event_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7680,7 +7680,7 @@ int snd_ctl_event_malloc(snd_ctl_event_t ** ptr) {
     packed_data->func = snd_ctl_event_malloc_INDEX;
     packed_data->args.a1 = (snd_ctl_event_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7689,7 +7689,7 @@ size_t snd_ctl_event_sizeof() {
     snd_ctl_event_sizeof_INDEXED *packed_data;
     packed_data->func = snd_ctl_event_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7699,7 +7699,7 @@ const char * snd_ctl_event_type_name(snd_ctl_event_type_t type) {
     packed_data->func = snd_ctl_event_type_name_INDEX;
     packed_data->args.a1 = (snd_ctl_event_type_t)type;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7710,7 +7710,7 @@ int snd_ctl_get_power_state(snd_ctl_t * ctl, unsigned int * state) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (unsigned int *)state;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7721,7 +7721,7 @@ int snd_ctl_hwdep_info(snd_ctl_t * ctl, snd_hwdep_info_t * info) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_hwdep_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7732,7 +7732,7 @@ int snd_ctl_hwdep_next_device(snd_ctl_t * ctl, int * device) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int *)device;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7742,7 +7742,7 @@ const char * snd_ctl_name(snd_ctl_t * ctl) {
     packed_data->func = snd_ctl_name_INDEX;
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7753,7 +7753,7 @@ int snd_ctl_nonblock(snd_ctl_t * ctl, int nonblock) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7765,7 +7765,7 @@ int snd_ctl_open(snd_ctl_t ** ctl, const char * name, int mode) {
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7778,7 +7778,7 @@ int snd_ctl_open_lconf(snd_ctl_t ** ctl, const char * name, int mode, snd_config
     packed_data->args.a3 = (int)mode;
     packed_data->args.a4 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7789,7 +7789,7 @@ int snd_ctl_pcm_info(snd_ctl_t * ctl, snd_pcm_info_t * info) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_pcm_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7800,7 +7800,7 @@ int snd_ctl_pcm_next_device(snd_ctl_t * ctl, int * device) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int *)device;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7811,7 +7811,7 @@ int snd_ctl_pcm_prefer_subdevice(snd_ctl_t * ctl, int subdev) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int)subdev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7823,7 +7823,7 @@ int snd_ctl_poll_descriptors(snd_ctl_t * ctl, struct pollfd * pfds, unsigned int
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7833,7 +7833,7 @@ int snd_ctl_poll_descriptors_count(snd_ctl_t * ctl) {
     packed_data->func = snd_ctl_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7846,7 +7846,7 @@ int snd_ctl_poll_descriptors_revents(snd_ctl_t * ctl, struct pollfd * pfds, unsi
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7857,7 +7857,7 @@ int snd_ctl_rawmidi_info(snd_ctl_t * ctl, snd_rawmidi_info_t * info) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_rawmidi_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7868,7 +7868,7 @@ int snd_ctl_rawmidi_next_device(snd_ctl_t * ctl, int * device) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int *)device;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7879,7 +7879,7 @@ int snd_ctl_rawmidi_prefer_subdevice(snd_ctl_t * ctl, int subdev) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int)subdev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7890,7 +7890,7 @@ int snd_ctl_read(snd_ctl_t * ctl, snd_ctl_event_t * event) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (snd_ctl_event_t *)event;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7901,7 +7901,7 @@ int snd_ctl_set_power_state(snd_ctl_t * ctl, unsigned int state) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (unsigned int)state;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7912,7 +7912,7 @@ int snd_ctl_subscribe_events(snd_ctl_t * ctl, int subscribe) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int)subscribe;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7922,7 +7922,7 @@ snd_ctl_type_t snd_ctl_type(snd_ctl_t * ctl) {
     packed_data->func = snd_ctl_type_INDEX;
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     snd_ctl_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7933,7 +7933,7 @@ int snd_ctl_wait(snd_ctl_t * ctl, int timeout) {
     packed_data->args.a1 = (snd_ctl_t *)ctl;
     packed_data->args.a2 = (int)timeout;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7943,7 +7943,7 @@ int snd_dlclose(void * handle) {
     packed_data->func = snd_dlclose_INDEX;
     packed_data->args.a1 = (void *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7954,7 +7954,7 @@ void * snd_dlopen(const char * file, int mode) {
     packed_data->args.a1 = (char *)file;
     packed_data->args.a2 = (int)mode;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7966,7 +7966,7 @@ void * snd_dlsym(void * handle, const char * name, const char * version) {
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (char *)version;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7976,7 +7976,7 @@ int snd_hctl_close(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_close_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7987,7 +7987,7 @@ int snd_hctl_compare_fast(const snd_hctl_elem_t * c1, const snd_hctl_elem_t * c2
     packed_data->args.a1 = (snd_hctl_elem_t *)c1;
     packed_data->args.a2 = (snd_hctl_elem_t *)c2;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -7997,7 +7997,7 @@ snd_ctl_t * snd_hctl_ctl(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_ctl_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     snd_ctl_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8007,7 +8007,7 @@ void * snd_hctl_elem_get_callback_private(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8017,7 +8017,7 @@ unsigned int snd_hctl_elem_get_device(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_device_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8027,7 +8027,7 @@ snd_hctl_t * snd_hctl_elem_get_hctl(snd_hctl_elem_t * elem) {
     packed_data->func = snd_hctl_elem_get_hctl_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     snd_hctl_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8037,7 +8037,7 @@ void snd_hctl_elem_get_id(const snd_hctl_elem_t * obj, snd_ctl_elem_id_t * ptr) 
     packed_data->func = snd_hctl_elem_get_id_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_get_index
@@ -8046,7 +8046,7 @@ unsigned int snd_hctl_elem_get_index(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_index_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8056,7 +8056,7 @@ snd_ctl_elem_iface_t snd_hctl_elem_get_interface(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_interface_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     snd_ctl_elem_iface_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8066,7 +8066,7 @@ const char * snd_hctl_elem_get_name(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_name_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8076,7 +8076,7 @@ unsigned int snd_hctl_elem_get_numid(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_numid_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8086,7 +8086,7 @@ unsigned int snd_hctl_elem_get_subdevice(const snd_hctl_elem_t * obj) {
     packed_data->func = snd_hctl_elem_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8097,7 +8097,7 @@ int snd_hctl_elem_info(snd_hctl_elem_t * elem, snd_ctl_elem_info_t * info) {
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     packed_data->args.a2 = (snd_ctl_elem_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8107,7 +8107,7 @@ snd_hctl_elem_t * snd_hctl_elem_next(snd_hctl_elem_t * elem) {
     packed_data->func = snd_hctl_elem_next_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     snd_hctl_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8117,7 +8117,7 @@ snd_hctl_elem_t * snd_hctl_elem_prev(snd_hctl_elem_t * elem) {
     packed_data->func = snd_hctl_elem_prev_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     snd_hctl_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8128,7 +8128,7 @@ int snd_hctl_elem_read(snd_hctl_elem_t * elem, snd_ctl_elem_value_t * value) {
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8138,7 +8138,7 @@ void snd_hctl_elem_set_callback(snd_hctl_elem_t * obj, snd_hctl_elem_callback_t 
     packed_data->func = snd_hctl_elem_set_callback_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (snd_hctl_elem_callback_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_set_callback_private
@@ -8147,7 +8147,7 @@ void snd_hctl_elem_set_callback_private(snd_hctl_elem_t * obj, void * val) {
     packed_data->func = snd_hctl_elem_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_elem_t *)obj;
     packed_data->args.a2 = (void *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_elem_tlv_command
@@ -8157,7 +8157,7 @@ int snd_hctl_elem_tlv_command(snd_hctl_elem_t * elem, const unsigned int * tlv) 
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     packed_data->args.a2 = (unsigned int *)tlv;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8169,7 +8169,7 @@ int snd_hctl_elem_tlv_read(snd_hctl_elem_t * elem, unsigned int * tlv, unsigned 
     packed_data->args.a2 = (unsigned int *)tlv;
     packed_data->args.a3 = (unsigned int)tlv_size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8180,7 +8180,7 @@ int snd_hctl_elem_tlv_write(snd_hctl_elem_t * elem, const unsigned int * tlv) {
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     packed_data->args.a2 = (unsigned int *)tlv;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8191,7 +8191,7 @@ int snd_hctl_elem_write(snd_hctl_elem_t * elem, snd_ctl_elem_value_t * value) {
     packed_data->args.a1 = (snd_hctl_elem_t *)elem;
     packed_data->args.a2 = (snd_ctl_elem_value_t *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8202,7 +8202,7 @@ snd_hctl_elem_t * snd_hctl_find_elem(snd_hctl_t * hctl, const snd_ctl_elem_id_t 
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (snd_ctl_elem_id_t *)id;
     snd_hctl_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8212,7 +8212,7 @@ snd_hctl_elem_t * snd_hctl_first_elem(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_first_elem_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     snd_hctl_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8222,7 +8222,7 @@ int snd_hctl_free(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_free_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8232,7 +8232,7 @@ void * snd_hctl_get_callback_private(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8242,7 +8242,7 @@ unsigned int snd_hctl_get_count(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_get_count_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8252,7 +8252,7 @@ int snd_hctl_handle_events(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_handle_events_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8262,7 +8262,7 @@ snd_hctl_elem_t * snd_hctl_last_elem(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_last_elem_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     snd_hctl_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8272,7 +8272,7 @@ int snd_hctl_load(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_load_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8282,7 +8282,7 @@ const char * snd_hctl_name(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_name_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8293,7 +8293,7 @@ int snd_hctl_nonblock(snd_hctl_t * hctl, int nonblock) {
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8305,7 +8305,7 @@ int snd_hctl_open(snd_hctl_t ** hctl, const char * name, int mode) {
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8316,7 +8316,7 @@ int snd_hctl_open_ctl(snd_hctl_t ** hctlp, snd_ctl_t * ctl) {
     packed_data->args.a1 = (snd_hctl_t **)hctlp;
     packed_data->args.a2 = (snd_ctl_t *)ctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8328,7 +8328,7 @@ int snd_hctl_poll_descriptors(snd_hctl_t * hctl, struct pollfd * pfds, unsigned 
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8338,7 +8338,7 @@ int snd_hctl_poll_descriptors_count(snd_hctl_t * hctl) {
     packed_data->func = snd_hctl_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8351,7 +8351,7 @@ int snd_hctl_poll_descriptors_revents(snd_hctl_t * ctl, struct pollfd * pfds, un
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8361,7 +8361,7 @@ void snd_hctl_set_callback(snd_hctl_t * hctl, snd_hctl_callback_t callback) {
     packed_data->func = snd_hctl_set_callback_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (snd_hctl_callback_t)callback;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_set_callback_private
@@ -8370,7 +8370,7 @@ void snd_hctl_set_callback_private(snd_hctl_t * hctl, void * data) {
     packed_data->func = snd_hctl_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (void *)data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hctl_set_compare
@@ -8380,7 +8380,7 @@ int snd_hctl_set_compare(snd_hctl_t * hctl, snd_hctl_compare_t hsort) {
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (snd_hctl_compare_t)hsort;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8391,7 +8391,7 @@ int snd_hctl_wait(snd_hctl_t * hctl, int timeout) {
     packed_data->args.a1 = (snd_hctl_t *)hctl;
     packed_data->args.a2 = (int)timeout;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8401,7 +8401,7 @@ int snd_hwdep_close(snd_hwdep_t * hwdep) {
     packed_data->func = snd_hwdep_close_INDEX;
     packed_data->args.a1 = (snd_hwdep_t *)hwdep;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8411,7 +8411,7 @@ void snd_hwdep_dsp_image_copy(snd_hwdep_dsp_image_t * dst, const snd_hwdep_dsp_i
     packed_data->func = snd_hwdep_dsp_image_copy_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)dst;
     packed_data->args.a2 = (snd_hwdep_dsp_image_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_free
@@ -8419,7 +8419,7 @@ void snd_hwdep_dsp_image_free(snd_hwdep_dsp_image_t * obj) {
     snd_hwdep_dsp_image_free_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_image_free_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_get_image
@@ -8428,7 +8428,7 @@ const void * snd_hwdep_dsp_image_get_image(const snd_hwdep_dsp_image_t * obj) {
     packed_data->func = snd_hwdep_dsp_image_get_image_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     const void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8438,7 +8438,7 @@ unsigned int snd_hwdep_dsp_image_get_index(const snd_hwdep_dsp_image_t * obj) {
     packed_data->func = snd_hwdep_dsp_image_get_index_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8448,7 +8448,7 @@ size_t snd_hwdep_dsp_image_get_length(const snd_hwdep_dsp_image_t * obj) {
     packed_data->func = snd_hwdep_dsp_image_get_length_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8458,7 +8458,7 @@ const char * snd_hwdep_dsp_image_get_name(const snd_hwdep_dsp_image_t * obj) {
     packed_data->func = snd_hwdep_dsp_image_get_name_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8468,7 +8468,7 @@ int snd_hwdep_dsp_image_malloc(snd_hwdep_dsp_image_t ** ptr) {
     packed_data->func = snd_hwdep_dsp_image_malloc_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8478,7 +8478,7 @@ void snd_hwdep_dsp_image_set_image(snd_hwdep_dsp_image_t * obj, void * buffer) {
     packed_data->func = snd_hwdep_dsp_image_set_image_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (void *)buffer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_index
@@ -8487,7 +8487,7 @@ void snd_hwdep_dsp_image_set_index(snd_hwdep_dsp_image_t * obj, unsigned int _in
     packed_data->func = snd_hwdep_dsp_image_set_index_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (unsigned int)_index;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_length
@@ -8496,7 +8496,7 @@ void snd_hwdep_dsp_image_set_length(snd_hwdep_dsp_image_t * obj, size_t length) 
     packed_data->func = snd_hwdep_dsp_image_set_length_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (size_t)length;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_set_name
@@ -8505,7 +8505,7 @@ void snd_hwdep_dsp_image_set_name(snd_hwdep_dsp_image_t * obj, const char * name
     packed_data->func = snd_hwdep_dsp_image_set_name_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_image_t *)obj;
     packed_data->args.a2 = (char *)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_image_sizeof
@@ -8513,7 +8513,7 @@ size_t snd_hwdep_dsp_image_sizeof() {
     snd_hwdep_dsp_image_sizeof_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_image_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8524,7 +8524,7 @@ int snd_hwdep_dsp_load(snd_hwdep_t * hwdep, snd_hwdep_dsp_image_t * block) {
     packed_data->args.a1 = (snd_hwdep_t *)hwdep;
     packed_data->args.a2 = (snd_hwdep_dsp_image_t *)block;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8535,7 +8535,7 @@ int snd_hwdep_dsp_status(snd_hwdep_t * hwdep, snd_hwdep_dsp_status_t * status) {
     packed_data->args.a1 = (snd_hwdep_t *)hwdep;
     packed_data->args.a2 = (snd_hwdep_dsp_status_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8545,7 +8545,7 @@ void snd_hwdep_dsp_status_copy(snd_hwdep_dsp_status_t * dst, const snd_hwdep_dsp
     packed_data->func = snd_hwdep_dsp_status_copy_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)dst;
     packed_data->args.a2 = (snd_hwdep_dsp_status_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_status_free
@@ -8553,7 +8553,7 @@ void snd_hwdep_dsp_status_free(snd_hwdep_dsp_status_t * obj) {
     snd_hwdep_dsp_status_free_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_status_free_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_hwdep_dsp_status_get_chip_ready
@@ -8562,7 +8562,7 @@ unsigned int snd_hwdep_dsp_status_get_chip_ready(const snd_hwdep_dsp_status_t * 
     packed_data->func = snd_hwdep_dsp_status_get_chip_ready_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8572,7 +8572,7 @@ unsigned int snd_hwdep_dsp_status_get_dsp_loaded(const snd_hwdep_dsp_status_t * 
     packed_data->func = snd_hwdep_dsp_status_get_dsp_loaded_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8582,7 +8582,7 @@ const char * snd_hwdep_dsp_status_get_id(const snd_hwdep_dsp_status_t * obj) {
     packed_data->func = snd_hwdep_dsp_status_get_id_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8592,7 +8592,7 @@ unsigned int snd_hwdep_dsp_status_get_num_dsps(const snd_hwdep_dsp_status_t * ob
     packed_data->func = snd_hwdep_dsp_status_get_num_dsps_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8602,7 +8602,7 @@ unsigned int snd_hwdep_dsp_status_get_version(const snd_hwdep_dsp_status_t * obj
     packed_data->func = snd_hwdep_dsp_status_get_version_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8612,7 +8612,7 @@ int snd_hwdep_dsp_status_malloc(snd_hwdep_dsp_status_t ** ptr) {
     packed_data->func = snd_hwdep_dsp_status_malloc_INDEX;
     packed_data->args.a1 = (snd_hwdep_dsp_status_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8621,7 +8621,7 @@ size_t snd_hwdep_dsp_status_sizeof() {
     snd_hwdep_dsp_status_sizeof_INDEXED *packed_data;
     packed_data->func = snd_hwdep_dsp_status_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8632,7 +8632,7 @@ int snd_hwdep_info(snd_hwdep_t * hwdep, snd_hwdep_info_t * info) {
     packed_data->args.a1 = (snd_hwdep_t *)hwdep;
     packed_data->args.a2 = (snd_hwdep_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8641,7 +8641,7 @@ size_t snd_hwdep_info_sizeof() {
     snd_hwdep_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_hwdep_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8653,7 +8653,7 @@ int snd_hwdep_ioctl(snd_hwdep_t * hwdep, unsigned int request, void * arg) {
     packed_data->args.a2 = (unsigned int)request;
     packed_data->args.a3 = (void *)arg;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8664,7 +8664,7 @@ int snd_hwdep_nonblock(snd_hwdep_t * hwdep, int nonblock) {
     packed_data->args.a1 = (snd_hwdep_t *)hwdep;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8676,7 +8676,7 @@ int snd_hwdep_open(snd_hwdep_t ** hwdep, const char * name, int mode) {
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8688,7 +8688,7 @@ int snd_hwdep_poll_descriptors(snd_hwdep_t * hwdep, struct pollfd * pfds, unsign
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8701,7 +8701,7 @@ int snd_hwdep_poll_descriptors_revents(snd_hwdep_t * hwdep, struct pollfd * pfds
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8713,7 +8713,7 @@ ssize_t snd_hwdep_read(snd_hwdep_t * hwdep, void * buffer, size_t size) {
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (size_t)size;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8725,7 +8725,7 @@ ssize_t snd_hwdep_write(snd_hwdep_t * hwdep, const void * buffer, size_t size) {
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (size_t)size;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8737,7 +8737,7 @@ int snd_input_buffer_open(snd_input_t ** inputp, const char * buffer, ssize_t si
     packed_data->args.a2 = (char *)buffer;
     packed_data->args.a3 = (ssize_t)size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8747,7 +8747,7 @@ int snd_input_close(snd_input_t * input) {
     packed_data->func = snd_input_close_INDEX;
     packed_data->args.a1 = (snd_input_t *)input;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8757,7 +8757,7 @@ int snd_input_getc(snd_input_t * input) {
     packed_data->func = snd_input_getc_INDEX;
     packed_data->args.a1 = (snd_input_t *)input;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8769,7 +8769,7 @@ char * snd_input_gets(snd_input_t * input, char * str, size_t size) {
     packed_data->args.a2 = (char *)str;
     packed_data->args.a3 = (size_t)size;
     char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8781,7 +8781,7 @@ int snd_input_stdio_attach(snd_input_t ** inputp, FILE * fp, int _close) {
     packed_data->args.a2 = (FILE *)fp;
     packed_data->args.a3 = (int)_close;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8793,7 +8793,7 @@ int snd_input_stdio_open(snd_input_t ** inputp, const char * file, const char * 
     packed_data->args.a2 = (char *)file;
     packed_data->args.a3 = (char *)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8804,7 +8804,7 @@ int snd_input_ungetc(snd_input_t * input, int c) {
     packed_data->args.a1 = (snd_input_t *)input;
     packed_data->args.a2 = (int)c;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8814,7 +8814,7 @@ int snd_lib_error_set_handler(snd_lib_error_handler_t handler) {
     packed_data->func = snd_lib_error_set_handler_INDEX;
     packed_data->args.a1 = (snd_lib_error_handler_t)handler;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8827,7 +8827,7 @@ long snd_midi_event_decode(snd_midi_event_t * dev, unsigned char * buf, long cou
     packed_data->args.a3 = (long)count;
     packed_data->args.a4 = (snd_seq_event_t *)ev;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8840,7 +8840,7 @@ long snd_midi_event_encode(snd_midi_event_t * dev, const unsigned char * buf, lo
     packed_data->args.a3 = (long)count;
     packed_data->args.a4 = (snd_seq_event_t *)ev;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8852,7 +8852,7 @@ int snd_midi_event_encode_byte(snd_midi_event_t * dev, int c, snd_seq_event_t * 
     packed_data->args.a2 = (int)c;
     packed_data->args.a3 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8861,7 +8861,7 @@ void snd_midi_event_free(snd_midi_event_t * dev) {
     snd_midi_event_free_INDEXED *packed_data;
     packed_data->func = snd_midi_event_free_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_init
@@ -8869,7 +8869,7 @@ void snd_midi_event_init(snd_midi_event_t * dev) {
     snd_midi_event_init_INDEXED *packed_data;
     packed_data->func = snd_midi_event_init_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_new
@@ -8879,7 +8879,7 @@ int snd_midi_event_new(size_t bufsize, snd_midi_event_t ** rdev) {
     packed_data->args.a1 = (size_t)bufsize;
     packed_data->args.a2 = (snd_midi_event_t **)rdev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8889,7 +8889,7 @@ void snd_midi_event_no_status(snd_midi_event_t * dev, int on) {
     packed_data->func = snd_midi_event_no_status_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
     packed_data->args.a2 = (int)on;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_reset_decode
@@ -8897,7 +8897,7 @@ void snd_midi_event_reset_decode(snd_midi_event_t * dev) {
     snd_midi_event_reset_decode_INDEXED *packed_data;
     packed_data->func = snd_midi_event_reset_decode_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_reset_encode
@@ -8905,7 +8905,7 @@ void snd_midi_event_reset_encode(snd_midi_event_t * dev) {
     snd_midi_event_reset_encode_INDEXED *packed_data;
     packed_data->func = snd_midi_event_reset_encode_INDEX;
     packed_data->args.a1 = (snd_midi_event_t *)dev;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_midi_event_resize_buffer
@@ -8915,7 +8915,7 @@ int snd_midi_event_resize_buffer(snd_midi_event_t * dev, size_t bufsize) {
     packed_data->args.a1 = (snd_midi_event_t *)dev;
     packed_data->args.a2 = (size_t)bufsize;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8926,7 +8926,7 @@ int snd_mixer_add_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8937,7 +8937,7 @@ int snd_mixer_attach(snd_mixer_t * mixer, const char * name) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8948,7 +8948,7 @@ int snd_mixer_attach_hctl(snd_mixer_t * mixer, snd_hctl_t * hctl) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8958,7 +8958,7 @@ void snd_mixer_class_copy(snd_mixer_class_t * dst, const snd_mixer_class_t * src
     packed_data->func = snd_mixer_class_copy_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)dst;
     packed_data->args.a2 = (snd_mixer_class_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_class_free
@@ -8966,7 +8966,7 @@ void snd_mixer_class_free(snd_mixer_class_t * obj) {
     snd_mixer_class_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_class_free_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_class_get_compare
@@ -8975,7 +8975,7 @@ snd_mixer_compare_t snd_mixer_class_get_compare(const snd_mixer_class_t * class_
     packed_data->func = snd_mixer_class_get_compare_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     snd_mixer_compare_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8985,7 +8985,7 @@ snd_mixer_event_t snd_mixer_class_get_event(const snd_mixer_class_t * class_) {
     packed_data->func = snd_mixer_class_get_event_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     snd_mixer_event_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -8995,7 +8995,7 @@ snd_mixer_t * snd_mixer_class_get_mixer(const snd_mixer_class_t * class_) {
     packed_data->func = snd_mixer_class_get_mixer_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     snd_mixer_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9005,7 +9005,7 @@ void * snd_mixer_class_get_private(const snd_mixer_class_t * class_) {
     packed_data->func = snd_mixer_class_get_private_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9015,7 +9015,7 @@ int snd_mixer_class_malloc(snd_mixer_class_t ** ptr) {
     packed_data->func = snd_mixer_class_malloc_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9026,7 +9026,7 @@ int snd_mixer_class_register(snd_mixer_class_t * class_, snd_mixer_t * mixer) {
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     packed_data->args.a2 = (snd_mixer_t *)mixer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9037,7 +9037,7 @@ int snd_mixer_class_set_compare(snd_mixer_class_t * class_, snd_mixer_compare_t 
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     packed_data->args.a2 = (snd_mixer_compare_t)compare;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9048,7 +9048,7 @@ int snd_mixer_class_set_event(snd_mixer_class_t * class_, snd_mixer_event_t even
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     packed_data->args.a2 = (snd_mixer_event_t)event;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9059,7 +9059,7 @@ int snd_mixer_class_set_private(snd_mixer_class_t * class_, void * private_data)
     packed_data->args.a1 = (snd_mixer_class_t *)class_;
     packed_data->args.a2 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9068,7 +9068,7 @@ size_t snd_mixer_class_sizeof() {
     snd_mixer_class_sizeof_INDEXED *packed_data;
     packed_data->func = snd_mixer_class_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9078,7 +9078,7 @@ int snd_mixer_class_unregister(snd_mixer_class_t * clss) {
     packed_data->func = snd_mixer_class_unregister_INDEX;
     packed_data->args.a1 = (snd_mixer_class_t *)clss;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9088,7 +9088,7 @@ int snd_mixer_close(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_close_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9099,7 +9099,7 @@ int snd_mixer_detach(snd_mixer_t * mixer, const char * name) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9110,7 +9110,7 @@ int snd_mixer_detach_hctl(snd_mixer_t * mixer, snd_hctl_t * hctl) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_hctl_t *)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9121,7 +9121,7 @@ int snd_mixer_elem_add(snd_mixer_elem_t * elem, snd_mixer_class_t * class_) {
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     packed_data->args.a2 = (snd_mixer_class_t *)class_;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9132,7 +9132,7 @@ int snd_mixer_elem_attach(snd_mixer_elem_t * melem, snd_hctl_elem_t * helem) {
     packed_data->args.a1 = (snd_mixer_elem_t *)melem;
     packed_data->args.a2 = (snd_hctl_elem_t *)helem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9143,7 +9143,7 @@ int snd_mixer_elem_detach(snd_mixer_elem_t * melem, snd_hctl_elem_t * helem) {
     packed_data->args.a1 = (snd_mixer_elem_t *)melem;
     packed_data->args.a2 = (snd_hctl_elem_t *)helem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9153,7 +9153,7 @@ int snd_mixer_elem_empty(snd_mixer_elem_t * melem) {
     packed_data->func = snd_mixer_elem_empty_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)melem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9162,7 +9162,7 @@ void snd_mixer_elem_free(snd_mixer_elem_t * elem) {
     snd_mixer_elem_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_elem_free_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_get_callback_private
@@ -9171,7 +9171,7 @@ void * snd_mixer_elem_get_callback_private(const snd_mixer_elem_t * obj) {
     packed_data->func = snd_mixer_elem_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9181,7 +9181,7 @@ void * snd_mixer_elem_get_private(const snd_mixer_elem_t * melem) {
     packed_data->func = snd_mixer_elem_get_private_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)melem;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9191,7 +9191,7 @@ snd_mixer_elem_type_t snd_mixer_elem_get_type(const snd_mixer_elem_t * obj) {
     packed_data->func = snd_mixer_elem_get_type_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     snd_mixer_elem_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9201,7 +9201,7 @@ int snd_mixer_elem_info(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_elem_info_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9211,7 +9211,7 @@ snd_mixer_elem_t * snd_mixer_elem_next(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_elem_next_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     snd_mixer_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9221,7 +9221,7 @@ snd_mixer_elem_t * snd_mixer_elem_prev(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_elem_prev_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     snd_mixer_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9231,7 +9231,7 @@ int snd_mixer_elem_remove(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_elem_remove_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9241,7 +9241,7 @@ void snd_mixer_elem_set_callback(snd_mixer_elem_t * obj, snd_mixer_elem_callback
     packed_data->func = snd_mixer_elem_set_callback_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (snd_mixer_elem_callback_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_set_callback_private
@@ -9250,7 +9250,7 @@ void snd_mixer_elem_set_callback_private(snd_mixer_elem_t * obj, void * val) {
     packed_data->func = snd_mixer_elem_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (void *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_elem_value
@@ -9259,7 +9259,7 @@ int snd_mixer_elem_value(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_elem_value_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9270,7 +9270,7 @@ snd_mixer_elem_t * snd_mixer_find_selem(snd_mixer_t * mixer, const snd_mixer_sel
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_mixer_selem_id_t *)id;
     snd_mixer_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9280,7 +9280,7 @@ snd_mixer_elem_t * snd_mixer_first_elem(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_first_elem_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     snd_mixer_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9289,7 +9289,7 @@ void snd_mixer_free(snd_mixer_t * mixer) {
     snd_mixer_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_free_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_get_callback_private
@@ -9298,7 +9298,7 @@ void * snd_mixer_get_callback_private(const snd_mixer_t * obj) {
     packed_data->func = snd_mixer_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9308,7 +9308,7 @@ unsigned int snd_mixer_get_count(const snd_mixer_t * obj) {
     packed_data->func = snd_mixer_get_count_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9320,7 +9320,7 @@ int snd_mixer_get_hctl(snd_mixer_t * mixer, const char * name, snd_hctl_t ** hct
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (snd_hctl_t **)hctl;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9330,7 +9330,7 @@ int snd_mixer_handle_events(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_handle_events_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9340,7 +9340,7 @@ snd_mixer_elem_t * snd_mixer_last_elem(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_last_elem_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     snd_mixer_elem_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9350,7 +9350,7 @@ int snd_mixer_load(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_load_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9361,7 +9361,7 @@ int snd_mixer_open(snd_mixer_t ** mixer, int mode) {
     packed_data->args.a1 = (snd_mixer_t **)mixer;
     packed_data->args.a2 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9373,7 +9373,7 @@ int snd_mixer_poll_descriptors(snd_mixer_t * mixer, struct pollfd * pfds, unsign
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9383,7 +9383,7 @@ int snd_mixer_poll_descriptors_count(snd_mixer_t * mixer) {
     packed_data->func = snd_mixer_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9396,7 +9396,7 @@ int snd_mixer_poll_descriptors_revents(snd_mixer_t * mixer, struct pollfd * pfds
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9407,7 +9407,7 @@ int snd_mixer_remove_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9417,7 +9417,7 @@ const char * snd_mixer_selem_channel_name(snd_mixer_selem_channel_id_t channel) 
     packed_data->func = snd_mixer_selem_channel_name_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_channel_id_t)channel;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9429,7 +9429,7 @@ int snd_mixer_selem_get_capture_dB(snd_mixer_elem_t * elem, snd_mixer_selem_chan
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9441,7 +9441,7 @@ int snd_mixer_selem_get_capture_dB_range(snd_mixer_elem_t * elem, long * min, lo
     packed_data->args.a2 = (long *)min;
     packed_data->args.a3 = (long *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9451,7 +9451,7 @@ int snd_mixer_selem_get_capture_group(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_get_capture_group_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9463,7 +9463,7 @@ int snd_mixer_selem_get_capture_switch(snd_mixer_elem_t * elem, snd_mixer_selem_
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (int *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9475,7 +9475,7 @@ int snd_mixer_selem_get_capture_volume(snd_mixer_elem_t * elem, snd_mixer_selem_
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9487,7 +9487,7 @@ int snd_mixer_selem_get_capture_volume_range(snd_mixer_elem_t * elem, long * min
     packed_data->args.a2 = (long *)min;
     packed_data->args.a3 = (long *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9499,7 +9499,7 @@ int snd_mixer_selem_get_enum_item(snd_mixer_elem_t * elem, snd_mixer_selem_chann
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (unsigned int *)idxp;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9512,7 +9512,7 @@ int snd_mixer_selem_get_enum_item_name(snd_mixer_elem_t * elem, unsigned int idx
     packed_data->args.a3 = (size_t)maxlen;
     packed_data->args.a4 = (char *)str;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9522,7 +9522,7 @@ int snd_mixer_selem_get_enum_items(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_get_enum_items_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9532,7 +9532,7 @@ void snd_mixer_selem_get_id(snd_mixer_elem_t * element, snd_mixer_selem_id_t * i
     packed_data->func = snd_mixer_selem_get_id_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)element;
     packed_data->args.a2 = (snd_mixer_selem_id_t *)id;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_get_index
@@ -9541,7 +9541,7 @@ unsigned int snd_mixer_selem_get_index(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_get_index_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9551,7 +9551,7 @@ const char * snd_mixer_selem_get_name(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_get_name_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9563,7 +9563,7 @@ int snd_mixer_selem_get_playback_dB(snd_mixer_elem_t * elem, snd_mixer_selem_cha
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9575,7 +9575,7 @@ int snd_mixer_selem_get_playback_dB_range(snd_mixer_elem_t * elem, long * min, l
     packed_data->args.a2 = (long *)min;
     packed_data->args.a3 = (long *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9587,7 +9587,7 @@ int snd_mixer_selem_get_playback_switch(snd_mixer_elem_t * elem, snd_mixer_selem
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (int *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9599,7 +9599,7 @@ int snd_mixer_selem_get_playback_volume(snd_mixer_elem_t * elem, snd_mixer_selem
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long *)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9611,7 +9611,7 @@ int snd_mixer_selem_get_playback_volume_range(snd_mixer_elem_t * elem, long * mi
     packed_data->args.a2 = (long *)min;
     packed_data->args.a3 = (long *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9622,7 +9622,7 @@ int snd_mixer_selem_has_capture_channel(snd_mixer_elem_t * obj, snd_mixer_selem_
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9632,7 +9632,7 @@ int snd_mixer_selem_has_capture_switch(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_capture_switch_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9642,7 +9642,7 @@ int snd_mixer_selem_has_capture_switch_exclusive(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_capture_switch_exclusive_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9652,7 +9652,7 @@ int snd_mixer_selem_has_capture_switch_joined(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_capture_switch_joined_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9662,7 +9662,7 @@ int snd_mixer_selem_has_capture_volume(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_capture_volume_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9672,7 +9672,7 @@ int snd_mixer_selem_has_capture_volume_joined(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_capture_volume_joined_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9682,7 +9682,7 @@ int snd_mixer_selem_has_common_switch(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_common_switch_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9692,7 +9692,7 @@ int snd_mixer_selem_has_common_volume(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_common_volume_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9703,7 +9703,7 @@ int snd_mixer_selem_has_playback_channel(snd_mixer_elem_t * obj, snd_mixer_selem
     packed_data->args.a1 = (snd_mixer_elem_t *)obj;
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9713,7 +9713,7 @@ int snd_mixer_selem_has_playback_switch(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_playback_switch_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9723,7 +9723,7 @@ int snd_mixer_selem_has_playback_switch_joined(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_playback_switch_joined_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9733,7 +9733,7 @@ int snd_mixer_selem_has_playback_volume(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_playback_volume_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9743,7 +9743,7 @@ int snd_mixer_selem_has_playback_volume_joined(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_has_playback_volume_joined_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9753,7 +9753,7 @@ void snd_mixer_selem_id_copy(snd_mixer_selem_id_t * dst, const snd_mixer_selem_i
     packed_data->func = snd_mixer_selem_id_copy_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)dst;
     packed_data->args.a2 = (snd_mixer_selem_id_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_free
@@ -9761,7 +9761,7 @@ void snd_mixer_selem_id_free(snd_mixer_selem_id_t * obj) {
     snd_mixer_selem_id_free_INDEXED *packed_data;
     packed_data->func = snd_mixer_selem_id_free_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_get_index
@@ -9770,7 +9770,7 @@ unsigned int snd_mixer_selem_id_get_index(const snd_mixer_selem_id_t * obj) {
     packed_data->func = snd_mixer_selem_id_get_index_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9780,7 +9780,7 @@ const char * snd_mixer_selem_id_get_name(const snd_mixer_selem_id_t * obj) {
     packed_data->func = snd_mixer_selem_id_get_name_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9790,7 +9790,7 @@ int snd_mixer_selem_id_malloc(snd_mixer_selem_id_t ** ptr) {
     packed_data->func = snd_mixer_selem_id_malloc_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9800,7 +9800,7 @@ void snd_mixer_selem_id_set_index(snd_mixer_selem_id_t * obj, unsigned int val) 
     packed_data->func = snd_mixer_selem_id_set_index_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_set_name
@@ -9809,7 +9809,7 @@ void snd_mixer_selem_id_set_name(snd_mixer_selem_id_t * obj, const char * val) {
     packed_data->func = snd_mixer_selem_id_set_name_INDEX;
     packed_data->args.a1 = (snd_mixer_selem_id_t *)obj;
     packed_data->args.a2 = (char *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_selem_id_sizeof
@@ -9817,7 +9817,7 @@ size_t snd_mixer_selem_id_sizeof() {
     snd_mixer_selem_id_sizeof_INDEXED *packed_data;
     packed_data->func = snd_mixer_selem_id_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9827,7 +9827,7 @@ int snd_mixer_selem_is_active(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_active_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9837,7 +9837,7 @@ int snd_mixer_selem_is_capture_mono(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_capture_mono_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9847,7 +9847,7 @@ int snd_mixer_selem_is_enum_capture(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_enum_capture_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9857,7 +9857,7 @@ int snd_mixer_selem_is_enum_playback(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_enum_playback_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9867,7 +9867,7 @@ int snd_mixer_selem_is_enumerated(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_enumerated_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9877,7 +9877,7 @@ int snd_mixer_selem_is_playback_mono(snd_mixer_elem_t * elem) {
     packed_data->func = snd_mixer_selem_is_playback_mono_INDEX;
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9889,7 +9889,7 @@ int snd_mixer_selem_register(snd_mixer_t * mixer, struct snd_mixer_selem_regopt 
     packed_data->args.a2 = (struct snd_mixer_selem_regopt *)options;
     packed_data->args.a3 = (snd_mixer_class_t **)classp;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9902,7 +9902,7 @@ int snd_mixer_selem_set_capture_dB(snd_mixer_elem_t * elem, snd_mixer_selem_chan
     packed_data->args.a3 = (long)value;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9914,7 +9914,7 @@ int snd_mixer_selem_set_capture_dB_all(snd_mixer_elem_t * elem, long value, int 
     packed_data->args.a2 = (long)value;
     packed_data->args.a3 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9926,7 +9926,7 @@ int snd_mixer_selem_set_capture_switch(snd_mixer_elem_t * elem, snd_mixer_selem_
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (int)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9937,7 +9937,7 @@ int snd_mixer_selem_set_capture_switch_all(snd_mixer_elem_t * elem, int value) {
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     packed_data->args.a2 = (int)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9949,7 +9949,7 @@ int snd_mixer_selem_set_capture_volume(snd_mixer_elem_t * elem, snd_mixer_selem_
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9960,7 +9960,7 @@ int snd_mixer_selem_set_capture_volume_all(snd_mixer_elem_t * elem, long value) 
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     packed_data->args.a2 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9972,7 +9972,7 @@ int snd_mixer_selem_set_capture_volume_range(snd_mixer_elem_t * elem, long min, 
     packed_data->args.a2 = (long)min;
     packed_data->args.a3 = (long)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9984,7 +9984,7 @@ int snd_mixer_selem_set_enum_item(snd_mixer_elem_t * elem, snd_mixer_selem_chann
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (unsigned int)idx;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -9997,7 +9997,7 @@ int snd_mixer_selem_set_playback_dB(snd_mixer_elem_t * elem, snd_mixer_selem_cha
     packed_data->args.a3 = (long)value;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10009,7 +10009,7 @@ int snd_mixer_selem_set_playback_dB_all(snd_mixer_elem_t * elem, long value, int
     packed_data->args.a2 = (long)value;
     packed_data->args.a3 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10021,7 +10021,7 @@ int snd_mixer_selem_set_playback_switch(snd_mixer_elem_t * elem, snd_mixer_selem
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (int)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10032,7 +10032,7 @@ int snd_mixer_selem_set_playback_switch_all(snd_mixer_elem_t * elem, int value) 
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     packed_data->args.a2 = (int)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10044,7 +10044,7 @@ int snd_mixer_selem_set_playback_volume(snd_mixer_elem_t * elem, snd_mixer_selem
     packed_data->args.a2 = (snd_mixer_selem_channel_id_t)channel;
     packed_data->args.a3 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10055,7 +10055,7 @@ int snd_mixer_selem_set_playback_volume_all(snd_mixer_elem_t * elem, long value)
     packed_data->args.a1 = (snd_mixer_elem_t *)elem;
     packed_data->args.a2 = (long)value;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10067,7 +10067,7 @@ int snd_mixer_selem_set_playback_volume_range(snd_mixer_elem_t * elem, long min,
     packed_data->args.a2 = (long)min;
     packed_data->args.a3 = (long)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10077,7 +10077,7 @@ void snd_mixer_set_callback(snd_mixer_t * obj, snd_mixer_callback_t val) {
     packed_data->func = snd_mixer_set_callback_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     packed_data->args.a2 = (snd_mixer_callback_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_set_callback_private
@@ -10086,7 +10086,7 @@ void snd_mixer_set_callback_private(snd_mixer_t * obj, void * val) {
     packed_data->func = snd_mixer_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_mixer_t *)obj;
     packed_data->args.a2 = (void *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_mixer_set_compare
@@ -10096,7 +10096,7 @@ int snd_mixer_set_compare(snd_mixer_t * mixer, snd_mixer_compare_t msort) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (snd_mixer_compare_t)msort;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10107,7 +10107,7 @@ int snd_mixer_wait(snd_mixer_t * mixer, int timeout) {
     packed_data->args.a1 = (snd_mixer_t *)mixer;
     packed_data->args.a2 = (int)timeout;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10118,7 +10118,7 @@ int snd_names_list(const char * iface, snd_devname_t ** list) {
     packed_data->args.a1 = (char *)iface;
     packed_data->args.a2 = (snd_devname_t **)list;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10127,7 +10127,7 @@ void snd_names_list_free(snd_devname_t * list) {
     snd_names_list_free_INDEXED *packed_data;
     packed_data->func = snd_names_list_free_INDEX;
     packed_data->args.a1 = (snd_devname_t *)list;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_output_buffer_open
@@ -10136,7 +10136,7 @@ int snd_output_buffer_open(snd_output_t ** outputp) {
     packed_data->func = snd_output_buffer_open_INDEX;
     packed_data->args.a1 = (snd_output_t **)outputp;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10147,7 +10147,7 @@ size_t snd_output_buffer_string(snd_output_t * output, char ** buf) {
     packed_data->args.a1 = (snd_output_t *)output;
     packed_data->args.a2 = (char **)buf;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10157,7 +10157,7 @@ int snd_output_close(snd_output_t * output) {
     packed_data->func = snd_output_close_INDEX;
     packed_data->args.a1 = (snd_output_t *)output;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10167,7 +10167,7 @@ int snd_output_flush(snd_output_t * output) {
     packed_data->func = snd_output_flush_INDEX;
     packed_data->args.a1 = (snd_output_t *)output;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10178,7 +10178,7 @@ int snd_output_putc(snd_output_t * output, int c) {
     packed_data->args.a1 = (snd_output_t *)output;
     packed_data->args.a2 = (int)c;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10189,7 +10189,7 @@ int snd_output_puts(snd_output_t * output, const char * str) {
     packed_data->args.a1 = (snd_output_t *)output;
     packed_data->args.a2 = (char *)str;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10201,7 +10201,7 @@ int snd_output_stdio_attach(snd_output_t ** outputp, FILE * fp, int _close) {
     packed_data->args.a2 = (FILE *)fp;
     packed_data->args.a3 = (int)_close;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10213,7 +10213,7 @@ int snd_output_stdio_open(snd_output_t ** outputp, const char * file, const char
     packed_data->args.a2 = (char *)file;
     packed_data->args.a3 = (char *)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10225,7 +10225,7 @@ int snd_output_vprintf(snd_output_t * output, const char * format, va_list args)
     packed_data->args.a2 = (char *)format;
     packed_data->args.a3 = (va_list)args;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10234,7 +10234,7 @@ void snd_pcm_access_mask_any(snd_pcm_access_mask_t * mask) {
     snd_pcm_access_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_copy
@@ -10243,7 +10243,7 @@ void snd_pcm_access_mask_copy(snd_pcm_access_mask_t * dst, const snd_pcm_access_
     packed_data->func = snd_pcm_access_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_access_mask_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_empty
@@ -10252,7 +10252,7 @@ int snd_pcm_access_mask_empty(const snd_pcm_access_mask_t * mask) {
     packed_data->func = snd_pcm_access_mask_empty_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10261,7 +10261,7 @@ void snd_pcm_access_mask_free(snd_pcm_access_mask_t * obj) {
     snd_pcm_access_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_malloc
@@ -10270,7 +10270,7 @@ int snd_pcm_access_mask_malloc(snd_pcm_access_mask_t ** ptr) {
     packed_data->func = snd_pcm_access_mask_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10279,7 +10279,7 @@ void snd_pcm_access_mask_none(snd_pcm_access_mask_t * mask) {
     snd_pcm_access_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_reset
@@ -10288,7 +10288,7 @@ void snd_pcm_access_mask_reset(snd_pcm_access_mask_t * mask, snd_pcm_access_t va
     packed_data->func = snd_pcm_access_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_access_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_set
@@ -10297,7 +10297,7 @@ void snd_pcm_access_mask_set(snd_pcm_access_mask_t * mask, snd_pcm_access_t val)
     packed_data->func = snd_pcm_access_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_access_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_access_mask_sizeof
@@ -10305,7 +10305,7 @@ size_t snd_pcm_access_mask_sizeof() {
     snd_pcm_access_mask_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_access_mask_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10316,7 +10316,7 @@ int snd_pcm_access_mask_test(const snd_pcm_access_mask_t * mask, snd_pcm_access_
     packed_data->args.a1 = (snd_pcm_access_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_access_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10326,7 +10326,7 @@ const char * snd_pcm_access_name(const snd_pcm_access_t _access) {
     packed_data->func = snd_pcm_access_name_INDEX;
     packed_data->args.a1 = (snd_pcm_access_t)_access;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10341,7 +10341,7 @@ int snd_pcm_area_copy(const snd_pcm_channel_area_t * dst_channel, snd_pcm_uframe
     packed_data->args.a5 = (unsigned int)samples;
     packed_data->args.a6 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10354,7 +10354,7 @@ int snd_pcm_area_silence(const snd_pcm_channel_area_t * dst_channel, snd_pcm_ufr
     packed_data->args.a3 = (unsigned int)samples;
     packed_data->args.a4 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10370,7 +10370,7 @@ int snd_pcm_areas_copy(const snd_pcm_channel_area_t * dst_channels, snd_pcm_ufra
     packed_data->args.a6 = (snd_pcm_uframes_t)frames;
     packed_data->args.a7 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10384,7 +10384,7 @@ int snd_pcm_areas_silence(const snd_pcm_channel_area_t * dst_channels, snd_pcm_u
     packed_data->args.a4 = (snd_pcm_uframes_t)frames;
     packed_data->args.a5 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10394,7 +10394,7 @@ snd_pcm_sframes_t snd_pcm_avail_update(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_avail_update_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10407,7 +10407,7 @@ snd_pcm_format_t snd_pcm_build_linear_format(int width, int pwidth, int unsignd,
     packed_data->args.a3 = (int)unsignd;
     packed_data->args.a4 = (int)big_endian;
     snd_pcm_format_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10418,7 +10418,7 @@ snd_pcm_sframes_t snd_pcm_bytes_to_frames(snd_pcm_t * pcm, ssize_t bytes) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (ssize_t)bytes;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10429,7 +10429,7 @@ long snd_pcm_bytes_to_samples(snd_pcm_t * pcm, ssize_t bytes) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (ssize_t)bytes;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10439,7 +10439,7 @@ int snd_pcm_close(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_close_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10450,7 +10450,7 @@ int snd_pcm_delay(snd_pcm_t * pcm, snd_pcm_sframes_t * delayp) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_sframes_t *)delayp;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10460,7 +10460,7 @@ int snd_pcm_drain(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_drain_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10470,7 +10470,7 @@ int snd_pcm_drop(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_drop_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10481,7 +10481,7 @@ int snd_pcm_dump(snd_pcm_t * pcm, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10492,7 +10492,7 @@ int snd_pcm_dump_hw_setup(snd_pcm_t * pcm, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10503,7 +10503,7 @@ int snd_pcm_dump_setup(snd_pcm_t * pcm, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10514,7 +10514,7 @@ int snd_pcm_dump_sw_setup(snd_pcm_t * pcm, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10524,7 +10524,7 @@ int snd_pcm_format_big_endian(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_big_endian_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10534,7 +10534,7 @@ int snd_pcm_format_cpu_endian(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_cpu_endian_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10544,7 +10544,7 @@ const char * snd_pcm_format_description(const snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_description_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10554,7 +10554,7 @@ int snd_pcm_format_float(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_float_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10564,7 +10564,7 @@ int snd_pcm_format_linear(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_linear_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10574,7 +10574,7 @@ int snd_pcm_format_little_endian(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_little_endian_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10583,7 +10583,7 @@ void snd_pcm_format_mask_any(snd_pcm_format_mask_t * mask) {
     snd_pcm_format_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_copy
@@ -10592,7 +10592,7 @@ void snd_pcm_format_mask_copy(snd_pcm_format_mask_t * dst, const snd_pcm_format_
     packed_data->func = snd_pcm_format_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_format_mask_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_empty
@@ -10601,7 +10601,7 @@ int snd_pcm_format_mask_empty(const snd_pcm_format_mask_t * mask) {
     packed_data->func = snd_pcm_format_mask_empty_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10610,7 +10610,7 @@ void snd_pcm_format_mask_free(snd_pcm_format_mask_t * obj) {
     snd_pcm_format_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_malloc
@@ -10619,7 +10619,7 @@ int snd_pcm_format_mask_malloc(snd_pcm_format_mask_t ** ptr) {
     packed_data->func = snd_pcm_format_mask_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10628,7 +10628,7 @@ void snd_pcm_format_mask_none(snd_pcm_format_mask_t * mask) {
     snd_pcm_format_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_reset
@@ -10637,7 +10637,7 @@ void snd_pcm_format_mask_reset(snd_pcm_format_mask_t * mask, snd_pcm_format_t va
     packed_data->func = snd_pcm_format_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_format_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_set
@@ -10646,7 +10646,7 @@ void snd_pcm_format_mask_set(snd_pcm_format_mask_t * mask, snd_pcm_format_t val)
     packed_data->func = snd_pcm_format_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_format_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_format_mask_sizeof
@@ -10654,7 +10654,7 @@ size_t snd_pcm_format_mask_sizeof() {
     snd_pcm_format_mask_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_format_mask_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10665,7 +10665,7 @@ int snd_pcm_format_mask_test(const snd_pcm_format_mask_t * mask, snd_pcm_format_
     packed_data->args.a1 = (snd_pcm_format_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_format_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10675,7 +10675,7 @@ const char * snd_pcm_format_name(const snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_name_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10685,7 +10685,7 @@ int snd_pcm_format_physical_width(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_physical_width_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10697,7 +10697,7 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void * buf, unsigned int
     packed_data->args.a2 = (void *)buf;
     packed_data->args.a3 = (unsigned int)samples;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10707,7 +10707,7 @@ int snd_pcm_format_signed(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_signed_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10717,7 +10717,7 @@ u_int8_t snd_pcm_format_silence(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_silence_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     u_int8_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10727,7 +10727,7 @@ u_int16_t snd_pcm_format_silence_16(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_silence_16_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     u_int16_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10737,7 +10737,7 @@ u_int32_t snd_pcm_format_silence_32(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_silence_32_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     u_int32_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10747,7 +10747,7 @@ u_int64_t snd_pcm_format_silence_64(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_silence_64_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     u_int64_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10758,7 +10758,7 @@ ssize_t snd_pcm_format_size(snd_pcm_format_t format, size_t samples) {
     packed_data->args.a1 = (snd_pcm_format_t)format;
     packed_data->args.a2 = (size_t)samples;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10768,7 +10768,7 @@ int snd_pcm_format_unsigned(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_unsigned_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10778,7 +10778,7 @@ snd_pcm_format_t snd_pcm_format_value(const char* name) {
     packed_data->func = snd_pcm_format_value_INDEX;
     packed_data->args.a1 = (char*)name;
     snd_pcm_format_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10788,7 +10788,7 @@ int snd_pcm_format_width(snd_pcm_format_t format) {
     packed_data->func = snd_pcm_format_width_INDEX;
     packed_data->args.a1 = (snd_pcm_format_t)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10799,7 +10799,7 @@ snd_pcm_sframes_t snd_pcm_forward(snd_pcm_t * pcm, snd_pcm_uframes_t frames) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_uframes_t)frames;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10810,7 +10810,7 @@ ssize_t snd_pcm_frames_to_bytes(snd_pcm_t * pcm, snd_pcm_sframes_t frames) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_sframes_t)frames;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10822,7 +10822,7 @@ int snd_pcm_get_params(snd_pcm_t * pcm, snd_pcm_uframes_t * buffer_size, snd_pcm
     packed_data->args.a2 = (snd_pcm_uframes_t *)buffer_size;
     packed_data->args.a3 = (snd_pcm_uframes_t *)period_size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10836,7 +10836,7 @@ int snd_pcm_hook_add(snd_pcm_hook_t ** hookp, snd_pcm_t * pcm, snd_pcm_hook_type
     packed_data->args.a4 = (snd_pcm_hook_func_t)func;
     packed_data->args.a5 = (void *)private_data;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10846,7 +10846,7 @@ snd_pcm_t * snd_pcm_hook_get_pcm(snd_pcm_hook_t * hook) {
     packed_data->func = snd_pcm_hook_get_pcm_INDEX;
     packed_data->args.a1 = (snd_pcm_hook_t *)hook;
     snd_pcm_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10856,7 +10856,7 @@ void * snd_pcm_hook_get_private(snd_pcm_hook_t * hook) {
     packed_data->func = snd_pcm_hook_get_private_INDEX;
     packed_data->args.a1 = (snd_pcm_hook_t *)hook;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10866,7 +10866,7 @@ int snd_pcm_hook_remove(snd_pcm_hook_t * hook) {
     packed_data->func = snd_pcm_hook_remove_INDEX;
     packed_data->args.a1 = (snd_pcm_hook_t *)hook;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10876,7 +10876,7 @@ void snd_pcm_hook_set_private(snd_pcm_hook_t * hook, void * private_data) {
     packed_data->func = snd_pcm_hook_set_private_INDEX;
     packed_data->args.a1 = (snd_pcm_hook_t *)hook;
     packed_data->args.a2 = (void *)private_data;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_free
@@ -10885,7 +10885,7 @@ int snd_pcm_hw_free(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_hw_free_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10896,7 +10896,7 @@ int snd_pcm_hw_params(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10907,7 +10907,7 @@ int snd_pcm_hw_params_any(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10917,7 +10917,7 @@ int snd_pcm_hw_params_can_mmap_sample_resolution(const snd_pcm_hw_params_t * par
     packed_data->func = snd_pcm_hw_params_can_mmap_sample_resolution_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10927,7 +10927,7 @@ int snd_pcm_hw_params_can_overrange(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_can_overrange_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10937,7 +10937,7 @@ int snd_pcm_hw_params_can_pause(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_can_pause_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10947,7 +10947,7 @@ int snd_pcm_hw_params_can_resume(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_can_resume_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10957,7 +10957,7 @@ int snd_pcm_hw_params_can_sync_start(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_can_sync_start_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10967,7 +10967,7 @@ void snd_pcm_hw_params_copy(snd_pcm_hw_params_t * dst, const snd_pcm_hw_params_t
     packed_data->func = snd_pcm_hw_params_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)dst;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_current
@@ -10977,7 +10977,7 @@ int snd_pcm_hw_params_current(snd_pcm_t * pcm, snd_pcm_hw_params_t * params) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10988,7 +10988,7 @@ int snd_pcm_hw_params_dump(snd_pcm_hw_params_t * params, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -10997,7 +10997,7 @@ void snd_pcm_hw_params_free(snd_pcm_hw_params_t * obj) {
     snd_pcm_hw_params_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_hw_params_free_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_access
@@ -11007,7 +11007,7 @@ int snd_pcm_hw_params_get_access(const snd_pcm_hw_params_t * params, snd_pcm_acc
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_access_t *)_access;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11018,7 +11018,7 @@ int snd_pcm_hw_params_get_access_mask(snd_pcm_hw_params_t * params, snd_pcm_acce
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_access_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11029,7 +11029,7 @@ int snd_pcm_hw_params_get_buffer_size(const snd_pcm_hw_params_t * params, snd_pc
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11040,7 +11040,7 @@ int snd_pcm_hw_params_get_buffer_size_max(const snd_pcm_hw_params_t * params, sn
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11051,7 +11051,7 @@ int snd_pcm_hw_params_get_buffer_size_min(const snd_pcm_hw_params_t * params, sn
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11063,7 +11063,7 @@ int snd_pcm_hw_params_get_buffer_time(const snd_pcm_hw_params_t * params, unsign
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11075,7 +11075,7 @@ int snd_pcm_hw_params_get_buffer_time_max(const snd_pcm_hw_params_t * params, un
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11087,7 +11087,7 @@ int snd_pcm_hw_params_get_buffer_time_min(const snd_pcm_hw_params_t * params, un
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11098,7 +11098,7 @@ int snd_pcm_hw_params_get_channels(const snd_pcm_hw_params_t * params, unsigned 
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11109,7 +11109,7 @@ int snd_pcm_hw_params_get_channels_max(const snd_pcm_hw_params_t * params, unsig
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11120,7 +11120,7 @@ int snd_pcm_hw_params_get_channels_min(const snd_pcm_hw_params_t * params, unsig
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11132,7 +11132,7 @@ int snd_pcm_hw_params_get_export_buffer(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11142,7 +11142,7 @@ int snd_pcm_hw_params_get_fifo_size(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_get_fifo_size_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11153,7 +11153,7 @@ int snd_pcm_hw_params_get_format(const snd_pcm_hw_params_t * params, snd_pcm_for
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_format_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11163,7 +11163,7 @@ void snd_pcm_hw_params_get_format_mask(snd_pcm_hw_params_t * params, snd_pcm_for
     packed_data->func = snd_pcm_hw_params_get_format_mask_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_format_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_min_align
@@ -11173,7 +11173,7 @@ int snd_pcm_hw_params_get_min_align(const snd_pcm_hw_params_t * params, snd_pcm_
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11185,7 +11185,7 @@ int snd_pcm_hw_params_get_period_size(const snd_pcm_hw_params_t * params, snd_pc
     packed_data->args.a2 = (snd_pcm_uframes_t *)frames;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11197,7 +11197,7 @@ int snd_pcm_hw_params_get_period_size_max(const snd_pcm_hw_params_t * params, sn
     packed_data->args.a2 = (snd_pcm_uframes_t *)frames;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11209,7 +11209,7 @@ int snd_pcm_hw_params_get_period_size_min(const snd_pcm_hw_params_t * params, sn
     packed_data->args.a2 = (snd_pcm_uframes_t *)frames;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11221,7 +11221,7 @@ int snd_pcm_hw_params_get_period_time(const snd_pcm_hw_params_t * params, unsign
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11233,7 +11233,7 @@ int snd_pcm_hw_params_get_period_time_max(const snd_pcm_hw_params_t * params, un
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11245,7 +11245,7 @@ int snd_pcm_hw_params_get_period_time_min(const snd_pcm_hw_params_t * params, un
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11257,7 +11257,7 @@ int snd_pcm_hw_params_get_periods(const snd_pcm_hw_params_t * params, unsigned i
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11269,7 +11269,7 @@ int snd_pcm_hw_params_get_periods_max(const snd_pcm_hw_params_t * params, unsign
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11281,7 +11281,7 @@ int snd_pcm_hw_params_get_periods_min(const snd_pcm_hw_params_t * params, unsign
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11293,7 +11293,7 @@ int snd_pcm_hw_params_get_rate(const snd_pcm_hw_params_t * params, unsigned int 
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11305,7 +11305,7 @@ int snd_pcm_hw_params_get_rate_max(const snd_pcm_hw_params_t * params, unsigned 
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11317,7 +11317,7 @@ int snd_pcm_hw_params_get_rate_min(const snd_pcm_hw_params_t * params, unsigned 
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11329,7 +11329,7 @@ int snd_pcm_hw_params_get_rate_numden(const snd_pcm_hw_params_t * params, unsign
     packed_data->args.a2 = (unsigned int *)rate_num;
     packed_data->args.a3 = (unsigned int *)rate_den;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11341,7 +11341,7 @@ int snd_pcm_hw_params_get_rate_resample(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11351,7 +11351,7 @@ int snd_pcm_hw_params_get_sbits(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_get_sbits_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11362,7 +11362,7 @@ int snd_pcm_hw_params_get_subformat(const snd_pcm_hw_params_t * params, snd_pcm_
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_subformat_t *)subformat;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11372,7 +11372,7 @@ void snd_pcm_hw_params_get_subformat_mask(snd_pcm_hw_params_t * params, snd_pcm_
     packed_data->func = snd_pcm_hw_params_get_subformat_mask_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_subformat_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_hw_params_get_tick_time
@@ -11383,7 +11383,7 @@ int snd_pcm_hw_params_get_tick_time(const snd_pcm_hw_params_t * params, unsigned
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11395,7 +11395,7 @@ int snd_pcm_hw_params_get_tick_time_max(const snd_pcm_hw_params_t * params, unsi
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11407,7 +11407,7 @@ int snd_pcm_hw_params_get_tick_time_min(const snd_pcm_hw_params_t * params, unsi
     packed_data->args.a2 = (unsigned int *)val;
     packed_data->args.a3 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11417,7 +11417,7 @@ int snd_pcm_hw_params_is_batch(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_batch_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11427,7 +11427,7 @@ int snd_pcm_hw_params_is_block_transfer(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_block_transfer_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11437,7 +11437,7 @@ int snd_pcm_hw_params_is_double(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_double_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11447,7 +11447,7 @@ int snd_pcm_hw_params_is_half_duplex(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_half_duplex_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11457,7 +11457,7 @@ int snd_pcm_hw_params_is_joint_duplex(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_joint_duplex_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11467,7 +11467,7 @@ int snd_pcm_hw_params_is_monotonic(const snd_pcm_hw_params_t * params) {
     packed_data->func = snd_pcm_hw_params_is_monotonic_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11477,7 +11477,7 @@ int snd_pcm_hw_params_malloc(snd_pcm_hw_params_t ** ptr) {
     packed_data->func = snd_pcm_hw_params_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_hw_params_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11489,7 +11489,7 @@ int snd_pcm_hw_params_set_access(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_access_t)_access;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11501,7 +11501,7 @@ int snd_pcm_hw_params_set_access_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_access_t *)_access;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11513,7 +11513,7 @@ int snd_pcm_hw_params_set_access_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_access_t *)_access;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11525,7 +11525,7 @@ int snd_pcm_hw_params_set_access_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_access_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11537,7 +11537,7 @@ int snd_pcm_hw_params_set_buffer_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11549,7 +11549,7 @@ int snd_pcm_hw_params_set_buffer_size_first(snd_pcm_t * pcm, snd_pcm_hw_params_t
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11561,7 +11561,7 @@ int snd_pcm_hw_params_set_buffer_size_last(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11573,7 +11573,7 @@ int snd_pcm_hw_params_set_buffer_size_max(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11585,7 +11585,7 @@ int snd_pcm_hw_params_set_buffer_size_min(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11598,7 +11598,7 @@ int snd_pcm_hw_params_set_buffer_size_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_
     packed_data->args.a3 = (snd_pcm_uframes_t *)min;
     packed_data->args.a4 = (snd_pcm_uframes_t *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11610,7 +11610,7 @@ int snd_pcm_hw_params_set_buffer_size_near(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11623,7 +11623,7 @@ int snd_pcm_hw_params_set_buffer_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11636,7 +11636,7 @@ int snd_pcm_hw_params_set_buffer_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11649,7 +11649,7 @@ int snd_pcm_hw_params_set_buffer_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11662,7 +11662,7 @@ int snd_pcm_hw_params_set_buffer_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11675,7 +11675,7 @@ int snd_pcm_hw_params_set_buffer_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11690,7 +11690,7 @@ int snd_pcm_hw_params_set_buffer_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_
     packed_data->args.a5 = (unsigned int *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11703,7 +11703,7 @@ int snd_pcm_hw_params_set_buffer_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11715,7 +11715,7 @@ int snd_pcm_hw_params_set_channels(snd_pcm_t * pcm, snd_pcm_hw_params_t * params
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11727,7 +11727,7 @@ int snd_pcm_hw_params_set_channels_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11739,7 +11739,7 @@ int snd_pcm_hw_params_set_channels_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11751,7 +11751,7 @@ int snd_pcm_hw_params_set_channels_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11763,7 +11763,7 @@ int snd_pcm_hw_params_set_channels_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11776,7 +11776,7 @@ int snd_pcm_hw_params_set_channels_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)min;
     packed_data->args.a4 = (unsigned int *)max;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11788,7 +11788,7 @@ int snd_pcm_hw_params_set_channels_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11800,7 +11800,7 @@ int snd_pcm_hw_params_set_export_buffer(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11812,7 +11812,7 @@ int snd_pcm_hw_params_set_format(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_format_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11824,7 +11824,7 @@ int snd_pcm_hw_params_set_format_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_format_t *)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11836,7 +11836,7 @@ int snd_pcm_hw_params_set_format_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_format_t *)format;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11848,7 +11848,7 @@ int snd_pcm_hw_params_set_format_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_format_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11861,7 +11861,7 @@ int snd_pcm_hw_params_set_period_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11874,7 +11874,7 @@ int snd_pcm_hw_params_set_period_size_first(snd_pcm_t * pcm, snd_pcm_hw_params_t
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11885,7 +11885,7 @@ int snd_pcm_hw_params_set_period_size_integer(snd_pcm_t * pcm, snd_pcm_hw_params
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11898,7 +11898,7 @@ int snd_pcm_hw_params_set_period_size_last(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11911,7 +11911,7 @@ int snd_pcm_hw_params_set_period_size_max(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11924,7 +11924,7 @@ int snd_pcm_hw_params_set_period_size_min(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11939,7 +11939,7 @@ int snd_pcm_hw_params_set_period_size_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_
     packed_data->args.a5 = (snd_pcm_uframes_t *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11952,7 +11952,7 @@ int snd_pcm_hw_params_set_period_size_near(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (snd_pcm_uframes_t *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11965,7 +11965,7 @@ int snd_pcm_hw_params_set_period_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11978,7 +11978,7 @@ int snd_pcm_hw_params_set_period_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -11991,7 +11991,7 @@ int snd_pcm_hw_params_set_period_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12004,7 +12004,7 @@ int snd_pcm_hw_params_set_period_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12017,7 +12017,7 @@ int snd_pcm_hw_params_set_period_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12032,7 +12032,7 @@ int snd_pcm_hw_params_set_period_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_
     packed_data->args.a5 = (unsigned int *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12045,7 +12045,7 @@ int snd_pcm_hw_params_set_period_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12058,7 +12058,7 @@ int snd_pcm_hw_params_set_periods(snd_pcm_t * pcm, snd_pcm_hw_params_t * params,
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12071,7 +12071,7 @@ int snd_pcm_hw_params_set_periods_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12082,7 +12082,7 @@ int snd_pcm_hw_params_set_periods_integer(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12095,7 +12095,7 @@ int snd_pcm_hw_params_set_periods_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12108,7 +12108,7 @@ int snd_pcm_hw_params_set_periods_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12121,7 +12121,7 @@ int snd_pcm_hw_params_set_periods_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12136,7 +12136,7 @@ int snd_pcm_hw_params_set_periods_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a5 = (unsigned int *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12149,7 +12149,7 @@ int snd_pcm_hw_params_set_periods_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12162,7 +12162,7 @@ int snd_pcm_hw_params_set_rate(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, un
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12175,7 +12175,7 @@ int snd_pcm_hw_params_set_rate_first(snd_pcm_t * pcm, snd_pcm_hw_params_t * para
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12188,7 +12188,7 @@ int snd_pcm_hw_params_set_rate_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * param
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12201,7 +12201,7 @@ int snd_pcm_hw_params_set_rate_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * params
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12214,7 +12214,7 @@ int snd_pcm_hw_params_set_rate_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * params
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12229,7 +12229,7 @@ int snd_pcm_hw_params_set_rate_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t * par
     packed_data->args.a5 = (unsigned int *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12242,7 +12242,7 @@ int snd_pcm_hw_params_set_rate_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * param
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12254,7 +12254,7 @@ int snd_pcm_hw_params_set_rate_resample(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12266,7 +12266,7 @@ int snd_pcm_hw_params_set_subformat(snd_pcm_t * pcm, snd_pcm_hw_params_t * param
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_subformat_t)subformat;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12278,7 +12278,7 @@ int snd_pcm_hw_params_set_subformat_first(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_subformat_t *)subformat;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12290,7 +12290,7 @@ int snd_pcm_hw_params_set_subformat_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_subformat_t *)subformat;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12302,7 +12302,7 @@ int snd_pcm_hw_params_set_subformat_mask(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_subformat_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12315,7 +12315,7 @@ int snd_pcm_hw_params_set_tick_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * param
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12328,7 +12328,7 @@ int snd_pcm_hw_params_set_tick_time_first(snd_pcm_t * pcm, snd_pcm_hw_params_t *
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12341,7 +12341,7 @@ int snd_pcm_hw_params_set_tick_time_last(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12354,7 +12354,7 @@ int snd_pcm_hw_params_set_tick_time_max(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12367,7 +12367,7 @@ int snd_pcm_hw_params_set_tick_time_min(snd_pcm_t * pcm, snd_pcm_hw_params_t * p
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12382,7 +12382,7 @@ int snd_pcm_hw_params_set_tick_time_minmax(snd_pcm_t * pcm, snd_pcm_hw_params_t 
     packed_data->args.a5 = (unsigned int *)max;
     packed_data->args.a6 = (int *)maxdir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12395,7 +12395,7 @@ int snd_pcm_hw_params_set_tick_time_near(snd_pcm_t * pcm, snd_pcm_hw_params_t * 
     packed_data->args.a3 = (unsigned int *)val;
     packed_data->args.a4 = (int *)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12404,7 +12404,7 @@ size_t snd_pcm_hw_params_sizeof() {
     snd_pcm_hw_params_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_hw_params_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12416,7 +12416,7 @@ int snd_pcm_hw_params_test_access(snd_pcm_t * pcm, snd_pcm_hw_params_t * params,
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_access_t)_access;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12428,7 +12428,7 @@ int snd_pcm_hw_params_test_buffer_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12441,7 +12441,7 @@ int snd_pcm_hw_params_test_buffer_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12453,7 +12453,7 @@ int snd_pcm_hw_params_test_channels(snd_pcm_t * pcm, snd_pcm_hw_params_t * param
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (unsigned int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12465,7 +12465,7 @@ int snd_pcm_hw_params_test_format(snd_pcm_t * pcm, snd_pcm_hw_params_t * params,
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_format_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12478,7 +12478,7 @@ int snd_pcm_hw_params_test_period_size(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12491,7 +12491,7 @@ int snd_pcm_hw_params_test_period_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * pa
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12504,7 +12504,7 @@ int snd_pcm_hw_params_test_periods(snd_pcm_t * pcm, snd_pcm_hw_params_t * params
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12517,7 +12517,7 @@ int snd_pcm_hw_params_test_rate(snd_pcm_t * pcm, snd_pcm_hw_params_t * params, u
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12529,7 +12529,7 @@ int snd_pcm_hw_params_test_subformat(snd_pcm_t * pcm, snd_pcm_hw_params_t * para
     packed_data->args.a2 = (snd_pcm_hw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_subformat_t)subformat;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12542,7 +12542,7 @@ int snd_pcm_hw_params_test_tick_time(snd_pcm_t * pcm, snd_pcm_hw_params_t * para
     packed_data->args.a3 = (unsigned int)val;
     packed_data->args.a4 = (int)dir;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12552,7 +12552,7 @@ int snd_pcm_hwsync(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_hwsync_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12563,7 +12563,7 @@ int snd_pcm_info(snd_pcm_t * pcm, snd_pcm_info_t * info) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12573,7 +12573,7 @@ void snd_pcm_info_copy(snd_pcm_info_t * dst, const snd_pcm_info_t * src) {
     packed_data->func = snd_pcm_info_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)dst;
     packed_data->args.a2 = (snd_pcm_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_free
@@ -12581,7 +12581,7 @@ void snd_pcm_info_free(snd_pcm_info_t * obj) {
     snd_pcm_info_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_info_free_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_get_card
@@ -12590,7 +12590,7 @@ int snd_pcm_info_get_card(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_card_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12600,7 +12600,7 @@ snd_pcm_class_t snd_pcm_info_get_class(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_class_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     snd_pcm_class_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12610,7 +12610,7 @@ unsigned int snd_pcm_info_get_device(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_device_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12620,7 +12620,7 @@ const char * snd_pcm_info_get_id(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_id_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12630,7 +12630,7 @@ const char * snd_pcm_info_get_name(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_name_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12640,7 +12640,7 @@ snd_pcm_stream_t snd_pcm_info_get_stream(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_stream_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     snd_pcm_stream_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12650,7 +12650,7 @@ snd_pcm_subclass_t snd_pcm_info_get_subclass(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_subclass_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     snd_pcm_subclass_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12660,7 +12660,7 @@ unsigned int snd_pcm_info_get_subdevice(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12670,7 +12670,7 @@ const char * snd_pcm_info_get_subdevice_name(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_subdevice_name_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12680,7 +12680,7 @@ unsigned int snd_pcm_info_get_subdevices_avail(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_subdevices_avail_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12690,7 +12690,7 @@ unsigned int snd_pcm_info_get_subdevices_count(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_subdevices_count_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12700,7 +12700,7 @@ snd_pcm_sync_id_t snd_pcm_info_get_sync(const snd_pcm_info_t * obj) {
     packed_data->func = snd_pcm_info_get_sync_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     snd_pcm_sync_id_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12710,7 +12710,7 @@ int snd_pcm_info_malloc(snd_pcm_info_t ** ptr) {
     packed_data->func = snd_pcm_info_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12720,7 +12720,7 @@ void snd_pcm_info_set_device(snd_pcm_info_t * obj, unsigned int val) {
     packed_data->func = snd_pcm_info_set_device_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_set_stream
@@ -12729,7 +12729,7 @@ void snd_pcm_info_set_stream(snd_pcm_info_t * obj, snd_pcm_stream_t val) {
     packed_data->func = snd_pcm_info_set_stream_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (snd_pcm_stream_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_set_subdevice
@@ -12738,7 +12738,7 @@ void snd_pcm_info_set_subdevice(snd_pcm_info_t * obj, unsigned int val) {
     packed_data->func = snd_pcm_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_pcm_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_info_sizeof
@@ -12746,7 +12746,7 @@ size_t snd_pcm_info_sizeof() {
     snd_pcm_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12757,7 +12757,7 @@ int snd_pcm_link(snd_pcm_t * pcm1, snd_pcm_t * pcm2) {
     packed_data->args.a1 = (snd_pcm_t *)pcm1;
     packed_data->args.a2 = (snd_pcm_t *)pcm2;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12768,7 +12768,7 @@ int snd_pcm_meter_add_scope(snd_pcm_t * pcm, snd_pcm_scope_t * scope) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_scope_t *)scope;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12778,7 +12778,7 @@ snd_pcm_uframes_t snd_pcm_meter_get_boundary(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_meter_get_boundary_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12788,7 +12788,7 @@ snd_pcm_uframes_t snd_pcm_meter_get_bufsize(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_meter_get_bufsize_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12798,7 +12798,7 @@ unsigned int snd_pcm_meter_get_channels(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_meter_get_channels_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12808,7 +12808,7 @@ snd_pcm_uframes_t snd_pcm_meter_get_now(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_meter_get_now_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12818,7 +12818,7 @@ unsigned int snd_pcm_meter_get_rate(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_meter_get_rate_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12829,7 +12829,7 @@ snd_pcm_scope_t * snd_pcm_meter_search_scope(snd_pcm_t * pcm, const char * name)
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (char *)name;
     snd_pcm_scope_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12842,7 +12842,7 @@ int snd_pcm_mmap_begin(snd_pcm_t * pcm, const snd_pcm_channel_area_t ** areas, s
     packed_data->args.a3 = (snd_pcm_uframes_t *)offset;
     packed_data->args.a4 = (snd_pcm_uframes_t *)frames;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12854,7 +12854,7 @@ snd_pcm_sframes_t snd_pcm_mmap_commit(snd_pcm_t * pcm, snd_pcm_uframes_t offset,
     packed_data->args.a2 = (snd_pcm_uframes_t)offset;
     packed_data->args.a3 = (snd_pcm_uframes_t)frames;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12866,7 +12866,7 @@ snd_pcm_sframes_t snd_pcm_mmap_readi(snd_pcm_t * pcm, void * buffer, snd_pcm_ufr
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12878,7 +12878,7 @@ snd_pcm_sframes_t snd_pcm_mmap_readn(snd_pcm_t * pcm, void ** bufs, snd_pcm_ufra
     packed_data->args.a2 = (void **)bufs;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12890,7 +12890,7 @@ snd_pcm_sframes_t snd_pcm_mmap_writei(snd_pcm_t * pcm, const void * buffer, snd_
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12902,7 +12902,7 @@ snd_pcm_sframes_t snd_pcm_mmap_writen(snd_pcm_t * pcm, void ** bufs, snd_pcm_ufr
     packed_data->args.a2 = (void **)bufs;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12912,7 +12912,7 @@ const char * snd_pcm_name(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_name_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12923,7 +12923,7 @@ int snd_pcm_nonblock(snd_pcm_t * pcm, int nonblock) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12936,7 +12936,7 @@ int snd_pcm_open(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t stream, i
     packed_data->args.a3 = (snd_pcm_stream_t)stream;
     packed_data->args.a4 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12950,7 +12950,7 @@ int snd_pcm_open_lconf(snd_pcm_t ** pcm, const char * name, snd_pcm_stream_t str
     packed_data->args.a4 = (int)mode;
     packed_data->args.a5 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12961,7 +12961,7 @@ int snd_pcm_pause(snd_pcm_t * pcm, int enable) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (int)enable;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12973,7 +12973,7 @@ int snd_pcm_poll_descriptors(snd_pcm_t * pcm, struct pollfd * pfds, unsigned int
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12983,7 +12983,7 @@ int snd_pcm_poll_descriptors_count(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -12996,7 +12996,7 @@ int snd_pcm_poll_descriptors_revents(snd_pcm_t * pcm, struct pollfd * pfds, unsi
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13006,7 +13006,7 @@ int snd_pcm_prepare(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_prepare_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13018,7 +13018,7 @@ snd_pcm_sframes_t snd_pcm_readi(snd_pcm_t * pcm, void * buffer, snd_pcm_uframes_
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13030,7 +13030,7 @@ snd_pcm_sframes_t snd_pcm_readn(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_t
     packed_data->args.a2 = (void **)bufs;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13042,7 +13042,7 @@ int snd_pcm_recover(snd_pcm_t * pcm, int err, int silent) {
     packed_data->args.a2 = (int)err;
     packed_data->args.a3 = (int)silent;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13052,7 +13052,7 @@ int snd_pcm_reset(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13062,7 +13062,7 @@ int snd_pcm_resume(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_resume_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13073,7 +13073,7 @@ snd_pcm_sframes_t snd_pcm_rewind(snd_pcm_t * pcm, snd_pcm_uframes_t frames) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_uframes_t)frames;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13084,7 +13084,7 @@ ssize_t snd_pcm_samples_to_bytes(snd_pcm_t * pcm, long samples) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (long)samples;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13094,7 +13094,7 @@ void * snd_pcm_scope_get_callback_private(snd_pcm_scope_t * scope) {
     packed_data->func = snd_pcm_scope_get_callback_private_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     void * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13104,7 +13104,7 @@ const char * snd_pcm_scope_get_name(snd_pcm_scope_t * scope) {
     packed_data->func = snd_pcm_scope_get_name_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13114,7 +13114,7 @@ int snd_pcm_scope_malloc(snd_pcm_scope_t ** ptr) {
     packed_data->func = snd_pcm_scope_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13125,7 +13125,7 @@ int16_t * snd_pcm_scope_s16_get_channel_buffer(snd_pcm_scope_t * scope, unsigned
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (unsigned int)channel;
     int16_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13137,7 +13137,7 @@ int snd_pcm_scope_s16_open(snd_pcm_t * pcm, const char * name, snd_pcm_scope_t *
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (snd_pcm_scope_t **)scopep;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13147,7 +13147,7 @@ void snd_pcm_scope_set_callback_private(snd_pcm_scope_t * scope, void * val) {
     packed_data->func = snd_pcm_scope_set_callback_private_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (void *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_scope_set_name
@@ -13156,7 +13156,7 @@ void snd_pcm_scope_set_name(snd_pcm_scope_t * scope, const char * val) {
     packed_data->func = snd_pcm_scope_set_name_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (char *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_scope_set_ops
@@ -13165,7 +13165,7 @@ void snd_pcm_scope_set_ops(snd_pcm_scope_t * scope, const snd_pcm_scope_ops_t * 
     packed_data->func = snd_pcm_scope_set_ops_INDEX;
     packed_data->args.a1 = (snd_pcm_scope_t *)scope;
     packed_data->args.a2 = (snd_pcm_scope_ops_t *)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_set_params
@@ -13180,7 +13180,7 @@ int snd_pcm_set_params(snd_pcm_t * pcm, snd_pcm_format_t format, snd_pcm_access_
     packed_data->args.a6 = (int)soft_resample;
     packed_data->args.a7 = (unsigned int)latency;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13190,7 +13190,7 @@ int snd_pcm_start(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_start_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13200,7 +13200,7 @@ const char * snd_pcm_start_mode_name(snd_pcm_start_t mode) {
     packed_data->func = snd_pcm_start_mode_name_INDEX;
     packed_data->args.a1 = (snd_pcm_start_t)mode;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13210,7 +13210,7 @@ snd_pcm_state_t snd_pcm_state(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_state_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_state_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13220,7 +13220,7 @@ const char * snd_pcm_state_name(const snd_pcm_state_t state) {
     packed_data->func = snd_pcm_state_name_INDEX;
     packed_data->args.a1 = (snd_pcm_state_t)state;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13231,7 +13231,7 @@ int snd_pcm_status(snd_pcm_t * pcm, snd_pcm_status_t * status) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_status_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13241,7 +13241,7 @@ void snd_pcm_status_copy(snd_pcm_status_t * dst, const snd_pcm_status_t * src) {
     packed_data->func = snd_pcm_status_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)dst;
     packed_data->args.a2 = (snd_pcm_status_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_dump
@@ -13251,7 +13251,7 @@ int snd_pcm_status_dump(snd_pcm_status_t * status, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_status_t *)status;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13260,7 +13260,7 @@ void snd_pcm_status_free(snd_pcm_status_t * obj) {
     snd_pcm_status_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_status_free_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_avail
@@ -13269,7 +13269,7 @@ snd_pcm_uframes_t snd_pcm_status_get_avail(const snd_pcm_status_t * obj) {
     packed_data->func = snd_pcm_status_get_avail_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13279,7 +13279,7 @@ snd_pcm_uframes_t snd_pcm_status_get_avail_max(const snd_pcm_status_t * obj) {
     packed_data->func = snd_pcm_status_get_avail_max_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13289,7 +13289,7 @@ snd_pcm_sframes_t snd_pcm_status_get_delay(const snd_pcm_status_t * obj) {
     packed_data->func = snd_pcm_status_get_delay_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13299,7 +13299,7 @@ void snd_pcm_status_get_htstamp(const snd_pcm_status_t * obj, snd_htimestamp_t *
     packed_data->func = snd_pcm_status_get_htstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_overrange
@@ -13308,7 +13308,7 @@ snd_pcm_uframes_t snd_pcm_status_get_overrange(const snd_pcm_status_t * obj) {
     packed_data->func = snd_pcm_status_get_overrange_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     snd_pcm_uframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13318,7 +13318,7 @@ snd_pcm_state_t snd_pcm_status_get_state(const snd_pcm_status_t * obj) {
     packed_data->func = snd_pcm_status_get_state_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     snd_pcm_state_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13328,7 +13328,7 @@ void snd_pcm_status_get_trigger_htstamp(const snd_pcm_status_t * obj, snd_htimes
     packed_data->func = snd_pcm_status_get_trigger_htstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_trigger_tstamp
@@ -13337,7 +13337,7 @@ void snd_pcm_status_get_trigger_tstamp(const snd_pcm_status_t * obj, snd_timesta
     packed_data->func = snd_pcm_status_get_trigger_tstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_timestamp_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_get_tstamp
@@ -13346,7 +13346,7 @@ void snd_pcm_status_get_tstamp(const snd_pcm_status_t * obj, snd_timestamp_t * p
     packed_data->func = snd_pcm_status_get_tstamp_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t *)obj;
     packed_data->args.a2 = (snd_timestamp_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_status_malloc
@@ -13355,7 +13355,7 @@ int snd_pcm_status_malloc(snd_pcm_status_t ** ptr) {
     packed_data->func = snd_pcm_status_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_status_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13364,7 +13364,7 @@ size_t snd_pcm_status_sizeof() {
     snd_pcm_status_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_status_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13374,7 +13374,7 @@ snd_pcm_stream_t snd_pcm_stream(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_stream_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_stream_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13384,7 +13384,7 @@ const char * snd_pcm_stream_name(const snd_pcm_stream_t stream) {
     packed_data->func = snd_pcm_stream_name_INDEX;
     packed_data->args.a1 = (snd_pcm_stream_t)stream;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13394,7 +13394,7 @@ const char * snd_pcm_subformat_description(const snd_pcm_subformat_t subformat) 
     packed_data->func = snd_pcm_subformat_description_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_t)subformat;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13403,7 +13403,7 @@ void snd_pcm_subformat_mask_any(snd_pcm_subformat_mask_t * mask) {
     snd_pcm_subformat_mask_any_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_any_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_copy
@@ -13412,7 +13412,7 @@ void snd_pcm_subformat_mask_copy(snd_pcm_subformat_mask_t * dst, const snd_pcm_s
     packed_data->func = snd_pcm_subformat_mask_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)dst;
     packed_data->args.a2 = (snd_pcm_subformat_mask_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_empty
@@ -13421,7 +13421,7 @@ int snd_pcm_subformat_mask_empty(const snd_pcm_subformat_mask_t * mask) {
     packed_data->func = snd_pcm_subformat_mask_empty_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13430,7 +13430,7 @@ void snd_pcm_subformat_mask_free(snd_pcm_subformat_mask_t * obj) {
     snd_pcm_subformat_mask_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_free_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_malloc
@@ -13439,7 +13439,7 @@ int snd_pcm_subformat_mask_malloc(snd_pcm_subformat_mask_t ** ptr) {
     packed_data->func = snd_pcm_subformat_mask_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13448,7 +13448,7 @@ void snd_pcm_subformat_mask_none(snd_pcm_subformat_mask_t * mask) {
     snd_pcm_subformat_mask_none_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_none_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_reset
@@ -13457,7 +13457,7 @@ void snd_pcm_subformat_mask_reset(snd_pcm_subformat_mask_t * mask, snd_pcm_subfo
     packed_data->func = snd_pcm_subformat_mask_reset_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_subformat_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_set
@@ -13466,7 +13466,7 @@ void snd_pcm_subformat_mask_set(snd_pcm_subformat_mask_t * mask, snd_pcm_subform
     packed_data->func = snd_pcm_subformat_mask_set_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_subformat_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_subformat_mask_sizeof
@@ -13474,7 +13474,7 @@ size_t snd_pcm_subformat_mask_sizeof() {
     snd_pcm_subformat_mask_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_subformat_mask_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13485,7 +13485,7 @@ int snd_pcm_subformat_mask_test(const snd_pcm_subformat_mask_t * mask, snd_pcm_s
     packed_data->args.a1 = (snd_pcm_subformat_mask_t *)mask;
     packed_data->args.a2 = (snd_pcm_subformat_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13495,7 +13495,7 @@ const char * snd_pcm_subformat_name(const snd_pcm_subformat_t subformat) {
     packed_data->func = snd_pcm_subformat_name_INDEX;
     packed_data->args.a1 = (snd_pcm_subformat_t)subformat;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13506,7 +13506,7 @@ int snd_pcm_sw_params(snd_pcm_t * pcm, snd_pcm_sw_params_t * params) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13516,7 +13516,7 @@ void snd_pcm_sw_params_copy(snd_pcm_sw_params_t * dst, const snd_pcm_sw_params_t
     packed_data->func = snd_pcm_sw_params_copy_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)dst;
     packed_data->args.a2 = (snd_pcm_sw_params_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_sw_params_current
@@ -13526,7 +13526,7 @@ int snd_pcm_sw_params_current(snd_pcm_t * pcm, snd_pcm_sw_params_t * params) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13537,7 +13537,7 @@ int snd_pcm_sw_params_dump(snd_pcm_sw_params_t * params, snd_output_t * out) {
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_output_t *)out;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13546,7 +13546,7 @@ void snd_pcm_sw_params_free(snd_pcm_sw_params_t * obj) {
     snd_pcm_sw_params_free_INDEXED *packed_data;
     packed_data->func = snd_pcm_sw_params_free_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_pcm_sw_params_get_avail_min
@@ -13556,7 +13556,7 @@ int snd_pcm_sw_params_get_avail_min(const snd_pcm_sw_params_t * params, snd_pcm_
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13567,7 +13567,7 @@ int snd_pcm_sw_params_get_boundary(const snd_pcm_sw_params_t * params, snd_pcm_u
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13578,7 +13578,7 @@ int snd_pcm_sw_params_get_silence_size(const snd_pcm_sw_params_t * params, snd_p
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13589,7 +13589,7 @@ int snd_pcm_sw_params_get_silence_threshold(const snd_pcm_sw_params_t * params, 
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13600,7 +13600,7 @@ int snd_pcm_sw_params_get_sleep_min(const snd_pcm_sw_params_t * params, unsigned
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (unsigned int *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13610,7 +13610,7 @@ snd_pcm_start_t snd_pcm_sw_params_get_start_mode(const snd_pcm_sw_params_t * par
     packed_data->func = snd_pcm_sw_params_get_start_mode_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     snd_pcm_start_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13621,7 +13621,7 @@ int snd_pcm_sw_params_get_start_threshold(const snd_pcm_sw_params_t * paramsm, s
     packed_data->args.a1 = (snd_pcm_sw_params_t *)paramsm;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13632,7 +13632,7 @@ int snd_pcm_sw_params_get_stop_threshold(const snd_pcm_sw_params_t * params, snd
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13643,7 +13643,7 @@ int snd_pcm_sw_params_get_tstamp_mode(const snd_pcm_sw_params_t * params, snd_pc
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_tstamp_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13654,7 +13654,7 @@ int snd_pcm_sw_params_get_xfer_align(const snd_pcm_sw_params_t * params, snd_pcm
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a2 = (snd_pcm_uframes_t *)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13664,7 +13664,7 @@ snd_pcm_xrun_t snd_pcm_sw_params_get_xrun_mode(const snd_pcm_sw_params_t * param
     packed_data->func = snd_pcm_sw_params_get_xrun_mode_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t *)params;
     snd_pcm_xrun_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13674,7 +13674,7 @@ int snd_pcm_sw_params_malloc(snd_pcm_sw_params_t ** ptr) {
     packed_data->func = snd_pcm_sw_params_malloc_INDEX;
     packed_data->args.a1 = (snd_pcm_sw_params_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13686,7 +13686,7 @@ int snd_pcm_sw_params_set_avail_min(snd_pcm_t * pcm, snd_pcm_sw_params_t * param
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13698,7 +13698,7 @@ int snd_pcm_sw_params_set_silence_size(snd_pcm_t * pcm, snd_pcm_sw_params_t * pa
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13710,7 +13710,7 @@ int snd_pcm_sw_params_set_silence_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13722,7 +13722,7 @@ int snd_pcm_sw_params_set_sleep_min(snd_pcm_t * pcm, snd_pcm_sw_params_t * param
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (unsigned int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13734,7 +13734,7 @@ int snd_pcm_sw_params_set_start_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * para
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_start_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13746,7 +13746,7 @@ int snd_pcm_sw_params_set_start_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t *
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13758,7 +13758,7 @@ int snd_pcm_sw_params_set_stop_threshold(snd_pcm_t * pcm, snd_pcm_sw_params_t * 
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13770,7 +13770,7 @@ int snd_pcm_sw_params_set_tstamp_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * par
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_tstamp_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13782,7 +13782,7 @@ int snd_pcm_sw_params_set_xfer_align(snd_pcm_t * pcm, snd_pcm_sw_params_t * para
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_uframes_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13794,7 +13794,7 @@ int snd_pcm_sw_params_set_xrun_mode(snd_pcm_t * pcm, snd_pcm_sw_params_t * param
     packed_data->args.a2 = (snd_pcm_sw_params_t *)params;
     packed_data->args.a3 = (snd_pcm_xrun_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13803,7 +13803,7 @@ size_t snd_pcm_sw_params_sizeof() {
     snd_pcm_sw_params_sizeof_INDEXED *packed_data;
     packed_data->func = snd_pcm_sw_params_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13813,7 +13813,7 @@ const char * snd_pcm_tstamp_mode_name(const snd_pcm_tstamp_t mode) {
     packed_data->func = snd_pcm_tstamp_mode_name_INDEX;
     packed_data->args.a1 = (snd_pcm_tstamp_t)mode;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13823,7 +13823,7 @@ snd_pcm_type_t snd_pcm_type(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_type_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     snd_pcm_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13833,7 +13833,7 @@ const char * snd_pcm_type_name(snd_pcm_type_t type) {
     packed_data->func = snd_pcm_type_name_INDEX;
     packed_data->args.a1 = (snd_pcm_type_t)type;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13843,7 +13843,7 @@ int snd_pcm_unlink(snd_pcm_t * pcm) {
     packed_data->func = snd_pcm_unlink_INDEX;
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13854,7 +13854,7 @@ int snd_pcm_wait(snd_pcm_t * pcm, int timeout) {
     packed_data->args.a1 = (snd_pcm_t *)pcm;
     packed_data->args.a2 = (int)timeout;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13866,7 +13866,7 @@ snd_pcm_sframes_t snd_pcm_writei(snd_pcm_t * pcm, const void * buffer, snd_pcm_u
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13878,7 +13878,7 @@ snd_pcm_sframes_t snd_pcm_writen(snd_pcm_t * pcm, void ** bufs, snd_pcm_uframes_
     packed_data->args.a2 = (void **)bufs;
     packed_data->args.a3 = (snd_pcm_uframes_t)size;
     snd_pcm_sframes_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13888,7 +13888,7 @@ const char * snd_pcm_xrun_mode_name(snd_pcm_xrun_t mode) {
     packed_data->func = snd_pcm_xrun_mode_name_INDEX;
     packed_data->args.a1 = (snd_pcm_xrun_t)mode;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13898,7 +13898,7 @@ int snd_rawmidi_close(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_close_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13908,7 +13908,7 @@ int snd_rawmidi_drain(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_drain_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13918,7 +13918,7 @@ int snd_rawmidi_drop(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_drop_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13929,7 +13929,7 @@ int snd_rawmidi_info(snd_rawmidi_t * rmidi, snd_rawmidi_info_t * info) {
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     packed_data->args.a2 = (snd_rawmidi_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13939,7 +13939,7 @@ void snd_rawmidi_info_copy(snd_rawmidi_info_t * dst, const snd_rawmidi_info_t * 
     packed_data->func = snd_rawmidi_info_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_free
@@ -13947,7 +13947,7 @@ void snd_rawmidi_info_free(snd_rawmidi_info_t * obj) {
     snd_rawmidi_info_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_info_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_get_card
@@ -13956,7 +13956,7 @@ int snd_rawmidi_info_get_card(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_card_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13966,7 +13966,7 @@ unsigned int snd_rawmidi_info_get_device(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_device_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13976,7 +13976,7 @@ unsigned int snd_rawmidi_info_get_flags(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_flags_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13986,7 +13986,7 @@ const char * snd_rawmidi_info_get_id(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_id_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -13996,7 +13996,7 @@ const char * snd_rawmidi_info_get_name(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_name_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14006,7 +14006,7 @@ snd_rawmidi_stream_t snd_rawmidi_info_get_stream(const snd_rawmidi_info_t * obj)
     packed_data->func = snd_rawmidi_info_get_stream_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     snd_rawmidi_stream_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14016,7 +14016,7 @@ unsigned int snd_rawmidi_info_get_subdevice(const snd_rawmidi_info_t * obj) {
     packed_data->func = snd_rawmidi_info_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14026,7 +14026,7 @@ const char * snd_rawmidi_info_get_subdevice_name(const snd_rawmidi_info_t * obj)
     packed_data->func = snd_rawmidi_info_get_subdevice_name_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14036,7 +14036,7 @@ unsigned int snd_rawmidi_info_get_subdevices_avail(const snd_rawmidi_info_t * ob
     packed_data->func = snd_rawmidi_info_get_subdevices_avail_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14046,7 +14046,7 @@ unsigned int snd_rawmidi_info_get_subdevices_count(const snd_rawmidi_info_t * ob
     packed_data->func = snd_rawmidi_info_get_subdevices_count_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14056,7 +14056,7 @@ int snd_rawmidi_info_malloc(snd_rawmidi_info_t ** ptr) {
     packed_data->func = snd_rawmidi_info_malloc_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14066,7 +14066,7 @@ void snd_rawmidi_info_set_device(snd_rawmidi_info_t * obj, unsigned int val) {
     packed_data->func = snd_rawmidi_info_set_device_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_set_stream
@@ -14075,7 +14075,7 @@ void snd_rawmidi_info_set_stream(snd_rawmidi_info_t * obj, snd_rawmidi_stream_t 
     packed_data->func = snd_rawmidi_info_set_stream_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (snd_rawmidi_stream_t)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_set_subdevice
@@ -14084,7 +14084,7 @@ void snd_rawmidi_info_set_subdevice(snd_rawmidi_info_t * obj, unsigned int val) 
     packed_data->func = snd_rawmidi_info_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_rawmidi_info_t *)obj;
     packed_data->args.a2 = (unsigned int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_info_sizeof
@@ -14092,7 +14092,7 @@ size_t snd_rawmidi_info_sizeof() {
     snd_rawmidi_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14102,7 +14102,7 @@ const char * snd_rawmidi_name(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_name_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14113,7 +14113,7 @@ int snd_rawmidi_nonblock(snd_rawmidi_t * rmidi, int nonblock) {
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14126,7 +14126,7 @@ int snd_rawmidi_open(snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi, cons
     packed_data->args.a3 = (char *)name;
     packed_data->args.a4 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14140,7 +14140,7 @@ int snd_rawmidi_open_lconf(snd_rawmidi_t ** in_rmidi, snd_rawmidi_t ** out_rmidi
     packed_data->args.a4 = (int)mode;
     packed_data->args.a5 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14151,7 +14151,7 @@ int snd_rawmidi_params(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * params) {
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     packed_data->args.a2 = (snd_rawmidi_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14161,7 +14161,7 @@ void snd_rawmidi_params_copy(snd_rawmidi_params_t * dst, const snd_rawmidi_param
     packed_data->func = snd_rawmidi_params_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_params_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_params_current
@@ -14171,7 +14171,7 @@ int snd_rawmidi_params_current(snd_rawmidi_t * rmidi, snd_rawmidi_params_t * par
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     packed_data->args.a2 = (snd_rawmidi_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14180,7 +14180,7 @@ void snd_rawmidi_params_free(snd_rawmidi_params_t * obj) {
     snd_rawmidi_params_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_params_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_params_get_avail_min
@@ -14189,7 +14189,7 @@ size_t snd_rawmidi_params_get_avail_min(const snd_rawmidi_params_t * params) {
     packed_data->func = snd_rawmidi_params_get_avail_min_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)params;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14199,7 +14199,7 @@ size_t snd_rawmidi_params_get_buffer_size(const snd_rawmidi_params_t * params) {
     packed_data->func = snd_rawmidi_params_get_buffer_size_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)params;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14209,7 +14209,7 @@ int snd_rawmidi_params_get_no_active_sensing(const snd_rawmidi_params_t * params
     packed_data->func = snd_rawmidi_params_get_no_active_sensing_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14219,7 +14219,7 @@ int snd_rawmidi_params_malloc(snd_rawmidi_params_t ** ptr) {
     packed_data->func = snd_rawmidi_params_malloc_INDEX;
     packed_data->args.a1 = (snd_rawmidi_params_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14231,7 +14231,7 @@ int snd_rawmidi_params_set_avail_min(snd_rawmidi_t * rmidi, snd_rawmidi_params_t
     packed_data->args.a2 = (snd_rawmidi_params_t *)params;
     packed_data->args.a3 = (size_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14243,7 +14243,7 @@ int snd_rawmidi_params_set_buffer_size(snd_rawmidi_t * rmidi, snd_rawmidi_params
     packed_data->args.a2 = (snd_rawmidi_params_t *)params;
     packed_data->args.a3 = (size_t)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14255,7 +14255,7 @@ int snd_rawmidi_params_set_no_active_sensing(snd_rawmidi_t * rmidi, snd_rawmidi_
     packed_data->args.a2 = (snd_rawmidi_params_t *)params;
     packed_data->args.a3 = (int)val;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14264,7 +14264,7 @@ size_t snd_rawmidi_params_sizeof() {
     snd_rawmidi_params_sizeof_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_params_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14276,7 +14276,7 @@ int snd_rawmidi_poll_descriptors(snd_rawmidi_t * rmidi, struct pollfd * pfds, un
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14286,7 +14286,7 @@ int snd_rawmidi_poll_descriptors_count(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14299,7 +14299,7 @@ int snd_rawmidi_poll_descriptors_revents(snd_rawmidi_t * rawmidi, struct pollfd 
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revent;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14311,7 +14311,7 @@ ssize_t snd_rawmidi_read(snd_rawmidi_t * rmidi, void * buffer, size_t size) {
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (size_t)size;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14322,7 +14322,7 @@ int snd_rawmidi_status(snd_rawmidi_t * rmidi, snd_rawmidi_status_t * status) {
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     packed_data->args.a2 = (snd_rawmidi_status_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14332,7 +14332,7 @@ void snd_rawmidi_status_copy(snd_rawmidi_status_t * dst, const snd_rawmidi_statu
     packed_data->func = snd_rawmidi_status_copy_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)dst;
     packed_data->args.a2 = (snd_rawmidi_status_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_free
@@ -14340,7 +14340,7 @@ void snd_rawmidi_status_free(snd_rawmidi_status_t * obj) {
     snd_rawmidi_status_free_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_status_free_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_get_avail
@@ -14349,7 +14349,7 @@ size_t snd_rawmidi_status_get_avail(const snd_rawmidi_status_t * obj) {
     packed_data->func = snd_rawmidi_status_get_avail_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14359,7 +14359,7 @@ void snd_rawmidi_status_get_tstamp(const snd_rawmidi_status_t * obj, snd_htimest
     packed_data->func = snd_rawmidi_status_get_tstamp_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
     packed_data->args.a2 = (snd_htimestamp_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_rawmidi_status_get_xruns
@@ -14368,7 +14368,7 @@ size_t snd_rawmidi_status_get_xruns(const snd_rawmidi_status_t * obj) {
     packed_data->func = snd_rawmidi_status_get_xruns_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t *)obj;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14378,7 +14378,7 @@ int snd_rawmidi_status_malloc(snd_rawmidi_status_t ** ptr) {
     packed_data->func = snd_rawmidi_status_malloc_INDEX;
     packed_data->args.a1 = (snd_rawmidi_status_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14387,7 +14387,7 @@ size_t snd_rawmidi_status_sizeof() {
     snd_rawmidi_status_sizeof_INDEXED *packed_data;
     packed_data->func = snd_rawmidi_status_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14397,7 +14397,7 @@ snd_rawmidi_stream_t snd_rawmidi_stream(snd_rawmidi_t * rawmidi) {
     packed_data->func = snd_rawmidi_stream_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rawmidi;
     snd_rawmidi_stream_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14407,7 +14407,7 @@ snd_rawmidi_type_t snd_rawmidi_type(snd_rawmidi_t * rmidi) {
     packed_data->func = snd_rawmidi_type_INDEX;
     packed_data->args.a1 = (snd_rawmidi_t *)rmidi;
     snd_rawmidi_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14419,7 +14419,7 @@ ssize_t snd_rawmidi_write(snd_rawmidi_t * rmidi, const void * buffer, size_t siz
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (size_t)size;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14433,7 +14433,7 @@ int snd_sctl_build(snd_sctl_t ** ctl, snd_ctl_t * handle, snd_config_t * config,
     packed_data->args.a4 = (snd_config_t *)private_data;
     packed_data->args.a5 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14443,7 +14443,7 @@ int snd_sctl_free(snd_sctl_t * handle) {
     packed_data->func = snd_sctl_free_INDEX;
     packed_data->args.a1 = (snd_sctl_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14453,7 +14453,7 @@ int snd_sctl_install(snd_sctl_t * handle) {
     packed_data->func = snd_sctl_install_INDEX;
     packed_data->args.a1 = (snd_sctl_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14463,7 +14463,7 @@ int snd_sctl_remove(snd_sctl_t * handle) {
     packed_data->func = snd_sctl_remove_INDEX;
     packed_data->args.a1 = (snd_sctl_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14474,7 +14474,7 @@ int snd_seq_alloc_named_queue(snd_seq_t * seq, const char * name) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14484,7 +14484,7 @@ int snd_seq_alloc_queue(snd_seq_t * handle) {
     packed_data->func = snd_seq_alloc_queue_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14495,7 +14495,7 @@ int snd_seq_change_bit(int nr, void * array) {
     packed_data->args.a1 = (int)nr;
     packed_data->args.a2 = (void *)array;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14505,7 +14505,7 @@ int snd_seq_client_id(snd_seq_t * handle) {
     packed_data->func = snd_seq_client_id_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14515,7 +14515,7 @@ void snd_seq_client_info_copy(snd_seq_client_info_t * dst, const snd_seq_client_
     packed_data->func = snd_seq_client_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)dst;
     packed_data->args.a2 = (snd_seq_client_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_free
@@ -14523,7 +14523,7 @@ void snd_seq_client_info_free(snd_seq_client_info_t * ptr) {
     snd_seq_client_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_client_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_get_broadcast_filter
@@ -14532,7 +14532,7 @@ int snd_seq_client_info_get_broadcast_filter(const snd_seq_client_info_t * info)
     packed_data->func = snd_seq_client_info_get_broadcast_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14542,7 +14542,7 @@ int snd_seq_client_info_get_client(const snd_seq_client_info_t * info) {
     packed_data->func = snd_seq_client_info_get_client_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14552,7 +14552,7 @@ int snd_seq_client_info_get_error_bounce(const snd_seq_client_info_t * info) {
     packed_data->func = snd_seq_client_info_get_error_bounce_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14562,7 +14562,7 @@ const unsigned char * snd_seq_client_info_get_event_filter(const snd_seq_client_
     packed_data->func = snd_seq_client_info_get_event_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     const unsigned char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14572,7 +14572,7 @@ int snd_seq_client_info_get_event_lost(const snd_seq_client_info_t * info) {
     packed_data->func = snd_seq_client_info_get_event_lost_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14582,7 +14582,7 @@ const char * snd_seq_client_info_get_name(snd_seq_client_info_t * info) {
     packed_data->func = snd_seq_client_info_get_name_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14592,7 +14592,7 @@ int snd_seq_client_info_get_num_ports(const snd_seq_client_info_t * info) {
     packed_data->func = snd_seq_client_info_get_num_ports_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14602,7 +14602,7 @@ snd_seq_client_type_t snd_seq_client_info_get_type(const snd_seq_client_info_t *
     packed_data->func = snd_seq_client_info_get_type_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     snd_seq_client_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14612,7 +14612,7 @@ int snd_seq_client_info_malloc(snd_seq_client_info_t ** ptr) {
     packed_data->func = snd_seq_client_info_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14622,7 +14622,7 @@ void snd_seq_client_info_set_broadcast_filter(snd_seq_client_info_t * info, int 
     packed_data->func = snd_seq_client_info_set_broadcast_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_client
@@ -14631,7 +14631,7 @@ void snd_seq_client_info_set_client(snd_seq_client_info_t * info, int client) {
     packed_data->func = snd_seq_client_info_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)client;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_error_bounce
@@ -14640,7 +14640,7 @@ void snd_seq_client_info_set_error_bounce(snd_seq_client_info_t * info, int val)
     packed_data->func = snd_seq_client_info_set_error_bounce_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_event_filter
@@ -14649,7 +14649,7 @@ void snd_seq_client_info_set_event_filter(snd_seq_client_info_t * info, unsigned
     packed_data->func = snd_seq_client_info_set_event_filter_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (unsigned char *)filter;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_set_name
@@ -14658,7 +14658,7 @@ void snd_seq_client_info_set_name(snd_seq_client_info_t * info, const char * nam
     packed_data->func = snd_seq_client_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_client_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_info_sizeof
@@ -14666,7 +14666,7 @@ size_t snd_seq_client_info_sizeof() {
     snd_seq_client_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_client_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14676,7 +14676,7 @@ void snd_seq_client_pool_copy(snd_seq_client_pool_t * dst, const snd_seq_client_
     packed_data->func = snd_seq_client_pool_copy_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)dst;
     packed_data->args.a2 = (snd_seq_client_pool_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_free
@@ -14684,7 +14684,7 @@ void snd_seq_client_pool_free(snd_seq_client_pool_t * ptr) {
     snd_seq_client_pool_free_INDEXED *packed_data;
     packed_data->func = snd_seq_client_pool_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_get_client
@@ -14693,7 +14693,7 @@ int snd_seq_client_pool_get_client(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_client_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14703,7 +14703,7 @@ size_t snd_seq_client_pool_get_input_free(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_input_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14713,7 +14713,7 @@ size_t snd_seq_client_pool_get_input_pool(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_input_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14723,7 +14723,7 @@ size_t snd_seq_client_pool_get_output_free(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_output_free_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14733,7 +14733,7 @@ size_t snd_seq_client_pool_get_output_pool(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_output_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14743,7 +14743,7 @@ size_t snd_seq_client_pool_get_output_room(const snd_seq_client_pool_t * info) {
     packed_data->func = snd_seq_client_pool_get_output_room_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14753,7 +14753,7 @@ int snd_seq_client_pool_malloc(snd_seq_client_pool_t ** ptr) {
     packed_data->func = snd_seq_client_pool_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14763,7 +14763,7 @@ void snd_seq_client_pool_set_input_pool(snd_seq_client_pool_t * info, size_t siz
     packed_data->func = snd_seq_client_pool_set_input_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_set_output_pool
@@ -14772,7 +14772,7 @@ void snd_seq_client_pool_set_output_pool(snd_seq_client_pool_t * info, size_t si
     packed_data->func = snd_seq_client_pool_set_output_pool_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_set_output_room
@@ -14781,7 +14781,7 @@ void snd_seq_client_pool_set_output_room(snd_seq_client_pool_t * info, size_t si
     packed_data->func = snd_seq_client_pool_set_output_room_INDEX;
     packed_data->args.a1 = (snd_seq_client_pool_t *)info;
     packed_data->args.a2 = (size_t)size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_client_pool_sizeof
@@ -14789,7 +14789,7 @@ size_t snd_seq_client_pool_sizeof() {
     snd_seq_client_pool_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_client_pool_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14799,7 +14799,7 @@ int snd_seq_close(snd_seq_t * handle) {
     packed_data->func = snd_seq_close_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14812,7 +14812,7 @@ int snd_seq_connect_from(snd_seq_t * seq, int myport, int src_client, int src_po
     packed_data->args.a3 = (int)src_client;
     packed_data->args.a4 = (int)src_port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14825,7 +14825,7 @@ int snd_seq_connect_to(snd_seq_t * seq, int myport, int dest_client, int dest_po
     packed_data->args.a3 = (int)dest_client;
     packed_data->args.a4 = (int)dest_port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14839,7 +14839,7 @@ int snd_seq_control_queue(snd_seq_t * seq, int q, int type, int value, snd_seq_e
     packed_data->args.a4 = (int)value;
     packed_data->args.a5 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14850,7 +14850,7 @@ int snd_seq_create_port(snd_seq_t * handle, snd_seq_port_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14861,7 +14861,7 @@ int snd_seq_create_queue(snd_seq_t * seq, snd_seq_queue_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14874,7 +14874,7 @@ int snd_seq_create_simple_port(snd_seq_t * seq, const char * name, unsigned int 
     packed_data->args.a3 = (unsigned int)caps;
     packed_data->args.a4 = (unsigned int)type;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14885,7 +14885,7 @@ int snd_seq_delete_port(snd_seq_t * handle, int port) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (int)port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14896,7 +14896,7 @@ int snd_seq_delete_simple_port(snd_seq_t * seq, int port) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (int)port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14909,7 +14909,7 @@ int snd_seq_disconnect_from(snd_seq_t * seq, int myport, int src_client, int src
     packed_data->args.a3 = (int)src_client;
     packed_data->args.a4 = (int)src_port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14922,7 +14922,7 @@ int snd_seq_disconnect_to(snd_seq_t * seq, int myport, int dest_client, int dest
     packed_data->args.a3 = (int)dest_client;
     packed_data->args.a4 = (int)dest_port;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14932,7 +14932,7 @@ int snd_seq_drain_output(snd_seq_t * handle) {
     packed_data->func = snd_seq_drain_output_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14942,7 +14942,7 @@ int snd_seq_drop_input(snd_seq_t * handle) {
     packed_data->func = snd_seq_drop_input_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14952,7 +14952,7 @@ int snd_seq_drop_input_buffer(snd_seq_t * handle) {
     packed_data->func = snd_seq_drop_input_buffer_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14962,7 +14962,7 @@ int snd_seq_drop_output(snd_seq_t * handle) {
     packed_data->func = snd_seq_drop_output_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14972,7 +14972,7 @@ int snd_seq_drop_output_buffer(snd_seq_t * handle) {
     packed_data->func = snd_seq_drop_output_buffer_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14983,7 +14983,7 @@ int snd_seq_event_input(snd_seq_t * handle, snd_seq_event_t ** ev) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_event_t **)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -14994,7 +14994,7 @@ int snd_seq_event_input_pending(snd_seq_t * seq, int fetch_sequencer) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (int)fetch_sequencer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15004,7 +15004,7 @@ ssize_t snd_seq_event_length(snd_seq_event_t * ev) {
     packed_data->func = snd_seq_event_length_INDEX;
     packed_data->args.a1 = (snd_seq_event_t *)ev;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15015,7 +15015,7 @@ int snd_seq_event_output(snd_seq_t * handle, snd_seq_event_t * ev) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15026,7 +15026,7 @@ int snd_seq_event_output_buffer(snd_seq_t * handle, snd_seq_event_t * ev) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15037,7 +15037,7 @@ int snd_seq_event_output_direct(snd_seq_t * handle, snd_seq_event_t * ev) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15047,7 +15047,7 @@ int snd_seq_event_output_pending(snd_seq_t * seq) {
     packed_data->func = snd_seq_event_output_pending_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15058,7 +15058,7 @@ int snd_seq_extract_output(snd_seq_t * handle, snd_seq_event_t ** ev) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_event_t **)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15068,7 +15068,7 @@ int snd_seq_free_event(snd_seq_event_t * ev) {
     packed_data->func = snd_seq_free_event_INDEX;
     packed_data->args.a1 = (snd_seq_event_t *)ev;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15079,7 +15079,7 @@ int snd_seq_free_queue(snd_seq_t * handle, int q) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (int)q;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15091,7 +15091,7 @@ int snd_seq_get_any_client_info(snd_seq_t * handle, int client, snd_seq_client_i
     packed_data->args.a2 = (int)client;
     packed_data->args.a3 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15104,7 +15104,7 @@ int snd_seq_get_any_port_info(snd_seq_t * handle, int client, int port, snd_seq_
     packed_data->args.a3 = (int)port;
     packed_data->args.a4 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15115,7 +15115,7 @@ int snd_seq_get_bit(int nr, void * array) {
     packed_data->args.a1 = (int)nr;
     packed_data->args.a2 = (void *)array;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15126,7 +15126,7 @@ int snd_seq_get_client_info(snd_seq_t * handle, snd_seq_client_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15137,7 +15137,7 @@ int snd_seq_get_client_pool(snd_seq_t * handle, snd_seq_client_pool_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_pool_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15147,7 +15147,7 @@ size_t snd_seq_get_input_buffer_size(snd_seq_t * handle) {
     packed_data->func = snd_seq_get_input_buffer_size_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15157,7 +15157,7 @@ size_t snd_seq_get_output_buffer_size(snd_seq_t * handle) {
     packed_data->func = snd_seq_get_output_buffer_size_INDEX;
     packed_data->args.a1 = (snd_seq_t *)handle;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15169,7 +15169,7 @@ int snd_seq_get_port_info(snd_seq_t * handle, int port, snd_seq_port_info_t * in
     packed_data->args.a2 = (int)port;
     packed_data->args.a3 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15180,7 +15180,7 @@ int snd_seq_get_port_subscription(snd_seq_t * handle, snd_seq_port_subscribe_t *
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)sub;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15192,7 +15192,7 @@ int snd_seq_get_queue_info(snd_seq_t * seq, int q, snd_seq_queue_info_t * info) 
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15204,7 +15204,7 @@ int snd_seq_get_queue_status(snd_seq_t * handle, int q, snd_seq_queue_status_t *
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_status_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15216,7 +15216,7 @@ int snd_seq_get_queue_tempo(snd_seq_t * handle, int q, snd_seq_queue_tempo_t * t
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_tempo_t *)tempo;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15228,7 +15228,7 @@ int snd_seq_get_queue_timer(snd_seq_t * handle, int q, snd_seq_queue_timer_t * t
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_timer_t *)timer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15239,7 +15239,7 @@ int snd_seq_get_queue_usage(snd_seq_t * handle, int q) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (int)q;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15249,7 +15249,7 @@ const char * snd_seq_name(snd_seq_t * seq) {
     packed_data->func = snd_seq_name_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15260,7 +15260,7 @@ int snd_seq_nonblock(snd_seq_t * handle, int nonblock) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (int)nonblock;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15273,7 +15273,7 @@ int snd_seq_open(snd_seq_t ** handle, const char * name, int streams, int mode) 
     packed_data->args.a3 = (int)streams;
     packed_data->args.a4 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15287,7 +15287,7 @@ int snd_seq_open_lconf(snd_seq_t ** handle, const char * name, int streams, int 
     packed_data->args.a4 = (int)mode;
     packed_data->args.a5 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15299,7 +15299,7 @@ int snd_seq_parse_address(snd_seq_t * seq, snd_seq_addr_t * addr, const char * a
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
     packed_data->args.a3 = (char *)arg;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15312,7 +15312,7 @@ int snd_seq_poll_descriptors(snd_seq_t * handle, struct pollfd * pfds, unsigned 
     packed_data->args.a3 = (unsigned int)space;
     packed_data->args.a4 = (short)events;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15323,7 +15323,7 @@ int snd_seq_poll_descriptors_count(snd_seq_t * handle, short events) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (short)events;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15336,7 +15336,7 @@ int snd_seq_poll_descriptors_revents(snd_seq_t * seq, struct pollfd * pfds, unsi
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15346,7 +15346,7 @@ void snd_seq_port_info_copy(snd_seq_port_info_t * dst, const snd_seq_port_info_t
     packed_data->func = snd_seq_port_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)dst;
     packed_data->args.a2 = (snd_seq_port_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_free
@@ -15354,7 +15354,7 @@ void snd_seq_port_info_free(snd_seq_port_info_t * ptr) {
     snd_seq_port_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_port_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_get_addr
@@ -15363,7 +15363,7 @@ const snd_seq_addr_t * snd_seq_port_info_get_addr(const snd_seq_port_info_t * in
     packed_data->func = snd_seq_port_info_get_addr_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15373,7 +15373,7 @@ unsigned int snd_seq_port_info_get_capability(const snd_seq_port_info_t * info) 
     packed_data->func = snd_seq_port_info_get_capability_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15383,7 +15383,7 @@ int snd_seq_port_info_get_client(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_client_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15393,7 +15393,7 @@ int snd_seq_port_info_get_midi_channels(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_midi_channels_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15403,7 +15403,7 @@ int snd_seq_port_info_get_midi_voices(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_midi_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15413,7 +15413,7 @@ const char * snd_seq_port_info_get_name(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_name_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15423,7 +15423,7 @@ int snd_seq_port_info_get_port(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_port_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15433,7 +15433,7 @@ int snd_seq_port_info_get_port_specified(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_port_specified_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15443,7 +15443,7 @@ int snd_seq_port_info_get_read_use(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_read_use_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15453,7 +15453,7 @@ int snd_seq_port_info_get_synth_voices(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_synth_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15463,7 +15463,7 @@ int snd_seq_port_info_get_timestamp_queue(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_timestamp_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15473,7 +15473,7 @@ int snd_seq_port_info_get_timestamp_real(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_timestamp_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15483,7 +15483,7 @@ int snd_seq_port_info_get_timestamping(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_timestamping_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15493,7 +15493,7 @@ unsigned int snd_seq_port_info_get_type(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_type_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15503,7 +15503,7 @@ int snd_seq_port_info_get_write_use(const snd_seq_port_info_t * info) {
     packed_data->func = snd_seq_port_info_get_write_use_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15513,7 +15513,7 @@ int snd_seq_port_info_malloc(snd_seq_port_info_t ** ptr) {
     packed_data->func = snd_seq_port_info_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15523,7 +15523,7 @@ void snd_seq_port_info_set_addr(snd_seq_port_info_t * info, const snd_seq_addr_t
     packed_data->func = snd_seq_port_info_set_addr_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_capability
@@ -15532,7 +15532,7 @@ void snd_seq_port_info_set_capability(snd_seq_port_info_t * info, unsigned int c
     packed_data->func = snd_seq_port_info_set_capability_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (unsigned int)capability;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_client
@@ -15541,7 +15541,7 @@ void snd_seq_port_info_set_client(snd_seq_port_info_t * info, int client) {
     packed_data->func = snd_seq_port_info_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)client;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_midi_channels
@@ -15550,7 +15550,7 @@ void snd_seq_port_info_set_midi_channels(snd_seq_port_info_t * info, int channel
     packed_data->func = snd_seq_port_info_set_midi_channels_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)channels;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_midi_voices
@@ -15559,7 +15559,7 @@ void snd_seq_port_info_set_midi_voices(snd_seq_port_info_t * info, int voices) {
     packed_data->func = snd_seq_port_info_set_midi_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)voices;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_name
@@ -15568,7 +15568,7 @@ void snd_seq_port_info_set_name(snd_seq_port_info_t * info, const char * name) {
     packed_data->func = snd_seq_port_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_port
@@ -15577,7 +15577,7 @@ void snd_seq_port_info_set_port(snd_seq_port_info_t * info, int port) {
     packed_data->func = snd_seq_port_info_set_port_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)port;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_port_specified
@@ -15586,7 +15586,7 @@ void snd_seq_port_info_set_port_specified(snd_seq_port_info_t * info, int val) {
     packed_data->func = snd_seq_port_info_set_port_specified_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_synth_voices
@@ -15595,7 +15595,7 @@ void snd_seq_port_info_set_synth_voices(snd_seq_port_info_t * info, int voices) 
     packed_data->func = snd_seq_port_info_set_synth_voices_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)voices;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamp_queue
@@ -15604,7 +15604,7 @@ void snd_seq_port_info_set_timestamp_queue(snd_seq_port_info_t * info, int queue
     packed_data->func = snd_seq_port_info_set_timestamp_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)queue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamp_real
@@ -15613,7 +15613,7 @@ void snd_seq_port_info_set_timestamp_real(snd_seq_port_info_t * info, int realti
     packed_data->func = snd_seq_port_info_set_timestamp_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)realtime;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_timestamping
@@ -15622,7 +15622,7 @@ void snd_seq_port_info_set_timestamping(snd_seq_port_info_t * info, int enable) 
     packed_data->func = snd_seq_port_info_set_timestamping_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (int)enable;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_set_type
@@ -15631,7 +15631,7 @@ void snd_seq_port_info_set_type(snd_seq_port_info_t * info, unsigned int type) {
     packed_data->func = snd_seq_port_info_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_port_info_t *)info;
     packed_data->args.a2 = (unsigned int)type;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_info_sizeof
@@ -15639,7 +15639,7 @@ size_t snd_seq_port_info_sizeof() {
     snd_seq_port_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_port_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15649,7 +15649,7 @@ void snd_seq_port_subscribe_copy(snd_seq_port_subscribe_t * dst, const snd_seq_p
     packed_data->func = snd_seq_port_subscribe_copy_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)dst;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_free
@@ -15657,7 +15657,7 @@ void snd_seq_port_subscribe_free(snd_seq_port_subscribe_t * ptr) {
     snd_seq_port_subscribe_free_INDEXED *packed_data;
     packed_data->func = snd_seq_port_subscribe_free_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_get_dest
@@ -15666,7 +15666,7 @@ const snd_seq_addr_t * snd_seq_port_subscribe_get_dest(const snd_seq_port_subscr
     packed_data->func = snd_seq_port_subscribe_get_dest_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15676,7 +15676,7 @@ int snd_seq_port_subscribe_get_exclusive(const snd_seq_port_subscribe_t * info) 
     packed_data->func = snd_seq_port_subscribe_get_exclusive_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15686,7 +15686,7 @@ int snd_seq_port_subscribe_get_queue(const snd_seq_port_subscribe_t * info) {
     packed_data->func = snd_seq_port_subscribe_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15696,7 +15696,7 @@ const snd_seq_addr_t * snd_seq_port_subscribe_get_sender(const snd_seq_port_subs
     packed_data->func = snd_seq_port_subscribe_get_sender_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15706,7 +15706,7 @@ int snd_seq_port_subscribe_get_time_real(const snd_seq_port_subscribe_t * info) 
     packed_data->func = snd_seq_port_subscribe_get_time_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15716,7 +15716,7 @@ int snd_seq_port_subscribe_get_time_update(const snd_seq_port_subscribe_t * info
     packed_data->func = snd_seq_port_subscribe_get_time_update_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15726,7 +15726,7 @@ int snd_seq_port_subscribe_malloc(snd_seq_port_subscribe_t ** ptr) {
     packed_data->func = snd_seq_port_subscribe_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15736,7 +15736,7 @@ void snd_seq_port_subscribe_set_dest(snd_seq_port_subscribe_t * info, const snd_
     packed_data->func = snd_seq_port_subscribe_set_dest_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_exclusive
@@ -15745,7 +15745,7 @@ void snd_seq_port_subscribe_set_exclusive(snd_seq_port_subscribe_t * info, int v
     packed_data->func = snd_seq_port_subscribe_set_exclusive_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_queue
@@ -15754,7 +15754,7 @@ void snd_seq_port_subscribe_set_queue(snd_seq_port_subscribe_t * info, int q) {
     packed_data->func = snd_seq_port_subscribe_set_queue_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)q;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_sender
@@ -15763,7 +15763,7 @@ void snd_seq_port_subscribe_set_sender(snd_seq_port_subscribe_t * info, const sn
     packed_data->func = snd_seq_port_subscribe_set_sender_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_time_real
@@ -15772,7 +15772,7 @@ void snd_seq_port_subscribe_set_time_real(snd_seq_port_subscribe_t * info, int v
     packed_data->func = snd_seq_port_subscribe_set_time_real_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_set_time_update
@@ -15781,7 +15781,7 @@ void snd_seq_port_subscribe_set_time_update(snd_seq_port_subscribe_t * info, int
     packed_data->func = snd_seq_port_subscribe_set_time_update_INDEX;
     packed_data->args.a1 = (snd_seq_port_subscribe_t *)info;
     packed_data->args.a2 = (int)val;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_port_subscribe_sizeof
@@ -15789,7 +15789,7 @@ size_t snd_seq_port_subscribe_sizeof() {
     snd_seq_port_subscribe_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_port_subscribe_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15800,7 +15800,7 @@ int snd_seq_query_named_queue(snd_seq_t * seq, const char * name) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15811,7 +15811,7 @@ int snd_seq_query_next_client(snd_seq_t * handle, snd_seq_client_info_t * info) 
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15822,7 +15822,7 @@ int snd_seq_query_next_port(snd_seq_t * handle, snd_seq_port_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15833,7 +15833,7 @@ int snd_seq_query_port_subscribers(snd_seq_t * seq, snd_seq_query_subscribe_t * 
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (snd_seq_query_subscribe_t *)subs;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15843,7 +15843,7 @@ void snd_seq_query_subscribe_copy(snd_seq_query_subscribe_t * dst, const snd_seq
     packed_data->func = snd_seq_query_subscribe_copy_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)dst;
     packed_data->args.a2 = (snd_seq_query_subscribe_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_free
@@ -15851,7 +15851,7 @@ void snd_seq_query_subscribe_free(snd_seq_query_subscribe_t * ptr) {
     snd_seq_query_subscribe_free_INDEXED *packed_data;
     packed_data->func = snd_seq_query_subscribe_free_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_get_addr
@@ -15860,7 +15860,7 @@ const snd_seq_addr_t * snd_seq_query_subscribe_get_addr(const snd_seq_query_subs
     packed_data->func = snd_seq_query_subscribe_get_addr_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15870,7 +15870,7 @@ int snd_seq_query_subscribe_get_client(const snd_seq_query_subscribe_t * info) {
     packed_data->func = snd_seq_query_subscribe_get_client_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15880,7 +15880,7 @@ int snd_seq_query_subscribe_get_exclusive(const snd_seq_query_subscribe_t * info
     packed_data->func = snd_seq_query_subscribe_get_exclusive_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15890,7 +15890,7 @@ int snd_seq_query_subscribe_get_index(const snd_seq_query_subscribe_t * info) {
     packed_data->func = snd_seq_query_subscribe_get_index_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15900,7 +15900,7 @@ int snd_seq_query_subscribe_get_num_subs(const snd_seq_query_subscribe_t * info)
     packed_data->func = snd_seq_query_subscribe_get_num_subs_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15910,7 +15910,7 @@ int snd_seq_query_subscribe_get_port(const snd_seq_query_subscribe_t * info) {
     packed_data->func = snd_seq_query_subscribe_get_port_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15920,7 +15920,7 @@ int snd_seq_query_subscribe_get_queue(const snd_seq_query_subscribe_t * info) {
     packed_data->func = snd_seq_query_subscribe_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15930,7 +15930,7 @@ const snd_seq_addr_t * snd_seq_query_subscribe_get_root(const snd_seq_query_subs
     packed_data->func = snd_seq_query_subscribe_get_root_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15940,7 +15940,7 @@ int snd_seq_query_subscribe_get_time_real(const snd_seq_query_subscribe_t * info
     packed_data->func = snd_seq_query_subscribe_get_time_real_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15950,7 +15950,7 @@ int snd_seq_query_subscribe_get_time_update(const snd_seq_query_subscribe_t * in
     packed_data->func = snd_seq_query_subscribe_get_time_update_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15960,7 +15960,7 @@ snd_seq_query_subs_type_t snd_seq_query_subscribe_get_type(const snd_seq_query_s
     packed_data->func = snd_seq_query_subscribe_get_type_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     snd_seq_query_subs_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15970,7 +15970,7 @@ int snd_seq_query_subscribe_malloc(snd_seq_query_subscribe_t ** ptr) {
     packed_data->func = snd_seq_query_subscribe_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -15980,7 +15980,7 @@ void snd_seq_query_subscribe_set_client(snd_seq_query_subscribe_t * info, int cl
     packed_data->func = snd_seq_query_subscribe_set_client_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)client;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_index
@@ -15989,7 +15989,7 @@ void snd_seq_query_subscribe_set_index(snd_seq_query_subscribe_t * info, int _in
     packed_data->func = snd_seq_query_subscribe_set_index_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)_index;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_port
@@ -15998,7 +15998,7 @@ void snd_seq_query_subscribe_set_port(snd_seq_query_subscribe_t * info, int port
     packed_data->func = snd_seq_query_subscribe_set_port_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (int)port;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_root
@@ -16007,7 +16007,7 @@ void snd_seq_query_subscribe_set_root(snd_seq_query_subscribe_t * info, const sn
     packed_data->func = snd_seq_query_subscribe_set_root_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_set_type
@@ -16016,7 +16016,7 @@ void snd_seq_query_subscribe_set_type(snd_seq_query_subscribe_t * info, snd_seq_
     packed_data->func = snd_seq_query_subscribe_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_query_subscribe_t *)info;
     packed_data->args.a2 = (snd_seq_query_subs_type_t)type;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_query_subscribe_sizeof
@@ -16024,7 +16024,7 @@ size_t snd_seq_query_subscribe_sizeof() {
     snd_seq_query_subscribe_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_query_subscribe_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16034,7 +16034,7 @@ void snd_seq_queue_info_copy(snd_seq_queue_info_t * dst, const snd_seq_queue_inf
     packed_data->func = snd_seq_queue_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_free
@@ -16042,7 +16042,7 @@ void snd_seq_queue_info_free(snd_seq_queue_info_t * ptr) {
     snd_seq_queue_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_get_flags
@@ -16051,7 +16051,7 @@ unsigned int snd_seq_queue_info_get_flags(const snd_seq_queue_info_t * info) {
     packed_data->func = snd_seq_queue_info_get_flags_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16061,7 +16061,7 @@ int snd_seq_queue_info_get_locked(const snd_seq_queue_info_t * info) {
     packed_data->func = snd_seq_queue_info_get_locked_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16071,7 +16071,7 @@ const char * snd_seq_queue_info_get_name(const snd_seq_queue_info_t * info) {
     packed_data->func = snd_seq_queue_info_get_name_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16081,7 +16081,7 @@ int snd_seq_queue_info_get_owner(const snd_seq_queue_info_t * info) {
     packed_data->func = snd_seq_queue_info_get_owner_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16091,7 +16091,7 @@ int snd_seq_queue_info_get_queue(const snd_seq_queue_info_t * info) {
     packed_data->func = snd_seq_queue_info_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16101,7 +16101,7 @@ int snd_seq_queue_info_malloc(snd_seq_queue_info_t ** ptr) {
     packed_data->func = snd_seq_queue_info_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16111,7 +16111,7 @@ void snd_seq_queue_info_set_flags(snd_seq_queue_info_t * info, unsigned int flag
     packed_data->func = snd_seq_queue_info_set_flags_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (unsigned int)flags;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_locked
@@ -16120,7 +16120,7 @@ void snd_seq_queue_info_set_locked(snd_seq_queue_info_t * info, int locked) {
     packed_data->func = snd_seq_queue_info_set_locked_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (int)locked;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_name
@@ -16129,7 +16129,7 @@ void snd_seq_queue_info_set_name(snd_seq_queue_info_t * info, const char * name)
     packed_data->func = snd_seq_queue_info_set_name_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (char *)name;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_set_owner
@@ -16138,7 +16138,7 @@ void snd_seq_queue_info_set_owner(snd_seq_queue_info_t * info, int owner) {
     packed_data->func = snd_seq_queue_info_set_owner_INDEX;
     packed_data->args.a1 = (snd_seq_queue_info_t *)info;
     packed_data->args.a2 = (int)owner;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_info_sizeof
@@ -16146,7 +16146,7 @@ size_t snd_seq_queue_info_sizeof() {
     snd_seq_queue_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16156,7 +16156,7 @@ void snd_seq_queue_status_copy(snd_seq_queue_status_t * dst, const snd_seq_queue
     packed_data->func = snd_seq_queue_status_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_status_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_status_free
@@ -16164,7 +16164,7 @@ void snd_seq_queue_status_free(snd_seq_queue_status_t * ptr) {
     snd_seq_queue_status_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_status_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_status_get_events
@@ -16173,7 +16173,7 @@ int snd_seq_queue_status_get_events(const snd_seq_queue_status_t * info) {
     packed_data->func = snd_seq_queue_status_get_events_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16183,7 +16183,7 @@ int snd_seq_queue_status_get_queue(const snd_seq_queue_status_t * info) {
     packed_data->func = snd_seq_queue_status_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16193,7 +16193,7 @@ const snd_seq_real_time_t * snd_seq_queue_status_get_real_time(const snd_seq_que
     packed_data->func = snd_seq_queue_status_get_real_time_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)info;
     const snd_seq_real_time_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16203,7 +16203,7 @@ unsigned int snd_seq_queue_status_get_status(const snd_seq_queue_status_t * info
     packed_data->func = snd_seq_queue_status_get_status_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16213,7 +16213,7 @@ snd_seq_tick_time_t snd_seq_queue_status_get_tick_time(const snd_seq_queue_statu
     packed_data->func = snd_seq_queue_status_get_tick_time_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t *)info;
     snd_seq_tick_time_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16223,7 +16223,7 @@ int snd_seq_queue_status_malloc(snd_seq_queue_status_t ** ptr) {
     packed_data->func = snd_seq_queue_status_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_queue_status_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16232,7 +16232,7 @@ size_t snd_seq_queue_status_sizeof() {
     snd_seq_queue_status_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_status_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16242,7 +16242,7 @@ void snd_seq_queue_tempo_copy(snd_seq_queue_tempo_t * dst, const snd_seq_queue_t
     packed_data->func = snd_seq_queue_tempo_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_tempo_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_free
@@ -16250,7 +16250,7 @@ void snd_seq_queue_tempo_free(snd_seq_queue_tempo_t * ptr) {
     snd_seq_queue_tempo_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_tempo_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_get_ppq
@@ -16259,7 +16259,7 @@ int snd_seq_queue_tempo_get_ppq(const snd_seq_queue_tempo_t * info) {
     packed_data->func = snd_seq_queue_tempo_get_ppq_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16269,7 +16269,7 @@ int snd_seq_queue_tempo_get_queue(const snd_seq_queue_tempo_t * info) {
     packed_data->func = snd_seq_queue_tempo_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16279,7 +16279,7 @@ unsigned int snd_seq_queue_tempo_get_skew(const snd_seq_queue_tempo_t * info) {
     packed_data->func = snd_seq_queue_tempo_get_skew_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16289,7 +16289,7 @@ unsigned int snd_seq_queue_tempo_get_skew_base(const snd_seq_queue_tempo_t * inf
     packed_data->func = snd_seq_queue_tempo_get_skew_base_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16299,7 +16299,7 @@ unsigned int snd_seq_queue_tempo_get_tempo(const snd_seq_queue_tempo_t * info) {
     packed_data->func = snd_seq_queue_tempo_get_tempo_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16309,7 +16309,7 @@ int snd_seq_queue_tempo_malloc(snd_seq_queue_tempo_t ** ptr) {
     packed_data->func = snd_seq_queue_tempo_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16319,7 +16319,7 @@ void snd_seq_queue_tempo_set_ppq(snd_seq_queue_tempo_t * info, int ppq) {
     packed_data->func = snd_seq_queue_tempo_set_ppq_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (int)ppq;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_skew
@@ -16328,7 +16328,7 @@ void snd_seq_queue_tempo_set_skew(snd_seq_queue_tempo_t * info, unsigned int ske
     packed_data->func = snd_seq_queue_tempo_set_skew_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)skew;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_skew_base
@@ -16337,7 +16337,7 @@ void snd_seq_queue_tempo_set_skew_base(snd_seq_queue_tempo_t * info, unsigned in
     packed_data->func = snd_seq_queue_tempo_set_skew_base_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)base;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_set_tempo
@@ -16346,7 +16346,7 @@ void snd_seq_queue_tempo_set_tempo(snd_seq_queue_tempo_t * info, unsigned int te
     packed_data->func = snd_seq_queue_tempo_set_tempo_INDEX;
     packed_data->args.a1 = (snd_seq_queue_tempo_t *)info;
     packed_data->args.a2 = (unsigned int)tempo;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_tempo_sizeof
@@ -16354,7 +16354,7 @@ size_t snd_seq_queue_tempo_sizeof() {
     snd_seq_queue_tempo_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_tempo_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16364,7 +16364,7 @@ void snd_seq_queue_timer_copy(snd_seq_queue_timer_t * dst, const snd_seq_queue_t
     packed_data->func = snd_seq_queue_timer_copy_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)dst;
     packed_data->args.a2 = (snd_seq_queue_timer_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_free
@@ -16372,7 +16372,7 @@ void snd_seq_queue_timer_free(snd_seq_queue_timer_t * ptr) {
     snd_seq_queue_timer_free_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_timer_free_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_get_id
@@ -16381,7 +16381,7 @@ const snd_timer_id_t * snd_seq_queue_timer_get_id(const snd_seq_queue_timer_t * 
     packed_data->func = snd_seq_queue_timer_get_id_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     const snd_timer_id_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16391,7 +16391,7 @@ int snd_seq_queue_timer_get_queue(const snd_seq_queue_timer_t * info) {
     packed_data->func = snd_seq_queue_timer_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16401,7 +16401,7 @@ unsigned int snd_seq_queue_timer_get_resolution(const snd_seq_queue_timer_t * in
     packed_data->func = snd_seq_queue_timer_get_resolution_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16411,7 +16411,7 @@ snd_seq_queue_timer_type_t snd_seq_queue_timer_get_type(const snd_seq_queue_time
     packed_data->func = snd_seq_queue_timer_get_type_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     snd_seq_queue_timer_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16421,7 +16421,7 @@ int snd_seq_queue_timer_malloc(snd_seq_queue_timer_t ** ptr) {
     packed_data->func = snd_seq_queue_timer_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16431,7 +16431,7 @@ void snd_seq_queue_timer_set_id(snd_seq_queue_timer_t * info, const snd_timer_id
     packed_data->func = snd_seq_queue_timer_set_id_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (snd_timer_id_t *)id;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_set_resolution
@@ -16440,7 +16440,7 @@ void snd_seq_queue_timer_set_resolution(snd_seq_queue_timer_t * info, unsigned i
     packed_data->func = snd_seq_queue_timer_set_resolution_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (unsigned int)resolution;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_set_type
@@ -16449,7 +16449,7 @@ void snd_seq_queue_timer_set_type(snd_seq_queue_timer_t * info, snd_seq_queue_ti
     packed_data->func = snd_seq_queue_timer_set_type_INDEX;
     packed_data->args.a1 = (snd_seq_queue_timer_t *)info;
     packed_data->args.a2 = (snd_seq_queue_timer_type_t)type;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_queue_timer_sizeof
@@ -16457,7 +16457,7 @@ size_t snd_seq_queue_timer_sizeof() {
     snd_seq_queue_timer_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_queue_timer_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16468,7 +16468,7 @@ int snd_seq_remove_events(snd_seq_t * handle, snd_seq_remove_events_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_remove_events_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16478,7 +16478,7 @@ void snd_seq_remove_events_copy(snd_seq_remove_events_t * dst, const snd_seq_rem
     packed_data->func = snd_seq_remove_events_copy_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)dst;
     packed_data->args.a2 = (snd_seq_remove_events_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_free
@@ -16486,7 +16486,7 @@ void snd_seq_remove_events_free(snd_seq_remove_events_t * ptr) {
     snd_seq_remove_events_free_INDEXED *packed_data;
     packed_data->func = snd_seq_remove_events_free_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_get_channel
@@ -16495,7 +16495,7 @@ int snd_seq_remove_events_get_channel(const snd_seq_remove_events_t * info) {
     packed_data->func = snd_seq_remove_events_get_channel_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16505,7 +16505,7 @@ unsigned int snd_seq_remove_events_get_condition(const snd_seq_remove_events_t *
     packed_data->func = snd_seq_remove_events_get_condition_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16515,7 +16515,7 @@ const snd_seq_addr_t * snd_seq_remove_events_get_dest(const snd_seq_remove_event
     packed_data->func = snd_seq_remove_events_get_dest_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     const snd_seq_addr_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16525,7 +16525,7 @@ int snd_seq_remove_events_get_event_type(const snd_seq_remove_events_t * info) {
     packed_data->func = snd_seq_remove_events_get_event_type_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16535,7 +16535,7 @@ int snd_seq_remove_events_get_queue(const snd_seq_remove_events_t * info) {
     packed_data->func = snd_seq_remove_events_get_queue_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16545,7 +16545,7 @@ int snd_seq_remove_events_get_tag(const snd_seq_remove_events_t * info) {
     packed_data->func = snd_seq_remove_events_get_tag_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16555,7 +16555,7 @@ const snd_seq_timestamp_t * snd_seq_remove_events_get_time(const snd_seq_remove_
     packed_data->func = snd_seq_remove_events_get_time_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     const snd_seq_timestamp_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16565,7 +16565,7 @@ int snd_seq_remove_events_malloc(snd_seq_remove_events_t ** ptr) {
     packed_data->func = snd_seq_remove_events_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16575,7 +16575,7 @@ void snd_seq_remove_events_set_channel(snd_seq_remove_events_t * info, int chann
     packed_data->func = snd_seq_remove_events_set_channel_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)channel;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_condition
@@ -16584,7 +16584,7 @@ void snd_seq_remove_events_set_condition(snd_seq_remove_events_t * info, unsigne
     packed_data->func = snd_seq_remove_events_set_condition_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (unsigned int)flags;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_dest
@@ -16593,7 +16593,7 @@ void snd_seq_remove_events_set_dest(snd_seq_remove_events_t * info, const snd_se
     packed_data->func = snd_seq_remove_events_set_dest_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (snd_seq_addr_t *)addr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_event_type
@@ -16602,7 +16602,7 @@ void snd_seq_remove_events_set_event_type(snd_seq_remove_events_t * info, int ty
     packed_data->func = snd_seq_remove_events_set_event_type_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)type;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_queue
@@ -16611,7 +16611,7 @@ void snd_seq_remove_events_set_queue(snd_seq_remove_events_t * info, int queue) 
     packed_data->func = snd_seq_remove_events_set_queue_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)queue;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_tag
@@ -16620,7 +16620,7 @@ void snd_seq_remove_events_set_tag(snd_seq_remove_events_t * info, int tag) {
     packed_data->func = snd_seq_remove_events_set_tag_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (int)tag;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_set_time
@@ -16629,7 +16629,7 @@ void snd_seq_remove_events_set_time(snd_seq_remove_events_t * info, const snd_se
     packed_data->func = snd_seq_remove_events_set_time_INDEX;
     packed_data->args.a1 = (snd_seq_remove_events_t *)info;
     packed_data->args.a2 = (snd_seq_timestamp_t *)time;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_remove_events_sizeof
@@ -16637,7 +16637,7 @@ size_t snd_seq_remove_events_sizeof() {
     snd_seq_remove_events_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_remove_events_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16647,7 +16647,7 @@ int snd_seq_reset_pool_input(snd_seq_t * seq) {
     packed_data->func = snd_seq_reset_pool_input_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16657,7 +16657,7 @@ int snd_seq_reset_pool_output(snd_seq_t * seq) {
     packed_data->func = snd_seq_reset_pool_output_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16667,7 +16667,7 @@ void snd_seq_set_bit(int nr, void * array) {
     packed_data->func = snd_seq_set_bit_INDEX;
     packed_data->args.a1 = (int)nr;
     packed_data->args.a2 = (void *)array;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_set_client_event_filter
@@ -16677,7 +16677,7 @@ int snd_seq_set_client_event_filter(snd_seq_t * seq, int event_type) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (int)event_type;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16688,7 +16688,7 @@ int snd_seq_set_client_info(snd_seq_t * handle, snd_seq_client_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16699,7 +16699,7 @@ int snd_seq_set_client_name(snd_seq_t * seq, const char * name) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (char *)name;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16710,7 +16710,7 @@ int snd_seq_set_client_pool(snd_seq_t * handle, snd_seq_client_pool_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_client_pool_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16721,7 +16721,7 @@ int snd_seq_set_client_pool_input(snd_seq_t * seq, size_t size) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (size_t)size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16732,7 +16732,7 @@ int snd_seq_set_client_pool_output_room(snd_seq_t * seq, size_t size) {
     packed_data->args.a1 = (snd_seq_t *)seq;
     packed_data->args.a2 = (size_t)size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16743,7 +16743,7 @@ int snd_seq_set_input_buffer_size(snd_seq_t * handle, size_t size) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (size_t)size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16754,7 +16754,7 @@ int snd_seq_set_output_buffer_size(snd_seq_t * handle, size_t size) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (size_t)size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16766,7 +16766,7 @@ int snd_seq_set_port_info(snd_seq_t * handle, int port, snd_seq_port_info_t * in
     packed_data->args.a2 = (int)port;
     packed_data->args.a3 = (snd_seq_port_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16778,7 +16778,7 @@ int snd_seq_set_queue_info(snd_seq_t * seq, int q, snd_seq_queue_info_t * info) 
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16790,7 +16790,7 @@ int snd_seq_set_queue_tempo(snd_seq_t * handle, int q, snd_seq_queue_tempo_t * t
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_tempo_t *)tempo;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16802,7 +16802,7 @@ int snd_seq_set_queue_timer(snd_seq_t * handle, int q, snd_seq_queue_timer_t * t
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (snd_seq_queue_timer_t *)timer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16814,7 +16814,7 @@ int snd_seq_set_queue_usage(snd_seq_t * handle, int q, int used) {
     packed_data->args.a2 = (int)q;
     packed_data->args.a3 = (int)used;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16825,7 +16825,7 @@ int snd_seq_subscribe_port(snd_seq_t * handle, snd_seq_port_subscribe_t * sub) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)sub;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16835,7 +16835,7 @@ int snd_seq_sync_output_queue(snd_seq_t * seq) {
     packed_data->func = snd_seq_sync_output_queue_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16846,7 +16846,7 @@ int snd_seq_system_info(snd_seq_t * handle, snd_seq_system_info_t * info) {
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16856,7 +16856,7 @@ void snd_seq_system_info_copy(snd_seq_system_info_t * dst, const snd_seq_system_
     packed_data->func = snd_seq_system_info_copy_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)dst;
     packed_data->args.a2 = (snd_seq_system_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_system_info_free
@@ -16864,7 +16864,7 @@ void snd_seq_system_info_free(snd_seq_system_info_t * ptr) {
     snd_seq_system_info_free_INDEXED *packed_data;
     packed_data->func = snd_seq_system_info_free_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)ptr;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_seq_system_info_get_channels
@@ -16873,7 +16873,7 @@ int snd_seq_system_info_get_channels(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_channels_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16883,7 +16883,7 @@ int snd_seq_system_info_get_clients(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_clients_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16893,7 +16893,7 @@ int snd_seq_system_info_get_cur_clients(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_cur_clients_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16903,7 +16903,7 @@ int snd_seq_system_info_get_cur_queues(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_cur_queues_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16913,7 +16913,7 @@ int snd_seq_system_info_get_ports(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_ports_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16923,7 +16923,7 @@ int snd_seq_system_info_get_queues(const snd_seq_system_info_t * info) {
     packed_data->func = snd_seq_system_info_get_queues_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16933,7 +16933,7 @@ int snd_seq_system_info_malloc(snd_seq_system_info_t ** ptr) {
     packed_data->func = snd_seq_system_info_malloc_INDEX;
     packed_data->args.a1 = (snd_seq_system_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16942,7 +16942,7 @@ size_t snd_seq_system_info_sizeof() {
     snd_seq_system_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_seq_system_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16952,7 +16952,7 @@ snd_seq_type_t snd_seq_type(snd_seq_t * seq) {
     packed_data->func = snd_seq_type_INDEX;
     packed_data->args.a1 = (snd_seq_t *)seq;
     snd_seq_type_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16963,7 +16963,7 @@ int snd_seq_unsubscribe_port(snd_seq_t * handle, snd_seq_port_subscribe_t * sub)
     packed_data->args.a1 = (snd_seq_t *)handle;
     packed_data->args.a2 = (snd_seq_port_subscribe_t *)sub;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16974,7 +16974,7 @@ struct snd_shm_area * snd_shm_area_create(int shmid, void * ptr) {
     packed_data->args.a1 = (int)shmid;
     packed_data->args.a2 = (void *)ptr;
     struct snd_shm_area * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16984,7 +16984,7 @@ int snd_shm_area_destroy(struct snd_shm_area * area) {
     packed_data->func = snd_shm_area_destroy_INDEX;
     packed_data->args.a1 = (struct snd_shm_area *)area;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -16994,7 +16994,7 @@ struct snd_shm_area * snd_shm_area_share(struct snd_shm_area * area) {
     packed_data->func = snd_shm_area_share_INDEX;
     packed_data->args.a1 = (struct snd_shm_area *)area;
     struct snd_shm_area * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17011,7 +17011,7 @@ int snd_spcm_init(snd_pcm_t * pcm, unsigned int rate, unsigned int channels, snd
     packed_data->args.a7 = (snd_pcm_access_t)_access;
     packed_data->args.a8 = (snd_spcm_xrun_type_t)xrun_type;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17030,7 +17030,7 @@ int snd_spcm_init_duplex(snd_pcm_t * playback_pcm, snd_pcm_t * capture_pcm, unsi
     packed_data->args.a9 = (snd_spcm_xrun_type_t)xrun_type;
     packed_data->args.a10 = (snd_spcm_duplex_type_t)duplex_type;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17043,7 +17043,7 @@ int snd_spcm_init_get_params(snd_pcm_t * pcm, unsigned int * rate, snd_pcm_ufram
     packed_data->args.a3 = (snd_pcm_uframes_t *)buffer_size;
     packed_data->args.a4 = (snd_pcm_uframes_t *)period_size;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17053,7 +17053,7 @@ const char * snd_strerror(int errnum) {
     packed_data->func = snd_strerror_INDEX;
     packed_data->args.a1 = (int)errnum;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17063,7 +17063,7 @@ int snd_timer_close(snd_timer_t * handle) {
     packed_data->func = snd_timer_close_INDEX;
     packed_data->args.a1 = (snd_timer_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17073,7 +17073,7 @@ int snd_timer_continue(snd_timer_t * handle) {
     packed_data->func = snd_timer_continue_INDEX;
     packed_data->args.a1 = (snd_timer_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17083,7 +17083,7 @@ void snd_timer_ginfo_copy(snd_timer_ginfo_t * dst, const snd_timer_ginfo_t * src
     packed_data->func = snd_timer_ginfo_copy_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)dst;
     packed_data->args.a2 = (snd_timer_ginfo_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_ginfo_free
@@ -17091,7 +17091,7 @@ void snd_timer_ginfo_free(snd_timer_ginfo_t * obj) {
     snd_timer_ginfo_free_INDEXED *packed_data;
     packed_data->func = snd_timer_ginfo_free_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_ginfo_get_card
@@ -17100,7 +17100,7 @@ int snd_timer_ginfo_get_card(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_card_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17110,7 +17110,7 @@ unsigned int snd_timer_ginfo_get_clients(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_clients_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17120,7 +17120,7 @@ unsigned int snd_timer_ginfo_get_flags(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_flags_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17130,7 +17130,7 @@ char * snd_timer_ginfo_get_id(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_id_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17140,7 +17140,7 @@ char * snd_timer_ginfo_get_name(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_name_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17150,7 +17150,7 @@ unsigned long snd_timer_ginfo_get_resolution(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_resolution_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     unsigned long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17160,7 +17160,7 @@ unsigned long snd_timer_ginfo_get_resolution_max(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_resolution_max_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     unsigned long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17170,7 +17170,7 @@ unsigned long snd_timer_ginfo_get_resolution_min(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_resolution_min_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     unsigned long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17180,7 +17180,7 @@ snd_timer_id_t * snd_timer_ginfo_get_tid(snd_timer_ginfo_t * obj) {
     packed_data->func = snd_timer_ginfo_get_tid_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     snd_timer_id_t * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17190,7 +17190,7 @@ int snd_timer_ginfo_malloc(snd_timer_ginfo_t ** ptr) {
     packed_data->func = snd_timer_ginfo_malloc_INDEX;
     packed_data->args.a1 = (snd_timer_ginfo_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17201,7 +17201,7 @@ int snd_timer_ginfo_set_tid(snd_timer_ginfo_t * obj, snd_timer_id_t * tid) {
     packed_data->args.a1 = (snd_timer_ginfo_t *)obj;
     packed_data->args.a2 = (snd_timer_id_t *)tid;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17210,7 +17210,7 @@ size_t snd_timer_ginfo_sizeof() {
     snd_timer_ginfo_sizeof_INDEXED *packed_data;
     packed_data->func = snd_timer_ginfo_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17220,7 +17220,7 @@ void snd_timer_id_copy(snd_timer_id_t * dst, const snd_timer_id_t * src) {
     packed_data->func = snd_timer_id_copy_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)dst;
     packed_data->args.a2 = (snd_timer_id_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_free
@@ -17228,7 +17228,7 @@ void snd_timer_id_free(snd_timer_id_t * obj) {
     snd_timer_id_free_INDEXED *packed_data;
     packed_data->func = snd_timer_id_free_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_get_card
@@ -17237,7 +17237,7 @@ int snd_timer_id_get_card(snd_timer_id_t * id) {
     packed_data->func = snd_timer_id_get_card_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17247,7 +17247,7 @@ int snd_timer_id_get_class(snd_timer_id_t * id) {
     packed_data->func = snd_timer_id_get_class_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17257,7 +17257,7 @@ int snd_timer_id_get_device(snd_timer_id_t * id) {
     packed_data->func = snd_timer_id_get_device_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17267,7 +17267,7 @@ int snd_timer_id_get_sclass(snd_timer_id_t * id) {
     packed_data->func = snd_timer_id_get_sclass_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17277,7 +17277,7 @@ int snd_timer_id_get_subdevice(snd_timer_id_t * id) {
     packed_data->func = snd_timer_id_get_subdevice_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17287,7 +17287,7 @@ int snd_timer_id_malloc(snd_timer_id_t ** ptr) {
     packed_data->func = snd_timer_id_malloc_INDEX;
     packed_data->args.a1 = (snd_timer_id_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17297,7 +17297,7 @@ void snd_timer_id_set_card(snd_timer_id_t * id, int card) {
     packed_data->func = snd_timer_id_set_card_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)card;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_class
@@ -17306,7 +17306,7 @@ void snd_timer_id_set_class(snd_timer_id_t * id, int dev_class) {
     packed_data->func = snd_timer_id_set_class_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)dev_class;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_device
@@ -17315,7 +17315,7 @@ void snd_timer_id_set_device(snd_timer_id_t * id, int device) {
     packed_data->func = snd_timer_id_set_device_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)device;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_sclass
@@ -17324,7 +17324,7 @@ void snd_timer_id_set_sclass(snd_timer_id_t * id, int dev_sclass) {
     packed_data->func = snd_timer_id_set_sclass_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)dev_sclass;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_set_subdevice
@@ -17333,7 +17333,7 @@ void snd_timer_id_set_subdevice(snd_timer_id_t * id, int subdevice) {
     packed_data->func = snd_timer_id_set_subdevice_INDEX;
     packed_data->args.a1 = (snd_timer_id_t *)id;
     packed_data->args.a2 = (int)subdevice;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_id_sizeof
@@ -17341,7 +17341,7 @@ size_t snd_timer_id_sizeof() {
     snd_timer_id_sizeof_INDEXED *packed_data;
     packed_data->func = snd_timer_id_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17352,7 +17352,7 @@ int snd_timer_info(snd_timer_t * handle, snd_timer_info_t * timer) {
     packed_data->args.a1 = (snd_timer_t *)handle;
     packed_data->args.a2 = (snd_timer_info_t *)timer;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17362,7 +17362,7 @@ void snd_timer_info_copy(snd_timer_info_t * dst, const snd_timer_info_t * src) {
     packed_data->func = snd_timer_info_copy_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)dst;
     packed_data->args.a2 = (snd_timer_info_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_info_free
@@ -17370,7 +17370,7 @@ void snd_timer_info_free(snd_timer_info_t * obj) {
     snd_timer_info_free_INDEXED *packed_data;
     packed_data->func = snd_timer_info_free_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_info_get_card
@@ -17379,7 +17379,7 @@ int snd_timer_info_get_card(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_get_card_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17389,7 +17389,7 @@ const char * snd_timer_info_get_id(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_get_id_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17399,7 +17399,7 @@ const char * snd_timer_info_get_name(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_get_name_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     const char * ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17409,7 +17409,7 @@ long snd_timer_info_get_resolution(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_get_resolution_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17419,7 +17419,7 @@ long snd_timer_info_get_ticks(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_get_ticks_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17429,7 +17429,7 @@ int snd_timer_info_is_slave(snd_timer_info_t * info) {
     packed_data->func = snd_timer_info_is_slave_INDEX;
     packed_data->args.a1 = (snd_timer_info_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17439,7 +17439,7 @@ int snd_timer_info_malloc(snd_timer_info_t ** ptr) {
     packed_data->func = snd_timer_info_malloc_INDEX;
     packed_data->args.a1 = (snd_timer_info_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17448,7 +17448,7 @@ size_t snd_timer_info_sizeof() {
     snd_timer_info_sizeof_INDEXED *packed_data;
     packed_data->func = snd_timer_info_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17460,7 +17460,7 @@ int snd_timer_open(snd_timer_t ** handle, const char * name, int mode) {
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17473,7 +17473,7 @@ int snd_timer_open_lconf(snd_timer_t ** handle, const char * name, int mode, snd
     packed_data->args.a3 = (int)mode;
     packed_data->args.a4 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17484,7 +17484,7 @@ int snd_timer_params(snd_timer_t * handle, snd_timer_params_t * params) {
     packed_data->args.a1 = (snd_timer_t *)handle;
     packed_data->args.a2 = (snd_timer_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17494,7 +17494,7 @@ void snd_timer_params_copy(snd_timer_params_t * dst, const snd_timer_params_t * 
     packed_data->func = snd_timer_params_copy_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)dst;
     packed_data->args.a2 = (snd_timer_params_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_free
@@ -17502,7 +17502,7 @@ void snd_timer_params_free(snd_timer_params_t * obj) {
     snd_timer_params_free_INDEXED *packed_data;
     packed_data->func = snd_timer_params_free_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_get_auto_start
@@ -17511,7 +17511,7 @@ int snd_timer_params_get_auto_start(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_auto_start_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17521,7 +17521,7 @@ int snd_timer_params_get_early_event(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_early_event_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17531,7 +17531,7 @@ int snd_timer_params_get_exclusive(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_exclusive_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17541,7 +17541,7 @@ unsigned int snd_timer_params_get_filter(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_filter_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     unsigned int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17551,7 +17551,7 @@ long snd_timer_params_get_queue_size(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_queue_size_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17561,7 +17561,7 @@ long snd_timer_params_get_ticks(snd_timer_params_t * params) {
     packed_data->func = snd_timer_params_get_ticks_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17571,7 +17571,7 @@ int snd_timer_params_malloc(snd_timer_params_t ** ptr) {
     packed_data->func = snd_timer_params_malloc_INDEX;
     packed_data->args.a1 = (snd_timer_params_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17582,7 +17582,7 @@ int snd_timer_params_set_auto_start(snd_timer_params_t * params, int auto_start)
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (int)auto_start;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17593,7 +17593,7 @@ int snd_timer_params_set_early_event(snd_timer_params_t * params, int early_even
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (int)early_event;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17604,7 +17604,7 @@ int snd_timer_params_set_exclusive(snd_timer_params_t * params, int exclusive) {
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (int)exclusive;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17614,7 +17614,7 @@ void snd_timer_params_set_filter(snd_timer_params_t * params, unsigned int filte
     packed_data->func = snd_timer_params_set_filter_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (unsigned int)filter;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_set_queue_size
@@ -17623,7 +17623,7 @@ void snd_timer_params_set_queue_size(snd_timer_params_t * params, long queue_siz
     packed_data->func = snd_timer_params_set_queue_size_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (long)queue_size;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_set_ticks
@@ -17632,7 +17632,7 @@ void snd_timer_params_set_ticks(snd_timer_params_t * params, long ticks) {
     packed_data->func = snd_timer_params_set_ticks_INDEX;
     packed_data->args.a1 = (snd_timer_params_t *)params;
     packed_data->args.a2 = (long)ticks;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_params_sizeof
@@ -17640,7 +17640,7 @@ size_t snd_timer_params_sizeof() {
     snd_timer_params_sizeof_INDEXED *packed_data;
     packed_data->func = snd_timer_params_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17652,7 +17652,7 @@ int snd_timer_poll_descriptors(snd_timer_t * handle, struct pollfd * pfds, unsig
     packed_data->args.a2 = (struct pollfd *)pfds;
     packed_data->args.a3 = (unsigned int)space;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17662,7 +17662,7 @@ int snd_timer_poll_descriptors_count(snd_timer_t * handle) {
     packed_data->func = snd_timer_poll_descriptors_count_INDEX;
     packed_data->args.a1 = (snd_timer_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17675,7 +17675,7 @@ int snd_timer_poll_descriptors_revents(snd_timer_t * timer, struct pollfd * pfds
     packed_data->args.a3 = (unsigned int)nfds;
     packed_data->args.a4 = (unsigned short *)revents;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17685,7 +17685,7 @@ int snd_timer_query_close(snd_timer_query_t * handle) {
     packed_data->func = snd_timer_query_close_INDEX;
     packed_data->args.a1 = (snd_timer_query_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17696,7 +17696,7 @@ int snd_timer_query_info(snd_timer_query_t * handle, snd_timer_ginfo_t * info) {
     packed_data->args.a1 = (snd_timer_query_t *)handle;
     packed_data->args.a2 = (snd_timer_ginfo_t *)info;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17707,7 +17707,7 @@ int snd_timer_query_next_device(snd_timer_query_t * handle, snd_timer_id_t * tid
     packed_data->args.a1 = (snd_timer_query_t *)handle;
     packed_data->args.a2 = (snd_timer_id_t *)tid;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17719,7 +17719,7 @@ int snd_timer_query_open(snd_timer_query_t ** handle, const char * name, int mod
     packed_data->args.a2 = (char *)name;
     packed_data->args.a3 = (int)mode;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17732,7 +17732,7 @@ int snd_timer_query_open_lconf(snd_timer_query_t ** handle, const char * name, i
     packed_data->args.a3 = (int)mode;
     packed_data->args.a4 = (snd_config_t *)lconf;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17743,7 +17743,7 @@ int snd_timer_query_params(snd_timer_query_t * handle, snd_timer_gparams_t * par
     packed_data->args.a1 = (snd_timer_query_t *)handle;
     packed_data->args.a2 = (snd_timer_gparams_t *)params;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17754,7 +17754,7 @@ int snd_timer_query_status(snd_timer_query_t * handle, snd_timer_gstatus_t * sta
     packed_data->args.a1 = (snd_timer_query_t *)handle;
     packed_data->args.a2 = (snd_timer_gstatus_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17766,7 +17766,7 @@ ssize_t snd_timer_read(snd_timer_t * handle, void * buffer, size_t size) {
     packed_data->args.a2 = (void *)buffer;
     packed_data->args.a3 = (size_t)size;
     ssize_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17776,7 +17776,7 @@ int snd_timer_start(snd_timer_t * handle) {
     packed_data->func = snd_timer_start_INDEX;
     packed_data->args.a1 = (snd_timer_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17787,7 +17787,7 @@ int snd_timer_status(snd_timer_t * handle, snd_timer_status_t * status) {
     packed_data->args.a1 = (snd_timer_t *)handle;
     packed_data->args.a2 = (snd_timer_status_t *)status;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17797,7 +17797,7 @@ void snd_timer_status_copy(snd_timer_status_t * dst, const snd_timer_status_t * 
     packed_data->func = snd_timer_status_copy_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)dst;
     packed_data->args.a2 = (snd_timer_status_t *)src;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_status_free
@@ -17805,7 +17805,7 @@ void snd_timer_status_free(snd_timer_status_t * obj) {
     snd_timer_status_free_INDEXED *packed_data;
     packed_data->func = snd_timer_status_free_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)obj;
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
 }
 #endif
 #ifndef skip_client_snd_timer_status_get_lost
@@ -17814,7 +17814,7 @@ long snd_timer_status_get_lost(snd_timer_status_t * status) {
     packed_data->func = snd_timer_status_get_lost_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)status;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17824,7 +17824,7 @@ long snd_timer_status_get_overrun(snd_timer_status_t * status) {
     packed_data->func = snd_timer_status_get_overrun_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)status;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17834,7 +17834,7 @@ long snd_timer_status_get_queue(snd_timer_status_t * status) {
     packed_data->func = snd_timer_status_get_queue_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)status;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17844,7 +17844,7 @@ long snd_timer_status_get_resolution(snd_timer_status_t * status) {
     packed_data->func = snd_timer_status_get_resolution_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)status;
     long ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17854,7 +17854,7 @@ snd_htimestamp_t snd_timer_status_get_timestamp(snd_timer_status_t * status) {
     packed_data->func = snd_timer_status_get_timestamp_INDEX;
     packed_data->args.a1 = (snd_timer_status_t *)status;
     snd_htimestamp_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17864,7 +17864,7 @@ int snd_timer_status_malloc(snd_timer_status_t ** ptr) {
     packed_data->func = snd_timer_status_malloc_INDEX;
     packed_data->args.a1 = (snd_timer_status_t **)ptr;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17873,7 +17873,7 @@ size_t snd_timer_status_sizeof() {
     snd_timer_status_sizeof_INDEXED *packed_data;
     packed_data->func = snd_timer_status_sizeof_INDEX;
     size_t ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17883,7 +17883,7 @@ int snd_timer_stop(snd_timer_t * handle) {
     packed_data->func = snd_timer_stop_INDEX;
     packed_data->args.a1 = (snd_timer_t *)handle;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif
@@ -17894,7 +17894,7 @@ int snd_user_file(const char * file, char ** result) {
     packed_data->args.a1 = (char *)file;
     packed_data->args.a2 = (char **)result;
     int ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
 }
 #endif

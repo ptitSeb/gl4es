@@ -44,9 +44,9 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
     {% endfor %}
     {% if not func.void %}
     {{ func.return }} ret;
-    syscall(SYS_proxy, (void *)packed_data, &ret);
+    syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
     {% else %}
-    syscall(SYS_proxy, (void *)packed_data, NULL);
+    syscall(SYS_proxy, (void *)&packed_data, NULL);
     {% endif %}
 {% endblock %}
