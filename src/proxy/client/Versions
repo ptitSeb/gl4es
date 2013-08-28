@@ -1,8 +1,10 @@
 ALSA_0.9 {
   global:
+    gl*;
     __snd_*;
     _snd_*;
     snd_*;
+    snd_pcm_recover;
   local:
     *;
 };
