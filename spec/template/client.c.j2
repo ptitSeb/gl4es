@@ -37,10 +37,10 @@ __GLXextFuncPtr glXGetProcAddress(const GLubyte *name) {
 {% endblock %}
 
 {% block call %}
-    {{ func.name }}_INDEXED *packed_data;
-    packed_data->func = {{ func.name }}_INDEX;
+    {{ func.name }}_INDEXED packed_data;
+    packed_data.func = {{ func.name }}_INDEX;
     {% for arg in func.args %}
-    packed_data->args.a{{ loop.index }} = ({{ arg.type|unconst }}){{ arg.name }};
+    packed_data.args.a{{ loop.index }} = ({{ arg.type|unconst }}){{ arg.name }};
     {% endfor %}
     {% if not func.void %}
     {{ func.return }} ret;
