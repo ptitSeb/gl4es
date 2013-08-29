@@ -119,7 +119,6 @@ void glPackedCall(const packed_call_t *packed) {
         }
         case FORMAT_GLuint: {
             PACKED_GLuint *unpacked = (PACKED_GLuint *)packed;
-            ARGS_GLuint args = unpacked->args;
             unpacked->func();
             break;
         }
@@ -161,7 +160,6 @@ void glPackedCall(const packed_call_t *packed) {
         }
         case FORMAT_void: {
             PACKED_void *unpacked = (PACKED_void *)packed;
-            ARGS_void args = unpacked->args;
             unpacked->func();
             break;
         }
@@ -215,7 +213,6 @@ void glPackedCall(const packed_call_t *packed) {
         }
         case FORMAT_GLenum: {
             PACKED_GLenum *unpacked = (PACKED_GLenum *)packed;
-            ARGS_GLenum args = unpacked->args;
             unpacked->func();
             break;
         }

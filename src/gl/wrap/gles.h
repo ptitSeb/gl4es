@@ -2527,1551 +2527,1551 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
 
 
 #ifndef direct_glActiveTexture
-static inline void push_glActiveTexture(glActiveTexture_ARG_EXPAND) {
-    glActiveTexture_PACKED *packed_data = malloc(sizeof(glActiveTexture_PACKED));
-    packed_data->format = glActiveTexture_FORMAT;
-    packed_data->func = glActiveTexture;
-    packed_data->args.a1 = texture;
-    glPushCall((void *)packed_data);
+#define push_glActiveTexture(texture) { \
+    glActiveTexture_PACKED *packed_data = malloc(sizeof(glActiveTexture_PACKED)); \
+    packed_data->format = glActiveTexture_FORMAT; \
+    packed_data->func = glActiveTexture; \
+    packed_data->args.a1 = (GLenum)texture; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glAlphaFunc
-static inline void push_glAlphaFunc(glAlphaFunc_ARG_EXPAND) {
-    glAlphaFunc_PACKED *packed_data = malloc(sizeof(glAlphaFunc_PACKED));
-    packed_data->format = glAlphaFunc_FORMAT;
-    packed_data->func = glAlphaFunc;
-    packed_data->args.a1 = func;
-    packed_data->args.a2 = ref;
-    glPushCall((void *)packed_data);
+#define push_glAlphaFunc(func, ref) { \
+    glAlphaFunc_PACKED *packed_data = malloc(sizeof(glAlphaFunc_PACKED)); \
+    packed_data->format = glAlphaFunc_FORMAT; \
+    packed_data->func = glAlphaFunc; \
+    packed_data->args.a1 = (GLenum)func; \
+    packed_data->args.a2 = (GLclampf)ref; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glAlphaFuncx
-static inline void push_glAlphaFuncx(glAlphaFuncx_ARG_EXPAND) {
-    glAlphaFuncx_PACKED *packed_data = malloc(sizeof(glAlphaFuncx_PACKED));
-    packed_data->format = glAlphaFuncx_FORMAT;
-    packed_data->func = glAlphaFuncx;
-    packed_data->args.a1 = func;
-    packed_data->args.a2 = ref;
-    glPushCall((void *)packed_data);
+#define push_glAlphaFuncx(func, ref) { \
+    glAlphaFuncx_PACKED *packed_data = malloc(sizeof(glAlphaFuncx_PACKED)); \
+    packed_data->format = glAlphaFuncx_FORMAT; \
+    packed_data->func = glAlphaFuncx; \
+    packed_data->args.a1 = (GLenum)func; \
+    packed_data->args.a2 = (GLclampx)ref; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glBindBuffer
-static inline void push_glBindBuffer(glBindBuffer_ARG_EXPAND) {
-    glBindBuffer_PACKED *packed_data = malloc(sizeof(glBindBuffer_PACKED));
-    packed_data->format = glBindBuffer_FORMAT;
-    packed_data->func = glBindBuffer;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = buffer;
-    glPushCall((void *)packed_data);
+#define push_glBindBuffer(target, buffer) { \
+    glBindBuffer_PACKED *packed_data = malloc(sizeof(glBindBuffer_PACKED)); \
+    packed_data->format = glBindBuffer_FORMAT; \
+    packed_data->func = glBindBuffer; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLuint)buffer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glBindTexture
-static inline void push_glBindTexture(glBindTexture_ARG_EXPAND) {
-    glBindTexture_PACKED *packed_data = malloc(sizeof(glBindTexture_PACKED));
-    packed_data->format = glBindTexture_FORMAT;
-    packed_data->func = glBindTexture;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = texture;
-    glPushCall((void *)packed_data);
+#define push_glBindTexture(target, texture) { \
+    glBindTexture_PACKED *packed_data = malloc(sizeof(glBindTexture_PACKED)); \
+    packed_data->format = glBindTexture_FORMAT; \
+    packed_data->func = glBindTexture; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLuint)texture; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glBlendFunc
-static inline void push_glBlendFunc(glBlendFunc_ARG_EXPAND) {
-    glBlendFunc_PACKED *packed_data = malloc(sizeof(glBlendFunc_PACKED));
-    packed_data->format = glBlendFunc_FORMAT;
-    packed_data->func = glBlendFunc;
-    packed_data->args.a1 = sfactor;
-    packed_data->args.a2 = dfactor;
-    glPushCall((void *)packed_data);
+#define push_glBlendFunc(sfactor, dfactor) { \
+    glBlendFunc_PACKED *packed_data = malloc(sizeof(glBlendFunc_PACKED)); \
+    packed_data->format = glBlendFunc_FORMAT; \
+    packed_data->func = glBlendFunc; \
+    packed_data->args.a1 = (GLenum)sfactor; \
+    packed_data->args.a2 = (GLenum)dfactor; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glBufferData
-static inline void push_glBufferData(glBufferData_ARG_EXPAND) {
-    glBufferData_PACKED *packed_data = malloc(sizeof(glBufferData_PACKED));
-    packed_data->format = glBufferData_FORMAT;
-    packed_data->func = glBufferData;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = size;
-    packed_data->args.a3 = data;
-    packed_data->args.a4 = usage;
-    glPushCall((void *)packed_data);
+#define push_glBufferData(target, size, data, usage) { \
+    glBufferData_PACKED *packed_data = malloc(sizeof(glBufferData_PACKED)); \
+    packed_data->format = glBufferData_FORMAT; \
+    packed_data->func = glBufferData; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLsizeiptr)size; \
+    packed_data->args.a3 = (GLvoid *)data; \
+    packed_data->args.a4 = (GLenum)usage; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glBufferSubData
-static inline void push_glBufferSubData(glBufferSubData_ARG_EXPAND) {
-    glBufferSubData_PACKED *packed_data = malloc(sizeof(glBufferSubData_PACKED));
-    packed_data->format = glBufferSubData_FORMAT;
-    packed_data->func = glBufferSubData;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = offset;
-    packed_data->args.a3 = size;
-    packed_data->args.a4 = data;
-    glPushCall((void *)packed_data);
+#define push_glBufferSubData(target, offset, size, data) { \
+    glBufferSubData_PACKED *packed_data = malloc(sizeof(glBufferSubData_PACKED)); \
+    packed_data->format = glBufferSubData_FORMAT; \
+    packed_data->func = glBufferSubData; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLintptr)offset; \
+    packed_data->args.a3 = (GLsizeiptr)size; \
+    packed_data->args.a4 = (GLvoid *)data; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClear
-static inline void push_glClear(glClear_ARG_EXPAND) {
-    glClear_PACKED *packed_data = malloc(sizeof(glClear_PACKED));
-    packed_data->format = glClear_FORMAT;
-    packed_data->func = glClear;
-    packed_data->args.a1 = mask;
-    glPushCall((void *)packed_data);
+#define push_glClear(mask) { \
+    glClear_PACKED *packed_data = malloc(sizeof(glClear_PACKED)); \
+    packed_data->format = glClear_FORMAT; \
+    packed_data->func = glClear; \
+    packed_data->args.a1 = (GLbitfield)mask; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClearColor
-static inline void push_glClearColor(glClearColor_ARG_EXPAND) {
-    glClearColor_PACKED *packed_data = malloc(sizeof(glClearColor_PACKED));
-    packed_data->format = glClearColor_FORMAT;
-    packed_data->func = glClearColor;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glClearColor(red, green, blue, alpha) { \
+    glClearColor_PACKED *packed_data = malloc(sizeof(glClearColor_PACKED)); \
+    packed_data->format = glClearColor_FORMAT; \
+    packed_data->func = glClearColor; \
+    packed_data->args.a1 = (GLclampf)red; \
+    packed_data->args.a2 = (GLclampf)green; \
+    packed_data->args.a3 = (GLclampf)blue; \
+    packed_data->args.a4 = (GLclampf)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClearColorx
-static inline void push_glClearColorx(glClearColorx_ARG_EXPAND) {
-    glClearColorx_PACKED *packed_data = malloc(sizeof(glClearColorx_PACKED));
-    packed_data->format = glClearColorx_FORMAT;
-    packed_data->func = glClearColorx;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glClearColorx(red, green, blue, alpha) { \
+    glClearColorx_PACKED *packed_data = malloc(sizeof(glClearColorx_PACKED)); \
+    packed_data->format = glClearColorx_FORMAT; \
+    packed_data->func = glClearColorx; \
+    packed_data->args.a1 = (GLclampx)red; \
+    packed_data->args.a2 = (GLclampx)green; \
+    packed_data->args.a3 = (GLclampx)blue; \
+    packed_data->args.a4 = (GLclampx)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClearDepthf
-static inline void push_glClearDepthf(glClearDepthf_ARG_EXPAND) {
-    glClearDepthf_PACKED *packed_data = malloc(sizeof(glClearDepthf_PACKED));
-    packed_data->format = glClearDepthf_FORMAT;
-    packed_data->func = glClearDepthf;
-    packed_data->args.a1 = depth;
-    glPushCall((void *)packed_data);
+#define push_glClearDepthf(depth) { \
+    glClearDepthf_PACKED *packed_data = malloc(sizeof(glClearDepthf_PACKED)); \
+    packed_data->format = glClearDepthf_FORMAT; \
+    packed_data->func = glClearDepthf; \
+    packed_data->args.a1 = (GLclampf)depth; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClearDepthx
-static inline void push_glClearDepthx(glClearDepthx_ARG_EXPAND) {
-    glClearDepthx_PACKED *packed_data = malloc(sizeof(glClearDepthx_PACKED));
-    packed_data->format = glClearDepthx_FORMAT;
-    packed_data->func = glClearDepthx;
-    packed_data->args.a1 = depth;
-    glPushCall((void *)packed_data);
+#define push_glClearDepthx(depth) { \
+    glClearDepthx_PACKED *packed_data = malloc(sizeof(glClearDepthx_PACKED)); \
+    packed_data->format = glClearDepthx_FORMAT; \
+    packed_data->func = glClearDepthx; \
+    packed_data->args.a1 = (GLclampx)depth; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClearStencil
-static inline void push_glClearStencil(glClearStencil_ARG_EXPAND) {
-    glClearStencil_PACKED *packed_data = malloc(sizeof(glClearStencil_PACKED));
-    packed_data->format = glClearStencil_FORMAT;
-    packed_data->func = glClearStencil;
-    packed_data->args.a1 = s;
-    glPushCall((void *)packed_data);
+#define push_glClearStencil(s) { \
+    glClearStencil_PACKED *packed_data = malloc(sizeof(glClearStencil_PACKED)); \
+    packed_data->format = glClearStencil_FORMAT; \
+    packed_data->func = glClearStencil; \
+    packed_data->args.a1 = (GLint)s; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClientActiveTexture
-static inline void push_glClientActiveTexture(glClientActiveTexture_ARG_EXPAND) {
-    glClientActiveTexture_PACKED *packed_data = malloc(sizeof(glClientActiveTexture_PACKED));
-    packed_data->format = glClientActiveTexture_FORMAT;
-    packed_data->func = glClientActiveTexture;
-    packed_data->args.a1 = texture;
-    glPushCall((void *)packed_data);
+#define push_glClientActiveTexture(texture) { \
+    glClientActiveTexture_PACKED *packed_data = malloc(sizeof(glClientActiveTexture_PACKED)); \
+    packed_data->format = glClientActiveTexture_FORMAT; \
+    packed_data->func = glClientActiveTexture; \
+    packed_data->args.a1 = (GLenum)texture; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClipPlanef
-static inline void push_glClipPlanef(glClipPlanef_ARG_EXPAND) {
-    glClipPlanef_PACKED *packed_data = malloc(sizeof(glClipPlanef_PACKED));
-    packed_data->format = glClipPlanef_FORMAT;
-    packed_data->func = glClipPlanef;
-    packed_data->args.a1 = plane;
-    packed_data->args.a2 = equation;
-    glPushCall((void *)packed_data);
+#define push_glClipPlanef(plane, equation) { \
+    glClipPlanef_PACKED *packed_data = malloc(sizeof(glClipPlanef_PACKED)); \
+    packed_data->format = glClipPlanef_FORMAT; \
+    packed_data->func = glClipPlanef; \
+    packed_data->args.a1 = (GLenum)plane; \
+    packed_data->args.a2 = (GLfloat *)equation; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glClipPlanex
-static inline void push_glClipPlanex(glClipPlanex_ARG_EXPAND) {
-    glClipPlanex_PACKED *packed_data = malloc(sizeof(glClipPlanex_PACKED));
-    packed_data->format = glClipPlanex_FORMAT;
-    packed_data->func = glClipPlanex;
-    packed_data->args.a1 = plane;
-    packed_data->args.a2 = equation;
-    glPushCall((void *)packed_data);
+#define push_glClipPlanex(plane, equation) { \
+    glClipPlanex_PACKED *packed_data = malloc(sizeof(glClipPlanex_PACKED)); \
+    packed_data->format = glClipPlanex_FORMAT; \
+    packed_data->func = glClipPlanex; \
+    packed_data->args.a1 = (GLenum)plane; \
+    packed_data->args.a2 = (GLfixed *)equation; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glColor4f
-static inline void push_glColor4f(glColor4f_ARG_EXPAND) {
-    glColor4f_PACKED *packed_data = malloc(sizeof(glColor4f_PACKED));
-    packed_data->format = glColor4f_FORMAT;
-    packed_data->func = glColor4f;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glColor4f(red, green, blue, alpha) { \
+    glColor4f_PACKED *packed_data = malloc(sizeof(glColor4f_PACKED)); \
+    packed_data->format = glColor4f_FORMAT; \
+    packed_data->func = glColor4f; \
+    packed_data->args.a1 = (GLfloat)red; \
+    packed_data->args.a2 = (GLfloat)green; \
+    packed_data->args.a3 = (GLfloat)blue; \
+    packed_data->args.a4 = (GLfloat)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glColor4ub
-static inline void push_glColor4ub(glColor4ub_ARG_EXPAND) {
-    glColor4ub_PACKED *packed_data = malloc(sizeof(glColor4ub_PACKED));
-    packed_data->format = glColor4ub_FORMAT;
-    packed_data->func = glColor4ub;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glColor4ub(red, green, blue, alpha) { \
+    glColor4ub_PACKED *packed_data = malloc(sizeof(glColor4ub_PACKED)); \
+    packed_data->format = glColor4ub_FORMAT; \
+    packed_data->func = glColor4ub; \
+    packed_data->args.a1 = (GLubyte)red; \
+    packed_data->args.a2 = (GLubyte)green; \
+    packed_data->args.a3 = (GLubyte)blue; \
+    packed_data->args.a4 = (GLubyte)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glColor4x
-static inline void push_glColor4x(glColor4x_ARG_EXPAND) {
-    glColor4x_PACKED *packed_data = malloc(sizeof(glColor4x_PACKED));
-    packed_data->format = glColor4x_FORMAT;
-    packed_data->func = glColor4x;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glColor4x(red, green, blue, alpha) { \
+    glColor4x_PACKED *packed_data = malloc(sizeof(glColor4x_PACKED)); \
+    packed_data->format = glColor4x_FORMAT; \
+    packed_data->func = glColor4x; \
+    packed_data->args.a1 = (GLfixed)red; \
+    packed_data->args.a2 = (GLfixed)green; \
+    packed_data->args.a3 = (GLfixed)blue; \
+    packed_data->args.a4 = (GLfixed)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glColorMask
-static inline void push_glColorMask(glColorMask_ARG_EXPAND) {
-    glColorMask_PACKED *packed_data = malloc(sizeof(glColorMask_PACKED));
-    packed_data->format = glColorMask_FORMAT;
-    packed_data->func = glColorMask;
-    packed_data->args.a1 = red;
-    packed_data->args.a2 = green;
-    packed_data->args.a3 = blue;
-    packed_data->args.a4 = alpha;
-    glPushCall((void *)packed_data);
+#define push_glColorMask(red, green, blue, alpha) { \
+    glColorMask_PACKED *packed_data = malloc(sizeof(glColorMask_PACKED)); \
+    packed_data->format = glColorMask_FORMAT; \
+    packed_data->func = glColorMask; \
+    packed_data->args.a1 = (GLboolean)red; \
+    packed_data->args.a2 = (GLboolean)green; \
+    packed_data->args.a3 = (GLboolean)blue; \
+    packed_data->args.a4 = (GLboolean)alpha; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glColorPointer
-static inline void push_glColorPointer(glColorPointer_ARG_EXPAND) {
-    glColorPointer_PACKED *packed_data = malloc(sizeof(glColorPointer_PACKED));
-    packed_data->format = glColorPointer_FORMAT;
-    packed_data->func = glColorPointer;
-    packed_data->args.a1 = size;
-    packed_data->args.a2 = type;
-    packed_data->args.a3 = stride;
-    packed_data->args.a4 = pointer;
-    glPushCall((void *)packed_data);
+#define push_glColorPointer(size, type, stride, pointer) { \
+    glColorPointer_PACKED *packed_data = malloc(sizeof(glColorPointer_PACKED)); \
+    packed_data->format = glColorPointer_FORMAT; \
+    packed_data->func = glColorPointer; \
+    packed_data->args.a1 = (GLint)size; \
+    packed_data->args.a2 = (GLenum)type; \
+    packed_data->args.a3 = (GLsizei)stride; \
+    packed_data->args.a4 = (GLvoid *)pointer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glCompressedTexImage2D
-static inline void push_glCompressedTexImage2D(glCompressedTexImage2D_ARG_EXPAND) {
-    glCompressedTexImage2D_PACKED *packed_data = malloc(sizeof(glCompressedTexImage2D_PACKED));
-    packed_data->format = glCompressedTexImage2D_FORMAT;
-    packed_data->func = glCompressedTexImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = internalformat;
-    packed_data->args.a4 = width;
-    packed_data->args.a5 = height;
-    packed_data->args.a6 = border;
-    packed_data->args.a7 = imageSize;
-    packed_data->args.a8 = data;
-    glPushCall((void *)packed_data);
+#define push_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data) { \
+    glCompressedTexImage2D_PACKED *packed_data = malloc(sizeof(glCompressedTexImage2D_PACKED)); \
+    packed_data->format = glCompressedTexImage2D_FORMAT; \
+    packed_data->func = glCompressedTexImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLenum)internalformat; \
+    packed_data->args.a4 = (GLsizei)width; \
+    packed_data->args.a5 = (GLsizei)height; \
+    packed_data->args.a6 = (GLint)border; \
+    packed_data->args.a7 = (GLsizei)imageSize; \
+    packed_data->args.a8 = (GLvoid *)data; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glCompressedTexSubImage2D
-static inline void push_glCompressedTexSubImage2D(glCompressedTexSubImage2D_ARG_EXPAND) {
-    glCompressedTexSubImage2D_PACKED *packed_data = malloc(sizeof(glCompressedTexSubImage2D_PACKED));
-    packed_data->format = glCompressedTexSubImage2D_FORMAT;
-    packed_data->func = glCompressedTexSubImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = xoffset;
-    packed_data->args.a4 = yoffset;
-    packed_data->args.a5 = width;
-    packed_data->args.a6 = height;
-    packed_data->args.a7 = format;
-    packed_data->args.a8 = imageSize;
-    packed_data->args.a9 = data;
-    glPushCall((void *)packed_data);
+#define push_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data) { \
+    glCompressedTexSubImage2D_PACKED *packed_data = malloc(sizeof(glCompressedTexSubImage2D_PACKED)); \
+    packed_data->format = glCompressedTexSubImage2D_FORMAT; \
+    packed_data->func = glCompressedTexSubImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLint)xoffset; \
+    packed_data->args.a4 = (GLint)yoffset; \
+    packed_data->args.a5 = (GLsizei)width; \
+    packed_data->args.a6 = (GLsizei)height; \
+    packed_data->args.a7 = (GLenum)format; \
+    packed_data->args.a8 = (GLsizei)imageSize; \
+    packed_data->args.a9 = (GLvoid *)data; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glCopyTexImage2D
-static inline void push_glCopyTexImage2D(glCopyTexImage2D_ARG_EXPAND) {
-    glCopyTexImage2D_PACKED *packed_data = malloc(sizeof(glCopyTexImage2D_PACKED));
-    packed_data->format = glCopyTexImage2D_FORMAT;
-    packed_data->func = glCopyTexImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = internalformat;
-    packed_data->args.a4 = x;
-    packed_data->args.a5 = y;
-    packed_data->args.a6 = width;
-    packed_data->args.a7 = height;
-    packed_data->args.a8 = border;
-    glPushCall((void *)packed_data);
+#define push_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border) { \
+    glCopyTexImage2D_PACKED *packed_data = malloc(sizeof(glCopyTexImage2D_PACKED)); \
+    packed_data->format = glCopyTexImage2D_FORMAT; \
+    packed_data->func = glCopyTexImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLenum)internalformat; \
+    packed_data->args.a4 = (GLint)x; \
+    packed_data->args.a5 = (GLint)y; \
+    packed_data->args.a6 = (GLsizei)width; \
+    packed_data->args.a7 = (GLsizei)height; \
+    packed_data->args.a8 = (GLint)border; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glCopyTexSubImage2D
-static inline void push_glCopyTexSubImage2D(glCopyTexSubImage2D_ARG_EXPAND) {
-    glCopyTexSubImage2D_PACKED *packed_data = malloc(sizeof(glCopyTexSubImage2D_PACKED));
-    packed_data->format = glCopyTexSubImage2D_FORMAT;
-    packed_data->func = glCopyTexSubImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = xoffset;
-    packed_data->args.a4 = yoffset;
-    packed_data->args.a5 = x;
-    packed_data->args.a6 = y;
-    packed_data->args.a7 = width;
-    packed_data->args.a8 = height;
-    glPushCall((void *)packed_data);
+#define push_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height) { \
+    glCopyTexSubImage2D_PACKED *packed_data = malloc(sizeof(glCopyTexSubImage2D_PACKED)); \
+    packed_data->format = glCopyTexSubImage2D_FORMAT; \
+    packed_data->func = glCopyTexSubImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLint)xoffset; \
+    packed_data->args.a4 = (GLint)yoffset; \
+    packed_data->args.a5 = (GLint)x; \
+    packed_data->args.a6 = (GLint)y; \
+    packed_data->args.a7 = (GLsizei)width; \
+    packed_data->args.a8 = (GLsizei)height; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glCullFace
-static inline void push_glCullFace(glCullFace_ARG_EXPAND) {
-    glCullFace_PACKED *packed_data = malloc(sizeof(glCullFace_PACKED));
-    packed_data->format = glCullFace_FORMAT;
-    packed_data->func = glCullFace;
-    packed_data->args.a1 = mode;
-    glPushCall((void *)packed_data);
+#define push_glCullFace(mode) { \
+    glCullFace_PACKED *packed_data = malloc(sizeof(glCullFace_PACKED)); \
+    packed_data->format = glCullFace_FORMAT; \
+    packed_data->func = glCullFace; \
+    packed_data->args.a1 = (GLenum)mode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDeleteBuffers
-static inline void push_glDeleteBuffers(glDeleteBuffers_ARG_EXPAND) {
-    glDeleteBuffers_PACKED *packed_data = malloc(sizeof(glDeleteBuffers_PACKED));
-    packed_data->format = glDeleteBuffers_FORMAT;
-    packed_data->func = glDeleteBuffers;
-    packed_data->args.a1 = n;
-    packed_data->args.a2 = buffers;
-    glPushCall((void *)packed_data);
+#define push_glDeleteBuffers(n, buffers) { \
+    glDeleteBuffers_PACKED *packed_data = malloc(sizeof(glDeleteBuffers_PACKED)); \
+    packed_data->format = glDeleteBuffers_FORMAT; \
+    packed_data->func = glDeleteBuffers; \
+    packed_data->args.a1 = (GLsizei)n; \
+    packed_data->args.a2 = (GLuint *)buffers; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDeleteTextures
-static inline void push_glDeleteTextures(glDeleteTextures_ARG_EXPAND) {
-    glDeleteTextures_PACKED *packed_data = malloc(sizeof(glDeleteTextures_PACKED));
-    packed_data->format = glDeleteTextures_FORMAT;
-    packed_data->func = glDeleteTextures;
-    packed_data->args.a1 = n;
-    packed_data->args.a2 = textures;
-    glPushCall((void *)packed_data);
+#define push_glDeleteTextures(n, textures) { \
+    glDeleteTextures_PACKED *packed_data = malloc(sizeof(glDeleteTextures_PACKED)); \
+    packed_data->format = glDeleteTextures_FORMAT; \
+    packed_data->func = glDeleteTextures; \
+    packed_data->args.a1 = (GLsizei)n; \
+    packed_data->args.a2 = (GLuint *)textures; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDepthFunc
-static inline void push_glDepthFunc(glDepthFunc_ARG_EXPAND) {
-    glDepthFunc_PACKED *packed_data = malloc(sizeof(glDepthFunc_PACKED));
-    packed_data->format = glDepthFunc_FORMAT;
-    packed_data->func = glDepthFunc;
-    packed_data->args.a1 = func;
-    glPushCall((void *)packed_data);
+#define push_glDepthFunc(func) { \
+    glDepthFunc_PACKED *packed_data = malloc(sizeof(glDepthFunc_PACKED)); \
+    packed_data->format = glDepthFunc_FORMAT; \
+    packed_data->func = glDepthFunc; \
+    packed_data->args.a1 = (GLenum)func; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDepthMask
-static inline void push_glDepthMask(glDepthMask_ARG_EXPAND) {
-    glDepthMask_PACKED *packed_data = malloc(sizeof(glDepthMask_PACKED));
-    packed_data->format = glDepthMask_FORMAT;
-    packed_data->func = glDepthMask;
-    packed_data->args.a1 = flag;
-    glPushCall((void *)packed_data);
+#define push_glDepthMask(flag) { \
+    glDepthMask_PACKED *packed_data = malloc(sizeof(glDepthMask_PACKED)); \
+    packed_data->format = glDepthMask_FORMAT; \
+    packed_data->func = glDepthMask; \
+    packed_data->args.a1 = (GLboolean)flag; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDepthRangef
-static inline void push_glDepthRangef(glDepthRangef_ARG_EXPAND) {
-    glDepthRangef_PACKED *packed_data = malloc(sizeof(glDepthRangef_PACKED));
-    packed_data->format = glDepthRangef_FORMAT;
-    packed_data->func = glDepthRangef;
-    packed_data->args.a1 = near;
-    packed_data->args.a2 = far;
-    glPushCall((void *)packed_data);
+#define push_glDepthRangef(near, far) { \
+    glDepthRangef_PACKED *packed_data = malloc(sizeof(glDepthRangef_PACKED)); \
+    packed_data->format = glDepthRangef_FORMAT; \
+    packed_data->func = glDepthRangef; \
+    packed_data->args.a1 = (GLclampf)near; \
+    packed_data->args.a2 = (GLclampf)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDepthRangex
-static inline void push_glDepthRangex(glDepthRangex_ARG_EXPAND) {
-    glDepthRangex_PACKED *packed_data = malloc(sizeof(glDepthRangex_PACKED));
-    packed_data->format = glDepthRangex_FORMAT;
-    packed_data->func = glDepthRangex;
-    packed_data->args.a1 = near;
-    packed_data->args.a2 = far;
-    glPushCall((void *)packed_data);
+#define push_glDepthRangex(near, far) { \
+    glDepthRangex_PACKED *packed_data = malloc(sizeof(glDepthRangex_PACKED)); \
+    packed_data->format = glDepthRangex_FORMAT; \
+    packed_data->func = glDepthRangex; \
+    packed_data->args.a1 = (GLclampx)near; \
+    packed_data->args.a2 = (GLclampx)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDisable
-static inline void push_glDisable(glDisable_ARG_EXPAND) {
-    glDisable_PACKED *packed_data = malloc(sizeof(glDisable_PACKED));
-    packed_data->format = glDisable_FORMAT;
-    packed_data->func = glDisable;
-    packed_data->args.a1 = cap;
-    glPushCall((void *)packed_data);
+#define push_glDisable(cap) { \
+    glDisable_PACKED *packed_data = malloc(sizeof(glDisable_PACKED)); \
+    packed_data->format = glDisable_FORMAT; \
+    packed_data->func = glDisable; \
+    packed_data->args.a1 = (GLenum)cap; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDisableClientState
-static inline void push_glDisableClientState(glDisableClientState_ARG_EXPAND) {
-    glDisableClientState_PACKED *packed_data = malloc(sizeof(glDisableClientState_PACKED));
-    packed_data->format = glDisableClientState_FORMAT;
-    packed_data->func = glDisableClientState;
-    packed_data->args.a1 = array;
-    glPushCall((void *)packed_data);
+#define push_glDisableClientState(array) { \
+    glDisableClientState_PACKED *packed_data = malloc(sizeof(glDisableClientState_PACKED)); \
+    packed_data->format = glDisableClientState_FORMAT; \
+    packed_data->func = glDisableClientState; \
+    packed_data->args.a1 = (GLenum)array; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDrawArrays
-static inline void push_glDrawArrays(glDrawArrays_ARG_EXPAND) {
-    glDrawArrays_PACKED *packed_data = malloc(sizeof(glDrawArrays_PACKED));
-    packed_data->format = glDrawArrays_FORMAT;
-    packed_data->func = glDrawArrays;
-    packed_data->args.a1 = mode;
-    packed_data->args.a2 = first;
-    packed_data->args.a3 = count;
-    glPushCall((void *)packed_data);
+#define push_glDrawArrays(mode, first, count) { \
+    glDrawArrays_PACKED *packed_data = malloc(sizeof(glDrawArrays_PACKED)); \
+    packed_data->format = glDrawArrays_FORMAT; \
+    packed_data->func = glDrawArrays; \
+    packed_data->args.a1 = (GLenum)mode; \
+    packed_data->args.a2 = (GLint)first; \
+    packed_data->args.a3 = (GLsizei)count; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDrawElements
-static inline void push_glDrawElements(glDrawElements_ARG_EXPAND) {
-    glDrawElements_PACKED *packed_data = malloc(sizeof(glDrawElements_PACKED));
-    packed_data->format = glDrawElements_FORMAT;
-    packed_data->func = glDrawElements;
-    packed_data->args.a1 = mode;
-    packed_data->args.a2 = count;
-    packed_data->args.a3 = type;
-    packed_data->args.a4 = indices;
-    glPushCall((void *)packed_data);
+#define push_glDrawElements(mode, count, type, indices) { \
+    glDrawElements_PACKED *packed_data = malloc(sizeof(glDrawElements_PACKED)); \
+    packed_data->format = glDrawElements_FORMAT; \
+    packed_data->func = glDrawElements; \
+    packed_data->args.a1 = (GLenum)mode; \
+    packed_data->args.a2 = (GLsizei)count; \
+    packed_data->args.a3 = (GLenum)type; \
+    packed_data->args.a4 = (GLvoid *)indices; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glEnable
-static inline void push_glEnable(glEnable_ARG_EXPAND) {
-    glEnable_PACKED *packed_data = malloc(sizeof(glEnable_PACKED));
-    packed_data->format = glEnable_FORMAT;
-    packed_data->func = glEnable;
-    packed_data->args.a1 = cap;
-    glPushCall((void *)packed_data);
+#define push_glEnable(cap) { \
+    glEnable_PACKED *packed_data = malloc(sizeof(glEnable_PACKED)); \
+    packed_data->format = glEnable_FORMAT; \
+    packed_data->func = glEnable; \
+    packed_data->args.a1 = (GLenum)cap; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glEnableClientState
-static inline void push_glEnableClientState(glEnableClientState_ARG_EXPAND) {
-    glEnableClientState_PACKED *packed_data = malloc(sizeof(glEnableClientState_PACKED));
-    packed_data->format = glEnableClientState_FORMAT;
-    packed_data->func = glEnableClientState;
-    packed_data->args.a1 = array;
-    glPushCall((void *)packed_data);
+#define push_glEnableClientState(array) { \
+    glEnableClientState_PACKED *packed_data = malloc(sizeof(glEnableClientState_PACKED)); \
+    packed_data->format = glEnableClientState_FORMAT; \
+    packed_data->func = glEnableClientState; \
+    packed_data->args.a1 = (GLenum)array; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFinish
-static inline void push_glFinish(glFinish_ARG_EXPAND) {
-    glFinish_PACKED *packed_data = malloc(sizeof(glFinish_PACKED));
-    packed_data->format = glFinish_FORMAT;
-    packed_data->func = glFinish;
-    glPushCall((void *)packed_data);
+#define push_glFinish() { \
+    glFinish_PACKED *packed_data = malloc(sizeof(glFinish_PACKED)); \
+    packed_data->format = glFinish_FORMAT; \
+    packed_data->func = glFinish; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFlush
-static inline void push_glFlush(glFlush_ARG_EXPAND) {
-    glFlush_PACKED *packed_data = malloc(sizeof(glFlush_PACKED));
-    packed_data->format = glFlush_FORMAT;
-    packed_data->func = glFlush;
-    glPushCall((void *)packed_data);
+#define push_glFlush() { \
+    glFlush_PACKED *packed_data = malloc(sizeof(glFlush_PACKED)); \
+    packed_data->format = glFlush_FORMAT; \
+    packed_data->func = glFlush; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFogf
-static inline void push_glFogf(glFogf_ARG_EXPAND) {
-    glFogf_PACKED *packed_data = malloc(sizeof(glFogf_PACKED));
-    packed_data->format = glFogf_FORMAT;
-    packed_data->func = glFogf;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glFogf(pname, param) { \
+    glFogf_PACKED *packed_data = malloc(sizeof(glFogf_PACKED)); \
+    packed_data->format = glFogf_FORMAT; \
+    packed_data->func = glFogf; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFogfv
-static inline void push_glFogfv(glFogfv_ARG_EXPAND) {
-    glFogfv_PACKED *packed_data = malloc(sizeof(glFogfv_PACKED));
-    packed_data->format = glFogfv_FORMAT;
-    packed_data->func = glFogfv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glFogfv(pname, params) { \
+    glFogfv_PACKED *packed_data = malloc(sizeof(glFogfv_PACKED)); \
+    packed_data->format = glFogfv_FORMAT; \
+    packed_data->func = glFogfv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFogx
-static inline void push_glFogx(glFogx_ARG_EXPAND) {
-    glFogx_PACKED *packed_data = malloc(sizeof(glFogx_PACKED));
-    packed_data->format = glFogx_FORMAT;
-    packed_data->func = glFogx;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glFogx(pname, param) { \
+    glFogx_PACKED *packed_data = malloc(sizeof(glFogx_PACKED)); \
+    packed_data->format = glFogx_FORMAT; \
+    packed_data->func = glFogx; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFogxv
-static inline void push_glFogxv(glFogxv_ARG_EXPAND) {
-    glFogxv_PACKED *packed_data = malloc(sizeof(glFogxv_PACKED));
-    packed_data->format = glFogxv_FORMAT;
-    packed_data->func = glFogxv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glFogxv(pname, params) { \
+    glFogxv_PACKED *packed_data = malloc(sizeof(glFogxv_PACKED)); \
+    packed_data->format = glFogxv_FORMAT; \
+    packed_data->func = glFogxv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFrontFace
-static inline void push_glFrontFace(glFrontFace_ARG_EXPAND) {
-    glFrontFace_PACKED *packed_data = malloc(sizeof(glFrontFace_PACKED));
-    packed_data->format = glFrontFace_FORMAT;
-    packed_data->func = glFrontFace;
-    packed_data->args.a1 = mode;
-    glPushCall((void *)packed_data);
+#define push_glFrontFace(mode) { \
+    glFrontFace_PACKED *packed_data = malloc(sizeof(glFrontFace_PACKED)); \
+    packed_data->format = glFrontFace_FORMAT; \
+    packed_data->func = glFrontFace; \
+    packed_data->args.a1 = (GLenum)mode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFrustumf
-static inline void push_glFrustumf(glFrustumf_ARG_EXPAND) {
-    glFrustumf_PACKED *packed_data = malloc(sizeof(glFrustumf_PACKED));
-    packed_data->format = glFrustumf_FORMAT;
-    packed_data->func = glFrustumf;
-    packed_data->args.a1 = left;
-    packed_data->args.a2 = right;
-    packed_data->args.a3 = bottom;
-    packed_data->args.a4 = top;
-    packed_data->args.a5 = near;
-    packed_data->args.a6 = far;
-    glPushCall((void *)packed_data);
+#define push_glFrustumf(left, right, bottom, top, near, far) { \
+    glFrustumf_PACKED *packed_data = malloc(sizeof(glFrustumf_PACKED)); \
+    packed_data->format = glFrustumf_FORMAT; \
+    packed_data->func = glFrustumf; \
+    packed_data->args.a1 = (GLfloat)left; \
+    packed_data->args.a2 = (GLfloat)right; \
+    packed_data->args.a3 = (GLfloat)bottom; \
+    packed_data->args.a4 = (GLfloat)top; \
+    packed_data->args.a5 = (GLfloat)near; \
+    packed_data->args.a6 = (GLfloat)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFrustumx
-static inline void push_glFrustumx(glFrustumx_ARG_EXPAND) {
-    glFrustumx_PACKED *packed_data = malloc(sizeof(glFrustumx_PACKED));
-    packed_data->format = glFrustumx_FORMAT;
-    packed_data->func = glFrustumx;
-    packed_data->args.a1 = left;
-    packed_data->args.a2 = right;
-    packed_data->args.a3 = bottom;
-    packed_data->args.a4 = top;
-    packed_data->args.a5 = near;
-    packed_data->args.a6 = far;
-    glPushCall((void *)packed_data);
+#define push_glFrustumx(left, right, bottom, top, near, far) { \
+    glFrustumx_PACKED *packed_data = malloc(sizeof(glFrustumx_PACKED)); \
+    packed_data->format = glFrustumx_FORMAT; \
+    packed_data->func = glFrustumx; \
+    packed_data->args.a1 = (GLfixed)left; \
+    packed_data->args.a2 = (GLfixed)right; \
+    packed_data->args.a3 = (GLfixed)bottom; \
+    packed_data->args.a4 = (GLfixed)top; \
+    packed_data->args.a5 = (GLfixed)near; \
+    packed_data->args.a6 = (GLfixed)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGenBuffers
-static inline void push_glGenBuffers(glGenBuffers_ARG_EXPAND) {
-    glGenBuffers_PACKED *packed_data = malloc(sizeof(glGenBuffers_PACKED));
-    packed_data->format = glGenBuffers_FORMAT;
-    packed_data->func = glGenBuffers;
-    packed_data->args.a1 = n;
-    packed_data->args.a2 = buffers;
-    glPushCall((void *)packed_data);
+#define push_glGenBuffers(n, buffers) { \
+    glGenBuffers_PACKED *packed_data = malloc(sizeof(glGenBuffers_PACKED)); \
+    packed_data->format = glGenBuffers_FORMAT; \
+    packed_data->func = glGenBuffers; \
+    packed_data->args.a1 = (GLsizei)n; \
+    packed_data->args.a2 = (GLuint *)buffers; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGenTextures
-static inline void push_glGenTextures(glGenTextures_ARG_EXPAND) {
-    glGenTextures_PACKED *packed_data = malloc(sizeof(glGenTextures_PACKED));
-    packed_data->format = glGenTextures_FORMAT;
-    packed_data->func = glGenTextures;
-    packed_data->args.a1 = n;
-    packed_data->args.a2 = textures;
-    glPushCall((void *)packed_data);
+#define push_glGenTextures(n, textures) { \
+    glGenTextures_PACKED *packed_data = malloc(sizeof(glGenTextures_PACKED)); \
+    packed_data->format = glGenTextures_FORMAT; \
+    packed_data->func = glGenTextures; \
+    packed_data->args.a1 = (GLsizei)n; \
+    packed_data->args.a2 = (GLuint *)textures; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetBooleanv
-static inline void push_glGetBooleanv(glGetBooleanv_ARG_EXPAND) {
-    glGetBooleanv_PACKED *packed_data = malloc(sizeof(glGetBooleanv_PACKED));
-    packed_data->format = glGetBooleanv_FORMAT;
-    packed_data->func = glGetBooleanv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetBooleanv(pname, params) { \
+    glGetBooleanv_PACKED *packed_data = malloc(sizeof(glGetBooleanv_PACKED)); \
+    packed_data->format = glGetBooleanv_FORMAT; \
+    packed_data->func = glGetBooleanv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLboolean *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetBufferParameteriv
-static inline void push_glGetBufferParameteriv(glGetBufferParameteriv_ARG_EXPAND) {
-    glGetBufferParameteriv_PACKED *packed_data = malloc(sizeof(glGetBufferParameteriv_PACKED));
-    packed_data->format = glGetBufferParameteriv_FORMAT;
-    packed_data->func = glGetBufferParameteriv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetBufferParameteriv(target, pname, params) { \
+    glGetBufferParameteriv_PACKED *packed_data = malloc(sizeof(glGetBufferParameteriv_PACKED)); \
+    packed_data->format = glGetBufferParameteriv_FORMAT; \
+    packed_data->func = glGetBufferParameteriv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetClipPlanef
-static inline void push_glGetClipPlanef(glGetClipPlanef_ARG_EXPAND) {
-    glGetClipPlanef_PACKED *packed_data = malloc(sizeof(glGetClipPlanef_PACKED));
-    packed_data->format = glGetClipPlanef_FORMAT;
-    packed_data->func = glGetClipPlanef;
-    packed_data->args.a1 = plane;
-    packed_data->args.a2 = equation;
-    glPushCall((void *)packed_data);
+#define push_glGetClipPlanef(plane, equation) { \
+    glGetClipPlanef_PACKED *packed_data = malloc(sizeof(glGetClipPlanef_PACKED)); \
+    packed_data->format = glGetClipPlanef_FORMAT; \
+    packed_data->func = glGetClipPlanef; \
+    packed_data->args.a1 = (GLenum)plane; \
+    packed_data->args.a2 = (GLfloat *)equation; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetClipPlanex
-static inline void push_glGetClipPlanex(glGetClipPlanex_ARG_EXPAND) {
-    glGetClipPlanex_PACKED *packed_data = malloc(sizeof(glGetClipPlanex_PACKED));
-    packed_data->format = glGetClipPlanex_FORMAT;
-    packed_data->func = glGetClipPlanex;
-    packed_data->args.a1 = plane;
-    packed_data->args.a2 = equation;
-    glPushCall((void *)packed_data);
+#define push_glGetClipPlanex(plane, equation) { \
+    glGetClipPlanex_PACKED *packed_data = malloc(sizeof(glGetClipPlanex_PACKED)); \
+    packed_data->format = glGetClipPlanex_FORMAT; \
+    packed_data->func = glGetClipPlanex; \
+    packed_data->args.a1 = (GLenum)plane; \
+    packed_data->args.a2 = (GLfixed *)equation; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetError
-static inline void push_glGetError(glGetError_ARG_EXPAND) {
-    glGetError_PACKED *packed_data = malloc(sizeof(glGetError_PACKED));
-    packed_data->format = glGetError_FORMAT;
-    packed_data->func = glGetError;
-    glPushCall((void *)packed_data);
+#define push_glGetError() { \
+    glGetError_PACKED *packed_data = malloc(sizeof(glGetError_PACKED)); \
+    packed_data->format = glGetError_FORMAT; \
+    packed_data->func = glGetError; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetFixedv
-static inline void push_glGetFixedv(glGetFixedv_ARG_EXPAND) {
-    glGetFixedv_PACKED *packed_data = malloc(sizeof(glGetFixedv_PACKED));
-    packed_data->format = glGetFixedv_FORMAT;
-    packed_data->func = glGetFixedv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetFixedv(pname, params) { \
+    glGetFixedv_PACKED *packed_data = malloc(sizeof(glGetFixedv_PACKED)); \
+    packed_data->format = glGetFixedv_FORMAT; \
+    packed_data->func = glGetFixedv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetFloatv
-static inline void push_glGetFloatv(glGetFloatv_ARG_EXPAND) {
-    glGetFloatv_PACKED *packed_data = malloc(sizeof(glGetFloatv_PACKED));
-    packed_data->format = glGetFloatv_FORMAT;
-    packed_data->func = glGetFloatv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetFloatv(pname, params) { \
+    glGetFloatv_PACKED *packed_data = malloc(sizeof(glGetFloatv_PACKED)); \
+    packed_data->format = glGetFloatv_FORMAT; \
+    packed_data->func = glGetFloatv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetIntegerv
-static inline void push_glGetIntegerv(glGetIntegerv_ARG_EXPAND) {
-    glGetIntegerv_PACKED *packed_data = malloc(sizeof(glGetIntegerv_PACKED));
-    packed_data->format = glGetIntegerv_FORMAT;
-    packed_data->func = glGetIntegerv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetIntegerv(pname, params) { \
+    glGetIntegerv_PACKED *packed_data = malloc(sizeof(glGetIntegerv_PACKED)); \
+    packed_data->format = glGetIntegerv_FORMAT; \
+    packed_data->func = glGetIntegerv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetLightfv
-static inline void push_glGetLightfv(glGetLightfv_ARG_EXPAND) {
-    glGetLightfv_PACKED *packed_data = malloc(sizeof(glGetLightfv_PACKED));
-    packed_data->format = glGetLightfv_FORMAT;
-    packed_data->func = glGetLightfv;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetLightfv(light, pname, params) { \
+    glGetLightfv_PACKED *packed_data = malloc(sizeof(glGetLightfv_PACKED)); \
+    packed_data->format = glGetLightfv_FORMAT; \
+    packed_data->func = glGetLightfv; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetLightxv
-static inline void push_glGetLightxv(glGetLightxv_ARG_EXPAND) {
-    glGetLightxv_PACKED *packed_data = malloc(sizeof(glGetLightxv_PACKED));
-    packed_data->format = glGetLightxv_FORMAT;
-    packed_data->func = glGetLightxv;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetLightxv(light, pname, params) { \
+    glGetLightxv_PACKED *packed_data = malloc(sizeof(glGetLightxv_PACKED)); \
+    packed_data->format = glGetLightxv_FORMAT; \
+    packed_data->func = glGetLightxv; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetMaterialfv
-static inline void push_glGetMaterialfv(glGetMaterialfv_ARG_EXPAND) {
-    glGetMaterialfv_PACKED *packed_data = malloc(sizeof(glGetMaterialfv_PACKED));
-    packed_data->format = glGetMaterialfv_FORMAT;
-    packed_data->func = glGetMaterialfv;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetMaterialfv(face, pname, params) { \
+    glGetMaterialfv_PACKED *packed_data = malloc(sizeof(glGetMaterialfv_PACKED)); \
+    packed_data->format = glGetMaterialfv_FORMAT; \
+    packed_data->func = glGetMaterialfv; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetMaterialxv
-static inline void push_glGetMaterialxv(glGetMaterialxv_ARG_EXPAND) {
-    glGetMaterialxv_PACKED *packed_data = malloc(sizeof(glGetMaterialxv_PACKED));
-    packed_data->format = glGetMaterialxv_FORMAT;
-    packed_data->func = glGetMaterialxv;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetMaterialxv(face, pname, params) { \
+    glGetMaterialxv_PACKED *packed_data = malloc(sizeof(glGetMaterialxv_PACKED)); \
+    packed_data->format = glGetMaterialxv_FORMAT; \
+    packed_data->func = glGetMaterialxv; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetPointerv
-static inline void push_glGetPointerv(glGetPointerv_ARG_EXPAND) {
-    glGetPointerv_PACKED *packed_data = malloc(sizeof(glGetPointerv_PACKED));
-    packed_data->format = glGetPointerv_FORMAT;
-    packed_data->func = glGetPointerv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetPointerv(pname, params) { \
+    glGetPointerv_PACKED *packed_data = malloc(sizeof(glGetPointerv_PACKED)); \
+    packed_data->format = glGetPointerv_FORMAT; \
+    packed_data->func = glGetPointerv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLvoid **)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetString
-static inline void push_glGetString(glGetString_ARG_EXPAND) {
-    glGetString_PACKED *packed_data = malloc(sizeof(glGetString_PACKED));
-    packed_data->format = glGetString_FORMAT;
-    packed_data->func = glGetString;
-    packed_data->args.a1 = name;
-    glPushCall((void *)packed_data);
+#define push_glGetString(name) { \
+    glGetString_PACKED *packed_data = malloc(sizeof(glGetString_PACKED)); \
+    packed_data->format = glGetString_FORMAT; \
+    packed_data->func = glGetString; \
+    packed_data->args.a1 = (GLenum)name; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexEnvfv
-static inline void push_glGetTexEnvfv(glGetTexEnvfv_ARG_EXPAND) {
-    glGetTexEnvfv_PACKED *packed_data = malloc(sizeof(glGetTexEnvfv_PACKED));
-    packed_data->format = glGetTexEnvfv_FORMAT;
-    packed_data->func = glGetTexEnvfv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexEnvfv(target, pname, params) { \
+    glGetTexEnvfv_PACKED *packed_data = malloc(sizeof(glGetTexEnvfv_PACKED)); \
+    packed_data->format = glGetTexEnvfv_FORMAT; \
+    packed_data->func = glGetTexEnvfv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexEnviv
-static inline void push_glGetTexEnviv(glGetTexEnviv_ARG_EXPAND) {
-    glGetTexEnviv_PACKED *packed_data = malloc(sizeof(glGetTexEnviv_PACKED));
-    packed_data->format = glGetTexEnviv_FORMAT;
-    packed_data->func = glGetTexEnviv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexEnviv(target, pname, params) { \
+    glGetTexEnviv_PACKED *packed_data = malloc(sizeof(glGetTexEnviv_PACKED)); \
+    packed_data->format = glGetTexEnviv_FORMAT; \
+    packed_data->func = glGetTexEnviv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexEnvxv
-static inline void push_glGetTexEnvxv(glGetTexEnvxv_ARG_EXPAND) {
-    glGetTexEnvxv_PACKED *packed_data = malloc(sizeof(glGetTexEnvxv_PACKED));
-    packed_data->format = glGetTexEnvxv_FORMAT;
-    packed_data->func = glGetTexEnvxv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexEnvxv(target, pname, params) { \
+    glGetTexEnvxv_PACKED *packed_data = malloc(sizeof(glGetTexEnvxv_PACKED)); \
+    packed_data->format = glGetTexEnvxv_FORMAT; \
+    packed_data->func = glGetTexEnvxv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexParameterfv
-static inline void push_glGetTexParameterfv(glGetTexParameterfv_ARG_EXPAND) {
-    glGetTexParameterfv_PACKED *packed_data = malloc(sizeof(glGetTexParameterfv_PACKED));
-    packed_data->format = glGetTexParameterfv_FORMAT;
-    packed_data->func = glGetTexParameterfv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexParameterfv(target, pname, params) { \
+    glGetTexParameterfv_PACKED *packed_data = malloc(sizeof(glGetTexParameterfv_PACKED)); \
+    packed_data->format = glGetTexParameterfv_FORMAT; \
+    packed_data->func = glGetTexParameterfv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexParameteriv
-static inline void push_glGetTexParameteriv(glGetTexParameteriv_ARG_EXPAND) {
-    glGetTexParameteriv_PACKED *packed_data = malloc(sizeof(glGetTexParameteriv_PACKED));
-    packed_data->format = glGetTexParameteriv_FORMAT;
-    packed_data->func = glGetTexParameteriv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexParameteriv(target, pname, params) { \
+    glGetTexParameteriv_PACKED *packed_data = malloc(sizeof(glGetTexParameteriv_PACKED)); \
+    packed_data->format = glGetTexParameteriv_FORMAT; \
+    packed_data->func = glGetTexParameteriv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glGetTexParameterxv
-static inline void push_glGetTexParameterxv(glGetTexParameterxv_ARG_EXPAND) {
-    glGetTexParameterxv_PACKED *packed_data = malloc(sizeof(glGetTexParameterxv_PACKED));
-    packed_data->format = glGetTexParameterxv_FORMAT;
-    packed_data->func = glGetTexParameterxv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glGetTexParameterxv(target, pname, params) { \
+    glGetTexParameterxv_PACKED *packed_data = malloc(sizeof(glGetTexParameterxv_PACKED)); \
+    packed_data->format = glGetTexParameterxv_FORMAT; \
+    packed_data->func = glGetTexParameterxv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glHint
-static inline void push_glHint(glHint_ARG_EXPAND) {
-    glHint_PACKED *packed_data = malloc(sizeof(glHint_PACKED));
-    packed_data->format = glHint_FORMAT;
-    packed_data->func = glHint;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = mode;
-    glPushCall((void *)packed_data);
+#define push_glHint(target, mode) { \
+    glHint_PACKED *packed_data = malloc(sizeof(glHint_PACKED)); \
+    packed_data->format = glHint_FORMAT; \
+    packed_data->func = glHint; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)mode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glIsBuffer
-static inline void push_glIsBuffer(glIsBuffer_ARG_EXPAND) {
-    glIsBuffer_PACKED *packed_data = malloc(sizeof(glIsBuffer_PACKED));
-    packed_data->format = glIsBuffer_FORMAT;
-    packed_data->func = glIsBuffer;
-    packed_data->args.a1 = buffer;
-    glPushCall((void *)packed_data);
+#define push_glIsBuffer(buffer) { \
+    glIsBuffer_PACKED *packed_data = malloc(sizeof(glIsBuffer_PACKED)); \
+    packed_data->format = glIsBuffer_FORMAT; \
+    packed_data->func = glIsBuffer; \
+    packed_data->args.a1 = (GLuint)buffer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glIsEnabled
-static inline void push_glIsEnabled(glIsEnabled_ARG_EXPAND) {
-    glIsEnabled_PACKED *packed_data = malloc(sizeof(glIsEnabled_PACKED));
-    packed_data->format = glIsEnabled_FORMAT;
-    packed_data->func = glIsEnabled;
-    packed_data->args.a1 = cap;
-    glPushCall((void *)packed_data);
+#define push_glIsEnabled(cap) { \
+    glIsEnabled_PACKED *packed_data = malloc(sizeof(glIsEnabled_PACKED)); \
+    packed_data->format = glIsEnabled_FORMAT; \
+    packed_data->func = glIsEnabled; \
+    packed_data->args.a1 = (GLenum)cap; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glIsTexture
-static inline void push_glIsTexture(glIsTexture_ARG_EXPAND) {
-    glIsTexture_PACKED *packed_data = malloc(sizeof(glIsTexture_PACKED));
-    packed_data->format = glIsTexture_FORMAT;
-    packed_data->func = glIsTexture;
-    packed_data->args.a1 = texture;
-    glPushCall((void *)packed_data);
+#define push_glIsTexture(texture) { \
+    glIsTexture_PACKED *packed_data = malloc(sizeof(glIsTexture_PACKED)); \
+    packed_data->format = glIsTexture_FORMAT; \
+    packed_data->func = glIsTexture; \
+    packed_data->args.a1 = (GLuint)texture; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightModelf
-static inline void push_glLightModelf(glLightModelf_ARG_EXPAND) {
-    glLightModelf_PACKED *packed_data = malloc(sizeof(glLightModelf_PACKED));
-    packed_data->format = glLightModelf_FORMAT;
-    packed_data->func = glLightModelf;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glLightModelf(pname, param) { \
+    glLightModelf_PACKED *packed_data = malloc(sizeof(glLightModelf_PACKED)); \
+    packed_data->format = glLightModelf_FORMAT; \
+    packed_data->func = glLightModelf; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightModelfv
-static inline void push_glLightModelfv(glLightModelfv_ARG_EXPAND) {
-    glLightModelfv_PACKED *packed_data = malloc(sizeof(glLightModelfv_PACKED));
-    packed_data->format = glLightModelfv_FORMAT;
-    packed_data->func = glLightModelfv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glLightModelfv(pname, params) { \
+    glLightModelfv_PACKED *packed_data = malloc(sizeof(glLightModelfv_PACKED)); \
+    packed_data->format = glLightModelfv_FORMAT; \
+    packed_data->func = glLightModelfv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightModelx
-static inline void push_glLightModelx(glLightModelx_ARG_EXPAND) {
-    glLightModelx_PACKED *packed_data = malloc(sizeof(glLightModelx_PACKED));
-    packed_data->format = glLightModelx_FORMAT;
-    packed_data->func = glLightModelx;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glLightModelx(pname, param) { \
+    glLightModelx_PACKED *packed_data = malloc(sizeof(glLightModelx_PACKED)); \
+    packed_data->format = glLightModelx_FORMAT; \
+    packed_data->func = glLightModelx; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightModelxv
-static inline void push_glLightModelxv(glLightModelxv_ARG_EXPAND) {
-    glLightModelxv_PACKED *packed_data = malloc(sizeof(glLightModelxv_PACKED));
-    packed_data->format = glLightModelxv_FORMAT;
-    packed_data->func = glLightModelxv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glLightModelxv(pname, params) { \
+    glLightModelxv_PACKED *packed_data = malloc(sizeof(glLightModelxv_PACKED)); \
+    packed_data->format = glLightModelxv_FORMAT; \
+    packed_data->func = glLightModelxv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightf
-static inline void push_glLightf(glLightf_ARG_EXPAND) {
-    glLightf_PACKED *packed_data = malloc(sizeof(glLightf_PACKED));
-    packed_data->format = glLightf_FORMAT;
-    packed_data->func = glLightf;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glLightf(light, pname, param) { \
+    glLightf_PACKED *packed_data = malloc(sizeof(glLightf_PACKED)); \
+    packed_data->format = glLightf_FORMAT; \
+    packed_data->func = glLightf; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightfv
-static inline void push_glLightfv(glLightfv_ARG_EXPAND) {
-    glLightfv_PACKED *packed_data = malloc(sizeof(glLightfv_PACKED));
-    packed_data->format = glLightfv_FORMAT;
-    packed_data->func = glLightfv;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glLightfv(light, pname, params) { \
+    glLightfv_PACKED *packed_data = malloc(sizeof(glLightfv_PACKED)); \
+    packed_data->format = glLightfv_FORMAT; \
+    packed_data->func = glLightfv; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightx
-static inline void push_glLightx(glLightx_ARG_EXPAND) {
-    glLightx_PACKED *packed_data = malloc(sizeof(glLightx_PACKED));
-    packed_data->format = glLightx_FORMAT;
-    packed_data->func = glLightx;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glLightx(light, pname, param) { \
+    glLightx_PACKED *packed_data = malloc(sizeof(glLightx_PACKED)); \
+    packed_data->format = glLightx_FORMAT; \
+    packed_data->func = glLightx; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLightxv
-static inline void push_glLightxv(glLightxv_ARG_EXPAND) {
-    glLightxv_PACKED *packed_data = malloc(sizeof(glLightxv_PACKED));
-    packed_data->format = glLightxv_FORMAT;
-    packed_data->func = glLightxv;
-    packed_data->args.a1 = light;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glLightxv(light, pname, params) { \
+    glLightxv_PACKED *packed_data = malloc(sizeof(glLightxv_PACKED)); \
+    packed_data->format = glLightxv_FORMAT; \
+    packed_data->func = glLightxv; \
+    packed_data->args.a1 = (GLenum)light; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLineWidth
-static inline void push_glLineWidth(glLineWidth_ARG_EXPAND) {
-    glLineWidth_PACKED *packed_data = malloc(sizeof(glLineWidth_PACKED));
-    packed_data->format = glLineWidth_FORMAT;
-    packed_data->func = glLineWidth;
-    packed_data->args.a1 = width;
-    glPushCall((void *)packed_data);
+#define push_glLineWidth(width) { \
+    glLineWidth_PACKED *packed_data = malloc(sizeof(glLineWidth_PACKED)); \
+    packed_data->format = glLineWidth_FORMAT; \
+    packed_data->func = glLineWidth; \
+    packed_data->args.a1 = (GLfloat)width; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLineWidthx
-static inline void push_glLineWidthx(glLineWidthx_ARG_EXPAND) {
-    glLineWidthx_PACKED *packed_data = malloc(sizeof(glLineWidthx_PACKED));
-    packed_data->format = glLineWidthx_FORMAT;
-    packed_data->func = glLineWidthx;
-    packed_data->args.a1 = width;
-    glPushCall((void *)packed_data);
+#define push_glLineWidthx(width) { \
+    glLineWidthx_PACKED *packed_data = malloc(sizeof(glLineWidthx_PACKED)); \
+    packed_data->format = glLineWidthx_FORMAT; \
+    packed_data->func = glLineWidthx; \
+    packed_data->args.a1 = (GLfixed)width; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLoadIdentity
-static inline void push_glLoadIdentity(glLoadIdentity_ARG_EXPAND) {
-    glLoadIdentity_PACKED *packed_data = malloc(sizeof(glLoadIdentity_PACKED));
-    packed_data->format = glLoadIdentity_FORMAT;
-    packed_data->func = glLoadIdentity;
-    glPushCall((void *)packed_data);
+#define push_glLoadIdentity() { \
+    glLoadIdentity_PACKED *packed_data = malloc(sizeof(glLoadIdentity_PACKED)); \
+    packed_data->format = glLoadIdentity_FORMAT; \
+    packed_data->func = glLoadIdentity; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLoadMatrixf
-static inline void push_glLoadMatrixf(glLoadMatrixf_ARG_EXPAND) {
-    glLoadMatrixf_PACKED *packed_data = malloc(sizeof(glLoadMatrixf_PACKED));
-    packed_data->format = glLoadMatrixf_FORMAT;
-    packed_data->func = glLoadMatrixf;
-    packed_data->args.a1 = m;
-    glPushCall((void *)packed_data);
+#define push_glLoadMatrixf(m) { \
+    glLoadMatrixf_PACKED *packed_data = malloc(sizeof(glLoadMatrixf_PACKED)); \
+    packed_data->format = glLoadMatrixf_FORMAT; \
+    packed_data->func = glLoadMatrixf; \
+    packed_data->args.a1 = (GLfloat *)m; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLoadMatrixx
-static inline void push_glLoadMatrixx(glLoadMatrixx_ARG_EXPAND) {
-    glLoadMatrixx_PACKED *packed_data = malloc(sizeof(glLoadMatrixx_PACKED));
-    packed_data->format = glLoadMatrixx_FORMAT;
-    packed_data->func = glLoadMatrixx;
-    packed_data->args.a1 = m;
-    glPushCall((void *)packed_data);
+#define push_glLoadMatrixx(m) { \
+    glLoadMatrixx_PACKED *packed_data = malloc(sizeof(glLoadMatrixx_PACKED)); \
+    packed_data->format = glLoadMatrixx_FORMAT; \
+    packed_data->func = glLoadMatrixx; \
+    packed_data->args.a1 = (GLfixed *)m; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glLogicOp
-static inline void push_glLogicOp(glLogicOp_ARG_EXPAND) {
-    glLogicOp_PACKED *packed_data = malloc(sizeof(glLogicOp_PACKED));
-    packed_data->format = glLogicOp_FORMAT;
-    packed_data->func = glLogicOp;
-    packed_data->args.a1 = opcode;
-    glPushCall((void *)packed_data);
+#define push_glLogicOp(opcode) { \
+    glLogicOp_PACKED *packed_data = malloc(sizeof(glLogicOp_PACKED)); \
+    packed_data->format = glLogicOp_FORMAT; \
+    packed_data->func = glLogicOp; \
+    packed_data->args.a1 = (GLenum)opcode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMaterialf
-static inline void push_glMaterialf(glMaterialf_ARG_EXPAND) {
-    glMaterialf_PACKED *packed_data = malloc(sizeof(glMaterialf_PACKED));
-    packed_data->format = glMaterialf_FORMAT;
-    packed_data->func = glMaterialf;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glMaterialf(face, pname, param) { \
+    glMaterialf_PACKED *packed_data = malloc(sizeof(glMaterialf_PACKED)); \
+    packed_data->format = glMaterialf_FORMAT; \
+    packed_data->func = glMaterialf; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMaterialfv
-static inline void push_glMaterialfv(glMaterialfv_ARG_EXPAND) {
-    glMaterialfv_PACKED *packed_data = malloc(sizeof(glMaterialfv_PACKED));
-    packed_data->format = glMaterialfv_FORMAT;
-    packed_data->func = glMaterialfv;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glMaterialfv(face, pname, params) { \
+    glMaterialfv_PACKED *packed_data = malloc(sizeof(glMaterialfv_PACKED)); \
+    packed_data->format = glMaterialfv_FORMAT; \
+    packed_data->func = glMaterialfv; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMaterialx
-static inline void push_glMaterialx(glMaterialx_ARG_EXPAND) {
-    glMaterialx_PACKED *packed_data = malloc(sizeof(glMaterialx_PACKED));
-    packed_data->format = glMaterialx_FORMAT;
-    packed_data->func = glMaterialx;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glMaterialx(face, pname, param) { \
+    glMaterialx_PACKED *packed_data = malloc(sizeof(glMaterialx_PACKED)); \
+    packed_data->format = glMaterialx_FORMAT; \
+    packed_data->func = glMaterialx; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMaterialxv
-static inline void push_glMaterialxv(glMaterialxv_ARG_EXPAND) {
-    glMaterialxv_PACKED *packed_data = malloc(sizeof(glMaterialxv_PACKED));
-    packed_data->format = glMaterialxv_FORMAT;
-    packed_data->func = glMaterialxv;
-    packed_data->args.a1 = face;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glMaterialxv(face, pname, params) { \
+    glMaterialxv_PACKED *packed_data = malloc(sizeof(glMaterialxv_PACKED)); \
+    packed_data->format = glMaterialxv_FORMAT; \
+    packed_data->func = glMaterialxv; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMatrixMode
-static inline void push_glMatrixMode(glMatrixMode_ARG_EXPAND) {
-    glMatrixMode_PACKED *packed_data = malloc(sizeof(glMatrixMode_PACKED));
-    packed_data->format = glMatrixMode_FORMAT;
-    packed_data->func = glMatrixMode;
-    packed_data->args.a1 = mode;
-    glPushCall((void *)packed_data);
+#define push_glMatrixMode(mode) { \
+    glMatrixMode_PACKED *packed_data = malloc(sizeof(glMatrixMode_PACKED)); \
+    packed_data->format = glMatrixMode_FORMAT; \
+    packed_data->func = glMatrixMode; \
+    packed_data->args.a1 = (GLenum)mode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMultMatrixf
-static inline void push_glMultMatrixf(glMultMatrixf_ARG_EXPAND) {
-    glMultMatrixf_PACKED *packed_data = malloc(sizeof(glMultMatrixf_PACKED));
-    packed_data->format = glMultMatrixf_FORMAT;
-    packed_data->func = glMultMatrixf;
-    packed_data->args.a1 = m;
-    glPushCall((void *)packed_data);
+#define push_glMultMatrixf(m) { \
+    glMultMatrixf_PACKED *packed_data = malloc(sizeof(glMultMatrixf_PACKED)); \
+    packed_data->format = glMultMatrixf_FORMAT; \
+    packed_data->func = glMultMatrixf; \
+    packed_data->args.a1 = (GLfloat *)m; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMultMatrixx
-static inline void push_glMultMatrixx(glMultMatrixx_ARG_EXPAND) {
-    glMultMatrixx_PACKED *packed_data = malloc(sizeof(glMultMatrixx_PACKED));
-    packed_data->format = glMultMatrixx_FORMAT;
-    packed_data->func = glMultMatrixx;
-    packed_data->args.a1 = m;
-    glPushCall((void *)packed_data);
+#define push_glMultMatrixx(m) { \
+    glMultMatrixx_PACKED *packed_data = malloc(sizeof(glMultMatrixx_PACKED)); \
+    packed_data->format = glMultMatrixx_FORMAT; \
+    packed_data->func = glMultMatrixx; \
+    packed_data->args.a1 = (GLfixed *)m; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMultiTexCoord4f
-static inline void push_glMultiTexCoord4f(glMultiTexCoord4f_ARG_EXPAND) {
-    glMultiTexCoord4f_PACKED *packed_data = malloc(sizeof(glMultiTexCoord4f_PACKED));
-    packed_data->format = glMultiTexCoord4f_FORMAT;
-    packed_data->func = glMultiTexCoord4f;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = s;
-    packed_data->args.a3 = t;
-    packed_data->args.a4 = r;
-    packed_data->args.a5 = q;
-    glPushCall((void *)packed_data);
+#define push_glMultiTexCoord4f(target, s, t, r, q) { \
+    glMultiTexCoord4f_PACKED *packed_data = malloc(sizeof(glMultiTexCoord4f_PACKED)); \
+    packed_data->format = glMultiTexCoord4f_FORMAT; \
+    packed_data->func = glMultiTexCoord4f; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLfloat)s; \
+    packed_data->args.a3 = (GLfloat)t; \
+    packed_data->args.a4 = (GLfloat)r; \
+    packed_data->args.a5 = (GLfloat)q; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glMultiTexCoord4x
-static inline void push_glMultiTexCoord4x(glMultiTexCoord4x_ARG_EXPAND) {
-    glMultiTexCoord4x_PACKED *packed_data = malloc(sizeof(glMultiTexCoord4x_PACKED));
-    packed_data->format = glMultiTexCoord4x_FORMAT;
-    packed_data->func = glMultiTexCoord4x;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = s;
-    packed_data->args.a3 = t;
-    packed_data->args.a4 = r;
-    packed_data->args.a5 = q;
-    glPushCall((void *)packed_data);
+#define push_glMultiTexCoord4x(target, s, t, r, q) { \
+    glMultiTexCoord4x_PACKED *packed_data = malloc(sizeof(glMultiTexCoord4x_PACKED)); \
+    packed_data->format = glMultiTexCoord4x_FORMAT; \
+    packed_data->func = glMultiTexCoord4x; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLfixed)s; \
+    packed_data->args.a3 = (GLfixed)t; \
+    packed_data->args.a4 = (GLfixed)r; \
+    packed_data->args.a5 = (GLfixed)q; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glNormal3f
-static inline void push_glNormal3f(glNormal3f_ARG_EXPAND) {
-    glNormal3f_PACKED *packed_data = malloc(sizeof(glNormal3f_PACKED));
-    packed_data->format = glNormal3f_FORMAT;
-    packed_data->func = glNormal3f;
-    packed_data->args.a1 = nx;
-    packed_data->args.a2 = ny;
-    packed_data->args.a3 = nz;
-    glPushCall((void *)packed_data);
+#define push_glNormal3f(nx, ny, nz) { \
+    glNormal3f_PACKED *packed_data = malloc(sizeof(glNormal3f_PACKED)); \
+    packed_data->format = glNormal3f_FORMAT; \
+    packed_data->func = glNormal3f; \
+    packed_data->args.a1 = (GLfloat)nx; \
+    packed_data->args.a2 = (GLfloat)ny; \
+    packed_data->args.a3 = (GLfloat)nz; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glNormal3x
-static inline void push_glNormal3x(glNormal3x_ARG_EXPAND) {
-    glNormal3x_PACKED *packed_data = malloc(sizeof(glNormal3x_PACKED));
-    packed_data->format = glNormal3x_FORMAT;
-    packed_data->func = glNormal3x;
-    packed_data->args.a1 = nx;
-    packed_data->args.a2 = ny;
-    packed_data->args.a3 = nz;
-    glPushCall((void *)packed_data);
+#define push_glNormal3x(nx, ny, nz) { \
+    glNormal3x_PACKED *packed_data = malloc(sizeof(glNormal3x_PACKED)); \
+    packed_data->format = glNormal3x_FORMAT; \
+    packed_data->func = glNormal3x; \
+    packed_data->args.a1 = (GLfixed)nx; \
+    packed_data->args.a2 = (GLfixed)ny; \
+    packed_data->args.a3 = (GLfixed)nz; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glNormalPointer
-static inline void push_glNormalPointer(glNormalPointer_ARG_EXPAND) {
-    glNormalPointer_PACKED *packed_data = malloc(sizeof(glNormalPointer_PACKED));
-    packed_data->format = glNormalPointer_FORMAT;
-    packed_data->func = glNormalPointer;
-    packed_data->args.a1 = type;
-    packed_data->args.a2 = stride;
-    packed_data->args.a3 = pointer;
-    glPushCall((void *)packed_data);
+#define push_glNormalPointer(type, stride, pointer) { \
+    glNormalPointer_PACKED *packed_data = malloc(sizeof(glNormalPointer_PACKED)); \
+    packed_data->format = glNormalPointer_FORMAT; \
+    packed_data->func = glNormalPointer; \
+    packed_data->args.a1 = (GLenum)type; \
+    packed_data->args.a2 = (GLsizei)stride; \
+    packed_data->args.a3 = (GLvoid *)pointer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glOrthof
-static inline void push_glOrthof(glOrthof_ARG_EXPAND) {
-    glOrthof_PACKED *packed_data = malloc(sizeof(glOrthof_PACKED));
-    packed_data->format = glOrthof_FORMAT;
-    packed_data->func = glOrthof;
-    packed_data->args.a1 = left;
-    packed_data->args.a2 = right;
-    packed_data->args.a3 = bottom;
-    packed_data->args.a4 = top;
-    packed_data->args.a5 = near;
-    packed_data->args.a6 = far;
-    glPushCall((void *)packed_data);
+#define push_glOrthof(left, right, bottom, top, near, far) { \
+    glOrthof_PACKED *packed_data = malloc(sizeof(glOrthof_PACKED)); \
+    packed_data->format = glOrthof_FORMAT; \
+    packed_data->func = glOrthof; \
+    packed_data->args.a1 = (GLfloat)left; \
+    packed_data->args.a2 = (GLfloat)right; \
+    packed_data->args.a3 = (GLfloat)bottom; \
+    packed_data->args.a4 = (GLfloat)top; \
+    packed_data->args.a5 = (GLfloat)near; \
+    packed_data->args.a6 = (GLfloat)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glOrthox
-static inline void push_glOrthox(glOrthox_ARG_EXPAND) {
-    glOrthox_PACKED *packed_data = malloc(sizeof(glOrthox_PACKED));
-    packed_data->format = glOrthox_FORMAT;
-    packed_data->func = glOrthox;
-    packed_data->args.a1 = left;
-    packed_data->args.a2 = right;
-    packed_data->args.a3 = bottom;
-    packed_data->args.a4 = top;
-    packed_data->args.a5 = near;
-    packed_data->args.a6 = far;
-    glPushCall((void *)packed_data);
+#define push_glOrthox(left, right, bottom, top, near, far) { \
+    glOrthox_PACKED *packed_data = malloc(sizeof(glOrthox_PACKED)); \
+    packed_data->format = glOrthox_FORMAT; \
+    packed_data->func = glOrthox; \
+    packed_data->args.a1 = (GLfixed)left; \
+    packed_data->args.a2 = (GLfixed)right; \
+    packed_data->args.a3 = (GLfixed)bottom; \
+    packed_data->args.a4 = (GLfixed)top; \
+    packed_data->args.a5 = (GLfixed)near; \
+    packed_data->args.a6 = (GLfixed)far; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPixelStorei
-static inline void push_glPixelStorei(glPixelStorei_ARG_EXPAND) {
-    glPixelStorei_PACKED *packed_data = malloc(sizeof(glPixelStorei_PACKED));
-    packed_data->format = glPixelStorei_FORMAT;
-    packed_data->func = glPixelStorei;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glPixelStorei(pname, param) { \
+    glPixelStorei_PACKED *packed_data = malloc(sizeof(glPixelStorei_PACKED)); \
+    packed_data->format = glPixelStorei_FORMAT; \
+    packed_data->func = glPixelStorei; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLint)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointParameterf
-static inline void push_glPointParameterf(glPointParameterf_ARG_EXPAND) {
-    glPointParameterf_PACKED *packed_data = malloc(sizeof(glPointParameterf_PACKED));
-    packed_data->format = glPointParameterf_FORMAT;
-    packed_data->func = glPointParameterf;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glPointParameterf(pname, param) { \
+    glPointParameterf_PACKED *packed_data = malloc(sizeof(glPointParameterf_PACKED)); \
+    packed_data->format = glPointParameterf_FORMAT; \
+    packed_data->func = glPointParameterf; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointParameterfv
-static inline void push_glPointParameterfv(glPointParameterfv_ARG_EXPAND) {
-    glPointParameterfv_PACKED *packed_data = malloc(sizeof(glPointParameterfv_PACKED));
-    packed_data->format = glPointParameterfv_FORMAT;
-    packed_data->func = glPointParameterfv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glPointParameterfv(pname, params) { \
+    glPointParameterfv_PACKED *packed_data = malloc(sizeof(glPointParameterfv_PACKED)); \
+    packed_data->format = glPointParameterfv_FORMAT; \
+    packed_data->func = glPointParameterfv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointParameterx
-static inline void push_glPointParameterx(glPointParameterx_ARG_EXPAND) {
-    glPointParameterx_PACKED *packed_data = malloc(sizeof(glPointParameterx_PACKED));
-    packed_data->format = glPointParameterx_FORMAT;
-    packed_data->func = glPointParameterx;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = param;
-    glPushCall((void *)packed_data);
+#define push_glPointParameterx(pname, param) { \
+    glPointParameterx_PACKED *packed_data = malloc(sizeof(glPointParameterx_PACKED)); \
+    packed_data->format = glPointParameterx_FORMAT; \
+    packed_data->func = glPointParameterx; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointParameterxv
-static inline void push_glPointParameterxv(glPointParameterxv_ARG_EXPAND) {
-    glPointParameterxv_PACKED *packed_data = malloc(sizeof(glPointParameterxv_PACKED));
-    packed_data->format = glPointParameterxv_FORMAT;
-    packed_data->func = glPointParameterxv;
-    packed_data->args.a1 = pname;
-    packed_data->args.a2 = params;
-    glPushCall((void *)packed_data);
+#define push_glPointParameterxv(pname, params) { \
+    glPointParameterxv_PACKED *packed_data = malloc(sizeof(glPointParameterxv_PACKED)); \
+    packed_data->format = glPointParameterxv_FORMAT; \
+    packed_data->func = glPointParameterxv; \
+    packed_data->args.a1 = (GLenum)pname; \
+    packed_data->args.a2 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointSize
-static inline void push_glPointSize(glPointSize_ARG_EXPAND) {
-    glPointSize_PACKED *packed_data = malloc(sizeof(glPointSize_PACKED));
-    packed_data->format = glPointSize_FORMAT;
-    packed_data->func = glPointSize;
-    packed_data->args.a1 = size;
-    glPushCall((void *)packed_data);
+#define push_glPointSize(size) { \
+    glPointSize_PACKED *packed_data = malloc(sizeof(glPointSize_PACKED)); \
+    packed_data->format = glPointSize_FORMAT; \
+    packed_data->func = glPointSize; \
+    packed_data->args.a1 = (GLfloat)size; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointSizePointerOES
-static inline void push_glPointSizePointerOES(glPointSizePointerOES_ARG_EXPAND) {
-    glPointSizePointerOES_PACKED *packed_data = malloc(sizeof(glPointSizePointerOES_PACKED));
-    packed_data->format = glPointSizePointerOES_FORMAT;
-    packed_data->func = glPointSizePointerOES;
-    packed_data->args.a1 = type;
-    packed_data->args.a2 = stride;
-    packed_data->args.a3 = pointer;
-    glPushCall((void *)packed_data);
+#define push_glPointSizePointerOES(type, stride, pointer) { \
+    glPointSizePointerOES_PACKED *packed_data = malloc(sizeof(glPointSizePointerOES_PACKED)); \
+    packed_data->format = glPointSizePointerOES_FORMAT; \
+    packed_data->func = glPointSizePointerOES; \
+    packed_data->args.a1 = (GLenum)type; \
+    packed_data->args.a2 = (GLsizei)stride; \
+    packed_data->args.a3 = (GLvoid *)pointer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPointSizex
-static inline void push_glPointSizex(glPointSizex_ARG_EXPAND) {
-    glPointSizex_PACKED *packed_data = malloc(sizeof(glPointSizex_PACKED));
-    packed_data->format = glPointSizex_FORMAT;
-    packed_data->func = glPointSizex;
-    packed_data->args.a1 = size;
-    glPushCall((void *)packed_data);
+#define push_glPointSizex(size) { \
+    glPointSizex_PACKED *packed_data = malloc(sizeof(glPointSizex_PACKED)); \
+    packed_data->format = glPointSizex_FORMAT; \
+    packed_data->func = glPointSizex; \
+    packed_data->args.a1 = (GLfixed)size; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPolygonOffset
-static inline void push_glPolygonOffset(glPolygonOffset_ARG_EXPAND) {
-    glPolygonOffset_PACKED *packed_data = malloc(sizeof(glPolygonOffset_PACKED));
-    packed_data->format = glPolygonOffset_FORMAT;
-    packed_data->func = glPolygonOffset;
-    packed_data->args.a1 = factor;
-    packed_data->args.a2 = units;
-    glPushCall((void *)packed_data);
+#define push_glPolygonOffset(factor, units) { \
+    glPolygonOffset_PACKED *packed_data = malloc(sizeof(glPolygonOffset_PACKED)); \
+    packed_data->format = glPolygonOffset_FORMAT; \
+    packed_data->func = glPolygonOffset; \
+    packed_data->args.a1 = (GLfloat)factor; \
+    packed_data->args.a2 = (GLfloat)units; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPolygonOffsetx
-static inline void push_glPolygonOffsetx(glPolygonOffsetx_ARG_EXPAND) {
-    glPolygonOffsetx_PACKED *packed_data = malloc(sizeof(glPolygonOffsetx_PACKED));
-    packed_data->format = glPolygonOffsetx_FORMAT;
-    packed_data->func = glPolygonOffsetx;
-    packed_data->args.a1 = factor;
-    packed_data->args.a2 = units;
-    glPushCall((void *)packed_data);
+#define push_glPolygonOffsetx(factor, units) { \
+    glPolygonOffsetx_PACKED *packed_data = malloc(sizeof(glPolygonOffsetx_PACKED)); \
+    packed_data->format = glPolygonOffsetx_FORMAT; \
+    packed_data->func = glPolygonOffsetx; \
+    packed_data->args.a1 = (GLfixed)factor; \
+    packed_data->args.a2 = (GLfixed)units; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPopMatrix
-static inline void push_glPopMatrix(glPopMatrix_ARG_EXPAND) {
-    glPopMatrix_PACKED *packed_data = malloc(sizeof(glPopMatrix_PACKED));
-    packed_data->format = glPopMatrix_FORMAT;
-    packed_data->func = glPopMatrix;
-    glPushCall((void *)packed_data);
+#define push_glPopMatrix() { \
+    glPopMatrix_PACKED *packed_data = malloc(sizeof(glPopMatrix_PACKED)); \
+    packed_data->format = glPopMatrix_FORMAT; \
+    packed_data->func = glPopMatrix; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glPushMatrix
-static inline void push_glPushMatrix(glPushMatrix_ARG_EXPAND) {
-    glPushMatrix_PACKED *packed_data = malloc(sizeof(glPushMatrix_PACKED));
-    packed_data->format = glPushMatrix_FORMAT;
-    packed_data->func = glPushMatrix;
-    glPushCall((void *)packed_data);
+#define push_glPushMatrix() { \
+    glPushMatrix_PACKED *packed_data = malloc(sizeof(glPushMatrix_PACKED)); \
+    packed_data->format = glPushMatrix_FORMAT; \
+    packed_data->func = glPushMatrix; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glReadPixels
-static inline void push_glReadPixels(glReadPixels_ARG_EXPAND) {
-    glReadPixels_PACKED *packed_data = malloc(sizeof(glReadPixels_PACKED));
-    packed_data->format = glReadPixels_FORMAT;
-    packed_data->func = glReadPixels;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = width;
-    packed_data->args.a4 = height;
-    packed_data->args.a5 = format;
-    packed_data->args.a6 = type;
-    packed_data->args.a7 = pixels;
-    glPushCall((void *)packed_data);
+#define push_glReadPixels(x, y, width, height, format, type, pixels) { \
+    glReadPixels_PACKED *packed_data = malloc(sizeof(glReadPixels_PACKED)); \
+    packed_data->format = glReadPixels_FORMAT; \
+    packed_data->func = glReadPixels; \
+    packed_data->args.a1 = (GLint)x; \
+    packed_data->args.a2 = (GLint)y; \
+    packed_data->args.a3 = (GLsizei)width; \
+    packed_data->args.a4 = (GLsizei)height; \
+    packed_data->args.a5 = (GLenum)format; \
+    packed_data->args.a6 = (GLenum)type; \
+    packed_data->args.a7 = (GLvoid *)pixels; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glRotatef
-static inline void push_glRotatef(glRotatef_ARG_EXPAND) {
-    glRotatef_PACKED *packed_data = malloc(sizeof(glRotatef_PACKED));
-    packed_data->format = glRotatef_FORMAT;
-    packed_data->func = glRotatef;
-    packed_data->args.a1 = angle;
-    packed_data->args.a2 = x;
-    packed_data->args.a3 = y;
-    packed_data->args.a4 = z;
-    glPushCall((void *)packed_data);
+#define push_glRotatef(angle, x, y, z) { \
+    glRotatef_PACKED *packed_data = malloc(sizeof(glRotatef_PACKED)); \
+    packed_data->format = glRotatef_FORMAT; \
+    packed_data->func = glRotatef; \
+    packed_data->args.a1 = (GLfloat)angle; \
+    packed_data->args.a2 = (GLfloat)x; \
+    packed_data->args.a3 = (GLfloat)y; \
+    packed_data->args.a4 = (GLfloat)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glRotatex
-static inline void push_glRotatex(glRotatex_ARG_EXPAND) {
-    glRotatex_PACKED *packed_data = malloc(sizeof(glRotatex_PACKED));
-    packed_data->format = glRotatex_FORMAT;
-    packed_data->func = glRotatex;
-    packed_data->args.a1 = angle;
-    packed_data->args.a2 = x;
-    packed_data->args.a3 = y;
-    packed_data->args.a4 = z;
-    glPushCall((void *)packed_data);
+#define push_glRotatex(angle, x, y, z) { \
+    glRotatex_PACKED *packed_data = malloc(sizeof(glRotatex_PACKED)); \
+    packed_data->format = glRotatex_FORMAT; \
+    packed_data->func = glRotatex; \
+    packed_data->args.a1 = (GLfixed)angle; \
+    packed_data->args.a2 = (GLfixed)x; \
+    packed_data->args.a3 = (GLfixed)y; \
+    packed_data->args.a4 = (GLfixed)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glSampleCoverage
-static inline void push_glSampleCoverage(glSampleCoverage_ARG_EXPAND) {
-    glSampleCoverage_PACKED *packed_data = malloc(sizeof(glSampleCoverage_PACKED));
-    packed_data->format = glSampleCoverage_FORMAT;
-    packed_data->func = glSampleCoverage;
-    packed_data->args.a1 = value;
-    packed_data->args.a2 = invert;
-    glPushCall((void *)packed_data);
+#define push_glSampleCoverage(value, invert) { \
+    glSampleCoverage_PACKED *packed_data = malloc(sizeof(glSampleCoverage_PACKED)); \
+    packed_data->format = glSampleCoverage_FORMAT; \
+    packed_data->func = glSampleCoverage; \
+    packed_data->args.a1 = (GLclampf)value; \
+    packed_data->args.a2 = (GLboolean)invert; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glSampleCoveragex
-static inline void push_glSampleCoveragex(glSampleCoveragex_ARG_EXPAND) {
-    glSampleCoveragex_PACKED *packed_data = malloc(sizeof(glSampleCoveragex_PACKED));
-    packed_data->format = glSampleCoveragex_FORMAT;
-    packed_data->func = glSampleCoveragex;
-    packed_data->args.a1 = value;
-    packed_data->args.a2 = invert;
-    glPushCall((void *)packed_data);
+#define push_glSampleCoveragex(value, invert) { \
+    glSampleCoveragex_PACKED *packed_data = malloc(sizeof(glSampleCoveragex_PACKED)); \
+    packed_data->format = glSampleCoveragex_FORMAT; \
+    packed_data->func = glSampleCoveragex; \
+    packed_data->args.a1 = (GLclampx)value; \
+    packed_data->args.a2 = (GLboolean)invert; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glScalef
-static inline void push_glScalef(glScalef_ARG_EXPAND) {
-    glScalef_PACKED *packed_data = malloc(sizeof(glScalef_PACKED));
-    packed_data->format = glScalef_FORMAT;
-    packed_data->func = glScalef;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = z;
-    glPushCall((void *)packed_data);
+#define push_glScalef(x, y, z) { \
+    glScalef_PACKED *packed_data = malloc(sizeof(glScalef_PACKED)); \
+    packed_data->format = glScalef_FORMAT; \
+    packed_data->func = glScalef; \
+    packed_data->args.a1 = (GLfloat)x; \
+    packed_data->args.a2 = (GLfloat)y; \
+    packed_data->args.a3 = (GLfloat)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glScalex
-static inline void push_glScalex(glScalex_ARG_EXPAND) {
-    glScalex_PACKED *packed_data = malloc(sizeof(glScalex_PACKED));
-    packed_data->format = glScalex_FORMAT;
-    packed_data->func = glScalex;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = z;
-    glPushCall((void *)packed_data);
+#define push_glScalex(x, y, z) { \
+    glScalex_PACKED *packed_data = malloc(sizeof(glScalex_PACKED)); \
+    packed_data->format = glScalex_FORMAT; \
+    packed_data->func = glScalex; \
+    packed_data->args.a1 = (GLfixed)x; \
+    packed_data->args.a2 = (GLfixed)y; \
+    packed_data->args.a3 = (GLfixed)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glScissor
-static inline void push_glScissor(glScissor_ARG_EXPAND) {
-    glScissor_PACKED *packed_data = malloc(sizeof(glScissor_PACKED));
-    packed_data->format = glScissor_FORMAT;
-    packed_data->func = glScissor;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = width;
-    packed_data->args.a4 = height;
-    glPushCall((void *)packed_data);
+#define push_glScissor(x, y, width, height) { \
+    glScissor_PACKED *packed_data = malloc(sizeof(glScissor_PACKED)); \
+    packed_data->format = glScissor_FORMAT; \
+    packed_data->func = glScissor; \
+    packed_data->args.a1 = (GLint)x; \
+    packed_data->args.a2 = (GLint)y; \
+    packed_data->args.a3 = (GLsizei)width; \
+    packed_data->args.a4 = (GLsizei)height; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glShadeModel
-static inline void push_glShadeModel(glShadeModel_ARG_EXPAND) {
-    glShadeModel_PACKED *packed_data = malloc(sizeof(glShadeModel_PACKED));
-    packed_data->format = glShadeModel_FORMAT;
-    packed_data->func = glShadeModel;
-    packed_data->args.a1 = mode;
-    glPushCall((void *)packed_data);
+#define push_glShadeModel(mode) { \
+    glShadeModel_PACKED *packed_data = malloc(sizeof(glShadeModel_PACKED)); \
+    packed_data->format = glShadeModel_FORMAT; \
+    packed_data->func = glShadeModel; \
+    packed_data->args.a1 = (GLenum)mode; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glStencilFunc
-static inline void push_glStencilFunc(glStencilFunc_ARG_EXPAND) {
-    glStencilFunc_PACKED *packed_data = malloc(sizeof(glStencilFunc_PACKED));
-    packed_data->format = glStencilFunc_FORMAT;
-    packed_data->func = glStencilFunc;
-    packed_data->args.a1 = func;
-    packed_data->args.a2 = ref;
-    packed_data->args.a3 = mask;
-    glPushCall((void *)packed_data);
+#define push_glStencilFunc(func, ref, mask) { \
+    glStencilFunc_PACKED *packed_data = malloc(sizeof(glStencilFunc_PACKED)); \
+    packed_data->format = glStencilFunc_FORMAT; \
+    packed_data->func = glStencilFunc; \
+    packed_data->args.a1 = (GLenum)func; \
+    packed_data->args.a2 = (GLint)ref; \
+    packed_data->args.a3 = (GLuint)mask; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glStencilMask
-static inline void push_glStencilMask(glStencilMask_ARG_EXPAND) {
-    glStencilMask_PACKED *packed_data = malloc(sizeof(glStencilMask_PACKED));
-    packed_data->format = glStencilMask_FORMAT;
-    packed_data->func = glStencilMask;
-    packed_data->args.a1 = mask;
-    glPushCall((void *)packed_data);
+#define push_glStencilMask(mask) { \
+    glStencilMask_PACKED *packed_data = malloc(sizeof(glStencilMask_PACKED)); \
+    packed_data->format = glStencilMask_FORMAT; \
+    packed_data->func = glStencilMask; \
+    packed_data->args.a1 = (GLuint)mask; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glStencilOp
-static inline void push_glStencilOp(glStencilOp_ARG_EXPAND) {
-    glStencilOp_PACKED *packed_data = malloc(sizeof(glStencilOp_PACKED));
-    packed_data->format = glStencilOp_FORMAT;
-    packed_data->func = glStencilOp;
-    packed_data->args.a1 = fail;
-    packed_data->args.a2 = zfail;
-    packed_data->args.a3 = zpass;
-    glPushCall((void *)packed_data);
+#define push_glStencilOp(fail, zfail, zpass) { \
+    glStencilOp_PACKED *packed_data = malloc(sizeof(glStencilOp_PACKED)); \
+    packed_data->format = glStencilOp_FORMAT; \
+    packed_data->func = glStencilOp; \
+    packed_data->args.a1 = (GLenum)fail; \
+    packed_data->args.a2 = (GLenum)zfail; \
+    packed_data->args.a3 = (GLenum)zpass; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexCoordPointer
-static inline void push_glTexCoordPointer(glTexCoordPointer_ARG_EXPAND) {
-    glTexCoordPointer_PACKED *packed_data = malloc(sizeof(glTexCoordPointer_PACKED));
-    packed_data->format = glTexCoordPointer_FORMAT;
-    packed_data->func = glTexCoordPointer;
-    packed_data->args.a1 = size;
-    packed_data->args.a2 = type;
-    packed_data->args.a3 = stride;
-    packed_data->args.a4 = pointer;
-    glPushCall((void *)packed_data);
+#define push_glTexCoordPointer(size, type, stride, pointer) { \
+    glTexCoordPointer_PACKED *packed_data = malloc(sizeof(glTexCoordPointer_PACKED)); \
+    packed_data->format = glTexCoordPointer_FORMAT; \
+    packed_data->func = glTexCoordPointer; \
+    packed_data->args.a1 = (GLint)size; \
+    packed_data->args.a2 = (GLenum)type; \
+    packed_data->args.a3 = (GLsizei)stride; \
+    packed_data->args.a4 = (GLvoid *)pointer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnvf
-static inline void push_glTexEnvf(glTexEnvf_ARG_EXPAND) {
-    glTexEnvf_PACKED *packed_data = malloc(sizeof(glTexEnvf_PACKED));
-    packed_data->format = glTexEnvf_FORMAT;
-    packed_data->func = glTexEnvf;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexEnvf(target, pname, param) { \
+    glTexEnvf_PACKED *packed_data = malloc(sizeof(glTexEnvf_PACKED)); \
+    packed_data->format = glTexEnvf_FORMAT; \
+    packed_data->func = glTexEnvf; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnvfv
-static inline void push_glTexEnvfv(glTexEnvfv_ARG_EXPAND) {
-    glTexEnvfv_PACKED *packed_data = malloc(sizeof(glTexEnvfv_PACKED));
-    packed_data->format = glTexEnvfv_FORMAT;
-    packed_data->func = glTexEnvfv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexEnvfv(target, pname, params) { \
+    glTexEnvfv_PACKED *packed_data = malloc(sizeof(glTexEnvfv_PACKED)); \
+    packed_data->format = glTexEnvfv_FORMAT; \
+    packed_data->func = glTexEnvfv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnvi
-static inline void push_glTexEnvi(glTexEnvi_ARG_EXPAND) {
-    glTexEnvi_PACKED *packed_data = malloc(sizeof(glTexEnvi_PACKED));
-    packed_data->format = glTexEnvi_FORMAT;
-    packed_data->func = glTexEnvi;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexEnvi(target, pname, param) { \
+    glTexEnvi_PACKED *packed_data = malloc(sizeof(glTexEnvi_PACKED)); \
+    packed_data->format = glTexEnvi_FORMAT; \
+    packed_data->func = glTexEnvi; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnviv
-static inline void push_glTexEnviv(glTexEnviv_ARG_EXPAND) {
-    glTexEnviv_PACKED *packed_data = malloc(sizeof(glTexEnviv_PACKED));
-    packed_data->format = glTexEnviv_FORMAT;
-    packed_data->func = glTexEnviv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexEnviv(target, pname, params) { \
+    glTexEnviv_PACKED *packed_data = malloc(sizeof(glTexEnviv_PACKED)); \
+    packed_data->format = glTexEnviv_FORMAT; \
+    packed_data->func = glTexEnviv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnvx
-static inline void push_glTexEnvx(glTexEnvx_ARG_EXPAND) {
-    glTexEnvx_PACKED *packed_data = malloc(sizeof(glTexEnvx_PACKED));
-    packed_data->format = glTexEnvx_FORMAT;
-    packed_data->func = glTexEnvx;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexEnvx(target, pname, param) { \
+    glTexEnvx_PACKED *packed_data = malloc(sizeof(glTexEnvx_PACKED)); \
+    packed_data->format = glTexEnvx_FORMAT; \
+    packed_data->func = glTexEnvx; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexEnvxv
-static inline void push_glTexEnvxv(glTexEnvxv_ARG_EXPAND) {
-    glTexEnvxv_PACKED *packed_data = malloc(sizeof(glTexEnvxv_PACKED));
-    packed_data->format = glTexEnvxv_FORMAT;
-    packed_data->func = glTexEnvxv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexEnvxv(target, pname, params) { \
+    glTexEnvxv_PACKED *packed_data = malloc(sizeof(glTexEnvxv_PACKED)); \
+    packed_data->format = glTexEnvxv_FORMAT; \
+    packed_data->func = glTexEnvxv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexImage2D
-static inline void push_glTexImage2D(glTexImage2D_ARG_EXPAND) {
-    glTexImage2D_PACKED *packed_data = malloc(sizeof(glTexImage2D_PACKED));
-    packed_data->format = glTexImage2D_FORMAT;
-    packed_data->func = glTexImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = internalformat;
-    packed_data->args.a4 = width;
-    packed_data->args.a5 = height;
-    packed_data->args.a6 = border;
-    packed_data->args.a7 = format;
-    packed_data->args.a8 = type;
-    packed_data->args.a9 = pixels;
-    glPushCall((void *)packed_data);
+#define push_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels) { \
+    glTexImage2D_PACKED *packed_data = malloc(sizeof(glTexImage2D_PACKED)); \
+    packed_data->format = glTexImage2D_FORMAT; \
+    packed_data->func = glTexImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLint)internalformat; \
+    packed_data->args.a4 = (GLsizei)width; \
+    packed_data->args.a5 = (GLsizei)height; \
+    packed_data->args.a6 = (GLint)border; \
+    packed_data->args.a7 = (GLenum)format; \
+    packed_data->args.a8 = (GLenum)type; \
+    packed_data->args.a9 = (GLvoid *)pixels; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameterf
-static inline void push_glTexParameterf(glTexParameterf_ARG_EXPAND) {
-    glTexParameterf_PACKED *packed_data = malloc(sizeof(glTexParameterf_PACKED));
-    packed_data->format = glTexParameterf_FORMAT;
-    packed_data->func = glTexParameterf;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexParameterf(target, pname, param) { \
+    glTexParameterf_PACKED *packed_data = malloc(sizeof(glTexParameterf_PACKED)); \
+    packed_data->format = glTexParameterf_FORMAT; \
+    packed_data->func = glTexParameterf; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameterfv
-static inline void push_glTexParameterfv(glTexParameterfv_ARG_EXPAND) {
-    glTexParameterfv_PACKED *packed_data = malloc(sizeof(glTexParameterfv_PACKED));
-    packed_data->format = glTexParameterfv_FORMAT;
-    packed_data->func = glTexParameterfv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexParameterfv(target, pname, params) { \
+    glTexParameterfv_PACKED *packed_data = malloc(sizeof(glTexParameterfv_PACKED)); \
+    packed_data->format = glTexParameterfv_FORMAT; \
+    packed_data->func = glTexParameterfv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfloat *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameteri
-static inline void push_glTexParameteri(glTexParameteri_ARG_EXPAND) {
-    glTexParameteri_PACKED *packed_data = malloc(sizeof(glTexParameteri_PACKED));
-    packed_data->format = glTexParameteri_FORMAT;
-    packed_data->func = glTexParameteri;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexParameteri(target, pname, param) { \
+    glTexParameteri_PACKED *packed_data = malloc(sizeof(glTexParameteri_PACKED)); \
+    packed_data->format = glTexParameteri_FORMAT; \
+    packed_data->func = glTexParameteri; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameteriv
-static inline void push_glTexParameteriv(glTexParameteriv_ARG_EXPAND) {
-    glTexParameteriv_PACKED *packed_data = malloc(sizeof(glTexParameteriv_PACKED));
-    packed_data->format = glTexParameteriv_FORMAT;
-    packed_data->func = glTexParameteriv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexParameteriv(target, pname, params) { \
+    glTexParameteriv_PACKED *packed_data = malloc(sizeof(glTexParameteriv_PACKED)); \
+    packed_data->format = glTexParameteriv_FORMAT; \
+    packed_data->func = glTexParameteriv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLint *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameterx
-static inline void push_glTexParameterx(glTexParameterx_ARG_EXPAND) {
-    glTexParameterx_PACKED *packed_data = malloc(sizeof(glTexParameterx_PACKED));
-    packed_data->format = glTexParameterx_FORMAT;
-    packed_data->func = glTexParameterx;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = param;
-    glPushCall((void *)packed_data);
+#define push_glTexParameterx(target, pname, param) { \
+    glTexParameterx_PACKED *packed_data = malloc(sizeof(glTexParameterx_PACKED)); \
+    packed_data->format = glTexParameterx_FORMAT; \
+    packed_data->func = glTexParameterx; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed)param; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexParameterxv
-static inline void push_glTexParameterxv(glTexParameterxv_ARG_EXPAND) {
-    glTexParameterxv_PACKED *packed_data = malloc(sizeof(glTexParameterxv_PACKED));
-    packed_data->format = glTexParameterxv_FORMAT;
-    packed_data->func = glTexParameterxv;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = pname;
-    packed_data->args.a3 = params;
-    glPushCall((void *)packed_data);
+#define push_glTexParameterxv(target, pname, params) { \
+    glTexParameterxv_PACKED *packed_data = malloc(sizeof(glTexParameterxv_PACKED)); \
+    packed_data->format = glTexParameterxv_FORMAT; \
+    packed_data->func = glTexParameterxv; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLenum)pname; \
+    packed_data->args.a3 = (GLfixed *)params; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTexSubImage2D
-static inline void push_glTexSubImage2D(glTexSubImage2D_ARG_EXPAND) {
-    glTexSubImage2D_PACKED *packed_data = malloc(sizeof(glTexSubImage2D_PACKED));
-    packed_data->format = glTexSubImage2D_FORMAT;
-    packed_data->func = glTexSubImage2D;
-    packed_data->args.a1 = target;
-    packed_data->args.a2 = level;
-    packed_data->args.a3 = xoffset;
-    packed_data->args.a4 = yoffset;
-    packed_data->args.a5 = width;
-    packed_data->args.a6 = height;
-    packed_data->args.a7 = format;
-    packed_data->args.a8 = type;
-    packed_data->args.a9 = pixels;
-    glPushCall((void *)packed_data);
+#define push_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels) { \
+    glTexSubImage2D_PACKED *packed_data = malloc(sizeof(glTexSubImage2D_PACKED)); \
+    packed_data->format = glTexSubImage2D_FORMAT; \
+    packed_data->func = glTexSubImage2D; \
+    packed_data->args.a1 = (GLenum)target; \
+    packed_data->args.a2 = (GLint)level; \
+    packed_data->args.a3 = (GLint)xoffset; \
+    packed_data->args.a4 = (GLint)yoffset; \
+    packed_data->args.a5 = (GLsizei)width; \
+    packed_data->args.a6 = (GLsizei)height; \
+    packed_data->args.a7 = (GLenum)format; \
+    packed_data->args.a8 = (GLenum)type; \
+    packed_data->args.a9 = (GLvoid *)pixels; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTranslatef
-static inline void push_glTranslatef(glTranslatef_ARG_EXPAND) {
-    glTranslatef_PACKED *packed_data = malloc(sizeof(glTranslatef_PACKED));
-    packed_data->format = glTranslatef_FORMAT;
-    packed_data->func = glTranslatef;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = z;
-    glPushCall((void *)packed_data);
+#define push_glTranslatef(x, y, z) { \
+    glTranslatef_PACKED *packed_data = malloc(sizeof(glTranslatef_PACKED)); \
+    packed_data->format = glTranslatef_FORMAT; \
+    packed_data->func = glTranslatef; \
+    packed_data->args.a1 = (GLfloat)x; \
+    packed_data->args.a2 = (GLfloat)y; \
+    packed_data->args.a3 = (GLfloat)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glTranslatex
-static inline void push_glTranslatex(glTranslatex_ARG_EXPAND) {
-    glTranslatex_PACKED *packed_data = malloc(sizeof(glTranslatex_PACKED));
-    packed_data->format = glTranslatex_FORMAT;
-    packed_data->func = glTranslatex;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = z;
-    glPushCall((void *)packed_data);
+#define push_glTranslatex(x, y, z) { \
+    glTranslatex_PACKED *packed_data = malloc(sizeof(glTranslatex_PACKED)); \
+    packed_data->format = glTranslatex_FORMAT; \
+    packed_data->func = glTranslatex; \
+    packed_data->args.a1 = (GLfixed)x; \
+    packed_data->args.a2 = (GLfixed)y; \
+    packed_data->args.a3 = (GLfixed)z; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glVertexPointer
-static inline void push_glVertexPointer(glVertexPointer_ARG_EXPAND) {
-    glVertexPointer_PACKED *packed_data = malloc(sizeof(glVertexPointer_PACKED));
-    packed_data->format = glVertexPointer_FORMAT;
-    packed_data->func = glVertexPointer;
-    packed_data->args.a1 = size;
-    packed_data->args.a2 = type;
-    packed_data->args.a3 = stride;
-    packed_data->args.a4 = pointer;
-    glPushCall((void *)packed_data);
+#define push_glVertexPointer(size, type, stride, pointer) { \
+    glVertexPointer_PACKED *packed_data = malloc(sizeof(glVertexPointer_PACKED)); \
+    packed_data->format = glVertexPointer_FORMAT; \
+    packed_data->func = glVertexPointer; \
+    packed_data->args.a1 = (GLint)size; \
+    packed_data->args.a2 = (GLenum)type; \
+    packed_data->args.a3 = (GLsizei)stride; \
+    packed_data->args.a4 = (GLvoid *)pointer; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glViewport
-static inline void push_glViewport(glViewport_ARG_EXPAND) {
-    glViewport_PACKED *packed_data = malloc(sizeof(glViewport_PACKED));
-    packed_data->format = glViewport_FORMAT;
-    packed_data->func = glViewport;
-    packed_data->args.a1 = x;
-    packed_data->args.a2 = y;
-    packed_data->args.a3 = width;
-    packed_data->args.a4 = height;
-    glPushCall((void *)packed_data);
+#define push_glViewport(x, y, width, height) { \
+    glViewport_PACKED *packed_data = malloc(sizeof(glViewport_PACKED)); \
+    packed_data->format = glViewport_FORMAT; \
+    packed_data->func = glViewport; \
+    packed_data->args.a1 = (GLint)x; \
+    packed_data->args.a2 = (GLint)y; \
+    packed_data->args.a3 = (GLsizei)width; \
+    packed_data->args.a4 = (GLsizei)height; \
+    glPushCall((void *)packed_data); \
 }
 #endif
 #endif
