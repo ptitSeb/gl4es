@@ -558,3 +558,4 @@ Bool glXIsDirect(Display * display, GLXContext ctx) {
 void glXUseXFont(Font font, int first, int count, int listBase) {}
 void glXWaitGL() {}
 void glXWaitX() {}
+void glXReleaseBuffersMESA() {}
