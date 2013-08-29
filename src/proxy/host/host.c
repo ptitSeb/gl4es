@@ -7787,16 +7787,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             break;
         }
         #endif
-        #ifndef skip_index_snd_mixer_add_elem
-        case snd_mixer_add_elem_INDEX: {
-            INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
-            ARGS_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
-            int *ret = (int *)ret_v;
-            *ret =
-            snd_mixer_add_elem(args.a1, args.a2);
-            break;
-        }
-        #endif
         #ifndef skip_index_snd_mixer_attach
         case snd_mixer_attach_INDEX: {
             INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___const_char___GENPT__ *)packed;
@@ -8241,16 +8231,6 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v) {
             int *ret = (int *)ret_v;
             *ret =
             snd_mixer_poll_descriptors_revents(args.a1, args.a2, args.a3, args.a4);
-            break;
-        }
-        #endif
-        #ifndef skip_index_snd_mixer_remove_elem
-        case snd_mixer_remove_elem_INDEX: {
-            INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *unpacked = (INDEXED_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ *)packed;
-            ARGS_int_snd_mixer_t___GENPT___snd_mixer_elem_t___GENPT__ args = unpacked->args;
-            int *ret = (int *)ret_v;
-            *ret =
-            snd_mixer_remove_elem(args.a1, args.a2);
             break;
         }
         #endif

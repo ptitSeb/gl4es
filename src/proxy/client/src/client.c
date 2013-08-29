@@ -8919,17 +8919,6 @@ int snd_midi_event_resize_buffer(snd_midi_event_t * dev, size_t bufsize) {
     return ret;
 }
 #endif
-#ifndef skip_client_snd_mixer_add_elem
-int snd_mixer_add_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
-    snd_mixer_add_elem_INDEXED packed_data;
-    packed_data.func = snd_mixer_add_elem_INDEX;
-    packed_data.args.a1 = (snd_mixer_t *)mixer;
-    packed_data.args.a2 = (snd_mixer_elem_t *)elem;
-    int ret;
-    syscall(SYS_proxy, (void *)&packed_data, &ret);
-    return ret;
-}
-#endif
 #ifndef skip_client_snd_mixer_attach
 int snd_mixer_attach(snd_mixer_t * mixer, const char * name) {
     snd_mixer_attach_INDEXED packed_data;
@@ -9395,17 +9384,6 @@ int snd_mixer_poll_descriptors_revents(snd_mixer_t * mixer, struct pollfd * pfds
     packed_data.args.a2 = (struct pollfd *)pfds;
     packed_data.args.a3 = (unsigned int)nfds;
     packed_data.args.a4 = (unsigned short *)revents;
-    int ret;
-    syscall(SYS_proxy, (void *)&packed_data, &ret);
-    return ret;
-}
-#endif
-#ifndef skip_client_snd_mixer_remove_elem
-int snd_mixer_remove_elem(snd_mixer_t * mixer, snd_mixer_elem_t * elem) {
-    snd_mixer_remove_elem_INDEXED packed_data;
-    packed_data.func = snd_mixer_remove_elem_INDEX;
-    packed_data.args.a1 = (snd_mixer_t *)mixer;
-    packed_data.args.a2 = (snd_mixer_elem_t *)elem;
     int ret;
     syscall(SYS_proxy, (void *)&packed_data, &ret);
     return ret;
