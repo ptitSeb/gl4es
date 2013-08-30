@@ -147,7 +147,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     LOAD_GLES(glTexSubImage2D);
 
     switch (target) {
-        case GL_PROXY_TEXTURE_1D:
         case GL_PROXY_TEXTURE_2D:
             break;
         default: {

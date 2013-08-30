@@ -46,6 +46,10 @@ static inline GLenum map_tex_target(GLenum target) {
         case GL_TEXTURE_RECTANGLE_ARB:
             target = GL_TEXTURE_2D;
             break;
+        case GL_PROXY_TEXTURE_1D:
+        case GL_PROXY_TEXTURE_3D:
+            target = GL_PROXY_TEXTURE_2D;
+            break;
     }
     return target;
 }

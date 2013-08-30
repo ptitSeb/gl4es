@@ -7,6 +7,7 @@
 #define GL_TEXTURE_ENV_MODE         0x2200
 #define GL_TEXTURE_1D               0x0DE0
 #define GL_TEXTURE_2D               0x0DE1
+#define GL_TEXTURE_3D               0x806F
 #define GL_TEXTURE_WRAP_S           0x2802
 #define GL_TEXTURE_WRAP_T           0x2803
 #define GL_TEXTURE_MAG_FILTER       0x2800
@@ -48,6 +49,7 @@
 #define GL_TEXTURE_GEN_Q            0x0C63
 #define GL_PROXY_TEXTURE_1D         0x8063
 #define GL_PROXY_TEXTURE_2D         0x8064
+#define GL_PROXY_TEXTURE_3D         0x8070
 
 // GL_ARB_texture_rectangle
 #define GL_TEXTURE_RECTANGLE_ARB          0x84F5
