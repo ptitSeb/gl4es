@@ -177,6 +177,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
     LOAD_GLES(glTexSubImage2D);
+    target = map_tex_target(target);
     const GLvoid *pixels = swizzle_texture(width, height, &format, &type, data);
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
                          width, height, format, type, pixels);
