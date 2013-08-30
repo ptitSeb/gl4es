@@ -185,6 +185,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
         free((GLvoid *)pixels);
 }
 
+// 1d stubs
 void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
@@ -192,6 +193,30 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
     // TODO: maybe too naive to force GL_TEXTURE_2D here?
     glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, 1,
                  border, format, type, data);
+}
+void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                     GLsizei width, GLenum format, GLenum type,
+                     const GLvoid *data) {
+
+    glTexSubImage2D(target, level, xoffset, yoffset,
+                    width, 1, format, type, data);
+}
+
+// 3d stubs
+void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
+                  GLsizei width, GLsizei height, GLsizei depth, GLint border,
+                  GLenum format, GLenum type, const GLvoid *data) {
+
+    // TODO: maybe too naive to force GL_TEXTURE_2D here?
+    glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, height,
+                 border, format, type, data);
+}
+void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                     GLsizei width, GLsizei height, GLsizei depth, GLenum format,
+                     GLenum type, const GLvoid *data) {
+
+    glTexSubImage2D(target, level, xoffset, yoffset,
+                    width, height, format, type, data);
 }
 
 void glPixelStorei(GLenum pname, GLint param) {

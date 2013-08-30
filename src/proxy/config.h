@@ -119,9 +119,6 @@
 #define skip_index_glResetMinmax
 #define skip_index_glSecondaryColorPointer
 #define skip_index_glSeparableFilter2D
-#define skip_index_glTexImage3D
-#define skip_index_glTexSubImage1D
-#define skip_index_glTexSubImage3D
 #define skip_index_glUnmapBuffer
 #define skip_index_glWindowPos2d
 #define skip_index_glWindowPos2dv

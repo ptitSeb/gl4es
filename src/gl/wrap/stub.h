@@ -29,6 +29,5 @@ void glPopName();
 void glPushName();
 void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
-void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data);
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 void glSelectBuffer(GLsizei size, GLuint *buffer);

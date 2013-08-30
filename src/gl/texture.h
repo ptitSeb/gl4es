@@ -11,6 +11,10 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLint border,
                   GLenum format, GLenum type, const GLvoid *data);
 
+void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
+                  GLsizei width, GLsizei height, GLsizei depth,
+                  GLint border, GLenum format, GLenum type, const GLvoid *data);
+
 void glBindTexture(GLenum target, GLuint texture);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
@@ -38,6 +42,7 @@ KHASH_MAP_INIT_INT(tex, gltexture_t *)
 static inline GLenum map_tex_target(GLenum target) {
     switch (target) {
         case GL_TEXTURE_1D:
+        case GL_TEXTURE_3D:
         case GL_TEXTURE_RECTANGLE_ARB:
             target = GL_TEXTURE_2D;
             break;
