@@ -57,9 +57,9 @@
 #define skip_index_glGetPixelMapuiv
 #define skip_index_glGetPixelMapusv
 #define skip_index_glGetPolygonStipple
+#define skip_index_glGetQueryiv
 #define skip_index_glGetQueryObjectiv
 #define skip_index_glGetQueryObjectuiv
-#define skip_index_glGetQueryiv
 #define skip_index_glGetSeparableFilter
 #define skip_index_glGetTexGendv
 #define skip_index_glGetTexGenfv
@@ -73,8 +73,6 @@
 #define skip_index_glMapBuffer
 #define skip_index_glMaterialiv
 #define skip_index_glMinmax
-#define skip_index_glMultTransposeMatrixd
-#define skip_index_glMultTransposeMatrixf
 #define skip_index_glMultiDrawArrays
 #define skip_index_glMultiDrawElements
 #define skip_index_glMultiTexCoord1d
@@ -107,6 +105,8 @@
 #define skip_index_glMultiTexCoord4iv
 #define skip_index_glMultiTexCoord4s
 #define skip_index_glMultiTexCoord4sv
+#define skip_index_glMultTransposeMatrixd
+#define skip_index_glMultTransposeMatrixf
 #define skip_index_glPassThrough
 #define skip_index_glPixelMapfv
 #define skip_index_glPixelMapuiv
@@ -119,6 +119,7 @@
 #define skip_index_glResetMinmax
 #define skip_index_glSecondaryColorPointer
 #define skip_index_glSeparableFilter2D
+#define skip_index_glTexImage3D
 #define skip_index_glTexSubImage1D
 #define skip_index_glTexSubImage3D
 #define skip_index_glUnmapBuffer
