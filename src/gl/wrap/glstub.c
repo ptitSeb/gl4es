@@ -72,7 +72,6 @@ STUB(void glPopName())
 STUB(void glPushName())
 STUB(void glReadBuffer(GLenum mode))
 STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b))
-STUB(void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data))
 
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer))
