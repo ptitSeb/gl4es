@@ -121,6 +121,13 @@ void *glXGetProcAddressARB(const char *name) {
     THUNK(f, GLfloat);
     #undef THUNK
 
+#ifdef USE_ES2
+    EX(glCompileShaderARB);
+    EX(glCreateShaderObjectARB);
+    EX(glGetObjectParameterivARB);
+    EX(glShaderSourceARB);
+#endif
+
     // functions we actually define
     EX(glActiveTextureARB);
     EX(glArrayElement);

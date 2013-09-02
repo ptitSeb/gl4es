@@ -10,6 +10,21 @@
 
 // naive wrappers
 
+#ifdef USE_ES2
+void glCompileShaderARB(GLuint shader) {
+    glCompileShader(shader);
+}
+GLuint glCreateShaderObjectARB(GLenum shaderType) {
+    return glCreateShader(shaderType);
+}
+void glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) {
+    glShaderSource(shader, count, string, length);
+}
+void glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params) {
+    glGetShaderiv(shader, pname, params);
+}
+#endif
+
 void glActiveTextureARB(GLenum texture) {
     glActiveTexture(texture);
 }

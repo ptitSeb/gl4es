@@ -5,6 +5,13 @@
 #define GL_WRAP_H
 
 // misc naive wrappers
+#ifdef USE_ES2
+void glCompileShaderARB(GLuint shader);
+GLuint glCreateShaderObjectARB(GLenum shaderType);
+void glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params);
+void glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length);
+#endif
+
 void glActiveTextureARB(GLenum texture);
 void glClearDepth(GLdouble depth);
 void glClientActiveTextureARB(GLenum texture);
