@@ -244,6 +244,7 @@ void glTexCoordPointer(GLint size, GLenum type,
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
 #undef clone_gl_pointer
+#endif
 
 void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     uintptr_t ptr = (uintptr_t)pointer;
@@ -333,7 +334,6 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     if (vert)
         glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
 }
-#endif
 
 // immediate mode functions
 

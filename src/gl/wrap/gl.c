@@ -16,11 +16,9 @@ void glActiveTextureARB(GLenum texture) {
 void glClearDepth(GLdouble depth) {
     glClearDepthf(depth);
 }
-#ifndef USE_ES2
 void glClientActiveTextureARB(GLenum texture) {
     glClientActiveTexture(texture);
 }
-#endif
 void glClipPlane(GLenum plane, const GLdouble *equation) {
     constDoubleToFloat(equation, 4);
     glClipPlanef(plane, s);
@@ -89,7 +87,6 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
         }
     }
 }
-#ifndef USE_ES2
 void glLightModeli(GLenum pname, GLint param) {
     glLightModelf(pname, param);
 }
@@ -100,6 +97,7 @@ void glLightModeliv(GLenum pname, GLint *iparams) {
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
+            glLightModelfv(pname, params);
             break;
         }
         case GL_LIGHT_MODEL_LOCAL_VIEWER:
@@ -108,9 +106,7 @@ void glLightModeliv(GLenum pname, GLint *iparams) {
             break;
         }
     }
-    // glLightModelfv(pname, params);
 }
-#endif
 void glMateriali(GLenum face, GLenum pname, GLint param) {
     glMaterialf(face, pname, param);
 }
