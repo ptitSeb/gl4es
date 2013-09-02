@@ -178,11 +178,12 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glInitNames);
     EX(glInterleavedArrays);
     EX(glIsList);
+#ifndef USE_ES2
     EX(glLighti);
     EX(glLightiv);
     EX(glLightModeli);
-    EX(glLightModeli);
     EX(glLightModeliv);
+#endif
     EX(glLineStipple);
     EX(glListBase);
     EX(glLoadMatrixd);
