@@ -13,6 +13,16 @@
 #ifdef USE_ES2
 void glCompileShaderARB(GLuint shader) {
     glCompileShader(shader);
+    GLint status;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE) {
+        GLint log_length;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
+        GLchar *log = malloc(sizeof(GLchar) * log_length);
+        glGetShaderInfoLog(shader, log_length, NULL, log);
+        printf("Shader compile failed: %s\n", log);
+        free(log);
+    }
 }
 GLuint glCreateShaderObjectARB(GLenum shaderType) {
     return glCreateShader(shaderType);

@@ -299,3 +299,21 @@
 #define GL_POLYGON_OFFSET_UNITS  0x2A00
 #define GL_POLYGON_OFFSET_POINT  0x2A01
 #define GL_POLYGON_OFFSET_LINE   0x2A02
+
+/* Shader Source */
+#define GL_COMPILE_STATUS                 0x8B81
+#define GL_INFO_LOG_LENGTH                0x8B84
+#define GL_SHADER_SOURCE_LENGTH           0x8B88
+#define GL_SHADER_COMPILER                0x8DFA
+
+/* Shader Binary */
+#define GL_SHADER_BINARY_FORMATS          0x8DF8
+#define GL_NUM_SHADER_BINARY_FORMATS      0x8DF9
+
+/* Shader Precision-Specified Types */
+#define GL_LOW_FLOAT                      0x8DF0
+#define GL_MEDIUM_FLOAT                   0x8DF1
+#define GL_HIGH_FLOAT                     0x8DF2
+#define GL_LOW_INT                        0x8DF3
+#define GL_MEDIUM_INT                     0x8DF4
+#define GL_HIGH_INT                       0x8DF5
