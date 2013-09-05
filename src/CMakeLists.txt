@@ -34,12 +34,7 @@ if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
     set_target_properties(GL_static PROPERTIES SUFFIX ".so.1")
     set_target_properties(GL2 PROPERTIES SUFFIX ".so.1")
-else()
-    set_target_properties(GL PROPERTIES SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
-
-get_target_property(GL_SUFFIX GL SUFFIX)
-set(GL_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libGL${GL_SUFFIX})
 
 aux_source_directory(preload PRELOAD_SOURCES)
 add_library(preload SHARED ${PRELOAD_SOURCES})

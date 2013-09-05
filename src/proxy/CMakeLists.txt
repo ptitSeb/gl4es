@@ -1,6 +1,6 @@
 aux_source_directory(host HOST_SOURCES)
 add_library(proxyhost SHARED ${HOST_SOURCES})
-target_link_libraries(proxyhost ${GL_LIBRARY} asound)
+target_link_libraries(proxyhost GL asound)
 
 add_library(proxyhost_static STATIC ${HOST_SOURCES})
 set_target_properties(proxyhost_static PROPERTIES OUTPUT_NAME proxyhost)
