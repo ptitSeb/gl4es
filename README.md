@@ -8,11 +8,11 @@ This is a shim providing OpenGL 1.x functionality to OpenGL ES accelerated cards
 Compiling
 ----
 
-    cmake .; make
+    cmake .; make GL
 
 *or for the Raspberry Pi*
 
-    cmake . -DBCMHOST=1; make
+    cmake . -DBCMHOST=1; make GL
 
 ----
 
