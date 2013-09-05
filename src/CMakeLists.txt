@@ -15,9 +15,9 @@ target_link_libraries(GL EGL)
 add_library(GL_static STATIC ${GL_SOURCES})
 set_target_properties(GL_static PROPERTIES OUTPUT_NAME GL)
 
-add_library(GL2 SHARED ${GL_SOURCES})
+add_library(GL2 SHARED EXCLUDE_FROM_ALL ${GL_SOURCES})
 target_link_libraries(GL2 EGL)
-SET_TARGET_PROPERTIES(GL2 PROPERTIES COMPILE_FLAGS -DUSE_ES2)
+set_target_properties(GL2 PROPERTIES COMPILE_FLAGS -DUSE_ES2)
 
 if(BCMHOST)
     set(PI_LIBS bcm_host vcos pthread)

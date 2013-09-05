@@ -1,5 +1,5 @@
 aux_source_directory(src CLIENT_SOURCES)
-add_library(proxyclient SHARED ${CLIENT_SOURCES})
+add_library(proxyclient SHARED EXCLUDE_FROM_ALL ${CLIENT_SOURCES})
 include_directories(.)
 
 set_target_properties(proxyclient PROPERTIES
