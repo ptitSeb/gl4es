@@ -28,4 +28,4 @@ You probably want the glu branch from https://github.com/lunixbochs/glues
 Installation
 ----
 
-Put src/libGL.so.1 in your `LD_LIBRARY_PATH`. If you need GLU, build libGLU.so.1 from the glues repo and do likewise.
+Put lib/libGL.so.1 in your `LD_LIBRARY_PATH`. If you need GLU, build libGLU.so.1 from the glues repo and do likewise.
