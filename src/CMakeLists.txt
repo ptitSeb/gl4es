@@ -32,7 +32,6 @@ endif()
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
-    set_target_properties(GL_static PROPERTIES SUFFIX ".so.1")
     set_target_properties(GL2 PROPERTIES SUFFIX ".so.1")
 endif()
 
