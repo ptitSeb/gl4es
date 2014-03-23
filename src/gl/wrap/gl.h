@@ -26,10 +26,13 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams);
 void glLightModeli(GLenum pname, GLint param);
 void glLightModeliv(GLenum pname, GLint *iparams);
 void glMateriali(GLenum face, GLenum pname, GLint param);
-void glMaterialiv(GLenum face, GLenum pname, GLint param);
+void glMaterialiv(GLenum face, GLenum pname, GLint *param);
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t);
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
-
+void glGetMaterialiv(GLenum face, GLenum pname, GLint * params);
+void glGetLightiv(GLenum light, GLenum pname, GLint * params);
+void glGetClipPlane(GLenum plane, GLdouble *equation);
+	
 // color
 void glColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glColor3fv(GLfloat *c);
@@ -44,6 +47,12 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
 void glRasterPos3fv(const GLfloat *v);
 void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 void glRasterPos4fv(const GLfloat *v);
+
+void glPixelStoref(GLenum pname, GLfloat param);
+void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params);
+void glGetTexGeniv(GLenum coord,GLenum pname,GLint *params);
+void glPixelTransferi(GLenum pname, GLint param);
+void glPixelTransferf(GLenum pname, GLfloat param);	
 
 // eval
 void glEvalCoord1d(GLdouble u);
@@ -81,6 +90,14 @@ void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r);
 void glTexCoord3fv(GLfloat *t);
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glTexCoord4fv(GLfloat *t);
+
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glMultiTexCoord2fv(GLenum target, GLfloat *t);
+void glMultiTexCoord4fv(GLenum target, GLfloat *t);
+void glMultiTexCoord2fvARB(GLenum target, GLfloat *t);
+void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t);
+void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glMultiTexCoord4fvARB(GLenum target, GLfloat *t);
 
 // texgen
 void glTexGend(GLenum coord, GLenum pname, GLdouble param);
@@ -159,6 +176,7 @@ THUNK(us, GLushort)
 
 THUNK(Double, GLdouble)
 THUNK(Integer, GLint)
+THUNK(Float, GLfloat)
 #undef THUNK
 
 #endif

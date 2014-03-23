@@ -1,5 +1,6 @@
 #define SYS_proxy 9999
 #define MAX_EVAL_ORDER 30
+#define MAX_TEX 8
 
 // don't auto-wrap these functions
 #define skip_glColor4ub
@@ -14,6 +15,8 @@
 #define skip_glMaterialfv
 #define skip_glNormal3f
 
+#define skip_glGetFloatv
+
 // light.c
 #define skip_glLightModelf
 
@@ -27,7 +30,9 @@
 #define skip_glTexImage2D
 #define skip_glTexParameteri
 #define skip_glTexSubImage2D
-
+#define skip_glActiveTexture
+#define skip_glClientActiveTexture
+#define skip_glMultiTexCoord4f
 // glDrawArrays
 #define skip_glDrawArrays
 #define skip_glDrawElements

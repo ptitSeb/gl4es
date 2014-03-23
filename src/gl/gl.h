@@ -32,7 +32,7 @@
 #define GLdouble double
 
 // will become a reference to dlopen'd gles
-void *gles;
+extern void *gles;
 
 #ifndef GLES_LIB
 #ifdef USE_ES2
@@ -59,6 +59,17 @@ void *gles;
         WARN_NULL(gles_##name);                                     \
     }
 
+#define LOAD_GLES_OES(name)                                         \
+    static name##_PTR gles_##name;                                  \
+    if (gles_##name == NULL) {                                      \
+	    if (gles == NULL) {                                         \
+	        gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
+	        WARN_NULL(gles);                                        \
+	    }                                                           \
+	    gles_##name = (name##_PTR)eglGetProcAddress(#name"OES");          \
+	    WARN_NULL(gles_##name);                                     \
+    }
+	
 #define GL_TYPE_CASE(name, var, magic, type, code) \
     case magic: {                                  \
         type *name = (type *)var;                  \
@@ -66,6 +77,14 @@ void *gles;
         break;                                     \
     }
 
+#define GL_TYPE_CASE_MAX(name, var, magic, type, code, max) \
+    case magic: {                                  \
+	    type *name = (type *)var;                  \
+		type maxv = max;						   \
+	    code                                       \
+	    break;                                     \
+    }
+	
 #define GL_TYPE_SWITCH(name, var, type, code, extra)               \
     switch (type) {                                                \
         GL_TYPE_CASE(name, var, GL_DOUBLE, GLdouble, code)         \
@@ -78,6 +97,18 @@ void *gles;
         extra                                                      \
     }
 
+#define GL_TYPE_SWITCH_MAX(name, var, type, code, extra)               \
+    switch (type) {                                                \
+	    GL_TYPE_CASE_MAX(name, var, GL_DOUBLE, GLdouble, code, 1.0d)         \
+	    GL_TYPE_CASE_MAX(name, var, GL_FLOAT, GLfloat, code, 1.0f)           \
+	    GL_TYPE_CASE_MAX(name, var, GL_INT, GLint, code, 2147483647l)               \
+	    GL_TYPE_CASE_MAX(name, var, GL_SHORT, GLshort, code, 32767)           \
+	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_BYTE, GLubyte, code, 255)   \
+	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_INT, GLuint, code, 4294967295l)     \
+	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_SHORT, GLushort, code, 65535) \
+		extra                                                      \
+    }
+	
 #define PUSH_IF_COMPILING_EXT(name, ...)             \
     if (state.list.compiling && state.list.active) { \
         push_##name(__VA_ARGS__);                    \
@@ -103,6 +134,7 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_3_BYTES:
             return 3;
         case GL_LUMINANCE_ALPHA:
+        case GL_SHORT:
         case GL_UNSIGNED_SHORT:
         case GL_UNSIGNED_SHORT_1_5_5_5_REV:
         case GL_UNSIGNED_SHORT_4_4_4_4:
@@ -112,6 +144,7 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_UNSIGNED_SHORT_5_6_5_REV:
         case GL_2_BYTES:
             return 2;
+		case GL_ALPHA:
         case GL_LUMINANCE:
         case GL_UNSIGNED_BYTE:
         case GL_UNSIGNED_BYTE_2_3_3_REV:

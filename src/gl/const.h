@@ -251,6 +251,8 @@
 #define GL_AUX_BUFFERS           0x0C00
 #define GL_MAX_ELEMENTS_VERTICES 0x80E8
 #define GL_MAX_ELEMENTS_INDICES  0x80E9
+#define GL_POINT_SIZE_RANGE		 0x0B12
+
 
 // evaluators
 #define GL_AUTO_NORMAL           0x0D80

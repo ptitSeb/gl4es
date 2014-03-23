@@ -21,6 +21,10 @@ static const colorlayout_t *get_color_map(GLenum format) {
     #undef map
 }
 
+extern int raster_need_transform();
+GLfloat raster_transformf(GLfloat pix, GLubyte number);
+GLubyte raster_transform(GLubyte pix, GLubyte number);
+
 static inline
 bool remap_pixel(const GLvoid *src, GLvoid *dst,
                  const colorlayout_t *src_color, GLenum src_type,
@@ -77,6 +81,12 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             return false;
             break;
     }
+	if (raster_need_transform()) {
+		pixel.r=raster_transformf(pixel.r, 0);
+		pixel.g=raster_transformf(pixel.g, 1);
+		pixel.b=raster_transformf(pixel.b, 2);
+		pixel.a=raster_transformf(pixel.a, 3);
+	}
 
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
@@ -120,18 +130,27 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         || !src_color->type || !dst_color->type)
         return false;
 
+	GLvoid *dst2;
     if (src_type == dst_type && src_color->type == dst_color->type) {
         if (*dst != src) {
             *dst = malloc(dst_size);
             memcpy(*dst, src, dst_size);
+			if ((raster_need_transform()) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE)) {
+				for (int aa=0; aa<dst_size; aa++)
+					((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%4);
+			}
+			if (raster_need_transform() && (dst_format==GL_RGB) && (dst_type==GL_UNSIGNED_BYTE)) {
+				for (int aa=0; aa<dst_size; aa++)
+					((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%3);
+			}
             return true;
         }
     } else {
         GLsizei src_stride = pixel_sizeof(src_format, src_type);
         GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
-        *dst = malloc(dst_size);
+        dst2 = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
-        uintptr_t dst_pos = (uintptr_t)*dst;
+        uintptr_t dst_pos = (uintptr_t)dst2;
         for (int i = 0; i < pixels; i++) {
             if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
                               src_color, src_type, dst_color, dst_type)) {
@@ -142,6 +161,10 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
+/*		if (*dst == src) {
+			free(src);
+		}*/
+		*dst = dst2;
         return true;
     }
     return false;

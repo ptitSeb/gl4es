@@ -76,13 +76,54 @@ void glFogiv(GLenum pname, GLint *iparams) {
         }
     }
 }
+void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params) {
+	GLfloat fparams[4];
+	glGetTexGenfv(coord, pname, fparams);
+	if (pname==GL_TEXTURE_GEN_MODE) *params=fparams[0];
+	else for (int i=0; i<4; i++) params[i]=fparams[i];
+}
+void glGetTexGeniv(GLenum coord,GLenum pname,GLint *params) {
+	GLfloat fparams[4];
+	glGetTexGenfv(coord, pname, fparams);
+	if (pname==GL_TEXTURE_GEN_MODE) *params=fparams[0];
+	else for (int i=0; i<4; i++) params[i]=fparams[i];
+}
+void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
+	GLfloat fparams[4];
+	glGetMaterialfv(face, pname, fparams);
+	if (pname==GL_SHININESS) *params=fparams[0];
+	else for (int i=0; i<4; i++) params[i]=fparams[i];
+}
+void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
+	GLfloat fparams[4];
+	glGetLightfv(light, pname, fparams);
+	int n=4;
+	if (pname==GL_SPOT_EXPONENT) n=1;
+	if (pname==GL_SPOT_CUTOFF) n=1;
+	if (pname==GL_SPOT_EXPONENT) n=1;
+	if (pname==GL_SPOT_DIRECTION) n=3;
+	else for (int i=0; i<n; i++) params[i]=fparams[i];
+}
+void glGetClipPlane(GLenum plane, GLdouble *equation) {
+	GLfloat fparams[4];
+	glGetClipPlanef(plane, fparams);
+	for (int i=0; i<4; i++) equation[i]=fparams[i];
+}
+
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glFrustumf(left, right, bottom, top, near, far);
 }
+void glPixelStoref(GLenum pname, GLfloat param) {
+    glPixelStorei(pname, param);
+}
 void glLighti(GLenum light, GLenum pname, GLint param) {
     glLightf(light, pname, param);
 }
+void glPixelTransferi(GLenum pname, GLint param) {
+	glPixelTransferf(pname, param);	
+}
+
 void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
     switch (pname) {
         case GL_AMBIENT:
@@ -97,7 +138,7 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
             break;
         }
         case GL_SPOT_DIRECTION: {
-            GLfloat params[3];
+            GLfloat params[4];
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
@@ -139,9 +180,72 @@ void glLightModeliv(GLenum pname, GLint *iparams) {
 void glMateriali(GLenum face, GLenum pname, GLint param) {
     glMaterialf(face, pname, param);
 }
-void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
-    glMultiTexCoord4f(target, s, t, 0.0f, 0.0f);
+void glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
+    switch (pname) {
+        case GL_AMBIENT: 
+		case GL_DIFFUSE:
+		case GL_SPECULAR:
+		case GL_EMISSION:
+		{
+            GLfloat params[4];
+            for (int i = 0; i < 4; i++) {
+                params[i] = iparams[i];	// should divide by MAX_INT
+            }
+            glMaterialfv(face, pname, params);
+            break;
+        }
+		case GL_SHININESS:
+		{
+            GLfloat params[2];
+            for (int i = 0; i < 2; i++) {
+                params[i] = iparams[i];
+            }
+            glMaterialfv(face, pname, params);
+            break;
+        }
+        case GL_AMBIENT_AND_DIFFUSE: {
+            glMaterialf(face, pname, *iparams);
+            break;
+        }
+		case GL_COLOR_INDEXES:
+		{
+            GLfloat params[3];
+            for (int i = 0; i < 3; i++) {
+                params[i] = iparams[i];
+            }
+            glMaterialfv(face, pname, params);
+            break;
+        }
+    }
 }
+/*
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
+    glMultiTexCoord4f(target, s, t, 0.0f, 1.0f);
+}
+*/
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+     glMultiTexCoord2f(target, s, t);
+}
+void glMultiTexCoord2fv(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
+}
+void glMultiTexCoord4fv(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
+}
+void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
+}
+void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
+     glMultiTexCoord2f(target, s, t);
+}
+void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+     glMultiTexCoord2f(target, s, t);
+}
+void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
+}
+
+
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
     glOrthof(left, right, bottom, top, near, far);
@@ -179,6 +283,7 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
         glVertex2##suffix(x2, y1);                            \
         glVertex2##suffix(x2, y2);                            \
         glVertex2##suffix(x1, y2);                            \
+		glEnd();											  \
     }                                                         \
     void glRect##suffix##v(const type *v) {                   \
         glRect##suffix(v[0], v[1], v[2], v[3]);               \
@@ -300,7 +405,6 @@ THUNK(us, GLushort, (float)USHRT_MAX)
 
 #undef THUNK
 
-// glGet
 
 #define THUNK(suffix, type)                              \
 void glGet##suffix##v(GLenum pname, type *params) {      \
@@ -343,7 +447,7 @@ void glGet##suffix##v(GLenum pname, type *params) {      \
             break;                                       \
     }                                                    \
     GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n); \
-    glGetFloatv(pname, p);                               \
+    glGetFloatv(pname, p);		                         \
     for (i = 0; i < n; i++) {                            \
         params[i] = (type)p[i];                          \
     }                                                    \
@@ -351,7 +455,8 @@ void glGet##suffix##v(GLenum pname, type *params) {      \
 }
 
 THUNK(Double, GLdouble)
-// THUNK(Integer, GLint)
+//THUNK(Integer, GLint)
+//THUNK(Float, GLfloat)
 
 #undef THUNK
 

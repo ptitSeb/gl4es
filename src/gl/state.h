@@ -11,11 +11,11 @@ typedef struct {
               blend,
               color_array,
               normal_array,
-              tex_coord_array,
-              texgen_s,
-              texgen_t,
-              texture_2d,
-              vertex_array;
+              vertex_array,
+              tex_coord_array[MAX_TEX],
+              texgen_s[MAX_TEX],
+              texgen_t[MAX_TEX],
+              texture_2d[MAX_TEX];
 } enable_state_t;
 
 
@@ -32,9 +32,11 @@ typedef struct {
            unpack_skip_rows;
     GLboolean unpack_lsb_first;
     // TODO: do we only need to worry about GL_TEXTURE_2D?
-    GLboolean rect_arb;
-    gltexture_t *bound;
+    GLboolean rect_arb[MAX_TEX];
+    gltexture_t *bound[MAX_TEX];
     khash_t(tex) *list;
+    GLuint active;	// active texture
+	GLuint client;	// client active texture
 } texture_state_t;
 
 
@@ -46,7 +48,7 @@ typedef struct {
 } pointer_state_t;
 
 typedef struct {
-    pointer_state_t vertex, color, normal, tex_coord;
+    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX];
 } pointer_states_t;
 
 
@@ -84,7 +86,7 @@ typedef struct {
     map_states_t map1, map2;
     pointer_states_t pointers;
     renderlist_t **lists;
-    texgen_state_t texgen;
+    texgen_state_t texgen[MAX_TEX];
     texture_state_t texture;
     GLfloat color[4];
 } glstate_t;

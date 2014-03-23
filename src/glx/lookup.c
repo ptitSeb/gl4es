@@ -199,6 +199,13 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glMapGrid2f);
     EX(glMateriali);
     EX(glMultiTexCoord2f);
+    ARB(glMultiTexCoord2f);
+    EX(glMultiTexCoord4f);
+    ARB(glMultiTexCoord2f);
+    EX(glMultiTexCoord2fv);
+    ARB(glMultiTexCoord2fv);
+    EX(glMultiTexCoord4fv);
+    ARB(glMultiTexCoord2fv);
     EX(glMultMatrixd);
     EX(glNewList);
     EX(glOrtho);

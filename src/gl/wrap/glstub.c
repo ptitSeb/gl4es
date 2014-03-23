@@ -45,7 +45,7 @@ STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
 // STUB(void glVertexAttrib());
 STUB(GLint glRenderMode(GLenum mode))
 #ifndef USE_ES2
-STUB(void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha))
+//STUB(void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha))
 #endif
 STUB(void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha))
 #ifndef USE_ES2
@@ -63,9 +63,9 @@ STUB(void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLi
 STUB(void glIndexf(GLfloat c))
 STUB(void glInitNames())
 STUB(void glLoadName(GLuint name))
-STUB(void glPixelTransferf(GLenum pname, GLfloat param))
-STUB(void glPixelTransferi(GLenum pname, GLint param))
-STUB(void glPixelZoom(GLfloat xfactor, GLfloat yfactor))
+//STUB(void glPixelTransferf(GLenum pname, GLfloat param))
+//STUB(void glPixelTransferi(GLenum pname, GLint param))
+//STUB(void glPixelZoom(GLfloat xfactor, GLfloat yfactor))
 STUB(void glPolygonMode(GLenum face, GLenum mode))
 STUB(void glPolygonStipple(const GLubyte *mask))
 STUB(void glPopName())
@@ -75,5 +75,20 @@ STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b))
 
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 STUB(void glSelectBuffer(GLsizei size, GLuint *buffer))
+
+STUB(void glAccum(GLenum op, GLfloat value))
+STUB(void glPrioritizeTextures(GLsizei n, const GLuint *textures, const GLclampf *priorities))
+STUB(void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values))
+STUB(void glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values))
+STUB(void glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values))
+STUB(void glPassThrough(GLfloat token))
+STUB(void glIndexMask(GLuint mask))
+STUB(void glGetPixelMapfv(GLenum map, GLfloat *data))
+STUB(void glGetPixelMapuiv(GLenum map, GLuint *data))
+STUB(void glGetPixelMapusv(GLenum map, GLushort *data))
+STUB(void glClearIndex(GLfloat c))
+STUB(void glGetPolygonStipple(GLubyte *pattern))
+STUB(void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat *buffer))
+STUB(void glEdgeFlagv(GLboolean *flag))
 
 #undef STUB

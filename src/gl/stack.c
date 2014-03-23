@@ -4,6 +4,10 @@ glstack_t *stack = NULL;
 glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
+/*    if (state.list.compiling && state.list.active) {
+		rlPushAttrib(mask);
+		return;
+	}*/
     if (stack == NULL) {
         stack = (glstack_t *)malloc(STACK_SIZE * sizeof(glstack_t));
         stack->len = 0;
@@ -89,7 +93,13 @@ void glPushAttrib(GLbitfield mask) {
         cur->sample_coverage = glIsEnabled(GL_SAMPLE_COVERAGE);
         cur->scissor_test = glIsEnabled(GL_SCISSOR_TEST);
         cur->stencil_test = glIsEnabled(GL_STENCIL_TEST);
-        cur->texture_2d = glIsEnabled(GL_TEXTURE_2D);
+        int a;
+        int old_tex=state.texture.active;
+        for (a=0; a<MAX_TEX; a++) {
+            glActiveTexture(GL_TEXTURE0+a);
+            cur->texture_2d[a] = glIsEnabled(GL_TEXTURE_2D);
+        }
+        glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
     // TODO: GL_EVAL_BIT
@@ -147,8 +157,16 @@ void glPushAttrib(GLbitfield mask) {
         cur->sample_coverage = glIsEnabled(GL_SAMPLE_COVERAGE);
     }
 
-    // TODO: GL_PIXEL_MODE_BIT
-
+    // GL_PIXEL_MODE_BIT
+	if (mask & GL_PIXEL_MODE_BIT) {
+		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
+		int i;
+		for (i=0; i<8; i++) 
+			glGetFloatv(pixel_name[i], &cur->pixel_scale_bias[i]);
+		glGetFloatv(GL_ZOOM_X, &cur->pixel_zoomx);
+		glGetFloatv(GL_ZOOM_Y, &cur->pixel_zoomy);
+	}
+	
     if (mask & GL_POINT_BIT) {
         cur->point_smooth = glIsEnabled(GL_POINT_SMOOTH);
         glGetFloatv(GL_POINT_SIZE, &cur->point_size);
@@ -166,10 +184,30 @@ void glPushAttrib(GLbitfield mask) {
 
     // TODO: incomplete
     if (mask & GL_TEXTURE_BIT) {
-        glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture);
+        cur->active=state.texture.active;
+        int a;
+        for (a=0; a<MAX_TEX; a++) {
+            glActiveTexture(GL_TEXTURE0+a);
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture[a]);
+        }
+        glActiveTexture(GL_TEXTURE0+cur->active);
     }
 
-    // TODO: GL_TRANSFORM_BIT
+    // GL_TRANSFORM_BIT
+    if (mask & GL_TRANSFORM_BIT) {
+		if (!(mask & GL_ENABLE_BIT)) {
+			int i;
+			GLint max_clip_planes;
+			glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+			cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
+			for (i = 0; i < max_clip_planes; i++) {
+				*(cur->clip_planes_enabled + i) = glIsEnabled(GL_CLIP_PLANE0 + i);
+			}
+		}
+		glGetIntegerv(GL_MATRIX_MODE, &cur->matrix_mode);
+		cur->rescale_normal_flag = glIsEnabled(GL_RESCALE_NORMAL);
+		cur->normalize_flag = glIsEnabled(GL_NORMALIZE);
+	}
     // TODO: GL_VIEWPORT_BIT
 
     stack->len++;
@@ -200,12 +238,17 @@ void glPushClientAttrib(GLbitfield mask) {
         cur->vert_enable = state.enable.vertex_array;
         cur->color_enable = state.enable.color_array;
         cur->normal_enable = state.enable.normal_array;
-        cur->tex_enable = state.enable.tex_coord_array;
-
+        int a;
+        for (a=0; a<MAX_TEX; a++) {
+           cur->tex_enable[a] = state.enable.tex_coord_array[a];
+        }
         memcpy(&cur->verts, &state.pointers.vertex, sizeof(pointer_state_t));
         memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
         memcpy(&cur->normal, &state.pointers.normal, sizeof(pointer_state_t));
-        memcpy(&cur->tex, &state.pointers.tex_coord, sizeof(pointer_state_t));
+        for (a=0; a<MAX_TEX; a++) {
+           memcpy(&cur->tex[a], &state.pointers.tex_coord[a], sizeof(pointer_state_t));
+        }
+		cur->client = state.texture.client;
     }
 
     clientStack->len++;
@@ -223,6 +266,10 @@ void glPushClientAttrib(GLbitfield mask) {
 #define v4(c) v3(c), c[3]
 
 void glPopAttrib() {
+/*    if (state.list.compiling && state.list.active) {
+		rlPopAttrib();
+		return;
+	}*/
     if (stack == NULL || stack->len == 0)
         return;
 
@@ -296,7 +343,13 @@ void glPopAttrib() {
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
-        enable_disable(GL_TEXTURE_2D, cur->texture_2d);
+        int a;
+        int old_tex = state.texture.active;
+        for (a=0; a<MAX_TEX; a++) {
+            glActiveTexture(GL_TEXTURE0+a);
+            enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
+         }
+         glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
 #ifndef USE_ES2
@@ -344,8 +397,34 @@ void glPopAttrib() {
     }
 
     if (cur->mask & GL_TEXTURE_BIT) {
-        glBindTexture(GL_TEXTURE_2D, cur->texture);
+        int a;
+        for (a=0; a<MAX_TEX; a++) {
+           glActiveTexture(GL_TEXTURE0+a);
+           glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
+        }
+        glActiveTexture(GL_TEXTURE0+cur->active);
     }
+	if (cur->mask & GL_PIXEL_MODE_BIT) {
+		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
+		int i;
+		for (i=0; i<8; i++) 
+			glPixelTransferf(pixel_name[i], cur->pixel_scale_bias[i]);
+		glPixelZoom(cur->pixel_zoomx, cur->pixel_zoomy);
+	}
+
+	if (cur->mask & GL_TRANSFORM_BIT) {
+		if (!(cur->mask & GL_ENABLE_BIT)) {
+			int i;
+			GLint max_clip_planes;
+			glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+			for (i = 0; i < max_clip_planes; i++) {
+				enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
+			}
+		}
+		glMatrixMode(cur->matrix_mode);
+		enable_disable(GL_NORMALIZE, cur->normalize_flag);		
+		enable_disable(GL_RESCALE_NORMAL, cur->rescale_normal_flag);		
+	}
 
     maybe_free(cur->clip_planes_enabled);
     maybe_free(cur->clip_planes);
@@ -376,12 +455,33 @@ void glPopClientAttrib() {
         enable_disable(GL_VERTEX_ARRAY, cur->vert_enable);
         enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
         enable_disable(GL_COLOR_ARRAY, cur->color_enable);
-        enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable);
+        for (int a=0; a<MAX_TEX; a++) {
+		   if (state.enable.tex_coord_array[a] != cur->tex_enable[a]) {
+			   glClientActiveTexture(GL_TEXTURE0+a);
+			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);
+		   }
+        }
 
         memcpy(&state.pointers.vertex, &cur->verts, sizeof(pointer_state_t));
         memcpy(&state.pointers.color, &cur->color, sizeof(pointer_state_t));
         memcpy(&state.pointers.normal, &cur->normal, sizeof(pointer_state_t));
-        memcpy(&state.pointers.tex_coord, &cur->tex, sizeof(pointer_state_t));
+        for (int a=0; a<MAX_TEX; a++)
+           memcpy(&state.pointers.tex_coord[a], &cur->tex[a], sizeof(pointer_state_t));
+
+		LOAD_GLES(glVertexPointer);
+		if (state.pointers.vertex.pointer) gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+		LOAD_GLES(glColorPointer);
+		if (state.pointers.color.pointer) gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+		LOAD_GLES(glNormalPointer);
+		if (state.pointers.normal.pointer) gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+		LOAD_GLES(glTexCoordPointer);
+		for (int a=0; a<MAX_TEX; a++) {
+  		   if (state.pointers.tex_coord[a].pointer) {
+			   glClientActiveTexture(GL_TEXTURE0+a);
+			   gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
+		   }
+        }
+		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
     clientStack->len--;

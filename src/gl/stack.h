@@ -17,7 +17,7 @@ typedef struct {
     GLboolean blend;
     GLint blend_src_func;
     GLint blend_dst_func;
-
+	
     GLboolean dither;
 
     GLboolean color_logic_op;
@@ -34,7 +34,10 @@ typedef struct {
     // TODO: can only fill this via raster.c
     GLfloat raster_pos[3];
     GLboolean raster_valid;
-
+	GLfloat pixel_scale_bias[4+4];
+	GLfloat pixel_zoomx;
+	GLfloat pixel_zoomy;
+	
     // GL_DEPTH_BUFFER_BIT
     GLboolean depth_test;
     GLint depth_func;
@@ -46,7 +49,7 @@ typedef struct {
     GLboolean normalize;
     GLboolean polygon_offset_fill;
     GLboolean stencil_test;
-    GLboolean texture_2d;
+    GLboolean texture_2d[MAX_TEX];
 
     // GL_FOG_BIT
     GLboolean fog;
@@ -99,9 +102,14 @@ typedef struct {
     // TODO: GL_STENCIL_BUFFER_BIT
 
     // GL_TEXTURE_BIT
-    GLint texture;
+    GLint texture[MAX_TEX];
+    GLint active;
 
-    // TODO: GL_TRANSFORM_BIT
+    // GL_TRANSFORM_BIT
+	// with Clip Planes...
+	GLenum matrix_mode;
+	GLboolean normalize_flag;
+	GLboolean rescale_normal_flag;
     // TODO: GL_VIEWPORT_BIT
 
     // dynamically-sized shenanigans
@@ -124,14 +132,15 @@ typedef struct {
     GLuint unpack_skip_rows;
 
     // GL_CLIENT_VERTEX_ARRAY_BIT
+	GLuint client;
     GLboolean vert_enable;
     GLboolean color_enable;
-    GLboolean tex_enable;
+    GLboolean tex_enable[MAX_TEX];
     GLboolean normal_enable;
     pointer_state_t verts;
     pointer_state_t color;
     pointer_state_t normal;
-    pointer_state_t tex;
+    pointer_state_t tex[MAX_TEX];
 
     unsigned int len;
     unsigned int cap;

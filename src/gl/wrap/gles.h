@@ -90,7 +90,7 @@ enum FORMAT {
     FORMAT_void_GLenum_GLenum_GLint,
     FORMAT_void_GLenum_GLenum_const_GLint___GENPT__,
     FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__,
-    FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__,
+    FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
 };
 
 typedef void (*FUNC_void_GLenum)(GLenum texture);
@@ -1212,7 +1212,6 @@ typedef struct {
     int func;
     ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ args;
 } INDEXED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__;
-
 extern void glPushCall(void *data);
 void glPackedCall(const packed_call_t *packed);
 void glIndexedCall(const indexed_call_t *packed, void *ret_v);
@@ -2232,7 +2231,21 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 #define glViewport_PACKED PACKED_void_GLint_GLint_GLsizei_GLsizei
 #define glViewport_INDEXED INDEXED_void_GLint_GLint_GLsizei_GLsizei
 #define glViewport_FORMAT FORMAT_void_GLint_GLint_GLsizei_GLsizei
-
+#define glBlendEquation_INDEX 146
+#define glBlendEquation_RETURN void
+#define glBlendEquation_ARG_NAMES mode
+#define glBlendEquation_ARG_EXPAND GLenum mode
+#define glBlendEquation_PACKED PACKED_void_GLenum
+#define glBlendEquation_INDEXED INDEXED_void_GLenum
+#define glBlendEquation_FORMAT FORMAT_void_GLenum
+#define glBlendEquationSeparate_INDEX 147
+#define glBlendEquationSeparate_RETURN void
+#define glBlendEquationSeparate_ARG_NAMES modeRGB, modeA
+#define glBlendEquationSeparate_ARG_EXPAND GLenum modeRGB, GLenum modeA
+#define glBlendEquationSeparate_PACKED PACKED_void_GLenum_GLenum
+#define glBlendEquationSeparate_INDEXED INDEXED_void_GLenum_GLenum
+#define glBlendEquationSeparate_FORMAT FORMAT_void_GLenum_GLenum
+	
 void glActiveTexture(glActiveTexture_ARG_EXPAND);
 typedef void (*glActiveTexture_PTR)(glActiveTexture_ARG_EXPAND);
 void glAlphaFunc(glAlphaFunc_ARG_EXPAND);
@@ -2523,7 +2536,11 @@ void glVertexPointer(glVertexPointer_ARG_EXPAND);
 typedef void (*glVertexPointer_PTR)(glVertexPointer_ARG_EXPAND);
 void glViewport(glViewport_ARG_EXPAND);
 typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
-
+void glBlendEquation(glBlendEquation_ARG_EXPAND);
+typedef void (*glBlendEquation_PTR)(glBlendEquation_ARG_EXPAND);
+void glBlendEquationSeparate(glBlendEquationSeparate_ARG_EXPAND);
+typedef void (*glBlendEquationSeparate_PTR)(glBlendEquationSeparate_ARG_EXPAND);
+	
 
 
 #ifndef direct_glActiveTexture
@@ -4072,6 +4089,25 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a3 = (GLsizei)width; \
     packed_data->args.a4 = (GLsizei)height; \
     glPushCall((void *)packed_data); \
+}
+#endif
+#ifndef direct_glBlendEquation
+	#define push_glBlendEquation(mode) { \
+	glBlendEquation_PACKED *packed_data = malloc(sizeof(glBlendEquation_PACKED)); \
+	packed_data->format = glBlendEquation_FORMAT; \
+	packed_data->func = glBlendEquation; \
+	packed_data->args.a1 = (GLenum)mode; \
+	glPushCall((void *)packed_data); \
+}
+#endif
+#ifndef direct_glBlendEquationSeparate
+	#define push_glBlendEquationSeparate(modeRGB, modeA) { \
+	glBlendEquationSeparate_PACKED *packed_data = malloc(sizeof(glBlendEquationSeparate_PACKED)); \
+	packed_data->format = glBlendEquationSeparate_FORMAT; \
+	packed_data->func = glBlendEquationSeparate; \
+	packed_data->args.a1 = (GLenum)modeRGB; \
+	packed_data->args.a2 = (GLenum)modeA; \
+	glPushCall((void *)packed_data); \
 }
 #endif
 #endif

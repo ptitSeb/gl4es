@@ -1,4 +1,10 @@
 #include "gl.h"
+#ifndef GL_STENCIL_INDEX
+#define GL_STENCIL_INDEX			0x1901
+#endif
+#ifndef GL_DEPTH_COMPONENT
+#define GL_DEPTH_COMPONENT			0x1902
+#endif
 
 #ifndef RASTER_H
 #define RASTER_H
@@ -24,4 +30,8 @@ extern void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
 extern void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 extern void render_raster();
 
+extern void glPixelZoom(GLfloat xfactor, GLfloat yfactor);
+
+extern void glPixelTransferf(GLenum pname, GLfloat param);
+	
 #endif

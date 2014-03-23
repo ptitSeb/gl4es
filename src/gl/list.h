@@ -17,25 +17,48 @@ typedef struct _call_list_t {
     unsigned long cap;
     packed_call_t **calls;
 } call_list_t;
+/*
+typedef enum _cl_command_t {
+	NONE,	// no command, not used
+	ENABLE,	// glEnable
+	DISABLE, // glDisable
+	PUSHATTRIB,	// glPushAttrib
+	POPATTRIB,	// glPopAttrib
+	LOADIDENTITY,
+	MATRIXMODE,
+	PUSHMATRIX,
+	POPMATRIX,
+	TRANSLATE,
+	ROTATE,
+	SCALE
+} cl_command_t;
 
+typedef struct _call_list_command_t {
+	cl_command_t	command;
+	GLvoid			*pointer;
+	GLenum			mode;
+} call_list_command_t;
+*/
 typedef struct _renderlist_t {
     unsigned long len;
     unsigned long cap;
     GLenum mode;
     GLfloat lastNormal[3];
     GLfloat lastColor[4];
-    GLfloat lastTex[2];
+    GLfloat lastTex[MAX_TEX][2];
 
     call_list_t calls;
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
-    GLfloat *tex;
+    GLfloat *tex[MAX_TEX];
     GLushort *indices;
     GLboolean q2t;
+	
+	//call_list_command_t	*command;
 
     khash_t(material) *material;
-    GLuint texture;
+    GLuint texture[MAX_TEX];
     struct _renderlist_t *prev;
     struct _renderlist_t *next;
     GLboolean open;
@@ -57,6 +80,13 @@ extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GL
 extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);
+extern void rlMultiTexCoord2f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t);
 extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
-
+/*
+// commands on render list
+extern void rlEnable(GLenum mode);
+extern void rlDisable(GLenum mode);
+extern void rlPushAttrib(GLenum mode);
+extern void rlPopAttrib();
+*/
 #endif

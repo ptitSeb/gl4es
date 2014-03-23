@@ -54,4 +54,8 @@ static inline GLenum map_tex_target(GLenum target) {
     return target;
 }
 
+void glActiveTexture( GLenum texture );
+void glClientActiveTexture( GLenum texture );
+void glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
+
 #endif
