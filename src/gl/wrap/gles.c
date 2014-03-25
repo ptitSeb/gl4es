@@ -1,5 +1,457 @@
 #ifndef USE_ES2
 #include "gles.h"
+void glPackedCall(const packed_call_t *packed) {
+    switch (packed->format) {
+        case FORMAT_void_GLenum: {
+            PACKED_void_GLenum *unpacked = (PACKED_void_GLenum *)packed;
+            ARGS_void_GLenum args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLenum_GLclampf: {
+            PACKED_void_GLenum_GLclampf *unpacked = (PACKED_void_GLenum_GLclampf *)packed;
+            ARGS_void_GLenum_GLclampf args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLclampx: {
+            PACKED_void_GLenum_GLclampx *unpacked = (PACKED_void_GLenum_GLclampx *)packed;
+            ARGS_void_GLenum_GLclampx args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLuint: {
+            PACKED_void_GLenum_GLuint *unpacked = (PACKED_void_GLenum_GLuint *)packed;
+            ARGS_void_GLenum_GLuint args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum: {
+            PACKED_void_GLenum_GLenum *unpacked = (PACKED_void_GLenum_GLenum *)packed;
+            ARGS_void_GLenum_GLenum args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum: {
+            PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum *unpacked = (PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum *)packed;
+            ARGS_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLbitfield: {
+            PACKED_void_GLbitfield *unpacked = (PACKED_void_GLbitfield *)packed;
+            ARGS_void_GLbitfield args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLclampf_GLclampf_GLclampf_GLclampf: {
+            PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf *unpacked = (PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf *)packed;
+            ARGS_void_GLclampf_GLclampf_GLclampf_GLclampf args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLclampx_GLclampx_GLclampx_GLclampx: {
+            PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx *unpacked = (PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx *)packed;
+            ARGS_void_GLclampx_GLclampx_GLclampx_GLclampx args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLclampf: {
+            PACKED_void_GLclampf *unpacked = (PACKED_void_GLclampf *)packed;
+            ARGS_void_GLclampf args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLclampx: {
+            PACKED_void_GLclampx *unpacked = (PACKED_void_GLclampx *)packed;
+            ARGS_void_GLclampx args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLint: {
+            PACKED_void_GLint *unpacked = (PACKED_void_GLint *)packed;
+            ARGS_void_GLint args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLenum_const_GLfloat___GENPT__: {
+            PACKED_void_GLenum_const_GLfloat___GENPT__ *unpacked = (PACKED_void_GLenum_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLenum_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_const_GLfixed___GENPT__: {
+            PACKED_void_GLenum_const_GLfixed___GENPT__ *unpacked = (PACKED_void_GLenum_const_GLfixed___GENPT__ *)packed;
+            ARGS_void_GLenum_const_GLfixed___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLfloat_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLubyte_GLubyte_GLubyte_GLubyte: {
+            PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte *unpacked = (PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte *)packed;
+            ARGS_void_GLubyte_GLubyte_GLubyte_GLubyte args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed: {
+            PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed *)packed;
+            ARGS_void_GLfixed_GLfixed_GLfixed_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLboolean_GLboolean_GLboolean_GLboolean: {
+            PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean *unpacked = (PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean *)packed;
+            ARGS_void_GLboolean_GLboolean_GLboolean_GLboolean args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8, args.a9);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint: {
+            PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint *unpacked = (PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint *)packed;
+            ARGS_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei: {
+            PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *unpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *)packed;
+            ARGS_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8);
+            break;
+        }
+        case FORMAT_void_GLsizei_const_GLuint___GENPT__: {
+            PACKED_void_GLsizei_const_GLuint___GENPT__ *unpacked = (PACKED_void_GLsizei_const_GLuint___GENPT__ *)packed;
+            ARGS_void_GLsizei_const_GLuint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLboolean: {
+            PACKED_void_GLboolean *unpacked = (PACKED_void_GLboolean *)packed;
+            ARGS_void_GLboolean args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLclampf_GLclampf: {
+            PACKED_void_GLclampf_GLclampf *unpacked = (PACKED_void_GLclampf_GLclampf *)packed;
+            ARGS_void_GLclampf_GLclampf args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLclampx_GLclampx: {
+            PACKED_void_GLclampx_GLclampx *unpacked = (PACKED_void_GLclampx_GLclampx *)packed;
+            ARGS_void_GLclampx_GLclampx args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLsizei: {
+            PACKED_void_GLenum_GLint_GLsizei *unpacked = (PACKED_void_GLenum_GLint_GLsizei *)packed;
+            ARGS_void_GLenum_GLint_GLsizei args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void: {
+            PACKED_void *unpacked = (PACKED_void *)packed;
+            unpacked->func();
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat: {
+            PACKED_void_GLenum_GLfloat *unpacked = (PACKED_void_GLenum_GLfloat *)packed;
+            ARGS_void_GLenum_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed: {
+            PACKED_void_GLenum_GLfixed *unpacked = (PACKED_void_GLenum_GLfixed *)packed;
+            ARGS_void_GLenum_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed: {
+            PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed *)packed;
+            ARGS_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
+        case FORMAT_void_GLsizei_GLuint___GENPT__: {
+            PACKED_void_GLsizei_GLuint___GENPT__ *unpacked = (PACKED_void_GLsizei_GLuint___GENPT__ *)packed;
+            ARGS_void_GLsizei_GLuint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLboolean___GENPT__: {
+            PACKED_void_GLenum_GLboolean___GENPT__ *unpacked = (PACKED_void_GLenum_GLboolean___GENPT__ *)packed;
+            ARGS_void_GLenum_GLboolean___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint___GENPT__: {
+            PACKED_void_GLenum_GLenum_GLint___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_GLint___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat___GENPT__: {
+            PACKED_void_GLenum_GLfloat___GENPT__ *unpacked = (PACKED_void_GLenum_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLenum_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed___GENPT__: {
+            PACKED_void_GLenum_GLfixed___GENPT__ *unpacked = (PACKED_void_GLenum_GLfixed___GENPT__ *)packed;
+            ARGS_void_GLenum_GLfixed___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_GLenum: {
+            PACKED_GLenum *unpacked = (PACKED_GLenum *)packed;
+            unpacked->func();
+            break;
+        }
+        case FORMAT_void_GLenum_GLint___GENPT__: {
+            PACKED_void_GLenum_GLint___GENPT__ *unpacked = (PACKED_void_GLenum_GLint___GENPT__ *)packed;
+            ARGS_void_GLenum_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfloat___GENPT__: {
+            PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfixed___GENPT__: {
+            PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_GLfixed___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLvoid___GENPT____GENPT__: {
+            PACKED_void_GLenum_GLvoid___GENPT____GENPT__ *unpacked = (PACKED_void_GLenum_GLvoid___GENPT____GENPT__ *)packed;
+            ARGS_void_GLenum_GLvoid___GENPT____GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_const_GLubyte___GENPT___GLenum: {
+            PACKED_const_GLubyte___GENPT___GLenum *unpacked = (PACKED_const_GLubyte___GENPT___GLenum *)packed;
+            ARGS_const_GLubyte___GENPT___GLenum args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_GLboolean_GLuint: {
+            PACKED_GLboolean_GLuint *unpacked = (PACKED_GLboolean_GLuint *)packed;
+            ARGS_GLboolean_GLuint args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_GLboolean_GLenum: {
+            PACKED_GLboolean_GLenum *unpacked = (PACKED_GLboolean_GLenum *)packed;
+            ARGS_GLboolean_GLenum args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfloat: {
+            PACKED_void_GLenum_GLenum_GLfloat *unpacked = (PACKED_void_GLenum_GLenum_GLfloat *)packed;
+            ARGS_void_GLenum_GLenum_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__: {
+            PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfixed: {
+            PACKED_void_GLenum_GLenum_GLfixed *unpacked = (PACKED_void_GLenum_GLenum_GLfixed *)packed;
+            ARGS_void_GLenum_GLenum_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__: {
+            PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_const_GLfixed___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLfloat: {
+            PACKED_void_GLfloat *unpacked = (PACKED_void_GLfloat *)packed;
+            ARGS_void_GLfloat args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLfixed: {
+            PACKED_void_GLfixed *unpacked = (PACKED_void_GLfixed *)packed;
+            ARGS_void_GLfixed args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_const_GLfloat___GENPT__: {
+            PACKED_void_const_GLfloat___GENPT__ *unpacked = (PACKED_void_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_const_GLfixed___GENPT__: {
+            PACKED_void_const_GLfixed___GENPT__ *unpacked = (PACKED_void_const_GLfixed___GENPT__ *)packed;
+            ARGS_void_const_GLfixed___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed: {
+            PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed *unpacked = (PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed *)packed;
+            ARGS_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed: {
+            PACKED_void_GLfixed_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed_GLfixed *)packed;
+            ARGS_void_GLfixed_GLfixed_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint: {
+            PACKED_void_GLenum_GLint *unpacked = (PACKED_void_GLenum_GLint *)packed;
+            ARGS_void_GLenum_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat: {
+            PACKED_void_GLfloat_GLfloat *unpacked = (PACKED_void_GLfloat_GLfloat *)packed;
+            ARGS_void_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed: {
+            PACKED_void_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed *)packed;
+            ARGS_void_GLfixed_GLfixed args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__: {
+            PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__ *unpacked = (PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7);
+            break;
+        }
+        case FORMAT_void_GLclampf_GLboolean: {
+            PACKED_void_GLclampf_GLboolean *unpacked = (PACKED_void_GLclampf_GLboolean *)packed;
+            ARGS_void_GLclampf_GLboolean args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLclampx_GLboolean: {
+            PACKED_void_GLclampx_GLboolean *unpacked = (PACKED_void_GLclampx_GLboolean *)packed;
+            ARGS_void_GLclampx_GLboolean args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLsizei_GLsizei: {
+            PACKED_void_GLint_GLint_GLsizei_GLsizei *unpacked = (PACKED_void_GLint_GLint_GLsizei_GLsizei *)packed;
+            ARGS_void_GLint_GLint_GLsizei_GLsizei args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLuint: {
+            PACKED_void_GLenum_GLint_GLuint *unpacked = (PACKED_void_GLenum_GLint_GLuint *)packed;
+            ARGS_void_GLenum_GLint_GLuint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLuint: {
+            PACKED_void_GLuint *unpacked = (PACKED_void_GLuint *)packed;
+            ARGS_void_GLuint args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLenum: {
+            PACKED_void_GLenum_GLenum_GLenum *unpacked = (PACKED_void_GLenum_GLenum_GLenum *)packed;
+            ARGS_void_GLenum_GLenum_GLenum args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint: {
+            PACKED_void_GLenum_GLenum_GLint *unpacked = (PACKED_void_GLenum_GLenum_GLint *)packed;
+            ARGS_void_GLenum_GLenum_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLint___GENPT__: {
+            PACKED_void_GLenum_GLenum_const_GLint___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_const_GLint___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_const_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8, args.a9);
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8, args.a9);
+            break;
+        }
+    }
+}
 #ifndef skip_glActiveTexture
 void glActiveTexture(GLenum texture) {
     LOAD_GLES(glActiveTexture);
