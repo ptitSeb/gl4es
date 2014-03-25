@@ -328,9 +328,6 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-    GLfloat *color = list->lastColor;
-    color[0] = r; color[1] = g; color[2] = b; color[3] = a;
-
     if (list->color == NULL) {
         list->color = alloc_sublist(4, list->cap);
         // catch up
@@ -342,6 +339,9 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     } else {
         resize_renderlist(list);
     }
+
+    GLfloat *color = list->lastColor;
+    color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
 void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params) {
