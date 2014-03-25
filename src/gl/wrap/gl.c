@@ -405,6 +405,7 @@ THUNK(us, GLushort, (float)USHRT_MAX)
 
 #undef THUNK
 
+// glGet
 
 #define THUNK(suffix, type)                              \
 void glGet##suffix##v(GLenum pname, type *params) {      \
