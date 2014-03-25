@@ -45,15 +45,6 @@ void glBindTexture(GLenum target, GLuint texture) {
     gles_glBindTexture(target, texture);
 }
 #endif
-#ifndef skip_glBlendEquation
-void glBlendEquation(GLenum mode) {
-    LOAD_GLES(glBlendEquation);
-#ifndef direct_glBlendEquation
-    PUSH_IF_COMPILING(glBlendEquation)
-#endif
-    gles_glBlendEquation(mode);
-}
-#endif
 #ifndef skip_glBlendFunc
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     LOAD_GLES(glBlendFunc);
