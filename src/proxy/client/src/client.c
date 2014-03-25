@@ -1,10 +1,4 @@
-#include <sys/syscall.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
 #include "../proxy.h"
-
-
 #if !defined(skip_client_glAccum) && !defined(skip_index_glAccum)
 void glAccum(GLenum op, GLfloat value) {
     glAccum_INDEXED packed_data;
