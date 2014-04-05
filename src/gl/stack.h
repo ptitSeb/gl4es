@@ -110,8 +110,10 @@ typedef struct {
 	GLenum matrix_mode;
 	GLboolean normalize_flag;
 	GLboolean rescale_normal_flag;
-    // TODO: GL_VIEWPORT_BIT
-
+    // GL_VIEWPORT_BIT
+	GLint	viewport_size[4];
+	GLfloat depth_range[2];
+	
     // dynamically-sized shenanigans
     GLboolean *clip_planes_enabled;
     GLfloat *clip_planes;

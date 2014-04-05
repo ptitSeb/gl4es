@@ -182,7 +182,7 @@ void glPushAttrib(GLbitfield mask) {
 
     // TODO: GL_STENCIL_BUFFER_BIT
 
-    // TODO: incomplete
+    // GL_TEXTURE_BIT - TODO: incomplete
     if (mask & GL_TEXTURE_BIT) {
         cur->active=state.texture.active;
         int a;
@@ -208,8 +208,12 @@ void glPushAttrib(GLbitfield mask) {
 		cur->rescale_normal_flag = glIsEnabled(GL_RESCALE_NORMAL);
 		cur->normalize_flag = glIsEnabled(GL_NORMALIZE);
 	}
-    // TODO: GL_VIEWPORT_BIT
-
+    // GL_VIEWPORT_BIT
+    if (mask & GL_VIEWPORT_BIT) {
+		glGetIntegerv(GL_VIEWPORT, cur->viewport_size);
+		glGetFloatv(GL_DEPTH_RANGE, cur->depth_range);
+	}
+		
     stack->len++;
 }
 
@@ -426,6 +430,11 @@ void glPopAttrib() {
 		enable_disable(GL_RESCALE_NORMAL, cur->rescale_normal_flag);		
 	}
 
+    if (cur->mask & GL_VIEWPORT_BIT) {
+		glViewport(cur->viewport_size[0], cur->viewport_size[1], cur->viewport_size[2], cur->viewport_size[3]);
+		glDepthRangef(cur->depth_range[0], cur->depth_range[1]);
+	}
+	
     maybe_free(cur->clip_planes_enabled);
     maybe_free(cur->clip_planes);
     maybe_free(cur->lights_enabled);
