@@ -251,8 +251,8 @@ void draw_renderlist(renderlist_t *list) {
 		old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
 		    if (list->tex[a]) {
-				glClientActiveTexture(GL_TEXTURE0+a);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glClientActiveTexture(GL_TEXTURE0+a);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		        glTexCoordPointer(2, GL_FLOAT, 0, list->tex[a]);
 		    } else {
 			    if (state.enable.tex_coord_array[a]) {
@@ -296,7 +296,7 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 
     if (list->color) {
         GLfloat *color = list->color + (list->len * 4);
-        memcpy(color, list->lastColor, sizeof(GLfloat) * 4);
+        memcpy(color, state.color, sizeof(GLfloat) * 4);
     }
 
     for (int a=0; a<MAX_TEX; a++) {
@@ -334,13 +334,13 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         int i;
         for (i = 0; i < list->len; i++) {
             GLfloat *color = (list->color + (i * 4));
-            memcpy(color, list->lastColor, sizeof(GLfloat) * 4);
+            memcpy(color, state.color, sizeof(GLfloat) * 4);
         }
     } else {
         resize_renderlist(list);
     }
 
-    GLfloat *color = list->lastColor;
+    GLfloat *color = state.color;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
@@ -425,40 +425,5 @@ void rlPushCall(renderlist_t *list, packed_call_t *data) {
     }
     cl->calls[cl->len++] = data;
 }
-/*
-#define new_command(a)  \
-	call_list_command_t* command = state.list.active->command = malloc(sizeof(call_list_command_t)); \
-	command->pointer = NULL; 						\
-	command->command = a
-	
-#define end_command()	state.list.active = extend_renderlist(state.list.active)
-
-void rlEnable(GLenum mode) {
-	new_command(ENABLE);
-	command->mode = mode;
-	end_command();
-}
-
-void rlDisable(GLenum mode) {
-	new_command(DISABLE);
-	command->mode = mode;
-	end_command();
-}
-
-void rlPushAttrib(GLenum mode) {
-printf("PushAttrib in a list\n");
-	new_command(PUSHATTRIB);
-	command->mode = mode;
-	end_command();
-}
-
-void rlPopAttrib() {
-printf("PopAttrib in a list\n");
-	new_command(POPATTRIB);
-	end_command();
-}
-
-#undef new_command
-*/
 #undef alloc_sublist
 #undef realloc_sublist

@@ -294,19 +294,8 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 			mode = GL_TRIANGLE_STRIP;
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
-/*		// SEB, special case for color in UNSIGNED_BYTE, as this doesn't work well sometimes
-		GLfloat *copy_colors = NULL;
-		LOAD_GLES(glColorPointer);
-		if (state.enable.color_array && (state.pointers.color.type != GL_FLOAT)) {
-			copy_colors = copy_gl_array_convert(state.pointers.color.pointer, state.pointers.color.type, state.pointers.color.size, state.pointers.color.stride, GL_FLOAT, state.pointers.color.size, 0, count);
-			gles_glColorPointer(state.pointers.color.size, GL_FLOAT, 0, copy_colors);
-		}*/
         gles_glDrawElements(mode, count, type, indices);
         free(indices);
-/*		if (copy_colors) {
-			// need to put back ?
-			free(copy_colors);
-		}*/
     }
 }
 
@@ -331,19 +320,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     } else {
         // TODO: some draw states require us to use the full pipeline here
         // like texgen, stipple, npot
-/*		// SEB, special case for color in UNSIGNED_BYTE, as this doesn't work well sometimes
-		GLfloat *copy_colors = NULL;
-		LOAD_GLES(glColorPointer);
-		if (state.enable.color_array && (state.pointers.color.type != GL_FLOAT)) {
-			copy_colors = copy_gl_array_convert(state.pointers.color.pointer, state.pointers.color.type, state.pointers.color.size, state.pointers.color.stride, GL_FLOAT, state.pointers.color.size, 0, count);
-			gles_glColorPointer(state.pointers.color.size, GL_FLOAT, 0, copy_colors);
-		}*/
         LOAD_GLES(glDrawArrays);
         gles_glDrawArrays(mode, first, count);
-/*		if (copy_colors) {
-			// need to put back ?
-			free(copy_colors);
-		}*/
     }
 }
 
@@ -473,7 +451,6 @@ void glBegin(GLenum mode) {
     if (! state.list.active) {
         state.list.active = alloc_renderlist();
     }
-    memcpy(state.list.active->lastColor, state.color, sizeof(GLfloat) * 4);
     state.list.active->mode = mode;
 }
 
