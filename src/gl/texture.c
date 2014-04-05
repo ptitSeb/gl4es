@@ -42,7 +42,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                              GLenum *format, GLenum *type,
                              const GLvoid *data) {
     bool convert = false;
-    switch (*format) {
+	 switch (*format) {
         case GL_ALPHA:
         case GL_RGB:
         case GL_RGBA:
@@ -54,7 +54,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             break;
     }
     switch (*type) {
-        case GL_FLOAT:
+        //case GL_FLOAT:
         case GL_UNSIGNED_BYTE:
         case GL_UNSIGNED_SHORT_5_6_5:
         case GL_UNSIGNED_SHORT_4_4_4_4:
@@ -69,10 +69,10 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     }
 
     if (convert) {
-        GLvoid *pixels = (GLvoid *)data;
+		GLvoid *pixels = (GLvoid *)data;
         if (! pixel_convert(data, &pixels, width, height,
                             *format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-            printf("libGL swizzle error: (%#4x, %#4x -> RGBA, UNSIGNED_BYTE)\n",
+            printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
                 *format, *type);
             return NULL;
         }
@@ -87,7 +87,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i)\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows);
+printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
     gltexture_t *bound = state.texture.bound[state.texture.active];
     GLvoid *pixels = (GLvoid *)data;
     if (data) {
@@ -178,7 +178,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
     LOAD_GLES(glTexSubImage2D);
-//printf("glTexSubImage2D with unpack_row_length(%i), size(%d,%d), pos(%i,%i) and skip={%i,%i}\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows);
+printf("glTexSubImage2D with unpack_row_length(%i), size(%d,%d), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
     target = map_tex_target(target);
     GLvoid *pixels = data;/* = swizzle_texture(width, height, &format, &type, data);*/
 

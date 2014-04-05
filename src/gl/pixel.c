@@ -12,6 +12,8 @@ static const colorlayout_t *get_color_map(GLenum format) {
         map(GL_RGB, 0, 1, 2, -1);
         map(GL_BGRA, 2, 1, 0, 3);
         map(GL_BGR, 2, 1, 0, -1);
+		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1);
+		map(GL_ALPHA, -1, -1, -1, 0);
         default:
             printf("libGL: unknown pixel format %i\n", format);
             break;
@@ -26,7 +28,7 @@ GLfloat raster_transformf(GLfloat pix, GLubyte number);
 GLubyte raster_transform(GLubyte pix, GLubyte number);
 
 static inline
-bool remap_pixel(const GLvoid *src, GLvoid *dst,
+bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform, 
                  const colorlayout_t *src_color, GLenum src_type,
                  const colorlayout_t *dst_color, GLenum dst_type) {
 
@@ -81,7 +83,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             return false;
             break;
     }
-	if (raster_need_transform()) {
+	if (transform) {
 		pixel.r=raster_transformf(pixel.r, 0);
 		pixel.g=raster_transformf(pixel.g, 1);
 		pixel.b=raster_transformf(pixel.b, 2);
@@ -130,7 +132,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         || !src_color->type || !dst_color->type)
         return false;
 
-	GLvoid *dst2;
     if (src_type == dst_type && src_color->type == dst_color->type) {
         if (*dst != src) {
             *dst = malloc(dst_size);
@@ -148,11 +149,12 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     } else {
         GLsizei src_stride = pixel_sizeof(src_format, src_type);
         GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
-        dst2 = malloc(dst_size);
+        *dst = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
-        uintptr_t dst_pos = (uintptr_t)dst2;
+        uintptr_t dst_pos = (uintptr_t)*dst;
+		bool transform = raster_need_transform();
         for (int i = 0; i < pixels; i++) {
-            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
+            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, transform, 
                               src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
                 // probably depends on how well branch prediction performs
@@ -161,10 +163,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
-/*		if (*dst == src) {
-			free(src);
-		}*/
-		*dst = dst2;
         return true;
     }
     return false;
