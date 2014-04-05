@@ -125,12 +125,21 @@
 #define GLX_SAMPLE_BUFFERS              0x186a0 /*100000*/
 #define GLX_SAMPLES                     0x186a1 /*100001*/
 
+//Experimental EGLContext inside GLXContext...
+#define EGL_IN_GLX
+
 struct __GLXContextRec {
     Display *display;
     unsigned char direct;
     int currentWritable;
     int currentReadable;
     XID xid;
+#ifdef EGL_IN_GLX
+//	EGLDisplay eglDisplay;	// only 1 display, so keep this one global
+	EGLSurface eglSurface;
+	EGLConfig eglConfigs[1];
+	EGLContext eglContext;
+#endif
 };
 typedef struct __GLXContextRec *GLXContext;
 
@@ -194,6 +203,10 @@ GLXContext glXCreateContext(Display *dpy,
                             GLXContext shareList,
                             Bool direct);
 
+GLXContext glXCreateContextAttribsARB(Display *display, void *config,
+                                      GLXContext share_context, Bool direct,
+                                      const int *attrib_list);
+
 void glXSwapIntervalEXT(Display *display, int drawable, int interval);
 void glXSwapIntervalMESA(int interval);
 void glXSwapIntervalSGI(int interval);
@@ -228,4 +241,5 @@ GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_l
 GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count);
 int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value);
 
-GLXContext glXCreateContextAttribsARB(Display *display, void *config, GLXContext share_context, Bool direct, const int *attrib_list);
+void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
+void glXDestroyWindow(Display *display, void *win);

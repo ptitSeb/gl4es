@@ -12,7 +12,9 @@
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
+#ifndef EGL_IN_GLX
 EGLConfig eglConfigs[1];
+#endif
 
 int8_t CheckEGLErrors() {
     EGLenum error;
@@ -52,6 +54,7 @@ static int get_config_default(int attribute, int *value) {
         case GLX_DOUBLEBUFFER:
             *value = 1;
             break;
+        case GLX_LEVEL:
         case GLX_STEREO:
             *value = 0;
             break;
@@ -80,6 +83,9 @@ static int get_config_default(int attribute, int *value) {
         case GLX_ACCUM_ALPHA_SIZE:
             *value = 0;
             break;
+        case GLX_TRANSPARENT_TYPE:
+            *value = GLX_NONE;
+            break;
         case GLX_RENDER_TYPE:
             *value = GLX_RGBA_BIT | GLX_COLOR_INDEX_BIT;
             break;
@@ -92,9 +98,15 @@ static int get_config_default(int attribute, int *value) {
         case GLX_DRAWABLE_TYPE:
             *value = GLX_WINDOW_BIT;
             break;
-        case 2: // apparently this is bpp
-            *value = 16;
-            return 0;
+        case GLX_BUFFER_SIZE:
+             *value = 16;
+            break;
+        case GLX_X_VISUAL_TYPE:
+        case GLX_CONFIG_CAVEAT:
+        case GLX_SAMPLE_BUFFERS:
+        case GLX_SAMPLES:
+            *value = 0;
+            break;
         default:
             printf("libGL: unknown attrib %i\n", attribute);
             *value = 0;
@@ -104,9 +116,11 @@ static int get_config_default(int attribute, int *value) {
 }
 
 // hmm...
+#ifndef EGL_IN_GLX
 static EGLContext eglContext;
-static GLXContext glxContext;
 static Display *g_display;
+#endif
+static GLXContext glxContext;
 
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
@@ -127,13 +141,19 @@ static int fbdev = -1;
 static int swap_interval = 1;
 
 static void init_display(Display *display) {
+#ifndef EGL_IN_GLX
     if (! g_display) {
-        g_display = XOpenDisplay(NULL);
+        g_display = display;//XOpenDisplay(NULL);
     }
+#endif
     if (g_usefb) {
         eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     } else {
+#ifdef EGL_IN_GLX
+		eglDisplay = eglGetDisplay(display);
+#else
         eglDisplay = eglGetDisplay(g_display);
+#endif
     }
 }
 
@@ -262,6 +282,10 @@ GLXContext glXCreateContext(Display *display,
 #endif
 
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
+	memset(fake, 0, sizeof(struct __GLXContextRec));
+#ifdef EGL_IN_GLX
+	eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
+#else
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
         if (eglContext != NULL) {
@@ -273,7 +297,7 @@ GLXContext glXCreateContext(Display *display,
             eglSurface = NULL;
         }
     }
-
+#endif
     // make an egl context here...
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
@@ -296,19 +320,32 @@ GLXContext glXCreateContext(Display *display,
     }
 
     int configsFound;
+#ifdef EGL_IN_GLX
+    result = eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
+#else
     result = eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
+#endif
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
+#ifdef EGL_IN_GLX
+    fake->eglContext = eglCreateContext(eglDisplay, fake->eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+#else
     eglContext = eglCreateContext(eglDisplay, eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+#endif
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
+#ifdef EGL_IN_GLX
+    fake->display = display;
+#else
     fake->display = g_display;
+#endif
     fake->direct = true;
     fake->xid = 1;
+	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
     return fake;
 }
 
@@ -319,12 +356,20 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
+#ifdef EGL_IN_GLX
+    if (ctx->eglContext) {
+        EGLBoolean result = eglDestroyContext(eglDisplay, ctx->eglContext);
+        if (ctx->eglSurface != NULL) {
+            eglDestroySurface(eglDisplay, ctx->eglSurface);
+			eglSurface = ctx->eglSurface = NULL;
+        }
+#else
     if (eglContext) {
         EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);
         if (eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
-
+#endif
         if (result != EGL_TRUE) {
             printf("Failed to destroy EGL context.\n");
         }
@@ -337,10 +382,14 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
 }
 
 Display *glXGetCurrentDisplay() {
+#ifdef EGL_IN_GLX
+	return XOpenDisplay(NULL);
+#else
     if (g_display && eglContext) {
         return g_display;
     }
     return NULL;
+#endif
 }
 
 XVisualInfo *glXChooseVisual(Display *display,
@@ -348,12 +397,21 @@ XVisualInfo *glXChooseVisual(Display *display,
                              int *attributes) {
 
     // apparently can't trust the Display I'm passed?
+/*
     if (g_display == NULL) {
         g_display = XOpenDisplay(NULL);
     }
-    int depth = DefaultDepth(g_display, screen);
+*/
+    int default_depth = XDefaultDepth(display, screen);
+    if (default_depth != 16 && default_depth != 24)
+        printf("libGL: unusual desktop color depth %d\n", default_depth);
+
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(g_display, screen, depth, TrueColor, visual);
+    if (!XMatchVisualInfo(display, screen, default_depth, TrueColor, visual)) {
+        printf("libGL: XMatchVisualInfo failed in glXChooseVisual\n");
+        return NULL;
+    }
+
     return visual;
 }
 
@@ -370,9 +428,11 @@ Bool glXMakeCurrent(Display *display,
 
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+#ifndef EGL_IN_GLX
         if (eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
+#endif
     }
     // call with NULL to just destroy old stuff.
     if (! context) {
@@ -384,10 +444,22 @@ Bool glXMakeCurrent(Display *display,
 
     if (g_usefb)
         drawable = 0;
+#ifdef EGL_IN_GLX
+	// need current surface for eglSwapBuffer
+	if (context->eglSurface)
+		eglSurface = context->eglSurface;		// reused previously created Surface
+	else
+		eglSurface = context->eglSurface = eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
+#else
     eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
+#endif
     CheckEGLErrors();
 
+#ifdef EGL_IN_GLX
+    EGLBoolean result = eglMakeCurrent(eglDisplay, context->eglSurface, context->eglSurface, context->eglContext);
+#else
     EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+#endif
     CheckEGLErrors();
     if (result) {
         return true;
@@ -487,11 +559,27 @@ Bool glXQueryVersion(Display *display, int *major, int *minor) {
 const char *glXGetClientString(Display *display, int name) {
     // TODO: return actual data here
     switch (name) {
-        case GLX_VENDOR: break;
-        case GLX_VERSION: break;
+        case GLX_VENDOR: return "OpenPandora";
+        case GLX_VERSION: return "1.4 OpenPandora";
         case GLX_EXTENSIONS: break;
     }
     return "";
+}
+
+int glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *value ){
+	*value=0;
+	if (ctx) switch (attribute) {
+		case GLX_FBCONFIG_ID: *value=ctx->xid; break;
+		case GLX_RENDER_TYPE: *value=GLX_RGBA_TYPE; break;
+		case GLX_SCREEN: break;			// screen n# is always 0
+	}
+    return 0;
+}
+
+
+void glXQueryDrawable( Display *dpy, int draw, int attribute,
+                       unsigned int *value ) {
+	*value=0;
 }
 
 // stubs for glfw (GLX 1.3)
@@ -518,11 +606,11 @@ int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, in
 }
 
 XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
-    if (g_display == NULL) {
+    /*if (g_display == NULL) {
         g_display = XOpenDisplay(NULL);
-    }
+    }*/
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(g_display, 0, 16, TrueColor, visual);
+    XMatchVisualInfo(display, 0, 16, TrueColor, visual);
     return visual;
 }
 
@@ -548,9 +636,14 @@ void glXSwapIntervalEXT(Display *display, int drawable, int interval) {
 }
 
 // misc stubs
-void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask) {}
+void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask) {
+	// mask is ignored for now, but should include glPushAttrib / glPopAttrib
+	memcpy(dst, src, sizeof(struct __GLXContextRec));
+}
 void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {} // should return GLXPixmap
 void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
+void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
+void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
 void glXGetCurrentDrawable() {} // this should actually return GLXDrawable. Good luck.
 Bool glXIsDirect(Display * display, GLXContext ctx) {
     return true;

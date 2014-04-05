@@ -32,6 +32,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXChooseVisual);
     EX(glXCopyContext);
     EX(glXCreateContext);
+	EX(glXCreateContextAttribsARB);
     EX(glXCreateGLXPixmap);
     EX(glXDestroyContext);
     EX(glXDestroyGLXPixmap);
