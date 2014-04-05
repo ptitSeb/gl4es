@@ -12,9 +12,7 @@
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
-#ifndef EGL_IN_GLX
 EGLConfig eglConfigs[1];
-#endif
 
 int8_t CheckEGLErrors() {
     EGLenum error;
@@ -116,10 +114,8 @@ static int get_config_default(int attribute, int *value) {
 }
 
 // hmm...
-#ifndef EGL_IN_GLX
 static EGLContext eglContext;
 static Display *g_display;
-#endif
 static GLXContext glxContext;
 
 #ifndef FBIO_WAITFORVSYNC
@@ -141,19 +137,13 @@ static int fbdev = -1;
 static int swap_interval = 1;
 
 static void init_display(Display *display) {
-#ifndef EGL_IN_GLX
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
     }
-#endif
     if (g_usefb) {
         eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     } else {
-#ifdef EGL_IN_GLX
 		eglDisplay = eglGetDisplay(display);
-#else
-        eglDisplay = eglGetDisplay(g_display);
-#endif
     }
 }
 
@@ -283,21 +273,21 @@ GLXContext glXCreateContext(Display *display,
 
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
-#ifdef EGL_IN_GLX
-	eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
-#else
-    if (eglDisplay != NULL) {
-        eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
-        if (eglContext != NULL) {
-            eglDestroyContext(eglDisplay, eglContext);
-            eglContext = NULL;
-        }
-        if (eglSurface != NULL) {
-            eglDestroySurface(eglDisplay, eglSurface);
-            eglSurface = NULL;
-        }
-    }
-#endif
+	if (!g_usefb)
+		eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
+	else {
+		if (eglDisplay != NULL) {
+			eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+			if (eglContext != NULL) {
+				eglDestroyContext(eglDisplay, eglContext);
+				eglContext = NULL;
+			}
+			if (eglSurface != NULL) {
+				eglDestroySurface(eglDisplay, eglSurface);
+				eglSurface = NULL;
+			}
+		}
+	}
     // make an egl context here...
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
@@ -320,29 +310,25 @@ GLXContext glXCreateContext(Display *display,
     }
 
     int configsFound;
-#ifdef EGL_IN_GLX
-    result = eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
-#else
-    result = eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
-#endif
+	if (!g_usefb)
+		result = eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
+	else
+		result = eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
+
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
-#ifdef EGL_IN_GLX
-    fake->eglContext = eglCreateContext(eglDisplay, fake->eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
-#else
-    eglContext = eglCreateContext(eglDisplay, eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
-#endif
+	if (!g_usefb)
+		fake->eglContext = eglCreateContext(eglDisplay, fake->eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+	else
+		eglContext = eglCreateContext(eglDisplay, eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-#ifdef EGL_IN_GLX
-    fake->display = display;
-#else
-    fake->display = g_display;
-#endif
+    fake->display = (g_usefb)?g_display:display;
     fake->direct = true;
     fake->xid = 1;
 	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
@@ -356,20 +342,15 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
-#ifdef EGL_IN_GLX
-    if (ctx->eglContext) {
-        EGLBoolean result = eglDestroyContext(eglDisplay, ctx->eglContext);
-        if (ctx->eglSurface != NULL) {
+    if ((!g_usefb && ctx->eglContext) || (g_usefb && eglContext)) {
+		EGLBoolean result = eglDestroyContext(eglDisplay, (g_usefb)?eglContext:ctx->eglContext);
+        if (!g_usefb && ctx->eglSurface != NULL) {
             eglDestroySurface(eglDisplay, ctx->eglSurface);
 			eglSurface = ctx->eglSurface = NULL;
         }
-#else
-    if (eglContext) {
-        EGLBoolean result = eglDestroyContext(eglDisplay, eglContext);
-        if (eglSurface != NULL) {
+        if (g_usefb && eglSurface != NULL) {
             eglDestroySurface(eglDisplay, eglSurface);
         }
-#endif
         if (result != EGL_TRUE) {
             printf("Failed to destroy EGL context.\n");
         }
@@ -382,14 +363,13 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
 }
 
 Display *glXGetCurrentDisplay() {
-#ifdef EGL_IN_GLX
-	return XOpenDisplay(NULL);
-#else
-    if (g_display && eglContext) {
-        return g_display;
-    }
+	if (!g_usefb)
+		return XOpenDisplay(NULL);
+	else
+		if (g_display && eglContext) {
+			return g_display;
+		}
     return NULL;
-#endif
 }
 
 XVisualInfo *glXChooseVisual(Display *display,
@@ -428,11 +408,10 @@ Bool glXMakeCurrent(Display *display,
 
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
-#ifndef EGL_IN_GLX
-        if (eglSurface != NULL) {
-            eglDestroySurface(eglDisplay, eglSurface);
-        }
-#endif
+		if (g_usefb)
+			if (eglSurface != NULL) {
+				eglDestroySurface(eglDisplay, eglSurface);
+			}
     }
     // call with NULL to just destroy old stuff.
     if (! context) {
@@ -444,22 +423,17 @@ Bool glXMakeCurrent(Display *display,
 
     if (g_usefb)
         drawable = 0;
-#ifdef EGL_IN_GLX
-	// need current surface for eglSwapBuffer
-	if (context->eglSurface)
-		eglSurface = context->eglSurface;		// reused previously created Surface
-	else
-		eglSurface = context->eglSurface = eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
-#else
-    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
-#endif
+	if (!g_usefb) {
+		// need current surface for eglSwapBuffer
+		if (context->eglSurface)
+			eglSurface = context->eglSurface;		// reused previously created Surface
+		else
+			eglSurface = context->eglSurface = eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
+	} else
+		eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
     CheckEGLErrors();
 
-#ifdef EGL_IN_GLX
-    EGLBoolean result = eglMakeCurrent(eglDisplay, context->eglSurface, context->eglSurface, context->eglContext);
-#else
-    EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
-#endif
+    EGLBoolean result = eglMakeCurrent(eglDisplay, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglContext:context->eglContext);
     CheckEGLErrors();
     if (result) {
         return true;

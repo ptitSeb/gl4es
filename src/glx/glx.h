@@ -125,8 +125,6 @@
 #define GLX_SAMPLE_BUFFERS              0x186a0 /*100000*/
 #define GLX_SAMPLES                     0x186a1 /*100001*/
 
-//Experimental EGLContext inside GLXContext...
-#define EGL_IN_GLX
 
 struct __GLXContextRec {
     Display *display;
@@ -134,12 +132,9 @@ struct __GLXContextRec {
     int currentWritable;
     int currentReadable;
     XID xid;
-#ifdef EGL_IN_GLX
-//	EGLDisplay eglDisplay;	// only 1 display, so keep this one global
 	EGLSurface eglSurface;
 	EGLConfig eglConfigs[1];
 	EGLContext eglContext;
-#endif
 };
 typedef struct __GLXContextRec *GLXContext;
 
