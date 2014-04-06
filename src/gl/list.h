@@ -33,7 +33,7 @@ typedef struct _renderlist_t {
     GLushort *indices;
     GLboolean q2t;
 	
-	//call_list_command_t	*command;
+	GLuint	glcall_list;
 
     khash_t(material) *material;
     GLuint texture[MAX_TEX];

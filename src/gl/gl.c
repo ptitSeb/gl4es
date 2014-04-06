@@ -447,10 +447,13 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
 // immediate mode functions
 
 void glBegin(GLenum mode) {
-//    if (! state.list.compiling) {
-    if (! state.list.active) {
+    if (! state.list.compiling) {
+//    if (! state.list.active) {
         state.list.active = alloc_renderlist();
-    }
+    } else {
+		// create a new list, as we are already inside one
+		state.list.active = extend_renderlist(state.list.active);
+	}
     state.list.active->mode = mode;
 }
 
@@ -629,6 +632,11 @@ void glEndList() {
 }
 
 void glCallList(GLuint list) {
+    if (state.list.compiling && state.list.active) {
+		state.list.active = extend_renderlist(state.list.active);
+		state.list.active->glcall_list = list;
+		return;
+	}
     // TODO: the output of this call can be compiled into another display list
     renderlist_t *l = glGetList(list);
     if (l)

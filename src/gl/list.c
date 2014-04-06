@@ -24,6 +24,9 @@ renderlist_t *alloc_renderlist() {
     list->vert = NULL;
     list->normal = NULL;
     list->color = NULL;
+
+	list->glcall_list = 0;
+
     int a;
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
@@ -177,6 +180,9 @@ void draw_renderlist(renderlist_t *list) {
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
+		// do call_list
+		if (list->glcall_list)
+			glCallList(list->glcall_list);
         // optimize zero-length segments out earlier?
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
@@ -393,7 +399,6 @@ void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
 }
 
 void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) {
-printf("rlMultiTexCoord2f, target=%i(%i), s=%f, t=%f", target, target-GL_TEXTURE0, s, t);
     GLfloat *tex = list->lastTex[target-GL_TEXTURE0];
     tex[0] = s; tex[1] = t;
 
