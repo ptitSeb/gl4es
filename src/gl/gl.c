@@ -20,6 +20,7 @@ const GLubyte *glGetString(GLenum name) {
 #ifndef USE_ES2
                 // "GL_ARB_vertex_buffer_object "
                 "GL_EXT_secondary_color "
+		"GL_EXT_texture_env_combine "
 	        "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
                 "GL_ARB_texture_cube_map "
@@ -34,6 +35,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_logic_op "
 		"GL_EXT_packed_depth_stencil "
+		"GL_EXT_draw_range_elements "
 #else
                 "GL_ARB_vertex_shader "
                 "GL_ARB_fragment_shader "
@@ -65,6 +67,9 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
+        case GL_MAX_ELEMENTS_VERTICES:
+			*params = 4096;
+			break;
         case GL_AUX_BUFFERS:
             *params = 0;
             break;
@@ -95,6 +100,9 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
+        case GL_MAX_ELEMENTS_VERTICES:
+			*params = 4096;
+			break;
         case GL_AUX_BUFFERS:
             *params = 0;
             break;
@@ -275,8 +283,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-        if (compiling)
-            list = state.list.active = extend_renderlist(state.list.active);
+        list = state.list.active = extend_renderlist(state.list.active);
 
         normalize_indices(indices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, 0, max + 1);
@@ -284,10 +291,6 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list->len = count;
 
         end_renderlist(list);
-        if (! compiling) {
-            draw_renderlist(list);
-            free_renderlist(list);
-        }
     } else {
         LOAD_GLES(glDrawElements);
 		if (mode == GL_QUAD_STRIP)
@@ -331,7 +334,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(glVertexPointer);
-    clone_gl_pointer(state.pointers.vertex, size);
+	clone_gl_pointer(state.pointers.vertex, size);
     glGetError();
     gles_glVertexPointer(size, type, stride, pointer);
 }
@@ -509,6 +512,8 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     if (state.list.active) {
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
+	if (face!=GL_FRONT_AND_BACK)
+		face=GL_FRONT_AND_BACK;
         gles_glMaterialfv(face, pname, params);
     }
 }
@@ -531,7 +536,7 @@ void glArrayElement(GLint i) {
     p = &state.pointers.color;
     if (state.enable.color_array && p->pointer) {
         v = gl_pointer_index(p, i);
-        GLuint scale = gl_max_value(p->type);
+        GLfloat scale = gl_max_value(p->type);
         // color[3] defaults to 1.0f
         if (p->size < 4)
             v[3] = 1.0f;
@@ -611,6 +616,7 @@ GLuint glGenLists(GLsizei range) {
 void glNewList(GLuint list, GLenum mode) {
     if (! glIsList(list))
         return;
+        
     state.list.name = list;
     state.list.mode = mode;
     // TODO: if state.list.active is already defined, we probably need to clean up here

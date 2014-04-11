@@ -36,6 +36,8 @@ EX(glDepthRangex);
 EX(glDisable);
 EX(glDisableClientState);
 EX(glDrawArrays);
+EX(glDrawRangeElements);
+EX(glDrawRangeElementsEXT);
 EX(glDrawElements);
 EX(glEnable);
 EX(glEnableClientState);

@@ -614,4 +614,17 @@ void glVertex4fv(GLfloat *v) {
     glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);
 }
 
+// DrawRangedElement
+void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices)
+{
+	glDrawRangeElements(mode, start, end, count, type, indices);
+}
+void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices)
+{
+	int ind_size=gl_sizeof(type);
+	GLsizei new_count=count;
+	if (start+count>end) new_count=end-start;
+	glDrawElements(mode, new_count, type, indices+start*ind_size);
+}
+
 #undef constDoubleToFloat
