@@ -67,19 +67,25 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             convert = true;
             break;
     }
-
-    if (convert) {
-		GLvoid *pixels = (GLvoid *)data;
-        if (! pixel_convert(data, &pixels, width, height,
-                            *format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
-            printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
-                *format, *type);
-            return NULL;
-        }
-        *type = GL_UNSIGNED_BYTE;
-        *format = GL_RGBA;
-        return pixels;
-    }
+	if (data) {
+		if (convert) {
+			GLvoid *pixels = (GLvoid *)data;
+			if (! pixel_convert(data, &pixels, width, height,
+								*format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+				printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
+					*format, *type);
+				return NULL;
+			}
+			*type = GL_UNSIGNED_BYTE;
+			*format = GL_RGBA;
+			return pixels;
+		} 
+    } else {
+		if (convert) {
+			*type = GL_UNSIGNED_BYTE;
+			*format = GL_RGBA;
+		}
+	}
     return (void *)data;
 }
 
@@ -109,7 +115,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
         }
 
         GLvoid *old = pixels;
-        pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old/*data*/);
+        pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
         if (old != pixels && old != data) {
             free(old);
         }
@@ -134,7 +140,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                 pixel_to_ppm(pixels, width, height, format, type, bound->texture);
             }
         }
-    }
+    } else {
+		swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
+	}
 
     /* TODO:
     GL_INVALID_VALUE is generated if border is not 0.

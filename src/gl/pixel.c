@@ -48,9 +48,9 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform,
         if (key >= 0) d[amod key] = value;
 
     #define read_each(amod, vmod)                                 \
-        pixel.r = default(s, amod, vmod, src_color->red, 0);      \
-        pixel.g = default(s, amod, vmod, src_color->green, 0);    \
-        pixel.b = default(s, amod, vmod, src_color->blue, 0);     \
+        pixel.r = default(s, amod, vmod, src_color->red, 0.0f);      \
+        pixel.g = default(s, amod, vmod, src_color->green, 0.0f);    \
+        pixel.b = default(s, amod, vmod, src_color->blue, 0.0f);     \
         pixel.a = default(s, amod, vmod, src_color->alpha, 1.0f);
 
     #define write_each(amod, vmod)                         \
@@ -66,16 +66,16 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform,
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
-        type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0))
+        type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
-                v & 31,
-                (v & 0x03e0 >> 5) / 31.0,
-                (v & 0x7c00 >> 10) / 31.0,
-                (v & 0x8000 >> 15) / 31.0,
+                (v & 31),
+                ((v & 0x03e0) >> 5),
+                ((v & 0x7c00) >> 10),
+                ((v & 0x8000) >> 15)*31,
             };
-            read_each(,);
+            read_each(, / 31.0f);
         )
         default:
             // TODO: add glSetError?

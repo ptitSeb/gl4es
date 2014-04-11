@@ -20,8 +20,8 @@ const GLubyte *glGetString(GLenum name) {
 #ifndef USE_ES2
                 // "GL_ARB_vertex_buffer_object "
                 "GL_EXT_secondary_color "
-		"GL_EXT_texture_env_combine "
-	        "GL_ARB_multitexture "
+                "GL_EXT_texture_env_combine "
+                "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
                 "GL_ARB_texture_cube_map "
                 "GL_ARB_texture_border_clamp "
@@ -34,8 +34,9 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_SGIS_generate_mipmap "
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_logic_op "
-		"GL_EXT_packed_depth_stencil "
-		"GL_EXT_draw_range_elements "
+                "GL_EXT_packed_depth_stencil "
+                "GL_EXT_draw_range_elements "
+                "GL_EXT_bgra "
 #else
                 "GL_ARB_vertex_shader "
                 "GL_ARB_fragment_shader "
