@@ -188,7 +188,8 @@ void glPushAttrib(GLbitfield mask) {
         int a;
         for (a=0; a<MAX_TEX; a++) {
             glActiveTexture(GL_TEXTURE0+a);
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture[a]);
+            //glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture[a]);
+	    cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
         }
         glActiveTexture(GL_TEXTURE0+cur->active);
     }
@@ -252,7 +253,7 @@ void glPushClientAttrib(GLbitfield mask) {
         for (a=0; a<MAX_TEX; a++) {
            memcpy(&cur->tex[a], &state.pointers.tex_coord[a], sizeof(pointer_state_t));
         }
-		cur->client = state.texture.client;
+	cur->client = state.texture.client;
     }
 
     clientStack->len++;
@@ -477,20 +478,20 @@ void glPopClientAttrib() {
         for (int a=0; a<MAX_TEX; a++)
            memcpy(&state.pointers.tex_coord[a], &cur->tex[a], sizeof(pointer_state_t));
 
-		LOAD_GLES(glVertexPointer);
-		if (state.pointers.vertex.pointer) gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-		LOAD_GLES(glColorPointer);
-		if (state.pointers.color.pointer) gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
-		LOAD_GLES(glNormalPointer);
-		if (state.pointers.normal.pointer) gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
-		LOAD_GLES(glTexCoordPointer);
-		for (int a=0; a<MAX_TEX; a++) {
-  		   if (state.pointers.tex_coord[a].pointer) {
-			   glClientActiveTexture(GL_TEXTURE0+a);
-			   gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
-		   }
+	LOAD_GLES(glVertexPointer);
+	if (state.pointers.vertex.pointer) gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+	LOAD_GLES(glColorPointer);
+	if (state.pointers.color.pointer) gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+	LOAD_GLES(glNormalPointer);
+	if (state.pointers.normal.pointer) gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+	LOAD_GLES(glTexCoordPointer);
+	for (int a=0; a<MAX_TEX; a++) {
+  	   if (state.pointers.tex_coord[a].pointer) {
+	   	glClientActiveTexture(GL_TEXTURE0+a);
+	   	gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
+	   }
         }
-		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
+	if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
     clientStack->len--;

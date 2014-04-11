@@ -87,9 +87,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
+//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x, data=%08x => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, data, state.texture.bound[state.texture.active]->texture);
     gltexture_t *bound = state.texture.bound[state.texture.active];
     GLvoid *pixels = (GLvoid *)data;
+    border = 0;	//TODO: something?
     if (data) {
         // implements GL_UNPACK_ROW_LENGTH
         if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
@@ -109,8 +110,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 
         GLvoid *old = pixels;
         pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old/*data*/);
-        if (old != pixels && old != data)
+        if (old != pixels && old != data) {
             free(old);
+        }
 
         char *env_shrink = getenv("LIBGL_SHRINK");
         if (env_shrink && strcmp(env_shrink, "1") == 0) {

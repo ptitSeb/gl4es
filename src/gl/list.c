@@ -25,7 +25,7 @@ renderlist_t *alloc_renderlist() {
     list->normal = NULL;
     list->color = NULL;
 
-	list->glcall_list = 0;
+    list->glcall_list = 0;
 
     int a;
     for (a=0; a<MAX_TEX; a++)
@@ -36,8 +36,6 @@ renderlist_t *alloc_renderlist() {
     for (a=0; a<MAX_TEX; a++)
        list->texture[a] = 0;
 	
-	//list->command = NULL;
-
     list->prev = NULL;
     list->next = NULL;
     list->open = true;
@@ -80,11 +78,7 @@ void free_renderlist(renderlist_t *list) {
             kh_destroy(material, list->material);
         }
         if (list->indices) free(list->indices);
-		/*if (list->command) {
-			if (list->command->pointer)
-				free(list->command->pointer);
-			free(list->command);
-		}*/
+
         next = list->next;
         free(list);
     } while ((list = next));
@@ -113,19 +107,23 @@ void q2t_renderlist(renderlist_t *list) {
     };
     unsigned long len = list->len * 6 / 4;
 
-    // TODO: q2t on glDrawElements?
+    // q2t on glDrawElements?
 	GLushort *old_indices = NULL;
+	GLushort *indices;
     if (list->indices) 
 		old_indices = list->indices;
     //    free(list->indices);
+    if ((len > cached_q2t_len) || (old_indices)) {
+		if (old_indices) {
+			indices = malloc(len * sizeof(GLushort));
+		} else {
+			if (cached_q2t)
+				free(cached_q2t);
+			cached_q2t = malloc(len * sizeof(GLushort));
+			cached_q2t_len = len;
 
-    if (len > cached_q2t_len) {
-        if (cached_q2t)
-            free(cached_q2t);
-        cached_q2t = malloc(len * sizeof(GLushort));
-        cached_q2t_len = len;
-
-        GLushort *indices = cached_q2t;
+			indices = cached_q2t;
+		}
         for (int i = 0; i < list->len; i += 4) {
             for (int j = 0; j < 6; j++) {
 				if (old_indices)
@@ -136,10 +134,13 @@ void q2t_renderlist(renderlist_t *list) {
             indices += 6;
         }
     }
-	if (old_indices)
-		free(old_indices);
 
-    list->q2t = true;
+	if (!old_indices)
+		list->q2t = true;
+	if (old_indices) {
+		free(old_indices);
+		list->indices = indices;
+	}
     list->len = len;
     return;
 }
@@ -180,9 +181,9 @@ void draw_renderlist(renderlist_t *list) {
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
-		// do call_list
-		if (list->glcall_list)
-			glCallList(list->glcall_list);
+	// do call_list
+	if (list->glcall_list)
+		glCallList(list->glcall_list);
         // optimize zero-length segments out earlier?
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
@@ -192,9 +193,9 @@ void draw_renderlist(renderlist_t *list) {
         }
         int old_tex = state.texture.active;
         for (int a=0; a<MAX_TEX; a++) {
-		        if (list->texture[a]) {
+		if (list->texture[a]) {
                     glActiveTexture(GL_TEXTURE0+a);
-		            glBindTexture(GL_TEXTURE_2D, list->texture[a]);
+	            glBindTexture(GL_TEXTURE_2D, list->texture[a]);
                     glActiveTexture(GL_TEXTURE0+old_tex);
                 }
         }
@@ -254,7 +255,7 @@ void draw_renderlist(renderlist_t *list) {
 		for (int a=0; a<MAX_TEX; a++) if ((!list->tex[a]) && (state.enable.texgen_s[a] || state.enable.texgen_t[a])) {
                 gen_tex_coords(list->vert, &list->tex[a], list->len, a);
         }
-		old_tex = state.texture.client;
+	old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
 		    if (list->tex[a]) {
 			glClientActiveTexture(GL_TEXTURE0+a);
@@ -268,7 +269,7 @@ void draw_renderlist(renderlist_t *list) {
 		    }
         }
         glClientActiveTexture(GL_TEXTURE0+old_tex);
-
+		
         GLushort *indices = list->indices;
         if (list->q2t)
             indices = cached_q2t;
@@ -382,9 +383,6 @@ void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat *
 }
 
 void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
-    GLfloat *tex = list->lastTex[0];
-    tex[0] = s; tex[1] = t;
-
     if (list->tex[0] == NULL) {
         list->tex[0] = alloc_sublist(2, list->cap);
         // catch up
@@ -396,12 +394,11 @@ void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
     } else {
         resize_renderlist(list);
     }
+    GLfloat *tex = list->lastTex[0];
+    tex[0] = s; tex[1] = t;
 }
 
 void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) {
-    GLfloat *tex = list->lastTex[target-GL_TEXTURE0];
-    tex[0] = s; tex[1] = t;
-
     if (list->tex[target-GL_TEXTURE0] == NULL) {
         list->tex[target-GL_TEXTURE0] = alloc_sublist(2, list->cap);
         // catch up
@@ -413,6 +410,8 @@ void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) 
     } else {
         resize_renderlist(list);
     }
+    GLfloat *tex = list->lastTex[target-GL_TEXTURE0];
+    tex[0] = s; tex[1] = t;
 }
 
 void rlBindTexture(renderlist_t *list, GLuint texture) {
