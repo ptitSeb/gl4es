@@ -67,3 +67,4 @@
 #define direct_glSelectBuffer
 #define direct_glTexCoordPointer
 #define direct_glVertexPointer
+#define direct_glGenTextures

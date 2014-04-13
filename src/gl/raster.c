@@ -81,16 +81,24 @@ void init_raster() {
         glGetIntegerv(GL_VIEWPORT, (GLint *)&viewport);
     }
 #ifdef slow_raster
-	if (!raster_texture || ((raster_width!=npot(viewport.width)) || (raster_height!=npot(viewport.height)))) {
+	if ((raster_texture==0) || ((raster_width!=npot(viewport.width)) || (raster_height!=npot(viewport.height)))) {
+		renderlist_t *old_list = state.list.active;
+		if (old_list) state.list.active = NULL;		// deactivate list...
 		glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
-		if (!raster_texture) glGenTextures(1, &raster_texture);
+		GLuint old_tex;
+		glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex);
+		if (old_tex!=GL_TEXTURE0) glActiveTexture(GL_TEXTURE0);
+		if (raster_texture==0) {
+			glGenTextures(1, &raster_texture);
+		}
 		glBindTexture(GL_TEXTURE_2D, raster_texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, npot(viewport.width), npot(viewport.height),
 			0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		
-		glPopAttrib();
 		raster_width=npot(viewport.width);
 		raster_height=npot(viewport.height);
+		if (old_tex!=GL_TEXTURE0) glActiveTexture(old_tex);
+		glPopAttrib();
+		if (old_list) state.list.active = old_list;
 	}
 #endif
     if (!raster) {
