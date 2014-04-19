@@ -10,7 +10,26 @@ typedef struct {
     int count;
 } rendermaterial_t;
 
+typedef struct {
+    int which;
+    int pname;
+    GLfloat color[4];
+    int count;
+} renderlight_t;
+
+typedef struct {
+	GLfloat	xmove;
+	GLfloat ymove;
+	GLsizei width;
+	GLsizei height;
+/*	GLfloat xorig;
+	GLfloat yorig;
+	GLvoid  *raster;*/
+	GLuint	texture;
+} rasterlist_t;
+
 KHASH_MAP_INIT_INT(material, rendermaterial_t *)
+KHASH_MAP_INIT_INT(light, renderlight_t *)
 
 typedef struct _call_list_t {
     unsigned long len;
@@ -34,8 +53,12 @@ typedef struct _renderlist_t {
     GLboolean q2t;
 	
 	GLuint	glcall_list;
+	rasterlist_t *raster;
 
     khash_t(material) *material;
+    khash_t(light) *light;
+    GLfloat	*lightmodel;
+    GLenum	lightmodelparam;
     GLuint texture[MAX_TEX];
     struct _renderlist_t *prev;
     struct _renderlist_t *next;
@@ -55,6 +78,7 @@ extern void end_renderlist(renderlist_t *list);
 extern void rlBindTexture(renderlist_t *list, GLuint texture);
 extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
+extern void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params);
 extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);

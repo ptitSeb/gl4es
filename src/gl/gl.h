@@ -42,6 +42,7 @@ extern void *gles;
 #define GLES_LIB "libGLESv1_CM.so"
 #else
 #define GLES_LIB "libGLES_CM.so"
+//#define GLES_LIB "/media/SEBEXT/sources/PVRTrace/libGLES1.so"
 #endif // BCMHOST
 #endif // USE_ES2
 #endif // GLES_LIB

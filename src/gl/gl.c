@@ -183,6 +183,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
+		if (cap == GL_TEXTURE_2D)
+			state.list.active = extend_renderlist(state.list.active);
         push_glEnable(cap);
 		//rlEnable(cap);
     } else {
@@ -194,6 +196,8 @@ void glEnable(GLenum cap) {
 
 void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
+		if (cap == GL_TEXTURE_2D)
+			state.list.active = extend_renderlist(state.list.active);
         push_glDisable(cap);
 		//rlDisable(cap);
     } else {
@@ -516,6 +520,19 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 	if (face!=GL_FRONT_AND_BACK)
 		face=GL_FRONT_AND_BACK;
         gles_glMaterialfv(face, pname, params);
+    }
+}
+void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+    LOAD_GLES(glMaterialf);
+    if (state.list.active) {
+		GLfloat params[4];
+		memset(params, 0, 4*sizeof(GLfloat));
+		params[0] = param;
+        rlMaterialfv(state.list.active, face, pname, params);
+    } else {
+	if (face!=GL_FRONT_AND_BACK)
+		face=GL_FRONT_AND_BACK;
+        gles_glMaterialf(face, pname, param);
     }
 }
 #endif

@@ -26,11 +26,15 @@ renderlist_t *alloc_renderlist() {
     list->color = NULL;
 
     list->glcall_list = 0;
+    list->raster = NULL;
 
     int a;
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
     list->material = NULL;
+    list->light = NULL;
+    list->lightmodel = NULL;
+    list->lightmodelparam = GL_LIGHT_MODEL_AMBIENT;
     list->indices = NULL;
     list->q2t = false;
     for (a=0; a<MAX_TEX; a++)
@@ -77,7 +81,22 @@ void free_renderlist(renderlist_t *list) {
             )
             kh_destroy(material, list->material);
         }
+        if (list->light) {
+            renderlight_t *m;
+            kh_foreach_value(list->light, m,
+                free(m);
+            )
+            kh_destroy(light, list->light);
+        }
+        if (list->lightmodel)
+			free(list->lightmodel);
         if (list->indices) free(list->indices);
+        
+        if (list->raster) {
+			if (list->raster->texture)
+				glDeleteTextures(1, &list->raster->texture);
+			free(list->raster);
+		}
 
         next = list->next;
         free(list);
@@ -162,8 +181,12 @@ void end_renderlist(renderlist_t *list) {
     }
     switch (list->mode) {
         case GL_QUADS:
-	        list->mode = GL_TRIANGLES;
-	        q2t_renderlist(list);
+			if (list->len==4) {
+				list->mode = GL_TRIANGLE_FAN;
+			} else {
+				list->mode = GL_TRIANGLES;
+				q2t_renderlist(list);
+			}
             break;
         case GL_POLYGON:
             list->mode = GL_TRIANGLE_FAN;
@@ -181,9 +204,9 @@ void draw_renderlist(renderlist_t *list) {
 
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
-	// do call_list
-	if (list->glcall_list)
-		glCallList(list->glcall_list);
+		// do call_list
+		if (list->glcall_list)
+			glCallList(list->glcall_list);
         // optimize zero-length segments out earlier?
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
@@ -194,11 +217,46 @@ void draw_renderlist(renderlist_t *list) {
         int old_tex = state.texture.active;
         for (int a=0; a<MAX_TEX; a++) {
 		if (list->texture[a]) {
-                    glActiveTexture(GL_TEXTURE0+a);
+                glActiveTexture(GL_TEXTURE0+a);
 	            glBindTexture(GL_TEXTURE_2D, list->texture[a]);
-                    glActiveTexture(GL_TEXTURE0+old_tex);
+                if (a!=old_tex)  glActiveTexture(GL_TEXTURE0+old_tex);
                 }
         }
+        // raster
+        if (list->raster) {
+			rasterlist_t * r = list->raster;
+			//glBitmap(r->width, r->height, r->xorig, r->yorig, r->xmove, r->ymove, r->raster);
+			render_raster_list(list->raster);
+		}
+			
+
+        if (list->material) {
+            khash_t(material) *map = list->material;
+            rendermaterial_t *m;
+            kh_foreach_value(map, m,
+				switch (m->pname) {
+					case GL_SHININESS:
+						glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
+						break;
+					default:
+						glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
+				}
+            )
+        }
+        if (list->light) {
+            khash_t(light) *lig = list->light;
+            renderlight_t *m;
+            kh_foreach_value(lig, m,
+				switch (m->pname) {
+					default:
+						glLightfv(m->which, m->pname, m->color);
+				}
+            )
+        }
+        if (list->lightmodel) {
+			glLightModelfv(list->lightmodelparam, list->lightmodel);
+		}
+
         if (! list->len)
             continue;
 
@@ -229,15 +287,6 @@ void draw_renderlist(renderlist_t *list) {
         } else {
             glDisableClientState(GL_COLOR_ARRAY);
         }
-
-        if (list->material) {
-            khash_t(material) *map = list->material;
-            rendermaterial_t *m;
-            kh_foreach_value(map, m,
-                glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
-            )
-        }
-
         GLuint texture;
 
         bool stipple = false;
@@ -375,6 +424,37 @@ void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat *
     }
 
     m->face = face;
+    m->pname = pname;
+    m->color[0] = params[0];
+    m->color[1] = params[1];
+    m->color[2] = params[2];
+    m->color[3] = params[3];
+}
+
+void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params) {
+    renderlight_t *m;
+    khash_t(light) *map;
+    khint_t k;
+    int ret;
+    if (! list->light) {
+        list->light = map = kh_init(light);
+        // segfaults if we don't do a single put
+        kh_put(light, map, 1, &ret);
+        kh_del(light, map, 1);
+    } else {
+        map = list->light;
+    }
+
+	int key = pname | ((which-GL_LIGHT0)<<16);
+    k = kh_get(light, map, key);
+    if (k == kh_end(map)) {
+        k = kh_put(light, map, key, &ret);
+        m = kh_value(map, k) = malloc(sizeof(renderlight_t));
+    } else {
+        m = kh_value(map, k);
+    }
+
+    m->which = which;
     m->pname = pname;
     m->color[0] = params[0];
     m->color[1] = params[1];

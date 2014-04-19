@@ -13,12 +13,15 @@
 #define skip_glGetString
 #define skip_glIsEnabled
 #define skip_glMaterialfv
+#define skip_glMaterialf
 #define skip_glNormal3f
 
 #define skip_glGetFloatv
 
 // light.c
 #define skip_glLightModelf
+#define skip_glLightModelfv
+#define skip_glLightfv
 
 // raster.c
 #define skip_glViewport
