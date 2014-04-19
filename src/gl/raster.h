@@ -33,5 +33,7 @@ extern void render_raster();
 extern void glPixelZoom(GLfloat xfactor, GLfloat yfactor);
 
 extern void glPixelTransferf(GLenum pname, GLfloat param);
+
+void render_raster_list(rasterlist_t* raster);
 	
 #endif
