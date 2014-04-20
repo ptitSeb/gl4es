@@ -19,7 +19,7 @@ void glBindTexture(GLenum target, GLuint texture);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
-
+void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,

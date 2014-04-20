@@ -319,3 +319,21 @@
 #define GL_LOW_INT                        0x8DF3
 #define GL_MEDIUM_INT                     0x8DF4
 #define GL_HIGH_INT                       0x8DF5
+
+/* Texture Parameters */
+#define GL_TEXTURE_INTERNAL_FORMAT	      0x1003
+#define GL_TEXTURE_RED_SIZE			      0x805C
+#define GL_TEXTURE_GREEN_SIZE			  0x805D
+#define GL_TEXTURE_BLUE_SIZE			  0x805E
+#define GL_TEXTURE_ALPHA_SIZE			  0x805F
+#define GL_TEXTURE_LUMINANCE_SIZE		  0x8060
+#define GL_TEXTURE_INTENSITY_SIZE		  0x8061
+#define GL_TEXTURE_RED_TYPE               0x8C10
+#define GL_TEXTURE_GREEN_TYPE             0x8C11
+#define GL_TEXTURE_BLUE_TYPE              0x8C12
+#define GL_TEXTURE_ALPHA_TYPE             0x8C13
+#define GL_TEXTURE_DEPTH_TYPE             0x8C16
+#define GL_TEXTURE_DEPTH				  0x8071
+#define GL_TEXTURE_DEPTH_SIZE             0x884A
+#define GL_TEXTURE_COMPRESSED_IMAGE_SIZE  0x86A0
+#define GL_TEXTURE_COMPRESSED			  0x86A1

@@ -104,6 +104,12 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	if (pname==GL_SPOT_DIRECTION) n=3;
 	else for (int i=0; i<n; i++) params[i]=fparams[i];
 }
+void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
+	GLint iparams;
+	glGetTexLevelParameteriv(target, level, pname, &iparams);
+	(*params)=iparams;
+	return;
+}
 void glGetClipPlane(GLenum plane, GLdouble *equation) {
 	GLfloat fparams[4];
 	glGetClipPlanef(plane, fparams);

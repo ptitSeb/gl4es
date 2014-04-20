@@ -101,6 +101,8 @@ void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t);
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glMultiTexCoord4fvARB(GLenum target, GLfloat *t);
 
+void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
+
 // texgen
 void glTexGend(GLenum coord, GLenum pname, GLdouble param);
 void glTexGeni(GLenum coord, GLenum pname, GLint param);

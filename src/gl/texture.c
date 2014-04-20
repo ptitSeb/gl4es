@@ -361,6 +361,50 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *re
     return true;
 }
 
+void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
+	// simplification: not taking "target" into account here
+	*params = 0;
+	gltexture_t* bound = state.texture.bound[state.texture.active];
+	switch (pname) {
+		case GL_TEXTURE_WIDTH: 
+			(*params) = ((bound)?bound->width:2048)>>level; 
+			break;
+		case GL_TEXTURE_HEIGHT: 
+			(*params) = ((bound)?bound->height:2048)>>level; 
+			break;
+		case GL_TEXTURE_INTERNAL_FORMAT:
+			(*params) = GL_RGBA;
+			break;
+		case GL_TEXTURE_DEPTH:
+			(*params) = 0;
+			break;
+		case GL_TEXTURE_RED_TYPE:
+		case GL_TEXTURE_GREEN_TYPE:
+		case GL_TEXTURE_BLUE_TYPE:
+		case GL_TEXTURE_ALPHA_TYPE:
+		case GL_TEXTURE_DEPTH_TYPE:
+			(*params) = GL_FLOAT;
+			break;
+		case GL_TEXTURE_RED_SIZE:
+		case GL_TEXTURE_GREEN_SIZE:
+		case GL_TEXTURE_BLUE_SIZE:
+		case GL_TEXTURE_ALPHA_SIZE:
+			(*params) = 8;
+			break;
+		case GL_TEXTURE_DEPTH_SIZE:
+			(*params) = 0;
+			break;
+		case GL_TEXTURE_COMPRESSED:
+			(*params) = GL_FALSE;
+			break;
+		case GL_TEXTURE_COMPRESSED_IMAGE_SIZE:
+			(*params) = (bound)?(bound->width*bound->height*4):0;
+			break;
+		default:
+			printf("Stubbed glGetTexLevelParameteriv(%04x, %i, %04x, %p)\n", target, level, pname, params);
+	}
+}
+
 void glActiveTexture( GLenum texture ) {
  PUSH_IF_COMPILING(glActiveTexture);
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX))
