@@ -13,7 +13,7 @@ void glFogCoordd(GLdouble coord);
 void glFogCoorddv(const GLdouble *coord);
 void glFogCoordf(GLfloat coord);
 void glFogCoordfv(const GLfloat *coord);
-void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
+//void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
 //void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
 //void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glIndexf(GLfloat c);

@@ -1,4 +1,6 @@
 #include "texture.h"
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
 
 // expand non-power-of-two sizes
 // TODO: what does this do to repeating textures?
@@ -190,7 +192,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     LOAD_GLES(glTexSubImage2D);
 //printf("glTexSubImage2D with unpack_row_length(%i), size(%d,%d), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
     target = map_tex_target(target);
-    GLvoid *pixels = data;/* = swizzle_texture(width, height, &format, &type, data);*/
+    const GLvoid *pixels = data;/* = swizzle_texture(width, height, &format, &type, data);*/
 
 	 if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
 		 int imgWidth, pixelSize;
@@ -403,6 +405,80 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 		default:
 			printf("Stubbed glGetTexLevelParameteriv(%04x, %i, %04x, %p)\n", target, level, pname, params);
 	}
+}
+
+void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
+	if (state.texture.bound[state.texture.active]==NULL)
+		return;		// no texture bounded...
+	if (level != 0) {
+		//TODO
+		printf("STUBBED glGetTexImage with level=%i\n", level);
+		return;
+	}
+	if (format != GL_RGBA) {
+		//TODO
+		printf("STUBBED glGetTexImage with format=%i\n", level);
+		return;
+	}
+	if (type != GL_UNSIGNED_BYTE) {
+		//TODO
+		printf("STUBBED glGetTexImage with type=%i\n", level);
+		return;
+	}
+
+	gltexture_t* bound = state.texture.bound[state.texture.active];
+	// Setup an FBO the same size of the texture
+	#define getOES(name, proto)	proto name = (proto)eglGetProcAddress(#name); if (name==NULL) printf("Warning! %s is NULL\n", #name)
+	// first, get all FBO functions...
+	getOES(glIsRenderbufferOES, PFNGLISRENDERBUFFEROESPROC);
+	getOES(glBindRenderbufferOES, PFNGLBINDRENDERBUFFEROESPROC);
+	getOES(glDeleteRenderbuffersOES, PFNGLDELETERENDERBUFFERSOESPROC);
+	getOES(glGenRenderbuffersOES, PFNGLGENRENDERBUFFERSOESPROC);
+	getOES(glRenderbufferStorageOES, PFNGLRENDERBUFFERSTORAGEOESPROC);
+	getOES(glGetRenderbufferParameterivOES, PFNGLGETRENDERBUFFERPARAMETERIVOESPROC);
+	getOES(glIsFramebufferOES, PFNGLISFRAMEBUFFEROESPROC);
+	getOES(glBindFramebufferOES, PFNGLBINDFRAMEBUFFEROESPROC);
+	getOES(glDeleteFramebuffersOES, PFNGLDELETEFRAMEBUFFERSOESPROC);
+	getOES(glGenFramebuffersOES, PFNGLGENFRAMEBUFFERSOESPROC);
+	getOES(glCheckFramebufferStatusOES, PFNGLCHECKFRAMEBUFFERSTATUSOESPROC);
+	getOES(glFramebufferRenderbufferOES, PFNGLFRAMEBUFFERRENDERBUFFEROESPROC);
+	getOES(glFramebufferTexture2DOES, PFNGLFRAMEBUFFERTEXTURE2DOESPROC);
+	getOES(glGetFramebufferAttachmentParameterivOES, PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVOESPROC);
+	getOES(glGenerateMipmapOES, PFNGLGENERATEMIPMAPOESPROC);
+	// and the DrawTex can be usefull too
+	getOES(glDrawTexiOES, PFNGLDRAWTEXIOESPROC);
+	#undef getOES
+	
+	// Now create the FBO
+	GLint oldBind = bound->texture;
+	int width = bound->width;
+	int height = bound->height;
+	GLuint fbo;
+    glGenFramebuffersOES(1, &fbo);
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
+
+    GLuint rbo;
+    glGenRenderbuffersOES(1, &rbo);
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, rbo);
+    glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_RGBA8_OES, width, height);
+
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, rbo);
+
+    GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
+    if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
+        printf("glGetTexImage, incomplete FBO (%04x)", status);
+    } 
+    // Now, draw the texture inside FBO
+    glDrawTexiOES(0, 0, 0, width, height);
+    // Read the pixels!
+    LOAD_GLES(glReadPixels);
+    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, img);
+    // Unmount FBO
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
+    glBindTexture(GL_TEXTURE_2D, oldBind);
+    glDeleteRenderbuffersOES(1, &rbo);
+    glDeleteFramebuffersOES(1, &fbo);
 }
 
 void glActiveTexture( GLenum texture ) {
