@@ -300,9 +300,10 @@ void draw_renderlist(renderlist_t *list) {
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
-		} 
-		for (int a=0; a<MAX_TEX; a++) if ((!list->tex[a]) && (state.enable.texgen_s[a] || state.enable.texgen_t[a])) {
-                gen_tex_coords(list->vert, &list->tex[a], list->len, a);
+		}
+		for (int a=0; a<MAX_TEX; a++) 
+			if ((!list->tex[a]) && (state.enable.texgen_s[a] || state.enable.texgen_t[a])) {
+				gen_tex_coords(list->vert, &list->tex[a], list->len, a);
         }
 	old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {

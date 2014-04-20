@@ -263,7 +263,10 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 static inline bool should_intercept_render(GLenum mode) {
     return (
         (state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
-        state.enable.texgen_s[state.texture.active] || state.enable.texgen_t[state.texture.active] ||
+        state.enable.texgen_s[0] || state.enable.texgen_t[0] ||
+        state.enable.texgen_s[1] || state.enable.texgen_t[1] ||
+        state.enable.texgen_s[2] || state.enable.texgen_t[2] ||
+        state.enable.texgen_s[3] || state.enable.texgen_t[3] ||
         (mode == GL_LINES && state.enable.line_stipple) ||
         (mode == GL_QUADS)
     );

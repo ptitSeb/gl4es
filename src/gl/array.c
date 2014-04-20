@@ -188,8 +188,9 @@ void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei co
         *min = (n < *min) ? n : *min;
         *max = (n > *max) ? n : *max;
     }
-    for (int i = 0; i < count; i++) {
+/*    for (int i = 0; i < count; i++) {
         indices[i] -= *min;
     }
-	*max-=*min;		// max is lowered too
+	(*max)-=*min;		// max is lowered too
+*/
 }
