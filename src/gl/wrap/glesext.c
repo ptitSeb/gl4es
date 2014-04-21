@@ -18,4 +18,13 @@ void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     gles_glBlendEquationSeparate(modeRGB, modeA);
 }
 #endif
+#ifndef skip_glBlendFuncSeparate
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
+    LOAD_GLES_OES(glBlendFuncSeparate);
+#ifndef direct_glBlendFuncSeparate
+    PUSH_IF_COMPILING(glBlendFuncSeparate)
+#endif
+    gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
+#endif
 #endif

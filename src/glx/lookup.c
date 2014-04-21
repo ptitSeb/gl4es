@@ -136,6 +136,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glBitmap);
     EX(glBlendEquationSeparatei);
     EX(glBlendFuncSeparate);
+    EX(glBlendFuncSeparateEXT);
     EX(glBlendFuncSeparatei);
     EX(glCallList);
     EX(glCallLists);

@@ -33,6 +33,8 @@ void glGetMaterialiv(GLenum face, GLenum pname, GLint * params);
 void glGetLightiv(GLenum light, GLenum pname, GLint * params);
 void glGetClipPlane(GLenum plane, GLdouble *equation);
 
+void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+
 void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices);	
 void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices);	
 // color

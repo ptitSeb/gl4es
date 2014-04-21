@@ -251,6 +251,9 @@ void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
 }
 
+void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
+	glBlendFuncSeparate (sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
 
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {

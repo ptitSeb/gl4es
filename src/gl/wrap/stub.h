@@ -3,7 +3,7 @@
 GLint glRenderMode(GLenum mode);
 //void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
-void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+//void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
 void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
 void glColorMaterial(GLenum face, GLenum mode);
 void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);

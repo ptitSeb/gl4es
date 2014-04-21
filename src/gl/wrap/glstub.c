@@ -49,7 +49,7 @@ STUB(GLint glRenderMode(GLenum mode))
 #endif
 STUB(void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha))
 #ifndef USE_ES2
-STUB(void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
+//STUB(void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
 #endif
 STUB(void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
 STUB(void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha))
