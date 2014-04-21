@@ -1,5 +1,6 @@
 glBlendEquation: [void, GLenum mode]
 glBlendEquationSeparate: [void, GLenum modeRGB, GLenum modeA]
+glBlendFuncSeparate: [void, GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha]
 # glTexGenfOES: [void, GLenum coord, GLenum pname, GLfloat param]
 # glTexGenfvOES: [void, GLenum coord, GLenum pname, "const GLfloat *params"]
 # glTexGeniOES: [void, GLenum coord, GLenum pname, GLint param]

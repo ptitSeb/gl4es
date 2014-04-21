@@ -1,9 +1,13 @@
 {% extends "base/wrap.c.j2" %}
 {% block headers %}
 {{ super() }}
+
+{% endblock %}
+{% block content %}
 {% include "base/packed_call.j2" %}
 
 {% endblock %}
+
 {% block definition %}
 #ifndef skip_{{ func.name }}
 {{ super() -}}
