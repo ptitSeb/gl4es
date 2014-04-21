@@ -72,7 +72,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
         stride = width * gl_sizeof(from);
 
     const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
-    GLvoid *dst = malloc(count * to_width * gl_sizeof(to));
+    GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_size = gl_sizeof(to) * to_width;
     if (to_width < width) {
@@ -188,9 +188,7 @@ void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei co
         *min = (n < *min) ? n : *min;
         *max = (n > *max) ? n : *max;
     }
-/*    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         indices[i] -= *min;
     }
-	(*max)-=*min;		// max is lowered too
-*/
 }

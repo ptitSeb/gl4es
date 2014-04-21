@@ -34,6 +34,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_SGIS_generate_mipmap "
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_logic_op "
+                "GL_EXT_blend_func_separate "
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
@@ -294,7 +295,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = state.list.active = extend_renderlist(state.list.active);
 
         normalize_indices(indices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, 0, max + 1);
+        list = arrays_to_renderlist(list, mode, min, max + 1);
         list->indices = indices;
         list->len = count;
 
