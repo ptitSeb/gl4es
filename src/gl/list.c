@@ -319,10 +319,12 @@ void draw_renderlist(renderlist_t *list) {
             } 
 		}
 		GLfloat *texgened[MAX_TEX];
+		GLint needclean[MAX_TEX];
 		for (int a=0; a<MAX_TEX; a++) {
 			texgened[a]=NULL;
-			if ((state.enable.texture_2d[a]) && (state.enable.texgen_s[a] || state.enable.texgen_t[a])) {
-					gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, a);
+			// CubeMaps are a different state than Texture2D!
+			if (/*(state.enable.texture_2d[a]) && */(state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
+					gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a);
 			}
         }
 	    old_tex = state.texture.client;

@@ -109,9 +109,9 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
 void glTexGend(GLenum coord, GLenum pname, GLdouble param);
 void glTexGeni(GLenum coord, GLenum pname, GLint param);
 void glTexGenf(GLenum coord, GLenum pname, GLfloat param);
-void glTexGendv(GLenum coord, GLenum pname, GLdouble *params);
-void glTexGenfv(GLenum coord, GLenum pname, GLfloat *params);
-void glTexGeniv(GLenum coord, GLenum pname, GLint *params);
+void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params);
+void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params);
+void glTexGeniv(GLenum coord, GLenum pname, const GLint *params);
 
 // transforms
 void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z);

@@ -134,6 +134,8 @@ EX(glTexEnvi);
 EX(glTexEnviv);
 EX(glTexEnvx);
 EX(glTexEnvxv);
+EX(glTexGenfv);
+EX(glTexGeni);
 EX(glTexImage2D);
 EX(glTexParameterf);
 EX(glTexParameterfv);

@@ -15,6 +15,7 @@ typedef struct {
               tex_coord_array[MAX_TEX],
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
+              texgen_r[MAX_TEX],
               texture_2d[MAX_TEX];
 } enable_state_t;
 
@@ -22,8 +23,10 @@ typedef struct {
 typedef struct {
     GLenum S;
     GLenum T;
+    GLenum R;
     GLfloat Sv[4];
     GLfloat Tv[4];
+    GLfloat Rv[4];
 } texgen_state_t;
 
 typedef struct {

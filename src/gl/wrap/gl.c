@@ -586,13 +586,21 @@ void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     // TODO: this is gross/lossy.
     glTexGeni(coord, pname, param);
 }
-void glTexGendv(GLenum coord, GLenum pname, GLdouble *params) {
-    // TODO: stub
-    // glTexGenfv(coord, pname, thunked_params);
+void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) {
+    GLfloat tmp[4];
+    tmp[0]=params[0];
+    if ((pname==GL_OBJECT_PLANE) || (pname==GL_EYE_PLANE))
+		for (int i=1; i<4; i++)
+			tmp[i]=params[i];
+    glTexGenfv(coord, pname, tmp);
 }
-void glTexGeniv(GLenum coord, GLenum pname, GLint *params) {
-    // TODO: stub
-    // glTexGenfv(coord, pname, thunked_params);
+void glTexGeniv(GLenum coord, GLenum pname, const GLint *params) {
+    GLfloat tmp[4];
+    tmp[0]=params[0];
+    if ((pname==GL_OBJECT_PLANE) || (pname==GL_EYE_PLANE))
+		for (int i=1; i<4; i++)
+			tmp[i]=params[i];
+    glTexGenfv(coord, pname, tmp);
 }
 
 // transforms

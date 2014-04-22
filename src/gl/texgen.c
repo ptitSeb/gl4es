@@ -18,7 +18,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     glTexGenfv(coord, pname, params);
 }
 
-void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
+void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
 
     if (state.list.compiling && state.list.active) {
 		rlTexGenfv(state.list.active, coord, pname, param);
@@ -30,6 +30,7 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
         switch (coord) {
             case GL_S: state.texgen[state.texture.active].S = param[0]; break;
             case GL_T: state.texgen[state.texture.active].T = param[0]; break;
+            case GL_R: state.texgen[state.texture.active].R = param[0]; break;
         }
     } else {
         switch (coord) {
@@ -38,6 +39,9 @@ void glTexGenfv(GLenum coord, GLenum pname, GLfloat *param) {
                 break;
             case GL_T:
                 memcpy(state.texgen[state.texture.active].Tv, param, 4 * sizeof(GLfloat));
+                break;
+            case GL_R:
+                memcpy(state.texgen[state.texture.active].Rv, param, 4 * sizeof(GLfloat));
                 break;
         }
     }
@@ -66,11 +70,14 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 		case GL_EYE_PLANE:	// probably wrong...
 			switch (coord) {
 				case GL_S:
-				memcpy(params, state.texgen[state.texture.active].Sv, 4 * sizeof(GLfloat));
-				break;
+					memcpy(params, state.texgen[state.texture.active].Sv, 4 * sizeof(GLfloat));
+					break;
 				case GL_T:
-				memcpy(params, state.texgen[state.texture.active].Tv, 4 * sizeof(GLfloat));
-				break;
+					memcpy(params, state.texgen[state.texture.active].Tv, 4 * sizeof(GLfloat));
+					break;
+				case GL_R:
+					memcpy(params, state.texgen[state.texture.active].Tv, 4 * sizeof(GLfloat));
+					break;
 			}
 		break;
 	}
@@ -81,6 +88,7 @@ GLfloat dot(const GLfloat *a, const GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
+//TODO: NEONize all thoses functions, maybe also making the vector an array of 4 float can help.
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
     c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3];
     c[1] = a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7];
@@ -218,8 +226,9 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
     }
 }
 
-void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, int texture) {
+void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture) {
     // TODO: do less work when called from glDrawElements?
+    (*needclean) = 0;
     if ((*coords)==NULL) *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     // special case: SPHERE_MAP needs both texgen to make sense
     if ((state.enable.texgen_s[texture] && (state.texgen[texture].S==GL_SPHERE_MAP)) && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_SPHERE_MAP)))
@@ -227,8 +236,47 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         sphere_loop(verts, norm, *coords, count);
         return;
     }
+    // special case: REFLECTION_MAP  needs the 3 texgen to make sense
+    if ((state.enable.texgen_s[texture] && (state.texgen[texture].S==GL_REFLECTION_MAP)) 
+     && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_REFLECTION_MAP))
+     && (state.enable.texgen_r[texture] && (state.texgen[texture].R==GL_REFLECTION_MAP)))
+    {
+		*needclean=1;
+		// setup reflection map!
+		GLuint old_tex=state.texture.active;
+		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
+		LOAD_GLES_OES(glTexGeni);
+		LOAD_GLES_OES(glTexGenfv);
+		LOAD_GLES(glEnable);
+		// enable texgen
+		gles_glEnable(GL_TEXTURE_GEN_S);
+		gles_glEnable(GL_TEXTURE_GEN_T);
+		gles_glEnable(GL_TEXTURE_GEN_R);
+		// setup cube map mode
+		gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+		gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+		gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+
+		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+        return;
+    }
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, count, state.texgen[texture].S, state.texgen[texture].Sv);
     if (state.enable.texgen_t[texture])
         tex_coord_loop(verts, norm, *coords+1, count, state.texgen[texture].T, state.texgen[texture].Tv);
+}
+
+void gen_tex_clean(GLint cleancode, int texture) {
+	if (cleancode == 0)
+		return;
+	if (cleancode == 1) {
+		GLuint old_tex=state.texture.active;
+		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
+		LOAD_GLES(glDisable);
+		gles_glDisable(GL_TEXTURE_GEN_R);
+		gles_glDisable(GL_TEXTURE_GEN_T);
+		gles_glDisable(GL_TEXTURE_GEN_S);
+		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+		return;
+	}
 }

@@ -36,6 +36,8 @@
 #define skip_glActiveTexture
 #define skip_glClientActiveTexture
 #define skip_glMultiTexCoord4f
+#define skip_glTexGeni
+#define skip_glTexGenfv
 // glDrawArrays
 #define skip_glDrawArrays
 #define skip_glDrawElements

@@ -169,6 +169,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_enable(GL_TEXTURE_2D, texture_2d[state.texture.active]);
         enable(GL_TEXTURE_GEN_S, texgen_s[state.texture.active]);
         enable(GL_TEXTURE_GEN_T, texgen_t[state.texture.active]);
+        enable(GL_TEXTURE_GEN_R, texgen_r[state.texture.active]);
         enable(GL_LINE_STIPPLE, line_stipple);
 
         // for glDrawArrays
@@ -184,7 +185,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T))
+		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
 			state.list.active = extend_renderlist(state.list.active);
         push_glEnable(cap);
 		//rlEnable(cap);
@@ -197,7 +198,7 @@ void glEnable(GLenum cap) {
 
 void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T))
+		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
 			state.list.active = extend_renderlist(state.list.active);
         push_glDisable(cap);
 		//rlDisable(cap);
@@ -227,6 +228,8 @@ GLboolean glIsEnabled(GLenum cap) {
         case GL_TEXTURE_GEN_S:
             return state.enable.texgen_s[state.texture.active];
         case GL_TEXTURE_GEN_T:
+            return state.enable.texgen_t[state.texture.active];
+        case GL_TEXTURE_GEN_R:
             return state.enable.texgen_t[state.texture.active];
 		case GL_TEXTURE_COORD_ARRAY:
 			return state.enable.tex_coord_array[state.texture.client];
@@ -264,10 +267,10 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 static inline bool should_intercept_render(GLenum mode) {
     return (
         (state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
-        (state.enable.texture_2d[0] && (state.enable.texgen_s[0] || state.enable.texgen_t[0])) ||
-        (state.enable.texture_2d[1] && (state.enable.texgen_s[1] || state.enable.texgen_t[1])) ||
-        (state.enable.texture_2d[2] && (state.enable.texgen_s[2] || state.enable.texgen_t[2])) ||
-        (state.enable.texture_2d[3] && (state.enable.texgen_s[3] || state.enable.texgen_t[3])) ||
+        (state.enable.texture_2d[0] && (state.enable.texgen_s[0] || state.enable.texgen_t[0] || state.enable.texgen_r[0])) ||
+        (state.enable.texture_2d[1] && (state.enable.texgen_s[1] || state.enable.texgen_t[1] || state.enable.texgen_r[1])) ||
+        (state.enable.texture_2d[2] && (state.enable.texgen_s[2] || state.enable.texgen_t[2] || state.enable.texgen_r[2])) ||
+        (state.enable.texture_2d[3] && (state.enable.texgen_s[3] || state.enable.texgen_t[3] || state.enable.texgen_r[3])) ||
         (mode == GL_LINES && state.enable.line_stipple) ||
         (mode == GL_QUADS) || (state.list.active && state.list.compiling)
     );

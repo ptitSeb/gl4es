@@ -241,7 +241,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexImage3D);
     EX(glTranslated);
     EX(glUnlockArraysEXT);
-
+	EX(glGetTexGenfv);
     // stubs for unimplemented functions
     STUB(glAccum);
     STUB(glAreTexturesResident);
@@ -260,7 +260,7 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glGetPolygonStipple);
     STUB(glGetStringi);
     STUB(glGetTexGendv);
-    STUB(glGetTexGenfv);
+    //STUB(glGetTexGenfv);
     STUB(glGetTexGeniv);
     STUB(glMaterialiv);
     STUB(glPassThrough);
