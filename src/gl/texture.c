@@ -367,11 +367,17 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 	*params = 0;
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	switch (pname) {
-		case GL_TEXTURE_WIDTH: 
-			(*params) = ((bound)?bound->width:2048)>>level; 
+		case GL_TEXTURE_WIDTH:
+			if (target==GL_PROXY_TEXTURE_2D)
+				(*params) = 2048>>level;
+			else
+				(*params) = ((bound)?bound->width:2048)>>level; 
 			break;
 		case GL_TEXTURE_HEIGHT: 
-			(*params) = ((bound)?bound->height:2048)>>level; 
+			if (target==GL_PROXY_TEXTURE_2D)
+				(*params) = 2048>>level;
+			else
+				(*params) = ((bound)?bound->height:2048)>>level; 
 			break;
 		case GL_TEXTURE_INTERNAL_FORMAT:
 			(*params) = GL_RGBA;
