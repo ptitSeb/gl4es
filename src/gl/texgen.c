@@ -65,8 +65,6 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 			}
 			break;
 		case GL_OBJECT_PLANE:
-		case GL_SPHERE_MAP:
-		case GL_REFLECTION_MAP:
 		case GL_EYE_PLANE:	// probably wrong...
 			switch (coord) {
 				case GL_S:
@@ -162,7 +160,7 @@ void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint c
 void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint count) {
     // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
     if (!norm) {
-        printf("LIBGL: GL_SPHERE_MAP without Normals");
+        printf("LIBGL: GL_SPHERE_MAP without Normals\n");
         return;
     }
     // First get the ModelviewMatrix
@@ -229,10 +227,13 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
 void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture) {
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
-    if ((*coords)==NULL) *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     // special case: SPHERE_MAP needs both texgen to make sense
     if ((state.enable.texgen_s[texture] && (state.texgen[texture].S==GL_SPHERE_MAP)) && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_SPHERE_MAP)))
     {
+		if (!state.enable.texture_2d[texture])
+			return;
+		if ((*coords)==NULL) 
+			*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
         sphere_loop(verts, norm, *coords, count);
         return;
     }
@@ -260,6 +261,10 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
         return;
     }
+	if (!state.enable.texture_2d[texture])
+		return;
+	if ((*coords)==NULL) 
+		*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, count, state.texgen[texture].S, state.texgen[texture].Sv);
     if (state.enable.texgen_t[texture])
