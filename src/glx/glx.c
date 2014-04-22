@@ -227,6 +227,9 @@ static void scan_env() {
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd))!= NULL)
+        printf("LIBGL: Current folder is:%s\n", cwd);
     if (g_vsync) {
         init_vsync();
     }
