@@ -279,11 +279,10 @@ void glPixelStorei(GLenum pname, GLint param) {
 void glBindTexture(GLenum target, GLuint texture) {
     if (state.list.active) {
 		// check if already a texture binded, if yes, create a new list
-		if (state.list.active->texture[state.texture.active] != 0)
+		if (state.list.active->set_texture)
 			state.list.active = extend_renderlist(state.list.active);
         rlBindTexture(state.list.active, texture);
     } else {
-		
         if (texture) {
             int ret;
             khint_t k;
@@ -482,7 +481,10 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 }
 
 void glActiveTexture( GLenum texture ) {
+ if (state.list.compiling && state.list.active)
+	state.list.active = extend_renderlist(state.list.active);
  PUSH_IF_COMPILING(glActiveTexture);
+ 
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX))
    return;
  state.texture.active = texture - GL_TEXTURE0;
@@ -491,7 +493,10 @@ void glActiveTexture( GLenum texture ) {
 }
 
 void glClientActiveTexture( GLenum texture ) {
+ if (state.list.compiling && state.list.active)
+	state.list.active = extend_renderlist(state.list.active);
  PUSH_IF_COMPILING(glClientActiveTexture);
+ 
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX))
    return;
  state.texture.client = texture - GL_TEXTURE0;

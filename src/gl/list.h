@@ -18,6 +18,13 @@ typedef struct {
 } renderlight_t;
 
 typedef struct {
+    int coord;
+    int pname;
+    GLfloat color[4];
+    int count;
+} rendertexgen_t;
+
+typedef struct {
 	GLfloat	xmove;
 	GLfloat ymove;
 	GLsizei width;
@@ -30,6 +37,7 @@ typedef struct {
 
 KHASH_MAP_INIT_INT(material, rendermaterial_t *)
 KHASH_MAP_INIT_INT(light, renderlight_t *)
+KHASH_MAP_INIT_INT(texgen, rendertexgen_t *)
 
 typedef struct _call_list_t {
     unsigned long len;
@@ -57,9 +65,11 @@ typedef struct _renderlist_t {
 
     khash_t(material) *material;
     khash_t(light) *light;
+    khash_t(texgen) *texgen;
     GLfloat	*lightmodel;
     GLenum	lightmodelparam;
-    GLuint texture[MAX_TEX];
+    GLuint texture;				// I cannot know the active texture inside a list (for now => TODO?)
+    GLboolean  set_texture;
     struct _renderlist_t *prev;
     struct _renderlist_t *next;
     GLboolean open;
@@ -79,6 +89,7 @@ extern void rlBindTexture(renderlist_t *list, GLuint texture);
 extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
 extern void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params);
+extern void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * params);
 extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);

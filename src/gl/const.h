@@ -36,6 +36,7 @@
 #define GL_EYE_LINEAR               0x2400
 #define GL_EYE_PLANE                0x2502
 #define GL_SPHERE_MAP               0x2402
+#define GL_REFLECTION_MAP			0x8512
 #define GL_DECAL                    0x2101
 #define GL_MODULATE                 0x2100
 #define GL_NEAREST                  0x2600

@@ -23,7 +23,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
-                "GL_ARB_texture_cube_map "
+//                "GL_ARB_texture_cube_map "
                 "GL_ARB_texture_border_clamp "
                 "GL_ARB_point_parameters "
                 "GL_ARB_texture_env_combine "
@@ -184,7 +184,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if (cap == GL_TEXTURE_2D)
+		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T))
 			state.list.active = extend_renderlist(state.list.active);
         push_glEnable(cap);
 		//rlEnable(cap);
@@ -197,7 +197,7 @@ void glEnable(GLenum cap) {
 
 void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if (cap == GL_TEXTURE_2D)
+		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T))
 			state.list.active = extend_renderlist(state.list.active);
         push_glDisable(cap);
 		//rlDisable(cap);
@@ -264,12 +264,12 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 static inline bool should_intercept_render(GLenum mode) {
     return (
         (state.enable.vertex_array && ! valid_vertex_type(state.pointers.vertex.type)) ||
-        state.enable.texgen_s[0] || state.enable.texgen_t[0] ||
-        state.enable.texgen_s[1] || state.enable.texgen_t[1] ||
-        state.enable.texgen_s[2] || state.enable.texgen_t[2] ||
-        state.enable.texgen_s[3] || state.enable.texgen_t[3] ||
+        (state.enable.texture_2d[0] && (state.enable.texgen_s[0] || state.enable.texgen_t[0])) ||
+        (state.enable.texture_2d[1] && (state.enable.texgen_s[1] || state.enable.texgen_t[1])) ||
+        (state.enable.texture_2d[2] && (state.enable.texgen_s[2] || state.enable.texgen_t[2])) ||
+        (state.enable.texture_2d[3] && (state.enable.texgen_s[3] || state.enable.texgen_t[3])) ||
         (mode == GL_LINES && state.enable.line_stipple) ||
-        (mode == GL_QUADS)
+        (mode == GL_QUADS) || (state.list.active && state.list.compiling)
     );
 }
 
@@ -300,6 +300,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list->len = count;
 
         end_renderlist(list);
+        //state.list.active = extend_renderlist(state.list.active);
     } else {
         LOAD_GLES(glDrawElements);
 		if (mode == GL_QUAD_STRIP)
@@ -459,8 +460,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
 // immediate mode functions
 
 void glBegin(GLenum mode) {
-    if (! state.list.compiling) {
-//    if (! state.list.active) {
+    if (! state.list.active) {
         state.list.active = alloc_renderlist();
     } else {
 		// create a new list, as we are already inside one
@@ -474,10 +474,11 @@ void glEnd() {
 
     // render if we're not in a display list
     if (! state.list.compiling) {
-        end_renderlist(state.list.active);
-        draw_renderlist(state.list.active);
-        free_renderlist(state.list.active);
+		renderlist_t *mylist = state.list.active;
         state.list.active = NULL;
+        end_renderlist(mylist);
+        draw_renderlist(mylist);
+        free_renderlist(mylist);
     } else {
         state.list.active = extend_renderlist(state.list.active);
     }
@@ -575,16 +576,16 @@ void glArrayElement(GLint i) {
         glNormal3fv(v);
     }
     p = &state.pointers.tex_coord[0];
-    if (state.enable.tex_coord_array[0] && p->pointer) {
+    if (state.enable.texture_2d[0] && state.enable.tex_coord_array[0] && p->pointer) {
         v = gl_pointer_index(p, i);
         glTexCoord2fv(v);
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
 	    p = &state.pointers.tex_coord[a];
-	    if (state.enable.tex_coord_array[a] && p->pointer) {
-		v = gl_pointer_index(p, i);
-		glMultiTexCoord2fv(GL_TEXTURE0+a, v);
+	    if (state.enable.texture_2d[a] && state.enable.tex_coord_array[a] && p->pointer) {
+			v = gl_pointer_index(p, i);
+			glMultiTexCoord2fv(GL_TEXTURE0+a, v);
 	    }
     }
     p = &state.pointers.vertex;
@@ -638,7 +639,6 @@ GLuint glGenLists(GLsizei range) {
 void glNewList(GLuint list, GLenum mode) {
     if (! glIsList(list))
         return;
-        
     state.list.name = list;
     state.list.mode = mode;
     // TODO: if state.list.active is already defined, we probably need to clean up here
