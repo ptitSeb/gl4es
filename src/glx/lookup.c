@@ -10,6 +10,8 @@
 
 #define ARB(func_name) MAP(#func_name "ARB", func_name)
 
+#define EXT(func_name) MAP(#func_name "EXT", func_name)
+
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
         printf("glX stub: %s\n", #func_name); \
@@ -52,8 +54,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXWaitX);
 
     // GL_ARB_vertex_buffer_object
-/*
-    ARB(glBindBuffer);
+
+/*    ARB(glBindBuffer);
     ARB(glBufferData);
     ARB(glBufferSubData);
     ARB(glDeleteBuffers);
@@ -65,8 +67,8 @@ void *glXGetProcAddressARB(const char *name) {
     MAP_EGL(glMapBufferARB, glMapBufferOES);
     MAP_EGL(glUnmapBufferARB, glMapBufferOES);
     STUB(glGetBufferParameterivARB);
-    STUB(glGetBufferSubDataARB);
-*/
+    STUB(glGetBufferSubDataARB);*/
+
 
     // OES wrapper
     EX(glClearDepthfOES);
@@ -149,6 +151,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glDisable);
     EX(glDrawBuffer);
     EX(glDrawPixels);
+    EX(glDrawRangeElements);
+    EXT(glDrawRangeElements);
     EX(glEdgeFlag);
     EX(glEnable);
     EX(glEnd);
@@ -201,13 +205,17 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glMapGrid2f);
     EX(glMateriali);
     EX(glMultiTexCoord2f);
-    ARB(glMultiTexCoord2f);
+    EX(glMultiTexCoord3f);
     EX(glMultiTexCoord4f);
-    ARB(glMultiTexCoord2f);
     EX(glMultiTexCoord2fv);
-    ARB(glMultiTexCoord2fv);
+    EX(glMultiTexCoord3fv);
     EX(glMultiTexCoord4fv);
+    ARB(glMultiTexCoord2f);
+    ARB(glMultiTexCoord3f);
+    ARB(glMultiTexCoord4f);
     ARB(glMultiTexCoord2fv);
+    ARB(glMultiTexCoord3fv);
+    ARB(glMultiTexCoord4fv);
     EX(glMultMatrixd);
     EX(glNewList);
     EX(glOrtho);

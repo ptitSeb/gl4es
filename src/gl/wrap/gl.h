@@ -95,12 +95,16 @@ void glTexCoord3fv(GLfloat *t);
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glTexCoord4fv(GLfloat *t);
 
+void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r);
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glMultiTexCoord2fv(GLenum target, GLfloat *t);
+void glMultiTexCoord3fv(GLenum target, GLfloat *t);
 void glMultiTexCoord4fv(GLenum target, GLfloat *t);
-void glMultiTexCoord2fvARB(GLenum target, GLfloat *t);
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t);
+void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r);
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glMultiTexCoord2fvARB(GLenum target, GLfloat *t);
+void glMultiTexCoord3fvARB(GLenum target, GLfloat *t);
 void glMultiTexCoord4fvARB(GLenum target, GLfloat *t);
 
 void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);

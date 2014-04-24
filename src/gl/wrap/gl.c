@@ -229,23 +229,35 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     glMultiTexCoord4f(target, s, t, 0.0f, 1.0f);
 }
 */
+void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
+     glMultiTexCoord2f(target, s, t);
+}
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
      glMultiTexCoord2f(target, s, t);
 }
 void glMultiTexCoord2fv(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
 }
-void glMultiTexCoord4fv(GLenum target, GLfloat *t) {
+void glMultiTexCoord3fv(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
 }
-void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) {
+void glMultiTexCoord4fv(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
 }
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
      glMultiTexCoord2f(target, s, t);
 }
+void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
+     glMultiTexCoord2f(target, s, t);
+}
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
      glMultiTexCoord2f(target, s, t);
+}
+void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
+}
+void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], t[1]);
 }
 void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
@@ -638,10 +650,17 @@ void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GL
 }
 void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices)
 {
-	int ind_size=gl_sizeof(type);
-	GLsizei new_count=count;
-	if (start+count>end) new_count=end-start;
-	glDrawElements(mode, new_count, type, indices+start*ind_size);
+	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
+	int newcount=0;
+	uintptr_t ptr = (uintptr_t)indices;
+	for (int i=0; i<count; i++) {
+		GL_TYPE_SWITCH(indice, ptr, type,
+		if ((indice[i]>=start) && (indice[i]<=end))
+			newinds[newcount++]=indice[i];
+		, );
+	}
+	glDrawElements(mode, newcount, GL_UNSIGNED_SHORT, newinds);
+	free(newinds);
 }
 
 #undef constDoubleToFloat

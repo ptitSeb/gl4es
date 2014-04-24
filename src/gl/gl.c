@@ -18,9 +18,11 @@ const GLubyte *glGetString(GLenum name) {
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
 #ifndef USE_ES2
-                // "GL_ARB_vertex_buffer_object "
+//                "GL_ARB_vertex_buffer_object "
+                "GL_ARB_vertex_buffer "
                 "GL_EXT_secondary_color "
                 "GL_EXT_texture_env_combine "
+                "GL_ARB_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
 //                "GL_ARB_texture_cube_map "
@@ -38,6 +40,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
+//                "GL_EXT_stencil_wrap "
 #else
                 "GL_ARB_vertex_shader "
                 "GL_ARB_fragment_shader "
