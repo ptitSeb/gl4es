@@ -357,10 +357,10 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
         if (result != EGL_TRUE) {
             printf("Failed to destroy EGL context.\n");
         }
-        if (fbdev >= 0) {
+        /*if (fbdev >= 0) {
             close(fbdev);
             fbdev = -1;
-        }
+        }*/
     }
     return;
 }
@@ -408,7 +408,6 @@ not set to EGL_NO_CONTEXT.
 Bool glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-
     if (eglDisplay != NULL) {
         eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 		if (g_usefb)
@@ -416,6 +415,7 @@ Bool glXMakeCurrent(Display *display,
 				eglDestroySurface(eglDisplay, eglSurface);
 			}
     }
+    glxContext = context;
     // call with NULL to just destroy old stuff.
     if (! context) {
         return true;
@@ -436,7 +436,6 @@ Bool glXMakeCurrent(Display *display,
 		eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
     CheckEGLErrors();
     
-    glxContext = context;
     glxContext->drawable = drawable;
 
     EGLBoolean result = eglMakeCurrent(eglDisplay, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglContext:context->eglContext);
@@ -564,7 +563,10 @@ void glXQueryDrawable( Display *dpy, int draw, int attribute,
 // stubs for glfw (GLX 1.3)
 GLXContext glXGetCurrentContext() {
     // hack to make some games start
-    return glxContext ? glxContext : (void *)1;
+    if (g_usefb)
+		return glxContext ? glxContext : (void *)1;
+	else
+		return glxContext;
 }
 
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
@@ -623,7 +625,7 @@ void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {
 void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
 void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
 void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
-GLXDrawable glXGetCurrentDrawable() {if (glxContext) return glxContext->drawable; else return 0;} // this should actually return GLXDrawable. Good luck.
+GLXDrawable glXGetCurrentDrawable() {if (glxContext) return glxContext->drawable; else return 0;} // this should actually return GLXDrawable.
 Bool glXIsDirect(Display * display, GLXContext ctx) {
     return true;
 }
