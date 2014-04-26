@@ -126,8 +126,11 @@
 #define GLX_SAMPLES                     0x186a1 /*100001*/
 
 
+typedef int GLXDrawable;
+
 struct __GLXContextRec {
     Display *display;
+    GLXDrawable drawable;
     unsigned char direct;
     int currentWritable;
     int currentReadable;
@@ -214,7 +217,7 @@ Bool glXQueryVersion(Display *display, int *major, int *minor);
 const char *glXGetClientString(Display *display, int name);
 const char *glXQueryExtensionsString(Display *display, int screen);
 const char *glXQueryServerString(Display *display, int screen, int name);
-void glXGetCurrentDrawable();
+GLXDrawable glXGetCurrentDrawable();
 void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);

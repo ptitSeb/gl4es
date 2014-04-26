@@ -106,6 +106,13 @@ void vector_normalize(GLfloat *a) {
     a[2]*=det;
 }
 
+void matrix_column_row(const GLfloat *a, GLfloat *b) {
+    // column major -> row major
+    for (int i=0; i<4; i++)
+        for (int j=0; j<4; j++)
+            b[i*4+j]=a[i+j*4];
+}
+
 void matrix_inverse(const GLfloat *m, GLfloat *r) {
 
     r[0] = m[5]*m[10]*m[15] - m[5]*m[14]*m[11] - m[6]*m[9]*m[15] + m[6]*m[13]*m[11] + m[7]*m[9]*m[14] - m[7]*m[13]*m[10];
@@ -196,9 +203,7 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     GLfloat ModelviewMatrix[16], InvModelview[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
     // column major -> row major
-    for (int i=0; i<4; i++)
-        for (int j=0; j<4; j++)
-            ModelviewMatrix[i*4+j]=InvModelview[i+j*4];
+    matrix_column_row(InvModelview, ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
     GLfloat plane[3], tmp[3];

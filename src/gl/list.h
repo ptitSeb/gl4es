@@ -29,9 +29,9 @@ typedef struct {
 	GLfloat ymove;
 	GLsizei width;
 	GLsizei height;
-/*	GLfloat xorig;
+	GLfloat xorig;
 	GLfloat yorig;
-	GLvoid  *raster;*/
+/*	GLvoid  *raster;*/
 	GLuint	texture;
 } rasterlist_t;
 

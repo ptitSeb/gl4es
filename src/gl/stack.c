@@ -146,8 +146,9 @@ void glPushAttrib(GLbitfield mask) {
         glGetFloatv(GL_LINE_WIDTH, &cur->line_width);
     }
 
+	// GL_LIST_BIT
     if (mask & GL_LIST_BIT) {
-        // TODO: local storage of glListBase
+        cur->list_base = state.list.base;
     }
 
     if (mask & GL_MULTISAMPLE_BIT) {
@@ -374,6 +375,10 @@ void glPopAttrib() {
         enable_disable(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
         enable_disable(GL_FOG_HINT, cur->fog_hint);
         enable_disable(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
+    }
+	// GL_LIST_BIT
+    if (cur->mask & GL_LIST_BIT) {
+        glListBase(cur->list_base);
     }
 
     if (cur->mask & GL_LINE_BIT) {

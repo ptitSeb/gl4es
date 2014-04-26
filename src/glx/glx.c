@@ -115,8 +115,8 @@ static int get_config_default(int attribute, int *value) {
 
 // hmm...
 static EGLContext eglContext;
-static Display *g_display;
-static GLXContext glxContext;
+static Display *g_display = NULL;
+static GLXContext glxContext = NULL;
 
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
@@ -406,7 +406,7 @@ not set to EGL_NO_CONTEXT.
 */
 
 Bool glXMakeCurrent(Display *display,
-                    int drawable,
+                    GLXDrawable drawable,
                     GLXContext context) {
 
     if (eglDisplay != NULL) {
@@ -435,6 +435,9 @@ Bool glXMakeCurrent(Display *display,
 	} else
 		eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
     CheckEGLErrors();
+    
+    glxContext = context;
+    glxContext->drawable = drawable;
 
     EGLBoolean result = eglMakeCurrent(eglDisplay, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglContext:context->eglContext);
     CheckEGLErrors();
@@ -453,7 +456,6 @@ void glXSwapBuffers(Display *display,
                     int drawable) {
     static int frames = 0;
 
-    render_raster();
     if (g_vsync && fbdev >= 0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
         // this will just block otherwise.
@@ -621,11 +623,215 @@ void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {
 void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
 void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
 void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
-void glXGetCurrentDrawable() {} // this should actually return GLXDrawable. Good luck.
+GLXDrawable glXGetCurrentDrawable() {if (glxContext) return glxContext->drawable; else return 0;} // this should actually return GLXDrawable. Good luck.
 Bool glXIsDirect(Display * display, GLXContext ctx) {
     return true;
 }
-void glXUseXFont(Font font, int first, int count, int listBase) {}
+/*
+ * Generate OpenGL-compatible bitmap.
+ * From Mesa-9.0.1
+ */
+static void
+fill_bitmap(Display * dpy, Window win, GC gc,
+            unsigned int width, unsigned int height,
+            int x0, int y0, unsigned int c, GLubyte * bitmap)
+{
+   XImage *image;
+   unsigned int x, y;
+   Pixmap pixmap;
+   XChar2b char2b;
+
+   pixmap = XCreatePixmap(dpy, win, 8 * width, height, 1);
+   XSetForeground(dpy, gc, 0);
+   XFillRectangle(dpy, pixmap, gc, 0, 0, 8 * width, height);
+   XSetForeground(dpy, gc, 1);
+
+   char2b.byte1 = (c >> 8) & 0xff;
+   char2b.byte2 = (c & 0xff);
+
+   XDrawString16(dpy, pixmap, gc, x0, y0, &char2b, 1);
+
+   image = XGetImage(dpy, pixmap, 0, 0, 8 * width, height, 1, XYPixmap);
+   if (image) {
+      /* Fill the bitmap (X11 and OpenGL are upside down wrt each other).  */
+      for (y = 0; y < height; y++)
+         for (x = 0; x < 8 * width; x++)
+            if (XGetPixel(image, x, y))
+               bitmap[width * (height - y - 1) + x / 8] |=
+                  (1 << (7 - (x % 8)));
+      XDestroyImage(image);
+   }
+
+   XFreePixmap(dpy, pixmap);
+}
+/*
+ * determine if a given glyph is valid and return the
+ * corresponding XCharStruct.
+ * From MesaGL-9.0.1
+ */
+static XCharStruct *
+isvalid(XFontStruct * fs, int which)
+{
+   unsigned int rows, pages;
+   int byte1 = 0, byte2 = 0;
+   int i, valid = 1;
+
+   rows = fs->max_byte1 - fs->min_byte1 + 1;
+   pages = fs->max_char_or_byte2 - fs->min_char_or_byte2 + 1;
+
+   if (rows == 1) {
+      /* "linear" fonts */
+      if ((fs->min_char_or_byte2 > which) || (fs->max_char_or_byte2 < which))
+         valid = 0;
+   }
+   else {
+      /* "matrix" fonts */
+      byte2 = which & 0xff;
+      byte1 = which >> 8;
+      if ((fs->min_char_or_byte2 > byte2) ||
+          (fs->max_char_or_byte2 < byte2) ||
+          (fs->min_byte1 > byte1) || (fs->max_byte1 < byte1))
+         valid = 0;
+   }
+
+   if (valid) {
+      if (fs->per_char) {
+         if (rows == 1) {
+            /* "linear" fonts */
+            return (fs->per_char + (which - fs->min_char_or_byte2));
+         }
+         else {
+            /* "matrix" fonts */
+            i = ((byte1 - fs->min_byte1) * pages) +
+               (byte2 - fs->min_char_or_byte2);
+            return (fs->per_char + i);
+         }
+      }
+      else {
+         return (&fs->min_bounds);
+      }
+   }
+   return (NULL);
+}
+
+void glXUseXFont(Font font, int first, int count, int listBase) {
+	/* Mostly from MesaGL-9.0.1 
+	 * 
+	 */
+	// First get current Display and Window
+	XFontStruct *fs;
+	unsigned int max_width, max_height, max_bm_width, max_bm_height;
+    Pixmap pixmap;
+    XGCValues values;
+    GC gc;
+    int i;
+    unsigned long valuemask;
+	GLubyte *bm;
+	Display *dpy = glxContext->display;
+	Window win = glxContext->drawable;		//TODO, check that drawable is a window and not a pixmap ?
+	// Grab font params
+	fs = XQueryFont(dpy, font);
+    if (!fs) {
+      printf("LIBGL: error, no font set before call to glXUseFont\n");
+      return;
+    }
+	max_width = fs->max_bounds.rbearing - fs->min_bounds.lbearing;
+    max_height = fs->max_bounds.ascent + fs->max_bounds.descent;
+    max_bm_width = (max_width + 7) / 8;
+    max_bm_height = max_height;
+
+    bm = (GLubyte *)malloc((max_bm_width * max_bm_height) * sizeof(GLubyte));
+    if (!bm) {
+       XFreeFontInfo(NULL, fs, 1);
+       return;
+    }
+    // Save GL texture parameters
+    GLint swapbytes, lsbfirst, rowlength;
+    GLint skiprows, skippixels, alignment;
+    glGetIntegerv(GL_UNPACK_SWAP_BYTES, &swapbytes);
+    glGetIntegerv(GL_UNPACK_LSB_FIRST, &lsbfirst);
+    glGetIntegerv(GL_UNPACK_ROW_LENGTH, &rowlength);
+    glGetIntegerv(GL_UNPACK_SKIP_ROWS, &skiprows);
+    glGetIntegerv(GL_UNPACK_SKIP_PIXELS, &skippixels);
+    glGetIntegerv(GL_UNPACK_ALIGNMENT, &alignment);
+	// Set Safe Texture params
+	glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	// Create GC and Pixmap
+	pixmap = XCreatePixmap(dpy, win, 10, 10, 1);
+    values.foreground = BlackPixel(dpy, DefaultScreen(dpy));
+    values.background = WhitePixel(dpy, DefaultScreen(dpy));
+    values.font = fs->fid;
+    valuemask = GCForeground | GCBackground | GCFont;
+    gc = XCreateGC(dpy, pixmap, valuemask, &values);
+    XFreePixmap(dpy, pixmap);
+	// Loop each chars
+    for (i = 0; i < count; i++) {
+       unsigned int width, height, bm_width, bm_height;
+       GLfloat x0, y0, dx, dy;
+       XCharStruct *ch;
+       int x, y;
+       unsigned int c = first + i;
+       int list = listBase + i;
+       int valid;
+
+       /* check on index validity and get the bounds */
+       ch = isvalid(fs, c);
+       if (!ch) {
+          ch = &fs->max_bounds;
+          valid = 0;
+       }
+       else {
+          valid = 1;
+       }
+      /* glBitmap()' parameters:
+          straight from the glXUseXFont(3) manpage.  */
+       width = ch->rbearing - ch->lbearing;
+       height = ch->ascent + ch->descent;
+       x0 = -ch->lbearing;
+       y0 = ch->descent - 1;
+       dx = ch->width;
+       dy = 0;
+       /* X11's starting point.  */
+       x = -ch->lbearing;
+       y = ch->ascent;
+       /* Round the width to a multiple of eight.  We will use this also
+         for the pixmap for capturing the X11 font.  This is slightly
+         inefficient, but it makes the OpenGL part real easy.  */
+       bm_width = (width + 7) / 8;
+       bm_height = height;
+       glNewList(list, GL_COMPILE);
+       if (valid && (bm_width > 0) && (bm_height > 0)) {
+
+          memset(bm, '\0', bm_width * bm_height);
+          fill_bitmap(dpy, win, gc, bm_width, bm_height, x, y, c, bm);
+
+          glBitmap(width, height, x0, y0, dx, dy, bm);
+       }
+       else {
+          glBitmap(0, 0, 0.0, 0.0, dx, dy, NULL);
+       }
+       glEndList();
+    }
+
+	// Free GC & Pixmap
+    free(bm);
+    XFreeFontInfo(NULL, fs, 1);
+    XFreeGC(dpy, gc);
+
+    // Restore saved packing modes.
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, swapbytes);
+    glPixelStorei(GL_UNPACK_LSB_FIRST, lsbfirst);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, rowlength);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, skiprows);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, skippixels);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
+	// All done
+}
 void glXWaitGL() {}
 void glXWaitX() {}
 void glXReleaseBuffersMESA() {}
