@@ -253,7 +253,9 @@
 #define GL_MAX_ELEMENTS_VERTICES 0x80E8
 #define GL_MAX_ELEMENTS_INDICES  0x80E9
 #define GL_POINT_SIZE_RANGE		 0x0B12
-
+#define GL_RENDER_MODE           0x0C40
+#define GL_NAME_STACK_DEPTH      0x0D70
+#define GL_MAX_NAME_STACK_DEPTH  0x0D37
 
 // evaluators
 #define GL_AUTO_NORMAL           0x0D80
@@ -338,3 +340,7 @@
 #define GL_TEXTURE_DEPTH_SIZE             0x884A
 #define GL_TEXTURE_COMPRESSED_IMAGE_SIZE  0x86A0
 #define GL_TEXTURE_COMPRESSED			  0x86A1
+
+/* Render Mode */
+#define GL_SELECT                         0x1c02
+#define GL_RENDER                         0x1C00

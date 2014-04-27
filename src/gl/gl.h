@@ -255,4 +255,6 @@ extern glstate_t state;
 
 #include "defines.h"
 
+#include "render.h"
+
 #endif

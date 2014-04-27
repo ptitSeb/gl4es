@@ -81,6 +81,17 @@ typedef struct {
                 *texture4;
 } map_states_t;
 
+typedef struct {
+	int		top;
+	GLuint	*names;
+} namestack_t;
+
+typedef struct {
+	int count;
+    GLuint *buffer;
+    GLuint size;	
+} selectbuf_t;
+
 
 typedef struct {
     displaylist_state_t list;
@@ -92,6 +103,9 @@ typedef struct {
     texgen_state_t texgen[MAX_TEX];
     texture_state_t texture;
     GLfloat color[4];
+    int	render_mode;
+    namestack_t namestack;
+    selectbuf_t selectbuf;
 } glstate_t;
 
 #endif

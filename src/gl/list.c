@@ -347,9 +347,17 @@ void draw_renderlist(renderlist_t *list) {
             indices = cached_q2t;
 
         if (indices) {
-            gles_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
+			if (state.render_mode == GL_SELECT) {			
+				select_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
+			} else {
+				gles_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
+			}
         } else {
-            gles_glDrawArrays(list->mode, 0, list->len);
+			if (state.render_mode == GL_SELECT) {	
+				select_glDrawArrays(list->mode, 0, list->len);
+			} else {
+				gles_glDrawArrays(list->mode, 0, list->len);
+			}
         }
         for (int a=0; a<MAX_TEX; a++) {
 			if (texgened[a]) {

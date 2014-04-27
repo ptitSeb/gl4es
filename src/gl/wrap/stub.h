@@ -1,6 +1,6 @@
 #include "../gl.h"
 
-GLint glRenderMode(GLenum mode);
+//GLint glRenderMode(GLenum mode);
 //void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
 //void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
@@ -17,20 +17,20 @@ void glFogCoordfv(const GLfloat *coord);
 //void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
 //void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glIndexf(GLfloat c);
-void glInitNames();
+//void glInitNames();
 void glLightModeli(GLenum pname, GLint param);
-void glLoadName(GLuint name);
+//void glLoadName(GLuint name);
 //void glPixelTransferf(GLenum pname, GLfloat param);
 //void glPixelTransferi(GLenum pname, GLint param);
 //void glPixelZoom(GLfloat xfactor, GLfloat yfactor);
 void glPolygonMode(GLenum face, GLenum mode);
 void glPolygonStipple(const GLubyte *mask);
-void glPopName();
-void glPushName();
+//void glPopName();
+//void glPushName();
 void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
-void glSelectBuffer(GLsizei size, GLuint *buffer);
+//void glSelectBuffer(GLsizei size, GLuint *buffer);
 
 void glAccum(GLenum op, GLfloat value);
 void glPrioritizeTextures(GLsizei n, const GLuint *textures, const GLclampf *priorities);

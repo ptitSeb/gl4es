@@ -94,6 +94,15 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
 			break;
+		case GL_RENDER_MODE:
+			*params = (state.render_mode)?state.render_mode:GL_RENDER;
+			break;
+		case GL_NAME_STACK_DEPTH:
+			*params = state.namestack.top;
+			break;
+		case GL_MAX_NAME_STACK_DEPTH:
+			*params = 1024;
+			break;
         default:
             gles_glGetIntegerv(pname, params);
     }
@@ -148,6 +157,15 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 		case GL_POINT_SIZE_RANGE:
 			gles_glGetFloatv(GL_POINT_SIZE_MIN, params);
 			gles_glGetFloatv(GL_POINT_SIZE_MAX, params+1);
+			break;
+		case GL_RENDER_MODE:
+			*params = (state.render_mode)?state.render_mode:GL_RENDER;
+			break;
+		case GL_NAME_STACK_DEPTH:
+			*params = state.namestack.top;
+			break;
+		case GL_MAX_NAME_STACK_DEPTH:
+			*params = 1024;
 			break;
         default:
             gles_glGetFloatv(pname, params);
@@ -308,12 +326,16 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
     } else {
-        LOAD_GLES(glDrawElements);
+		LOAD_GLES(glDrawElements);
 		if (mode == GL_QUAD_STRIP)
 			mode = GL_TRIANGLE_STRIP;
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
-        gles_glDrawElements(mode, count, type, indices);
+		if (state.render_mode == GL_SELECT) {
+			select_glDrawElements(mode, count, type, indices);
+		} else {
+			gles_glDrawElements(mode, count, type, indices);
+		}
         free(indices);
     }
 }
@@ -340,7 +362,11 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         // TODO: some draw states require us to use the full pipeline here
         // like texgen, stipple, npot
         LOAD_GLES(glDrawArrays);
-        gles_glDrawArrays(mode, first, count);
+		if (state.render_mode == GL_SELECT) {
+			select_glDrawArrays(mode, first, count);
+		} else {
+			gles_glDrawArrays(mode, first, count);
+		}
     }
 }
 
