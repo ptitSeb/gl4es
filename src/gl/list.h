@@ -31,7 +31,7 @@ typedef struct {
 	GLsizei height;
 	GLfloat xorig;
 	GLfloat yorig;
-/*	GLvoid  *raster;*/
+	GLboolean bitmap;
 	GLuint	texture;
 } rasterlist_t;
 

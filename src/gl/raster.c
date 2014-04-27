@@ -233,7 +233,8 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->xorig = xorig;
 	r->yorig = yorig;
 	r->width = width;
-	r->height = height;		
+	r->height = height;
+	r->bitmap = true;
 	if (!state.list.compiling) {
 		render_raster_list(r);
 		glDeleteTextures(1, &r->texture);
@@ -312,7 +313,8 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->xorig = 0;
 	r->yorig = 0;
 	r->width = width;
-	r->height = height;		
+	r->height = height;
+	r->bitmap = false;
 	if (!state.list.compiling) {
 		render_raster_list(r);
 		glDeleteTextures(1, &r->texture);
@@ -323,7 +325,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 void render_raster_list(rasterlist_t* rast) {
 //printf("render_raster_list, rast->width=%i, rast->height=%i, rPos.x=%f, rPos.y=%f, raster->texture=%u\n", rast->width, rast->height, rPos.x, rPos.y, rast->texture);
 	if (rast->texture) {
-		glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+		glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 		GLfloat old_projection[16], old_modelview[16], old_texture[16];
 
 		GLuint old_tex = state.texture.active;
@@ -366,11 +368,16 @@ void render_raster_list(rasterlist_t* rast) {
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_LIGHTING);
 		glDisable(GL_CULL_FACE);
-		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
+		if (rast->bitmap) {
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.0f);
+		} else {
+			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		}
 
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, rast->texture);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
