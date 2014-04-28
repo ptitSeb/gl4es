@@ -183,10 +183,41 @@ bool pixel_scale(const GLvoid *old, GLvoid **new,
     dst = malloc(pixel_size * new_width * new_height);
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
-    for (int x = 0; x < new_width; x++) {
-        for (int y = 0; y < new_height; y++) {
-            pixel = src + (x / ratio) +
-                          (y / ratio) * width;
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            pixel = src + ((x / ratio) +
+                          (y / ratio) * width) * pixel_size;
+            memcpy((GLvoid *)pos, (GLvoid *)pixel, pixel_size);
+            pos += pixel_size;
+        }
+    }
+    *new = dst;
+    return true;
+}
+
+/* TODO: a real 4 pixels => 1 pixel loop, like mipmapping */
+bool pixel_halfscale(const GLvoid *old, GLvoid **new,
+                 GLuint width, GLuint height,
+                 GLenum format, GLenum type) {
+    GLuint pixel_size, new_width, new_height;
+    new_width = width / 2;
+    new_height = height / 2;
+    if (new_width*2!=width || new_height*2!=height) {
+        printf("LIBGL: halfscaling %ux%u failed", width, height);
+        return false;
+    }
+    printf("LIBGL: halfscaling %ux%u -> %ux%u\n", width, height, new_width, new_height);
+    GLvoid *dst;
+    uintptr_t src, pos, pixel;
+
+    pixel_size = pixel_sizeof(format, type);
+    dst = malloc(pixel_size * new_width * new_height);
+    src = (uintptr_t)old;
+    pos = (uintptr_t)dst;
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            pixel = src + ((x * 2) +
+                          (y * 2) * width) * pixel_size;
             memcpy((GLvoid *)pos, (GLvoid *)pixel, pixel_size);
             pos += pixel_size;
         }

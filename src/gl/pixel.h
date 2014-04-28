@@ -22,6 +22,10 @@ bool pixel_scale(const GLvoid *src, GLvoid **dst,
                   GLfloat ratio,
                   GLenum format, GLenum type);
 
+bool pixel_halfscale(const GLvoid *src, GLvoid **dst,
+                  GLuint width, GLuint height,
+                  GLenum format, GLenum type);
+
 bool pixel_to_ppm(const GLvoid *pixels,
                   GLuint width, GLuint height,
                   GLenum format, GLenum type, GLuint name);

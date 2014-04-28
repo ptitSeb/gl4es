@@ -128,11 +128,22 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                 GLvoid *out;
                 GLfloat ratio = 0.5;
                 pixel_scale(pixels, &out, width, height, ratio, format, type);
-                if (out != pixels)
-                    free(out);
+                if (out != pixels && pixels!=data)
+                    free(pixels);
                 pixels = out;
                 width *= ratio;
                 height *= ratio;
+            }
+        }
+        if (env_shrink && strcmp(env_shrink, "2") == 0) {
+            if ((width > 512 && width > 16) || (height > 512 && height > 16)) {
+                GLvoid *out;
+                pixel_halfscale(pixels, &out, width, height, format, type);
+                if (out != pixels && pixels!=data)
+                    free(pixels);
+                pixels = out;
+                width /= 2;
+                height /= 2;
             }
         }
 
