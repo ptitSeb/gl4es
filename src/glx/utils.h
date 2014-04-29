@@ -8,12 +8,12 @@
 
 #include "../gl/gl.h"
 
-static void
+void
 fill_bitmap(Display * dpy, Window win, GC gc,
             unsigned int width, unsigned int height,
             int x0, int y0, unsigned int c, GLubyte * bitmap);
 
-static XCharStruct *
+XCharStruct *
 isvalid(XFontStruct * fs, int which);
 
 #endif
