@@ -49,6 +49,7 @@ typedef struct _renderlist_t {
     unsigned long len;
     unsigned long cap;
     GLenum mode;
+    GLenum mode_init;		// initial requested mode
     GLfloat lastNormal[3];
     GLfloat lastTex[MAX_TEX][2];
 
@@ -68,6 +69,7 @@ typedef struct _renderlist_t {
     khash_t(texgen) *texgen;
     GLfloat	*lightmodel;
     GLenum	lightmodelparam;
+    GLenum	polygon_mode;
     GLuint texture;				// I cannot know the active texture inside a list (for now => TODO?)
     GLboolean  set_texture;
     struct _renderlist_t *prev;

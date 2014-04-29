@@ -23,7 +23,7 @@ void glLightModeli(GLenum pname, GLint param);
 //void glPixelTransferf(GLenum pname, GLfloat param);
 //void glPixelTransferi(GLenum pname, GLint param);
 //void glPixelZoom(GLfloat xfactor, GLfloat yfactor);
-void glPolygonMode(GLenum face, GLenum mode);
+//void glPolygonMode(GLenum face, GLenum mode);
 void glPolygonStipple(const GLubyte *mask);
 //void glPopName();
 //void glPushName();

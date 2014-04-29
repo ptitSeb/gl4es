@@ -104,6 +104,7 @@ typedef struct {
     texture_state_t texture;
     GLfloat color[4];
     int	render_mode;
+    int polygon_mode;
     namestack_t namestack;
     selectbuf_t selectbuf;
 } glstate_t;

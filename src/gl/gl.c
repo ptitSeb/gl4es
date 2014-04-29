@@ -265,6 +265,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
         list = alloc_renderlist();
 
     list->mode = mode;
+    list->mode_init = mode;
     list->len = count;
     list->cap = count;
     if (state.enable.vertex_array) {
@@ -300,6 +301,11 @@ static inline bool should_intercept_render(GLenum mode) {
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
     GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    GLenum mode_init = mode;
+    if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+		mode = GL_LINE_LOOP;
+    if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+		mode = GL_POINTS;
     // TODO: do this in a more direct fashion.
     if (should_intercept_render(mode)) {
         glBegin(mode);
@@ -322,6 +328,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = arrays_to_renderlist(list, mode, min, max + 1);
         list->indices = indices;
         list->len = count;
+        list->mode_init = mode_init;
 
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
@@ -334,13 +341,46 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawElements(mode, count, type, indices);
 		} else {
-			gles_glDrawElements(mode, count, type, indices);
+			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
+				int n, s;
+				switch (mode_init) {
+					case GL_TRIANGLES:
+						n = 3;
+						s = 3;
+						break;
+					case GL_TRIANGLE_STRIP:
+						n = 3;
+						s = 1;
+						break;
+					case GL_TRIANGLE_FAN:	// wrong here...
+						n = count;
+						s = count;
+						break;
+					case GL_QUADS:
+						n = 4;
+						s = 4;
+						break;
+					case GL_QUAD_STRIP:
+						n = 4;
+						s = 1;
+						break;
+					default:		// Polygon and other?
+						n = count;
+						s = count;
+						break;
+				}
+				for (int i=n; i<count; i+=s)
+					gles_glDrawElements(mode, n, type, indices+i-n);
+			} else
+				gles_glDrawElements(mode, count, type, indices);
 		}
         free(indices);
     }
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+
+    GLenum mode_init = mode;
     if (mode == GL_QUAD_STRIP)
         mode = GL_TRIANGLE_STRIP;
     if (mode == GL_POLYGON)
@@ -350,8 +390,14 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (active && state.list.compiling) {
         list = state.list.active = extend_renderlist(active);
         arrays_to_renderlist(list, mode, first, count);
+        list->mode_init = mode_init;
         return;
     }
+
+    if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+		mode = GL_LINE_LOOP;
+    if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+		mode = GL_POINTS;
 
     if (should_intercept_render(mode)) {
         list = arrays_to_renderlist(NULL, mode, first, count);
@@ -365,7 +411,38 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawArrays(mode, first, count);
 		} else {
-			gles_glDrawArrays(mode, first, count);
+			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
+				int n, s;
+				switch (mode_init) {
+					case GL_TRIANGLES:
+						n = 3;
+						s = 3;
+						break;
+					case GL_TRIANGLE_STRIP:
+						n = 3;
+						s = 1;
+						break;
+					case GL_TRIANGLE_FAN:	// wrong here...
+						n = count;
+						s = count;
+						break;
+					case GL_QUADS:
+						n = 4;
+						s = 4;
+						break;
+					case GL_QUAD_STRIP:
+						n = 4;
+						s = 1;
+						break;
+					default:		// Polygon and other?
+						n = count;
+						s = count;
+						break;
+				}
+				for (int i=n; i<count; i+=s)
+					gles_glDrawArrays(mode, i-n, n);
+			} else
+				gles_glDrawArrays(mode, first, count);
 		}
     }
 }
@@ -770,4 +847,21 @@ GLboolean glIsList(GLuint list) {
         return true;
     }
     return false;
+}
+
+void glPolygonMode(GLenum face, GLenum mode) {
+	if (state.list.compiling && state.list.active) {
+		if (state.list.active->polygon_mode)
+			state.list.active = extend_renderlist(state.list.active);
+		state.list.active->polygon_mode = mode;
+		return;
+	}
+	switch(mode) {
+		case GL_LINE:
+		case GL_POINT:
+			state.polygon_mode = mode;
+			break;
+		default:
+			state.polygon_mode = 0;
+	}
 }

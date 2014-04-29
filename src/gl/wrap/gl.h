@@ -109,6 +109,8 @@ void glMultiTexCoord4fvARB(GLenum target, GLfloat *t);
 
 void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
 
+void glPolygonMode(GLenum face, GLenum mode);
+
 // texgen
 void glTexGend(GLenum coord, GLenum pname, GLdouble param);
 void glTexGeni(GLenum coord, GLenum pname, GLint param);
