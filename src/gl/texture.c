@@ -95,10 +95,17 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x, data=%08x => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, data, state.texture.bound[state.texture.active]->texture);
-    gltexture_t *bound = state.texture.bound[state.texture.active];
+//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
     GLvoid *pixels = (GLvoid *)data;
     border = 0;	//TODO: something?
+    
+    gltexture_t *bound = state.texture.bound[state.texture.active];
+    if (bound && (level>0))
+		if (bound->mipmap_need)
+			return;			// has been handled by auto_mipmap
+		else
+			bound->mipmap_need = 1;
+			
     if (data) {
         // implements GL_UNPACK_ROW_LENGTH
         if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
@@ -169,6 +176,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glTexSubImage2D);
+    LOAD_GLES(glTexParameteri);
 
     switch (target) {
         case GL_PROXY_TEXTURE_2D:
@@ -181,6 +189,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                 bound->nwidth = nwidth;
                 bound->nheight = nheight;
             }
+            if (bound && bound->mipmap_need && !bound->mipmap_auto)
+				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
             if (height != nheight || width != nwidth) {
                 gles_glTexImage2D(target, level, format, nwidth, nheight, border,
                                   format, type, NULL);
@@ -190,6 +200,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                 gles_glTexImage2D(target, level, format, width, height, border,
                                   format, type, pixels);
             }
+            if (bound && bound->mipmap_need && !bound->mipmap_auto)
+				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
         }
     }
     if (pixels != data) {
@@ -201,8 +213,17 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
     LOAD_GLES(glTexSubImage2D);
+    LOAD_GLES(glTexParameteri);
 //printf("glTexSubImage2D with unpack_row_length(%i), size(%d,%d), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
     target = map_tex_target(target);
+    
+    gltexture_t *bound = state.texture.bound[state.texture.active];
+    if (bound && (level>0))
+		if (bound->mipmap_need)
+			return;			// has been handled by auto_mipmap
+		else
+			bound->mipmap_need = 1;
+
     const GLvoid *pixels = data;/* = swizzle_texture(width, height, &format, &type, data);*/
 
 	 if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
@@ -225,8 +246,15 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	 if (old != pixels && old != data)
 		free(old);
 
+	if (bound && bound->mipmap_need && !bound->mipmap_auto)
+		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
 						 width, height, format, type, pixels);
+
+	if (bound && bound->mipmap_need && !bound->mipmap_auto)
+		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+
     if (pixels != data)
         free((GLvoid *)pixels);
 }
@@ -315,6 +343,8 @@ void glBindTexture(GLenum target, GLuint texture) {
                 tex->width = 0;
                 tex->height = 0;
                 tex->uploaded = false;
+                tex->mipmap_auto = 0;
+                tex->mipmap_need = 0;
             } else {
                 tex = kh_value(list, k);
             }
@@ -336,10 +366,24 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     PUSH_IF_COMPILING(glTexParameteri);
     LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
+    gltexture_t *texture = state.texture.bound[state.texture.active];
     switch (param) {
         case GL_CLAMP:
             param = GL_CLAMP_TO_EDGE;
             break;
+        case GL_NEAREST_MIPMAP_NEAREST:
+        case GL_NEAREST_MIPMAP_LINEAR:
+        case GL_LINEAR_MIPMAP_NEAREST:
+        case GL_LINEAR_MIPMAP_LINEAR:
+			if (texture)
+				texture->mipmap_need = true;
+			break;
+		case GL_GENERATE_MIPMAP:
+			if (texture)
+				texture->mipmap_auto = (param)?1:0;
+			break;
+		case GL_TEXTURE_MAX_LEVEL:
+			return;			// not on GLES
     }
     gles_glTexParameteri(target, pname, param);
 }

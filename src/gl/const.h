@@ -340,6 +340,7 @@
 #define GL_TEXTURE_DEPTH_SIZE             0x884A
 #define GL_TEXTURE_COMPRESSED_IMAGE_SIZE  0x86A0
 #define GL_TEXTURE_COMPRESSED			  0x86A1
+#define GL_TEXTURE_MAX_LEVEL			  0x813D
 
 /* Render Mode */
 #define GL_SELECT                         0x1c02

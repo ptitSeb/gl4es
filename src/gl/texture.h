@@ -35,6 +35,8 @@ typedef struct {
     GLsizei height;
     GLsizei nwidth;
     GLsizei nheight;
+    GLboolean mipmap_auto;
+    GLboolean mipmap_need;
     GLboolean uploaded;
 } gltexture_t;
 
