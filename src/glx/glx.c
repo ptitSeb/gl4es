@@ -276,9 +276,10 @@ GLXContext glXCreateContext(Display *display,
 
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
-	if (!g_usefb)
-		eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
-	else {
+	if (!g_usefb) {
+		if (eglDisplay != NULL)
+			eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
+	} else {
 		if (eglDisplay != NULL) {
 			eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 			if (eglContext != NULL) {
@@ -334,6 +335,11 @@ GLXContext glXCreateContext(Display *display,
     fake->display = (g_usefb)?g_display:display;
     fake->direct = true;
     fake->xid = 1;
+   	if (!g_usefb) {
+		// unassign the context, it's not supposed to be active at the creation
+		eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+	}
+
 	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
     return fake;
 }
@@ -372,7 +378,7 @@ Display *glXGetCurrentDisplay() {
 		if (g_display && eglContext) {
 			return g_display;
 		}
-    return NULL;
+    return XOpenDisplay(NULL);
 }
 
 XVisualInfo *glXChooseVisual(Display *display,
@@ -428,6 +434,13 @@ Bool glXMakeCurrent(Display *display,
         drawable = 0;
 	if (!g_usefb) {
 		// need current surface for eglSwapBuffer
+		eglContext = context->eglContext;
+		// if surface on a different drawable exist, destroy it first
+		if ((context->drawable != drawable) && (context->eglSurface)) {
+			eglDestroySurface(eglDisplay, context->eglSurface);
+			context->eglSurface = NULL;
+		}
+		// Now get the Surface
 		if (context->eglSurface)
 			eglSurface = context->eglSurface;		// reused previously created Surface
 		else
@@ -436,9 +449,9 @@ Bool glXMakeCurrent(Display *display,
 		eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
     CheckEGLErrors();
     
-    glxContext->drawable = drawable;
+    context->drawable = drawable;
 
-    EGLBoolean result = eglMakeCurrent(eglDisplay, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglSurface:context->eglSurface, (g_usefb)?eglContext:context->eglContext);
+    EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
     CheckEGLErrors();
     if (result) {
         return true;
