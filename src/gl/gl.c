@@ -758,6 +758,11 @@ void glNewList(GLuint list, GLenum mode) {
 void glEndList() {
     GLuint list = state.list.name;
     if (state.list.compiling) {
+		// Free the previous list if it exist...
+		if (state.lists[list - 1]) {
+			free_renderlist(state.lists[list - 1]);
+			state.lists[list - 1] = NULL;
+		}
         state.lists[list - 1] = state.list.first;
         state.list.compiling = false;
 		end_renderlist(state.list.active);
