@@ -158,7 +158,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                 // probably depends on how well branch prediction performs
                 return false;
             }
-            if (i<10) printf("%08X=>%08X%s", *(unsigned int*)src_pos, *(unsigned int*)dst_pos, (i==9)?"\n":"\t");
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
