@@ -31,6 +31,7 @@ void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 // glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
 //void glSelectBuffer(GLsizei size, GLuint *buffer);
+void glColorTable (GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table);
 
 void glAccum(GLenum op, GLfloat value);
 void glPrioritizeTextures(GLsizei n, const GLuint *textures, const GLclampf *priorities);

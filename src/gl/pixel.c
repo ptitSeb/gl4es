@@ -125,27 +125,27 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
 
-    // printf("pixel conversion: %ix%i - %i, %i -> %i, %i\n", width, height, src_format, src_type, dst_format, dst_type);
+    //printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
         || !src_color->type || !dst_color->type)
         return false;
 
+    printf("src%04x[%i,%i,%i,%i] -> dst%04x[%i,%i,%i,%i]\n", src_format, src_color->red, src_color->green, src_color->blue, src_color->alpha, 
+                                                            dst_format, dst_color->red, dst_color->green, dst_color->blue, dst_color->alpha);
     if (src_type == dst_type && src_color->type == dst_color->type) {
-        if (*dst != src) {
-            *dst = malloc(dst_size);
-            memcpy(*dst, src, dst_size);
-			if ((raster_need_transform()) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE)) {
-				for (int aa=0; aa<dst_size; aa++)
-					((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%4);
-			}
-			if (raster_need_transform() && (dst_format==GL_RGB) && (dst_type==GL_UNSIGNED_BYTE)) {
-				for (int aa=0; aa<dst_size; aa++)
-					((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%3);
-			}
-            return true;
+        *dst = malloc(dst_size);
+        memcpy(*dst, src, dst_size);
+		if ((raster_need_transform()) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE)) {
+			for (int aa=0; aa<dst_size; aa++)
+				((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%4);
+		}
+		if (raster_need_transform() && (dst_format==GL_RGB) && (dst_type==GL_UNSIGNED_BYTE)) {
+			for (int aa=0; aa<dst_size; aa++)
+				((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%3);
         }
+        return true;
     } else {
         GLsizei src_stride = pixel_sizeof(src_format, src_type);
         GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
@@ -160,6 +160,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                 // probably depends on how well branch prediction performs
                 return false;
             }
+            if (i<10) printf("%08X=>%08X%s", *(unsigned int*)src_pos, *(unsigned int*)dst_pos, (i==9)?"\n":"\t");
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
