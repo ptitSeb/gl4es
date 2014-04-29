@@ -132,8 +132,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         || !src_color->type || !dst_color->type)
         return false;
 
-    printf("src%04x[%i,%i,%i,%i] -> dst%04x[%i,%i,%i,%i]\n", src_format, src_color->red, src_color->green, src_color->blue, src_color->alpha, 
-                                                            dst_format, dst_color->red, dst_color->green, dst_color->blue, dst_color->alpha);
     if (src_type == dst_type && src_color->type == dst_color->type) {
         *dst = malloc(dst_size);
         memcpy(*dst, src, dst_size);
