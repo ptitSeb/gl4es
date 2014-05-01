@@ -52,6 +52,16 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXUseXFont);
     EX(glXWaitGL);
     EX(glXWaitX);
+    EX(glXGetCurrentContext);
+    EX(glXQueryExtension);
+    EX(glXQueryVersion);
+    EX(glXGetClientString);
+    EX(glXGetFBConfigs);
+    EX(glXChooseFBConfig);
+    EX(glXGetFBConfigAttrib);
+    EX(glXGetVisualFromFBConfig);
+    EX(glXCreateWindow);
+    EX(glXDestroyWindow);
 
     // GL_ARB_vertex_buffer_object
 
