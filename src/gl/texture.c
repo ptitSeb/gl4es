@@ -486,16 +486,6 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		printf("STUBBED glGetTexImage with level=%i\n", level);
 		return;
 	}
-	if (format != GL_RGBA) {
-		//TODO
-		printf("STUBBED glGetTexImage with format=%i\n", level);
-		return;
-	}
-	if (type != GL_UNSIGNED_BYTE) {
-		//TODO
-		printf("STUBBED glGetTexImage with type=%i\n", level);
-		return;
-	}
 
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	// Setup an FBO the same size of the texture
@@ -542,8 +532,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     // Now, draw the texture inside FBO
     glDrawTexiOES(0, 0, 0, width, height);
     // Read the pixels!
-    LOAD_GLES(glReadPixels);
-    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, img);
+    glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
     // Unmount FBO
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
@@ -574,4 +563,25 @@ void glClientActiveTexture( GLenum texture ) {
  state.texture.client = texture - GL_TEXTURE0;
  LOAD_GLES(glClientActiveTexture);
  gles_glClientActiveTexture(texture);
+}
+
+void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
+    if (state.list.compiling && state.list.active)
+		return;	// never in list
+    LOAD_GLES(glReadPixels);
+	if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
+		// easy passthru
+		gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		return;
+	}
+	// grab data in GL_RGBA format
+	GLvoid *pixels = malloc(width*height*4);
+	gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	if (! pixel_convert(pixels, &data, width, height,
+						GL_RGBA, GL_UNSIGNED_BYTE, format, type)) {
+		printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
+			format, type);
+	}
+	free(pixels);
+	return;
 }

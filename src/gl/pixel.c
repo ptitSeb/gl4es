@@ -217,13 +217,15 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return false;
 
     if (src_type == dst_type && src_color->type == dst_color->type) {
-        *dst = malloc(dst_size);
+        if (*dst == src || *dst == NULL)        // alloc dst only if src==dst
+            *dst = malloc(dst_size);
         memcpy(*dst, src, dst_size);
         return true;
     } else {
         GLsizei src_stride = pixel_sizeof(src_format, src_type);
         GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
-        *dst = malloc(dst_size);
+        if (*dst == src || *dst == NULL)
+            *dst = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
         uintptr_t dst_pos = (uintptr_t)*dst;
         for (int i = 0; i < pixels; i++) {
@@ -251,7 +253,8 @@ bool pixel_transform(const GLvoid *src, GLvoid **dst,
     GLuint dst_size = pixels * pixel_sizeof(src_format, src_type);
     src_color = get_color_map(src_format);
     GLsizei src_stride = pixel_sizeof(src_format, src_type);
-    *dst = malloc(dst_size);
+    if (*dst == src || *dst == NULL)
+        *dst = malloc(dst_size);
     uintptr_t src_pos = (uintptr_t)src;
     uintptr_t dst_pos = (uintptr_t)*dst;
     for (int aa=0; aa<dst_size; aa++) {

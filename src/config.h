@@ -38,6 +38,8 @@
 #define skip_glMultiTexCoord4f
 #define skip_glTexGeni
 #define skip_glTexGenfv
+#define skip_glReadPixels
+
 // glDrawArrays
 #define skip_glDrawArrays
 #define skip_glDrawElements
@@ -67,7 +69,6 @@
 #define direct_glPopClientAttrib
 #define direct_glPixelStore
 #define direct_glPushClientAttrib
-#define direct_glReadPixels
 #define direct_glRenderMode
 #define direct_glSelectBuffer
 #define direct_glTexCoordPointer

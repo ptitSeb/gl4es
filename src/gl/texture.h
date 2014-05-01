@@ -21,6 +21,8 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param);
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
+void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data);
+
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,
