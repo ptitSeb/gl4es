@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "raster.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
@@ -80,7 +81,17 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 			}
 			*type = GL_UNSIGNED_BYTE;
 			*format = GL_RGBA;
-			return pixels;
+			GLvoid *pix2 = pixels;
+			if (raster_need_transform())
+				if (!pixel_transform(data, &pixels, width, height,
+								*format, *type, raster_scale, raster_bias)) {
+					printf("libGL swizzle/convert error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
+						*format, *type);
+					pix2 = pixels;
+				}
+			if (pix2!=pixels && pixels!=data)
+				free(pixels);
+			return pix2;
 		} 
     } else {
 		if (convert) {

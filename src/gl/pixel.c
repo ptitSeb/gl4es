@@ -23,12 +23,8 @@ static const colorlayout_t *get_color_map(GLenum format) {
     #undef map
 }
 
-extern int raster_need_transform();
-GLfloat raster_transformf(GLfloat pix, GLubyte number);
-GLubyte raster_transform(GLubyte pix, GLubyte number);
-
 static inline
-bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform, 
+bool remap_pixel(const GLvoid *src, GLvoid *dst,
                  const colorlayout_t *src_color, GLenum src_type,
                  const colorlayout_t *dst_color, GLenum dst_type) {
 
@@ -83,12 +79,6 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform,
             return false;
             break;
     }
-	if (transform) {
-		pixel.r=raster_transformf(pixel.r, 0);
-		pixel.g=raster_transformf(pixel.g, 1);
-		pixel.b=raster_transformf(pixel.b, 2);
-		pixel.a=raster_transformf(pixel.a, 3);
-	}
 
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
@@ -116,6 +106,100 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst, bool transform,
     #undef read_each
     #undef write_each
 }
+static inline
+bool transform_pixel(const GLvoid *src, GLvoid *dst, 
+                 const colorlayout_t *src_color, GLenum src_type,
+                 const GLfloat *scale, const GLfloat *bias) {
+
+    #define type_case(constant, type, ...)        \
+        case constant: {                          \
+            const type *s = (const type *)src;    \
+            type *d = (type *)dst;                \
+            type v = *s;                          \
+            __VA_ARGS__                           \
+            break;                                \
+        }
+
+    #define default(arr, amod, vmod, key, def) \
+        key >= 0 ? arr[amod key] vmod : def
+
+    #define carefully(arr, amod, key, value) \
+        if (key >= 0) d[amod key] = value;
+
+    #define read_each(amod, vmod)                                 \
+        pixel.r = default(s, amod, vmod, src_color->red, 0.0f);      \
+        pixel.g = default(s, amod, vmod, src_color->green, 0.0f);    \
+        pixel.b = default(s, amod, vmod, src_color->blue, 0.0f);     \
+        pixel.a = default(s, amod, vmod, src_color->alpha, 1.0f);
+
+    #define write_each(amod, vmod)                         \
+        carefully(d, amod, src_color->red, pixel.r vmod)   \
+        carefully(d, amod, src_color->green, pixel.g vmod) \
+        carefully(d, amod, src_color->blue, pixel.b vmod)  \
+        carefully(d, amod, src_color->alpha, pixel.a vmod)
+
+    #define transformf(pix, number)                         \
+        pix=pix*scale[number]+bias[number];   \
+        if (pix<0.0) pix=0.0;                               \
+        if (pix>1.0) pix=1.0;
+
+
+    // this pixel stores our intermediate color
+    // it will be RGBA and normalized to between (0.0 - 1.0f)
+    pixel_t pixel;
+    switch (src_type) {
+        type_case(GL_DOUBLE, GLdouble, read_each(,))
+        type_case(GL_FLOAT, GLfloat, read_each(,))
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
+        type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
+            s = (GLushort[]){
+                (v & 31),
+                ((v & 0x03e0) >> 5),
+                ((v & 0x7c00) >> 10),
+                ((v & 0x8000) >> 15)*31,
+            };
+            read_each(, / 31.0f);
+        )
+        default:
+            // TODO: add glSetError?
+            printf("libGL: Unsupported source data type: %i\n", src_type);
+            return false;
+            break;
+    }
+    transformf(pixel.r, 0);
+    transformf(pixel.g, 1);
+    transformf(pixel.b, 2);
+    transformf(pixel.a, 3);
+
+    switch (src_type) {
+        type_case(GL_FLOAT, GLfloat, write_each(,))
+        type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
+        // TODO: force 565 to RGB? then we can change [4] -> 3
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            *d = ((GLuint)(color[0] * 31) & 0x1f << 11) |
+                 ((GLuint)(color[1] * 63) & 0x3f << 5) |
+                 ((GLuint)(color[2] * 31) & 0x1f);
+        )
+        default:
+            printf("libGL: Unsupported target data type: %i\n", src_type);
+            return false;
+            break;
+    }
+    return true;
+
+    #undef transformf
+    #undef type_case
+    #undef default
+    #undef carefully
+    #undef read_each
+    #undef write_each
+}
 
 bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,
@@ -135,14 +219,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     if (src_type == dst_type && src_color->type == dst_color->type) {
         *dst = malloc(dst_size);
         memcpy(*dst, src, dst_size);
-		if ((raster_need_transform()) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE)) {
-			for (int aa=0; aa<dst_size; aa++)
-				((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%4);
-		}
-		if (raster_need_transform() && (dst_format==GL_RGB) && (dst_type==GL_UNSIGNED_BYTE)) {
-			for (int aa=0; aa<dst_size; aa++)
-				((GLubyte*)*dst)[aa]=raster_transform(((GLubyte*)*dst)[aa], aa%3);
-        }
         return true;
     } else {
         GLsizei src_stride = pixel_sizeof(src_format, src_type);
@@ -150,9 +226,8 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         *dst = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
         uintptr_t dst_pos = (uintptr_t)*dst;
-		bool transform = raster_need_transform();
         for (int i = 0; i < pixels; i++) {
-            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, transform, 
+            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
                               src_color, src_type, dst_color, dst_type)) {
                 // checking a boolean for each pixel like this might be a slowdown?
                 // probably depends on how well branch prediction performs
@@ -160,6 +235,35 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             }
             src_pos += src_stride;
             dst_pos += dst_stride;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool pixel_transform(const GLvoid *src, GLvoid **dst,
+                   GLuint width, GLuint height,
+                   GLenum src_format, GLenum src_type,
+                   const GLfloat *scales, const GLfloat *bias)
+{
+    const colorlayout_t *src_color;
+    GLuint pixels = width * height;
+    GLuint dst_size = pixels * pixel_sizeof(src_format, src_type);
+    src_color = get_color_map(src_format);
+    GLsizei src_stride = pixel_sizeof(src_format, src_type);
+    *dst = malloc(dst_size);
+    uintptr_t src_pos = (uintptr_t)src;
+    uintptr_t dst_pos = (uintptr_t)*dst;
+    for (int aa=0; aa<dst_size; aa++) {
+        for (int i = 0; i < pixels; i++) {
+            if (! transform_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
+                              src_color, src_type, scales, bias)) {
+                // checking a boolean for each pixel like this might be a slowdown?
+                // probably depends on how well branch prediction performs
+                return false;
+            }
+            src_pos += src_stride;
+            dst_pos += src_stride;
         }
         return true;
     }

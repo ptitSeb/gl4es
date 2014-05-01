@@ -22,6 +22,11 @@ typedef struct {
     GLsizei height;
 } viewport_t;
 
+extern GLfloat raster_scale[4];
+extern GLfloat raster_bias[4];
+
+int raster_need_transform();
+
 extern void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
                      GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
 extern void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
