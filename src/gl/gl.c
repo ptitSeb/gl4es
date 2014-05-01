@@ -370,9 +370,9 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 						break;
 				}
 				for (int i=n; i<count; i+=s)
-					gles_glDrawElements(mode, n, type, indices+i-n);
+					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
 			} else
-				gles_glDrawElements(mode, count, type, indices);
+				gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
 		}
         free(indices);
     }
