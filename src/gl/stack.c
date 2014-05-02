@@ -96,10 +96,10 @@ void glPushAttrib(GLbitfield mask) {
         int a;
         int old_tex=state.texture.active;
         for (a=0; a<MAX_TEX; a++) {
-            glActiveTexture(GL_TEXTURE0+a);
-            cur->texture_2d[a] = glIsEnabled(GL_TEXTURE_2D);
+            /*glActiveTexture(GL_TEXTURE0+a);*/
+            cur->texture_2d[a] = state.enable.texture_2d[a];/*glIsEnabled(GL_TEXTURE_2D);*/
         }
-        glActiveTexture(GL_TEXTURE0+old_tex);
+        /*glActiveTexture(GL_TEXTURE0+old_tex);*/
     }
 
     // TODO: GL_EVAL_BIT
@@ -188,11 +188,11 @@ void glPushAttrib(GLbitfield mask) {
         cur->active=state.texture.active;
         int a;
         for (a=0; a<MAX_TEX; a++) {
-            glActiveTexture(GL_TEXTURE0+a);
+            //glActiveTexture(GL_TEXTURE0+a);
             //glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture[a]);
-	    cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
+	        cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
         }
-        glActiveTexture(GL_TEXTURE0+cur->active);
+        //glActiveTexture(GL_TEXTURE0+cur->active);
     }
 
     // GL_TRANSFORM_BIT
@@ -352,10 +352,12 @@ void glPopAttrib() {
         int a;
         int old_tex = state.texture.active;
         for (a=0; a<MAX_TEX; a++) {
-            glActiveTexture(GL_TEXTURE0+a);
-            enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
+			if (state.enable.texture_2d[a] != cur->texture_2d[a]) {
+				glActiveTexture(GL_TEXTURE0+a);
+				enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
+			}
          }
-         glActiveTexture(GL_TEXTURE0+old_tex);
+         if (state.texture.active != old_tex) glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
 #ifndef USE_ES2
@@ -409,10 +411,12 @@ void glPopAttrib() {
     if (cur->mask & GL_TEXTURE_BIT) {
         int a;
         for (a=0; a<MAX_TEX; a++) {
-           glActiveTexture(GL_TEXTURE0+a);
-           glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
+			if ((cur->texture[a]==0 && state.texture.bound[a] != 0) || (cur->texture[a]!=0 && state.texture.bound[a]==0)) {
+			   glActiveTexture(GL_TEXTURE0+a);
+			   glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
+			}
         }
-        glActiveTexture(GL_TEXTURE0+cur->active);
+        if (state.texture.active!= cur->active) glActiveTexture(GL_TEXTURE0+cur->active);
     }
 	if (cur->mask & GL_PIXEL_MODE_BIT) {
 		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
