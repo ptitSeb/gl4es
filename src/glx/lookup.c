@@ -122,7 +122,25 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexCoord3##suffix##v);       \
     EX(glTexCoord3##suffix);          \
     EX(glTexCoord4##suffix##v);       \
-    EX(glTexCoord4##suffix);
+    EX(glTexCoord4##suffix);          \
+    EX(glMultiTexCoord4##suffix);     \
+    EX(glMultiTexCoord1##suffix##v);  \
+    EX(glMultiTexCoord1##suffix);     \
+    EX(glMultiTexCoord2##suffix##v);  \
+    EX(glMultiTexCoord2##suffix);     \
+    EX(glMultiTexCoord3##suffix##v);  \
+    EX(glMultiTexCoord3##suffix);     \
+    EX(glMultiTexCoord4##suffix##v);  \
+    ARB(glMultiTexCoord4##suffix);    \
+    ARB(glMultiTexCoord4##suffix);    \
+    ARB(glMultiTexCoord1##suffix##v); \
+    ARB(glMultiTexCoord1##suffix);    \
+    ARB(glMultiTexCoord2##suffix##v); \
+    ARB(glMultiTexCoord2##suffix);    \
+    ARB(glMultiTexCoord3##suffix##v); \
+    ARB(glMultiTexCoord3##suffix);    \
+    ARB(glMultiTexCoord4##suffix##v); \
+    ARB(glMultiTexCoord4##suffix);
 
     THUNK(b, GLbyte);
     THUNK(d, GLdouble);
@@ -214,18 +232,6 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glMapGrid2d);
     EX(glMapGrid2f);
     EX(glMateriali);
-    EX(glMultiTexCoord2f);
-    EX(glMultiTexCoord3f);
-    EX(glMultiTexCoord4f);
-    EX(glMultiTexCoord2fv);
-    EX(glMultiTexCoord3fv);
-    EX(glMultiTexCoord4fv);
-    ARB(glMultiTexCoord2f);
-    ARB(glMultiTexCoord3f);
-    ARB(glMultiTexCoord4f);
-    ARB(glMultiTexCoord2fv);
-    ARB(glMultiTexCoord3fv);
-    ARB(glMultiTexCoord4fv);
     EX(glMultMatrixd);
     EX(glNewList);
     EX(glOrtho);
@@ -257,6 +263,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexGeniv);
     EX(glTexImage1D);
     EX(glTexImage3D);
+    EX(glTexSubImage1D);
+    EX(glTexSubImage3D);
     EX(glTranslated);
     EX(glUnlockArraysEXT);
 	EX(glGetTexGenfv);
@@ -267,6 +275,8 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glColorMaterial);
     STUB(glCopyTexImage1D);
     STUB(glCopyTexSubImage1D);
+    STUB(glCopyTexImage3D);
+    STUB(glCopyTexSubImage3D);
     STUB(glEdgeFlagPointer);
     STUB(glFeedbackBuffer);
     STUB(glGetClipPlane);
@@ -288,7 +298,7 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);
-    STUB(glTexSubImage1D);
+    //STUB(glTexSubImage1D);
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

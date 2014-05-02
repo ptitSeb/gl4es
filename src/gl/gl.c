@@ -103,6 +103,10 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 		case GL_MAX_NAME_STACK_DEPTH:
 			*params = 1024;
 			break;
+		case GL_MAX_TEXTURE_IMAGE_UNITS:
+			/*gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, params);*/
+			*params = 4;
+			break;
         default:
             gles_glGetIntegerv(pname, params);
     }

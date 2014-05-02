@@ -92,6 +92,7 @@ extern void *gles;
         GL_TYPE_CASE(name, var, GL_FLOAT, GLfloat, code)           \
         GL_TYPE_CASE(name, var, GL_INT, GLint, code)               \
         GL_TYPE_CASE(name, var, GL_SHORT, GLshort, code)           \
+        GL_TYPE_CASE(name, var, GL_BYTE, GLbyte, code)   \
         GL_TYPE_CASE(name, var, GL_UNSIGNED_BYTE, GLubyte, code)   \
         GL_TYPE_CASE(name, var, GL_UNSIGNED_INT, GLuint, code)     \
         GL_TYPE_CASE(name, var, GL_UNSIGNED_SHORT, GLushort, code) \
@@ -104,7 +105,8 @@ extern void *gles;
 	    GL_TYPE_CASE_MAX(name, var, GL_FLOAT, GLfloat, code, 1.0f)           \
 	    GL_TYPE_CASE_MAX(name, var, GL_INT, GLint, code, 2147483647l)               \
 	    GL_TYPE_CASE_MAX(name, var, GL_SHORT, GLshort, code, 32767)           \
-	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_BYTE, GLubyte, code, 255)   \
+	    GL_TYPE_CASE_MAX(name, var, GL_BYTE, GLbyte, code, 255)   \
+	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_BYTE, GLubyte, code, 127)   \
 	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_INT, GLuint, code, 4294967295l)     \
 	    GL_TYPE_CASE_MAX(name, var, GL_UNSIGNED_SHORT, GLushort, code, 65535) \
 		extra                                                      \
@@ -147,6 +149,7 @@ static const GLsizei gl_sizeof(GLenum type) {
             return 2;
 		case GL_ALPHA:
         case GL_LUMINANCE:
+        case GL_BYTE:
         case GL_UNSIGNED_BYTE:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
         case GL_UNSIGNED_BYTE_3_3_2:

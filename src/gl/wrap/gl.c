@@ -224,11 +224,18 @@ void glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
         }
     }
 }
+
 /*
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     glMultiTexCoord4f(target, s, t, 0.0f, 1.0f);
 }
-*/
+* */
+void glMultiTexCoord1f(GLenum target, GLfloat s) {
+     glMultiTexCoord2f(target, s, 0);
+}
+void glMultiTexCoord1fv(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], 0);
+}
 void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
      glMultiTexCoord2f(target, s, t);
 }
@@ -243,6 +250,12 @@ void glMultiTexCoord3fv(GLenum target, GLfloat *t) {
 }
 void glMultiTexCoord4fv(GLenum target, GLfloat *t) {
      glMultiTexCoord2f(target, t[0], t[1]);
+}
+void glMultiTexCoord1fARB(GLenum target, GLfloat s) {
+     glMultiTexCoord2f(target, s, 0);
+}
+void glMultiTexCoord1fvARB(GLenum target, GLfloat *t) {
+     glMultiTexCoord2f(target, t[0], 0);
 }
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
      glMultiTexCoord2f(target, s, t);
@@ -414,7 +427,58 @@ void glTexCoord4##suffix(type s, type t, type r, type q) {  \
 }                                                           \
 void glTexCoord4##suffix##v(type *t) {                      \
     glTexCoord2f(t[0], t[1]);                               \
+}															\
+/* multi-texture */                                         \
+void glMultiTexCoord1##suffix(GLenum target, type s) {      \
+    glMultiTexCoord2f(target, s, 0);                        \
+}                                                           \
+void glMultiTexCoord1##suffix##v(GLenum target, type *t) {  \
+    glMultiTexCoord2f(target, t[0], 0);                    \
+}                                                           \
+void glMultiTexCoord2##suffix(GLenum target, type s, type t) {           \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord2##suffix##v(GLenum target, type *t) {               \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
+}                                                                        \
+void glMultiTexCoord3##suffix(GLenum target, type s, type t, type r) {   \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord3##suffix##v(GLenum target, type *t) {               \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
+}                                                                        \
+void glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q) {  \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord4##suffix##v(GLenum target, type *t) {               \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
+}                                                                        \
+/* multi-texture ARB */                                                  \
+void glMultiTexCoord1##suffix##ARB(GLenum target, type s) {              \
+    glMultiTexCoord2f(target, s, 0);                                     \
+}                                                                        \
+void glMultiTexCoord1##suffix##vARB(GLenum target, type *t) {            \
+    glMultiTexCoord2f(target, t[0], 0);                                  \
+}                                                                        \
+void glMultiTexCoord2##suffix##ARB(GLenum target, type s, type t) {      \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord2##suffix##vARB(GLenum target, type *t) {            \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
+}                                                                        \
+void glMultiTexCoord3##suffix##ARB(GLenum target, type s, type t, type r) {   \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord3##suffix##vARB(GLenum target, type *t) {            \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
+}                                                                        \
+void glMultiTexCoord4##suffix##ARB(GLenum target, type s, type t, type r, type q) {  \
+    glMultiTexCoord2f(target, s, t);                                     \
+}                                                                        \
+void glMultiTexCoord4##suffix##vARB(GLenum target, type *t) {            \
+    glMultiTexCoord2f(target, t[0], t[1]);                               \
 }
+
 
 THUNK(b, GLbyte, (float)CHAR_MAX)
 THUNK(d, GLdouble, 1.0f)

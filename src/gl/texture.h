@@ -15,6 +15,14 @@ void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLsizei depth,
                   GLint border, GLenum format, GLenum type, const GLvoid *data);
 
+void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                     GLsizei width, GLenum format, GLenum type,
+                     const GLvoid *data);
+                     
+void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                     GLsizei width, GLsizei height, GLsizei depth, GLenum format,
+                     GLenum type, const GLvoid *data);
+
 void glBindTexture(GLenum target, GLuint texture);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);

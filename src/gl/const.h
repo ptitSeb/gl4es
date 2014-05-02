@@ -256,6 +256,7 @@
 #define GL_RENDER_MODE           0x0C40
 #define GL_NAME_STACK_DEPTH      0x0D70
 #define GL_MAX_NAME_STACK_DEPTH  0x0D37
+#define GL_MAX_TEXTURE_IMAGE_UNITS 0x8872
 
 // evaluators
 #define GL_AUTO_NORMAL           0x0D80

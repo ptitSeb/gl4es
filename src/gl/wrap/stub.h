@@ -17,20 +17,10 @@ void glFogCoordfv(const GLfloat *coord);
 //void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
 //void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glIndexf(GLfloat c);
-//void glInitNames();
 void glLightModeli(GLenum pname, GLint param);
-//void glLoadName(GLuint name);
-//void glPixelTransferf(GLenum pname, GLfloat param);
-//void glPixelTransferi(GLenum pname, GLint param);
-//void glPixelZoom(GLfloat xfactor, GLfloat yfactor);
-//void glPolygonMode(GLenum face, GLenum mode);
 void glPolygonStipple(const GLubyte *mask);
-//void glPopName();
-//void glPushName();
 void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
-// glSelectBuffer: http://www.lighthouse3d.com/opengl/picking/index.php?color1
-//void glSelectBuffer(GLsizei size, GLuint *buffer);
 void glColorTable (GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table);
 
 void glAccum(GLenum op, GLfloat value);

@@ -87,6 +87,7 @@ GL_RECT(s, GLshort)
 #undef GL_RECT
 
 // textures
+
 void glTexCoord1f(GLfloat s);
 void glTexCoord1fv(GLfloat *t);
 void glTexCoord2fv(GLfloat *t);
@@ -95,10 +96,12 @@ void glTexCoord3fv(GLfloat *t);
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glTexCoord4fv(GLfloat *t);
 
-void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r);
-void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glMultiTexCoord1f(GLenum target, GLfloat s);
+void glMultiTexCoord1fv(GLenum target, GLfloat *t);
 void glMultiTexCoord2fv(GLenum target, GLfloat *t);
+void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r);
 void glMultiTexCoord3fv(GLenum target, GLfloat *t);
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 void glMultiTexCoord4fv(GLenum target, GLfloat *t);
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t);
 void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r);
@@ -172,7 +175,23 @@ void glTexCoord2##suffix##v(type *t);                      \
 void glTexCoord3##suffix(type s, type t, type r);          \
 void glTexCoord3##suffix##v(type *t);                      \
 void glTexCoord4##suffix(type s, type t, type r, type q);  \
-void glTexCoord4##suffix##v(type *t);
+void glTexCoord4##suffix##v(type *t);					   \
+void glMultiTexCoord1##suffix(GLenum target, type s);                          \
+void glMultiTexCoord1##suffix##v(GLenum target, type *t);                      \
+void glMultiTexCoord2##suffix(GLenum target, type s, type t);                  \
+void glMultiTexCoord2##suffix##v(GLenum target, type *t);                      \
+void glMultiTexCoord3##suffix(GLenum target, type s, type t, type r);          \
+void glMultiTexCoord3##suffix##v(GLenum target, type *t);                      \
+void glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q);  \
+void glMultiTexCoord4##suffix##v(GLenum target, type *t);					   \
+void glMultiTexCoord1##suffix##ARB(GLenum target, type s);                          \
+void glMultiTexCoord1##suffix##vARB(GLenum target, type *t);                      \
+void glMultiTexCoord2##suffix##ARB(GLenum target, type s, type t);                  \
+void glMultiTexCoord2##suffix##vARB(GLenum target, type *t);                      \
+void glMultiTexCoord3##suffix##ARB(GLenum target, type s, type t, type r);          \
+void glMultiTexCoord3##suffix##vARB(GLenum target, type *t);                      \
+void glMultiTexCoord4##suffix##ARB(GLenum target, type s, type t, type r, type q);  \
+void glMultiTexCoord4##suffix##vARB(GLenum target, type *t);
 
 THUNK(b, GLbyte)
 THUNK(d, GLdouble)
