@@ -213,7 +213,6 @@ void glEnable(GLenum cap) {
 		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
 			state.list.active = extend_renderlist(state.list.active);
         push_glEnable(cap);
-		//rlEnable(cap);
     } else {
         LOAD_GLES(glEnable);
         proxy_glEnable(cap, true, gles_glEnable);
@@ -226,7 +225,6 @@ void glDisable(GLenum cap) {
 		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
 			state.list.active = extend_renderlist(state.list.active);
         push_glDisable(cap);
-		//rlDisable(cap);
     } else {
         LOAD_GLES(glDisable);
         proxy_glEnable(cap, false, gles_glDisable);
@@ -267,25 +265,27 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-
+//if (state.list.compiling) printf("arrary_to_renderlist while compiling list\n");
     list->mode = mode;
     list->mode_init = mode;
     list->len = count;
     list->cap = count;
-    if (state.enable.vertex_array) {
-        list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);
-    }
-    if (state.enable.color_array) {
-        list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count);
-    }
-    if (state.enable.normal_array) {
-        list->normal = copy_gl_pointer(&state.pointers.normal, 3, skip, count);
-    }
-    for (int i=0; i<MAX_TEX; i++) {
-	    if (state.enable.tex_coord_array[i]) {
+    
+	if (state.enable.vertex_array) {
+		list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);
+	}
+	if (state.enable.color_array) {
+		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count);
+	}
+	if (state.enable.normal_array) {
+		list->normal = copy_gl_pointer(&state.pointers.normal, 3, skip, count);
+	}
+	for (int i=0; i<MAX_TEX; i++) {
+		if (state.enable.tex_coord_array[i]) {
 		list->tex[i] = copy_gl_pointer(&state.pointers.tex_coord[i], 2, skip, count);
-	    }
-    }
+		}
+	}
+	
     end_renderlist(list);
     return list;
 }
@@ -305,11 +305,6 @@ static inline bool should_intercept_render(GLenum mode) {
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
     GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-    GLenum mode_init = mode;
-    if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
-		mode = GL_LINE_LOOP;
-    if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
-		mode = GL_POINTS;
     // TODO: do this in a more direct fashion.
     if (should_intercept_render(mode)) {
         glBegin(mode);
@@ -320,7 +315,6 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         free(indices);
         return;
     }
-
     bool compiling = (state.list.active && state.list.compiling);
     if (compiling) {
         renderlist_t *list = NULL;
@@ -332,18 +326,23 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = arrays_to_renderlist(list, mode, min, max + 1);
         list->indices = indices;
         list->len = count;
-        list->mode_init = mode_init;
 
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
     } else {
 		LOAD_GLES(glDrawElements);
+		GLenum mode_init = mode;
+		if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+			mode = GL_LINE_LOOP;
+		if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+			mode = GL_POINTS;
+
 		if (mode == GL_QUAD_STRIP)
 			mode = GL_TRIANGLE_STRIP;
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
 		if (state.render_mode == GL_SELECT) {
-			select_glDrawElements(mode, count, type, indices);
+			select_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
 		} else {
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -384,17 +383,10 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
-    GLenum mode_init = mode;
-    if (mode == GL_QUAD_STRIP)
-        mode = GL_TRIANGLE_STRIP;
-    if (mode == GL_POLYGON)
-        mode = GL_TRIANGLE_FAN;
-
     renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
         list = state.list.active = extend_renderlist(active);
         arrays_to_renderlist(list, mode, first, count);
-        list->mode_init = mode_init;
         return;
     }
 
@@ -412,6 +404,13 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         // TODO: some draw states require us to use the full pipeline here
         // like texgen, stipple, npot
         LOAD_GLES(glDrawArrays);
+
+		GLenum mode_init = mode;
+		if (mode == GL_QUAD_STRIP)
+			mode = GL_TRIANGLE_STRIP;
+		if (mode == GL_POLYGON)
+			mode = GL_TRIANGLE_FAN;
+
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawArrays(mode, first, count);
 		} else {
@@ -571,7 +570,6 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
 }
 
 // immediate mode functions
-
 void glBegin(GLenum mode) {
     if (! state.list.active) {
         state.list.active = alloc_renderlist();
@@ -580,11 +578,11 @@ void glBegin(GLenum mode) {
 		state.list.active = extend_renderlist(state.list.active);
 	}
     state.list.active->mode = mode;
+    state.list.active->mode_init = mode;
 }
 
 void glEnd() {
     if (! state.list.active) return;
-
     // render if we're not in a display list
     if (! state.list.compiling) {
 		renderlist_t *mylist = state.list.active;

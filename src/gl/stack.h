@@ -143,6 +143,11 @@ typedef struct {
     pointer_state_t color;
     pointer_state_t normal;
     pointer_state_t tex[MAX_TEX];
+    // lets track old pointer address to avoid useless copy back
+    GLvoid      *ref_verts,
+	            *ref_colors,
+	            *ref_normal,
+	            *ref_tex[MAX_TEX];
 
     unsigned int len;
     unsigned int cap;

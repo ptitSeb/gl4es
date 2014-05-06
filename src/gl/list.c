@@ -42,7 +42,7 @@ renderlist_t *alloc_renderlist() {
     list->set_texture = false;
     list->texture = 0;
     list->polygon_mode = 0;
-	
+    
     list->prev = NULL;
     list->next = NULL;
     list->open = true;
@@ -327,8 +327,7 @@ void draw_renderlist(renderlist_t *list) {
 		GLint needclean[MAX_TEX];
 		for (int a=0; a<MAX_TEX; a++) {
 			texgened[a]=NULL;
-			// CubeMaps are a different state than Texture2D!
-			if (/*(state.enable.texture_2d[a]) && */(state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
+			if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
 					gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a);
 			}
         }
@@ -345,7 +344,7 @@ void draw_renderlist(renderlist_t *list) {
 			    }
 		    }
         }
-        glClientActiveTexture(GL_TEXTURE0+old_tex);
+        if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
 		
         GLushort *indices = list->indices;
         if (list->q2t)

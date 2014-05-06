@@ -12,4 +12,10 @@ extern void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 extern void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c);
 extern void vector_normalize(GLfloat *a);
 extern void matrix_column_row(const GLfloat *a, GLfloat *b);
+extern void matrix_row_column(const GLfloat *a, GLfloat *b);
 extern void matrix_inverse(const GLfloat *m, GLfloat *r);
+
+extern void glLoadTransposeMatrixf(const GLfloat *m);
+extern void glLoadTransposeMatrixd(const GLdouble *m);
+extern void glMultTransposeMatrixd(const GLdouble *m);
+extern void glMultTransposeMatrixf(const GLfloat *m);

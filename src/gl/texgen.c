@@ -113,6 +113,13 @@ void matrix_column_row(const GLfloat *a, GLfloat *b) {
             b[i*4+j]=a[i+j*4];
 }
 
+void matrix_row_column(const GLfloat *a, GLfloat *b) {
+    // column row -> column major
+    for (int i=0; i<4; i++)
+        for (int j=0; j<4; j++)
+            b[i+j*4]=a[i*4+j];
+}
+
 void matrix_inverse(const GLfloat *m, GLfloat *r) {
 
     r[0] = m[5]*m[10]*m[15] - m[5]*m[14]*m[11] - m[6]*m[9]*m[15] + m[6]*m[13]*m[11] + m[7]*m[9]*m[14] - m[7]*m[13]*m[10];
@@ -289,4 +296,29 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
 		return;
 	}
+}
+
+void glLoadTransposeMatrixf(const GLfloat *m) {
+	GLfloat mf[16];
+	matrix_row_column(m, mf);
+	glLoadMatrixf(mf);
+}
+
+void glLoadTransposeMatrixd(const GLdouble *m) {
+	GLfloat mf[16];
+	for (int i=0; i<16; i++)
+		mf[i] = m[i];
+	glLoadTransposeMatrixf(mf);
+}
+
+void glMultTransposeMatrixd(const GLdouble *m) {
+	GLfloat mf[16];
+	for (int i=0; i<16; i++)
+		mf[i] = m[i];
+	glMultTransposeMatrixf(mf);
+}
+void glMultTransposeMatrixf(const GLfloat *m) {
+	GLfloat mf[16];
+	matrix_row_column(m, mf);
+	glMultMatrixf(mf);
 }

@@ -24,6 +24,7 @@ void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLenum type, const GLvoid *data);
 
 void glBindTexture(GLenum target, GLuint texture);
+void glGenTextures(GLsizei n, GLuint * textures);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
@@ -40,6 +41,7 @@ int npot(int n);
 
 typedef struct {
     GLuint texture;
+    GLuint glname;
     GLenum target;
     GLsizei width;
     GLsizei height;

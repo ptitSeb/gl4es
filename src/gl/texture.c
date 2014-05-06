@@ -112,7 +112,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (bound && (level>0))
-		if (bound->mipmap_need)
+//		if (bound->mipmap_need)
 			return;			// has been handled by auto_mipmap
 		else
 			bound->mipmap_need = 1;
@@ -154,7 +154,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
             }
         }
         if (env_shrink && strcmp(env_shrink, "2") == 0) {
-            if ((width > 512 && width > 16) || (height > 512 && height > 16)) {
+            if ((width > 512 && height > 8) || (height > 512 && width > 8)) {
                 GLvoid *out;
                 pixel_halfscale(pixels, &out, width, height, format, type);
                 if (out != pixels && pixels!=data)
@@ -224,8 +224,10 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
     LOAD_GLES(glTexSubImage2D);
-    LOAD_GLES(glTexParameteri);
-//printf("glTexSubImage2D with unpack_row_length(%i), size(%d,%d), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
+    //LOAD_GLES(glTexParameteri);
+//printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
+	if (width==0 || height==0)
+		return;
     target = map_tex_target(target);
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
@@ -235,7 +237,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		else
 			bound->mipmap_need = 1;
 
-    const GLvoid *pixels = data;/* = swizzle_texture(width, height, &format, &type, data);*/
+    const GLvoid *pixels = data;
 
 	 if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
 		 int imgWidth, pixelSize;
@@ -253,19 +255,19 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	 }
 	 
 	 GLvoid *old = pixels;
-	 pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old/*data*/);
+	 pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
 	 if (old != pixels && old != data)
 		free(old);
-
+/*
 	if (bound && bound->mipmap_need && !bound->mipmap_auto)
 		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
-
+*/
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
 						 width, height, format, type, pixels);
-
+/*
 	if (bound && bound->mipmap_need && !bound->mipmap_auto)
 		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
-
+*/
     if (pixels != data)
         free((GLvoid *)pixels);
 }
@@ -343,13 +345,15 @@ void glBindTexture(GLenum target, GLuint texture) {
                 kh_put(tex, list, 1, &ret);
                 kh_del(tex, list, 1);
             }
-
             k = kh_get(tex, list, texture);
-            gltexture_t *tex = NULL;;
+            gltexture_t *tex = NULL;
+            
             if (k == kh_end(list)){
+				LOAD_GLES(glGenTextures);
                 k = kh_put(tex, list, texture, &ret);
                 tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
                 tex->texture = texture;
+                gles_glGenTextures(1, &tex->glname);
                 tex->target = target;
                 tex->width = 0;
                 tex->height = 0;
@@ -360,6 +364,7 @@ void glBindTexture(GLenum target, GLuint texture) {
                 tex = kh_value(list, k);
             }
             state.texture.bound[state.texture.active] = tex;
+            texture = tex->glname;
         } else {
             state.texture.bound[state.texture.active] = NULL;
         }
@@ -401,6 +406,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 
 void glDeleteTextures(GLsizei n, const GLuint *textures) {
     PUSH_IF_COMPILING(glDeleteTextures);
+    LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = state.texture.list;
     if (list) {
         khint_t k;
@@ -415,13 +421,47 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
                     if (tex == state.texture.bound[a])
                         state.texture.bound[a] = NULL;
                 }
+				gles_glDeleteTextures(1, &tex->glname);
                 free(tex);
                 kh_del(tex, list, k);
             }
         }
     }
-    LOAD_GLES(glDeleteTextures);
-    gles_glDeleteTextures(n, textures);
+}
+
+void glGenTextures(GLsizei n, GLuint * textures) {
+    if (n<=0) 
+		return;
+    LOAD_GLES(glGenTextures);
+    gles_glGenTextures(n, textures);
+    // now, add all the textures to the list
+    int ret;
+	khint_t k;
+	khash_t(tex) *list = state.texture.list;
+	if (! list) {
+		list = state.texture.list = kh_init(tex);
+		// segfaults if we don't do a single put
+		kh_put(tex, list, 1, &ret);
+		kh_del(tex, list, 1);
+	}
+	
+	for (int i=0; i<n; i++) {
+		k = kh_get(tex, list, textures[i]);
+		gltexture_t *tex = NULL;;
+		if (k == kh_end(list)){
+			k = kh_put(tex, list, textures[i], &ret);
+			tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
+			tex->texture = textures[i];
+			tex->glname = textures[i];
+			tex->width = 0;
+			tex->height = 0;
+			tex->uploaded = false;
+			tex->mipmap_auto = 0;
+			tex->mipmap_need = 0;
+		} else {
+			tex = kh_value(list, k);
+		}
+	}
 }
 
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) {
