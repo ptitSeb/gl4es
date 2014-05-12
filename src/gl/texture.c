@@ -329,7 +329,7 @@ void glPixelStorei(GLenum pname, GLint param) {
 }
 
 void glBindTexture(GLenum target, GLuint texture) {
-    if (state.list.active) {
+    if (state.list.compiling && state.list.active) {
 		// check if already a texture binded, if yes, create a new list
 		if (state.list.active->set_texture)
 			state.list.active = extend_renderlist(state.list.active);
