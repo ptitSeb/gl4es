@@ -252,6 +252,10 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRectf);
     EX(glRecti);
     EX(glRects);
+    EX(glRectdv);
+    EX(glRectfv);
+    EX(glRectiv);
+    EX(glRectsv);
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);
