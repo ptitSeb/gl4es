@@ -28,6 +28,11 @@ renderlist_t *alloc_renderlist() {
 
     list->glcall_list = 0;
     list->raster = NULL;
+    
+    list->stage = STAGE_NONE;
+    
+    list->pushattribute = 0;
+    list->popattribute = false;
 
     int a;
     for (a=0; a<MAX_TEX; a++)
@@ -213,6 +218,11 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES(glDrawElements);
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
+		// push/pop attributes
+		if (list->pushattribute)
+			glPushAttrib(list->pushattribute);
+		if (list->popattribute)
+			glPopAttrib();
 		// do call_list
 		if (list->glcall_list)
 			glCallList(list->glcall_list);

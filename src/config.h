@@ -58,6 +58,7 @@
 #define direct_glDisableClientState
 #define direct_glEdgeFlagPointer
 #define direct_glEnableClientState
+#define direct_glClientActiveTexture
 #define direct_glFeedbackBuffer
 #define direct_glFinish
 #define direct_glFlush
@@ -75,3 +76,5 @@
 #define direct_glTexCoordPointer
 #define direct_glVertexPointer
 #define direct_glGenTextures
+#define direct_glGetError
+

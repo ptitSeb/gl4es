@@ -112,11 +112,14 @@ extern void *gles;
 		extra                                                      \
     }
 	
-#define PUSH_IF_COMPILING_EXT(name, ...)             \
+#define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (state.list.compiling && state.list.active) { \
-        push_##name(__VA_ARGS__);                    \
-        return (name##_RETURN)0;                     \
+		NewStage(state.list.active, STAGE_GLCALL);   \
+        push_##nam(__VA_ARGS__);                    \
+        return (nam##_RETURN)0;                     \
     }
+
+//printf("list:%i, " #nam "\n", state.list.name); \
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 

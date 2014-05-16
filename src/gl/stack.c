@@ -4,10 +4,11 @@ glstack_t *stack = NULL;
 glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
-/*    if (state.list.compiling && state.list.active) {
-		rlPushAttrib(mask);
+    if (state.list.compiling && state.list.active) {
+		NewStage(state.list.active, STAGE_PUSH);
+		state.list.active->pushattribute = mask;
 		return;
-	}*/
+	}
     if (stack == NULL) {
         stack = (glstack_t *)malloc(STACK_SIZE * sizeof(glstack_t));
         stack->len = 0;
@@ -276,10 +277,11 @@ void glPushClientAttrib(GLbitfield mask) {
 #define v4(c) v3(c), c[3]
 
 void glPopAttrib() {
-/*    if (state.list.compiling && state.list.active) {
-		rlPopAttrib();
+    if (state.list.compiling && state.list.active) {
+		NewStage(state.list.active, STAGE_POP);
+		state.list.active->popattribute = true;
 		return;
-	}*/
+	}
     if (stack == NULL || stack->len == 0)
         return;
 

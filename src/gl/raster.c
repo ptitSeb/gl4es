@@ -60,7 +60,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 }
 
 void glPixelTransferf(GLenum pname, GLfloat param) {
-//printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
+printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
 	switch(pname) {
 		case GL_RED_SCALE:
 			raster_scale[0]=param;
@@ -221,8 +221,9 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     rasterlist_t rast;
     rasterlist_t *r;
 	if (state.list.compiling) {
-		if (state.list.active->raster)
-			state.list.active = extend_renderlist(state.list.active);		// already a raster in the list, create a new one
+		NewStage(state.list.active, STAGE_RASTER);
+/*		if (state.list.active->raster)
+			state.list.active = extend_renderlist(state.list.active);*/		// already a raster in the list, create a new one
 		r = state.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
 	} else {
 		r = &rast;
@@ -301,8 +302,9 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     rasterlist_t rast;
     rasterlist_t *r;
 	if (state.list.compiling) {
-		if (state.list.active->raster)
-			state.list.active = extend_renderlist(state.list.active);		// already a raster in the list, create a new one
+		NewStage(state.list.active, STAGE_RASTER);
+/*		if (state.list.active->raster)
+			state.list.active = extend_renderlist(state.list.active);*/		// already a raster in the list, create a new one
 		rasterlist_t *r = state.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
 	} else {
 		r = &rast;

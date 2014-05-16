@@ -16,8 +16,9 @@ void glLightModelf(GLenum pname, GLfloat param) {
 
 void glLightModelfv(GLenum pname, const GLfloat* params) {
     if (state.list.active) {
-		if (state.list.active->lightmodel)
-			state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_LIGHTMODEL);
+/*		if (state.list.active->lightmodel)
+			state.list.active = extend_renderlist(state.list.active);*/
 		state.list.active->lightmodelparam = pname;
 		state.list.active->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
 		memcpy(state.list.active->lightmodel, params, 4*sizeof(GLfloat));
@@ -37,6 +38,7 @@ void glLightModelfv(GLenum pname, const GLfloat* params) {
 
 void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     if (state.list.active) {
+		NewStage(state.list.active, STAGE_LIGHT);
 		rlLightfv(state.list.active, light, pname, params);
 		return;
 	}

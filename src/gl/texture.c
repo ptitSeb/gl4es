@@ -102,13 +102,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     return (void *)data;
 }
 
-void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
+void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format=%04x, type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
+//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
     GLvoid *pixels = (GLvoid *)data;
     border = 0;	//TODO: something?
+ PUSH_IF_COMPILING(glTexImage2D);
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (bound && (level>0))
@@ -118,6 +119,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 			bound->mipmap_need = 1;
 			
     if (data) {
+
         // implements GL_UNPACK_ROW_LENGTH
         if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
             int imgWidth, pixelSize;
@@ -223,6 +225,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalFormat,
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
+    const GLvoid *pixels = data;
+ PUSH_IF_COMPILING(glTexSubImage2D);
+
     LOAD_GLES(glTexSubImage2D);
     //LOAD_GLES(glTexParameteri);
 //printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
@@ -236,8 +241,6 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 			return;			// has been handled by auto_mipmap
 		else
 			bound->mipmap_need = 1;
-
-    const GLvoid *pixels = data;
 
 	 if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
 		 int imgWidth, pixelSize;
@@ -331,8 +334,9 @@ void glPixelStorei(GLenum pname, GLint param) {
 void glBindTexture(GLenum target, GLuint texture) {
     if (state.list.compiling && state.list.active) {
 		// check if already a texture binded, if yes, create a new list
-		if (state.list.active->set_texture)
-			state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_BINDTEX);
+/*		if (state.list.active->set_texture)
+			state.list.active = extend_renderlist(state.list.active);*/
         rlBindTexture(state.list.active, texture);
     } else {
         if (texture) {
@@ -405,7 +409,6 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 }
 
 void glDeleteTextures(GLsizei n, const GLuint *textures) {
-    PUSH_IF_COMPILING(glDeleteTextures);
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = state.texture.list;
     if (list) {
@@ -582,8 +585,9 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 }
 
 void glActiveTexture( GLenum texture ) {
+/* NewStage(state.list.active, STAGE_BINDTEX);
  if (state.list.compiling && state.list.active)
-	state.list.active = extend_renderlist(state.list.active);
+	state.list.active = extend_renderlist(state.list.active);*/
  PUSH_IF_COMPILING(glActiveTexture);
  
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX))
@@ -594,10 +598,6 @@ void glActiveTexture( GLenum texture ) {
 }
 
 void glClientActiveTexture( GLenum texture ) {
- if (state.list.compiling && state.list.active)
-	state.list.active = extend_renderlist(state.list.active);
- PUSH_IF_COMPILING(glClientActiveTexture);
- 
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX))
    return;
  state.texture.client = texture - GL_TEXTURE0;

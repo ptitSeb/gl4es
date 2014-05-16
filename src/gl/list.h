@@ -3,6 +3,39 @@
 #ifndef DISPLAY_LIST_H
 #define DISPLAY_LIST_H
 
+typedef enum {
+	STAGE_NONE = 0,
+	STAGE_PUSH,
+	STAGE_POP,
+	STAGE_CALLLIST,
+	STAGE_GLCALL,
+	STAGE_BINDTEX,
+	STAGE_RASTER,
+	STAGE_MATERIAL,
+	STAGE_LIGHT,
+	STAGE_LIGHTMODEL,
+	STAGE_TEXGEN,
+	STAGE_POLYGON,
+	STAGE_DRAW,
+	STAGE_LAST
+} liststage_t;
+
+static int StageExclusive[STAGE_LAST] = {
+	0, 	// STAGE_NONE
+	1,	// STAGE_PUSH
+	1,  // STAGE_POP
+	1, 	// STAGE_CALLLIST
+	0,  // STAGE_GLCALL
+	1,  // STAGE_BINDTEX
+	1,  // STAGE_RASTER
+	0,  // STAGE_MATERIAL
+	0,  // STAGE_LIGHT
+	1,  // STAGE_LIGTMODEL
+	0,  // STAGE_TEXGEN
+	1,  // STAGE_POLYGON
+	1   // STAGE_DRAW
+};
+
 typedef struct {
     int face;
     int pname;
@@ -63,6 +96,11 @@ typedef struct _renderlist_t {
 	
 	GLuint	glcall_list;
 	rasterlist_t *raster;
+	
+	liststage_t	stage;
+	
+	GLbitfield pushattribute;
+	GLboolean  popattribute;
 
     khash_t(material) *material;
     khash_t(light) *light;
@@ -79,6 +117,8 @@ typedef struct _renderlist_t {
 
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 20
+
+#define NewStage(l, s) if (l->stage+StageExclusive[s] > s) {l = extend_renderlist(l);} l->stage = s
 
 extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);

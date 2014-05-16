@@ -210,8 +210,9 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
 void glEnable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
-			state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_GLCALL);
+/*		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
+			state.list.active = extend_renderlist(state.list.active);*/
         push_glEnable(cap);
     } else {
         LOAD_GLES(glEnable);
@@ -222,8 +223,9 @@ void glEnable(GLenum cap) {
 
 void glDisable(GLenum cap) {
     if (state.list.compiling && state.list.active) {
-		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
-			state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_GLCALL);
+/*		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
+			state.list.active = extend_renderlist(state.list.active);*/
         push_glDisable(cap);
     } else {
         LOAD_GLES(glDisable);
@@ -320,7 +322,8 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-        list = state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_DRAW);
+        list = state.list.active;/* = extend_renderlist(state.list.active);*/
 
         normalize_indices(indices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, min, max + 1);
@@ -385,7 +388,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
     renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
-        list = state.list.active = extend_renderlist(active);
+		NewStage(state.list.active, STAGE_DRAW);
+        list = state.list.active;/* = extend_renderlist(active);*/
         arrays_to_renderlist(list, mode, first, count);
         return;
     }
@@ -573,9 +577,10 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
 void glBegin(GLenum mode) {
     if (! state.list.active) {
         state.list.active = alloc_renderlist();
-    } else {
+    }/* else*/ {
 		// create a new list, as we are already inside one
-		state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_DRAW);
+//		state.list.active = extend_renderlist(state.list.active);
 	}
     state.list.active->mode = mode;
     state.list.active->mode_init = mode;
@@ -631,6 +636,7 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
     if (state.list.active) {
+		NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
 	if (face!=GL_FRONT_AND_BACK)
@@ -644,6 +650,7 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 		GLfloat params[4];
 		memset(params, 0, 4*sizeof(GLfloat));
 		params[0] = param;
+		NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
 	if (face!=GL_FRONT_AND_BACK)
@@ -777,7 +784,8 @@ void glEndList() {
 
 void glCallList(GLuint list) {
     if (state.list.compiling && state.list.active) {
-		state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_CALLLIST);
+		/*state.list.active = extend_renderlist(state.list.active);*/
 		state.list.active->glcall_list = list;
 		return;
 	}
@@ -789,6 +797,7 @@ void glCallList(GLuint list) {
 
 void glPushCall(void *call) {
     if (state.list.compiling && state.list.active) {
+		NewStage(state.list.active, STAGE_GLCALL);
         rlPushCall(state.list.active, call);
     }
 }
@@ -858,8 +867,9 @@ GLboolean glIsList(GLuint list) {
 
 void glPolygonMode(GLenum face, GLenum mode) {
 	if (state.list.compiling && state.list.active) {
-		if (state.list.active->polygon_mode)
-			state.list.active = extend_renderlist(state.list.active);
+		NewStage(state.list.active, STAGE_POLYGON);
+/*		if (state.list.active->polygon_mode)
+			state.list.active = extend_renderlist(state.list.active);*/
 		state.list.active->polygon_mode = mode;
 		return;
 	}
