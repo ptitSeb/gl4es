@@ -63,7 +63,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(/*3-*/ , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
                 (v & 31),
@@ -75,7 +75,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %i\n", src_type);
+            printf("libGL: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -83,6 +83,8 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -94,7 +96,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
                  ((GLuint)(color[2] * 31) & 0x1f);
         )
         default:
-            printf("libGL: Unsupported target data type: %i\n", dst_type);
+            printf("libGL: Unsupported target data type: %04X\n", dst_type);
             return false;
             break;
     }
@@ -164,7 +166,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %i\n", src_type);
+            printf("libGL: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -176,6 +178,8 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
     switch (src_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -187,7 +191,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
                  ((GLuint)(color[2] * 31) & 0x1f);
         )
         default:
-            printf("libGL: Unsupported target data type: %i\n", src_type);
+            printf("libGL: Unsupported target data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -270,7 +274,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %i\n", src_type);
+            printf("libGL: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -282,7 +286,9 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
     switch (src_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
-        // TODO: force 565 to RGB? then we can change [4] -> 3
+        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
+       // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
             color[src_color->red] = pixel.r;
@@ -293,7 +299,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
                  ((GLuint)(color[2] * 31) & 0x1f);
         )
         default:
-            printf("libGL: Unsupported target data type: %i\n", src_type);
+            printf("libGL: Unsupported target data type: %04X\n", src_type);
             return false;
             break;
     }
