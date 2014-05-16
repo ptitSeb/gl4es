@@ -22,6 +22,7 @@
 #define skip_glLightModelf
 #define skip_glLightModelfv
 #define skip_glLightfv
+#define skip_glLightf
 
 // raster.c
 #define skip_glViewport
@@ -40,6 +41,8 @@
 #define skip_glTexGeni
 #define skip_glTexGenfv
 #define skip_glReadPixels
+#define skip_glCompressedTexImage2D
+#define skip_glCompressedTexSubImage2D
 
 // glDrawArrays
 #define skip_glDrawArrays

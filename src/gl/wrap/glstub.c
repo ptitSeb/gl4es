@@ -41,25 +41,13 @@ STUB(void glTexEnvi(GLenum target, GLenum pname, GLint param));
 STUB(void glTranslatef(GLfloat x, GLfloat y, GLfloat z));
 #endif
 
-// STUB(void glMultiTexCoord());
-// STUB(void glVertexAttrib());
-//STUB(GLint glRenderMode(GLenum mode))
-#ifndef USE_ES2
-//STUB(void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha))
-#endif
 STUB(void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha))
-#ifndef USE_ES2
-//STUB(void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
-#endif
 STUB(void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
 STUB(void glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha))
 STUB(void glColorMaterial(GLenum face, GLenum mode))
 STUB(void glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type))
 STUB(void glDrawBuffer(GLenum mode))
 STUB(void glEdgeFlag(GLboolean flag))
-//STUB(void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img))
-//STUB(void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params))
-//STUB(void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params))
 STUB(void glIndexf(GLfloat c))
 STUB(void glPolygonStipple(const GLubyte *mask))
 STUB(void glReadBuffer(GLenum mode))

@@ -32,6 +32,7 @@ extern void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 extern void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                          GLenum type, const GLvoid *data);
 extern void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
+extern void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z);
 extern void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 extern void render_raster();
 

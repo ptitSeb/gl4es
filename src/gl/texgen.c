@@ -19,7 +19,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 }
 
 void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
-
+//printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]\n", coord, pname, param[0]);
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_TEXGEN);
 		rlTexGenfv(state.list.active, coord, pname, param);

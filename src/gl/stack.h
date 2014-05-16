@@ -50,6 +50,7 @@ typedef struct {
     GLboolean polygon_offset_fill;
     GLboolean stencil_test;
     GLboolean texture_2d[MAX_TEX];
+    GLboolean colormaterial;
 
     // GL_FOG_BIT
     GLboolean fog;

@@ -400,8 +400,9 @@ void draw_renderlist(renderlist_t *list) {
 				}
 				for (int i=n; i<list->len; i+=s)
 					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
-				} else
+				} else {
 					gles_glDrawElements(mode, list->len, GL_UNSIGNED_SHORT, indices);
+				}
 			}
         } else {
 			if (state.render_mode == GL_SELECT) {	

@@ -43,6 +43,12 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     #endif
 }
 
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
+    rPos.x = x;
+    rPos.y = y;
+    rPos.z = z;	
+}
+
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
@@ -60,7 +66,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 }
 
 void glPixelTransferf(GLenum pname, GLfloat param) {
-printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
+//printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
 	switch(pname) {
 		case GL_RED_SCALE:
 			raster_scale[0]=param;

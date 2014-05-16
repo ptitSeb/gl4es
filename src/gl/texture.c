@@ -1,5 +1,6 @@
 #include "texture.h"
 #include "raster.h"
+#include "decompress.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
@@ -261,6 +262,13 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	 pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
 	 if (old != pixels && old != data)
 		free(old);
+		
+	char *env_dump = getenv("LIBGL_TEXDUMP");
+	if (env_dump && strcmp(env_dump, "1") == 0) {
+		if (bound) {
+			pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+		}
+	}
 /*
 	if (bound && bound->mipmap_need && !bound->mipmap_auto)
 		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
@@ -522,6 +530,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 }
 
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
+//printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p)\n", target, level, format, type, img);
 	if (state.texture.bound[state.texture.active]==NULL)
 		return;		// no texture bounded...
 	if (level != 0) {
@@ -606,6 +615,7 @@ void glClientActiveTexture( GLenum texture ) {
 }
 
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
+//printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
     if (state.list.compiling && state.list.active)
 		return;	// never in list
     LOAD_GLES(glReadPixels);
@@ -624,4 +634,108 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 	}
 	free(pixels);
 	return;
+}
+
+GLboolean isDXTc(GLenum format) {
+	switch (format) {
+		case COMPRESSED_RGB_S3TC_DXT1_EXT:
+		case COMPRESSED_RGBA_S3TC_DXT1_EXT:
+		case COMPRESSED_RGBA_S3TC_DXT3_EXT:
+		case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+			return true;
+	}
+	return false;
+}
+
+GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid *data) {
+	// uncompress a DXTc image
+	// get pixel size of uncompressed image => fixed RGBA
+	int pixelsize = 4;
+/*	if (format==COMPRESSED_RGB_S3TC_DXT1_EXT)
+		pixelsize = 3;*/
+	// check with the size of the input data stream if the stream is in fact uncompressed
+	if (imageSize == width*height*pixelsize || data==NULL) {
+		// uncompressed stream
+		return data;
+	}
+	// alloc memory
+	GLvoid *pixels = malloc(width*height*pixelsize);
+	// uncompress loop
+	int blocksize;
+	switch (format) {
+		case COMPRESSED_RGB_S3TC_DXT1_EXT:
+		case COMPRESSED_RGBA_S3TC_DXT1_EXT:
+			blocksize = 8;
+			break;
+		case COMPRESSED_RGBA_S3TC_DXT3_EXT:
+		case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+			blocksize = 16;
+			break;
+	}
+	uintptr_t src = (uintptr_t) data;
+	for (int y=0; y<height; y+=4) {
+		for (int x=0; x<width; x+=4) {
+			switch(format) {
+				case COMPRESSED_RGB_S3TC_DXT1_EXT:
+				case COMPRESSED_RGBA_S3TC_DXT1_EXT:
+					DecompressBlockDXT1(x, y, width, (uint8_t*)src, pixels);
+					break;
+				case COMPRESSED_RGBA_S3TC_DXT3_EXT:
+					DecompressBlockDXT3(x, y, width, (uint8_t*)src, pixels);
+					break;
+				case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+					DecompressBlockDXT5(x, y, width, (uint8_t*)src, pixels);
+					break;
+			}
+			src+=blocksize;
+		}
+	}
+	return pixels;
+}
+
+void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLsizei height, GLint border,
+							GLsizei imageSize, const GLvoid *data) 
+{
+	if (state.texture.bound[state.texture.active]==NULL)
+		return;		// no texture bounded...
+	if (level != 0) {
+		//TODO
+		printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
+		return;
+	}
+printf("glCompressedTexImage2D with unpack_row_length(%i), size(%i,%i) and skip={%i,%i}, internalformat=%04x, imagesize=%i\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, internalformat, imageSize);
+    LOAD_GLES(glCompressedTexImage2D);
+    if (isDXTc(internalformat)) {
+		GLvoid *pixels = uncompressDXTc(width, height, internalformat, imageSize, data);
+		glTexImage2D(target, level, GL_RGBA, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		if (pixels!=data)
+			free(pixels);
+	} else {
+		gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+	}
+}
+
+void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLsizei height, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data) 
+{
+	if (state.texture.bound[state.texture.active]==NULL)
+		return;		// no texture bounded...
+	if (level != 0) {
+		//TODO
+		printf("STUBBED glCompressedTexSubImage2D with level=%i\n", level);
+		return;
+	}
+printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%04x, imagesize=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, imageSize);
+    LOAD_GLES(glCompressedTexSubImage2D);
+    if (isDXTc(format)) {
+		GLvoid *pixels = uncompressDXTc(width, height, format, imageSize, data);
+		glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		if (pixels!=data)
+			free(pixels);
+	} else {
+		gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
+	}
+								   
 }

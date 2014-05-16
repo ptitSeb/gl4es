@@ -51,6 +51,10 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
 void glRasterPos3fv(const GLfloat *v);
 void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 void glRasterPos4fv(const GLfloat *v);
+void glWindowPos2f(GLfloat x, GLfloat y);
+void glWindowPos2fv(const GLfloat *v);
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z);
+void glWindowPos3fv(const GLfloat *v);
 
 void glPixelStoref(GLenum pname, GLfloat param);
 void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params);
@@ -162,6 +166,10 @@ void glRasterPos3##suffix##v(type *v);                     \
 void glRasterPos3##suffix(type x, type y, type z);         \
 void glRasterPos4##suffix##v(type *v);                     \
 void glRasterPos4##suffix(type x, type y, type z, type w); \
+void glWindowPos2##suffix##v(type *v);                     \
+void glWindowPos2##suffix(type x, type y);                 \
+void glWindowPos3##suffix##v(type *v);                     \
+void glWindowPos3##suffix(type x, type y, type z);         \
 void glVertex2##suffix##v(type *v);                        \
 void glVertex2##suffix(type x, type y);                    \
 void glVertex3##suffix##v(type *v);                        \

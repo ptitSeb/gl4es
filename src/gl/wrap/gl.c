@@ -187,6 +187,7 @@ void glMateriali(GLenum face, GLenum pname, GLint param) {
     glMaterialf(face, pname, param);
 }
 void glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
+printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
     switch (pname) {
         case GL_AMBIENT: 
 		case GL_DIFFUSE:
@@ -384,6 +385,18 @@ void glRasterPos4##suffix(type x, type y, type z, type w) { \
 void glRasterPos4##suffix##v(type *v) {                     \
     glRasterPos4f(v[0], v[1], v[2], v[3]);                  \
 }                                                           \
+void glWindowPos2##suffix(type x, type y) {                 \
+    glWindowPos3f(x, y, 0);                                 \
+}                                                           \
+void glWindowPos2##suffix##v(type *v) {                     \
+    glWindowPos3f(v[0], v[1], 0);                           \
+}                                                           \
+void glWindowPos3##suffix(type x, type y, type z) {         \
+    glWindowPos3f(x, y, z);                                 \
+}                                                           \
+void glWindowPos3##suffix##v(type *v) {                     \
+    glWindowPos3f(v[0], v[1], v[2]);                        \
+}                                                           \
 /* vertex */                                                \
 void glVertex2##suffix(type x, type y) {                    \
     glVertex2f(x, y);                                       \
@@ -567,10 +580,10 @@ void glSecondaryColor3fv(const GLfloat *v) {
 
 // raster
 void glRasterPos2f(GLfloat x, GLfloat y) {
-    glRasterPos3f(x, y, 0);
+    glRasterPos3f(x, y, 0.0f);
 }
 void glRasterPos2fv(const GLfloat *v) {
-    glRasterPos2i(v[0], v[1]);
+    glRasterPos3f(v[0], v[1], 0.0f);
 }
 void glRasterPos3fv(const GLfloat *v) {
     glRasterPos3f(v[0], v[1], v[2]);
@@ -580,6 +593,15 @@ void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 }
 void glRasterPos4fv(const GLfloat *v) {
     glRasterPos4f(v[0], v[1], v[2], v[3]);
+}
+void glWindowPos2f(GLfloat x, GLfloat y) {
+    glWindowPos3f(x, y, 0.0f);
+}
+void glWindowPos2fv(const GLfloat *v) {
+    glWindowPos3f(v[0], v[1], 0.0f);
+}
+void glWindowPos3fv(const GLfloat *v) {
+    glWindowPos3f(v[0], v[1], v[2]);
 }
 
 // eval

@@ -109,6 +109,10 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRasterPos3##suffix);         \
     EX(glRasterPos4##suffix##v);      \
     EX(glRasterPos4##suffix);         \
+    EX(glWindowPos2##suffix##v);      \
+    EX(glWindowPos2##suffix);         \
+    EX(glWindowPos3##suffix##v);      \
+    EX(glWindowPos3##suffix);         \
     EX(glVertex2##suffix##v);         \
     EX(glVertex2##suffix);            \
     EX(glVertex3##suffix##v);         \
@@ -259,6 +263,10 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);
+    EX(glTexEnvf);
+    EX(glTexEnvi);
+    EX(glTexEnvfv);
+    EX(glTexEnviv);
     EX(glTexGend);
     EX(glTexGendv);
     EX(glTexGenf);
@@ -269,6 +277,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexImage3D);
     EX(glTexSubImage1D);
     EX(glTexSubImage3D);
+    EX(glCompressedTexImage2D);
+    EX(glCompressedTexSubImage2D);
     EX(glTranslated);
     EX(glUnlockArraysEXT);
 	EX(glGetTexGenfv);

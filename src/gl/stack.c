@@ -94,6 +94,7 @@ void glPushAttrib(GLbitfield mask) {
         cur->sample_coverage = glIsEnabled(GL_SAMPLE_COVERAGE);
         cur->scissor_test = glIsEnabled(GL_SCISSOR_TEST);
         cur->stencil_test = glIsEnabled(GL_STENCIL_TEST);
+        cur->colormaterial = glIsEnabled(GL_COLOR_MATERIAL);
         int a;
         int old_tex=state.texture.active;
         for (a=0; a<MAX_TEX; a++) {
@@ -355,6 +356,7 @@ void glPopAttrib() {
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
+        enable_disable(GL_COLOR_MATERIAL, cur->colormaterial);
         int a;
         int old_tex = state.texture.active;
         for (a=0; a<MAX_TEX; a++) {

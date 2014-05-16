@@ -15,6 +15,10 @@ void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLsizei depth,
                   GLint border, GLenum format, GLenum type, const GLvoid *data);
 
+void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                     GLsizei width, GLsizei height, GLenum format, GLenum type,
+                     const GLvoid *data);
+                     
 void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data);
@@ -31,6 +35,14 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *re
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data);
+
+void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLsizei height, GLint border,
+							GLsizei imageSize, const GLvoid *data);
+							
+void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLsizei height, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data);
 
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);

@@ -22,7 +22,6 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_secondary_color "
                 "GL_EXT_texture_env_combine "
-                "GL_ARB_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
 //                "GL_ARB_texture_cube_map "
@@ -40,6 +39,8 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
+                "GL_ARB_texture_compression "
+                "GL_EXT_texture_compression_s3tc "
 //                "GL_EXT_stencil_wrap "
 #else
                 "GL_ARB_vertex_shader "
@@ -67,6 +68,7 @@ extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 
 void glGetIntegerv(GLenum pname, GLint *params) {
+	GLint dummy;
     LOAD_GLES(glGetIntegerv);
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -106,6 +108,20 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 		case GL_MAX_TEXTURE_IMAGE_UNITS:
 			/*gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, params);*/
 			*params = 4;
+			break;
+		case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
+			gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
+			(*params)+=4;	// adding fake DXTc
+			break;
+		case GL_COMPRESSED_TEXTURE_FORMATS:
+			gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
+			// get standard ones
+			gles_glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
+			// add fake DXTc
+			params[dummy++]=COMPRESSED_RGB_S3TC_DXT1_EXT;
+			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT1_EXT;
+			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT3_EXT;
+			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			break;
         default:
             gles_glGetIntegerv(pname, params);
@@ -635,26 +651,28 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 #ifndef USE_ES2
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
-    if (state.list.active) {
+    if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
-	if (face!=GL_FRONT_AND_BACK)
-		face=GL_FRONT_AND_BACK;
+	    if (face!=GL_FRONT_AND_BACK) {
+		    face=GL_FRONT_AND_BACK;
+		}
         gles_glMaterialfv(face, pname, params);
     }
 }
 void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     LOAD_GLES(glMaterialf);
-    if (state.list.active) {
+    if (state.list.compiling && state.list.active) {
 		GLfloat params[4];
 		memset(params, 0, 4*sizeof(GLfloat));
 		params[0] = param;
 		NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
-	if (face!=GL_FRONT_AND_BACK)
-		face=GL_FRONT_AND_BACK;
+	    if (face!=GL_FRONT_AND_BACK) {
+		    face=GL_FRONT_AND_BACK;
+		}
         gles_glMaterialf(face, pname, param);
     }
 }
