@@ -64,6 +64,9 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
 }
 
 void free_renderlist(renderlist_t *list) {
+	// test if list is NULL
+	if (list == NULL)
+		return;
     // we want the first list in the chain
     while (list->prev)
         list = list->prev;
