@@ -59,6 +59,7 @@ typedef struct {
     GLsizei height;
     GLsizei nwidth;
     GLsizei nheight;
+    int shrink;
     GLboolean mipmap_auto;
     GLboolean mipmap_need;
     GLboolean uploaded;
