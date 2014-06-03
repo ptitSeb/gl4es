@@ -63,6 +63,7 @@ typedef struct {
     GLboolean mipmap_auto;
     GLboolean mipmap_need;
     GLboolean uploaded;
+    GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 
 KHASH_MAP_INIT_INT(tex, gltexture_t *)
