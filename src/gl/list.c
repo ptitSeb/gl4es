@@ -360,7 +360,7 @@ void draw_renderlist(renderlist_t *list) {
         if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
 		
         GLushort *indices = list->indices;
-        if (list->q2t)
+        if (list->q2t && !(state.polygon_mode == GL_LINE))
             indices = cached_q2t;
            
         GLenum mode = list->mode;
@@ -369,7 +369,7 @@ void draw_renderlist(renderlist_t *list) {
 		if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 			mode = GL_POINTS;
 
-        if (indices && !(state.polygon_mode == GL_LINE && list->q2t)) {
+        if (indices) {
 			if (state.render_mode == GL_SELECT) {			
 				select_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
 			} else {
@@ -411,8 +411,11 @@ void draw_renderlist(renderlist_t *list) {
 			if (state.render_mode == GL_SELECT) {	
 				select_glDrawArrays(list->mode, 0, list->len);
 			} else {
+				int len = list->len;
 				if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
 					int n, s;
+					if (list->q2t)
+						len = len*4/6;
 					switch (list->mode_init) {
 						case GL_TRIANGLES:
 							n = 3;
@@ -423,8 +426,8 @@ void draw_renderlist(renderlist_t *list) {
 							s = 1;
 							break;
 						case GL_TRIANGLE_FAN:	// wrong here...
-							n = list->len;
-							s = list->len;
+							n = len;
+							s = len;
 							break;
 						case GL_QUADS:
 							n = 4;
@@ -435,14 +438,14 @@ void draw_renderlist(renderlist_t *list) {
 							s = 1;
 							break;
 						default:		// Polygon and other?
-							n = list->len;
-							s = list->len;
+							n = len;
+							s = len;
 							break;
 					}
-					for (int i=n; i<list->len; i+=s)
+					for (int i=n; i<=len; i+=s)
 						gles_glDrawArrays(mode, i-n, n);
 				} else {
-					gles_glDrawArrays(mode, 0, list->len);
+					gles_glDrawArrays(mode, 0, len);
 				}
 			}
         }
