@@ -369,7 +369,7 @@ void draw_renderlist(renderlist_t *list) {
 		if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 			mode = GL_POINTS;
 
-        if (indices) {
+        if (indices && !(state.polygon_mode == GL_LINE && list->q2t)) {
 			if (state.render_mode == GL_SELECT) {			
 				select_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
 			} else {
@@ -441,8 +441,9 @@ void draw_renderlist(renderlist_t *list) {
 					}
 					for (int i=n; i<list->len; i+=s)
 						gles_glDrawArrays(mode, i-n, n);
-				} else
+				} else {
 					gles_glDrawArrays(mode, 0, list->len);
+				}
 			}
         }
         for (int a=0; a<MAX_TEX; a++) {
@@ -497,7 +498,7 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
         list->normal = alloc_sublist(3, list->cap);
         // catch up
         int i;
-        for (i = 0; i < list->len; i++) {
+        if (list->len) for (i = 0; i < list->len-1; i++) {
             GLfloat *normal = (list->normal + (i * 3));
             memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
         }
@@ -511,7 +512,7 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         list->color = alloc_sublist(4, list->cap);
         // catch up
         int i;
-        for (i = 0; i < list->len; i++) {
+        if (list->len) for (i = 0; i < list->len-1; i++) {
             GLfloat *color = (list->color + (i * 4));
             memcpy(color, state.color, sizeof(GLfloat) * 4);
         }
@@ -621,7 +622,7 @@ void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
         list->tex[0] = alloc_sublist(2, list->cap);
         // catch up
         GLfloat *tex = list->tex[0];
-        for (int i = 0; i < list->len; i++) {
+        if (list->len) for (int i = 0; i < list->len-1; i++) {
             memcpy(tex, list->lastTex[0], sizeof(GLfloat) * 2);
             tex += 2;
         }
@@ -637,7 +638,7 @@ void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) 
         list->tex[target-GL_TEXTURE0] = alloc_sublist(2, list->cap);
         // catch up
         GLfloat *tex = list->tex[target-GL_TEXTURE0];
-        for (int i = 0; i < list->len; i++) {
+        if (list->len) for (int i = 0; i < list->len-1; i++) {
             memcpy(tex, list->lastTex[target-GL_TEXTURE0], sizeof(GLfloat) * 2);
             tex += 2;
         }
