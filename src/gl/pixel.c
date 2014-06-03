@@ -13,6 +13,7 @@ static const colorlayout_t *get_color_map(GLenum format) {
         map(GL_BGRA, 2, 1, 0, 3);
         map(GL_BGR, 2, 1, 0, -1);
 		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1);
+		map(GL_LUMINANCE, 0, 0, 0, -1);
 		map(GL_ALPHA, -1, -1, -1, 0);
         default:
             printf("libGL: unknown pixel format %i\n", format);
@@ -467,13 +468,14 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             *dst = malloc(dst_size);
         uintptr_t src_pos = (uintptr_t)src;
         uintptr_t dst_pos = (uintptr_t)*dst;
+		if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+						  src_color, src_type, dst_color, dst_type)) {
+			// fake convert, to get if it's ok or not
+			return false;
+		}
         for (int i = 0; i < pixels; i++) {
-            if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
-                              src_color, src_type, dst_color, dst_type)) {
-                // checking a boolean for each pixel like this might be a slowdown?
-                // probably depends on how well branch prediction performs
-                return false;
-            }
+            remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+                              src_color, src_type, dst_color, dst_type);
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
@@ -496,14 +498,15 @@ bool pixel_transform(const GLvoid *src, GLvoid **dst,
         *dst = malloc(dst_size);
     uintptr_t src_pos = (uintptr_t)src;
     uintptr_t dst_pos = (uintptr_t)*dst;
+	if (! transform_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
+					  src_color, src_type, scales, bias)) {
+		// fake convert, to get if it's ok or not
+		return false;
+	}
     for (int aa=0; aa<dst_size; aa++) {
         for (int i = 0; i < pixels; i++) {
-            if (! transform_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
-                              src_color, src_type, scales, bias)) {
-                // checking a boolean for each pixel like this might be a slowdown?
-                // probably depends on how well branch prediction performs
-                return false;
-            }
+            transform_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
+                              src_color, src_type, scales, bias);
             src_pos += src_stride;
             dst_pos += src_stride;
         }

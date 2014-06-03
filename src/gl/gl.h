@@ -206,6 +206,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
     switch (format) {
         case GL_RED:
 		case GL_ALPHA:
+		case GL_LUMINANCE:
             width = 1;
             break;
         case GL_RG:
