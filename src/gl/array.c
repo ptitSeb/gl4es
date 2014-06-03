@@ -77,8 +77,9 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_size = gl_sizeof(to) * to_width;
     if (to_width < width) {
-        printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
-        return NULL;
+        /*printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
+        return NULL;*/
+        width = to_width;
     }
 						  
     // if stride is weird, we need to be able to arbitrarily shift src
