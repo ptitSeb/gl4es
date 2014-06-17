@@ -5,6 +5,7 @@ viewport_t viewport = {0, 0, 0, 0};
 GLubyte *raster = NULL;
 GLfloat zoomx=1.0f;
 GLfloat zoomy=1.0f;
+GLboolean zoominversey=false;
 GLuint raster_texture=0;
 GLsizei raster_width=0;
 GLsizei raster_height=0;
@@ -61,7 +62,13 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 
 void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 	zoomx = xfactor;
-	zoomy = yfactor;
+	if (yfactor<0) {
+		zoominversey = true;
+		zoomy=-yfactor;
+	} else {
+		zoomy = yfactor;
+		zoominversey = false;
+	}
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
@@ -202,7 +209,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	
     // copy to pixel data
     for (y = 0; y < height; y++) {
-        to = raster + 4 * (GLint)(y * raster_width);
+        to = raster + 4 * (GLint)((zoominversey)?(height-y):y * raster_width);
         from = bitmap + (y * ((width+7)/8));
         for (x = 0; x < width; x++) {
             // TODO: wasteful, unroll this?
@@ -253,8 +260,8 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
-/*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%04x, type=%04x, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
-	rPos.x, rPos.y, width, height, format, type, zoomx, zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
+printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%04x, type=%04x, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
+	rPos.x, rPos.y, width, height, format, type, zoomx, (zoominversey)?-zoomy:zoomy, viewport.x, viewport.y, viewport.width, viewport.height);
 	// check of unsuported format...
 	if ((format == GL_STENCIL_INDEX) || (format == GL_DEPTH_COMPONENT))
 		return;
@@ -274,7 +281,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 
 	if ((zoomx==1.0f) && (zoomy==1.0f)) {
 		for (int y = 0; y < height; y++) {
-			to = raster + 4 * (GLint)(y * raster_width);
+			to = raster + 4 * (GLint)((zoominversey)?(height-y):y * raster_width);
 			from = pixels + 4 * (state.texture.unpack_skip_pixels + (y + state.texture.unpack_skip_rows) * bmp_width);
 			for (int x = 0; x < width; x++) {
 				if (pixtrans) {
@@ -292,9 +299,10 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 		}
 	} else {
 		for (int y = 0; y < height; y++) {
-			from = pixels + 4 * (y * bmp_width);
+			int yy = (zoominversey)?(height-y):y;
+			from = pixels + 4 * (yy * bmp_width);
 			for (int x = 0; x < width; x++) {
-				to = raster + 4 * (GLint)(x*zoomx + ((y*zoomy) * raster_width));	//not perfect here !
+				to = raster + 4 * (GLint)(x*zoomx + ((yy*zoomy) * raster_width));	//not perfect here !
 				*to++ = *from++;
 				*to++ = *from++;
 				*to++ = *from++;
