@@ -64,7 +64,6 @@ const GLubyte *glGetString(GLenum name) {
 
 // glGet
 extern float zoomx, zoomy;
-extern GLboolean zoominversey;
 extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 
@@ -157,7 +156,7 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 			*params = zoomx;
 			break;
         case GL_ZOOM_Y:
-			*params = (zoominversey)?-zoomy:zoomy;
+			*params = zoomy;
 			break;
         case GL_RED_SCALE:
 			*params = raster_scale[0];
