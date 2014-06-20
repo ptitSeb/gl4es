@@ -286,8 +286,8 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 //if (state.list.compiling) printf("arrary_to_renderlist while compiling list\n");
     list->mode = mode;
     list->mode_init = mode;
-    list->len = count;
-    list->cap = count;
+    list->len = count-skip;
+    list->cap = count-skip;
     
 	if (state.enable.vertex_array) {
 		list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);
@@ -342,7 +342,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = state.list.active;/* = extend_renderlist(state.list.active);*/
 
         normalize_indices(indices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1);
+        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
         list->indices = indices;
         list->len = count;
 
@@ -406,7 +406,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (active && state.list.compiling) {
 		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;/* = extend_renderlist(active);*/
-        arrays_to_renderlist(list, mode, first, count);
+        arrays_to_renderlist(list, mode, first, count+first);
         return;
     }
 
@@ -416,7 +416,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		mode = GL_POINTS;
 
     if (should_intercept_render(mode)) {
-        list = arrays_to_renderlist(NULL, mode, first, count);
+        list = arrays_to_renderlist(NULL, mode, first, count+first);
         end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
@@ -712,14 +712,14 @@ void glArrayElement(GLint i) {
         glNormal3fv(v);
     }
     p = &state.pointers.tex_coord[0];
-    if (state.enable.texture_2d[0] && state.enable.tex_coord_array[0] && p->pointer) {
+    if (/*state.enable.texture_2d[0] &&*/ state.enable.tex_coord_array[0] && p->pointer) {
         v = gl_pointer_index(p, i);
         glTexCoord2fv(v);
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
 	    p = &state.pointers.tex_coord[a];
-	    if (state.enable.texture_2d[a] && state.enable.tex_coord_array[a] && p->pointer) {
+	    if (/*state.enable.texture_2d[a] &&*/ state.enable.tex_coord_array[a] && p->pointer) {
 			v = gl_pointer_index(p, i);
 			glMultiTexCoord2fv(GL_TEXTURE0+a, v);
 	    }
