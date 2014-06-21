@@ -121,7 +121,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 		    char *env_mipmap = getenv("LIBGL_MIPMAP");
 			if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
 				automipmap = 1;
-				printf("LIBGL: AutoMipMap disabled\n");
+				printf("LIBGL: AutoMipMap forced\n");
 			}
 			if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
 				automipmap = 2;
@@ -142,7 +142,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
 			}
 			char *env_dump = getenv("LIBGL_TEXDUMP");
-			if (env_shrink && strcmp(env_shrink, "2") == 0) {
+			if (env_dump && strcmp(env_dump, "1") == 0) {
 				texdump = 1;
 				printf("LIBGL: Texture dump enabled\n");
 			}
@@ -216,9 +216,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     } else {
 		swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
 		if (bound) {
-			char *env_shrink = getenv("LIBGL_SHRINK");
 			bound->shrink = 0;
-			if (env_shrink && (strcmp(env_shrink, "1") == 0 || strcmp(env_shrink, "2") == 0))
+			if (texshrink>0)
 				if ((width > 512 && height > 8) || (height > 512 && width > 8)) {
 	                width /= 2;
 					height /= 2;
@@ -412,6 +411,18 @@ void glPixelStorei(GLenum pname, GLint param) {
             break;
         case GL_UNPACK_LSB_FIRST:
             state.texture.unpack_lsb_first = param;
+            break;
+        case GL_PACK_ROW_LENGTH:
+            state.texture.pack_row_length = param;
+            break;
+        case GL_PACK_SKIP_PIXELS:
+            state.texture.pack_skip_pixels = param;
+            break;
+        case GL_PACK_SKIP_ROWS:
+            state.texture.pack_skip_rows = param;
+            break;
+        case GL_PACK_LSB_FIRST:
+            state.texture.pack_lsb_first = param;
             break;
         default:
             gles_glPixelStorei(pname, param);
@@ -612,7 +623,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 }
 
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
-printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p)\n", target, level, format, type, img);
+//printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p)\n", target, level, format, type, img);
 	if (state.texture.bound[state.texture.active]==NULL)
 		return;		// no texture bounded...
 	if (level != 0) {
@@ -689,7 +700,6 @@ printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p)\n", target, level, forma
 		glDeleteRenderbuffersOES(1, &rbo);
 		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
 		glDeleteFramebuffersOES(1, &fbo);
-		#undef getOES
 	}
 }
 

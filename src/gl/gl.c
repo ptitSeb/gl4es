@@ -92,6 +92,18 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_UNPACK_LSB_FIRST:
 			*params = state.texture.unpack_lsb_first;
 			break;
+        case GL_PACK_ROW_LENGTH:	
+			*params = state.texture.pack_row_length;
+			break;
+        case GL_PACK_SKIP_PIXELS:
+			*params = state.texture.pack_skip_pixels;
+			break;
+        case GL_PACK_SKIP_ROWS:
+			*params = state.texture.pack_skip_rows;
+			break;
+        case GL_PACK_LSB_FIRST:
+			*params = state.texture.pack_lsb_first;
+			break;
 		case GL_POINT_SIZE_RANGE:
 			gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
@@ -151,6 +163,18 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 			break;
         case GL_UNPACK_LSB_FIRST:
 			*params = state.texture.unpack_lsb_first;
+			break;
+        case GL_PACK_ROW_LENGTH:	
+			*params = state.texture.pack_row_length;
+			break;
+        case GL_PACK_SKIP_PIXELS:
+			*params = state.texture.pack_skip_pixels;
+			break;
+        case GL_PACK_SKIP_ROWS:
+			*params = state.texture.pack_skip_rows;
+			break;
+        case GL_PACK_LSB_FIRST:
+			*params = state.texture.pack_lsb_first;
 			break;
         case GL_ZOOM_X:
 			*params = zoomx;

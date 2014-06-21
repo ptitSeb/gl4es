@@ -133,6 +133,9 @@ typedef struct {
     GLuint unpack_row_length;
     GLuint unpack_skip_pixels;
     GLuint unpack_skip_rows;
+    GLuint pack_row_length;
+    GLuint pack_skip_pixels;
+    GLuint pack_skip_rows;
 
     // GL_CLIENT_VERTEX_ARRAY_BIT
 	GLuint client;

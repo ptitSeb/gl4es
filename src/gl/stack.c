@@ -240,6 +240,9 @@ void glPushClientAttrib(GLbitfield mask) {
         cur->unpack_row_length = state.texture.unpack_row_length;
         cur->unpack_skip_pixels = state.texture.unpack_skip_pixels;
         cur->unpack_skip_rows = state.texture.unpack_skip_rows;
+        cur->pack_row_length = state.texture.pack_row_length;
+        cur->pack_skip_pixels = state.texture.pack_skip_pixels;
+        cur->pack_skip_rows = state.texture.pack_skip_rows;
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
@@ -481,6 +484,9 @@ void glPopClientAttrib() {
         glPixelStorei(GL_UNPACK_ROW_LENGTH, cur->unpack_row_length);
         glPixelStorei(GL_UNPACK_SKIP_PIXELS, cur->unpack_skip_pixels);
         glPixelStorei(GL_UNPACK_SKIP_ROWS, cur->unpack_skip_rows);
+        glPixelStorei(GL_PACK_ROW_LENGTH, cur->pack_row_length);
+        glPixelStorei(GL_PACK_SKIP_PIXELS, cur->pack_skip_pixels);
+        glPixelStorei(GL_PACK_SKIP_ROWS, cur->pack_skip_rows);
     }
 
     if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
