@@ -141,6 +141,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				texshrink = 2;
 				printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
 			}
+			if (env_shrink && strcmp(env_shrink, "3") == 0) {
+				texshrink = 3;
+				printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
+			}
 			char *env_dump = getenv("LIBGL_TEXDUMP");
 			if (env_dump && strcmp(env_dump, "1") == 0) {
 				texdump = 1;
@@ -183,8 +187,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
         bound->shrink = 0;
         if (texshrink==1) {
-            if (width > 1 && height > 1) {
-                GLvoid *out;
+            if ((width > 1) && (height > 1)) {
+                GLvoid *out = pixels;
                 GLfloat ratio = 0.5;
                 pixel_scale(pixels, &out, width, height, ratio, format, type);
                 if (out != pixels && pixels!=data)
@@ -192,19 +196,19 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 pixels = out;
                 width *= ratio;
                 height *= ratio;
-                if (bound) bound->shrink = 1;
+                bound->shrink = 1;
             }
         }
-        if (texshrink==2) {
-            if ((width > 512 && height > 8) || (height > 512 && width > 8)) {
-                GLvoid *out;
+        if (texshrink==2 || texshrink==3) {
+            if (((width > ((texshrink==2)?512:256)) && (height > 8)) || ((height > ((texshrink==2)?512:256)) && (width > 8))) {
+                GLvoid *out = pixels;
                 pixel_halfscale(pixels, &out, width, height, format, type);
                 if (out != pixels && pixels!=data)
                     free(pixels);
                 pixels = out;
                 width /= 2;
                 height /= 2;
-                if (bound) bound->shrink = 1;
+                bound->shrink = 1;
             }
         }
 
@@ -218,10 +222,13 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 		if (bound) {
 			bound->shrink = 0;
 			if (texshrink>0)
-				if ((width > 512 && height > 8) || (height > 512 && width > 8)) {
+				if ((texshrink==1) || 
+					((texshrink>1) && 
+						((width > ((texshrink==2)?512:256)) && (height > 8)) 
+					 || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
 	                width /= 2;
 					height /= 2;
-					if (bound) bound->shrink = 1;
+					bound->shrink = 1;
 				}
 		}
 	}
@@ -322,6 +329,18 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		free(old);
 		
 	if (bound->shrink) {
+		// special case for width/height == 1
+		if (width==1)
+			width+=(xoffset%2);
+		if (height==1)
+			height+=(yoffset%2);
+		if ((width==1) || (height==1)) {
+			// nothing to do...
+			if (pixels != data)
+				free((GLvoid *)pixels);
+			return;
+		}
+		// ok, now standard cases....
 		xoffset /= 2;
 		yoffset /= 2;
 		old = pixels;
@@ -429,6 +448,23 @@ void glPixelStorei(GLenum pname, GLint param) {
             break;
     }
 }
+GLboolean glIsTexture(	GLuint texture) {
+	if (!texture) {
+		return GL_FALSE;
+	}
+    int ret;
+	khint_t k;
+	khash_t(tex) *list = state.texture.list;
+	if (! list) {
+		return GL_FALSE;
+	}
+	k = kh_get(tex, list, texture);
+	gltexture_t *tex = NULL;
+	if (k == kh_end(list)) {
+		return GL_FALSE;
+	}
+	return GL_TRUE;
+}
 
 void glBindTexture(GLenum target, GLuint texture) {
     if (state.list.compiling && state.list.active) {
@@ -487,7 +523,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
     gltexture_t *texture = state.texture.bound[state.texture.active];
-    switch (param) {
+    switch (pname) {
         case GL_CLAMP:
             param = GL_CLAMP_TO_EDGE;
             break;
@@ -700,6 +736,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		glDeleteRenderbuffersOES(1, &rbo);
 		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
 		glDeleteFramebuffersOES(1, &fbo);
+		#undef getOES
 	}
 }
 
