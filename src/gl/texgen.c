@@ -19,7 +19,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 }
 
 void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
-//printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]\n", coord, pname, param[0]);
+//printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]), texture=%i\n", coord, pname, param[0], state.texture.active);
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_TEXGEN);
 		rlTexGenfv(state.list.active, coord, pname, param);
@@ -62,6 +62,7 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 			switch (coord) {
 				case GL_S: *params = state.texgen[state.texture.active].S; break;
 				case GL_T: *params = state.texgen[state.texture.active].T; break;
+				case GL_R: *params = state.texgen[state.texture.active].R; break;
 				default: *params = GL_EYE_LINEAR;
 			}
 			break;
@@ -75,7 +76,7 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 					memcpy(params, state.texgen[state.texture.active].Tv, 4 * sizeof(GLfloat));
 					break;
 				case GL_R:
-					memcpy(params, state.texgen[state.texture.active].Tv, 4 * sizeof(GLfloat));
+					memcpy(params, state.texgen[state.texture.active].Rv, 4 * sizeof(GLfloat));
 					break;
 			}
 		break;
