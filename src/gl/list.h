@@ -64,6 +64,8 @@ typedef struct {
 	GLsizei height;
 	GLfloat xorig;
 	GLfloat yorig;
+	GLfloat zoomx;
+	GLfloat zoomy;
 	GLboolean bitmap;
 	GLuint	texture;
 } rasterlist_t;
