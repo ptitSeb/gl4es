@@ -1,6 +1,10 @@
 #define SYS_proxy 9999
 #define MAX_EVAL_ORDER 30
 #define MAX_TEX 8
+#define MAX_STACK_PROJECTION	16
+#define MAX_STACK_TEXTURE	16
+#define MAX_STACK_MODELVIEW	64
+#define MAX_STACK_COLOR 16
 
 // don't auto-wrap these functions
 #define skip_glColor4ub
@@ -17,6 +21,9 @@
 #define skip_glNormal3f
 
 #define skip_glGetFloatv
+
+#define skip_glPushMatrix
+#define skip_glPopMatrix
 
 // light.c
 #define skip_glLightModelf

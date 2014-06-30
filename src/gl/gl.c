@@ -1,6 +1,13 @@
 #include "gl.h"
 
-glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f}};
+glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
+	.render_mode = 0,
+	.projection_matrix = NULL,
+	.modelview_matrix = NULL,
+	.texture_matrix = NULL,
+	.namestack = {0, NULL}
+	};
+	
 void* gles = NULL;
 
 // config functions
@@ -137,6 +144,24 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT3_EXT;
 			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			break;
+		case GL_MAX_MODELVIEW_STACK_DEPTH:
+			*params=MAX_STACK_MODELVIEW;
+			break;
+		case GL_MAX_PROJECTION_STACK_DEPTH:
+			*params=MAX_STACK_PROJECTION;
+			break;
+		case GL_MAX_TEXTURE_STACK_DEPTH:
+			*params=MAX_STACK_TEXTURE;
+			break;
+		case GL_MODELVIEW_STACK_DEPTH:
+			*params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
+			break;
+		case GL_PROJECTION_STACK_DEPTH:
+			*params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
+			break;
+		case GL_TEXTURE_STACK_DEPTH:
+			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
+			break;
         default:
             gles_glGetIntegerv(pname, params);
     }
@@ -212,6 +237,24 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 			break;
 		case GL_MAX_NAME_STACK_DEPTH:
 			*params = 1024;
+			break;
+		case GL_MAX_MODELVIEW_STACK_DEPTH:
+			*params=MAX_STACK_MODELVIEW;
+			break;
+		case GL_MAX_PROJECTION_STACK_DEPTH:
+			*params=MAX_STACK_PROJECTION;
+			break;
+		case GL_MAX_TEXTURE_STACK_DEPTH:
+			*params=MAX_STACK_TEXTURE;
+			break;
+		case GL_MODELVIEW_STACK_DEPTH:
+			*params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
+			break;
+		case GL_PROJECTION_STACK_DEPTH:
+			*params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
+			break;
+		case GL_TEXTURE_STACK_DEPTH:
+			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
 			break;
         default:
             gles_glGetFloatv(pname, params);
@@ -927,5 +970,93 @@ void glPolygonMode(GLenum face, GLenum mode) {
 			break;
 		default:
 			state.polygon_mode = 0;
+	}
+}
+
+void alloc_matrix(matrixstack_t **matrixstack, int depth) {
+	*matrixstack = (matrixstack_t*)malloc(sizeof(matrixstack_t));
+	(*matrixstack)->top = 0;
+	(*matrixstack)->stack = (GLfloat*)malloc(sizeof(GLfloat)*depth*16);
+}
+
+void glPushMatrix() {
+	PUSH_IF_COMPILING(glPushMatrix);
+	LOAD_GLES(glPushMatrix);
+	// Alloc matrix stacks if needed
+	if (!state.projection_matrix)
+		alloc_matrix(&state.projection_matrix, MAX_STACK_PROJECTION);
+	if (!state.modelview_matrix)
+		alloc_matrix(&state.modelview_matrix, MAX_STACK_MODELVIEW);
+	if (!state.texture_matrix) {
+		state.texture_matrix = (matrixstack_t*)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+		for (int i=0; i<MAX_TEX; i++)
+			alloc_matrix(&state.texture_matrix[i], MAX_STACK_TEXTURE);
+	}
+	// get matrix mode
+	GLint matrix_mode;
+	glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
+	// go...
+	switch(matrix_mode) {
+		case GL_PROJECTION:
+			if (state.projection_matrix->top<MAX_STACK_PROJECTION) {
+				glGetFloatv(GL_PROJECTION_MATRIX, state.projection_matrix->stack+16*state.projection_matrix->top++);
+			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			break;
+		case GL_MODELVIEW:
+			if (state.modelview_matrix->top<MAX_STACK_MODELVIEW) {
+				glGetFloatv(GL_MODELVIEW_MATRIX, state.modelview_matrix->stack+16*state.modelview_matrix->top++);
+			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			break;
+		case GL_TEXTURE:
+			if (state.texture_matrix[state.texture.active]->top<MAX_STACK_PROJECTION) {
+				glGetFloatv(GL_TEXTURE_MATRIX, state.texture_matrix[state.texture.active]->stack+16*state.texture_matrix[state.texture.active]->top++);
+			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			break;
+			
+		default:
+			//Warning?
+			printf("LIBGL: PushMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
+			gles_glPushMatrix();
+	}
+}
+
+void glPopMatrix() {
+	PUSH_IF_COMPILING(glPopMatrix);
+	LOAD_GLES(glPopMatrix);
+	// Alloc matrix stacks if needed
+	if (!state.projection_matrix)
+		alloc_matrix(&state.projection_matrix, MAX_STACK_PROJECTION);
+	if (!state.modelview_matrix)
+		alloc_matrix(&state.modelview_matrix, MAX_STACK_MODELVIEW);
+	if (!state.texture_matrix) {
+		state.texture_matrix = (matrixstack_t*)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+		for (int i=0; i<MAX_TEX; i++)
+			alloc_matrix(&state.texture_matrix[i], MAX_STACK_TEXTURE);
+	}
+	// get matrix mode
+	GLint matrix_mode;
+	glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
+	// go...
+	switch(matrix_mode) {
+		case GL_PROJECTION:
+			if (state.projection_matrix->top) {
+				glLoadMatrixf(state.projection_matrix->stack+16*--state.projection_matrix->top);
+			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			break;
+		case GL_MODELVIEW:
+			if (state.modelview_matrix->top) {
+				glLoadMatrixf(state.modelview_matrix->stack+16*--state.modelview_matrix->top);
+			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			break;
+		case GL_TEXTURE:
+			if (state.texture_matrix[state.texture.active]->top) {
+				glLoadMatrixf(state.texture_matrix[state.texture.active]->stack+16*--state.texture_matrix[state.texture.active]->top);
+			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			break;
+			
+		default:
+			//Warning?
+			printf("LIBGL: PopMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
+			gles_glPopMatrix();
 	}
 }

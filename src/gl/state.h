@@ -97,6 +97,11 @@ typedef struct {
     GLuint size;	
 } selectbuf_t;
 
+typedef struct {
+	int		top;
+	GLfloat	*stack;
+} matrixstack_t;
+
 
 typedef struct {
     displaylist_state_t list;
@@ -111,6 +116,9 @@ typedef struct {
     int	render_mode;
     int polygon_mode;
     namestack_t namestack;
+    matrixstack_t *modelview_matrix;
+    matrixstack_t *projection_matrix;
+    matrixstack_t **texture_matrix;
     selectbuf_t selectbuf;
 } glstate_t;
 
