@@ -33,6 +33,10 @@ renderlist_t *alloc_renderlist() {
     
     list->pushattribute = 0;
     list->popattribute = false;
+    
+    list->first = 0;
+    list->drawarrays = 0;
+    list->drawelements = 0;
 
     int a;
     for (a=0; a<MAX_TEX; a++)
@@ -295,6 +299,16 @@ void draw_renderlist(renderlist_t *list) {
         if (! list->len)
             continue;
 
+		if (list->drawarrays) {
+			glDrawArrays(list->mode_init, list->first, list->len);
+			continue;
+		}
+		
+		if (list->drawelements) {
+			glDrawElements(list->mode_init, list->len, GL_UNSIGNED_SHORT, list->indices);
+			continue;
+		}
+		
 #ifdef USE_ES2
         if (list->vert) {
             glEnableVertexAttribArray(0);
@@ -335,7 +349,7 @@ void draw_renderlist(renderlist_t *list) {
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
-		}
+	}
 		GLfloat *texgened[MAX_TEX];
 		GLint needclean[MAX_TEX];
 		for (int a=0; a<MAX_TEX; a++) {
@@ -354,7 +368,9 @@ void draw_renderlist(renderlist_t *list) {
 			    if (state.enable.tex_coord_array[a]) {
 				   glClientActiveTexture(GL_TEXTURE0+a);
 				   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			    }
+			    } 
+//else if (!state.enable.texgen_s[a] && state.enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
+			    
 		    }
         }
         if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
@@ -364,9 +380,9 @@ void draw_renderlist(renderlist_t *list) {
             indices = cached_q2t;
            
         GLenum mode = list->mode;
-        if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+        if ((state.polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
 			mode = GL_LINE_LOOP;
-		if (state.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+		if ((state.polygon_mode == GL_POINT) && (mode>=GL_TRIANGLES))
 			mode = GL_POINTS;
 
         if (indices) {
@@ -401,7 +417,7 @@ void draw_renderlist(renderlist_t *list) {
 						s = list->len;
 						break;
 				}
-				for (int i=n; i<list->len; i+=s)
+				for (int i=n; i<=list->len; i+=s)
 					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
 				} else {
 					gles_glDrawElements(mode, list->len, GL_UNSIGNED_SHORT, indices);
@@ -412,7 +428,7 @@ void draw_renderlist(renderlist_t *list) {
 				select_glDrawArrays(list->mode, 0, list->len);
 			} else {
 				int len = list->len;
-				if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
+				if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
 					int n, s;
 					if (list->q2t)
 						len = len*4/6;
@@ -494,9 +510,6 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
-    GLfloat *normal = list->lastNormal;
-    normal[0] = x; normal[1] = y; normal[2] = z;
-
     if (list->normal == NULL) {
         list->normal = alloc_sublist(3, list->cap);
         // catch up
@@ -508,6 +521,9 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     } else {
         resize_renderlist(list);
     }
+    
+    GLfloat *normal = list->lastNormal;
+    normal[0] = x; normal[1] = y; normal[2] = z;
 }
 
 void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {

@@ -518,8 +518,10 @@ void glPopClientAttrib() {
 	    for (int a=0; a<MAX_TEX; a++) {
 			if (state.pointers.tex_coord[a].pointer != cur->ref_tex[a]) {
 			   memcpy(&state.pointers.tex_coord[a], &cur->tex[a], sizeof(pointer_state_t));
-			   glClientActiveTexture(GL_TEXTURE0+a);
-			   gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
+			   if (state.pointers.tex_coord[a].pointer) {
+				   glClientActiveTexture(GL_TEXTURE0+a);
+				   gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
+			   }
 			}
         }
 		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);

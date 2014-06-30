@@ -103,6 +103,10 @@ typedef struct _renderlist_t {
 	
 	GLbitfield pushattribute;
 	GLboolean  popattribute;
+    
+    GLboolean drawelements;	//TODO glDrawRangeElements inside list :S
+    GLuint first;    
+    GLboolean drawarrays;
 
     khash_t(material) *material;
     khash_t(light) *light;

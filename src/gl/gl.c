@@ -20,6 +20,7 @@ const GLubyte *glGetString(GLenum name) {
 #ifndef USE_ES2
 //                "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_buffer "
+                "GL_EXT_vertex_array "
                 "GL_EXT_secondary_color "
                 "GL_EXT_texture_env_combine "
                 "GL_ARB_multitexture "
@@ -47,6 +48,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_fragment_shader "
                 "GL_ARB_vertex_buffer_object "
                 "GL_EXT_framebuffer_object "
+                "GL_EXT_vertex_array "
 #endif
             };
 		case GL_VENDOR:
@@ -366,9 +368,12 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = state.list.active;/* = extend_renderlist(state.list.active);*/
 
         normalize_indices(indices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
+//        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
         list->indices = indices;
         list->len = count;
+        list->mode = list->mode_init = mode;
+        
+        list->drawelements = GL_TRUE;
 
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
@@ -425,12 +430,15 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-
     renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
 		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;/* = extend_renderlist(active);*/
-        arrays_to_renderlist(list, mode, first, count+first);
+        //arrays_to_renderlist(list, mode, first, count+first);
+        list->len = count;
+        list->first = first;
+        list->drawarrays = GL_TRUE;
+        list->mode = list->mode_init = mode;
         return;
     }
 
