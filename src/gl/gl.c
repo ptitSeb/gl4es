@@ -28,7 +28,7 @@ const GLubyte *glGetString(GLenum name) {
 //                "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_vertex_array "
-                "GL_EXT_secondary_color "
+//                "GL_EXT_secondary_color "
                 "GL_EXT_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
@@ -411,13 +411,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list = state.list.active;/* = extend_renderlist(state.list.active);*/
 
         normalize_indices(indices, &max, &min, count);
-//        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
-        list->indices = indices;
-        list->len = count;
-        list->mode = list->mode_init = mode;
-        
-        list->drawelements = GL_TRUE;
-
+        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
     } else {
@@ -477,11 +471,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (active && state.list.compiling) {
 		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;/* = extend_renderlist(active);*/
-        //arrays_to_renderlist(list, mode, first, count+first);
-        list->len = count;
-        list->first = first;
-        list->drawarrays = GL_TRUE;
-        list->mode = list->mode_init = mode;
+        arrays_to_renderlist(list, mode, first, count+first);
         return;
     }
 
@@ -956,6 +946,8 @@ GLboolean glIsList(GLuint list) {
 }
 
 void glPolygonMode(GLenum face, GLenum mode) {
+	if (face == GL_BACK)
+		return;		//TODO, handle face enum for polygon mode != GL_FILL
 	if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_POLYGON);
 /*		if (state.list.active->polygon_mode)
@@ -988,7 +980,7 @@ void glPushMatrix() {
 	if (!state.modelview_matrix)
 		alloc_matrix(&state.modelview_matrix, MAX_STACK_MODELVIEW);
 	if (!state.texture_matrix) {
-		state.texture_matrix = (matrixstack_t*)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+		state.texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
 		for (int i=0; i<MAX_TEX; i++)
 			alloc_matrix(&state.texture_matrix[i], MAX_STACK_TEXTURE);
 	}
@@ -1015,7 +1007,7 @@ void glPushMatrix() {
 			
 		default:
 			//Warning?
-			printf("LIBGL: PushMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
+			printf("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
 			gles_glPushMatrix();
 	}
 }
@@ -1029,7 +1021,7 @@ void glPopMatrix() {
 	if (!state.modelview_matrix)
 		alloc_matrix(&state.modelview_matrix, MAX_STACK_MODELVIEW);
 	if (!state.texture_matrix) {
-		state.texture_matrix = (matrixstack_t*)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+		state.texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
 		for (int i=0; i<MAX_TEX; i++)
 			alloc_matrix(&state.texture_matrix[i], MAX_STACK_TEXTURE);
 	}

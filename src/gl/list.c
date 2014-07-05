@@ -34,10 +34,6 @@ renderlist_t *alloc_renderlist() {
     list->pushattribute = 0;
     list->popattribute = false;
     
-    list->first = 0;
-    list->drawarrays = 0;
-    list->drawelements = 0;
-
     int a;
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
@@ -299,16 +295,6 @@ void draw_renderlist(renderlist_t *list) {
         if (! list->len)
             continue;
 
-		if (list->drawarrays) {
-			glDrawArrays(list->mode_init, list->first, list->len);
-			continue;
-		}
-		
-		if (list->drawelements) {
-			glDrawElements(list->mode_init, list->len, GL_UNSIGNED_SHORT, list->indices);
-			continue;
-		}
-		
 #ifdef USE_ES2
         if (list->vert) {
             glEnableVertexAttribArray(0);

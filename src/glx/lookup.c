@@ -78,6 +78,17 @@ void *glXGetProcAddressARB(const char *name) {
     MAP_EGL(glUnmapBufferARB, glMapBufferOES);
     STUB(glGetBufferParameterivARB);
     STUB(glGetBufferSubDataARB);*/
+    
+    // GL_EXT_vertex_array
+    EXT(glArrayElement);
+    EXT(glDrawArrays);
+    EXT(glVertexPointer);
+    EXT(glNormalPointer);
+    EXT(glColorPointer);
+    //EXT(glIndexPointer);	//TODO
+    EXT(glTexCoordPointer);
+    //EXT(glEdgeFlagPointer);	//TODO
+    //EXT(glGetPointerv);	//TODO
 
 
     // OES wrapper
