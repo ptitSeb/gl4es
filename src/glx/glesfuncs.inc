@@ -3,6 +3,7 @@ EX(glAlphaFunc);
 EX(glAlphaFuncx);
 EX(glBindBuffer);
 EX(glBindTexture);
+EX(glBlendColor);
 EX(glBlendEquation);
 EX(glBlendEquationSeparate);
 EX(glBlendFunc);

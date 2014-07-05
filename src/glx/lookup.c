@@ -108,8 +108,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glColor4##suffix);             \
     EX(glSecondaryColor3##suffix##v); \
     EX(glSecondaryColor3##suffix);    \
-    MAP("glSecondaryColor3" #suffix "vEXT", glSecondaryColor3##suffix##v); \
-    MAP("glSecondaryColor3" #suffix "EXT",  glSecondaryColor3##suffix);    \
+    EXT(glSecondaryColor3##suffix##v); \
+    EXT(glSecondaryColor3##suffix);    \
     EX(glIndex##suffix##v);           \
     EX(glIndex##suffix);              \
     EX(glNormal3##suffix##v);         \
@@ -138,7 +138,6 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexCoord3##suffix);          \
     EX(glTexCoord4##suffix##v);       \
     EX(glTexCoord4##suffix);          \
-    EX(glMultiTexCoord4##suffix);     \
     EX(glMultiTexCoord1##suffix##v);  \
     EX(glMultiTexCoord1##suffix);     \
     EX(glMultiTexCoord2##suffix##v);  \
@@ -146,8 +145,15 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glMultiTexCoord3##suffix##v);  \
     EX(glMultiTexCoord3##suffix);     \
     EX(glMultiTexCoord4##suffix##v);  \
-    ARB(glMultiTexCoord4##suffix);    \
-    ARB(glMultiTexCoord4##suffix);    \
+    EX(glMultiTexCoord4##suffix);     \
+    EXT(glMultiTexCoord1##suffix##v); \
+    EXT(glMultiTexCoord1##suffix);    \
+    EXT(glMultiTexCoord2##suffix##v); \
+    EXT(glMultiTexCoord2##suffix);    \
+    EXT(glMultiTexCoord3##suffix##v); \
+    EXT(glMultiTexCoord3##suffix);    \
+    EXT(glMultiTexCoord4##suffix##v); \
+    EXT(glMultiTexCoord4##suffix);    \
     ARB(glMultiTexCoord1##suffix##v); \
     ARB(glMultiTexCoord1##suffix);    \
     ARB(glMultiTexCoord2##suffix##v); \
@@ -175,18 +181,30 @@ void *glXGetProcAddressARB(const char *name) {
 #endif
 
     // functions we actually define
-    EX(glActiveTextureARB);
+    EX(glActiveTexture);
+    EXT(glActiveTexture);
+    ARB(glActiveTexture);
     EX(glArrayElement);
+    EXT(glArrayElement);
     EX(glBegin);
     EX(glBitmap);
+    EX(glBlendColor);
+    EXT(glBlendColor);
+    ARB(glBlendColor);
     EX(glBlendEquationSeparatei);
+    EXT(glBlendEquationSeparatei);
+    ARB(glBlendEquationSeparatei);
     EX(glBlendFuncSeparate);
-    EX(glBlendFuncSeparateEXT);
+    EXT(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
+    EXT(glBlendFuncSeparatei);
+    ARB(glBlendFuncSeparatei);
     EX(glCallList);
     EX(glCallLists);
     EX(glClearDepth);
-    EX(glClientActiveTextureARB);
+    EX(glClientActiveTexture);
+    EXT(glClientActiveTexture);
+    ARB(glClientActiveTexture);
     EX(glClipPlane);
     EX(glCopyPixels);
     EX(glDeleteLists);

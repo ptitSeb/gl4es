@@ -1,3 +1,4 @@
+glBlendColor: [void, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha]
 glBlendEquation: [void, GLenum mode]
 glBlendEquationSeparate: [void, GLenum modeRGB, GLenum modeA]
 glBlendFuncSeparate: [void, GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha]

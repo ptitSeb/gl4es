@@ -39,7 +39,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_texture_env_crossbar "
                 "GL_ARB_texture_env_dot3 "
                 "GL_ARB_texture_mirrored_repeat "
-//                "GL_EXT_blend_color "
+                "GL_EXT_blend_color "
                 "GL_SGIS_generate_mipmap "
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_logic_op "

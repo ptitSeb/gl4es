@@ -1,5 +1,14 @@
 #ifndef USE_ES2
 #include "gles.h"
+#ifndef skip_glBlendColor
+void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+    LOAD_GLES_OES(glBlendColor);
+#ifndef direct_glBlendColor
+    PUSH_IF_COMPILING(glBlendColor)
+#endif
+    gles_glBlendColor(red, green, blue, alpha);
+}
+#endif
 #ifndef skip_glBlendEquation
 void glBlendEquation(GLenum mode) {
     LOAD_GLES_OES(glBlendEquation);
