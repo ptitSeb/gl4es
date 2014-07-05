@@ -729,14 +729,8 @@ void glVertex4fv(GLfloat *v) {
     glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);
 }
 
-// DrawRangedElement
-void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices)
-{
-	glDrawRangeElements(mode, start, end, count, type, indices);
-}
-void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices)
-{
-printf("glDrawRangeElements(0x%04X, %i, %i, %i, 0x%04X, @%p), inlist=%i\n", mode, start, end, count, type, indices, (state.list.active)?1:0);
+void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
+//printf("glDrawRangeElements(0x%04X, %i, %i, %i, 0x%04X, @%p), inlist=%i\n", mode, start, end, count, type, indices, (state.list.active)?1:0);
 	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
 	int newcount=0;
 	uintptr_t ptr = (uintptr_t)indices;
@@ -750,4 +744,15 @@ printf("glDrawRangeElements(0x%04X, %i, %i, %i, 0x%04X, @%p), inlist=%i\n", mode
 	free(newinds);
 }
 
+void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
+	// ignore buf is better than nothing...
+	// TODO: handle buf
+	glBlendEquationSeparate(modeRGB, modeAlpha);
+}
+
+void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
+	// ignore buf is better than nothing..
+	// TODO: handle buf
+	glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
+}
 #undef constDoubleToFloat
