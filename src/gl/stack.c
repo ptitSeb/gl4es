@@ -248,6 +248,7 @@ void glPushClientAttrib(GLbitfield mask) {
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
         cur->vert_enable = state.enable.vertex_array;
         cur->color_enable = state.enable.color_array;
+        cur->secondary_enable = state.enable.secondary_array;
         cur->normal_enable = state.enable.normal_array;
         int a;
         for (a=0; a<MAX_TEX; a++) {
@@ -257,6 +258,8 @@ void glPushClientAttrib(GLbitfield mask) {
         cur->ref_verts = state.pointers.vertex.pointer;
         memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
         cur->ref_colors = state.pointers.color.pointer;
+        memcpy(&cur->secondary, &state.pointers.secondary, sizeof(pointer_state_t));
+        cur->ref_secondary = state.pointers.secondary.pointer;
         memcpy(&cur->normal, &state.pointers.normal, sizeof(pointer_state_t));
         cur->ref_normal = state.pointers.normal.pointer;
         for (a=0; a<MAX_TEX; a++) {
@@ -496,6 +499,8 @@ void glPopClientAttrib() {
 			enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
 		if (state.enable.color_array != cur->color_enable)
 			enable_disable(GL_COLOR_ARRAY, cur->color_enable);
+		if (state.enable.secondary_array != cur->secondary_enable)
+			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
         for (int a=0; a<MAX_TEX; a++) {
 		   if (state.enable.tex_coord_array[a] != cur->tex_enable[a]) {
 			   glClientActiveTexture(GL_TEXTURE0+a);
@@ -510,6 +515,9 @@ void glPopClientAttrib() {
 		if (state.pointers.color.pointer != cur->ref_colors) {
 			memcpy(&state.pointers.color, &cur->color, sizeof(pointer_state_t));
 			if (state.pointers.color.pointer) gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+		}
+		if (state.pointers.secondary.pointer != cur->ref_secondary) {
+			memcpy(&state.pointers.secondary, &cur->secondary, sizeof(pointer_state_t));
 		}
 		if (state.pointers.normal.pointer != cur->ref_normal) {
 			memcpy(&state.pointers.normal, &cur->normal, sizeof(pointer_state_t));

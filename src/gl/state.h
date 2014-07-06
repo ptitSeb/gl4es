@@ -9,6 +9,8 @@
 typedef struct {
     GLboolean line_stipple,
               blend,
+              color_sum,
+              secondary_array,
               color_array,
               normal_array,
               vertex_array,
@@ -56,7 +58,7 @@ typedef struct {
 } pointer_state_t;
 
 typedef struct {
-    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX];
+    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary;
 } pointer_states_t;
 
 
@@ -113,6 +115,7 @@ typedef struct {
     texgen_state_t texgen[MAX_TEX];
     texture_state_t texture;
     GLfloat color[4];
+    GLfloat secondary[4];
     int	render_mode;
     int polygon_mode;
     namestack_t namestack;

@@ -292,6 +292,8 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glRenderMode);
     EX(glRotated);
     EX(glScaled);
+    EX(glSecondaryColorPointer);
+    EXT(glSecondaryColorPointer);
     EX(glTexEnvf);
     EX(glTexEnvi);
     EX(glTexEnvfv);

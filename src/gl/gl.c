@@ -1,6 +1,7 @@
 #include "gl.h"
 
 glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
+	.secondary = {0.0f, 0.0f, 0.0f, 0.0f},
 	.render_mode = 0,
 	.projection_matrix = NULL,
 	.modelview_matrix = NULL,
@@ -28,7 +29,7 @@ const GLubyte *glGetString(GLenum name) {
 //                "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_vertex_array "
-//                "GL_EXT_secondary_color "
+                "GL_EXT_secondary_color "
                 "GL_EXT_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
@@ -281,6 +282,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         enable(GL_TEXTURE_GEN_T, texgen_t[state.texture.active]);
         enable(GL_TEXTURE_GEN_R, texgen_r[state.texture.active]);
         enable(GL_LINE_STIPPLE, line_stipple);
+        
+        // Secondary color
+        enable(GL_COLOR_SUM, color_sum);
+        enable(GL_SECONDARY_COLOR_ARRAY, secondary_array);
 
         // for glDrawArrays
         proxy_enable(GL_VERTEX_ARRAY, vertex_array);
@@ -343,6 +348,10 @@ GLboolean glIsEnabled(GLenum cap) {
             return state.enable.texgen_t[state.texture.active];
 		case GL_TEXTURE_COORD_ARRAY:
 			return state.enable.tex_coord_array[state.texture.client];
+		case GL_COLOR_SUM:
+			return state.enable.color_sum;
+		case GL_SECONDARY_COLOR_ARRAY:
+			return state.enable.secondary_array;
         default:
             return gles_glIsEnabled(cap);
     }
@@ -363,6 +372,9 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 	}
 	if (state.enable.color_array) {
 		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count);
+	}
+	if (state.enable.secondary_array) {
+		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
 	}
 	if (state.enable.normal_array) {
 		list->normal = copy_gl_pointer(&state.pointers.normal, 3, skip, count);
@@ -429,6 +441,21 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
 		} else {
+			// secondary color...
+			GLfloat *final_colors = NULL;
+			pointer_state_t old_color;
+			int max_cnt = 0;
+			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
+				for (int i=0; i<count; i++)
+					if (max_cnt<indices[i]) max_cnt = indices[i];
+				final_colors=(GLfloat*)malloc(max_cnt * 4 * sizeof(GLfloat));
+				GLfloat *colors=(GLfloat*)state.pointers.color.pointer;
+				GLfloat *seconds=(GLfloat*)state.pointers.secondary.pointer;
+				for (int i=0; i<max_cnt*4; i++)
+					final_colors[i]=colors[i] + seconds[i];
+				memcpy(&old_color, &state.pointers.color, sizeof(pointer_state_t));
+				glColorPointer(4, GL_FLOAT, 0, final_colors);
+			}
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
@@ -461,6 +488,12 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
 			} else
 				gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+			
+			// secondary color
+			if (final_colors) {
+				free(final_colors);
+				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
+			}
 		}
         free(indices);
     }
@@ -499,6 +532,18 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawArrays(mode, first, count);
 		} else {
+			// secondary color...
+			GLfloat *final_colors = NULL;
+			pointer_state_t old_color;
+			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
+				final_colors=(GLfloat*)malloc(count * 4 * sizeof(GLfloat));
+				GLfloat *colors=(GLfloat*)state.pointers.color.pointer;
+				GLfloat *seconds=(GLfloat*)state.pointers.secondary.pointer;
+				for (int i=0; i<count*4; i++)
+					final_colors[i]=colors[i] + seconds[i];
+				memcpy(&old_color, &state.pointers.color, sizeof(pointer_state_t));
+				glColorPointer(4, GL_FLOAT, 0, final_colors);
+			}
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
@@ -531,6 +576,12 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 					gles_glDrawArrays(mode, i-n, n);
 			} else
 				gles_glDrawArrays(mode, first, count);
+			
+			// secondary color
+			if (final_colors) {
+				free(final_colors);
+				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
+			}
 		}
     }
 }
@@ -562,6 +613,14 @@ void glTexCoordPointer(GLint size, GLenum type,
     clone_gl_pointer(state.pointers.tex_coord[state.texture.client], size);
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
+void glSecondaryColorPointer(GLint size, GLenum type, 
+					GLsizei stride, const GLvoid *pointer) {
+//printf("glSecondaryColorPointer(%i, 0x%04X, %i, %p)\n", size, type, stride, pointer);
+	if (size!=3)
+		return;		// Size must be 3...
+    clone_gl_pointer(state.pointers.secondary, size);
+}
+
 #undef clone_gl_pointer
 #endif
 
@@ -713,6 +772,15 @@ void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 #endif
 }
 
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
+    if (state.list.active) {
+        rlSecondary3f(state.list.active, r, g, b);
+    } else {
+        state.secondary[0] = r; state.secondary[1] = g;
+        state.secondary[2] = b;
+    }
+}
+
 #ifndef USE_ES2
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
@@ -770,6 +838,11 @@ void glArrayElement(GLint i) {
             v[i] /= scale;
         }
         glColor4fv(v);
+    }
+    p = &state.pointers.secondary;
+    if (state.enable.secondary_array && p->pointer) {
+        v = gl_pointer_index(p, i);
+        glSecondaryColor3fv(v);
     }
     p = &state.pointers.normal;
     if (state.enable.normal_array && p->pointer) {

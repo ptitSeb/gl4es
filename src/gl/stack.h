@@ -30,6 +30,7 @@ typedef struct {
     GLfloat color[4];
     GLfloat normal[4];
     GLfloat tex[4];
+    GLfloat secondary[4];
 
     // TODO: can only fill this via raster.c
     GLfloat raster_pos[3];
@@ -143,13 +144,16 @@ typedef struct {
     GLboolean color_enable;
     GLboolean tex_enable[MAX_TEX];
     GLboolean normal_enable;
+    GLboolean secondary_enable;
     pointer_state_t verts;
     pointer_state_t color;
     pointer_state_t normal;
     pointer_state_t tex[MAX_TEX];
+    pointer_state_t secondary;
     // lets track old pointer address to avoid useless copy back
     GLvoid      *ref_verts,
 	            *ref_colors,
+	            *ref_secondary,
 	            *ref_normal,
 	            *ref_tex[MAX_TEX];
 

@@ -92,6 +92,7 @@ typedef struct _renderlist_t {
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
+    GLfloat *secondary;
     GLfloat *tex[MAX_TEX];
     GLushort *indices;
     GLboolean q2t;
@@ -139,4 +140,5 @@ extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);
 extern void rlMultiTexCoord2f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t);
 extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b);
 #endif

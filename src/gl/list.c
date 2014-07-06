@@ -25,6 +25,7 @@ renderlist_t *alloc_renderlist() {
     list->vert = NULL;
     list->normal = NULL;
     list->color = NULL;
+    list->secondary = NULL;
 
     list->glcall_list = 0;
     list->raster = NULL;
@@ -82,6 +83,7 @@ void free_renderlist(renderlist_t *list) {
         if (list->vert) free(list->vert);
         if (list->normal) free(list->normal);
         if (list->color) free(list->color);
+        if (list->secondary) free(list->secondary);
         int a;
         for (a=0; a<MAX_TEX; a++)
             if (list->tex[a]) free(list->tex[a]);
@@ -316,8 +318,15 @@ void draw_renderlist(renderlist_t *list) {
             glDisableClientState(GL_NORMAL_ARRAY);
         }
 
+		GLfloat *final_colors = NULL;
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
+            if (state.enable.color_sum && (list->secondary)) {
+				final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
+				for (int i=0; i<list->len*4; i++)
+					final_colors[i]=list->color[i] + list->secondary[i];
+				glColorPointer(4, GL_FLOAT, 0, final_colors);
+			} else
             glColorPointer(4, GL_FLOAT, 0, list->color);
         } else {
             glDisableClientState(GL_COLOR_ARRAY);
@@ -457,6 +466,8 @@ void draw_renderlist(renderlist_t *list) {
 				texgened[a] = NULL;
 			}
 		}
+		if (final_colors)
+			free(final_colors);
         if (stipple) {
             glPopAttrib();
         }
@@ -482,6 +493,11 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     if (list->color) {
         GLfloat *color = list->color + (list->len * 4);
         memcpy(color, state.color, sizeof(GLfloat) * 4);
+    }
+
+    if (list->secondary) {
+        GLfloat *secondary = list->secondary + (list->len * 4);
+        memcpy(secondary, state.secondary, sizeof(GLfloat) * 4);
     }
 
     for (int a=0; a<MAX_TEX; a++) {
@@ -527,6 +543,23 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 
     GLfloat *color = state.color;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
+}
+
+void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
+    if (list->secondary == NULL) {
+        list->secondary = alloc_sublist(4, list->cap);
+        // catch up
+        int i;
+        if (list->len) for (i = 0; i < list->len-1; i++) {
+            GLfloat *secondary = (list->secondary + (i * 4));
+            memcpy(secondary, state.secondary, sizeof(GLfloat) * 4);
+        }
+    } else {
+        resize_renderlist(list);
+    }
+
+    GLfloat *color = state.secondary;
+    color[0] = r; color[1] = g; color[2] = b; color[3] = 0.0f;
 }
 
 void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params) {

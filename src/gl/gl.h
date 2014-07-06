@@ -257,6 +257,8 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "texture.h"
 #include "array.h"
 
+extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+
 #include "state.h"
 extern glstate_t state;
 

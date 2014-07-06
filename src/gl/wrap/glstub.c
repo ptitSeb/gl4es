@@ -53,7 +53,7 @@ STUB(void glEdgeFlag(GLboolean flag))
 STUB(void glIndexf(GLfloat c))
 STUB(void glPolygonStipple(const GLubyte *mask))
 STUB(void glReadBuffer(GLenum mode))
-STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b))
+//STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b))
 STUB(void glColorTable (GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table))
 
 STUB(void glAccum(GLenum op, GLfloat value))
