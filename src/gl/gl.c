@@ -631,61 +631,60 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     // element formats
     GLenum tf, cf, nf, vf;
     tf = cf = nf = vf = GL_FLOAT;
-
     switch (format) {
-        GL_V2F: vert = 2; break;
-        GL_V3F: vert = 3; break;
-        GL_C4UB_V2F:
+        case GL_V2F: vert = 2; break;
+        case GL_V3F: vert = 3; break;
+        case GL_C4UB_V2F:
             color = 4; cf = GL_UNSIGNED_BYTE;
             vert = 2;
             break;
-        GL_C4UB_V3F:
+        case GL_C4UB_V3F:
             color = 4; cf = GL_UNSIGNED_BYTE;
             vert = 3;
             break;
-        GL_C3F_V3F:
+        case GL_C3F_V3F:
             color = 3;
             vert = 4;
             break;
-        GL_N3F_V3F:
+        case GL_N3F_V3F:
             normal = 3;
             vert = 3;
             break;
-        GL_C4F_N3F_V3F:
+        case GL_C4F_N3F_V3F:
             color = 4;
             normal = 3;
             vert = 3;
             break;
-        GL_T2F_V3F:
+        case GL_T2F_V3F:
             tex = 2;
             vert = 3;
             break;
-        GL_T4F_V4F:
+        case GL_T4F_V4F:
             tex = 4;
             vert = 4;
             break;
-        GL_T2F_C4UB_V3F:
+        case GL_T2F_C4UB_V3F:
             tex = 2;
             color = 4; cf = GL_UNSIGNED_BYTE;
             vert = 3;
             break;
-        GL_T2F_C3F_V3F:
+        case GL_T2F_C3F_V3F:
             tex = 2;
             color = 3;
             vert = 3;
             break;
-        GL_T2F_N3F_V3F:
+        case GL_T2F_N3F_V3F:
             tex = 2;
             normal = 3;
             vert = 3;
             break;
-        GL_T2F_C4F_N3F_V3F:
+        case GL_T2F_C4F_N3F_V3F:
             tex = 2;
             color = 4;
             normal = 3;
             vert = 3;
             break;
-        GL_T4F_C4F_N3F_V4F:
+        case GL_T4F_C4F_N3F_V4F:
             tex = 4;
             color = 4;
             normal = 3;
@@ -698,19 +697,24 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
                  normal * gl_sizeof(nf) +
                  vert * gl_sizeof(vf);
     if (tex) {
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(tex, tf, stride, (GLvoid *)ptr);
         ptr += tex * gl_sizeof(tf);
     }
     if (color) {
+		glEnableClientState(GL_COLOR_ARRAY);
         glColorPointer(color, cf, stride, (GLvoid *)ptr);
         ptr += color * gl_sizeof(cf);
     }
     if (normal) {
+		glEnableClientState(GL_NORMAL_ARRAY);
         glNormalPointer(nf, stride, (GLvoid *)ptr);
         ptr += normal * gl_sizeof(nf);
     }
-    if (vert)
+    if (vert) {
+		glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
+    }
 }
 
 // immediate mode functions
@@ -785,7 +789,8 @@ void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
     if (state.list.compiling && state.list.active) {
-		NewStage(state.list.active, STAGE_MATERIAL);
+		//TODO: Materialfv can be done per vertex, how to handle that ?!
+		//NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
     } else {
 	    if (face!=GL_FRONT_AND_BACK) {
@@ -1021,7 +1026,7 @@ GLboolean glIsList(GLuint list) {
 void glPolygonMode(GLenum face, GLenum mode) {
 	if (face == GL_BACK)
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
-	if (state.list.compiling && state.list.active) {
+	if (state.list.compiling && (state.list.active)) {
 		NewStage(state.list.active, STAGE_POLYGON);
 /*		if (state.list.active->polygon_mode)
 			state.list.active = extend_renderlist(state.list.active);*/
@@ -1032,6 +1037,9 @@ void glPolygonMode(GLenum face, GLenum mode) {
 		case GL_LINE:
 		case GL_POINT:
 			state.polygon_mode = mode;
+			break;
+		case GL_FILL:
+			state.polygon_mode = 0;
 			break;
 		default:
 			state.polygon_mode = 0;

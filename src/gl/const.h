@@ -361,3 +361,19 @@
 /* Render Mode */
 #define GL_SELECT                         0x1c02
 #define GL_RENDER                         0x1C00
+
+/* Interleaved Array */
+#define GL_V2F					0x2A20
+#define GL_V3F					0x2A21
+#define GL_C4UB_V2F				0x2A22
+#define GL_C4UB_V3F				0x2A23
+#define GL_C3F_V3F				0x2A24
+#define GL_N3F_V3F				0x2A25
+#define GL_C4F_N3F_V3F				0x2A26
+#define GL_T2F_V3F				0x2A27
+#define GL_T4F_V4F				0x2A28
+#define GL_T2F_C4UB_V3F				0x2A29
+#define GL_T2F_C3F_V3F				0x2A2A
+#define GL_T2F_N3F_V3F				0x2A2B
+#define GL_T2F_C4F_N3F_V3F			0x2A2C
+#define GL_T4F_C4F_N3F_V4F			0x2A2D
