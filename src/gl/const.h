@@ -294,6 +294,7 @@
 #define GL_COEFF                 0x0A00
 #define GL_ORDER                 0x0A01
 #define GL_DOMAIN                0x0A02
+#define GL_MAX_LIST_NESTING      0x0B31
 
 /* polygons */
 #define GL_POINT                 0x1B00

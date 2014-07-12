@@ -131,6 +131,10 @@ GLvoid *copy_gl_pointer(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsiz
     return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count);
 }
+GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+    return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
+                         GL_FLOAT, width, skip, count);
+}
 
 GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
     static GLfloat buf[4];

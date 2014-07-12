@@ -110,7 +110,7 @@ void free_renderlist(renderlist_t *list) {
         }
         if (list->lightmodel)
 			free(list->lightmodel);
-        if (list->indices) free(list->indices);
+        if ((list->indices) && (!list->q2t)) free(list->indices);
         
         if (list->raster) {
 			if (list->raster->texture)
@@ -192,11 +192,11 @@ void end_renderlist(renderlist_t *list) {
     for (int a=0; a<MAX_TEX; a++) {
 	    gltexture_t *bound = state.texture.bound[a];
 	    if (list->tex[a] && bound && (bound->width != bound->nwidth || bound->height != bound->nheight)) {
-		tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
+		    tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
 	    }
 	    // GL_ARB_texture_rectangle
 	    if (list->tex[a] && state.texture.rect_arb[a] && bound) {
-		tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
+		    tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
 	    }
     }
     switch (list->mode) {
@@ -344,7 +344,7 @@ void draw_renderlist(renderlist_t *list) {
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
-	}
+		}
 		GLfloat *texgened[MAX_TEX];
 		GLint needclean[MAX_TEX];
 		for (int a=0; a<MAX_TEX; a++) {
@@ -355,7 +355,7 @@ void draw_renderlist(renderlist_t *list) {
         }
 	    old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
-		    if ((list->tex[a] || texgened[a]) && state.enable.texture_2d[a]) {
+		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
 			    glClientActiveTexture(GL_TEXTURE0+a);
 			    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		        glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);

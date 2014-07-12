@@ -163,6 +163,9 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 		case GL_TEXTURE_STACK_DEPTH:
 			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
 			break;
+		case GL_MAX_LIST_NESTING:
+			*params=64;	// fake, no limit in fact
+			break;
         default:
             gles_glGetIntegerv(pname, params);
     }
@@ -257,6 +260,9 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 		case GL_TEXTURE_STACK_DEPTH:
 			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
 			break;
+		case GL_MAX_LIST_NESTING:
+			*params=64;	// fake, no limit in fact
+			break;
         default:
             gles_glGetFloatv(pname, params);
     }
@@ -299,28 +305,17 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 void glEnable(GLenum cap) {
-    if (state.list.compiling && state.list.active) {
-		NewStage(state.list.active, STAGE_GLCALL);
-/*		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
-			state.list.active = extend_renderlist(state.list.active);*/
-        push_glEnable(cap);
-    } else {
-        LOAD_GLES(glEnable);
-        proxy_glEnable(cap, true, gles_glEnable);
-    }
-
+	PUSH_IF_COMPILING(glEnable)
+        
+    LOAD_GLES(glEnable);
+    proxy_glEnable(cap, true, gles_glEnable);
 }
 
 void glDisable(GLenum cap) {
-    if (state.list.compiling && state.list.active) {
-		NewStage(state.list.active, STAGE_GLCALL);
-/*		if ((cap == GL_TEXTURE_2D) || (cap == GL_TEXTURE_GEN_S) || (cap == GL_TEXTURE_GEN_T) || (cap == GL_TEXTURE_GEN_R))
-			state.list.active = extend_renderlist(state.list.active);*/
-        push_glDisable(cap);
-    } else {
-        LOAD_GLES(glDisable);
-        proxy_glEnable(cap, false, gles_glDisable);
-    }
+	PUSH_IF_COMPILING(glDisable)
+        
+    LOAD_GLES(glDisable);
+    proxy_glEnable(cap, false, gles_glDisable);
 }
 
 #ifndef USE_ES2
@@ -368,7 +363,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->cap = count-skip;
     
 	if (state.enable.vertex_array) {
-		list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);
+		list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);	//TODO, what if size == 4
 	}
 	if (state.enable.color_array) {
 		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count);
@@ -381,7 +376,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 	}
 	for (int i=0; i<MAX_TEX; i++) {
 		if (state.enable.tex_coord_array[i]) {
-		list->tex[i] = copy_gl_pointer(&state.pointers.tex_coord[i], 2, skip, count);
+			list->tex[i] = copy_gl_pointer_raw(&state.pointers.tex_coord[i], 2, skip, count);
 		}
 	}
 	
@@ -404,16 +399,6 @@ static inline bool should_intercept_render(GLenum mode) {
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
     GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-    // TODO: do this in a more direct fashion.
-    if (should_intercept_render(mode)) {
-        glBegin(mode);
-        for (int i = 0; i < count; i++) {
-            glArrayElement(indices[i]);
-        }
-        glEnd();
-        free(indices);
-        return;
-    }
     bool compiling = (state.list.active && state.list.compiling);
     if (compiling) {
         renderlist_t *list = NULL;
@@ -424,9 +409,20 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 
         normalize_indices(indices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, min, max + 1 +min);
+        list->indices = indices;
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
-    } else {
+     }
+     if (should_intercept_render(mode)) {
+    // TODO: do this in a more direct fashion.
+        glBegin(mode);
+        for (int i = 0; i < count; i++) {
+            glArrayElement(indices[i]);
+        }
+        glEnd();
+        free(indices);
+        return;
+     } else {
 		LOAD_GLES(glDrawElements);
 		GLenum mode_init = mode;
 		if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
