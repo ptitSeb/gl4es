@@ -196,6 +196,7 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glBlendEquationSeparatei);
     EX(glBlendFuncSeparate);
     EXT(glBlendFuncSeparate);
+    ARB(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
     EXT(glBlendFuncSeparatei);
     ARB(glBlendFuncSeparatei);
@@ -305,11 +306,17 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexGeni);
     EX(glTexGeniv);
     EX(glTexImage1D);
+    EX(glTexImage2D);
     EX(glTexImage3D);
     EX(glTexSubImage1D);
+    EX(glTexSubImage2D);
     EX(glTexSubImage3D);
     EX(glCompressedTexImage2D);
     EX(glCompressedTexSubImage2D);
+    EX(glCopyTexImage1D);
+    EX(glCopyTexImage2D);
+    EX(glCopyTexSubImage1D);
+    EX(glCopyTexSubImage2D);
     EX(glTranslated);
     EX(glUnlockArraysEXT);
 	EX(glGetTexGenfv);
@@ -322,8 +329,6 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glAreTexturesResident);
     STUB(glClearAccum);
     STUB(glColorMaterial);
-    STUB(glCopyTexImage1D);
-    STUB(glCopyTexSubImage1D);
     STUB(glCopyTexImage3D);
     STUB(glCopyTexSubImage3D);
     STUB(glEdgeFlagPointer);

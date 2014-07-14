@@ -363,7 +363,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->cap = count-skip;
     
 	if (state.enable.vertex_array) {
-		list->vert = copy_gl_pointer(&state.pointers.vertex, 3, skip, count);	//TODO, what if size == 4
+		list->vert = copy_gl_pointer_raw(&state.pointers.vertex, 3, skip, count);	//TODO, what if size == 4
 	}
 	if (state.enable.color_array) {
 		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count);
@@ -372,11 +372,11 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
 	}
 	if (state.enable.normal_array) {
-		list->normal = copy_gl_pointer(&state.pointers.normal, 3, skip, count);
+		list->normal = copy_gl_pointer_raw(&state.pointers.normal, 3, skip, count);
 	}
 	for (int i=0; i<MAX_TEX; i++) {
 		if (state.enable.tex_coord_array[i]) {
-			list->tex[i] = copy_gl_pointer_raw(&state.pointers.tex_coord[i], 2, skip, count);
+		    list->tex[i] = copy_gl_pointer_raw(&state.pointers.tex_coord[i], 2, skip, count);
 		}
 	}
 	
@@ -498,8 +498,8 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
-		NewStage(state.list.active, STAGE_DRAW);
-        list = state.list.active;/* = extend_renderlist(active);*/
+	NewStage(state.list.active, STAGE_DRAW);
+        list = state.list.active;
         arrays_to_renderlist(list, mode, first, count+first);
         return;
     }
@@ -605,6 +605,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+//if ((state.texture.client>0) && (state.list.active)) printf("glTexCoordPointer(%i, 0x%04X, %i, %p), texture=%i, inside list\n", size, type, stride, pointer, state.texture.client);
     LOAD_GLES(glTexCoordPointer);
     clone_gl_pointer(state.pointers.tex_coord[state.texture.client], size);
     gles_glTexCoordPointer(size, type, stride, pointer);
@@ -715,22 +716,22 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
 
 // immediate mode functions
 void glBegin(GLenum mode) {
-    if (! state.list.active) {
+    if (! state.list.active)
         state.list.active = alloc_renderlist();
-    }/* else*/ {
-		// create a new list, as we are already inside one
-		NewStage(state.list.active, STAGE_DRAW);
-//		state.list.active = extend_renderlist(state.list.active);
-	}
+    NewStage(state.list.active, STAGE_DRAW);
     state.list.active->mode = mode;
     state.list.active->mode_init = mode;
 }
 
 void glEnd() {
     if (! state.list.active) return;
+    // check if TEXTUREx is activate and no TexCoord, in that cas, create a dummy one base on state...
+    for (int a=0; a<MAX_TEX; a++)
+	if (state.enable.texture_2d[a] && (state.list.active->tex[a]==0))
+	    rlMultiTexCoord2f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1]);
     // render if we're not in a display list
     if (! state.list.compiling) {
-		renderlist_t *mylist = state.list.active;
+	renderlist_t *mylist = state.list.active;
         state.list.active = NULL;
         end_renderlist(mylist);
         draw_renderlist(mylist);
@@ -740,14 +741,17 @@ void glEnd() {
     }
 }
 
-void glNormal3f(GLfloat x, GLfloat y, GLfloat z) {
+void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (state.list.active) {
-        rlNormal3f(state.list.active, x, y, z);
+	if (state.list.active->stage != STAGE_DRAW) {
+	    PUSH_IF_COMPILING(glNormal3f);
+	} else
+	    rlNormal3f(state.list.active, nx, ny, nz);
     }
 #ifndef USE_ES2
     else {
         LOAD_GLES(glNormal3f);
-        gles_glNormal3f(x, y, z);
+        gles_glNormal3f(nx, ny, nz);
     }
 #endif
 }
@@ -758,16 +762,19 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     }
 }
 
-void glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (state.list.active) {
-        rlColor4f(state.list.active, r, g, b, a);
+	if (state.list.active->stage != STAGE_DRAW) {
+	    PUSH_IF_COMPILING(glColor4f);
+	} else
+	    rlColor4f(state.list.active, red, green, blue, alpha);
     }
 #ifndef USE_ES2
     else {
         LOAD_GLES(glColor4f);
-        gles_glColor4f(r, g, b, a);
-        state.color[0] = r; state.color[1] = g;
-        state.color[2] = b; state.color[3] = a;
+        gles_glColor4f(red, green, blue, alpha);
+        state.color[0] = red; state.color[1] = green;
+        state.color[2] = blue; state.color[3] = alpha;
     }
 #endif
 }
@@ -815,12 +822,16 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 void glTexCoord2f(GLfloat s, GLfloat t) {
     if (state.list.active) {
         rlTexCoord2f(state.list.active, s, t);
+    } else {
+	state.texcoord[0][0] = s; state.texcoord[0][1] = t;
     }
 }
 
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     if (state.list.active) {
         rlMultiTexCoord2f(state.list.active, target, s, t);
+    } else {
+	state.texcoord[target-GL_TEXTURE0][0] = s; state.texcoord[target-GL_TEXTURE0][1] = t;
     }
 }
 void glArrayElement(GLint i) {
@@ -843,6 +854,15 @@ void glArrayElement(GLint i) {
     p = &state.pointers.secondary;
     if (state.enable.secondary_array && p->pointer) {
         v = gl_pointer_index(p, i);
+        GLfloat scale = gl_max_value(p->type);
+        // color[3] defaults to 0.0f
+        if (p->size < 4)
+            v[3] = 0.0f;
+
+        // scale color coordinates to a 0 - 1.0 range
+        for (int i = 0; i < p->size; i++) {
+            v[i] /= scale;
+        }
         glSecondaryColor3fv(v);
     }
     p = &state.pointers.normal;
@@ -924,11 +944,11 @@ void glNewList(GLuint list, GLenum mode) {
 void glEndList() {
     GLuint list = state.list.name;
     if (state.list.compiling) {
-		// Free the previous list if it exist...
-		free_renderlist(state.lists[list - 1]);
+	// Free the previous list if it exist...
+	free_renderlist(state.lists[list - 1]);
         state.lists[list - 1] = state.list.first;
         state.list.compiling = false;
-		end_renderlist(state.list.active);
+	end_renderlist(state.list.active);
         state.list.active = NULL;
         if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);

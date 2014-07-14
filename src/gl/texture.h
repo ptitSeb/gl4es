@@ -43,7 +43,14 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
+                               
 
+void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y,
+                                GLsizei width, GLint border);
+
+void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
+                                GLsizei width);
+                                
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,

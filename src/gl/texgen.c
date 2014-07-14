@@ -241,13 +241,22 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
 void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture) {
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
+    // special case : no texgen but texture activated, create a simple 1 repeated element
+    if (!state.enable.texgen_s[texture] && !state.enable.texgen_t[texture] && !state.enable.texgen_r[texture]) {
+	if ((*coords)==NULL) 
+	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+	for (int i=0; i<count*2; i+=2) {
+	    memcpy((*coords)+i, state.texcoord[texture], sizeof(GLfloat)*2);
+	}
+	return;
+    }
     // special case: SPHERE_MAP needs both texgen to make sense
     if ((state.enable.texgen_s[texture] && (state.texgen[texture].S==GL_SPHERE_MAP)) && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_SPHERE_MAP)))
     {
-		if (!state.enable.texture_2d[texture])
-			return;
-		if ((*coords)==NULL) 
-			*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+	if (!state.enable.texture_2d[texture])
+	    return;
+	if ((*coords)==NULL) 
+	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
         sphere_loop(verts, norm, *coords, count);
         return;
     }
@@ -256,29 +265,29 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_REFLECTION_MAP))
      && (state.enable.texgen_r[texture] && (state.texgen[texture].R==GL_REFLECTION_MAP)))
     {
-		*needclean=1;
-		// setup reflection map!
-		GLuint old_tex=state.texture.active;
-		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
-		LOAD_GLES_OES(glTexGeni);
-		LOAD_GLES_OES(glTexGenfv);
-		LOAD_GLES(glEnable);
-		// enable texgen
-		gles_glEnable(GL_TEXTURE_GEN_S);
-		gles_glEnable(GL_TEXTURE_GEN_T);
-		gles_glEnable(GL_TEXTURE_GEN_R);
-		// setup cube map mode
-		gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-		gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-		gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+	*needclean=1;
+	// setup reflection map!
+	GLuint old_tex=state.texture.active;
+	if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
+	LOAD_GLES_OES(glTexGeni);
+	LOAD_GLES_OES(glTexGenfv);
+	LOAD_GLES(glEnable);
+	// enable texgen
+	gles_glEnable(GL_TEXTURE_GEN_S);
+	gles_glEnable(GL_TEXTURE_GEN_T);
+	gles_glEnable(GL_TEXTURE_GEN_R);
+	// setup cube map mode
+	gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+	gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+	gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
 
-		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+	if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
         return;
     }
-	if (!state.enable.texture_2d[texture])
-		return;
-	if ((*coords)==NULL) 
-		*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+    if (!state.enable.texture_2d[texture])
+	return;
+    if ((*coords)==NULL) 
+	*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, count, state.texgen[texture].S, state.texgen[texture].Sv);
     if (state.enable.texgen_t[texture])

@@ -114,6 +114,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLenum format, GLenum type, const GLvoid *data) {
 
 //printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
+/*    GLint unpack;
+    glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpack);*/
     GLvoid *pixels = (GLvoid *)data;
     border = 0;	//TODO: something?
  PUSH_IF_COMPILING(glTexImage2D);
@@ -126,6 +128,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
 				automipmap = 2;
 				printf("LIBGL: guess AutoMipMap\n");
+			}
+			if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
+				automipmap = 3;
+				printf("LIBGL: ignore MipMap\n");
 			}
 		    char *env_texcopy = getenv("LIBGL_TEXCOPY");
 			if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
@@ -155,12 +161,12 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (automipmap) {
-		if (bound && (level>0))
-			if (automipmap==1 || bound->mipmap_need)
-				return;			// has been handled by auto_mipmap
-			else
-				bound->mipmap_need = 1;
-	}
+	if (bound && (level>0))
+	    if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
+		return;			// has been handled by auto_mipmap
+	    else
+		bound->mipmap_need = 1;
+    }
     if (data) {
 
         // implements GL_UNPACK_ROW_LENGTH
@@ -218,19 +224,19 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
     } else {
-		swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
-		if (bound) {
-			bound->shrink = 0;
-			if (texshrink>0)
-				if ((texshrink==1) || 
-					((texshrink>1) && 
-						((width > ((texshrink==2)?512:256)) && (height > 8)) 
-					 || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
-	                width /= 2;
-					height /= 2;
-					bound->shrink = 1;
-				}
-		}
+	    swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
+	    if (bound) {
+		bound->shrink = 0;
+		if (texshrink>0)
+		    if ((texshrink==1) || 
+			((texshrink>1) && 
+				((width > ((texshrink==2)?512:256)) && (height > 8)) 
+			 || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
+			width /= 2;
+			height /= 2;
+			bound->shrink = 1;
+		    }
+	    }
 	}
 
     /* TODO:
@@ -252,13 +258,13 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             break;
         default: {
             GLsizei nheight = npot(height), nwidth = npot(width);
-            if (bound && level == 0) {
+            if (bound && (level == 0)) {
                 bound->width = width;
                 bound->height = height;
                 bound->nwidth = nwidth;
                 bound->nheight = nheight;
             }
-            if (bound && bound->mipmap_need && !bound->mipmap_auto)
+            if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
 				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
             if (height != nheight || width != nwidth) {
                 gles_glTexImage2D(target, level, format, nwidth, nheight, border,
@@ -269,7 +275,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 gles_glTexImage2D(target, level, format, width, height, border,
                                   format, type, pixels);
             }
-            if (bound && bound->mipmap_need && !bound->mipmap_auto)
+            if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
 				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
         }
     }
@@ -293,80 +299,80 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
  PUSH_IF_COMPILING(glTexSubImage2D);
 
     LOAD_GLES(glTexSubImage2D);
-    //LOAD_GLES(glTexParameteri);
-//printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type);
-	if (width==0 || height==0)
-		return;
+    LOAD_GLES(glTexParameteri);
+//printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x, level=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, level);
+    if (width==0 || height==0)
+	return;
     target = map_tex_target(target);
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (automipmap) {
-		if (bound && (level>0))
-			if (bound->mipmap_need)
-				return;			// has been handled by auto_mipmap
-			else
-				bound->mipmap_need = 1;
-	}
+	if (bound && (level>0))
+	    if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
+		return;			// has been handled by auto_mipmap
+	    else
+		bound->mipmap_need = 1;
+    }
 
-	 if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
-		 int imgWidth, pixelSize;
-		 pixelSize = pixel_sizeof(format, type);
-		 imgWidth = ((state.texture.unpack_row_length)? state.texture.unpack_row_length:width) * pixelSize;
-		 GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
-		 pixels = (GLvoid *)dst;
-		 const GLubyte *src = (GLubyte *)data;
-		 src += state.texture.unpack_skip_pixels * pixelSize + state.texture.unpack_skip_rows * imgWidth;
-		 for (int y = 0; y < height; y += 1) {
-			 memcpy(dst, src, width * pixelSize);
-			 src += imgWidth;
-			 dst += width * pixelSize;
-		 }
-	 }
-	 
-	 GLvoid *old = pixels;
-	 pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
-	 if (old != pixels && old != data)
-		free(old);
-		
-	if (bound->shrink) {
-		// special case for width/height == 1
-		if (width==1)
-			width+=(xoffset%2);
-		if (height==1)
-			height+=(yoffset%2);
-		if ((width==1) || (height==1)) {
-			// nothing to do...
-			if (pixels != data)
-				free((GLvoid *)pixels);
-			return;
-		}
-		// ok, now standard cases....
-		xoffset /= 2;
-		yoffset /= 2;
-		old = pixels;
-		pixel_halfscale(pixels, &old, width, height, format, type);
-		if (old != pixels && pixels!=data)
-			free(pixels);
-		pixels = old;
-		width /= 2;
-		height /= 2;
+    if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
+	int imgWidth, pixelSize;
+	pixelSize = pixel_sizeof(format, type);
+	imgWidth = ((state.texture.unpack_row_length)? state.texture.unpack_row_length:width) * pixelSize;
+	GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+	pixels = (GLvoid *)dst;
+	const GLubyte *src = (GLubyte *)data;
+	src += state.texture.unpack_skip_pixels * pixelSize + state.texture.unpack_skip_rows * imgWidth;
+	for (int y = 0; y < height; y += 1) {
+	    memcpy(dst, src, width * pixelSize);
+	    src += imgWidth;
+	    dst += width * pixelSize;
 	}
-		
-	if (texdump) {
-		if (bound) {
-			pixel_to_ppm(pixels, width, height, format, type, bound->texture);
-		}
+    }
+
+    GLvoid *old = pixels;
+    pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
+    if (old != pixels && old != data)
+	free(old);
+
+    if (bound->shrink) {
+	// special case for width/height == 1
+	if (width==1)
+		width+=(xoffset%2);
+	if (height==1)
+		height+=(yoffset%2);
+	if ((width==1) || (height==1)) {
+		// nothing to do...
+		if (pixels != data)
+			free((GLvoid *)pixels);
+		return;
 	}
-/*
-	if (bound && bound->mipmap_need && !bound->mipmap_auto)
-		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
-*/
+	// ok, now standard cases....
+	xoffset /= 2;
+	yoffset /= 2;
+	old = pixels;
+	pixel_halfscale(pixels, &old, width, height, format, type);
+	if (old != pixels && pixels!=data)
+		free(pixels);
+	pixels = old;
+	width /= 2;
+	height /= 2;
+    }
+
+    if (texdump) {
+	if (bound) {
+	    pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+	}
+    }
+
+    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+
     gles_glTexSubImage2D(target, level, xoffset, yoffset,
 						 width, height, format, type, pixels);
-/*
-	if (bound && bound->mipmap_need && !bound->mipmap_auto)
-		gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
-*/
+
+    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+
     if (texcopydata && bound) {
 		GLvoid * tmp = pixels;
 		pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -394,9 +400,21 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data) {
 
-    glTexSubImage2D(target, level, xoffset, yoffset,
+    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset,
                     width, 1, format, type, data);
 }
+void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y,
+		    GLsizei width, GLint border) {
+    glCopyTexImage2D(GL_TEXTURE_2D, level, internalformat, x, y, width, 1, border);
+		    
+}
+
+void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
+                                GLsizei width) {
+    glCopyTexSubImage2D(GL_TEXTURE_2D, level, xoffset, 0, x, y, width, 1);
+}
+                                
+
 
 // 3d stubs
 void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
@@ -523,7 +541,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
     gltexture_t *texture = state.texture.bound[state.texture.active];
-    switch (pname) {
+    switch (param) {
         case GL_CLAMP:
             param = GL_CLAMP_TO_EDGE;
             break;
@@ -531,16 +549,27 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
         case GL_NEAREST_MIPMAP_LINEAR:
         case GL_LINEAR_MIPMAP_NEAREST:
         case GL_LINEAR_MIPMAP_LINEAR:
-			if (texture)
-				texture->mipmap_need = true;
+	    if (texture)
+		texture->mipmap_need = true;
+	    if (automipmap==3)
+		switch (param) {
+		    case GL_NEAREST_MIPMAP_NEAREST:
+		    case GL_LINEAR_MIPMAP_NEAREST:
+			param = GL_NEAREST;
 			break;
-		case GL_GENERATE_MIPMAP:
-			if (texture)
-				texture->mipmap_auto = (param)?1:0;
+		    case GL_NEAREST_MIPMAP_LINEAR:
+		    case GL_LINEAR_MIPMAP_LINEAR:
+			param = GL_LINEAR;
 			break;
-		case GL_TEXTURE_MAX_LEVEL:
-			return;			// not on GLES
+		}
+	    break;
+	case GL_TEXTURE_MAX_LEVEL:
+	    return;			// not on GLES
     }
+    if (pname==GL_GENERATE_MIPMAP)
+	if (texture)
+	    texture->mipmap_auto = (param)?1:0;
+
     gles_glTexParameteri(target, pname, param);
 }
 
@@ -677,6 +706,8 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	} else {
 		// Setup an FBO the same size of the texture
 		#define getOES(name, proto)	proto name = (proto)eglGetProcAddress(#name); if (name==NULL) printf("Warning! %s is NULL\n", #name)
+		#define USEFBO
+		#ifdef USEFBO
 		// first, get all FBO functions...
 		getOES(glIsRenderbufferOES, PFNGLISRENDERBUFFEROESPROC);
 		getOES(glBindRenderbufferOES, PFNGLBINDRENDERBUFFEROESPROC);
@@ -699,9 +730,26 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		// Now create the FBO
 		GLint oldBind = bound->texture;
 		GLuint fbo;
+		#define USE_TEXTURE 1
+		#ifdef  USE_TEXTURE
+		void *temp = malloc(width * height * 4);
+		memset(temp, 0, width * height * 4);
+		GLuint temp_tex;
+		glGenTextures(1, &temp_tex);
+		glBindTexture(GL_TEXTURE_2D, temp_tex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, temp);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 		glGenFramebuffersOES(1, &fbo);
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
-
+		glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, temp_tex, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		#else
+		glGenFramebuffersOES(1, &fbo);
+		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
+		
 		GLuint rbo, depthRenderbuffer;
 		glGenRenderbuffersOES(1, &rbo);
 		glBindRenderbufferOES(GL_RENDERBUFFER_OES, rbo);
@@ -712,15 +760,17 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
 		glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
 		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
-
+		#endif
+/*
 		GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
 		if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
 			printf("glGetTexImage, incomplete FBO (%04x)", status);
 		} 
+*/
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
 		// Now, draw the texture inside FBO
 		glPushAttrib(GL_CURRENT_BIT|GL_ENABLE_BIT|GL_VIEWPORT_BIT|GL_COLOR_BUFFER_BIT);
+		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
 		glViewport(0, 0, width, height);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);	//*SEB TODO: Save Color before
 		glDrawTexiOES(0, 0, 0, width, height);
@@ -729,6 +779,11 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
 		glPopAttrib();
+		#ifdef USE_TEXTURE
+		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
+		glDeleteTextures(1, &temp_tex);
+		free(temp);
+		#else
 		// Unmount FBO
 		glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
@@ -736,6 +791,33 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		glDeleteRenderbuffersOES(1, &rbo);
 		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
 		glDeleteFramebuffersOES(1, &fbo);
+		#endif
+		#else
+		// the DrawTex can be usefull too
+		getOES(glDrawTexiOES, PFNGLDRAWTEXIOESPROC);
+		const EGLint attribListPbuffer[] =
+		{
+			EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+			EGL_RED_SIZE, 8,
+			EGL_GREEN_SIZE, 8,
+			EGL_BLUE_SIZE, 8,
+			EGL_ALPHA_SIZE, 8,
+			EGL_DEPTH_SIZE, 16,
+			EGL_STENCIL_SIZE, 0,
+			EGL_NONE
+		};
+		const EGLint srfPbufferAttr[] =
+		{
+			EGL_WIDTH, width,
+			EGL_HEIGHT, height,
+			EGL_COLORSPACE, GL_RGBA,
+			EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+			EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+			EGL_LARGEST_PBUFFER, EGL_TRUE,
+			EGL_NONE
+		};
+		#endif
+		#undef USEFBO
 		#undef getOES
 	}
 }

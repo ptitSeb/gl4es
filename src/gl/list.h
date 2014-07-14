@@ -86,7 +86,6 @@ typedef struct _renderlist_t {
     GLenum mode;
     GLenum mode_init;		// initial requested mode
     GLfloat lastNormal[3];
-    GLfloat lastTex[MAX_TEX][2];
 
     call_list_t calls;
     GLfloat *vert;
