@@ -213,7 +213,8 @@ static void init_liveinfo() {
         // error, so probably not present
         close(sock);
         sock=-1;
-    }        
+    } else
+        fcntl(sock, F_SETFL, O_NONBLOCK);
 }
 
 static void scan_env() {
