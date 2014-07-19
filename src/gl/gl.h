@@ -232,6 +232,23 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
     return width * gl_sizeof(type);
 }
 
+static const GLboolean pixel_hasalpha(GLenum format) {
+    switch (format) {
+	case GL_ALPHA:
+        case GL_RGBA:
+        case GL_BGRA:
+	    return true;
+	case GL_RED:
+	case GL_LUMINANCE:
+        case GL_RG:
+        case GL_RGB:
+        case GL_BGR:
+	    return false;
+        default:
+            return true;
+    }
+}
+
 static inline const GLboolean valid_vertex_type(GLenum type) {
     switch (type) {
         case GL_BYTE:

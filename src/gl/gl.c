@@ -268,6 +268,8 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
     }
 }
 
+extern int alphahack;
+
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_enable(constant, name) \
         case constant: state.enable.name = enable; next(cap); break
@@ -280,6 +282,12 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     // 3. disable GL_TEXTURE_1D
     // 4. render. GL_TEXTURE_2D would be disabled.
     cap = map_tex_target(cap);
+    
+    // Alpha Hack
+    if (alphahack && (cap==GL_ALPHA) && enable)
+	if (state.texture.bound[state.texture.active])
+	    if (!state.texture.bound[state.texture.active]->alpha)
+		enable = false;
 
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
@@ -292,7 +300,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         // Secondary color
         enable(GL_COLOR_SUM, color_sum);
         enable(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-
+	
         // for glDrawArrays
         proxy_enable(GL_VERTEX_ARRAY, vertex_array);
         proxy_enable(GL_NORMAL_ARRAY, normal_array);

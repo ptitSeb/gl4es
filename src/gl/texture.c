@@ -108,6 +108,7 @@ static int texcopydata = 0;
 static int tested_env = 0;
 static int texshrink = 0;
 static int texdump = 0;
+int alphahack = 0;
 
 void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
@@ -156,18 +157,24 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				texdump = 1;
 				printf("LIBGL: Texture dump enabled\n");
 			}
+			char *env_alpha = getenv("LIBGL_ALPHAHACK");
+			if (env_alpha && strcmp(env_alpha, "1") == 0) {
+				alphahack = 1;
+				printf("LIBGL: Alpha Hack enabled\n");
+			}
 			tested_env = true;
 	}
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
+    if (bound) bound->alpha = pixel_hasalpha(format);
     if (automipmap) {
 	if (bound && (level>0))
 	    if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
 		return;			// has been handled by auto_mipmap
 	    else
 		bound->mipmap_need = 1;
-    }
-    if (data) {
+     }
+     if (data) {
 
         // implements GL_UNPACK_ROW_LENGTH
         if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
@@ -517,6 +524,7 @@ void glBindTexture(GLenum target, GLuint texture) {
                 tex->uploaded = false;
                 tex->mipmap_auto = 0;
                 tex->mipmap_need = 0;
+		tex->alpha = true;
                 tex->data = NULL;
             } else {
                 tex = kh_value(list, k);
@@ -954,6 +962,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		}
 		// automaticaly reduce the pixel size
 		GLvoid *half=pixels;
+		state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
 		int fact = 0;
 		#if 1
 		if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) fact = 1;
@@ -971,7 +980,8 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		if (pixels!=data)
 			free(pixels);
 	} else {
-		gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+	    state.texture.bound[state.texture.active]->alpha = true;
+	    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
 	}
 }
 
