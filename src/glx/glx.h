@@ -228,6 +228,7 @@ void glXUseXFont(Font font, int first, int count, int listBase);
 void glXWaitGL();
 void glXWaitX();
 XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes);
+int glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value);
 
 // GLX 1.2
 Display *glXGetCurrentDisplay();

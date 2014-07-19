@@ -4,6 +4,8 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include <unistd.h>
 
 #include "glx.h"
@@ -14,6 +16,8 @@ bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
 EGLConfig eglConfigs[1];
+struct sockaddr_un sun;
+int sock = -2;
 
 int8_t CheckEGLErrors() {
     EGLenum error;
@@ -192,6 +196,26 @@ static void signal_handler(int sig) {
     raise(sig);
 }
 
+static void init_liveinfo() {
+    static const char socket_name[] = "\0liveinfo";
+    sock = socket(PF_UNIX, SOCK_DGRAM, 0);
+    if (sock == -1) {
+        // no socket, so LiveInfo probably not active
+        return;
+    }
+
+    memset(&sun, 0, sizeof(sun));
+    sun.sun_family = AF_UNIX;
+    memcpy(sun.sun_path, socket_name, sizeof(socket_name));
+    // send a test string
+    const char test_string[] = "gl: fpsinfo";
+    if (sendto(sock, test_string, strlen(test_string), 0,(struct sockaddr *)&sun, sizeof(sun))<0) {
+        // error, so probably not present
+        close(sock);
+        sock=-1;
+    }        
+}
+
 static void scan_env() {
     static bool first = true;
     if (! first)
@@ -233,6 +257,10 @@ static void scan_env() {
         printf("LIBGL: Current folder is:%s\n", cwd);
     if (g_vsync) {
         init_vsync();
+    }
+    init_liveinfo();
+    if (sock>-1) {
+        printf("LIBGL: LiveInfo detected, fps will be shown\n");
     }
 }
 
@@ -335,7 +363,7 @@ GLXContext glXCreateContext(Display *display,
     // need to return a glx context pointing at it
     fake->display = (g_usefb)?g_display:display;
     fake->direct = true;
-    fake->xid = 1;
+    fake->xid = 1;  //TODO: Proper handling of that id...
    	if (!g_usefb) {
 		// unassign the context, it's not supposed to be active at the creation
 		eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
@@ -480,7 +508,7 @@ void glXSwapBuffers(Display *display,
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 
-    if (g_showfps) {
+    if (g_showfps || (sock>-1)) {
         // framerate counter
         static float avg, fps = 0;
         static int frame1, last_frame, frame, now, current_frames;
@@ -504,7 +532,12 @@ void glXSwapBuffers(Display *display,
                 current_frames = 0;
 
                 avg = frame / (float)(now - frame1);
-                printf("libGL fps: %.2f, avg: %.2f\n", fps, avg);
+                if (g_showfps) printf("libGL fps: %.2f, avg: %.2f\n", fps, avg);
+                if (sock>-1) {
+                    char tmp[60];
+                    snprintf(tmp, 60, "gl:  %2.2f", fps);
+                    sendto(sock, tmp, strlen(tmp), 0,(struct sockaddr *)&sun, sizeof(sun));                    
+                }
             }
         }
         last_frame = now;
@@ -568,12 +601,12 @@ int glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *value ){
     return 0;
 }
 
-
+/*
 void glXQueryDrawable( Display *dpy, int draw, int attribute,
                        unsigned int *value ) {
 	*value=0;
 }
-
+*/
 // stubs for glfw (GLX 1.3)
 GLXContext glXGetCurrentContext() {
     // hack to make some games start
@@ -772,3 +805,24 @@ void glXUseXFont(Font font, int first, int count, int listBase) {
 void glXWaitGL() {}
 void glXWaitX() {}
 void glXReleaseBuffersMESA() {}
+
+/* TODO proper implementation */
+int glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value) {
+    *value = 0;
+    switch(attribute) {
+        case GLX_WIDTH:
+            *value = 800;
+            return 1;
+        case GLX_HEIGHT:
+            *value = 480;
+            return 1;
+        case GLX_PRESERVED_CONTENTS:
+            return 0;
+        case GLX_LARGEST_PBUFFER:
+            return 0;
+        case GLX_FBCONFIG_ID:
+            *value = 1;
+            return 1;
+    }
+    return 0;
+}
