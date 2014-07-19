@@ -54,6 +54,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXWaitX);
     EX(glXGetCurrentContext);
     EX(glXQueryExtension);
+    EX(glXQueryDrawable);
     EX(glXQueryVersion);
     EX(glXGetClientString);
     EX(glXGetFBConfigs);
