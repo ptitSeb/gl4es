@@ -31,6 +31,7 @@ void glBindTexture(GLenum target, GLuint texture);
 void glGenTextures(GLsizei n, GLuint * textures);
 void glDeleteTextures(GLsizei n, const GLuint * textures);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
+void glTexParameterf(GLenum target, GLenum pname, GLfloat param);
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);

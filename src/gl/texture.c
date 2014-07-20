@@ -110,6 +110,9 @@ static int texshrink = 0;
 static int texdump = 0;
 int alphahack = 0;
 
+static int proxy_width = 0;
+static int proxy_height = 0;
+
 void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
@@ -119,51 +122,57 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpack);*/
     GLvoid *pixels = (GLvoid *)data;
     border = 0;	//TODO: something?
- PUSH_IF_COMPILING(glTexImage2D);
-	if (!tested_env) {
-		    char *env_mipmap = getenv("LIBGL_MIPMAP");
-			if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
-				automipmap = 1;
-				printf("LIBGL: AutoMipMap forced\n");
-			}
-			if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
-				automipmap = 2;
-				printf("LIBGL: guess AutoMipMap\n");
-			}
-			if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
-				automipmap = 3;
-				printf("LIBGL: ignore MipMap\n");
-			}
-		    char *env_texcopy = getenv("LIBGL_TEXCOPY");
-			if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
-				texcopydata = 1;
-				printf("LIBGL: Texture copy enabled\n");
-			}
-			char *env_shrink = getenv("LIBGL_SHRINK");
-			if (env_shrink && strcmp(env_shrink, "1") == 0) {
-				texshrink = 1;
-				printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
-			}
-			if (env_shrink && strcmp(env_shrink, "2") == 0) {
-				texshrink = 2;
-				printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
-			}
-			if (env_shrink && strcmp(env_shrink, "3") == 0) {
-				texshrink = 3;
-				printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
-			}
-			char *env_dump = getenv("LIBGL_TEXDUMP");
-			if (env_dump && strcmp(env_dump, "1") == 0) {
-				texdump = 1;
-				printf("LIBGL: Texture dump enabled\n");
-			}
-			char *env_alpha = getenv("LIBGL_ALPHAHACK");
-			if (env_alpha && strcmp(env_alpha, "1") == 0) {
-				alphahack = 1;
-				printf("LIBGL: Alpha Hack enabled\n");
-			}
-			tested_env = true;
-	}
+    PUSH_IF_COMPILING(glTexImage2D);
+    // proxy case
+    if (target == GL_PROXY_TEXTURE_2D) {
+	proxy_width = (width>2048)?0:width;
+	proxy_height = (height>2048)?0:height;
+	return;
+    }
+    if (!tested_env) {
+	char *env_mipmap = getenv("LIBGL_MIPMAP");
+	    if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
+		    automipmap = 1;
+		    printf("LIBGL: AutoMipMap forced\n");
+	    }
+	    if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
+		    automipmap = 2;
+		    printf("LIBGL: guess AutoMipMap\n");
+	    }
+	    if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
+		    automipmap = 3;
+		    printf("LIBGL: ignore MipMap\n");
+	    }
+	char *env_texcopy = getenv("LIBGL_TEXCOPY");
+	    if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
+		    texcopydata = 1;
+		    printf("LIBGL: Texture copy enabled\n");
+	    }
+	    char *env_shrink = getenv("LIBGL_SHRINK");
+	    if (env_shrink && strcmp(env_shrink, "1") == 0) {
+		    texshrink = 1;
+		    printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
+	    }
+	    if (env_shrink && strcmp(env_shrink, "2") == 0) {
+		    texshrink = 2;
+		    printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
+	    }
+	    if (env_shrink && strcmp(env_shrink, "3") == 0) {
+		    texshrink = 3;
+		    printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
+	    }
+	    char *env_dump = getenv("LIBGL_TEXDUMP");
+	    if (env_dump && strcmp(env_dump, "1") == 0) {
+		    texdump = 1;
+		    printf("LIBGL: Texture dump enabled\n");
+	    }
+	    char *env_alpha = getenv("LIBGL_ALPHAHACK");
+	    if (env_alpha && strcmp(env_alpha, "1") == 0) {
+		    alphahack = 1;
+		    printf("LIBGL: Alpha Hack enabled\n");
+	    }
+	    tested_env = true;
+    }
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (bound) bound->alpha = pixel_hasalpha(format);
@@ -513,7 +522,7 @@ void glBindTexture(GLenum target, GLuint texture) {
             gltexture_t *tex = NULL;
             
             if (k == kh_end(list)){
-				LOAD_GLES(glGenTextures);
+		LOAD_GLES(glGenTextures);
                 k = kh_put(tex, list, texture, &ret);
                 tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
                 tex->texture = texture;
@@ -549,36 +558,55 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
     LOAD_GLES(glTexParameteri);
     target = map_tex_target(target);
     gltexture_t *texture = state.texture.bound[state.texture.active];
-    switch (param) {
-        case GL_CLAMP:
-            param = GL_CLAMP_TO_EDGE;
-            break;
-        case GL_NEAREST_MIPMAP_NEAREST:
-        case GL_NEAREST_MIPMAP_LINEAR:
-        case GL_LINEAR_MIPMAP_NEAREST:
-        case GL_LINEAR_MIPMAP_LINEAR:
-	    if (texture)
-		texture->mipmap_need = true;
-	    if (automipmap==3)
-		switch (param) {
-		    case GL_NEAREST_MIPMAP_NEAREST:
-		    case GL_LINEAR_MIPMAP_NEAREST:
-			param = GL_NEAREST;
-			break;
-		    case GL_NEAREST_MIPMAP_LINEAR:
-		    case GL_LINEAR_MIPMAP_LINEAR:
-			param = GL_LINEAR;
-			break;
-		}
+    switch (pname) {
+	case GL_TEXTURE_MIN_FILTER:
+	case GL_TEXTURE_MAG_FILTER:
+	    switch (param) {
+		case GL_NEAREST_MIPMAP_NEAREST:
+		case GL_NEAREST_MIPMAP_LINEAR:
+		case GL_LINEAR_MIPMAP_NEAREST:
+		case GL_LINEAR_MIPMAP_LINEAR:
+		    if (texture)
+			texture->mipmap_need = true;
+		    if (automipmap==3)
+			switch (param) {
+			    case GL_NEAREST_MIPMAP_NEAREST:
+			    case GL_NEAREST_MIPMAP_LINEAR:
+				param = GL_NEAREST;
+				break;
+			    case GL_LINEAR_MIPMAP_NEAREST:
+			    case GL_LINEAR_MIPMAP_LINEAR:
+				param = GL_LINEAR;
+				break;
+			}
+		    break;
+	    }
+	case GL_TEXTURE_WRAP_S:
+	case GL_TEXTURE_WRAP_T:
+	    switch (param) {
+		case GL_CLAMP:
+		    param = GL_CLAMP_TO_EDGE;
+		    break;
+	    }
 	    break;
 	case GL_TEXTURE_MAX_LEVEL:
+	    if (texture)
+		texture->mipmap_auto = (param)?1:0;
 	    return;			// not on GLES
+	case GL_TEXTURE_MIN_LOD:
+	case GL_TEXTURE_MAX_LOD:
+	case GL_TEXTURE_LOD_BIAS:
+	    return;			// not on GLES
+	case GL_GENERATE_MIPMAP:
+	    if (texture)
+		texture->mipmap_auto = (param)?1:0;
+	    break;
     }
-    if (pname==GL_GENERATE_MIPMAP)
-	if (texture)
-	    texture->mipmap_auto = (param)?1:0;
-
     gles_glTexParameteri(target, pname, param);
+}
+
+void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
+    glTexParameteri(target, pname, param);
 }
 
 void glDeleteTextures(GLsizei n, const GLuint *textures) {
@@ -597,7 +625,7 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
                     if (tex == state.texture.bound[a])
                         state.texture.bound[a] = NULL;
                 }
-				gles_glDeleteTextures(1, &tex->glname);
+		gles_glDeleteTextures(1, &tex->glname);
                 free(tex);
                 kh_del(tex, list, k);
             }
@@ -652,13 +680,13 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 	switch (pname) {
 		case GL_TEXTURE_WIDTH:
 			if (target==GL_PROXY_TEXTURE_2D)
-				(*params) = 2048>>level;
+				(*params) = proxy_width>>level;
 			else
 				(*params) = ((bound)?bound->width:2048)>>level; 
 			break;
 		case GL_TEXTURE_HEIGHT: 
 			if (target==GL_PROXY_TEXTURE_2D)
-				(*params) = 2048>>level;
+				(*params) = proxy_height>>level;
 			else
 				(*params) = ((bound)?bound->height:2048)>>level; 
 			break;
@@ -854,23 +882,23 @@ void glClientActiveTexture( GLenum texture ) {
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
 //printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
     if (state.list.compiling && state.list.active)
-		return;	// never in list
+	return;	// never in list
     LOAD_GLES(glReadPixels);
-	if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
-		// easy passthru
-		gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		return;
-	}
-	// grab data in GL_RGBA format
-	GLvoid *pixels = malloc(width*height*4);
-	gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-	if (! pixel_convert(pixels, &data, width, height,
-						GL_RGBA, GL_UNSIGNED_BYTE, format, type)) {
-		printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
-			format, type);
-	}
-	free(pixels);
+    if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
+	// easy passthru
+	gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	return;
+    }
+    // grab data in GL_RGBA format
+    GLvoid *pixels = malloc(width*height*4);
+    gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    if (! pixel_convert(pixels, &data, width, height,
+					    GL_RGBA, GL_UNSIGNED_BYTE, format, type)) {
+	printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
+		format, type);
+    }
+    free(pixels);
+    return;
 }
 
 GLboolean isDXTc(GLenum format) {
@@ -934,13 +962,18 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei width, GLsizei height, GLint border,
 							GLsizei imageSize, const GLvoid *data) 
 {
-	if (state.texture.bound[state.texture.active]==NULL)
-		return;		// no texture bounded...
-	if (level != 0) {
-		//TODO
-		//printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
-		return;
-	}
+    if (target == GL_PROXY_TEXTURE_2D) {
+	proxy_width = (width>2048)?0:width;
+	proxy_height = (height>2048)?0:height;
+	return;
+    }
+    if (state.texture.bound[state.texture.active]==NULL)
+	    return;		// no texture bounded...
+    if (level != 0) {
+	    //TODO
+	    //printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
+	    return;
+    }
 //printf("glCompressedTexImage2D with size(%i,%i), internalformat=%04x, imagesize=%i\n", width, height, internalformat, imageSize);
     LOAD_GLES(glCompressedTexImage2D);
     if (isDXTc(internalformat)) {

@@ -284,7 +284,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     cap = map_tex_target(cap);
     
     // Alpha Hack
-    if (alphahack && (cap==GL_ALPHA) && enable)
+    if (alphahack && (cap==GL_ALPHA_TEST) && enable)
 	if (state.texture.bound[state.texture.active])
 	    if (!state.texture.bound[state.texture.active]->alpha)
 		enable = false;
