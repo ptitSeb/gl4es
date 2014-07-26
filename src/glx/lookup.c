@@ -192,9 +192,15 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glBlendColor);
     EXT(glBlendColor);
     ARB(glBlendColor);
+    EX(glBlendEquationSeparate);
+    EXT(glBlendEquationSeparate);
+    ARB(glBlendEquationSeparate);
     EX(glBlendEquationSeparatei);
     EXT(glBlendEquationSeparatei);
     ARB(glBlendEquationSeparatei);
+    EX(glBlendFunc);
+    EXT(glBlendFunc);
+    ARB(glBlendFunc);
     EX(glBlendFuncSeparate);
     EXT(glBlendFuncSeparate);
     ARB(glBlendFuncSeparate);
