@@ -46,6 +46,10 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 							   GLsizei imageSize, const GLvoid *data);
                                
 
+
+void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                                GLint x, GLint y, GLsizei width, GLsizei height);
+                                
 void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y,
                                 GLsizei width, GLint border);
 
@@ -70,8 +74,12 @@ typedef struct {
     int shrink;
     GLboolean mipmap_auto;
     GLboolean mipmap_need;
+	GLenum min_filter;
+	GLenum mag_filter;
     GLboolean uploaded;
     GLboolean alpha;
+	GLboolean streamed;
+	int	streamingID;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 

@@ -37,6 +37,7 @@
 // texture.c
 #define skip_glIsTexture
 #define skip_glBindTexture
+#define skip_glCopyTexSubImage2D
 #define skip_glGenTextures
 #define skip_glDeleteTextures
 #define skip_glPixelStorei
