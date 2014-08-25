@@ -45,6 +45,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_logic_op "
                 "GL_EXT_blend_func_separate "
+		"GL_EXT_blend_equation_separate "
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
@@ -78,7 +79,7 @@ extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 
 void glGetIntegerv(GLenum pname, GLint *params) {
-	GLint dummy;
+    GLint dummy;
     LOAD_GLES(glGetIntegerv);
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -114,28 +115,28 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_PACK_LSB_FIRST:
 			*params = state.texture.pack_lsb_first;
 			break;
-		case GL_POINT_SIZE_RANGE:
+	case GL_POINT_SIZE_RANGE:
 			gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
 			break;
-		case GL_RENDER_MODE:
+	case GL_RENDER_MODE:
 			*params = (state.render_mode)?state.render_mode:GL_RENDER;
 			break;
-		case GL_NAME_STACK_DEPTH:
+	case GL_NAME_STACK_DEPTH:
 			*params = state.namestack.top;
 			break;
-		case GL_MAX_NAME_STACK_DEPTH:
+	case GL_MAX_NAME_STACK_DEPTH:
 			*params = 1024;
 			break;
-		case GL_MAX_TEXTURE_IMAGE_UNITS:
+	case GL_MAX_TEXTURE_IMAGE_UNITS:
 			/*gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, params);*/
 			*params = 4;
 			break;
-		case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
+	case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
 			gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
 			(*params)+=4;	// adding fake DXTc
 			break;
-		case GL_COMPRESSED_TEXTURE_FORMATS:
+	case GL_COMPRESSED_TEXTURE_FORMATS:
 			gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
 			// get standard ones
 			gles_glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
@@ -145,25 +146,25 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT3_EXT;
 			params[dummy++]=COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			break;
-		case GL_MAX_MODELVIEW_STACK_DEPTH:
+	case GL_MAX_MODELVIEW_STACK_DEPTH:
 			*params=MAX_STACK_MODELVIEW;
 			break;
-		case GL_MAX_PROJECTION_STACK_DEPTH:
+	case GL_MAX_PROJECTION_STACK_DEPTH:
 			*params=MAX_STACK_PROJECTION;
 			break;
-		case GL_MAX_TEXTURE_STACK_DEPTH:
+	case GL_MAX_TEXTURE_STACK_DEPTH:
 			*params=MAX_STACK_TEXTURE;
 			break;
-		case GL_MODELVIEW_STACK_DEPTH:
+	case GL_MODELVIEW_STACK_DEPTH:
 			*params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
 			break;
-		case GL_PROJECTION_STACK_DEPTH:
+	case GL_PROJECTION_STACK_DEPTH:
 			*params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
 			break;
-		case GL_TEXTURE_STACK_DEPTH:
+	case GL_TEXTURE_STACK_DEPTH:
 			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
 			break;
-		case GL_MAX_LIST_NESTING:
+	case GL_MAX_LIST_NESTING:
 			*params=64;	// fake, no limit in fact
 			break;
         default:
@@ -178,91 +179,91 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
             *params = 1024;
             break;
         case GL_MAX_ELEMENTS_VERTICES:
-			*params = 4096;
-			break;
+	    *params = 4096;
+	    break;
         case GL_AUX_BUFFERS:
             *params = 0;
             break;
         case GL_UNPACK_ROW_LENGTH:	
-			*params = state.texture.unpack_row_length;
-			break;
+	    *params = state.texture.unpack_row_length;
+	    break;
         case GL_UNPACK_SKIP_PIXELS:
-			*params = state.texture.unpack_skip_pixels;
-			break;
+	    *params = state.texture.unpack_skip_pixels;
+	    break;
         case GL_UNPACK_SKIP_ROWS:
-			*params = state.texture.unpack_skip_rows;
-			break;
+	    *params = state.texture.unpack_skip_rows;
+	    break;
         case GL_UNPACK_LSB_FIRST:
-			*params = state.texture.unpack_lsb_first;
-			break;
+	    *params = state.texture.unpack_lsb_first;
+	    break;
         case GL_PACK_ROW_LENGTH:	
-			*params = state.texture.pack_row_length;
-			break;
+	    *params = state.texture.pack_row_length;
+	    break;
         case GL_PACK_SKIP_PIXELS:
-			*params = state.texture.pack_skip_pixels;
-			break;
+	    *params = state.texture.pack_skip_pixels;
+	    break;
         case GL_PACK_SKIP_ROWS:
-			*params = state.texture.pack_skip_rows;
-			break;
+	    *params = state.texture.pack_skip_rows;
+	    break;
         case GL_PACK_LSB_FIRST:
-			*params = state.texture.pack_lsb_first;
-			break;
+	    *params = state.texture.pack_lsb_first;
+	    break;
         case GL_ZOOM_X:
-			*params = zoomx;
-			break;
+	    *params = zoomx;
+	    break;
         case GL_ZOOM_Y:
-			*params = zoomy;
-			break;
+	    *params = zoomy;
+	    break;
         case GL_RED_SCALE:
-			*params = raster_scale[0];
-			break;
+	    *params = raster_scale[0];
+	    break;
         case GL_RED_BIAS:
-			*params = raster_bias[0];
-			break;
+	    *params = raster_bias[0];
+	    break;
         case GL_GREEN_SCALE:
         case GL_BLUE_SCALE:
         case GL_ALPHA_SCALE:
-			*params = raster_scale[(pname-GL_GREEN_SCALE)/2+1];
-			break;
+	    *params = raster_scale[(pname-GL_GREEN_SCALE)/2+1];
+	    break;
         case GL_GREEN_BIAS:
         case GL_BLUE_BIAS:
         case GL_ALPHA_BIAS:
-			*params = raster_bias[(pname-GL_GREEN_BIAS)/2+1];
-			break;
-		case GL_POINT_SIZE_RANGE:
-			gles_glGetFloatv(GL_POINT_SIZE_MIN, params);
-			gles_glGetFloatv(GL_POINT_SIZE_MAX, params+1);
-			break;
-		case GL_RENDER_MODE:
-			*params = (state.render_mode)?state.render_mode:GL_RENDER;
-			break;
-		case GL_NAME_STACK_DEPTH:
-			*params = state.namestack.top;
-			break;
-		case GL_MAX_NAME_STACK_DEPTH:
-			*params = 1024;
-			break;
-		case GL_MAX_MODELVIEW_STACK_DEPTH:
-			*params=MAX_STACK_MODELVIEW;
-			break;
-		case GL_MAX_PROJECTION_STACK_DEPTH:
-			*params=MAX_STACK_PROJECTION;
-			break;
-		case GL_MAX_TEXTURE_STACK_DEPTH:
-			*params=MAX_STACK_TEXTURE;
-			break;
-		case GL_MODELVIEW_STACK_DEPTH:
-			*params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
-			break;
-		case GL_PROJECTION_STACK_DEPTH:
-			*params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
-			break;
-		case GL_TEXTURE_STACK_DEPTH:
-			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
-			break;
-		case GL_MAX_LIST_NESTING:
-			*params=64;	// fake, no limit in fact
-			break;
+	    *params = raster_bias[(pname-GL_GREEN_BIAS)/2+1];
+	    break;
+	case GL_POINT_SIZE_RANGE:
+	    gles_glGetFloatv(GL_POINT_SIZE_MIN, params);
+	    gles_glGetFloatv(GL_POINT_SIZE_MAX, params+1);
+	    break;
+	case GL_RENDER_MODE:
+	    *params = (state.render_mode)?state.render_mode:GL_RENDER;
+	    break;
+	case GL_NAME_STACK_DEPTH:
+	    *params = state.namestack.top;
+	    break;
+	case GL_MAX_NAME_STACK_DEPTH:
+	    *params = 1024;
+	    break;
+	case GL_MAX_MODELVIEW_STACK_DEPTH:
+	    *params=MAX_STACK_MODELVIEW;
+	    break;
+	case GL_MAX_PROJECTION_STACK_DEPTH:
+	    *params=MAX_STACK_PROJECTION;
+	    break;
+	case GL_MAX_TEXTURE_STACK_DEPTH:
+	    *params=MAX_STACK_TEXTURE;
+	    break;
+	case GL_MODELVIEW_STACK_DEPTH:
+	    *params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
+	    break;
+	case GL_PROJECTION_STACK_DEPTH:
+	    *params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
+	    break;
+	case GL_TEXTURE_STACK_DEPTH:
+	    *params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
+	    break;
+	case GL_MAX_LIST_NESTING:
+	    *params=64;	// fake, no limit in fact
+	    break;
         default:
             gles_glGetFloatv(pname, params);
     }
