@@ -47,13 +47,30 @@ extern void *gles;
 #endif // USE_ES2
 #endif // GLES_LIB
 
+static void load_gles_lib() {
+    if (gles) {
+        return;
+    }
+    char *override = getenv("LIBGL_GLES");
+    int flags = RTLD_LOCAL | RTLD_LAZY;
+    if (override) {
+        if ((gles = dlopen(override, flags))) {
+            printf("libGL backend: %s\n", override);
+            return;
+        }
+    }
+    gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);
+    printf("libGL backend: %s\n", GLES_LIB);
+}
+
+
 #define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
 
 #define LOAD_GLES(name)                                             \
     static name##_PTR gles_##name;                                  \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
-            gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
+            load_gles_lib();				       	    \
             WARN_NULL(gles);                                        \
         }                                                           \
         gles_##name = (name##_PTR)dlsym(gles, #name);               \
@@ -63,12 +80,12 @@ extern void *gles;
 #define LOAD_GLES_OES(name)                                         \
     static name##_PTR gles_##name;                                  \
     if (gles_##name == NULL) {                                      \
-	    if (gles == NULL) {                                         \
-	        gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);        \
-	        WARN_NULL(gles);                                        \
-	    }                                                           \
-	    gles_##name = (name##_PTR)eglGetProcAddress(#name"OES");          \
-	    WARN_NULL(gles_##name);                                     \
+	if (gles == NULL) {                           	            \
+	    load_gles_lib();			       	  	    \
+	    WARN_NULL(gles);                                        \
+	}                                                           \
+	gles_##name = (name##_PTR)eglGetProcAddress(#name"OES");    \
+	WARN_NULL(gles_##name);                                     \
     }
 	
 #define GL_TYPE_CASE(name, var, magic, type, code) \
