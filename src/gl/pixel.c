@@ -461,13 +461,24 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             *dst = malloc(dst_size);
         memcpy(*dst, src, dst_size);
         return true;
+    }
+    GLsizei src_stride = pixel_sizeof(src_format, src_type);
+    GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
+    if (*dst == src || *dst == NULL)
+        *dst = malloc(dst_size);
+    uintptr_t src_pos = (uintptr_t)src;
+    uintptr_t dst_pos = (uintptr_t)*dst;
+    // fast optimized loop for common conversion cases first...
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (src_type == dst_type) && (src_type == GL_UNSIGNED_BYTE)) {
+        GLuint tmp;
+        for (int i = 0; i < pixels; i++) {
+            tmp = *(const GLuint*)src_pos;
+            *(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
+            src_pos += src_stride;
+            dst_pos += dst_stride;
+        }
+        return true;
     } else {
-        GLsizei src_stride = pixel_sizeof(src_format, src_type);
-        GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
-        if (*dst == src || *dst == NULL)
-            *dst = malloc(dst_size);
-        uintptr_t src_pos = (uintptr_t)src;
-        uintptr_t dst_pos = (uintptr_t)*dst;
 		if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
 						  src_color, src_type, dst_color, dst_type)) {
 			// fake convert, to get if it's ok or not
@@ -649,7 +660,7 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
                                           (y * 4 + dy) * width) * pixel_size;
                 }
             }
-            quarter_pixel((GLvoid **)pix, (GLvoid *)pos, src_color, type);
+            quarter_pixel((const GLvoid **)pix, (GLvoid *)pos, src_color, type);
             pos += pixel_size;
         }
     }
