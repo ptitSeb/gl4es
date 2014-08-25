@@ -175,7 +175,12 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 	char *env_stream = getenv("LIBGL_STREAM");
 	if (env_stream && strcmp(env_stream, "1") == 0) {
 		texstream = InitStreamingCache();
-		printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not enabled");
+		printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available");
+		//FreeStreamed(AddStreamed(1024, 512, 0));
+	}
+	if (env_stream && strcmp(env_stream, "2") == 0) {
+		texstream = InitStreamingCache()?2:0;
+		printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
 		//FreeStreamed(AddStreamed(1024, 512, 0));
 	}
 	tested_env = true;
@@ -260,7 +265,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			bound->shrink = 1;
 		    }
 	    }
-		if (texstream && (target==GL_TEXTURE_2D) && ((internalformat==GL_RGB) || (internalformat==3))) {
+		if (texstream && (target==GL_TEXTURE_2D) && 
+			((internalformat==GL_RGB) || (internalformat==3)) || (texstream==2) ) {
 			bound->streamingID = AddStreamed(width, height, bound->texture);
 			if (bound->streamingID>-1) {	// success
 				bound->streamed = true;
@@ -305,7 +311,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				if (height != nheight || width != nwidth) {
 					gles_glTexImage2D(target, level, format, nwidth, nheight, border,
 									  format, type, NULL);
-					gles_glTexSubImage2D(target, level, 0, 0, width, height,
+					if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
 										 format, type, pixels);
 				} else {
 					gles_glTexImage2D(target, level, format, width, height, border,
@@ -313,6 +319,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				}
 				if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
 					gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+			} else if (texstream && (target==GL_TEXTURE_2D) && 
+				((internalformat==GL_RGB) || (internalformat==3)) || (texstream==2) ) {
+				bound->streamingID = AddStreamed(width, height, bound->texture);
+				if (bound->streamingID>-1) {	// success
+					bound->streamed = true;
+					ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
+					ActivateStreaming(bound->streamingID);	//Activate the newly created texture
+					if (pixels) glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// updload the 1st data...
+				}
 			}
         }
     }
@@ -544,11 +559,7 @@ void glBindTexture(GLenum target, GLuint texture) {
 			state.list.active = extend_renderlist(state.list.active);*/
         rlBindTexture(state.list.active, texture);
     } else {
-        if (texstream) {  // unbind streaming texture if any...
-            gltexture_t *bound = state.texture.bound[state.texture.active];
-            if (bound && bound->streamed)
-                DeactivateStreaming();
-        }
+    	int tex_changed = 1;
 		int streamingID = -1;
         if (texture) {
             int ret;
@@ -583,22 +594,35 @@ void glBindTexture(GLenum target, GLuint texture) {
             } else {
                 tex = kh_value(list, k);
             }
+            if (state.texture.bound[state.texture.active] == tex)
+            	tex_changed = 0;
             state.texture.bound[state.texture.active] = tex;
             texture = tex->glname;
 			if (texstream && tex->streamed)
 				streamingID = tex->streamingID;
         } else {
+            if (state.texture.bound[state.texture.active] == NULL)
+            	tex_changed = 0;
             state.texture.bound[state.texture.active] = NULL;
         }
 
-        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
-        target = map_tex_target(target);
+        if (tex_changed) {
 
-        LOAD_GLES(glBindTexture);
-		if (texstream && (streamingID>-1))
-			ActivateStreaming(streamingID);
-		else
-			gles_glBindTexture(target, texture);
+	        if (texstream) {  // unbind streaming texture if any...
+	            gltexture_t *bound = state.texture.bound[state.texture.active];
+	            if (bound && bound->streamed)
+	                DeactivateStreaming();
+	        }
+
+	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
+	        target = map_tex_target(target);
+
+	        LOAD_GLES(glBindTexture);
+			if (texstream && (streamingID>-1))
+				ActivateStreaming(streamingID);
+			else
+				gles_glBindTexture(target, texture);
+		}
     }
 }
 
@@ -629,8 +653,8 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				param = GL_LINEAR;
 				break;
 			}
-			if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
-			if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
+			if (pname==GL_TEXTURE_MIN_FILTER) if (texture) texture->min_filter = param;
+			if (pname==GL_TEXTURE_MAG_FILTER) if (texture) texture->mag_filter = param;
 		    break;
 	    }
 	case GL_TEXTURE_WRAP_S:
@@ -830,13 +854,13 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		GLuint fbo;
 		#define USE_TEXTURE 1
 		#ifdef  USE_TEXTURE
-		void *temp = malloc(width * height * 4);
-		memset(temp, 0, width * height * 4);
+/*		void *temp = malloc(width * height * 4);
+		memset(temp, 0, width * height * 4);*/
 		GLuint temp_tex;
 		glGenTextures(1, &temp_tex);
 		glBindTexture(GL_TEXTURE_2D, temp_tex);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, temp);
+			GL_RGBA, GL_UNSIGNED_BYTE, 0/*temp*/);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
@@ -880,7 +904,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		#ifdef USE_TEXTURE
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
 		glDeleteTextures(1, &temp_tex);
-		free(temp);
+		/*free(temp);*/
 		#else
 		// Unmount FBO
 		glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
@@ -983,8 +1007,13 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
         }
         free(tmp);
     }
- } else
-    gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+ } else {
+    //gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);	// this looks broken on Pandora!
+    void* tmp = malloc(width*height*4);
+    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    free(tmp);
+ }
 }
 
 GLboolean isDXTc(GLenum format) {
