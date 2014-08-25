@@ -1,5 +1,7 @@
 #include "texgen.h"
 
+extern void* eglGetProcAddress(const char*);
+
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     // coord is in: GL_S, GL_T, GL_R, GL_Q
     // pname == GL_TEXTURE_GEN_MODE
@@ -116,7 +118,7 @@ void matrix_column_row(const GLfloat *a, GLfloat *b) {
 }
 
 void matrix_row_column(const GLfloat *a, GLfloat *b) {
-    // column row -> column major
+    // row major -> column major
     for (int i=0; i<4; i++)
         for (int j=0; j<4; j++)
             b[i+j*4]=a[i*4+j];
@@ -144,8 +146,8 @@ void matrix_inverse(const GLfloat *m, GLfloat *r) {
     r[14] = -m[0]*m[5]*m[14] + m[0]*m[13]*m[6] + m[1]*m[4]*m[14] - m[1]*m[12]*m[6] - m[2]*m[4]*m[13] + m[2]*m[12]*m[5];
     r[15] = m[0]*m[5]*m[10] - m[0]*m[9]*m[6] - m[1]*m[4]*m[10] + m[1]*m[8]*m[6] + m[2]*m[4]*m[9] - m[2]*m[8]*m[5];
 
-    GLfloat det = m[0]*r[0] + m[1]*r[4] + m[2]*r[8] + m[3]*r[12];
-    for (int i = 0; i < 16; i++) r[i] /= det;
+    GLfloat det = 1/(m[0]*r[0] + m[1]*r[4] + m[2]*r[8] + m[3]*r[12]);
+    for (int i = 0; i < 16; i++) r[i] *= det;
 }
 
 void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count) {
@@ -287,7 +289,27 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     if (!state.enable.texture_2d[texture])
 	return;
     if ((*coords)==NULL) 
-	*coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+        *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+/*	LOAD_GLES(glPushMatrix);
+	LOAD_GLES(glGetIntegerv);
+	LOAD_GLES(glMatrixMode);
+	LOAD_GLES(glLoadIdentity);
+	LOAD_GLES(glActiveTexture);
+    GLuint old=state.texture.active;
+    GLuint matmode;
+    gles_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+    if (matmode!=GL_TEXTURE)
+        gles_glMatrixMode(GL_TEXTURE);
+    if (old!=texture)
+        gles_glActiveTexture(GL_TEXTURE0+texture);
+    gles_glPushMatrix();
+    gles_glLoadIdentity();
+    if (matmode!=GL_TEXTURE)
+        gles_glMatrixMode(matmode);
+    if (old!=texture)
+        gles_glActiveTexture(GL_TEXTURE0+old);
+    *needclean=2;
+*/
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, count, state.texgen[texture].S, state.texgen[texture].Sv);
     if (state.enable.texgen_t[texture])
@@ -307,6 +329,24 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
 		return;
 	}
+/*	if (cleancode == 2) {
+		LOAD_GLES(glPopMatrix);
+		LOAD_GLES(glGetIntegerv);
+		LOAD_GLES(glMatrixMode);
+		LOAD_GLES(glActiveTexture);
+		GLuint old=state.texture.active;
+		GLuint matmode;
+		gles_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+		if (matmode!=GL_TEXTURE)
+			gles_glMatrixMode(GL_TEXTURE);
+		if (old!=texture)
+			gles_glActiveTexture(GL_TEXTURE0+texture);
+		gles_glPopMatrix();
+		if (matmode!=GL_TEXTURE)
+			gles_glMatrixMode(matmode);
+		if (old!=texture)
+			gles_glActiveTexture(GL_TEXTURE0+old);
+	}*/
 }
 
 void glLoadTransposeMatrixf(const GLfloat *m) {
