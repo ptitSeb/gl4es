@@ -51,6 +51,10 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_bgra "
                 "GL_ARB_texture_compression "
                 "GL_EXT_texture_compression_s3tc "
+		"GL_OES_texture_compression_S3TC "
+		"GL_EXT_texture_compression_dxt3 "
+		"GL_EXT_texture_compression_dxt5 "
+		"GL_EXT_texture_compression_dxt1 "
 //                "GL_EXT_stencil_wrap "
 #else
                 "GL_ARB_vertex_shader "
