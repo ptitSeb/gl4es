@@ -45,14 +45,15 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
                                
+void glCopyTexImage1D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
+								GLsizei width,  GLint border);
 
+void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
+								GLsizei width,  GLsizei height,  GLint border);
 
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height);
                                 
-void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y,
-                                GLsizei width, GLint border);
-
 void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
                                 GLsizei width);
                                 

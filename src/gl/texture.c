@@ -331,13 +331,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			}
         }
     }
-    if (texcopydata && bound && (texstream && !bound->streamed)) {
-		if (bound->data) free(bound->data);
-		bound->data = malloc(width*height*4);
-		if (data)
-			pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE);
-		else
-			memset(bound->data, 0, width*height*4);
+    if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
+		if (bound->data) bound->data=realloc(bound->data, width*height*4);
+		else bound->data = malloc(width*height*4);
+		if (data) {
+			if (!pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+				printf("LIBGL: Error on pixel_convert when TEXCOPY in glTexImage2D\n");
+		} else {
+//			memset(bound->data, 0, width*height*4);
+		}
 	}
     if (pixels != data) {
         free(pixels);
@@ -431,7 +433,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		// copy the texture to the buffer
 		void* tmp = GetStreamingBuffer(bound->streamingID);
 		for (int yy=0; yy<height; yy++) {
-			memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, tmp+(yy*width)*2, width*2);
+			memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
 		}
 	} else
 		gles_glTexSubImage2D(target, level, xoffset, yoffset,
@@ -440,14 +442,21 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (texstream && !bound->streamed))
 	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
 
-    if (texcopydata && bound && (texstream && !bound->streamed)) {
-		GLvoid * tmp = pixels;
-		pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE);
+    if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
+//printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i, format=0x%04X, type=0x%04X, tex=%u\n", xoffset, yoffset, width, height, format, type, bound->glname);
+		GLvoid * tmp = malloc(width*height*4);
+		if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+			printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
+		GLvoid* dst = bound->data;
+		dst += (yoffset*bound->width + xoffset)*4;
+		GLvoid* src = tmp;
 		for (int yy=0; yy<height; yy++) {
-			memcpy(bound->data+((yy+yoffset)*bound->width+xoffset)*4, tmp+(yy*width)*4, width*4);
+			memcpy(dst, src, width*4);
+			dst += bound->width * 4;
+			src += width * 4;
+			
 		}
-		if (tmp!=pixels)
-			free(tmp);
+		free(tmp);
 	}
 
     if (pixels != data)
@@ -555,12 +564,12 @@ void glBindTexture(GLenum target, GLuint texture) {
     if (state.list.compiling && state.list.active) {
 		// check if already a texture binded, if yes, create a new list
 		NewStage(state.list.active, STAGE_BINDTEX);
-/*		if (state.list.active->set_texture)
-			state.list.active = extend_renderlist(state.list.active);*/
         rlBindTexture(state.list.active, texture);
     } else {
     	int tex_changed = 1;
 		int streamingID = -1;
+        gltexture_t *tex = NULL;
+//printf("glBindTexture(0x%04X, %u), active=%i, client=%i\n", target, texture, state.texture.active, state.texture.client);
         if (texture) {
             int ret;
             khint_t k;
@@ -572,7 +581,6 @@ void glBindTexture(GLenum target, GLuint texture) {
                 kh_del(tex, list, 1);
             }
             k = kh_get(tex, list, texture);
-            gltexture_t *tex = NULL;
             
             if (k == kh_end(list)){
 				LOAD_GLES(glGenTextures);
@@ -596,14 +604,12 @@ void glBindTexture(GLenum target, GLuint texture) {
             }
             if (state.texture.bound[state.texture.active] == tex)
             	tex_changed = 0;
-            state.texture.bound[state.texture.active] = tex;
             texture = tex->glname;
 			if (texstream && tex->streamed)
 				streamingID = tex->streamingID;
         } else {
             if (state.texture.bound[state.texture.active] == NULL)
             	tex_changed = 0;
-            state.texture.bound[state.texture.active] = NULL;
         }
 
         if (tex_changed) {
@@ -617,6 +623,8 @@ void glBindTexture(GLenum target, GLuint texture) {
 	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
 	        target = map_tex_target(target);
 
+			state.texture.bound[state.texture.active] = tex;
+			
 	        LOAD_GLES(glBindTexture);
 			if (texstream && (streamingID>-1))
 				ActivateStreaming(streamingID);
@@ -704,8 +712,17 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
 				gles_glDeleteTextures(1, &tex->glname);
 				if (texstream && tex->streamed)
 					FreeStreamed(tex->streamingID);
-                free(tex);
+				#if 1
                 kh_del(tex, list, k);
+                if (tex->data) free(tex->data);
+                free(tex);
+                #else
+                tex->glname = tex->texture;
+                tex->streamed = false;
+                tex->streamingID = -1;
+                if (tex->data) free(tex->data);
+                tex->data = NULL;
+                #endif
             }
         }
     }
@@ -746,6 +763,9 @@ void glGenTextures(GLsizei n, GLuint * textures) {
 			tex->data = NULL;
 		} else {
 			tex = kh_value(list, k);
+			// in case of no delete here...
+			if (tex->glname==0)
+				tex->glname = tex->texture;
 		}
 	}
 }
@@ -805,7 +825,6 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 }
 
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
-//printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p)\n", target, level, format, type, img);
 	if (state.texture.bound[state.texture.active]==NULL)
 		return;		// no texture bounded...
 	if (level != 0) {
@@ -813,23 +832,27 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		printf("STUBBED glGetTexImage with level=%i\n", level);
 		return;
 	}
+	
+	if (target!=GL_TEXTURE_2D)
+		return;
 
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	int width = bound->width;
 	int height = bound->height;
+//printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
 	
 	if (texstream && bound->streamed) {
-		pixel_convert(GetStreamingBuffer(bound->streamingID), &img, bound->width, bound->height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type);
+		pixel_convert(GetStreamingBuffer(bound->streamingID), &img, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type);
 		return;
 	}
 	
 	if (texcopydata && bound->data) {
-		pixel_convert(bound->data, &img, bound->width, bound->height, GL_RGBA, GL_UNSIGNED_BYTE, format, type);
+		if (!pixel_convert(bound->data, &img, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type))
+			printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
 		// Setup an FBO the same size of the texture
 		#define getOES(name, proto)	proto name = (proto)eglGetProcAddress(#name); if (name==NULL) printf("Warning! %s is NULL\n", #name)
-		#define USEFBO
-		#ifdef USEFBO
+		LOAD_GLES(glBindTexture);		
 		// first, get all FBO functions...
 		getOES(glIsRenderbufferOES, PFNGLISRENDERBUFFEROESPROC);
 		getOES(glBindRenderbufferOES, PFNGLBINDRENDERBUFFEROESPROC);
@@ -846,100 +869,18 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		getOES(glFramebufferTexture2DOES, PFNGLFRAMEBUFFERTEXTURE2DOESPROC);
 		getOES(glGetFramebufferAttachmentParameterivOES, PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVOESPROC);
 		getOES(glGenerateMipmapOES, PFNGLGENERATEMIPMAPOESPROC);
-		// and the DrawTex can be usefull too
-		getOES(glDrawTexiOES, PFNGLDRAWTEXIOESPROC);
 		
 		// Now create the FBO
-		GLint oldBind = bound->texture;
+		GLint oldBind = bound->glname;
 		GLuint fbo;
-		#define USE_TEXTURE 1
-		#ifdef  USE_TEXTURE
-/*		void *temp = malloc(width * height * 4);
-		memset(temp, 0, width * height * 4);*/
-		GLuint temp_tex;
-		glGenTextures(1, &temp_tex);
-		glBindTexture(GL_TEXTURE_2D, temp_tex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, 0/*temp*/);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 		glGenFramebuffersOES(1, &fbo);
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
-		glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, temp_tex, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		#else
-		glGenFramebuffersOES(1, &fbo);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
-		
-		GLuint rbo, depthRenderbuffer;
-		glGenRenderbuffersOES(1, &rbo);
-		glBindRenderbufferOES(GL_RENDERBUFFER_OES, rbo);
-		glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_RGBA8_OES, width, height);
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, rbo);
-
-		glGenRenderbuffersOES(1, &depthRenderbuffer);
-		glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
-		glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
-		#endif
-/*
-		GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
-		if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
-			printf("glGetTexImage, incomplete FBO (%04x)", status);
-		} 
-*/
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-		// Now, draw the texture inside FBO
-		glPushAttrib(GL_CURRENT_BIT|GL_ENABLE_BIT|GL_VIEWPORT_BIT|GL_COLOR_BUFFER_BIT);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
-		glViewport(0, 0, width, height);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);	//*SEB TODO: Save Color before
-		glDrawTexiOES(0, 0, 0, width, height);
-		glEnable(GL_BLEND);
-		glEnable(GL_ALPHA);
+		glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glPopAttrib();
-		#ifdef USE_TEXTURE
 		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-		glDeleteTextures(1, &temp_tex);
-		/*free(temp);*/
-		#else
-		// Unmount FBO
-		glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-		//glBindTexture(GL_TEXTURE_2D, oldBind);
-		glDeleteRenderbuffersOES(1, &rbo);
-		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
-		glDeleteFramebuffersOES(1, &fbo);
-		#endif
-		#else
-		// the DrawTex can be usefull too
-		getOES(glDrawTexiOES, PFNGLDRAWTEXIOESPROC);
-		const EGLint attribListPbuffer[] =
-		{
-			EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-			EGL_RED_SIZE, 8,
-			EGL_GREEN_SIZE, 8,
-			EGL_BLUE_SIZE, 8,
-			EGL_ALPHA_SIZE, 8,
-			EGL_DEPTH_SIZE, 16,
-			EGL_STENCIL_SIZE, 0,
-			EGL_NONE
-		};
-		const EGLint srfPbufferAttr[] =
-		{
-			EGL_WIDTH, width,
-			EGL_HEIGHT, height,
-			EGL_COLORSPACE, GL_RGBA,
-			EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
-			EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-			EGL_LARGEST_PBUFFER, EGL_TRUE,
-			EGL_NONE
-		};
-		#endif
-		#undef USEFBO
+		gles_glBindTexture(GL_TEXTURE_2D, oldBind);	// just in case.
 		#undef getOES
 	}
 }
@@ -1009,12 +950,28 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     }
  } else {
     //gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);	// this looks broken on Pandora!
+    // On Pandora using GLES1, this function seems bugged. So here is a (slower) workaround....
     void* tmp = malloc(width*height*4);
     glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
     glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
     free(tmp);
  }
 }
+
+
+void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
+								GLsizei width,  GLsizei height,  GLint border) {
+// On Pandora and GLES1, this function seems broken, so let's have some workaround...
+//printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i)\n", target, level, internalformat, x, y, width, height, border);
+ PUSH_IF_COMPILING(glCopyTexImage2D);
+
+    void* tmp = malloc(width*height*4);
+    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    glTexImage2D(target, level, internalformat, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    free(tmp);
+}
+
+
 
 GLboolean isDXTc(GLenum format) {
 	switch (format) {
