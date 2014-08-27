@@ -65,7 +65,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
 
 GLvoid *copy_gl_array_convert(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
-                      GLenum to, GLsizei to_width, GLsizei skip, GLsizei count) {
+                      GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler) {
     if (! src || !count)
         return NULL;
 						  
@@ -91,7 +91,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
             for (int i = skip; i < count; i++) {
                 memcpy(out, (GLvoid *)in, from_size);
                 for (int j = width; j < to_width; j++) {
-                    out[j] = 0;
+					memcpy(&out[j], filler, gl_sizeof(to));
                 }
                 out += to_width;
                 in += stride;
@@ -108,7 +108,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
                         out[j] = input[j]*maxv/gl_max_value(from);
                     }
                     for (int j = width; j < to_width; j++) {
-                        out[j] = 0;
+                        memcpy(&out[j], filler, gl_sizeof(to));
                     }
                     out += to_width;
                     in += stride;
@@ -128,8 +128,14 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
 }
 
 GLvoid *copy_gl_pointer(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+	float filler = 0.0f;
     return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
-                         GL_FLOAT, width, skip, count);
+                         GL_FLOAT, width, skip, count, &filler);
+}
+GLvoid *copy_gl_pointer_color(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+	float filler = 1.0f;
+    return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
+                         GL_FLOAT, width, skip, count, &filler);
 }
 GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
     return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
@@ -140,7 +146,8 @@ GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
     static GLfloat buf[4];
     GLsizei size = gl_sizeof(p->type);
     GLsizei stride = p->stride ? p->stride : size * p->size;
-    uintptr_t ptr = (uintptr_t)p->pointer + (stride * index);
+    uintptr_t ptr = (uintptr_t)(p->pointer) + (stride * index) 
+		+ (uintptr_t)((state.buffers.vertex)?state.buffers.vertex->data:0);
 
     GL_TYPE_SWITCH(src, ptr, p->type,
         for (int i = 0; i < p->size; i++) {

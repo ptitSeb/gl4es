@@ -22,6 +22,7 @@ void glPolygonStipple(const GLubyte *mask);
 void glReadBuffer(GLenum mode);
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void glColorTable (GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table);
+void glIndexPointer(GLenum  type,  GLsizei  stride,  const GLvoid *  pointer);
 
 void glAccum(GLenum op, GLfloat value);
 void glPrioritizeTextures(GLsizei n, const GLuint *textures, const GLclampf *priorities);

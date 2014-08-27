@@ -25,6 +25,18 @@
 #define skip_glPushMatrix
 #define skip_glPopMatrix
 
+#define skip_glBindBuffer
+#define skip_glBufferData
+#define skip_glBufferSubData
+#define skip_glDeleteBuffers
+#define skip_glGenBuffers
+#define skip_glIsBuffer
+#define skip_glGetBufferPointerv
+#define skip_glMapBuffer
+#define skip_glUnmapBuffer
+#define skip_glGetBufferParameteriv
+#define skip_glGetBufferSubData
+
 // light.c
 #define skip_glLightModelf
 #define skip_glLightModelfv
@@ -37,6 +49,7 @@
 // texture.c
 #define skip_glIsTexture
 #define skip_glBindTexture
+#define skip_glCopyTexImage2D
 #define skip_glCopyTexSubImage2D
 #define skip_glGenTextures
 #define skip_glDeleteTextures

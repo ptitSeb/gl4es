@@ -6,7 +6,12 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	.projection_matrix = NULL,
 	.modelview_matrix = NULL,
 	.texture_matrix = NULL,
-	.namestack = {0, NULL}
+	.namestack = {0, NULL},
+	.enable.vertex_array = 0,
+	.enable.color_array = 0,
+	.enable.secondary_array = 0,
+	.enable.normal_array = 0,
+	.buffers = {NULL, NULL}
 	};
 	
 void* gles = NULL;
@@ -14,7 +19,8 @@ void* gles = NULL;
 // config functions
 const GLubyte *glGetString(GLenum name) {
     LOAD_GLES(glGetString);
-	if (gles_glGetString(name)==NULL)
+    const GLubyte *str;
+	if ((str=gles_glGetString(name))==NULL)
 		printf("**warning** glGetString(%i) called with bad init\n", name);
     switch (name) {
         case GL_VERSION:
@@ -26,7 +32,7 @@ const GLubyte *glGetString(GLenum name) {
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
 #ifndef USE_ES2
-//                "GL_ARB_vertex_buffer_object "
+                "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_vertex_array "
                 "GL_EXT_secondary_color "
@@ -71,9 +77,11 @@ const GLubyte *glGetString(GLenum name) {
 			return (GLubyte *)"GLESv2 wrapper";
 #else
 			return (GLubyte *)"GLES_CM wrapper";
+		case GL_SHADING_LANGUAGE_VERSION:
+			return (GLubyte *)"";
 #endif
         default:
-            return gles_glGetString(name);
+            return (str)?str:(GLubyte*)"";
     }
 }
 
@@ -171,7 +179,13 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 	case GL_MAX_LIST_NESTING:
 			*params=64;	// fake, no limit in fact
 			break;
-        default:
+	case  GL_ARRAY_BUFFER_BINDING:
+			*params=(state.buffers.vertex)?state.buffers.vertex->buffer:0;
+			break;
+	case  GL_ELEMENT_ARRAY_BUFFER_BINDING:
+			*params=(state.buffers.elements)?state.buffers.elements->buffer:0;
+			break;
+    default:
             gles_glGetIntegerv(pname, params);
     }
 }
@@ -268,8 +282,14 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 	case GL_MAX_LIST_NESTING:
 	    *params=64;	// fake, no limit in fact
 	    break;
-        default:
-            gles_glGetFloatv(pname, params);
+	case  GL_ARRAY_BUFFER_BINDING:
+		*params=(state.buffers.vertex)?state.buffers.vertex->buffer:0;
+		break;
+	case  GL_ELEMENT_ARRAY_BUFFER_BINDING:
+		*params=(state.buffers.elements)?state.buffers.elements->buffer:0;
+		break;
+    default:
+		gles_glGetFloatv(pname, params);
     }
 }
 
@@ -411,7 +431,8 @@ static inline bool should_intercept_render(GLenum mode) {
 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
-    GLushort *indices = copy_gl_array(uindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    GLushort *indices = copy_gl_array((state.buffers.elements)?state.buffers.elements->data + (uintptr_t)uindices:uindices,
+		type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     bool compiling = (state.list.active && state.list.compiling);
     if (compiling) {
         renderlist_t *list = NULL;
@@ -425,6 +446,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         list->indices = indices;
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
+        return;
      }
      if (should_intercept_render(mode)) {
     // TODO: do this in a more direct fashion.
@@ -437,6 +459,38 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
         return;
      } else {
 		LOAD_GLES(glDrawElements);
+		LOAD_GLES(glNormalPointer);
+		LOAD_GLES(glVertexPointer);
+		LOAD_GLES(glColorPointer);
+		LOAD_GLES(glTexCoordPointer);
+		if (state.buffers.vertex) {
+#define shift_pointer(a, b) \
+			if (state.enable.b) state.pointers.a.pointer = state.buffers.vertex->data + (uintptr_t)state.pointers.a.pointer;
+		
+			shift_pointer(color, color_array);
+			shift_pointer(secondary, secondary_array);
+			shift_pointer(vertex, vertex_array);
+			for (int aa=0; aa<MAX_TEX; aa++)
+				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+			shift_pointer(normal, normal_array);
+			if (state.enable.normal_array)
+				gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+			if (state.enable.color_array)
+				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+			if (state.enable.vertex_array)
+				gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+			GLuint old_tex = state.texture.active;
+			for (int aa=0; aa<MAX_TEX; aa++)
+				if (state.enable.tex_coord_array[aa]) {
+					glActiveTexture(aa+GL_TEXTURE0);
+					gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
+				}
+			if (state.texture.active!=old_tex)
+				glActiveTexture(old_tex+GL_TEXTURE0);
+		}
+#undef shift_pointer		
+
+
 		GLenum mode_init = mode;
 		if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
 			mode = GL_LINE_LOOP;
@@ -453,17 +507,17 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 			// secondary color...
 			GLfloat *final_colors = NULL;
 			pointer_state_t old_color;
-			int max_cnt = 0;
 			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
-				for (int i=0; i<count; i++)
-					if (max_cnt<indices[i]) max_cnt = indices[i];
-				final_colors=(GLfloat*)malloc(max_cnt * 4 * sizeof(GLfloat));
-				GLfloat *colors=(GLfloat*)state.pointers.color.pointer;
-				GLfloat *seconds=(GLfloat*)state.pointers.secondary.pointer;
-				for (int i=0; i<max_cnt*4; i++)
-					final_colors[i]=colors[i] + seconds[i];
-				memcpy(&old_color, &state.pointers.color, sizeof(pointer_state_t));
-				glColorPointer(4, GL_FLOAT, 0, final_colors);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, 0, state.pointers.secondary.size);
+				for (int i=0; i<state.pointers.color.size*4; i++)
+					final_colors[i]+=seconds_colors[i];
+				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+				free(seconds_colors);
+			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
+				// Pandora doesn't like Color Pointer with size != 4
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size);
+				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 			}
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -501,21 +555,62 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 			// secondary color
 			if (final_colors) {
 				free(final_colors);
-				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
+//				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
 		}
+#define shift_pointer(a, b) \
+	if (state.enable.b) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.buffers.vertex->data;
+		
+			shift_pointer(color, color_array);
+			shift_pointer(secondary, secondary_array);
+			shift_pointer(vertex, vertex_array);
+			for (int aa=0; aa<MAX_TEX; aa++)
+				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+			shift_pointer(normal, normal_array);
+#undef shift_pointer		
         free(indices);
     }
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+	LOAD_GLES(glNormalPointer);
+	LOAD_GLES(glVertexPointer);
+	LOAD_GLES(glColorPointer);
+	LOAD_GLES(glTexCoordPointer);
     renderlist_t *list, *active = state.list.active;
     if (active && state.list.compiling) {
-	NewStage(state.list.active, STAGE_DRAW);
+		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;
         arrays_to_renderlist(list, mode, first, count+first);
         return;
     }
+
+	if (state.buffers.vertex) {
+#define shift_pointer(a, b) \
+	if (state.enable.b) state.pointers.a.pointer = state.buffers.vertex->data + (uintptr_t)state.pointers.a.pointer;
+	
+		shift_pointer(color, color_array);
+		shift_pointer(secondary, secondary_array);
+		shift_pointer(vertex, vertex_array);
+		for (int aa=0; aa<MAX_TEX; aa++)
+			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+		shift_pointer(normal, normal_array);
+		if (state.enable.normal_array)
+			gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+		if (state.enable.color_array)
+			gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+		if (state.enable.vertex_array)
+			gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+		GLuint old_tex = state.texture.active;
+		for (int aa=0; aa<MAX_TEX; aa++)
+			if (state.enable.tex_coord_array[aa]) {
+				glActiveTexture(aa+GL_TEXTURE0);
+				gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
+			}
+		if (state.texture.active!=old_tex)
+			glActiveTexture(old_tex+GL_TEXTURE0);
+	}
+#undef shift_pointer		
 
     if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
 		mode = GL_LINE_LOOP;
@@ -537,21 +632,23 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			mode = GL_TRIANGLE_STRIP;
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
-
+			
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawArrays(mode, first, count);
 		} else {
 			// secondary color...
 			GLfloat *final_colors = NULL;
-			pointer_state_t old_color;
 			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
-				final_colors=(GLfloat*)malloc(count * 4 * sizeof(GLfloat));
-				GLfloat *colors=(GLfloat*)state.pointers.color.pointer;
-				GLfloat *seconds=(GLfloat*)state.pointers.secondary.pointer;
-				for (int i=0; i<count*4; i++)
-					final_colors[i]=colors[i] + seconds[i];
-				memcpy(&old_color, &state.pointers.color, sizeof(pointer_state_t));
-				glColorPointer(4, GL_FLOAT, 0, final_colors);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, first, count+first);
+				for (int i=0; i<(count+first)*4; i++)
+					final_colors[i]+=seconds_colors[i];
+				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+				free(seconds_colors);
+			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
+				// Pandora doesn't like Color Pointer with size != 4
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first);
+				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 			}
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -589,10 +686,22 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			// secondary color
 			if (final_colors) {
 				free(final_colors);
-				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
+				//gles_glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
 		}
     }
+	if (state.buffers.vertex) {
+#define shift_pointer(a, b) \
+	if (state.enable.b) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.buffers.vertex->data;
+	
+		shift_pointer(color, color_array);
+		shift_pointer(secondary, secondary_array);
+		shift_pointer(vertex, vertex_array);
+		for (int aa=0; aa<MAX_TEX; aa++)
+			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+		shift_pointer(normal, normal_array);
+	}
+#undef shift_pointer		
 }
 
 #ifndef USE_ES2
@@ -602,30 +711,31 @@ void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(glVertexPointer);
 	clone_gl_pointer(state.pointers.vertex, size);
-    glGetError();
-    gles_glVertexPointer(size, type, stride, pointer);
+    if (state.buffers.vertex==NULL) 
+		gles_glVertexPointer(size, type, stride, pointer);
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(glColorPointer);
     clone_gl_pointer(state.pointers.color, size);
-    gles_glColorPointer(size, type, stride, pointer);
+    if (state.buffers.vertex==NULL) 
+		gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     LOAD_GLES(glNormalPointer);
     clone_gl_pointer(state.pointers.normal, 3);
-    gles_glNormalPointer(type, stride, pointer);
+    if (state.buffers.vertex==NULL) 
+		gles_glNormalPointer(type, stride, pointer);
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-//if ((state.texture.client>0) && (state.list.active)) printf("glTexCoordPointer(%i, 0x%04X, %i, %p), texture=%i, inside list\n", size, type, stride, pointer, state.texture.client);
     LOAD_GLES(glTexCoordPointer);
     clone_gl_pointer(state.pointers.tex_coord[state.texture.client], size);
-    gles_glTexCoordPointer(size, type, stride, pointer);
+    if (state.buffers.vertex==NULL) 
+		gles_glTexCoordPointer(size, type, stride, pointer);
 }
 void glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
-//printf("glSecondaryColorPointer(%i, 0x%04X, %i, %p)\n", size, type, stride, pointer);
 	if (size!=3)
 		return;		// Size must be 3...
     clone_gl_pointer(state.pointers.secondary, size);
@@ -851,7 +961,7 @@ void glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
     p = &state.pointers.color;
-    if (state.enable.color_array && p->pointer) {
+    if (state.enable.color_array) {
         v = gl_pointer_index(p, i);
         GLfloat scale = gl_max_value(p->type);
         // color[3] defaults to 1.0f
@@ -865,7 +975,7 @@ void glArrayElement(GLint i) {
         glColor4fv(v);
     }
     p = &state.pointers.secondary;
-    if (state.enable.secondary_array && p->pointer) {
+    if (state.enable.secondary_array) {
         v = gl_pointer_index(p, i);
         GLfloat scale = gl_max_value(p->type);
         // color[3] defaults to 0.0f
@@ -879,25 +989,25 @@ void glArrayElement(GLint i) {
         glSecondaryColor3fv(v);
     }
     p = &state.pointers.normal;
-    if (state.enable.normal_array && p->pointer) {
+    if (state.enable.normal_array) {
         v = gl_pointer_index(p, i);
         glNormal3fv(v);
     }
     p = &state.pointers.tex_coord[0];
-    if (/*state.enable.texture_2d[0] &&*/ state.enable.tex_coord_array[0] && p->pointer) {
+    if (state.enable.tex_coord_array[0]) {
         v = gl_pointer_index(p, i);
         glTexCoord2fv(v);
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
 	    p = &state.pointers.tex_coord[a];
-	    if (/*state.enable.texture_2d[a] &&*/ state.enable.tex_coord_array[a] && p->pointer) {
+	    if (state.enable.tex_coord_array[a]) {
 			v = gl_pointer_index(p, i);
 			glMultiTexCoord2fv(GL_TEXTURE0+a, v);
 	    }
     }
     p = &state.pointers.vertex;
-    if (state.enable.vertex_array && p->pointer) {
+    if (state.enable.vertex_array) {
         v = gl_pointer_index(p, i);
         if (p->size == 4) {
             glVertex4fv(v);

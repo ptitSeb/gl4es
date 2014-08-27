@@ -5,6 +5,7 @@
 
 #include "eval.h"
 #include "texture.h"
+#include "buffers.h"
 
 typedef struct {
     GLboolean line_stipple,
@@ -104,6 +105,12 @@ typedef struct {
 	GLfloat	*stack;
 } matrixstack_t;
 
+typedef struct {
+    glbuffer_t *vertex;
+    glbuffer_t *elements;
+    khash_t(buff) *list;
+} buffers_t;
+
 
 typedef struct {
     displaylist_state_t list;
@@ -124,6 +131,7 @@ typedef struct {
     matrixstack_t *projection_matrix;
     matrixstack_t **texture_matrix;
     selectbuf_t selectbuf;
+    buffers_t buffers;
 } glstate_t;
 
 #endif

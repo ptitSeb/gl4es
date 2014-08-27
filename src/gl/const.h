@@ -322,6 +322,7 @@
 #define GL_POLYGON_OFFSET_LINE   0x2A02
 
 /* Shader Source */
+#define GL_SHADING_LANGUAGE_VERSION       0x8B8C
 #define GL_COMPILE_STATUS                 0x8B81
 #define GL_INFO_LOG_LENGTH                0x8B84
 #define GL_SHADER_SOURCE_LENGTH           0x8B88
@@ -383,3 +384,50 @@
 #define GL_T2F_N3F_V3F				0x2A2B
 #define GL_T2F_C4F_N3F_V3F			0x2A2C
 #define GL_T4F_C4F_N3F_V4F			0x2A2D
+
+/* Buffers Array */
+#define GL_BUFFER_SIZE                    0x8764
+#define GL_BUFFER_USAGE                   0x8765
+#define GL_QUERY_COUNTER_BITS             0x8864
+#define GL_CURRENT_QUERY                  0x8865
+#define GL_QUERY_RESULT                   0x8866
+#define GL_QUERY_RESULT_AVAILABLE         0x8867
+#define GL_ARRAY_BUFFER                   0x8892
+#define GL_ELEMENT_ARRAY_BUFFER           0x8893
+#define GL_ARRAY_BUFFER_BINDING           0x8894
+#define GL_ELEMENT_ARRAY_BUFFER_BINDING   0x8895
+#define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING 0x889F
+#define GL_READ_ONLY                      0x88B8
+#define GL_WRITE_ONLY                     0x88B9
+#define GL_READ_WRITE                     0x88BA
+#define GL_BUFFER_ACCESS                  0x88BB
+#define GL_BUFFER_MAPPED                  0x88BC
+#define GL_BUFFER_MAP_POINTER             0x88BD
+#define GL_STREAM_DRAW                    0x88E0
+#define GL_STREAM_READ                    0x88E1
+#define GL_STREAM_COPY                    0x88E2
+#define GL_STATIC_DRAW                    0x88E4
+#define GL_STATIC_READ                    0x88E5
+#define GL_STATIC_COPY                    0x88E6
+#define GL_DYNAMIC_DRAW                   0x88E8
+#define GL_DYNAMIC_READ                   0x88E9
+#define GL_DYNAMIC_COPY                   0x88EA
+#define GL_SAMPLES_PASSED                 0x8914
+#define GL_SRC1_ALPHA                     0x8589
+#define GL_VERTEX_ARRAY_BUFFER_BINDING    0x8896
+#define GL_NORMAL_ARRAY_BUFFER_BINDING    0x8897
+#define GL_COLOR_ARRAY_BUFFER_BINDING     0x8898
+#define GL_INDEX_ARRAY_BUFFER_BINDING     0x8899
+#define GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING 0x889A
+#define GL_EDGE_FLAG_ARRAY_BUFFER_BINDING 0x889B
+#define GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING 0x889C
+#define GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING 0x889D
+#define GL_WEIGHT_ARRAY_BUFFER_BINDING    0x889E
+#define GL_MAP_READ_BIT                   0x0001
+#define GL_MAP_WRITE_BIT                  0x0002
+#define GL_BUFFER_ACCESS_FLAGS            0x911F
+#define GL_BUFFER_MAP_LENGTH              0x9120
+#define GL_BUFFER_MAP_OFFSET              0x9121
+#define GL_READ_ONLY                      0x88B8
+#define GL_WRITE_ONLY                     0x88B9
+#define GL_READ_WRITE                     0x88BA
