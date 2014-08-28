@@ -479,14 +479,14 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
 			if (state.enable.vertex_array)
 				gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-			GLuint old_tex = state.texture.active;
+			GLuint old_tex = state.texture.client;
 			for (int aa=0; aa<MAX_TEX; aa++)
 				if (state.enable.tex_coord_array[aa]) {
-					glActiveTexture(aa+GL_TEXTURE0);
+					glClientActiveTexture(aa+GL_TEXTURE0);
 					gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
 				}
-			if (state.texture.active!=old_tex)
-				glActiveTexture(old_tex+GL_TEXTURE0);
+			if (state.texture.client!=old_tex)
+				glClientActiveTexture(old_tex+GL_TEXTURE0);
 		}
 #undef shift_pointer		
 
@@ -601,14 +601,14 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
 		if (state.enable.vertex_array)
 			gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-		GLuint old_tex = state.texture.active;
+		GLuint old_tex = state.texture.client;
 		for (int aa=0; aa<MAX_TEX; aa++)
 			if (state.enable.tex_coord_array[aa]) {
-				glActiveTexture(aa+GL_TEXTURE0);
+				glClientActiveTexture(aa+GL_TEXTURE0);
 				gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
 			}
-		if (state.texture.active!=old_tex)
-			glActiveTexture(old_tex+GL_TEXTURE0);
+		if (state.texture.client!=old_tex)
+			glClientActiveTexture(old_tex+GL_TEXTURE0);
 	}
 #undef shift_pointer		
 
