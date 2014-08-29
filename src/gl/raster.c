@@ -268,7 +268,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	GLsizei bmp_width = (state.texture.unpack_row_length)?state.texture.unpack_row_length:width;
 
     if (! pixel_convert(data, &dst, bmp_width, height,
-                        format, type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+                        format, type, GL_RGBA, GL_UNSIGNED_BYTE, 0)) {
         return;
     }
 					  

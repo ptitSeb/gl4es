@@ -75,7 +75,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 		if (convert) {
 			GLvoid *pixels = (GLvoid *)data;
 			if (! pixel_convert(data, &pixels, width, height,
-								*format, *type, GL_RGBA, GL_UNSIGNED_BYTE)) {
+								*format, *type, GL_RGBA, GL_UNSIGNED_BYTE, 0)) {
 				printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
 					*format, *type);
 				return NULL;
@@ -334,7 +334,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 	    else 
 			bound->data = malloc(width*height*4);
 	    if (data) {
-		    if (!pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+		    if (!pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, 0))
 			    printf("LIBGL: Error on pixel_convert when TEXCOPY in glTexImage2D\n");
 	    } else {
 		//memset(bound->data, 0, width*height*4);
@@ -348,7 +348,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
-    const GLvoid *pixels = data;
+    GLvoid *pixels = (GLvoid*)data;
 	PUSH_IF_COMPILING(glTexSubImage2D);
 
     LOAD_GLES(glTexSubImage2D);
@@ -384,8 +384,11 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 
     GLvoid *old = pixels;
     if (bound && texstream && (bound->streamed)) {
-		if (! pixel_convert(old, &pixels, width, height,
-						format, type, GL_RGB, GL_UNSIGNED_SHORT_5_6_5)) {
+		// Optimisation, let's do convert directly to the right place...
+		GLvoid *tmp = GetStreamingBuffer(bound->streamingID);
+		tmp += (yoffset*bound->width+xoffset)*2;
+		if (! pixel_convert(old, &tmp, width, height,
+						format, type, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, bound->width)) {
 			printf("libGL swizzle error: (%#4x, %#4x -> GL_RGB, UNSIGNED_SHORT_5_6_5)\n",
 						format, type);
 		}
@@ -429,11 +432,11 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
 
     if (bound && texstream && bound->streamed) {
-	// copy the texture to the buffer
+/*	// copy the texture to the buffer
 	void* tmp = GetStreamingBuffer(bound->streamingID);
 	for (int yy=0; yy<height; yy++) {
 		memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
-	}
+	}*/
     } else
 	gles_glTexSubImage2D(target, level, xoffset, yoffset,
 					 width, height, format, type, pixels);
@@ -443,19 +446,10 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
 //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i, format=0x%04X, type=0x%04X, tex=%u\n", xoffset, yoffset, width, height, format, type, bound->glname);
-	GLvoid * tmp = malloc(width*height*4);
-	if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+	GLvoid * tmp = bound->data;
+	tmp += (yoffset*bound->width + xoffset)*4;
+	if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, bound->width))
 		printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
-	GLvoid* dst = bound->data;
-	dst += (yoffset*bound->width + xoffset)*4;
-	GLvoid* src = tmp;
-	for (int yy=0; yy<height; yy++) {
-		memcpy(dst, src, width*4);
-		dst += bound->width * 4;
-		src += width * 4;
-		
-	}
-	free(tmp);
     }
 
     if (pixels != data)
@@ -841,12 +835,12 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 //printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
 	
 	if (texstream && bound->streamed) {
-		pixel_convert(GetStreamingBuffer(bound->streamingID), &img, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type);
+		pixel_convert(GetStreamingBuffer(bound->streamingID), &img, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
 		return;
 	}
 	
 	if (texcopydata && bound->data) {
-		if (!pixel_convert(bound->data, &img, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type))
+		if (!pixel_convert(bound->data, &img, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
 			printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
 		// Setup an FBO the same size of the texture
@@ -919,7 +913,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     GLvoid *pixels = malloc(width*height*4);
     gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &data, width, height,
-					    GL_RGBA, GL_UNSIGNED_BYTE, format, type)) {
+					    GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0)) {
 	printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
 		format, type);
     }

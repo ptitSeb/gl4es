@@ -15,7 +15,7 @@ typedef struct {
 bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,
                    GLenum src_format, GLenum src_type,
-                   GLenum dst_format, GLenum dst_type);
+                   GLenum dst_format, GLenum dst_type, GLuint stride);
 
 bool pixel_transform(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,

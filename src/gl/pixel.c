@@ -460,10 +460,12 @@ bool quarter_pixel(const GLvoid *src[16],
 bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,
                    GLenum src_format, GLenum src_type,
-                   GLenum dst_format, GLenum dst_type) {
+                   GLenum dst_format, GLenum dst_type, GLuint stride) {
     const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
+    GLuint dst_width = stride * pixel_sizeof(dst_format, dst_type);
+    GLuint src_width = width * pixel_sizeof(dst_format, dst_type);
 
 //printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
     src_color = get_color_map(src_format);
@@ -477,7 +479,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             return true;
         if (*dst == NULL)        // alloc dst only if dst==NULL
             *dst = malloc(dst_size);
-        memcpy(*dst, src, dst_size);
+        if (stride)	// for in-place conversion
+			for (int yy=0; yy<height; yy++)
+				memcpy((*dst)+yy*dst_width, src+yy*src_width, src_width);
+        else
+			memcpy(*dst, src, dst_size);
         return true;
     }
     GLsizei src_stride = pixel_sizeof(src_format, src_type);
@@ -489,31 +495,43 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     // fast optimized loop for common conversion cases first...
     if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (src_type == dst_type) && (src_type == GL_UNSIGNED_BYTE)) {
         GLuint tmp;
-        for (int i = 0; i < pixels; i++) {
-            tmp = *(const GLuint*)src_pos;
-            *(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
-            src_pos += src_stride;
-            dst_pos += dst_stride;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				tmp = *(const GLuint*)src_pos;
+				*(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width - src_width;
         }
         return true;
     }
     if ((src_format == GL_RGB) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
         GLuint tmp;
-        for (int i = 0; i < pixels; i++) {
-            tmp = *(const GLuint*)src_pos;
-            *(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)<<(11-3));
-            src_pos += src_stride;
-            dst_pos += dst_stride;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				tmp = *(const GLuint*)src_pos;
+				*(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)<<(11-3));
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width - src_width;
         }
         return true;
     }
     if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
         GLuint tmp;
-        for (int i = 0; i < pixels; i++) {
-            tmp = *(const GLuint*)src_pos;
-            *(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3-11)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)>>(3));
-            src_pos += src_stride;
-            dst_pos += dst_stride;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				tmp = *(const GLuint*)src_pos;
+				*(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3-11)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)>>(3));
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width - src_width;
         }
         return true;
     }
@@ -522,11 +540,15 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 		// fake convert, to get if it's ok or not
 		return false;
 	}
-	for (int i = 0; i < pixels; i++) {
-		remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
-						  src_color, src_type, dst_color, dst_type);
-		src_pos += src_stride;
-		dst_pos += dst_stride;
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+							  src_color, src_type, dst_color, dst_type);
+			src_pos += src_stride;
+			dst_pos += dst_stride;
+		}
+		if (stride)
+			dst_pos += dst_width - src_width;
 	}
 	return true;
 }
@@ -709,13 +731,13 @@ bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height,
     if (! pixels)
         return false;
 
-    const GLvoid *src;
+    GLvoid *src=0;
     char filename[64];
-    int size = 4 * 3 * width * height;
+    int size = /*4 * */3 * width * height;
     if (format == GL_RGB && type == GL_UNSIGNED_BYTE) {
-        src = pixels;
+        src = (GLvoid*)pixels;
     } else {
-        if (! pixel_convert(pixels, (GLvoid **)&src, width, height, format, type, GL_RGB, GL_UNSIGNED_BYTE)) {
+        if (! pixel_convert(pixels, (GLvoid **)&src, width, height, format, type, GL_RGB, GL_UNSIGNED_BYTE, 0)) {
             return false;
         }
     }
