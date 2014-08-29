@@ -133,6 +133,7 @@ static void load_gles_lib() {
     if (state.list.compiling && state.list.active) { \
 		NewStage(state.list.active, STAGE_GLCALL);   \
         push_##nam(__VA_ARGS__);                    \
+        noerrorShim();								\
         return (nam##_RETURN)0;                     \
     }
 
@@ -297,6 +298,17 @@ extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, con
 
 #include "state.h"
 extern glstate_t state;
+
+static inline void errorGL() {	// next glGetError will be from GL 
+	state.shim_error = 0;
+}
+static inline void errorShim(GLenum error) {	// next glGetError will be "error" from glShim
+	state.shim_error = 1;
+	state.last_error = error;
+}
+static inline void noerrorShim() {
+	errorShim(GL_NO_ERROR);
+}
 
 #include "defines.h"
 

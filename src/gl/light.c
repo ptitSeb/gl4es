@@ -13,9 +13,11 @@ void glLightModelf(GLenum pname, GLfloat param) {
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
         case GL_LIGHT_MODEL_TWO_SIDE:
+            errorGL();
             gles_glLightModelf(pname, param);
 			break;
         default:
+            errorShim(GL_INVALID_ENUM);
             //printf("stubbed glLightModelf(%i, %.2f)\n", pname, param);
             break;
     }
@@ -30,15 +32,18 @@ void glLightModelfv(GLenum pname, const GLfloat* params) {
 		state.list.active->lightmodelparam = pname;
 		state.list.active->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
 		memcpy(state.list.active->lightmodel, params, 4*sizeof(GLfloat));
+        noerrorShim();
 		return;
 	}
     LOAD_GLES(glLightModelfv);
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
         case GL_LIGHT_MODEL_TWO_SIDE:
+            errorGL();
             gles_glLightModelfv(pname, params);
 			break;
         default:
+            errorShim(GL_INVALID_ENUM);
             //printf("stubbed glLightModelfv(%i, %p [%.2f])\n", pname, params, params[0]);
             break;
     }
@@ -49,15 +54,18 @@ void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_LIGHT);
 		rlLightfv(state.list.active, light, pname, params);
+        noerrorShim();
 		return;
 	}
     LOAD_GLES(glLightfv);
     gles_glLightfv(light, pname, params);
+    errorGL();
 }
 
 void glLightf(GLenum light, GLenum pname, const GLfloat params) {
 	GLfloat dummy[4];
 	dummy[0]=params;
 	glLightfv(light, pname, dummy);
+    errorGL();
 }
 #endif

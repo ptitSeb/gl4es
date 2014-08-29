@@ -2,10 +2,17 @@
 
 GLint glRenderMode(GLenum mode) {
 	int ret = 0;
+    if ((mode==GL_SELECT) || (mode==GL_RENDER)) {  // missing GL_FEEDBACK
+        noerrorShim();
+    } else {
+        errorShim(GL_INVALID_ENUM);
+        return 0;
+    }
 	if (state.render_mode == GL_SELECT)
 		ret = state.selectbuf.count/4;
 	if (mode == GL_SELECT) {
 		if (state.selectbuf.buffer == NULL)	// error, cannot use Select Mode without select buffer
+            errorShim(GL_INVALID_OPERATION);
 			return 0;
 		state.selectbuf.count = 0;
 	}
@@ -18,16 +25,21 @@ void glInitNames() {
 		state.namestack.names = (GLuint*)malloc(1024*sizeof(GLuint));
 	}
 	state.namestack.top = 0;
+    noerrorShim();
 }
 
 void glPopName() {
+    noerrorShim();
 	if (state.render_mode != GL_SELECT)
 		return;
 	if (state.namestack.top>0)
 		state.namestack.top--;
+    else
+        errorShim(GL_STACK_UNDERFLOW);
 }
 
 void glPushName(GLuint name) {
+    noerrorShim();
 	if (state.render_mode != GL_SELECT)
 		return;
 	if (state.namestack.names==0)
@@ -38,6 +50,7 @@ void glPushName(GLuint name) {
 }
 
 void glLoadName(GLuint name) {
+    noerrorShim();
 	if (state.render_mode != GL_SELECT)
 		return;
 	if (state.namestack.names == 0)
@@ -46,6 +59,7 @@ void glLoadName(GLuint name) {
 }
 
 void glSelectBuffer(GLsizei size, GLuint *buffer) {
+    noerrorShim();
 	state.selectbuf.buffer = buffer;
 	state.selectbuf.size = size;
 }

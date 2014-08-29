@@ -4,6 +4,7 @@ glstack_t *stack = NULL;
 glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
+    noerrorShim();
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_PUSH);
 		state.list.active->pushattribute = mask;
@@ -222,6 +223,7 @@ void glPushAttrib(GLbitfield mask) {
 }
 
 void glPushClientAttrib(GLbitfield mask) {
+    noerrorShim();
     if (clientStack == NULL) {
         clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
         clientStack->len = 0;
@@ -284,13 +286,16 @@ void glPushClientAttrib(GLbitfield mask) {
 #define v4(c) v3(c), c[3]
 
 void glPopAttrib() {
+    noerrorShim();
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_POP);
 		state.list.active->popattribute = true;
 		return;
 	}
-    if (stack == NULL || stack->len == 0)
+    if (stack == NULL || stack->len == 0) {
+        errorShim(GL_STACK_UNDERFLOW);
         return;
+    }
 
     glstack_t *cur = stack + stack->len-1;
 
@@ -472,13 +477,16 @@ void glPopAttrib() {
     else glDisableClientState(pname)
 
 void glPopClientAttrib() {
+    noerrorShim();
 	LOAD_GLES(glVertexPointer);
 	LOAD_GLES(glColorPointer);
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glTexCoordPointer);
 
-    if (clientStack == NULL || clientStack->len == 0)
+    if (clientStack == NULL || clientStack->len == 0) {
+        errorShim(GL_STACK_UNDERFLOW);
         return;
+    }
 
     glclientstack_t *cur = clientStack + clientStack->len-1;
     if (cur->mask & GL_CLIENT_PIXEL_STORE_BIT) {

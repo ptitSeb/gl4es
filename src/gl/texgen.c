@@ -25,15 +25,19 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_TEXGEN);
 		rlTexGenfv(state.list.active, coord, pname, param);
+        noerrorShim();
 		return;
 	}
 
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
+    noerrorShim();
     if (pname == GL_TEXTURE_GEN_MODE) {
         switch (coord) {
             case GL_S: state.texgen[state.texture.active].S = param[0]; break;
             case GL_T: state.texgen[state.texture.active].T = param[0]; break;
             case GL_R: state.texgen[state.texture.active].R = param[0]; break;
+            default:
+                errorShim(GL_INVALID_ENUM);
         }
     } else {
         switch (coord) {
@@ -46,6 +50,8 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
             case GL_R:
                 memcpy(state.texgen[state.texture.active].Rv, param, 4 * sizeof(GLfloat));
                 break;
+            default:
+                errorShim(GL_INVALID_ENUM);
         }
     }
 
@@ -59,6 +65,7 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     */
 }
 void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
+    noerrorShim();
 	switch(pname) {
 		case GL_TEXTURE_GEN_MODE:
 			switch (coord) {
@@ -80,8 +87,12 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 				case GL_R:
 					memcpy(params, state.texgen[state.texture.active].Rv, 4 * sizeof(GLfloat));
 					break;
+                default:
+                    errorShim(GL_INVALID_ENUM);
 			}
 		break;
+        default:
+            errorShim(GL_INVALID_ENUM);
 	}
 }
 
@@ -353,6 +364,7 @@ void glLoadTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_row_column(m, mf);
 	glLoadMatrixf(mf);
+    errorGL();
 }
 
 void glLoadTransposeMatrixd(const GLdouble *m) {
@@ -372,4 +384,5 @@ void glMultTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_row_column(m, mf);
 	glMultMatrixf(mf);
+    errorGL();
 }

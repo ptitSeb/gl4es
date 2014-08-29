@@ -37,6 +37,8 @@
 #define skip_glGetBufferParameteriv
 #define skip_glGetBufferSubData
 
+#define skip_glGetError
+
 // light.c
 #define skip_glLightModelf
 #define skip_glLightModelfv

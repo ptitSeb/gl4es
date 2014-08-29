@@ -28,6 +28,7 @@ void glUnlockArraysEXT();
 void glVertex2f(GLfloat x, GLfloat y);
 void glVertex2i(GLint x, GLint y);
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
+GLenum glGetError();
 
 // custom functions
 void glPushCall(void *call);

@@ -28,6 +28,7 @@ void glLineStipple(GLuint factor, GLushort pattern) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
         16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, stippleData);
     glPopAttrib();
+    noerrorShim();
 }
 
 void bind_stipple_tex() {

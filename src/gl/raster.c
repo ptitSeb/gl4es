@@ -176,6 +176,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	rPos.x, rPos.y, xorig, yorig, width, height, zoomx, zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
+    noerrorShim();
     if ((!width && !height) || (bitmap==0)) {
 		if (state.list.compiling) {
 			if (state.list.active->raster)
@@ -257,11 +258,14 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
+    noerrorShim();
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%04x, type=%04x, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	rPos.x, rPos.y, width, height, format, type, zoomx, (zoominversey)?-zoomy:zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
 	// check of unsuported format...
-	if ((format == GL_STENCIL_INDEX) || (format == GL_DEPTH_COMPONENT))
+	if ((format == GL_STENCIL_INDEX) || (format == GL_DEPTH_COMPONENT)) {
+        errorShim(GL_INVALID_ENUM);
 		return;
+    }
 
     init_raster(width, height);
 

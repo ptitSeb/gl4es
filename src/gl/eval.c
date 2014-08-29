@@ -63,6 +63,7 @@ static inline map_state_t **get_map_pointer(GLenum target) {
 
 void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
+    noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 1; map->free = true;
     set_map_coords(u);
@@ -72,6 +73,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
 
 void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
+    noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 1; map->free = false;
     set_map_coords(u);
@@ -82,6 +84,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
 void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
              GLint vstride, GLint vorder, const GLdouble *points) {
+    noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 2; map->free = true;
     set_map_coords(u);
@@ -93,6 +96,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
 void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
+    noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
     map->type = GL_FLOAT; map->dims = 2; map->free = false;
     set_map_coords(u);
@@ -131,6 +135,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
     p_map(d, vertex4, glVertex4f, code);
 
 void glEvalCoord1f(GLfloat u) {
+    noerrorShim();
     iter_maps(1,
         GLfloat uu = (u - map->u._1) * map->u.d;
         _math_horner_bezier_curve(map->points, out, uu, map->width, map->u.order);
@@ -138,6 +143,7 @@ void glEvalCoord1f(GLfloat u) {
 }
 
 void glEvalCoord2f(GLfloat u, GLfloat v) {
+    noerrorShim();
     iter_maps(2,
         GLfloat uu = (u - map->u._1) * map->u.d;
         GLfloat vv = (v - map->v._1) * map->v.d;
@@ -152,6 +158,7 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef iter_maps
 
 void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
+    noerrorShim();
     // TODO: double support?
     map_statef_t *map;
     if (! state.map_grid)
@@ -166,6 +173,7 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
 
 void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
                  GLint vn, GLfloat v1, GLfloat v2) {
+    noerrorShim();
     // TODO: double support?
     map_statef_t *map;
     if (! state.map_grid)
@@ -207,6 +215,7 @@ static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
 }
 
 void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
+    noerrorShim();
     map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
     if (! renderMode)
@@ -223,6 +232,7 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
 }
 
 void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+    noerrorShim();
     map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
     if (! renderMode)
@@ -266,6 +276,7 @@ void glEvalPoint2(GLint i, GLint j) {
 
 #define GL_GET_MAP(t, type)                                        \
 void glGetMap##t##v(GLenum target, GLenum query, type *v) {        \
+    noerrorShim();                                                 \
     map_statef_t *map = *(map_statef_t **)get_map_pointer(target); \
     if (map) {                                                     \
         switch (query) {                                           \

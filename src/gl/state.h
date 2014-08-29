@@ -132,6 +132,8 @@ typedef struct {
     matrixstack_t **texture_matrix;
     selectbuf_t selectbuf;
     buffers_t buffers;
+    int shim_error;
+    GLenum last_error;
 } glstate_t;
 
 #endif

@@ -11,7 +11,9 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	.enable.color_array = 0,
 	.enable.secondary_array = 0,
 	.enable.normal_array = 0,
-	.buffers = {NULL, NULL}
+	.buffers = {NULL, NULL},
+	.shim_error = 0,
+	.last_error = GL_NO_ERROR
 	};
 	
 void* gles = NULL;
@@ -20,6 +22,7 @@ void* gles = NULL;
 const GLubyte *glGetString(GLenum name) {
     LOAD_GLES(glGetString);
     const GLubyte *str;
+    errorShim(GL_NO_ERROR);
 	if ((str=gles_glGetString(name))==NULL)
 		printf("**warning** glGetString(%i) called with bad init\n", name);
     switch (name) {
@@ -81,6 +84,7 @@ const GLubyte *glGetString(GLenum name) {
 			return (GLubyte *)"";
 #endif
         default:
+			errorShim(GL_INVALID_ENUM);
             return (str)?str:(GLubyte*)"";
     }
 }
@@ -93,6 +97,7 @@ extern GLfloat raster_bias[4];
 void glGetIntegerv(GLenum pname, GLint *params) {
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
+    GLenum err = GL_NO_ERROR;
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -186,12 +191,15 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			*params=(state.buffers.elements)?state.buffers.elements->buffer:0;
 			break;
     default:
+			errorGL();
             gles_glGetIntegerv(pname, params);
     }
+    errorShim(err);
 }
 
 void glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
+    GLenum err = GL_NO_ERROR;
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -289,8 +297,10 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 		*params=(state.buffers.elements)?state.buffers.elements->buffer:0;
 		break;
     default:
+		errorGL();
 		gles_glGetFloatv(pname, params);
     }
+    errorShim(err);
 }
 
 extern int alphahack;
@@ -318,7 +328,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 	if (state.texture.bound[state.texture.active])
 	    if (!state.texture.bound[state.texture.active]->alpha)
 		enable = false;
-	
+	noerrorShim();
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d[state.texture.active]);
@@ -336,7 +346,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_enable(GL_NORMAL_ARRAY, normal_array);
         proxy_enable(GL_COLOR_ARRAY, color_array);
         proxy_enable(GL_TEXTURE_COORD_ARRAY, tex_coord_array[state.texture.client]);
-        default: next(cap); break;
+        default: errorGL(); next(cap); break;
     }
     #undef proxy_enable
     #undef enable
@@ -382,6 +392,7 @@ void glDisableClientState(GLenum cap) {
 
 GLboolean glIsEnabled(GLenum cap) {
     LOAD_GLES(glIsEnabled);
+    noerrorShim();
     switch (cap) {
         case GL_LINE_STIPPLE:
             return state.enable.line_stipple;
@@ -398,6 +409,7 @@ GLboolean glIsEnabled(GLenum cap) {
 		case GL_SECONDARY_COLOR_ARRAY:
 			return state.enable.secondary_array;
         default:
+			errorGL();
             return gles_glIsEnabled(cap);
     }
 }
@@ -448,6 +460,11 @@ static inline bool should_intercept_render(GLenum mode) {
 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
     // TODO: split for count > 65535?
+    if (count<0) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	noerrorShim();
     GLushort *indices = copy_gl_array((state.buffers.elements)?state.buffers.elements->data + (uintptr_t)uindices:uindices,
 		type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     bool compiling = (state.list.active && state.list.compiling);
@@ -590,6 +607,11 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 }
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+	if (count<0) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	noerrorShim();
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glVertexPointer);
 	LOAD_GLES(glColorPointer);
@@ -726,6 +748,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+	errorGL();
     LOAD_GLES(glVertexPointer);
 	clone_gl_pointer(state.pointers.vertex, size);
     if (state.buffers.vertex==NULL) 
@@ -733,12 +756,14 @@ void glVertexPointer(GLint size, GLenum type,
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+	errorGL();
     LOAD_GLES(glColorPointer);
     clone_gl_pointer(state.pointers.color, size);
     if (state.buffers.vertex==NULL) 
 		gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+	errorGL();
     LOAD_GLES(glNormalPointer);
     clone_gl_pointer(state.pointers.normal, 3);
     if (state.buffers.vertex==NULL) 
@@ -746,6 +771,7 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+	errorGL();
     LOAD_GLES(glTexCoordPointer);
     clone_gl_pointer(state.pointers.tex_coord[state.texture.client], size);
     if (state.buffers.vertex==NULL) 
@@ -756,6 +782,7 @@ void glSecondaryColorPointer(GLint size, GLenum type,
 	if (size!=3)
 		return;		// Size must be 3...
     clone_gl_pointer(state.pointers.secondary, size);
+    noerrorShim();
 }
 
 #undef clone_gl_pointer
@@ -768,6 +795,7 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     // element formats
     GLenum tf, cf, nf, vf;
     tf = cf = nf = vf = GL_FLOAT;
+    noerrorShim();
     switch (format) {
         case GL_V2F: vert = 2; break;
         case GL_V3F: vert = 3; break;
@@ -827,6 +855,9 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
             normal = 3;
             vert = 4;
             break;
+        default:
+			errorShim(GL_INVALID_ENUM);
+			return;
     }
     if (! stride)
         stride = tex * gl_sizeof(tf) +
@@ -861,6 +892,7 @@ void glBegin(GLenum mode) {
     NewStage(state.list.active, STAGE_DRAW);
     state.list.active->mode = mode;
     state.list.active->mode_init = mode;
+    noerrorShim();	// TODO, check Enum validity
 }
 
 void glEnd() {
@@ -879,6 +911,7 @@ void glEnd() {
     } else {
         state.list.active = extend_renderlist(state.list.active);
     }
+    noerrorShim();
 }
 
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
@@ -887,11 +920,13 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 	    PUSH_IF_COMPILING(glNormal3f);
 	} else
 	    rlNormal3f(state.list.active, nx, ny, nz);
+	    noerrorShim();
     }
 #ifndef USE_ES2
     else {
         LOAD_GLES(glNormal3f);
         gles_glNormal3f(nx, ny, nz);
+        errorGL();
     }
 #endif
 }
@@ -899,6 +934,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
     if (state.list.active) {
         rlVertex3f(state.list.active, x, y, z);
+        noerrorShim();
     }
 }
 
@@ -908,6 +944,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 	    PUSH_IF_COMPILING(glColor4f);
 	} else
 	    rlColor4f(state.list.active, red, green, blue, alpha);
+	    noerrorShim();
     }
 #ifndef USE_ES2
     else {
@@ -915,6 +952,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
         gles_glColor4f(red, green, blue, alpha);
         state.color[0] = red; state.color[1] = green;
         state.color[2] = blue; state.color[3] = alpha;
+        errorGL();
     }
 #endif
 }
@@ -922,9 +960,11 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (state.list.active) {
         rlSecondary3f(state.list.active, r, g, b);
+        noerrorShim();
     } else {
         state.secondary[0] = r; state.secondary[1] = g;
         state.secondary[2] = b;
+        noerrorShim();
     }
 }
 
@@ -935,11 +975,13 @@ void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 		//TODO: Materialfv can be done per vertex, how to handle that ?!
 		//NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
+        noerrorShim();
     } else {
 	    if (face!=GL_FRONT_AND_BACK) {
 		    face=GL_FRONT_AND_BACK;
 		}
         gles_glMaterialfv(face, pname, params);
+        errorGL();
     }
 }
 void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
@@ -950,11 +992,13 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 		params[0] = param;
 		NewStage(state.list.active, STAGE_MATERIAL);
         rlMaterialfv(state.list.active, face, pname, params);
+        noerrorShim();
     } else {
 	    if (face!=GL_FRONT_AND_BACK) {
 		    face=GL_FRONT_AND_BACK;
 		}
         gles_glMaterialf(face, pname, param);
+        errorGL();
     }
 }
 #endif
@@ -962,16 +1006,21 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 void glTexCoord2f(GLfloat s, GLfloat t) {
     if (state.list.active) {
         rlTexCoord2f(state.list.active, s, t);
+        noerrorShim();
     } else {
 	state.texcoord[0][0] = s; state.texcoord[0][1] = t;
+	noerrorShim();
     }
 }
 
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
+	// TODO, error if taget is unsuported texture....
     if (state.list.active) {
         rlMultiTexCoord2f(state.list.active, target, s, t);
+		noerrorShim();
     } else {
 	state.texcoord[target-GL_TEXTURE0][0] = s; state.texcoord[target-GL_TEXTURE0][1] = t;
+	noerrorShim();
     }
 }
 void glArrayElement(GLint i) {
@@ -1039,10 +1088,12 @@ void glArrayElement(GLint i) {
 // maybe I need a way to call a renderlist_t with (first, count)
 void glLockArraysEXT(GLint first, GLsizei count) {
     state.list.locked = true;
+    noerrorShim();
 }
 
 void glUnlockArraysEXT() {
     state.list.locked = false;
+    noerrorShim();
 }
 
 // display lists
@@ -1055,6 +1106,11 @@ static renderlist_t *glGetList(GLuint list) {
 }
 
 GLuint glGenLists(GLsizei range) {
+	if (range<0) {
+		errorShim(GL_INVALID_VALUE);
+		return 0;
+	}
+	noerrorShim();
     int start = state.list.count;
     if (state.lists == NULL) {
         state.list.cap += range + 100;
@@ -1072,8 +1128,12 @@ GLuint glGenLists(GLsizei range) {
 }
 
 void glNewList(GLuint list, GLenum mode) {
+	errorShim(GL_INVALID_VALUE);
+	if (list==0)
+		return;
     if (! glIsList(list))
         return;
+    noerrorShim();
     state.list.name = list;
     state.list.mode = mode;
     // TODO: if state.list.active is already defined, we probably need to clean up here
@@ -1082,6 +1142,7 @@ void glNewList(GLuint list, GLenum mode) {
 }
 
 void glEndList() {
+	noerrorShim();
     GLuint list = state.list.name;
     if (state.list.compiling) {
 	// Free the previous list if it exist...
@@ -1097,6 +1158,7 @@ void glEndList() {
 }
 
 void glCallList(GLuint list) {
+	noerrorShim();
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_CALLLIST);
 		/*state.list.active = extend_renderlist(state.list.active);*/
@@ -1163,16 +1225,19 @@ void glDeleteList(GLuint list) {
 }
 
 void glDeleteLists(GLuint list, GLsizei range) {
+	noerrorShim();
     for (int i = 0; i < range; i++) {
         glDeleteList(list+i);
     }
 }
 
 void glListBase(GLuint base) {
+	noerrorShim();
     state.list.base = base;
 }
 
 GLboolean glIsList(GLuint list) {
+	noerrorShim();
     if (list - 1 < state.list.count) {
         return true;
     }
@@ -1180,6 +1245,9 @@ GLboolean glIsList(GLuint list) {
 }
 
 void glPolygonMode(GLenum face, GLenum mode) {
+	noerrorShim();
+	if (face != GL_FRONT_AND_BACK)
+		errorShim(GL_INVALID_ENUM);
 	if (face == GL_BACK)
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
 	if (state.list.compiling && (state.list.active)) {
@@ -1224,28 +1292,33 @@ void glPushMatrix() {
 	// get matrix mode
 	GLint matrix_mode;
 	glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
+	noerrorShim();
 	// go...
 	switch(matrix_mode) {
 		case GL_PROJECTION:
 			if (state.projection_matrix->top<MAX_STACK_PROJECTION) {
 				glGetFloatv(GL_PROJECTION_MATRIX, state.projection_matrix->stack+16*state.projection_matrix->top++);
-			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			} else
+				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_MODELVIEW:
 			if (state.modelview_matrix->top<MAX_STACK_MODELVIEW) {
 				glGetFloatv(GL_MODELVIEW_MATRIX, state.modelview_matrix->stack+16*state.modelview_matrix->top++);
-			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			} else
+				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_TEXTURE:
 			if (state.texture_matrix[state.texture.active]->top<MAX_STACK_PROJECTION) {
 				glGetFloatv(GL_TEXTURE_MATRIX, state.texture_matrix[state.texture.active]->stack+16*state.texture_matrix[state.texture.active]->top++);
-			}	// else generate GL_ERROR_STACK_OVERFLOW...
+			} else
+				errorShim(GL_STACK_OVERFLOW);
 			break;
 			
 		default:
 			//Warning?
-			printf("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
-			gles_glPushMatrix();
+			errorShim(GL_INVALID_OPERATION);
+			//printf("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//gles_glPushMatrix();
 	}
 }
 
@@ -1266,26 +1339,41 @@ void glPopMatrix() {
 	GLint matrix_mode;
 	glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
 	// go...
+	noerrorShim();
 	switch(matrix_mode) {
 		case GL_PROJECTION:
 			if (state.projection_matrix->top) {
 				glLoadMatrixf(state.projection_matrix->stack+16*--state.projection_matrix->top);
-			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			} else
+				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_MODELVIEW:
 			if (state.modelview_matrix->top) {
 				glLoadMatrixf(state.modelview_matrix->stack+16*--state.modelview_matrix->top);
-			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			} else
+				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_TEXTURE:
 			if (state.texture_matrix[state.texture.active]->top) {
 				glLoadMatrixf(state.texture_matrix[state.texture.active]->stack+16*--state.texture_matrix[state.texture.active]->top);
-			}	// else generate GL_ERROR_STACK_UNDERFLOW...
+			} else
+				errorShim(GL_STACK_UNDERFLOW);
 			break;
 			
 		default:
 			//Warning?
-			printf("LIBGL: PopMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
-			gles_glPopMatrix();
+			errorShim(GL_INVALID_OPERATION);
+			//printf("LIBGL: PopMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//gles_glPopMatrix();
 	}
+}
+
+GLenum glGetError( void) {
+	LOAD_GLES(glGetError);
+	if (state.shim_error) {
+		GLenum tmp = state.last_error;
+		state.last_error = GL_NO_ERROR;
+		return tmp;
+	}
+	return gles_glGetError();
 }
