@@ -294,6 +294,11 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 }
 
 extern int alphahack;
+extern int texstream;
+
+#ifndef GL_TEXTURE_STREAM_IMG  
+#define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
+#endif
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_enable(constant, name) \
@@ -313,7 +318,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 	if (state.texture.bound[state.texture.active])
 	    if (!state.texture.bound[state.texture.active]->alpha)
 		enable = false;
-
+	
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d[state.texture.active]);
@@ -340,6 +345,12 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 void glEnable(GLenum cap) {
 	PUSH_IF_COMPILING(glEnable)
         
+	if (texstream && (cap==GL_TEXTURE_2D)) {
+		if (state.texture.bound[state.texture.active])
+			if (state.texture.bound[state.texture.active]->streamed)
+				cap = GL_TEXTURE_STREAM_IMG;
+	}
+
     LOAD_GLES(glEnable);
     proxy_glEnable(cap, true, gles_glEnable);
 }
@@ -347,6 +358,12 @@ void glEnable(GLenum cap) {
 void glDisable(GLenum cap) {
 	PUSH_IF_COMPILING(glDisable)
         
+	if (texstream && (cap==GL_TEXTURE_2D)) {
+		if (state.texture.bound[state.texture.active])
+			if (state.texture.bound[state.texture.active]->streamed)
+				cap = GL_TEXTURE_STREAM_IMG;
+	}
+
     LOAD_GLES(glDisable);
     proxy_glEnable(cap, false, gles_glDisable);
 }

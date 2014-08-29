@@ -74,6 +74,14 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 31.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            s = (GLushort[]){
+                (v & 31)*2,
+                ((v & 0x07e0) >> 5),
+                ((v & 0xF800) >> 11)*2,
+            };
+            read_each(, / 63.0f);
+        )
         default:
             // TODO: add glSetError?
             printf("libGL: Unsupported source data type: %04X\n", src_type);
@@ -92,9 +100,9 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             color[dst_color->red] = pixel.r;
             color[dst_color->green] = pixel.g;
             color[dst_color->blue] = pixel.b;
-            *d = ((GLuint)(color[0] * 31) & 0x1f << 11) |
-                 ((GLuint)(color[1] * 63) & 0x3f << 5) |
-                 ((GLuint)(color[2] * 31) & 0x1f);
+            *d = ((GLushort)(color[0] * 31.0) & 0x1f << 11) |
+                 ((GLushort)(color[1] * 63.0) & 0x3f << 5) |
+                 ((GLushort)(color[2] * 31.0) & 0x1f);
         )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             GLfloat color[4];
@@ -102,10 +110,10 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             color[dst_color->green] = pixel.g;
             color[dst_color->blue] = pixel.b;
             color[dst_color->alpha] = pixel.a;
-            *d = ((GLushort)(color[0] * 15) & 0x0f << 12) |
-                 ((GLushort)(color[1] * 15) & 0x0f << 8) |
-                 ((GLushort)(color[2] * 15) & 0x0f << 4) |
-                 ((GLushort)(color[3] * 15) & 0x0f);
+            *d = ((GLushort)(color[0] * 15.0) & 0x0f << 12) |
+                 ((GLushort)(color[1] * 15.0) & 0x0f << 8) |
+                 ((GLushort)(color[2] * 15.0) & 0x0f << 4) |
+                 ((GLushort)(color[3] * 15.0) & 0x0f);
         )
         default:
             printf("libGL: Unsupported target data type: %04X\n", dst_type);
@@ -175,6 +183,14 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
                 ((v & 0x8000) >> 15)*31,
             };
             read_each(, / 31.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            s = (GLushort[]){
+                (v & 31)*2,
+                ((v & 0x07e0) >> 5),
+                ((v & 0xF800) >> 11)*2,
+            };
+            read_each(, / 63.0f);
         )
         default:
             // TODO: add glSetError?
@@ -449,7 +465,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
 
-    //printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
+//printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
@@ -457,7 +473,9 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return false;
 
     if (src_type == dst_type && src_color->type == dst_color->type) {
-        if (*dst == src || *dst == NULL)        // alloc dst only if src==dst
+        if (*dst == src)
+            return true;
+        if (*dst == NULL)        // alloc dst only if dst==NULL
             *dst = malloc(dst_size);
         memcpy(*dst, src, dst_size);
         return true;
@@ -478,21 +496,39 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             dst_pos += dst_stride;
         }
         return true;
-    } else {
-		if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
-						  src_color, src_type, dst_color, dst_type)) {
-			// fake convert, to get if it's ok or not
-			return false;
-		}
+    }
+    if ((src_format == GL_RGB) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
+        GLuint tmp;
         for (int i = 0; i < pixels; i++) {
-            remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
-                              src_color, src_type, dst_color, dst_type);
+            tmp = *(const GLuint*)src_pos;
+            *(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)<<(11-3));
             src_pos += src_stride;
             dst_pos += dst_stride;
         }
         return true;
     }
-    return false;
+    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
+        GLuint tmp;
+        for (int i = 0; i < pixels; i++) {
+            tmp = *(const GLuint*)src_pos;
+            *(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3-11)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)>>(3));
+            src_pos += src_stride;
+            dst_pos += dst_stride;
+        }
+        return true;
+    }
+	if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+					  src_color, src_type, dst_color, dst_type)) {
+		// fake convert, to get if it's ok or not
+		return false;
+	}
+	for (int i = 0; i < pixels; i++) {
+		remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+						  src_color, src_type, dst_color, dst_type);
+		src_pos += src_stride;
+		dst_pos += dst_stride;
+	}
+	return true;
 }
 
 bool pixel_transform(const GLvoid *src, GLvoid **dst,

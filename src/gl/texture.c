@@ -252,10 +252,22 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
     } else {
-	    swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
+	    if (texstream && (target==GL_TEXTURE_2D) && (width>=256 && height>=256) && 
+		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_RGB)) || (texstream==2) ) {
+			bound->streamingID = AddStreamed(width, height, bound->texture);
+			if (bound->streamingID>-1) {	// success
+				bound->streamed = true;
+				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
+				ActivateStreaming(bound->streamingID);	//Activate the newly created texture
+				format = GL_RGB;
+				type = GL_UNSIGNED_SHORT_5_6_5;
+			}
+	    }
 	    if (bound) {
 		bound->shrink = 0;
-		if (texshrink>0)
+	    if (!bound->streamed)
+			swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
+		if ((texshrink>0) && !bound->streamed)
 		    if ((texshrink==1) || 
 			((texshrink>1) && 
 				((width > ((texshrink==2)?512:256)) && (height > 8)) 
@@ -265,15 +277,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			bound->shrink = 1;
 		    }
 	    }
-		if (texstream && (target==GL_TEXTURE_2D) && 
-			((internalformat==GL_RGB) || (internalformat==3)) || (texstream==2) ) {
-			bound->streamingID = AddStreamed(width, height, bound->texture);
-			if (bound->streamingID>-1) {	// success
-				bound->streamed = true;
-				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
-				ActivateStreaming(bound->streamingID);	//Activate the newly created texture
-			}
-		}
 	}
 
     /* TODO:
@@ -298,48 +301,44 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if (texstream && bound && bound->streamed) {
 				nwidth = width;
 				nheight = height;
+	    }
+	    if (bound && (level == 0)) {
+		bound->width = width;
+		bound->height = height;
+		bound->nwidth = nwidth;
+		bound->nheight = nheight;
+	    }
+	    if (!(texstream && bound && bound->streamed)) {
+			if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+			if (height != nheight || width != nwidth) {
+				gles_glTexImage2D(target, level, format, nwidth, nheight, border,
+								format, type, NULL);
+				if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
+									 format, type, pixels);
+			} else {
+				gles_glTexImage2D(target, level, format, width, height, border,
+								format, type, pixels);
 			}
-            if (bound && (level == 0)) {
-                bound->width = width;
-                bound->height = height;
-                bound->nwidth = nwidth;
-                bound->nheight = nheight;
-            }
-			if (!(texstream && bound && bound->streamed)) {
-				if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
-					gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
-				if (height != nheight || width != nwidth) {
-					gles_glTexImage2D(target, level, format, nwidth, nheight, border,
-									  format, type, NULL);
-					if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
-										 format, type, pixels);
-				} else {
-					gles_glTexImage2D(target, level, format, width, height, border,
-									  format, type, pixels);
-				}
-				if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
-					gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
-			} else if (texstream && (target==GL_TEXTURE_2D) && 
-				((internalformat==GL_RGB) || (internalformat==3)) || (texstream==2) ) {
-				bound->streamingID = AddStreamed(width, height, bound->texture);
-				if (bound->streamingID>-1) {	// success
-					bound->streamed = true;
-					ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
-					ActivateStreaming(bound->streamingID);	//Activate the newly created texture
-					if (pixels) glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// updload the 1st data...
-				}
+			if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+	    } else {
+			if (pixels)
+				glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
 			}
         }
     }
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
-		if (bound->data) bound->data=realloc(bound->data, width*height*4);
-		else bound->data = malloc(width*height*4);
-		if (data) {
-			if (!pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
-				printf("LIBGL: Error on pixel_convert when TEXCOPY in glTexImage2D\n");
-		} else {
-//			memset(bound->data, 0, width*height*4);
-		}
+	    if (bound->data) 
+			bound->data=realloc(bound->data, width*height*4);
+	    else 
+			bound->data = malloc(width*height*4);
+	    if (data) {
+		    if (!pixel_convert(pixels, &bound->data, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+			    printf("LIBGL: Error on pixel_convert when TEXCOPY in glTexImage2D\n");
+	    } else {
+		//memset(bound->data, 0, width*height*4);
+	    }
 	}
     if (pixels != data) {
         free(pixels);
@@ -369,26 +368,26 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     }
 
     if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
-		int imgWidth, pixelSize;
-		pixelSize = pixel_sizeof(format, type);
-		imgWidth = ((state.texture.unpack_row_length)? state.texture.unpack_row_length:width) * pixelSize;
-		GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
-		pixels = (GLvoid *)dst;
-		const GLubyte *src = (GLubyte *)data;
-		src += state.texture.unpack_skip_pixels * pixelSize + state.texture.unpack_skip_rows * imgWidth;
-		for (int y = 0; y < height; y += 1) {
-			memcpy(dst, src, width * pixelSize);
-			src += imgWidth;
-			dst += width * pixelSize;
-		}
+	    int imgWidth, pixelSize;
+	    pixelSize = pixel_sizeof(format, type);
+	    imgWidth = ((state.texture.unpack_row_length)? state.texture.unpack_row_length:width) * pixelSize;
+	    GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+	    pixels = (GLvoid *)dst;
+	    const GLubyte *src = (GLubyte *)data;
+	    src += state.texture.unpack_skip_pixels * pixelSize + state.texture.unpack_skip_rows * imgWidth;
+	    for (int y = 0; y < height; y += 1) {
+		    memcpy(dst, src, width * pixelSize);
+		    src += imgWidth;
+		    dst += width * pixelSize;
+	    }
     }
 
     GLvoid *old = pixels;
-	if (bound && texstream && (bound->streamed)) {
-		if (! pixel_convert(data, &pixels, width, height,
-								format, type, GL_RGB, GL_UNSIGNED_SHORT_5_6_5)) {
-			printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_SHORT_5_6_5)\n",
-			format, type);
+    if (bound && texstream && (bound->streamed)) {
+		if (! pixel_convert(old, &pixels, width, height,
+						format, type, GL_RGB, GL_UNSIGNED_SHORT_5_6_5)) {
+			printf("libGL swizzle error: (%#4x, %#4x -> GL_RGB, UNSIGNED_SHORT_5_6_5)\n",
+						format, type);
 		}
 		format = GL_RGB;
 		type = GL_UNSIGNED_SHORT_5_6_5;
@@ -397,67 +396,67 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	free(old);
 
     if (bound->shrink) {
-		// special case for width/height == 1
-		if (width==1)
-			width+=(xoffset%2);
-		if (height==1)
-			height+=(yoffset%2);
-		if ((width==1) || (height==1)) {
-			// nothing to do...
-			if (pixels != data)
-				free((GLvoid *)pixels);
-			return;
-		}
-		// ok, now standard cases....
-		xoffset /= 2;
-		yoffset /= 2;
-		old = pixels;
-		pixel_halfscale(pixels, &old, width, height, format, type);
-		if (old != pixels && pixels!=data)
-			free(pixels);
-		pixels = old;
-		width /= 2;
-		height /= 2;
+	// special case for width/height == 1
+	if (width==1)
+		width+=(xoffset%2);
+	if (height==1)
+		height+=(yoffset%2);
+	if ((width==1) || (height==1)) {
+		// nothing to do...
+		if (pixels != data)
+			free((GLvoid *)pixels);
+		return;
+	}
+	// ok, now standard cases....
+	xoffset /= 2;
+	yoffset /= 2;
+	old = pixels;
+	pixel_halfscale(pixels, &old, width, height, format, type);
+	if (old != pixels && pixels!=data)
+		free(pixels);
+	pixels = old;
+	width /= 2;
+	height /= 2;
     }
 
     if (texdump) {
-		if (bound) {
-			pixel_to_ppm(pixels, width, height, format, type, bound->texture);
-		}
+	if (bound) {
+	    pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+	}
     }
 
-    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (texstream && !bound->streamed))
+    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (!texstream || (texstream && !bound->streamed)))
 	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
 
-	if (bound && texstream && bound->streamed) {
-		// copy the texture to the buffer
-		void* tmp = GetStreamingBuffer(bound->streamingID);
-		for (int yy=0; yy<height; yy++) {
-			memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
-		}
-	} else
-		gles_glTexSubImage2D(target, level, xoffset, yoffset,
-						 width, height, format, type, pixels);
+    if (bound && texstream && bound->streamed) {
+	// copy the texture to the buffer
+	void* tmp = GetStreamingBuffer(bound->streamingID);
+	for (int yy=0; yy<height; yy++) {
+		memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
+	}
+    } else
+	gles_glTexSubImage2D(target, level, xoffset, yoffset,
+					 width, height, format, type, pixels);
 
-    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (texstream && !bound->streamed))
+    if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (!texstream || (texstream && !bound->streamed)))
 	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
 
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
 //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i, format=0x%04X, type=0x%04X, tex=%u\n", xoffset, yoffset, width, height, format, type, bound->glname);
-		GLvoid * tmp = malloc(width*height*4);
-		if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
-			printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
-		GLvoid* dst = bound->data;
-		dst += (yoffset*bound->width + xoffset)*4;
-		GLvoid* src = tmp;
-		for (int yy=0; yy<height; yy++) {
-			memcpy(dst, src, width*4);
-			dst += bound->width * 4;
-			src += width * 4;
-			
-		}
-		free(tmp);
+	GLvoid * tmp = malloc(width*height*4);
+	if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE))
+		printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
+	GLvoid* dst = bound->data;
+	dst += (yoffset*bound->width + xoffset)*4;
+	GLvoid* src = tmp;
+	for (int yy=0; yy<height; yy++) {
+		memcpy(dst, src, width*4);
+		dst += bound->width * 4;
+		src += width * 4;
+		
 	}
+	free(tmp);
+    }
 
     if (pixels != data)
         free((GLvoid *)pixels);

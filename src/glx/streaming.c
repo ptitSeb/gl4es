@@ -259,6 +259,7 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter) {
 // Function to activate the Steaming texture ID on current tex...
 void ActivateStreaming(int ID) {
 //printf("ActivateStreaming(%i)\n", ID);
+    LOAD_GLES(glEnable);
 	if (!gl_streaming)
 		return;
 	if ((ID<0) || (ID>9))
@@ -268,14 +269,15 @@ void ActivateStreaming(int ID) {
 	if (!stream_cache[ID].active)
 		return;
 
-	glEnable(GL_TEXTURE_STREAM_IMG);
+	gles_glEnable(GL_TEXTURE_STREAM_IMG);
 	glTexBindStreamIMG(ID, 0);
 }
 
 // Function to deactivate the Streaming texture on current tex...
 void DeactivateStreaming() {
 //printf("DeactivateStreaming()\n");
+    LOAD_GLES(glDisable);
 	if (!gl_streaming)
 		return;
-	glDisable(GL_TEXTURE_STREAM_IMG);
+	gles_glDisable(GL_TEXTURE_STREAM_IMG);
 }

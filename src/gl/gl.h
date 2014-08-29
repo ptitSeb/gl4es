@@ -201,6 +201,8 @@ static const GLuint gl_max_value(GLenum type) {
 static const GLboolean is_type_packed(GLenum type) {
     switch (type) {
         case GL_4_BYTES:
+        case GL_3_BYTES:
+        case GL_2_BYTES:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
         case GL_UNSIGNED_BYTE_3_3_2:
         case GL_UNSIGNED_INT_10_10_10_2:
