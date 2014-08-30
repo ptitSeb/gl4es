@@ -222,6 +222,14 @@ void draw_renderlist(renderlist_t *list) {
     if (!list) return;
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
+#ifdef USE_ES2
+    LOAD_GLES(glVertexAttribPointer);
+#else
+    LOAD_GLES(glVertexPointer);
+    LOAD_GLES(glNormalPointer);
+    LOAD_GLES(glColorPointer);
+    LOAD_GLES(glTexCoordPointer);
+#endif
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
     do {
 	// push/pop attributes
@@ -301,20 +309,20 @@ void draw_renderlist(renderlist_t *list) {
 #ifdef USE_ES2
         if (list->vert) {
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, list->vert);
+            gles_glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, list->vert);
         }
         gles_glDrawArrays(list->mode, 0, list->len);
 #else
         if (list->vert) {
             glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(3, GL_FLOAT, 0, list->vert);
+            gles_glVertexPointer(3, GL_FLOAT, 0, list->vert);
         } else {
             glDisableClientState(GL_VERTEX_ARRAY);
         }
 
         if (list->normal) {
             glEnableClientState(GL_NORMAL_ARRAY);
-            glNormalPointer(GL_FLOAT, 0, list->normal);
+            gles_glNormalPointer(GL_FLOAT, 0, list->normal);
         } else {
             glDisableClientState(GL_NORMAL_ARRAY);
         }
@@ -326,9 +334,9 @@ void draw_renderlist(renderlist_t *list) {
 		final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
 		for (int i=0; i<list->len*4; i++)
 			final_colors[i]=list->color[i] + list->secondary[i];
-		glColorPointer(4, GL_FLOAT, 0, final_colors);
+		gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 	    } else
-		glColorPointer(4, GL_FLOAT, 0, list->color);
+		gles_glColorPointer(4, GL_FLOAT, 0, list->color);
         } else {
             glDisableClientState(GL_COLOR_ARRAY);
         }
@@ -361,7 +369,7 @@ void draw_renderlist(renderlist_t *list) {
 		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
 			glClientActiveTexture(GL_TEXTURE0+a);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		        glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
+		        gles_glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
 			if (state.enable.tex_coord_array[a]) {
 			    glClientActiveTexture(GL_TEXTURE0+a);

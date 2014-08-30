@@ -108,6 +108,8 @@ typedef struct {
 typedef struct {
     glbuffer_t *vertex;
     glbuffer_t *elements;
+    glbuffer_t *pack;
+    glbuffer_t *unpack;
     khash_t(buff) *list;
 } buffers_t;
 

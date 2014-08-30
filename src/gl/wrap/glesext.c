@@ -1,5 +1,23 @@
 #ifndef USE_ES2
 #include "gles.h"
+#ifndef skip_glBindFramebuffer
+void glBindFramebuffer(GLenum target, GLuint framebuffer) {
+    LOAD_GLES_OES(glBindFramebuffer);
+#ifndef direct_glBindFramebuffer
+    PUSH_IF_COMPILING(glBindFramebuffer)
+#endif
+    gles_glBindFramebuffer(target, framebuffer);
+}
+#endif
+#ifndef skip_glBindRenderbuffer
+void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
+    LOAD_GLES_OES(glBindRenderbuffer);
+#ifndef direct_glBindRenderbuffer
+    PUSH_IF_COMPILING(glBindRenderbuffer)
+#endif
+    gles_glBindRenderbuffer(target, renderbuffer);
+}
+#endif
 #ifndef skip_glBlendColor
 void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     LOAD_GLES_OES(glBlendColor);
@@ -34,6 +52,123 @@ void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlp
     PUSH_IF_COMPILING(glBlendFuncSeparate)
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
+#endif
+#ifndef skip_glCheckFramebufferStatus
+GLenum glCheckFramebufferStatus(GLenum target) {
+    LOAD_GLES_OES(glCheckFramebufferStatus);
+#ifndef direct_glCheckFramebufferStatus
+    PUSH_IF_COMPILING(glCheckFramebufferStatus)
+#endif
+    return gles_glCheckFramebufferStatus(target);
+}
+#endif
+#ifndef skip_glDeleteFramebuffers
+void glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
+    LOAD_GLES_OES(glDeleteFramebuffers);
+#ifndef direct_glDeleteFramebuffers
+    PUSH_IF_COMPILING(glDeleteFramebuffers)
+#endif
+    gles_glDeleteFramebuffers(n, framebuffers);
+}
+#endif
+#ifndef skip_glDeleteRenderbuffers
+void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
+    LOAD_GLES_OES(glDeleteRenderbuffers);
+#ifndef direct_glDeleteRenderbuffers
+    PUSH_IF_COMPILING(glDeleteRenderbuffers)
+#endif
+    gles_glDeleteRenderbuffers(n, renderbuffers);
+}
+#endif
+#ifndef skip_glFramebufferRenderbuffer
+void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
+    LOAD_GLES_OES(glFramebufferRenderbuffer);
+#ifndef direct_glFramebufferRenderbuffer
+    PUSH_IF_COMPILING(glFramebufferRenderbuffer)
+#endif
+    gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+}
+#endif
+#ifndef skip_glFramebufferTexture2D
+void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
+    LOAD_GLES_OES(glFramebufferTexture2D);
+#ifndef direct_glFramebufferTexture2D
+    PUSH_IF_COMPILING(glFramebufferTexture2D)
+#endif
+    gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
+}
+#endif
+#ifndef skip_glGenFramebuffers
+void glGenFramebuffers(GLsizei n, GLuint * ids) {
+    LOAD_GLES_OES(glGenFramebuffers);
+#ifndef direct_glGenFramebuffers
+    PUSH_IF_COMPILING(glGenFramebuffers)
+#endif
+    gles_glGenFramebuffers(n, ids);
+}
+#endif
+#ifndef skip_glGenRenderbuffers
+void glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
+    LOAD_GLES_OES(glGenRenderbuffers);
+#ifndef direct_glGenRenderbuffers
+    PUSH_IF_COMPILING(glGenRenderbuffers)
+#endif
+    gles_glGenRenderbuffers(n, renderbuffers);
+}
+#endif
+#ifndef skip_glGenerateMipmap
+void glGenerateMipmap(GLenum target) {
+    LOAD_GLES_OES(glGenerateMipmap);
+#ifndef direct_glGenerateMipmap
+    PUSH_IF_COMPILING(glGenerateMipmap)
+#endif
+    gles_glGenerateMipmap(target);
+}
+#endif
+#ifndef skip_glGetFramebufferAttachmentParameteriv
+void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) {
+    LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
+#ifndef direct_glGetFramebufferAttachmentParameteriv
+    PUSH_IF_COMPILING(glGetFramebufferAttachmentParameteriv)
+#endif
+    gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
+}
+#endif
+#ifndef skip_glGetRenderbufferParameteriv
+void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
+    LOAD_GLES_OES(glGetRenderbufferParameteriv);
+#ifndef direct_glGetRenderbufferParameteriv
+    PUSH_IF_COMPILING(glGetRenderbufferParameteriv)
+#endif
+    gles_glGetRenderbufferParameteriv(target, pname, params);
+}
+#endif
+#ifndef skip_glIsFramebuffer
+GLboolean glIsFramebuffer(GLuint framebuffer) {
+    LOAD_GLES_OES(glIsFramebuffer);
+#ifndef direct_glIsFramebuffer
+    PUSH_IF_COMPILING(glIsFramebuffer)
+#endif
+    return gles_glIsFramebuffer(framebuffer);
+}
+#endif
+#ifndef skip_glIsRenderbuffer
+GLboolean glIsRenderbuffer(GLuint renderbuffer) {
+    LOAD_GLES_OES(glIsRenderbuffer);
+#ifndef direct_glIsRenderbuffer
+    PUSH_IF_COMPILING(glIsRenderbuffer)
+#endif
+    return gles_glIsRenderbuffer(renderbuffer);
+}
+#endif
+#ifndef skip_glRenderbufferStorage
+void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
+    LOAD_GLES_OES(glRenderbufferStorage);
+#ifndef direct_glRenderbufferStorage
+    PUSH_IF_COMPILING(glRenderbufferStorage)
+#endif
+    gles_glRenderbufferStorage(target, internalformat, width, height);
 }
 #endif
 #ifndef skip_glTexGenfv

@@ -82,6 +82,15 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 63.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            s = (GLushort[]){
+                (v & 0x000f),
+                ((v & 0x00f0) >> 4),
+                ((v & 0x0f00) >> 8),
+                ((v & 0xf000) >> 12)
+            };
+            read_each(, / 15.0f);
+        )
         default:
             // TODO: add glSetError?
             printf("libGL: Unsupported source data type: %04X\n", src_type);
@@ -192,9 +201,18 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 63.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            s = (GLushort[]){
+                (v & 0x000f),
+                ((v & 0x00f0) >> 4),
+                ((v & 0x0f00) >> 8),
+                ((v & 0xf000) >> 12)
+            };
+            read_each(, / 15.0f);
+        )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %04X\n", src_type);
+            printf("libGL: transform_pixel: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -217,6 +235,17 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
             *d = ((GLuint)(color[0] * 31) & 0x1f << 11) |
                  ((GLuint)(color[1] * 63) & 0x3f << 5) |
                  ((GLuint)(color[2] * 31) & 0x1f);
+        )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            color[src_color->alpha] = pixel.a;
+            *d = ((GLushort)(color[0] * 15.0) & 0x0f << 12) |
+                 ((GLushort)(color[1] * 15.0) & 0x0f << 8) |
+                 ((GLushort)(color[2] * 15.0) & 0x0f << 4) |
+                 ((GLushort)(color[3] * 15.0) & 0x0f);
         )
         default:
             printf("libGL: Unsupported target data type: %04X\n", src_type);
@@ -300,9 +329,20 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
             };
             read_each(, / 31.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            for (int ii=0; ii<4; ii++) {
+                s[ii] = (GLushort[]) {
+                    (v[ii] & 0x000f),
+                    ((v[ii] & 0x00f0) >> 4),
+                    ((v[ii] & 0x0f00) >> 8),
+                    ((v[ii] & 0xf000) >> 12)
+                };
+            };
+            read_each(, / 15.0f);
+        )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %04X\n", src_type);
+            printf("libGL: half_pixel: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -326,8 +366,19 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
                  ((GLuint)(color[1] * 63) & 0x3f << 5) |
                  ((GLuint)(color[2] * 31) & 0x1f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            color[src_color->alpha] = pixel.a;
+            *d = ((GLushort)(color[0] * 15.0) & 0x0f << 12) |
+                 ((GLushort)(color[1] * 15.0) & 0x0f << 8) |
+                 ((GLushort)(color[2] * 15.0) & 0x0f << 4) |
+                 ((GLushort)(color[3] * 15.0) & 0x0f);
+        )
         default:
-            printf("libGL: Unsupported target data type: %04X\n", src_type);
+            printf("libGL: half_pixel: Unsupported target data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -406,7 +457,7 @@ bool quarter_pixel(const GLvoid *src[16],
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
-            for (int ii=0; ii<4; ii++) {
+            for (int ii=0; ii<16; ii++) {
                 s[ii] = (GLushort[]) {
                     (v[ii] & 31),
                     ((v[ii] & 0x03e0) >> 5),
@@ -416,9 +467,20 @@ bool quarter_pixel(const GLvoid *src[16],
             };
             read_each(, / 31.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            for (int ii=0; ii<16; ii++) {
+                s[ii] = (GLushort[]) {
+                    (v[ii] & 0x000f),
+                    ((v[ii] & 0x00f0) >> 4),
+                    ((v[ii] & 0x0f00) >> 8),
+                    ((v[ii] & 0xf000) >> 12)
+                };
+            };
+            read_each(, / 15.0f);
+        )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %04X\n", src_type);
+            printf("libGL: quarter_pixel: Unsupported source data type: %04X\n", src_type);
             return false;
             break;
     }
@@ -442,8 +504,19 @@ bool quarter_pixel(const GLvoid *src[16],
                  ((GLuint)(color[1] * 63) & 0x3f << 5) |
                  ((GLuint)(color[2] * 31) & 0x1f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            color[src_color->alpha] = pixel.a;
+            *d = ((GLushort)(color[0] * 15.0) & 0x0f << 12) |
+                 ((GLushort)(color[1] * 15.0) & 0x0f << 8) |
+                 ((GLushort)(color[2] * 15.0) & 0x0f << 4) |
+                 ((GLushort)(color[3] * 15.0) & 0x0f);
+        )
         default:
-            printf("libGL: Unsupported target data type: %04X\n", src_type);
+            printf("libGL: quarter_pixel Unsupported target data type: %04X\n", src_type);
             return false;
             break;
     }

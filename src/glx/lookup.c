@@ -87,21 +87,78 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glUnmapBuffer);
     ARB(glGetBufferParameteriv);
     ARB(glGetBufferSubData);
-
-/*    ARB(glBindBuffer);
-    ARB(glBufferData);
-    ARB(glBufferSubData);
-    ARB(glDeleteBuffers);
-    ARB(glGenBuffers);
-    ARB(glIsBuffer);
-    MAP_EGL(glGetBufferParameteriARB, glGetBufferParameteriOES);
-    MAP_EGL(glGetBufferPointerARB, glGetBufferPointerOES);
-    MAP_EGL(glGetBufferPointervARB, glGetBufferPointervOES);
-    MAP_EGL(glMapBufferARB, glMapBufferOES);
-    MAP_EGL(glUnmapBufferARB, glMapBufferOES);
-    STUB(glGetBufferParameterivARB);
-    STUB(glGetBufferSubDataARB);*/
     
+    // GL_ARB_frameBuffer_ext
+    EX(glGenFramebuffers);
+    EX(glDeleteFramebuffers);
+    EX(glIsFramebuffer);
+    EX(glCheckFramebufferStatus);
+    EX(glBindFramebuffer);
+    EX(glFramebufferTexture2D);
+    EX(glFramebufferTexture1D);
+    EX(glFramebufferTexture3D);
+    EX(glGenRenderbuffers);
+    EX(glFramebufferRenderbuffer);
+    EX(glDeleteRenderbuffers);
+    EX(glRenderbufferStorage);
+    EX(glRenderbufferStorageMultisample);
+    EX(glBindRenderbuffer);
+    EX(glIsRenderbuffer);
+    EX(glGenerateMipmap);
+    EX(glGetFramebufferAttachmentParameteriv);
+    EX(glGetRenderbufferParameteriv);
+    EXT(glGenFramebuffers);
+    EXT(glDeleteFramebuffers);
+    EXT(glIsFramebuffer);
+    EXT(glCheckFramebufferStatus);
+    EXT(glBindFramebuffer);
+    EXT(glFramebufferTexture2D);
+    EXT(glFramebufferTexture1D);
+    EXT(glFramebufferTexture3D);
+    EXT(glGenRenderbuffers);
+    EXT(glFramebufferRenderbuffer);
+    EXT(glDeleteRenderbuffers);
+    EXT(glRenderbufferStorage);
+    EXT(glRenderbufferStorageMultisample);
+    EXT(glBindRenderbuffer);
+    EXT(glIsRenderbuffer);
+    EXT(glGenerateMipmap);
+    EXT(glGetFramebufferAttachmentParameteriv);
+    EXT(glGetRenderbufferParameteriv);
+/*    ARB(glGenFramebuffers);
+    ARB(glDeleteFramebuffers);
+    ARB(glIsFramebuffer);
+    ARB(glCheckFramebufferStatus);
+    ARB(glBindFramebuffer);
+    ARB(glFramebufferTexture2D);
+    ARB(glFramebufferTexture1D);
+    ARB(glFramebufferTexture3D);
+    ARB(glGenRenderbuffers);
+    ARB(glFramebufferRenderbuffer);
+    ARB(glDeleteRenderbuffers);
+    ARB(glRenderbufferStorage);
+    ARB(glRenderbufferStorageMultisample);
+    ARB(glBindRenderbuffer);
+    ARB(glIsRenderbuffer);
+    ARB(glGenerateMipmap);
+    ARB(glGetFramebufferAttachmentParameteriv);
+    ARB(glGetRenderbufferParameteriv);*/
+    
+        /*
+    MAP_EGL(glGenFramebuffersARB, glGenFramebuffersOES);
+    MAP_EGL(glDeleteFramebuffersARB, glDeleteFramebuffersOES);
+    MAP_EGL(glBindFramebufferARB, glBindFramebufferOES);
+    MAP_EGL(glFramebufferRenderbufferARB, glFramebufferRenderbufferOES);
+    MAP_EGL(glFramebufferTexture2DARB, glFramebufferTexture2DOES);
+    MAP_EGL(glIsFramebufferARB, glIsFramebufferOES);
+    MAP_EGL(glGenRenderbuffersARB, glGenRenderbuffersOES);
+    MAP_EGL(glDeleteRenderbuffersARB, glDeleteRenderbuffersOES);
+    MAP_EGL(glCheckFramebufferStatusARB, glCheckFramebufferStatusOES);
+    MAP_EGL(glRenderbufferStorageARB, glRenderbufferStorageOES);
+    MAP_EGL(glBindRenderbufferARB, glBindRenderbufferOES);
+    MAP_EGL(glIsRenderbufferARB, glIsRenderbufferOES);
+    */
+
     // GL_EXT_vertex_array
     EXT(glArrayElement);
     EXT(glDrawArrays);

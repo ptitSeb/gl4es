@@ -257,16 +257,16 @@ void glPushClientAttrib(GLbitfield mask) {
            cur->tex_enable[a] = state.enable.tex_coord_array[a];
         }
         memcpy(&cur->verts, &state.pointers.vertex, sizeof(pointer_state_t));
-        cur->ref_verts = state.pointers.vertex.pointer;
+        cur->ref_verts = (void*)state.pointers.vertex.pointer;
         memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
-        cur->ref_colors = state.pointers.color.pointer;
+        cur->ref_colors = (void*)state.pointers.color.pointer;
         memcpy(&cur->secondary, &state.pointers.secondary, sizeof(pointer_state_t));
-        cur->ref_secondary = state.pointers.secondary.pointer;
+        cur->ref_secondary = (void*)state.pointers.secondary.pointer;
         memcpy(&cur->normal, &state.pointers.normal, sizeof(pointer_state_t));
-        cur->ref_normal = state.pointers.normal.pointer;
+        cur->ref_normal = (void*)state.pointers.normal.pointer;
         for (a=0; a<MAX_TEX; a++) {
            memcpy(&cur->tex[a], &state.pointers.tex_coord[a], sizeof(pointer_state_t));
-           cur->ref_tex[a] = state.pointers.tex_coord[a].pointer;
+           cur->ref_tex[a] = (void*)state.pointers.tex_coord[a].pointer;
         }
 	cur->client = state.texture.client;
     }

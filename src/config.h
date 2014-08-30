@@ -79,6 +79,23 @@
 #define skip_glDisableClientState
 #define skip_glEnableClientState
 
+// Framebuffers
+#define skip_glGenFramebuffers
+#define skip_glDeleteFramebuffers
+#define skip_glIsFramebuffer
+#define skip_glCheckFramebufferStatus
+#define skip_glBindFramebuffer
+#define skip_glFramebufferTexture2D
+#define skip_glGenRenderbuffers
+#define skip_glFramebufferRenderbuffer
+#define skip_glDeleteRenderbuffers
+#define skip_glRenderbufferStorage
+#define skip_glRenderbufferStorageMultisample
+#define skip_glBindRenderbuffer
+#define skip_glIsRenderbuffer
+#define skip_glGenerateMipmap
+#define skip_glGetFramebufferAttachmentParameteriv
+#define skip_glGetRenderbufferParameteriv
 
 // don't compile these into display lists
 #define direct_glColorPointer
