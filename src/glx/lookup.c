@@ -410,6 +410,7 @@ void *glXGetProcAddressARB(const char *name) {
 	EX(glLoadTransposeMatrixd);
 	EX(glMultTransposeMatrixd);
 	EX(glMultTransposeMatrixf);
+    EX(glGetCompressedTexImage);
     // stubs for unimplemented functions
     STUB(glAccum);
     STUB(glAreTexturesResident);

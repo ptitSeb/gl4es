@@ -101,7 +101,7 @@ extern GLfloat raster_bias[4];
 void glGetIntegerv(GLenum pname, GLint *params) {
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
-    GLenum err = GL_NO_ERROR;
+    noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -204,12 +204,11 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			errorGL();
             gles_glGetIntegerv(pname, params);
     }
-    errorShim(err);
 }
 
 void glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
-    GLenum err = GL_NO_ERROR;
+    noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -316,7 +315,6 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 		errorGL();
 		gles_glGetFloatv(pname, params);
     }
-    errorShim(err);
 }
 
 extern int alphahack;

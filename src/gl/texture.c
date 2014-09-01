@@ -223,8 +223,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             free(old);
         }
 
-        bound->shrink = 0;
-        if (texshrink==1) {
+        if (bound) bound->shrink = 0;
+        if (bound && (texshrink==1)) {
             if ((width > 1) && (height > 1)) {
                 GLvoid *out = pixels;
                 GLfloat ratio = 0.5;
@@ -237,7 +237,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->shrink = 1;
             }
         }
-        if (texshrink==2 || texshrink==3) {
+        if (bound && (texshrink==2 || texshrink==3)) {
             if (((width > ((texshrink==2)?512:256)) && (height > 8)) || ((height > ((texshrink==2)?512:256)) && (width > 8))) {
                 GLvoid *out = pixels;
                 pixel_halfscale(pixels, &out, width, height, format, type);
@@ -256,7 +256,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
     } else {
-	    if (texstream && (target==GL_TEXTURE_2D) && (width>=256 && height>=256) && 
+	    if (texstream && bound && (target==GL_TEXTURE_2D) && (width>=256 && height>=256) && 
 		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_RGB)) || (texstream==2) ) {
 			bound->streamingID = AddStreamed(width, height, bound->texture);
 			if (bound->streamingID>-1) {	// success
@@ -1217,4 +1217,11 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 		gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, datab);
 	}
 								   
+}
+
+void glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
+    printf("LIBGL: Stub GetCompressedTexImage\n");
+    
+    errorShim(GL_INVALID_OPERATION);
+    return;
 }
