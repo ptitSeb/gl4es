@@ -20,6 +20,16 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	
 void* gles = NULL;
 
+__attribute__((constructor))
+void initialize_glshim() {
+	printf("LIBGL: Initialising glshim\n");
+	
+	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	memset(&state, 0, sizeof(state));
+	memcpy(state.color, white, sizeof(GLfloat)*4);
+	state.last_error = GL_NO_ERROR;
+}
+
 // config functions
 const GLubyte *glGetString(GLenum name) {
     LOAD_GLES(glGetString);

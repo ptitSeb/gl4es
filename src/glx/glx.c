@@ -128,10 +128,12 @@ static GLXContext glxContext = NULL;
 #endif
 static bool g_showfps = false;
 static bool g_usefb = false;
+static bool g_usefbo = false;
 static bool g_vsync = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
 static bool g_bcm_active = false;
+static int  g_width=0, g_height=0;
 #ifndef BCMHOST
 static bool g_bcmhost = false;
 #else
@@ -216,12 +218,16 @@ static void init_liveinfo() {
     } else
         fcntl(sock, F_SETFL, O_NONBLOCK);
 }
-
+extern void initialize_glshim();
 static void scan_env() {
     static bool first = true;
     if (! first)
         return;
-
+    /* Check for some corruption inside state.... */
+    if ((state.texture.active < 0) || (state.texture.active > MAX_TEX)) {
+        printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n");
+        initialize_glshim();
+    }
     first = false;
     printf("libGL: built on %s %s\n", __DATE__, __TIME__);
     #define env(name, global, message)                    \
@@ -251,6 +257,10 @@ static void scan_env() {
 #endif
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
+    if (env_LIBGL_FB && strcmp(env_LIBGL_FB, "2") == 0) {
+            printf("libGL: using framebuffer + fbo\n");
+            g_usefbo = true;
+    }
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
     char cwd[1024];
@@ -484,6 +494,13 @@ Bool glXMakeCurrent(Display *display,
     EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
     CheckEGLErrors();
     if (result) {
+        if (g_usefbo) {
+            // get size of the surface...
+            eglQuerySurface(eglDisplay,eglSurface,EGL_WIDTH,&g_width);
+            eglQuerySurface(eglDisplay,eglSurface,EGL_HEIGHT,&g_height);
+            // create the main_fbo...
+        }
+        // finished
         return true;
     }
     return false;
@@ -505,6 +522,9 @@ void glXSwapBuffers(Display *display,
         for (int i = 0; i < swap_interval; i++) {
             ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
         }
+    }
+    if (g_usefbo) {
+        // blit the main_fbo before swap
     }
     eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
