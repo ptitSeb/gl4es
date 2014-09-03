@@ -262,10 +262,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			if (bound->streamingID>-1) {	// success
 				bound->streamed = true;
 				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
+				GLboolean tmp = state.enable.texture_2d[state.texture.active];
+				if (tmp)
+							glDisable(GL_TEXTURE_2D);
 				ActivateStreaming(bound->streamingID);	//Activate the newly created texture
 				format = GL_RGB;
 				type = GL_UNSIGNED_SHORT_5_6_5;
-			}
+				if (tmp)
+							glEnable(GL_TEXTURE_2D);
+				}
 	    }
 	    if (bound) {
 		bound->shrink = 0;
