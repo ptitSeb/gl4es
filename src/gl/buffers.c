@@ -4,35 +4,43 @@ static GLuint lastbuffer = 1;
 
 // Utility function to bond / unbind a particular buffer
 
-#define BUFF(target, before, after)                                 \
- switch(target) {                                                   \
-     case GL_ARRAY_BUFFER:                                          \
-        before state.buffers.vertex after;                          \
-        break;                                                      \
-     case GL_ELEMENT_ARRAY_BUFFER:                                  \
-        before state.buffers.elements after;                        \
-        break;                                                      \
-     case GL_PIXEL_PACK_BUFFER:                                     \
-        before state.buffers.pack after;                            \
-        break;                                                      \
-     case GL_PIXEL_UNPACK_BUFFER:                                   \
-        before state.buffers.unpack after;                          \
-        break;                                                      \
-     default:                                                       \
-       printf("LIBGL: Warning, unknown buffer target 0x%04X\n", target);   \
+glbuffer_t** BUFF(GLenum target) {
+ switch(target) {
+     case GL_ARRAY_BUFFER:
+        return &state.buffers.vertex;
+        break;
+     case GL_ELEMENT_ARRAY_BUFFER:
+        return &state.buffers.elements;
+        break;
+     case GL_PIXEL_PACK_BUFFER:
+        return &state.buffers.pack;
+        break;
+     case GL_PIXEL_UNPACK_BUFFER:
+        return &state.buffers.unpack;
+        break;
+     default:
+       printf("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
  }
+ return (glbuffer_t**)NULL;
+}
 
-void unbind(GLenum target) {
-    BUFF(target, , = NULL);
+void unbind_buffer(GLenum target) {
+    glbuffer_t **t = BUFF(target);
+    if (t)
+		*t=(glbuffer_t*)NULL;
 }
-void bind(GLenum target, glbuffer_t* buff) {
-    BUFF(target, , = buff);
+void bind_buffer(GLenum target, glbuffer_t* buff) {
+    glbuffer_t ** t = BUFF(target);
+    if (t)
+		*t = buff;
 }
-glbuffer_t* getbuffer(GLenum target) {
-    BUFF(target, return , );
+glbuffer_t* getbuffer_buffer(GLenum target) {
+    glbuffer_t ** t = BUFF(target);
+    if (t)
+		return *t;
     return NULL;
 }
-#undef BUFF
+
 int buffer_target(GLenum target) {
 	if (target==GL_ARRAY_BUFFER)
 		return 1;
@@ -59,6 +67,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
 
 void glBindBuffer(GLenum target, GLuint buffer) {
 //printf("glBindBuffer(0x%04X, %u)\n", target, buffer);
+
    	khint_t k;
    	int ret;
 	khash_t(buff) *list = state.buffers.list;
@@ -75,7 +84,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     // if buffer = 0 => unbind buffer!
     if (buffer == 0) {
         // unbind buffer
-        unbind(target);
+        unbind_buffer(target);
     } else {
         // search for an existing buffer
         k = kh_get(buff, list, buffer);
@@ -93,8 +102,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
         } else {
             buff = kh_value(list, k);
         }
-        unbind(target);
-        bind(target, buff);
+        bind_buffer(target, buff);
     }
     noerrorShim();
 }
@@ -105,7 +113,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-    glbuffer_t *buff = getbuffer(target);
+    glbuffer_t *buff = getbuffer_buffer(target);
     if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
         printf("LIBGL: Warning, null buffer for target=0x%04X for glBufferData\n", target);
@@ -129,7 +137,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-    glbuffer_t *buff = getbuffer(target);
+    glbuffer_t *buff = getbuffer_buffer(target);
     if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
 //        printf("LIBGL: Warning, null buffer for target=0x%04X for glBufferSubData\n", target);
@@ -189,7 +197,7 @@ void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-	glbuffer_t* buff = getbuffer(target);
+	glbuffer_t* buff = getbuffer_buffer(target);
 	if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
 		return;		// Should generate an error!
@@ -229,7 +237,7 @@ void *glMapBuffer(GLenum target, GLenum access) {
 		errorShim(GL_INVALID_ENUM);
 		return (void*)NULL;
 	}
-	glbuffer_t *buff = getbuffer(target);
+	glbuffer_t *buff = getbuffer_buffer(target);
 	if (buff==NULL)
 		return (void*)NULL;		// Should generate an error!
 	buff->access = access;	// not used
@@ -244,7 +252,7 @@ GLboolean glUnmapBuffer(GLenum target) {
 		errorShim(GL_INVALID_ENUM);
 		return GL_FALSE;
 	}
-	glbuffer_t *buff = getbuffer(target);
+	glbuffer_t *buff = getbuffer_buffer(target);
 	if (buff==NULL)
 		return GL_FALSE;		// Should generate an error!
 	noerrorShim();
@@ -261,7 +269,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-	glbuffer_t *buff = getbuffer(target);
+	glbuffer_t *buff = getbuffer_buffer(target);
 	if (buff==NULL)
 		return;		// Should generate an error!
 	// TODO, check parameter consistancie
@@ -275,7 +283,7 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-	glbuffer_t *buff = getbuffer(target);
+	glbuffer_t *buff = getbuffer_buffer(target);
 	if (buff==NULL)
 		return;		// Should generate an error!
 	if (pname != GL_BUFFER_MAP_POINTER) {

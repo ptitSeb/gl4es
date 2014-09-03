@@ -82,6 +82,7 @@ typedef struct _call_list_t {
 
 typedef struct _renderlist_t {
     unsigned long len;
+    unsigned long ilen;
     unsigned long cap;
     GLenum mode;
     GLenum mode_init;		// initial requested mode

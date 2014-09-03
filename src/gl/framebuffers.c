@@ -1,5 +1,7 @@
 #include "framebuffers.h"
 
+extern void* eglGetProcAddress(const char* name);
+
 khash_t(dsr) *depthstencil = NULL;
 GLuint current_rb = 0;
 
@@ -12,8 +14,30 @@ GLuint mainfbo_ste = 0; // Stencil attachement
 int mainfbo_width = 800;
 int mainfbo_height = 480;
 
-extern void* eglGetProcAddress(const char*);
+GLuint fbo_read = 0;    // if not 0, that's the READ only Framebuffer attached
+GLuint fbo_draw = 0;     // if not 0, that's the DRAW only Framebuffer attached
+
 int npot(int n);
+
+void readfboBegin() {
+    LOAD_GLES_OES(glBindFramebuffer);
+	if (!(fbo_read || fbo_draw))
+		return;
+	GLuint fbo = fbo_read;
+	if (!fbo && mainfbo_fbo)
+		fbo = mainfbo_fbo;
+	gles_glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+}
+
+void readfboEnd() {
+    LOAD_GLES_OES(glBindFramebuffer);
+	if (!(fbo_read || fbo_draw))
+		return;
+	GLuint fbo = current_fb;
+	if (!fbo && mainfbo_fbo)
+		fbo = mainfbo_fbo;
+	gles_glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+}
 
 void glGenFramebuffers(GLsizei n, GLuint *ids) {
     LOAD_GLES_OES(glGenFramebuffers);
@@ -45,7 +69,22 @@ GLenum glCheckFramebufferStatus(GLenum target) {
 }
 
 void glBindFramebuffer(GLenum target, GLuint framebuffer) {
+	PUSH_IF_COMPILING(glBindFramebuffer);
     LOAD_GLES_OES(glBindFramebuffer);
+    
+    if (mainfbo_fbo && (framebuffer==0)) 
+        framebuffer = mainfbo_fbo;
+        
+    if (target == GL_READ_FRAMEBUFFER) {
+		target = GL_FRAMEBUFFER;
+		fbo_read = framebuffer;
+		return;	//don't bind for now
+	}
+        
+    if (target == GL_DRAW_FRAMEBUFFER) {
+		target = GL_FRAMEBUFFER;
+		fbo_draw = framebuffer;
+	}
     
     errorGL();
     gles_glBindFramebuffer(target, framebuffer);
@@ -161,6 +200,7 @@ void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum int
 }
 
 void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
+	PUSH_IF_COMPILING(glBindRenderbuffer);
     LOAD_GLES_OES(glBindRenderbuffer);
     
     current_rb = renderbuffer;
@@ -196,12 +236,13 @@ void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     errorGL();
     return gles_glGetRenderbufferParameteriv(target, pname, params);
 }
-/*
+
 void createMainFBO(int width, int height) {
     LOAD_GLES_OES(glGenFramebuffers);
     LOAD_GLES_OES(glBindFramebuffer);
     LOAD_GLES_OES(glFramebufferTexture2D);
     LOAD_GLES_OES(glCheckFramebufferStatus);
+    LOAD_GLES_OES(glFramebufferRenderbuffer);
     LOAD_GLES_OES(glRenderbufferStorage);
     LOAD_GLES_OES(glGenRenderbuffers);
     LOAD_GLES_OES(glBindRenderbuffer);
@@ -209,6 +250,7 @@ void createMainFBO(int width, int height) {
     LOAD_GLES(glGenTextures);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
+    LOAD_GLES(glTexParameteri);
     LOAD_GLES(glClientActiveTexture);
 
     // If there is already a Framebuffer created, let's delete it....
@@ -219,30 +261,35 @@ void createMainFBO(int width, int height) {
         gles_glActiveTexture(GL_TEXTURE0);
     if (state.texture.client != 0)
         gles_glClientActiveTexture(GL_TEXTURE0);
+        
+    mainfbo_width = width;
+    mainfbo_height = height;
+    width = npot(width);
+    height = npot(height);
     
     // create a fbo
     gles_glGenFramebuffers(1, &mainfbo_fbo);
-    gles_glBindFramebuffers(GL_FRAMEBUFFER, mainfbo_fbo);
+    gles_glBindFramebuffer(GL_FRAMEBUFFER, mainfbo_fbo);
     
 	gles_glGenRenderbuffers(1, &mainfbo_dep);
 	gles_glGenRenderbuffers(1, &mainfbo_ste);
-    gles_glBindRenderbuffer(GL_RENDERBUFFER, &mainfbo_ste);
-    gles_glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_STENCIL_INDEX8, width, height);
-    gles_glBindRenderbuffer(GL_RENDERBUFFER, &mainfbo_dep);
+    gles_glBindRenderbuffer(GL_RENDERBUFFER, mainfbo_ste);
+    gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, width, height);
+    gles_glBindRenderbuffer(GL_RENDERBUFFER, mainfbo_dep);
     gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
     gles_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mainfbo_ste);
     gles_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mainfbo_dep);
     
 	gles_glGenTextures(1, &mainfbo_tex);
     gles_glBindTexture(GL_TEXTURE_2D, mainfbo_tex);
-//    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
-					0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+					0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	gles_glBindTexture(GL_TEXTURE_2D, 0);
     gles_glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mainfbo_tex, 0);
 
-	GLenum status = gles_glCheckFramebufferStatusEXT(GL_FRAMEBUFFER);
+	GLenum status = gles_glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
 	gles_glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -258,13 +305,40 @@ void createMainFBO(int width, int height) {
     if (state.texture.client != 0)
         gles_glClientActiveTexture(GL_TEXTURE0 + state.texture.client);
     
+    // Final check, and bind the fbo for future use
     if (status != GL_FRAMEBUFFER_COMPLETE) {
         printf("LIBGL: Error while creating main fbo (0x%04X)\n", status);
         deleteMainFBO();
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, current_fb);
+        gles_glBindFramebuffer(GL_RENDERBUFFER, current_rb);
+    } else {
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, (current_fb)?current_fb:mainfbo_fbo);
+        if (current_rb) gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
     }
 }
 
 void blitMainFBO() {
+    LOAD_GLES_OES(glBindFramebuffer);
+    LOAD_GLES_OES(glDrawTexi);
+    LOAD_GLES(glBindTexture);
+    LOAD_GLES(glActiveTexture);
+    LOAD_GLES(glClientActiveTexture);
+    LOAD_GLES(glViewport);
+    LOAD_GLES(glGetIntegerv);
+    
+    if (mainfbo_fbo==0)
+        return;
+    
+    // switch to screen    
+    gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // blit
+    GLuint old_vp[4];
+    gles_glGetIntegerv(GL_VIEWPORT, old_vp);
+    gles_glViewport(0, 0, mainfbo_width, mainfbo_height);
+    gles_glDrawTexi(0, 0, 0, mainfbo_width, mainfbo_height);
+    
+    gles_glViewport(old_vp[0], old_vp[1], old_vp[2], old_vp[3]);
+    gles_glBindFramebuffer(GL_FRAMEBUFFER, mainfbo_fbo);
 }
 
 void deleteMainFBO() {
@@ -291,4 +365,3 @@ void deleteMainFBO() {
     
     // all done...
 }
-*/

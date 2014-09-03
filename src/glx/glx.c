@@ -392,6 +392,9 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
     if ((!g_usefb && ctx->eglContext) || (g_usefb && eglContext)) {
+        if (g_usefbo) {
+            deleteMainFBO();
+        }
 		EGLBoolean result = eglDestroyContext(eglDisplay, (g_usefb)?eglContext:ctx->eglContext);
         if (!g_usefb && ctx->eglSurface != NULL) {
             eglDestroySurface(eglDisplay, ctx->eglSurface);
@@ -499,6 +502,8 @@ Bool glXMakeCurrent(Display *display,
             eglQuerySurface(eglDisplay,eglSurface,EGL_WIDTH,&g_width);
             eglQuerySurface(eglDisplay,eglSurface,EGL_HEIGHT,&g_height);
             // create the main_fbo...
+            printf("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);
+            createMainFBO(g_width, g_height);
         }
         // finished
         return true;
@@ -524,6 +529,7 @@ void glXSwapBuffers(Display *display,
         }
     }
     if (g_usefbo) {
+        blitMainFBO();
         // blit the main_fbo before swap
     }
     eglSwapBuffers(eglDisplay, eglSurface);

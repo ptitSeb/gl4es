@@ -132,6 +132,12 @@ int raster_need_transform() {
 
 GLuint raster_to_texture()
 {
+    LOAD_GLES(glGenTextures);
+    LOAD_GLES(glBindTexture);
+    LOAD_GLES(glTexEnvf);
+    LOAD_GLES(glTexImage2D);
+    LOAD_GLES(glActiveTexture);
+    
 	renderlist_t *old_list = state.list.active;
 	if (old_list) state.list.active = NULL;		// deactivate list...
 	GLboolean compiling = state.list.compiling;
@@ -145,8 +151,8 @@ GLuint raster_to_texture()
 		old_tex = state.texture.bound[0]->texture;
 	GLuint raster_texture;
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, &raster_texture);
-	glBindTexture(GL_TEXTURE_2D, raster_texture);
+	gles_glGenTextures(1, &raster_texture);
+	gles_glBindTexture(GL_TEXTURE_2D, raster_texture);
 
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -158,10 +164,10 @@ GLuint raster_to_texture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_width, raster_height,
+	gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_width, raster_height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, raster);
 
-	glBindTexture(GL_TEXTURE_2D, old_tex);
+	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
 		glActiveTexture(old_tex_unit);
 	glPopAttrib();
@@ -247,9 +253,10 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->bitmap = true;
 	r->zoomx = zoomx;
 	r->zoomy = zoomy;
+    LOAD_GLES(glDeleteTextures);
 	if (!state.list.compiling) {
 		render_raster_list(r);
-		glDeleteTextures(1, &r->texture);
+		gles_glDeleteTextures(1, &r->texture);
 		r->texture = 0;
 	}
 }
@@ -320,15 +327,23 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->bitmap = false;
 	r->zoomx = zoomx;
 	r->zoomy = zoomy;
+    LOAD_GLES(glDeleteTextures);
 	if (!state.list.compiling) {
 		render_raster_list(r);
-		glDeleteTextures(1, &r->texture);
+		gles_glDeleteTextures(1, &r->texture);
 		r->texture = 0;
 	}
 }
 
 void render_raster_list(rasterlist_t* rast) {
 //printf("render_raster_list, rast->width=%i, rast->height=%i, rPos.x=%f, rPos.y=%f, raster->texture=%u\n", rast->width, rast->height, rPos.x, rPos.y, rast->texture);
+    LOAD_GLES(glEnableClientState);
+    LOAD_GLES(glDisableClientState);
+    LOAD_GLES(glBindTexture);
+    LOAD_GLES(glVertexPointer);
+    LOAD_GLES(glTexCoordPointer);
+	LOAD_GLES(glDrawArrays);
+    
 	if (rast->texture) {
 		glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 		GLfloat old_projection[16], old_modelview[16], old_texture[16];
@@ -380,20 +395,19 @@ void render_raster_list(rasterlist_t* rast) {
 		}
 
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, rast->texture);
+		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vert);
-		glTexCoordPointer(2, GL_FLOAT, 0, tex);
+		gles_glEnableClientState(GL_VERTEX_ARRAY);
+		gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		gles_glDisableClientState(GL_COLOR_ARRAY);
+		gles_glDisableClientState(GL_NORMAL_ARRAY);
+		gles_glVertexPointer(3, GL_FLOAT, 0, vert);
+		gles_glTexCoordPointer(2, GL_FLOAT, 0, tex);
 
 
 		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		LOAD_GLES(glDrawArrays);
 		gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		// All the previous states are Pushed / Poped anyway...
 		if (old_tex!=0) glActiveTexture(GL_TEXTURE0+old_tex);

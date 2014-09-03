@@ -161,32 +161,14 @@ void matrix_inverse(const GLfloat *m, GLfloat *r) {
     for (int i = 0; i < 16; i++) r[i] *= det;
 }
 
-void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count) {
-#ifdef __ARM_NEON__0
-    float32x2_t acc;
-    float32x2x3_t vert;
-    float32x2x3_t param = vld3_f32((const float32_t *)params);
-    for (; count != 0; count -= 1) {
-        vert = vld3_f32((const float32_t *)verts);
-        acc = vmul_f32(vert.val[0], param.val[0]);
-        acc = vmla_f32(acc, vert.val[1], param.val[1]);
-        acc = vmla_f32(acc, vert.val[2], param.val[2]);
-        acc = vadd_f32(acc, param.val[3]);
-        vst1_f32((float32_t *)out, acc);
-
-        out += 2;
-        verts += 3;
-    }
-#else
+void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count, GLushort *indices) {
     for (int i = 0; i < count; i++) {
-        out[0] = dot(verts, params) + params[3];
-        out += 2;
-        verts += 3;
+	GLushort k = indices?indices[i]:i;
+        out[k*2] = dot(verts+k*3, params) + params[3];
     }
-#endif
 }
 
-void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint count) {
+void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint count, GLushort *indices) {
     // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
     if (!norm) {
         printf("LIBGL: GL_SPHERE_MAP without Normals\n");
@@ -204,22 +186,23 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
     GLfloat eye[3], eye_norm[3], reflect[3];
     GLfloat a;
     for (int i=0; i<count; i++) {
-        matrix_vector(ModelviewMatrix, verts+i*3, eye);
+	GLushort k = indices?indices[i]:i;
+        matrix_vector(ModelviewMatrix, verts+k*3, eye);
         vector_normalize(eye);
-        vector_matrix(norm+i*3, InvModelview, eye_norm);
+        vector_matrix(norm+k*3, InvModelview, eye_norm);
         vector_normalize(eye_norm);
         a=dot(eye, eye_norm)*2.0f;
-        for (int i=0; i<3; i++)
-            reflect[i]=eye[i]-eye_norm[i]*a;
+        for (int j=0; j<3; j++)
+            reflect[j]=eye[j]-eye_norm[j]*a;
         reflect[2]+=1.0f;
         a = 1.0f / (2.0f*sqrtf(dot(reflect, reflect)));
-        out[i*2+0] = reflect[0]*a + 0.5f;
-        out[i*2+1] = reflect[1]*a + 0.5f;
+        out[k*2+0] = reflect[0]*a + 0.5f;
+        out[k*2+1] = reflect[1]*a + 0.5f;
     }
 
 }
 
-void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint count) {
+void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint count, GLushort *indices) {
     // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
     // First get the ModelviewMatrix
     GLfloat ModelviewMatrix[16], InvModelview[16];
@@ -231,19 +214,20 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     GLfloat plane[3], tmp[3];
     vector_matrix(param, InvModelview, plane);
     for (int i=0; i<count; i++) {
-        matrix_vector(ModelviewMatrix, verts+i*3, tmp);
-        out[i*2]=dot(plane, tmp);
+	GLushort k = indices?indices[i]:i;
+        matrix_vector(ModelviewMatrix, verts+k*3, tmp);
+        out[k*2]=dot(plane, tmp);
     }
 
 }
 
-static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, GLint count, GLenum type, GLfloat *params) {
+static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, GLint count, GLenum type, GLfloat *params, GLushort *indices) {
     switch (type) {
         case GL_OBJECT_LINEAR:
-            dot_loop(verts, params, out, count);
+            dot_loop(verts, params, out, count, indices);
             break;
         case GL_EYE_LINEAR:
-            eye_loop(verts, params, out, count);
+            eye_loop(verts, params, out, count, indices);
             break;
         case GL_SPHERE_MAP:
             //printf("LIBGL: GL_SPHERE_MAP with only 1 TexGen available");  //Broken here
@@ -251,16 +235,21 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
     }
 }
 
-void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture) {
+void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture, GLushort *indices, GLuint ilen) {
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
     // special case : no texgen but texture activated, create a simple 1 repeated element
     if (!state.enable.texgen_s[texture] && !state.enable.texgen_t[texture] && !state.enable.texgen_r[texture]) {
 	if ((*coords)==NULL) 
 	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
-	for (int i=0; i<count*2; i+=2) {
-	    memcpy((*coords)+i, state.texcoord[texture], sizeof(GLfloat)*2);
-	}
+	if (indices)
+	    for (int i=0; i<ilen; i++) {
+		memcpy((*coords)+indices[i]*2, state.texcoord[texture], sizeof(GLfloat)*2);
+	    }
+	else
+	    for (int i=0; i<count*2; i+=2) {
+		memcpy((*coords)+i, state.texcoord[texture], sizeof(GLfloat)*2);
+	    }
 	return;
     }
     // special case: SPHERE_MAP needs both texgen to make sense
@@ -270,7 +259,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 	    return;
 	if ((*coords)==NULL) 
 	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
-        sphere_loop(verts, norm, *coords, count);
+        sphere_loop(verts, norm, *coords, (indices)?ilen:count, indices);
         return;
     }
     // special case: REFLECTION_MAP  needs the 3 texgen to make sense
@@ -322,9 +311,9 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     *needclean=2;
 */
     if (state.enable.texgen_s[texture])
-        tex_coord_loop(verts, norm, *coords, count, state.texgen[texture].S, state.texgen[texture].Sv);
+        tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, state.texgen[texture].S, state.texgen[texture].Sv, indices);
     if (state.enable.texgen_t[texture])
-        tex_coord_loop(verts, norm, *coords+1, count, state.texgen[texture].T, state.texgen[texture].Tv);
+        tex_coord_loop(verts, norm, *coords+1, (indices)?ilen:count, state.texgen[texture].T, state.texgen[texture].Tv, indices);
 }
 
 void gen_tex_clean(GLint cleancode, int texture) {

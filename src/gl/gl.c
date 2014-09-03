@@ -451,20 +451,20 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->cap = count-skip;
     
 	if (state.enable.vertex_array) {
-		list->vert = copy_gl_pointer_raw(&state.pointers.vertex, 3, skip, count, state.buffers.vertex);	//TODO, what if size == 4
+		list->vert = copy_gl_pointer_raw(&state.pointers.vertex, 3, skip, count, state.pointers.vertex.buffer);	//TODO, what if size == 4
 	}
 	if (state.enable.color_array) {
-		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count, state.buffers.vertex);
+		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count, state.pointers.color.buffer);
 	}
 	if (state.enable.secondary_array) {
-		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count, state.buffers.vertex);		// alpha chanel is always 0 for secondary...
+		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count, state.pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
 	}
 	if (state.enable.normal_array) {
-		list->normal = copy_gl_pointer_raw(&state.pointers.normal, 3, skip, count, state.buffers.vertex);
+		list->normal = copy_gl_pointer_raw(&state.pointers.normal, 3, skip, count, state.pointers.normal.buffer);
 	}
 	for (int i=0; i<MAX_TEX; i++) {
 		if (state.enable.tex_coord_array[i]) {
-		    list->tex[i] = copy_gl_pointer_raw(&state.pointers.tex_coord[i], 2, skip, count, state.buffers.vertex);
+		    list->tex[i] = copy_gl_pointer_raw(&state.pointers.tex_coord[i], 2, skip, count, state.pointers.tex_coord[i].buffer);
 		}
 	}
 	
@@ -484,38 +484,43 @@ static inline bool should_intercept_render(GLenum mode) {
     );
 }
 
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindices) {
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     // TODO: split for count > 65535?
     if (count<0) {
 		errorShim(GL_INVALID_VALUE);
 		return;
 	}
+//	PUSH_IF_COMPILING(glDrawElements);
+	
 	noerrorShim();
-    GLushort *indices = copy_gl_array((state.buffers.elements)?state.buffers.elements->data + (uintptr_t)uindices:uindices,
+    GLushort *sindices = copy_gl_array((state.buffers.elements)?state.buffers.elements->data + (uintptr_t)indices:indices,
 		type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     bool compiling = (state.list.active && state.list.compiling);
+
     if (compiling) {
         renderlist_t *list = NULL;
         GLsizei min, max;
 
 		NewStage(state.list.active, STAGE_DRAW);
-        list = state.list.active;/* = extend_renderlist(state.list.active);*/
+        list = state.list.active;
 
-        normalize_indices(indices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1 +min);
-        list->indices = indices;
+        normalize_indices(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, min, max + 1 + min);
+        list->indices = sindices;
+        list->ilen = count;
         end_renderlist(list);
         //state.list.active = extend_renderlist(state.list.active);
         return;
      }
+
      if (should_intercept_render(mode)) {
     // TODO: do this in a more direct fashion.
         glBegin(mode);
         for (int i = 0; i < count; i++) {
-            glArrayElement(indices[i]);
+            glArrayElement(sindices[i]);
         }
         glEnd();
-        free(indices);
+        free(sindices);
         return;
      } else {
 		LOAD_GLES(glDrawElements);
@@ -523,31 +528,15 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 		LOAD_GLES(glVertexPointer);
 		LOAD_GLES(glColorPointer);
 		LOAD_GLES(glTexCoordPointer);
-		if (state.buffers.vertex) {
 #define shift_pointer(a, b) \
-			if (state.enable.b) state.pointers.a.pointer = state.buffers.vertex->data + (uintptr_t)state.pointers.a.pointer;
-		
-			shift_pointer(color, color_array);
-			shift_pointer(secondary, secondary_array);
-			shift_pointer(vertex, vertex_array);
-			for (int aa=0; aa<MAX_TEX; aa++)
-				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-			shift_pointer(normal, normal_array);
-			if (state.enable.normal_array)
-				gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
-			if (state.enable.color_array)
-				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
-			if (state.enable.vertex_array)
-				gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-			GLuint old_tex = state.texture.client;
-			for (int aa=0; aa<MAX_TEX; aa++)
-				if (state.enable.tex_coord_array[aa]) {
-					glClientActiveTexture(aa+GL_TEXTURE0);
-					gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
-				}
-			if (state.texture.client!=old_tex)
-				glClientActiveTexture(old_tex+GL_TEXTURE0);
-		}
+		if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer += (uintptr_t)state.pointers.a.buffer->data;
+	
+		shift_pointer(color, color_array);
+		shift_pointer(secondary, secondary_array);
+		shift_pointer(vertex, vertex_array);
+		for (int aa=0; aa<MAX_TEX; aa++)
+			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+		shift_pointer(normal, normal_array);
 #undef shift_pointer		
 
 
@@ -562,23 +551,37 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
 		if (state.render_mode == GL_SELECT) {
-			select_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+			select_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
 			// secondary color...
 			GLfloat *final_colors = NULL;
 			pointer_state_t old_color;
 			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size, state.buffers.vertex);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, 0, state.pointers.secondary.size, state.buffers.vertex);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size, 0);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, 0, state.pointers.secondary.size, 0);
 				for (int i=0; i<state.pointers.color.size*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 				free(seconds_colors);
 			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
 				// Pandora doesn't like Color Pointer with size != 4
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size, state.buffers.vertex);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, state.pointers.color.size, 0);
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-			}
+			} else if (state.enable.color_array)
+				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+			if (state.enable.normal_array)
+				gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+			if (state.enable.vertex_array)
+				gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+			GLuint old_tex = state.texture.client;
+			for (int aa=0; aa<MAX_TEX; aa++)
+				if (state.enable.tex_coord_array[aa]) {
+					glClientActiveTexture(aa+GL_TEXTURE0);
+					gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
+				}
+			if (state.texture.client!=old_tex)
+				glClientActiveTexture(old_tex+GL_TEXTURE0);
+				
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
@@ -608,9 +611,9 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 						break;
 				}
 				for (int i=n; i<count; i+=s)
-					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
+					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, sindices+i-n);
 			} else
-				gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, indices);
+				gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
 			// secondary color
 			if (final_colors) {
@@ -618,9 +621,8 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 //				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
 		}
-		if (state.buffers.vertex) {
 #define shift_pointer(a, b) \
-	if (state.enable.b) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.buffers.vertex->data;
+	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer -= (uintptr_t)state.pointers.a.buffer->data;
 		
 			shift_pointer(color, color_array);
 			shift_pointer(secondary, secondary_array);
@@ -629,8 +631,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *uindi
 				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
 			shift_pointer(normal, normal_array);
 #undef shift_pointer		
-	}
-        free(indices);
+        free(sindices);
     }
 }
 
@@ -639,12 +640,15 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		errorShim(GL_INVALID_VALUE);
 		return;
 	}
+//	PUSH_IF_COMPILING(glDrawArrays);
+	
 	noerrorShim();
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glVertexPointer);
 	LOAD_GLES(glColorPointer);
 	LOAD_GLES(glTexCoordPointer);
     renderlist_t *list, *active = state.list.active;
+
     if (active && state.list.compiling) {
 		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;
@@ -652,31 +656,15 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         return;
     }
 
-	if (state.buffers.vertex) {
 #define shift_pointer(a, b) \
-	if (state.enable.b) state.pointers.a.pointer = state.buffers.vertex->data + (uintptr_t)state.pointers.a.pointer;
+	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer = state.pointers.a.buffer->data + (uintptr_t)state.pointers.a.pointer;
 	
-		shift_pointer(color, color_array);
-		shift_pointer(secondary, secondary_array);
-		shift_pointer(vertex, vertex_array);
-		for (int aa=0; aa<MAX_TEX; aa++)
-			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-		shift_pointer(normal, normal_array);
-		if (state.enable.normal_array)
-			gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
-		if (state.enable.color_array)
-			gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
-		if (state.enable.vertex_array)
-			gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-		GLuint old_tex = state.texture.client;
-		for (int aa=0; aa<MAX_TEX; aa++)
-			if (state.enable.tex_coord_array[aa]) {
-				glClientActiveTexture(aa+GL_TEXTURE0);
-				gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
-			}
-		if (state.texture.client!=old_tex)
-			glClientActiveTexture(old_tex+GL_TEXTURE0);
-	}
+	shift_pointer(color, color_array);
+	shift_pointer(secondary, secondary_array);
+	shift_pointer(vertex, vertex_array);
+	for (int aa=0; aa<MAX_TEX; aa++)
+		shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+	shift_pointer(normal, normal_array);
 #undef shift_pointer		
 
     if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
@@ -703,20 +691,35 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		if (state.render_mode == GL_SELECT) {
 			select_glDrawArrays(mode, first, count);
 		} else {
+			// setup the Array Pointers
 			// secondary color...
 			GLfloat *final_colors = NULL;
 			if (/*state.enable.color_sum && */(state.enable.secondary_array) && (state.enable.color_array)) {
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, state.buffers.vertex);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, first, count+first, state.buffers.vertex);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, 0);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&state.pointers.secondary, 4, first, count+first, 0);
 				for (int i=0; i<(count+first)*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 				free(seconds_colors);
 			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
 				// Pandora doesn't like Color Pointer with size != 4
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, state.buffers.vertex);
+				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, 0);
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-			}
+			} else if (state.enable.color_array)
+				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
+			if (state.enable.normal_array)
+				gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
+			if (state.enable.vertex_array)
+				gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
+			GLuint old_tex = state.texture.client;
+			for (int aa=0; aa<MAX_TEX; aa++)
+				if (state.enable.tex_coord_array[aa]) {
+					glClientActiveTexture(aa+GL_TEXTURE0);
+					gles_glTexCoordPointer(state.pointers.tex_coord[aa].size, state.pointers.tex_coord[aa].type, state.pointers.tex_coord[aa].stride, state.pointers.tex_coord[aa].pointer);
+				}
+			if (state.texture.client!=old_tex)
+				glClientActiveTexture(old_tex+GL_TEXTURE0);
+
 			if (state.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
@@ -757,9 +760,9 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			}
 		}
     }
-	if (state.buffers.vertex) {
+//	if (state.buffers.vertex) {
 #define shift_pointer(a, b) \
-	if (state.enable.b) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.buffers.vertex->data;
+	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.pointers.a.buffer->data;
 	
 		shift_pointer(color, color_array);
 		shift_pointer(secondary, secondary_array);
@@ -768,42 +771,38 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
 		shift_pointer(normal, normal_array);
 #undef shift_pointer		
-	}
+//	}
 }
 
 #ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
-    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer;
+    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer; t.buffer = state.buffers.vertex
 void glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-	errorGL();
-    LOAD_GLES(glVertexPointer);
-	clone_gl_pointer(state.pointers.vertex, size);
-    if (state.buffers.vertex==NULL) 
-		gles_glVertexPointer(size, type, stride, pointer);
+//    errorGL();
+//    LOAD_GLES(glVertexPointer);
+    noerrorShim();
+    clone_gl_pointer(state.pointers.vertex, size);
 }
 void glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-	errorGL();
-    LOAD_GLES(glColorPointer);
+//    errorGL();
+//    LOAD_GLES(glColorPointer);
+    noerrorShim();
     clone_gl_pointer(state.pointers.color, size);
-    if (state.buffers.vertex==NULL) 
-		gles_glColorPointer(size, type, stride, pointer);
 }
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
-	errorGL();
-    LOAD_GLES(glNormalPointer);
+//    errorGL();
+//    LOAD_GLES(glNormalPointer);
+    noerrorShim();
     clone_gl_pointer(state.pointers.normal, 3);
-    if (state.buffers.vertex==NULL) 
-		gles_glNormalPointer(type, stride, pointer);
 }
 void glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
-	errorGL();
-    LOAD_GLES(glTexCoordPointer);
+//    errorGL();
+//    LOAD_GLES(glTexCoordPointer);
+    noerrorShim();
     clone_gl_pointer(state.pointers.tex_coord[state.texture.client], size);
-    if (state.buffers.vertex==NULL) 
-		gles_glTexCoordPointer(size, type, stride, pointer);
 }
 void glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {

@@ -36,4 +36,6 @@ extern void createMainFBO(int width, int height);
 extern void blitMainFBO();
 extern void deleteMainFBO();
 
+extern void readfboBegin();
+extern void readfboEnd();
 #endif

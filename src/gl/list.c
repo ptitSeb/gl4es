@@ -14,6 +14,7 @@ static unsigned long cached_q2t_len = 0;
 renderlist_t *alloc_renderlist() {
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     list->len = 0;
+    list->ilen = 0;
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
 
     list->calls.len = 0;
@@ -163,24 +164,26 @@ void q2t_renderlist(renderlist_t *list) {
 
 			indices = cached_q2t;
 		}
+	int k = 0;
         for (int i = 0; i < list->len; i += 4) {
             for (int j = 0; j < 6; j++) {
 				if (old_indices)
-					indices[j] = old_indices[i + winding[j]];
+					indices[k+j] = old_indices[i + winding[j]];
 				else
-					indices[j] = i + winding[j];
+					indices[k+j] = i + winding[j];
             }
-            indices += 6;
+	    k += 6;
         }
     }
 
-	if (!old_indices)
-		list->q2t = true;
-	if (old_indices) {
-		free(old_indices);
-		list->indices = indices;
-	}
-    list->len = len;
+    if (!old_indices)
+	    list->q2t = true;
+    else {
+	    free(old_indices);
+	    list->indices = indices;
+    }
+
+    list->ilen = len;
     return;
 }
 
@@ -327,13 +330,21 @@ void draw_renderlist(renderlist_t *list) {
             glDisableClientState(GL_NORMAL_ARRAY);
         }
 
+        GLushort *indices = list->indices;
+        if (list->q2t && !(state.polygon_mode == GL_LINE))
+            indices = cached_q2t;
+           
 	GLfloat *final_colors = NULL;
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
             if (state.enable.color_sum && (list->secondary)) {
 		final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
-		for (int i=0; i<list->len*4; i++)
-			final_colors[i]=list->color[i] + list->secondary[i];
+		if (indices)
+		    for (int i=0; i<list->ilen*4; i++)
+			    final_colors[indices[i]]=list->color[indices[i]] + list->secondary[indices[i]];
+		else
+		    for (int i=0; i<list->len*4; i++)
+			    final_colors[i]=list->color[i] + list->secondary[i];
 		gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 	    } else
 		gles_glColorPointer(4, GL_FLOAT, 0, list->color);
@@ -341,7 +352,6 @@ void draw_renderlist(renderlist_t *list) {
             glDisableClientState(GL_COLOR_ARRAY);
         }
         GLuint texture;
-
         bool stipple = false;
         if (! list->tex[0]) {
             // TODO: do we need to support GL_LINE_STRIP?
@@ -359,9 +369,9 @@ void draw_renderlist(renderlist_t *list) {
 		for (int a=0; a<MAX_TEX; a++) {
 			texgened[a]=NULL;
 			if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
-			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a);
+			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
 			} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
-			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a);
+			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
 			}
         }
 	    old_tex = state.texture.client;
@@ -380,11 +390,7 @@ void draw_renderlist(renderlist_t *list) {
 		    }
         }
         if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
-		
-        GLushort *indices = list->indices;
-        if (list->q2t && !(state.polygon_mode == GL_LINE))
-            indices = cached_q2t;
-           
+
         GLenum mode = list->mode;
         if ((state.polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
 			mode = GL_LINE_LOOP;
@@ -407,8 +413,8 @@ void draw_renderlist(renderlist_t *list) {
 						s = 1;
 						break;
 					case GL_TRIANGLE_FAN:	// wrong here...
-						n = list->len;
-						s = list->len;
+						n = list->ilen;
+						s = list->ilen;
 						break;
 					case GL_QUADS:
 						n = 4;
@@ -419,14 +425,14 @@ void draw_renderlist(renderlist_t *list) {
 						s = 1;
 						break;
 					default:		// Polygon and other?
-						n = list->len;
-						s = list->len;
+						n = list->ilen;
+						s = list->ilen;
 						break;
 				}
-				for (int i=n; i<=list->len; i+=s)
+				for (int i=n; i<=list->ilen; i+=s)
 					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
 				} else {
-					gles_glDrawElements(mode, list->len, GL_UNSIGNED_SHORT, indices);
+					gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
 				}
 			}
         } else {

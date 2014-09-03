@@ -81,6 +81,24 @@ void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
 #endif
+#ifndef skip_glDrawTexf
+void glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {
+    LOAD_GLES_OES(glDrawTexf);
+#ifndef direct_glDrawTexf
+    PUSH_IF_COMPILING(glDrawTexf)
+#endif
+    gles_glDrawTexf(x, y, z, width, height);
+}
+#endif
+#ifndef skip_glDrawTexi
+void glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) {
+    LOAD_GLES_OES(glDrawTexi);
+#ifndef direct_glDrawTexi
+    PUSH_IF_COMPILING(glDrawTexi)
+#endif
+    gles_glDrawTexi(x, y, z, width, height);
+}
+#endif
 #ifndef skip_glFramebufferRenderbuffer
 void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
     LOAD_GLES_OES(glFramebufferRenderbuffer);

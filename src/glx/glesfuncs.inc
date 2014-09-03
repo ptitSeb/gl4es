@@ -44,6 +44,8 @@ EX(glDisable);
 EX(glDisableClientState);
 EX(glDrawArrays);
 EX(glDrawElements);
+EX(glDrawTexf);
+EX(glDrawTexi);
 EX(glEnable);
 EX(glEnableClientState);
 EX(glFinish);

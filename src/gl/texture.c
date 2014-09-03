@@ -570,9 +570,11 @@ GLboolean glIsTexture(	GLuint texture) {
 void glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     if (state.list.compiling && state.list.active) {
-		// check if already a texture binded, if yes, create a new list
-		NewStage(state.list.active, STAGE_BINDTEX);
-        rlBindTexture(state.list.active, texture);
+		if (target!=GL_PROXY_TEXTURE_2D) {
+			// check if already a texture binded, if yes, create a new list
+			NewStage(state.list.active, STAGE_BINDTEX);
+			rlBindTexture(state.list.active, texture);
+		}
     } else {
     	int tex_changed = 1;
 		int streamingID = -1;
@@ -622,10 +624,16 @@ void glBindTexture(GLenum target, GLuint texture) {
 
         if (tex_changed) {
 
+			GLboolean tmp = state.enable.texture_2d[state.texture.active];
 	        if (texstream) {  // unbind streaming texture if any...
 	            gltexture_t *bound = state.texture.bound[state.texture.active];
-	            if (bound && bound->streamed)
+	            if (bound && bound->streamed) {
+	                if (tmp)
+						glDisable(GL_TEXTURE_2D);
 	                DeactivateStreaming();
+	                if (tmp)
+						glEnable(GL_TEXTURE_2D);
+	            }
 	        }
 
 	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
@@ -634,9 +642,13 @@ void glBindTexture(GLenum target, GLuint texture) {
 			state.texture.bound[state.texture.active] = tex;
 			
 	        LOAD_GLES(glBindTexture);
-			if (texstream && (streamingID>-1))
-				ActivateStreaming(streamingID);
-			else {
+			if (texstream && (streamingID>-1)) {
+	                if (tmp)
+						glDisable(GL_TEXTURE_2D);
+					ActivateStreaming(streamingID);
+	                if (tmp)
+						glEnable(GL_TEXTURE_2D);
+			} else {
 				gles_glBindTexture(target, texture);
 				errorGL();
 			}
@@ -760,7 +772,7 @@ void glGenTextures(GLsizei n, GLuint * textures) {
 	
 	for (int i=0; i<n; i++) {
 		k = kh_get(tex, list, textures[i]);
-		gltexture_t *tex = NULL;;
+		gltexture_t *tex = NULL;
 		if (k == kh_end(list)){
 			k = kh_put(tex, list, textures[i], &ret);
 			tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
@@ -853,6 +865,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	if (target!=GL_TEXTURE_2D)
 		return;
 
+	readfboBegin();	// check for read/draw fbo
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	int width = bound->width;
 	int height = bound->height;
@@ -865,6 +878,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	if (texstream && bound->streamed) {
 		noerrorShim();
 		pixel_convert(GetStreamingBuffer(bound->streamingID), &dst, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
+		readfboEnd();
 		return;
 	}
 	
@@ -907,6 +921,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		#undef getOES
 		noerrorShim();
 	}
+	readfboEnd();
 }
 
 void glActiveTexture( GLenum texture ) {
@@ -948,9 +963,11 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
     if (state.buffers.pack)
 		dst += (uintptr_t)state.buffers.pack->data;
 		
+	readfboBegin();
     if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
 	// easy passthru
 	gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+	readfboEnd();
 	return;
     }
     // grab data in GL_RGBA format
@@ -962,6 +979,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 		format, type);
     }
     free(pixels);
+    readfboEnd();
     return;
 }
 

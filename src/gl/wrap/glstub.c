@@ -70,5 +70,5 @@ STUB(void glClearIndex(GLfloat c))
 STUB(void glGetPolygonStipple(GLubyte *pattern))
 STUB(void glFeedbackBuffer(GLsizei size, GLenum type, GLfloat *buffer))
 STUB(void glEdgeFlagv(GLboolean *flag))
-STUB(void glIndexPointer(GLenum  type,  GLsizei  stride,  const GLvoid *  pointer))
+//STUB(void glIndexPointer(GLenum  type,  GLsizei  stride,  const GLvoid *  pointer))
 #undef STUB

@@ -22,3 +22,6 @@ glIsRenderbuffer: [GLboolean, GLuint renderbuffer]
 glGenerateMipmap: [void, GLenum target]
 glGetFramebufferAttachmentParameteriv: [void, GLenum target, GLenum attachment, GLenum pname, "GLint *params"]
 glGetRenderbufferParameteriv: [void, GLenum target, GLenum pname, "GLint * params"]
+
+glDrawTexi: [void, GLint x, GLint y, GLint z, GLint width, GLint height]
+glDrawTexf: [void, GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height]

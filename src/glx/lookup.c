@@ -439,7 +439,7 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);
-    STUB( glIndexPointer);
+    //STUB( glIndexPointer);
     //STUB(glTexSubImage1D);
 
     printf("glXGetProcAddress: %s not found.\n", name);

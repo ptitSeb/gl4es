@@ -55,6 +55,7 @@ typedef struct {
     GLint size;
     GLenum type;
     GLsizei stride;
+    glbuffer_t *buffer;
     const GLvoid *pointer;
 } pointer_state_t;
 

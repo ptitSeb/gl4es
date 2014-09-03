@@ -269,7 +269,7 @@ void ActivateStreaming(int ID) {
 	if (!stream_cache[ID].active)
 		return;
 
-	gles_glEnable(GL_TEXTURE_STREAM_IMG);
+//	gles_glEnable(GL_TEXTURE_STREAM_IMG);
 	glTexBindStreamIMG(ID, 0);
 }
 
@@ -279,5 +279,5 @@ void DeactivateStreaming() {
     LOAD_GLES(glDisable);
 	if (!gl_streaming)
 		return;
-	gles_glDisable(GL_TEXTURE_STREAM_IMG);
+//	gles_glDisable(GL_TEXTURE_STREAM_IMG);
 }
