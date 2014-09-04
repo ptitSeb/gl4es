@@ -124,11 +124,12 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLenum format, GLenum type, const GLvoid *data) {
 
 //printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
-/*    GLint unpack;
-    glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpack);*/
+
     GLvoid *datab = (GLvoid*)data;
+    
 	if (state.buffers.unpack)
 		datab += (uintptr_t)state.buffers.pack->data;
+        
     GLvoid *pixels = (GLvoid *)datab;
     border = 0;	//TODO: something?
     noerrorShim();
@@ -584,12 +585,10 @@ GLboolean glIsTexture(	GLuint texture) {
 
 void glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
-    if (state.list.compiling && state.list.active) {
-		if (target!=GL_PROXY_TEXTURE_2D) {
-			// check if already a texture binded, if yes, create a new list
-			NewStage(state.list.active, STAGE_BINDTEX);
-			rlBindTexture(state.list.active, texture);
-		}
+    if ((target!=GL_PROXY_TEXTURE_2D) && (state.list.compiling && state.list.active)) {
+        // check if already a texture binded, if yes, create a new list
+        NewStage(state.list.active, STAGE_BINDTEX);
+        rlBindTexture(state.list.active, texture);
     } else {
     	int tex_changed = 1;
 		int streamingID = -1;
@@ -1087,7 +1086,7 @@ GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei ima
 		return (GLvoid*)data;
 	}
 	// alloc memory
-	GLvoid *pixels = malloc(width*height*pixelsize);
+	GLvoid *pixels = malloc(((width+3)&~3)*((height+3)&~3)*pixelsize);
 	// uncompress loop
 	int blocksize;
 	switch (format) {
@@ -1126,9 +1125,9 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei imageSize, const GLvoid *data) 
 {
     if (target == GL_PROXY_TEXTURE_2D) {
-	proxy_width = (width>2048)?0:width;
-	proxy_height = (height>2048)?0:height;
-	return;
+        proxy_width = (width>2048)?0:width;
+        proxy_height = (height>2048)?0:height;
+        return;
     }
     if (state.texture.bound[state.texture.active]==NULL) {
 		errorShim(GL_INVALID_OPERATION);
@@ -1140,14 +1139,20 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 	    //printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
 	    return;
     }
-//printf("glCompressedTexImage2D with size(%i,%i), internalformat=%04x, imagesize=%i\n", width, height, internalformat, imageSize);
+//printf("glCompressedTexImage2D on target=0x%04X with size(%i,%i), internalformat=%04x, imagesize=%i, upackbuffer=%p\n", target, width, height, internalformat, imageSize, state.buffers.unpack?state.buffers.unpack->data:0);
+    if ((width<=0) || (height<=0)) {
+        noerrorShim();
+        return; // nothing to do...
+    }
     LOAD_GLES(glCompressedTexImage2D);
     errorGL();
+    
     glbuffer_t *unpack = state.buffers.unpack;
     state.buffers.unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
     if (unpack)
 		datab += (uintptr_t)unpack->data;
+        
     if (isDXTc(internalformat)) {
 		GLvoid *pixels;
 		if (width<4 || height<4) {	// can happens :(
@@ -1170,14 +1175,18 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
 		int fact = 0;
 		#if 1
-		if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) fact = 1;
+		if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
+            fact = 1;
 		int oldalign;
 		glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
-		if (oldalign!=1) glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		if (oldalign!=1) 
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, half);
-		if (oldalign!=1) glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
+		if (oldalign!=1) 
+            glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		#else
-		if (pixel_halfscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) fact = 1;
+		if (pixel_halfscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
+            fact = 1;
 		glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, GL_RGBA, GL_UNSIGNED_BYTE, half);
 		#endif
 		if (half!=pixels)
