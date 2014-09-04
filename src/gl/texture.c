@@ -4,6 +4,11 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include "../glx/streaming.h"
+
+#ifndef GL_TEXTURE_STREAM_IMG  
+#define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
+#endif
+
 // expand non-power-of-two sizes
 // TODO: what does this do to repeating textures?
 int npot(int n) {
@@ -263,13 +268,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				bound->streamed = true;
 				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
 				GLboolean tmp = state.enable.texture_2d[state.texture.active];
+				LOAD_GLES(glDisable);
+				LOAD_GLES(glEnable);
 				if (tmp)
-							glDisable(GL_TEXTURE_2D);
+				    gles_glDisable(GL_TEXTURE_2D);
 				ActivateStreaming(bound->streamingID);	//Activate the newly created texture
 				format = GL_RGB;
 				type = GL_UNSIGNED_SHORT_5_6_5;
 				if (tmp)
-							glEnable(GL_TEXTURE_2D);
+				    gles_glEnable(GL_TEXTURE_STREAM_IMG);
 				}
 	    }
 	    if (bound) {
@@ -626,6 +633,9 @@ void glBindTexture(GLenum target, GLuint texture) {
             if (state.texture.bound[state.texture.active] == NULL)
             	tex_changed = 0;
         }
+	
+	LOAD_GLES(glDisable);
+	LOAD_GLES(glEnable);
 
         if (tex_changed) {
 
@@ -634,30 +644,30 @@ void glBindTexture(GLenum target, GLuint texture) {
 	            gltexture_t *bound = state.texture.bound[state.texture.active];
 	            if (bound && bound->streamed) {
 	                if (tmp)
-						glDisable(GL_TEXTURE_2D);
+			    gles_glDisable(GL_TEXTURE_2D);
 	                DeactivateStreaming();
 	                if (tmp)
-						glEnable(GL_TEXTURE_2D);
+			    gles_glEnable(GL_TEXTURE_STREAM_IMG);
 	            }
 	        }
 
 	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
 	        target = map_tex_target(target);
 
-			state.texture.bound[state.texture.active] = tex;
-			
-	        LOAD_GLES(glBindTexture);
-			if (texstream && (streamingID>-1)) {
-	                if (tmp)
-						glDisable(GL_TEXTURE_2D);
-					ActivateStreaming(streamingID);
-	                if (tmp)
-						glEnable(GL_TEXTURE_2D);
-			} else {
-				gles_glBindTexture(target, texture);
-				errorGL();
-			}
+		state.texture.bound[state.texture.active] = tex;
+
+		LOAD_GLES(glBindTexture);
+		if (texstream && (streamingID>-1)) {
+		    if (tmp)
+			    gles_glDisable(GL_TEXTURE_2D);
+		    ActivateStreaming(streamingID);
+		    if (tmp)
+			    gles_glEnable(GL_TEXTURE_STREAM_IMG);
+		} else {
+			gles_glBindTexture(target, texture);
+			errorGL();
 		}
+	}
     }
 }
 

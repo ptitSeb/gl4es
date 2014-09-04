@@ -724,8 +724,16 @@ void glXUseXFont(Font font, int first, int count, int listBase) {
     int i;
     unsigned long valuemask;
 	GLubyte *bm;
-	Display *dpy = glxContext->display;
-	Window win = glxContext->drawable;		//TODO, check that drawable is a window and not a pixmap ?
+	Display *dpy;
+	Window win;
+    if (g_usefb) {
+        dpy = g_display;
+        win = RootWindow(dpy, XDefaultScreen(dpy));
+    } else {
+        dpy = glxContext->display;
+        win = glxContext->drawable;		//TODO, check that drawable is a window and not a pixmap ?
+    }
+
 	// Grab font params
 	fs = XQueryFont(dpy, font);
     if (!fs) {
