@@ -132,67 +132,68 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     GLvoid *pixels = (GLvoid *)datab;
     border = 0;	//TODO: something?
     noerrorShim();
-    PUSH_IF_COMPILING(glTexImage2D);
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D) {
-	proxy_width = (width>2048)?0:width;
-	proxy_height = (height>2048)?0:height;
-	return;
+        proxy_width = (width>2048)?0:width;
+        proxy_height = (height>2048)?0:height;
+        return;
     }
+    PUSH_IF_COMPILING(glTexImage2D);
+
     if (!tested_env) {
-	char *env_mipmap = getenv("LIBGL_MIPMAP");
-	if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
-		automipmap = 1;
-		printf("LIBGL: AutoMipMap forced\n");
-	}
-	if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
-		automipmap = 2;
-		printf("LIBGL: guess AutoMipMap\n");
-	}
-	if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
-		automipmap = 3;
-		printf("LIBGL: ignore MipMap\n");
-	}
-	char *env_texcopy = getenv("LIBGL_TEXCOPY");
-	if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
-		texcopydata = 1;
-		printf("LIBGL: Texture copy enabled\n");
-	}
-	char *env_shrink = getenv("LIBGL_SHRINK");
-	if (env_shrink && strcmp(env_shrink, "1") == 0) {
-		texshrink = 1;
-		printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
-	}
-	if (env_shrink && strcmp(env_shrink, "2") == 0) {
-		texshrink = 2;
-		printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
-	}
-	if (env_shrink && strcmp(env_shrink, "3") == 0) {
-		texshrink = 3;
-		printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
-	}
-	char *env_dump = getenv("LIBGL_TEXDUMP");
-	if (env_dump && strcmp(env_dump, "1") == 0) {
-		texdump = 1;
-		printf("LIBGL: Texture dump enabled\n");
-	}
-	char *env_alpha = getenv("LIBGL_ALPHAHACK");
-	if (env_alpha && strcmp(env_alpha, "1") == 0) {
-		alphahack = 1;
-		printf("LIBGL: Alpha Hack enabled\n");
-	}
-	char *env_stream = getenv("LIBGL_STREAM");
-	if (env_stream && strcmp(env_stream, "1") == 0) {
-		texstream = InitStreamingCache();
-		printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available");
-		//FreeStreamed(AddStreamed(1024, 512, 0));
-	}
-	if (env_stream && strcmp(env_stream, "2") == 0) {
-		texstream = InitStreamingCache()?2:0;
-		printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
-		//FreeStreamed(AddStreamed(1024, 512, 0));
-	}
-	tested_env = true;
+        char *env_mipmap = getenv("LIBGL_MIPMAP");
+        if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
+            automipmap = 1;
+            printf("LIBGL: AutoMipMap forced\n");
+        }
+        if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
+            automipmap = 2;
+            printf("LIBGL: guess AutoMipMap\n");
+        }
+        if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
+            automipmap = 3;
+            printf("LIBGL: ignore MipMap\n");
+        }
+        char *env_texcopy = getenv("LIBGL_TEXCOPY");
+        if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
+            texcopydata = 1;
+            printf("LIBGL: Texture copy enabled\n");
+        }
+        char *env_shrink = getenv("LIBGL_SHRINK");
+        if (env_shrink && strcmp(env_shrink, "1") == 0) {
+            texshrink = 1;
+            printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
+        }
+        if (env_shrink && strcmp(env_shrink, "2") == 0) {
+            texshrink = 2;
+            printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
+        }
+        if (env_shrink && strcmp(env_shrink, "3") == 0) {
+            texshrink = 3;
+            printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
+        }
+        char *env_dump = getenv("LIBGL_TEXDUMP");
+        if (env_dump && strcmp(env_dump, "1") == 0) {
+            texdump = 1;
+            printf("LIBGL: Texture dump enabled\n");
+        }
+        char *env_alpha = getenv("LIBGL_ALPHAHACK");
+        if (env_alpha && strcmp(env_alpha, "1") == 0) {
+            alphahack = 1;
+            printf("LIBGL: Alpha Hack enabled\n");
+        }
+        char *env_stream = getenv("LIBGL_STREAM");
+        if (env_stream && strcmp(env_stream, "1") == 0) {
+            texstream = InitStreamingCache();
+            printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available");
+            //FreeStreamed(AddStreamed(1024, 512, 0));
+        }
+        if (env_stream && strcmp(env_stream, "2") == 0) {
+            texstream = InitStreamingCache()?2:0;
+            printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
+            //FreeStreamed(AddStreamed(1024, 512, 0));
+        }
+        tested_env = true;
     }
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
@@ -280,18 +281,18 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				}
 	    }
 	    if (bound) {
-		bound->shrink = 0;
-	    if (!bound->streamed)
-			swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
-		if ((texshrink>0) && !bound->streamed)
-		    if ((texshrink==1) || 
-			((texshrink>1) && 
-				((width > ((texshrink==2)?512:256)) && (height > 8)) 
-			 || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
-			width /= 2;
-			height /= 2;
-			bound->shrink = 1;
-		    }
+            bound->shrink = 0;
+            if (!bound->streamed)
+                swizzle_texture(width, height, &format, &type, NULL);	// convert format even if data is NULL
+            if ((texshrink>0) && !bound->streamed)
+                if ((texshrink==1) || 
+                ((texshrink>1) && 
+                    ((width > ((texshrink==2)?512:256)) && (height > 8)) 
+                 || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
+                    width /= 2;
+                    height /= 2;
+                    bound->shrink = 1;
+                }
 	    }
 	}
 
@@ -317,33 +318,33 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if (texstream && bound && bound->streamed) {
 				nwidth = width;
 				nheight = height;
-	    }
-	    if (bound && (level == 0)) {
-		bound->width = width;
-		bound->height = height;
-		bound->nwidth = nwidth;
-		bound->nheight = nheight;
-	    }
-	    if (!(texstream && bound && bound->streamed)) {
-			if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
-				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
-			if (height != nheight || width != nwidth) {
-				gles_glTexImage2D(target, level, format, nwidth, nheight, border,
-								format, type, NULL);
-				if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
-									 format, type, pixels);
-				errorGL();
-			} else {
-				gles_glTexImage2D(target, level, format, width, height, border,
-								format, type, pixels);
-				errorGL();
-			}
-			if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
-				gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
-	    } else {
-			if (pixels)
-				glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
-			}
+            }
+            if (bound && (level == 0)) {
+                bound->width = width;
+                bound->height = height;
+                bound->nwidth = nwidth;
+                bound->nheight = nheight;
+            }
+            if (!(texstream && bound && bound->streamed)) {
+                if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+                    gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+                if (height != nheight || width != nwidth) {
+                    gles_glTexImage2D(target, level, format, nwidth, nheight, border,
+                                    format, type, NULL);
+                    if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
+                                         format, type, pixels);
+                    errorGL();
+                } else {
+                    gles_glTexImage2D(target, level, format, width, height, border,
+                                    format, type, pixels);
+                    errorGL();
+                }
+                if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+                    gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+            } else {
+                if (pixels)
+                    glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
+                }
         }
     }
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
@@ -377,16 +378,16 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     noerrorShim();
 //printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x, level=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, level);
     if (width==0 || height==0)
-	return;
+        return;
     target = map_tex_target(target);
     
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (automipmap) {
-	if (bound && (level>0))
-	    if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
-		return;			// has been handled by auto_mipmap
-	    else
-		bound->mipmap_need = 1;
+        if (bound && (level>0))
+            if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
+                return;			// has been handled by auto_mipmap
+            else
+                bound->mipmap_need = 1;
     }
 
     if ((state.texture.unpack_row_length && state.texture.unpack_row_length != width) || state.texture.unpack_skip_pixels || state.texture.unpack_skip_rows) {
@@ -416,42 +417,43 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		}
 		format = GL_RGB;
 		type = GL_UNSIGNED_SHORT_5_6_5;
-    } else pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
+    } else 
+        pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
     if (old != pixels && old != datab)
-	free(old);
+        free(old);
 
     if (bound->shrink) {
-	// special case for width/height == 1
-	if (width==1)
-		width+=(xoffset%2);
-	if (height==1)
-		height+=(yoffset%2);
-	if ((width==1) || (height==1)) {
-		// nothing to do...
-		if (pixels != datab)
-			free((GLvoid *)pixels);
-		return;
-	}
-	// ok, now standard cases....
-	xoffset /= 2;
-	yoffset /= 2;
-	old = pixels;
-	pixel_halfscale(pixels, &old, width, height, format, type);
-	if (old != pixels && pixels!=data)
-		free(pixels);
-	pixels = old;
-	width /= 2;
-	height /= 2;
+        // special case for width/height == 1
+        if (width==1)
+            width+=(xoffset%2);
+        if (height==1)
+            height+=(yoffset%2);
+        if ((width==1) || (height==1)) {
+            // nothing to do...
+            if (pixels != datab)
+                free((GLvoid *)pixels);
+            return;
+        }
+        // ok, now standard cases....
+        xoffset /= 2;
+        yoffset /= 2;
+        old = pixels;
+        pixel_halfscale(pixels, &old, width, height, format, type);
+        if (old != pixels && pixels!=data)
+            free(pixels);
+        pixels = old;
+        width /= 2;
+        height /= 2;
     }
 
     if (texdump) {
-	if (bound) {
-	    pixel_to_ppm(pixels, width, height, format, type, bound->texture);
-	}
+        if (bound) {
+            pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+        }
     }
 
     if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (!texstream || (texstream && !bound->streamed)))
-	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+        gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
 
     if (bound && texstream && bound->streamed) {
 /*	// copy the texture to the buffer
@@ -459,20 +461,21 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	for (int yy=0; yy<height; yy++) {
 		memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
 	}*/
-    } else
-		errorGL();
-	gles_glTexSubImage2D(target, level, xoffset, yoffset,
+    } else {
+        gles_glTexSubImage2D(target, level, xoffset, yoffset,
 					 width, height, format, type, pixels);
+		errorGL();
+    }
 
     if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3) && (!texstream || (texstream && !bound->streamed)))
-	gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+        gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
 
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
 //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i, format=0x%04X, type=0x%04X, tex=%u\n", xoffset, yoffset, width, height, format, type, bound->glname);
-	GLvoid * tmp = bound->data;
-	tmp += (yoffset*bound->width + xoffset)*4;
-	if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, bound->width))
-		printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
+        GLvoid * tmp = bound->data;
+        tmp += (yoffset*bound->width + xoffset)*4;
+        if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, bound->width))
+            printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
     }
 
     if (pixels != datab)
@@ -634,8 +637,8 @@ void glBindTexture(GLenum target, GLuint texture) {
             	tex_changed = 0;
         }
 	
-	LOAD_GLES(glDisable);
-	LOAD_GLES(glEnable);
+        LOAD_GLES(glDisable);
+        LOAD_GLES(glEnable);
 
         if (tex_changed) {
 
@@ -644,30 +647,30 @@ void glBindTexture(GLenum target, GLuint texture) {
 	            gltexture_t *bound = state.texture.bound[state.texture.active];
 	            if (bound && bound->streamed) {
 	                if (tmp)
-			    gles_glDisable(GL_TEXTURE_2D);
+                        gles_glDisable(GL_TEXTURE_STREAM_IMG);
 	                DeactivateStreaming();
 	                if (tmp)
-			    gles_glEnable(GL_TEXTURE_STREAM_IMG);
+                        gles_glEnable(GL_TEXTURE_2D);
 	            }
 	        }
 
 	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
 	        target = map_tex_target(target);
 
-		state.texture.bound[state.texture.active] = tex;
+            state.texture.bound[state.texture.active] = tex;
 
-		LOAD_GLES(glBindTexture);
-		if (texstream && (streamingID>-1)) {
-		    if (tmp)
-			    gles_glDisable(GL_TEXTURE_2D);
-		    ActivateStreaming(streamingID);
-		    if (tmp)
-			    gles_glEnable(GL_TEXTURE_STREAM_IMG);
-		} else {
-			gles_glBindTexture(target, texture);
-			errorGL();
-		}
-	}
+            LOAD_GLES(glBindTexture);
+            if (texstream && (streamingID>-1)) {
+                if (tmp)
+                    gles_glDisable(GL_TEXTURE_2D);
+                ActivateStreaming(streamingID);
+                if (tmp)
+                    gles_glEnable(GL_TEXTURE_STREAM_IMG);
+            } else {
+                gles_glBindTexture(target, texture);
+                errorGL();
+            }
+        }
     }
 }
 
@@ -940,9 +943,6 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 }
 
 void glActiveTexture( GLenum texture ) {
-/* NewStage(state.list.active, STAGE_BINDTEX);
- if (state.list.compiling && state.list.active)
-	state.list.active = extend_renderlist(state.list.active);*/
  PUSH_IF_COMPILING(glActiveTexture);
  
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX)) {

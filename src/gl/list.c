@@ -363,18 +363,18 @@ void draw_renderlist(renderlist_t *list) {
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
+	}
+	GLfloat *texgened[MAX_TEX];
+	GLint needclean[MAX_TEX];
+	for (int a=0; a<MAX_TEX; a++) {
+		texgened[a]=NULL;
+		if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
+		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
+		} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
+		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
 		}
-		GLfloat *texgened[MAX_TEX];
-		GLint needclean[MAX_TEX];
-		for (int a=0; a<MAX_TEX; a++) {
-			texgened[a]=NULL;
-			if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
-			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
-			} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
-			    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
-			}
         }
-	    old_tex = state.texture.client;
+	old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
 		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
 			glClientActiveTexture(GL_TEXTURE0+a);
@@ -398,84 +398,84 @@ void draw_renderlist(renderlist_t *list) {
 			mode = GL_POINTS;
 
         if (indices) {
-			if (state.render_mode == GL_SELECT) {			
-				select_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
-			} else {
-			if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
-				int n, s;
-				switch (list->mode_init) {
-					case GL_TRIANGLES:
-						n = 3;
-						s = 3;
-						break;
-					case GL_TRIANGLE_STRIP:
-						n = 3;
-						s = 1;
-						break;
-					case GL_TRIANGLE_FAN:	// wrong here...
-						n = list->ilen;
-						s = list->ilen;
-						break;
-					case GL_QUADS:
-						n = 4;
-						s = 4;
-						break;
-					case GL_QUAD_STRIP:
-						n = 4;
-						s = 1;
-						break;
-					default:		// Polygon and other?
-						n = list->ilen;
-						s = list->ilen;
-						break;
-				}
-				for (int i=n; i<=list->ilen; i+=s)
-					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
-				} else {
-					gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
-				}
-			}
+            if (state.render_mode == GL_SELECT) {			
+                select_glDrawElements(list->mode, list->len, GL_UNSIGNED_SHORT, indices);
+            } else {
+                if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
+                    int n, s;
+                    switch (list->mode_init) {
+                        case GL_TRIANGLES:
+                            n = 3;
+                            s = 3;
+                            break;
+                        case GL_TRIANGLE_STRIP:
+                            n = 3;
+                            s = 1;
+                            break;
+                        case GL_TRIANGLE_FAN:	// wrong here...
+                            n = list->ilen;
+                            s = list->ilen;
+                            break;
+                        case GL_QUADS:
+                            n = 4;
+                            s = 4;
+                            break;
+                        case GL_QUAD_STRIP:
+                            n = 4;
+                            s = 1;
+                            break;
+                        default:		// Polygon and other?
+                            n = list->ilen;
+                            s = list->ilen;
+                            break;
+                    }
+                for (int i=n; i<=list->ilen; i+=s)
+                    gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
+                } else {
+                    gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
+                }
+            }
         } else {
-			if (state.render_mode == GL_SELECT) {	
-				select_glDrawArrays(list->mode, 0, list->len);
-			} else {
-				int len = list->len;
-				if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
-					int n, s;
-					if (list->q2t)
-						len = len*4/6;
-					switch (list->mode_init) {
-						case GL_TRIANGLES:
-							n = 3;
-							s = 3;
-							break;
-						case GL_TRIANGLE_STRIP:
-							n = 3;
-							s = 1;
-							break;
-						case GL_TRIANGLE_FAN:	// wrong here...
-							n = len;
-							s = len;
-							break;
-						case GL_QUADS:
-							n = 4;
-							s = 4;
-							break;
-						case GL_QUAD_STRIP:
-							n = 4;
-							s = 1;
-							break;
-						default:		// Polygon and other?
-							n = len;
-							s = len;
-							break;
-					}
-					for (int i=n; i<=len; i+=s)
-						gles_glDrawArrays(mode, i-n, n);
-				} else {
-					gles_glDrawArrays(mode, 0, len);
-				}
-			}
+            if (state.render_mode == GL_SELECT) {	
+                select_glDrawArrays(list->mode, 0, list->len);
+            } else {
+                int len = list->len;
+                if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
+                    int n, s;
+                    if (list->q2t)
+                    len = len*4/6;
+                    switch (list->mode_init) {
+                    case GL_TRIANGLES:
+                        n = 3;
+                        s = 3;
+                        break;
+                    case GL_TRIANGLE_STRIP:
+                        n = 3;
+                        s = 1;
+                        break;
+                    case GL_TRIANGLE_FAN:	// wrong here...
+                        n = len;
+                        s = len;
+                        break;
+                    case GL_QUADS:
+                        n = 4;
+                        s = 4;
+                        break;
+                    case GL_QUAD_STRIP:
+                        n = 4;
+                        s = 1;
+                        break;
+                    default:		// Polygon and other?
+                        n = len;
+                        s = len;
+                        break;
+                    }
+                    for (int i=n; i<=len; i+=s)
+                    gles_glDrawArrays(mode, i-n, n);
+                } else {
+                    gles_glDrawArrays(mode, 0, len);
+                }
+            }
         }
         for (int a=0; a<MAX_TEX; a++) {
 			if (texgened[a]) {
@@ -518,10 +518,10 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     }
 
     for (int a=0; a<MAX_TEX; a++) {
-	    if (list->tex[a]) {
-		    GLfloat *tex = list->tex[a] + (list->len * 2);
-		    memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 2);
-	    }
+	if (list->tex[a]) {
+	    GLfloat *tex = list->tex[a] + (list->len * 2);
+	    memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 2);
+	}
     }
 
     GLfloat *vert = list->vert + (list->len++ * 3);
