@@ -123,7 +123,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
+//printf("glTexImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", target, state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
 
     GLvoid *datab = (GLvoid*)data;
     
@@ -264,7 +264,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         }
     } else {
 	    if (texstream && bound && (target==GL_TEXTURE_2D) && (width>=256 && height>=256) && 
-		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_RGB)) || (texstream==2) ) {
+		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_BGR) || (internalformat==GL_RGB5)) || (texstream==2) ) {
 			bound->streamingID = AddStreamed(width, height, bound->texture);
 			if (bound->streamingID>-1) {	// success
 				bound->streamed = true;
@@ -342,9 +342,17 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
                     gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+                if (bound) {
+                    bound->format = format;
+                    bound->type = type;
+                }
             } else {
                 if (pixels)
                     glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
+                }
+                if (bound) {
+                    bound->format = format;
+                    bound->type = type;
                 }
         }
     }
@@ -377,7 +385,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-//printf("glTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x, level=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, level);
+//printf("glTexSubImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x, level=%i, texture=%u\n", target, state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, level, state.texture.bound[state.texture.active]->texture);
     if (width==0 || height==0)
         return;
     target = map_tex_target(target);
@@ -418,8 +426,19 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		}
 		format = GL_RGB;
 		type = GL_UNSIGNED_SHORT_5_6_5;
-    } else 
-        pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
+    } else  {
+        //pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
+        if (!pixel_convert(old, &pixels, width, height, format, type, bound->format, bound->type, 0)) {
+            printf("LIBGL: Error in pixel_convert while glTexSubImage2D\n");
+        } else {
+            format = bound->format;
+            type = bound->type;
+            if (bound && bound->texture==2886399500) {
+                pixel_to_ppm(pixels, width, height, format, type, bound->texture);
+            }
+        }
+        
+    }
     if (old != pixels && old != datab)
         free(old);
 
@@ -622,6 +641,8 @@ void glBindTexture(GLenum target, GLuint texture) {
 				tex->streamed = false;
 				tex->streamingID = -1;
 				tex->min_filter = tex->mag_filter = GL_LINEAR;
+                tex->format = GL_RGBA;
+                tex->format = GL_UNSIGNED_BYTE;
                 tex->data = NULL;
             } else {
                 tex = kh_value(list, k);
@@ -803,6 +824,8 @@ void glGenTextures(GLsizei n, GLuint * textures) {
 			tex->streamingID = -1;
 			tex->streamed = false;
 			tex->min_filter = tex->mag_filter = GL_NEAREST;
+            tex->format = GL_RGBA;
+            tex->type = GL_UNSIGNED_BYTE;
 			tex->data = NULL;
 		} else {
 			tex = kh_value(list, k);
@@ -1154,29 +1177,33 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		datab += (uintptr_t)unpack->data;
         
     if (isDXTc(internalformat)) {
-		GLvoid *pixels;
-		if (width<4 || height<4) {	// can happens :(
-			GLvoid *tmp;
-			GLsizei nw=width;
-			GLsizei nh=height;
-			if (nw<4) nw = 4;
-			if (nh<4) nh = 4;
-			tmp = uncompressDXTc(nw, nh, internalformat, imageSize, datab);
-			pixels = malloc(4*width*height);
-			// crop
-			for (int y=0; y<height; y++)
-				memcpy(pixels+y*width*4, tmp+y*nw*4, width*4);
-			free(tmp);
-		} else {
-			pixels = uncompressDXTc(width, height, internalformat, imageSize, datab);
-		}
-		// automaticaly reduce the pixel size
-		GLvoid *half=pixels;
-		state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
-		int fact = 0;
-		#if 1
-		if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
+		GLvoid *pixels, *half;
+        int fact = 0;
+        if (datab) {
+            if (width<4 || height<4) {	// can happens :(
+                GLvoid *tmp;
+                GLsizei nw=width;
+                GLsizei nh=height;
+                if (nw<4) nw = 4;
+                if (nh<4) nh = 4;
+                tmp = uncompressDXTc(nw, nh, internalformat, imageSize, datab);
+                pixels = malloc(4*width*height);
+                // crop
+                for (int y=0; y<height; y++)
+                    memcpy(pixels+y*width*4, tmp+y*nw*4, width*4);
+                free(tmp);
+            } else {
+                pixels = uncompressDXTc(width, height, internalformat, imageSize, datab);
+            }
+            // automaticaly reduce the pixel size
+            half=pixels;
+            state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+            if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
+                fact = 1;
+        } else {
+            half = NULL;
             fact = 1;
+        }
 		int oldalign;
 		glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
@@ -1184,17 +1211,14 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, half);
 		if (oldalign!=1) 
             glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
-		#else
-		if (pixel_halfscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
-            fact = 1;
-		glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, GL_RGBA, GL_UNSIGNED_BYTE, half);
-		#endif
 		if (half!=pixels)
 			free(half);
 		if (pixels!=datab)
 			free(pixels);
 	} else {
 	    state.texture.bound[state.texture.active]->alpha = true;
+        state.texture.bound[state.texture.active]->format = internalformat;
+        state.texture.bound[state.texture.active]->type = GL_UNSIGNED_BYTE;
 	    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, datab);
 	}
 	state.buffers.unpack = unpack;

@@ -134,6 +134,7 @@
 #define GL_UNSIGNED_INT_10_10_10_2     0x8036
 #define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
 #define GL_RGB8                        0x8051
+#define GL_RGB5                        0x8050
 
 // types
 #define GL_BYTE                 0x1400
