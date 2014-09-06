@@ -39,10 +39,10 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         }
 
     #define default(arr, amod, vmod, key, def) \
-        key >= 0 ? arr[amod key] vmod : def
+        (amod key) >= 0 ? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
-        if (key >= 0) d[amod key] = value;
+        if ((amod key) >= 0) d[amod key] = value;
 
     #define read_each(amod, vmod)                                 \
         pixel.r = default(s, amod, vmod, src_color->red, 0.0f);      \
@@ -59,12 +59,16 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pixel;
+    int max_a = src_color->red;
+    if (src_color->green>max_a) max_a=src_color->green;
+    if (src_color->blue>max_a) max_a=src_color->blue;
+    if (src_color->alpha>max_a) max_a=src_color->alpha;
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(/*3-*/ , / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
                 (v & 31),
@@ -80,7 +84,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
                 ((v & 0x07e0) >> 5),
                 ((v & 0xF800) >> 11)*2,
             };
-            read_each(, / 63.0f);
+            read_each(2-, / 63.0f);
         )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             s = (GLushort[]){
@@ -89,7 +93,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
                 ((v & 0x0f00) >> 8),
                 ((v & 0xf000) >> 12)
             };
-            read_each(, / 15.0f);
+            read_each(3-, / 15.0f);
         )
         default:
             // TODO: add glSetError?
@@ -97,12 +101,15 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             return false;
             break;
     }
-
+    max_a = dst_color->red;
+    if (dst_color->green>max_a) max_a=dst_color->green;
+    if (dst_color->blue>max_a) max_a=dst_color->blue;
+    if (dst_color->alpha>max_a) max_a=dst_color->alpha;
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -152,10 +159,10 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
         }
 
     #define default(arr, amod, vmod, key, def) \
-        key >= 0 ? arr[amod key] vmod : def
+        (amod key) >= 0 ? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
-        if (key >= 0) d[amod key] = value;
+        if ((amod key) >= 0) d[amod key] = value;
 
     #define read_each(amod, vmod)                                 \
         pixel.r = default(s, amod, vmod, src_color->red, 0.0f);      \
@@ -178,12 +185,16 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pixel;
+    int max_a = src_color->red;
+    if (src_color->green>max_a) max_a=src_color->green;
+    if (src_color->blue>max_a) max_a=src_color->blue;
+    if (src_color->alpha>max_a) max_a=src_color->alpha;
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             s = (GLushort[]){
                 (v & 31),
@@ -225,7 +236,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -286,10 +297,10 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         }
 
     #define default(arr, amod, vmod, key, def) \
-        key >= 0 ? arr[amod key] vmod : def
+        (amod key) >= 0 ? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
-        if (key >= 0) d[amod key] = value;
+        if ((amod key) >= 0) d[amod key] = value;
 
     #define read_i_each(amod, vmod, i)                                   \
         pix[i].r = default(s[i], amod, vmod, src_color->red, 0.0f);      \
@@ -312,12 +323,16 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pix[4], pixel;
+    int max_a = src_color->red;
+    if (src_color->green>max_a) max_a=src_color->green;
+    if (src_color->blue>max_a) max_a=src_color->blue;
+    if (src_color->alpha>max_a) max_a=src_color->alpha;
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             for (int ii=0; ii<4; ii++) {
                 s[ii] = (GLushort[]) {
@@ -355,7 +370,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
        // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -412,10 +427,10 @@ bool quarter_pixel(const GLvoid *src[16],
         }
 
     #define default(arr, amod, vmod, key, def) \
-        key >= 0 ? arr[amod key] vmod : def
+        (amod key) >= 0 ? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
-        if (key >= 0) d[amod key] = value;
+        if ((amod key) >= 0) d[amod key] = value;
 
     #define read_i_each(amod, vmod, i)                                   \
         pix[i].r = default(s[i], amod, vmod, src_color->red, 0.0f);      \
@@ -450,12 +465,16 @@ bool quarter_pixel(const GLvoid *src[16],
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pix[16], pixel;
+    int max_a = src_color->red;
+    if (src_color->green>max_a) max_a=src_color->green;
+    if (src_color->blue>max_a) max_a=src_color->blue;
+    if (src_color->alpha>max_a) max_a=src_color->alpha;
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(3 - , / 255.0f))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
             for (int ii=0; ii<16; ii++) {
                 s[ii] = (GLushort[]) {
@@ -493,7 +512,7 @@ bool quarter_pixel(const GLvoid *src[16],
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(3 - , * 255.0))
+        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
        // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
