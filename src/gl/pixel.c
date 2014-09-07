@@ -39,10 +39,10 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         }
 
     #define default(arr, amod, vmod, key, def) \
-        (amod key) >= 0 ? arr[amod key] vmod : def
+        (((amod key) >= 0)&&((amod key) < 4))? arr[amod key] vmod : def
 
     #define carefully(arr, amod, key, value) \
-        if ((amod key) >= 0) d[amod key] = value;
+        if (((amod key) >= 0)&&((amod key) < 4)) d[amod key] = value;
 
     #define read_each(amod, vmod)                                 \
         pixel.r = default(s, amod, vmod, src_color->red, 0.0f);      \
@@ -67,6 +67,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         case GL_UNSIGNED_INT_8_8_8_8_REV:
+        type_case(GL_BYTE, GLbyte, read_each(, / 128.0f))
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
@@ -107,6 +108,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     if (dst_color->alpha>max_a) max_a=dst_color->alpha;
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,))
+        type_case(GL_BYTE, GLbyte, write_each(, * 127.0f))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
