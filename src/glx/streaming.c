@@ -195,17 +195,22 @@ int AddStreamed(int width, int height, unsigned int ID) {
 //printf("AddStreamed(%i, %i, %u)\n", width, height, ID);
 	if (!gl_streaming)
 		return -1;
-	int i =0;
-	while (i<10) {
-		if (tex_free[i]) {
-			if (alloc_buff(i, width, height)) {
-				stream_cache[i].active = 1;
-				stream_cache[i].last = frame_number;
-				stream_cache[i].texID = ID;
-				return i;
-			} else return -1;	// Probably useless to try again and again
+	static int i =0;
+    int j=0;
+	while (j<10) {
+        int k = (i+j)%10;
+		if (tex_free[k]) {
+			if (alloc_buff(k, width, height)) {
+				stream_cache[k].active = 1;
+				stream_cache[k].last = frame_number;
+				stream_cache[k].texID = ID;
+                i = (i+j+1)%10;
+				return k;
+			} else {                
+                return -1;	// Probably useless to try again and again
+            }
 		}
-		i++;
+        j++;
 	}
 	return -1;
 }

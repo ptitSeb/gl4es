@@ -267,23 +267,45 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_REFLECTION_MAP))
      && (state.enable.texgen_r[texture] && (state.texgen[texture].R==GL_REFLECTION_MAP)))
     {
-	*needclean=1;
-	// setup reflection map!
-	GLuint old_tex=state.texture.active;
-	if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
-	LOAD_GLES_OES(glTexGeni);
-	LOAD_GLES_OES(glTexGenfv);
-	LOAD_GLES(glEnable);
-	// enable texgen
-	gles_glEnable(GL_TEXTURE_GEN_S);
-	gles_glEnable(GL_TEXTURE_GEN_T);
-	gles_glEnable(GL_TEXTURE_GEN_R);
-	// setup cube map mode
-	gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-	gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-	gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+        *needclean=1;
+        // setup reflection map!
+        GLuint old_tex=state.texture.active;
+        if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
+        LOAD_GLES_OES(glTexGeni);
+        LOAD_GLES_OES(glTexGenfv);
+        LOAD_GLES(glEnable);
+        // setup cube map mode
+        gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+        gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+        gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+        // enable texgen
+        gles_glEnable(GL_TEXTURE_GEN_STR);      //GLES only support the 3 gen at the same time!
 
-	if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+        if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+            
+        return;
+    }
+    // special case: NORMAL_MAP  needs the 3 texgen to make sense
+    if ((state.enable.texgen_s[texture] && (state.texgen[texture].S==GL_NORMAL_MAP)) 
+     && (state.enable.texgen_t[texture] && (state.texgen[texture].T==GL_NORMAL_MAP))
+     && (state.enable.texgen_r[texture] && (state.texgen[texture].R==GL_NORMAL_MAP)))
+    {
+        *needclean=1;
+        // setup reflection map!
+        GLuint old_tex=state.texture.active;
+        if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
+        LOAD_GLES_OES(glTexGeni);
+        LOAD_GLES_OES(glTexGenfv);
+        LOAD_GLES(glEnable);
+        // setup cube map mode
+        gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
+        gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
+        gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
+        // enable texgen
+        gles_glEnable(GL_TEXTURE_GEN_STR);
+
+        if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
+            
         return;
     }
     if (!state.enable.texture_2d[texture])
@@ -323,9 +345,7 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		GLuint old_tex=state.texture.active;
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + texture);
 		LOAD_GLES(glDisable);
-		gles_glDisable(GL_TEXTURE_GEN_R);
-		gles_glDisable(GL_TEXTURE_GEN_T);
-		gles_glDisable(GL_TEXTURE_GEN_S);
+		gles_glDisable(GL_TEXTURE_GEN_STR);
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
 		return;
 	}

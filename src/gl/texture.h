@@ -111,4 +111,6 @@ void glClientActiveTexture( GLenum texture );
 void glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
 GLboolean glIsTexture( GLuint texture );
 
+void tex_setup_texcoord(GLuint texunit, GLuint len);
+
 #endif

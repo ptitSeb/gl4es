@@ -234,6 +234,11 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES(glTexCoordPointer);
 #endif
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
+
+	GLfloat *final_colors;
+	int old_tex;
+    GLushort *indices;
+    
     do {
 	// push/pop attributes
 	if (list->pushattribute)
@@ -250,9 +255,9 @@ void draw_renderlist(renderlist_t *list) {
                 glPackedCall(cl->calls[i]);
             }
         }
-        int old_tex = state.texture.active;
+        old_tex = state.texture.active;
 	    if (list->set_texture) {
-		glBindTexture(GL_TEXTURE_2D, list->texture);
+		glBindTexture(list->target_texture, list->texture);
         }
         // raster
         if (list->raster) {
@@ -266,45 +271,45 @@ void draw_renderlist(renderlist_t *list) {
             khash_t(material) *map = list->material;
             rendermaterial_t *m;
             kh_foreach_value(map, m,
-		switch (m->pname) {
-		    case GL_SHININESS:
-			glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
-			break;
-		    default:
-			glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
-		}
+                switch (m->pname) {
+                    case GL_SHININESS:
+                        glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
+                        break;
+                    default:
+                        glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
+                }
             )
         }
         if (list->light) {
             khash_t(light) *lig = list->light;
             renderlight_t *m;
             kh_foreach_value(lig, m,
-		switch (m->pname) {
-		    default:
-			glLightfv(m->which, m->pname, m->color);
-		}
+                switch (m->pname) {
+                    default:
+                        glLightfv(m->which, m->pname, m->color);
+                }
             )
         }
         if (list->lightmodel) {
-	    glLightModelfv(list->lightmodelparam, list->lightmodel);
-	}
+            glLightModelfv(list->lightmodelparam, list->lightmodel);
+        }
 		
         if (list->texgen) {
             khash_t(texgen) *tgn = list->texgen;
             rendertexgen_t *m;
             kh_foreach_value(tgn, m,
-		switch (m->pname) {
-		    case GL_TEXTURE_GEN_MODE:
-			glTexGeni(m->coord, m->pname, m->color[0]);
-			break;
-		    default:
-			glTexGenfv(m->coord, m->pname, m->color);
-		}
+                switch (m->pname) {
+                    case GL_TEXTURE_GEN_MODE:
+                    glTexGeni(m->coord, m->pname, m->color[0]);
+                    break;
+                    default:
+                    glTexGenfv(m->coord, m->pname, m->color);
+                }
             )
         }
         
         if (list->polygon_mode)
-	    glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);
+            glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);
 
         if (! list->len)
             continue;
@@ -330,11 +335,11 @@ void draw_renderlist(renderlist_t *list) {
             glDisableClientState(GL_NORMAL_ARRAY);
         }
 
-        GLushort *indices = list->indices;
+        indices = list->indices;
         if (list->q2t && !(state.polygon_mode == GL_LINE))
             indices = cached_q2t;
            
-	GLfloat *final_colors = NULL;
+		final_colors = NULL;
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
             if (state.enable.color_sum && (list->secondary)) {
@@ -352,7 +357,8 @@ void draw_renderlist(renderlist_t *list) {
             glDisableClientState(GL_COLOR_ARRAY);
         }
         GLuint texture;
-        bool stipple = false;
+        bool stipple;
+        stipple = false;
         if (! list->tex[0]) {
             // TODO: do we need to support GL_LINE_STRIP?
             if (list->mode == GL_LINES && state.enable.line_stipple) {
@@ -369,16 +375,22 @@ void draw_renderlist(renderlist_t *list) {
 	for (int a=0; a<MAX_TEX; a++) {
 		texgened[a]=NULL;
 		if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
-		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
+		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
 		} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
-		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, indices, list->ilen);
-		}
+		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+		} else if (list->tex[a]) {
+            gltexture_t *bound = state.texture.bound[a];
+            if ((state.texture.rect_arb[a]))
+                tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
+            if ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight))
+                tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
         }
+    }
 	old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
 		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
-			glClientActiveTexture(GL_TEXTURE0+a);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                glClientActiveTexture(GL_TEXTURE0+a);
+                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		        gles_glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
 			if (state.enable.tex_coord_array[a]) {
@@ -391,7 +403,8 @@ void draw_renderlist(renderlist_t *list) {
         }
         if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
 
-        GLenum mode = list->mode;
+        GLenum mode;
+        mode = list->mode;
         if ((state.polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
 			mode = GL_LINE_LOOP;
 		if ((state.polygon_mode == GL_POINT) && (mode>=GL_TRIANGLES))
@@ -478,6 +491,8 @@ void draw_renderlist(renderlist_t *list) {
             }
         }
         for (int a=0; a<MAX_TEX; a++) {
+            if (needclean[a])
+                gen_tex_clean(needclean[a], a);
 			if (texgened[a]) {
 				free(texgened[a]);
 				texgened[a] = NULL;
@@ -707,8 +722,9 @@ void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) 
     tex[0] = s; tex[1] = t;
 }
 
-void rlBindTexture(renderlist_t *list, GLuint texture) {
+void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture) {
     list->texture = texture;
+    list->target_texture = target;
     list->set_texture = true;
 }
 

@@ -24,10 +24,14 @@ void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height) {
     if (!tex || !width || !height)
         return;
+        
+    GLfloat iwidth, iheight;
+    iwidth = 1.0f/width;
+    iheight = 1.0f/height;
 
     for (int i = 0; i < len; i++) {
-        tex[0] /= width;
-        tex[1] /= height;
+        tex[0] *= iwidth;
+        tex[1] *= iheight;
         tex += 2;
     }
 }
@@ -45,6 +49,53 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
         tex[1] *= hratio;
         tex += 2;
     }
+}
+
+/* Setup the texture coordinates
+ * 
+ * Have to check is ARB_RECTANGLE is used
+ * Or some NPOT texture used
+ * Or SHRINKED texure used
+ */
+void tex_setup_texcoord(GLuint texunit, GLuint len) {
+    LOAD_GLES(glTexCoordPointer);
+    GLuint old = state.texture.client;
+    
+    static void * tex[8] = {0,0,0,0,0,0,0,0};   // hugly but convenient...
+    
+    if (tex[texunit]) {
+        free(tex[texunit]);
+        tex[texunit]=NULL;
+    }
+        
+    gltexture_t *bound = state.texture.bound[texunit];
+    
+    // check if some changes are needed
+    int changes = 0;
+    if ((state.texture.rect_arb[texunit]) || 
+        (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)||bound->shrink)))
+        changes = 1;
+	if (old!=texunit) glClientActiveTexture(texunit+GL_TEXTURE0);
+    if (changes) {
+        // first convert to GLfloat, without normalization
+        tex[texunit] = copy_gl_pointer_raw(&state.pointers.tex_coord[texunit], 2, 0, len, state.pointers.tex_coord[texunit].buffer);
+        if (!tex[texunit]) {
+            printf("LibGL: Error with Texture tranform\n");
+            gles_glTexCoordPointer(len, state.pointers.tex_coord[texunit].type, state.pointers.tex_coord[texunit].stride, state.pointers.tex_coord[texunit].pointer);
+            if (old!=texunit) glClientActiveTexture(old+GL_TEXTURE0);
+            return;
+        }
+        // Normalize if needed
+        if ((state.texture.rect_arb[texunit]) || ((state.pointers.tex_coord[texunit].type!=GL_FLOAT) && (state.pointers.tex_coord[texunit].type!=GL_DOUBLE)))
+            tex_coord_rect_arb(tex[texunit], len, bound->width, bound->height);
+        if ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight))
+            tex_coord_npot(tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);
+        // All done, setup the texcoord array now
+        gles_glTexCoordPointer(2, GL_FLOAT, 0, tex[texunit]);
+    } else {
+        gles_glTexCoordPointer(state.pointers.tex_coord[texunit].size, state.pointers.tex_coord[texunit].type, state.pointers.tex_coord[texunit].stride, state.pointers.tex_coord[texunit].pointer);
+    }
+	if (old!=texunit) glClientActiveTexture(old+GL_TEXTURE0);
 }
 
 static void *swizzle_texture(GLsizei width, GLsizei height,
@@ -123,7 +174,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u\n", target, state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, state.texture.bound[state.texture.active]->mipmap_need, state.texture.bound[state.texture.active]->mipmap_auto, state.texture.bound[state.texture.active]->texture);
+//printf("glTexImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i)\n", target, state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_need:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_auto:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->streamed:0);
 
     GLvoid *datab = (GLvoid*)data;
     
@@ -135,8 +186,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     noerrorShim();
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D) {
-        proxy_width = (width>2048)?0:width;
-        proxy_height = (height>2048)?0:height;
+        proxy_width = ((width<<level)>2048)?0:width;
+        proxy_height = ((height<<level)>2048)?0:height;
         return;
     }
     PUSH_IF_COMPILING(glTexImage2D);
@@ -200,11 +251,11 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     gltexture_t *bound = state.texture.bound[state.texture.active];
     if (bound) bound->alpha = pixel_hasalpha(format);
     if (automipmap) {
-	if (bound && (level>0))
-	    if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
-		return;			// has been handled by auto_mipmap
-	    else
-		bound->mipmap_need = 1;
+        if (bound && (level>0))
+            if ((automipmap==1) || (automipmap==3) || bound->mipmap_need)
+                return;			// has been handled by auto_mipmap
+            else
+                bound->mipmap_need = 1;
      }
      if (datab) {
 
@@ -325,6 +376,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->height = height;
                 bound->nwidth = nwidth;
                 bound->nheight = nheight;
+                bound->format = format;
+                bound->type = type;
             }
             if (!(texstream && bound && bound->streamed)) {
                 if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
@@ -342,17 +395,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
                     gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
-                if (bound) {
-                    bound->format = format;
-                    bound->type = type;
-                }
             } else {
                 if (pixels)
                     glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
-                }
-                if (bound) {
-                    bound->format = format;
-                    bound->type = type;
                 }
         }
     }
@@ -433,9 +478,6 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
         } else {
             format = bound->format;
             type = bound->type;
-            if (bound && bound->texture==2886399500) {
-                pixel_to_ppm(pixels, width, height, format, type, bound->texture);
-            }
         }
         
     }
@@ -607,7 +649,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     if ((target!=GL_PROXY_TEXTURE_2D) && (state.list.compiling && state.list.active)) {
         // check if already a texture binded, if yes, create a new list
         NewStage(state.list.active, STAGE_BINDTEX);
-        rlBindTexture(state.list.active, texture);
+        rlBindTexture(state.list.active, target, texture);
     } else {
     	int tex_changed = 1;
 		int streamingID = -1;
@@ -659,6 +701,7 @@ void glBindTexture(GLenum target, GLuint texture) {
 	
         LOAD_GLES(glDisable);
         LOAD_GLES(glEnable);
+tex_changed=1;
 
         if (tex_changed) {
 
@@ -1022,7 +1065,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
-//printf("glCopyTexSubImage2D(%i, %i, %i, %i, %i, %i, %i, %i)\n", target, level, xoffset, yoffset, x, y, width, height);
+//printf("glCopyTexSubImage2D(%i, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=0x%04X, 0x%04X\n", target, level, xoffset, yoffset, x, y, width, height, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->format:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->type:0);
  PUSH_IF_COMPILING(glCopyTexSubImage2D);
  
  LOAD_GLES(glCopyTexSubImage2D);
@@ -1051,8 +1094,10 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
     //gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);	// this looks broken on Pandora!
     // On Pandora using GLES1, this function seems bugged. So here is a (slower) workaround....
     void* tmp = malloc(width*height*4);
-    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
-    glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    GLenum format = (bound)?bound->format:GL_RGBA;
+    GLenum type = (bound)?bound->type:GL_UNSIGNED_BYTE;
+    glReadPixels(x, y, width, height, format, type, tmp);
+    glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, tmp);
     free(tmp);
  }
  // "Remap" if buffer mapped...
