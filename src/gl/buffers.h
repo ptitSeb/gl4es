@@ -16,28 +16,28 @@ typedef struct {
 KHASH_MAP_INIT_INT(buff, glbuffer_t *)
 
 
-void glGenBuffers(GLsizei n, GLuint * buffers);
-void glBindBuffer(GLenum target, GLuint buffer);
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-void glDeleteBuffers(GLsizei n, const GLuint * buffers);
-GLboolean glIsBuffer(GLuint buffer);
-void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
-void *glMapBuffer(GLenum target, GLenum access);
-GLboolean glUnmapBuffer(GLenum target);
-void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
-void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
+extern void glGenBuffers(GLsizei n, GLuint * buffers);
+extern void glBindBuffer(GLenum target, GLuint buffer);
+extern void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+extern void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+extern void glDeleteBuffers(GLsizei n, const GLuint * buffers);
+extern GLboolean glIsBuffer(GLuint buffer);
+extern void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
+extern void *glMapBuffer(GLenum target, GLenum access);
+extern GLboolean glUnmapBuffer(GLenum target);
+extern void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+extern void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
 
-void glGenBuffersARB(GLsizei n, GLuint * buffers);
-void glBindBufferARB(GLenum target, GLuint buffer);
-void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-void glDeleteBuffersARB(GLsizei n, const GLuint * buffers);
-GLboolean glIsBufferARB(GLuint buffer);
-void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data);
-void *glMapBufferARB(GLenum target, GLenum access);
-GLboolean glUnmapBufferARB(GLenum target);
-void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
-void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params);
+extern void glGenBuffersARB(GLsizei n, GLuint * buffers);
+extern void glBindBufferARB(GLenum target, GLuint buffer);
+extern void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+extern void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+extern void glDeleteBuffersARB(GLsizei n, const GLuint * buffers);
+extern GLboolean glIsBufferARB(GLuint buffer);
+extern void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data);
+extern void *glMapBufferARB(GLenum target, GLenum access);
+extern GLboolean glUnmapBufferARB(GLenum target);
+extern void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+extern void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params);
 
 #endif
