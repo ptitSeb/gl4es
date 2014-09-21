@@ -73,7 +73,8 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
     // check if some changes are needed
     int changes = 0;
     if ((state.texture.rect_arb[texunit]) || 
-        (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)||bound->shrink)))
+        (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)||
+        (bound->shrink && (state.pointers.tex_coord[texunit].type!=GL_FLOAT) && (state.pointers.tex_coord[texunit].type!=GL_DOUBLE)))))
         changes = 1;
 	if (old!=texunit) glClientActiveTexture(texunit+GL_TEXTURE0);
     if (changes) {
@@ -267,7 +268,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
             pixels = (GLvoid *)dst;
             const GLubyte *src = (GLubyte *)datab;
-            src += state.texture.unpack_skip_pixels + state.texture.unpack_skip_rows * imgWidth;
+            src += state.texture.unpack_skip_pixels * pixelSize + state.texture.unpack_skip_rows * imgWidth;
             for (int y = 0; y < height; y += 1) {
                 memcpy(dst, src, width * pixelSize);
                 src += imgWidth;
@@ -684,7 +685,7 @@ void glBindTexture(GLenum target, GLuint texture) {
 				tex->streamingID = -1;
 				tex->min_filter = tex->mag_filter = GL_LINEAR;
                 tex->format = GL_RGBA;
-                tex->format = GL_UNSIGNED_BYTE;
+                tex->type = GL_UNSIGNED_BYTE;
                 tex->data = NULL;
             } else {
                 tex = kh_value(list, k);
@@ -971,37 +972,15 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 			printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
 		// Setup an FBO the same size of the texture
-		#define getOES(name, proto)	proto name = (proto)eglGetProcAddress(#name); if (name==NULL) printf("Warning! %s is NULL\n", #name)
-		LOAD_GLES(glBindTexture);		
-		// first, get all FBO functions...
-		getOES(glIsRenderbufferOES, PFNGLISRENDERBUFFEROESPROC);
-		getOES(glBindRenderbufferOES, PFNGLBINDRENDERBUFFEROESPROC);
-		getOES(glDeleteRenderbuffersOES, PFNGLDELETERENDERBUFFERSOESPROC);
-		getOES(glGenRenderbuffersOES, PFNGLGENRENDERBUFFERSOESPROC);
-		getOES(glRenderbufferStorageOES, PFNGLRENDERBUFFERSTORAGEOESPROC);
-		getOES(glGetRenderbufferParameterivOES, PFNGLGETRENDERBUFFERPARAMETERIVOESPROC);
-		getOES(glIsFramebufferOES, PFNGLISFRAMEBUFFEROESPROC);
-		getOES(glBindFramebufferOES, PFNGLBINDFRAMEBUFFEROESPROC);
-		getOES(glDeleteFramebuffersOES, PFNGLDELETEFRAMEBUFFERSOESPROC);
-		getOES(glGenFramebuffersOES, PFNGLGENFRAMEBUFFERSOESPROC);
-		getOES(glCheckFramebufferStatusOES, PFNGLCHECKFRAMEBUFFERSTATUSOESPROC);
-		getOES(glFramebufferRenderbufferOES, PFNGLFRAMEBUFFERRENDERBUFFEROESPROC);
-		getOES(glFramebufferTexture2DOES, PFNGLFRAMEBUFFERTEXTURE2DOESPROC);
-		getOES(glGetFramebufferAttachmentParameterivOES, PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVOESPROC);
-		getOES(glGenerateMipmapOES, PFNGLGENERATEMIPMAPOESPROC);
-		
-		// Now create the FBO
-		GLint oldBind = bound->glname;
 		GLuint fbo;
 	
-		glGenFramebuffersOES(1, &fbo);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo);
-		glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
+		glGenFramebuffers(1, &fbo);
+		glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
+		glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-		gles_glBindTexture(GL_TEXTURE_2D, oldBind);	// just in case.
-		#undef getOES
+		glBindFramebuffer(GL_FRAMEBUFFER_OES, 0);
+        glDeleteFramebuffers(1, &fbo);
 		noerrorShim();
 	}
 	readfboEnd();
@@ -1335,4 +1314,31 @@ void glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
     
     errorShim(GL_INVALID_OPERATION);
     return;
+}
+
+void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLint border,
+							GLsizei imageSize, const GLvoid *data) {
+                                
+    glCompressedTexImage2D(target, level, internalformat, width, 1, border, imageSize, data);
+}
+
+void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLsizei height, GLsizei depth, GLint border,
+							GLsizei imageSize, const GLvoid *data) {
+                                
+    glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
+}
+
+void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data) {
+
+    glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, 1, format, imageSize, data);
+}
+void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLsizei height, GLsizei depth, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data) {
+
+    glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
 }
