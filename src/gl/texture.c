@@ -972,7 +972,8 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 			printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
 		// Setup an FBO the same size of the texture
-		GLuint fbo;
+		GLuint oldBind = bound->glname;
+        GLuint fbo;
 	
 		glGenFramebuffers(1, &fbo);
 		glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
