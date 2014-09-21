@@ -240,14 +240,14 @@ void draw_renderlist(renderlist_t *list) {
     GLushort *indices;
     
     do {
-	// push/pop attributes
-	if (list->pushattribute)
-		glPushAttrib(list->pushattribute);
-	if (list->popattribute)
-		glPopAttrib();
-	// do call_list
-	if (list->glcall_list)
-		glCallList(list->glcall_list);
+        // push/pop attributes
+        if (list->pushattribute)
+            glPushAttrib(list->pushattribute);
+        if (list->popattribute)
+            glPopAttrib();
+        // do call_list
+        if (list->glcall_list)
+            glCallList(list->glcall_list);
         // optimize zero-length segments out earlier?
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
@@ -378,13 +378,7 @@ void draw_renderlist(renderlist_t *list) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
 		} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
-		} else if (list->tex[a]) {
-            gltexture_t *bound = state.texture.bound[a];
-            if ((state.texture.rect_arb[a]))
-                tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
-            if ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight))
-                tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
-        }
+		}
     }
 	old_tex = state.texture.client;
         for (int a=0; a<MAX_TEX; a++) {

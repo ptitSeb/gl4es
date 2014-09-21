@@ -11,7 +11,7 @@ else()
 endif()
 
 add_library(GL SHARED ${GL_SOURCES})
-target_link_libraries(GL EGL)
+#target_link_libraries(GL EGL)
 #add_library(GL_static STATIC ${GL_SOURCES})
 #set_target_properties(GL_static PROPERTIES OUTPUT_NAME GL)
 

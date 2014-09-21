@@ -13,7 +13,7 @@ PFNGLTEXBINDSTREAMIMGPROC glTexBindStreamIMG = NULL;
 PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC glGetTexAttrIMG = NULL;
 PFNGLGETTEXSTREAMDEVICENAMEIMGPROC glGetTexDeviceIMG = NULL;
 
-extern void* eglGetProcAddress(const char*);
+//extern void* eglGetProcAddress(const char*);
 
 int gl_streaming = 0;
 int gl_streaming_initialized = 0;
@@ -26,13 +26,14 @@ unsigned long buf_paddr[10];    // physical address
 char *buf_vaddr[10];            // virtual adress
 
 void Streaming_Initialize() {
+    LOAD_EGL(eglGetProcAddress);
 	if (gl_streaming_initialized)
 		return;
 	// get the extension functions
 	gl_streaming_initialized = 1;
-    glTexBindStreamIMG =(PFNGLTEXBINDSTREAMIMGPROC)eglGetProcAddress("glTexBindStreamIMG");
-    glGetTexAttrIMG = (PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC)eglGetProcAddress("glGetTexStreamDeviceAttributeivIMG");
-    glGetTexDeviceIMG = (PFNGLGETTEXSTREAMDEVICENAMEIMGPROC)eglGetProcAddress("glGetTexStreamDeviceNameIMG");
+    glTexBindStreamIMG =(PFNGLTEXBINDSTREAMIMGPROC)egl_eglGetProcAddress("glTexBindStreamIMG");
+    glGetTexAttrIMG = (PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC)egl_eglGetProcAddress("glGetTexStreamDeviceAttributeivIMG");
+    glGetTexDeviceIMG = (PFNGLGETTEXSTREAMDEVICENAMEIMGPROC)egl_eglGetProcAddress("glGetTexStreamDeviceNameIMG");
 
 	if (!glTexBindStreamIMG || !glGetTexAttrIMG || !glGetTexDeviceIMG) {
 		gl_streaming = 0;

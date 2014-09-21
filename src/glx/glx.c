@@ -19,11 +19,16 @@ EGLConfig eglConfigs[1];
 struct sockaddr_un sun;
 int sock = -2;
 
+void* egl = NULL;
+
+
 int8_t CheckEGLErrors() {
     EGLenum error;
     char *errortext;
+    
+    LOAD_EGL(eglGetError);
 
-    error = eglGetError();
+    error = egl_eglGetError();
 
     if (error != EGL_SUCCESS && error != 0) {
         switch (error) {
@@ -144,13 +149,15 @@ static int fbdev = -1;
 static int swap_interval = 1;
 
 static void init_display(Display *display) {
+    LOAD_EGL(eglGetDisplay);
+    
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
     }
     if (g_usefb) {
-        eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
     } else {
-		eglDisplay = eglGetDisplay(display);
+		eglDisplay = egl_eglGetDisplay(display);
     }
 }
 
@@ -279,6 +286,7 @@ GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
+//printf("glXCreateContext(%p, %p, %p, %i)\n", display, visual, shareList, isDirect);
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
@@ -314,20 +322,36 @@ GLXContext glXCreateContext(Display *display,
     }
 #endif
 
+    LOAD_EGL(eglMakeCurrent);
+    LOAD_EGL(eglDestroyContext);
+    LOAD_EGL(eglDestroySurface);
+    LOAD_EGL(eglBindAPI);
+    LOAD_EGL(eglInitialize);
+    LOAD_EGL(eglCreateContext);
+    LOAD_EGL(eglChooseConfig);
+    
+
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
 	if (!g_usefb) {
 		if (eglDisplay != NULL)
-			eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
+			egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);	// just in case some context is already attached. *TODO: track that?
 	} else {
 		if (eglDisplay != NULL) {
-			eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+            if (eglSurface!=NULL) {
+                // A surface already exist....
+                    fake->display = g_display;
+                    fake->direct = true;
+                    fake->xid = 1;  //TODO: Proper handling of that id...
+                    return fake; // Do nothing
+            }
+			egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 			if (eglContext != NULL) {
-				eglDestroyContext(eglDisplay, eglContext);
+				egl_eglDestroyContext(eglDisplay, eglContext);
 				eglContext = NULL;
 			}
 			if (eglSurface != NULL) {
-				eglDestroySurface(eglDisplay, eglSurface);
+				egl_eglDestroySurface(eglDisplay, eglSurface);
 				eglSurface = NULL;
 			}
 		}
@@ -344,8 +368,8 @@ GLXContext glXCreateContext(Display *display,
 
     // first time?
     if (eglInitialized == false) {
-        eglBindAPI(EGL_OPENGL_ES_API);
-        result = eglInitialize(eglDisplay, NULL, NULL);
+        egl_eglBindAPI(EGL_OPENGL_ES_API);
+        result = egl_eglInitialize(eglDisplay, NULL, NULL);
         if (result != EGL_TRUE) {
             printf("Unable to initialize EGL display.\n");
             return fake;
@@ -355,19 +379,20 @@ GLXContext glXCreateContext(Display *display,
 
     int configsFound;
 	if (!g_usefb)
-		result = eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
+		result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
 	else
-		result = eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
+		result = egl_eglChooseConfig(eglDisplay, configAttribs, eglConfigs, 1, &configsFound);
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         printf("No EGL configs found.\n");
         return fake;
     }
+    EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
 	if (!g_usefb)
-		fake->eglContext = eglCreateContext(eglDisplay, fake->eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+		fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, attrib_list);
 	else
-		eglContext = eglCreateContext(eglDisplay, eglConfigs[0], EGL_NO_CONTEXT, attrib_list);
+		eglContext = egl_eglCreateContext(eglDisplay, eglConfigs[0], shared, attrib_list);
 
     CheckEGLErrors();
 
@@ -377,7 +402,7 @@ GLXContext glXCreateContext(Display *display,
     fake->xid = 1;  //TODO: Proper handling of that id...
    	if (!g_usefb) {
 		// unassign the context, it's not supposed to be active at the creation
-		eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+		egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 	}
 
 	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
@@ -391,17 +416,24 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
 }
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
+//printf("glXDestroyContext(%p, %p)\n", display, ctx);
     if ((!g_usefb && ctx->eglContext) || (g_usefb && eglContext)) {
         if (g_usefbo) {
             deleteMainFBO();
         }
-		EGLBoolean result = eglDestroyContext(eglDisplay, (g_usefb)?eglContext:ctx->eglContext);
+        
+        LOAD_EGL(eglDestroyContext);
+        LOAD_EGL(eglDestroySurface);
+        
+		EGLBoolean result = egl_eglDestroyContext(eglDisplay, (g_usefb)?eglContext:ctx->eglContext);
+        eglContext = NULL;
         if (!g_usefb && ctx->eglSurface != NULL) {
-            eglDestroySurface(eglDisplay, ctx->eglSurface);
+            egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
 			eglSurface = ctx->eglSurface = NULL;
         }
         if (g_usefb && eglSurface != NULL) {
-            eglDestroySurface(eglDisplay, eglSurface);
+            egl_eglDestroySurface(eglDisplay, eglSurface);
+            eglSurface = NULL;
         }
         if (result != EGL_TRUE) {
             printf("Failed to destroy EGL context.\n");
@@ -457,12 +489,24 @@ not set to EGL_NO_CONTEXT.
 Bool glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
+//printf("glXMakeCurrent(%p, %p, %p)\n", display, drawable, context);                        
+    LOAD_EGL(eglMakeCurrent);
+    LOAD_EGL(eglDestroySurface);
+    LOAD_EGL(eglCreateWindowSurface);
+    LOAD_EGL(eglQuerySurface);
+                        
     if (eglDisplay != NULL) {
-        eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
-		if (g_usefb)
-			if (eglSurface != NULL) {
-				eglDestroySurface(eglDisplay, eglSurface);
-			}
+		if (!g_usefb)
+            egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+        else {
+            if (!context) {
+                egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+                if (eglSurface != NULL) {
+                    egl_eglDestroySurface(eglDisplay, eglSurface);
+                    eglSurface = NULL;
+                }
+            }
+        }
     }
     glxContext = context;
     // call with NULL to just destroy old stuff.
@@ -475,32 +519,38 @@ Bool glXMakeCurrent(Display *display,
 
     if (g_usefb)
         drawable = 0;
+    EGLBoolean result;
 	if (!g_usefb) {
 		// need current surface for eglSwapBuffer
 		eglContext = context->eglContext;
 		// if surface on a different drawable exist, destroy it first
 		if ((context->drawable != drawable) && (context->eglSurface)) {
-			eglDestroySurface(eglDisplay, context->eglSurface);
+			egl_eglDestroySurface(eglDisplay, context->eglSurface);
 			context->eglSurface = NULL;
 		}
 		// Now get the Surface
 		if (context->eglSurface)
 			eglSurface = context->eglSurface;		// reused previously created Surface
 		else
-			eglSurface = context->eglSurface = eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
-	} else
-		eglSurface = eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL);
+			eglSurface = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
+        result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+	} else {
+        if (!eglSurface) {
+            eglSurface = egl_eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL); // create surface only if needed
+            result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+        } else
+            result = EGL_TRUE;
+    }
     CheckEGLErrors();
     
     context->drawable = drawable;
 
-    EGLBoolean result = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
     CheckEGLErrors();
     if (result) {
         if (g_usefbo) {
             // get size of the surface...
-            eglQuerySurface(eglDisplay,eglSurface,EGL_WIDTH,&g_width);
-            eglQuerySurface(eglDisplay,eglSurface,EGL_HEIGHT,&g_height);
+            egl_eglQuerySurface(eglDisplay,eglSurface,EGL_WIDTH,&g_width);
+            egl_eglQuerySurface(eglDisplay,eglSurface,EGL_HEIGHT,&g_height);
             // create the main_fbo...
             printf("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);
             createMainFBO(g_width, g_height);
@@ -519,6 +569,8 @@ Bool glXMakeContextCurrent(Display *display, int drawable,
 void glXSwapBuffers(Display *display,
                     int drawable) {
     static int frames = 0;
+    
+    LOAD_EGL(eglSwapBuffers);
 
     if (g_vsync && fbdev >= 0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
@@ -532,7 +584,7 @@ void glXSwapBuffers(Display *display,
         blitMainFBO();
         // blit the main_fbo before swap
     }
-    eglSwapBuffers(eglDisplay, eglSurface);
+    egl_eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 
     if (g_showfps || (sock>-1)) {

@@ -1,6 +1,6 @@
 #include "framebuffers.h"
 
-extern void* eglGetProcAddress(const char* name);
+//extern void* eglGetProcAddress(const char* name);
 
 khash_t(dsr) *depthstencil = NULL;
 GLuint current_rb = 0;
@@ -41,6 +41,7 @@ void readfboEnd() {
 
 void glGenFramebuffers(GLsizei n, GLuint *ids) {
     LOAD_GLES_OES(glGenFramebuffers);
+//printf("glGenFramebuffers(%i, %p)\n", n, ids);
     
     errorGL();
     gles_glGenFramebuffers(n, ids);
@@ -71,6 +72,7 @@ GLenum glCheckFramebufferStatus(GLenum target) {
 void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 	PUSH_IF_COMPILING(glBindFramebuffer);
     LOAD_GLES_OES(glBindFramebuffer);
+//printf("glBindFramebuffer(0x%04X, 0x%04X)\n", target, framebuffer);
     
     if (mainfbo_fbo && (framebuffer==0)) 
         framebuffer = mainfbo_fbo;
@@ -92,6 +94,29 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 
 void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
     LOAD_GLES_OES(glFramebufferTexture2D);
+//printf("glFramebufferTexture2D(0x%04X, 0x%04X, 0x%04X, 0x%04X, %i)\n", target, attachment, textarget, texture, level);
+    
+    // find texture and get it's real name
+    if (texture) {
+        gltexture_t *tex = NULL;
+        int ret;
+        khint_t k;
+        khash_t(tex) *list = state.texture.list;
+        if (! list) {
+            list = state.texture.list = kh_init(tex);
+            // segfaults if we don't do a single put
+            kh_put(tex, list, 1, &ret);
+            kh_del(tex, list, 1);
+        }
+        k = kh_get(tex, list, texture);
+        
+        if (k == kh_end(list)){
+        } else {
+            tex = kh_value(list, k);
+            texture = tex->glname;
+//printf("found texture, glname=0x%04X, size=%ix%i, format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->format, tex->type);
+        }
+    }
     
     errorGL();
     gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
@@ -107,6 +132,7 @@ void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, 
 
 void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     LOAD_GLES_OES(glGenRenderbuffers);
+//printf("glGenRenderbuffers(%i, %p)\n", n, renderbuffers);
     
     errorGL();
     gles_glGenRenderbuffers(n, renderbuffers);
@@ -114,6 +140,7 @@ void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
 
 void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
     LOAD_GLES_OES(glFramebufferRenderbuffer);
+//printf("glFramebufferRenderbuffer(0x%04X, 0x%04X, 0x%04X, 0x%04X)\n", target, attachment, renderbuffertarget, renderbuffer);
     
     if (depthstencil && (attachment==GL_STENCIL_ATTACHMENT)) {
 		khint_t k = kh_get(dsr, depthstencil, renderbuffer);
@@ -156,6 +183,7 @@ void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, 
     LOAD_GLES_OES(glRenderbufferStorage);
     LOAD_GLES_OES(glGenRenderbuffers);
     LOAD_GLES_OES(glBindRenderbuffer);
+//printf("glRenderbufferStorage(0x%04X, 0x%04X, %i, %i)\n", target, internalformat, width, height);
     
     errorGL();
     width = npot(width);
@@ -202,6 +230,7 @@ void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum int
 void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 	PUSH_IF_COMPILING(glBindRenderbuffer);
     LOAD_GLES_OES(glBindRenderbuffer);
+//printf("glBindRenderbuffer(0x%04X, 0x%04X)\n", target, renderbuffer);
     
     current_rb = renderbuffer;
     

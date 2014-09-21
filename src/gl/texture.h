@@ -40,9 +40,21 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei width, GLsizei height, GLint border,
 							GLsizei imageSize, const GLvoid *data);
+void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLint border,
+							GLsizei imageSize, const GLvoid *data);
+void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
+							GLsizei width, GLsizei height, GLsizei depth, GLint border,
+							GLsizei imageSize, const GLvoid *data);
 							
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 							   GLsizei width, GLsizei height, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data);
+void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLenum format, 
+							   GLsizei imageSize, const GLvoid *data);
+void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+							   GLsizei width, GLsizei height, GLsizei depth, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
                                
 void glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img);

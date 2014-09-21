@@ -122,4 +122,3 @@
 #define direct_glVertexPointer
 #define direct_glGenTextures
 #define direct_glGetError
-

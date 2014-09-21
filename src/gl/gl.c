@@ -42,7 +42,7 @@ const GLubyte *glGetString(GLenum name) {
 #ifdef USE_ES2
             return (GLubyte *)"4.3 glshim wrapper";
 #else
-            return (GLubyte *)"1.4 glshim wrapper";
+            return (GLubyte *)"1.5 glshim wrapper";
 #endif
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
@@ -77,6 +77,8 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_texture_compression_dxt5 "
                 "GL_EXT_texture_compression_dxt1 "
                 "GL_EXT_framebuffer_object "
+                "GL_ARB_point_parameters "
+                "GL_EXT_point_parameters "
 //		"GL_ARB_framebuffer_object "
 //                "GL_EXT_stencil_wrap "
 #else

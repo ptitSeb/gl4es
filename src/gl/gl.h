@@ -1,5 +1,7 @@
 #include <dlfcn.h>
 #include <GLES/gl.h>
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
 #include <inttypes.h>
 #include <math.h>
 #include <stdbool.h>
@@ -19,6 +21,67 @@
 #include "wrap/es.h"
 #include "const.h"
 
+//Typedef for egl to be abble to call LOAD_EGL...
+
+typedef EGLBoolean (*eglBindAPI_PTR)(EGLenum api);
+typedef EGLBoolean (*eglBindTexImage_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
+typedef EGLBoolean (*eglChooseConfig_PTR)(EGLDisplay dpy, const EGLint * attrib_list, EGLConfig * configs, EGLint config_size, EGLint * num_config);
+typedef EGLBoolean (*eglCopyBuffers_PTR)(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
+typedef EGLContext (*eglCreateContext_PTR)(EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint * attrib_list);
+typedef EGLImageKHR (*eglCreateImageKHR_PTR)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreatePbufferFromClientBuffer_PTR)(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreatePbufferSurface_PTR)(EGLDisplay dpy, EGLConfig config, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreatePixmapSurface_PTR)(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreatePixmapSurfaceHI_PTR)(EGLDisplay dpy, EGLConfig config, struct EGLClientPixmapHI * pixmap);
+typedef EGLStreamKHR (*eglCreateStreamFromFileDescriptorKHR_PTR)(EGLDisplay dpy, EGLNativeFileDescriptorKHR file_descriptor);
+typedef EGLStreamKHR (*eglCreateStreamKHR_PTR)(EGLDisplay dpy, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLConfig config, EGLStreamKHR stream, const EGLint * attrib_list);
+typedef EGLSyncKHR (*eglCreateSyncKHR_PTR)(EGLDisplay dpy, EGLenum type, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreateWindowSurface_PTR)(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint * attrib_list);
+typedef EGLBoolean (*eglDestroyContext_PTR)(EGLDisplay dpy, EGLContext ctx);
+typedef EGLBoolean (*eglDestroyImageKHR_PTR)(EGLDisplay dpy, EGLImageKHR image);
+typedef EGLBoolean (*eglDestroyStreamKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (*eglDestroySurface_PTR)(EGLDisplay dpy, EGLSurface surface);
+typedef EGLBoolean (*eglDestroySyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync);
+typedef EGLBoolean (*eglGetConfigAttrib_PTR)(EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint * value);
+typedef EGLBoolean (*eglGetConfigs_PTR)(EGLDisplay dpy, EGLConfig * configs, EGLint config_size, EGLint * num_config);
+typedef EGLContext (*eglGetCurrentContext_PTR)();
+typedef EGLDisplay (*eglGetCurrentDisplay_PTR)();
+typedef EGLSurface (*eglGetCurrentSurface_PTR)(EGLint readdraw);
+typedef EGLDisplay (*eglGetDisplay_PTR)(EGLNativeDisplayType display_id);
+typedef EGLint (*eglGetError_PTR)();
+typedef __eglMustCastToProperFunctionPointerType (*eglGetProcAddress_PTR)(const char * procname);
+typedef EGLNativeFileDescriptorKHR (*eglGetStreamFileDescriptorKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (*eglGetSyncAttribKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint attribute, EGLint * value);
+typedef EGLBoolean (*eglInitialize_PTR)(EGLDisplay dpy, EGLint * major, EGLint * minor);
+typedef EGLBoolean (*eglLockSurfaceKHR_PTR)(EGLDisplay display, EGLSurface surface, const EGLint * attrib_list);
+typedef EGLBoolean (*eglMakeCurrent_PTR)(EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
+typedef EGLenum (*eglQueryAPI_PTR)();
+typedef EGLBoolean (*eglQueryContext_PTR)(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint * value);
+typedef EGLBoolean (*eglQueryStreamKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLint * value);
+typedef EGLBoolean (*eglQueryStreamTimeKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLTimeKHR * value);
+typedef const char * (*eglQueryString_PTR)(EGLDisplay dpy, EGLint name);
+typedef EGLBoolean (*eglQuerySurface_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint * value);
+typedef EGLBoolean (*eglReleaseTexImage_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
+typedef EGLBoolean (*eglReleaseThread_PTR)();
+typedef EGLBoolean (*eglSignalSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLenum mode);
+typedef EGLBoolean (*eglStreamAttribKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLint value);
+typedef EGLBoolean (*eglStreamConsumerAcquireKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (*eglStreamConsumerGLTextureExternalKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (*eglStreamConsumerReleaseKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream);
+typedef EGLBoolean (*eglSurfaceAttrib_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
+typedef EGLBoolean (*eglSwapBuffers_PTR)(EGLDisplay dpy, EGLSurface surface);
+typedef EGLBoolean (*eglSwapBuffersWithDamageEXT_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint * rects, EGLint n_rects);
+typedef EGLBoolean (*eglSwapInterval_PTR)(EGLDisplay dpy, EGLint interval);
+typedef EGLBoolean (*eglTerminate_PTR)(EGLDisplay dpy);
+typedef EGLBoolean (*eglUnlockSurfaceKHR_PTR)(EGLDisplay display, EGLSurface surface);
+typedef EGLBoolean (*eglWaitClient_PTR)();
+typedef EGLBoolean (*eglWaitGL_PTR)();
+typedef EGLBoolean (*eglWaitNative_PTR)(EGLint engine);
+typedef EGLint (*eglWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
+
+// end of defintions
+
 #define checkError(code)                          \
     {int error; while ((error = glGetError())) {} \
     code                                          \
@@ -33,6 +96,11 @@
 
 // will become a reference to dlopen'd gles
 extern void *gles;
+extern void *egl;
+
+#ifndef EGL_LIB
+#define EGL_LIB "libEGL.so"
+#endif
 
 #ifndef GLES_LIB
 #ifdef USE_ES2
@@ -63,6 +131,21 @@ static void load_gles_lib() {
     printf("libGL backend: %s\n", GLES_LIB);
 }
 
+static void load_egl_lib() {
+    if (egl) {
+        return;
+    }
+    char *override = getenv("LIBGL_EGL");
+    int flags = RTLD_LOCAL | RTLD_LAZY;
+    if (override) {
+        if ((egl = dlopen(override, flags))) {
+            printf("libGL egl backend: %s\n", override);
+            return;
+        }
+    }
+    egl = dlopen(EGL_LIB, RTLD_LOCAL | RTLD_LAZY);
+    printf("libGL egl backend: %s\n", EGL_LIB);
+}
 
 #define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
 
@@ -70,24 +153,36 @@ static void load_gles_lib() {
     static name##_PTR gles_##name;                                  \
     if (gles_##name == NULL) {                                      \
         if (gles == NULL) {                                         \
-            load_gles_lib();				       	    \
+            load_gles_lib();				       	                \
             WARN_NULL(gles);                                        \
         }                                                           \
         gles_##name = (name##_PTR)dlsym(gles, #name);               \
         WARN_NULL(gles_##name);                                     \
     }
 
-#define LOAD_GLES_OES(name)                                         \
-    static name##_PTR gles_##name;                                  \
-    if (gles_##name == NULL) {                                      \
-	if (gles == NULL) {                           	            \
-	    load_gles_lib();			       	  	    \
-	    WARN_NULL(gles);                                        \
-	}                                                           \
-	gles_##name = (name##_PTR)eglGetProcAddress(#name"OES");    \
-	WARN_NULL(gles_##name);                                     \
+#define LOAD_GLES_OES(name)                                      \
+    static name##_PTR gles_##name;                               \
+    if (gles_##name == NULL) {                                   \
+	if (gles == NULL) {                           	             \
+	    load_gles_lib();		            	       	  	     \
+	    WARN_NULL(gles);                                         \
+	}                                                            \
+    LOAD_EGL(eglGetProcAddress)                                  \
+	gles_##name = (name##_PTR)egl_eglGetProcAddress(#name"OES"); \
+	WARN_NULL(gles_##name);                                      \
     }
 	
+#define LOAD_EGL(name)                                              \
+    static name##_PTR egl_##name;                                   \
+    if (egl_##name == NULL) {                                       \
+        if (egl == NULL) {                                          \
+            load_egl_lib();			                	       	    \
+            WARN_NULL(egl);                                         \
+        }                                                           \
+        egl_##name = (name##_PTR)dlsym(egl, #name);                 \
+        WARN_NULL(egl_##name);                                      \
+    }
+
 #define GL_TYPE_CASE(name, var, magic, type, code) \
     case magic: {                                  \
         type *name = (type *)var;                  \

@@ -1,6 +1,6 @@
 #include "texgen.h"
 
-extern void* eglGetProcAddress(const char*);
+//extern void* eglGetProcAddress(const char*);
 
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
     // coord is in: GL_S, GL_T, GL_R, GL_Q

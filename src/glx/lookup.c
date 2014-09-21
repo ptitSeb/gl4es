@@ -4,7 +4,7 @@
     if (strcmp(name, func_name) == 0) return (void *)func;
 
 #define MAP_EGL(func_name, egl_func) \
-    MAP(#func_name, eglGetProcAddress(#egl_func))
+    MAP(#func_name, egl_eglGetProcAddress(#egl_func))
 
 #define EX(func_name) MAP(#func_name, func_name)
 
@@ -23,6 +23,7 @@ void glXStub(void *x, ...) {
 }
 
 void *glXGetProcAddressARB(const char *name) {
+    LOAD_EGL(eglGetProcAddress);
     // generated gles wrappers
 #ifdef USE_ES2
     #include "gles2funcs.inc"
@@ -252,6 +253,13 @@ void *glXGetProcAddressARB(const char *name) {
     THUNK(us, GLushort);
     THUNK(f, GLfloat);
     #undef THUNK
+    
+    EX(glPointParameterf);
+    EX(glPointParameterfv);
+    ARB(glPointParameterf);
+    ARB(glPointParameterfv);
+    EXT(glPointParameterf);
+    EXT(glPointParameterfv);
 
 #ifdef USE_ES2
     EX(glCompileShaderARB);
@@ -399,6 +407,10 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexSubImage3D);
     EX(glCompressedTexImage2D);
     EX(glCompressedTexSubImage2D);
+    EX(glCompressedTexImage1D);
+    EX(glCompressedTexSubImage1D);
+    EX(glCompressedTexImage3D);
+    EX(glCompressedTexSubImage3D);
     EX(glCopyTexImage1D);
     EX(glCopyTexImage2D);
     EX(glCopyTexSubImage1D);
