@@ -66,8 +66,8 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_BYTE, GLbyte, read_each(, / 128.0f))
+        case GL_UNSIGNED_INT_8_8_8_8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
@@ -604,7 +604,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     uintptr_t src_pos = (uintptr_t)src;
     uintptr_t dst_pos = (uintptr_t)*dst;
     // fast optimized loop for common conversion cases first...
-    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (src_type == dst_type) && (src_type == GL_UNSIGNED_BYTE)) {
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -618,7 +618,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_RGB) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
+    if ((src_format == GL_RGB) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -632,7 +632,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && (src_type == GL_UNSIGNED_BYTE)) {
+    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
