@@ -66,6 +66,7 @@ GLenum glCheckFramebufferStatus(GLenum target) {
     
     errorGL();
     GLenum result = gles_glCheckFramebufferStatus(target);
+//printf("glCheckFramebufferStatus(0x%04X)=0x%04X\n", target, result);
     return result;
 }
 
@@ -74,12 +75,17 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
     LOAD_GLES_OES(glBindFramebuffer);
 //printf("glBindFramebuffer(0x%04X, 0x%04X)\n", target, framebuffer);
     
-    if (mainfbo_fbo && (framebuffer==0)) 
-        framebuffer = mainfbo_fbo;
-        
+    if (target == GL_FRAMEBUFFER) {
+        if (fbo_read)
+            fbo_read = 0;
+        if (fbo_draw)
+            fbo_draw = 0;
+    }
+    
     if (target == GL_READ_FRAMEBUFFER) {
 		target = GL_FRAMEBUFFER;
 		fbo_read = framebuffer;
+        noerrorShim();
 		return;	//don't bind for now
 	}
         
@@ -88,6 +94,11 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 		fbo_draw = framebuffer;
 	}
     
+    current_fb = framebuffer;
+
+    if (mainfbo_fbo && (framebuffer==0)) 
+        framebuffer = mainfbo_fbo;
+        
     errorGL();
     gles_glBindFramebuffer(target, framebuffer);
 }
@@ -114,7 +125,7 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
         } else {
             tex = kh_value(list, k);
             texture = tex->glname;
-//printf("found texture, glname=0x%04X, size=%ix%i, format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->format, tex->type);
+//printf("found texture, glname=0x%04X, size=%ix%i(%ix%i), format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->nwidth, tex->nheight, tex->format, tex->type);
         }
     }
     
