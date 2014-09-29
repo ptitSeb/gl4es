@@ -767,7 +767,7 @@ bool pixel_thirdscale(const GLvoid *old, GLvoid **new,
     new_width = width / 2;
     new_height = height / 2;
     if (new_width*2!=width || new_height*2!=height || format!=GL_RGBA || type!=GL_UNSIGNED_BYTE) {
-        printf("LIBGL: thirdscaling %ux%u failed", width, height);
+        //printf("LIBGL: thirdscaling %ux%u failed\n", width, height);
         return false;
     }
 //    printf("LIBGL: halfscaling %ux%u -> %ux%u\n", width, height, new_width, new_height);
