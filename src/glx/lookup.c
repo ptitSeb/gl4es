@@ -411,6 +411,21 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glCompressedTexSubImage1D);
     EX(glCompressedTexImage3D);
     EX(glCompressedTexSubImage3D);
+    EX(glGetCompressedTexImage);
+    EXT(glCompressedTexImage2D);
+    EXT(glCompressedTexSubImage2D);
+    EXT(glCompressedTexImage1D);
+    EXT(glCompressedTexSubImage1D);
+    EXT(glCompressedTexImage3D);
+    EXT(glCompressedTexSubImage3D);
+    EXT(glGetCompressedTexImage);
+    ARB(glCompressedTexImage2D);
+    ARB(glCompressedTexSubImage2D);
+    ARB(glCompressedTexImage1D);
+    ARB(glCompressedTexSubImage1D);
+    ARB(glCompressedTexImage3D);
+    ARB(glCompressedTexSubImage3D);
+    ARB(glGetCompressedTexImage);
     EX(glCopyTexImage1D);
     EX(glCopyTexImage2D);
     EX(glCopyTexSubImage1D);
@@ -422,7 +437,6 @@ void *glXGetProcAddressARB(const char *name) {
 	EX(glLoadTransposeMatrixd);
 	EX(glMultTransposeMatrixd);
 	EX(glMultTransposeMatrixf);
-    EX(glGetCompressedTexImage);
     // stubs for unimplemented functions
     STUB(glAccum);
     STUB(glAreTexturesResident);
