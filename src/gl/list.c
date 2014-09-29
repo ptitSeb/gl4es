@@ -374,6 +374,7 @@ void draw_renderlist(renderlist_t *list) {
 	GLint needclean[MAX_TEX];
 	for (int a=0; a<MAX_TEX; a++) {
 		texgened[a]=NULL;
+        needclean[a]=0;
 		if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
 		} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
