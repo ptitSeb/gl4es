@@ -937,6 +937,8 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 	}
 }
 
+extern GLuint current_fb;   // from framebuffers.c
+
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
 	if (state.texture.bound[state.texture.active]==NULL)
 		return;		// no texture bounded...
@@ -949,30 +951,30 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	if (target!=GL_TEXTURE_2D)
 		return;
 
-	readfboBegin();	// check for read/draw fbo
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	int width = bound->width;
 	int height = bound->height;
 //printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
 	
 	GLvoid *dst = img;
-	if (state.buffers.pack)
-		dst += (uintptr_t)state.buffers.pack->data;
+    if (state.buffers.pack)
+        dst += (uintptr_t)state.buffers.pack->data;
 
-	if (texstream && bound->streamed) {
-		noerrorShim();
-		pixel_convert(GetStreamingBuffer(bound->streamingID), &dst, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
-		readfboEnd();
-		return;
-	}
+    if (texstream && bound->streamed) {
+        noerrorShim();
+        pixel_convert(GetStreamingBuffer(bound->streamingID), &dst, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
+        readfboEnd();
+        return;
+    }
 	
-	if (texcopydata && bound->data) {
-		errorShim(GL_INVALID_ENUM);
-		if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
-			printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
+    if (texcopydata && bound->data) {
+        errorShim(GL_INVALID_ENUM);
+        if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
+            printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
 		// Setup an FBO the same size of the texture
-		GLuint oldBind = bound->glname;
+        GLuint oldBind = bound->glname;
+        GLuint old_fbo = current_fb;
         GLuint fbo;
 	
 		glGenFramebuffers(1, &fbo);
@@ -980,11 +982,10 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glBindFramebuffer(GL_FRAMEBUFFER_OES, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER_OES, current_fb);
         glDeleteFramebuffers(1, &fbo);
-		noerrorShim();
+        noerrorShim();
 	}
-	readfboEnd();
 }
 
 void glActiveTexture( GLenum texture ) {
@@ -1185,7 +1186,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		noerrorShim();
 	    //TODO
 	    //printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
-	    return;
+	    //return;
     }
 //printf("glCompressedTexImage2D on target=0x%04X with size(%i,%i), internalformat=%04x, imagesize=%i, upackbuffer=%p\n", target, width, height, internalformat, imageSize, state.buffers.unpack?state.buffers.unpack->data:0);
     if ((width<=0) || (height<=0)) {
