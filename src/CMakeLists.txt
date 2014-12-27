@@ -11,13 +11,6 @@ else()
 endif()
 
 add_library(GL SHARED ${GL_SOURCES})
-#target_link_libraries(GL EGL)
-#add_library(GL_static STATIC ${GL_SOURCES})
-#set_target_properties(GL_static PROPERTIES OUTPUT_NAME GL)
-
-add_library(GL2 SHARED EXCLUDE_FROM_ALL ${GL_SOURCES})
-target_link_libraries(GL2 EGL)
-set_target_properties(GL2 PROPERTIES COMPILE_FLAGS -DUSE_ES2)
 
 if(BCMHOST)
     set(PI_LIBS bcm_host vcos pthread)
@@ -26,13 +19,11 @@ if(BCMHOST)
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    target_link_libraries(GL X11)
-    target_link_libraries(GL2 X11)
+    target_link_libraries(GL X11 dl)
 endif()
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
     set_target_properties(GL PROPERTIES SUFFIX ".so.1")
-    set_target_properties(GL2 PROPERTIES SUFFIX ".so.1")
 endif()
 
 aux_source_directory(preload PRELOAD_SOURCES)

@@ -37,6 +37,14 @@
 #define skip_glGetBufferParameteriv
 #define skip_glGetBufferSubData
 
+#define skip_glBlendColor
+/*
+#define skip_glBlendEquation
+#define skip_glBlendEquationSeparate
+#define skip_glBlendEquationSeparatei
+#define skip_glBlendFuncSeparate
+#define skip_glBlendFuncSeparatei
+*/
 #define skip_glGetError
 
 // light.c

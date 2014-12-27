@@ -266,6 +266,7 @@ static void scan_env() {
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     if (env_LIBGL_FB && strcmp(env_LIBGL_FB, "2") == 0) {
             printf("libGL: using framebuffer + fbo\n");
+            g_usefb = true;
             g_usefbo = true;
     }
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
@@ -304,14 +305,12 @@ GLXContext glXCreateContext(Display *display,
         EGL_NONE
     };
 
-#ifdef USE_ES2
     EGLint attrib_list[] = {
+#ifdef USE_ES2
         EGL_CONTEXT_CLIENT_VERSION, 2,
+#endif
         EGL_NONE
     };
-#else
-    EGLint *attrib_list = NULL;
-#endif
 
     scan_env();
 
@@ -581,6 +580,7 @@ void glXSwapBuffers(Display *display,
         }
     }
     if (g_usefbo) {
+        unbindMainFBO();
         blitMainFBO();
         // blit the main_fbo before swap
     }
@@ -621,6 +621,9 @@ void glXSwapBuffers(Display *display,
         }
         last_frame = now;
     }
+    
+    if (g_usefbo)
+        bindMainFBO();
 }
 
 int glXGetConfig(Display *display,

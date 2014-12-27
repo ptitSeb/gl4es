@@ -242,3 +242,6 @@ int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, in
 
 void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
 void glXDestroyWindow(Display *display, void *win);
+
+Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);
+GLXContext glXCreateNewContext(Display *display, GLXFBConfig config, int render_type, GLXContext share_list, Bool is_direct);

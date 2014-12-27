@@ -20,6 +20,12 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	
 void* gles = NULL;
 
+GLuint readhack = 0;
+GLint readhack_x = 0;
+GLint readhack_y = 0;
+GLfloat readhack_depth = 0.0f;
+GLuint readhack_seq = 0;
+
 __attribute__((constructor))
 void initialize_glshim() {
 	printf("LIBGL: Initialising glshim\n");
@@ -28,6 +34,18 @@ void initialize_glshim() {
 	memset(&state, 0, sizeof(state));
 	memcpy(state.color, white, sizeof(GLfloat)*4);
 	state.last_error = GL_NO_ERROR;
+    
+    // init read hack 
+    char *env_readhack = getenv("LIBGL_READHACK");
+    if (env_readhack && strcmp(env_readhack, "1") == 0) {
+        readhack = 1;
+        printf("LIBGL: glReadPixel Hack (for other-life, 1x1 reading multiple time)\n");
+    }
+    if (env_readhack && strcmp(env_readhack, "2") == 0) {
+        readhack = 2;
+        printf("LIBGL: glReadPixel Depth Hack (for games that read GLDepth always at the same place, same 1x1 size)\n");
+    }
+
 }
 
 // config functions
@@ -54,7 +72,6 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_texture_env_combine "
                 "GL_ARB_multitexture "
                 "GL_ARB_texture_env_add "
-//                "GL_ARB_texture_cube_map "
                 "GL_ARB_texture_border_clamp "
                 "GL_ARB_point_parameters "
                 "GL_ARB_texture_env_combine "
@@ -62,11 +79,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_texture_env_dot3 "
                 "GL_ARB_texture_mirrored_repeat "
                 "GL_SGIS_generate_mipmap "
-                "GL_EXT_blend_color "
                 "GL_EXT_blend_subtract "
-                "GL_EXT_blend_logic_op "
-                "GL_EXT_blend_func_separate "
-                "GL_EXT_blend_equation_separate "
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
@@ -76,11 +89,16 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_texture_compression_dxt3 "
                 "GL_EXT_texture_compression_dxt5 "
                 "GL_EXT_texture_compression_dxt1 "
+                "GL_ARB_framebuffer_object "
                 "GL_EXT_framebuffer_object "
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
-//		"GL_ARB_framebuffer_object "
-//                "GL_EXT_stencil_wrap "
+                "GL_EXT_stencil_wrap "
+                "GL_EXT_blend_func_separate "
+                "GL_EXT_blend_equation_separate "
+//                "GL_EXT_blend_logic_op "
+//                "GL_EXT_blend_color "
+//                "GL_ARB_texture_cube_map "
 #else
                 "GL_ARB_vertex_shader "
                 "GL_ARB_fragment_shader "
@@ -458,7 +476,11 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 	if (state.enable.color_array) {
 		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count, state.pointers.color.buffer);
 	}
-	if (state.enable.secondary_array) {
+	if (state.enable.secondary_array/* && state.enable.color_array*/) {
+/*		GLfloat *second_color = copy_gl_pointer(&state.pointers.secondary, 4, skip, count, state.pointers.secondary.buffer);
+		for (int i=0; i<list->len*4; i++)
+			   list->color[i] += second_color[i];
+		free(second_color);*/
 		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count, state.pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
 	}
 	if (state.enable.normal_array) {
@@ -931,8 +953,8 @@ void glEnd() {
     if (! state.list.active) return;
     // check if TEXTUREx is activate and no TexCoord, in that cas, create a dummy one base on state...
     for (int a=0; a<MAX_TEX; a++)
-	if (state.enable.texture_2d[a] && (state.list.active->tex[a]==0))
-	    rlMultiTexCoord2f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1]);
+		if (state.enable.texture_2d[a] && (state.list.active->tex[a]==0))
+			rlMultiTexCoord2f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1]);
     // render if we're not in a display list
     if (! state.list.compiling) {
 	renderlist_t *mylist = state.list.active;
@@ -948,11 +970,12 @@ void glEnd() {
 
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (state.list.active) {
-	if (state.list.active->stage != STAGE_DRAW) {
-	    PUSH_IF_COMPILING(glNormal3f);
-	} else
-	    rlNormal3f(state.list.active, nx, ny, nz);
-	    noerrorShim();
+        if (state.list.active->stage != STAGE_DRAW) {
+            PUSH_IF_COMPILING(glNormal3f);
+        } else {
+            rlNormal3f(state.list.active, nx, ny, nz);
+            noerrorShim();
+        }
     }
 #ifndef USE_ES2
     else {
@@ -1408,4 +1431,12 @@ GLenum glGetError( void) {
 		return tmp;
 	}
 	return gles_glGetError();
+}
+
+void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+    LOAD_GLES_OES(glBlendColor);
+	if  (gles_glBlendColor)
+		gles_glBlendColor(red, green, blue, alpha);
+	else
+		printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
 }

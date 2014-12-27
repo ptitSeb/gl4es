@@ -4,6 +4,7 @@ glstack_t *stack = NULL;
 glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
+//printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_PUSH);
@@ -286,6 +287,7 @@ void glPushClientAttrib(GLbitfield mask) {
 #define v4(c) v3(c), c[3]
 
 void glPopAttrib() {
+//printf("glPopAttrib()\n");
     noerrorShim();
     if (state.list.compiling && state.list.active) {
 		NewStage(state.list.active, STAGE_POP);

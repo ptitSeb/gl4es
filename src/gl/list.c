@@ -111,7 +111,9 @@ void free_renderlist(renderlist_t *list) {
         }
         if (list->lightmodel)
 			free(list->lightmodel);
-        if ((list->indices) && (!list->q2t)) free(list->indices);
+			
+        if ((list->indices) && (!list->q2t)) 
+			free(list->indices);
         
         if (list->raster) {
 			if (list->raster->texture)
@@ -131,6 +133,7 @@ void resize_renderlist(renderlist_t *list) {
         realloc_sublist(list->vert, 3, list->cap);
         realloc_sublist(list->normal, 3, list->cap);
         realloc_sublist(list->color, 4, list->cap);
+        realloc_sublist(list->secondary, 4, list->cap);
         for (int a=0; a<MAX_TEX; a++)
            realloc_sublist(list->tex[a], 2, list->cap);
     }
@@ -139,7 +142,6 @@ void resize_renderlist(renderlist_t *list) {
 void q2t_renderlist(renderlist_t *list) {
     if (!list->len || !list->vert || list->q2t) return;
     // TODO: split to multiple lists if list->len > 65535
-
     int a = 0, b = 1, c = 2, d = 3;
     int winding[6] = {
         a, b, d,
@@ -161,24 +163,23 @@ void q2t_renderlist(renderlist_t *list) {
 				free(cached_q2t);
 			cached_q2t = malloc(len * sizeof(GLushort));
 			cached_q2t_len = len;
-
-			indices = cached_q2t;
 		}
-	int k = 0;
+		int k = 0;
         for (int i = 0; i < list->len; i += 4) {
             for (int j = 0; j < 6; j++) {
 				if (old_indices)
 					indices[k+j] = old_indices[i + winding[j]];
 				else
-					indices[k+j] = i + winding[j];
+					cached_q2t[k+j] = i + winding[j];
             }
 	    k += 6;
         }
     }
 
-    if (!old_indices)
+    if (!old_indices) {
+//		list->indices = cached_q2t;
 	    list->q2t = true;
-    else {
+    } else {
 	    free(old_indices);
 	    list->indices = indices;
     }
@@ -343,16 +344,20 @@ void draw_renderlist(renderlist_t *list) {
         if (list->color) {
             glEnableClientState(GL_COLOR_ARRAY);
             if (state.enable.color_sum && (list->secondary)) {
-		final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
-		if (indices)
-		    for (int i=0; i<list->ilen*4; i++)
-			    final_colors[indices[i]]=list->color[indices[i]] + list->secondary[indices[i]];
-		else
-		    for (int i=0; i<list->len*4; i++)
-			    final_colors[i]=list->color[i] + list->secondary[i];
-		gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-	    } else
-		gles_glColorPointer(4, GL_FLOAT, 0, list->color);
+				final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
+				if (indices) {
+					for (int i=0; i<list->ilen; i++)
+						for (int j=0; j<4; j++) {
+							const int k=indices[i]*4+j;
+							final_colors[k]=list->color[k] + list->secondary[k];
+						}
+				 } else {
+					for (int i=0; i<list->len*4; i++)
+						final_colors[i]=list->color[i] + list->secondary[i];
+				}
+				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+			} else
+				gles_glColorPointer(4, GL_FLOAT, 0, list->color);
         } else {
             glDisableClientState(GL_COLOR_ARRAY);
         }
@@ -411,6 +416,7 @@ void draw_renderlist(renderlist_t *list) {
             } else {
                 if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
                     int n, s;
+                    GLushort ind_line[list->ilen*3+1];
                     switch (list->mode_init) {
                         case GL_TRIANGLES:
                             n = 3;
@@ -437,8 +443,13 @@ void draw_renderlist(renderlist_t *list) {
                             s = list->ilen;
                             break;
                     }
-                for (int i=n; i<=list->ilen; i+=s)
-                    gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
+                    int k = 0;
+					for (int i=n; i<=list->ilen; i+=s) {
+						memcpy(ind_line+k, indices+i-n, sizeof(GLushort)*n);
+						k+=n;
+					}
+					//gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, indices+i-n);
+					gles_glDrawElements(mode, k, GL_UNSIGNED_SHORT, ind_line);
                 } else {
                     gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
                 }
@@ -452,6 +463,7 @@ void draw_renderlist(renderlist_t *list) {
                     int n, s;
                     if (list->q2t)
                     len = len*4/6;
+                    GLushort ind_line[len*3+1];
                     switch (list->mode_init) {
                     case GL_TRIANGLES:
                         n = 3;
@@ -478,8 +490,12 @@ void draw_renderlist(renderlist_t *list) {
                         s = len;
                         break;
                     }
+                    int k=0;
                     for (int i=n; i<=len; i+=s)
-                    gles_glDrawArrays(mode, i-n, n);
+						for (int j=0; j<n; j++)
+							ind_line[k++]=i-n+j;
+                    //gles_glDrawArrays(mode, i-n, n);
+					gles_glDrawElements(mode, k, GL_UNSIGNED_SHORT, ind_line);
                 } else {
                     gles_glDrawArrays(mode, 0, len);
                 }
@@ -528,10 +544,10 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     }
 
     for (int a=0; a<MAX_TEX; a++) {
-	if (list->tex[a]) {
-	    GLfloat *tex = list->tex[a] + (list->len * 2);
-	    memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 2);
-	}
+		if (list->tex[a]) {
+			GLfloat *tex = list->tex[a] + (list->len * 2);
+			memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 2);
+		}
     }
 
     GLfloat *vert = list->vert + (list->len++ * 3);

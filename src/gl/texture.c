@@ -225,6 +225,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             texshrink = 3;
             printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
         }
+        if (env_shrink && strcmp(env_shrink, "4") == 0) {
+            texshrink = 4;
+            printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n");
+        }
         char *env_dump = getenv("LIBGL_TEXDUMP");
         if (env_dump && strcmp(env_dump, "1") == 0) {
             texdump = 1;
@@ -308,6 +312,29 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->shrink = 1;
             }
         }
+        if (bound && (texshrink==4)) {
+            if (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
+                if ((texshrink==4) && ((width>=1024) || (height>=1024))) {
+                    GLvoid *out = pixels;
+                    pixel_quarterscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 4;
+                    height /= 4;
+                    bound->shrink = 2;
+                } else {
+                    GLvoid *out = pixels;
+                    pixel_halfscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 2;
+                    height /= 2;
+                    bound->shrink = 1;
+                }
+            }
+        }
 
         if (texdump) {
             if (bound) {
@@ -342,9 +369,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 ((texshrink>1) && 
                     ((width > ((texshrink==2)?512:256)) && (height > 8)) 
                  || ((height > ((texshrink==2)?512:256)) && (width > 8)))) {
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink = 1;
+                    if ((texshrink==4) && ((width>=1024) || (height>=1024))) {
+                        width /= 4;
+                        height /= 4;
+                        bound->shrink = 2;
+                    } else {
+                        width /= 2;
+                        height /= 2;
+                        bound->shrink = 1;
+                    }
                 }
 	    }
 	}
@@ -498,15 +531,18 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
             return;
         }
         // ok, now standard cases....
-        xoffset /= 2;
-        yoffset /= 2;
+        xoffset /= 2*bound->shrink;
+        yoffset /= 2*bound->shrink;
         old = pixels;
-        pixel_halfscale(pixels, &old, width, height, format, type);
+        if (bound->shrink==1)
+            pixel_halfscale(pixels, &old, width, height, format, type);
+        else
+            pixel_quarterscale(pixels, &old, width, height, format, type);
         if (old != pixels && pixels!=data)
             free(pixels);
         pixels = old;
-        width /= 2;
-        height /= 2;
+        width /= 2*bound->shrink;
+        height /= 2*bound->shrink;
     }
 
     if (texdump) {
@@ -982,7 +1018,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 		glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glBindFramebuffer(GL_FRAMEBUFFER_OES, current_fb);
+		glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
         glDeleteFramebuffers(1, &fbo);
         noerrorShim();
 	}
@@ -1059,6 +1095,10 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
  state.buffers.unpack = NULL;
  
  gltexture_t* bound = state.texture.bound[state.texture.active];
+ if (!bound) {
+     errorShim(GL_INVALID_OPERATION);
+     return;
+ }
  if (bound && bound->streamed) {
     void* buff = GetStreamingBuffer(bound->streamingID);
     if ((bound->width == width) && (bound->height == height) && (xoffset == yoffset == 0)) {
@@ -1072,8 +1112,6 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
         free(tmp);
     }
  } else {
-    //gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);	// this looks broken on Pandora!
-    // On Pandora using GLES1, this function seems bugged. So here is a (slower) workaround....
     void* tmp = malloc(width*height*4);
     GLenum format = (bound)?bound->format:GL_RGBA;
     GLenum type = (bound)?bound->type:GL_UNSIGNED_BYTE;
@@ -1089,25 +1127,24 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 
 void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLsizei height,  GLint border) {
-// On Pandora and GLES1, this function seems broken, so let's have some workaround...
-//printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i)\n", target, level, internalformat, x, y, width, height, border);
- PUSH_IF_COMPILING(glCopyTexImage2D);
- errorGL();
+//printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
+     PUSH_IF_COMPILING(glCopyTexImage2D);
+     errorGL();
 
- // "Unmap" if buffer mapped...
- glbuffer_t *pack = state.buffers.pack;
- glbuffer_t *unpack = state.buffers.unpack;
- state.buffers.pack = NULL;
- state.buffers.unpack = NULL;
-
+     // "Unmap" if buffer mapped...
+     glbuffer_t *pack = state.buffers.pack;
+     glbuffer_t *unpack = state.buffers.unpack;
+     state.buffers.pack = NULL;
+     state.buffers.unpack = NULL;
+     
     void* tmp = malloc(width*height*4);
     glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
     glTexImage2D(target, level, internalformat, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
     free(tmp);
- // "Remap" if buffer mapped...
- state.buffers.pack = pack;
- state.buffers.unpack = unpack;
 
+     // "Remap" if buffer mapped...
+     state.buffers.pack = pack;
+     state.buffers.unpack = unpack;
 }
 
 

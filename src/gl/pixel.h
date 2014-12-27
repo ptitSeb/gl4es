@@ -35,7 +35,7 @@ bool pixel_thirdscale(const GLvoid *src, GLvoid **dst,
                   GLuint width, GLuint height,
                   GLenum format, GLenum type);
 
-bool pixel_querterscale(const GLvoid *src, GLvoid **dst,
+bool pixel_quarterscale(const GLvoid *src, GLvoid **dst,
                   GLuint width, GLuint height,
                   GLenum format, GLenum type);
 

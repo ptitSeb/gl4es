@@ -5,7 +5,7 @@ EX(glBindBuffer);
 EX(glBindFramebuffer);
 EX(glBindRenderbuffer);
 EX(glBindTexture);
-EX(glBlendColor);
+//EX(glBlendColor);
 EX(glBlendEquation);
 EX(glBlendEquationSeparate);
 EX(glBlendFunc);

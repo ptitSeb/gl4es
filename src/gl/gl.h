@@ -167,8 +167,8 @@ static void load_egl_lib() {
 	    load_gles_lib();		            	       	  	     \
 	    WARN_NULL(gles);                                         \
 	}                                                            \
-    LOAD_GLES(eglGetProcAddress)                                  \
-	gles_##name = (name##_PTR)gles_eglGetProcAddress(#name"OES"); \
+    LOAD_EGL(eglGetProcAddress)                                  \
+	gles_##name = (name##_PTR)egl_eglGetProcAddress(#name"OES"); \
 	WARN_NULL(gles_##name);                                      \
     }
 	

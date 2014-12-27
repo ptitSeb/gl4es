@@ -35,6 +35,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXChooseVisual);
     EX(glXCopyContext);
     EX(glXCreateContext);
+    EX(glXCreateNewContext);
 	EX(glXCreateContextAttribsARB);
     EX(glXCreateGLXPixmap);
     EX(glXDestroyContext);
@@ -44,6 +45,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXGetCurrentDrawable);
     EX(glXIsDirect);
     EX(glXMakeCurrent);
+    EX(glXMakeContextCurrent);
     EX(glXQueryExtensionsString);
     EX(glXQueryServerString);
     EX(glXSwapBuffers);
@@ -66,48 +68,26 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glXDestroyWindow);
 
     // GL_ARB_vertex_buffer_object
-    EX(glBindBuffer);
-    EX(glBufferData);
-    EX(glBufferSubData);
-    EX(glDeleteBuffers);
-    EX(glGenBuffers);
-    EX(glIsBuffer);
-    EX(glGetBufferPointerv);
-    EX(glMapBuffer);
-    EX(glUnmapBuffer);
-    EX(glGetBufferParameteriv);
-    EX(glGetBufferSubData);
     ARB(glBindBuffer);
     ARB(glBufferData);
     ARB(glBufferSubData);
     ARB(glDeleteBuffers);
     ARB(glGenBuffers);
     ARB(glIsBuffer);
+    EX(glGetBufferPointerv);
     ARB(glGetBufferPointerv);
+    EX(glMapBuffer);
+    EX(glUnmapBuffer);
     ARB(glMapBuffer);
     ARB(glUnmapBuffer);
     ARB(glGetBufferParameteriv);
+    EX(glGetBufferSubData);
     ARB(glGetBufferSubData);
     
     // GL_ARB_frameBuffer_ext
-    EX(glGenFramebuffers);
-    EX(glDeleteFramebuffers);
-    EX(glIsFramebuffer);
-    EX(glCheckFramebufferStatus);
-    EX(glBindFramebuffer);
-    EX(glFramebufferTexture2D);
     EX(glFramebufferTexture1D);
     EX(glFramebufferTexture3D);
-    EX(glGenRenderbuffers);
-    EX(glFramebufferRenderbuffer);
-    EX(glDeleteRenderbuffers);
-    EX(glRenderbufferStorage);
     EX(glRenderbufferStorageMultisample);
-    EX(glBindRenderbuffer);
-    EX(glIsRenderbuffer);
-    EX(glGenerateMipmap);
-    EX(glGetFramebufferAttachmentParameteriv);
-    EX(glGetRenderbufferParameteriv);
     EXT(glGenFramebuffers);
     EXT(glDeleteFramebuffers);
     EXT(glIsFramebuffer);
@@ -126,7 +106,7 @@ void *glXGetProcAddressARB(const char *name) {
     EXT(glGenerateMipmap);
     EXT(glGetFramebufferAttachmentParameteriv);
     EXT(glGetRenderbufferParameteriv);
-/*    ARB(glGenFramebuffers);
+    ARB(glGenFramebuffers);
     ARB(glDeleteFramebuffers);
     ARB(glIsFramebuffer);
     ARB(glCheckFramebufferStatus);
@@ -143,7 +123,7 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glIsRenderbuffer);
     ARB(glGenerateMipmap);
     ARB(glGetFramebufferAttachmentParameteriv);
-    ARB(glGetRenderbufferParameteriv);*/
+    ARB(glGetRenderbufferParameteriv);
     
         /*
     MAP_EGL(glGenFramebuffersARB, glGenFramebuffersOES);
@@ -269,26 +249,22 @@ void *glXGetProcAddressARB(const char *name) {
 #endif
 
     // functions we actually define
-    EX(glActiveTexture);
     EXT(glActiveTexture);
     ARB(glActiveTexture);
     EX(glArrayElement);
-    EXT(glArrayElement);
     EX(glBegin);
     EX(glBitmap);
-    EX(glBlendColor);
-    EXT(glBlendColor);
-    ARB(glBlendColor);
-    EX(glBlendEquationSeparate);
+    /*EXT(glBlendColor);
+    ARB(glBlendColor);*/
+    EXT(glBlendEquation);
+    ARB(glBlendEquation);
     EXT(glBlendEquationSeparate);
     ARB(glBlendEquationSeparate);
     EX(glBlendEquationSeparatei);
     EXT(glBlendEquationSeparatei);
     ARB(glBlendEquationSeparatei);
-    EX(glBlendFunc);
     EXT(glBlendFunc);
     ARB(glBlendFunc);
-    EX(glBlendFuncSeparate);
     EXT(glBlendFuncSeparate);
     ARB(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
@@ -297,20 +273,17 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glCallList);
     EX(glCallLists);
     EX(glClearDepth);
-    EX(glClientActiveTexture);
     EXT(glClientActiveTexture);
     ARB(glClientActiveTexture);
     EX(glClipPlane);
     EX(glCopyPixels);
     EX(glDeleteLists);
     EX(glDepthRange);
-    EX(glDisable);
     EX(glDrawBuffer);
     EX(glDrawPixels);
     EX(glDrawRangeElements);
     EXT(glDrawRangeElements);
     EX(glEdgeFlag);
-    EX(glEnable);
     EX(glEnd);
     EX(glEndList);
     EX(glEvalCoord1d);
@@ -390,8 +363,6 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glSecondaryColorPointer);
     EXT(glSecondaryColorPointer);
     EX(glTexEnvf);
-    EX(glTexEnvi);
-    EX(glTexEnvfv);
     EX(glTexEnviv);
     EX(glTexGend);
     EX(glTexGendv);
@@ -400,13 +371,9 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glTexGeni);
     EX(glTexGeniv);
     EX(glTexImage1D);
-    EX(glTexImage2D);
     EX(glTexImage3D);
     EX(glTexSubImage1D);
-    EX(glTexSubImage2D);
     EX(glTexSubImage3D);
-    EX(glCompressedTexImage2D);
-    EX(glCompressedTexSubImage2D);
     EX(glCompressedTexImage1D);
     EX(glCompressedTexSubImage1D);
     EX(glCompressedTexImage3D);
@@ -427,9 +394,7 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glCompressedTexSubImage3D);
     ARB(glGetCompressedTexImage);
     EX(glCopyTexImage1D);
-    EX(glCopyTexImage2D);
     EX(glCopyTexSubImage1D);
-    EX(glCopyTexSubImage2D);
     EX(glTranslated);
     EX(glUnlockArraysEXT);
 	EX(glGetTexGenfv);
@@ -465,8 +430,11 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);
-    //STUB( glIndexPointer);
-    //STUB(glTexSubImage1D);
+    
+    STUB(glFogCoordPointer);
+    STUB(glEdgeFlagPointerEXT);
+    STUB(glIndexPointerEXT);
+    STUB(glIndexPointer);
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

@@ -524,4 +524,4 @@
 #define GL_TEXTURE_LUMINANCE_TYPE         0x8C14
 #define GL_TEXTURE_INTENSITY_TYPE         0x8C15
 #define GL_DEPTH_COMPONENT24              0x81A6
-
+#define GL_DEPTH_COMPONENT16              0x81A5
