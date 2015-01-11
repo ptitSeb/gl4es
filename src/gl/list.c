@@ -72,10 +72,42 @@ bool ispurerender_renderlist(renderlist_t *list) {
     return true;
 }
 
+int rendermode_dimensions(GLenum mode) {
+    // return 1 for points, 2 for any lines, 3 for any triangles, 4 for any Quad and 5 for polygon
+    switch (mode) {
+        case GL_POINTS:
+            return 1;
+        case GL_LINES:
+        case GL_LINE_LOOP:
+        case GL_LINE_STRIP:
+            return 2;
+        case GL_TRIANGLES:
+        case GL_TRIANGLE_FAN:
+        case GL_TRIANGLE_STRIP:
+            return 3;
+        case GL_QUADS:
+        case GL_QUAD_STRIP:
+            return 4;
+        case GL_POLYGON:
+            return 5;
+    }
+    return 0;
+}
+
 bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     // check if 2 "pure rendering" list are compatible for merge
-    if (a->mode_init != b->mode_init)
-        return false;
+    if (a->mode_init != b->mode_init) {
+        int a_mode = rendermode_dimensions(a->mode_init);
+        int b_mode = rendermode_dimensions(b->mode_init);
+        if ((a_mode == 5) || (b_mode == 5))
+            return false;       // Let's not merge polygons
+        if ((a_mode == 0) || (b_mode == 0))
+            return false;       // undetermined is not good
+        if (a_mode == 4) a_mode = 3; // quads are handled as triangles
+        if (b_mode == 4) b_mode = 3;
+        if (a_mode != b_mode)
+            return false;
+    }
 /*    if ((a->indices==NULL) != (b->indices==NULL))
         return false;*/
     if (a->polygon_mode != b->polygon_mode)
