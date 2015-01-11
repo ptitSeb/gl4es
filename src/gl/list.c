@@ -149,8 +149,8 @@ void renderlist_triangletrip_triangles(renderlist_t *a) {
     if (ilen<0) ilen=0;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
     for (int i = 2; i<len; i++) {
-        a->indices[(i-2)*3+0] = vind(i-2);
-        a->indices[(i-2)*3+1] = vind(i-1);
+        a->indices[(i-2)*3+(i%2)] = vind(i-2);
+        a->indices[(i-2)*3+1-(i%2)] = vind(i-1);
         a->indices[(i-2)*3+2] = vind(i);
     }
     a->ilen = ilen;
