@@ -161,6 +161,18 @@ void matrix_inverse(const GLfloat *m, GLfloat *r) {
     for (int i = 0; i < 16; i++) r[i] *= det;
 }
 
+void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+    memset(c, 0, sizeof(GLfloat)*16);
+// c = a * b
+    for (int j=0 ; j<4; ++j) {
+        for (int i=0 ; i<4; ++i) {
+            for (int k=0; k<4; ++k) {
+                c[i*4+j] += a[k*4+j] * b[i*4+k]; 
+            }
+        }
+    }
+}
+
 void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count, GLushort *indices) {
     for (int i = 0; i < count; i++) {
 	GLushort k = indices?indices[i]:i;
