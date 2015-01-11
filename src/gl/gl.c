@@ -577,7 +577,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
 		if (state.render_mode == GL_SELECT) {
-			select_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
+			select_glDrawElements(&state.pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
 			// secondary color...
 			GLfloat *final_colors = NULL;
@@ -715,7 +715,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			mode = GL_TRIANGLE_FAN;
 			
 		if (state.render_mode == GL_SELECT) {
-			select_glDrawArrays(mode, first, count);
+			select_glDrawArrays(&state.pointers.vertex, mode, first, count);
 		} else {
 			// setup the Array Pointers
 			// secondary color...

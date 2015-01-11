@@ -1,4 +1,4 @@
-#include "raster.h"
+#include "render.h"
 
 GLint glRenderMode(GLenum mode) {
 	int ret = 0;
@@ -11,9 +11,10 @@ GLint glRenderMode(GLenum mode) {
 	if (state.render_mode == GL_SELECT)
 		ret = state.selectbuf.count/4;
 	if (mode == GL_SELECT) {
-		if (state.selectbuf.buffer == NULL)	// error, cannot use Select Mode without select buffer
+		if (state.selectbuf.buffer == NULL)	{// error, cannot use Select Mode without select buffer
             errorShim(GL_INVALID_OPERATION);
 			return 0;
+        }
 		state.selectbuf.count = 0;
 	}
 	state.render_mode = mode;
@@ -78,11 +79,12 @@ void init_select() {
 
 void select_transform(GLfloat *a) {
 	/*
-	 Transfor a[3] using projection and modelview matrix (init with init_select)
+	 Transform a[3] using projection and modelview matrix (init with init_select)
 	*/
 	GLfloat tmp[3];
 	matrix_vector(modelview, a, tmp);
 	matrix_vector(projection, tmp, a);
+    //matrix_vector(model_proj, a, a);
 }
 GLboolean select_point_in_viewscreen(const GLfloat *a) {
 	/* 
@@ -166,12 +168,12 @@ GLboolean select_triangle_in_viewscreen(const GLfloat *a, const GLfloat *b, cons
 	 return false;
 }
 
-void select_glDrawArrays(GLenum mode, GLuint first, GLuint count) {
+void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, GLuint count) {
 	if (count == 0) return;
-	if (state.pointers.vertex.pointer == NULL) return;
+	if (vtx->pointer == NULL) return;
 	if (state.selectbuf.buffer == NULL) return;
-	GLfloat *vert = copy_gl_array(state.pointers.vertex.pointer, state.pointers.vertex.type, 
-			state.pointers.vertex.size, state.pointers.vertex.stride,
+	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
+			vtx->size, vtx->stride,
 			GL_FLOAT, 3, 0, count);
 	GLfloat tmp[3];
 	GLfloat zmin=1.0f, zmax=0.0f;
@@ -244,17 +246,17 @@ void select_glDrawArrays(GLenum mode, GLuint first, GLuint count) {
 	#undef FOUND
 }
 
-void select_glDrawElements(GLenum mode, GLuint count, GLenum type, GLvoid * indices) {
+void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count, GLenum type, GLvoid * indices) {
 	if (count == 0) return;
-	if (state.pointers.vertex.pointer == NULL) return;
+	if (vtx->pointer == NULL) return;
 
 	GLushort *ind = (GLushort*)indices;
 
 	GLsizei min, max;
 	normalize_indices(indices, &max, &min, count);
 
-	GLfloat *vert = copy_gl_array(state.pointers.vertex.pointer, state.pointers.vertex.type, 
-			state.pointers.vertex.size, state.pointers.vertex.stride,
+	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
+			vtx->size, vtx->stride,
 			GL_FLOAT, 3, 0, max);
 	GLfloat tmp[3];
 	init_select();
