@@ -229,6 +229,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             texshrink = 4;
             printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n");
         }
+        if (env_shrink && strcmp(env_shrink, "5") == 0) {
+            texshrink = 4;
+            printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 )\n");
+        }
         char *env_dump = getenv("LIBGL_TEXDUMP");
         if (env_dump && strcmp(env_dump, "1") == 0) {
             texdump = 1;
@@ -314,7 +318,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         }
         if (bound && (texshrink==4)) {
             if (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
-                if ((texshrink==4) && ((width>=1024) || (height>=1024))) {
+                if ((width>=1024) || (height>=1024)) {
                     GLvoid *out = pixels;
                     pixel_quarterscale(pixels, &out, width, height, format, type);
                     if (out != pixels && pixels!=datab)
@@ -333,6 +337,18 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     height /= 2;
                     bound->shrink = 1;
                 }
+            }
+        }
+        if (bound && (texshrink==5)) {
+            while (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
+                GLvoid *out = pixels;
+                pixel_halfscale(pixels, &out, width, height, format, type);
+                if (out != pixels && pixels!=datab)
+                    free(pixels);
+                pixels = out;
+                width /= 2;
+                height /= 2;
+                bound->shrink++;
             }
         }
 
