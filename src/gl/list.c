@@ -8,9 +8,6 @@
     if (ref)                         \
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
-static GLushort *cached_q2t = NULL;
-static unsigned long cached_q2t_len = 0;
-
 renderlist_t *alloc_renderlist() {
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     list->len = 0;
@@ -45,7 +42,6 @@ renderlist_t *alloc_renderlist() {
     list->lightmodel = NULL;
     list->lightmodelparam = GL_LIGHT_MODEL_AMBIENT;
     list->indices = NULL;
-    list->q2t = false;
     list->set_texture = false;
     list->texture = 0;
     list->polygon_mode = 0;
@@ -292,7 +288,7 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
             end_renderlist(list);
         // append list!
 //printf("merge list 0x%04X(0x%04X) %i(%i) - %i + 0x%04X(0x%04X) %i(%i) - %i", 
-    list->prev->mode_init, list->prev->mode, list->prev->len, list->prev->cap, list->prev->ilen, list->mode_init, list->mode, list->len, list->cap, list->ilen);
+//    list->prev->mode_init, list->prev->mode, list->prev->len, list->prev->cap, list->prev->ilen, list->mode_init, list->mode, list->len, list->cap, list->ilen);
         append_renderlist(list->prev, list);
 //printf(" -> %i(%i) - %i\n", list->prev->len, list->prev->cap, list->prev->ilen);
         renderlist_t *new = alloc_renderlist();
@@ -360,7 +356,7 @@ void free_renderlist(renderlist_t *list) {
         if (list->lightmodel)
 			free(list->lightmodel);
 			
-        if ((list->indices) && (!list->q2t)) 
+        if (list->indices)
 			free(list->indices);
         
         if (list->raster) {
@@ -387,55 +383,6 @@ void resize_renderlist(renderlist_t *list) {
     }
 }
 
-void q2t_renderlist(renderlist_t *list) {
-    if (!list->len || !list->vert || list->q2t) return;
-    // TODO: split to multiple lists if list->len > 65535
-    int a = 0, b = 1, c = 2, d = 3;
-    int winding[6] = {
-        a, b, d,
-        b, c, d,
-    };
-    unsigned long len = list->len * 6 / 4;
-
-    // q2t on glDrawElements?
-	GLushort *old_indices = NULL;
-	GLushort *indices;
-    if (list->indices) 
-		old_indices = list->indices;
-    //    free(list->indices);
-    if ((len > cached_q2t_len) || (old_indices)) {
-		if (old_indices) {
-			indices = malloc(len * sizeof(GLushort));
-		} else {
-			if (cached_q2t)
-				free(cached_q2t);
-			cached_q2t = malloc(len * sizeof(GLushort));
-			cached_q2t_len = len;
-		}
-		int k = 0;
-        for (int i = 0; i < list->len; i += 4) {
-            for (int j = 0; j < 6; j++) {
-				if (old_indices)
-					indices[k+j] = old_indices[i + winding[j]];
-				else
-					cached_q2t[k+j] = i + winding[j];
-            }
-	    k += 6;
-        }
-    }
-
-    if (!old_indices) {
-//		list->indices = cached_q2t;
-	    list->q2t = true;
-    } else {
-	    free(old_indices);
-	    list->indices = indices;
-    }
-
-    list->ilen = len;
-    return;
-}
-
 void end_renderlist(renderlist_t *list) {
     if (! list->open)
         return;
@@ -457,8 +404,6 @@ void end_renderlist(renderlist_t *list) {
 			if (list->len==4) {
 				list->mode = GL_TRIANGLE_FAN;
 			} else {
-				/*list->mode = GL_TRIANGLES;
-				q2t_renderlist(list);*/
                 renderlist_quads_triangles(list);
 			}
             break;
@@ -586,8 +531,6 @@ void draw_renderlist(renderlist_t *list) {
         }
 
         indices = list->indices;
-        if (list->q2t && !(state.polygon_mode == GL_LINE))
-            indices = cached_q2t;
            
 		final_colors = NULL;
         if (list->color) {
@@ -720,8 +663,6 @@ void draw_renderlist(renderlist_t *list) {
                 int len = list->len;
                 if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
                     int n, s;
-                    if (list->q2t)
-                    len = len*4/6;
                     GLushort ind_line[len*3+1];
                     switch (list->mode_init) {
                     case GL_TRIANGLES:

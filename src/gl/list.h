@@ -95,7 +95,6 @@ typedef struct _renderlist_t {
     GLfloat *secondary;
     GLfloat *tex[MAX_TEX];
     GLushort *indices;
-    GLboolean q2t;
 	
 	GLuint	glcall_list;
 	rasterlist_t *raster;
@@ -128,7 +127,6 @@ extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);
 extern void free_renderlist(renderlist_t *list);
 extern void draw_renderlist(renderlist_t *list);
-extern void q2t_renderlist(renderlist_t *list);
 extern void end_renderlist(renderlist_t *list);
 
 extern void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);
