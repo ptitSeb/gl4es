@@ -70,12 +70,17 @@ GLboolean glIsFramebuffer(GLuint framebuffer) {
 GLenum fb_status;
 
 GLenum glCheckFramebufferStatus(GLenum target) {
-    //LOAD_GLES_OES(glCheckFramebufferStatus);
-    
-    //errorGL();
-    //GLenum result = gles_glCheckFramebufferStatus(target);
+//#define BEFORE 1
+#ifdef BEFORE
     GLenum result = fb_status;
     noerrorShim();
+#else
+    LOAD_GLES_OES(glCheckFramebufferStatus);
+    
+    errorGL();
+    GLenum result = gles_glCheckFramebufferStatus(target);
+#endif
+#undef BEFORE
 //printf("glCheckFramebufferStatus(0x%04X)=0x%04X\n", target, result);
     return result;
 }
