@@ -105,6 +105,13 @@
 #define skip_glGetFramebufferAttachmentParameteriv
 #define skip_glGetRenderbufferParameteriv
 
+#define skip_glFlush
+#define skip_glFinish
+
+// matrix don't go to stack well, because values are pointer, not immediate...
+#define skip_glLoadMatrixf
+#define skip_glMultMatrixf
+
 // don't compile these into display lists
 #define direct_glColorPointer
 #define direct_glDeleteLists
@@ -113,8 +120,6 @@
 #define direct_glEnableClientState
 #define direct_glClientActiveTexture
 #define direct_glFeedbackBuffer
-#define direct_glFinish
-#define direct_glFlush
 #define direct_glGenLists
 #define direct_glIndexPointer
 #define direct_glInterleavedArrays

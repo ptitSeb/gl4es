@@ -19,6 +19,12 @@ extern void matrix_column_row(const GLfloat *a, GLfloat *b);
 extern void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
 void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
+        NewStage(state.list.active, STAGE_RASTER);
+        rlRasterOp(state.list.active, 1, x, y, z);
+        noerrorShim();
+        return;
+    }
 	#if 1
 	// Transform xyz coordinates with currzent modelview and projection matrix...
 	GLfloat glmatrix[16], projection[16], modelview[16];
@@ -44,6 +50,12 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
+        NewStage(state.list.active, STAGE_RASTER);
+        rlRasterOp(state.list.active, 2, x, y, z);
+        noerrorShim();
+        return;
+    }
     rPos.x = x;
     rPos.y = y;
     rPos.z = z;	
@@ -60,12 +72,24 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 }
 
 void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
+        NewStage(state.list.active, STAGE_RASTER);
+        rlRasterOp(state.list.active, 3, xfactor, yfactor, 0.0f);
+        noerrorShim();
+        return;
+    }
 	zoomx = xfactor;
 	zoomy = yfactor;
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
 void glPixelTransferf(GLenum pname, GLfloat param) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
+        NewStage(state.list.active, STAGE_RASTER);
+        rlRasterOp(state.list.active, pname|0x10000, param, 0.0f, 0.0f);
+        noerrorShim();
+        return;
+    }
 //printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
 	switch(pname) {
 		case GL_RED_SCALE:
@@ -141,7 +165,9 @@ GLuint raster_to_texture()
 	renderlist_t *old_list = state.list.active;
 	if (old_list) state.list.active = NULL;		// deactivate list...
 	GLboolean compiling = state.list.compiling;
+    GLuint state_batch = state.gl_batch;
 	state.list.compiling = false;
+    state.gl_batch = 0;
     glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
 	GLuint old_tex_unit, old_tex;
 	glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
@@ -173,6 +199,7 @@ GLuint raster_to_texture()
 	glPopAttrib();
 	if (old_list) state.list.active = old_list;
 	state.list.compiling = compiling;
+    state.gl_batch = state_batch;
 	return raster_texture;
 }
 
@@ -184,7 +211,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // TODO: negative width/height mirrors bitmap?
     noerrorShim();
     if ((!width && !height) || (bitmap==0)) {
-		if (state.list.compiling) {
+		if (state.list.compiling || state.gl_batch) {
 			if (state.list.active->raster)
 				state.list.active = extend_renderlist(state.list.active);		// already a raster in the list, create a new one
 			rasterlist_t *r = state.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
@@ -235,7 +262,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 
     rasterlist_t rast;
     rasterlist_t *r;
-	if (state.list.compiling) {
+	if (state.list.compiling || state.gl_batch) {
 		NewStage(state.list.active, STAGE_RASTER);
 /*		if (state.list.active->raster)
 			state.list.active = extend_renderlist(state.list.active);*/		// already a raster in the list, create a new one
@@ -254,7 +281,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->zoomx = zoomx;
 	r->zoomy = zoomy;
     LOAD_GLES(glDeleteTextures);
-	if (!state.list.compiling) {
+	if (!(state.list.compiling || state.gl_batch)) {
 		render_raster_list(r);
 		gles_glDeleteTextures(1, &r->texture);
 		r->texture = 0;
@@ -309,7 +336,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	
     rasterlist_t rast;
     rasterlist_t *r;
-	if (state.list.compiling) {
+	if (state.list.compiling || gl_batch) {
 		NewStage(state.list.active, STAGE_RASTER);
 /*		if (state.list.active->raster)
 			state.list.active = extend_renderlist(state.list.active);*/		// already a raster in the list, create a new one
@@ -328,7 +355,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->zoomx = zoomx;
 	r->zoomy = zoomy;
     LOAD_GLES(glDeleteTextures);
-	if (!state.list.compiling) {
+	if (!(state.list.compiling || state.gl_batch)) {
 		render_raster_list(r);
 		gles_glDeleteTextures(1, &r->texture);
 		r->texture = 0;

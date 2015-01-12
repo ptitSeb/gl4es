@@ -570,7 +570,10 @@ void glXSwapBuffers(Display *display,
     static int frames = 0;
     
     LOAD_EGL(eglSwapBuffers);
-
+    if (gl_batch){
+        flush();
+    }
+    
     if (g_vsync && fbdev >= 0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
         // this will just block otherwise.
@@ -584,6 +587,7 @@ void glXSwapBuffers(Display *display,
         blitMainFBO();
         // blit the main_fbo before swap
     }
+
     egl_eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
 

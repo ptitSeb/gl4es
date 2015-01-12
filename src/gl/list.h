@@ -9,6 +9,7 @@ typedef enum {
 	STAGE_POP,
 	STAGE_CALLLIST,
 	STAGE_GLCALL,
+    STAGE_MATRIX,
 	STAGE_BINDTEX,
 	STAGE_RASTER,
 	STAGE_MATERIAL,
@@ -104,6 +105,12 @@ typedef struct _renderlist_t {
 	GLbitfield pushattribute;
 	GLboolean  popattribute;
     
+    int     raster_op;
+    GLfloat raster_xyz[3];
+    
+    int     matrix_op;
+    GLfloat matrix_val[16];
+    
     khash_t(material) *material;
     khash_t(light) *light;
     khash_t(texgen) *texgen;
@@ -140,4 +147,5 @@ extern void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t);
 extern void rlMultiTexCoord2f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t);
 extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b);
+extern void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z);
 #endif

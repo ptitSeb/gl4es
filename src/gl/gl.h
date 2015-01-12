@@ -225,7 +225,7 @@ static void load_egl_lib() {
     }
 	
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
-    if (state.list.compiling && state.list.active) { \
+    if ((state.list.compiling || state.gl_batch) && state.list.active) { \
 		NewStage(state.list.active, STAGE_GLCALL);   \
         push_##nam(__VA_ARGS__);                    \
         noerrorShim();								\
@@ -391,9 +391,16 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "framebuffers.h"
 
 extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+extern void glFlush();
+extern void glFinish();
+
+void flush();
+void init_batch();
 
 #include "state.h"
 extern glstate_t state;
+
+extern GLuint gl_batch; // 0 = off, 1 = on
 
 static inline void errorGL() {	// next glGetError will be from GL 
 	state.shim_error = 0;

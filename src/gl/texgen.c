@@ -22,7 +22,7 @@ void glTexGeni(GLenum coord, GLenum pname, GLint param) {
 
 void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
 //printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]), texture=%i\n", coord, pname, param[0], state.texture.active);
-    if (state.list.compiling && state.list.active) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
 		NewStage(state.list.active, STAGE_TEXGEN);
 		rlTexGenfv(state.list.active, coord, pname, param);
         noerrorShim();
@@ -65,6 +65,7 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     */
 }
 void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
+    if (gl_batch) flush();
     noerrorShim();
 	switch(pname) {
 		case GL_TEXTURE_GEN_MODE:

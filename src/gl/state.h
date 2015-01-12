@@ -137,6 +137,7 @@ typedef struct {
     buffers_t buffers;
     int shim_error;
     GLenum last_error;
+    GLuint gl_batch;
 } glstate_t;
 
 #endif

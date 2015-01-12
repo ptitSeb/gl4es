@@ -191,7 +191,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         proxy_height = ((height<<level)>2048)?0:height;
         return;
     }
-    PUSH_IF_COMPILING(glTexImage2D);
+    //PUSH_IF_COMPILING(glTexImage2D);
+    if (state.gl_batch) flush();
 
     if (!tested_env) {
         char *env_mipmap = getenv("LIBGL_MIPMAP");
@@ -475,7 +476,9 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 	if (state.buffers.unpack)
 		datab += (uintptr_t)state.buffers.pack->data;
     GLvoid *pixels = (GLvoid*)datab;
-	PUSH_IF_COMPILING(glTexSubImage2D);
+	//PUSH_IF_COMPILING(glTexSubImage2D);
+    if (state.gl_batch) flush();
+
 
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
@@ -699,7 +702,7 @@ GLboolean glIsTexture(	GLuint texture) {
 
 void glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
-    if ((target!=GL_PROXY_TEXTURE_2D) && (state.list.compiling && state.list.active)) {
+    if ((target!=GL_PROXY_TEXTURE_2D) && ((state.list.compiling || state.gl_batch) && state.list.active)) {
         // check if already a texture binded, if yes, create a new list
         NewStage(state.list.active, STAGE_BINDTEX);
         rlBindTexture(state.list.active, target, texture);
@@ -851,6 +854,7 @@ void glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 }
 
 void glDeleteTextures(GLsizei n, const GLuint *textures) {
+    if (state.gl_batch) flush();
 	noerrorShim();
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = state.texture.list;
@@ -890,6 +894,7 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
 void glGenTextures(GLsizei n, GLuint * textures) {
     if (n<=0) 
 		return;
+    if (state.gl_batch) flush();
     LOAD_GLES(glGenTextures);
     gles_glGenTextures(n, textures);
     errorGL();
@@ -939,6 +944,7 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *re
 
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
 	// simplification: not taking "target" into account here
+    if (state.gl_batch) flush();
 	*params = 0;
 	noerrorShim();
 	gltexture_t* bound = state.texture.bound[state.texture.active];
@@ -992,6 +998,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 extern GLuint current_fb;   // from framebuffers.c
 
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
+    if (state.gl_batch) flush();
 	if (state.texture.bound[state.texture.active]==NULL)
 		return;		// no texture bounded...
 	if (level != 0) {
@@ -1066,9 +1073,14 @@ void glClientActiveTexture( GLenum texture ) {
 
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
 //printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
+    GLuint old_glbatch = state.gl_batch;
+    if (state.gl_batch) {
+        flush();
+        state.gl_batch = 0;
+    }
     if (state.list.compiling && state.list.active) {
 		errorShim(GL_INVALID_OPERATION);
-	return;	// never in list
+        return;	// never in list
 	}
     LOAD_GLES(glReadPixels);
     errorGL();
@@ -1078,21 +1090,23 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 		
 	readfboBegin();
     if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
-	// easy passthru
-	gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, dst);
-	readfboEnd();
-	return;
+        // easy passthru
+        gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+        readfboEnd();
+        state.gl_batch = old_glbatch;
+        return;
     }
     // grab data in GL_RGBA format
     GLvoid *pixels = malloc(width*height*4);
     gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &dst, width, height,
 					    GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0)) {
-	printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
-		format, type);
+        printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
+            format, type);
     }
     free(pixels);
     readfboEnd();
+    state.gl_batch = old_glbatch;
     return;
 }
 
@@ -1144,7 +1158,13 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLsizei height,  GLint border) {
 //printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
-     PUSH_IF_COMPILING(glCopyTexImage2D);
+     //PUSH_IF_COMPILING(glCopyTexImage2D);
+     GLuint old_glbatch = state.gl_batch;
+     if (state.gl_batch) {
+         flush();
+         state.gl_batch = 0;
+     }
+
      errorGL();
 
      // "Unmap" if buffer mapped...
@@ -1161,6 +1181,8 @@ void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLin
      // "Remap" if buffer mapped...
      state.buffers.pack = pack;
      state.buffers.unpack = unpack;
+     
+     state.gl_batch = old_glbatch;
 }
 
 
@@ -1231,6 +1253,8 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
         proxy_height = (height>2048)?0:height;
         return;
     }
+    if (state.gl_batch) flush();
+
     if (state.texture.bound[state.texture.active]==NULL) {
 		errorShim(GL_INVALID_OPERATION);
 	    return;		// no texture bounded...
@@ -1307,6 +1331,8 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data) 
 {
+    if (state.gl_batch) flush();
+
 	if (state.texture.bound[state.texture.active]==NULL) {
 		errorShim(GL_INVALID_OPERATION);
 		return;		// no texture bounded...
@@ -1365,6 +1391,8 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 }
 
 void glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
+    if (state.gl_batch) flush();
+
     printf("LIBGL: Stub GetCompressedTexImage\n");
     
     errorShim(GL_INVALID_OPERATION);

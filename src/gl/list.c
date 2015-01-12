@@ -9,6 +9,8 @@
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
 renderlist_t *alloc_renderlist() {
+    int a;
+
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     list->len = 0;
     list->ilen = 0;
@@ -33,7 +35,14 @@ renderlist_t *alloc_renderlist() {
     list->pushattribute = 0;
     list->popattribute = false;
     
-    int a;
+    list->raster_op = 0;
+    for (a=0; a<3; a++)
+        list->raster_xyz[a]=0.0f;
+        
+    list->matrix_op = 0;
+    for (a=0; a<16; a++)
+        list->matrix_val[a]=((a%4)==0)?1.0f:0.0f;    // load identity matrix
+    
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
     list->material = NULL;
@@ -58,6 +67,10 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->glcall_list)
         return false;
+    if (list->matrix_op)
+        return false;
+    if (list->raster_op)
+        return false;
     if (list->raster)
         return false;
     if (list->pushattribute)
@@ -67,6 +80,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
     if (list->material || list->light)
         return false;
     if (list->texgen)
+        return false;
+    if (list->mode_init == 0)
         return false;
     
     return true;
@@ -450,6 +465,10 @@ void end_renderlist(renderlist_t *list) {
 
 void draw_renderlist(renderlist_t *list) {
     if (!list) return;
+    // go to 1st...
+    while (list->prev) list = list->prev;
+    // ok, go on now, draw everything
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, next=%p\n", list, state.gl_batch, list->len, list->next);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
 #ifdef USE_ES2
@@ -465,7 +484,6 @@ void draw_renderlist(renderlist_t *list) {
 	GLfloat *final_colors;
 	int old_tex;
     GLushort *indices;
-    
     do {
         // push/pop attributes
         if (list->pushattribute)
@@ -475,11 +493,20 @@ void draw_renderlist(renderlist_t *list) {
         // do call_list
         if (list->glcall_list)
             glCallList(list->glcall_list);
-        // optimize zero-length segments out earlier?
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
             for (int i = 0; i < cl->len; i++) {
                 glPackedCall(cl->calls[i]);
+            }
+        }
+        if (list->matrix_op) {
+            switch (list->matrix_op) {
+                case 1: // load
+                    glLoadMatrixf(list->matrix_val);
+                    break;
+                case 2: // mult
+                    glMultMatrixf(list->matrix_val);
+                    break;
             }
         }
         old_tex = state.texture.active;
@@ -487,11 +514,22 @@ void draw_renderlist(renderlist_t *list) {
 		glBindTexture(list->target_texture, list->texture);
         }
         // raster
+        if (list->raster_op) {
+            if (list->raster_op==1) {
+                glRasterPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
+            } else if (list->raster_op==2) {
+                glWindowPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
+            } else if (list->raster_op==3) {
+                glPixelZoom(list->raster_xyz[0], list->raster_xyz[1]);
+            } else if ((list->raster_op&0x10000) == 0x10000) {
+                glPixelTransferf(list->raster_op&0xFFFF, list->raster_xyz[0]);
+            }
+        }
         if (list->raster) {
-	    rasterlist_t * r = list->raster;
-	    //glBitmap(r->width, r->height, r->xorig, r->yorig, r->xmove, r->ymove, r->raster);
-	    render_raster_list(list->raster);
-	}
+            rasterlist_t * r = list->raster;
+            //glBitmap(r->width, r->height, r->xorig, r->yorig, r->xmove, r->ymove, r->raster);
+            render_raster_list(list->raster);
+        }
 			
 
         if (list->material) {
@@ -535,12 +573,11 @@ void draw_renderlist(renderlist_t *list) {
             )
         }
         
-        if (list->polygon_mode)
-            glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);
+        if (list->polygon_mode) {
+            glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);}
 
         if (! list->len)
             continue;
-
 #ifdef USE_ES2
         if (list->vert) {
             glEnableVertexAttribArray(0);
@@ -1043,6 +1080,13 @@ void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture) {
     list->texture = texture;
     list->target_texture = target;
     list->set_texture = true;
+}
+
+void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) {
+    list->raster_op = op;
+    list->raster_xyz[0] = x;
+    list->raster_xyz[1] = y;
+    list->raster_xyz[2] = z;
 }
 
 void rlPushCall(renderlist_t *list, packed_call_t *data) {
