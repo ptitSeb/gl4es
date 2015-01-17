@@ -37,6 +37,7 @@ void initialize_glshim() {
 	memset(&state, 0, sizeof(state));
 	memcpy(state.color, white, sizeof(GLfloat)*4);
 	state.last_error = GL_NO_ERROR;
+    state.normal[3] = 1.0f; // default normal is 0/0/1
     
     // init read hack 
     char *env_readhack = getenv("LIBGL_READHACK");
@@ -976,7 +977,12 @@ void glEnd() {
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (state.list.active) {
         if (state.list.active->stage != STAGE_DRAW) {
-            PUSH_IF_COMPILING(glNormal3f);
+            if (state.list.active->stage != STAGE_DRAW) {
+                PUSH_IF_COMPILING(glNormal3f);
+            }
+            state.normal[0] = nx;
+            state.normal[1] = ny;
+            state.normal[2] = nz;
         } else {
             rlNormal3f(state.list.active, nx, ny, nz);
             noerrorShim();

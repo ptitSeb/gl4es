@@ -183,10 +183,10 @@ void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint c
 
 void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint count, GLushort *indices) {
     // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
-    if (!norm) {
+/*    if (!norm) {
         printf("LIBGL: GL_SPHERE_MAP without Normals\n");
         return;
-    }
+    }*/
     // First get the ModelviewMatrix
     GLfloat ModelviewMatrix[16], InvModelview[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
@@ -202,7 +202,7 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*3, eye);
         vector_normalize(eye);
-        vector_matrix(norm+k*3, InvModelview, eye_norm);
+        vector_matrix((norm)?(norm+k*3):state.normal, InvModelview, eye_norm);
         vector_normalize(eye_norm);
         a=dot(eye, eye_norm)*2.0f;
         for (int j=0; j<3; j++)

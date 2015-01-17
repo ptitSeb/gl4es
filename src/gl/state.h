@@ -127,6 +127,7 @@ typedef struct {
     GLfloat color[4];
     GLfloat secondary[4];
     GLfloat texcoord[MAX_TEX][2];
+    GLfloat normal[3];
     int	render_mode;
     int polygon_mode;
     namestack_t namestack;
