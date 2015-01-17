@@ -282,7 +282,7 @@ void *glXGetProcAddressARB(const char *name) {
     EX(glDrawBuffer);
     EX(glDrawPixels);
     EX(glDrawRangeElements);
-    EXT(glDrawRangeElements);
+    EX(glDrawRangeElementsEXT);
     EX(glEdgeFlag);
     EX(glEnd);
     EX(glEndList);

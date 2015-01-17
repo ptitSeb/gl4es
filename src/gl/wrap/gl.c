@@ -752,6 +752,9 @@ void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenu
     state.buffers.elements = elements;
 }
 
+void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
+    glDrawRangeElements(mode, start, end, count, type, indices);
+}
 void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 	// ignore buf is better than nothing...
 	// TODO: handle buf
