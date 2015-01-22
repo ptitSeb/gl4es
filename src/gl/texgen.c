@@ -116,10 +116,37 @@ void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 }
 
 void vector_normalize(GLfloat *a) {
+#ifdef __ARM_NEON__
+        asm volatile (
+        "vld1.32                {d4}, [%0]                      \n\t"   //d4={x0,y0}
+        "flds                   s10, [%0, #8]                   \n\t"   //d5[0]={z0}
+
+        "vmul.f32               d0, d4, d4                      \n\t"   //d0= d4*d4
+        "vpadd.f32              d0, d0                          \n\t"   //d0 = d[0] + d[1]
+        "vmla.f32               d0, d5, d5                      \n\t"   //d0 = d0 + d5*d5 
+        
+        "vmov.f32               d1, d0                          \n\t"   //d1 = d0
+        "vrsqrte.f32    		d0, d0                          \n\t"   //d0 = ~ 1.0 / sqrt(d0)
+        "vmul.f32               d2, d0, d1                      \n\t"   //d2 = d0 * d1
+        "vrsqrts.f32    		d3, d2, d0                      \n\t"   //d3 = (3 - d0 * d2) / 2        
+        "vmul.f32               d0, d0, d3                      \n\t"   //d0 = d0 * d3
+/*        "vmul.f32               d2, d0, d1                      \n\t"   //d2 = d0 * d1  
+        "vrsqrts.f32    		d3, d2, d0                      \n\t"   //d4 = (3 - d0 * d3) / 2        
+        "vmul.f32               d0, d0, d3                      \n\t"   //d0 = d0 * d4  */  // 1 iteration should be enough
+
+        "vmul.f32               q2, q2, d0[0]                   \n\t"   //d0= d2*d4
+        "vst1.32                d4, [%0]                      	\n\t"   //
+        "fsts                   s10, [%0, #8]                   \n\t"   //
+        
+        :"+&r"(a): 
+    : "d0", "d1", "d2", "d3", "d4", "d5", "memory"
+        );
+#else
     float det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
     a[0]*=det;
     a[1]*=det;
     a[2]*=det;
+#endif
 }
 
 void matrix_column_row(const GLfloat *a, GLfloat *b) {
