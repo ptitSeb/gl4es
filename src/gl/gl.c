@@ -681,7 +681,6 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		errorShim(GL_INVALID_VALUE);
 		return;
 	}
-
 	noerrorShim();
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glVertexPointer);
@@ -696,16 +695,6 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         state.list.active = extend_renderlist(list);
         return;
     }
-#define shift_pointer(a, b) \
-	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer = state.pointers.a.buffer->data + (uintptr_t)state.pointers.a.pointer;
-	
-	shift_pointer(color, color_array);
-	shift_pointer(secondary, secondary_array);
-	shift_pointer(vertex, vertex_array);
-	for (int aa=0; aa<MAX_TEX; aa++)
-		shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-	shift_pointer(normal, normal_array);
-#undef shift_pointer		
 
     if (state.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
 		mode = GL_LINE_LOOP;
@@ -721,6 +710,18 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         // TODO: some draw states require us to use the full pipeline here
         // like texgen, stipple, npot
         LOAD_GLES(glDrawArrays);
+
+#define shift_pointer(a, b) \
+	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer = state.pointers.a.buffer->data + (uintptr_t)state.pointers.a.pointer;
+	
+	shift_pointer(color, color_array);
+	shift_pointer(secondary, secondary_array);
+	shift_pointer(vertex, vertex_array);
+	for (int aa=0; aa<MAX_TEX; aa++) {
+		shift_pointer(tex_coord[aa], tex_coord_array[aa]);
+    }
+	shift_pointer(normal, normal_array);
+#undef shift_pointer		
 
 		GLenum mode_init = mode;
 		if (mode == GL_QUAD_STRIP)
@@ -741,7 +742,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 				free(seconds_colors);
-			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
+			} else if ((state.enable.color_array && (state.pointers.color.size != 4)) 
+                    || (state.enable.color_array && (state.pointers.color.stride!=0) && (state.pointers.color.type != GL_FLOAT))) {
 				// Pandora doesn't like Color Pointer with size != 4
 				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, 0);
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
@@ -797,11 +799,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			// secondary color
 			if (final_colors) {
 				free(final_colors);
-				//gles_glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
-		}
-    }
-//	if (state.buffers.vertex) {
 #define shift_pointer(a, b) \
 	if (state.enable.b && state.pointers.a.buffer) state.pointers.a.pointer = state.pointers.a.pointer - (uintptr_t)state.pointers.a.buffer->data;
 	
@@ -812,7 +810,8 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
 		shift_pointer(normal, normal_array);
 #undef shift_pointer		
-//	}
+		}
+    }
 }
 
 #ifndef USE_ES2
@@ -957,9 +956,9 @@ void glBegin(GLenum mode) {
 
 void glEnd() {
     if (!state.list.active) return;
-    // check if TEXTUREx is activate and no TexCoord, in that cas, create a dummy one base on state...
+    // check if TEXTUREx is activate and no TexCoord (or texgen), in that cas, create a dummy one base on state...
     for (int a=0; a<MAX_TEX; a++)
-		if (state.enable.texture_2d[a] && (state.list.active->tex[a]==0))
+		if (state.enable.texture_2d[a] && ((state.list.active->tex[a]==0) && (!state.enable.texgen_s[a])))
 			rlMultiTexCoord2f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1]);
     // render if we're not in a display list
     if (!(state.list.compiling || state.gl_batch)) {
@@ -975,14 +974,12 @@ void glEnd() {
 }
 
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+    state.normal[0] = nx; state.normal[1] = ny; state.normal[2] = nz;
     if (state.list.active) {
         if (state.list.active->stage != STAGE_DRAW) {
             if (state.list.active->stage != STAGE_DRAW) {
                 PUSH_IF_COMPILING(glNormal3f);
             }
-            state.normal[0] = nx;
-            state.normal[1] = ny;
-            state.normal[2] = nz;
         } else {
             rlNormal3f(state.list.active, nx, ny, nz);
             noerrorShim();
@@ -1005,6 +1002,9 @@ void glVertex3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
+    // change the state first thing
+    state.color[0] = red; state.color[1] = green;
+    state.color[2] = blue; state.color[3] = alpha;
     if (state.list.active) {
         if (state.list.active->stage != STAGE_DRAW) {
             PUSH_IF_COMPILING(glColor4f);
@@ -1016,20 +1016,19 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     else {
         LOAD_GLES(glColor4f);
         gles_glColor4f(red, green, blue, alpha);
-        state.color[0] = red; state.color[1] = green;
-        state.color[2] = blue; state.color[3] = alpha;
         errorGL();
     }
 #endif
 }
 
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
+    // change the state first thing
+    state.secondary[0] = r; state.secondary[1] = g;
+    state.secondary[2] = b;
     if (state.list.active) {
         rlSecondary3f(state.list.active, r, g, b);
         noerrorShim();
     } else {
-        state.secondary[0] = r; state.secondary[1] = g;
-        state.secondary[2] = b;
         noerrorShim();
     }
 }
@@ -1070,22 +1069,22 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 #endif
 
 void glTexCoord2f(GLfloat s, GLfloat t) {
+    state.texcoord[0][0] = s; state.texcoord[0][1] = t;
     if (state.list.active) {
         rlTexCoord2f(state.list.active, s, t);
         noerrorShim();
     } else {
-        state.texcoord[0][0] = s; state.texcoord[0][1] = t;
         noerrorShim();
     }
 }
 
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
-	// TODO, error if taget is unsuported texture....
+    state.texcoord[target-GL_TEXTURE0][0] = s; state.texcoord[target-GL_TEXTURE0][1] = t;
+	// TODO, error if target is unsuported texture....
     if (state.list.active) {
         rlMultiTexCoord2f(state.list.active, target, s, t);
 		noerrorShim();
     } else {
-        state.texcoord[target-GL_TEXTURE0][0] = s; state.texcoord[target-GL_TEXTURE0][1] = t;
         noerrorShim();
     }
 }
