@@ -177,14 +177,6 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
 //printf("glTexImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i)\n", target, state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_need:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_auto:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->streamed:0);
 
-    GLvoid *datab = (GLvoid*)data;
-    
-	if (state.buffers.unpack)
-		datab += (uintptr_t)state.buffers.pack->data;
-        
-    GLvoid *pixels = (GLvoid *)datab;
-    border = 0;	//TODO: something?
-    noerrorShim();
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D) {
         proxy_width = ((width<<level)>2048)?0:width;
@@ -193,6 +185,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
     }
     //PUSH_IF_COMPILING(glTexImage2D);
     if (state.gl_batch) flush();
+
+    GLvoid *datab = (GLvoid*)data;
+    
+	if (state.buffers.unpack)
+		datab += (uintptr_t)state.buffers.pack->data;
+        
+    GLvoid *pixels = (GLvoid *)datab;
+    border = 0;	//TODO: something?
+    noerrorShim();
 
     if (!tested_env) {
         char *env_mipmap = getenv("LIBGL_MIPMAP");
@@ -231,8 +232,12 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n");
         }
         if (env_shrink && strcmp(env_shrink, "5") == 0) {
-            texshrink = 4;
+            texshrink = 5;
             printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 )\n");
+        }
+        if (env_shrink && strcmp(env_shrink, "6") == 0) {
+            texshrink = 6;
+            printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 )\n");
         }
         char *env_dump = getenv("LIBGL_TEXDUMP");
         if (env_dump && strcmp(env_dump, "1") == 0) {
@@ -350,6 +355,31 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 width /= 2;
                 height /= 2;
                 bound->shrink++;
+            }
+        }
+        if (bound && (texshrink==6)) {
+            if (((width > 128) && (height > 8)) || ((height > 128) && (width > 8))) {
+                if ((width>=512) || (height>=512)) {
+                    while (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
+                        GLvoid *out = pixels;
+                        pixel_halfscale(pixels, &out, width, height, format, type);
+                        if (out != pixels && pixels!=datab)
+                            free(pixels);
+                        pixels = out;
+                        width /= 2;
+                        height /= 2;
+                        bound->shrink++;
+                    }
+                } else {
+                    GLvoid *out = pixels;
+                    pixel_halfscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 2;
+                    height /= 2;
+                    bound->shrink = 1;
+                }
             }
         }
 
@@ -472,13 +502,14 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
+
+	//PUSH_IF_COMPILING(glTexSubImage2D);
+    if (state.gl_batch) flush();
+
     GLvoid *datab = (GLvoid*)data;
 	if (state.buffers.unpack)
 		datab += (uintptr_t)state.buffers.pack->data;
     GLvoid *pixels = (GLvoid*)datab;
-	//PUSH_IF_COMPILING(glTexSubImage2D);
-    if (state.gl_batch) flush();
-
 
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
