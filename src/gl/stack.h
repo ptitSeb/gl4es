@@ -145,18 +145,19 @@ typedef struct {
     GLboolean tex_enable[MAX_TEX];
     GLboolean normal_enable;
     GLboolean secondary_enable;
-    pointer_state_t verts;
+    pointer_states_t pointers;
+    /*pointer_state_t verts;
     pointer_state_t color;
     pointer_state_t normal;
     pointer_state_t tex[MAX_TEX];
-    pointer_state_t secondary;
+    pointer_state_t secondary;*/
     // lets track old pointer address to avoid useless copy back
-    GLvoid      *ref_verts,
+    /*GLvoid      *ref_verts,
 	            *ref_colors,
 	            *ref_secondary,
 	            *ref_normal,
 	            *ref_tex[MAX_TEX];
-
+    */
     unsigned int len;
     unsigned int cap;
 } glclientstack_t;

@@ -257,6 +257,7 @@ void glPushClientAttrib(GLbitfield mask) {
         for (a=0; a<MAX_TEX; a++) {
            cur->tex_enable[a] = state.enable.tex_coord_array[a];
         }
+        /*
         memcpy(&cur->verts, &state.pointers.vertex, sizeof(pointer_state_t));
         cur->ref_verts = (void*)state.pointers.vertex.pointer;
         memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
@@ -269,7 +270,9 @@ void glPushClientAttrib(GLbitfield mask) {
            memcpy(&cur->tex[a], &state.pointers.tex_coord[a], sizeof(pointer_state_t));
            cur->ref_tex[a] = (void*)state.pointers.tex_coord[a].pointer;
         }
-	cur->client = state.texture.client;
+        */
+        memcpy(&(cur->pointers), &state.pointers, sizeof(pointer_states_t));
+        cur->client = state.texture.client;
     }
 
     clientStack->len++;
@@ -518,8 +521,9 @@ void glPopClientAttrib() {
 		   }
         }
 
+        /*
 		if (state.pointers.vertex.pointer != cur->ref_verts) {
-			memcpy(&state.pointers.vertex, &cur->verts, sizeof(pointer_state_t));
+			memcpy(&state.pointers.vertex, &cur->pointers.verts, sizeof(pointer_state_t));
 			//if (state.pointers.vertex.pointer) gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
 		}
 		if (state.pointers.color.pointer != cur->ref_colors) {
@@ -542,6 +546,8 @@ void glPopClientAttrib() {
 			   //}
 			}
         }
+        */
+        memcpy(&state.pointers, &(cur->pointers), sizeof(pointer_states_t));
 		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
