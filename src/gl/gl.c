@@ -222,13 +222,13 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			*params=MAX_STACK_TEXTURE;
 			break;
 	case GL_MODELVIEW_STACK_DEPTH:
-			*params=(state.modelview_matrix)?1:(state.modelview_matrix->top+1);
+			*params=(state.modelview_matrix)?(state.modelview_matrix->top+1):1;
 			break;
 	case GL_PROJECTION_STACK_DEPTH:
-			*params=(state.projection_matrix)?1:(state.projection_matrix->top+1);
+			*params=(state.projection_matrix)?(state.projection_matrix->top+1):1;
 			break;
 	case GL_TEXTURE_STACK_DEPTH:
-			*params=(state.texture_matrix)?1:(state.texture_matrix[state.texture.active]->top+1);
+			*params=(state.texture_matrix)?(state.texture_matrix[state.texture.active]->top+1):1;
 			break;
 	case GL_MAX_LIST_NESTING:
 			*params=64;	// fake, no limit in fact
