@@ -311,7 +311,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
         if (bound && (texshrink==2 || texshrink==3)) {
-            if (((width > ((texshrink==2)?512:256)) && (height > 8)) || ((height > ((texshrink==2)?512:256)) && (width > 8))) {
+            if (((width%2==0) && (height%2==0)) && 
+                ((width > ((texshrink==2)?512:256)) && (height > 8)) || ((height > ((texshrink==2)?512:256)) && (width > 8))) {
                 GLvoid *out = pixels;
                 pixel_halfscale(pixels, &out, width, height, format, type);
                 if (out != pixels && pixels!=datab)
@@ -323,7 +324,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
         if (bound && (texshrink==4)) {
-            if (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
+            if (((width%4==0) && (height%4==0)) && 
+                ((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
                 if ((width>=1024) || (height>=1024)) {
                     GLvoid *out = pixels;
                     pixel_quarterscale(pixels, &out, width, height, format, type);
@@ -346,7 +348,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
         if (bound && (texshrink==5)) {
-            while (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
+            while (((width%2==0) && (height%2==0)) && 
+                ((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
                 GLvoid *out = pixels;
                 pixel_halfscale(pixels, &out, width, height, format, type);
                 if (out != pixels && pixels!=datab)
@@ -358,8 +361,9 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
         if (bound && (texshrink==6)) {
-            if (((width > 128) && (height > 8)) || ((height > 128) && (width > 8))) {
-                if ((width>=512) || (height>=512)) {
+            if (((width%2==0) && (height%2==0)) && 
+                ((width > 128) && (height > 8)) || ((height > 128) && (width > 8))) {
+                if (((width%2==0) && (height%2==0)) && (width>=512) || (height>=512)) {
                     while (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
                         GLvoid *out = pixels;
                         pixel_halfscale(pixels, &out, width, height, format, type);

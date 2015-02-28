@@ -19,7 +19,9 @@ typedef struct {
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
-              texture_2d[MAX_TEX];
+              texture_2d[MAX_TEX],
+              texture_3d[MAX_TEX],
+              texture_1d[MAX_TEX];
 } enable_state_t;
 
 
