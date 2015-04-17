@@ -22,6 +22,7 @@ renderlist_t *alloc_renderlist() {
 
     list->mode = 0;
     list->mode_init = 0;
+    list->shared_arrays = false;
     list->vert = NULL;
     list->normal = NULL;
     list->color = NULL;
@@ -159,9 +160,8 @@ void renderlist_createindices(renderlist_t *a) {
 
 void renderlist_lineloop_lines(renderlist_t *a) {
     GLushort *ind = a->indices;
-    int ilen = a->ilen;
-    if (ilen==0) ilen = a->len;
-    ilen = ilen*2;  // new size is 2* + return
+    int len = (ind)? a->ilen:a->len;
+    int ilen = len*2;  // new size is 2* + return
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
     for (int i = 0; i<ilen-1; i++) {
         a->indices[i] = vind((i+1)/2);
@@ -169,29 +169,27 @@ void renderlist_lineloop_lines(renderlist_t *a) {
     // go back to initial point
     a->indices[ilen-1] = a->indices[0];
     a->ilen = ilen;
-    if (ind) free(ind);
+    if ((ind) && !a->shared_arrays) free(ind);
     a->mode = GL_LINES;
 }
 
 void renderlist_linestrip_lines(renderlist_t *a) {
     GLushort *ind = a->indices;
-    int ilen = a->ilen;
-    if (ilen==0) ilen = a->len;
-    ilen = ilen*2-2;  // new size is 2*
+    int len = (ind)? a->ilen:a->len;
+    int ilen = len*2-2;  // new size is 2*
     if (ilen<0) ilen=0;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
     for (int i = 0; i<ilen; i++) {
         a->indices[i] = vind((i+1)/2);
     }
     a->ilen = ilen;
-    if (ind) free(ind);
+    if ((ind) && !a->shared_arrays) free(ind);
     a->mode = GL_LINES;
 }
 
 void renderlist_triangletrip_triangles(renderlist_t *a) {
     GLushort *ind = a->indices;
-    int len = a->ilen;
-    if (len==0) len = a->len;
+    int len = (ind)? a->ilen:a->len;
     int ilen = (len-2)*3;  
     if (ilen<0) ilen=0;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
@@ -201,14 +199,13 @@ void renderlist_triangletrip_triangles(renderlist_t *a) {
         a->indices[(i-2)*3+2] = vind(i);
     }
     a->ilen = ilen;
-    if (ind) free(ind);
+    if ((ind) && !a->shared_arrays) free(ind);
     a->mode = GL_TRIANGLES;
 }
 
 void renderlist_trianglefan_triangles(renderlist_t *a) {
     GLushort *ind = a->indices;
-    int len = a->ilen;
-    if (len==0) len = a->len;
+    int len = (ind)? a->ilen:a->len;
     int ilen = (len-2)*3;  
     if (ilen<0) ilen=0;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
@@ -218,16 +215,14 @@ void renderlist_trianglefan_triangles(renderlist_t *a) {
         a->indices[(i-2)*3+2] = vind(i);
     }
     a->ilen = ilen;
-    if (ind) free(ind);
+    if ((ind) && !a->shared_arrays) free(ind);
     a->mode = GL_TRIANGLES;
 }
 
 void renderlist_quads_triangles(renderlist_t *a) {
     GLushort *ind = a->indices;
-    int len = a->ilen;
-    if (len==0) len = a->len;
-    int ilen = len*3/2;  
-    if (ilen<0) ilen=0;
+    int len = (ind)? a->ilen:a->len;
+    int ilen = len*3/2;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
     for (int i = 0; i<len; i+=4) {
         a->indices[i*3/2+0] = vind(i+0);
@@ -239,7 +234,7 @@ void renderlist_quads_triangles(renderlist_t *a) {
         a->indices[i*3/2+5] = vind(i+3);
     }
     a->ilen = ilen;
-    if (ind) free(ind);
+    if ((ind) && !a->shared_arrays) free(ind);
     a->mode = GL_TRIANGLES;
 }
 #undef vind
@@ -266,8 +261,17 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             renderlist_quads_triangles(a);
             break;
         default:
+            if (a->shared_arrays && a->indices) {
+                // copy shared indices to non-shared copy
+                GLushort *ind = a->indices;
+                a->indices = (GLushort*)malloc(a->ilen*sizeof(GLushort));
+                memcpy(a->indices, ind, a->ilen*sizeof(GLushort));
+            }
             break;
     }
+    // save old b indices in case of shared
+    GLushort *ind_b = b->indices;
+    unsigned long ilen_b = b->ilen;
     // check if "b" needs to be converted
     switch (b->mode) {
         case GL_LINE_LOOP:
@@ -288,6 +292,11 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             renderlist_quads_triangles(b);
             break;
         default:
+            if (b->shared_arrays && b->indices) {
+                // copy shared indices to non-shared copy
+                b->indices = (GLushort*)malloc(b->ilen*sizeof(GLushort));
+                memcpy(b->indices, ind_b, b->ilen*sizeof(GLushort));
+            }
             break;
     }
     // check for differences in "indices" in both list
@@ -296,18 +305,42 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         if (b->indices==NULL) renderlist_createindices(b);
     }
     // lets append all the arrays
-    int cap = a->cap;
-    while (a->len + b->len >= cap) cap += DEFAULT_RENDER_LIST_CAPACITY;
-    if (a->cap != cap) {
+    unsigned long cap = a->cap;
+    //while (a->len + b->len >= cap) cap += DEFAULT_RENDER_LIST_CAPACITY;
+    if (a->len + b->len >= cap) cap += b->cap;
+    if (a->shared_arrays) {
         a->cap = cap;
-        realloc_sublist(a->vert, 3, cap);
-        realloc_sublist(a->normal, 3, cap);
-        realloc_sublist(a->color, 4, cap);
-        realloc_sublist(a->secondary, 4, cap);
-        for (int i=0; i<MAX_TEX; i++)
-           realloc_sublist(a->tex[i], 2, cap);
+        GLfloat *tmp;
+        tmp = a->vert;
+        a->vert = alloc_sublist(3, cap);
+        memcpy(a->vert, tmp, 3*a->len*sizeof(GLfloat));
+        tmp = a->normal;
+        a->normal = alloc_sublist(3, cap);
+        memcpy(a->normal, tmp, 3*a->len*sizeof(GLfloat));
+        tmp = a->color;
+        a->color = alloc_sublist(4, cap);
+        memcpy(a->color, tmp, 4*a->len*sizeof(GLfloat));
+        tmp = a->secondary;
+        a->secondary = alloc_sublist(4, cap);
+        memcpy(a->secondary, tmp, 4*a->len*sizeof(GLfloat));
+        for (int i=0; i<MAX_TEX; i++) {
+            tmp = a->tex[i];
+            a->tex[i] = alloc_sublist(2, cap);
+            memcpy(a->tex[i], tmp, 2*a->len*sizeof(GLfloat));
+        }
+        a->shared_arrays = false;
+    } else {
+        if (a->cap != cap) {
+            a->cap = cap;
+            realloc_sublist(a->vert, 3, cap);
+            realloc_sublist(a->normal, 3, cap);
+            realloc_sublist(a->color, 4, cap);
+            realloc_sublist(a->secondary, 4, cap);
+            for (int i=0; i<MAX_TEX; i++)
+               realloc_sublist(a->tex[i], 2, cap);
+        }
     }
-    // arrays
+    // append arrays
     if (a->vert) memcpy(a->vert+a->len*3, b->vert, b->len*3*sizeof(GLfloat));
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
@@ -317,12 +350,20 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     
     // indices
     if (a->indices) {
-        a->indices = realloc(a->indices, (a->ilen+b->ilen)*sizeof(GLushort));
-        for (int i=0; i<b->ilen; i++) a->indices[a->ilen+i]=b->indices[i]+a->len;
+        a->indices = (GLushort*)realloc(a->indices, (a->ilen+b->ilen)*sizeof(GLushort));
+        for (int i=0; i<b->ilen; i++) 
+            a->indices[a->ilen+i]=b->indices[i]+a->len;
     }
     // lenghts
     a->len += b->len;
     a->ilen += b->ilen;
+    
+    if (b->shared_arrays) {
+        // restored shared indices copy...
+        if (b->indices) free(b->indices);
+        b->indices = ind_b;
+        b->ilen = ilen_b;
+    }
     
     //all done
     return;
@@ -372,13 +413,18 @@ void free_renderlist(renderlist_t *list) {
             }
             free(list->calls.calls);
         }
-        if (list->vert) free(list->vert);
-        if (list->normal) free(list->normal);
-        if (list->color) free(list->color);
-        if (list->secondary) free(list->secondary);
         int a;
-        for (a=0; a<MAX_TEX; a++)
-            if (list->tex[a]) free(list->tex[a]);
+        if (!list->shared_arrays) {
+            if (list->vert) free(list->vert);
+            if (list->normal) free(list->normal);
+            if (list->color) free(list->color);
+            if (list->secondary) free(list->secondary);
+            for (a=0; a<MAX_TEX; a++)
+                if (list->tex[a]) free(list->tex[a]);
+            if (list->indices)
+                free(list->indices);
+        }
+
         if (list->material) {
             rendermaterial_t *m;
             kh_foreach_value(list->material, m,
@@ -403,9 +449,6 @@ void free_renderlist(renderlist_t *list) {
         if (list->lightmodel)
 			free(list->lightmodel);
 			
-        if (list->indices)
-			free(list->indices);
-        
         if (list->raster) {
 			if (list->raster->texture)
 				glDeleteTextures(1, &list->raster->texture);
@@ -479,6 +522,8 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES(glColorPointer);
     LOAD_GLES(glTexCoordPointer);
 #endif
+    LOAD_GLES(glEnable);
+    LOAD_GLES(glDisable);
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	GLfloat *final_colors;
@@ -661,6 +706,12 @@ void draw_renderlist(renderlist_t *list) {
 //else if (!state.enable.texgen_s[a] && state.enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
 			    
 		    }
+        }
+        for (int aa=0; aa<MAX_TEX; aa++) {
+            if (!state.enable.texture_2d[aa] && (state.enable.texture_1d[aa] || state.enable.texture_3d[aa])) {
+                glClientActiveTexture(aa+GL_TEXTURE0);
+                gles_glEnable(GL_TEXTURE_2D);
+            }
         }
         if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
 
@@ -852,6 +903,15 @@ void draw_renderlist(renderlist_t *list) {
 				texgened[a] = NULL;
 			}
 		}
+        for (int aa=0; aa<MAX_TEX; aa++) {
+            if (!state.enable.texture_2d[aa] && (state.enable.texture_1d[aa] || state.enable.texture_3d[aa])) {
+                glClientActiveTexture(aa+GL_TEXTURE0);
+                gles_glDisable(GL_TEXTURE_2D);
+            }
+        }
+        if (state.texture.client!=old_tex)
+            glClientActiveTexture(old_tex+GL_TEXTURE0);
+
 		if (final_colors)
 			free(final_colors);
         if (stipple) {
@@ -924,8 +984,8 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
             memcpy(color, state.color, sizeof(GLfloat) * 4);
         } else {
             GLfloat *color = list->color;
-	    color[0] = r; color[1] = g; color[2] = b; color[3] = a;
-	}
+            color[0] = r; color[1] = g; color[2] = b; color[3] = a;
+        }
     } else {
         resize_renderlist(list);
     }

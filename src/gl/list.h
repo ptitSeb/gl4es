@@ -27,6 +27,7 @@ static int StageExclusive[STAGE_LAST] = {
 	1,  // STAGE_POP
 	1, 	// STAGE_CALLLIST
 	0,  // STAGE_GLCALL
+    1,  // STAGE_MATRIX
 	1,  // STAGE_BINDTEX
 	1,  // STAGE_RASTER
 	0,  // STAGE_MATERIAL
@@ -90,6 +91,8 @@ typedef struct _renderlist_t {
     GLfloat lastNormal[3];
 
     call_list_t calls;
+    
+    GLboolean shared_arrays;
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
@@ -128,7 +131,7 @@ typedef struct _renderlist_t {
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 20
 
-#define NewStage(l, s) if (l->stage+StageExclusive[s] > s) {l = extend_renderlist(l);} l->stage = s
+#define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
 extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);
