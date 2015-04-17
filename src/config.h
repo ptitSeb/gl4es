@@ -64,6 +64,7 @@
 #define skip_glGenTextures
 #define skip_glDeleteTextures
 #define skip_glPixelStorei
+#define skip_glPixelStoref
 #define skip_glTexImage2D
 #define skip_glTexParameteri
 #define skip_glTexParameterf
@@ -127,7 +128,8 @@
 #define direct_glIsList
 #define direct_glNormalPointer
 #define direct_glPopClientAttrib
-#define direct_glPixelStore
+#define direct_glPixelStorei
+#define direct_glPixelStoref
 #define direct_glPushClientAttrib
 #define direct_glRenderMode
 #define direct_glSelectBuffer

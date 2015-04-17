@@ -139,6 +139,7 @@
 #define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
 #define GL_RGB8                        0x8051
 #define GL_RGB5                        0x8050
+#define GL_RGBA8                       0x8058
 
 // types
 #define GL_BYTE                 0x1400
@@ -525,3 +526,4 @@
 #define GL_TEXTURE_INTENSITY_TYPE         0x8C15
 #define GL_DEPTH_COMPONENT24              0x81A6
 #define GL_DEPTH_COMPONENT16              0x81A5
+#define GL_MAX_DRAW_BUFFERS_ARB           0x8824

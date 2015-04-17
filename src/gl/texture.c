@@ -103,21 +103,41 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                              GLenum *format, GLenum *type,
                              const GLvoid *data) {
     bool convert = false;
+    GLenum dest_format = GL_RGBA;
+    GLenum dest_type = GL_UNSIGNED_BYTE;
 	 switch (*format) {
-        case GL_ALPHA:
         case GL_RGB:
-        case GL_RGBA:
         case GL_LUMINANCE:
+            dest_format = GL_RGB;
+            break;
+        case GL_ALPHA:
+        case GL_RGBA:
         case GL_LUMINANCE_ALPHA:
+            break;
+        case GL_RGB5:
+            dest_type = GL_UNSIGNED_SHORT_5_6_5;
+            convert = true;
+            break;
+        case GL_RGB8:
+            dest_format = GL_RGB;
+            *format = GL_RGB;
+            //convert = true;
+            break;
+        case GL_RGBA8:
+            dest_format = GL_RGBA;
+            *format = GL_RGBA;
             break;
         default:
             convert = true;
             break;
     }
     switch (*type) {
+        case GL_UNSIGNED_SHORT_5_6_5:
+            if (dest_format==GL_RGB)
+                dest_type = GL_UNSIGNED_SHORT_5_6_5;
+            break;
         //case GL_FLOAT:
         case GL_UNSIGNED_BYTE:
-        case GL_UNSIGNED_SHORT_5_6_5:
         case GL_UNSIGNED_SHORT_4_4_4_4:
         case GL_UNSIGNED_SHORT_5_5_5_1:
             break;
@@ -132,19 +152,19 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 		if (convert) {
 			GLvoid *pixels = (GLvoid *)data;
 			if (! pixel_convert(data, &pixels, width, height,
-								*format, *type, GL_RGBA, GL_UNSIGNED_BYTE, 0)) {
-				printf("libGL swizzle error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
-					*format, *type);
+								*format, *type, dest_format, dest_type, 0)) {
+				printf("libGL swizzle error: (%#4x, %#4x -> %#4x, %#4x)\n",
+					*format, *type, dest_format, dest_type);
 				return NULL;
 			}
-			*type = GL_UNSIGNED_BYTE;
-			*format = GL_RGBA;
+			*type = dest_type;
+			*format = dest_format;
 			GLvoid *pix2 = pixels;
 			if (raster_need_transform())
 				if (!pixel_transform(data, &pixels, width, height,
 								*format, *type, raster_scale, raster_bias)) {
-					printf("libGL swizzle/convert error: (%#4x, %#4x -> GL_RGBA, UNSIGNED_BYTE)\n",
-						*format, *type);
+					printf("libGL swizzle/convert error: (%#4x, %#4x -> %#4x, %#4x)\n",
+						*format, *type, dest_format, dest_type);
 					pix2 = pixels;
 				}
 			if (pix2!=pixels && pixels!=data)
@@ -153,8 +173,8 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 		} 
     } else {
 		if (convert) {
-			*type = GL_UNSIGNED_BYTE;
-			*format = GL_RGBA;
+			*type = dest_type;
+			*format = dest_format;
 		}
 	}
     return (void *)data;
@@ -167,6 +187,7 @@ int texshrink = 0;
 int texdump = 0;
 int alphahack = 0;
 int texstream = 0;
+static int default_tex_mipmap = 0;
 
 static int proxy_width = 0;
 static int proxy_height = 0;
@@ -208,6 +229,10 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
             automipmap = 3;
             printf("LIBGL: ignore MipMap\n");
+        }
+        if (env_mipmap && strcmp(env_mipmap, "4") == 0) {
+            automipmap = 4;
+            printf("LIBGL: ignore AutoMipMap on non-squared textures\n");
         }
         char *env_texcopy = getenv("LIBGL_TEXCOPY");
         if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
@@ -432,7 +457,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
 	    }
 	}
-
+    
     /* TODO:
     GL_INVALID_VALUE is generated if border is not 0.
     GL_INVALID_OPERATION is generated if type is
@@ -463,10 +488,24 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->nheight = nheight;
                 bound->format = format;
                 bound->type = type;
+                bound->compressed = false;
             }
+            if ((bound) && (automipmap==4) && (nwidth!=nheight))
+                bound->mipmap_auto = 0;
+                
             if (!(texstream && bound && bound->streamed)) {
-                if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+                if (bound && ((bound->mipmap_need && (automipmap!=3)) || (bound->mipmap_auto)))
                     gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
+                else {
+                    gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+                    if ((bound) && (bound->mipmap_need)) {
+                        // remove the need for mipmap...
+                        bound->mipmap_need = 0;
+                        glTexParameteri(target, GL_TEXTURE_MIN_FILTER, bound->min_filter);
+                        glTexParameteri(target, GL_TEXTURE_MAG_FILTER, bound->mag_filter);
+                    }
+                }
+                
                 if (height != nheight || width != nwidth) {
                     gles_glTexImage2D(target, level, format, nwidth, nheight, border,
                                     format, type, NULL);
@@ -478,8 +517,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                                     format, type, pixels);
                     errorGL();
                 }
-                if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
-                    gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+                /*if (bound && bound->mipmap_need && !bound->mipmap_auto && (automipmap!=3))
+                    gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );*/
             } else {
                 if (pixels)
                     glTexSubImage2D(target, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
@@ -768,7 +807,7 @@ void glBindTexture(GLenum target, GLuint texture) {
                 tex->width = 0;
                 tex->height = 0;
                 tex->uploaded = false;
-                tex->mipmap_auto = 0;
+                tex->mipmap_auto = default_tex_mipmap;
                 tex->mipmap_need = 0;
 				tex->alpha = true;
 				tex->streamed = false;
@@ -844,7 +883,7 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 		case GL_LINEAR_MIPMAP_LINEAR:
 		    if (texture)
 			texture->mipmap_need = true;
-		    if (automipmap==3)
+		    if ((automipmap==3) || ((texture) && (texture->mipmap_auto==0)))
 			switch (param) {
 			    case GL_NEAREST_MIPMAP_NEAREST:
 			    case GL_NEAREST_MIPMAP_LINEAR:
@@ -876,9 +915,13 @@ void glTexParameteri(GLenum target, GLenum pname, GLint param) {
 	case GL_TEXTURE_LOD_BIAS:
 	    return;			// not on GLES
 	case GL_GENERATE_MIPMAP:
-	    if (texture)
-		texture->mipmap_auto = (param)?1:0;
-	    break;
+	    if (texture) {
+            texture->mipmap_auto = (param)?1:0;
+            if (texture->glname == 0)
+                default_tex_mipmap = texture->mipmap_auto;
+        } else
+            default_tex_mipmap = (param)?1:0;       // default?
+	    return;         // We control the behavour later
     }
     gles_glTexParameteri(target, pname, param);
     errorGL();
@@ -959,6 +1002,8 @@ void glGenTextures(GLsizei n, GLuint * textures) {
 			tex->mipmap_need = 0;
 			tex->streamingID = -1;
 			tex->streamed = false;
+            tex->alpha = true;
+            tex->compressed = false;
 			tex->min_filter = tex->mag_filter = GL_NEAREST;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
@@ -978,7 +1023,8 @@ GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *re
 }
 
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
-	// simplification: not taking "target" into account here
+//printf("glGetTexLevelParameteriv(0x%04X, %d, 0x%04X, %p)\n", target, level, pname, params);
+	// simplification: (mostly) not taking "target" into account here
     if (state.gl_batch) flush();
 	*params = 0;
 	noerrorShim();
@@ -988,16 +1034,23 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 			if (target==GL_PROXY_TEXTURE_2D)
 				(*params) = proxy_width>>level;
 			else
-				(*params) = ((bound)?bound->width:2048)>>level; 
+				(*params) = ((bound)?bound->width:2048)>>level;
+            if (*params<=0)     // 1 is the minimum, not 0
+                *params = 1;
 			break;
 		case GL_TEXTURE_HEIGHT: 
 			if (target==GL_PROXY_TEXTURE_2D)
 				(*params) = proxy_height>>level;
 			else
 				(*params) = ((bound)?bound->height:2048)>>level; 
+            if (*params<=0)      // 1 is the minimum, not 0
+                *params = 1;
 			break;
 		case GL_TEXTURE_INTERNAL_FORMAT:
-			(*params) = GL_RGBA;
+            if (bound && bound->compressed)
+                (*params) = bound->format;
+            else
+                (*params) = GL_RGBA;
 			break;
 		case GL_TEXTURE_DEPTH:
 			(*params) = 0;
@@ -1019,7 +1072,10 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 			(*params) = 0;
 			break;
 		case GL_TEXTURE_COMPRESSED:
-			(*params) = GL_FALSE;
+            if (bound && bound->compressed)
+                (*params) = GL_TRUE;
+            else
+                (*params) = GL_FALSE;
 			break;
 		case GL_TEXTURE_COMPRESSED_IMAGE_SIZE:
 			(*params) = (bound)?(bound->width*bound->height*4):0;
@@ -1234,6 +1290,18 @@ GLboolean isDXTc(GLenum format) {
 	return false;
 }
 
+GLboolean isNotCompressed(GLenum format) {
+    switch(format) {
+        case GL_RGBA:
+        case GL_RGB:
+        case GL_RGBA8:
+        case GL_RGB8:
+        case GL_RGB5:
+            return true;
+    }
+    return false;
+}
+
 GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid *data) {
 	// uncompress a DXTc image
 	// get pixel size of uncompressed image => fixed RGBA
@@ -1295,13 +1363,17 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 		errorShim(GL_INVALID_OPERATION);
 	    return;		// no texture bounded...
 	}
+//printf("glCompressedTexImage2D on target=0x%04X with size(%i,%i), internalformat=%04x, imagesize=%i, upackbuffer=%p\n", target, width, height, internalformat, imageSize, state.buffers.unpack?state.buffers.unpack->data:0);
+    // hack...
+    if (internalformat==GL_RGBA8)
+        internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+    // test if internalformat is not a compressed one
     if (level != 0) {
 		noerrorShim();
 	    //TODO
 	    //printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
 	    //return;
     }
-//printf("glCompressedTexImage2D on target=0x%04X with size(%i,%i), internalformat=%04x, imagesize=%i, upackbuffer=%p\n", target, width, height, internalformat, imageSize, state.buffers.unpack?state.buffers.unpack->data:0);
     if ((width<=0) || (height<=0)) {
         noerrorShim();
         return; // nothing to do...
@@ -1337,6 +1409,9 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
             // automaticaly reduce the pixel size
             half=pixels;
             state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+            state.texture.bound[state.texture.active]->format = GL_RGBA; //internalformat;
+            state.texture.bound[state.texture.active]->type = GL_UNSIGNED_SHORT_4_4_4_4; //GL_UNSIGNED_BYTE;
+            state.texture.bound[state.texture.active]->compressed = true;
             if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
                 fact = 1;
         } else {
@@ -1358,6 +1433,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 	    state.texture.bound[state.texture.active]->alpha = true;
         state.texture.bound[state.texture.active]->format = internalformat;
         state.texture.bound[state.texture.active]->type = GL_UNSIGNED_BYTE;
+        state.texture.bound[state.texture.active]->compressed = true;
 	    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, datab);
 	}
 	state.buffers.unpack = unpack;

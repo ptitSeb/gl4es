@@ -96,6 +96,7 @@ typedef struct {
 	GLenum mag_filter;
     GLboolean uploaded;
     GLboolean alpha;
+    GLboolean compressed;
 	GLboolean streamed;
 	int	streamingID;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE

@@ -125,6 +125,8 @@
 #define GLX_SAMPLE_BUFFERS              0x186a0 /*100000*/
 #define GLX_SAMPLES                     0x186a1 /*100001*/
 
+#define GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20B2
+
 
 typedef int GLXDrawable;
 
@@ -239,6 +241,8 @@ XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config);
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count);
 GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count);
 int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value);
+int glXQueryContext(Display *display, GLXContext ctx, int attribute, int *value);
+GLXFBConfig *glXChooseFBConfigSGIX(Display *display, int screen, const int *attrib_list, int *count);
 
 void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
 void glXDestroyWindow(Display *display, void *win);

@@ -135,6 +135,12 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glBindTexture);
 //printf("glFramebufferTexture2D(0x%04X, 0x%04X, 0x%04X, %u, %i)\n", target, attachment, textarget, texture, level);
+
+    // Ignore Color attachment 1 .. 9
+    if ((attachment>=GL_COLOR_ATTACHMENT0+1) && (attachment<=GL_COLOR_ATTACHMENT0+9)) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
     
     // find texture and get it's real name
     if (texture) {
@@ -151,6 +157,7 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
         k = kh_get(tex, list, texture);
         
         if (k == kh_end(list)){
+//printf("*WARNING* texture for FBO not found, name=%u\n", texture);
         } else {
             tex = kh_value(list, k);
             texture = tex->glname;
@@ -165,7 +172,18 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
                 gltexture_t *bound = state.texture.bound[state.texture.active];
                 GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
-                gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->width, tex->height, 0, tex->format, tex->type, NULL);
+                gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+            }
+            if ((tex->width<32) || (tex->height<32)) {
+                printf("LIBGL: enlarging too-small texture for FBO\n");
+                tex->nwidth = (tex->nwidth<32)?32:tex->nwidth;
+                tex->nheight = (tex->nheight<32)?32:tex->nheight;
+                tex->shrink = 0;
+                gltexture_t *bound = state.texture.bound[state.texture.active];
+                GLuint oldtex = (bound)?bound->glname:0;
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
             }
 //printf("found texture, glname=%u, size=%ix%i(%ix%i), format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->nwidth, tex->nheight, tex->format, tex->type);
@@ -194,7 +212,9 @@ void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
 
 void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
     LOAD_GLES_OES(glFramebufferRenderbuffer);
+    LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
 //printf("glFramebufferRenderbuffer(0x%04X, 0x%04X, 0x%04X, %u)\n", target, attachment, renderbuffertarget, renderbuffer);
+    //TODO: handle target=READBUFFER or DRAWBUFFER...
     
     if (depthstencil && (attachment==GL_STENCIL_ATTACHMENT)) {
 		khint_t k = kh_get(dsr, depthstencil, renderbuffer);
@@ -202,6 +222,21 @@ void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbu
 			gldepthstencil_t *dsr = kh_value(depthstencil, k);
             renderbuffer = dsr->stencil;
 		}
+    }
+    
+    if ((current_fb!=0) && (renderbuffer==0)) {
+        //Hack, avoid unbind a renderbuffer on a framebuffer...
+        // TODO, avoid binding an already binded RB
+        noerrorShim();
+        return;
+    }
+    if ((current_fb!=0) && (renderbuffer!=0) && ((attachment==GL_DEPTH_ATTACHMENT) || (attachment==GL_STENCIL_ATTACHMENT))) {
+        GLuint tmp;
+        gles_glGetFramebufferAttachmentParameteriv(target, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &tmp);
+        if (tmp==renderbuffer) {
+            noerrorShim();
+            return;
+        }
     }
     
     errorGL();
@@ -572,6 +607,20 @@ void deleteMainFBO() {
     // all done...
 }
 
+void glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
+    glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer...
+}
+
+void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
+    // TODO!
+    // create a temp texture
+    // glCopyPixel of read FBO
+    // set viewport / matrixs
+    // glDraw of write FBO
+printf("glBlitFramebuffer(%d, %d, %d, %d,  %d, %d, %d, %d,  0x%04X, 0x%04X)\n",
+    srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+}
+
 
 // EXT direct wrapper
 void glGenFramebuffersEXT(GLsizei n, GLuint *ids) {
@@ -624,4 +673,12 @@ void glGetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, 
 }
 void glGetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint * params) {
     glGetRenderbufferParameteriv(target, pname, params);
+}
+
+void glFramebufferTextureLayerEXT(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
+    glFramebufferTextureLayer(target, attachment, texture, level, layer);
+}
+
+void glBlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
+    glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }

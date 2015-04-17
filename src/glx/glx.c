@@ -115,6 +115,9 @@ static int get_config_default(int attribute, int *value) {
         case GLX_SAMPLES:
             *value = 0;
             break;
+        case GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB:
+            *value = 0;
+            break;
         default:
             printf("libGL: unknown attrib %i\n", attribute);
             *value = 0;
@@ -127,6 +130,8 @@ static int get_config_default(int attribute, int *value) {
 static EGLContext eglContext;
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
+static GLXContext fbContext = NULL;
+static int fbcontext_count = 0;
 
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
@@ -314,6 +319,12 @@ GLXContext glXCreateContext(Display *display,
     };
 
     scan_env();
+    
+    if (g_usefb && fbcontext_count>0) {
+        // don't create a new context, one FB is enough...
+        fbcontext_count++;
+        return fbContext;
+    }
 
 #ifdef BCMHOST
     if (! g_bcm_active) {
@@ -355,6 +366,7 @@ GLXContext glXCreateContext(Display *display,
 				eglSurface = NULL;
 			}
 		}
+        fbContext = fake;
 	}
     // make an egl context here...
     EGLBoolean result;
@@ -391,8 +403,10 @@ GLXContext glXCreateContext(Display *display,
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
 	if (!g_usefb)
 		fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, attrib_list);
-	else
+	else {
 		eglContext = egl_eglCreateContext(eglDisplay, eglConfigs[0], shared, attrib_list);
+        fake->eglContext = eglContext;
+    }
 
     CheckEGLErrors();
 
@@ -406,6 +420,7 @@ GLXContext glXCreateContext(Display *display,
 	}
 
 	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
+        
     return fake;
 }
 
@@ -417,6 +432,12 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
 
 void glXDestroyContext(Display *display, GLXContext ctx) {
 //printf("glXDestroyContext(%p, %p)\n", display, ctx);
+    if (g_usefb) {
+        if (fbcontext_count==0)
+            return; // Should not happens!
+        if (--fbcontext_count > 0)
+            return; // Nothing to do...
+    }
     if ((!g_usefb && ctx->eglContext) || (g_usefb && eglContext)) {
         if (g_usefbo) {
             deleteMainFBO();
@@ -443,6 +464,9 @@ void glXDestroyContext(Display *display, GLXContext ctx) {
             fbdev = -1;
         }*/
     }
+    if (g_usefb)
+        fbContext = NULL;
+        
     return;
 }
 
@@ -698,7 +722,7 @@ void glXQueryDrawable( Display *dpy, int draw, int attribute,
 GLXContext glXGetCurrentContext() {
     // hack to make some games start
     if (g_usefb)
-		return glxContext ? glxContext : (void *)1;
+		return glxContext ? glxContext : fbContext;
 	else
 		return glxContext;
 }
@@ -708,6 +732,10 @@ GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
     *count = 1;
     GLXFBConfig *configs = malloc(sizeof(GLXFBConfig) * *count);
     return configs;
+}
+GLXFBConfig *glXChooseFBConfigSGIX(Display *display, int screen,
+                       const int *attrib_list, int *count) {
+    return glXChooseFBConfig(display, screen, attrib_list, count);
 }
 
 GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count) {

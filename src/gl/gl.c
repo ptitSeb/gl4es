@@ -106,11 +106,13 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_texture_compression_dxt1 "
                 "GL_ARB_framebuffer_object "
                 "GL_EXT_framebuffer_object "
+                "GL_EXT_packed_depth_stencil "
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
                 "GL_EXT_stencil_wrap "
                 "GL_EXT_blend_func_separate "
                 "GL_EXT_blend_equation_separate "
+                "GL_ARB_draw_buffers "
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
@@ -144,6 +146,10 @@ extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 
 void glGetIntegerv(GLenum pname, GLint *params) {
+    if (params==NULL) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
     noerrorShim();
@@ -156,6 +162,9 @@ void glGetIntegerv(GLenum pname, GLint *params) {
 			break;
         case GL_AUX_BUFFERS:
             *params = 0;
+            break;
+        case GL_MAX_DRAW_BUFFERS_ARB:   // fake...
+            *params = 1;
             break;
         case GL_UNPACK_ROW_LENGTH:	
 			*params = state.texture.unpack_row_length;
@@ -531,11 +540,16 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
+//printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (state.buffers.elements)?state.buffers.elements->data:NULL);
     // TODO: split for count > 65535?
     if (count<0) {
 		errorShim(GL_INVALID_VALUE);
 		return;
 	}
+    if (count==0) {
+        noerrorShim();
+        return;
+    }
 
 	noerrorShim();
     GLushort *sindices = copy_gl_array((state.buffers.elements)?state.buffers.elements->data + (uintptr_t)indices:indices,
@@ -705,6 +719,10 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		errorShim(GL_INVALID_VALUE);
 		return;
 	}
+    if (count==0) {
+        noerrorShim();
+        return;
+    }
 	noerrorShim();
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glVertexPointer);
@@ -715,10 +733,10 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     renderlist_t *list, *active = state.list.active;
 
     if (active && (state.list.compiling || state.gl_batch)) {
-		NewStage(state.list.active, STAGE_DRAW);
         list = state.list.active;
-        arrays_to_renderlist(list, mode, first, count+first);
-        state.list.active = extend_renderlist(list);
+		NewStage(list, STAGE_DRAW);
+        state.list.active = arrays_to_renderlist(list, mode, first, count+first);
+        //state.list.active = extend_renderlist(list);
         return;
     }
 

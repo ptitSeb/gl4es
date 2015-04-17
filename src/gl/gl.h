@@ -330,10 +330,12 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
             break;
         case GL_RGB:
         case GL_BGR:
+        case GL_RGB8:
             width = 3;
             break;
         case GL_RGBA:
         case GL_BGRA:
+        case GL_RGBA8:
             width = 4;
             break;
         default:
@@ -350,14 +352,16 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
 static const GLboolean pixel_hasalpha(GLenum format) {
     switch (format) {
 	case GL_ALPHA:
-        case GL_RGBA:
-        case GL_BGRA:
+    case GL_RGBA:
+    case GL_BGRA:
+    case GL_RGBA8:
 	    return true;
 	case GL_RED:
 	case GL_LUMINANCE:
-        case GL_RG:
-        case GL_RGB:
-        case GL_BGR:
+    case GL_RG:
+    case GL_RGB:
+    case GL_BGR:
+    case GL_RGB8:
 	    return false;
         default:
             return true;
