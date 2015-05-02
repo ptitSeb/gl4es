@@ -9,6 +9,7 @@ typedef enum {
 	STAGE_POP,
 	STAGE_CALLLIST,
 	STAGE_GLCALL,
+	STAGE_FOG,
     STAGE_MATRIX,
 	STAGE_BINDTEX,
 	STAGE_RASTER,
@@ -27,6 +28,7 @@ static int StageExclusive[STAGE_LAST] = {
 	1,  // STAGE_POP
 	1, 	// STAGE_CALLLIST
 	0,  // STAGE_GLCALL
+	1, 	// STAGE_FOG
     1,  // STAGE_MATRIX
 	1,  // STAGE_BINDTEX
 	1,  // STAGE_RASTER
@@ -114,6 +116,9 @@ typedef struct _renderlist_t {
     int     matrix_op;
     GLfloat matrix_val[16];
     
+    int     fog_op;
+    GLfloat fog_val[3];
+    
     khash_t(material) *material;
     khash_t(light) *light;
     khash_t(texgen) *texgen;
@@ -151,4 +156,5 @@ extern void rlMultiTexCoord2f(renderlist_t *list, GLenum texture, GLfloat s, GLf
 extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b);
 extern void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z);
+extern void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 #endif

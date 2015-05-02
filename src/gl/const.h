@@ -268,6 +268,10 @@
 #define GL_DST_COLOR             0x0306
 #define GL_ONE_MINUS_DST_COLOR   0x0307
 #define GL_SRC_ALPHA_SATURATE    0x0308
+#define GL_CONSTANT_COLOR        0x8001
+#define GL_ONE_MINUS_CONSTANT_COLOR       0x8002
+#define GL_CONSTANT_ALPHA        0x8003
+#define GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
 
 // glGet
 #define GL_AUX_BUFFERS           0x0C00

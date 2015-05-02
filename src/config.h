@@ -38,6 +38,9 @@
 #define skip_glGetBufferSubData
 
 #define skip_glBlendColor
+#define skip_glBlendFunc
+
+#define skip_glFogfv
 /*
 #define skip_glBlendEquation
 #define skip_glBlendEquationSeparate

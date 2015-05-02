@@ -1514,6 +1514,68 @@ void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
 		printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
 }
 
+void glBlendFunc(GLenum sfactor, GLenum dfactor) {
+    PUSH_IF_COMPILING(glBlendFunc);
+    LOAD_GLES(glBlendFunc);
+    LOAD_GLES_OES(glBlendFuncSeparate);
+    errorGL();
+    // There are some limitations in GLES1.1 Blend functions
+    switch(sfactor) {
+        case GL_SRC_COLOR:
+            if (gles_glBlendFuncSeparate) {
+                gles_glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
+                return;
+            }
+            sfactor = GL_ONE;   // approx...
+            break;
+        case GL_ONE_MINUS_SRC_COLOR:
+            if (gles_glBlendFuncSeparate) {
+                gles_glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
+                return;
+            }
+            sfactor = GL_ONE;  // not sure it make sense...
+            break;
+        // here, we need support for glBlendColor...
+        case GL_CONSTANT_COLOR:
+        case GL_CONSTANT_ALPHA:
+            sfactor = GL_ONE;
+            break;
+        case GL_ONE_MINUS_CONSTANT_COLOR:
+        case GL_ONE_MINUS_CONSTANT_ALPHA:
+            sfactor = GL_ZERO;
+            break;
+        default:
+            break;
+    }
+    
+    switch(dfactor) {
+        case GL_DST_COLOR:
+            sfactor = GL_ONE;   // approx...
+            break;
+        case GL_ONE_MINUS_DST_COLOR:
+            sfactor = GL_ZERO;  // not sure it make sense...
+            break;
+        // here, we need support for glBlendColor...
+        case GL_CONSTANT_COLOR:
+        case GL_CONSTANT_ALPHA:
+            sfactor = GL_ONE;
+            break;
+        case GL_ONE_MINUS_CONSTANT_COLOR:
+        case GL_ONE_MINUS_CONSTANT_ALPHA:
+            sfactor = GL_ZERO;
+            break;
+        default:
+            break;
+    }
+    
+    if ((sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
+        // special case, as seen in Xash3D
+        sfactor = GL_ONE;
+    }
+    
+    gles_glBlendFunc(sfactor, dfactor);
+}
+
 void flush() {
     // flush internal list
 //printf("flush state.list.active=%p, gl_batch=%i(%i)\n", state.list.active, state.gl_batch, gl_batch);
@@ -1583,4 +1645,19 @@ void glMultMatrixf(const GLfloat * m) {
         return;
     }
     gles_glMultMatrixf(m);
+}
+
+void glFogfv(GLenum pname, const GLfloat* params) {
+    LOAD_GLES(glFogfv);
+
+    if ((state.list.active || state.gl_batch) && state.list.active) {
+        if (pname == GL_FOG_COLOR) {
+            NewStage(state.list.active, STAGE_FOG);
+            rlFogOp(state.list.active, 1, params);
+            return;
+        }
+    }
+    PUSH_IF_COMPILING(glFogfv);
+    
+    gles_glFogfv(pname, params);
 }

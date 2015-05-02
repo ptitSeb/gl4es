@@ -544,6 +544,13 @@ void draw_renderlist(renderlist_t *list) {
                 glPackedCall(cl->calls[i]);
             }
         }
+        if (list->fog_op) {
+            switch (list->fog_op) {
+                case 1: // GL_FOG_COLOR
+                    glFogfv(GL_FOG_COLOR, list->fog_val);
+                    break;
+            }
+        }
         if (list->matrix_op) {
             switch (list->matrix_op) {
                 case 1: // load
@@ -1147,6 +1154,13 @@ void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) {
     list->raster_xyz[0] = x;
     list->raster_xyz[1] = y;
     list->raster_xyz[2] = z;
+}
+
+void rlFogOp(renderlist_t *list, int op, const GLfloat* v) {
+    list->fog_op = op;
+    list->fog_val[0] = v[0];
+    list->fog_val[1] = v[1];
+    list->fog_val[2] = v[2];
 }
 
 void rlPushCall(renderlist_t *list, packed_call_t *data) {
