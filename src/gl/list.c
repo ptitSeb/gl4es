@@ -162,7 +162,7 @@ void renderlist_createindices(renderlist_t *a) {
     a->ilen = ilen;
 }
 
-#define vind(i) (ind)?ind[i]:i
+#define vind(a) (ind)?ind[(a)]:(a)
 
 void renderlist_lineloop_lines(renderlist_t *a) {
     GLushort *ind = a->indices;
@@ -230,14 +230,14 @@ void renderlist_quads_triangles(renderlist_t *a) {
     int len = (ind)? a->ilen:a->len;
     int ilen = len*3/2;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
-    for (int i = 0; i<len; i+=4) {
-        a->indices[i*3/2+0] = vind(i+0);
-        a->indices[i*3/2+1] = vind(i+1);
-        a->indices[i*3/2+2] = vind(i+2);
+    for (int i=0, j=0; i<len; i+=4, j+=6) {
+        a->indices[j+0] = vind(i+0);
+        a->indices[j+1] = vind(i+1);
+        a->indices[j+2] = vind(i+2);
 
-        a->indices[i*3/2+3] = vind(i+0);
-        a->indices[i*3/2+4] = vind(i+2);
-        a->indices[i*3/2+5] = vind(i+3);
+        a->indices[j+3] = vind(i+0);
+        a->indices[j+4] = vind(i+2);
+        a->indices[j+5] = vind(i+3);
     }
     a->ilen = ilen;
     if ((ind) && !a->shared_arrays) free(ind);
@@ -517,7 +517,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, next=%p\n", list, state.gl_batch, list->len, list->next);
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=0x%04X(0x%04X), ilen=%d, next=%p\n", list, state.gl_batch, list->len, list->mode, list->mode_init, list->ilen, list->next);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
 #ifdef USE_ES2
@@ -1167,6 +1167,7 @@ void rlFogOp(renderlist_t *list, int op, const GLfloat* v) {
     list->fog_val[0] = v[0];
     list->fog_val[1] = v[1];
     list->fog_val[2] = v[2];
+    list->fog_val[3] = v[3];
 }
 
 void rlPushCall(renderlist_t *list, packed_call_t *data) {

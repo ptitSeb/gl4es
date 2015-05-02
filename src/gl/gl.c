@@ -499,7 +499,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-//if (state.list.compiling) printf("arrary_to_renderlist while compiling list\n");
+//if (state.list.compiling) printf("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
     list->mode = mode;
     list->mode_init = mode;
     list->len = count-skip;
@@ -509,7 +509,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 		list->vert = copy_gl_pointer_raw(&state.pointers.vertex, 3, skip, count, state.pointers.vertex.buffer);	//TODO, what if size == 4
 	}
 	if (state.enable.color_array) {
-		list->color = copy_gl_pointer(&state.pointers.color, 4, skip, count, state.pointers.color.buffer);
+		list->color = copy_gl_pointer_color(&state.pointers.color, 4, skip, count, state.pointers.color.buffer);
 	}
 	if (state.enable.secondary_array/* && state.enable.color_array*/) {
 		list->secondary = copy_gl_pointer(&state.pointers.secondary, 4, skip, count, state.pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
@@ -736,7 +736,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         list = state.list.active;
 		NewStage(list, STAGE_DRAW);
         state.list.active = arrays_to_renderlist(list, mode, first, count+first);
-        //state.list.active = extend_renderlist(list);
+        end_renderlist(state.list.active);// = extend_renderlist(list);
         return;
     }
 

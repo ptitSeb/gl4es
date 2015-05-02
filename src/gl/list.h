@@ -117,7 +117,7 @@ typedef struct _renderlist_t {
     GLfloat matrix_val[16];
     
     int     fog_op;
-    GLfloat fog_val[3];
+    GLfloat fog_val[4];
     
     khash_t(material) *material;
     khash_t(light) *light;
