@@ -143,6 +143,12 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         return false;
     if (!a->set_texture && b->set_texture)
         return false;
+        
+    // Check the size of a list, if it"s too big, don't merge...
+    if ((a->len+b->len)>30000)
+        return false;
+    if ((a->ilen+b->ilen)>30000)
+        return false;
     
     return true;
 }
