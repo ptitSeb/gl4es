@@ -1408,7 +1408,7 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
             }
             // automaticaly reduce the pixel size
             half=pixels;
-            state.texture.bound[state.texture.active]->alpha = (internalformat==COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+            state.texture.bound[state.texture.active]->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
             state.texture.bound[state.texture.active]->format = GL_RGBA; //internalformat;
             state.texture.bound[state.texture.active]->type = GL_UNSIGNED_SHORT_4_4_4_4; //GL_UNSIGNED_BYTE;
             state.texture.bound[state.texture.active]->compressed = true;
