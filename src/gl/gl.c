@@ -723,6 +723,16 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         noerrorShim();
         return;
     }
+    // special case for (very) large GL_QUADS array
+    if ((mode==GL_QUADS) && (count>4*8000)) {
+        // split the array in manageable slice
+        int cnt = 4*8000;
+        for (int i=0; i<count; i+=4*8000) {
+            if (i+cnt>count) cnt = count-i;
+            glDrawArrays(mode, i, cnt);
+        }
+        return;
+    }
 	noerrorShim();
 	LOAD_GLES(glNormalPointer);
 	LOAD_GLES(glVertexPointer);
@@ -1567,12 +1577,12 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
         default:
             break;
     }
-    
+/*    
     if ((sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
-        // special case, as seen in Xash3D
+        // special case, as seen in Xash3D, but it breaks torus_trooper, so disabled
         sfactor = GL_ONE;
     }
-    
+*/    
     gles_glBlendFunc(sfactor, dfactor);
 }
 
