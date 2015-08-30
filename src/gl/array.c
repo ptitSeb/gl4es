@@ -86,11 +86,15 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
     // so we leave it in a uintptr_t and cast after incrementing
     uintptr_t in = (uintptr_t)src;
     in += stride*skip;
+    int j;
     if (from == to && to_width >= width) {
         GL_TYPE_SWITCH(out, dst, to,
             for (int i = skip; i < count; i++) {
                 memcpy(out, (GLvoid *)in, from_size);
-                for (int j = width; j < to_width; j++) {
+                for (j = width; j < to_width-1; j++) {
+					out[j]=0;
+                }
+                for (; j < to_width; j++) {
 					memcpy(&out[j], filler, gl_sizeof(to));
                 }
                 out += to_width;
@@ -104,10 +108,13 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
         GL_TYPE_SWITCH_MAX(out, dst, to,
             for (int i = skip; i < count; i++) {
                 GL_TYPE_SWITCH(input, in, from,
-                    for (int j = 0; j < width; j++) {
+                    for (j = 0; j < width; j++) {
                         out[j] = input[j]*maxv/gl_max_value(from);
                     }
-                    for (int j = width; j < to_width; j++) {
+                    for (; j < to_width-1; j++) {
+                        out[j]=0;
+                    }
+                    for (; j < to_width; j++) {
                         memcpy(&out[j], filler, gl_sizeof(to));
                     }
                     out += to_width;
