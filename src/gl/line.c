@@ -51,7 +51,7 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {
         y2 = *vertPos++;
         vertPos++;
 
-        len = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / stippleFactor * 16;
+        len = sqrtf(powf(x2-x1, 2) + powf(y2-y1, 2)) / stippleFactor * 16;
 
         *texPos++ = 0;
         *texPos++ = 0;
