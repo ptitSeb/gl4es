@@ -54,6 +54,7 @@ renderlist_t *alloc_renderlist() {
     list->indices = NULL;
     list->set_texture = false;
     list->texture = 0;
+    list->target_texture = GL_TEXTURE_2D;
     list->polygon_mode = 0;
     
     list->prev = NULL;
@@ -145,7 +146,7 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     for (int i=0; i<MAX_TEX; i++)
         if ((a->tex[i]==NULL) != (b->tex[i]==NULL))
             return false;
-    if ((a->set_texture==b->set_texture) && (a->texture != b->texture))
+    if ((a->set_texture==b->set_texture) && ((a->texture != b->texture) || (a->target_texture != b->target_texture)))
         return false;
     if (!a->set_texture && b->set_texture)
         return false;
