@@ -68,7 +68,6 @@ typedef struct {
 
 typedef struct {
     renderlist_t *active;
-    renderlist_t *first;
     GLboolean compiling;
     GLboolean locked;
     GLuint base;
@@ -141,6 +140,7 @@ typedef struct {
     int shim_error;
     GLenum last_error;
     GLuint gl_batch;
+    GLint vp[4];
 } glstate_t;
 
 #endif

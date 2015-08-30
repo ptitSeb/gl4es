@@ -134,9 +134,11 @@ typedef struct _renderlist_t {
 } renderlist_t;
 
 #define DEFAULT_CALL_LIST_CAPACITY 20
-#define DEFAULT_RENDER_LIST_CAPACITY 20
+#define DEFAULT_RENDER_LIST_CAPACITY 64
 
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
+
+renderlist_t* GetFirst(const renderlist_t* list);
 
 extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);

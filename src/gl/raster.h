@@ -22,6 +22,8 @@ typedef struct {
     GLsizei height;
 } viewport_t;
 
+extern viewport_t viewport;
+
 extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 

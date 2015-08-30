@@ -187,6 +187,7 @@ int texshrink = 0;
 int texdump = 0;
 int alphahack = 0;
 int texstream = 0;
+int copytex = 0;
 static int default_tex_mipmap = 0;
 
 static int proxy_width = 0;
@@ -258,11 +259,15 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         }
         if (env_shrink && strcmp(env_shrink, "5") == 0) {
             texshrink = 5;
-            printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 )\n");
+            printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n");
         }
         if (env_shrink && strcmp(env_shrink, "6") == 0) {
             texshrink = 6;
-            printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 )\n");
+            printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n");
+        }
+        if (env_shrink && strcmp(env_shrink, "7") == 0) {
+            texshrink = 20;
+            printf("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n");
         }
         char *env_dump = getenv("LIBGL_TEXDUMP");
         if (env_dump && strcmp(env_dump, "1") == 0) {
@@ -284,6 +289,11 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             texstream = InitStreamingCache()?2:0;
             printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
             //FreeStreamed(AddStreamed(1024, 512, 0));
+        }
+        char *env_copy = getenv("LIBGL_COPY");
+        if (env_copy && strcmp(env_copy, "1") == 0) {
+            printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n");
+            copytex = 1;
         }
         tested_env = true;
     }
@@ -335,7 +345,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->shrink = 1;
             }
         }
-        if (bound && (texshrink==2 || texshrink==3)) {
+        if (bound && (texshrink==2 || texshrink==3 || texshrink==7)) {
             if (((width%2==0) && (height%2==0)) && 
                 ((width > ((texshrink==2)?512:256)) && (height > 8)) || ((height > ((texshrink==2)?512:256)) && (width > 8))) {
                 GLvoid *out = pixels;
@@ -1234,12 +1244,16 @@ if (state.gl_batch) flush();
         free(tmp);
     }
  } else {
-    void* tmp = malloc(width*height*4);
-    GLenum format = (bound)?bound->format:GL_RGBA;
-    GLenum type = (bound)?bound->type:GL_UNSIGNED_BYTE;
-    glReadPixels(x, y, width, height, format, type, tmp);
-    glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, tmp);
-    free(tmp);
+    if (copytex) {
+        gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+    } else {
+        void* tmp = malloc(width*height*4);
+        GLenum format = (bound)?bound->format:GL_RGBA;
+        GLenum type = (bound)?bound->type:GL_UNSIGNED_BYTE;
+        glReadPixels(x, y, width, height, format, type, tmp);
+        glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, tmp);
+        free(tmp);
+    }
  }
  // "Remap" if buffer mapped...
  state.buffers.pack = pack;
@@ -1264,12 +1278,17 @@ void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLin
      glbuffer_t *unpack = state.buffers.unpack;
      state.buffers.pack = NULL;
      state.buffers.unpack = NULL;
-     
-    void* tmp = malloc(width*height*4);
-    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
-    glTexImage2D(target, level, internalformat, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
-    free(tmp);
-
+    
+    if (copytex) {
+        LOAD_GLES(glCopyTexImage2D);
+        gles_glCopyTexImage2D(target, level, GL_RGB, x, y, width, height, border);
+    } else {
+        void* tmp = malloc(width*height*4);
+        glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+        glTexImage2D(target, level, internalformat, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+        free(tmp);
+    }
+    
      // "Remap" if buffer mapped...
      state.buffers.pack = pack;
      state.buffers.unpack = unpack;
@@ -1281,10 +1300,10 @@ void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLin
 
 GLboolean isDXTc(GLenum format) {
 	switch (format) {
-		case COMPRESSED_RGB_S3TC_DXT1_EXT:
-		case COMPRESSED_RGBA_S3TC_DXT1_EXT:
-		case COMPRESSED_RGBA_S3TC_DXT3_EXT:
-		case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+		case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
 			return true;
 	}
 	return false;
@@ -1318,12 +1337,12 @@ GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei ima
 	// uncompress loop
 	int blocksize;
 	switch (format) {
-		case COMPRESSED_RGB_S3TC_DXT1_EXT:
-		case COMPRESSED_RGBA_S3TC_DXT1_EXT:
+		case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
 			blocksize = 8;
 			break;
-		case COMPRESSED_RGBA_S3TC_DXT3_EXT:
-		case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+		case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
 			blocksize = 16;
 			break;
 	}
@@ -1331,14 +1350,14 @@ GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei ima
 	for (int y=0; y<height; y+=4) {
 		for (int x=0; x<width; x+=4) {
 			switch(format) {
-				case COMPRESSED_RGB_S3TC_DXT1_EXT:
-				case COMPRESSED_RGBA_S3TC_DXT1_EXT:
+				case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+				case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
 					DecompressBlockDXT1(x, y, width, (uint8_t*)src, pixels);
 					break;
-				case COMPRESSED_RGBA_S3TC_DXT3_EXT:
+				case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
 					DecompressBlockDXT3(x, y, width, (uint8_t*)src, pixels);
 					break;
-				case COMPRESSED_RGBA_S3TC_DXT5_EXT:
+				case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
 					DecompressBlockDXT5(x, y, width, (uint8_t*)src, pixels);
 					break;
 			}
@@ -1410,10 +1429,12 @@ void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
             half=pixels;
             state.texture.bound[state.texture.active]->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
             state.texture.bound[state.texture.active]->format = GL_RGBA; //internalformat;
-            state.texture.bound[state.texture.active]->type = GL_UNSIGNED_SHORT_4_4_4_4; //GL_UNSIGNED_BYTE;
+            state.texture.bound[state.texture.active]->type = GL_UNSIGNED_SHORT_4_4_4_4;
             state.texture.bound[state.texture.active]->compressed = true;
             if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
                 fact = 1;
+            else
+                state.texture.bound[state.texture.active]->type = GL_UNSIGNED_BYTE;
         } else {
             half = NULL;
             fact = 1;

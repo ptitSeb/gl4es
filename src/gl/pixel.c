@@ -807,10 +807,10 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
     GLuint pixel_size, new_width, new_height;
     new_width = width / 4;
     new_height = height / 4;
-    if (new_width*4!=width || new_height*4!=height) {
-        printf("LIBGL: quarterscaling %ux%u failed", width, height);
+/*    if (new_width*4!=width || new_height*4!=height) {
+        printf("LIBGL: quarterscaling %ux%u failed\n", width, height);
         return false;
-    }
+    }*/
 //    printf("LIBGL: quarterscaling %ux%u -> %ux%u\n", width, height, new_width, new_height);
     const colorlayout_t *src_color;
     src_color = get_color_map(format);

@@ -78,7 +78,7 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->popattribute)
         return false;
-    if (list->material || list->light)
+    if (list->material || list->light || list->lightmodel)
         return false;
     if (list->texgen)
         return false;
@@ -110,7 +110,12 @@ int rendermode_dimensions(GLenum mode) {
     return 0;
 }
 
+extern GLuint gl_mergelist;
+
 bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
+    if (!gl_mergelist)
+        return false;
+        
     // check if 2 "pure rendering" list are compatible for merge
     if (a->mode_init != b->mode_init) {
         int a_mode = rendermode_dimensions(a->mode_init);
@@ -136,12 +141,16 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         return false;
     if ((a->secondary==NULL) != (b->secondary==NULL))
         return false;
+    // check the textures
     for (int i=0; i<MAX_TEX; i++)
         if ((a->tex[i]==NULL) != (b->tex[i]==NULL))
             return false;
     if ((a->set_texture==b->set_texture) && (a->texture != b->texture))
         return false;
     if (!a->set_texture && b->set_texture)
+        return false;
+    // polygon mode
+    if(a->polygon_mode!=b->polygon_mode)
         return false;
         
     // Check the size of a list, if it"s too big, don't merge...
@@ -228,9 +237,11 @@ void renderlist_trianglefan_triangles(renderlist_t *a) {
 void renderlist_quads_triangles(renderlist_t *a) {
     GLushort *ind = a->indices;
     int len = (ind)? a->ilen:a->len;
+    // len must be a multiple of 4 !
+    len &= ~3;  // discard extra vertex...
     int ilen = len*3/2;
     a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
-    for (int i=0, j=0; i<len; i+=4, j+=6) {
+    for (int i=0, j=0; i+3<len; i+=4, j+=6) {
         a->indices[j+0] = vind(i+0);
         a->indices[j+1] = vind(i+1);
         a->indices[j+2] = vind(i+2);
@@ -313,26 +324,36 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // lets append all the arrays
     unsigned long cap = a->cap;
     //while (a->len + b->len >= cap) cap += DEFAULT_RENDER_LIST_CAPACITY;
-    if (a->len + b->len >= cap) cap += b->cap;
+    if (a->len + b->len >= cap) cap += b->cap + DEFAULT_RENDER_LIST_CAPACITY;
     if (a->shared_arrays) {
         a->cap = cap;
         GLfloat *tmp;
         tmp = a->vert;
-        a->vert = alloc_sublist(3, cap);
-        memcpy(a->vert, tmp, 3*a->len*sizeof(GLfloat));
+        if (tmp) {
+            a->vert = alloc_sublist(3, cap);
+            memcpy(a->vert, tmp, 3*a->len*sizeof(GLfloat));
+        }
         tmp = a->normal;
-        a->normal = alloc_sublist(3, cap);
-        memcpy(a->normal, tmp, 3*a->len*sizeof(GLfloat));
+        if (tmp) {
+            a->normal = alloc_sublist(3, cap);
+            memcpy(a->normal, tmp, 3*a->len*sizeof(GLfloat));
+        }
         tmp = a->color;
-        a->color = alloc_sublist(4, cap);
-        memcpy(a->color, tmp, 4*a->len*sizeof(GLfloat));
+        if (tmp) {
+            a->color = alloc_sublist(4, cap);
+            memcpy(a->color, tmp, 4*a->len*sizeof(GLfloat));
+        }
         tmp = a->secondary;
-        a->secondary = alloc_sublist(4, cap);
-        memcpy(a->secondary, tmp, 4*a->len*sizeof(GLfloat));
+        if (tmp) {
+            a->secondary = alloc_sublist(4, cap);
+            memcpy(a->secondary, tmp, 4*a->len*sizeof(GLfloat));
+        }
         for (int i=0; i<MAX_TEX; i++) {
             tmp = a->tex[i];
-            a->tex[i] = alloc_sublist(2, cap);
-            memcpy(a->tex[i], tmp, 2*a->len*sizeof(GLfloat));
+            if (tmp) {
+                a->tex[i] = alloc_sublist(2, cap);
+                memcpy(a->tex[i], tmp, 2*a->len*sizeof(GLfloat));
+            }
         }
         a->shared_arrays = false;
     } else {
@@ -497,7 +518,7 @@ void end_renderlist(renderlist_t *list) {
     }
     switch (list->mode) {
         case GL_QUADS:
-			if (list->len==4) {
+			if (((list->indices) && (list->ilen==4)) || ((list->indices==NULL) && (list->len==4))) {
 				list->mode = GL_TRIANGLE_FAN;
 			} else {
                 renderlist_quads_triangles(list);
@@ -1181,5 +1202,12 @@ void rlPushCall(renderlist_t *list, packed_call_t *data) {
     }
     cl->calls[cl->len++] = data;
 }
+
+renderlist_t* GetFirst(const renderlist_t* list) {
+    while(list->prev)
+        list = list->prev;
+    return list;
+}
+
 #undef alloc_sublist
 #undef realloc_sublist
