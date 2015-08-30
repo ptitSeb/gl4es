@@ -55,7 +55,7 @@ void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
 //printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);
     if (state.gl_batch) flush();
     LOAD_GLES_OES(glDeleteFramebuffers);
-    
+
     errorGL();
     gles_glDeleteFramebuffers(n, framebuffers);
 }
@@ -95,7 +95,7 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
     LOAD_GLES_OES(glBindFramebuffer);
     LOAD_GLES_OES(glCheckFramebufferStatus);
     LOAD_GLES(glGetError);
-    
+        
     if (target == GL_FRAMEBUFFER) {
         if (fbo_read)
             fbo_read = 0;
@@ -135,7 +135,9 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glBindTexture);
 //printf("glFramebufferTexture2D(0x%04X, 0x%04X, 0x%04X, %u, %i)\n", target, attachment, textarget, texture, level);
-
+	if (level!=0)
+		return;
+		
     // Ignore Color attachment 1 .. 9
     if ((attachment>=GL_COLOR_ATTACHMENT0+1) && (attachment<=GL_COLOR_ATTACHMENT0+9)) {
         errorShim(GL_INVALID_ENUM);
@@ -175,7 +177,7 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
             }
-            if ((tex->width<32) || (tex->height<32)) {
+ /*           if ((tex->width<32) || (tex->height<32)) {
                 printf("LIBGL: enlarging too-small texture for FBO\n");
                 tex->nwidth = (tex->nwidth<32)?32:tex->nwidth;
                 tex->nheight = (tex->nheight<32)?32:tex->nheight;
@@ -185,13 +187,13 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
-            }
+            }*/
 //printf("found texture, glname=%u, size=%ix%i(%ix%i), format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->nwidth, tex->nheight, tex->format, tex->type);
         }
     }
     
     errorGL();
-    gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
+    gles_glFramebufferTexture2D(target, attachment, textarget, texture, 0);
 }
 
 void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
