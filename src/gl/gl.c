@@ -577,6 +577,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
         list = arrays_to_renderlist(list, mode, min, max + 1 + min);
         list->indices = sindices;
         list->ilen = count;
+        list->indice_cap = count;
         end_renderlist(list);
         
         state.list.active = extend_renderlist(list);

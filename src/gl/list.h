@@ -101,6 +101,7 @@ typedef struct _renderlist_t {
     GLfloat *secondary;
     GLfloat *tex[MAX_TEX];
     GLushort *indices;
+    unsigned int indice_cap;
 	
 	GLuint	glcall_list;
 	rasterlist_t *raster;
