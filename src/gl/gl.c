@@ -196,6 +196,11 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_PACK_LSB_FIRST:
 			*params = state.texture.pack_lsb_first;
 			break;
+        case GL_UNPACK_SWAP_BYTES:
+        case GL_PACK_SWAP_BYTES:
+            //Fake, *TODO* ?
+			*params = 0;
+			break;
 	case GL_POINT_SIZE_RANGE:
 			gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
@@ -434,6 +439,26 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 void glEnable(GLenum cap) {
+    if (state.list.active && (state.gl_batch && !state.list.compiling))  {
+        int which_cap;
+        switch (cap) {
+            case GL_ALPHA_TEST: which_cap = ENABLED_ALPHA; break;
+            case GL_BLEND: which_cap = ENABLED_BLEND; break;
+            case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
+            case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
+            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D; break;
+            default: which_cap = ENABLED_LAST; break;
+        }
+        if (which_cap!=ENABLED_LAST) {
+            if ((state.statebatch.enabled[which_cap] == 1))
+                return; // nothing to do...
+            if (!state.statebatch.enabled[which_cap]) {
+                state.statebatch.enabled[which_cap] = 1;
+            } else {
+                flush();
+            }
+        }
+    }
 	PUSH_IF_COMPILING(glEnable)
         
 	if (texstream && (cap==GL_TEXTURE_2D)) {
@@ -447,6 +472,26 @@ void glEnable(GLenum cap) {
 }
 
 void glDisable(GLenum cap) {
+    if (state.list.active && (state.gl_batch && !state.list.compiling))  {
+        int which_cap;
+        switch (cap) {
+            case GL_ALPHA_TEST: which_cap = ENABLED_ALPHA; break;
+            case GL_BLEND: which_cap = ENABLED_BLEND; break;
+            case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
+            case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
+            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D; break;
+            default: which_cap = ENABLED_LAST; break;
+        }
+        if (which_cap!=ENABLED_LAST) {
+            if ((state.statebatch.enabled[which_cap] == 2))
+                return; // nothing to do...
+            if (!state.statebatch.enabled[which_cap]) {
+                state.statebatch.enabled[which_cap] = 2;
+            } else {
+                flush();
+            }
+        }
+    }
 	PUSH_IF_COMPILING(glDisable)
         
 	if (texstream && (cap==GL_TEXTURE_2D)) {
@@ -756,13 +801,11 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 	LOAD_GLES(glTexCoordPointer);
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
-    renderlist_t *list, *active = state.list.active;
+    renderlist_t *list;
 
-    if (active && (state.list.compiling || state.gl_batch)) {
-        list = state.list.active;
-		NewStage(list, STAGE_DRAW);
-        state.list.active = arrays_to_renderlist(list, mode, first, count+first);
-        end_renderlist(state.list.active);// = extend_renderlist(list);
+    if (state.list.active && (state.list.compiling || state.gl_batch)) {
+        NewStage(state.list.active, STAGE_DRAW);
+        state.list.active = arrays_to_renderlist(state.list.active, mode, first, count+first);
         return;
     }
 
@@ -1541,6 +1584,16 @@ void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
 }
 
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
+    if (state.list.active && (state.gl_batch && !state.list.compiling))  {
+        if ((state.statebatch.blendfunc_s == sfactor) && (state.statebatch.blendfunc_d == dfactor))
+            return; // nothing to do...
+        if (!state.statebatch.blendfunc_s) {
+            state.statebatch.blendfunc_s = sfactor;
+            state.statebatch.blendfunc_d = dfactor;
+        } else {
+            flush();
+        }
+    }
     PUSH_IF_COMPILING(glBlendFunc);
     LOAD_GLES(glBlendFunc);
     LOAD_GLES_OES(glBlendFuncSeparate);
@@ -1602,6 +1655,10 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     gles_glBlendFunc(sfactor, dfactor);
 }
 
+void init_statebatch() {
+    memset(&state.statebatch, 0, sizeof(statebatch_t));
+}
+
 void flush() {
     // flush internal list
 //printf("flush state.list.active=%p, gl_batch=%i(%i)\n", state.list.active, state.gl_batch, gl_batch);
@@ -1615,11 +1672,13 @@ void flush() {
         free_renderlist(mylist);
         state.gl_batch = old;
     }
+    if (state.gl_batch) init_statebatch();
     state.list.active = (state.gl_batch)?alloc_renderlist():NULL;
 }
 
 void init_batch() {
     state.list.active = alloc_renderlist();
+    init_statebatch();
     state.gl_batch = 1;
 }
 
@@ -1652,7 +1711,7 @@ void glFinish() {
 void glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(glLoadMatrixf);
     
-    if ((state.list.active || state.gl_batch) && state.list.active) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
         NewStage(state.list.active, STAGE_MATRIX);
         state.list.active->matrix_op = 1;
         memcpy(state.list.active->matrix_val, m, 16*sizeof(GLfloat));
@@ -1664,7 +1723,7 @@ void glLoadMatrixf(const GLfloat * m) {
 void glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(glMultMatrixf);
     
-    if ((state.list.active || state.gl_batch) && state.list.active) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
         NewStage(state.list.active, STAGE_MATRIX);
         state.list.active->matrix_op = 2;
         memcpy(state.list.active->matrix_val, m, 16*sizeof(GLfloat));
@@ -1676,7 +1735,7 @@ void glMultMatrixf(const GLfloat * m) {
 void glFogfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glFogfv);
 
-    if ((state.list.active || state.gl_batch) && state.list.active) {
+    if ((state.list.compiling || state.gl_batch) && state.list.active) {
         if (pname == GL_FOG_COLOR) {
             NewStage(state.list.active, STAGE_FOG);
             rlFogOp(state.list.active, 1, params);

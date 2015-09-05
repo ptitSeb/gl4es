@@ -12,10 +12,12 @@ renderlist_t *alloc_renderlist() {
     int a;
 
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
+    memset(list, 0, sizeof(*list));
+    /*
     list->len = 0;
-    list->ilen = 0;
+    list->ilen = 0;*/
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
-
+    /*
     list->calls.len = 0;
     list->calls.cap = 0;
     list->calls.calls = NULL;
@@ -43,24 +45,29 @@ renderlist_t *alloc_renderlist() {
     list->matrix_op = 0;
     for (a=0; a<16; a++)
         list->matrix_val[a]=((a%4)==0)?1.0f:0.0f;    // load identity matrix
-    
+    */
+    list->matrix_val[0] = list->matrix_val[4] = list->matrix_val[8] = 
+                          list->matrix_val[12] = list->matrix_val[16] = 1.0f;
+    /*
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
     list->material = NULL;
     list->light = NULL;
     list->texgen = NULL;
-    list->lightmodel = NULL;
+    list->lightmodel = NULL;*/
     list->lightmodelparam = GL_LIGHT_MODEL_AMBIENT;
+    /*
     list->indices = NULL;
     list->indice_cap = 0;
     list->set_texture = false;
-    list->texture = 0;
+    list->texture = 0;*/
     list->target_texture = GL_TEXTURE_2D;
+    /*
     list->polygon_mode = 0;
     list->fog_op = 0;
     
     list->prev = NULL;
-    list->next = NULL;
+    list->next = NULL;*/
     list->open = true;
     return list;
 }
@@ -342,12 +349,12 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     } else {
         if (a->cap < cap) {
             a->cap = cap;
-            if (a->vert)    realloc_sublist(a->vert, 3, cap);
-            if (a->normal)  realloc_sublist(a->normal, 3, cap);
-            if (a->color)   realloc_sublist(a->color, 4, cap);
-            if (a->secondary) realloc_sublist(a->secondary, 4, cap);
+            realloc_sublist(a->vert, 3, cap);
+            realloc_sublist(a->normal, 3, cap);
+            realloc_sublist(a->color, 4, cap);
+            realloc_sublist(a->secondary, 4, cap);
             for (int i=0; i<MAX_TEX; i++)
-               if (a->tex[i]) realloc_sublist(a->tex[i], 2, cap);
+               realloc_sublist(a->tex[i], 2, cap);
         }
     }
     // append arrays
@@ -465,17 +472,15 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     //all done
     return;
 }
+void adjust_renderlist(renderlist_t *list);
 
 renderlist_t *extend_renderlist(renderlist_t *list) {
     if ((list->prev!=NULL) && ispurerender_renderlist(list) && islistscompatible_renderlist(list->prev, list)) {
         // close first!
         if (list->open)
-            end_renderlist(list);
+            adjust_renderlist(list);
         // append list!
-//printf("merge list 0x%04X(0x%04X) %i(%i) - %i + 0x%04X(0x%04X) %i(%i) - %i", 
-//    list->prev->mode_init, list->prev->mode, list->prev->len, list->prev->cap, list->prev->ilen, list->mode_init, list->mode, list->len, list->cap, list->ilen);
         append_renderlist(list->prev, list);
-//printf(" -> %i(%i) - %i\n", list->prev->len, list->prev->cap, list->prev->ilen);
         renderlist_t *new = alloc_renderlist();
         new->prev = list->prev;
         list->prev->next = new;
@@ -570,7 +575,7 @@ void resize_renderlist(renderlist_t *list) {
     }
 }
 
-void end_renderlist(renderlist_t *list) {
+void adjust_renderlist(renderlist_t *list) {
     if (! list->open)
         return;
 
@@ -586,6 +591,14 @@ void end_renderlist(renderlist_t *list) {
 		    tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
 	    }
     }
+}
+
+void end_renderlist(renderlist_t *list) {
+    if (! list->open)
+        return;
+
+    adjust_renderlist(list);
+    
     switch (list->mode) {
         case GL_QUADS:
 			if (((list->indices) && (list->ilen==4)) || ((list->indices==NULL) && (list->len==4))) {

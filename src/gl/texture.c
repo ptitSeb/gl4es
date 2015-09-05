@@ -766,6 +766,11 @@ void glPixelStorei(GLenum pname, GLint param) {
         case GL_UNPACK_LSB_FIRST:
             state.texture.unpack_lsb_first = param;
             break;
+        case GL_UNPACK_SWAP_BYTES:
+        case GL_PACK_SWAP_BYTES:
+            // Fake... TODO?
+            //state.texture.unpack_lsb_first = param;
+            break;
         case GL_PACK_ROW_LENGTH:
             state.texture.pack_row_length = param;
             break;
@@ -805,6 +810,16 @@ GLboolean glIsTexture(	GLuint texture) {
 
 void glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
+    if ((target!=GL_PROXY_TEXTURE_2D) && (state.list.active && (state.gl_batch && !state.list.compiling)))  {
+        if ((state.statebatch.bound_targ == target) && (state.statebatch.bound_tex == texture))
+            return; // nothing to do...
+        if (!state.statebatch.bound_targ) {
+            state.statebatch.bound_targ = target;
+            state.statebatch.bound_tex = texture;
+        } else {
+            flush();
+        }
+    }
     if ((target!=GL_PROXY_TEXTURE_2D) && ((state.list.compiling || state.gl_batch) && state.list.active)) {
         // check if already a texture binded, if yes, create a new list
         NewStage(state.list.active, STAGE_BINDTEX);
@@ -1168,6 +1183,15 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 }
 
 void glActiveTexture( GLenum texture ) {
+ if (state.list.active && (state.gl_batch && !state.list.compiling))  {
+    if ((state.statebatch.active_tex == texture))
+        return; // nothing to do...
+    if (!state.statebatch.active_tex) {
+        state.statebatch.active_tex = texture;
+    } else {
+        flush();
+    }
+ }
  PUSH_IF_COMPILING(glActiveTexture);
  
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX)) {
@@ -1185,6 +1209,9 @@ void glClientActiveTexture( GLenum texture ) {
 	 errorShim(GL_INVALID_ENUM);
    return;
  }
+ // try to speed-up things...
+ if (state.texture.client == (texture - GL_TEXTURE0))
+    return;
  if (state.gl_batch) flush();
  state.texture.client = texture - GL_TEXTURE0;
  LOAD_GLES(glClientActiveTexture);

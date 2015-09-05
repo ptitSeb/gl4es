@@ -115,6 +115,24 @@ typedef struct {
     khash_t(buff) *list;
 } buffers_t;
 
+typedef enum {
+    ENABLED_ALPHA,
+    ENABLED_BLEND,
+    ENABLED_CULL,
+    ENABLED_DEPTH,
+    ENABLED_TEX2D,
+    ENABLED_LAST
+} statbatch_enabled_t;
+
+typedef struct {
+    GLenum active_tex;  // only 1 active texture for now
+    GLenum bound_targ;
+    GLenum bound_tex;
+    int enabled[ENABLED_LAST];    // the enabled are: 0=not set, 1=enabled, 2=disabled
+    GLenum blendfunc_s;
+    GLenum blendfunc_d;
+} statebatch_t;
+
 
 typedef struct {
     displaylist_state_t list;
@@ -141,6 +159,7 @@ typedef struct {
     GLenum last_error;
     GLuint gl_batch;
     GLint vp[4];
+    statebatch_t statebatch;
 } glstate_t;
 
 #endif
