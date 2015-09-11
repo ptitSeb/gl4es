@@ -46,8 +46,8 @@ renderlist_t *alloc_renderlist() {
     for (a=0; a<16; a++)
         list->matrix_val[a]=((a%4)==0)?1.0f:0.0f;    // load identity matrix
     */
-    list->matrix_val[0] = list->matrix_val[4] = list->matrix_val[8] = 
-                          list->matrix_val[12] = list->matrix_val[16] = 1.0f;
+    list->matrix_val[0] = list->matrix_val[5] = list->matrix_val[10] = 
+                          list->matrix_val[15] = 1.0f;
     /*
     for (a=0; a<MAX_TEX; a++)
        list->tex[a] = NULL;
