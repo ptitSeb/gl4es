@@ -146,6 +146,15 @@ const GLubyte *glGetString(GLenum name) {
     }
 }
 
+void transposeMatrix(float *matrix)
+{
+    float tmp[16];
+    memcpy(tmp, matrix, sizeof(tmp));
+    for (int i=0; i<4; i++)
+        for (int j=0; j<4; j++)
+            matrix[i*4+j]=tmp[j*4+i];
+}
+
 // glGet
 extern float zoomx, zoomy;
 extern GLfloat raster_scale[4];
@@ -376,6 +385,18 @@ void glGetFloatv(GLenum pname, GLfloat *params) {
 	case  GL_PIXEL_UNPACK_BUFFER_BINDING:
 		*params=(state.buffers.unpack)?state.buffers.unpack->buffer:0;
 		break;
+    case GL_TRANSPOSE_PROJECTION_MATRIX:
+        gles_glGetFloatv(GL_PROJECTION_MATRIX, params);
+        transposeMatrix(params);
+        break;
+    case GL_TRANSPOSE_MODELVIEW_MATRIX:
+        gles_glGetFloatv(GL_MODELVIEW_MATRIX, params);
+        transposeMatrix(params);
+        break;
+    case GL_TRANSPOSE_TEXTURE_MATRIX:
+        gles_glGetFloatv(GL_TEXTURE_MATRIX, params);
+        transposeMatrix(params);
+        break;
     default:
 		errorGL();
 		gles_glGetFloatv(pname, params);
