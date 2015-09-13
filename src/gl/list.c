@@ -846,7 +846,8 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.type = GL_FLOAT;
                 vtx.size = 3;
                 vtx.stride = 0;
-                select_glDrawElements(&vtx, list->mode, list->len, GL_UNSIGNED_SHORT, indices);
+                vtx.buffer = NULL;
+                select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
             } else {
                 if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
                     int n, s;
@@ -935,6 +936,7 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.type = GL_FLOAT;
                 vtx.size = 3;
                 vtx.stride = 0;
+                vtx.buffer = NULL;
                 select_glDrawArrays(&vtx, list->mode, 0, list->len);
             } else {
                 int len = list->len;
@@ -1083,8 +1085,6 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
             GLfloat *normal = (list->normal + (i * 3));
             memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
         }
-    } else {
-        resize_renderlist(list);
     }
     
     GLfloat *normal = list->lastNormal;
@@ -1099,12 +1099,10 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         if (list->len) for (i = 0; i < list->len-1; i++) {
             GLfloat *color = (list->color + (i * 4));
             memcpy(color, state.color, sizeof(GLfloat) * 4);
-        } else {
+        }/* else {
             GLfloat *color = list->color;
             color[0] = r; color[1] = g; color[2] = b; color[3] = a;
-        }
-    } else {
-        resize_renderlist(list);
+        }*/
     }
 
     GLfloat *color = state.color;
@@ -1120,8 +1118,6 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
             GLfloat *secondary = (list->secondary + (i * 4));
             memcpy(secondary, state.secondary, sizeof(GLfloat) * 4);
         }
-    } else {
-        resize_renderlist(list);
     }
 
     GLfloat *color = state.secondary;
@@ -1230,26 +1226,24 @@ void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
             memcpy(tex, state.texcoord[0], sizeof(GLfloat) * 2);
             tex += 2;
         }
-    } else {
-        resize_renderlist(list);
     }
+    
     GLfloat *tex = state.texcoord[0];
     tex[0] = s; tex[1] = t;
 }
 
 void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) {
-    if (list->tex[target-GL_TEXTURE0] == NULL) {
-        list->tex[target-GL_TEXTURE0] = alloc_sublist(2, list->cap);
+    const int tmu = target - GL_TEXTURE0;
+    if (list->tex[tmu] == NULL) {
+        list->tex[tmu] = alloc_sublist(2, list->cap);
         // catch up
-        GLfloat *tex = list->tex[target-GL_TEXTURE0];
+        GLfloat *tex = list->tex[tmu];
         if (list->len) for (int i = 0; i < list->len-1; i++) {
-            memcpy(tex, state.texcoord[target-GL_TEXTURE0], sizeof(GLfloat) * 2);
+            memcpy(tex, state.texcoord[tmu], sizeof(GLfloat) * 2);
             tex += 2;
         }
-    } else {
-        resize_renderlist(list);
     }
-    GLfloat *tex = state.texcoord[target-GL_TEXTURE0];
+    GLfloat *tex = state.texcoord[tmu];
     tex[0] = s; tex[1] = t;
 }
 
@@ -1286,7 +1280,7 @@ void rlPushCall(renderlist_t *list, packed_call_t *data) {
     cl->calls[cl->len++] = data;
 }
 
-renderlist_t* GetFirst(const renderlist_t* list) {
+renderlist_t* GetFirst(renderlist_t* list) {
     while(list->prev)
         list = list->prev;
     return list;

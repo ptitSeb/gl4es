@@ -139,7 +139,7 @@ typedef struct _renderlist_t {
 
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
-renderlist_t* GetFirst(const renderlist_t* list);
+renderlist_t* GetFirst(renderlist_t* list);
 
 extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);

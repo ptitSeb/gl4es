@@ -202,16 +202,18 @@ GLfloat *copy_eval_double(GLenum target, GLint ustride, GLint uorder,
     return points;
 }
 
-void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
-    *max = 0;
-    *min = -1;
-    for (int i = 0; i < count; i++) {
+void getminmax_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+    if (!count) return;
+    *max = indices[0];
+    *min = indices[0];
+    for (int i = 1; i < count; i++) {
         GLsizei n = indices[i];
-        if (*min == -1)
-            *min = n;
-        *min = (n < *min) ? n : *min;
-        *max = (n > *max) ? n : *max;
+        if( n < *min) *min = n;
+        if (n > *max) *max = n;
     }
+}
+void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+    getminmax_indices(indices, max, min, count);
     for (int i = 0; i < count; i++) {
         indices[i] -= *min;
     }

@@ -97,9 +97,14 @@ typedef struct {
 } namestack_t;
 
 typedef struct {
-	int count;
+	GLuint  count;
     GLuint *buffer;
-    GLuint size;	
+    GLuint  size;
+    GLfloat zmin;
+    GLfloat zmax;
+    GLuint  overflow;
+    GLuint  pos;
+    GLboolean  hit;
 } selectbuf_t;
 
 typedef struct {
