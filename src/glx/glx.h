@@ -1,12 +1,14 @@
-#ifdef BCMHOST
+#if defined (BCMHOST) && !defined(ANDROID) 
 #include "bcm_host.h"
 #endif
 
 #include <EGL/egl.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#ifndef ANDROID
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 
@@ -129,7 +131,7 @@
 
 
 typedef int GLXDrawable;
-
+#ifndef ANDROID
 struct __GLXContextRec {
     Display *display;
     GLXDrawable drawable;
@@ -142,7 +144,7 @@ struct __GLXContextRec {
 	EGLContext eglContext;
 };
 typedef struct __GLXContextRec *GLXContext;
-
+#endif //ANDROID
 struct __GLXFBConfigRec {
     int visualType;
     int transparentType;
@@ -197,7 +199,7 @@ struct __GLXFBConfigRec {
     double minAlpha, maxAlpha;
 };
 typedef struct __GLXFBConfigRec *GLXFBConfig;
-
+#ifndef ANDROID
 GLXContext glXCreateContext(Display *dpy,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -208,10 +210,12 @@ GLXContext glXCreateContextAttribsARB(Display *display, void *config,
                                       const int *attrib_list);
 
 void glXSwapIntervalEXT(Display *display, int drawable, int interval);
+#endif //ANDROID
 void glXSwapIntervalMESA(int interval);
 void glXSwapIntervalSGI(int interval);
 
 // GLX 1.1?
+#ifndef ANDROID
 Bool glXIsDirect(Display * display, GLXContext ctx);
 Bool glXMakeCurrent(Display *display, int drawable, GLXContext context);
 Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase);
@@ -219,7 +223,9 @@ Bool glXQueryVersion(Display *display, int *major, int *minor);
 const char *glXGetClientString(Display *display, int name);
 const char *glXQueryExtensionsString(Display *display, int screen);
 const char *glXQueryServerString(Display *display, int screen, int name);
+#endif //ANDROID
 GLXDrawable glXGetCurrentDrawable();
+#ifndef ANDROID
 void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
@@ -227,8 +233,10 @@ void glXDestroyContext(Display *display, GLXContext ctx);
 void glXDestroyGLXPixmap(Display *display, void *pixmap);
 void glXSwapBuffers(Display *display, int drawable);
 void glXUseXFont(Font font, int first, int count, int listBase);
+#endif //ANDROID
 void glXWaitGL();
 void glXWaitX();
+#ifndef ANDROID
 XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes);
 int glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value);
 
@@ -249,3 +257,4 @@ void glXDestroyWindow(Display *display, void *win);
 
 Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);
 GLXContext glXCreateNewContext(Display *display, GLXFBConfig config, int render_type, GLXContext share_list, Bool is_direct);
+#endif //ANDROID

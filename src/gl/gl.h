@@ -96,7 +96,11 @@ typedef EGLint (*eglWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint fla
 
 // will become a reference to dlopen'd gles
 extern void *gles;
+#ifdef ANDROID
+void *egl;
+#else
 extern void *egl;
+#endif
 
 #ifndef EGL_LIB
 #define EGL_LIB "libEGL.so"

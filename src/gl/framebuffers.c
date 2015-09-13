@@ -1,5 +1,8 @@
 #include "framebuffers.h"
+
+#ifndef ANDROID
 #include <execinfo.h>
+#endif
 //extern void* eglGetProcAddress(const char* name);
 
 khash_t(dsr) *depthstencil = NULL;

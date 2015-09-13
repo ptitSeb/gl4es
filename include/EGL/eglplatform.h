@@ -83,7 +83,7 @@ typedef int   EGLNativeDisplayType;
 typedef void *EGLNativeWindowType;
 typedef void *EGLNativePixmapType;
 
-#elif defined(__unix__)
+#elif defined(__unix__) && !defined(ANDROID)
 
 /* X11 (tentative)  */
 #include <X11/Xlib.h>
@@ -92,6 +92,12 @@ typedef void *EGLNativePixmapType;
 typedef Display *EGLNativeDisplayType;
 typedef Pixmap   EGLNativePixmapType;
 typedef Window   EGLNativeWindowType;
+
+#elif defined(ANDROID)
+
+typedef int   EGLNativeDisplayType;
+typedef void *EGLNativeWindowType;
+typedef void *EGLNativePixmapType;
 
 #else
 #error "Platform not recognized"
