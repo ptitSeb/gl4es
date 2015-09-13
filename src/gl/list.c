@@ -125,7 +125,7 @@ int rendermode_dimensions(GLenum mode) {
 extern GLuint gl_mergelist;
 
 bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
-    if (!gl_mergelist)
+    if (!gl_mergelist || !a)
         return false;
         
     // check if 2 "pure rendering" list are compatible for merge
@@ -204,7 +204,7 @@ void renderlist_linestrip_lines(renderlist_t *a, GLushort *indices, int count) {
     }
 }
 
-void renderlist_triangletrip_triangles(renderlist_t *a, GLushort *indices, int count) {
+void renderlist_trianglestrip_triangles(renderlist_t *a, GLushort *indices, int count) {
     GLushort *ind = a->indices;
     int len = (ind)? a->ilen:a->len;
     int ilen = (len-2)*3;  
@@ -395,7 +395,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             case GL_QUAD_STRIP:
             case GL_TRIANGLE_STRIP:
                 alloc_a_indices;
-                renderlist_triangletrip_triangles(a, newind, 0);
+                renderlist_trianglestrip_triangles(a, newind, 0);
                 a->mode = GL_TRIANGLES;
                 copy_a_indices;
                 break;
@@ -442,7 +442,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 break;
             case GL_QUAD_STRIP:
             case GL_TRIANGLE_STRIP:
-                renderlist_triangletrip_triangles(b, a->indices + ilen_a, a->len);
+                renderlist_trianglestrip_triangles(b, a->indices + ilen_a, a->len);
                 break;
             case GL_TRIANGLE_FAN:
             case GL_POLYGON:
@@ -470,6 +470,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     a->len += b->len;
     a->ilen += ilen_b;
     //all done
+    a->stage = STAGE_DRAW;  // just in case
     return;
 }
 void adjust_renderlist(renderlist_t *list);

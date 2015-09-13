@@ -1366,12 +1366,13 @@ void glEndList() {
         state.lists[list - 1] = GetFirst(state.list.active);
         state.list.compiling = false;
         end_renderlist(state.list.active);
-        if (gl_batch) {
-            init_batch();
-        } else state.list.active = NULL;
+        state.list.active = NULL;
         if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);
         }
+        if (gl_batch) {
+            init_batch();
+        } 
     }
 }
 
