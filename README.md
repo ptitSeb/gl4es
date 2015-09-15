@@ -31,7 +31,13 @@ Compiling
 *or for the ODroid*
 
     cmake . -DODROID=1; make GL
-    
+
+*or for Android*
+
+    An Android.mk is provided that should compile with an NDK
+
+
+*or use ccmake*
 Alternatively, you can use the curses-bases ccmake to select wich platform to use interactively.
     
 ----
