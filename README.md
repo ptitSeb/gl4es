@@ -18,13 +18,12 @@ Some know limitations:
 
 ----
 
-Compiling for Pandora
+Compiling
 ----
+* for Pandora*
 
     cmake . ; make GL
     
-    It's the default mode.
-
 *or for the Raspberry Pi*
 
     cmake . -DBCMHOST=1; make GL
@@ -34,6 +33,7 @@ Compiling for Pandora
     cmake . -DODROID=1; make GL
     
 Alternatively, you can use the curses-bases ccmake to select wich platform to use interactively.
+    
 ----
 
 GLU
