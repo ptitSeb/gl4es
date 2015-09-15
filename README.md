@@ -20,7 +20,7 @@ Some know limitations:
 
 Compiling
 ----
-* for Pandora*
+*for Pandora*
 
     cmake . ; make GL
     
