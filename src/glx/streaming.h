@@ -1,6 +1,6 @@
 #ifndef STREAMING_H
 #define STREAMING_H
-
+#ifdef TEXSTREAM
 
 #include "../gl/gl.h"
 
@@ -41,5 +41,5 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter);
 void ActivateStreaming(int ID);
 // Function to deactivate the Streaming texture on current tex...
 void DeactivateStreaming();
-
+#endif
 #endif

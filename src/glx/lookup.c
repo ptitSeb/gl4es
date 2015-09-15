@@ -286,18 +286,20 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glBlendColor);*/
     EXT(glBlendEquation);
     ARB(glBlendEquation);
+    EXT(glBlendFunc);
+    ARB(glBlendFunc);
+#ifndef ODROID
     EXT(glBlendEquationSeparate);
     ARB(glBlendEquationSeparate);
     EX(glBlendEquationSeparatei);
     EXT(glBlendEquationSeparatei);
     ARB(glBlendEquationSeparatei);
-    EXT(glBlendFunc);
-    ARB(glBlendFunc);
     EXT(glBlendFuncSeparate);
     ARB(glBlendFuncSeparate);
     EX(glBlendFuncSeparatei);
     EXT(glBlendFuncSeparatei);
     ARB(glBlendFuncSeparatei);
+#endif
     EX(glCallList);
     EX(glCallLists);
     EX(glClearDepth);

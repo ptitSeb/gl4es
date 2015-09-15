@@ -283,6 +283,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             alphahack = 1;
             printf("LIBGL: Alpha Hack enabled\n");
         }
+#ifdef TEXSTREAM
         char *env_stream = getenv("LIBGL_STREAM");
         if (env_stream && strcmp(env_stream, "1") == 0) {
             texstream = InitStreamingCache();
@@ -294,6 +295,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
             //FreeStreamed(AddStreamed(1024, 512, 0));
         }
+#endif
         char *env_copy = getenv("LIBGL_COPY");
         if (env_copy && strcmp(env_copy, "1") == 0) {
             printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n");
@@ -434,6 +436,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
     } else {
+#ifdef TEXSTREAM
 	    if (texstream && bound && (target==GL_TEXTURE_2D) && (width>=256 && height>=256) && 
 		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_BGR) || (internalformat==GL_RGB5)) || (texstream==2) ) {
 			bound->streamingID = AddStreamed(width, height, bound->texture);
@@ -452,6 +455,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
 				    gles_glEnable(GL_TEXTURE_STREAM_IMG);
 				}
 	    }
+#endif
 	    if (bound) {
             bound->shrink = 0;
             if (!bound->streamed)
@@ -612,6 +616,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     }
 
     GLvoid *old = pixels;
+#ifdef TEXSTREAM
     if (bound && texstream && (bound->streamed)) {
 		// Optimisation, let's do convert directly to the right place...
 		GLvoid *tmp = GetStreamingBuffer(bound->streamingID);
@@ -623,7 +628,9 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 		}
 		format = GL_RGB;
 		type = GL_UNSIGNED_SHORT_5_6_5;
-    } else  {
+    } else  
+#endif
+    {
         //pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
         if (!pixel_convert(old, &pixels, width, height, format, type, bound->format, bound->type, 0)) {
             printf("LIBGL: Error in pixel_convert while glTexSubImage2D\n");
@@ -880,6 +887,7 @@ tex_changed=1;  // seems buggy, temporary disabling that...
         if (tex_changed) {
 
 			GLboolean tmp = state.enable.texture_2d[state.texture.active];
+#ifdef TEXSTREAM
 	        if (texstream) {  // unbind streaming texture if any...
 	            gltexture_t *bound = state.texture.bound[state.texture.active];
 	            if (bound && bound->streamed) {
@@ -890,6 +898,7 @@ tex_changed=1;  // seems buggy, temporary disabling that...
                         gles_glEnable(GL_TEXTURE_2D);
 	            }
 	        }
+#endif
 
 	        state.texture.rect_arb[state.texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
 	        target = map_tex_target(target);
@@ -897,13 +906,16 @@ tex_changed=1;  // seems buggy, temporary disabling that...
             state.texture.bound[state.texture.active] = tex;
 
             LOAD_GLES(glBindTexture);
+#ifdef TEXSTREAM
             if (texstream && (streamingID>-1)) {
                 if (tmp)
                     gles_glDisable(GL_TEXTURE_2D);
                 ActivateStreaming(streamingID);
                 if (tmp)
                     gles_glEnable(GL_TEXTURE_STREAM_IMG);
-            } else {
+            } else 
+#endif
+            {
                 gles_glBindTexture(target, texture);
                 errorGL();
             }
@@ -995,8 +1007,10 @@ void glDeleteTextures(GLsizei n, const GLuint *textures) {
                 }
 				gles_glDeleteTextures(1, &tex->glname);
 				errorGL();
+#ifdef TEXSTREAM
 				if (texstream && tex->streamed)
 					FreeStreamed(tex->streamingID);
+#endif
 				#if 1
                 kh_del(tex, list, k);
                 if (tex->data) free(tex->data);
@@ -1153,14 +1167,14 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	GLvoid *dst = img;
     if (state.buffers.pack)
         dst += (uintptr_t)state.buffers.pack->data;
-
+#ifdef TEXSTREAM
     if (texstream && bound->streamed) {
         noerrorShim();
         pixel_convert(GetStreamingBuffer(bound->streamingID), &dst, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
         readfboEnd();
         return;
     }
-	
+#endif
     if (texcopydata && bound->data) {
         errorShim(GL_INVALID_ENUM);
         if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
@@ -1284,6 +1298,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
         state.gl_batch = old_glbatch;
         return;
     }
+#ifdef TEXSTREAM
     if (bound && bound->streamed) {
         void* buff = GetStreamingBuffer(bound->streamingID);
         if ((bound->width == width) && (bound->height == height) && (xoffset == yoffset == 0)) {
@@ -1296,7 +1311,9 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
             }
             free(tmp);
         }
-    } else {
+    } else 
+#endif
+    {
         if (copytex) {
             gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
         } else {

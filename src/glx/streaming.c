@@ -1,6 +1,8 @@
 /*
 	Helper fonctions for Streaming textures
 */
+#ifdef TEXSTREAM
+
 #include <bc_cat.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -287,3 +289,4 @@ void DeactivateStreaming() {
 		return;
 //	gles_glDisable(GL_TEXTURE_STREAM_IMG);
 }
+#endif  //TEXSTREAM

@@ -8,11 +8,33 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
+option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
+option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
+option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
+
+#select at least 1 plateform, PANDORA is default...
+if(NOT PANDORA)
+ if(NOT BCMHOST)
+  if(NOT ODROID)
+   set(PANDORA ON CACHE BOOL "Set to ON if targeting an OpenPandora device" FORCE)
+  endif()
+ endif()
+endif()
+
 # Raspberry PI
 if(BCMHOST)
     include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
     link_directories(/opt/vc/lib)
     add_definitions(-DBCMHOST)
+endif()
+
+if(PANDORA)
+    add_definitions(-DPANDORA)
+    add_definitions(-DTEXSTREAM)
+endif()
+
+if(ODROID)
+    add_definitions(-DODROID)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)

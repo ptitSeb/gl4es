@@ -100,7 +100,6 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_texture_env_dot3 "
                 "GL_ARB_texture_mirrored_repeat "
                 "GL_SGIS_generate_mipmap "
-                "GL_EXT_blend_subtract "
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
                 "GL_EXT_bgra "
@@ -116,8 +115,11 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
                 "GL_EXT_stencil_wrap "
+#ifndef ODROID
+                "GL_EXT_blend_subtract "
                 "GL_EXT_blend_func_separate "
                 "GL_EXT_blend_equation_separate "
+#endif
                 "GL_ARB_draw_buffers "
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
@@ -429,8 +431,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 	    if (!state.texture.bound[state.texture.active]->alpha)
 		enable = false;
 	noerrorShim();
+#ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG)
-	state.enable.texture_2d[state.texture.active] = enable;
+        state.enable.texture_2d[state.texture.active] = enable;
+#endif
     switch (cap) {
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d[state.texture.active]);
@@ -1673,7 +1677,10 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
         // special case, as seen in Xash3D, but it breaks torus_trooper, so disabled
         sfactor = GL_ONE;
     }
-*/    
+*/
+#ifdef ODROID
+    if(gles_glBlendFunc)
+#endif
     gles_glBlendFunc(sfactor, dfactor);
 }
 
