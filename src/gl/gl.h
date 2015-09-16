@@ -1,4 +1,7 @@
 #include <dlfcn.h>
+#if defined (BCMHOST) && !defined(ANDROID) 
+#include "bcm_host.h"
+#endif
 #include <GLES/gl.h>
 #include <EGL/egl.h>
 #ifdef TEXSTREAM
