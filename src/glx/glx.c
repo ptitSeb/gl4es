@@ -2,12 +2,14 @@
 #include <execinfo.h>
 #endif
 #include <fcntl.h>
+#ifdef PANDORA
 #include <linux/fb.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#endif
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
-#include <sys/socket.h>
-#include <sys/un.h>
 #include <unistd.h>
 
 #include "glx.h"
@@ -18,8 +20,10 @@ bool eglInitialized = false;
 EGLDisplay eglDisplay;
 EGLSurface eglSurface;
 EGLConfig eglConfigs[1];
+#ifdef PANDORA
 struct sockaddr_un sun;
 int sock = -2;
+#endif
 
 void* egl = NULL;
 
@@ -139,13 +143,16 @@ static GLXContext fbContext = NULL;
 
 static int fbcontext_count = 0;
 
+#ifdef PANDORA
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
+#endif
+static int fbdev = -1;
+static bool g_vsync = false;
 #endif
 static bool g_showfps = false;
 static bool g_usefb = false;
 static bool g_usefbo = false;
-static bool g_vsync = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
 static bool g_bcm_active = false;
@@ -156,7 +163,6 @@ static bool g_bcmhost = false;
 static bool g_bcmhost = true;
 #endif
 
-static int fbdev = -1;
 static int swap_interval = 1;
 #ifndef ANDROID
 static void init_display(Display *display) {
@@ -173,10 +179,12 @@ static void init_display(Display *display) {
 }
 #endif //ANDROID
 static void init_vsync() {
+#ifdef PANDORA
     fbdev = open("/dev/fb0", O_RDONLY);
     if (fbdev < 0) {
         fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
     }
+#endif
 }
 
 static void xrefresh() {
@@ -215,7 +223,7 @@ static void signal_handler(int sig) {
     signal(sig, SIG_DFL);
     raise(sig);
 }
-
+#ifdef PANDORA
 static void init_liveinfo() {
     static const char socket_name[] = "\0liveinfo";
     sock = socket(PF_UNIX, SOCK_DGRAM, 0);
@@ -236,6 +244,7 @@ static void init_liveinfo() {
     } else
         fcntl(sock, F_SETFL, O_NONBLOCK);
 }
+#endif
 extern void initialize_glshim();
 static void scan_env() {
     static bool first = true;
@@ -284,10 +293,8 @@ static void scan_env() {
             g_usefbo = true;
     }
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
+#ifdef PANDORA
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd))!= NULL)
-        printf("LIBGL: Current folder is:%s\n", cwd);
     if (g_vsync) {
         init_vsync();
     }
@@ -295,6 +302,10 @@ static void scan_env() {
     if (sock>-1) {
         printf("LIBGL: LiveInfo detected, fps will be shown\n");
     }
+#endif
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd))!= NULL)
+        printf("LIBGL: Current folder is:%s\n", cwd);
 }
 #ifndef ANDROID	
 GLXContext glXCreateContext(Display *display,
@@ -606,7 +617,7 @@ void glXSwapBuffers(Display *display,
     if (gl_batch){
         flush();
     }
-    
+#ifdef PANDORA
     if (g_vsync && fbdev >= 0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
         // this will just block otherwise.
@@ -615,6 +626,7 @@ void glXSwapBuffers(Display *display,
             ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
         }
     }
+#endif
     if (g_usefbo) {
         unbindMainFBO();
         blitMainFBO();
@@ -623,7 +635,7 @@ void glXSwapBuffers(Display *display,
 
     egl_eglSwapBuffers(eglDisplay, eglSurface);
     CheckEGLErrors();
-
+#ifdef PANDORA
     if (g_showfps || (sock>-1)) {
         // framerate counter
         static float avg, fps = 0;
@@ -658,7 +670,7 @@ void glXSwapBuffers(Display *display,
         }
         last_frame = now;
     }
-    
+#endif
     if (g_usefbo)
         bindMainFBO();
 }
@@ -773,9 +785,14 @@ GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
 #endif //ANDROID
 void glXSwapIntervalMESA(int interval) {
     printf("glXSwapInterval(%i)\n", interval);
+#ifdef PANDORA
     if (! g_vsync)
         printf("Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
     swap_interval = interval;
+#else
+    LOAD_EGL(eglSwapInterval);
+    egl_eglSwapInterval(eglDisplay, swap_interval);
+#endif
 }
 
 void glXSwapIntervalSGI(int interval) {
