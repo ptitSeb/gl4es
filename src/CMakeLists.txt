@@ -14,7 +14,7 @@ add_library(GL SHARED ${GL_SOURCES})
 
 if(BCMHOST)
     set(PI_LIBS bcm_host vcos pthread)
-    target_link_libraries(GL ${PI_LIBS} GLESv1_CM)
+    target_link_libraries(GL ${PI_LIBS})
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
