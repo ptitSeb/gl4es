@@ -50,8 +50,14 @@ typedef struct {
     GLboolean normalize;
     GLboolean polygon_offset_fill;
     GLboolean stencil_test;
+    GLboolean texture_1d[MAX_TEX];
     GLboolean texture_2d[MAX_TEX];
+    GLboolean texture_3d[MAX_TEX];
+    GLboolean texgen_s[MAX_TEX];
+    GLboolean texgen_r[MAX_TEX];
+    GLboolean texgen_t[MAX_TEX];
     GLboolean colormaterial;
+    GLboolean autonormal;
 
     // GL_FOG_BIT
     GLboolean fog;
@@ -101,7 +107,14 @@ typedef struct {
     GLboolean scissor_test;
     GLfloat scissor_box[4];
 
-    // TODO: GL_STENCIL_BUFFER_BIT
+    // GL_STENCIL_BUFFER_BIT
+    GLenum stencil_func;
+    GLint  stencil_ref;
+    GLuint stencil_mask;
+    GLint  stencil_clearvalue;
+    GLenum stencil_sfail;
+    GLenum stencil_dpfail;
+    GLenum stencil_dppass;
 
     // GL_TEXTURE_BIT
     GLint texture[MAX_TEX];

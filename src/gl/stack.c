@@ -4,7 +4,7 @@ glstack_t *stack = NULL;
 glclientstack_t *clientStack = NULL;
 
 void glPushAttrib(GLbitfield mask) {
-//printf("glPushAttrib(0x%04X)\n", mask);
+    //printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
     if ((state.list.compiling || state.gl_batch) && state.list.active) {
 		NewStage(state.list.active, STAGE_PUSH);
@@ -63,11 +63,22 @@ void glPushAttrib(GLbitfield mask) {
     if (mask & GL_ENABLE_BIT) {
         int i;
         GLint max_clip_planes;
+
+        cur->alpha_test = glIsEnabled(GL_ALPHA_TEST);
+        cur->autonormal = glIsEnabled(GL_AUTO_NORMAL);
+        cur->blend = glIsEnabled(GL_BLEND);
+        
         glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
         cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
         for (i = 0; i < max_clip_planes; i++) {
             *(cur->clip_planes_enabled + i) = glIsEnabled(GL_CLIP_PLANE0 + i);
         }
+
+        cur->colormaterial = glIsEnabled(GL_COLOR_MATERIAL);
+        cur->cull_face = glIsEnabled(GL_CULL_FACE);
+        cur->depth_test = glIsEnabled(GL_DEPTH_TEST);
+        cur->dither = glIsEnabled(GL_DITHER);
+        cur->fog = glIsEnabled(GL_FOG);
 
         GLint max_lights;
         glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
@@ -76,34 +87,36 @@ void glPushAttrib(GLbitfield mask) {
             *(cur->lights_enabled + i) = glIsEnabled(GL_LIGHT0 + i);
         }
 
-        cur->alpha_test = glIsEnabled(GL_ALPHA_TEST);
-        cur->blend = glIsEnabled(GL_BLEND);
-
-        cur->cull_face = glIsEnabled(GL_CULL_FACE);
-        cur->depth_test = glIsEnabled(GL_DEPTH_TEST);
-        cur->dither = glIsEnabled(GL_DITHER);
-        cur->fog = glIsEnabled(GL_FOG);
         cur->lighting = glIsEnabled(GL_LIGHTING);
         cur->line_smooth = glIsEnabled(GL_LINE_SMOOTH);
         cur->line_stipple = glIsEnabled(GL_LINE_STIPPLE);
         cur->color_logic_op = glIsEnabled(GL_COLOR_LOGIC_OP);
+        //TODO: GL_INDEX_LOGIC_OP
+        //TODO: GL_MAP1_x
+        //TODO: GL_MAP2_x
         cur->multisample = glIsEnabled(GL_MULTISAMPLE);
         cur->normalize = glIsEnabled(GL_NORMALIZE);
         cur->point_smooth = glIsEnabled(GL_POINT_SMOOTH);
+        //TODO: GL_POLYGON_OFFSET_LINE
         cur->polygon_offset_fill = glIsEnabled(GL_POLYGON_OFFSET_FILL);
+        //TODO: GL_POLYGON_OFFSET_POINT
+        //TODO: GL_POLYGON_SMOOTH
+        //TODO: GL_POLYGON_STIPPLE
         cur->sample_alpha_to_coverage = glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE);
         cur->sample_alpha_to_one = glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE);
         cur->sample_coverage = glIsEnabled(GL_SAMPLE_COVERAGE);
         cur->scissor_test = glIsEnabled(GL_SCISSOR_TEST);
         cur->stencil_test = glIsEnabled(GL_STENCIL_TEST);
-        cur->colormaterial = glIsEnabled(GL_COLOR_MATERIAL);
         int a;
-        int old_tex=state.texture.active;
         for (a=0; a<MAX_TEX; a++) {
-            /*glActiveTexture(GL_TEXTURE0+a);*/
-            cur->texture_2d[a] = state.enable.texture_2d[a];/*glIsEnabled(GL_TEXTURE_2D);*/
+            cur->texture_1d[a] = state.enable.texture_1d[a];
+            cur->texture_2d[a] = state.enable.texture_2d[a];
+            cur->texture_3d[a] = state.enable.texture_3d[a];
+            cur->texgen_s[a] = state.enable.texgen_s[a];
+            cur->texgen_r[a] = state.enable.texgen_r[a];
+            cur->texgen_t[a] = state.enable.texgen_t[a];
         }
-        /*glActiveTexture(GL_TEXTURE0+old_tex);*/
+        
     }
 
     // TODO: GL_EVAL_BIT
@@ -168,6 +181,9 @@ void glPushAttrib(GLbitfield mask) {
 		int i;
 		for (i=0; i<8; i++) 
 			glGetFloatv(pixel_name[i], &cur->pixel_scale_bias[i]);
+        //TODO: GL_DEPTH_BIAS & GL_DEPTH_SCALE (probably difficult)
+        //TODO: GL_INDEX_OFFEST & GL_INDEX_SHIFT
+        //TODO: GL_MAP_COLOR & GL_MAP_STENCIL (probably difficult too)
 		glGetFloatv(GL_ZOOM_X, &cur->pixel_zoomx);
 		glGetFloatv(GL_ZOOM_Y, &cur->pixel_zoomy);
 	}
@@ -186,14 +202,30 @@ void glPushAttrib(GLbitfield mask) {
     }
 
     // TODO: GL_STENCIL_BUFFER_BIT
+    if (mask & GL_STENCIL_BUFFER_BIT) {
+        cur->stencil_test = glIsEnabled(GL_STENCIL_TEST);
+        glGetIntegerv(GL_STENCIL_FUNC, &cur->stencil_func);
+        glGetIntegerv(GL_STENCIL_VALUE_MASK, &cur->stencil_mask);
+        glGetIntegerv(GL_STENCIL_REF, &cur->stencil_ref);
+        //TODO: glStencilFuncSeperate
+        
+        //TODO: Stencil value mask
+        glGetIntegerv(GL_STENCIL_FAIL, &cur->stencil_sfail);
+        glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &cur->stencil_dpfail);
+        glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &cur->stencil_dppass);
+        //TODO: glStencilOpSeparate
 
+        glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &cur->stencil_clearvalue);
+        //TODO: Stencil buffer writemask
+    }
     // GL_TEXTURE_BIT - TODO: incomplete
     if (mask & GL_TEXTURE_BIT) {
         cur->active=state.texture.active;
         int a;
         for (a=0; a<MAX_TEX; a++) {
-            //glActiveTexture(GL_TEXTURE0+a);
-            //glGetIntegerv(GL_TEXTURE_BINDING_2D, &cur->texture[a]);
+            cur->texgen_r[a] = state.enable.texgen_r[a];
+            cur->texgen_r[a] = state.enable.texgen_s[a];
+            cur->texgen_r[a] = state.enable.texgen_t[a];
 	        cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
@@ -257,20 +289,6 @@ void glPushClientAttrib(GLbitfield mask) {
         for (a=0; a<MAX_TEX; a++) {
            cur->tex_enable[a] = state.enable.tex_coord_array[a];
         }
-        /*
-        memcpy(&cur->verts, &state.pointers.vertex, sizeof(pointer_state_t));
-        cur->ref_verts = (void*)state.pointers.vertex.pointer;
-        memcpy(&cur->color, &state.pointers.color, sizeof(pointer_state_t));
-        cur->ref_colors = (void*)state.pointers.color.pointer;
-        memcpy(&cur->secondary, &state.pointers.secondary, sizeof(pointer_state_t));
-        cur->ref_secondary = (void*)state.pointers.secondary.pointer;
-        memcpy(&cur->normal, &state.pointers.normal, sizeof(pointer_state_t));
-        cur->ref_normal = (void*)state.pointers.normal.pointer;
-        for (a=0; a<MAX_TEX; a++) {
-           memcpy(&cur->tex[a], &state.pointers.tex_coord[a], sizeof(pointer_state_t));
-           cur->ref_tex[a] = (void*)state.pointers.tex_coord[a].pointer;
-        }
-        */
         memcpy(&(cur->pointers), &state.pointers, sizeof(pointer_states_t));
         cur->client = state.texture.client;
     }
@@ -305,19 +323,15 @@ void glPopAttrib() {
     glstack_t *cur = stack + stack->len-1;
 
     if (cur->mask & GL_COLOR_BUFFER_BIT) {
-#ifndef USE_ES2
         enable_disable(GL_ALPHA_TEST, cur->alpha_test);
         glAlphaFunc(cur->alpha_test_func, cur->alpha_test_ref);
-#endif
 
         enable_disable(GL_BLEND, cur->blend);
         glBlendFunc(cur->blend_src_func, cur->blend_dst_func);
 
         enable_disable(GL_DITHER, cur->dither);
-#ifndef USE_ES2
         enable_disable(GL_COLOR_LOGIC_OP, cur->color_logic_op);
         glLogicOp(cur->logic_op);
-#endif
 
         GLfloat *c;
         glClearColor(v4(cur->clear_color));
@@ -326,9 +340,7 @@ void glPopAttrib() {
 
     if (cur->mask & GL_CURRENT_BIT) {
         glColor4f(v4(cur->color));
-#ifndef USE_ES2
         glNormal3f(v3(cur->normal));
-#endif
         glTexCoord2f(v2(cur->tex));
     }
 
@@ -341,11 +353,22 @@ void glPopAttrib() {
 
     if (cur->mask & GL_ENABLE_BIT) {
         int i;
+
+        enable_disable(GL_ALPHA_TEST, cur->alpha_test);
+        enable_disable(GL_AUTO_NORMAL, cur->autonormal);
+        enable_disable(GL_BLEND, cur->blend);
+
         GLint max_clip_planes;
         glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
         for (i = 0; i < max_clip_planes; i++) {
             enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
         }
+
+        enable_disable(GL_COLOR_MATERIAL, cur->colormaterial);
+        enable_disable(GL_CULL_FACE, cur->cull_face);
+        enable_disable(GL_DEPTH_TEST, cur->depth_test);
+        enable_disable(GL_DITHER, cur->dither);
+        enable_disable(GL_FOG, cur->fog);
 
         GLint max_lights;
         glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
@@ -353,38 +376,48 @@ void glPopAttrib() {
             enable_disable(GL_LIGHT0 + i, *(cur->lights_enabled + i));
         }
 
-        enable_disable(GL_ALPHA_TEST, cur->alpha_test);
-        enable_disable(GL_BLEND, cur->blend);
-        enable_disable(GL_CULL_FACE, cur->cull_face);
-        enable_disable(GL_DEPTH_TEST, cur->depth_test);
-        enable_disable(GL_DITHER, cur->dither);
-        enable_disable(GL_FOG, cur->fog);
         enable_disable(GL_LIGHTING, cur->lighting);
         enable_disable(GL_LINE_SMOOTH, cur->line_smooth);
         enable_disable(GL_LINE_STIPPLE, cur->line_stipple);
         enable_disable(GL_COLOR_LOGIC_OP, cur->color_logic_op);
+        //TODO: GL_INDEX_LOGIC_OP
+        //TODO: GL_MAP1_x
+        //TODO: GL_MAP2_x
         enable_disable(GL_MULTISAMPLE, cur->multisample);
         enable_disable(GL_NORMALIZE, cur->normalize);
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
+        //TODO: GL_POLYGON_OFFSET_LINE
         enable_disable(GL_POLYGON_OFFSET_FILL, cur->polygon_offset_fill);
+        //TODO: GL_POLYGON_OFFSET_POINT
+        //TODO: GL_POLYGON_SMOOTH
+        //TODO: GL_POLYGON_STIPPLE
         enable_disable(GL_SAMPLE_ALPHA_TO_COVERAGE, cur->sample_alpha_to_coverage);
         enable_disable(GL_SAMPLE_ALPHA_TO_ONE, cur->sample_alpha_to_one);
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
-        enable_disable(GL_COLOR_MATERIAL, cur->colormaterial);
         int a;
         int old_tex = state.texture.active;
         for (a=0; a<MAX_TEX; a++) {
+			if (state.enable.texture_1d[a] != cur->texture_1d[a]) {
+				glActiveTexture(GL_TEXTURE0+a);
+				enable_disable(GL_TEXTURE_1D, cur->texture_1d[a]);
+			}
 			if (state.enable.texture_2d[a] != cur->texture_2d[a]) {
 				glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
 			}
+			if (state.enable.texture_3d[a] != cur->texture_3d[a]) {
+				glActiveTexture(GL_TEXTURE0+a);
+				enable_disable(GL_TEXTURE_3D, cur->texture_3d[a]);
+			}
+            state.enable.texgen_r[a] = cur->texgen_r[a];
+            state.enable.texgen_s[a] = cur->texgen_s[a];
+            state.enable.texgen_t[a] = cur->texgen_t[a];
          }
          if (state.texture.active != old_tex) glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
-#ifndef USE_ES2
     if (cur->mask & GL_FOG_BIT) {
         enable_disable(GL_FOG, cur->fog);
         glFogfv(GL_FOG_COLOR, cur->fog_color);
@@ -393,7 +426,6 @@ void glPopAttrib() {
         glFogf(GL_FOG_END, cur->fog_end);
         glFogf(GL_FOG_MODE, cur->fog_mode);
     }
-#endif
 
     if (cur->mask & GL_HINT_BIT) {
         enable_disable(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
@@ -420,21 +452,32 @@ void glPopAttrib() {
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
     }
 
-#ifndef USE_ES2
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
         glPointSize(cur->point_size);
     }
-#endif
 
     if (cur->mask & GL_SCISSOR_BIT) {
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         glScissor(v4(cur->scissor_box));
     }
 
+    if (cur->mask & GL_STENCIL_BUFFER_BIT) {
+        enable_disable(GL_STENCIL_TEST, cur->stencil_test);
+        glStencilFunc(cur->stencil_func, cur->stencil_ref, cur->stencil_mask);
+        //TODO: Stencil value mask
+        glStencilOp(cur->stencil_sfail, cur->stencil_dpfail, cur->stencil_dppass);
+        glClearStencil(cur->stencil_clearvalue);
+        //TODO: Stencil buffer writemask
+    }
+
     if (cur->mask & GL_TEXTURE_BIT) {
         int a;
+        //TODO: Enable bit for the 4 texture coordinates
         for (a=0; a<MAX_TEX; a++) {
+            state.enable.texgen_r[a] = cur->texgen_r[a];
+            state.enable.texgen_s[a] = cur->texgen_s[a];
+            state.enable.texgen_t[a] = cur->texgen_t[a];
 			if ((cur->texture[a]==0 && state.texture.bound[a] != 0) || (cur->texture[a]!=0 && state.texture.bound[a]==0)) {
 			   glActiveTexture(GL_TEXTURE0+a);
 			   glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
@@ -442,11 +485,15 @@ void glPopAttrib() {
         }
         if (state.texture.active!= cur->active) glActiveTexture(GL_TEXTURE0+cur->active);
     }
+    
 	if (cur->mask & GL_PIXEL_MODE_BIT) {
 		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
 		int i;
 		for (i=0; i<8; i++) 
 			glPixelTransferf(pixel_name[i], cur->pixel_scale_bias[i]);
+        //TODO: GL_DEPTH_BIAS & GL_DEPTH_SCALE (probably difficult)
+        //TODO: GL_INDEX_OFFEST & GL_INDEX_SHIFT
+        //TODO: GL_MAP_COLOR & GL_MAP_STENCIL (probably difficult too)
 		glPixelZoom(cur->pixel_zoomx, cur->pixel_zoomy);
 	}
 
@@ -521,32 +568,6 @@ void glPopClientAttrib() {
 		   }
         }
 
-        /*
-		if (state.pointers.vertex.pointer != cur->ref_verts) {
-			memcpy(&state.pointers.vertex, &cur->pointers.verts, sizeof(pointer_state_t));
-			//if (state.pointers.vertex.pointer) gles_glVertexPointer(state.pointers.vertex.size, state.pointers.vertex.type, state.pointers.vertex.stride, state.pointers.vertex.pointer);
-		}
-		if (state.pointers.color.pointer != cur->ref_colors) {
-			memcpy(&state.pointers.color, &cur->color, sizeof(pointer_state_t));
-			//if (state.pointers.color.pointer) gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
-		}
-		if (state.pointers.secondary.pointer != cur->ref_secondary) {
-			memcpy(&state.pointers.secondary, &cur->secondary, sizeof(pointer_state_t));
-		}
-		if (state.pointers.normal.pointer != cur->ref_normal) {
-			memcpy(&state.pointers.normal, &cur->normal, sizeof(pointer_state_t));
-			//if (state.pointers.normal.pointer) gles_glNormalPointer(state.pointers.normal.type, state.pointers.normal.stride, state.pointers.normal.pointer);
-		}
-	    for (int a=0; a<MAX_TEX; a++) {
-			if (state.pointers.tex_coord[a].pointer != cur->ref_tex[a]) {
-			   memcpy(&state.pointers.tex_coord[a], &cur->tex[a], sizeof(pointer_state_t));
-			   //if (state.pointers.tex_coord[a].pointer) {
-				//   glClientActiveTexture(GL_TEXTURE0+a);
-				//   gles_glTexCoordPointer(state.pointers.tex_coord[a].size, state.pointers.tex_coord[a].type, state.pointers.tex_coord[a].stride, state.pointers.tex_coord[a].pointer);
-			   //}
-			}
-        }
-        */
         memcpy(&state.pointers, &(cur->pointers), sizeof(pointer_states_t));
 		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
