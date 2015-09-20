@@ -224,8 +224,8 @@ void glPushAttrib(GLbitfield mask) {
         int a;
         for (a=0; a<MAX_TEX; a++) {
             cur->texgen_r[a] = state.enable.texgen_r[a];
-            cur->texgen_r[a] = state.enable.texgen_s[a];
-            cur->texgen_r[a] = state.enable.texgen_t[a];
+            cur->texgen_s[a] = state.enable.texgen_s[a];
+            cur->texgen_t[a] = state.enable.texgen_t[a];
 	        cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
