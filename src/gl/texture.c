@@ -99,6 +99,8 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
 	if (old!=texunit) glClientActiveTexture(old+GL_TEXTURE0);
 }
 
+int nolumalpha = 0;
+
 static void *swizzle_texture(GLsizei width, GLsizei height,
                              GLenum *format, GLenum *type,
                              const GLvoid *data) {
@@ -112,7 +114,10 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             break;
         case GL_ALPHA:
         case GL_RGBA:
+            break;
         case GL_LUMINANCE_ALPHA:
+            if(nolumalpha)
+                convert = true;
             break;
         case GL_RGB5:
             dest_type = GL_UNSIGNED_SHORT_5_6_5;
@@ -300,6 +305,11 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if (env_copy && strcmp(env_copy, "1") == 0) {
             printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n");
             copytex = 1;
+        }
+        char *env_lumalpha = getenv("LIBGL_NOLUMALPHA");
+        if (env_lumalpha && strcmp(env_lumalpha, "1") == 0) {
+            nolumalpha = 1;
+            printf("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n");
         }
         tested_env = true;
     }
@@ -1162,7 +1172,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
 	gltexture_t* bound = state.texture.bound[state.texture.active];
 	int width = bound->width;
 	int height = bound->height;
-//printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
+    //printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
 	
 	GLvoid *dst = img;
     if (state.buffers.pack)
@@ -1176,7 +1186,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     }
 #endif
     if (texcopydata && bound->data) {
-        errorShim(GL_INVALID_ENUM);
+        noerrorShim();
         if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
             printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
 	} else {
@@ -1334,7 +1344,7 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 
 void glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLsizei height,  GLint border) {
-//printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
+     //printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
      //PUSH_IF_COMPILING(glCopyTexImage2D);
      GLuint old_glbatch = state.gl_batch;
      if (state.gl_batch) {
