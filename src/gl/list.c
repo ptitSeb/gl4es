@@ -726,13 +726,7 @@ void draw_renderlist(renderlist_t *list) {
             khash_t(texgen) *tgn = list->texgen;
             rendertexgen_t *m;
             kh_foreach_value(tgn, m,
-                switch (m->pname) {
-                    case GL_TEXTURE_GEN_MODE:
-                    glTexGeni(m->coord, m->pname, m->color[0]);
-                    break;
-                    default:
-                    glTexGenfv(m->coord, m->pname, m->color);
-                }
+                glTexGenfv(m->coord, m->pname, m->color);
             )
         }
         
@@ -1212,10 +1206,7 @@ void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * 
 
     m->coord = coord;
     m->pname = pname;
-    m->color[0] = params[0];
-    m->color[1] = params[1];
-    m->color[2] = params[2];
-    m->color[3] = params[3];
+    memcpy(m->color, params, 4*sizeof(GLfloat));
 }
 
 void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
