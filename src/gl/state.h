@@ -9,6 +9,7 @@
 
 typedef struct {
     GLboolean line_stipple,
+              auto_normal,
               blend,
               color_sum,
               secondary_array,

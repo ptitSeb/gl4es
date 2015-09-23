@@ -436,6 +436,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         state.enable.texture_2d[state.texture.active] = enable;
 #endif
     switch (cap) {
+        enable(GL_AUTO_NORMAL, auto_normal);
         proxy_enable(GL_BLEND, blend);
         proxy_enable(GL_TEXTURE_2D, texture_2d[state.texture.active]);
         enable(GL_TEXTURE_GEN_S, texgen_s[state.texture.active]);
