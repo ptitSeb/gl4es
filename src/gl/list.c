@@ -847,74 +847,76 @@ void draw_renderlist(renderlist_t *list) {
                 if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
                     int n, s;
                     int ilen = list->ilen;
-                    GLushort ind_line[ilen*3+1];
+                    GLushort ind_line[ilen*4+2];
                     int k=0;
                     switch (list->mode_init) {
                         case GL_TRIANGLES:
-                            // 1 triangle -> 3 lines
-                            for (int i = 0; i<ilen; i+=3) {
-                                ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
-                                ind_line[k++] = indices[i+1]; ind_line[k++] = indices[i+2];
-                                ind_line[k++] = indices[i+2]; ind_line[k++] = indices[i+0];
+                            if(ilen>2) {
+                                // 1 triangle -> 3 lines
+                                for (int i = 0; i<ilen-2; i+=3) {
+                                    ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
+                                    ind_line[k++] = indices[i+1]; ind_line[k++] = indices[i+2];
+                                    ind_line[k++] = indices[i+2]; ind_line[k++] = indices[i+0];
+                                }
                             }
                             break;
                         case GL_TRIANGLE_STRIP:
                             // first 3 points a triangle, then a 2 lines per new point
                             if (ilen>2) {
                                 ind_line[k++] = indices[0]; ind_line[k++] = indices[1];
-                            }
-                            for (int i = 2; i<ilen; i++) {
-                                ind_line[k++] = indices[i-2]; ind_line[k++] = indices[i];
-                                ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                for (int i = 2; i<ilen; i++) {
+                                    ind_line[k++] = indices[i-2]; ind_line[k++] = indices[i];
+                                    ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                }
                             }
                             break;
                         case GL_TRIANGLE_FAN:
                             // first 3 points a triangle, then a 2 lines per new point too
                             if (ilen>2) {
                                 ind_line[k++] = indices[0]; ind_line[k++] = indices[1];
-                            }
-                            for (int i = 2; i<ilen; i++) {
-                                ind_line[k++] = indices[0]; ind_line[k++] = indices[i];
-                                ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                for (int i = 2; i<ilen; i++) {
+                                    ind_line[k++] = indices[0]; ind_line[k++] = indices[i];
+                                    ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                }
                             }
                             break;
                         case GL_QUADS:
-                            // 4 lines per quads, but dest may already be a triangles list...
-                            if (list->mode == GL_TRIANGLE_FAN) {
-                                // just 1 Quad
-                                for (int i=0; i<4; i++) {
-                                    ind_line[k++] = indices[i+0]; ind_line[k++] = indices[(i+1)%4];
-                                }
-                            } else {
-                                // list of triangles, 2 per quads...
-                                for (int i=0; i<ilen; i+=6) {
-                                    ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
-                                    ind_line[k++] = indices[i+1]; ind_line[k++] = indices[i+2];
-                                    ind_line[k++] = indices[i+2]; ind_line[k++] = indices[i+5];
-                                    ind_line[k++] = indices[i+5]; ind_line[k++] = indices[i+0];
+                            if (ilen>3) {
+                                // 4 lines per quads, but dest may already be a triangles list...
+                                if (list->mode == GL_TRIANGLE_FAN) {
+                                    // just 1 Quad
+                                    for (int i=0; i<4; i++) {
+                                        ind_line[k++] = indices[i+0]; ind_line[k++] = indices[(i+1)%4];
+                                    }
+                                } else {
+                                    // list of triangles, 2 per quads...
+                                    for (int i=0; i<ilen-5; i+=6) {
+                                        ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
+                                        ind_line[k++] = indices[i+1]; ind_line[k++] = indices[i+2];
+                                        ind_line[k++] = indices[i+2]; ind_line[k++] = indices[i+5];
+                                        ind_line[k++] = indices[i+5]; ind_line[k++] = indices[i+0];
+                                    }
                                 }
                             }
                             break;
                         case GL_QUAD_STRIP:
                             // first 4 points is a quad, then 2 points per new quad
-                            if (ilen>2) {
+                            if (ilen>3) {
                                 ind_line[k++] = indices[0]; ind_line[k++] = indices[1];
-                            }
-                            for (int i = 2; i<ilen; i+=2) {
-                                ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
-                                ind_line[k++] = indices[i-2]; ind_line[k++] = indices[i+1];
-                                ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
+                                for (int i = 2; i<ilen-1; i+=2) {
+                                    ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                    ind_line[k++] = indices[i-2]; ind_line[k++] = indices[i+1];
+                                    ind_line[k++] = indices[i+0]; ind_line[k++] = indices[i+1];
+                                }
                             }
                             break;
                         case GL_POLYGON:
                             // if polygons have been merged, then info is lost...
                             if (ilen) {
                                 ind_line[k++] = indices[0]; ind_line[k++] = indices[1];
-                            }
-                            for (int i = 1; i<ilen; i++) {
-                                ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
-                            }
-                            if (ilen) {
+                                for (int i = 1; i<ilen; i++) {
+                                    ind_line[k++] = indices[i-1]; ind_line[k++] = indices[i];
+                                }
                                 ind_line[k++] = indices[ilen-1]; ind_line[k++] = indices[0];
                             }
                             break;
@@ -937,68 +939,78 @@ void draw_renderlist(renderlist_t *list) {
                 int len = list->len;
                 if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
                     int n, s;
-                    GLushort ind_line[len*3+1];
+                    GLushort ind_line[len*4+2];
                     int k=0;
                     switch (list->mode_init) {
                         case GL_TRIANGLES:
                             // 1 triangle -> 3 lines
-                            for (int i = 0; i<len; i+=3) {
-                                ind_line[k++] = i+0; ind_line[k++] = i+1;
-                                ind_line[k++] = i+1; ind_line[k++] = i+2;
-                                ind_line[k++] = i+2; ind_line[k++] = i+0;
+                            if(len>2) {
+                                for (int i = 0; i<len-2; i+=3) {
+                                    ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                    ind_line[k++] = i+1; ind_line[k++] = i+2;
+                                    ind_line[k++] = i+2; ind_line[k++] = i+0;
+                                }
                             }
                             break;
                         case GL_TRIANGLE_STRIP:
                             // first 3 points a triangle, then a 2 lines per new point
                             if (len>2) {
                                 ind_line[k++] = 0; ind_line[k++] = 1;
-                            }
-                            for (int i = 2; i<len; i++) {
-                                ind_line[k++] = i-2; ind_line[k++] = i;
-                                ind_line[k++] = i-1; ind_line[k++] = i;
+                                for (int i = 2; i<len; i++) {
+                                    ind_line[k++] = i-2; ind_line[k++] = i;
+                                    ind_line[k++] = i-1; ind_line[k++] = i;
+                                }
                             }
                             break;
                         case GL_TRIANGLE_FAN:
                             // first 3 points a triangle, then a 2 lines per new point too
                             if (len>2) {
                                 ind_line[k++] = 0; ind_line[k++] = 1;
-                            }
-                            for (int i = 2; i<len; i++) {
-                                ind_line[k++] = 0; ind_line[k++] = i;
-                                ind_line[k++] = i-1; ind_line[k++] = i;
+                                for (int i = 2; i<len; i++) {
+                                    ind_line[k++] = 0; ind_line[k++] = i;
+                                    ind_line[k++] = i-1; ind_line[k++] = i;
+                                }
                             }
                             break;
                         case GL_QUADS:
-                            // 4 lines per quads, QUAD without indices means 1 single quad
-                            if (list->mode == GL_TRIANGLE_FAN) {
-                                // just 1 Quad
-                                for (int i=0; i<4; i++) {
-                                    ind_line[k++] = i+0; ind_line[k++] = (i+1)%4;
+                            if(len>3) {
+                                // 4 lines per quads, QUAD without indices means 1 single quad
+                                if (list->mode == GL_TRIANGLE_FAN) {
+                                    // just 1 Quad
+                                    for (int i=0; i<4; i++) {
+                                        ind_line[k++] = i+0; ind_line[k++] = (i+1)%4;
+                                    }
+                                } else {
+                                    // list of triangles, 2 per quads...
+                                    for (int i=0; i<len-5; i+=6) {
+                                        ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                        ind_line[k++] = i+1; ind_line[k++] = i+2;
+                                        ind_line[k++] = i+2; ind_line[k++] = i+5;
+                                        ind_line[k++] = i+5; ind_line[k++] = i+0;
+                                    }
                                 }
-                            } else {
-                                // cannot go there!
                             }
                             break;
                         case GL_QUAD_STRIP:
-                            // first 4 points is a quad, then 2 points per new quad
-                            if (len>2) {
-                                ind_line[k++] = 0; ind_line[k++] = 1;
-                            }
-                            for (int i = 2; i<len; i+=2) {
-                                ind_line[k++] = i-1; ind_line[k++] = i;
-                                ind_line[k++] = i-2; ind_line[k++] = i+1;
-                                ind_line[k++] = i+0; ind_line[k++] = i+1;
+                            if(len>3) {
+                                // first 4 points is a quad, then 2 points per new quad
+                                if (len>2) {
+                                    ind_line[k++] = 0; ind_line[k++] = 1;
+                                }
+                                for (int i = 2; i<len-1; i+=2) {
+                                    ind_line[k++] = i-1; ind_line[k++] = i;
+                                    ind_line[k++] = i-2; ind_line[k++] = i+1;
+                                    ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                }
                             }
                             break;
                         case GL_POLYGON:
                             // if polygons have been merged, then info is lost...
                             if (len) {
                                 ind_line[k++] = 0; ind_line[k++] = 1;
-                            }
-                            for (int i = 1; i<len; i++) {
-                                ind_line[k++] = i-1; ind_line[k++] = i;
-                            }
-                            if (len) {
+                                for (int i = 1; i<len; i++) {
+                                    ind_line[k++] = i-1; ind_line[k++] = i;
+                                }
                                 ind_line[k++] = len-1; ind_line[k++] = 0;
                             }
                             break;
