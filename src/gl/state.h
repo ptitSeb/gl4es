@@ -29,9 +29,12 @@ typedef struct {
     GLenum S;
     GLenum T;
     GLenum R;
-    GLfloat Sv[4];
-    GLfloat Tv[4];
-    GLfloat Rv[4];
+    GLfloat S_E[4]; // Eye Plane
+    GLfloat T_E[4];
+    GLfloat R_E[4];
+    GLfloat S_O[4]; // Object Plane
+    GLfloat T_O[4];
+    GLfloat R_O[4];
 } texgen_state_t;
 
 typedef struct {
