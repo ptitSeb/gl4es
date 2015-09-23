@@ -226,6 +226,7 @@ void glPushAttrib(GLbitfield mask) {
             cur->texgen_r[a] = state.enable.texgen_r[a];
             cur->texgen_s[a] = state.enable.texgen_s[a];
             cur->texgen_t[a] = state.enable.texgen_t[a];
+            cur->texgen[a] = state.texgen[a];   // all mode and planes per texture in 1 line
 	        cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
@@ -478,6 +479,7 @@ void glPopAttrib() {
             state.enable.texgen_r[a] = cur->texgen_r[a];
             state.enable.texgen_s[a] = cur->texgen_s[a];
             state.enable.texgen_t[a] = cur->texgen_t[a];
+            state.texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
 			if ((cur->texture[a]==0 && state.texture.bound[a] != 0) || (cur->texture[a]!=0 && state.texture.bound[a]==0)) {
 			   glActiveTexture(GL_TEXTURE0+a);
 			   glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
