@@ -678,11 +678,12 @@ void glTexCoord4fv(GLfloat *t) {
 
 // texgen
 void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
-    glTexGeni(coord, pname, param);
+    glTexGenf(coord, pname, param);
 }
 void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
-    // TODO: this is gross/lossy.
-    glTexGeni(coord, pname, param);
+    GLfloat params[4] = {0,0,0,0};
+    params[0] = param;
+    glTexGenfv(coord, pname, params);
 }
 void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) {
     GLfloat tmp[4];

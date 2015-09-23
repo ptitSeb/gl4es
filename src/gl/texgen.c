@@ -3,25 +3,23 @@
 //extern void* eglGetProcAddress(const char*);
 
 void glTexGeni(GLenum coord, GLenum pname, GLint param) {
-    // coord is in: GL_S, GL_T, GL_R, GL_Q
-    // pname == GL_TEXTURE_GEN_MODE
-    /* param is in:
-        GL_OBJECT_LINEAR, GL_EYE_LINEAR,
-        GL_SPHERE_MAP, GL_NORMAL_MAP, or GL_REFLECTION_MAP
-    */
-    /*
-    switch (coord) {
-        case GL_S: state.texgen[state.texture.active].S = param; break;
-        case GL_T: state.texgen[state.texture.active].T = param; break;
-    }
-    */
     GLfloat params[4] = {0,0,0,0};
     params[0]=param;
     glTexGenfv(coord, pname, params);
 }
 
 void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
-//printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]), texture=%i\n", coord, pname, param[0], state.texture.active);
+    
+    /*
+    If pname is GL_TEXTURE_GEN_MODE, then the array must contain
+    a single symbolic constant, one of
+    GL_OBJECT_LINEAR, GL_EYE_LINEAR, GL_SPHERE_MAP, GL_NORMAL_MAP,
+    or GL_REFLECTION_MAP.
+    Otherwise, params holds the coefficients for the texture-coordinate
+    generation function specified by pname.
+    */
+
+    //printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]), texture=%i\n", coord, pname, param[0], state.texture.active);
     if ((state.list.compiling || state.gl_batch) && state.list.active) {
 		NewStage(state.list.active, STAGE_TEXGEN);
 		rlTexGenfv(state.list.active, coord, pname, param);
@@ -31,38 +29,36 @@ void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
 
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
     noerrorShim();
-    if (pname == GL_TEXTURE_GEN_MODE) {
-        switch (coord) {
-            case GL_S: state.texgen[state.texture.active].S = param[0]; break;
-            case GL_T: state.texgen[state.texture.active].T = param[0]; break;
-            case GL_R: state.texgen[state.texture.active].R = param[0]; break;
-            default:
-                errorShim(GL_INVALID_ENUM);
-        }
-    } else {
-        switch (coord) {
-            case GL_S:
-                memcpy(state.texgen[state.texture.active].Sv, param, 4 * sizeof(GLfloat));
-                break;
-            case GL_T:
-                memcpy(state.texgen[state.texture.active].Tv, param, 4 * sizeof(GLfloat));
-                break;
-            case GL_R:
-                memcpy(state.texgen[state.texture.active].Rv, param, 4 * sizeof(GLfloat));
-                break;
-            default:
-                errorShim(GL_INVALID_ENUM);
-        }
+    switch(pname) {
+        case GL_TEXTURE_GEN_MODE:
+            switch (coord) {
+                case GL_S: state.texgen[state.texture.active].S = param[0]; break;
+                case GL_T: state.texgen[state.texture.active].T = param[0]; break;
+                case GL_R: state.texgen[state.texture.active].R = param[0]; break;
+                default:
+                    errorShim(GL_INVALID_ENUM);
+                return;
+            }
+        case GL_OBJECT_PLANE:
+        case GL_EYE_PLANE:
+            //TODO: Separate EYE and OBJECT Plane coordinnates
+            switch (coord) {
+                case GL_S:
+                    memcpy(state.texgen[state.texture.active].Sv, param, 4 * sizeof(GLfloat));
+                    break;
+                case GL_T:
+                    memcpy(state.texgen[state.texture.active].Tv, param, 4 * sizeof(GLfloat));
+                    break;
+                case GL_R:
+                    memcpy(state.texgen[state.texture.active].Rv, param, 4 * sizeof(GLfloat));
+                    break;
+                default:
+                    errorShim(GL_INVALID_ENUM);
+                return;
+            }
+        default:
+            errorShim(GL_INVALID_ENUM);
     }
-
-    /*
-    If pname is GL_TEXTURE_GEN_MODE, then the array must contain
-    a single symbolic constant, one of
-    GL_OBJECT_LINEAR, GL_EYE_LINEAR, GL_SPHERE_MAP, GL_NORMAL_MAP,
-    or GL_REFLECTION_MAP.
-    Otherwise, params holds the coefficients for the texture-coordinate
-    generation function specified by pname.
-    */
 }
 void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
     if (gl_batch) flush();
@@ -77,7 +73,7 @@ void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 			}
 			break;
 		case GL_OBJECT_PLANE:
-		case GL_EYE_PLANE:	// probably wrong...
+		case GL_EYE_PLANE:	//TODO: separate EYE and OBJECT plane
 			switch (coord) {
 				case GL_S:
 					memcpy(params, state.texgen[state.texture.active].Sv, 4 * sizeof(GLfloat));
@@ -352,26 +348,6 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 	return;
     if ((*coords)==NULL) 
         *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
-/*	LOAD_GLES(glPushMatrix);
-	LOAD_GLES(glGetIntegerv);
-	LOAD_GLES(glMatrixMode);
-	LOAD_GLES(glLoadIdentity);
-	LOAD_GLES(glActiveTexture);
-    GLuint old=state.texture.active;
-    GLuint matmode;
-    gles_glGetIntegerv(GL_MATRIX_MODE, &matmode);
-    if (matmode!=GL_TEXTURE)
-        gles_glMatrixMode(GL_TEXTURE);
-    if (old!=texture)
-        gles_glActiveTexture(GL_TEXTURE0+texture);
-    gles_glPushMatrix();
-    gles_glLoadIdentity();
-    if (matmode!=GL_TEXTURE)
-        gles_glMatrixMode(matmode);
-    if (old!=texture)
-        gles_glActiveTexture(GL_TEXTURE0+old);
-    *needclean=2;
-*/
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, state.texgen[texture].S, state.texgen[texture].Sv, indices);
     if (state.enable.texgen_t[texture])
@@ -389,24 +365,6 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		if (old_tex!=texture) glActiveTexture(GL_TEXTURE0 + old_tex);
 		return;
 	}
-/*	if (cleancode == 2) {
-		LOAD_GLES(glPopMatrix);
-		LOAD_GLES(glGetIntegerv);
-		LOAD_GLES(glMatrixMode);
-		LOAD_GLES(glActiveTexture);
-		GLuint old=state.texture.active;
-		GLuint matmode;
-		gles_glGetIntegerv(GL_MATRIX_MODE, &matmode);
-		if (matmode!=GL_TEXTURE)
-			gles_glMatrixMode(GL_TEXTURE);
-		if (old!=texture)
-			gles_glActiveTexture(GL_TEXTURE0+texture);
-		gles_glPopMatrix();
-		if (matmode!=GL_TEXTURE)
-			gles_glMatrixMode(matmode);
-		if (old!=texture)
-			gles_glActiveTexture(GL_TEXTURE0+old);
-	}*/
 }
 
 void glLoadTransposeMatrixf(const GLfloat *m) {
