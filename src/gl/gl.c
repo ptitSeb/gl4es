@@ -548,6 +548,8 @@ GLboolean glIsEnabled(GLenum cap) {
     LOAD_GLES(glIsEnabled);
     noerrorShim();
     switch (cap) {
+        case GL_AUTO_NORMAL:
+            return state.enable.auto_normal;
         case GL_LINE_STIPPLE:
             return state.enable.line_stipple;
         case GL_TEXTURE_GEN_S:
