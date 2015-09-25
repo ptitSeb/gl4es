@@ -651,7 +651,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
         list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
-        end_renderlist(list);
+        //end_renderlist(list);
         
         state.list.active = extend_renderlist(list);
         return;
@@ -1374,12 +1374,12 @@ void glEndList() {
         state.list.compiling = false;
         end_renderlist(state.list.active);
         state.list.active = NULL;
+        if (gl_batch==1) {
+            init_batch();
+        } 
         if (state.list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);
         }
-        if (gl_batch) {
-            init_batch();
-        } 
     }
 }
 
@@ -1440,6 +1440,9 @@ void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 }
 
 void glDeleteList(GLuint list) {
+    if(state.gl_batch) {
+        flush();
+    }
     renderlist_t *l = glGetList(list);
     if (l) {
         free_renderlist(l);
