@@ -575,7 +575,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
-    GLuint dst_width = stride * pixel_sizeof(dst_format, dst_type);
+    GLuint dst_width = ((stride?stride:width) - width) * pixel_sizeof(dst_format, dst_type);
     GLuint src_width = width * pixel_sizeof(dst_format, dst_type);
 
 //printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
@@ -592,7 +592,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             *dst = malloc(dst_size);
         if (stride)	// for in-place conversion
 			for (int yy=0; yy<height; yy++)
-				memcpy((*dst)+yy*dst_width, src+yy*src_width, src_width);
+				memcpy((*dst)+yy*(dst_width+src_width), src+yy*src_width, src_width);
         else
 			memcpy(*dst, src, dst_size);
         return true;
@@ -614,7 +614,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 				dst_pos += dst_stride;
 			}
 			if (stride)
-				dst_pos += dst_width - src_width;
+				dst_pos += dst_width;
         }
         return true;
     }
@@ -628,7 +628,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 				dst_pos += dst_stride;
 			}
 			if (stride)
-				dst_pos += dst_width - src_width;
+				dst_pos += dst_width;
         }
         return true;
     }
@@ -642,7 +642,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 				dst_pos += dst_stride;
 			}
 			if (stride)
-				dst_pos += dst_width - src_width;
+				dst_pos += dst_width;
         }
         return true;
     }
@@ -659,7 +659,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			dst_pos += dst_stride;
 		}
 		if (stride)
-			dst_pos += dst_width - src_width;
+			dst_pos += dst_width;
 	}
 	return true;
 }

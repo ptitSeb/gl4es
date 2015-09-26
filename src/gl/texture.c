@@ -1,6 +1,7 @@
 #include "texture.h"
 #include "raster.h"
 #include "decompress.h"
+#include "debug.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include "../glx/streaming.h"
@@ -202,7 +203,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-//printf("glTexImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%04x(%04x), type=%04x, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i)\n", target, state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, internalformat, type, data, level, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_need:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_auto:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->streamed:0);
+    //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i)\n", PrintEnum(target), state.texture.unpack_row_length, width, height, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_need:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->mipmap_auto:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->streamed:0);
 
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D) {
@@ -592,7 +593,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-//printf("glTexSubImage2D on target=0x%04X with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%04x, type=%04x, level=%i, texture=%u\n", target, state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, type, level, state.texture.bound[state.texture.active]->texture);
+    //printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i, texture=%u\n", PrintEnum(target), state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, state.texture.bound[state.texture.active]->texture);
     if (width==0 || height==0) {
         state.gl_batch = old_glbatch;
         return;
@@ -706,7 +707,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
         gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
 
     if ((target==GL_TEXTURE_2D) && texcopydata && bound && ((texstream && !bound->streamed) || !texstream)) {
-//printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i, format=0x%04X, type=0x%04X, tex=%u\n", xoffset, yoffset, width, height, format, type, bound->glname);
+    //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i=>%i,%i, format=%s, type=%s, tex=%u\n", xoffset, yoffset, width, height, bound->width, bound->height, PrintEnum(format), PrintEnum(type), bound->glname);
         GLvoid * tmp = bound->data;
         tmp += (yoffset*bound->width + xoffset)*4;
         if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, bound->width))
@@ -845,7 +846,7 @@ void glBindTexture(GLenum target, GLuint texture) {
     	int tex_changed = 1;
 		int streamingID = -1;
         gltexture_t *tex = NULL;
-//printf("glBindTexture(0x%04X, %u), active=%i, client=%i\n", target, texture, state.texture.active, state.texture.client);
+        //printf("glBindTexture(0x%04X, %u), active=%i, client=%i\n", target, texture, state.texture.active, state.texture.client);
         if (texture) {
             int ret;
             khint_t k;
@@ -1186,6 +1187,7 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
     }
 #endif
     if (texcopydata && bound->data) {
+        printf("texcopydata* glGetTexImage(0x%04X, %d, 0x%04x, 0x%04X, %p)\n", target, level, format, type, img);
         noerrorShim();
         if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
             printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
@@ -1285,7 +1287,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
-//printf("glCopyTexSubImage2D(%i, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=0x%04X, 0x%04X\n", target, level, xoffset, yoffset, x, y, width, height, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->format:0, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->type:0);
+    //printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, PrintEnum((state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->format:0), PrintEnum((state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->type:0));
 // PUSH_IF_COMPILING(glCopyTexSubImage2D);
     GLuint old_glbatch = state.gl_batch;
     if (state.gl_batch) {
@@ -1568,7 +1570,7 @@ void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
         state.gl_batch = old_glbatch;
 		return;
 	}
-//printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%04x, imagesize=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, format, imageSize);
+    //printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i\n", state.texture.unpack_row_length, width, height, xoffset, yoffset, state.texture.unpack_skip_pixels, state.texture.unpack_skip_rows, PrintEnum(format), imageSize);
     glbuffer_t *unpack = state.buffers.unpack;
     state.buffers.unpack = NULL;
     GLvoid *datab = (GLvoid*)data;

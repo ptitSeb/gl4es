@@ -71,21 +71,16 @@ void initialize_glshim() {
 
 // config functions
 const GLubyte *glGetString(GLenum name) {
-    LOAD_GLES(glGetString);
+//    LOAD_GLES(glGetString);
     const GLubyte *str;
     errorShim(GL_NO_ERROR);
-	if ((str=gles_glGetString(name))==NULL)
-		printf("**warning** glGetString(%i) called with bad init\n", name);
+/*	if ((str=gles_glGetString(name))==NULL)
+		printf("**warning** glGetString(%i) called with bad init\n", name);*/
     switch (name) {
         case GL_VERSION:
-#ifdef USE_ES2
-            return (GLubyte *)"4.3 glshim wrapper";
-#else
             return (GLubyte *)"1.5 glshim wrapper";
-#endif
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
-#ifndef USE_ES2
                 "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_vertex_array "
@@ -124,24 +119,13 @@ const GLubyte *glGetString(GLenum name) {
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
-#else
-                "GL_ARB_vertex_shader "
-                "GL_ARB_fragment_shader "
-                "GL_ARB_vertex_buffer_object "
-                "GL_EXT_framebuffer_object "
-                "GL_EXT_vertex_array "
-#endif
             };
 		case GL_VENDOR:
 			return (GLubyte *)"OpenPandora";
 		case GL_RENDERER:
-#ifdef USE_ES2
-			return (GLubyte *)"GLESv2 wrapper";
-#else
 			return (GLubyte *)"GLES_CM wrapper";
 		case GL_SHADING_LANGUAGE_VERSION:
 			return (GLubyte *)"";
-#endif
         default:
 			errorShim(GL_INVALID_ENUM);
             return (str)?str:(GLubyte*)"";
