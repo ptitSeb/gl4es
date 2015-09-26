@@ -156,6 +156,7 @@ static bool g_usefbo = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
 static bool g_bcm_active = false;
+bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
 #ifndef BCMHOST
 static bool g_bcmhost = false;
@@ -303,6 +304,7 @@ static void scan_env() {
         printf("LIBGL: LiveInfo detected, fps will be shown\n");
     }
 #endif
+    env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         printf("LIBGL: Current folder is:%s\n", cwd);
