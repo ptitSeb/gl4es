@@ -541,7 +541,7 @@ GLboolean glIsEnabled(GLenum cap) {
         case GL_TEXTURE_GEN_T:
             return state.enable.texgen_t[state.texture.active];
         case GL_TEXTURE_GEN_R:
-            return state.enable.texgen_t[state.texture.active];
+            return state.enable.texgen_r[state.texture.active];
 		case GL_TEXTURE_COORD_ARRAY:
 			return state.enable.tex_coord_array[state.texture.client];
 		case GL_COLOR_SUM:
