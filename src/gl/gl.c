@@ -526,37 +526,34 @@ void glDisableClientState(GLenum cap) {
 }
 #endif
 
+#define isenabled(what, where) \
+    case what: return state.enable.where
+    
 GLboolean glIsEnabled(GLenum cap) {
     // should flush for now... to be optimized later!
     if (state.gl_batch) flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();
     switch (cap) {
-        case GL_AUTO_NORMAL:
-            return state.enable.auto_normal;
-        case GL_LINE_STIPPLE:
-            return state.enable.line_stipple;
-        case GL_TEXTURE_GEN_S:
-            return state.enable.texgen_s[state.texture.active];
-        case GL_TEXTURE_GEN_T:
-            return state.enable.texgen_t[state.texture.active];
-        case GL_TEXTURE_GEN_R:
-            return state.enable.texgen_r[state.texture.active];
-		case GL_TEXTURE_COORD_ARRAY:
-			return state.enable.tex_coord_array[state.texture.client];
-		case GL_COLOR_SUM:
-			return state.enable.color_sum;
-		case GL_SECONDARY_COLOR_ARRAY:
-			return state.enable.secondary_array;
-        case GL_TEXTURE_1D:
-            return state.enable.texture_1d[state.texture.active];
-        case GL_TEXTURE_3D:
-            return state.enable.texture_1d[state.texture.active];
+        isenabled(GL_AUTO_NORMAL, auto_normal);
+        isenabled(GL_LINE_STIPPLE, line_stipple);
+        isenabled(GL_TEXTURE_GEN_S, texgen_s[state.texture.active]);
+        isenabled(GL_TEXTURE_GEN_T, texgen_t[state.texture.active]);
+        isenabled(GL_TEXTURE_GEN_R, texgen_r[state.texture.active]);
+		isenabled(GL_COLOR_SUM, color_sum);
+		isenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        isenabled(GL_TEXTURE_1D, texture_1d[state.texture.active]);
+        isenabled(GL_TEXTURE_3D, texture_3d[state.texture.active]);
+        isenabled(GL_VERTEX_ARRAY, vertex_array);
+        isenabled(GL_NORMAL_ARRAY, normal_array);
+        isenabled(GL_COLOR_ARRAY, color_array);
+        isenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[state.texture.client]);
         default:
 			errorGL();
             return gles_glIsEnabled(cap);
     }
 }
+#undef isenabled
 
 static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
