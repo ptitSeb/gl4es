@@ -1,4 +1,5 @@
 #include "array.h"
+#include "debug.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
@@ -63,16 +64,51 @@ GLvoid *copy_gl_array(const GLvoid *src,
     return dst;
 }
 
+GLvoid *copy_gl_array_quickconvert(const GLvoid *src,
+                      GLenum from, GLsizei stride,
+                      GLsizei skip, GLsizei count) {
+                          
+    if (! stride)
+        stride = 4 * gl_sizeof(from);
+    const char *unknown_str = "libGL: copy_gl_array_quickconvert -> unknown type: %x\n";
+    GLvoid *dst = malloc((count-skip) * 4 * gl_sizeof(GL_FLOAT));
+    GLsizei from_size = gl_sizeof(from) * 4;
+    GLsizei to_size = gl_sizeof(GL_FLOAT) * 4;
+
+    uintptr_t in = (uintptr_t)src;
+    in += stride*skip;
+    int j;
+    
+    GLfloat *out = (GLfloat*)dst;
+    GL_TYPE_SWITCH2(input, in, from,
+        const GLfloat maxf = 1.0f/gl_max_value(from);
+        for (int i = skip; i < count; i++)
+        ,
+                for (j = 0; j < 4; j++) {
+                    out[j] = ((GLfloat)input[j])*maxf;
+                }
+                out += 4;
+                in += stride;
+        ,
+        default:
+                printf(unknown_str, from);
+                return NULL;
+    )
+    return dst;
+}
+
 GLvoid *copy_gl_array_convert(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
                       GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler) {
     if (! src || !count)
         return NULL;
+        
+    if(to==GL_FLOAT && width==to_width && width==4)
+        return copy_gl_array_quickconvert(src, from, stride, skip, count);
 						  
     if (! stride)
         stride = width * gl_sizeof(from);
-
-    const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
+    const char *unknown_str = "libGL: copy_gl_array_convert -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_size = gl_sizeof(to) * to_width;
@@ -106,10 +142,12 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
         )
     } else {
         GL_TYPE_SWITCH_MAX(out, dst, to,
-            for (int i = skip; i < count; i++) {
-                GL_TYPE_SWITCH(input, in, from,
+            GL_TYPE_SWITCH2(input, in, from,
+                const GLuint maxf = gl_max_value(from);
+                for (int i = skip; i < count; i++)
+                ,
                     for (j = 0; j < width; j++) {
-                        out[j] = input[j]*maxv/gl_max_value(from);
+                        out[j] = input[j]*maxv/maxf;
                     }
                     for (; j < to_width-1; j++) {
                         out[j]=0;
@@ -119,12 +157,11 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
                     }
                     out += to_width;
                     in += stride;
-                ,
+            ,
                     default:
                         printf(unknown_str, from);
                         return NULL;
-                )
-            },
+            ),
             default:
                 printf(unknown_str, to);
                 return NULL;
