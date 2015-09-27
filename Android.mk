@@ -38,6 +38,7 @@ LOCAL_SRC_FILES := \
 	src/gl/wrap/glesext.c \
 	src/gl/wrap/glstub.c \
 	src/gl/math/eval.c \
+	src/gl/debug.c \
 	src/glx/glx.c \
 	src/glx/lookup.c \
 	src/glx/streaming.c
