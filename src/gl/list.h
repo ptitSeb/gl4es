@@ -11,6 +11,7 @@ typedef enum {
 	STAGE_GLCALL,
 	STAGE_FOG,
     STAGE_MATRIX,
+    STAGE_ACTIVETEX,
 	STAGE_BINDTEX,
 	STAGE_RASTER,
 	STAGE_MATERIAL,
@@ -30,6 +31,7 @@ static int StageExclusive[STAGE_LAST] = {
 	0,  // STAGE_GLCALL
 	1, 	// STAGE_FOG
     1,  // STAGE_MATRIX
+    1,  // STAGE_ACTIVETEX
 	1,  // STAGE_BINDTEX
 	1,  // STAGE_RASTER
 	0,  // STAGE_MATERIAL
@@ -126,8 +128,10 @@ typedef struct _renderlist_t {
     GLfloat	*lightmodel;
     GLenum	lightmodelparam;
     GLenum	polygon_mode;
-    GLuint texture;				// I cannot know the active texture inside a list (for now => TODO?)
-    GLenum target_texture;      // to support cube maps...
+    GLboolean set_tmu;      // TRUE is glActiveTexture called
+    GLenum tmu;             // the current TMU...
+    GLuint texture;				
+    GLenum target_texture;      
     GLboolean  set_texture;
     struct _renderlist_t *prev;
     struct _renderlist_t *next;
@@ -147,6 +151,7 @@ extern void free_renderlist(renderlist_t *list);
 extern void draw_renderlist(renderlist_t *list);
 extern void end_renderlist(renderlist_t *list);
 
+extern void rlActiveTexture(renderlist_t *list, GLenum texture );
 extern void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);
 extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);

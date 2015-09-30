@@ -1218,7 +1218,10 @@ void glActiveTexture( GLenum texture ) {
         flush();
     }
  }
- PUSH_IF_COMPILING(glActiveTexture);
+ if (state.list.active) {
+     rlActiveTexture(state.list.active, texture);
+     return;
+ }
  
  if ((texture < GL_TEXTURE0) || (texture >= GL_TEXTURE0+MAX_TEX)) {
     errorShim(GL_INVALID_ENUM);
@@ -1246,7 +1249,7 @@ void glClientActiveTexture( GLenum texture ) {
 }
 
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
-//printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
+    //printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
     GLuint old_glbatch = state.gl_batch;
     if (state.gl_batch) {
         flush();
@@ -1288,7 +1291,7 @@ void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
     //printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->texture:0, PrintEnum((state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->format:0), PrintEnum((state.texture.bound[state.texture.active])?state.texture.bound[state.texture.active]->type:0));
-// PUSH_IF_COMPILING(glCopyTexSubImage2D);
+    // PUSH_IF_COMPILING(glCopyTexSubImage2D);
     GLuint old_glbatch = state.gl_batch;
     if (state.gl_batch) {
         flush();
