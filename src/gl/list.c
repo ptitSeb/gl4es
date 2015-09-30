@@ -588,6 +588,10 @@ void adjust_renderlist(renderlist_t *list) {
     list->open = false;
     for (int a=0; a<MAX_TEX; a++) {
 	    gltexture_t *bound = state.texture.bound[a];
+        // in case of Texture bounding inside a list
+        if (list->set_texture && (list->tmu == a))
+            bound = getTexture(list->target_texture, list->texture);
+        // adjust the tex_coord now
 	    if ((list->tex[a]) && (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
 		    tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
 	    }

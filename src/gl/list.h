@@ -129,7 +129,7 @@ typedef struct _renderlist_t {
     GLenum	lightmodelparam;
     GLenum	polygon_mode;
     GLboolean set_tmu;      // TRUE is glActiveTexture called
-    GLenum tmu;             // the current TMU...
+    int tmu;             // the current TMU...
     GLuint texture;				
     GLenum target_texture;      
     GLboolean  set_texture;

@@ -118,6 +118,7 @@ static inline GLenum map_tex_target(GLenum target) {
     }
     return target;
 }
+gltexture_t* getTexture(GLenum target, GLuint texture);
 
 void glActiveTexture( GLenum texture );
 void glClientActiveTexture( GLenum texture );

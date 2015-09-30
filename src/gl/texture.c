@@ -826,6 +826,46 @@ GLboolean glIsTexture(	GLuint texture) {
 	return GL_TRUE;
 }
 
+gltexture_t* getTexture(GLenum target, GLuint texture) {
+    // Get a texture based on glID
+    gltexture_t* tex = NULL;
+    if (texture == 0) return tex;
+    int ret;
+    khint_t k;
+    khash_t(tex) *list = state.texture.list;
+    if (! list) {
+        list = state.texture.list = kh_init(tex);
+        // segfaults if we don't do a single put
+        kh_put(tex, list, 1, &ret);
+        kh_del(tex, list, 1);
+    }
+    k = kh_get(tex, list, texture);
+    
+    if (k == kh_end(list)){
+        LOAD_GLES(glGenTextures);
+        k = kh_put(tex, list, texture, &ret);
+        tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
+        tex->texture = texture;
+        gles_glGenTextures(1, &tex->glname);
+        tex->target = target;
+        tex->width = 0;
+        tex->height = 0;
+        tex->uploaded = false;
+        tex->mipmap_auto = default_tex_mipmap;
+        tex->mipmap_need = 0;
+        tex->alpha = true;
+        tex->streamed = false;
+        tex->streamingID = -1;
+        tex->min_filter = tex->mag_filter = GL_LINEAR;
+        tex->format = GL_RGBA;
+        tex->type = GL_UNSIGNED_BYTE;
+        tex->data = NULL;
+    } else {
+        tex = kh_value(list, k);
+    }
+    return tex;
+}
+
 void glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     if ((target!=GL_PROXY_TEXTURE_2D) && (state.list.active && (state.gl_batch && !state.list.compiling)))  {
@@ -848,39 +888,7 @@ void glBindTexture(GLenum target, GLuint texture) {
         gltexture_t *tex = NULL;
         //printf("glBindTexture(0x%04X, %u), active=%i, client=%i\n", target, texture, state.texture.active, state.texture.client);
         if (texture) {
-            int ret;
-            khint_t k;
-            khash_t(tex) *list = state.texture.list;
-            if (! list) {
-                list = state.texture.list = kh_init(tex);
-                // segfaults if we don't do a single put
-                kh_put(tex, list, 1, &ret);
-                kh_del(tex, list, 1);
-            }
-            k = kh_get(tex, list, texture);
-            
-            if (k == kh_end(list)){
-				LOAD_GLES(glGenTextures);
-                k = kh_put(tex, list, texture, &ret);
-                tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
-                tex->texture = texture;
-                gles_glGenTextures(1, &tex->glname);
-                tex->target = target;
-                tex->width = 0;
-                tex->height = 0;
-                tex->uploaded = false;
-                tex->mipmap_auto = default_tex_mipmap;
-                tex->mipmap_need = 0;
-				tex->alpha = true;
-				tex->streamed = false;
-				tex->streamingID = -1;
-				tex->min_filter = tex->mag_filter = GL_LINEAR;
-                tex->format = GL_RGBA;
-                tex->type = GL_UNSIGNED_BYTE;
-                tex->data = NULL;
-            } else {
-                tex = kh_value(list, k);
-            }
+            tex = getTexture(target, texture);
             if (state.texture.bound[state.texture.active] == tex)
             	tex_changed = 0;
             texture = tex->glname;
@@ -1219,6 +1227,7 @@ void glActiveTexture( GLenum texture ) {
     }
  }
  if (state.list.active) {
+     NewStage(state.list.active, STAGE_ACTIVETEX);
      rlActiveTexture(state.list.active, texture);
      return;
  }
