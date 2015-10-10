@@ -183,6 +183,13 @@ GLvoid *copy_gl_pointer_color(pointer_state_t *ptr, GLsizei width, GLsizei skip,
     return copy_gl_array_convert(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count, &filler);
 }
+GLvoid *copy_gl_pointer_bytecolor(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
+	GLubyte filler = 255;
+    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
+    return copy_gl_array_convert(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+                         GL_UNSIGNED_BYTE, width, skip, count, &filler);
+}
+
 GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
     uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
     return copy_gl_array(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,

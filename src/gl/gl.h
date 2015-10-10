@@ -428,6 +428,8 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "framebuffers.h"
 
 extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+extern void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
+extern void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
 extern void glFlush();
 extern void glFinish();
 

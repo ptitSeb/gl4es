@@ -696,8 +696,13 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
 				free(seconds_colors);
 			} else if (state.enable.color_array && (state.pointers.color.size != 4)) {
 				// Pandora doesn't like Color Pointer with size != 4
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, len, 0);
-				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+                if(state.pointers.color.type == GL_UNSIGNED_BYTE) {
+                    final_colors=copy_gl_pointer_bytecolor(&state.pointers.color, 4, 0, len, 0);
+                    gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
+                } else {
+                    final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, len, 0);
+                    gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+                }
 			} else if (state.enable.color_array)
 				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
 			if (state.enable.normal_array)
@@ -867,8 +872,13 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			} else if ((state.enable.color_array && (state.pointers.color.size != 4)) 
                     || (state.enable.color_array && (state.pointers.color.stride!=0) && (state.pointers.color.type != GL_FLOAT))) {
 				// Pandora doesn't like Color Pointer with size != 4
-				final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, 0);
-				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+                if(state.pointers.color.type == GL_UNSIGNED_BYTE) {
+                    final_colors=copy_gl_pointer_bytecolor(&state.pointers.color, 4, 0, count+first, 0);
+                    gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
+                } else {
+                    final_colors=copy_gl_pointer_color(&state.pointers.color, 4, 0, count+first, 0);
+                    gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+                }
 			} else if (state.enable.color_array)
 				gles_glColorPointer(state.pointers.color.size, state.pointers.color.type, state.pointers.color.stride, state.pointers.color.pointer);
 			if (state.enable.normal_array)
@@ -1761,4 +1771,20 @@ void glFogfv(GLenum pname, const GLfloat* params) {
     PUSH_IF_COMPILING(glFogfv);
     
     gles_glFogfv(pname, params);
+}
+
+void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
+    static bool warning = false;
+    if(!warning) {
+        printf("Warning, stubbed glIndexPointer\n");
+        warning = true;
+    }
+}
+
+void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
+    static bool warning = false;
+    if(!warning) {
+        printf("Warning, stubbed glEdgeFlagPointer\n");
+        warning = true;
+    }
 }
