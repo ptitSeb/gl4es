@@ -15,6 +15,7 @@
 #include "glx.h"
 #include "utils.h"
 #include <GLES/gl.h>
+#include "../glx/streaming.h"
 
 bool eglInitialized = false;
 EGLDisplay eglDisplay;
@@ -156,6 +157,16 @@ static bool g_usefbo = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
 static bool g_bcm_active = false;
+extern int automipmap;
+extern int texcopydata;
+extern int tested_env;
+extern int texshrink;
+extern int texdump;
+extern int alphahack;
+extern int texstream;
+extern int copytex;
+extern int nolumalpha;
+
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
 #ifndef BCMHOST
@@ -305,6 +316,96 @@ static void scan_env() {
     }
 #endif
     env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
+    // Texture hacks
+    char *env_mipmap = getenv("LIBGL_MIPMAP");
+    if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
+        automipmap = 1;
+        printf("LIBGL: AutoMipMap forced\n");
+    }
+    if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
+        automipmap = 2;
+        printf("LIBGL: guess AutoMipMap\n");
+    }
+    if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
+        automipmap = 3;
+        printf("LIBGL: ignore MipMap\n");
+    }
+    if (env_mipmap && strcmp(env_mipmap, "4") == 0) {
+        automipmap = 4;
+        printf("LIBGL: ignore AutoMipMap on non-squared textures\n");
+    }
+    char *env_texcopy = getenv("LIBGL_TEXCOPY");
+    if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
+        texcopydata = 1;
+        printf("LIBGL: Texture copy enabled\n");
+    }
+    char *env_shrink = getenv("LIBGL_SHRINK");
+    if (env_shrink && strcmp(env_shrink, "1") == 0) {
+        texshrink = 1;
+        printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "2") == 0) {
+        texshrink = 2;
+        printf("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "3") == 0) {
+        texshrink = 3;
+        printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "4") == 0) {
+        texshrink = 4;
+        printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "5") == 0) {
+        texshrink = 5;
+        printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "6") == 0) {
+        texshrink = 6;
+        printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "7") == 0) {
+        texshrink = 20;
+        printf("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "8") == 0) {
+        texshrink = 20;
+        printf("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n");
+    }
+    char *env_dump = getenv("LIBGL_TEXDUMP");
+    if (env_dump && strcmp(env_dump, "1") == 0) {
+        texdump = 1;
+        printf("LIBGL: Texture dump enabled\n");
+    }
+    char *env_alpha = getenv("LIBGL_ALPHAHACK");
+    if (env_alpha && strcmp(env_alpha, "1") == 0) {
+        alphahack = 1;
+        printf("LIBGL: Alpha Hack enabled\n");
+    }
+#ifdef TEXSTREAM
+    char *env_stream = getenv("LIBGL_STREAM");
+    if (env_stream && strcmp(env_stream, "1") == 0) {
+        texstream = InitStreamingCache();
+        printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available");
+        //FreeStreamed(AddStreamed(1024, 512, 0));
+    }
+    if (env_stream && strcmp(env_stream, "2") == 0) {
+        texstream = InitStreamingCache()?2:0;
+        printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
+        //FreeStreamed(AddStreamed(1024, 512, 0));
+    }
+#endif
+    char *env_copy = getenv("LIBGL_COPY");
+    if (env_copy && strcmp(env_copy, "1") == 0) {
+        printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n");
+        copytex = 1;
+    }
+    char *env_lumalpha = getenv("LIBGL_NOLUMALPHA");
+    if (env_lumalpha && strcmp(env_lumalpha, "1") == 0) {
+        nolumalpha = 1;
+        printf("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n");
+    }
+    
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         printf("LIBGL: Current folder is:%s\n", cwd);
