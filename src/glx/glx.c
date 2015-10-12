@@ -717,7 +717,8 @@ void glXSwapBuffers(Display *display,
     static int frames = 0;
     
     LOAD_EGL(eglSwapBuffers);
-    if (gl_batch){
+    int old_batch = state.gl_batch;
+    if (state.gl_batch){
         flush();
     }
 #ifdef PANDORA
@@ -731,6 +732,7 @@ void glXSwapBuffers(Display *display,
     }
 #endif
     if (g_usefbo) {
+        state.gl_batch = 0;
         unbindMainFBO();
         blitMainFBO();
         // blit the main_fbo before swap
@@ -774,8 +776,10 @@ void glXSwapBuffers(Display *display,
         last_frame = now;
     }
 #endif
-    if (g_usefbo)
+    if (g_usefbo) {
+        state.gl_batch = old_batch;
         bindMainFBO();
+    }
 }
 
 int glXGetConfig(Display *display,
