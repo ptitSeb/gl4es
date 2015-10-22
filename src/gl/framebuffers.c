@@ -362,6 +362,9 @@ void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, 
         gles_glRenderbufferStorage(target, GL_STENCIL_INDEX8, width, height);
         gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
     }
+    else if (internalformat == GL_DEPTH_COMPONENT) {    // Not much is supported on GLES...
+        internalformat = GL_DEPTH_COMPONENT16;
+    }
     
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
