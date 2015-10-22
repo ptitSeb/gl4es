@@ -166,6 +166,7 @@ extern int alphahack;
 extern int texstream;
 extern int copytex;
 extern int nolumalpha;
+extern int blendhack;
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -365,11 +366,11 @@ static void scan_env() {
         printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n");
     }
     if (env_shrink && strcmp(env_shrink, "7") == 0) {
-        texshrink = 20;
+        texshrink = 7;
         printf("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n");
     }
     if (env_shrink && strcmp(env_shrink, "8") == 0) {
-        texshrink = 20;
+        texshrink = 8;
         printf("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n");
     }
     char *env_dump = getenv("LIBGL_TEXDUMP");
@@ -405,6 +406,8 @@ static void scan_env() {
         nolumalpha = 1;
         printf("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n");
     }
+
+    env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

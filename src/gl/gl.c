@@ -29,6 +29,7 @@ GLfloat readhack_depth = 0.0f;
 GLuint readhack_seq = 0;
 GLuint gl_batch = 0;
 GLuint gl_mergelist = 1;
+int blendhack = 0;
 
 __attribute__((constructor))
 void initialize_glshim() {
@@ -78,7 +79,7 @@ const GLubyte *glGetString(GLenum name) {
 		printf("**warning** glGetString(%i) called with bad init\n", name);*/
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)"1.5 glshim wrapper";
+            return (GLubyte *)"1.4 glshim wrapper";
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
                 "GL_ARB_vertex_buffer_object "
@@ -1669,12 +1670,12 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) {
         default:
             break;
     }
-/*    
-    if ((sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
-        // special case, as seen in Xash3D, but it breaks torus_trooper, so disabled
+    
+    if ((blendhack) && (sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
+        // special case, as seen in Xash3D, but it breaks torus_trooper, so behind a parameter
         sfactor = GL_ONE;
     }
-*/
+
 #ifdef ODROID
     if(gles_glBlendFunc)
 #endif
