@@ -89,7 +89,7 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->popattribute)
         return false;
-    if (list->material || list->light || list->lightmodel)
+    if (list->material || list->light || list->lightmodel || list->texgen)
         return false;
     if (list->fog_op)
         return false;
