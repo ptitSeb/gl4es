@@ -393,6 +393,50 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     bound->shrink=1;
                 }
                 break;
+            case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture
+                if ((width>4096) || (height>4096)) {
+                    GLvoid *out = pixels;
+                    pixel_quarterscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 4;
+                    height /= 4;
+                    bound->shrink=2;
+                } else
+                if ((width>512) || (height>512)) {
+                    GLvoid *out = pixels;
+                    pixel_halfscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 2;
+                    height /= 2;
+                    bound->shrink=1;
+                }
+                break;
+            case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture
+                if ((width>2048) || (height>2048)) {
+                    GLvoid *out = pixels;
+                    pixel_quarterscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 4;
+                    height /= 4;
+                    bound->shrink=2;
+                } else
+                if ((width>512) || (height>512)) {
+                    GLvoid *out = pixels;
+                    pixel_halfscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width /= 2;
+                    height /= 2;
+                    bound->shrink=1;
+                }
+                break;
             }
         }
         
@@ -465,6 +509,8 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     case 7: //only > 512 /2, but not for empty texture
                         break;
                     case 8: //advertise 8192 max texture size, but >2048 are shrinked to 2048
+                    case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture (but >2048 are not supported anyway)
+                    case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture (but >2048 are not supported anyway)
                         if((width>4096) || (height>4096)) {
                             width /= 4;
                             height /= 4;
