@@ -167,6 +167,7 @@ extern int texstream;
 extern int copytex;
 extern int nolumalpha;
 extern int blendhack;
+extern char gl_version[50];
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -373,6 +374,14 @@ static void scan_env() {
         texshrink = 8;
         printf("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n");
     }
+    if (env_shrink && strcmp(env_shrink, "9") == 0) {
+        texshrink = 9;
+        printf("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n");
+    }
+    if (env_shrink && strcmp(env_shrink, "10") == 0) {
+        texshrink = 10;
+        printf("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n");
+    }
     char *env_dump = getenv("LIBGL_TEXDUMP");
     if (env_dump && strcmp(env_dump, "1") == 0) {
         texdump = 1;
@@ -408,6 +417,12 @@ static void scan_env() {
     }
 
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
+    
+    char *env_version = getenv("LIBGL_VERSION");
+    if (env_version) {
+        printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", gl_version);
+    }
+    snprintf(gl_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

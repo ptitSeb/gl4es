@@ -30,6 +30,7 @@ GLuint readhack_seq = 0;
 GLuint gl_batch = 0;
 GLuint gl_mergelist = 1;
 int blendhack = 0;
+char gl_version[50];
 
 __attribute__((constructor))
 void initialize_glshim() {
@@ -79,7 +80,7 @@ const GLubyte *glGetString(GLenum name) {
 		printf("**warning** glGetString(%i) called with bad init\n", name);*/
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)"1.4 glshim wrapper";
+            return (GLubyte *)gl_version;
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
                 "GL_ARB_vertex_buffer_object "
