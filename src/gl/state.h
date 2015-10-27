@@ -56,20 +56,6 @@ typedef struct {
 	GLuint client;	// client active texture
 } texture_state_t;
 
-
-typedef struct {
-    GLint size;
-    GLenum type;
-    GLsizei stride;
-    glbuffer_t *buffer;
-    const GLvoid *pointer;
-} pointer_state_t;
-
-typedef struct {
-    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary;
-} pointer_states_t;
-
-
 typedef struct {
     renderlist_t *active;
     GLboolean compiling;
@@ -164,6 +150,8 @@ typedef struct {
     matrixstack_t **texture_matrix;
     selectbuf_t selectbuf;
     buffers_t buffers;
+    khash_t(glvao) *vaos;
+    glvao_t *bindedvao;
     int shim_error;
     GLenum last_error;
     GLuint gl_batch;

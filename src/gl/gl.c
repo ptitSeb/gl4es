@@ -84,6 +84,7 @@ const GLubyte *glGetString(GLenum name) {
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
                 "GL_ARB_vertex_buffer_object "
+                "GL_ARB_vertex_array_object "
                 "GL_ARB_vertex_buffer "
                 "GL_EXT_vertex_array "
                 "GL_EXT_secondary_color "
@@ -1788,5 +1789,36 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     if(!warning) {
         printf("Warning, stubbed glEdgeFlagPointer\n");
         warning = true;
+    }
+}
+
+void glGetPointerv(GLenum pname, GLvoid* *params) {
+    noerrorShim();
+    switch(pname) {
+        case GL_COLOR_ARRAY_POINTER:
+            *params = state.pointers.color.pointer;
+            break;
+        case GL_EDGE_FLAG_ARRAY_POINTER:
+            *params = NULL;
+            break;
+        case GL_FEEDBACK_BUFFER_POINTER:
+            *params = NULL;
+            break;
+        case GL_INDEX_ARRAY_POINTER:
+            *params = NULL;
+        case GL_NORMAL_ARRAY_POINTER:
+            *params = state.pointers.normal.pointer;
+            break;
+        case GL_TEXTURE_COORD_ARRAY_POINTER:
+            *params = state.pointers.tex_coord[state.texture.client].pointer;
+            break;
+        case GL_SELECTION_BUFFER_POINTER:
+            *params = state.selectbuf.buffer;
+            break;
+        case GL_VERTEX_ARRAY_POINTER :
+            *params = state.pointers.vertex.pointer;
+            break;
+        default:
+            errorShim(GL_INVALID_ENUM);
     }
 }

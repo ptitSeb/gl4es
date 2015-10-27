@@ -36,6 +36,7 @@
 #define skip_glUnmapBuffer
 #define skip_glGetBufferParameteriv
 #define skip_glGetBufferSubData
+#define skip_glGetPointerv
 
 #define skip_glBlendColor
 #define skip_glBlendFunc

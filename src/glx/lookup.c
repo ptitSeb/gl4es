@@ -104,6 +104,16 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glGetBufferParameteriv);
     EX(glGetBufferSubData);
     ARB(glGetBufferSubData);
+
+    // GL_ARB_vertex_array_object
+    EX(glGenVertexArrays);
+    EX(glBindVertexArray);
+    EX(glDeleteVertexArrays);
+    EX(glIsVertexArray);
+    ARB(glGenVertexArrays);
+    ARB(glBindVertexArray);
+    ARB(glDeleteVertexArrays);
+    ARB(glIsVertexArray);
     
     // GL_ARB_frameBuffer_ext
     EX(glFramebufferTexture1D);
@@ -175,9 +185,12 @@ void *glXGetProcAddressARB(const char *name) {
     EXT(glNormalPointer);
     EXT(glColorPointer);
     EX(glIndexPointer);	//TODO, stub for now
+    EXT(glIndexPointer);
     EXT(glTexCoordPointer);
     EX(glEdgeFlagPointer);	//TODO, stub for now
-    //EXT(glGetPointerv);	//TODO
+    EXT(glEdgeFlagPointer);
+    EX(glGetPointerv);
+    EXT(glGetPointerv);
 
 
     // OES wrapper
@@ -461,8 +474,8 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glSelectBuffer);   //TODO
     
     STUB(glFogCoordPointer);
-    STUB(glEdgeFlagPointerEXT);
-    STUB(glIndexPointerEXT);
+    /*STUB(glEdgeFlagPointerEXT);
+    STUB(glIndexPointerEXT);*/
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

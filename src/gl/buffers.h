@@ -3,6 +3,7 @@
 #ifndef GL_BUFFERS_H
 #define GL_BUFFERS_H
 
+// VBO *****************
 typedef struct {
     GLuint      buffer;
     GLenum      type;
@@ -40,5 +41,32 @@ void *glMapBufferARB(GLenum target, GLenum access);
 GLboolean glUnmapBufferARB(GLenum target);
 void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params);
+
+// Pointer..... ******
+typedef struct {
+    GLint size;
+    GLenum type;
+    GLsizei stride;
+    glbuffer_t *buffer;
+    const GLvoid *pointer;
+} pointer_state_t;
+
+typedef struct {
+    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary;
+} pointer_states_t;
+
+
+// VAO ****************
+typedef struct {
+    GLuint           array;
+    pointer_states_t pointers;
+} glvao_t;
+
+KHASH_MAP_INIT_INT(glvao, glvao_t*)
+
+void glGenVertexArrays(GLsizei n, GLuint *arrays);
+void glBindVertexArray(GLuint array);
+void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
+GLboolean glIsVertexArray(GLuint array);
 
 #endif

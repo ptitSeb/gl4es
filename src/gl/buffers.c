@@ -331,3 +331,88 @@ void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvo
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) {
 	glGetBufferPointerv(target, pname, params);
 }
+
+// VAO ****************
+static GLuint lastvao = 1;
+
+void glGenVertexArrays(GLsizei n, GLuint *arrays) {
+//printf("glGenVertexArrays(%i, %p)\n", n, arrays);
+	noerrorShim();
+    if (n<1) {
+		errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    for (int i=0; i<n; i++) {
+        arrays[i] = lastvao++;
+    }
+}
+void glBindVertexArray(GLuint array) {
+//printf("glBindVertexArray(%u)\n", array);
+
+   	khint_t k;
+   	int ret;
+	khash_t(glvao) *list = state.vaos;
+	if (! list) {
+		list = state.vaos = kh_init(glvao);
+		// segfaults if we don't do a single put
+		kh_put(glvao, list, 1, &ret);
+		kh_del(glvao, list, 1);
+	}
+    // check if needs to copy the data to current vao
+    if ((state.bindedvao!=NULL) && (state.bindedvao->array!=array))
+    {
+        memcpy(&state.bindedvao->pointers, &state.pointers, sizeof(state.pointers));
+    }
+    // if array = 0 => unbind buffer!
+    if (array == 0) {
+        // unbind buffer
+        state.bindedvao = NULL;
+    } else {
+        // search for an existing buffer
+        k = kh_get(glvao, list, array);
+        glvao_t *glvao = NULL;
+        if (k == kh_end(list)){
+            k = kh_put(glvao, list, array, &ret);
+            glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
+            glvao->array = array;
+            // new vao is binded to nothing
+            memset(&glvao->pointers, 0, sizeof(glvao->pointers));  
+        } else {
+            glvao = kh_value(list, k);
+        }
+        state.bindedvao = glvao;
+        memcpy(&state.pointers, &glvao->pointers, sizeof(state.pointers));
+    }
+    noerrorShim();
+}
+void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
+//printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);
+	khash_t(glvao) *list = state.vaos;
+    if (list) {
+        khint_t k;
+        glvao_t *glvao;
+        for (int i = 0; i < n; i++) {
+            GLuint t = arrays[i];
+            k = kh_get(glvao, list, t);
+            if (k != kh_end(list)) {
+                glvao = kh_value(list, k);
+                kh_del(glvao, list, k);
+                free(glvao);
+            }
+        }
+    }
+    noerrorShim();
+}
+GLboolean glIsVertexArray(GLuint array) {
+//printf("glIsVertexArray(%u)\n", array);
+	khash_t(glvao) *list = state.vaos;
+	khint_t k;
+	noerrorShim();
+    if (list) {
+		k = kh_get(glvao, list, array);
+		if (k != kh_end(list)) {
+			return GL_TRUE;
+		}
+	}
+	return GL_FALSE;
+}

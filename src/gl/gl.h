@@ -430,6 +430,7 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 extern void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
 extern void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
+extern void glGetPointerv(GLenum pname, GLvoid* *params);
 extern void glFlush();
 extern void glFinish();
 

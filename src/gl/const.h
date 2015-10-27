@@ -286,6 +286,10 @@
 #define GL_TRANSPOSE_PROJECTION_MATRIX          0x84E4
 #define GL_TRANSPOSE_TEXTURE_MATRIX             0x84E5
 #define GL_TRANSPOSE_COLOR_MATRIX               0x84E6
+#define GL_INDEX_ARRAY_POINTER                  0x8091
+#define GL_EDGE_FLAG_ARRAY_POINTER              0x8093
+#define GL_FEEDBACK_BUFFER_POINTER              0x0DF0
+#define GL_SELECTION_BUFFER_POINTER             0x0DF3
 
 // evaluators
 #define GL_AUTO_NORMAL           0x0D80
