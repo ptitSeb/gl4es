@@ -361,11 +361,17 @@ void glBindVertexArray(GLuint array) {
     // check if needs to copy the data to current vao
     if ((state.bindedvao!=NULL) && (state.bindedvao->array!=array))
     {
-        memcpy(&state.bindedvao->pointers, &state.pointers, sizeof(state.pointers));
+        memcpy(&state.bindedvao->pointers, &state.pointers, sizeof(pointer_states_t));
         state.bindedvao->vertex = state.buffers.vertex;
         state.bindedvao->elements = state.buffers.elements;
         state.bindedvao->pack = state.buffers.pack;
         state.bindedvao->unpack = state.buffers.unpack;
+        state.bindedvao->secondary_array = state.enable.secondary_array;
+        state.bindedvao->color_array = state.enable.color_array;
+        state.bindedvao->normal_array = state.enable.normal_array;
+        state.bindedvao->vertex_array = state.enable.vertex_array;
+        memcpy(state.bindedvao->tex_coord_array, state.enable.tex_coord_array, MAX_TEX*sizeof(GLboolean));
+
     }
     // if array = 0 => unbind buffer!
     if (array == 0) {
@@ -378,22 +384,24 @@ void glBindVertexArray(GLuint array) {
         if (k == kh_end(list)){
             k = kh_put(glvao, list, array, &ret);
             glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
-            glvao->array = array;
             // new vao is binded to nothing
-            memset(&glvao->pointers, 0, sizeof(glvao->pointers));
-            glvao->vertex = 0;
-            glvao->elements = 0;
-            glvao->pack = 0;
-            glvao->unpack = 0;
+            memset(glvao, 0, sizeof(glvao_t));
+            // just put is number
+            glvao->array = array;
         } else {
             glvao = kh_value(list, k);
         }
         state.bindedvao = glvao;
-        memcpy(&state.pointers, &glvao->pointers, sizeof(state.pointers));
+        memcpy(&state.pointers, &glvao->pointers, sizeof(pointer_states_t));
         state.buffers.vertex = glvao->vertex;
         state.buffers.elements = glvao->elements;
         state.buffers.pack = glvao->pack;
         state.buffers.unpack = glvao->unpack;
+        state.enable.secondary_array = glvao->secondary_array;
+        state.enable.color_array = glvao->color_array;
+        state.enable.normal_array = glvao->normal_array;
+        state.enable.vertex_array = glvao->vertex_array;
+        memcpy(state.enable.tex_coord_array, glvao->tex_coord_array, MAX_TEX*sizeof(GLboolean));
     }
     noerrorShim();
 }
