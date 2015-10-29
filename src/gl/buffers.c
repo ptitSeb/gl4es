@@ -362,6 +362,10 @@ void glBindVertexArray(GLuint array) {
     if ((state.bindedvao!=NULL) && (state.bindedvao->array!=array))
     {
         memcpy(&state.bindedvao->pointers, &state.pointers, sizeof(state.pointers));
+        state.bindedvao->vertex = state.buffers.vertex;
+        state.bindedvao->elements = state.buffers.elements;
+        state.bindedvao->pack = state.buffers.pack;
+        state.bindedvao->unpack = state.buffers.unpack;
     }
     // if array = 0 => unbind buffer!
     if (array == 0) {
@@ -376,12 +380,20 @@ void glBindVertexArray(GLuint array) {
             glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
             glvao->array = array;
             // new vao is binded to nothing
-            memset(&glvao->pointers, 0, sizeof(glvao->pointers));  
+            memset(&glvao->pointers, 0, sizeof(glvao->pointers));
+            glvao->vertex = 0;
+            glvao->elements = 0;
+            glvao->pack = 0;
+            glvao->unpack = 0;
         } else {
             glvao = kh_value(list, k);
         }
         state.bindedvao = glvao;
         memcpy(&state.pointers, &glvao->pointers, sizeof(state.pointers));
+        state.buffers.vertex = glvao->vertex;
+        state.buffers.elements = glvao->elements;
+        state.buffers.pack = glvao->pack;
+        state.buffers.unpack = glvao->unpack;
     }
     noerrorShim();
 }
