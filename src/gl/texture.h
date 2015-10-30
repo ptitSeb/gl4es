@@ -19,7 +19,7 @@ void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data);
                      
-void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data);
                      

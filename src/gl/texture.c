@@ -765,11 +765,11 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat,
     glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, 1,
                  border, format, type, data);
 }
-void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data) {
 
-    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset,
+    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, 0,
                     width, 1, format, type, data);
 }
 void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y,
