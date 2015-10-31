@@ -23,7 +23,7 @@ void glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data);
                      
-void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, 
                      GLsizei width, GLsizei height, GLsizei depth, GLenum format,
                      GLenum type, const GLvoid *data);
 
@@ -50,10 +50,10 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
 void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
-void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset,
 							   GLsizei width, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
-void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
 							   GLsizei width, GLsizei height, GLsizei depth, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
                                
@@ -71,7 +71,11 @@ void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffse
                                 
 void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
                                 GLsizei width);
+
+void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
+                                GLint x, GLint y, GLsizei width, GLsizei height);
                                 
+                               
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,

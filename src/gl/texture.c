@@ -783,6 +783,12 @@ void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLi
     glCopyTexSubImage2D(GL_TEXTURE_2D, level, xoffset, 0, x, y, width, 1);
 }
                                 
+void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
+                                GLint x, GLint y, GLsizei width, GLsizei height) {
+    glCopyTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, x, y, width, height);
+}
+
+                                
 
 
 // 3d stubs
@@ -794,7 +800,7 @@ void glTexImage3D(GLenum target, GLint level, GLint internalFormat,
     glTexImage2D(GL_TEXTURE_2D, level, internalFormat, width, height,
                  border, format, type, data);
 }
-void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, 
                      GLsizei width, GLsizei height, GLsizei depth, GLenum format,
                      GLenum type, const GLvoid *data) {
 
@@ -1689,13 +1695,13 @@ void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
     glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
 }
 
-void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset,
 							   GLsizei width, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data) {
 
-    glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, 1, format, imageSize, data);
+    glCompressedTexSubImage2D(target, level, xoffset, 0, width, 1, format, imageSize, data);
 }
-void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
 							   GLsizei width, GLsizei height, GLsizei depth, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data) {
 
