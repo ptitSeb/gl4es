@@ -5,6 +5,7 @@
 #include "glx.h"
 #endif
 
+#include "../gl/directstate.h"
 
 
 #define MAP(func_name, func) \
@@ -476,6 +477,110 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glFogCoordPointer);
     /*STUB(glEdgeFlagPointerEXT);
     STUB(glIndexPointerEXT);*/
+    
+    //EXT_direct_state_access
+    EX(glClientAttribDefaultEXT);
+    EX(glPushClientAttribDefaultEXT);
+    EX(glMatrixLoadfEXT);
+    EX(glMatrixLoaddEXT);
+    EX(glMatrixMultfEXT);
+    EX(glMatrixMultdEXT);
+    EX(glMatrixLoadIdentityEXT);
+    EX(glMatrixRotatefEXT);
+    EX(glMatrixRotatedEXT);
+    EX(glMatrixScalefEXT);
+    EX(glMatrixScaledEXT);
+    EX(glMatrixTranslatefEXT);
+    EX(glMatrixTranslatedEXT);
+    EX(glMatrixOrthoEXT);
+    EX(glMatrixFrustumEXT);
+    EX(glMatrixPushEXT);
+    EX(glMatrixPopEXT);
+    EX(glTextureParameteriEXT);
+    EX(glTextureParameterivEXT);
+    EX(glTextureParameterfEXT);
+    EX(glTextureParameterfvEXT);
+    EX(glTextureImage1DEXT);
+    EX(glTextureImage2DEXT);
+    EX(glTextureSubImage1DEXT);
+    EX(glTextureSubImage2DEXT);
+    EX(glCopyTextureImage1DEXT);
+    EX(glCopyTextureImage2DEXT);
+    EX(glCopyTextureSubImage1DEXT);
+    EX(glCopyTextureSubImage2DEXT);
+    EX(glGetTextureImageEXT);
+    EX(glGetTextureParameterfvEXT);
+    EX(glGetTextureParameterivEXT);
+    EX(glGetTextureLevelParameterfvEXT);
+    EX(glGetTextureLevelParameterivEXT);
+    EX(glTextureImage3DEXT);
+    EX(glTextureSubImage3DEXT);
+    EX(glCopyTextureSubImage3DEXT);
+    EX(glBindMultiTextureEXT);
+    EX(glMultiTexCoordPointerEXT);
+    EX(glMultiTexEnvfEXT);
+    EX(glMultiTexEnvfvEXT);
+    EX(glMultiTexEnviEXT);
+    EX(glMultiTexEnvivEXT);
+    EX(glMultiTexGendEXT);
+    EX(glMultiTexGendvEXT);
+    EX(glMultiTexGenfEXT);
+    EX(glMultiTexGenfvEXT);
+    EX(glMultiTexGeniEXT);
+    EX(glMultiTexGenivEXT);
+    EX(glGetMultiTexEnvfvEXT);
+    EX(glGetMultiTexEnvivEXT);
+    EX(glGetMultiTexGendvEXT);
+    EX(glGetMultiTexGenfvEXT);
+    EX(glGetMultiTexGenivEXT);
+    EX(glMultiTexParameteriEXT);
+    EX(glMultiTexParameterivEXT);
+    EX(glMultiTexParameterfEXT);
+    EX(glMultiTexParameterfvEXT);
+    EX(glMultiTexImage1DEXT);
+    EX(glMultiTexImage2DEXT);
+    EX(glMultiTexSubImage1DEXT);
+    EX(glMultiTexSubImage2DEXT);
+    EX(glCopyMultiTexImage1DEXT);
+    EX(glCopyMultiTexImage2DEXT);
+    EX(glCopyMultiTexSubImage1DEXT);
+    EX(glCopyMultiTexSubImage2DEXT);
+    EX(glGetMultiTexImageEXT);
+    EX(glGetMultiTexParameterfvEXT);
+    EX(glGetMultiTexParameterivEXT);
+    EX(glGetMultiTexLevelParameterfvEXT);
+    EX(glGetMultiTexLevelParameterivEXT);
+    EX(glMultiTexImage3DEXT);
+    EX(glMultiTexSubImage3DEXT);
+    EX(glCopyMultiTexSubImage3DEXT);
+    STUB(EnableClientStateIndexedEXT);
+    STUB(DisableClientStateIndexedEXT);
+    STUB(GetFloatIndexedvEXT);
+    STUB(GetDoubleIndexedvEXT);
+    STUB(GetPointerIndexedvEXT);
+    STUB(EnableIndexedEXT);
+    STUB(DisableIndexedEXT);
+    STUB(IsEnabledIndexedEXT);
+    STUB(GetIntegerIndexedvEXT);
+    STUB(GetBooleanIndexedvEXT);
+    EX(glCompressedTextureImage3DEXT);
+    EX(glCompressedTextureImage2DEXT);
+    EX(glCompressedTextureImage1DEXT);
+    EX(glCompressedTextureSubImage3DEXT);
+    EX(glCompressedTextureSubImage2DEXT);
+    EX(glCompressedTextureSubImage1DEXT);
+    EX(glGetCompressedTextureImageEXT);
+    EX(glCompressedMultiTexImage3DEXT);
+    EX(glCompressedMultiTexImage2DEXT);
+    EX(glCompressedMultiTexImage1DEXT);
+    EX(glCompressedMultiTexSubImage3DEXT);
+    EX(glCompressedMultiTexSubImage2DEXT);
+    EX(glCompressedMultiTexSubImage1DEXT);
+    EX(glGetCompressedMultiTexImageEXT);
+    EX(glMatrixLoadTransposefEXT);
+    EX(glMatrixLoadTransposedEXT);
+    EX(glMatrixMultTransposefEXT);
+    EX(glMatrixMultTransposedEXT);
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

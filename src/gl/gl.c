@@ -119,6 +119,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_EXT_blend_equation_separate "
 #endif
                 "GL_ARB_draw_buffers "
+                "GL_EXT_direct_state_access "
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
