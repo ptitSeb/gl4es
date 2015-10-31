@@ -41,7 +41,8 @@ LOCAL_SRC_FILES := \
 	src/gl/debug.c \
 	src/glx/glx.c \
 	src/glx/lookup.c \
-	src/glx/streaming.c
+	src/glx/streaming.c \
+	src/gl/directstate.c
 
 LOCAL_CFLAGS += -g -std=c99 -funwind-tables -O3 -DBCMHOST -include include/android_debug.h
 
