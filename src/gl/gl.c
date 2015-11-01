@@ -183,6 +183,9 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_UNPACK_LSB_FIRST:
 			*params = state.texture.unpack_lsb_first;
 			break;
+        case GL_UNPACK_IMAGE_HEIGHT:
+            *params = state.texture.unpack_image_height;
+            break;
         case GL_PACK_ROW_LENGTH:	
 			*params = state.texture.pack_row_length;
 			break;
@@ -195,6 +198,9 @@ void glGetIntegerv(GLenum pname, GLint *params) {
         case GL_PACK_LSB_FIRST:
 			*params = state.texture.pack_lsb_first;
 			break;
+        case GL_PACK_IMAGE_HEIGHT:
+            *params = state.texture.pack_image_height;
+            break;
         case GL_UNPACK_SWAP_BYTES:
         case GL_PACK_SWAP_BYTES:
             //Fake, *TODO* ?

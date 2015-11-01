@@ -93,6 +93,8 @@ typedef struct {
     GLsizei nheight;
     GLenum  format;
     GLenum  type;
+    GLenum  orig_internal;
+    GLenum  internalformat;
     int shrink;
     GLboolean mipmap_auto;
     GLboolean mipmap_need;

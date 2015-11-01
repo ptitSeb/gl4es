@@ -385,6 +385,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
 static const GLboolean pixel_hasalpha(GLenum format) {
     switch (format) {
 	case GL_ALPHA:
+    case GL_LUMINANCE_ALPHA:
     case GL_RGBA:
     case GL_BGRA:
     case GL_RGBA8:

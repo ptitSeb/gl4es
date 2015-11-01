@@ -41,12 +41,14 @@ typedef struct {
 typedef struct {
     GLuint unpack_row_length,
            unpack_skip_pixels,
-           unpack_skip_rows;
+           unpack_skip_rows,
+           unpack_image_height;
     GLboolean unpack_lsb_first;
     // TODO: use those values
     GLuint pack_row_length,
            pack_skip_pixels,
-           pack_skip_rows;
+           pack_skip_rows,
+           pack_image_height;
     GLboolean pack_lsb_first;
     // TODO: do we only need to worry about GL_TEXTURE_2D?
     GLboolean rect_arb[MAX_TEX];

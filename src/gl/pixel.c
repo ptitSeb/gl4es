@@ -668,16 +668,18 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLuint pixels = width * height;
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
     GLuint dst_width = ((stride?stride:width) - width) * pixel_sizeof(dst_format, dst_type);
-    GLuint src_width = width * pixel_sizeof(dst_format, dst_type);
+    GLuint src_width = width * pixel_sizeof(src_format, src_type);
 
-    //printf("pixel conversion: %ix%i - %s, %s -> %s, %s, transform=%i\n", width, height, PrintEnum(src_format), PrintEnum(src_type), PrintEnum(dst_format), PrintEnum(dst_type), raster_need_transform());
+    //printf("pixel conversion: %ix%i - %s, %s (%d) ==> %s, %s (%d), transform=%i\n", width, height, PrintEnum(src_format), PrintEnum(src_type),pixel_sizeof(src_format, src_type), PrintEnum(dst_format), PrintEnum(dst_type), pixel_sizeof(dst_format, dst_type), raster_need_transform());
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
-        || !src_color->type || !dst_color->type)
+        || !src_color->type || !dst_color->type) {
+        printf("pixel conversion, anticipated abort\n");
         return false;
+    }
 
-    if (src_type == dst_type && src_color->type == dst_color->type) {
+    if ((src_type == dst_type) && (src_color->type == dst_color->type)) {
         if (*dst == src)
             return true;
         if (*dst == NULL)        // alloc dst only if dst==NULL
@@ -702,6 +704,20 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				tmp = *(const GLuint*)src_pos;
 				*(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width;
+        }
+        return true;
+    }
+    if ((src_format == GL_BGRA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+        GLuint tmp;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				tmp = *(const GLuint*)src_pos;
+				*(GLushort*)dst_pos = (tmp&0x0000ff00) | (tmp&0x000000ff);
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
