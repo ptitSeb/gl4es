@@ -1,4 +1,5 @@
 #include "pixel.h"
+#include "debug.h"
 
 static const colorlayout_t *get_color_map(GLenum format) {
     #define map(fmt, ...)                               \
@@ -79,7 +80,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 31.0f);
         )
-        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+        type_case(GL_UNSIGNED_SHORT_5_6_5_REV, GLushort,
             s = (GLushort[]){
                 (v & 31)*2,
                 ((v & 0x07e0) >> 5),
@@ -87,7 +88,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 63.0f);
         )
-        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4_REV, GLushort,
             s = (GLushort[]){
                 (v & 0x000f),
                 ((v & 0x00f0) >> 4),
@@ -95,6 +96,32 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
                 ((v & 0xf000) >> 12)
             };
             read_each(, / 15.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            s = (GLushort[]){
+                ((v & 0xF800) >>11)*2,
+                ((v & 0x07e0) >> 5),
+                ((v & 0x0031)     )*2,
+            };
+            read_each(, / 63.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
+            s = (GLushort[]){
+                ((v & 0xf000) >>12),
+                ((v & 0x0f00) >> 8),
+                ((v & 0x00f0) >> 4),
+                ((v & 0x000f)     )
+            };
+            read_each(, / 15.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
+            s = (GLushort[]){
+                ((v & 0xf800) >> 11),
+                ((v & 0x07c0) >> 6),
+                ((v & 0x003e) >> 1),
+                ((v & 1))*31,
+            };
+            read_each(, / 31.0f);
         )
         default:
             // TODO: add glSetError?
@@ -123,9 +150,9 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             color[dst_color->red] = pixel.r;
             color[dst_color->green] = pixel.g;
             color[dst_color->blue] = pixel.b;
-            *d = ((GLushort)(color[0] * 31.0) & 0x1f << 11) |
-                 ((GLushort)(color[1] * 63.0) & 0x3f << 5) |
-                 ((GLushort)(color[2] * 31.0) & 0x1f);
+            *d = ((GLushort)(color[0] * 31.0f) & 0x1f << 11) |
+                 ((GLushort)(color[1] * 63.0f) & 0x3f << 5) |
+                 ((GLushort)(color[2] * 31.0f) & 0x1f);
         )
         type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
             GLfloat color[4];
@@ -134,9 +161,9 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             color[dst_color->blue] = pixel.b;
             color[dst_color->alpha] = pixel.a;
             // TODO: can I macro this or something? it follows a pretty strict form.
-            *d = ((GLuint)(color[0] * 31) & 0x1f << 0) |
-                 ((GLuint)(color[1] * 31) & 0x1f << 5) |
-                 ((GLuint)(color[2] * 31) & 0x1f << 10)  |
+            *d = ((GLuint)(color[0] * 31.0f) & 0x1f << 0) |
+                 ((GLuint)(color[1] * 31.0f) & 0x1f << 5) |
+                 ((GLuint)(color[2] * 31.0f) & 0x1f << 10)  |
                  ((GLuint)(color[3] * 1)  & 0x01 << 15);
         )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
@@ -231,6 +258,15 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
             };
             read_each(, / 63.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
+            s = (GLushort[]){
+                ((v & 0xf800) >> 11),
+                ((v & 0x07c0) >> 6),
+                ((v & 0x003e) >> 1),
+                ((v & 1))*31,
+            };
+            read_each(, / 31.0f);
+        )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             s = (GLushort[]){
                 (v & 0x000f),
@@ -262,9 +298,21 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
             color[src_color->red] = pixel.r;
             color[src_color->green] = pixel.g;
             color[src_color->blue] = pixel.b;
-            *d = ((GLuint)(color[2] * 31) & 0x1f << 11) |
-                 ((GLuint)(color[1] * 63) & 0x3f << 5) |
-                 ((GLuint)(color[0] * 31) & 0x1f);
+            *d = ((GLuint)(color[2] * 31.0f) & 0x1f << 11) |
+                 ((GLuint)(color[1] * 63.0f) & 0x3f << 5) |
+                 ((GLuint)(color[0] * 31.0f) & 0x1f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            color[src_color->alpha] = pixel.a;
+            // TODO: can I macro this or something? it follows a pretty strict form.
+            *d = ((GLuint)(color[0] * 31.0f) & 0x1f << 0) |
+                 ((GLuint)(color[1] * 31.0f) & 0x1f << 5) |
+                 ((GLuint)(color[2] * 31.0f) & 0x1f << 10)  |
+                 ((GLuint)(color[3] * 1)  & 0x01 << 15);
         )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             GLfloat color[4];
@@ -272,10 +320,10 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
             color[src_color->green] = pixel.g;
             color[src_color->blue] = pixel.b;
             color[src_color->alpha] = pixel.a;
-            *d = ((GLushort)(color[3] * 15.0) & 0x0f << 12) |
-                 ((GLushort)(color[2] * 15.0) & 0x0f << 8) |
-                 ((GLushort)(color[1] * 15.0) & 0x0f << 4) |
-                 ((GLushort)(color[0] * 15.0) & 0x0f);
+            *d = ((GLushort)(color[3] * 15.0f) & 0x0f << 12) |
+                 ((GLushort)(color[2] * 15.0f) & 0x0f << 8) |
+                 ((GLushort)(color[1] * 15.0f) & 0x0f << 4) |
+                 ((GLushort)(color[0] * 15.0f) & 0x0f);
         )
         default:
             printf("libGL: Unsupported target data type: %04X\n", src_type);
@@ -363,13 +411,45 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
             };
             read_each(, / 31.0f);
         )
+        type_case(GL_UNSIGNED_SHORT_4_4_4_4_REV, GLushort,
+            for (int ii=0; ii<4; ii++) {
+                s[ii] = (GLushort[]) {
+                    ((v[ii] & 0x000f)     ),
+                    ((v[ii] & 0x00f0) >> 4),
+                    ((v[ii] & 0x0f00) >> 8),
+                    ((v[ii] & 0xf000) >>12)
+                };
+            };
+            read_each(, / 15.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
+            for (int ii=0; ii<4; ii++) {
+                s[ii] = (GLushort[]) {
+                    ((v[ii] & 0x001f)     )*2,
+                    ((v[ii] & 0x07e0) >> 5),
+                    ((v[ii] & 0xF800) >>11)*2,
+                };
+            };
+            read_each(, / 63.0f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
+            for (int ii=0; ii<4; ii++) {
+                s[ii] = (GLushort[]) {
+                    ((v[ii] & 0xf800) >>11),
+                    ((v[ii] & 0x07c0) >> 6),
+                    ((v[ii] & 0x003e) >> 1),
+                    ((v[ii] & 1)    )*31,
+                };
+            };
+            read_each(, / 31.0f);
+        )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             for (int ii=0; ii<4; ii++) {
                 s[ii] = (GLushort[]) {
-                    (v[ii] & 0x000f),
-                    ((v[ii] & 0x00f0) >> 4),
+                    ((v[ii] & 0xf000) >>12),
                     ((v[ii] & 0x0f00) >> 8),
-                    ((v[ii] & 0xf000) >> 12)
+                    ((v[ii] & 0x00f0) >> 4),
+                    ((v[ii] & 0x000f)     )
                 };
             };
             read_each(, / 15.0f);
@@ -396,9 +476,21 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
             color[src_color->red] = pixel.r;
             color[src_color->green] = pixel.g;
             color[src_color->blue] = pixel.b;
-            *d = ((GLuint)(color[0] * 31) & 0x1f << 11) |
-                 ((GLuint)(color[1] * 63) & 0x3f << 5) |
-                 ((GLuint)(color[2] * 31) & 0x1f);
+            *d = ((GLuint)(color[0] * 31.0f) & 0x1f << 11) |
+                 ((GLuint)(color[1] * 63.0f) & 0x3f << 5) |
+                 ((GLuint)(color[2] * 31.0f) & 0x1f);
+        )
+        type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
+            GLfloat color[4];
+            color[src_color->red] = pixel.r;
+            color[src_color->green] = pixel.g;
+            color[src_color->blue] = pixel.b;
+            color[src_color->alpha] = pixel.a;
+            // TODO: can I macro this or something? it follows a pretty strict form.
+            *d = ((GLuint)(color[0] * 31.0f) & 0x1f << 0) |
+                 ((GLuint)(color[1] * 31.0f) & 0x1f << 5) |
+                 ((GLuint)(color[2] * 31.0f) & 0x1f << 10)  |
+                 ((GLuint)(color[3] * 1)  & 0x01 << 15);
         )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             GLfloat color[4];
@@ -406,10 +498,10 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
             color[src_color->green] = pixel.g;
             color[src_color->blue] = pixel.b;
             color[src_color->alpha] = pixel.a;
-            *d = ((GLushort)(color[0] * 15.0) & 0x0f << 12) |
-                 ((GLushort)(color[1] * 15.0) & 0x0f << 8) |
-                 ((GLushort)(color[2] * 15.0) & 0x0f << 4) |
-                 ((GLushort)(color[3] * 15.0) & 0x0f);
+            *d = ((GLushort)(color[0] * 15.0f) & 0x0f << 12) |
+                 ((GLushort)(color[1] * 15.0f) & 0x0f << 8) |
+                 ((GLushort)(color[2] * 15.0f) & 0x0f << 4) |
+                 ((GLushort)(color[3] * 15.0f) & 0x0f);
         )
         default:
             printf("libGL: half_pixel: Unsupported target data type: %04X\n", src_type);
@@ -578,7 +670,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLuint dst_width = ((stride?stride:width) - width) * pixel_sizeof(dst_format, dst_type);
     GLuint src_width = width * pixel_sizeof(dst_format, dst_type);
 
-//printf("pixel conversion: %ix%i - %04x, %04x -> %04x, %04x, transform=%i\n", width, height, src_format, src_type, dst_format, dst_type, raster_need_transform());
+    //printf("pixel conversion: %ix%i - %s, %s -> %s, %s, transform=%i\n", width, height, PrintEnum(src_format), PrintEnum(src_type), PrintEnum(dst_format), PrintEnum(dst_type), raster_need_transform());
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
@@ -610,6 +702,21 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				tmp = *(const GLuint*)src_pos;
 				*(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width;
+        }
+        return true;
+    }
+    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+        GLuint tmp;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				((char*)dst_pos)[0] = ((char*)src_pos)[2];
+				((char*)dst_pos)[1] = ((char*)src_pos)[1];
+				((char*)dst_pos)[2] = ((char*)src_pos)[0];
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}

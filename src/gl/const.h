@@ -122,6 +122,7 @@
 
 // pixel formats
 #define GL_RED                         0x1903
+#define GL_R3_G3_B2                    0x2A10
 #define GL_RG                          0x8227
 #define GL_BGR                         0x80E0
 #define GL_BGRA                        0x80E1
@@ -140,7 +141,21 @@
 #define GL_RGB8                        0x8051
 #define GL_RGB5                        0x8050
 #define GL_RGBA8                       0x8058
-
+#define GL_LUMINANCE8_ALPHA8           0x8045
+#define GL_RGBA16                      0x805B
+#define GL_LUMINANCE8                  0x8040
+#define GL_LUMINANCE16                 0x8042
+#define GL_ALPHA8                      0x803C
+#define GL_LUMINANCE4_ALPHA4           0x8043
+#define GL_RGB10_A2                    0x8059
+#define GL_RGBA16F                     0x881A
+#define GL_RGB16F                      0x881B
+#define GL_RGBA32F                     0x8814
+#define GL_RGB32F                      0x8815
+#define GL_LUMINANCE16_ALPHA16         0x8048
+#define GL_RGB16                       0x8054
+#define GL_RGBA4                       0x8056
+#define GL_RGB5_A1                     0x8057
 // types
 #define GL_BYTE                 0x1400
 #define GL_UNSIGNED_BYTE        0x1401
@@ -252,8 +267,11 @@
 #define GL_UNPACK_SKIP_PIXELS    0x0CF4
 #define GL_UNPACK_SKIP_ROWS      0x0CF3
 #define GL_UNPACK_SWAP_BYTES     0x0CF0
+#define GL_UNPACK_IMAGE_HEIGHT   0x806E
+#define GL_PACK_IMAGE_HEIGHT     0x806C
 #define GL_ZOOM_X                0x0D16
 #define GL_ZOOM_Y                0x0D17
+#define GL_TEXTURE_BASE_LEVEL    0x813C
 
 // blending
 #define GL_BLEND                 0x0BE2

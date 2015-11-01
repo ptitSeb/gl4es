@@ -20,14 +20,36 @@ const char* PrintEnum(GLenum what) {
         p(GL_DRAW_FRAMEBUFFER);
         // format
         p(GL_RED);
+        p(GL_R3_G3_B2);
         p(GL_RGB);
-        p(GL_RGBA);
-        p(GL_RGBA8);
+        p(GL_BGR);
         p(GL_RGB8);
+        p(GL_RGB5);
+        p(GL_RGB16);
+        p(GL_RGB16F);
+        p(GL_RGB32F);
+        p(GL_BGRA);
+        p(GL_RGBA);
+        p(GL_RGBA4);
+        p(GL_RGB5_A1);
+        p(GL_RGB10_A2);
+        p(GL_RGBA8);
+        p(GL_RGBA16);
+        p(GL_RGBA16F);
+        p(GL_RGBA32F);
         p(GL_COMPRESSED_RGB_S3TC_DXT1_EXT);
         p(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT);
         p(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT);
         p(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT);
+        p(GL_LUMINANCE8_ALPHA8);
+        p(GL_LUMINANCE_ALPHA);
+        p(GL_LUMINANCE4_ALPHA4);
+        p(GL_LUMINANCE16_ALPHA16);
+        p(GL_LUMINANCE);
+        p(GL_ALPHA);
+        p(GL_LUMINANCE8);
+        p(GL_LUMINANCE16);
+        p(GL_ALPHA8);
         // type
         p(GL_UNSIGNED_BYTE);
         p(GL_UNSIGNED_BYTE_2_3_3_REV);
