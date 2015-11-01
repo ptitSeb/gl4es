@@ -643,6 +643,8 @@ void draw_renderlist(renderlist_t *list) {
 #endif
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
+    LOAD_GLES(glEnableClientState);
+    LOAD_GLES(glDisableClientState);
     glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	GLfloat *final_colors;
@@ -754,24 +756,29 @@ void draw_renderlist(renderlist_t *list) {
         gles_glDrawArrays(list->mode, 0, list->len);
 #else
         if (list->vert) {
-            glEnableClientState(GL_VERTEX_ARRAY);
+            gles_glEnableClientState(GL_VERTEX_ARRAY);
             gles_glVertexPointer(3, GL_FLOAT, 0, list->vert);
+            state.clientstate.vertex_array = 1;
         } else {
-            glDisableClientState(GL_VERTEX_ARRAY);
+            gles_glDisableClientState(GL_VERTEX_ARRAY);
+            state.clientstate.vertex_array = false;
         }
 
         if (list->normal) {
-            glEnableClientState(GL_NORMAL_ARRAY);
+            gles_glEnableClientState(GL_NORMAL_ARRAY);
             gles_glNormalPointer(GL_FLOAT, 0, list->normal);
+            state.clientstate.normal_array = 1;
         } else {
-            glDisableClientState(GL_NORMAL_ARRAY);
+            gles_glDisableClientState(GL_NORMAL_ARRAY);
+            state.clientstate.normal_array = 0;
         }
 
         indices = list->indices;
            
 		final_colors = NULL;
         if (list->color) {
-            glEnableClientState(GL_COLOR_ARRAY);
+            gles_glEnableClientState(GL_COLOR_ARRAY);
+            state.clientstate.color_array = 1;
             if (state.enable.color_sum && (list->secondary)) {
 				final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
 				if (indices) {
@@ -788,7 +795,8 @@ void draw_renderlist(renderlist_t *list) {
 			} else
 				gles_glColorPointer(4, GL_FLOAT, 0, list->color);
         } else {
-            glDisableClientState(GL_COLOR_ARRAY);
+            gles_glDisableClientState(GL_COLOR_ARRAY);
+            state.clientstate.color_array = 0;
         }
         GLuint texture;
         bool stipple;
@@ -819,13 +827,15 @@ void draw_renderlist(renderlist_t *list) {
         for (int a=0; a<MAX_TEX; a++) {
 		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
                 glClientActiveTexture(GL_TEXTURE0+a);
-                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                state.clientstate.tex_coord_array[a] = 1;
 		        gles_glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
-			if (state.enable.tex_coord_array[a]) {
-			    glClientActiveTexture(GL_TEXTURE0+a);
-			    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		    } 
+                if (state.clientstate.tex_coord_array[a]) {
+                    glClientActiveTexture(GL_TEXTURE0+a);
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                    state.clientstate.tex_coord_array[a] = 0;
+                } 
 //else if (!state.enable.texgen_s[a] && state.enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
 			    
 		    }

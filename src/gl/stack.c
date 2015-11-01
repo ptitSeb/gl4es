@@ -282,15 +282,15 @@ void glPushClientAttrib(GLbitfield mask) {
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        cur->vert_enable = state.enable.vertex_array;
-        cur->color_enable = state.enable.color_array;
-        cur->secondary_enable = state.enable.secondary_array;
-        cur->normal_enable = state.enable.normal_array;
+        cur->vert_enable = state.vao->vertex_array;
+        cur->color_enable = state.vao->color_array;
+        cur->secondary_enable = state.vao->secondary_array;
+        cur->normal_enable = state.vao->normal_array;
         int a;
         for (a=0; a<MAX_TEX; a++) {
-           cur->tex_enable[a] = state.enable.tex_coord_array[a];
+           cur->tex_enable[a] = state.vao->tex_coord_array[a];
         }
-        memcpy(&(cur->pointers), &state.pointers, sizeof(pointer_states_t));
+        memcpy(&(cur->pointers), &state.vao->pointers, sizeof(pointer_states_t));
         cur->client = state.texture.client;
     }
 
@@ -555,22 +555,22 @@ void glPopClientAttrib() {
     }
 
     if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-		if (state.enable.vertex_array != cur->vert_enable)
+		if (state.vao->vertex_array != cur->vert_enable)
 			enable_disable(GL_VERTEX_ARRAY, cur->vert_enable);
-		if (state.enable.normal_array != cur->normal_enable)
+		if (state.vao->normal_array != cur->normal_enable)
 			enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
-		if (state.enable.color_array != cur->color_enable)
+		if (state.vao->color_array != cur->color_enable)
 			enable_disable(GL_COLOR_ARRAY, cur->color_enable);
-		if (state.enable.secondary_array != cur->secondary_enable)
+		if (state.vao->secondary_array != cur->secondary_enable)
 			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
         for (int a=0; a<MAX_TEX; a++) {
-		   if (state.enable.tex_coord_array[a] != cur->tex_enable[a]) {
+		   if (state.vao->tex_coord_array[a] != cur->tex_enable[a]) {
 			   glClientActiveTexture(GL_TEXTURE0+a);
 			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);
 		   }
         }
 
-        memcpy(&state.pointers, &(cur->pointers), sizeof(pointer_states_t));
+        memcpy(&state.vao->pointers, &(cur->pointers), sizeof(pointer_states_t));
 		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 

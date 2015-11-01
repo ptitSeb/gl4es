@@ -1,22 +1,23 @@
 #include "buffers.h"
+#include "debug.h"
 
 static GLuint lastbuffer = 1;
 
-// Utility function to bond / unbind a particular buffer
+// Utility function to bind / unbind a particular buffer
 
 glbuffer_t** BUFF(GLenum target) {
  switch(target) {
      case GL_ARRAY_BUFFER:
-        return &state.buffers.vertex;
+        return &state.vao->vertex;
         break;
      case GL_ELEMENT_ARRAY_BUFFER:
-        return &state.buffers.elements;
+        return &state.vao->elements;
         break;
      case GL_PIXEL_PACK_BUFFER:
-        return &state.buffers.pack;
+        return &state.vao->pack;
         break;
      case GL_PIXEL_UNPACK_BUFFER:
-        return &state.buffers.unpack;
+        return &state.vao->unpack;
         break;
      default:
        printf("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
@@ -66,13 +67,16 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
 }
 
 void glBindBuffer(GLenum target, GLuint buffer) {
-//printf("glBindBuffer(0x%04X, %u)\n", target, buffer);
+//printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);
+    if (state.gl_batch) {
+         flush();
+    }
 
    	khint_t k;
    	int ret;
-	khash_t(buff) *list = state.buffers.list;
+	khash_t(buff) *list = state.buffers;
 	if (! list) {
-		list = state.buffers.list = kh_init(buff);
+		list = state.buffers = kh_init(buff);
 		// segfaults if we don't do a single put
 		kh_put(buff, list, 1, &ret);
 		kh_del(buff, list, 1);
@@ -108,7 +112,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
 }
 
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
-//printf("glBufferData(0x%04X, %i, %p, 0x%04X)\n", target, size, data, usage);
+//printf("glBufferData(%s, %i, %p, %s)\n", PrintEnum(target), size, data, PrintEnum(usage));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -132,7 +136,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
 }
 
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
-//printf("glBufferSubData(0x%04X, %p, %i, %p)\n", target, offset, size, data);
+//printf("glBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -149,26 +153,32 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
 
 void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 //printf("glDeleteBuffers(%i, %p)\n", n, buffers);
-	khash_t(buff) *list = state.buffers.list;
+    if (state.gl_batch) {
+         flush();
+    }
+
+	khash_t(buff) *list = state.buffers;
     if (list) {
         khint_t k;
         glbuffer_t *buff;
         for (int i = 0; i < n; i++) {
             GLuint t = buffers[i];
-            k = kh_get(buff, list, t);
-            if (k != kh_end(list)) {
-                buff = kh_value(list, k);
-                if (state.buffers.vertex == buff)
-					state.buffers.vertex = NULL;
-                if (state.buffers.elements == buff)
-					state.buffers.elements = NULL;
-                if (state.buffers.pack == buff)
-					state.buffers.pack = NULL;
-                if (state.buffers.unpack == buff)
-					state.buffers.unpack = NULL;
-                if (buff->data) free(buff->data);
-                kh_del(buff, list, k);
-                free(buff);
+            if (t) {    // don't allow to remove default one
+                k = kh_get(buff, list, t);
+                if (k != kh_end(list)) {
+                    buff = kh_value(list, k);
+                    if (state.vao->vertex == buff)
+                        state.vao->vertex = NULL;
+                    if (state.vao->elements == buff)
+                        state.vao->elements = NULL;
+                    if (state.vao->pack == buff)
+                        state.vao->pack = NULL;
+                    if (state.vao->unpack == buff)
+                        state.vao->unpack = NULL;
+                    if (buff->data) free(buff->data);
+                    kh_del(buff, list, k);
+                    free(buff);
+                }
             }
         }
     }
@@ -177,7 +187,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 
 GLboolean glIsBuffer(GLuint buffer) {
 //printf("glIsBuffer(%u)\n", buffer);
-	khash_t(buff) *list = state.buffers.list;
+	khash_t(buff) *list = state.buffers;
 	khint_t k;
 	noerrorShim();
     if (list) {
@@ -192,7 +202,7 @@ GLboolean glIsBuffer(GLuint buffer) {
 
 
 void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
-//printf("glGetBufferParameteriv(0x%04X, 0x%04X, %p)\n", target, value, data);
+//printf("glGetBufferParameteriv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(value), data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -232,7 +242,7 @@ void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
 }
 
 void *glMapBuffer(GLenum target, GLenum access) {
-//printf("glMapBuffer(0x%04X, 0x%04X)\n", target, access);
+//printf("glMapBuffer(%s, %s)\n", PrintEnum(target), PrintEnum(access));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return (void*)NULL;
@@ -247,7 +257,7 @@ void *glMapBuffer(GLenum target, GLenum access) {
 }
 
 GLboolean glUnmapBuffer(GLenum target) {
-//printf("glUnmapBuffer(0x%04X)\n", target);
+//printf("glUnmapBuffer(%s)\n", PrintEnum(target));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return GL_FALSE;
@@ -264,7 +274,7 @@ GLboolean glUnmapBuffer(GLenum target) {
 }
 
 void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
-//printf("glGetBufferSubData(0x%04X, %p, %i, %p)\n", target, offset, size, data);
+//printf("glGetBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -278,7 +288,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
 }
 
 void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
-//printf("glGetBufferPointerv(0x%04X, 0x%04X, %p)\n", target, pname, params);
+//printf("glGetBufferPointerv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -348,6 +358,9 @@ void glGenVertexArrays(GLsizei n, GLuint *arrays) {
 }
 void glBindVertexArray(GLuint array) {
 //printf("glBindVertexArray(%u)\n", array);
+    if (state.gl_batch) {
+         flush();
+    }
 
    	khint_t k;
    	int ret;
@@ -358,25 +371,10 @@ void glBindVertexArray(GLuint array) {
 		kh_put(glvao, list, 1, &ret);
 		kh_del(glvao, list, 1);
 	}
-    // check if needs to copy the data to current vao
-    if ((state.bindedvao!=NULL) && (state.bindedvao->array!=array))
-    {
-        memcpy(&state.bindedvao->pointers, &state.pointers, sizeof(pointer_states_t));
-        state.bindedvao->vertex = state.buffers.vertex;
-        state.bindedvao->elements = state.buffers.elements;
-        state.bindedvao->pack = state.buffers.pack;
-        state.bindedvao->unpack = state.buffers.unpack;
-        state.bindedvao->secondary_array = state.enable.secondary_array;
-        state.bindedvao->color_array = state.enable.color_array;
-        state.bindedvao->normal_array = state.enable.normal_array;
-        state.bindedvao->vertex_array = state.enable.vertex_array;
-        memcpy(state.bindedvao->tex_coord_array, state.enable.tex_coord_array, MAX_TEX*sizeof(GLboolean));
-
-    }
     // if array = 0 => unbind buffer!
     if (array == 0) {
         // unbind buffer
-        state.bindedvao = NULL;
+        state.vao = state.defaultvao;
     } else {
         // search for an existing buffer
         k = kh_get(glvao, list, array);
@@ -386,38 +384,40 @@ void glBindVertexArray(GLuint array) {
             glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
             // new vao is binded to nothing
             memset(glvao, 0, sizeof(glvao_t));
+            /*
+            state.vao->vertex = state.defaultvbo;
+            state.vao->elements = state.defaultvbo;
+            state.vao->pack = state.defaultvbo;
+            state.vao->unpack = state.defaultvbo;
+            */
+
             // just put is number
             glvao->array = array;
         } else {
             glvao = kh_value(list, k);
         }
-        state.bindedvao = glvao;
-        memcpy(&state.pointers, &glvao->pointers, sizeof(pointer_states_t));
-        state.buffers.vertex = glvao->vertex;
-        state.buffers.elements = glvao->elements;
-        state.buffers.pack = glvao->pack;
-        state.buffers.unpack = glvao->unpack;
-        state.enable.secondary_array = glvao->secondary_array;
-        state.enable.color_array = glvao->color_array;
-        state.enable.normal_array = glvao->normal_array;
-        state.enable.vertex_array = glvao->vertex_array;
-        memcpy(state.enable.tex_coord_array, glvao->tex_coord_array, MAX_TEX*sizeof(GLboolean));
+        state.vao = glvao;
     }
     noerrorShim();
 }
 void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 //printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);
+    if (state.gl_batch) {
+         flush();
+    }
 	khash_t(glvao) *list = state.vaos;
     if (list) {
         khint_t k;
         glvao_t *glvao;
         for (int i = 0; i < n; i++) {
             GLuint t = arrays[i];
-            k = kh_get(glvao, list, t);
-            if (k != kh_end(list)) {
-                glvao = kh_value(list, k);
-                kh_del(glvao, list, k);
-                free(glvao);
+            if (t) {    // don't allow to remove the default one
+                k = kh_get(glvao, list, t);
+                if (k != kh_end(list)) {
+                    glvao = kh_value(list, k);
+                    kh_del(glvao, list, k);
+                    free(glvao);
+                }
             }
         }
     }

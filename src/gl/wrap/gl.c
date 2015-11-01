@@ -734,8 +734,8 @@ void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenu
 //printf("glDrawRangeElements(0x%04X, %i, %i, %i, 0x%04X, @%p), inlist=%i\n", mode, start, end, count, type, indices, (state.list.active)?1:0);
 	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
 	int newcount=0;
-    glbuffer_t *elements = state.buffers.elements;
-    state.buffers.elements = NULL;
+    glbuffer_t *elements = state.vao->elements;
+    state.vao->elements = NULL;
     
 	uintptr_t ptr = (uintptr_t)indices;
     if (elements)
@@ -750,7 +750,7 @@ void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenu
 	glDrawElements(mode, newcount, GL_UNSIGNED_SHORT, newinds);
 	free(newinds);
     
-    state.buffers.elements = elements;
+    state.vao->elements = elements;
 }
 
 void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {

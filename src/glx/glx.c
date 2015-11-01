@@ -266,7 +266,7 @@ static void scan_env() {
         return;
     /* Check for some corruption inside state.... */
     if ((state.texture.active < 0) || (state.texture.active > MAX_TEX) || 
-        (state.pointers.vertex.buffer!= 0) || (state.buffers.vertex != 0)) {
+        (state.vao->pointers.vertex.buffer!= 0) || (state.vao->vertex != 0)) {
         printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n");
         initialize_glshim();
     }

@@ -425,12 +425,30 @@ void render_raster_list(rasterlist_t* rast) {
 		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-		gles_glEnableClientState(GL_VERTEX_ARRAY);
-		gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		gles_glDisableClientState(GL_COLOR_ARRAY);
-		gles_glDisableClientState(GL_NORMAL_ARRAY);
+        if(!state.clientstate.vertex_array) {
+            gles_glEnableClientState(GL_VERTEX_ARRAY);
+            state.clientstate.vertex_array = 1;
+        }
 		gles_glVertexPointer(3, GL_FLOAT, 0, vert);
+        if(!state.clientstate.tex_coord_array[0]) {
+            gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            state.clientstate.tex_coord_array[0] = 1;
+        }
 		gles_glTexCoordPointer(2, GL_FLOAT, 0, tex);
+        for (int a=1; a <MAX_TEX; a++)
+            if(state.clientstate.tex_coord_array[a]) {
+                glActiveClientTexture(GL_TEXTURE0 + a);
+                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                state.clientstate.tex_coord_array[a] = 0;
+            }
+        if(state.clientstate.color_array) {
+            gles_glDisableClientState(GL_COLOR_ARRAY);
+            state.clientstate.color_array = 0;
+        }
+        if(state.clientstate.normal_array) {
+            gles_glDisableClientState(GL_NORMAL_ARRAY);
+            state.clientstate.normal_array = 0;
+        }
 
 
 		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

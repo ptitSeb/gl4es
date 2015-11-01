@@ -12,11 +12,6 @@ typedef struct {
               auto_normal,
               blend,
               color_sum,
-              secondary_array,
-              color_array,
-              normal_array,
-              vertex_array,
-              tex_coord_array[MAX_TEX],
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
@@ -104,14 +99,6 @@ typedef struct {
 	GLfloat	*stack;
 } matrixstack_t;
 
-typedef struct {
-    glbuffer_t *vertex;
-    glbuffer_t *elements;
-    glbuffer_t *pack;
-    glbuffer_t *unpack;
-    khash_t(buff) *list;
-} buffers_t;
-
 typedef enum {
     ENABLED_ALPHA,
     ENABLED_BLEND,
@@ -130,13 +117,18 @@ typedef struct {
     GLenum blendfunc_d;
 } statebatch_t;
 
+typedef struct {
+    GLboolean   vertex_array,
+                color_array,
+                normal_array,
+                tex_coord_array[MAX_TEX];
+} clientstate_t;
 
 typedef struct {
     displaylist_state_t list;
     enable_state_t enable;
     map_state_t *map_grid;
     map_states_t map1, map2;
-    pointer_states_t pointers;
     renderlist_t **lists;
     texgen_state_t texgen[MAX_TEX];
     texture_state_t texture;
@@ -151,14 +143,17 @@ typedef struct {
     matrixstack_t *projection_matrix;
     matrixstack_t **texture_matrix;
     selectbuf_t selectbuf;
-    buffers_t buffers;
     khash_t(glvao) *vaos;
-    glvao_t *bindedvao;
+    khash_t(buff) *buffers;
+    glvao_t *vao;
+    glbuffer_t *defaultvbo; 
+    glvao_t *defaultvao;
     int shim_error;
     GLenum last_error;
     GLuint gl_batch;
     GLint vp[4];
     statebatch_t statebatch;
+    clientstate_t clientstate;
 } glstate_t;
 
 #endif
