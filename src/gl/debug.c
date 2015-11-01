@@ -74,6 +74,13 @@ const char* PrintEnum(GLenum what) {
         p(GL_COLOR_ATTACHMENT4);
         p(GL_DEPTH_ATTACHMENT);
         p(GL_STENCIL_ATTACHMENT);
+        // VBO
+        p(GL_STATIC_DRAW);
+        p(GL_READ_WRITE);
+        p(GL_ARRAY_BUFFER);
+        p(GL_ELEMENT_ARRAY_BUFFER);
+        p(GL_PIXEL_PACK_BUFFER);
+        p(GL_PIXEL_UNPACK_BUFFER);
         default:
             sprintf(fallback, "0x%04X", what);
     }
