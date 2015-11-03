@@ -437,7 +437,7 @@ void render_raster_list(rasterlist_t* rast) {
 		gles_glTexCoordPointer(2, GL_FLOAT, 0, tex);
         for (int a=1; a <MAX_TEX; a++)
             if(state.clientstate.tex_coord_array[a]) {
-                glActiveClientTexture(GL_TEXTURE0 + a);
+                glClientActiveTexture(GL_TEXTURE0 + a);
                 gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 state.clientstate.tex_coord_array[a] = 0;
             }
