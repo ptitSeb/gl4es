@@ -247,11 +247,15 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
     switch(*internalformat) {
         case GL_R:
         case 1: 
-            ret = GL_R; sret = GL_RGB; 
+            ret = GL_LUMINANCE; sret = GL_LUMINANCE; 
             break;
         case GL_RG:
         case 2: 
-            ret = GL_RG; sret = GL_RGB; 
+            ret = GL_LUMINANCE_ALPHA;
+            if (nolumalpha)
+                sret = GL_RGBA;
+            else
+                sret = GL_LUMINANCE_ALPHA;
             break;
         case GL_RGB5:
         case GL_RGB8:

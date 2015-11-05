@@ -8,14 +8,15 @@ static const colorlayout_t *get_color_map(GLenum format) {
         return &layout; }
     switch (format) {
         map(GL_RED, 0, -1, -1, -1);
-        map(GL_RG, 0, 1, -1, -1);
-        map(GL_RGBA, 0, 1, 2, 3);
-        map(GL_RGB, 0, 1, 2, -1);
-        map(GL_BGRA, 2, 1, 0, 3);
-        map(GL_BGR, 2, 1, 0, -1);
+        map(GL_R,   0, -1, -1, -1);
+        map(GL_RG,  0,  1, -1, -1);
+        map(GL_RGBA,0,  1, 2, 3);
+        map(GL_RGB, 0,  1, 2, -1);
+        map(GL_BGRA,2,  1, 0, 3);
+        map(GL_BGR, 2,  1, 0, -1);
 		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1);
 		map(GL_LUMINANCE, 0, 0, 0, -1);
-		map(GL_ALPHA, -1, -1, -1, 0);
+		map(GL_ALPHA,-1, -1, -1, 0);
         default:
             printf("libGL: unknown pixel format %i\n", format);
             break;
