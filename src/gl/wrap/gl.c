@@ -1,4 +1,5 @@
 #include "gl.h"
+#include "../debug.h"
 #include <limits.h>
 
 #define constDoubleToFloat(a, size) \
@@ -731,7 +732,10 @@ void glVertex4fv(GLfloat *v) {
 }
 
 void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
-//printf("glDrawRangeElements(0x%04X, %i, %i, %i, 0x%04X, @%p), inlist=%i\n", mode, start, end, count, type, indices, (state.list.active)?1:0);
+//printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (state.list.active)?1:0);
+    #if 1
+    glDrawElements(mode, count, type, indices);
+    #else
 	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
 	int newcount=0;
     glbuffer_t *elements = state.vao->elements;
@@ -751,6 +755,7 @@ void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenu
 	free(newinds);
     
     state.vao->elements = elements;
+    #endif
 }
 
 void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
