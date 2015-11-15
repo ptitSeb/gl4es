@@ -746,8 +746,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				tmp = *(const GLuint*)src_pos;
-				*(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)<<(11-3));
+				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[2]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[0]&0xf8)<<(11-3));
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -760,8 +759,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				tmp = *(const GLuint*)src_pos;
-				*(GLushort*)dst_pos = ((tmp&0x00f80000)>>(16+3-11)) | ((tmp&0x0000fc00)>>(8+2-5)) | ((tmp&0x000000f8)>>(3));
+				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[0]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[2]&0xf8)<<(11-3));
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
