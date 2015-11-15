@@ -151,6 +151,8 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
                 "GL_EXT_stencil_wrap "
+                "SGIS_texture_edge_clamp "
+                "GL_EXT_texture_edge_clamp "
 #ifndef ODROID
                 "GL_EXT_blend_subtract "
                 "GL_EXT_blend_func_separate "
