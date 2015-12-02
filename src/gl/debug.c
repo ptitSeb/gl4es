@@ -82,6 +82,26 @@ const char* PrintEnum(GLenum what) {
         p(GL_ELEMENT_ARRAY_BUFFER);
         p(GL_PIXEL_PACK_BUFFER);
         p(GL_PIXEL_UNPACK_BUFFER);
+        // Texture
+        p(GL_TEXTURE0);
+        p(GL_TEXTURE1);
+        p(GL_TEXTURE2);
+        p(GL_TEXTURE3);
+        p(GL_TEXTURE4);
+        p(GL_TEXTURE5);
+        p(GL_TEXTURE6);
+        p(GL_TEXTURE7);
+        // mode
+        p(GL_POINT);
+        p(GL_LINES);
+        p(GL_LINE_LOOP);
+        p(GL_LINE_STRIP);
+        p(GL_TRIANGLES);
+        p(GL_TRIANGLE_STRIP);
+        p(GL_TRIANGLE_FAN);
+        p(GL_QUADS);
+        p(GL_QUAD_STRIP);
+        p(GL_POLYGON);
         default:
             sprintf(fallback, "0x%04X", what);
     }
