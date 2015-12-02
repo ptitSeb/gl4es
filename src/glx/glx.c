@@ -1101,4 +1101,12 @@ int glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int
     }
     return 0;
 }
+
+void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
+    printf("LIBGL: Warning, stub glxDestroyPBuffer called\n");
+}
+GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list) {
+    printf("LIBGL: Warning, stub glxCreatePBuffer called\n");
+    return 0;
+}
 #endif //ANDROID

@@ -144,6 +144,8 @@ struct __GLXContextRec {
 	EGLContext eglContext;
 };
 typedef struct __GLXContextRec *GLXContext;
+
+typedef XID GLXPbuffer;
 #endif //ANDROID
 struct __GLXFBConfigRec {
     int visualType;
@@ -257,4 +259,7 @@ void glXDestroyWindow(Display *display, void *win);
 
 Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);
 GLXContext glXCreateNewContext(Display *display, GLXFBConfig config, int render_type, GLXContext share_list, Bool is_direct);
+
+void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf);
+GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list);
 #endif //ANDROID
