@@ -121,6 +121,8 @@ const GLubyte *glGetString(GLenum name) {
             return (GLubyte *)gl_version;
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
+                "GL_EXT_abgr "
+                "GL_EXT_packed_pixels "
                 "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_array_object "
                 "GL_ARB_vertex_buffer "
