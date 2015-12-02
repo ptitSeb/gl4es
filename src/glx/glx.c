@@ -156,7 +156,6 @@ static bool g_usefb = false;
 static bool g_usefbo = false;
 static bool g_xrefresh = false;
 static bool g_stacktrace = false;
-static bool g_bcm_active = false;
 extern int automipmap;
 extern int texcopydata;
 extern int tested_env;
@@ -171,10 +170,47 @@ extern char gl_version[50];
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
-#ifndef BCMHOST
+// RPI stuffs
 static bool g_bcmhost = false;
-#else
-static bool g_bcmhost = true;
+static bool g_bcm_active = false;
+void (*bcm_host_init)();
+void (*bcm_host_deinit)();
+#ifdef BCMHOST
+void *bcm_host = NULL, *vcos = NULL;
+static const char *path_prefix[] = {
+    "",
+    "/opt/vc/lib/",
+    "/usr/local/lib/",
+    "/usr/lib/",
+    NULL,
+};
+
+static const char *lib_ext[] = {
+    "so",
+    "so.1",
+    "so.2",
+    "dylib",
+    "dll",
+    NULL,
+};
+void *open_lib(const char **names) {
+    void *lib = NULL;
+
+    char path_name[PATH_MAX + 1];
+    int flags = RTLD_LOCAL | RTLD_NOW;
+    for (int p = 0; path_prefix[p]; p++) {
+        for (int i = 0; names[i]; i++) {
+            for (int e = 0; lib_ext[e]; e++) {
+                snprintf(path_name, PATH_MAX, "%s%s.%s", path_prefix[p], names[i], lib_ext[e]);
+                if ((lib = dlopen(path_name, flags))) {
+                    printf("libGL:loaded: %s\n", path_name);
+                    return lib;
+                }
+            }
+        }
+    }
+    return lib;
+}
 #endif
 
 static int swap_interval = 1;
@@ -281,6 +317,20 @@ static void scan_env() {
 
     env(LIBGL_XREFRESH, g_xrefresh, "xrefresh will be called on cleanup");
     env(LIBGL_STACKTRACE, g_stacktrace, "stacktrace will be printed on crash");
+#ifdef BCMHOST
+    // Try to load RPi specifics libs
+    const char *bcm_host_name[] = {"libbcm_host", NULL};
+    const char *vcos_name[] = {"libvcos", NULL};
+    bcm_host = open_lib(bcm_host_name);
+    vcos = open_lib(vcos_name);
+    // if ok, grab the init/deinit functions
+    if (bcm_host) {
+        bcm_host_init = dlsym(bcm_host, "bcm_host_init");
+        bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
+        if (bcm_host_init && bcm_host_deinit)
+            g_bcmhost = true;
+    }
+#endif
     if (g_xrefresh || g_stacktrace || g_bcmhost) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
