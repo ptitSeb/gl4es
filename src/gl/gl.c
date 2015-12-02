@@ -1,4 +1,5 @@
 #include "gl.h"
+#include "debug.h"
 /*
 glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	.secondary = {0.0f, 0.0f, 0.0f, 0.0f},
@@ -638,7 +639,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 	}
 	for (int i=0; i<MAX_TEX; i++) {
 		if (state.vao->tex_coord_array[i]) {
-		    list->tex[i] = copy_gl_pointer_raw(&state.vao->pointers.tex_coord[i], 2, skip, count, state.vao->pointers.tex_coord[i].buffer);
+		    list->tex[i] = copy_gl_pointer_tex(&state.vao->pointers.tex_coord[i], 4, skip, count, state.vao->pointers.tex_coord[i].buffer);
 		}
 	}
 	
@@ -1185,7 +1186,7 @@ void glEnd() {
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that cas, create a dummy one base on state...
     for (int a=0; a<MAX_TEX; a++)
 		if (state.enable.texture_2d[a] && ((state.list.active->tex[a]==0) && (!state.enable.texgen_s[a])))
-			rlMultiTexCoord2f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1]);
+			rlMultiTexCoord4f(state.list.active, GL_TEXTURE0+a, state.texcoord[a][0], state.texcoord[a][1], state.texcoord[a][2], state.texcoord[a][3]);
     // render if we're not in a display list
     if (!(state.list.compiling || state.gl_batch)) {
         renderlist_t *mylist = state.list.active;
@@ -1294,21 +1295,23 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 }
 #endif
 
-void glTexCoord2f(GLfloat s, GLfloat t) {
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     state.texcoord[0][0] = s; state.texcoord[0][1] = t;
+    state.texcoord[0][2] = r; state.texcoord[0][3] = q;
     if (state.list.active) {
-        rlTexCoord2f(state.list.active, s, t);
+        rlTexCoord4f(state.list.active, s, t, r, q);
         noerrorShim();
     } else {
         noerrorShim();
     }
 }
 
-void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     state.texcoord[target-GL_TEXTURE0][0] = s; state.texcoord[target-GL_TEXTURE0][1] = t;
+    state.texcoord[target-GL_TEXTURE0][2] = r; state.texcoord[target-GL_TEXTURE0][3] = q;
 	// TODO, error if target is unsuported texture....
     if (state.list.active) {
-        rlMultiTexCoord2f(state.list.active, target, s, t);
+        rlMultiTexCoord4f(state.list.active, target, s, t, r, q);
 		noerrorShim();
     } else {
         noerrorShim();
@@ -1353,14 +1356,20 @@ void glArrayElement(GLint i) {
     p = &state.vao->pointers.tex_coord[0];
     if (state.vao->tex_coord_array[0]) {
         v = gl_pointer_index(p, i);
-        glTexCoord2fv(v);
+        if (p->size<4)
+            glTexCoord2fv(v);
+        else
+            glTexCoord4fv(v);
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
 	    p = &state.vao->pointers.tex_coord[a];
 	    if (state.vao->tex_coord_array[a]) {
 			v = gl_pointer_index(p, i);
-			glMultiTexCoord2fv(GL_TEXTURE0+a, v);
+            if (p->size<4)
+                glMultiTexCoord2fv(GL_TEXTURE0+a, v);
+            else
+                glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
     p = &state.vao->pointers.vertex;

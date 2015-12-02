@@ -342,7 +342,7 @@ void glPopAttrib() {
     if (cur->mask & GL_CURRENT_BIT) {
         glColor4f(v4(cur->color));
         glNormal3f(v3(cur->normal));
-        glTexCoord2f(v2(cur->tex));
+        glTexCoord4f(v4(cur->tex));
     }
 
     if (cur->mask & GL_DEPTH_BUFFER_BIT) {

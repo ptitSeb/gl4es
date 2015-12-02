@@ -1,5 +1,6 @@
 #include "gl.h"
 #include "list.h"
+#include "debug.h"
 
 #define alloc_sublist(n, cap) \
     (GLfloat *)malloc(n * sizeof(GLfloat) * cap)
@@ -337,8 +338,8 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         for (int i=0; i<MAX_TEX; i++) {
             tmp = a->tex[i];
             if (tmp) {
-                a->tex[i] = alloc_sublist(2, cap);
-                memcpy(a->tex[i], tmp, 2*a->len*sizeof(GLfloat));
+                a->tex[i] = alloc_sublist(4, cap);
+                memcpy(a->tex[i], tmp, 4*a->len*sizeof(GLfloat));
             }
         }
         if (a->indices) {
@@ -357,7 +358,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             realloc_sublist(a->color, 4, cap);
             realloc_sublist(a->secondary, 4, cap);
             for (int i=0; i<MAX_TEX; i++)
-               realloc_sublist(a->tex[i], 2, cap);
+               realloc_sublist(a->tex[i], 4, cap);
         }
     }
     // append arrays
@@ -366,7 +367,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
     for (int i=0; i<MAX_TEX; i++)
-        if (a->tex[i]) memcpy(a->tex[i]+a->len*2, b->tex[i], b->len*2*sizeof(GLfloat));
+        if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     
     // indices
     if (ilen_a + ilen_b)
@@ -576,7 +577,7 @@ void resize_renderlist(renderlist_t *list) {
         realloc_sublist(list->color, 4, list->cap);
         realloc_sublist(list->secondary, 4, list->cap);
         for (int a=0; a<MAX_TEX; a++)
-           realloc_sublist(list->tex[a], 2, list->cap);
+           realloc_sublist(list->tex[a], 4, list->cap);
     }
 }
 
@@ -630,7 +631,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=0x%04X(0x%04X), ilen=%d, next=%p\n", list, state.gl_batch, list->len, list->mode, list->mode_init, list->ilen, list->next);
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p\n", list, state.gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
 #ifdef USE_ES2
@@ -829,7 +830,7 @@ void draw_renderlist(renderlist_t *list) {
                 glClientActiveTexture(GL_TEXTURE0+a);
                 gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                 state.clientstate.tex_coord_array[a] = 1;
-		        gles_glTexCoordPointer(2, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
+		        gles_glTexCoordPointer(4, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
                 if (state.clientstate.tex_coord_array[a]) {
                     glClientActiveTexture(GL_TEXTURE0+a);
@@ -1095,8 +1096,8 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 
     for (int a=0; a<MAX_TEX; a++) {
 		if (list->tex[a]) {
-			GLfloat *tex = list->tex[a] + (list->len * 2);
-			memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 2);
+			GLfloat *tex = list->tex[a] + (list->len * 4);
+			memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 4);
 		}
     }
 
@@ -1242,34 +1243,36 @@ void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * 
     memcpy(m->color, params, 4*sizeof(GLfloat));
 }
 
-void rlTexCoord2f(renderlist_t *list, GLfloat s, GLfloat t) {
+void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (list->tex[0] == NULL) {
-        list->tex[0] = alloc_sublist(2, list->cap);
+        list->tex[0] = alloc_sublist(4, list->cap);
         // catch up
         GLfloat *tex = list->tex[0];
         if (list->len) for (int i = 0; i < list->len-1; i++) {
-            memcpy(tex, state.texcoord[0], sizeof(GLfloat) * 2);
-            tex += 2;
+            memcpy(tex, state.texcoord[0], sizeof(GLfloat) * 4);
+            tex += 4;
         }
     }
     
     GLfloat *tex = state.texcoord[0];
     tex[0] = s; tex[1] = t;
+    tex[2] = r; tex[3] = q;
 }
 
-void rlMultiTexCoord2f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t) {
+void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     const int tmu = target - GL_TEXTURE0;
     if (list->tex[tmu] == NULL) {
-        list->tex[tmu] = alloc_sublist(2, list->cap);
+        list->tex[tmu] = alloc_sublist(4, list->cap);
         // catch up
         GLfloat *tex = list->tex[tmu];
         if (list->len) for (int i = 0; i < list->len-1; i++) {
-            memcpy(tex, state.texcoord[tmu], sizeof(GLfloat) * 2);
-            tex += 2;
+            memcpy(tex, state.texcoord[tmu], sizeof(GLfloat) * 4);
+            tex += 4;
         }
     }
     GLfloat *tex = state.texcoord[tmu];
     tex[0] = s; tex[1] = t;
+    tex[2] = r; tex[3] = q;
 }
 
 void rlActiveTexture(renderlist_t *list, GLenum texture ) {

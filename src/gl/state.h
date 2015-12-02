@@ -134,7 +134,7 @@ typedef struct {
     texture_state_t texture;
     GLfloat color[4];
     GLfloat secondary[4];
-    GLfloat texcoord[MAX_TEX][2];
+    GLfloat texcoord[MAX_TEX][4];
     GLfloat normal[3];
     int	render_mode;
     int polygon_mode;

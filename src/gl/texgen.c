@@ -226,7 +226,7 @@ void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count, GLushort *indices) {
     for (int i = 0; i < count; i++) {
 	GLushort k = indices?indices[i]:i;
-        out[k*2] = dot(verts+k*3, params) + params[3];
+        out[k*4] = dot(verts+k*3, params) + params[3];
     }
 }
 
@@ -258,8 +258,10 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
             reflect[j]=eye[j]-eye_norm[j]*a;
         reflect[2]+=1.0f;
         a = 1.0f / (2.0f*sqrtf(dot(reflect, reflect)));
-        out[k*2+0] = reflect[0]*a + 0.5f;
-        out[k*2+1] = reflect[1]*a + 0.5f;
+        out[k*4+0] = reflect[0]*a + 0.5f;
+        out[k*4+1] = reflect[1]*a + 0.5f;
+        out[k*4+2] = 0.0f;
+        out[k*4+3] = 1.0f;
     }
 
 }
@@ -278,7 +280,7 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*3, tmp);
-        out[k*2]=dot(plane, tmp);
+        out[k*4]=dot(plane, tmp);
     }
 
 }
@@ -306,11 +308,11 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
 	if (indices)
 	    for (int i=0; i<ilen; i++) {
-		memcpy((*coords)+indices[i]*2, state.texcoord[texture], sizeof(GLfloat)*2);
+		memcpy((*coords)+indices[i]*4, state.texcoord[texture], sizeof(GLfloat)*4);
 	    }
 	else
-	    for (int i=0; i<count*2; i+=2) {
-		memcpy((*coords)+i, state.texcoord[texture], sizeof(GLfloat)*2);
+	    for (int i=0; i<count*4; i+=4) {
+		memcpy((*coords)+i, state.texcoord[texture], sizeof(GLfloat)*4);
 	    }
 	return;
     }
@@ -320,7 +322,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 	if (!state.enable.texture_2d[texture])
 	    return;
 	if ((*coords)==NULL) 
-	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+	    *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
         sphere_loop(verts, norm, *coords, (indices)?ilen:count, indices);
         return;
     }
@@ -378,6 +380,11 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, state.texgen[texture].S, state.texgen[texture].S_O, state.texgen[texture].S_E, indices);
     if (state.enable.texgen_t[texture])
         tex_coord_loop(verts, norm, *coords+1, (indices)?ilen:count, state.texgen[texture].T, state.texgen[texture].T_O, state.texgen[texture].T_E, indices);
+    for (int i=0; i<count; i++) {
+        GLushort k = indices?indices[i]:i;
+        (*coords)[k*4+2] = 0.0f;
+        (*coords)[k*4+3] = 1.0f;
+    }
 }
 
 void gen_tex_clean(GLint cleancode, int texture) {
