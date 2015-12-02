@@ -1035,12 +1035,12 @@ gltexture_t* getTexture(GLenum target, GLuint texture) {
         tex->width = 0;
         tex->height = 0;
         tex->uploaded = false;
-        tex->mipmap_auto = default_tex_mipmap;
-        tex->mipmap_need = 0;
+        tex->mipmap_auto = default_tex_mipmap || (automipmap==1);
+        tex->mipmap_need = (automipmap==1)?1:0;
         tex->alpha = true;
         tex->streamed = false;
         tex->streamingID = -1;
-        tex->min_filter = tex->mag_filter = GL_LINEAR;
+        tex->min_filter = tex->mag_filter = (automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
         tex->orig_internal = GL_RGBA;
