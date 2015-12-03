@@ -21,7 +21,6 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	};
 */
 glstate_t state;
-void* gles = NULL;
 
 GLuint readhack = 0;
 GLint readhack_x = 0;

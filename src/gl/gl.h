@@ -1,7 +1,4 @@
 #include <dlfcn.h>
-#if defined (BCMHOST) && !defined(ANDROID) 
-#include "bcm_host.h"
-#endif
 #include <GLES/gl.h>
 #include <EGL/egl.h>
 #ifdef TEXSTREAM
@@ -87,7 +84,7 @@ typedef EGLint (*eglWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint fla
 typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLConfig config, EGLStreamKHR stream, const EGLint * attrib_list);
 #endif
 
-// end of defintions
+#include "loader.h"
 
 #define checkError(code)                          \
     {int error; while ((error = glGetError())) {} \
@@ -100,99 +97,6 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
         printf(file ":%i -> %i\n", line, error);}
 
 #define GLdouble double
-
-// will become a reference to dlopen'd gles
-extern void *gles;
-#ifdef ANDROID
-void *egl;
-#else
-extern void *egl;
-#endif
-
-#ifndef EGL_LIB
-#define EGL_LIB "libEGL.so"
-#endif
-
-#ifndef GLES_LIB
-#ifdef USE_ES2
-#define GLES_LIB "libGLESv2.so"
-#else
-#if defined(BCMHOST)
-#define GLES_LIB "libGLESv1_CM.so"
-#else
-#define GLES_LIB "libGLES_CM.so"
-//#define GLES_LIB "/media/SEBEXT/sources/PVRTrace/libGLES1.so"
-#endif // BCMHOST
-#endif // USE_ES2
-#endif // GLES_LIB
-
-static void load_gles_lib() {
-    if (gles) {
-        return;
-    }
-    char *override = getenv("LIBGL_GLES");
-    int flags = RTLD_LOCAL | RTLD_LAZY;
-    if (override) {
-        if ((gles = dlopen(override, flags))) {
-            printf("libGL backend: %s\n", override);
-            return;
-        }
-    }
-    gles = dlopen(GLES_LIB, RTLD_LOCAL | RTLD_LAZY);
-    printf("libGL backend: %s\n", GLES_LIB);
-}
-
-static void load_egl_lib() {
-    if (egl) {
-        return;
-    }
-    char *override = getenv("LIBGL_EGL");
-    int flags = RTLD_LOCAL | RTLD_LAZY;
-    if (override) {
-        if ((egl = dlopen(override, flags))) {
-            printf("libGL egl backend: %s\n", override);
-            return;
-        }
-    }
-    egl = dlopen(EGL_LIB, RTLD_LOCAL | RTLD_LAZY);
-    printf("libGL egl backend: %s\n", EGL_LIB);
-}
-
-#define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
-
-#define LOAD_GLES(name)                                             \
-    static name##_PTR gles_##name;                                  \
-    if (gles_##name == NULL) {                                      \
-        if (gles == NULL) {                                         \
-            load_gles_lib();				       	                \
-            WARN_NULL(gles);                                        \
-        }                                                           \
-        gles_##name = (name##_PTR)dlsym(gles, #name);               \
-        WARN_NULL(gles_##name);                                     \
-    }
-
-#define LOAD_GLES_OES(name)                                      \
-    static name##_PTR gles_##name;                               \
-    if (gles_##name == NULL) {                                   \
-	if (gles == NULL) {                           	             \
-	    load_gles_lib();		            	       	  	     \
-	    WARN_NULL(gles);                                         \
-	}                                                            \
-    LOAD_EGL(eglGetProcAddress)                                  \
-	gles_##name = (name##_PTR)egl_eglGetProcAddress(#name"OES"); \
-	WARN_NULL(gles_##name);                                      \
-    }
-	
-#define LOAD_EGL(name)                                              \
-    static name##_PTR egl_##name;                                   \
-    if (egl_##name == NULL) {                                       \
-        if (egl == NULL) {                                          \
-            load_egl_lib();			                	       	    \
-            WARN_NULL(egl);                                         \
-        }                                                           \
-        egl_##name = (name##_PTR)dlsym(egl, #name);                 \
-        WARN_NULL(egl_##name);                                      \
-    }
 
 #define GL_TYPE_CASE(name, var, magic, type, code) \
     case magic: {                                  \

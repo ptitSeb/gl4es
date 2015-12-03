@@ -26,7 +26,7 @@ struct sockaddr_un sun;
 int sock = -2;
 #endif
 
-void* egl = NULL;
+extern void* egl;
 
 
 int8_t CheckEGLErrors() {
