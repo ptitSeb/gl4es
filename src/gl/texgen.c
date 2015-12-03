@@ -305,7 +305,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     // special case : no texgen but texture activated, create a simple 1 repeated element
     if (!state.enable.texgen_s[texture] && !state.enable.texgen_t[texture] && !state.enable.texgen_r[texture]) {
 	if ((*coords)==NULL) 
-	    *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+	    *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
 	if (indices)
 	    for (int i=0; i<ilen; i++) {
 		memcpy((*coords)+indices[i]*4, state.texcoord[texture], sizeof(GLfloat)*4);
@@ -375,7 +375,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     if (!state.enable.texture_2d[texture])
 	return;
     if ((*coords)==NULL) 
-        *coords = (GLfloat *)malloc(count * 2 * sizeof(GLfloat));
+        *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
     if (state.enable.texgen_s[texture])
         tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, state.texgen[texture].S, state.texgen[texture].S_O, state.texgen[texture].S_E, indices);
     if (state.enable.texgen_t[texture])
