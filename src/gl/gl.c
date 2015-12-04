@@ -133,6 +133,7 @@ const GLubyte *glGetString(GLenum name) {
                 "GL_ARB_texture_env_add "
                 "GL_ARB_texture_border_clamp "
                 "GL_ARB_point_parameters "
+                "GL_EXT_texture_env_add "
                 "GL_ARB_texture_env_combine "
                 "GL_ARB_texture_env_crossbar "
                 "GL_ARB_texture_env_dot3 "
@@ -1322,28 +1323,25 @@ void glArrayElement(GLint i) {
     p = &state.vao->pointers.color;
     if (state.vao->color_array) {
         v = gl_pointer_index(p, i);
-        GLfloat scale = gl_max_value(p->type);
+        GLfloat scale = 1.0f/gl_max_value(p->type);
         // color[3] defaults to 1.0f
         if (p->size < 4)
             v[3] = 1.0f;
 
         // scale color coordinates to a 0 - 1.0 range
         for (int i = 0; i < p->size; i++) {
-            v[i] /= scale;
+            v[i] *= scale;
         }
         glColor4fv(v);
     }
     p = &state.vao->pointers.secondary;
     if (state.vao->secondary_array) {
         v = gl_pointer_index(p, i);
-        GLfloat scale = gl_max_value(p->type);
-        // color[3] defaults to 0.0f
-        if (p->size < 4)
-            v[3] = 0.0f;
+        GLfloat scale = 1.0f/gl_max_value(p->type);
 
         // scale color coordinates to a 0 - 1.0 range
         for (int i = 0; i < p->size; i++) {
-            v[i] /= scale;
+            v[i] *= scale;
         }
         glSecondaryColor3fv(v);
     }
