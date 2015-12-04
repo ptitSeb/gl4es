@@ -31,6 +31,7 @@ extern void load_libs();
             if (lib != NULL) { \
                 lib##_##name = (name##_PTR)__VA_ARGS__; \
             } \
+            WARN_NULL(lib##_##name); \
         } \
     }
 #endif
@@ -39,11 +40,10 @@ extern void load_libs();
 
 #ifndef LOAD_GLES
 #define LOAD_GLES(name) \
-    LOAD_GLES_SILENT(name); \
-    WARN_NULL(gles_##name);
+    LOAD_LIB(gles, name)
+    
 #endif
 
-#define LOAD_GLES_SILENT(name) LOAD_LIB(gles, name)
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
