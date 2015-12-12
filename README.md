@@ -64,11 +64,9 @@ Usage
 
 There are many environnement variable to control glshim behavour.
 
-#### LIBGL_FB
+##### LIBGL_FB
 Controls the Framebuffer output
- Value | Effect
- --- | ---
- 0 | Default, using standard x11 rendering
- 1 | Use Framebuffer output (x11 bypassed, only fullscreen)
- 2 | Use Framebuffer, but also an intermediary FBO
+ * 0 : Default, using standard x11 rendering
+ * 1 : Use Framebuffer output (x11 bypassed, only fullscreen)
+ * 2 : Use Framebuffer, but also an intermediary FBO
 
