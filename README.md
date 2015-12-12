@@ -62,7 +62,7 @@ Put lib/libGL.so.1 in your `LD_LIBRARY_PATH`.
 Usage
 ----
 
-There are many environnement variable to control glshim behavour.
+There are many environnement variable to control glshim behavour. All are numeric, except LIBGL_VERSION that take a string.
 
 ##### LIBGL_FB
 Controls the Framebuffer output
@@ -149,9 +149,7 @@ Experimental: Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE
  * 1 : Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE (can be usefull for Xash3D engine)
 
 ##### LIBGL_VERSION
-Control the glGetString version
- * 0 : Default, nothing special
- * 1 : Overide version string (should be in the form of "1.x")
+Control the glGetString version. Overide version string (should be in the form of "1.x")
 
 ##### LIBGL_BATCH
 Experimental: Batch mode (fuse of contigous Display list, to limit Draw calls)
