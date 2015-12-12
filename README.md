@@ -13,7 +13,6 @@ Some know limitations:
  * NPOT texture are supported, but not with GL_REPEAT / GL_MIRRORED, only GL_CLAMP will work properly
  * Framebuffer use FRAMEBUFFER_OES extension (that must be present in the GLES 1.1 stack)
  * Multiple Color attachment on Framebuffer are not supported
- * Internaly, Texture coordinates are 2D, Vertex are 3D only (no real support for W for vertex, or 3D texture / cubemaps)
  * Probably many other things
 
 ----
