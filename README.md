@@ -56,3 +56,19 @@ Installation
 ----
 
 Put lib/libGL.so.1 in your `LD_LIBRARY_PATH`.
+
+----
+
+Usage
+----
+
+There are many environnement variable to control glshim behavour.
+
+### LIBGL_FB
+Controls the Framebuffer output
+|Value|Effect                                 |
+|-----|---------------------------------------|
+| 0   | Default, using standard x11 rendering |
+| 1   | Use Framebuffer output (x11 bypassed, only fullscreen) |
+| 2   | Use Framebuffer, but also an intermediary FBO |
+
