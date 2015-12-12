@@ -124,17 +124,30 @@ GLfloat dot(const GLfloat *a, const GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
+GLfloat dot4(const GLfloat *a, const GLfloat *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
+}
+
 //TODO: NEONize all thoses functions, maybe also making the vector an array of 4 float can help.
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
-    c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3];
-    c[1] = a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7];
-    c[2] = a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11];
+    c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
+    c[1] = a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7] * b[3];
+    c[2] = a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11] * b[3];
+    c[3] = a[12] * b[0] + a[13] * b[1] + a[14] * b[2] + a[15] * b[3];
 }
 
 void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+    c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + a[3] * b[12];
+    c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9] + a[3] * b[13];
+    c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + a[3] * b[14];
+    c[3] = a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + a[3] * b[15];
+}
+
+void vector3_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
     c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + b[12];
     c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9] + b[13];
     c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + b[14];
+    c[3] = a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + b[15];
 }
 
 void vector_normalize(GLfloat *a) {
@@ -226,7 +239,7 @@ void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 void dot_loop(const GLfloat *verts, const GLfloat *params, GLfloat *out, GLint count, GLushort *indices) {
     for (int i = 0; i < count; i++) {
 	GLushort k = indices?indices[i]:i;
-        out[k*4] = dot(verts+k*3, params) + params[3];
+        out[k*4] = dot4(verts+k*4, params);// + params[3];
     }
 }
 
@@ -245,16 +258,16 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
             ModelviewMatrix[i*4+j]=InvModelview[i+j*4];
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
-    GLfloat eye[3], eye_norm[3], reflect[3];
+    GLfloat eye[4], eye_norm[4], reflect[4];
     GLfloat a;
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
-        matrix_vector(ModelviewMatrix, verts+k*3, eye);
+        matrix_vector(ModelviewMatrix, verts+k*4, eye);
         vector_normalize(eye);
-        vector_matrix((norm)?(norm+k*3):state.normal, InvModelview, eye_norm);
+        vector3_matrix((norm)?(norm+k*3):state.normal, InvModelview, eye_norm);
         vector_normalize(eye_norm);
         a=dot(eye, eye_norm)*2.0f;
-        for (int j=0; j<3; j++)
+        for (int j=0; j<4; j++)
             reflect[j]=eye[j]-eye_norm[j]*a;
         reflect[2]+=1.0f;
         a = 1.0f / (2.0f*sqrtf(dot(reflect, reflect)));
@@ -275,11 +288,11 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     matrix_column_row(InvModelview, ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
-    GLfloat plane[3], tmp[3];
+    GLfloat plane[4], tmp[4];
     vector_matrix(param, InvModelview, plane);
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
-        matrix_vector(ModelviewMatrix, verts+k*3, tmp);
+        matrix_vector(ModelviewMatrix, verts+k*4, tmp);
         out[k*4]=dot(plane, tmp);
     }
 

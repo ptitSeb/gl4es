@@ -317,8 +317,8 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         GLfloat *tmp;
         tmp = a->vert;
         if (tmp) {
-            a->vert = alloc_sublist(3, cap);
-            memcpy(a->vert, tmp, 3*a->len*sizeof(GLfloat));
+            a->vert = alloc_sublist(4, cap);
+            memcpy(a->vert, tmp, 4*a->len*sizeof(GLfloat));
         }
         tmp = a->normal;
         if (tmp) {
@@ -353,7 +353,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     } else {
         if (a->cap < cap) {
             a->cap = cap;
-            realloc_sublist(a->vert, 3, cap);
+            realloc_sublist(a->vert, 4, cap);
             realloc_sublist(a->normal, 3, cap);
             realloc_sublist(a->color, 4, cap);
             realloc_sublist(a->secondary, 4, cap);
@@ -362,7 +362,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         }
     }
     // append arrays
-    if (a->vert) memcpy(a->vert+a->len*3, b->vert, b->len*3*sizeof(GLfloat));
+    if (a->vert) memcpy(a->vert+a->len*4, b->vert, b->len*4*sizeof(GLfloat));
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
@@ -572,7 +572,7 @@ static inline
 void resize_renderlist(renderlist_t *list) {
     if (list->len >= list->cap) {
         list->cap += DEFAULT_RENDER_LIST_CAPACITY;
-        realloc_sublist(list->vert, 3, list->cap);
+        realloc_sublist(list->vert, 4, list->cap);
         realloc_sublist(list->normal, 3, list->cap);
         realloc_sublist(list->color, 4, list->cap);
         realloc_sublist(list->secondary, 4, list->cap);
@@ -752,13 +752,13 @@ void draw_renderlist(renderlist_t *list) {
 #ifdef USE_ES2
         if (list->vert) {
             glEnableVertexAttribArray(0);
-            gles_glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, list->vert);
+            gles_glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, list->vert);
         }
         gles_glDrawArrays(list->mode, 0, list->len);
 #else
         if (list->vert) {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
-            gles_glVertexPointer(3, GL_FLOAT, 0, list->vert);
+            gles_glVertexPointer(4, GL_FLOAT, 0, list->vert);
             state.clientstate.vertex_array = 1;
         } else {
             gles_glDisableClientState(GL_VERTEX_ARRAY);
@@ -863,7 +863,7 @@ void draw_renderlist(renderlist_t *list) {
                 pointer_state_t vtx;
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
-                vtx.size = 3;
+                vtx.size = 4;
                 vtx.stride = 0;
                 vtx.buffer = NULL;
                 select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
@@ -955,7 +955,7 @@ void draw_renderlist(renderlist_t *list) {
                 pointer_state_t vtx;
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
-                vtx.size = 3;
+                vtx.size = 4;
                 vtx.stride = 0;
                 vtx.buffer = NULL;
                 select_glDrawArrays(&vtx, list->mode, 0, list->len);
@@ -1074,9 +1074,9 @@ void draw_renderlist(renderlist_t *list) {
 
 // gl function wrappers
 
-void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
+void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (list->vert == NULL) {
-        list->vert = alloc_sublist(3, list->cap);
+        list->vert = alloc_sublist(4, list->cap);
     } else {
         resize_renderlist(list);
     }
@@ -1103,8 +1103,8 @@ void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 		}
     }
 
-    GLfloat *vert = list->vert + (list->len++ * 3);
-    vert[0] = x; vert[1] = y; vert[2] = z;
+    GLfloat *vert = list->vert + (list->len++ * 4);
+    vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
 }
 
 void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {

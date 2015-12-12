@@ -161,7 +161,7 @@ extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
 extern void rlPushCall(renderlist_t *list, packed_call_t *data);
 extern void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
 extern void rlMultiTexCoord4f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-extern void rlVertex3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
+extern void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 extern void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b);
 extern void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z);
 extern void rlFogOp(renderlist_t *list, int op, const GLfloat* v);

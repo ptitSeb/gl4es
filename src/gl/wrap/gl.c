@@ -403,16 +403,16 @@ void glWindowPos3##suffix##v(type *v) {                     \
 }                                                           \
 /* vertex */                                                \
 void glVertex2##suffix(type x, type y) {                    \
-    glVertex2f(x, y);                                       \
+    glVertex4f(x, y, 0, 1);                                 \
 }                                                           \
 void glVertex2##suffix##v(type *v) {                        \
-    glVertex2f(v[0], v[1]);                                 \
+    glVertex4f(v[0], v[1], 0 ,1);                           \
 }                                                           \
 void glVertex3##suffix(type x, type y, type z) {            \
-    glVertex3f(x, y, z);                                    \
+    glVertex4f(x, y, z, 1);                                 \
 }                                                           \
 void glVertex3##suffix##v(type *v) {                        \
-    glVertex3f(v[0], v[1], v[2]);                           \
+    glVertex4f(v[0], v[1], v[2], 1);                        \
 }                                                           \
 void glVertex4##suffix(type r, type g, type b, type w) {    \
     glVertex4f(r, g, b, w);                                 \
@@ -722,19 +722,19 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
 
 // vertex
 void glVertex2f(GLfloat x, GLfloat y) {
-    glVertex3f(x, y, 0);
+    glVertex4f(x, y, 0, 1);
 }
 void glVertex2fv(GLfloat *v) {
-    glVertex3f(v[0], v[1], 0);
+    glVertex4f(v[0], v[1], 0, 1);
 }
 void glVertex3fv(GLfloat *v) {
-    glVertex3f(v[0], v[1], v[2]);
+    glVertex4f(v[0], v[1], v[2], 1);
 }
-void glVertex4f(GLfloat r, GLfloat g, GLfloat b, GLfloat w) {
-    glVertex3f(r/w, g/w, b/w);
+void glVertex3f(GLfloat r, GLfloat g, GLfloat b) {
+    glVertex4f(r, g, b, 1);
 }
 void glVertex4fv(GLfloat *v) {
-    glVertex3f(v[0]/v[3], v[1]/v[3], v[2]/v[3]);
+    glVertex4f(v[0], v[1], v[2], v[3]);
 }
 
 void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
