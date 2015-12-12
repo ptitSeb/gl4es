@@ -631,7 +631,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p\n", list, state.gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next);
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, state.gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
 #ifdef USE_ES2
@@ -793,8 +793,10 @@ void draw_renderlist(renderlist_t *list) {
 						final_colors[i]=list->color[i] + list->secondary[i];
 				}
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-			} else
+			} else {
+//printf("colors=%f, %f, %f, %f / %f, %f, %f, %f\n", list->color[0],list->color[1],list->color[2],list->color[3], list->color[4],list->color[5],list->color[6],list->color[7]);
 				gles_glColorPointer(4, GL_FLOAT, 0, list->color);
+            }
         } else {
             gles_glDisableClientState(GL_COLOR_ARRAY);
             state.clientstate.color_array = 0;
