@@ -15,8 +15,9 @@ GLvoid *copy_gl_array(const GLvoid *src,
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_size = gl_sizeof(to) * to_width;
     if (to_width < width) {
-        printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
-        return NULL;
+/*        printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
+        return NULL;*/
+        width = to_width;
     }
 						  
     // if stride is weird, we need to be able to arbitrarily shift src
@@ -78,10 +79,11 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_size = gl_sizeof(to) * to_width;
     GLsizei to_elem = gl_sizeof(to);
-    if (to_width < width) {
+    //texcoord are now 4 dim, so this should never happens
+/*    if (to_width < width) {
         printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
         return NULL;
-    }
+    }*/
 						  
     // if stride is weird, we need to be able to arbitrarily shift src
     // so we leave it in a uintptr_t and cast after incrementing
