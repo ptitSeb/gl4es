@@ -37,7 +37,7 @@ void bind_stipple_tex() {
 
 GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {
     // generate our texture coords
-    GLfloat *tex = (GLfloat *)malloc(length * 2 * sizeof(GLfloat));
+    GLfloat *tex = (GLfloat *)malloc(length * 4 * sizeof(GLfloat));
     GLfloat *texPos = tex;
     GLfloat *vertPos = vert;
 
@@ -47,16 +47,22 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {
         x1 = *vertPos++;
         y1 = *vertPos++;
         vertPos++; // z
+        vertPos++; // w
         x2 = *vertPos++;
         y2 = *vertPos++;
+        vertPos++;
         vertPos++;
 
         len = sqrtf(powf(x2-x1, 2) + powf(y2-y1, 2)) / stippleFactor * 16;
 
         *texPos++ = 0;
         *texPos++ = 0;
+        *texPos++ = 0;
+        *texPos++ = 1;
         *texPos++ = len;
         *texPos++ = 0;
+        *texPos++ = 0;
+        *texPos++ = 1;
     }
     return tex;
 }

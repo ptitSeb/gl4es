@@ -626,7 +626,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->cap = count-skip;
     
 	if (state.vao->vertex_array) {
-		list->vert = copy_gl_pointer_raw(&state.vao->pointers.vertex, 4, skip, count, state.vao->pointers.vertex.buffer);
+		list->vert = copy_gl_pointer_tex(&state.vao->pointers.vertex, 4, skip, count, state.vao->pointers.vertex.buffer);
 	}
 	if (state.vao->color_array) {
 		list->color = copy_gl_pointer_color(&state.vao->pointers.color, 4, skip, count, state.vao->pointers.color.buffer);
