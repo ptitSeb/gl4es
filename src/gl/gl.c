@@ -699,13 +699,18 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
      }
 
      if (should_intercept_render(mode)) {
-    // TODO: do this in a more direct fashion.
-        glBegin(mode);
-        for (int i = 0; i < count; i++) {
-            glArrayElement(sindices[i]);
-        }
-        glEnd();
-        free(sindices);
+        renderlist_t *list = NULL;
+        GLsizei min, max;
+
+        normalize_indices(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, min, max + 1 + min);
+        list->indices = sindices;
+        list->ilen = count;
+        list->indice_cap = count;
+        end_renderlist(list);
+        draw_renderlist(list);
+        free_renderlist(list);
+        
         return;
      } else {
 		LOAD_GLES(glDrawElements);
