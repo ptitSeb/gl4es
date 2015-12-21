@@ -92,7 +92,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE6);
         p(GL_TEXTURE7);
         // mode
-        p(GL_POINT);
+        p(GL_POINTS);
         p(GL_LINES);
         p(GL_LINE_LOOP);
         p(GL_LINE_STRIP);
