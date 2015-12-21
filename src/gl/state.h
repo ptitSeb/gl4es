@@ -125,6 +125,7 @@ typedef struct {
 } clientstate_t;
 
 typedef struct {
+    int dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t enable;
     map_state_t *map_grid;

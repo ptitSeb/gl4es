@@ -265,7 +265,7 @@ static void scan_env() {
         return;
     /* Check for some corruption inside state.... */
     if ((state.texture.active < 0) || (state.texture.active > MAX_TEX) || 
-        (state.vao->pointers.vertex.buffer!= 0) || (state.vao->vertex != 0)) {
+        (state.vao->pointers.vertex.buffer!= 0) || (state.vao->vertex != 0) || (state.list.active!=0)) {
         printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n");
         initialize_glshim();
     }
@@ -742,7 +742,7 @@ void glXSwapBuffers(Display *display,
     
     LOAD_EGL(eglSwapBuffers);
     int old_batch = state.gl_batch;
-    if (state.gl_batch){
+    if (state.gl_batch || state.list.active){
         flush();
     }
 #ifdef PANDORA
