@@ -42,13 +42,13 @@
 #define skip_glBlendFunc
 
 #define skip_glFogfv
-/*
-#define skip_glBlendEquation
+
+//#define skip_glBlendEquation
 #define skip_glBlendEquationSeparate
 #define skip_glBlendEquationSeparatei
 #define skip_glBlendFuncSeparate
 #define skip_glBlendFuncSeparatei
-*/
+
 #define skip_glGetError
 
 // light.c

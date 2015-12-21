@@ -1699,6 +1699,25 @@ void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
 	else
 		printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
 }
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
+{
+    PUSH_IF_COMPILING(glBlendFuncSeparate);
+    LOAD_GLES_OES(glBlendFuncSeparate);
+#ifdef ODROID
+    if(gles_glBlendFuncSeparate)
+#endif
+    gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
+
+void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
+    PUSH_IF_COMPILING(glBlendEquationSeparate);
+    LOAD_GLES_OES(glBlendEquationSeparate);
+#ifdef ODROID
+    if(gles_glBlendEquationSeparate)
+#endif
+    gles_glBlendEquationSeparate(modeRGB, modeA);
+}
+
 
 void glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if (state.list.active && (state.gl_batch && !state.list.compiling))  {
