@@ -293,7 +293,7 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*4, tmp);
-        out[k*4]=dot(plane, tmp);
+        out[k*4]=dot4(plane, tmp);
     }
 
 }
