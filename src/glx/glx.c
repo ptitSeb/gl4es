@@ -134,49 +134,49 @@ static int get_config_default(int attribute, int *value) {
 }
 
 // hmm...
-static EGLContext eglContext;
+EGLContext eglContext;
 
 #ifndef ANDROID
-static Display *g_display = NULL;
-static GLXContext glxContext = NULL;
-static GLXContext fbContext = NULL;
+Display *g_display = NULL;
+GLXContext glxContext = NULL;
+GLXContext fbContext = NULL;
 #endif //ANDROID
 
-static int fbcontext_count = 0;
+int fbcontext_count = 0;
 
 #ifdef PANDORA
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
-static int fbdev = -1;
-static bool g_vsync = false;
+int fbdev = -1;
+bool g_vsync = false;
 #endif
-static bool g_showfps = false;
-static bool g_usefb = false;
-static bool g_usefbo = false;
-static bool g_xrefresh = false;
-static bool g_stacktrace = false;
-extern int automipmap;
-extern int texcopydata;
-extern int tested_env;
-extern int texshrink;
-extern int texdump;
-extern int alphahack;
-extern int texstream;
-extern int copytex;
-extern int nolumalpha;
+bool g_showfps = false;
+bool g_usefb = false;
+bool g_usefbo = false;
+bool g_xrefresh = false;
+bool g_stacktrace = false;
+int automipmap;
+int texcopydata;
+int tested_env;
+int texshrink;
+int texdump;
+int alphahack;
+int texstream;
+int copytex;
+int nolumalpha;
 extern int blendhack;
 extern char gl_version[50];
 
 bool g_recyclefbo = false;
-static int  g_width=0, g_height=0;
+int  g_width=0, g_height=0;
 // RPI stuffs
-static bool g_bcmhost = false;
-static bool g_bcm_active = false;
+bool g_bcmhost = false;
+bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
 
-static int swap_interval = 1;
+int swap_interval = 1;
 #ifndef ANDROID
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
