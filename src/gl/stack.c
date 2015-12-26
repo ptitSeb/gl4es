@@ -6,9 +6,9 @@ glclientstack_t *clientStack = NULL;
 void glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
-    if ((state.list.compiling || state.gl_batch) && state.list.active) {
-		NewStage(state.list.active, STAGE_PUSH);
-		state.list.active->pushattribute = mask;
+    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
+		NewStage(glstate.list.active, STAGE_PUSH);
+		glstate.list.active->pushattribute = mask;
 		return;
 	}
     if (stack == NULL) {
@@ -109,12 +109,12 @@ void glPushAttrib(GLbitfield mask) {
         cur->stencil_test = glIsEnabled(GL_STENCIL_TEST);
         int a;
         for (a=0; a<MAX_TEX; a++) {
-            cur->texture_1d[a] = state.enable.texture_1d[a];
-            cur->texture_2d[a] = state.enable.texture_2d[a];
-            cur->texture_3d[a] = state.enable.texture_3d[a];
-            cur->texgen_s[a] = state.enable.texgen_s[a];
-            cur->texgen_r[a] = state.enable.texgen_r[a];
-            cur->texgen_t[a] = state.enable.texgen_t[a];
+            cur->texture_1d[a] = glstate.enable.texture_1d[a];
+            cur->texture_2d[a] = glstate.enable.texture_2d[a];
+            cur->texture_3d[a] = glstate.enable.texture_3d[a];
+            cur->texgen_s[a] = glstate.enable.texgen_s[a];
+            cur->texgen_r[a] = glstate.enable.texgen_r[a];
+            cur->texgen_t[a] = glstate.enable.texgen_t[a];
         }
         
     }
@@ -165,7 +165,7 @@ void glPushAttrib(GLbitfield mask) {
 
 	// GL_LIST_BIT
     if (mask & GL_LIST_BIT) {
-        cur->list_base = state.list.base;
+        cur->list_base = glstate.list.base;
     }
 
     if (mask & GL_MULTISAMPLE_BIT) {
@@ -220,14 +220,14 @@ void glPushAttrib(GLbitfield mask) {
     }
     // GL_TEXTURE_BIT - TODO: incomplete
     if (mask & GL_TEXTURE_BIT) {
-        cur->active=state.texture.active;
+        cur->active=glstate.texture.active;
         int a;
         for (a=0; a<MAX_TEX; a++) {
-            cur->texgen_r[a] = state.enable.texgen_r[a];
-            cur->texgen_s[a] = state.enable.texgen_s[a];
-            cur->texgen_t[a] = state.enable.texgen_t[a];
-            cur->texgen[a] = state.texgen[a];   // all mode and planes per texture in 1 line
-	        cur->texture[a] = (state.texture.bound[a])?state.texture.bound[a]->texture:0;
+            cur->texgen_r[a] = glstate.enable.texgen_r[a];
+            cur->texgen_s[a] = glstate.enable.texgen_s[a];
+            cur->texgen_t[a] = glstate.enable.texgen_t[a];
+            cur->texgen[a] = glstate.texgen[a];   // all mode and planes per texture in 1 line
+	        cur->texture[a] = (glstate.texture.bound[a])?glstate.texture.bound[a]->texture:0;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
     }
@@ -273,25 +273,25 @@ void glPushClientAttrib(GLbitfield mask) {
     if (mask & GL_CLIENT_PIXEL_STORE_BIT) {
         glGetIntegerv(GL_PACK_ALIGNMENT, &cur->pack_align);
         glGetIntegerv(GL_UNPACK_ALIGNMENT, &cur->unpack_align);
-        cur->unpack_row_length = state.texture.unpack_row_length;
-        cur->unpack_skip_pixels = state.texture.unpack_skip_pixels;
-        cur->unpack_skip_rows = state.texture.unpack_skip_rows;
-        cur->pack_row_length = state.texture.pack_row_length;
-        cur->pack_skip_pixels = state.texture.pack_skip_pixels;
-        cur->pack_skip_rows = state.texture.pack_skip_rows;
+        cur->unpack_row_length = glstate.texture.unpack_row_length;
+        cur->unpack_skip_pixels = glstate.texture.unpack_skip_pixels;
+        cur->unpack_skip_rows = glstate.texture.unpack_skip_rows;
+        cur->pack_row_length = glstate.texture.pack_row_length;
+        cur->pack_skip_pixels = glstate.texture.pack_skip_pixels;
+        cur->pack_skip_rows = glstate.texture.pack_skip_rows;
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        cur->vert_enable = state.vao->vertex_array;
-        cur->color_enable = state.vao->color_array;
-        cur->secondary_enable = state.vao->secondary_array;
-        cur->normal_enable = state.vao->normal_array;
+        cur->vert_enable = glstate.vao->vertex_array;
+        cur->color_enable = glstate.vao->color_array;
+        cur->secondary_enable = glstate.vao->secondary_array;
+        cur->normal_enable = glstate.vao->normal_array;
         int a;
         for (a=0; a<MAX_TEX; a++) {
-           cur->tex_enable[a] = state.vao->tex_coord_array[a];
+           cur->tex_enable[a] = glstate.vao->tex_coord_array[a];
         }
-        memcpy(&(cur->pointers), &state.vao->pointers, sizeof(pointer_states_t));
-        cur->client = state.texture.client;
+        memcpy(&(cur->pointers), &glstate.vao->pointers, sizeof(pointer_states_t));
+        cur->client = glstate.texture.client;
     }
 
     clientStack->len++;
@@ -311,9 +311,9 @@ void glPushClientAttrib(GLbitfield mask) {
 void glPopAttrib() {
 //printf("glPopAttrib()\n");
     noerrorShim();
-    if ((state.list.compiling || state.gl_batch) && state.list.active) {
-		NewStage(state.list.active, STAGE_POP);
-		state.list.active->popattribute = true;
+    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
+		NewStage(glstate.list.active, STAGE_POP);
+		glstate.list.active->popattribute = true;
 		return;
 	}
     if (stack == NULL || stack->len == 0) {
@@ -398,25 +398,25 @@ void glPopAttrib() {
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
         int a;
-        int old_tex = state.texture.active;
+        int old_tex = glstate.texture.active;
         for (a=0; a<MAX_TEX; a++) {
-			if (state.enable.texture_1d[a] != cur->texture_1d[a]) {
+			if (glstate.enable.texture_1d[a] != cur->texture_1d[a]) {
 				glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_1D, cur->texture_1d[a]);
 			}
-			if (state.enable.texture_2d[a] != cur->texture_2d[a]) {
+			if (glstate.enable.texture_2d[a] != cur->texture_2d[a]) {
 				glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
 			}
-			if (state.enable.texture_3d[a] != cur->texture_3d[a]) {
+			if (glstate.enable.texture_3d[a] != cur->texture_3d[a]) {
 				glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_3D, cur->texture_3d[a]);
 			}
-            state.enable.texgen_r[a] = cur->texgen_r[a];
-            state.enable.texgen_s[a] = cur->texgen_s[a];
-            state.enable.texgen_t[a] = cur->texgen_t[a];
+            glstate.enable.texgen_r[a] = cur->texgen_r[a];
+            glstate.enable.texgen_s[a] = cur->texgen_s[a];
+            glstate.enable.texgen_t[a] = cur->texgen_t[a];
          }
-         if (state.texture.active != old_tex) glActiveTexture(GL_TEXTURE0+old_tex);
+         if (glstate.texture.active != old_tex) glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
     if (cur->mask & GL_FOG_BIT) {
@@ -476,16 +476,16 @@ void glPopAttrib() {
         int a;
         //TODO: Enable bit for the 4 texture coordinates
         for (a=0; a<MAX_TEX; a++) {
-            state.enable.texgen_r[a] = cur->texgen_r[a];
-            state.enable.texgen_s[a] = cur->texgen_s[a];
-            state.enable.texgen_t[a] = cur->texgen_t[a];
-            state.texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
-			if ((cur->texture[a]==0 && state.texture.bound[a] != 0) || (cur->texture[a]!=0 && state.texture.bound[a]==0)) {
+            glstate.enable.texgen_r[a] = cur->texgen_r[a];
+            glstate.enable.texgen_s[a] = cur->texgen_s[a];
+            glstate.enable.texgen_t[a] = cur->texgen_t[a];
+            glstate.texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
+			if ((cur->texture[a]==0 && glstate.texture.bound[a] != 0) || (cur->texture[a]!=0 && glstate.texture.bound[a]==0)) {
 			   glActiveTexture(GL_TEXTURE0+a);
 			   glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
 			}
         }
-        if (state.texture.active!= cur->active) glActiveTexture(GL_TEXTURE0+cur->active);
+        if (glstate.texture.active!= cur->active) glActiveTexture(GL_TEXTURE0+cur->active);
     }
     
 	if (cur->mask & GL_PIXEL_MODE_BIT) {
@@ -555,23 +555,23 @@ void glPopClientAttrib() {
     }
 
     if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-		if (state.vao->vertex_array != cur->vert_enable)
+		if (glstate.vao->vertex_array != cur->vert_enable)
 			enable_disable(GL_VERTEX_ARRAY, cur->vert_enable);
-		if (state.vao->normal_array != cur->normal_enable)
+		if (glstate.vao->normal_array != cur->normal_enable)
 			enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
-		if (state.vao->color_array != cur->color_enable)
+		if (glstate.vao->color_array != cur->color_enable)
 			enable_disable(GL_COLOR_ARRAY, cur->color_enable);
-		if (state.vao->secondary_array != cur->secondary_enable)
+		if (glstate.vao->secondary_array != cur->secondary_enable)
 			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
         for (int a=0; a<MAX_TEX; a++) {
-		   if (state.vao->tex_coord_array[a] != cur->tex_enable[a]) {
+		   if (glstate.vao->tex_coord_array[a] != cur->tex_enable[a]) {
 			   glClientActiveTexture(GL_TEXTURE0+a);
 			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);
 		   }
         }
 
-        memcpy(&state.vao->pointers, &(cur->pointers), sizeof(pointer_states_t));
-		if (state.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
+        memcpy(&glstate.vao->pointers, &(cur->pointers), sizeof(pointer_states_t));
+		if (glstate.texture.client != cur->client) glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
     clientStack->len--;

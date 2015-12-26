@@ -19,7 +19,7 @@ void glClientAttribDefaultEXT(GLbitfield mask) {
     else glDisableClientState(pname)
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        int client = state.texture.client;
+        int client = glstate.texture.client;
         
 		enable_disable(GL_VERTEX_ARRAY, false);
 		enable_disable(GL_NORMAL_ARRAY, false);
@@ -30,7 +30,7 @@ void glClientAttribDefaultEXT(GLbitfield mask) {
            enable_disable(GL_TEXTURE_COORD_ARRAY, false);
         }
 #undef enable_disable
-		if (state.texture.client != client) glClientActiveTexture(GL_TEXTURE0+client);
+		if (glstate.texture.client != client) glClientActiveTexture(GL_TEXTURE0+client);
     }
 }
 void glPushClientAttribDefaultEXT(GLbitfield mask) {
@@ -197,12 +197,12 @@ void glGetCompressedTextureImageEXT(GLuint texture, GLenum target, GLint level, 
 
 #undef text
 #define text(f) \
-  GLenum old_tex = state.texture.active; \
+  GLenum old_tex = glstate.texture.active; \
   if(texunit != old_tex) glActiveTexture(texunit); \
   f; \
   if(texunit != old_tex) glActiveTexture(old_tex)
 #define texc(f) \
-  GLenum old_tex = state.texture.client; \
+  GLenum old_tex = glstate.texture.client; \
   if(texunit != old_tex) glClientActiveTexture(texunit); \
   f; \
   if(texunit != old_tex) glClientActiveTexture(old_tex)

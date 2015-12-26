@@ -162,8 +162,8 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
     }
 	
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
-    if ((state.list.compiling || state.gl_batch) && state.list.active) { \
-		NewStage(state.list.active, STAGE_GLCALL);   \
+    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) { \
+		NewStage(glstate.list.active, STAGE_GLCALL);   \
         push_##nam(__VA_ARGS__);                    \
         noerrorShim();								\
         return (nam##_RETURN)0;                     \
@@ -343,16 +343,16 @@ void flush();
 void init_batch();
 
 #include "state.h"
-extern glstate_t state;
+extern glstate_t glstate;
 
-extern GLuint gl_batch; // 0 = off, 1 = on
+GLuint gl_batch; // 0 = off, 1 = on
 
 static inline void errorGL() {	// next glGetError will be from GL 
-	state.shim_error = 0;
+	glstate.shim_error = 0;
 }
 static inline void errorShim(GLenum error) {	// next glGetError will be "error" from glShim
-	state.shim_error = 1;
-	state.last_error = error;
+	glstate.shim_error = 1;
+	glstate.last_error = error;
 }
 static inline void noerrorShim() {
 	errorShim(GL_NO_ERROR);

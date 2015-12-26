@@ -17,13 +17,13 @@
 #include <GLES/gl.h>
 #include "../glx/streaming.h"
 
-bool eglInitialized = false;
-EGLDisplay eglDisplay;
-EGLSurface eglSurface;
-EGLConfig eglConfigs[1];
+static bool eglInitialized = false;
+static EGLDisplay eglDisplay;
+static EGLSurface eglSurface;
+static EGLConfig eglConfigs[1];
 #ifdef PANDORA
-struct sockaddr_un sun;
-int sock = -2;
+static struct sockaddr_un sun;
+static int sock = -2;
 #endif
 
 extern void* egl;
@@ -134,49 +134,49 @@ static int get_config_default(int attribute, int *value) {
 }
 
 // hmm...
-EGLContext eglContext;
+static EGLContext eglContext;
 
 #ifndef ANDROID
-Display *g_display = NULL;
-GLXContext glxContext = NULL;
-GLXContext fbContext = NULL;
+static Display *g_display = NULL;
+static GLXContext glxContext = NULL;
+static GLXContext fbContext = NULL;
 #endif //ANDROID
 
-int fbcontext_count = 0;
+static int fbcontext_count = 0;
 
 #ifdef PANDORA
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
-int fbdev = -1;
-bool g_vsync = false;
+static int fbdev = -1;
+static bool g_vsync = false;
 #endif
-bool g_showfps = false;
-bool g_usefb = false;
-bool g_usefbo = false;
-bool g_xrefresh = false;
-bool g_stacktrace = false;
-int automipmap;
-int texcopydata;
-int tested_env;
-int texshrink;
-int texdump;
-int alphahack;
-int texstream;
-int copytex;
-int nolumalpha;
+static bool g_showfps = false;
+static bool g_usefb = false;
+static bool g_usefbo = false;
+static bool g_xrefresh = false;
+static bool g_stacktrace = false;
+extern int automipmap;
+extern int texcopydata;
+extern int tested_env;
+extern int texshrink;
+extern int texdump;
+extern int alphahack;
+extern int texstream;
+extern int copytex;
+extern int nolumalpha;
 extern int blendhack;
 extern char gl_version[50];
 
 bool g_recyclefbo = false;
-int  g_width=0, g_height=0;
+static int  g_width=0, g_height=0;
 // RPI stuffs
-bool g_bcmhost = false;
-bool g_bcm_active = false;
+static bool g_bcmhost = false;
+static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
 
-int swap_interval = 1;
+static int swap_interval = 1;
 #ifndef ANDROID
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
@@ -259,13 +259,18 @@ static void init_liveinfo() {
 }
 #endif
 extern void initialize_glshim();
+extern int initialized;
 static void scan_env() {
     static bool first = true;
     if (! first)
         return;
+    if (! initialized)
+    {
+	initialize_glshim();
+    }
     /* Check for some corruption inside state.... */
-    if ((state.texture.active < 0) || (state.texture.active > MAX_TEX) || 
-        (state.vao->pointers.vertex.buffer!= 0) || (state.vao->vertex != 0) || (state.list.active!=0)) {
+    if ((glstate.texture.active < 0) || (glstate.texture.active > MAX_TEX) || 
+        (glstate.vao->pointers.vertex.buffer!= 0) || (glstate.vao->vertex != 0) || (glstate.list.active!=0)) {
         printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n");
         initialize_glshim();
     }
@@ -741,8 +746,8 @@ void glXSwapBuffers(Display *display,
     static int frames = 0;
     
     LOAD_EGL(eglSwapBuffers);
-    int old_batch = state.gl_batch;
-    if (state.gl_batch || state.list.active){
+    int old_batch = glstate.gl_batch;
+    if (glstate.gl_batch || glstate.list.active){
         flush();
     }
 #ifdef PANDORA
@@ -756,7 +761,7 @@ void glXSwapBuffers(Display *display,
     }
 #endif
     if (g_usefbo) {
-        state.gl_batch = 0;
+        glstate.gl_batch = 0;
         unbindMainFBO();
         blitMainFBO();
         // blit the main_fbo before swap
@@ -801,7 +806,7 @@ void glXSwapBuffers(Display *display,
     }
 #endif
     if (g_usefbo) {
-        state.gl_batch = old_batch;
+        glstate.gl_batch = old_batch;
         bindMainFBO();
     }
 }

@@ -63,7 +63,7 @@ renderlist_t *alloc_renderlist() {
     list->set_texture = false;
     list->texture = 0;*/
     list->target_texture = GL_TEXTURE_2D;
-    list->tmu = state.texture.active;
+    list->tmu = glstate.texture.active;
     /*
     list->polygon_mode = 0;
     list->fog_op = 0;
@@ -588,7 +588,7 @@ void adjust_renderlist(renderlist_t *list) {
     list->stage = STAGE_LAST;
     list->open = false;
     for (int a=0; a<MAX_TEX; a++) {
-	    gltexture_t *bound = state.texture.bound[a];
+	    gltexture_t *bound = glstate.texture.bound[a];
         // in case of Texture bounding inside a list
         if (list->set_texture && (list->tmu == a))
             bound = getTexture(list->target_texture, list->texture);
@@ -597,7 +597,7 @@ void adjust_renderlist(renderlist_t *list) {
 		    tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
 	    }
 	    // GL_ARB_texture_rectangle
-	    if ((list->tex[a]) && state.texture.rect_arb[a] && (bound)) {
+	    if ((list->tex[a]) && glstate.texture.rect_arb[a] && (bound)) {
 		    tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
 	    }
     }
@@ -631,7 +631,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, state.gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, glstate.gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
 #ifdef USE_ES2
@@ -690,7 +690,7 @@ void draw_renderlist(renderlist_t *list) {
             glBindTexture(list->target_texture, list->texture);
         }
         // raster
-        old_tex = state.texture.active;
+        old_tex = glstate.texture.active;
         if (list->raster_op) {
             if (list->raster_op==1) {
                 glRasterPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
@@ -759,19 +759,19 @@ void draw_renderlist(renderlist_t *list) {
         if (list->vert) {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
             gles_glVertexPointer(4, GL_FLOAT, 0, list->vert);
-            state.clientstate.vertex_array = 1;
+            glstate.clientstate.vertex_array = 1;
         } else {
             gles_glDisableClientState(GL_VERTEX_ARRAY);
-            state.clientstate.vertex_array = false;
+            glstate.clientstate.vertex_array = false;
         }
 
         if (list->normal) {
             gles_glEnableClientState(GL_NORMAL_ARRAY);
             gles_glNormalPointer(GL_FLOAT, 0, list->normal);
-            state.clientstate.normal_array = 1;
+            glstate.clientstate.normal_array = 1;
         } else {
             gles_glDisableClientState(GL_NORMAL_ARRAY);
-            state.clientstate.normal_array = 0;
+            glstate.clientstate.normal_array = 0;
         }
 
         indices = list->indices;
@@ -779,8 +779,8 @@ void draw_renderlist(renderlist_t *list) {
 		final_colors = NULL;
         if (list->color) {
             gles_glEnableClientState(GL_COLOR_ARRAY);
-            state.clientstate.color_array = 1;
-            if (state.enable.color_sum && (list->secondary)) {
+            glstate.clientstate.color_array = 1;
+            if (glstate.enable.color_sum && (list->secondary)) {
 				final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
 				if (indices) {
 					for (int i=0; i<list->ilen; i++)
@@ -799,14 +799,14 @@ void draw_renderlist(renderlist_t *list) {
             }
         } else {
             gles_glDisableClientState(GL_COLOR_ARRAY);
-            state.clientstate.color_array = 0;
+            glstate.clientstate.color_array = 0;
         }
         GLuint texture;
         bool stipple;
         stipple = false;
         if (! list->tex[0]) {
             // TODO: do we need to support GL_LINE_STRIP?
-            if (list->mode == GL_LINES && state.enable.line_stipple) {
+            if (list->mode == GL_LINES && glstate.enable.line_stipple) {
                 stipple = true;
                 glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
                 glEnable(GL_BLEND);
@@ -820,46 +820,46 @@ void draw_renderlist(renderlist_t *list) {
 	for (int a=0; a<MAX_TEX; a++) {
 		texgened[a]=NULL;
         needclean[a]=0;
-		if ((state.enable.texgen_s[a] || state.enable.texgen_t[a] || state.enable.texgen_r[a])) {
+		if ((glstate.enable.texgen_s[a] || glstate.enable.texgen_t[a] || glstate.enable.texgen_r[a])) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
-		} else if (state.enable.texture_2d[a] && (list->tex[a]==NULL)) {
+		} else if (glstate.enable.texture_2d[a] && (list->tex[a]==NULL)) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
 		}
     }
-	old_tex = state.texture.client;
+	old_tex = glstate.texture.client;
         for (int a=0; a<MAX_TEX; a++) {
-		    if ((list->tex[a] || texgened[a])/* && state.enable.texture_2d[a]*/) {
+		    if ((list->tex[a] || texgened[a])/* && glstate.enable.texture_2d[a]*/) {
                 glClientActiveTexture(GL_TEXTURE0+a);
                 gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                state.clientstate.tex_coord_array[a] = 1;
+                glstate.clientstate.tex_coord_array[a] = 1;
 		        gles_glTexCoordPointer(4, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
-                if (state.clientstate.tex_coord_array[a]) {
+                if (glstate.clientstate.tex_coord_array[a]) {
                     glClientActiveTexture(GL_TEXTURE0+a);
                     gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                    state.clientstate.tex_coord_array[a] = 0;
+                    glstate.clientstate.tex_coord_array[a] = 0;
                 } 
-//else if (!state.enable.texgen_s[a] && state.enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
+//else if (!glstate.enable.texgen_s[a] && glstate.enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
 			    
 		    }
         }
         for (int aa=0; aa<MAX_TEX; aa++) {
-            if (!state.enable.texture_2d[aa] && (state.enable.texture_1d[aa] || state.enable.texture_3d[aa])) {
+            if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
                 glClientActiveTexture(aa+GL_TEXTURE0);
                 gles_glEnable(GL_TEXTURE_2D);
             }
         }
-        if (state.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
+        if (glstate.texture.client != old_tex) glClientActiveTexture(GL_TEXTURE0+old_tex);
 
         GLenum mode;
         mode = list->mode;
-        if ((state.polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
+        if ((glstate.polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
 			mode = GL_LINES;
-		if ((state.polygon_mode == GL_POINT) && (mode>=GL_TRIANGLES))
+		if ((glstate.polygon_mode == GL_POINT) && (mode>=GL_TRIANGLES))
 			mode = GL_POINTS;
 
         if (indices) {
-            if (state.render_mode == GL_SELECT) {
+            if (glstate.render_mode == GL_SELECT) {
                 pointer_state_t vtx;
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
@@ -868,7 +868,7 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.buffer = NULL;
                 select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
             } else {
-                if (state.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
+                if (glstate.polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
                     int n, s;
                     int ilen = list->ilen;
                     GLushort ind_line[ilen*4+2];
@@ -951,7 +951,7 @@ void draw_renderlist(renderlist_t *list) {
                 }
             }
         } else {
-            if (state.render_mode == GL_SELECT) {	
+            if (glstate.render_mode == GL_SELECT) {	
                 pointer_state_t vtx;
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
@@ -961,7 +961,7 @@ void draw_renderlist(renderlist_t *list) {
                 select_glDrawArrays(&vtx, list->mode, 0, list->len);
             } else {
                 int len = list->len;
-                if ((state.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
+                if ((glstate.polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
                     int n, s;
                     GLushort ind_line[len*4+2];
                     int k=0;
@@ -1054,12 +1054,12 @@ void draw_renderlist(renderlist_t *list) {
 			}
 		}
         for (int aa=0; aa<MAX_TEX; aa++) {
-            if (!state.enable.texture_2d[aa] && (state.enable.texture_1d[aa] || state.enable.texture_3d[aa])) {
+            if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
                 glClientActiveTexture(aa+GL_TEXTURE0);
                 gles_glDisable(GL_TEXTURE_2D);
             }
         }
-        if (state.texture.client!=old_tex)
+        if (glstate.texture.client!=old_tex)
             glClientActiveTexture(old_tex+GL_TEXTURE0);
 
 		if (final_colors)
@@ -1088,18 +1088,18 @@ void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) 
 
     if (list->color) {
         GLfloat *color = list->color + (list->len * 4);
-        memcpy(color, state.color, sizeof(GLfloat) * 4);
+        memcpy(color, glstate.color, sizeof(GLfloat) * 4);
     }
 
     if (list->secondary) {
         GLfloat *secondary = list->secondary + (list->len * 4);
-        memcpy(secondary, state.secondary, sizeof(GLfloat) * 4);
+        memcpy(secondary, glstate.secondary, sizeof(GLfloat) * 4);
     }
 
     for (int a=0; a<MAX_TEX; a++) {
 		if (list->tex[a]) {
 			GLfloat *tex = list->tex[a] + (list->len * 4);
-			memcpy(tex, state.texcoord[a], sizeof(GLfloat) * 4);
+			memcpy(tex, glstate.texcoord[a], sizeof(GLfloat) * 4);
 		}
     }
 
@@ -1129,14 +1129,14 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         int i;
         if (list->len) for (i = 0; i < list->len-1; i++) {
             GLfloat *color = (list->color + (i * 4));
-            memcpy(color, state.color, sizeof(GLfloat) * 4);
+            memcpy(color, glstate.color, sizeof(GLfloat) * 4);
         }/* else {
             GLfloat *color = list->color;
             color[0] = r; color[1] = g; color[2] = b; color[3] = a;
         }*/
     }
 
-    GLfloat *color = state.color;
+    GLfloat *color = glstate.color;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
@@ -1147,11 +1147,11 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
         int i;
         if (list->len) for (i = 0; i < list->len-1; i++) {
             GLfloat *secondary = (list->secondary + (i * 4));
-            memcpy(secondary, state.secondary, sizeof(GLfloat) * 4);
+            memcpy(secondary, glstate.secondary, sizeof(GLfloat) * 4);
         }
     }
 
-    GLfloat *color = state.secondary;
+    GLfloat *color = glstate.secondary;
     color[0] = r; color[1] = g; color[2] = b; color[3] = 0.0f;
 }
 
@@ -1251,12 +1251,12 @@ void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q
         // catch up
         GLfloat *tex = list->tex[0];
         if (list->len) for (int i = 0; i < list->len-1; i++) {
-            memcpy(tex, state.texcoord[0], sizeof(GLfloat) * 4);
+            memcpy(tex, glstate.texcoord[0], sizeof(GLfloat) * 4);
             tex += 4;
         }
     }
     
-    GLfloat *tex = state.texcoord[0];
+    GLfloat *tex = glstate.texcoord[0];
     tex[0] = s; tex[1] = t;
     tex[2] = r; tex[3] = q;
 }
@@ -1268,11 +1268,11 @@ void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, 
         // catch up
         GLfloat *tex = list->tex[tmu];
         if (list->len) for (int i = 0; i < list->len-1; i++) {
-            memcpy(tex, state.texcoord[tmu], sizeof(GLfloat) * 4);
+            memcpy(tex, glstate.texcoord[tmu], sizeof(GLfloat) * 4);
             tex += 4;
         }
     }
-    GLfloat *tex = state.texcoord[tmu];
+    GLfloat *tex = glstate.texcoord[tmu];
     tex[0] = s; tex[1] = t;
     tex[2] = r; tex[3] = q;
 }
