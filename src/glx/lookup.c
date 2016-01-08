@@ -103,31 +103,31 @@ void *glXGetProcAddressARB(const char *name) {
 #endif //ANDROID
     
     // GL_ARB_vertex_buffer_object
-    ARB(glBindBuffer);
-    ARB(glBufferData);
-    ARB(glBufferSubData);
-    ARB(glDeleteBuffers);
-    ARB(glGenBuffers);
-    ARB(glIsBuffer);
-    EX(glGetBufferPointerv);
-    ARB(glGetBufferPointerv);
-    EX(glMapBuffer);
-    EX(glUnmapBuffer);
-    ARB(glMapBuffer);
-    ARB(glUnmapBuffer);
-    ARB(glGetBufferParameteriv);
-    EX(glGetBufferSubData);
-    ARB(glGetBufferSubData);
+    _ARB(glBindBuffer);
+    _ARB(glBufferData);
+    _ARB(glBufferSubData);
+    _ARB(glDeleteBuffers);
+    _ARB(glGenBuffers);
+    _ARB(glIsBuffer);
+    _EX(glGetBufferPointerv);
+    _ARB(glGetBufferPointerv);
+    _EX(glMapBuffer);
+    _EX(glUnmapBuffer);
+    _ARB(glMapBuffer);
+    _ARB(glUnmapBuffer);
+    _ARB(glGetBufferParameteriv);
+    _EX(glGetBufferSubData);
+    _ARB(glGetBufferSubData);
 
     // GL_ARB_vertex_array_object
-    EX(glGenVertexArrays);
-    EX(glBindVertexArray);
-    EX(glDeleteVertexArrays);
-    EX(glIsVertexArray);
-    ARB(glGenVertexArrays);
-    ARB(glBindVertexArray);
-    ARB(glDeleteVertexArrays);
-    ARB(glIsVertexArray);
+    _EX(glGenVertexArrays);
+    _EX(glBindVertexArray);
+    _EX(glDeleteVertexArrays);
+    _EX(glIsVertexArray);
+    _ARB(glGenVertexArrays);
+    _ARB(glBindVertexArray);
+    _ARB(glDeleteVertexArrays);
+    _ARB(glIsVertexArray);
     
     // GL_ARB_frameBuffer_ext
     _EX(glFramebufferTexture1D);

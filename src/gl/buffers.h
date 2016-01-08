@@ -16,19 +16,30 @@ typedef struct {
 
 KHASH_MAP_INIT_INT(buff, glbuffer_t *)
 
-/*
-extern void glGenBuffers(GLsizei n, GLuint * buffers);
-extern void glBindBuffer(GLenum target, GLuint buffer);
-extern void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-extern void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-extern void glDeleteBuffers(GLsizei n, const GLuint * buffers);
-extern GLboolean glIsBuffer(GLuint buffer);
-extern void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
-*/
+void glshim_glGenBuffers(GLsizei n, GLuint * buffers);
+void glshim_glBindBuffer(GLenum target, GLuint buffer);
+void glshim_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers);
+GLboolean glshim_glIsBuffer(GLuint buffer);
+void glshim_glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
+
+void *glshim_glMapBuffer(GLenum target, GLenum access);
+GLboolean glshim_glUnmapBuffer(GLenum target);
+void glshim_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
+void glshim_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+
+void glGenBuffers(GLsizei n, GLuint * buffers);
+void glBindBuffer(GLenum target, GLuint buffer);
+void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+void glDeleteBuffers(GLsizei n, const GLuint * buffers);
+GLboolean glIsBuffer(GLuint buffer);
+void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
 void *glMapBuffer(GLenum target, GLenum access);
 GLboolean glUnmapBuffer(GLenum target);
 void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
-extern void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 
 void glGenBuffersARB(GLsizei n, GLuint * buffers);
 void glBindBufferARB(GLenum target, GLuint buffer);
@@ -75,9 +86,13 @@ typedef struct {
 
 KHASH_MAP_INIT_INT(glvao, glvao_t*)
 
+void glshim_glGenVertexArrays(GLsizei n, GLuint *arrays);
+void glshim_glBindVertexArray(GLuint array);
+void glshim_glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
+GLboolean glshim_glIsVertexArray(GLuint array);
+
 void glGenVertexArrays(GLsizei n, GLuint *arrays);
 void glBindVertexArray(GLuint array);
 void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
 GLboolean glIsVertexArray(GLuint array);
-
 #endif

@@ -54,7 +54,7 @@ int buffer_target(GLenum target) {
 	return 0;
 }
 
-void glGenBuffers(GLsizei n, GLuint * buffers) {
+void glshim_glGenBuffers(GLsizei n, GLuint * buffers) {
 //printf("glGenBuffers(%i, %p)\n", n, buffers);
 	noerrorShim();
     if (n<1) {
@@ -66,7 +66,7 @@ void glGenBuffers(GLsizei n, GLuint * buffers) {
     }
 }
 
-void glBindBuffer(GLenum target, GLuint buffer) {
+void glshim_glBindBuffer(GLenum target, GLuint buffer) {
 //printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);
     if (glstate.gl_batch) {
          flush();
@@ -111,7 +111,7 @@ void glBindBuffer(GLenum target, GLuint buffer) {
     noerrorShim();
 }
 
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
+void glshim_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
 //printf("glBufferData(%s, %i, %p, %s)\n", PrintEnum(target), size, data, PrintEnum(usage));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -135,7 +135,7 @@ void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum us
     noerrorShim();
 }
 
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
+void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
 //printf("glBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -151,7 +151,7 @@ void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvo
     noerrorShim();
 }
 
-void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
+void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 //printf("glDeleteBuffers(%i, %p)\n", n, buffers);
     if (glstate.gl_batch) {
          flush();
@@ -185,7 +185,7 @@ void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     noerrorShim();
 }
 
-GLboolean glIsBuffer(GLuint buffer) {
+GLboolean glshim_glIsBuffer(GLuint buffer) {
 //printf("glIsBuffer(%u)\n", buffer);
 	khash_t(buff) *list = glstate.buffers;
 	khint_t k;
@@ -201,7 +201,7 @@ GLboolean glIsBuffer(GLuint buffer) {
 
 
 
-void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
+void glshim_glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
 //printf("glGetBufferParameteriv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(value), data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -241,7 +241,7 @@ void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
 	}
 }
 
-void *glMapBuffer(GLenum target, GLenum access) {
+void *glshim_glMapBuffer(GLenum target, GLenum access) {
 //printf("glMapBuffer(%s, %s)\n", PrintEnum(target), PrintEnum(access));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -256,7 +256,7 @@ void *glMapBuffer(GLenum target, GLenum access) {
 	return buff->data;		// Not nice, should do some copy or something probably
 }
 
-GLboolean glUnmapBuffer(GLenum target) {
+GLboolean glshim_glUnmapBuffer(GLenum target) {
 //printf("glUnmapBuffer(%s)\n", PrintEnum(target));
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -273,7 +273,7 @@ GLboolean glUnmapBuffer(GLenum target) {
 	return GL_FALSE;
 }
 
-void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
+void glshim_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
 //printf("glGetBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -287,7 +287,7 @@ void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid 
 	noerrorShim();
 }
 
-void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
+void glshim_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
 //printf("glGetBufferPointerv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -308,44 +308,79 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
 }
 
 
+void glGenBuffers(GLsizei n, GLuint * buffers) {
+	glshim_glGenBuffers(n, buffers);
+}
+void glBindBuffer(GLenum target, GLuint buffer) {
+	glshim_glBindBuffer(target, buffer);
+}
+void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
+	glshim_glBufferData(target, size, data, usage);
+}
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
+	glshim_glBufferSubData(target, offset, size, data);
+}
+void glDeleteBuffers(GLsizei n, const GLuint * buffers) {
+	glshim_glDeleteBuffers(n, buffers);
+}
+GLboolean glIsBuffer(GLuint buffer) {
+	return glshim_glIsBuffer(buffer);
+}
+void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) {
+	glshim_glGetBufferParameteriv(target, value, data);
+}
+void *glMapBuffer(GLenum target, GLenum access) {
+	glshim_glMapBuffer(target, access);
+}
+GLboolean glUnmapBuffer(GLenum target) {
+	return glshim_glUnmapBuffer(target);
+}
+void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
+	glshim_glGetBufferSubData(target, offset, size, data);
+}
+void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
+	glshim_glGetBufferPointerv(target, pname, params);
+}
+
+
 void glGenBuffersARB(GLsizei n, GLuint * buffers) {
-	glGenBuffers(n, buffers);
+	glshim_glGenBuffers(n, buffers);
 }
 void glBindBufferARB(GLenum target, GLuint buffer) {
-	glBindBuffer(target, buffer);
+	glshim_glBindBuffer(target, buffer);
 }
 void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
-	glBufferData(target, size, data, usage);
+	glshim_glBufferData(target, size, data, usage);
 }
 void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
-	glBufferSubData(target, offset, size, data);
+	glshim_glBufferSubData(target, offset, size, data);
 }
 void glDeleteBuffersARB(GLsizei n, const GLuint * buffers) {
-	glDeleteBuffers(n, buffers);
+	glshim_glDeleteBuffers(n, buffers);
 }
 GLboolean glIsBufferARB(GLuint buffer) {
-	return glIsBuffer(buffer);
+	return glshim_glIsBuffer(buffer);
 }
 void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data) {
-	glGetBufferParameteriv(target, value, data);
+	glshim_glGetBufferParameteriv(target, value, data);
 }
 void *glMapBufferARB(GLenum target, GLenum access) {
-	glMapBuffer(target, access);
+	glshim_glMapBuffer(target, access);
 }
 GLboolean glUnmapBufferARB(GLenum target) {
-	return glUnmapBuffer(target);
+	return glshim_glUnmapBuffer(target);
 }
 void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
-	glGetBufferSubData(target, offset, size, data);
+	glshim_glGetBufferSubData(target, offset, size, data);
 }
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) {
-	glGetBufferPointerv(target, pname, params);
+	glshim_glGetBufferPointerv(target, pname, params);
 }
 
 // VAO ****************
 static GLuint lastvao = 1;
 
-void glGenVertexArrays(GLsizei n, GLuint *arrays) {
+void glshim_glGenVertexArrays(GLsizei n, GLuint *arrays) {
 //printf("glGenVertexArrays(%i, %p)\n", n, arrays);
 	noerrorShim();
     if (n<1) {
@@ -356,7 +391,7 @@ void glGenVertexArrays(GLsizei n, GLuint *arrays) {
         arrays[i] = lastvao++;
     }
 }
-void glBindVertexArray(GLuint array) {
+void glshim_glBindVertexArray(GLuint array) {
 //printf("glBindVertexArray(%u)\n", array);
     if (glstate.gl_batch) {
          flush();
@@ -400,7 +435,7 @@ void glBindVertexArray(GLuint array) {
     }
     noerrorShim();
 }
-void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
+void glshim_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 //printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);
     if (glstate.gl_batch) {
          flush();
@@ -423,7 +458,7 @@ void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
     }
     noerrorShim();
 }
-GLboolean glIsVertexArray(GLuint array) {
+GLboolean glshim_glIsVertexArray(GLuint array) {
 //printf("glIsVertexArray(%u)\n", array);
 	khash_t(glvao) *list = glstate.vaos;
 	khint_t k;
@@ -436,3 +471,17 @@ GLboolean glIsVertexArray(GLuint array) {
 	}
 	return GL_FALSE;
 }
+
+void glGenVertexArrays(GLsizei n, GLuint *arrays) {
+    glshim_glGenVertexArrays(n, arrays);
+}
+void glBindVertexArray(GLuint array) {
+    glshim_glBindVertexArray(array);
+}
+void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
+    glshim_glDeleteVertexArrays(n, arrays);
+}
+GLboolean glIsVertexArray(GLuint array) {
+    return glshim_glIsVertexArray(array);
+}
+
