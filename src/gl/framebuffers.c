@@ -53,7 +53,7 @@ void readfboEnd() {
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 }
 
-void glGenFramebuffers(GLsizei n, GLuint *ids) {
+void glshim_glGenFramebuffers(GLsizei n, GLuint *ids) {
     LOAD_GLES_OES(glGenFramebuffers);
     //printf("glGenFramebuffers(%i, %p)\n", n, ids);
     GLsizei m = 0;
@@ -68,7 +68,7 @@ void glGenFramebuffers(GLsizei n, GLuint *ids) {
     gles_glGenFramebuffers(n-m, ids+m);
 }
 
-void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
+void glshim_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     //printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);
     if (glstate.gl_batch) flush();
     if (g_recyclefbo) {
@@ -91,7 +91,7 @@ void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     }
 }
 
-GLboolean glIsFramebuffer(GLuint framebuffer) {
+GLboolean glshim_glIsFramebuffer(GLuint framebuffer) {
     //printf("glIsFramebuffer(%u)\n", framebuffer);
     if (glstate.gl_batch) flush();
     LOAD_GLES_OES(glIsFramebuffer);
@@ -102,7 +102,7 @@ GLboolean glIsFramebuffer(GLuint framebuffer) {
 
 GLenum fb_status;
 
-GLenum glCheckFramebufferStatus(GLenum target) {
+GLenum glshim_glCheckFramebufferStatus(GLenum target) {
     if (glstate.gl_batch) flush();
 //#define BEFORE 1
 #ifdef BEFORE
@@ -119,7 +119,7 @@ GLenum glCheckFramebufferStatus(GLenum target) {
     return result;
 }
 
-void glBindFramebuffer(GLenum target, GLuint framebuffer) {
+void glshim_glBindFramebuffer(GLenum target, GLuint framebuffer) {
     //printf("glBindFramebuffer(%s, %u), list=%s\n", PrintEnum(target), framebuffer, glstate.list.active?"active":"none");
 	//PUSH_IF_COMPILING(glBindFramebuffer);
     if (glstate.gl_batch) flush();
@@ -164,7 +164,7 @@ void glBindFramebuffer(GLenum target, GLuint framebuffer) {
 }
 
 
-void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
+void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
     static GLuint scrap_tex = 0;
     static int scrap_width = 0;
     static int scrap_height = 0;
@@ -255,15 +255,15 @@ void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, 
     gles_glFramebufferTexture2D(target, attachment, textarget, texture, 0);
 }
 
-void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
-    glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture, level);
+void glshim_glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
+    glshim_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture, level);
 }
-void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
+void glshim_glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
     (void)layer;
-    glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture, level);
+    glshim_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture, level);
 }
 
-void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+void glshim_glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     LOAD_GLES_OES(glGenRenderbuffers);
     //printf("glGenRenderbuffers(%i, %p)\n", n, renderbuffers);
     
@@ -271,7 +271,7 @@ void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     gles_glGenRenderbuffers(n, renderbuffers);
 }
 
-void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
+void glshim_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
     LOAD_GLES_OES(glFramebufferRenderbuffer);
     LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
     //printf("glFramebufferRenderbuffer(%s, %s, %s, %u)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(renderbuffertarget), renderbuffer);
@@ -296,7 +296,7 @@ void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbu
     gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
 
-void glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+void glshim_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     if (glstate.gl_batch) flush();
     LOAD_GLES_OES(glDeleteRenderbuffers);
     
@@ -322,7 +322,7 @@ void glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
 
-void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
+void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
     LOAD_GLES_OES(glRenderbufferStorage);
     LOAD_GLES_OES(glGenRenderbuffers);
     LOAD_GLES_OES(glBindRenderbuffer);
@@ -369,11 +369,11 @@ void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, 
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
 
-void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {    //STUB
+void glshim_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {    //STUB
     glRenderbufferStorage(target, internalformat, width, height);
 }
 
-void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
+void glshim_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     if (glstate.gl_batch) flush();
     LOAD_GLES_OES(glBindRenderbuffer);
     //printf("glBindRenderbuffer(%s, %u), binded Fbo=%u\n", PrintEnum(target), renderbuffer, current_fb);
@@ -384,7 +384,7 @@ void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     gles_glBindRenderbuffer(target, renderbuffer);
 }
 
-GLboolean glIsRenderbuffer(GLuint renderbuffer) {
+GLboolean glshim_glIsRenderbuffer(GLuint renderbuffer) {
     //printf("glIsRenderbuffer(%u)\n", renderbuffer);
     if (glstate.gl_batch) flush();
     LOAD_GLES_OES(glIsRenderbuffer);
@@ -393,7 +393,7 @@ GLboolean glIsRenderbuffer(GLuint renderbuffer) {
     return gles_glIsRenderbuffer(renderbuffer);
 }
 
-void glGenerateMipmap(GLenum target) {
+void glshim_glGenerateMipmap(GLenum target) {
     //printf("glGenerateMipmap(0x%04X)\n", target);
     LOAD_GLES_OES(glGenerateMipmap);
     
@@ -401,7 +401,7 @@ void glGenerateMipmap(GLenum target) {
     return gles_glGenerateMipmap(target);
 }
 
-void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
+void glshim_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
     //printf("glGetFramebufferAttachmentParameteriv(%s, %s, %s, %p)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(pname), params);
     LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
     
@@ -409,7 +409,7 @@ void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLe
     return gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 }
 
-void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
+void glshim_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     //printf("glGetRenderbufferParameteriv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);
     LOAD_GLES_OES(glGetRenderbufferParameteriv);
     
@@ -683,11 +683,11 @@ void deleteMainFBO() {
     // all done...
 }
 
-void glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer...
+void glshim_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
+    glshim_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer...
 }
 
-void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
+void glshim_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
     // TODO!
     // create a temp texture
     // glCopyPixel of read FBO
@@ -697,64 +697,124 @@ printf("glBlitFramebuffer(%d, %d, %d, %d,  %d, %d, %d, %d,  0x%04X, 0x%04X)\n",
     srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
+// direct wrapper
+void glGenFramebuffers(GLsizei n, GLuint *ids) {
+    glshim_glGenFramebuffers(n, ids);
+}
+void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
+    glshim_glDeleteFramebuffers(n, framebuffers);
+}
+GLboolean glIsFramebuffer(GLuint framebuffer) {
+    return glshim_glIsFramebuffer(framebuffer);
+}
+GLenum glCheckFramebufferStatus(GLenum target) {
+    return glshim_glCheckFramebufferStatus(target);
+}
+void glBindFramebuffer(GLenum target, GLuint framebuffer) {
+    glshim_glBindFramebuffer(target, framebuffer);
+}
+void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
+    glshim_glFramebufferTexture1D(target, attachment, textarget, texture, level);
+}
+void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
+    glshim_glFramebufferTexture2D(target, attachment, textarget, texture, level);
+}
+void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
+    glshim_glFramebufferTexture3D(target, attachment, textarget, texture, level, layer);
+}
+void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+    glshim_glGenRenderbuffers(n, renderbuffers);
+}
+void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
+    glshim_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+}
+void glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+    glshim_glDeleteRenderbuffers(n, renderbuffers);
+}
+void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
+    glshim_glRenderbufferStorage(target, internalformat, width, height);
+}
+void glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
+    glshim_glBindRenderbuffer(target, renderbuffer);
+}
+GLboolean glIsRenderbuffer(GLuint renderbuffer) {
+    return glshim_glIsRenderbuffer(renderbuffer);
+}
+void glGenerateMipmap(GLenum target) {
+    glshim_glGenerateMipmap(target);
+}
+void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
+    glshim_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
+}
+void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
+    glshim_glGetRenderbufferParameteriv(target, pname, params);
+}
+
+void glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
+    glshim_glFramebufferTextureLayer(target, attachment, texture, level, layer);
+}
+
+void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
+    glshim_glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+}
 
 // EXT direct wrapper
 void glGenFramebuffersEXT(GLsizei n, GLuint *ids) {
-    glGenFramebuffers(n, ids);
+    glshim_glGenFramebuffers(n, ids);
 }
 void glDeleteFramebuffersEXT(GLsizei n, GLuint *framebuffers) {
-    glDeleteFramebuffers(n, framebuffers);
+    glshim_glDeleteFramebuffers(n, framebuffers);
 }
 GLboolean glIsFramebufferEXT(GLuint framebuffer) {
-    return glIsFramebuffer(framebuffer);
+    return glshim_glIsFramebuffer(framebuffer);
 }
 GLenum glCheckFramebufferStatusEXT(GLenum target) {
-    return glCheckFramebufferStatus(target);
+    return glshim_glCheckFramebufferStatus(target);
 }
 void glBindFramebufferEXT(GLenum target, GLuint framebuffer) {
-    glBindFramebuffer(target, framebuffer);
+    glshim_glBindFramebuffer(target, framebuffer);
 }
 void glFramebufferTexture1DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
-    glFramebufferTexture1D(target, attachment, textarget, texture, level);
+    glshim_glFramebufferTexture1D(target, attachment, textarget, texture, level);
 }
 void glFramebufferTexture2DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
-    glFramebufferTexture2D(target, attachment, textarget, texture, level);
+    glshim_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
 void glFramebufferTexture3DEXT(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
-    glFramebufferTexture3D(target, attachment, textarget, texture, level, layer);
+    glshim_glFramebufferTexture3D(target, attachment, textarget, texture, level, layer);
 }
 void glGenRenderbuffersEXT(GLsizei n, GLuint *renderbuffers) {
-    glGenRenderbuffers(n, renderbuffers);
+    glshim_glGenRenderbuffers(n, renderbuffers);
 }
 void glFramebufferRenderbufferEXT(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
-    glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+    glshim_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
 void glDeleteRenderbuffersEXT(GLsizei n, GLuint *renderbuffers) {
-    glDeleteRenderbuffers(n, renderbuffers);
+    glshim_glDeleteRenderbuffers(n, renderbuffers);
 }
 void glRenderbufferStorageEXT(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
-    glRenderbufferStorage(target, internalformat, width, height);
+    glshim_glRenderbufferStorage(target, internalformat, width, height);
 }
 void glBindRenderbufferEXT(GLenum target, GLuint renderbuffer) {
-    glBindRenderbuffer(target, renderbuffer);
+    glshim_glBindRenderbuffer(target, renderbuffer);
 }
 GLboolean glIsRenderbufferEXT(GLuint renderbuffer) {
-    return glIsRenderbuffer(renderbuffer);
+    return glshim_glIsRenderbuffer(renderbuffer);
 }
 void glGenerateMipmapEXT(GLenum target) {
-    glGenerateMipmap(target);
+    glshim_glGenerateMipmap(target);
 }
 void glGetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
-    glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
+    glshim_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 }
 void glGetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint * params) {
-    glGetRenderbufferParameteriv(target, pname, params);
+    glshim_glGetRenderbufferParameteriv(target, pname, params);
 }
 
 void glFramebufferTextureLayerEXT(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
-    glFramebufferTextureLayer(target, attachment, texture, level, layer);
+    glshim_glFramebufferTextureLayer(target, attachment, texture, level, layer);
 }
 
 void glBlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
-    glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+    glshim_glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }

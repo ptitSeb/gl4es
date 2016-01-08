@@ -267,6 +267,7 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
         case 3: 
             ret = GL_RGB; sret = GL_RGB; 
             break;
+        case GL_RGBA:
         case GL_RGBA8:
         case GL_RGBA4:
         case GL_BGRA:
@@ -1391,13 +1392,13 @@ void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoi
         GLuint old_fbo = current_fb;
         GLuint fbo;
 	
-		glGenFramebuffers(1, &fbo);
-		glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
-		glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
+		glshim_glGenFramebuffers(1, &fbo);
+		glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
+		glshim_glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
 		// Read the pixels!
 		glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
-        glDeleteFramebuffers(1, &fbo);
+		glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
+        glshim_glDeleteFramebuffers(1, &fbo);
         noerrorShim();
 	}
 }

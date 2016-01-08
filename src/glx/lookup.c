@@ -1,15 +1,18 @@
 #ifdef ANDROID
 #include "../gl/gl.h"
-#include "glx.h"
-#else
-#include "glx.h"
 #endif
+#include "glx.h"
 
 #include "../gl/directstate.h"
+//#define DEBUG_ADDRESS
 
-
+#ifdef DEBUG_ADDRESS
+#define MAP(func_name, func) \
+    if(cnt==1) {if ((uint32_t)((void*)func) <0x4000000) printf("glxGetProcAddress %s = %p\n", func_name, (void*)func);} if (strcmp(name, func_name) == 0) return (void *)func;
+#else
 #define MAP(func_name, func) \
     if (strcmp(name, func_name) == 0) return (void *)func;
+#endif
 
 #define MAP_EGL(func_name, egl_func) \
     MAP(#func_name, egl_eglGetProcAddress(#egl_func))
@@ -19,6 +22,12 @@
 #define ARB(func_name) MAP(#func_name "ARB", func_name)
 
 #define EXT(func_name) MAP(#func_name "EXT", func_name)
+
+#define _EX(func_name) MAP(#func_name, glshim_ ## func_name)
+
+#define _ARB(func_name) MAP(#func_name "ARB", glshim_ ## func_name)
+
+#define _EXT(func_name) MAP(#func_name "EXT", glshim_ ## func_name)
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
@@ -32,6 +41,10 @@ void glXStub(void *x, ...) {
 
 void *glXGetProcAddressARB(const char *name) {
     LOAD_EGL(eglGetProcAddress);
+#ifdef DEBUG_ADDRESS
+    static int cnt = 0;
+    cnt++;
+#endif
     // generated gles wrappers
 #ifdef USE_ES2
     #include "gles2funcs.inc"
@@ -117,51 +130,51 @@ void *glXGetProcAddressARB(const char *name) {
     ARB(glIsVertexArray);
     
     // GL_ARB_frameBuffer_ext
-    EX(glFramebufferTexture1D);
-    EX(glFramebufferTexture3D);
-    EX(glFramebufferTextureLayer);
-    EX(glRenderbufferStorageMultisample);
-    EX(glBlitFramebuffer);
-    EXT(glGenFramebuffers);
-    EXT(glDeleteFramebuffers);
-    EXT(glIsFramebuffer);
-    EXT(glCheckFramebufferStatus);
-    EXT(glBindFramebuffer);
-    EXT(glFramebufferTexture2D);
-    EXT(glFramebufferTexture1D);
-    EXT(glFramebufferTexture3D);
-    EXT(glGenRenderbuffers);
-    EXT(glFramebufferRenderbuffer);
-    EXT(glDeleteRenderbuffers);
-    EXT(glRenderbufferStorage);
-    EXT(glRenderbufferStorageMultisample);
-    EXT(glBindRenderbuffer);
-    EXT(glIsRenderbuffer);
-    EXT(glGenerateMipmap);
-    EXT(glGetFramebufferAttachmentParameteriv);
-    EXT(glGetRenderbufferParameteriv);
-    EXT(glFramebufferTextureLayer);
-    EXT(glBlitFramebuffer);
-    ARB(glGenFramebuffers);
-    ARB(glDeleteFramebuffers);
-    ARB(glIsFramebuffer);
-    ARB(glCheckFramebufferStatus);
-    ARB(glBindFramebuffer);
-    ARB(glFramebufferTexture2D);
-    ARB(glFramebufferTexture1D);
-    ARB(glFramebufferTexture3D);
-    ARB(glGenRenderbuffers);
-    ARB(glFramebufferRenderbuffer);
-    ARB(glDeleteRenderbuffers);
-    ARB(glRenderbufferStorage);
-    ARB(glRenderbufferStorageMultisample);
-    ARB(glBindRenderbuffer);
-    ARB(glIsRenderbuffer);
-    ARB(glGenerateMipmap);
-    ARB(glGetFramebufferAttachmentParameteriv);
-    ARB(glGetRenderbufferParameteriv);
-    ARB(glFramebufferTextureLayer);
-    ARB(glBlitFramebuffer);
+    _EX(glFramebufferTexture1D);
+    _EX(glFramebufferTexture3D);
+    _EX(glFramebufferTextureLayer);
+    _EX(glRenderbufferStorageMultisample);
+    _EX(glBlitFramebuffer);
+    _EXT(glGenFramebuffers);
+    _EXT(glDeleteFramebuffers);
+    _EXT(glIsFramebuffer);
+    _EXT(glCheckFramebufferStatus);
+    _EXT(glBindFramebuffer);
+    _EXT(glFramebufferTexture2D);
+    _EXT(glFramebufferTexture1D);
+    _EXT(glFramebufferTexture3D);
+    _EXT(glGenRenderbuffers);
+    _EXT(glFramebufferRenderbuffer);
+    _EXT(glDeleteRenderbuffers);
+    _EXT(glRenderbufferStorage);
+    _EXT(glRenderbufferStorageMultisample);
+    _EXT(glBindRenderbuffer);
+    _EXT(glIsRenderbuffer);
+    _EXT(glGenerateMipmap);
+    _EXT(glGetFramebufferAttachmentParameteriv);
+    _EXT(glGetRenderbufferParameteriv);
+    _EXT(glFramebufferTextureLayer);
+    _EXT(glBlitFramebuffer);
+    _ARB(glGenFramebuffers);
+    _ARB(glDeleteFramebuffers);
+    _ARB(glIsFramebuffer);
+    _ARB(glCheckFramebufferStatus);
+    _ARB(glBindFramebuffer);
+    _ARB(glFramebufferTexture2D);
+    _ARB(glFramebufferTexture1D);
+    _ARB(glFramebufferTexture3D);
+    _ARB(glGenRenderbuffers);
+    _ARB(glFramebufferRenderbuffer);
+    _ARB(glDeleteRenderbuffers);
+    _ARB(glRenderbufferStorage);
+    _ARB(glRenderbufferStorageMultisample);
+    _ARB(glBindRenderbuffer);
+    _ARB(glIsRenderbuffer);
+    _ARB(glGenerateMipmap);
+    _ARB(glGetFramebufferAttachmentParameteriv);
+    _ARB(glGetRenderbufferParameteriv);
+    _ARB(glFramebufferTextureLayer);
+    _ARB(glBlitFramebuffer);
     STUB(glDrawBuffersARB);
     
         /*
