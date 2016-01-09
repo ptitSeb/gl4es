@@ -1518,7 +1518,7 @@ void glshim_glCallList(GLuint list) {
 }
 void glCallList(GLuint list) __attribute__((alias("glshim_glCallList")));
 
-void glshim_glPushCall(void *call) {
+void glPushCall(void *call) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
 		NewStage(glstate.list.active, STAGE_GLCALL);
         rlPushCall(glstate.list.active, call);
