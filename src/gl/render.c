@@ -30,7 +30,7 @@ void push_hit() {
 }
 
 
-GLint glRenderMode(GLenum mode) {
+GLint glshim_glRenderMode(GLenum mode) {
 	int ret = 0;
     if ((mode==GL_SELECT) || (mode==GL_RENDER)) {  // missing GL_FEEDBACK
         noerrorShim();
@@ -68,7 +68,7 @@ GLint glRenderMode(GLenum mode) {
 	return ret;
 }
 
-void glInitNames() {
+void glshim_glInitNames() {
 	if (glstate.namestack.names == 0) {
 		glstate.namestack.names = (GLuint*)malloc(1024*sizeof(GLuint));
 	}
@@ -76,7 +76,7 @@ void glInitNames() {
     noerrorShim();
 }
 
-void glPopName() {
+void glshim_glPopName() {
     noerrorShim();
 	if (glstate.render_mode != GL_SELECT)
 		return;
@@ -87,7 +87,7 @@ void glPopName() {
         errorShim(GL_STACK_UNDERFLOW);
 }
 
-void glPushName(GLuint name) {
+void glshim_glPushName(GLuint name) {
     noerrorShim();
 	if (glstate.render_mode != GL_SELECT)
 		return;
@@ -99,7 +99,7 @@ void glPushName(GLuint name) {
 	}
 }
 
-void glLoadName(GLuint name) {
+void glshim_glLoadName(GLuint name) {
     noerrorShim();
 	if (glstate.render_mode != GL_SELECT)
 		return;
@@ -111,7 +111,7 @@ void glLoadName(GLuint name) {
 	glstate.namestack.names[glstate.namestack.top-1] = name;
 }
 
-void glSelectBuffer(GLsizei size, GLuint *buffer) {
+void glshim_glSelectBuffer(GLsizei size, GLuint *buffer) {
     noerrorShim();
 	glstate.selectbuf.buffer = buffer;
 	glstate.selectbuf.size = size;
@@ -123,9 +123,9 @@ void init_select() {
 	 Initialize matrix and array vector for a select_Draw*
 	*/
 	 GLfloat tmp[16];
-	 glGetFloatv(GL_PROJECTION_MATRIX, tmp);
+	 glshim_glGetFloatv(GL_PROJECTION_MATRIX, tmp);
 	 matrix_column_row(tmp, projection);
-	 glGetFloatv(GL_MODELVIEW_MATRIX, tmp);
+	 glshim_glGetFloatv(GL_MODELVIEW_MATRIX, tmp);
 	 matrix_column_row(tmp, modelview);
 }
 
@@ -364,3 +364,11 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 	free(vert);
 	#undef FOUND
 }
+
+//Direct wrapper
+GLint glRenderMode(GLenum mode) __attribute__((alias("glshim_glRenderMode")));
+void glInitNames() __attribute__((alias("glshim_glInitNames")));
+void glPopName() __attribute__((alias("glshim_glPopName")));
+void glPushName(GLuint name) __attribute__((alias("glshim_glPushName")));
+void glLoadName(GLuint name) __attribute__((alias("glshim_glLoadName")));
+void glSelectBuffer(GLsizei size, GLuint *buffer) __attribute__((alias("glshim_glSelectBuffer")));

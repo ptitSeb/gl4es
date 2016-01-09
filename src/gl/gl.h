@@ -1,5 +1,6 @@
 #include <dlfcn.h>
-#include <GLES/gl.h>
+//#include <GLES/gl.h>
+#include "gles.h"
 #include <EGL/egl.h>
 #ifdef TEXSTREAM
 #include <EGL/eglext.h>
@@ -96,8 +97,6 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
     {int error; if ((error = glGetError())) \
         printf(file ":%i -> %i\n", line, error);}
 
-#define GLdouble double
-
 #define GL_TYPE_CASE(name, var, magic, type, code) \
     case magic: {                                  \
         type *name = (type *)var;                  \
@@ -169,7 +168,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
         return (nam##_RETURN)0;                     \
     }
 
-//printf("list:%i, " #nam "\n", state.list.name); \
+//printf("list:%i, " #nam "\n", state.list.name);
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
@@ -332,12 +331,57 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "array.h"
 #include "framebuffers.h"
 
-extern void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
-extern void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
-extern void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
-extern void glGetPointerv(GLenum pname, GLvoid* *params);
-extern void glFlush();
-extern void glFinish();
+const GLubyte *glshim_glGetString(GLenum name);
+void glshim_glGetIntegerv(GLenum pname, GLint *params);
+void glshim_glGetFloatv(GLenum pname, GLfloat *params);
+void glshim_glEnable(GLenum cap);
+void glshim_glDisable(GLenum cap);
+void glshim_glEnableClientState(GLenum cap);
+void glshim_glDisableClientState(GLenum cap);
+GLboolean glshim_glIsEnabled(GLenum cap);
+void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
+void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count);
+void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer);
+void glshim_glBegin(GLenum mode);
+void glshim_glEnd();
+void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
+void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
+void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);
+void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
+void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void glshim_glArrayElement(GLint i);
+void glshim_glLockArrays(GLint first, GLsizei count);
+void glshim_glUnlockArrays();
+GLuint glshim_glGenLists(GLsizei range);
+void glshim_glNewList(GLuint list, GLenum mode);
+void glshim_glEndList();
+void glshim_glCallList(GLuint list);
+void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
+void glshim_glDeleteLists(GLuint list, GLsizei range);
+void glshim_glListBase(GLuint base);
+GLboolean glshim_glIsList(GLuint list);
+void glshim_glPolygonMode(GLenum face, GLenum mode);
+void glshim_glPushMatrix();
+void glshim_glPopMatrix();
+GLenum glshim_glGetError();
+
+void glshim_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
+void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
+void glshim_glGetPointerv(GLenum pname, GLvoid* *params);
+void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA);
+void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor);
+void glshim_glFlush();
+void glshim_glFinish();
+void glshim_glLoadMatrixf(const GLfloat * m);
+void glshim_glMultMatrixf(const GLfloat * m);
+void glshim_glFogfv(GLenum pname, const GLfloat* params);
+
 
 void flush();
 void init_batch();

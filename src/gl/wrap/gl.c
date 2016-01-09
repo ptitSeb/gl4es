@@ -1,6 +1,6 @@
 #include "gl.h"
 #include "../debug.h"
-#include <limits.h>
+//#include <limits.h>
 
 #define constDoubleToFloat(a, size) \
     GLfloat s[size];                \
@@ -12,58 +12,50 @@
 // naive wrappers
 
 #ifdef USE_ES2
-void glCompileShaderARB(GLuint shader) {
-    glCompileShader(shader);
+void glshim_glCompileShader(GLuint shader) {
+    glshim_glCompileShader(shader);
     GLint status;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    glshim_glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE) {
         GLint log_length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
+        glshim_glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
         GLchar *log = malloc(sizeof(GLchar) * log_length);
-        glGetShaderInfoLog(shader, log_length, NULL, log);
+        glshim_glGetShaderInfoLog(shader, log_length, NULL, log);
         printf("Shader compile failed: %s\n", log);
         free(log);
     }
 }
-GLuint glCreateShaderObjectARB(GLenum shaderType) {
+GLuint glshim_glCreateShaderObject(GLenum shaderType) {
     return glCreateShader(shaderType);
 }
-void glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) {
-    glShaderSource(shader, count, string, length);
+void glshim_glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) {
+    glshim_glShaderSource(shader, count, string, length);
 }
-void glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params) {
-    glGetShaderiv(shader, pname, params);
+void glshim_glGetObjectParameteriv(GLuint shader, GLenum pname, GLint *params) {
+    glshim_glGetShaderiv(shader, pname, params);
 }
 #endif
 
-void glActiveTextureARB(GLenum texture) {
-    glActiveTexture(texture);
+void glshim_glClearDepth(GLdouble depth) {
+    glshim_glClearDepthf(depth);
 }
-void glClearDepth(GLdouble depth) {
-    glClearDepthf(depth);
-}
-void glClientActiveTextureARB(GLenum texture) {
-#ifndef USE_ES2
-    glClientActiveTexture(texture);
-#endif
-}
-void glClipPlane(GLenum plane, const GLdouble *equation) {
+void glshim_glClipPlane(GLenum plane, const GLdouble *equation) {
     constDoubleToFloat(equation, 4);
-    glClipPlanef(plane, s);
+    glshim_glClipPlanef(plane, s);
 }
-void glDepthRange(GLdouble nearVal, GLdouble farVal) {
-    glDepthRangef(nearVal, farVal);
+void glshim_glDepthRange(GLdouble nearVal, GLdouble farVal) {
+    glshim_glDepthRangef(nearVal, farVal);
 }
-void glFogi(GLenum pname, GLint param) {
-    glFogf(pname, param);
+void glshim_glFogi(GLenum pname, GLint param) {
+    glshim_glFogf(pname, param);
 }
-void glFogiv(GLenum pname, GLint *iparams) {
+void glshim_glFogiv(GLenum pname, GLint *iparams) {
     switch (pname) {
         case GL_FOG_DENSITY:
         case GL_FOG_START:
         case GL_FOG_END:
         case GL_FOG_INDEX: {
-            glFogf(pname, *iparams);
+            glshim_glFogf(pname, *iparams);
             break;
         }
         case GL_FOG_MODE:
@@ -72,32 +64,32 @@ void glFogiv(GLenum pname, GLint *iparams) {
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
-            glFogfv(pname, params);
+            glshim_glFogfv(pname, params);
             break;
         }
     }
 }
-void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params) {
+void glshim_glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params) {
 	GLfloat fparams[4];
-	glGetTexGenfv(coord, pname, fparams);
+	glshim_glGetTexGenfv(coord, pname, fparams);
 	if (pname==GL_TEXTURE_GEN_MODE) *params=fparams[0];
 	else for (int i=0; i<4; i++) params[i]=fparams[i];
 }
-void glGetTexGeniv(GLenum coord,GLenum pname,GLint *params) {
+void glshim_glGetTexGeniv(GLenum coord,GLenum pname,GLint *params) {
 	GLfloat fparams[4];
-	glGetTexGenfv(coord, pname, fparams);
+	glshim_glGetTexGenfv(coord, pname, fparams);
 	if (pname==GL_TEXTURE_GEN_MODE) *params=fparams[0];
 	else for (int i=0; i<4; i++) params[i]=fparams[i];
 }
-void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
+void glshim_glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
 	GLfloat fparams[4];
-	glGetMaterialfv(face, pname, fparams);
+	glshim_glGetMaterialfv(face, pname, fparams);
 	if (pname==GL_SHININESS) *params=fparams[0];
 	else for (int i=0; i<4; i++) params[i]=fparams[i];
 }
-void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
+void glshim_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	GLfloat fparams[4];
-	glGetLightfv(light, pname, fparams);
+	glshim_glGetLightfv(light, pname, fparams);
 	int n=4;
 	if (pname==GL_SPOT_EXPONENT) n=1;
 	if (pname==GL_SPOT_CUTOFF) n=1;
@@ -105,33 +97,33 @@ void glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	if (pname==GL_SPOT_DIRECTION) n=3;
 	else for (int i=0; i<n; i++) params[i]=fparams[i];
 }
-void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
+void glshim_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
 	GLint iparams;
-	glGetTexLevelParameteriv(target, level, pname, &iparams);
+	glshim_glGetTexLevelParameteriv(target, level, pname, &iparams);
 	(*params)=iparams;
 	return;
 }
-void glGetClipPlane(GLenum plane, GLdouble *equation) {
+void glshim_glGetClipPlane(GLenum plane, GLdouble *equation) {
 	GLfloat fparams[4];
-	glGetClipPlanef(plane, fparams);
+	glshim_glGetClipPlanef(plane, fparams);
 	for (int i=0; i<4; i++) equation[i]=fparams[i];
 }
 
-void glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
+void glshim_glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
-    glFrustumf(left, right, bottom, top, near, far);
+    glshim_glFrustumf(left, right, bottom, top, near, far);
 }
-void glPixelStoref(GLenum pname, GLfloat param) {
-    glPixelStorei(pname, param);
+void glshim_glPixelStoref(GLenum pname, GLfloat param) {
+    glshim_glPixelStorei(pname, param);
 }
-void glLighti(GLenum light, GLenum pname, GLint param) {
-    glLightf(light, pname, param);
+void glshim_glLighti(GLenum light, GLenum pname, GLint param) {
+    glshim_glLightf(light, pname, param);
 }
-void glPixelTransferi(GLenum pname, GLint param) {
-	glPixelTransferf(pname, param);	
+void glshim_glPixelTransferi(GLenum pname, GLint param) {
+	glshim_glPixelTransferf(pname, param);	
 }
 
-void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
+void glshim_glLightiv(GLenum light, GLenum pname, GLint *iparams) {
     switch (pname) {
         case GL_AMBIENT:
         case GL_DIFFUSE:
@@ -141,7 +133,7 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
-            glLightfv(light, pname, params);
+            glshim_glLightfv(light, pname, params);
             break;
         }
         case GL_SPOT_DIRECTION: {
@@ -149,7 +141,7 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
-            glLightfv(light, pname, params);
+            glshim_glLightfv(light, pname, params);
             break;
         }
         case GL_SPOT_EXPONENT:
@@ -157,37 +149,37 @@ void glLightiv(GLenum light, GLenum pname, GLint *iparams) {
         case GL_CONSTANT_ATTENUATION:
         case GL_LINEAR_ATTENUATION:
         case GL_QUADRATIC_ATTENUATION: {
-            glLightf(light, pname, *iparams);
+            glshim_glLightf(light, pname, *iparams);
             break;
         }
     }
 }
 #ifndef USE_ES2
-void glLightModeli(GLenum pname, GLint param) {
-    glLightModelf(pname, param);
+void glshim_glLightModeli(GLenum pname, GLint param) {
+    glshim_glLightModelf(pname, param);
 }
-void glLightModeliv(GLenum pname, GLint *iparams) {
+void glshim_glLightModeliv(GLenum pname, GLint *iparams) {
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT: {
             GLfloat params[4];
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
-            glLightModelfv(pname, params);
+            glshim_glLightModelfv(pname, params);
             break;
         }
         case GL_LIGHT_MODEL_LOCAL_VIEWER:
         case GL_LIGHT_MODEL_TWO_SIDE: {
-            glLightModelf(pname, *iparams);
+            glshim_glLightModelf(pname, *iparams);
             break;
         }
     }
 }
 #endif
-void glMateriali(GLenum face, GLenum pname, GLint param) {
-    glMaterialf(face, pname, param);
+void glshim_glMateriali(GLenum face, GLenum pname, GLint param) {
+    glshim_glMaterialf(face, pname, param);
 }
-void glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
+void glshim_glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
 printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
     switch (pname) {
         case GL_AMBIENT: 
@@ -199,7 +191,7 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];	// should divide by MAX_INT
             }
-            glMaterialfv(face, pname, params);
+            glshim_glMaterialfv(face, pname, params);
             break;
         }
 		case GL_SHININESS:
@@ -208,11 +200,11 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
             for (int i = 0; i < 2; i++) {
                 params[i] = iparams[i];
             }
-            glMaterialfv(face, pname, params);
+            glshim_glMaterialfv(face, pname, params);
             break;
         }
         case GL_AMBIENT_AND_DIFFUSE: {
-            glMaterialf(face, pname, *iparams);
+            glshim_glMaterialf(face, pname, *iparams);
             break;
         }
 		case GL_COLOR_INDEXES:
@@ -221,7 +213,7 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
             for (int i = 0; i < 3; i++) {
                 params[i] = iparams[i];
             }
-            glMaterialfv(face, pname, params);
+            glshim_glMaterialfv(face, pname, params);
             break;
         }
     }
@@ -232,100 +224,76 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
     glMultiTexCoord4f(target, s, t, 0.0f, 1.0f);
 }
 * */
-void glMultiTexCoord1f(GLenum target, GLfloat s) {
-     glMultiTexCoord4f(target, s, 0, 0, 1);
+void glshim_glMultiTexCoord1f(GLenum target, GLfloat s) {
+     glshim_glMultiTexCoord4f(target, s, 0, 0, 1);
 }
-void glMultiTexCoord1fv(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], 0, 0, 1);
+void glshim_glMultiTexCoord1fv(GLenum target, GLfloat *t) {
+     glshim_glMultiTexCoord4f(target, t[0], 0, 0, 1);
 }
-void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
-     glMultiTexCoord4f(target, s, t, 0, 1);
+void glshim_glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) {
+     glshim_glMultiTexCoord4f(target, s, t, 0, 1);
 }
-void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
-     glMultiTexCoord4f(target, s, t, r, 1);
+void glshim_glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
+     glshim_glMultiTexCoord4f(target, s, t, r, 1);
 }
 /*void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
      glMultiTexCoord2f(target, s, t);
 }*/
-void glMultiTexCoord2fv(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], 0, 1);
+void glshim_glMultiTexCoord2fv(GLenum target, GLfloat *t) {
+     glshim_glMultiTexCoord4f(target, t[0], t[1], 0, 1);
 }
-void glMultiTexCoord3fv(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], t[2], 1);
+void glshim_glMultiTexCoord3fv(GLenum target, GLfloat *t) {
+     glshim_glMultiTexCoord4f(target, t[0], t[1], t[2], 1);
 }
-void glMultiTexCoord4fv(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);
-}
-void glMultiTexCoord1fARB(GLenum target, GLfloat s) {
-     glMultiTexCoord4f(target, s, 0, 0, 1);
-}
-void glMultiTexCoord1fvARB(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], 0, 0, 1);
-}
-void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) {
-     glMultiTexCoord4f(target, s, t, 0, 1);
-}
-void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
-     glMultiTexCoord4f(target, s, t, r, 1);
-}
-void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-     glMultiTexCoord4f(target, s, t, r, q);
-}
-void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], 0, 1);
-}
-void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], t[2], 1);
-}
-void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) {
-     glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);
+void glshim_glMultiTexCoord4fv(GLenum target, GLfloat *t) {
+     glshim_glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);
 }
 /*
 void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
 	glBlendFuncSeparate (sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
 */
-void glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
+void glshim_glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
              GLdouble top, GLdouble near, GLdouble far) {
-    glOrthof(left, right, bottom, top, near, far);
+    glshim_glOrthof(left, right, bottom, top, near, far);
 }
 
 // OES wrappers
 
 void glClearDepthfOES(GLfloat depth) {
-    glClearDepthf(depth);
+    glshim_glClearDepthf(depth);
 }
 void glClipPlanefOES(GLenum plane, const GLfloat *equation) {
-    glClipPlanef(plane, equation);
+    glshim_glClipPlanef(plane, equation);
 }
 void glDepthRangefOES(GLclampf near, GLclampf far) {
-    glDepthRangef(near, far);
+    glshim_glDepthRangef(near, far);
 }
 void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
                    GLfloat top, GLfloat near, GLfloat far) {
-    glFrustumf(left, right, bottom, top, near, far);
+    glshim_glFrustumf(left, right, bottom, top, near, far);
 }
 void glGetClipPlanefOES(GLenum pname, GLfloat equation[4]) {
-    glGetClipPlanef(pname, equation);
+    glshim_glGetClipPlanef(pname, equation);
 }
 void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
                  GLfloat top, GLfloat near, GLfloat far) {
-    glOrthof(left, right, bottom, top, near, far);
+    glshim_glOrthof(left, right, bottom, top, near, far);
 }
 
 // glRect
 
 #define GL_RECT(suffix, type)                                 \
-    void glRect##suffix(type x1, type y1, type x2, type y2) { \
-        glBegin(GL_POLYGON);                                  \
-        glVertex2##suffix(x1, y1);                            \
-        glVertex2##suffix(x2, y1);                            \
-        glVertex2##suffix(x2, y2);                            \
-        glVertex2##suffix(x1, y2);                            \
-		glEnd();											  \
+    void glshim_glRect##suffix(type x1, type y1, type x2, type y2) { \
+        glshim_glBegin(GL_POLYGON);                                  \
+        glshim_glVertex2##suffix(x1, y1);                            \
+        glshim_glVertex2##suffix(x2, y1);                            \
+        glshim_glVertex2##suffix(x2, y2);                            \
+        glshim_glVertex2##suffix(x1, y2);                            \
+		glshim_glEnd();											  \
     }                                                         \
-    void glRect##suffix##v(const type *v) {                   \
-        glRect##suffix(v[0], v[1], v[2], v[3]);               \
+    void glshim_glRect##suffix##v(const type *v) {                   \
+        glshim_glRect##suffix(v[0], v[1], v[2], v[3]);               \
     }
 
 GL_RECT(d, GLdouble)
@@ -338,162 +306,137 @@ GL_RECT(s, GLshort)
 
 #define THUNK(suffix, type, max)                            \
 /* colors */                                                \
-void glColor3##suffix(type r, type g, type b) {             \
-    glColor4f(r/max, g/max, b/max, 1.0f);                   \
+void glshim_glColor3##suffix(type r, type g, type b) {             \
+    glshim_glColor4f(r/max, g/max, b/max, 1.0f);                   \
 }                                                           \
-void glColor4##suffix(type r, type g, type b, type a) {     \
-    glColor4f(r/max, g/max, b/max, a/max);                  \
+void glshim_glColor4##suffix(type r, type g, type b, type a) {     \
+    glshim_glColor4f(r/max, g/max, b/max, a/max);                  \
 }                                                           \
-void glColor3##suffix##v(const type *v) {                   \
-    glColor4f(v[0]/max, v[1]/max, v[2]/max, 1.0f);          \
+void glshim_glColor3##suffix##v(const type *v) {                   \
+    glshim_glColor4f(v[0]/max, v[1]/max, v[2]/max, 1.0f);          \
 }                                                           \
-void glColor4##suffix##v(const type *v) {                   \
-    glColor4f(v[0]/max, v[1]/max, v[2]/max, v[3]/max);      \
+void glshim_glColor4##suffix##v(const type *v) {                   \
+    glshim_glColor4f(v[0]/max, v[1]/max, v[2]/max, v[3]/max);      \
 }                                                           \
-void glSecondaryColor3##suffix(type r, type g, type b) {    \
-    glSecondaryColor3f(r/max, g/max, b/max);                \
+void glshim_glSecondaryColor3##suffix(type r, type g, type b) {    \
+    glshim_glSecondaryColor3f(r/max, g/max, b/max);                \
 }                                                           \
-void glSecondaryColor3##suffix##v(const type *v) {          \
-    glSecondaryColor3f(v[0]/max, v[1]/max, v[2]/max);       \
+void glshim_glSecondaryColor3##suffix##v(const type *v) {          \
+    glshim_glSecondaryColor3f(v[0]/max, v[1]/max, v[2]/max);       \
 }                                                           \
 /* index */                                                 \
-void glIndex##suffix(type c) {                              \
-    glIndexf(c);                                            \
+void glshim_glIndex##suffix(type c) {                              \
+    glshim_glIndexf(c);                                            \
 }                                                           \
-void glIndex##suffix##v(const type *c) {                    \
-    glIndexf(c[0]);                                         \
+void glshim_glIndex##suffix##v(const type *c) {                    \
+    glshim_glIndexf(c[0]);                                         \
 }                                                           \
 /* normal */                                                \
-void glNormal3##suffix(type x, type y, type z) {            \
-    glNormal3f(x, y, z);                                    \
+void glshim_glNormal3##suffix(type x, type y, type z) {            \
+    glshim_glNormal3f(x, y, z);                                    \
 }                                                           \
-void glNormal3##suffix##v(const type *v) {                  \
-    glNormal3f(v[0], v[1], v[2]);                           \
+void glshim_glNormal3##suffix##v(const type *v) {                  \
+    glshim_glNormal3f(v[0], v[1], v[2]);                           \
 }                                                           \
 /* raster */                                                \
-void glRasterPos2##suffix(type x, type y) {                 \
-    glRasterPos3f(x, y, 0);                                 \
+void glshim_glRasterPos2##suffix(type x, type y) {                 \
+    glshim_glRasterPos3f(x, y, 0);                                 \
 }                                                           \
-void glRasterPos2##suffix##v(type *v) {                     \
-    glRasterPos3f(v[0], v[1], 0);                           \
+void glshim_glRasterPos2##suffix##v(type *v) {                     \
+    glshim_glRasterPos3f(v[0], v[1], 0);                           \
 }                                                           \
-void glRasterPos3##suffix(type x, type y, type z) {         \
-    glRasterPos3f(x, y, z);                                 \
+void glshim_glRasterPos3##suffix(type x, type y, type z) {         \
+    glshim_glRasterPos3f(x, y, z);                                 \
 }                                                           \
-void glRasterPos3##suffix##v(type *v) {                     \
-    glRasterPos3f(v[0], v[1], v[2]);                        \
+void glshim_glRasterPos3##suffix##v(type *v) {                     \
+    glshim_glRasterPos3f(v[0], v[1], v[2]);                        \
 }                                                           \
-void glRasterPos4##suffix(type x, type y, type z, type w) { \
-    glRasterPos4f(x, y, z, w);                              \
+void glshim_glRasterPos4##suffix(type x, type y, type z, type w) { \
+    glshim_glRasterPos4f(x, y, z, w);                              \
 }                                                           \
-void glRasterPos4##suffix##v(type *v) {                     \
-    glRasterPos4f(v[0], v[1], v[2], v[3]);                  \
+void glshim_glRasterPos4##suffix##v(type *v) {                     \
+    glshim_glRasterPos4f(v[0], v[1], v[2], v[3]);                  \
 }                                                           \
-void glWindowPos2##suffix(type x, type y) {                 \
-    glWindowPos3f(x, y, 0);                                 \
+void glshim_glWindowPos2##suffix(type x, type y) {                 \
+    glshim_glWindowPos3f(x, y, 0);                                 \
 }                                                           \
-void glWindowPos2##suffix##v(type *v) {                     \
-    glWindowPos3f(v[0], v[1], 0);                           \
+void glshim_glWindowPos2##suffix##v(type *v) {                     \
+    glshim_glWindowPos3f(v[0], v[1], 0);                           \
 }                                                           \
-void glWindowPos3##suffix(type x, type y, type z) {         \
-    glWindowPos3f(x, y, z);                                 \
+void glshim_glWindowPos3##suffix(type x, type y, type z) {         \
+    glshim_glWindowPos3f(x, y, z);                                 \
 }                                                           \
-void glWindowPos3##suffix##v(type *v) {                     \
-    glWindowPos3f(v[0], v[1], v[2]);                        \
+void glshim_glWindowPos3##suffix##v(type *v) {                     \
+    glshim_glWindowPos3f(v[0], v[1], v[2]);                        \
 }                                                           \
 /* vertex */                                                \
-void glVertex2##suffix(type x, type y) {                    \
-    glVertex4f(x, y, 0, 1);                                 \
+void glshim_glVertex2##suffix(type x, type y) {                    \
+    glshim_glVertex4f(x, y, 0, 1);                                 \
 }                                                           \
-void glVertex2##suffix##v(type *v) {                        \
-    glVertex4f(v[0], v[1], 0 ,1);                           \
+void glshim_glVertex2##suffix##v(type *v) {                        \
+    glshim_glVertex4f(v[0], v[1], 0 ,1);                           \
 }                                                           \
-void glVertex3##suffix(type x, type y, type z) {            \
-    glVertex4f(x, y, z, 1);                                 \
+void glshim_glVertex3##suffix(type x, type y, type z) {            \
+    glshim_glVertex4f(x, y, z, 1);                                 \
 }                                                           \
-void glVertex3##suffix##v(type *v) {                        \
-    glVertex4f(v[0], v[1], v[2], 1);                        \
+void glshim_glVertex3##suffix##v(type *v) {                        \
+    glshim_glVertex4f(v[0], v[1], v[2], 1);                        \
 }                                                           \
-void glVertex4##suffix(type r, type g, type b, type w) {    \
-    glVertex4f(r, g, b, w);                                 \
+void glshim_glVertex4##suffix(type r, type g, type b, type w) {    \
+    glshim_glVertex4f(r, g, b, w);                                 \
 }                                                           \
-void glVertex4##suffix##v(type *v) {                        \
-    glVertex4f(v[0], v[1], v[2], v[3]);                     \
+void glshim_glVertex4##suffix##v(type *v) {                        \
+    glshim_glVertex4f(v[0], v[1], v[2], v[3]);                     \
 }                                                           \
 /* texture */                                               \
-void glTexCoord1##suffix(type s) {                          \
-    glTexCoord4f(s, 0, 0, 1);                               \
+void glshim_glTexCoord1##suffix(type s) {                          \
+    glshim_glTexCoord4f(s, 0, 0, 1);                               \
 }                                                           \
-void glTexCoord1##suffix##v(type *t) {                      \
-    glTexCoord4f(t[0], 0, 0, 1);                            \
+void glshim_glTexCoord1##suffix##v(type *t) {                      \
+    glshim_glTexCoord4f(t[0], 0, 0, 1);                            \
 }                                                           \
-void glTexCoord2##suffix(type s, type t) {                  \
-    glTexCoord4f(s, t, 0, 1);                               \
+void glshim_glTexCoord2##suffix(type s, type t) {                  \
+    glshim_glTexCoord4f(s, t, 0, 1);                               \
 }                                                           \
-void glTexCoord2##suffix##v(type *t) {                      \
-    glTexCoord4f(t[0], t[1], 0, 1);                         \
+void glshim_glTexCoord2##suffix##v(type *t) {                      \
+    glshim_glTexCoord4f(t[0], t[1], 0, 1);                         \
 }                                                           \
-void glTexCoord3##suffix(type s, type t, type r) {          \
-    glTexCoord4f(s, t, r, 1);                               \
+void glshim_glTexCoord3##suffix(type s, type t, type r) {          \
+    glshim_glTexCoord4f(s, t, r, 1);                               \
 }                                                           \
-void glTexCoord3##suffix##v(type *t) {                      \
-    glTexCoord4f(t[0], t[1], t[2], 1);                      \
+void glshim_glTexCoord3##suffix##v(type *t) {                      \
+    glshim_glTexCoord4f(t[0], t[1], t[2], 1);                      \
 }                                                           \
-void glTexCoord4##suffix(type s, type t, type r, type q) {  \
-    glTexCoord4f(s, t, r, q);                               \
+void glshim_glTexCoord4##suffix(type s, type t, type r, type q) {  \
+    glshim_glTexCoord4f(s, t, r, q);                               \
 }                                                           \
-void glTexCoord4##suffix##v(type *t) {                      \
-    glTexCoord4f(t[0], t[1], t[2], t[3]);                    \
+void glshim_glTexCoord4##suffix##v(type *t) {                      \
+    glshim_glTexCoord4f(t[0], t[1], t[2], t[3]);                    \
 }															\
 /* multi-texture */                                         \
-void glMultiTexCoord1##suffix(GLenum target, type s) {      \
-    glMultiTexCoord4f(target, s, 0, 0, 1);                        \
+void glshim_glMultiTexCoord1##suffix(GLenum target, type s) {      \
+    glshim_glMultiTexCoord4f(target, s, 0, 0, 1);                        \
 }                                                           \
-void glMultiTexCoord1##suffix##v(GLenum target, type *t) {  \
-    glMultiTexCoord4f(target, t[0], 0, 0, 1);                    \
+void glshim_glMultiTexCoord1##suffix##v(GLenum target, type *t) {  \
+    glshim_glMultiTexCoord4f(target, t[0], 0, 0, 1);                    \
 }                                                           \
-void glMultiTexCoord2##suffix(GLenum target, type s, type t) {           \
-    glMultiTexCoord4f(target, s, t, 0, 1);                               \
+void glshim_glMultiTexCoord2##suffix(GLenum target, type s, type t) {           \
+    glshim_glMultiTexCoord4f(target, s, t, 0, 1);                               \
 }                                                                        \
-void glMultiTexCoord2##suffix##v(GLenum target, type *t) {               \
-    glMultiTexCoord4f(target, t[0], t[1], 0, 1);                         \
+void glshim_glMultiTexCoord2##suffix##v(GLenum target, type *t) {               \
+    glshim_glMultiTexCoord4f(target, t[0], t[1], 0, 1);                         \
 }                                                                        \
-void glMultiTexCoord3##suffix(GLenum target, type s, type t, type r) {   \
-    glMultiTexCoord4f(target, s, t, r, 1);                               \
+void glshim_glMultiTexCoord3##suffix(GLenum target, type s, type t, type r) {   \
+    glshim_glMultiTexCoord4f(target, s, t, r, 1);                               \
 }                                                                        \
-void glMultiTexCoord3##suffix##v(GLenum target, type *t) {               \
-    glMultiTexCoord4f(target, t[0], t[1], t[2], 1);                      \
+void glshim_glMultiTexCoord3##suffix##v(GLenum target, type *t) {               \
+    glshim_glMultiTexCoord4f(target, t[0], t[1], t[2], 1);                      \
 }                                                                        \
-void glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q) {  \
-    glMultiTexCoord4f(target, s, t, r, q);                               \
+void glshim_glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q) {  \
+    glshim_glMultiTexCoord4f(target, s, t, r, q);                               \
 }                                                                        \
-void glMultiTexCoord4##suffix##v(GLenum target, type *t) {               \
-    glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);                   \
-}                                                                        \
-/* multi-texture ARB */                                                  \
-void glMultiTexCoord1##suffix##ARB(GLenum target, type s) {              \
-    glMultiTexCoord4f(target, s, 0, 0, 1);                               \
-}                                                                        \
-void glMultiTexCoord1##suffix##vARB(GLenum target, type *t) {            \
-    glMultiTexCoord4f(target, t[0], 0, 0, 1);                            \
-}                                                                        \
-void glMultiTexCoord2##suffix##ARB(GLenum target, type s, type t) {      \
-    glMultiTexCoord4f(target, s, t, 0, 1);                               \
-}                                                                        \
-void glMultiTexCoord2##suffix##vARB(GLenum target, type *t) {            \
-    glMultiTexCoord4f(target, t[0], t[1], 0, 1);                         \
-}                                                                        \
-void glMultiTexCoord3##suffix##ARB(GLenum target, type s, type t, type r) {   \
-    glMultiTexCoord4f(target, s, t, r, 1);                               \
-}                                                                        \
-void glMultiTexCoord3##suffix##vARB(GLenum target, type *t) {            \
-    glMultiTexCoord4f(target, t[0], t[1], t[2], 1);                      \
-}                                                                        \
-void glMultiTexCoord4##suffix##ARB(GLenum target, type s, type t, type r, type q) {  \
-    glMultiTexCoord4f(target, s, t, r, q);                               \
-}                                                                        \
-void glMultiTexCoord4##suffix##vARB(GLenum target, type *t) {            \
-    glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);                   \
+void glshim_glMultiTexCoord4##suffix##v(GLenum target, type *t) {               \
+    glshim_glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);                   \
 }
 
 
@@ -510,7 +453,7 @@ THUNK(us, GLushort, (float)USHRT_MAX)
 // glGet
 
 #define THUNK(suffix, type)                              \
-void glGet##suffix##v(GLenum pname, type *params) {      \
+void glshim_glGet##suffix##v(GLenum pname, type *params) {      \
     int i, n = 1;                                        \
     switch (pname) {                                     \
         /* two values */                                 \
@@ -550,7 +493,7 @@ void glGet##suffix##v(GLenum pname, type *params) {      \
             break;                                       \
     }                                                    \
     GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n); \
-    glGetFloatv(pname, p);		                         \
+    glshim_glGetFloatv(pname, p);		                         \
     for (i = 0; i < n; i++) {                            \
         params[i] = (type)p[i];                          \
     }                                                    \
@@ -566,181 +509,181 @@ THUNK(Double, GLdouble)
 // manually defined float wrappers, because we don't autowrap float functions
 
 // color
-void glColor3f(GLfloat r, GLfloat g, GLfloat b) {
-    glColor4f(r, g, b, 1.0f);
+void glshim_glColor3f(GLfloat r, GLfloat g, GLfloat b) {
+    glshim_glColor4f(r, g, b, 1.0f);
 }
-void glColor3fv(GLfloat *c) {
-    glColor4f(c[0], c[1], c[2], 1.0f);
+void glshim_glColor3fv(GLfloat *c) {
+    glshim_glColor4f(c[0], c[1], c[2], 1.0f);
 }
-void glColor4fv(GLfloat *c) {
-    glColor4f(c[0], c[1], c[2], c[3]);
+void glshim_glColor4fv(GLfloat *c) {
+    glshim_glColor4f(c[0], c[1], c[2], c[3]);
 }
-void glIndexfv(const GLfloat *c) {
-    glIndexf(*c);
+void glshim_glIndexfv(const GLfloat *c) {
+    glshim_glIndexf(*c);
 }
-void glSecondaryColor3fv(const GLfloat *v) {
-    glSecondaryColor3f(v[0], v[1], v[2]);
+void glshim_glSecondaryColor3fv(const GLfloat *v) {
+    glshim_glSecondaryColor3f(v[0], v[1], v[2]);
 }
 
 // raster
-void glRasterPos2f(GLfloat x, GLfloat y) {
-    glRasterPos3f(x, y, 0.0f);
+void glshim_glRasterPos2f(GLfloat x, GLfloat y) {
+    glshim_glRasterPos3f(x, y, 0.0f);
 }
-void glRasterPos2fv(const GLfloat *v) {
-    glRasterPos3f(v[0], v[1], 0.0f);
+void glshim_glRasterPos2fv(const GLfloat *v) {
+    glshim_glRasterPos3f(v[0], v[1], 0.0f);
 }
-void glRasterPos3fv(const GLfloat *v) {
-    glRasterPos3f(v[0], v[1], v[2]);
+void glshim_glRasterPos3fv(const GLfloat *v) {
+    glshim_glRasterPos3f(v[0], v[1], v[2]);
 }
-void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    glRasterPos3f(x/w, y/w, z/w);
+void glshim_glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+    glshim_glRasterPos3f(x/w, y/w, z/w);
 }
-void glRasterPos4fv(const GLfloat *v) {
-    glRasterPos4f(v[0], v[1], v[2], v[3]);
+void glshim_glRasterPos4fv(const GLfloat *v) {
+    glshim_glRasterPos4f(v[0], v[1], v[2], v[3]);
 }
-void glWindowPos2f(GLfloat x, GLfloat y) {
-    glWindowPos3f(x, y, 0.0f);
+void glshim_glWindowPos2f(GLfloat x, GLfloat y) {
+    glshim_glWindowPos3f(x, y, 0.0f);
 }
-void glWindowPos2fv(const GLfloat *v) {
-    glWindowPos3f(v[0], v[1], 0.0f);
+void glshim_glWindowPos2fv(const GLfloat *v) {
+    glshim_glWindowPos3f(v[0], v[1], 0.0f);
 }
-void glWindowPos3fv(const GLfloat *v) {
-    glWindowPos3f(v[0], v[1], v[2]);
+void glshim_glWindowPos3fv(const GLfloat *v) {
+    glshim_glWindowPos3f(v[0], v[1], v[2]);
 }
 
 // eval
-void glEvalCoord1d(GLdouble u) {
-    glEvalCoord1f(u);
+void glshim_glEvalCoord1d(GLdouble u) {
+    glshim_glEvalCoord1f(u);
 }
 
-void glEvalCoord2d(GLdouble u, GLdouble v) {
-    glEvalCoord2f(u, v);
+void glshim_glEvalCoord2d(GLdouble u, GLdouble v) {
+    glshim_glEvalCoord2f(u, v);
 }
 
-void glEvalCoord1fv(GLfloat *v) {
-    glEvalCoord1f(v[0]);
+void glshim_glEvalCoord1fv(GLfloat *v) {
+    glshim_glEvalCoord1f(v[0]);
 }
 
-void glEvalCoord1dv(GLdouble *v) {
-    glEvalCoord1d(v[0]);
+void glshim_glEvalCoord1dv(GLdouble *v) {
+    glshim_glEvalCoord1d(v[0]);
 }
 
-void glEvalCoord2fv(GLfloat *v) {
-    glEvalCoord2f(v[0], v[1]);
+void glshim_glEvalCoord2fv(GLfloat *v) {
+    glshim_glEvalCoord2f(v[0], v[1]);
 }
 
-void glEvalCoord2dv(GLdouble *v) {
-    glEvalCoord2d(v[0], v[1]);
+void glshim_glEvalCoord2dv(GLdouble *v) {
+    glshim_glEvalCoord2d(v[0], v[1]);
 }
 
-void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
-    glMapGrid1f(un, u1, u2);
+void glshim_glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) {
+    glshim_glMapGrid1f(un, u1, u2);
 }
 
-void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
+void glshim_glMapGrid2d(GLint un, GLdouble u1, GLdouble u2,
                  GLint vn, GLdouble v1, GLdouble v2) {
-    glMapGrid2f(un, u1, u2, vn, v1, v2);
+    glshim_glMapGrid2f(un, u1, u2, vn, v1, v2);
 }
 
 // matrix
-void glLoadMatrixd(const GLdouble *m) {
+void glshim_glLoadMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
-    glLoadMatrixf(s);
+    glshim_glLoadMatrixf(s);
 }
-void glMultMatrixd(const GLdouble *m) {
+void glshim_glMultMatrixd(const GLdouble *m) {
     constDoubleToFloat(m, 16);
-    glMultMatrixf(s);
+    glshim_glMultMatrixf(s);
 }
 
 // normal
-void glNormal3fv(GLfloat *v) {
-    glNormal3f(v[0], v[1], v[2]);
+void glshim_glNormal3fv(GLfloat *v) {
+    glshim_glNormal3f(v[0], v[1], v[2]);
 }
 
 // textures
-void glTexCoord1f(GLfloat s) {
-    glTexCoord4f(s, 0, 0, 1);
+void glshim_glTexCoord1f(GLfloat s) {
+    glshim_glTexCoord4f(s, 0, 0, 1);
 }
-void glTexCoord1fv(GLfloat *t) {
-    glTexCoord4f(t[0], 0, 0, 1);
+void glshim_glTexCoord1fv(GLfloat *t) {
+    glshim_glTexCoord4f(t[0], 0, 0, 1);
 }
-void glTexCoord2f(GLfloat s, GLfloat t) {
-    glTexCoord4f(s, t, 0, 1);
+void glshim_glTexCoord2f(GLfloat s, GLfloat t) {
+    glshim_glTexCoord4f(s, t, 0, 1);
 }
-void glTexCoord2fv(GLfloat *t) {
-    glTexCoord4f(t[0], t[1], 0, 1);
+void glshim_glTexCoord2fv(GLfloat *t) {
+    glshim_glTexCoord4f(t[0], t[1], 0, 1);
 }
-void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
-    glTexCoord4f(s, t, r, 1);
+void glshim_glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
+    glshim_glTexCoord4f(s, t, r, 1);
 }
-void glTexCoord3fv(GLfloat *t) {
-    glTexCoord4f(t[0], t[1], t[2], 1);
+void glshim_glTexCoord3fv(GLfloat *t) {
+    glshim_glTexCoord4f(t[0], t[1], t[2], 1);
 }
 /*void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     glTexCoord2f(s, t);
 }*/
-void glTexCoord4fv(GLfloat *t) {
-    glTexCoord4f(t[0], t[1], t[2], t[3]);
+void glshim_glTexCoord4fv(GLfloat *t) {
+    glshim_glTexCoord4f(t[0], t[1], t[2], t[3]);
 }
 
 // texgen
-void glTexGend(GLenum coord, GLenum pname, GLdouble param) {
-    glTexGenf(coord, pname, param);
+void glshim_glTexGend(GLenum coord, GLenum pname, GLdouble param) {
+    glshim_glTexGenf(coord, pname, param);
 }
-void glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
+void glshim_glTexGenf(GLenum coord, GLenum pname, GLfloat param) {
     GLfloat params[4] = {0,0,0,0};
     params[0] = param;
-    glTexGenfv(coord, pname, params);
+    glshim_glTexGenfv(coord, pname, params);
 }
-void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) {
+void glshim_glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) {
     GLfloat tmp[4];
     tmp[0]=params[0];
     if ((pname==GL_OBJECT_PLANE) || (pname==GL_EYE_PLANE))
 		for (int i=1; i<4; i++)
 			tmp[i]=params[i];
-    glTexGenfv(coord, pname, tmp);
+    glshim_glTexGenfv(coord, pname, tmp);
 }
-void glTexGeniv(GLenum coord, GLenum pname, const GLint *params) {
+void glshim_glTexGeniv(GLenum coord, GLenum pname, const GLint *params) {
     GLfloat tmp[4];
     tmp[0]=params[0];
     if ((pname==GL_OBJECT_PLANE) || (pname==GL_EYE_PLANE))
 		for (int i=1; i<4; i++)
 			tmp[i]=params[i];
-    glTexGenfv(coord, pname, tmp);
+    glshim_glTexGenfv(coord, pname, tmp);
 }
 
 // transforms
-void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
-    glRotatef(angle, x, y, z);
+void glshim_glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) {
+    glshim_glRotatef(angle, x, y, z);
 }
-void glScaled(GLdouble x, GLdouble y, GLdouble z) {
-    glScalef(x, y, z);
+void glshim_glScaled(GLdouble x, GLdouble y, GLdouble z) {
+    glshim_glScalef(x, y, z);
 }
-void glTranslated(GLdouble x, GLdouble y, GLdouble z) {
-    glTranslatef(x, y, z);
+void glshim_glTranslated(GLdouble x, GLdouble y, GLdouble z) {
+    glshim_glTranslatef(x, y, z);
 }
 
 // vertex
-void glVertex2f(GLfloat x, GLfloat y) {
-    glVertex4f(x, y, 0, 1);
+void glshim_glVertex2f(GLfloat x, GLfloat y) {
+    glshim_glVertex4f(x, y, 0, 1);
 }
-void glVertex2fv(GLfloat *v) {
-    glVertex4f(v[0], v[1], 0, 1);
+void glshim_glVertex2fv(GLfloat *v) {
+    glshim_glVertex4f(v[0], v[1], 0, 1);
 }
-void glVertex3fv(GLfloat *v) {
-    glVertex4f(v[0], v[1], v[2], 1);
+void glshim_glVertex3fv(GLfloat *v) {
+    glshim_glVertex4f(v[0], v[1], v[2], 1);
 }
-void glVertex3f(GLfloat r, GLfloat g, GLfloat b) {
-    glVertex4f(r, g, b, 1);
+void glshim_glVertex3f(GLfloat r, GLfloat g, GLfloat b) {
+    glshim_glVertex4f(r, g, b, 1);
 }
-void glVertex4fv(GLfloat *v) {
-    glVertex4f(v[0], v[1], v[2], v[3]);
+void glshim_glVertex4fv(GLfloat *v) {
+    glshim_glVertex4f(v[0], v[1], v[2], v[3]);
 }
 
-void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
+void glshim_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
 //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (state.list.active)?1:0);
     #if 1
-    glDrawElements(mode, count, type, indices);
+    glshim_glDrawElements(mode, count, type, indices);
     #else
 	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
 	int newcount=0;
@@ -757,25 +700,198 @@ void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenu
 			newinds[newcount++]=indice[i];
 		, );
 	}
-	glDrawElements(mode, newcount, GL_UNSIGNED_SHORT, newinds);
+	glshim_glDrawElements(mode, newcount, GL_UNSIGNED_SHORT, newinds);
 	free(newinds);
     
     state.vao->elements = elements;
     #endif
 }
 
-void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
-    glDrawRangeElements(mode, start, end, count, type, indices);
-}
-void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
+void glshim_glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 	// ignore buf is better than nothing...
 	// TODO: handle buf
-	glBlendEquationSeparate(modeRGB, modeAlpha);
+	glshim_glBlendEquationSeparate(modeRGB, modeAlpha);
 }
 
-void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
+void glshim_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
 	// ignore buf is better than nothing..
 	// TODO: handle buf
-	glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
+	glshim_glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 }
 #undef constDoubleToFloat
+
+//Direct wrapper
+#ifdef USE_ES2
+void glCompileShader(GLuint shader) __attribute__((alias("glshim_glCompileShader")));
+GLuint glCreateShaderObject(GLenum shaderType) __attribute__((alias("glshim_glCreateShaderObject")));
+void glGetObjectParameteriv(GLuint shader, GLenum pname, GLint *params) __attribute__((alias("glshim_glGetObjectParameteriv")));
+void glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) __attribute__((alias("glshim_glShaderSource")));
+
+void glCompileShaderARB(GLuint shader) __attribute__((alias("glshim_glCompileShader")));
+GLuint glCreateShaderObjectARB(GLenum shaderType) __attribute__((alias("glshim_glCreateShaderObject")));
+void glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params) __attribute__((alias("glshim_glGetObjectParameteriv")));
+void glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) __attribute__((alias("glshim_glShaderSource")));
+#endif
+
+void glClearDepth(GLdouble depth) __attribute__((alias("glshim_glClearDepth")));
+void glClipPlane(GLenum plane, const GLdouble *equation) __attribute__((alias("glshim_glClipPlane")));
+void glDepthRange(GLdouble nearVal, GLdouble farVal) __attribute__((alias("glshim_glDepthRange")));
+void glFogi(GLenum pname, GLint param) __attribute__((alias("glshim_glFogi")));
+void glFogiv(GLenum pname, GLint *params) __attribute__((alias("glshim_glFogiv")));
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far) __attribute__((alias("glshim_glFrustum")));
+void glGetDoublev(GLenum pname, GLdouble *params) __attribute__((alias("glshim_glGetDoublev")));
+void glLighti(GLenum light, GLenum pname, GLint param) __attribute__((alias("glshim_glLighti")));
+void glLightiv(GLenum light, GLenum pname, GLint *iparams) __attribute__((alias("glshim_glLightiv")));
+void glLightModeli(GLenum pname, GLint param) __attribute__((alias("glshim_glLightModeli")));
+void glLightModeliv(GLenum pname, GLint *iparams) __attribute__((alias("glshim_glLightModeliv")));
+void glMateriali(GLenum face, GLenum pname, GLint param) __attribute__((alias("glshim_glMateriali")));
+void glMaterialiv(GLenum face, GLenum pname, GLint *param) __attribute__((alias("glshim_glMaterialiv")));
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far) __attribute__((alias("glshim_glOrtho")));
+void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetMaterialiv")));
+void glGetLightiv(GLenum light, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetLightiv")));
+void glGetClipPlane(GLenum plane, GLdouble *equation) __attribute__((alias("glshim_glGetClipPlane")));
+void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) __attribute__((alias("glshim_glDrawRangeElements")));
+void glColor3f(GLfloat r, GLfloat g, GLfloat b) __attribute__((alias("glshim_glColor3f")));
+void glColor3fv(GLfloat *c) __attribute__((alias("glshim_glColor3fv")));
+void glColor4fv(GLfloat *c) __attribute__((alias("glshim_glColor4fv")));
+void glIndexfv(const GLfloat *c) __attribute__((alias("glshim_glIndexfv")));
+void glSecondaryColor3fv(const GLfloat *v) __attribute__((alias("glshim_glSecondaryColor3fv")));
+void glRasterPos2f(GLfloat x, GLfloat y) __attribute__((alias("glshim_glRasterPos2f")));
+void glRasterPos2fv(const GLfloat *v) __attribute__((alias("glshim_glRasterPos2fv")));
+void glRasterPos3fv(const GLfloat *v) __attribute__((alias("glshim_glRasterPos3fv")));
+void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) __attribute__((alias("glshim_glRasterPos4f")));
+void glRasterPos4fv(const GLfloat *v) __attribute__((alias("glshim_glRasterPos4fv")));
+void glWindowPos2f(GLfloat x, GLfloat y) __attribute__((alias("glshim_glWindowPos2f")));
+void glWindowPos2fv(const GLfloat *v) __attribute__((alias("glshim_glWindowPos2fv")));
+void glWindowPos3fv(const GLfloat *v) __attribute__((alias("glshim_glWindowPos3fv")));
+void glPixelStoref(GLenum pname, GLfloat param) __attribute__((alias("glshim_glPixelStoref")));
+void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params) __attribute__((alias("glshim_glGetTexGendv")));
+void glGetTexGeniv(GLenum coord,GLenum pname,GLint *params) __attribute__((alias("glshim_glGetTexGeniv")));
+void glPixelTransferi(GLenum pname, GLint param) __attribute__((alias("glshim_glPixelTransferi")));
+void glEvalCoord1d(GLdouble u) __attribute__((alias("glshim_glEvalCoord1d")));
+void glEvalCoord1dv(GLdouble *v) __attribute__((alias("glshim_glEvalCoord1dv")));
+void glEvalCoord1fv(GLfloat *v) __attribute__((alias("glshim_glEvalCoord1fv")));
+void glEvalCoord2d(GLdouble u, GLdouble v) __attribute__((alias("glshim_glEvalCoord2d")));
+void glEvalCoord2dv(GLdouble *v) __attribute__((alias("glshim_glEvalCoord2dv")));
+void glEvalCoord2fv(GLfloat *v) __attribute__((alias("glshim_glEvalCoord2fv")));
+void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) __attribute__((alias("glshim_glMapGrid1d")));
+void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) __attribute__((alias("glshim_glMapGrid2d")));
+void glLoadMatrixd(const GLdouble *m) __attribute__((alias("glshim_glLoadMatrixd")));
+void glMultMatrixd(const GLdouble *m) __attribute__((alias("glshim_glMultMatrixd")));
+void glNormal3fv(GLfloat *v) __attribute__((alias("glshim_glNormal3fv")));
+
+// rect
+#define GL_RECT(suffix, type)                                \
+    void glRect##suffix(type x1, type y1, type x2, type y2) __attribute__((alias("glshim_glRect" #suffix))); \
+    void glRect##suffix##v(const type *v)__attribute__((alias("glshim_glRect" #suffix "v")));
+
+GL_RECT(d, GLdouble)
+GL_RECT(f, GLfloat)
+GL_RECT(i, GLint)
+GL_RECT(s, GLshort)
+#undef GL_RECT
+
+void glTexCoord1f(GLfloat s) __attribute__((alias("glshim_glTexCoord1f")));
+void glTexCoord1fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord1fv")));
+void glTexCoord2fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord2fv")));
+void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) __attribute__((alias("glshim_glTexCoord3f")));
+void glTexCoord3fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord3fv")));
+void glTexCoord4fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord4fv")));
+void glMultiTexCoord1f(GLenum target, GLfloat s) __attribute__((alias("glshim_glMultiTexCoord1f")));
+void glMultiTexCoord1fv(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord1fv")));
+void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) __attribute__((alias("glshim_glMultiTexCoord2f")));
+void glMultiTexCoord2fv(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord2fv")));
+void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) __attribute__((alias("glshim_glMultiTexCoord3f")));
+void glMultiTexCoord3fv(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord3fv")));
+void glMultiTexCoord4fv(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord4fv")));
+void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) __attribute__((alias("glshim_glGetTexLevelParameterfv")));
+void glTexGend(GLenum coord, GLenum pname, GLdouble param) __attribute__((alias("glshim_glTexGend")));
+void glTexGenf(GLenum coord, GLenum pname, GLfloat param) __attribute__((alias("glshim_glTexGenf")));
+void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) __attribute__((alias("glshim_glTexGendv")));
+void glTexGeniv(GLenum coord, GLenum pname, const GLint *params) __attribute__((alias("glshim_glTexGeniv")));
+void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) __attribute__((alias("glshim_glRotated")));
+void glScaled(GLdouble x, GLdouble y, GLdouble z) __attribute__((alias("glshim_glScaled")));
+void glTranslated(GLdouble x, GLdouble y, GLdouble z) __attribute__((alias("glshim_glTranslated")));
+void glVertex2f(GLfloat x, GLfloat y) __attribute__((alias("glshim_glVertex2f")));
+void glVertex2fv(GLfloat *v) __attribute__((alias("glshim_glVertex2fv")));
+void glVertex3f(GLfloat r, GLfloat g, GLfloat b) __attribute__((alias("glshim_glVertex3f")));
+void glVertex3fv(GLfloat *v) __attribute__((alias("glshim_glVertex3fv")));
+void glVertex4fv(GLfloat *v) __attribute__((alias("glshim_glVertex4fv")));
+
+// basic thunking
+
+#define THUNK(suffix, type)                                \
+void glColor3##suffix##v(const type *v)                 __attribute__((alias("glshim_glColor3"#suffix "v"))); \
+void glColor3##suffix(type r, type g, type b)           __attribute__((alias("glshim_glColor3"#suffix))); \
+void glColor4##suffix##v(const type *v)                 __attribute__((alias("glshim_glColor4"#suffix "v"))); \
+void glColor4##suffix(type r, type g, type b, type a)   __attribute__((alias("glshim_glColor4"#suffix))); \
+void glSecondaryColor3##suffix##v(const type *v)        __attribute__((alias("glshim_glSecondaryColor3"#suffix "v"))); \
+void glSecondaryColor3##suffix(type r, type g, type b)  __attribute__((alias("glshim_glSecondaryColor3"#suffix))); \
+void glIndex##suffix##v(const type *c)                  __attribute__((alias("glshim_glIndex"#suffix"v"))); \
+void glIndex##suffix(type c)                            __attribute__((alias("glshim_glIndex"#suffix))); \
+void glNormal3##suffix##v(const type *v)                __attribute__((alias("glshim_glNormal3"#suffix"v"))); \
+void glNormal3##suffix(type x, type y, type z)          __attribute__((alias("glshim_glNormal3"#suffix))); \
+void glRasterPos2##suffix##v(type *v)                   __attribute__((alias("glshim_glRasterPos2"#suffix"v"))); \
+void glRasterPos2##suffix(type x, type y)               __attribute__((alias("glshim_glRasterPos2"#suffix))); \
+void glRasterPos3##suffix##v(type *v)                   __attribute__((alias("glshim_glRasterPos3"#suffix"v"))); \
+void glRasterPos3##suffix(type x, type y, type z)       __attribute__((alias("glshim_glRasterPos3"#suffix))); \
+void glRasterPos4##suffix##v(type *v)                   __attribute__((alias("glshim_glRasterPos4"#suffix"v"))); \
+void glRasterPos4##suffix(type x, type y, type z, type w)__attribute__((alias("glshim_glRasterPos4"#suffix))); \
+void glWindowPos2##suffix##v(type *v)                   __attribute__((alias("glshim_glWindowPos2"#suffix"v"))); \
+void glWindowPos2##suffix(type x, type y)               __attribute__((alias("glshim_glWindowPos2"#suffix))); \
+void glWindowPos3##suffix##v(type *v)                   __attribute__((alias("glshim_glWindowPos3"#suffix"v"))); \
+void glWindowPos3##suffix(type x, type y, type z)       __attribute__((alias("glshim_glWindowPos3"#suffix))); \
+void glVertex2##suffix##v(type *v)                      __attribute__((alias("glshim_glVertex2"#suffix"v"))); \
+void glVertex2##suffix(type x, type y)                  __attribute__((alias("glshim_glVertex2"#suffix))); \
+void glVertex3##suffix##v(type *v)                      __attribute__((alias("glshim_glVertex3"#suffix"v"))); \
+void glVertex3##suffix(type x, type y, type z)          __attribute__((alias("glshim_glVertex3"#suffix))); \
+void glVertex4##suffix(type x, type y, type z, type w)  __attribute__((alias("glshim_glVertex4"#suffix))); \
+void glVertex4##suffix##v(type *v)                      __attribute__((alias("glshim_glVertex4"#suffix"v"))); \
+void glTexCoord1##suffix(type s)                        __attribute__((alias("glshim_glTexCoord1"#suffix))); \
+void glTexCoord1##suffix##v(type *t)                    __attribute__((alias("glshim_glTexCoord1"#suffix"v"))); \
+void glTexCoord2##suffix(type s, type t)                __attribute__((alias("glshim_glTexCoord2"#suffix))); \
+void glTexCoord2##suffix##v(type *t)                    __attribute__((alias("glshim_glTexCoord2"#suffix"v"))); \
+void glTexCoord3##suffix(type s, type t, type r)        __attribute__((alias("glshim_glTexCoord3"#suffix))); \
+void glTexCoord3##suffix##v(type *t)                    __attribute__((alias("glshim_glTexCoord3"#suffix"v"))); \
+void glTexCoord4##suffix(type s, type t, type r, type q)__attribute__((alias("glshim_glTexCoord4"#suffix))); \
+void glTexCoord4##suffix##v(type *t)                    __attribute__((alias("glshim_glTexCoord4"#suffix"v"))); \
+void glMultiTexCoord1##suffix(GLenum target, type s)    __attribute__((alias("glshim_glMultiTexCoord1"#suffix))); \
+void glMultiTexCoord1##suffix##v(GLenum target, type *t)__attribute__((alias("glshim_glMultiTexCoord1"#suffix"v"))); \
+void glMultiTexCoord2##suffix(GLenum target, type s, type t)        __attribute__((alias("glshim_glMultiTexCoord2"#suffix))); \
+void glMultiTexCoord2##suffix##v(GLenum target, type *t)            __attribute__((alias("glshim_glMultiTexCoord2"#suffix"v"))); \
+void glMultiTexCoord3##suffix(GLenum target, type s, type t, type r)__attribute__((alias("glshim_glMultiTexCoord3"#suffix))); \
+void glMultiTexCoord3##suffix##v(GLenum target, type *t)            __attribute__((alias("glshim_glMultiTexCoord3"#suffix"v"))); \
+void glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q) __attribute__((alias("glshim_glMultiTexCoord4"#suffix))); \
+void glMultiTexCoord4##suffix##v(GLenum target, type *t)            __attribute__((alias("glshim_glMultiTexCoord4"#suffix"v"))); \
+void glMultiTexCoord1##suffix##ARB(GLenum target, type s)           __attribute__((alias("glshim_glMultiTexCoord1"#suffix))); \
+void glMultiTexCoord1##suffix##vARB(GLenum target, type *t)         __attribute__((alias("glshim_glMultiTexCoord1"#suffix"v"))); \
+void glMultiTexCoord2##suffix##ARB(GLenum target, type s, type t)   __attribute__((alias("glshim_glMultiTexCoord2"#suffix))); \
+void glMultiTexCoord2##suffix##vARB(GLenum target, type *t)         __attribute__((alias("glshim_glMultiTexCoord2"#suffix"v"))); \
+void glMultiTexCoord3##suffix##ARB(GLenum target, type s, type t, type r)  __attribute__((alias("glshim_glMultiTexCoord3"#suffix))); \
+void glMultiTexCoord3##suffix##vARB(GLenum target, type *t)         __attribute__((alias("glshim_glMultiTexCoord3"#suffix"v"))); \
+void glMultiTexCoord4##suffix##ARB(GLenum target, type s, type t, type r, type q) __attribute__((alias("glshim_glMultiTexCoord4"#suffix))); \
+void glMultiTexCoord4##suffix##vARB(GLenum target, type *t)__attribute__((alias("glshim_glMultiTexCoord4"#suffix"v")));
+
+THUNK(b, GLbyte)
+THUNK(d, GLdouble)
+THUNK(i, GLint)
+THUNK(s, GLshort)
+THUNK(ub, GLubyte)
+THUNK(ui, GLuint)
+THUNK(us, GLushort)
+#undef THUNK
+
+#define THUNK(suffix, type) \
+    extern void glGet##suffix##v(GLenum pname, type *params);
+
+THUNK(Double, GLdouble)
+THUNK(Integer, GLint)
+THUNK(Float, GLfloat)
+#undef THUNK
+
+void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) __attribute__((alias("glshim_glMultiTexCoord2f")));
+void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) __attribute__((alias("glshim_glMultiTexCoord3f")));
+void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord2fv")));
+void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord3fv")));
+void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) __attribute__((alias("glshim_glMultiTexCoord4fv")));
+void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) __attribute__((alias("glshim_glDrawRangeElements")));

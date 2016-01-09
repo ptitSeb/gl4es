@@ -13,7 +13,6 @@ GLvoid *copy_gl_array(const GLvoid *src,
     const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
-    GLsizei to_size = gl_sizeof(to) * to_width;
     if (to_width < width) {
 /*        printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
         return NULL;*/
@@ -77,7 +76,6 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
     const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
-    GLsizei to_size = gl_sizeof(to) * to_width;
     GLsizei to_elem = gl_sizeof(to);
     //texcoord are now 4 dim, so this should never happens
 /*    if (to_width < width) {
@@ -144,8 +142,6 @@ GLvoid *copy_gl_array_quickconvert(const GLvoid *src,
         stride = 4 * gl_sizeof(from);
     const char *unknown_str = "libGL: copy_gl_array_quickconvert -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * 4 * gl_sizeof(GL_FLOAT));
-    GLsizei from_size = gl_sizeof(from) * 4;
-    GLsizei to_size = gl_sizeof(GL_FLOAT) * 4;
 
     uintptr_t in = (uintptr_t)src;
     in += stride*skip;
@@ -183,7 +179,6 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
     const char *unknown_str = "libGL: copy_gl_array_convert -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
-    GLsizei to_size = gl_sizeof(to) * to_width;
     if (to_width < width) {
         /*printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
         return NULL;*/

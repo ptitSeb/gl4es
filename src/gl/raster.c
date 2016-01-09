@@ -19,7 +19,7 @@ GLfloat raster_bias[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 extern void matrix_column_row(const GLfloat *a, GLfloat *b);
 extern void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
-void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
+void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
         NewStage(glstate.list.active, STAGE_RASTER);
         rlRasterOp(glstate.list.active, 1, x, y, z);
@@ -30,9 +30,9 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	// Transform xyz coordinates with current modelview and projection matrix...
 	GLfloat glmatrix[16], projection[16], modelview[16];
 	GLfloat t[4], transl[4] = {x, y, z, 1.0f};
-	glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
+	glshim_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
 	matrix_column_row(glmatrix, projection);
-	glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
+	glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
 	matrix_column_row(glmatrix, modelview);
 	matrix_vector(modelview, transl, t);
 	matrix_vector(projection, t, transl);
@@ -50,7 +50,7 @@ void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     #endif
 }
 
-void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
+void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
         NewStage(glstate.list.active, STAGE_RASTER);
         rlRasterOp(glstate.list.active, 2, x, y, z);
@@ -62,7 +62,7 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     rPos.z = z;	
 }
 
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
     gles_glViewport(x, y, width, height);
@@ -72,7 +72,7 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     viewport.height = height;
 }
 
-void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
+void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
         NewStage(glstate.list.active, STAGE_RASTER);
         rlRasterOp(glstate.list.active, 3, xfactor, yfactor, 0.0f);
@@ -84,7 +84,7 @@ void glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
-void glPixelTransferf(GLenum pname, GLfloat param) {
+void glshim_glPixelTransferf(GLenum pname, GLfloat param) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
         NewStage(glstate.list.active, STAGE_RASTER);
         rlRasterOp(glstate.list.active, pname|0x10000, param, 0.0f, 0.0f);
@@ -171,24 +171,24 @@ GLuint raster_to_texture()
     GLuint state_batch = glstate.gl_batch;
 	glstate.list.compiling = false;
     glstate.gl_batch = 0;
-    glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
+    glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
 	GLuint old_tex_unit, old_tex;
-	glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
-	if (old_tex_unit!=GL_TEXTURE0) glActiveTexture(GL_TEXTURE0);
+	glshim_glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
+	if (old_tex_unit!=GL_TEXTURE0) glshim_glActiveTexture(GL_TEXTURE0);
 	old_tex = 0;
 	if (glstate.texture.bound[0])
 		old_tex = glstate.texture.bound[0]->texture;
 	GLuint raster_texture;
-	glEnable(GL_TEXTURE_2D);
+	glshim_glEnable(GL_TEXTURE_2D);
 	gles_glGenTextures(1, &raster_texture);
 	gles_glBindTexture(GL_TEXTURE_2D, raster_texture);
 
-    glPixelStorei(GL_PACK_ALIGNMENT, 1);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glshim_glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -198,15 +198,15 @@ GLuint raster_to_texture()
 
 	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
-		glActiveTexture(old_tex_unit);
-	glPopAttrib();
+		glshim_glActiveTexture(old_tex_unit);
+	glshim_glPopAttrib();
 	if (old_list) glstate.list.active = old_list;
 	glstate.list.compiling = compiling;
     glstate.gl_batch = state_batch;
 	return raster_texture;
 }
 
-void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
+void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	rPos.x, rPos.y, xorig, yorig, width, height, zoomx, zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
@@ -295,7 +295,7 @@ void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	}
 }
 
-void glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
@@ -389,22 +389,22 @@ void render_raster_list(rasterlist_t* rast) {
     LOAD_GLES(glClientActiveTexture);
     
 	if (rast->texture) {
-		glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+		glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 		GLfloat old_projection[16], old_modelview[16], old_texture[16];
 
 		GLuint old_tex = glstate.texture.active;
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
 		GLuint old_cli = glstate.texture.client;
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
-		glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
-		glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
-		glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
-		glMatrixMode(GL_TEXTURE);
-		glLoadIdentity();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		glshim_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
+		glshim_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
+		glshim_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
+		glshim_glMatrixMode(GL_TEXTURE);
+		glshim_glLoadIdentity();
+		glshim_glMatrixMode(GL_PROJECTION);
+		glshim_glLoadIdentity();
+		glshim_glMatrixMode(GL_MODELVIEW);
+		glshim_glLoadIdentity();
 		float w2 = 2.0f / viewport.width;
 		float h2 = 2.0f / viewport.height;
 		float raster_x1=rPos.x-rast->xorig;
@@ -426,21 +426,21 @@ void render_raster_list(rasterlist_t* rast) {
 			0, sh
 		};
 
-		glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
+		glshim_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
 
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
-		glDisable(GL_CULL_FACE);
+		glshim_glDisable(GL_DEPTH_TEST);
+		glshim_glDisable(GL_LIGHTING);
+		glshim_glDisable(GL_CULL_FACE);
 		if (rast->bitmap) {
-			glEnable(GL_ALPHA_TEST);
-			glAlphaFunc(GL_GREATER, 0.0f);
+			glshim_glEnable(GL_ALPHA_TEST);
+			glshim_glAlphaFunc(GL_GREATER, 0.0f);
 		} else {
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		glEnable(GL_TEXTURE_2D);
+		glshim_glEnable(GL_TEXTURE_2D);
 		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
         if(!glstate.clientstate.vertex_array) 
         {
@@ -477,15 +477,24 @@ void render_raster_list(rasterlist_t* rast) {
 		// All the previous states are Pushed / Poped anyway...
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-		glPopClientAttrib();
-		glMatrixMode(GL_TEXTURE);
-		glLoadMatrixf(old_texture);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(old_modelview);
-		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(old_projection);
-		glPopAttrib();
+		glshim_glPopClientAttrib();
+		glshim_glMatrixMode(GL_TEXTURE);
+		glshim_glLoadMatrixf(old_texture);
+		glshim_glMatrixMode(GL_MODELVIEW);
+		glshim_glLoadMatrixf(old_modelview);
+		glshim_glMatrixMode(GL_PROJECTION);
+		glshim_glLoadMatrixf(old_projection);
+		glshim_glPopAttrib();
 	}
 	rPos.x += rast->xmove;
 	rPos.y += rast->ymove;
 }
+
+//Direct wrapper
+void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) __attribute__((alias("glshim_glBitmap")));
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) __attribute__((alias("glshim_glDrawPixels")));
+void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glRasterPos3f")));
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glWindowPos3f")));
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glViewport")));
+void glPixelZoom(GLfloat xfactor, GLfloat yfactor) __attribute__((alias("glshim_glPixelZoom")));
+void glPixelTransferf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glPixelTransferf")));

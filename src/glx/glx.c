@@ -14,7 +14,8 @@
 
 #include "glx.h"
 #include "utils.h"
-#include <GLES/gl.h>
+//#include <GLES/gl.h>
+#include "../gl/gl.h"
 #include "../glx/streaming.h"
 
 static bool eglInitialized = false;
@@ -1003,19 +1004,19 @@ void glXUseXFont(Font font, int first, int count, int listBase) {
     // Save GL texture parameters
     GLint swapbytes, lsbfirst, rowlength;
     GLint skiprows, skippixels, alignment;
-    glGetIntegerv(GL_UNPACK_SWAP_BYTES, &swapbytes);
-    glGetIntegerv(GL_UNPACK_LSB_FIRST, &lsbfirst);
-    glGetIntegerv(GL_UNPACK_ROW_LENGTH, &rowlength);
-    glGetIntegerv(GL_UNPACK_SKIP_ROWS, &skiprows);
-    glGetIntegerv(GL_UNPACK_SKIP_PIXELS, &skippixels);
-    glGetIntegerv(GL_UNPACK_ALIGNMENT, &alignment);
+    glshim_glGetIntegerv(GL_UNPACK_SWAP_BYTES, &swapbytes);
+    glshim_glGetIntegerv(GL_UNPACK_LSB_FIRST, &lsbfirst);
+    glshim_glGetIntegerv(GL_UNPACK_ROW_LENGTH, &rowlength);
+    glshim_glGetIntegerv(GL_UNPACK_SKIP_ROWS, &skiprows);
+    glshim_glGetIntegerv(GL_UNPACK_SKIP_PIXELS, &skippixels);
+    glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &alignment);
 	// Set Safe Texture params
-	glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glshim_glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    glshim_glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	// Create GC and Pixmap
 	pixmap = XCreatePixmap(dpy, win, 10, 10, 1);
     values.foreground = BlackPixel(dpy, DefaultScreen(dpy));
@@ -1059,18 +1060,18 @@ void glXUseXFont(Font font, int first, int count, int listBase) {
          inefficient, but it makes the OpenGL part real easy.  */
        bm_width = (width + 7) / 8;
        bm_height = height;
-       glNewList(list, GL_COMPILE);
+       glshim_glNewList(list, GL_COMPILE);
        if (valid && (bm_width > 0) && (bm_height > 0)) {
 
           memset(bm, '\0', bm_width * bm_height);
           fill_bitmap(dpy, win, gc, bm_width, bm_height, x, y, c, bm);
 
-          glBitmap(width, height, x0, y0, dx, dy, bm);
+          glshim_glBitmap(width, height, x0, y0, dx, dy, bm);
        }
        else {
-          glBitmap(0, 0, 0.0, 0.0, dx, dy, NULL);
+          glshim_glBitmap(0, 0, 0.0, 0.0, dx, dy, NULL);
        }
-       glEndList();
+       glshim_glEndList();
     }
 
 	// Free GC & Pixmap
@@ -1079,12 +1080,12 @@ void glXUseXFont(Font font, int first, int count, int listBase) {
     XFreeGC(dpy, gc);
 
     // Restore saved packing modes.
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, swapbytes);
-    glPixelStorei(GL_UNPACK_LSB_FIRST, lsbfirst);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, rowlength);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, skiprows);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, skippixels);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
+    glshim_glPixelStorei(GL_UNPACK_SWAP_BYTES, swapbytes);
+    glshim_glPixelStorei(GL_UNPACK_LSB_FIRST, lsbfirst);
+    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, rowlength);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, skiprows);
+    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, skippixels);
+    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 	// All done
 }
 #endif //ANDROID

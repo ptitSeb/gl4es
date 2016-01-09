@@ -5,7 +5,7 @@ GLushort stipplePattern = 0xFFFF;
 GLubyte *stippleData = NULL;
 GLuint stippleTexture = 0;
 
-void glLineStipple(GLuint factor, GLushort pattern) {
+void glshim_glLineStipple(GLuint factor, GLushort pattern) {
     stippleFactor = factor;
     stipplePattern = pattern;
     if (stippleData != NULL) {
@@ -16,23 +16,24 @@ void glLineStipple(GLuint factor, GLushort pattern) {
         stippleData[i] = (stipplePattern >> i) & 1 ? 255 : 0;
     }
 
-    glPushAttrib(GL_TEXTURE_BIT);
+    glshim_glPushAttrib(GL_TEXTURE_BIT);
     if (! stippleTexture)
-        glGenTextures(1, &stippleTexture);
+        glshim_glGenTextures(1, &stippleTexture);
 
-    glBindTexture(GL_TEXTURE_2D, stippleTexture);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glshim_glBindTexture(GL_TEXTURE_2D, stippleTexture);
+    glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glshim_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glshim_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
+    glshim_glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
         16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, stippleData);
-    glPopAttrib();
+    glshim_glPopAttrib();
     noerrorShim();
 }
+void glLineStipple(GLuint factor, GLushort pattern) __attribute__((alias("glshim_glLineStipple")));
 
 void bind_stipple_tex() {
-    glBindTexture(GL_TEXTURE_2D, stippleTexture);
+    glshim_glBindTexture(GL_TEXTURE_2D, stippleTexture);
 }
 
 GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {

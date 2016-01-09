@@ -11,9 +11,9 @@
 
 #include "streaming.h"
 
-PFNGLTEXBINDSTREAMIMGPROC glTexBindStreamIMG = NULL;
-PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC glGetTexAttrIMG = NULL;
-PFNGLGETTEXSTREAMDEVICENAMEIMGPROC glGetTexDeviceIMG = NULL;
+PFNGLTEXBINDSTREAMIMGPROC *glTexBindStreamIMG = NULL;
+PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC *glGetTexAttrIMG = NULL;
+PFNGLGETTEXSTREAMDEVICENAMEIMGPROC *glGetTexDeviceIMG = NULL;
 
 //extern void* eglGetProcAddress(const char*);
 
@@ -33,9 +33,9 @@ void Streaming_Initialize() {
 		return;
 	// get the extension functions
 	gl_streaming_initialized = 1;
-    glTexBindStreamIMG =(PFNGLTEXBINDSTREAMIMGPROC)egl_eglGetProcAddress("glTexBindStreamIMG");
-    glGetTexAttrIMG = (PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC)egl_eglGetProcAddress("glGetTexStreamDeviceAttributeivIMG");
-    glGetTexDeviceIMG = (PFNGLGETTEXSTREAMDEVICENAMEIMGPROC)egl_eglGetProcAddress("glGetTexStreamDeviceNameIMG");
+    glTexBindStreamIMG =(PFNGLTEXBINDSTREAMIMGPROC*)egl_eglGetProcAddress("glTexBindStreamIMG");
+    glGetTexAttrIMG = (PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC*)egl_eglGetProcAddress("glGetTexStreamDeviceAttributeivIMG");
+    glGetTexDeviceIMG = (PFNGLGETTEXSTREAMDEVICENAMEIMGPROC*)egl_eglGetProcAddress("glGetTexStreamDeviceNameIMG");
 
 	if (!glTexBindStreamIMG || !glGetTexAttrIMG || !glGetTexDeviceIMG) {
 		gl_streaming = 0;
@@ -260,8 +260,8 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter) {
 		return;
 	if (!stream_cache[ID].active)
 		return;
-    glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, min_filter);
-    glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, mag_filter);
+    glshim_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, min_filter);
+    glshim_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, mag_filter);
 }
 
 // Function to activate the Steaming texture ID on current tex...

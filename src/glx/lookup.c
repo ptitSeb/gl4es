@@ -193,18 +193,18 @@ void *glXGetProcAddressARB(const char *name) {
     */
 
     // GL_EXT_vertex_array
-    EXT(glArrayElement);
-    EXT(glDrawArrays);
-    EXT(glVertexPointer);
-    EXT(glNormalPointer);
-    EXT(glColorPointer);
-    EX(glIndexPointer);	//TODO, stub for now
-    EXT(glIndexPointer);
-    EXT(glTexCoordPointer);
-    EX(glEdgeFlagPointer);	//TODO, stub for now
-    EXT(glEdgeFlagPointer);
-    EX(glGetPointerv);
-    EXT(glGetPointerv);
+    _EXT(glArrayElement);
+    _EXT(glDrawArrays);
+    _EXT(glVertexPointer);
+    _EXT(glNormalPointer);
+    _EXT(glColorPointer);
+    _EX(glIndexPointer);	//TODO, stub for now
+    _EXT(glIndexPointer);
+    _EXT(glTexCoordPointer);
+    _EX(glEdgeFlagPointer);	//TODO, stub for now
+    _EXT(glEdgeFlagPointer);
+    _EX(glGetPointerv);
+    _EXT(glGetPointerv);
 
 
     // OES wrapper
@@ -218,66 +218,66 @@ void *glXGetProcAddressARB(const char *name) {
     // passthrough
     // batch thunking!
     #define THUNK(suffix, type)       \
-    EX(glColor3##suffix##v);          \
-    EX(glColor3##suffix);             \
-    EX(glColor4##suffix##v);          \
-    EX(glColor4##suffix);             \
-    EX(glSecondaryColor3##suffix##v); \
-    EX(glSecondaryColor3##suffix);    \
-    EXT(glSecondaryColor3##suffix##v); \
-    EXT(glSecondaryColor3##suffix);    \
-    EX(glIndex##suffix##v);           \
-    EX(glIndex##suffix);              \
-    EX(glNormal3##suffix##v);         \
-    EX(glNormal3##suffix);            \
-    EX(glRasterPos2##suffix##v);      \
-    EX(glRasterPos2##suffix);         \
-    EX(glRasterPos3##suffix##v);      \
-    EX(glRasterPos3##suffix);         \
-    EX(glRasterPos4##suffix##v);      \
-    EX(glRasterPos4##suffix);         \
-    EX(glWindowPos2##suffix##v);      \
-    EX(glWindowPos2##suffix);         \
-    EX(glWindowPos3##suffix##v);      \
-    EX(glWindowPos3##suffix);         \
-    EX(glVertex2##suffix##v);         \
-    EX(glVertex2##suffix);            \
-    EX(glVertex3##suffix##v);         \
-    EX(glVertex3##suffix);            \
-    EX(glVertex4##suffix##v);         \
-    EX(glVertex4##suffix);            \
-    EX(glTexCoord1##suffix##v);       \
-    EX(glTexCoord1##suffix);          \
-    EX(glTexCoord2##suffix##v);       \
-    EX(glTexCoord2##suffix);          \
-    EX(glTexCoord3##suffix##v);       \
-    EX(glTexCoord3##suffix);          \
-    EX(glTexCoord4##suffix##v);       \
-    EX(glTexCoord4##suffix);          \
-    EX(glMultiTexCoord1##suffix##v);  \
-    EX(glMultiTexCoord1##suffix);     \
-    EX(glMultiTexCoord2##suffix##v);  \
-    EX(glMultiTexCoord2##suffix);     \
-    EX(glMultiTexCoord3##suffix##v);  \
-    EX(glMultiTexCoord3##suffix);     \
-    EX(glMultiTexCoord4##suffix##v);  \
-    EX(glMultiTexCoord4##suffix);     \
-    EXT(glMultiTexCoord1##suffix##v); \
-    EXT(glMultiTexCoord1##suffix);    \
-    EXT(glMultiTexCoord2##suffix##v); \
-    EXT(glMultiTexCoord2##suffix);    \
-    EXT(glMultiTexCoord3##suffix##v); \
-    EXT(glMultiTexCoord3##suffix);    \
-    EXT(glMultiTexCoord4##suffix##v); \
-    EXT(glMultiTexCoord4##suffix);    \
-    ARB(glMultiTexCoord1##suffix##v); \
-    ARB(glMultiTexCoord1##suffix);    \
-    ARB(glMultiTexCoord2##suffix##v); \
-    ARB(glMultiTexCoord2##suffix);    \
-    ARB(glMultiTexCoord3##suffix##v); \
-    ARB(glMultiTexCoord3##suffix);    \
-    ARB(glMultiTexCoord4##suffix##v); \
-    ARB(glMultiTexCoord4##suffix);
+    _EX(glColor3##suffix##v);          \
+    _EX(glColor3##suffix);             \
+    _EX(glColor4##suffix##v);          \
+    _EX(glColor4##suffix);             \
+    _EX(glSecondaryColor3##suffix##v); \
+    _EX(glSecondaryColor3##suffix);    \
+    _EXT(glSecondaryColor3##suffix##v); \
+    _EXT(glSecondaryColor3##suffix);    \
+    _EX(glIndex##suffix##v);           \
+    _EX(glIndex##suffix);              \
+    _EX(glNormal3##suffix##v);         \
+    _EX(glNormal3##suffix);            \
+    _EX(glRasterPos2##suffix##v);      \
+    _EX(glRasterPos2##suffix);         \
+    _EX(glRasterPos3##suffix##v);      \
+    _EX(glRasterPos3##suffix);         \
+    _EX(glRasterPos4##suffix##v);      \
+    _EX(glRasterPos4##suffix);         \
+    _EX(glWindowPos2##suffix##v);      \
+    _EX(glWindowPos2##suffix);         \
+    _EX(glWindowPos3##suffix##v);      \
+    _EX(glWindowPos3##suffix);         \
+    _EX(glVertex2##suffix##v);         \
+    _EX(glVertex2##suffix);            \
+    _EX(glVertex3##suffix##v);         \
+    _EX(glVertex3##suffix);            \
+    _EX(glVertex4##suffix##v);         \
+    _EX(glVertex4##suffix);            \
+    _EX(glTexCoord1##suffix##v);       \
+    _EX(glTexCoord1##suffix);          \
+    _EX(glTexCoord2##suffix##v);       \
+    _EX(glTexCoord2##suffix);          \
+    _EX(glTexCoord3##suffix##v);       \
+    _EX(glTexCoord3##suffix);          \
+    _EX(glTexCoord4##suffix##v);       \
+    _EX(glTexCoord4##suffix);          \
+    _EX(glMultiTexCoord1##suffix##v);  \
+    _EX(glMultiTexCoord1##suffix);     \
+    _EX(glMultiTexCoord2##suffix##v);  \
+    _EX(glMultiTexCoord2##suffix);     \
+    _EX(glMultiTexCoord3##suffix##v);  \
+    _EX(glMultiTexCoord3##suffix);     \
+    _EX(glMultiTexCoord4##suffix##v);  \
+    _EX(glMultiTexCoord4##suffix);     \
+    _EXT(glMultiTexCoord1##suffix##v); \
+    _EXT(glMultiTexCoord1##suffix);    \
+    _EXT(glMultiTexCoord2##suffix##v); \
+    _EXT(glMultiTexCoord2##suffix);    \
+    _EXT(glMultiTexCoord3##suffix##v); \
+    _EXT(glMultiTexCoord3##suffix);    \
+    _EXT(glMultiTexCoord4##suffix##v); \
+    _EXT(glMultiTexCoord4##suffix);    \
+    _ARB(glMultiTexCoord1##suffix##v); \
+    _ARB(glMultiTexCoord1##suffix);    \
+    _ARB(glMultiTexCoord2##suffix##v); \
+    _ARB(glMultiTexCoord2##suffix);    \
+    _ARB(glMultiTexCoord3##suffix##v); \
+    _ARB(glMultiTexCoord3##suffix);    \
+    _ARB(glMultiTexCoord4##suffix##v); \
+    _ARB(glMultiTexCoord4##suffix);
 
     THUNK(b, GLbyte);
     THUNK(d, GLdouble);
@@ -289,176 +289,176 @@ void *glXGetProcAddressARB(const char *name) {
     THUNK(f, GLfloat);
     #undef THUNK
     
-    EX(glPointParameterf);
-    EX(glPointParameterfv);
-    ARB(glPointParameterf);
-    ARB(glPointParameterfv);
-    EXT(glPointParameterf);
-    EXT(glPointParameterfv);
+    _EX(glPointParameterf);
+    _EX(glPointParameterfv);
+    _ARB(glPointParameterf);
+    _ARB(glPointParameterfv);
+    _EXT(glPointParameterf);
+    _EXT(glPointParameterfv);
 
 #ifdef USE_ES2
-    EX(glCompileShaderARB);
-    EX(glCreateShaderObjectARB);
-    EX(glGetObjectParameterivARB);
-    EX(glShaderSourceARB);
+    _EX(glCompileShaderARB);
+    _EX(glCreateShaderObjectARB);
+    _EX(glGetObjectParameterivARB);
+    _EX(glShaderSourceARB);
 #endif
 
     // functions we actually define
-    EXT(glActiveTexture);
-    ARB(glActiveTexture);
-    EX(glArrayElement);
-    EX(glBegin);
-    EX(glBitmap);
+    _EXT(glActiveTexture);
+    _ARB(glActiveTexture);
+    _EX(glArrayElement);
+    _EX(glBegin);
+    _EX(glBitmap);
     /*EXT(glBlendColor);
     ARB(glBlendColor);*/
-    EXT(glBlendEquation);
-    ARB(glBlendEquation);
-    EXT(glBlendFunc);
-    ARB(glBlendFunc);
+    _EXT(glBlendEquation);
+    _ARB(glBlendEquation);
+    _EXT(glBlendFunc);
+    _ARB(glBlendFunc);
 #ifndef ODROID
-    EXT(glBlendEquationSeparate);
-    ARB(glBlendEquationSeparate);
-    EX(glBlendEquationSeparatei);
-    EXT(glBlendEquationSeparatei);
-    ARB(glBlendEquationSeparatei);
-    EXT(glBlendFuncSeparate);
-    ARB(glBlendFuncSeparate);
-    EX(glBlendFuncSeparatei);
-    EXT(glBlendFuncSeparatei);
-    ARB(glBlendFuncSeparatei);
+    _EXT(glBlendEquationSeparate);
+    _ARB(glBlendEquationSeparate);
+    _EX(glBlendEquationSeparatei);
+    _EXT(glBlendEquationSeparatei);
+    _ARB(glBlendEquationSeparatei);
+    _EXT(glBlendFuncSeparate);
+    _ARB(glBlendFuncSeparate);
+    _EX(glBlendFuncSeparatei);
+    _EXT(glBlendFuncSeparatei);
+    _ARB(glBlendFuncSeparatei);
 #endif
-    EX(glCallList);
-    EX(glCallLists);
-    EX(glClearDepth);
-    EXT(glClientActiveTexture);
-    ARB(glClientActiveTexture);
-    EX(glClipPlane);
-    EX(glCopyPixels);
-    EX(glDeleteLists);
-    EX(glDepthRange);
-    EX(glDrawBuffer);
-    EX(glDrawPixels);
-    EX(glDrawRangeElements);
-    EX(glDrawRangeElementsEXT);
-    EX(glEdgeFlag);
-    EX(glEnd);
-    EX(glEndList);
-    EX(glEvalCoord1d);
-    EX(glEvalCoord1f);
-    EX(glEvalCoord2d);
-    EX(glEvalCoord2f);
-    EX(glEvalMesh1);
-    EX(glEvalMesh2);
-    EX(glEvalPoint1);
-    EX(glEvalPoint2);
-    EX(glFogCoordd);
-    EX(glFogCoorddv);
-    EX(glFogCoordf);
-    EX(glFogCoordfv);
-    EX(glFogi);
-    EX(glFogiv);
-    EX(glFrustum);
-    EX(glGenLists);
-    EX(glGetDoublev);
-    EX(glGetIntegerv);
-    EX(glGetMapdv);
-    EX(glGetMapfv);
-    EX(glGetMapiv);
-    EX(glGetTexImage);
-    EX(glGetTexLevelParameterfv);
-    EX(glGetTexLevelParameteriv);
-    EX(glInitNames);
-    EX(glInterleavedArrays);
-    EX(glIsList);
+    _EX(glCallList);
+    _EX(glCallLists);
+    _EX(glClearDepth);
+    _EXT(glClientActiveTexture);
+    _ARB(glClientActiveTexture);
+    _EX(glClipPlane);
+    _EX(glCopyPixels);
+    _EX(glDeleteLists);
+    _EX(glDepthRange);
+    _EX(glDrawBuffer);
+    _EX(glDrawPixels);
+    _EX(glDrawRangeElements);
+    _EXT(glDrawRangeElements);
+    _EX(glEdgeFlag);
+    _EX(glEnd);
+    _EX(glEndList);
+    _EX(glEvalCoord1d);
+    _EX(glEvalCoord1f);
+    _EX(glEvalCoord2d);
+    _EX(glEvalCoord2f);
+    _EX(glEvalMesh1);
+    _EX(glEvalMesh2);
+    _EX(glEvalPoint1);
+    _EX(glEvalPoint2);
+    _EX(glFogCoordd);
+    _EX(glFogCoorddv);
+    _EX(glFogCoordf);
+    _EX(glFogCoordfv);
+    _EX(glFogi);
+    _EX(glFogiv);
+    _EX(glFrustum);
+    _EX(glGenLists);
+    _EX(glGetDoublev);
+    _EX(glGetIntegerv);
+    _EX(glGetMapdv);
+    _EX(glGetMapfv);
+    _EX(glGetMapiv);
+    _EX(glGetTexImage);
+    _EX(glGetTexLevelParameterfv);
+    _EX(glGetTexLevelParameteriv);
+    _EX(glInitNames);
+    _EX(glInterleavedArrays);
+    _EX(glIsList);
 #ifndef USE_ES2
-    EX(glLighti);
-    EX(glLightiv);
-    EX(glLightModeli);
-    EX(glLightModeliv);
+    _EX(glLighti);
+    _EX(glLightiv);
+    _EX(glLightModeli);
+    _EX(glLightModeliv);
 #endif
-    EX(glLineStipple);
-    EX(glListBase);
-    EX(glLoadMatrixd);
-    EX(glLoadName);
-    EX(glLockArraysEXT);
-    EX(glMap1d);
-    EX(glMap1f);
-    EX(glMap2d);
-    EX(glMap2f);
-    EX(glMapGrid1d);
-    EX(glMapGrid1f);
-    EX(glMapGrid2d);
-    EX(glMapGrid2f);
-    EX(glMateriali);
-    EX(glMultMatrixd);
-    EX(glNewList);
-    EX(glOrtho);
-    EX(glPixelTransferf);
-    EX(glPixelTransferi);
-    EX(glPixelZoom);
-    EX(glPolygonMode);
-    EX(glPolygonStipple);
-    EX(glPopAttrib);
-    EX(glPopClientAttrib);
-    EX(glPopName);
-    EX(glPushAttrib);
-    EX(glPushClientAttrib);
-    EX(glPushName);
-    EX(glRasterPos2i);
-    EX(glReadBuffer);
-    EX(glRectd);
-    EX(glRectf);
-    EX(glRecti);
-    EX(glRects);
-    EX(glRectdv);
-    EX(glRectfv);
-    EX(glRectiv);
-    EX(glRectsv);
-    EX(glRenderMode);
-    EX(glRotated);
-    EX(glScaled);
-    EX(glSecondaryColorPointer);
-    EXT(glSecondaryColorPointer);
-    EX(glTexEnvf);
-    EX(glTexEnviv);
-    EX(glTexGend);
-    EX(glTexGendv);
-    EX(glTexGenf);
-    EX(glTexGenfv);
-    EX(glTexGeni);
-    EX(glTexGeniv);
-    EX(glTexImage1D);
-    EX(glTexImage3D);
-    EX(glTexSubImage1D);
-    EX(glTexSubImage3D);
-    EX(glCompressedTexImage1D);
-    EX(glCompressedTexSubImage1D);
-    EX(glCompressedTexImage3D);
-    EX(glCompressedTexSubImage3D);
-    EX(glGetCompressedTexImage);
-    EXT(glCompressedTexImage2D);
-    EXT(glCompressedTexSubImage2D);
-    EXT(glCompressedTexImage1D);
-    EXT(glCompressedTexSubImage1D);
-    EXT(glCompressedTexImage3D);
-    EXT(glCompressedTexSubImage3D);
-    EXT(glGetCompressedTexImage);
-    ARB(glCompressedTexImage2D);
-    ARB(glCompressedTexSubImage2D);
-    ARB(glCompressedTexImage1D);
-    ARB(glCompressedTexSubImage1D);
-    ARB(glCompressedTexImage3D);
-    ARB(glCompressedTexSubImage3D);
-    ARB(glGetCompressedTexImage);
-    EX(glCopyTexImage1D);
-    EX(glCopyTexSubImage1D);
-    EX(glTranslated);
-    EX(glUnlockArraysEXT);
-	EX(glGetTexGenfv);
-	EX(glLoadTransposeMatrixf);
-	EX(glLoadTransposeMatrixd);
-	EX(glMultTransposeMatrixd);
-	EX(glMultTransposeMatrixf);
+    _EX(glLineStipple);
+    _EX(glListBase);
+    _EX(glLoadMatrixd);
+    _EX(glLoadName);
+    _EXT(glLockArrays);
+    _EX(glMap1d);
+    _EX(glMap1f);
+    _EX(glMap2d);
+    _EX(glMap2f);
+    _EX(glMapGrid1d);
+    _EX(glMapGrid1f);
+    _EX(glMapGrid2d);
+    _EX(glMapGrid2f);
+    _EX(glMateriali);
+    _EX(glMultMatrixd);
+    _EX(glNewList);
+    _EX(glOrtho);
+    _EX(glPixelTransferf);
+    _EX(glPixelTransferi);
+    _EX(glPixelZoom);
+    _EX(glPolygonMode);
+    _EX(glPolygonStipple);
+    _EX(glPopAttrib);
+    _EX(glPopClientAttrib);
+    _EX(glPopName);
+    _EX(glPushAttrib);
+    _EX(glPushClientAttrib);
+    _EX(glPushName);
+    _EX(glRasterPos2i);
+    _EX(glReadBuffer);
+    _EX(glRectd);
+    _EX(glRectf);
+    _EX(glRecti);
+    _EX(glRects);
+    _EX(glRectdv);
+    _EX(glRectfv);
+    _EX(glRectiv);
+    _EX(glRectsv);
+    _EX(glRenderMode);
+    _EX(glRotated);
+    _EX(glScaled);
+    _EX(glSecondaryColorPointer);
+    _EXT(glSecondaryColorPointer);
+    _EX(glTexEnvf);
+    _EX(glTexEnviv);
+    _EX(glTexGend);
+    _EX(glTexGendv);
+    _EX(glTexGenf);
+    _EX(glTexGenfv);
+    _EX(glTexGeni);
+    _EX(glTexGeniv);
+    _EX(glTexImage1D);
+    _EX(glTexImage3D);
+    _EX(glTexSubImage1D);
+    _EX(glTexSubImage3D);
+    _EX(glCompressedTexImage1D);
+    _EX(glCompressedTexSubImage1D);
+    _EX(glCompressedTexImage3D);
+    _EX(glCompressedTexSubImage3D);
+    _EX(glGetCompressedTexImage);
+    _EXT(glCompressedTexImage2D);
+    _EXT(glCompressedTexSubImage2D);
+    _EXT(glCompressedTexImage1D);
+    _EXT(glCompressedTexSubImage1D);
+    _EXT(glCompressedTexImage3D);
+    _EXT(glCompressedTexSubImage3D);
+    _EXT(glGetCompressedTexImage);
+    _ARB(glCompressedTexImage2D);
+    _ARB(glCompressedTexSubImage2D);
+    _ARB(glCompressedTexImage1D);
+    _ARB(glCompressedTexSubImage1D);
+    _ARB(glCompressedTexImage3D);
+    _ARB(glCompressedTexSubImage3D);
+    _ARB(glGetCompressedTexImage);
+    _EX(glCopyTexImage1D);
+    _EX(glCopyTexSubImage1D);
+    _EX(glTranslated);
+    _EXT(glUnlockArrays);
+	_EX(glGetTexGenfv);
+	_EX(glLoadTransposeMatrixf);
+	_EX(glLoadTransposeMatrixd);
+	_EX(glMultTransposeMatrixd);
+	_EX(glMultTransposeMatrixf);
     // stubs for unimplemented functions
     STUB(glAccum);
     STUB(glAreTexturesResident);
@@ -483,7 +483,7 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glPixelMapfv);
     STUB(glPixelMapuiv);
     STUB(glPixelMapusv);
-    EX(glPixelStoref);
+    _EX(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);   //TODO
     
@@ -492,80 +492,80 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(glIndexPointerEXT);*/
     
     //EXT_direct_state_access
-    EX(glClientAttribDefaultEXT);
-    EX(glPushClientAttribDefaultEXT);
-    EX(glMatrixLoadfEXT);
-    EX(glMatrixLoaddEXT);
-    EX(glMatrixMultfEXT);
-    EX(glMatrixMultdEXT);
-    EX(glMatrixLoadIdentityEXT);
-    EX(glMatrixRotatefEXT);
-    EX(glMatrixRotatedEXT);
-    EX(glMatrixScalefEXT);
-    EX(glMatrixScaledEXT);
-    EX(glMatrixTranslatefEXT);
-    EX(glMatrixTranslatedEXT);
-    EX(glMatrixOrthoEXT);
-    EX(glMatrixFrustumEXT);
-    EX(glMatrixPushEXT);
-    EX(glMatrixPopEXT);
-    EX(glTextureParameteriEXT);
-    EX(glTextureParameterivEXT);
-    EX(glTextureParameterfEXT);
-    EX(glTextureParameterfvEXT);
-    EX(glTextureImage1DEXT);
-    EX(glTextureImage2DEXT);
-    EX(glTextureSubImage1DEXT);
-    EX(glTextureSubImage2DEXT);
-    EX(glCopyTextureImage1DEXT);
-    EX(glCopyTextureImage2DEXT);
-    EX(glCopyTextureSubImage1DEXT);
-    EX(glCopyTextureSubImage2DEXT);
-    EX(glGetTextureImageEXT);
-    EX(glGetTextureParameterfvEXT);
-    EX(glGetTextureParameterivEXT);
-    EX(glGetTextureLevelParameterfvEXT);
-    EX(glGetTextureLevelParameterivEXT);
-    EX(glTextureImage3DEXT);
-    EX(glTextureSubImage3DEXT);
-    EX(glCopyTextureSubImage3DEXT);
-    EX(glBindMultiTextureEXT);
-    EX(glMultiTexCoordPointerEXT);
-    EX(glMultiTexEnvfEXT);
-    EX(glMultiTexEnvfvEXT);
-    EX(glMultiTexEnviEXT);
-    EX(glMultiTexEnvivEXT);
-    EX(glMultiTexGendEXT);
-    EX(glMultiTexGendvEXT);
-    EX(glMultiTexGenfEXT);
-    EX(glMultiTexGenfvEXT);
-    EX(glMultiTexGeniEXT);
-    EX(glMultiTexGenivEXT);
-    EX(glGetMultiTexEnvfvEXT);
-    EX(glGetMultiTexEnvivEXT);
-    EX(glGetMultiTexGendvEXT);
-    EX(glGetMultiTexGenfvEXT);
-    EX(glGetMultiTexGenivEXT);
-    EX(glMultiTexParameteriEXT);
-    EX(glMultiTexParameterivEXT);
-    EX(glMultiTexParameterfEXT);
-    EX(glMultiTexParameterfvEXT);
-    EX(glMultiTexImage1DEXT);
-    EX(glMultiTexImage2DEXT);
-    EX(glMultiTexSubImage1DEXT);
-    EX(glMultiTexSubImage2DEXT);
-    EX(glCopyMultiTexImage1DEXT);
-    EX(glCopyMultiTexImage2DEXT);
-    EX(glCopyMultiTexSubImage1DEXT);
-    EX(glCopyMultiTexSubImage2DEXT);
-    EX(glGetMultiTexImageEXT);
-    EX(glGetMultiTexParameterfvEXT);
-    EX(glGetMultiTexParameterivEXT);
-    EX(glGetMultiTexLevelParameterfvEXT);
-    EX(glGetMultiTexLevelParameterivEXT);
-    EX(glMultiTexImage3DEXT);
-    EX(glMultiTexSubImage3DEXT);
-    EX(glCopyMultiTexSubImage3DEXT);
+    _EX(glClientAttribDefault);
+    _EX(glPushClientAttribDefault);
+    _EX(glMatrixLoadf);
+    _EX(glMatrixLoadd);
+    _EX(glMatrixMultf);
+    _EX(glMatrixMultd);
+    _EX(glMatrixLoadIdentity);
+    _EX(glMatrixRotatef);
+    _EX(glMatrixRotated);
+    _EX(glMatrixScalef);
+    _EX(glMatrixScaled);
+    _EX(glMatrixTranslatef);
+    _EX(glMatrixTranslated);
+    _EX(glMatrixOrtho);
+    _EX(glMatrixFrustum);
+    _EX(glMatrixPush);
+    _EX(glMatrixPop);
+    _EX(glTextureParameteri);
+    _EX(glTextureParameteriv);
+    _EX(glTextureParameterf);
+    _EX(glTextureParameterfv);
+    _EX(glTextureImage1D);
+    _EX(glTextureImage2D);
+    _EX(glTextureSubImage1D);
+    _EX(glTextureSubImage2D);
+    _EX(glCopyTextureImage1D);
+    _EX(glCopyTextureImage2D);
+    _EX(glCopyTextureSubImage1D);
+    _EX(glCopyTextureSubImage2D);
+    _EX(glGetTextureImage);
+    _EX(glGetTextureParameterfv);
+    _EX(glGetTextureParameteriv);
+    _EX(glGetTextureLevelParameterfv);
+    _EX(glGetTextureLevelParameteriv);
+    _EX(glTextureImage3D);
+    _EX(glTextureSubImage3D);
+    _EX(glCopyTextureSubImage3D);
+    _EX(glBindMultiTexture);
+    _EX(glMultiTexCoordPointer);
+    _EX(glMultiTexEnvf);
+    _EX(glMultiTexEnvfv);
+    _EX(glMultiTexEnvi);
+    _EX(glMultiTexEnviv);
+    _EX(glMultiTexGend);
+    _EX(glMultiTexGendv);
+    _EX(glMultiTexGenf);
+    _EX(glMultiTexGenfv);
+    _EX(glMultiTexGeni);
+    _EX(glMultiTexGeniv);
+    _EX(glGetMultiTexEnvfv);
+    _EX(glGetMultiTexEnviv);
+    _EX(glGetMultiTexGendv);
+    _EX(glGetMultiTexGenfv);
+    _EX(glGetMultiTexGeniv);
+    _EX(glMultiTexParameteri);
+    _EX(glMultiTexParameteriv);
+    _EX(glMultiTexParameterf);
+    _EX(glMultiTexParameterfv);
+    _EX(glMultiTexImage1D);
+    _EX(glMultiTexImage2D);
+    _EX(glMultiTexSubImage1D);
+    _EX(glMultiTexSubImage2D);
+    _EX(glCopyMultiTexImage1D);
+    _EX(glCopyMultiTexImage2D);
+    _EX(glCopyMultiTexSubImage1D);
+    _EX(glCopyMultiTexSubImage2D);
+    _EX(glGetMultiTexImage);
+    _EX(glGetMultiTexParameterfv);
+    _EX(glGetMultiTexParameteriv);
+    _EX(glGetMultiTexLevelParameterfv);
+    _EX(glGetMultiTexLevelParameteriv);
+    _EX(glMultiTexImage3D);
+    _EX(glMultiTexSubImage3D);
+    _EX(glCopyMultiTexSubImage3D);
     STUB(EnableClientStateIndexedEXT);
     STUB(DisableClientStateIndexedEXT);
     STUB(GetFloatIndexedvEXT);
@@ -576,24 +576,24 @@ void *glXGetProcAddressARB(const char *name) {
     STUB(IsEnabledIndexedEXT);
     STUB(GetIntegerIndexedvEXT);
     STUB(GetBooleanIndexedvEXT);
-    EX(glCompressedTextureImage3DEXT);
-    EX(glCompressedTextureImage2DEXT);
-    EX(glCompressedTextureImage1DEXT);
-    EX(glCompressedTextureSubImage3DEXT);
-    EX(glCompressedTextureSubImage2DEXT);
-    EX(glCompressedTextureSubImage1DEXT);
-    EX(glGetCompressedTextureImageEXT);
-    EX(glCompressedMultiTexImage3DEXT);
-    EX(glCompressedMultiTexImage2DEXT);
-    EX(glCompressedMultiTexImage1DEXT);
-    EX(glCompressedMultiTexSubImage3DEXT);
-    EX(glCompressedMultiTexSubImage2DEXT);
-    EX(glCompressedMultiTexSubImage1DEXT);
-    EX(glGetCompressedMultiTexImageEXT);
-    EX(glMatrixLoadTransposefEXT);
-    EX(glMatrixLoadTransposedEXT);
-    EX(glMatrixMultTransposefEXT);
-    EX(glMatrixMultTransposedEXT);
+    _EX(glCompressedTextureImage3D);
+    _EX(glCompressedTextureImage2D);
+    _EX(glCompressedTextureImage1D);
+    _EX(glCompressedTextureSubImage3D);
+    _EX(glCompressedTextureSubImage2D);
+    _EX(glCompressedTextureSubImage1D);
+    _EX(glGetCompressedTextureImage);
+    _EX(glCompressedMultiTexImage3D);
+    _EX(glCompressedMultiTexImage2D);
+    _EX(glCompressedMultiTexImage1D);
+    _EX(glCompressedMultiTexSubImage3D);
+    _EX(glCompressedMultiTexSubImage2D);
+    _EX(glCompressedMultiTexSubImage1D);
+    _EX(glGetCompressedMultiTexImage);
+    _EX(glMatrixLoadTransposef);
+    _EX(glMatrixLoadTransposed);
+    _EX(glMatrixMultTransposef);
+    _EX(glMatrixMultTransposed);
 
     printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;

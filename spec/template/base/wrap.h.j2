@@ -57,7 +57,7 @@ void glIndexedCall(const indexed_call_t *packed, void *ret_v);
 {% endfor %}
 
 {% for func in functions %}
-{{ func.return }} {{ func.name }}({{ func.name }}_ARG_EXPAND);
+{{ func.return }} glshim_{{ func.name }}({{ func.name }}_ARG_EXPAND);
 typedef {{ func.return }} (*{{ func.name }}_PTR)({{ func.name }}_ARG_EXPAND);
 {% endfor %}
 

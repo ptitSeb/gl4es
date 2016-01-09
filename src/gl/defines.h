@@ -1,4 +1,4 @@
-#include <GL/gl.h>
+//#include <GL/gl.h>
 
 // newly-defined GL functions
 GLboolean glIsList(GLuint list);

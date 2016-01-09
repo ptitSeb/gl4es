@@ -164,9 +164,9 @@ typedef struct {
     unsigned int cap;
 } glclientstack_t;
 
-void glPushClientAttrib(GLbitfield mask);
-void glPopClientAttrib();
-void glPushAttrib(GLbitfield mask);
-void glPopAttrib();
+void glshim_glPushClientAttrib(GLbitfield mask);
+void glshim_glPopClientAttrib();
+void glshim_glPushAttrib(GLbitfield mask);
+void glshim_glPopAttrib();
 
 #endif

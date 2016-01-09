@@ -61,7 +61,7 @@ static inline map_state_t **get_map_pointer(GLenum target) {
         case_state(dims, GL_MAP##dims##_VERTEX_4, vertex4);             \
     }
 
-void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
+void glshim_glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
@@ -71,7 +71,7 @@ void glMap1d(GLenum target, GLdouble u1, GLdouble u2,
     map->points = copy_eval_double(target, ustride, uorder, 0, 1, points);
 }
 
-void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
+void glshim_glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
@@ -81,7 +81,7 @@ void glMap1f(GLenum target, GLfloat u1, GLfloat u2,
     map->points = points;
 }
 
-void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
+void glshim_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
              GLint vstride, GLint vorder, const GLdouble *points) {
     noerrorShim();
@@ -93,7 +93,7 @@ void glMap2d(GLenum target, GLdouble u1, GLdouble u2,
     map->points = copy_eval_double(target, ustride, uorder, vstride, vorder, points);
 }
 
-void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
+void glshim_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
     noerrorShim();
@@ -110,7 +110,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
 #undef map_switch
 
 #define p_map(d, name, func, code) {                  \
-    map_state_t *_map = glstate.map##d.name;            \
+    map_state_t *_map = glstate.map##d.name;          \
     if (_map) {                                       \
         if (_map->type == GL_DOUBLE) {                \
             map_stated_t *map = (map_stated_t *)_map; \
@@ -119,7 +119,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
             map_statef_t *map = (map_statef_t *)_map; \
             GLfloat out[4];                           \
             code                                      \
-            func##v(out);                             \
+            glshim_##func##v(out);                    \
         }                                             \
     }}
 
@@ -134,7 +134,7 @@ void glMap2f(GLenum target, GLfloat u1, GLfloat u2,
     p_map(d, vertex3, glVertex3f, code);    \
     p_map(d, vertex4, glVertex4f, code);
 
-void glEvalCoord1f(GLfloat u) {
+void glshim_glEvalCoord1f(GLfloat u) {
     noerrorShim();
     iter_maps(1,
         GLfloat uu = (u - map->u._1) * map->u.d;
@@ -142,7 +142,7 @@ void glEvalCoord1f(GLfloat u) {
     )
 }
 
-void glEvalCoord2f(GLfloat u, GLfloat v) {
+void glshim_glEvalCoord2f(GLfloat u, GLfloat v) {
     noerrorShim();
     iter_maps(2,
         GLfloat uu = (u - map->u._1) * map->u.d;
@@ -157,7 +157,7 @@ void glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef p_map
 #undef iter_maps
 
-void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
+void glshim_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     noerrorShim();
     // TODO: double support?
     map_statef_t *map;
@@ -171,7 +171,7 @@ void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     map->u._2 = u2;
 }
 
-void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
+void glshim_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
                  GLint vn, GLfloat v1, GLfloat v2) {
     noerrorShim();
     // TODO: double support?
@@ -214,7 +214,7 @@ static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
     }
 }
 
-void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
+void glshim_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     noerrorShim();
     map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
@@ -224,14 +224,14 @@ void glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     GLfloat u, du, u1;
     du = map->u.d;
     GLint i;
-    glBegin(renderMode);
+    glshim_glBegin(renderMode);
     for (u = u1, i = i1; i <= i2; i++, u += du) {
-        glEvalCoord1f(u);
+        glshim_glEvalCoord1f(u);
     }
-    glEnd();
+    glshim_glEnd();
 }
 
-void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+void glshim_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     noerrorShim();
     map_statef_t *map;
     GLenum renderMode = eval_mesh_prep(&map, mode);
@@ -242,40 +242,40 @@ void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     du = map->u.d;
     dv = map->v.d;
     GLint i, j;
-    glBegin(renderMode);
+    glshim_glBegin(renderMode);
     for (v = v1, j = j1; j <= j2; j++, v += dv) {
         for (u = u1, i = i1; i <= i2; i++, u += du) {
-            glEvalCoord2f(u, v);
+            glshim_glEvalCoord2f(u, v);
             if (mode == GL_FILL)
-                glEvalCoord2f(u, v + dv);
+                glshim_glEvalCoord2f(u, v + dv);
         }
     }
-    glEnd();
+    glshim_glEnd();
     if (mode == GL_LINE) {
-        glBegin(renderMode);
+        glshim_glBegin(renderMode);
         for (u = u1, i = i1; i <= i2; i++, u += du) {
             for (v = v1, j = j1; j <= j2; j++, v += dv) {
-                glEvalCoord2f(u, v);
+                glshim_glEvalCoord2f(u, v);
             }
         }
-        glEnd();
+        glshim_glEnd();
     }
 }
 
-void glEvalPoint1(GLint i) {
+void glshim_glEvalPoint1(GLint i) {
     map_statef_t *map;
     if (eval_mesh_prep(&map, 0))
-        glEvalCoord1f(i + map->u.d);
+        glshim_glEvalCoord1f(i + map->u.d);
 }
 
-void glEvalPoint2(GLint i, GLint j) {
+void glshim_glEvalPoint2(GLint i, GLint j) {
     map_statef_t *map;
     if (eval_mesh_prep(&map, 0))
-        glEvalCoord2f(i + map->u.d, j + map->v.d);
+        glshim_glEvalCoord2f(i + map->u.d, j + map->v.d);
 }
 
 #define GL_GET_MAP(t, type)                                        \
-void glGetMap##t##v(GLenum target, GLenum query, type *v) {        \
+void glshim_glGetMap##t##v(GLenum target, GLenum query, type *v) { \
     noerrorShim();                                                 \
     map_statef_t *map = *(map_statef_t **)get_map_pointer(target); \
     if (map) {                                                     \
@@ -315,3 +315,20 @@ GL_GET_MAP(f, GLfloat)
 GL_GET_MAP(d, GLdouble)
 
 #undef GL_GET_MAP
+
+//Direct wrapper
+void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points) __attribute__((alias("glshim_glMap1d")));
+void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points) __attribute__((alias("glshim_glMap1f")));
+void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points) __attribute__((alias("glshim_glMap2d")));
+void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points) __attribute__((alias("glshim_glMap2f")));
+void glEvalCoord1f(GLfloat u) __attribute__((alias("glshim_glEvalCoord1f")));
+void glEvalCoord2f(GLfloat u, GLfloat v) __attribute__((alias("glshim_glEvalCoord2f")));
+void glEvalMesh1(GLenum mode, GLint i1, GLint i2) __attribute__((alias("glshim_glEvalMesh1")));
+void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) __attribute__((alias("glshim_glEvalMesh2")));
+void glEvalPoint1(GLint i) __attribute__((alias("glshim_glEvalPoint1")));
+void glEvalPoint2(GLint i, GLint j) __attribute__((alias("glshim_glEvalPoint2")));
+void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) __attribute__((alias("glshim_glMapGrid1f")));
+void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) __attribute__((alias("glshim_glMapGrid2f")));
+void glGetMapdv(GLenum target, GLenum query, GLdouble *v) __attribute__((alias("glshim_glGetMapdv")));
+void glGetMapfv(GLenum target, GLenum query, GLfloat *v) __attribute__((alias("glshim_glGetMapfv")));
+void glGetMapiv(GLenum target, GLenum query, GLint *v) __attribute__((alias("glshim_glGetMapiv")));

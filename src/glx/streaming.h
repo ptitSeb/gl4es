@@ -1,9 +1,12 @@
-#ifndef STREAMING_H
-#define STREAMING_H
+#ifndef _STREAMING_H_
+#define _STREAMING_H_
 #ifdef TEXSTREAM
 
 #include "../gl/gl.h"
 
+#ifndef GL_APIENTRYP
+#define GL_APIENTRYP
+#endif
 #ifndef GL_IMG_texture_stream
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
 #define GL_TEXTURE_NUM_STREAM_DEVICES_IMG                       0x8C0E     
@@ -11,17 +14,15 @@
 #define GL_TEXTURE_STREAM_DEVICE_HEIGHT_IMG                     0x8EA0     
 #define GL_TEXTURE_STREAM_DEVICE_FORMAT_IMG                     0x8EA1      
 #define GL_TEXTURE_STREAM_DEVICE_NUM_BUFFERS_IMG                0x8EA2     
-#endif
-#ifndef GL_IMG_texture_stream
-#define GL_IMG_texture_stream 1
 typedef void (GL_APIENTRYP PFNGLTEXBINDSTREAMIMGPROC) (GLint device, GLint deviceoffset);
 typedef const GLubyte *(GL_APIENTRYP PFNGLGETTEXSTREAMDEVICENAMEIMGPROC) (GLenum target);
 typedef void (GL_APIENTRYP PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC) (GLenum target, GLenum pname, GLint *params);
+#define GL_IMG_texture_stream 1
 #endif
 
-extern PFNGLTEXBINDSTREAMIMGPROC glTexBindStreamIMG;
-extern PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC glGetTexAttrIMG;
-extern PFNGLGETTEXSTREAMDEVICENAMEIMGPROC glGetTexDeviceIMG;
+extern PFNGLTEXBINDSTREAMIMGPROC *glTexBindStreamIMG;
+extern PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC *glGetTexAttrIMG;
+extern PFNGLGETTEXSTREAMDEVICENAMEIMGPROC *glGetTexDeviceIMG;
 
 extern int gl_stream;		//0 if no streaming not 0 if streaming available
 
@@ -41,5 +42,5 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter);
 void ActivateStreaming(int ID);
 // Function to deactivate the Streaming texture on current tex...
 void DeactivateStreaming();
-#endif
-#endif
+#endif //TEXSTREAM
+#endif //_STREAMING_H_
