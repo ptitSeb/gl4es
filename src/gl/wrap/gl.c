@@ -793,6 +793,7 @@ GL_RECT(s, GLshort)
 
 void glTexCoord1f(GLfloat s) __attribute__((alias("glshim_glTexCoord1f")));
 void glTexCoord1fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord1fv")));
+void glTexCoord2f(GLfloat s, GLfloat t) __attribute__((alias("glshim_glTexCoord2f")));
 void glTexCoord2fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord2fv")));
 void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) __attribute__((alias("glshim_glTexCoord3f")));
 void glTexCoord3fv(GLfloat *t) __attribute__((alias("glshim_glTexCoord3fv")));
