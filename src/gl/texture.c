@@ -1885,7 +1885,7 @@ void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffse
 void glActiveTexture( GLenum texture ) __attribute__((alias("glshim_glActiveTexture")));
 void glClientActiveTexture( GLenum texture ) __attribute__((alias("glshim_glClientActiveTexture")));
 GLboolean glIsTexture( GLuint texture ) __attribute__((alias("glshim_glIsTexture")));
-
+void glPixelStorei(GLenum pname, GLint param) __attribute__((alias("glshim_glPixelStorei")));
 //EXT mapper
 void glTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,  GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid *data) __attribute__((alias("glshim_glTexSubImage3D")));
 void glCompressedTexImage2DEXT(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexImage2D")));
