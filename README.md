@@ -156,3 +156,8 @@ Experimental: Batch mode (fuse of contigous Display list, to limit Draw calls)
  * 1 : Force a maximum of call to be batched (like if all was inside a big glList)
  * 2 : Disable Batch mode completly, no fuse of draw list
  
+##### LIBGL_NOERROR
+Hack: glGetError() always return GL_NOERROR
+ * 0 : Default, glGetError behave as it should
+ * 1 : glGetError never fail.
+

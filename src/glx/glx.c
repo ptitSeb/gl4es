@@ -167,6 +167,7 @@ extern int texstream;
 extern int copytex;
 extern int nolumalpha;
 extern int blendhack;
+extern int noerror;
 extern char gl_version[50];
 
 bool g_recyclefbo = false;
@@ -429,7 +430,8 @@ static void scan_env() {
     }
 
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
-    
+    env(LIBGL_NOERROR, noerror, "glGetError() always return GL_NOERROR");
+
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
         printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", gl_version);

@@ -32,6 +32,7 @@ GLuint gl_mergelist = 1;
 int blendhack = 0;
 char gl_version[50];
 int initialized = 0;
+int noerror = 0;
 
 __attribute__((constructor))
 void initialize_glshim() {
@@ -1727,6 +1728,8 @@ void glPopMatrix() __attribute__((alias("glshim_glPopMatrix")));
 
 GLenum glshim_glGetError() {
 	LOAD_GLES(glGetError);
+    if(noerror)
+        return GL_NO_ERROR;
 	if (glstate.shim_error) {
 		GLenum tmp = glstate.last_error;
 		glstate.last_error = GL_NO_ERROR;
