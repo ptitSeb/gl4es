@@ -826,6 +826,7 @@ const char *glXQueryExtensionsString(Display *display, int screen) {
         "GLX_ARB_create_context "
         "GLX_ARB_create_context_profile "
         "GLX_EXT_create_context_es2_profile "
+        "GLX_ARB_get_proc_address "
     };
     return extensions;
 }
