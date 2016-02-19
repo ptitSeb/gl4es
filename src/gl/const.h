@@ -156,6 +156,14 @@
 #define GL_RGB16                       0x8054
 #define GL_RGBA4                       0x8056
 #define GL_RGB5_A1                     0x8057
+#define GL_COMPRESSED_ALPHA			   0x84E9
+#define GL_COMPRESSED_LUMINANCE		   0x84EA
+#define GL_COMPRESSED_LUMINANCE_ALPHA  0x84EB
+#define GL_COMPRESSED_INTENSITY		   0x84EC
+#define GL_COMPRESSED_RGB			   0x84ED
+#define GL_COMPRESSED_RGBA			   0x84EE
+#define GL_COMPRESSED_TEXTURE_FORMATS  0x86A3
+
 // types
 #define GL_BYTE                 0x1400
 #define GL_UNSIGNED_BYTE        0x1401

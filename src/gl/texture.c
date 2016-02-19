@@ -2,6 +2,7 @@
 #include "raster.h"
 #include "decompress.h"
 #include "debug.h"
+#include "stb_dxt_104.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include "gles.h"
@@ -243,7 +244,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 }
 
 GLenum swizzle_internalformat(GLenum *internalformat) {
-    GLenum ret;
+    GLenum ret = *internalformat;
     GLenum sret;
     switch(*internalformat) {
         case GL_R:
@@ -299,6 +300,26 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
             else
                 sret = GL_LUMINANCE_ALPHA;
             break;
+        // compressed format...
+        case GL_COMPRESSED_ALPHA:
+            sret = GL_ALPHA;
+            break;
+        case GL_COMPRESSED_LUMINANCE:
+            sret = GL_LUMINANCE;
+            break;
+        case GL_COMPRESSED_LUMINANCE_ALPHA:
+            if (nolumalpha)
+                sret = GL_RGBA;
+            else
+                sret = GL_LUMINANCE_ALPHA;
+            break;
+        case GL_COMPRESSED_RGB:
+            sret = GL_RGB;
+            break;
+        case GL_COMPRESSED_RGBA:
+            sret = GL_RGBA;
+            break;
+
         default:
             ret = GL_RGBA;
             sret = GL_RGBA;
@@ -1314,8 +1335,15 @@ void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, G
 		case GL_TEXTURE_INTERNAL_FORMAT:
             if (bound && bound->compressed)
                 (*params) = bound->format;
-            else
-                (*params) = GL_RGBA;
+            else {
+                if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
+                    if(bound->orig_internal==GL_COMPRESSED_RGB)
+                        *(params) = GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+                    else
+                        *(params) = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+                } else
+                    (*params) = GL_RGBA;
+            }
 			break;
 		case GL_TEXTURE_DEPTH:
 			(*params) = 0;
@@ -1339,11 +1367,24 @@ void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, G
 		case GL_TEXTURE_COMPRESSED:
             if (bound && bound->compressed)
                 (*params) = GL_TRUE;
-            else
-                (*params) = GL_FALSE;
+            else {
+                if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA)))
+                    (*params) = GL_TRUE;
+                else
+                    (*params) = GL_FALSE;
+            }
 			break;
 		case GL_TEXTURE_COMPRESSED_IMAGE_SIZE:
-			(*params) = (bound)?(bound->width*bound->height*4):0;
+            if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
+                int w = bound->width>>level;
+                int h = bound->height>>level;
+                w = ((w>>2)+1) << 2; h = ((h>>2)+1) << 2;   //DXT works on 4x4 blocks...
+                if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=16) for a 4x4 block
+                    (*params) = w*h;
+                else    //DXT5, 64+64 (i.e. size = 32) for a 4x4 block
+                    (*params) = w*h*2;
+            } else
+			 (*params) = (bound)?(bound->width*bound->height*4):0;
 			break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...
@@ -1820,9 +1861,49 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
 void glshim_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
     if (glstate.gl_batch) flush();
 
-    printf("LIBGL: Stub GetCompressedTexImage\n");
-    
+//    printf("LIBGL: Stub GetCompressedTexImage\n");
+    gltexture_t* bound = glstate.texture.bound[glstate.texture.active];
     errorShim(GL_INVALID_OPERATION);
+    if(!bound)
+        return;
+    if(bound->orig_internal!=GL_COMPRESSED_RGB && bound->orig_internal!=GL_COMPRESSED_RGBA)
+        return;
+    int width = bound->width>>lod;
+    int height = bound->height>>lod;
+    int w = ((width>>2)+1)<<2;
+    int h = ((height>>2)+1)<<2;
+
+    int alpha = (bound->orig_internal==GL_COMPRESSED_RGBA)?1:0;
+
+    glbuffer_t *unpack = glstate.vao->unpack;
+    glbuffer_t *pack = glstate.vao->pack;
+    glstate.vao->unpack = NULL;
+    glstate.vao->pack = NULL;
+    GLvoid *datab = (GLvoid*)img;
+    if (pack)
+        datab += (uintptr_t)pack->data;
+
+    // alloc the memory for source image and grab the file
+    GLuint *src = (GLuint*)malloc(width*height*4);
+    glshim_glGetTexImage(target, lod, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)src);
+    GLuint tmp[4*4]; //this is the 4x4 block
+    for (int y = 0; y < h; y+=4)
+        for (int x = 0; x < w; x+=4) {
+            GLuint col = 0;
+            for (int i=0; i<16; i++) {
+                if(x+(i%4)<width && y+(i/4)<height)
+                    col = src[x+(i%4)+(y+(i/4))*width];
+                tmp[i] = col;
+            }
+            stb_compress_dxt_block((unsigned char*)datab, (const unsigned char*)tmp, alpha, STB_DXT_NORMAL);
+            datab+=4*(alpha+1);
+    }
+
+    free(src);
+
+    glstate.vao->unpack = unpack;
+    glstate.vao->pack = pack;
+    noerrorShim();
     return;
 }
 

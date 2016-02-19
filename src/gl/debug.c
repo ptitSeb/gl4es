@@ -51,6 +51,11 @@ const char* PrintEnum(GLenum what) {
         p(GL_LUMINANCE8);
         p(GL_LUMINANCE16);
         p(GL_ALPHA8);
+        p(GL_COMPRESSED_ALPHA);
+        p(GL_COMPRESSED_LUMINANCE);
+        p(GL_COMPRESSED_LUMINANCE_ALPHA);
+        p(GL_COMPRESSED_RGB);
+        p(GL_COMPRESSED_RGBA);
         // type
         p(GL_UNSIGNED_BYTE);
         p(GL_UNSIGNED_BYTE_2_3_3_REV);
