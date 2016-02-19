@@ -1379,10 +1379,10 @@ void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, G
                 int w = bound->width>>level;
                 int h = bound->height>>level;
                 w = ((w>>2)+1) << 2; h = ((h>>2)+1) << 2;   //DXT works on 4x4 blocks...
-                if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=16) for a 4x4 block
+                if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=8) for a 4x4 block
+                    (*params) = (w*h)/2;
+                else    //DXT5, 64+64 (i.e. size = 16) for a 4x4 block
                     (*params) = w*h;
-                else    //DXT5, 64+64 (i.e. size = 32) for a 4x4 block
-                    (*params) = w*h*2;
             } else
 			 (*params) = (bound)?(bound->width*bound->height*4):0;
 			break;
@@ -1896,7 +1896,7 @@ void glshim_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
                 tmp[i] = col;
             }
             stb_compress_dxt_block((unsigned char*)datab, (const unsigned char*)tmp, alpha, STB_DXT_NORMAL);
-            datab+=4*(alpha+1);
+            datab+=8*(alpha+1);
     }
 
     free(src);
