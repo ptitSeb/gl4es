@@ -169,6 +169,8 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
     }
 
 //printf("list:%i, " #nam "\n", state.list.name);
+// cannot include "debug.h" as it include "gl.h"...
+const char* PrintEnum(GLenum what);
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
