@@ -393,7 +393,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, glstate.texgen[texture].S, glstate.texgen[texture].S_O, glstate.texgen[texture].S_E, indices);
     if (glstate.enable.texgen_t[texture])
         tex_coord_loop(verts, norm, *coords+1, (indices)?ilen:count, glstate.texgen[texture].T, glstate.texgen[texture].T_O, glstate.texgen[texture].T_E, indices);
-    for (int i=0; i<count; i++) {
+    for (int i=0; i<((indices)?ilen:count); i++) {
         GLushort k = indices?indices[i]:i;
         (*coords)[k*4+2] = 0.0f;
         (*coords)[k*4+3] = 1.0f;
