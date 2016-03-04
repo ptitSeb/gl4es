@@ -189,6 +189,12 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             convert = true;
             break;
     }
+    // compressed format are not handled here, so mask them....
+    if (intermediaryformat==GL_COMPRESSED_RGB) intermediaryformat=GL_RGB;
+    if (intermediaryformat==GL_COMPRESSED_RGBA) intermediaryformat=GL_RGBA;
+    if (internalformat==GL_COMPRESSED_RGB) internalformat=GL_RGB;
+    if (internalformat==GL_COMPRESSED_RGBA) internalformat=GL_RGBA;
+    
     if(*format != intermediaryformat || intermediaryformat!=internalformat) {
         dest_format = intermediaryformat;
         dest_type = GL_UNSIGNED_BYTE;
@@ -302,12 +308,15 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
             break;
         // compressed format...
         case GL_COMPRESSED_ALPHA:
+            ret = GL_ALPHA;
             sret = GL_ALPHA;
             break;
         case GL_COMPRESSED_LUMINANCE:
+            ret = GL_LUMINANCE;
             sret = GL_LUMINANCE;
             break;
         case GL_COMPRESSED_LUMINANCE_ALPHA:
+            ret = GL_LUMINANCE_ALPHA;
             if (nolumalpha)
                 sret = GL_RGBA;
             else
@@ -810,6 +819,15 @@ void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yof
 		    dst += width * pixelSize;
 	    }
     }
+    
+    // compressed format are not handled here, so mask them....
+    GLenum orig_internal = bound->orig_internal;
+    GLenum internalformat = bound->internalformat;
+    if (orig_internal==GL_COMPRESSED_RGB) orig_internal=GL_RGB;
+    if (orig_internal==GL_COMPRESSED_RGBA) orig_internal=GL_RGBA;
+    if (internalformat==GL_COMPRESSED_RGB) internalformat=GL_RGB;
+    if (internalformat==GL_COMPRESSED_RGBA) internalformat=GL_RGBA;
+
 
     GLvoid *old = pixels;
 #ifdef TEXSTREAM
@@ -828,19 +846,19 @@ void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yof
 #endif
     {
         //pixels = (GLvoid *)swizzle_texture(width, height, &format, &type, old);
-        if (!pixel_convert(old, &pixels, width, height, format, type, bound->orig_internal, bound->type, 0)) {
+        if (!pixel_convert(old, &pixels, width, height, format, type, orig_internal, bound->type, 0)) {
             printf("LIBGL: Error in pixel_convert while glTexSubImage2D\n");
         } else {
-            if(bound->orig_internal!=bound->internalformat) {
+            if(orig_internal!=internalformat) {
                 GLvoid* pix2 = pixels;
-                if (!pixel_convert(pixels, &pix2, width, height, bound->orig_internal, bound->type, bound->internalformat, bound->type, 0)) {
+                if (!pixel_convert(pixels, &pix2, width, height, orig_internal, bound->type, internalformat, bound->type, 0)) {
                     printf("LIBGL: Error in pixel_convert while glTexSubImage2D\n");
                 }
                 if (pixels != pix2 && pixels != old)
                     free(pixels);
                 pixels = pix2;
             }
-            format = bound->internalformat;
+            format = internalformat;
             type = bound->type;
         }
         
