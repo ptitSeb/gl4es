@@ -308,15 +308,15 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
             break;
         // compressed format...
         case GL_COMPRESSED_ALPHA:
-            ret = GL_ALPHA;
+            ret = GL_COMPRESSED_RGBA;
             sret = GL_ALPHA;
             break;
         case GL_COMPRESSED_LUMINANCE:
-            ret = GL_LUMINANCE;
+            ret = GL_COMPRESSED_RGB;
             sret = GL_LUMINANCE;
             break;
         case GL_COMPRESSED_LUMINANCE_ALPHA:
-            ret = GL_LUMINANCE_ALPHA;
+            ret = GL_COMPRESSED_RGBA;
             if (nolumalpha)
                 sret = GL_RGBA;
             else
@@ -328,7 +328,15 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
         case GL_COMPRESSED_RGBA:
             sret = GL_RGBA;
             break;
-
+        case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+            ret = GL_COMPRESSED_RGB;
+            sret = GL_RGB;
+            break;
+        case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:  // not good, but there is no DXT3 compressor
+        case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+            ret = GL_COMPRESSED_RGBA;
+            sret = GL_RGB;
+            break;
         default:
             ret = GL_RGBA;
             sret = GL_RGBA;
@@ -1327,7 +1335,7 @@ GLboolean glshim_glAreTexturesResident(GLsizei n, const GLuint *textures, GLbool
 }
 
 void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
-//printf("glGetTexLevelParameteriv(0x%04X, %d, 0x%04X, %p)\n", target, level, pname, params);
+    //printf("glGetTexLevelParameteriv(%s, %d, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
 	// simplification: (mostly) not taking "target" into account here
     if (glstate.gl_batch) flush();
 	*params = 0;
@@ -1879,8 +1887,8 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
 void glshim_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
     if (glstate.gl_batch) flush();
 
-//    printf("LIBGL: Stub GetCompressedTexImage\n");
     gltexture_t* bound = glstate.texture.bound[glstate.texture.active];
+    //printf("glGetCompressedTexImage(%s, %i, %p), bound=%p, bound->orig_internal=%s\n", PrintEnum(target), lod, img, bound, (bound)?PrintEnum(bound->orig_internal):"nil");
     errorShim(GL_INVALID_OPERATION);
     if(!bound)
         return;

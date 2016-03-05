@@ -70,6 +70,10 @@ const char* PrintEnum(GLenum what) {
         p(GL_UNSIGNED_SHORT_5_6_5_REV);
         p(GL_FLOAT);
         p(GL_DOUBLE);
+        // texture infos
+        p(GL_TEXTURE_WIDTH);
+        p(GL_TEXTURE_HEIGHT);
+        p(GL_TEXTURE_COMPRESSED);
         // texture pack/unpack
         p(GL_UNPACK_ALIGNMENT);
         // framebuffer
