@@ -848,8 +848,8 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
                  GLuint width, GLuint height,
                  GLenum format, GLenum type) {
     GLuint pixel_size, new_width, new_height;
-    new_width = width / 2;
-    new_height = height / 2;
+    new_width = width / 2; if(new_width==0) new_width=1;
+    new_height = height / 2; if(new_height==0) new_height==1;
 /*    if (new_width*2!=width || new_height*2!=height) {
         printf("LIBGL: halfscaling %ux%u failed\n", width, height);
         return false;
