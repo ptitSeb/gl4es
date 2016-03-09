@@ -225,7 +225,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     pixels = pix2;
                 }
                 dest_format = internalformat;
-                *type = internalformat;
+                *type = dest_type;
                 *format = dest_format;
             }
 			GLvoid *pix2 = pixels;
