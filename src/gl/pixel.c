@@ -457,7 +457,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: half_pixel: Unsupported source data type: %04X\n", src_type);
+            printf("libGL: half_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
