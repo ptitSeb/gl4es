@@ -699,8 +699,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 		NewStage(glstate.list.active, STAGE_DRAW);
         list = glstate.list.active;
 
-        getminmax_indices(sindices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1 + min);
+        normalize_indices(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, 0, max + 1 - min);
         list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
@@ -714,8 +714,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-        getminmax_indices(sindices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1 + min);
+        normalize_indices(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, 0, max + 1 - min);
         list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
