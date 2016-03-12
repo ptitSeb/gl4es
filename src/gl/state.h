@@ -109,6 +109,7 @@ typedef enum {
 } statbatch_enabled_t;
 
 typedef struct {
+    int    active_tex_changed;
     GLenum active_tex;  // only 1 active texture for now
     GLenum bound_targ;
     GLenum bound_tex;

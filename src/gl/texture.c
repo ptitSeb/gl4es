@@ -1494,13 +1494,13 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
 
 void glshim_glActiveTexture( GLenum texture ) {
  if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
-    if ((glstate.statebatch.active_tex == texture))
-        return; // nothing to do...
-    if (!glstate.statebatch.active_tex) {
-        glstate.statebatch.active_tex = texture;
-    } else {
+    if (glstate.statebatch.active_tex_changed) {
+        if(glstate.statebatch.active_tex == texture)
+            return; // nothing to do...
         flush();
     }
+    glstate.statebatch.active_tex = texture;
+    glstate.statebatch.active_tex_changed = 1;
  }
  if (glstate.list.active) {
      NewStage(glstate.list.active, STAGE_ACTIVETEX);
