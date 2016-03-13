@@ -755,7 +755,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_BGR) || (src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
