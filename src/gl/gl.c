@@ -654,8 +654,6 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 		    list->tex[i] = copy_gl_pointer_tex(&glstate.vao->pointers.tex_coord[i], 4, skip, count, glstate.vao->pointers.tex_coord[i].buffer);
 		}
 	}
-	
-    end_renderlist(list);
     return list;
 }
 
@@ -672,7 +670,7 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-//printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate.buffers.elements)?glstate.buffers.elements->data:NULL);
+//printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate.vao->elements)?glstate.vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
@@ -914,6 +912,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) {
         NewStage(glstate.list.active, STAGE_DRAW);
         glstate.list.active = arrays_to_renderlist(glstate.list.active, mode, first, count+first);
+        end_renderlist(list);
         return;
     }
 
