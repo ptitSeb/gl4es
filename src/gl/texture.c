@@ -104,6 +104,21 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
 
 int nolumalpha = 0;
 
+static int is_fake_compressed_rgb(GLenum internalformat)
+{
+    if(internalformat==GL_COMPRESSED_RGB) return 1;
+    if(internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT) return 1;
+    return 0;
+}
+static int is_fake_compressed_rgba(GLenum internalformat)
+{
+    if(internalformat==GL_COMPRESSED_RGBA) return 1;
+    if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT3_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT5_EXT) return 1;
+    return 0;
+}
+
 static void *swizzle_texture(GLsizei width, GLsizei height,
                              GLenum *format, GLenum *type,
                              GLenum intermediaryformat, GLenum internalformat,
@@ -190,10 +205,10 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             break;
     }
     // compressed format are not handled here, so mask them....
-    if (intermediaryformat==GL_COMPRESSED_RGB) intermediaryformat=GL_RGB;
-    if (intermediaryformat==GL_COMPRESSED_RGBA) intermediaryformat=GL_RGBA;
-    if (internalformat==GL_COMPRESSED_RGB) internalformat=GL_RGB;
-    if (internalformat==GL_COMPRESSED_RGBA) internalformat=GL_RGBA;
+    if (is_fake_compressed_rgb(intermediaryformat)) intermediaryformat=GL_RGB;
+    if (is_fake_compressed_rgba(intermediaryformat)) intermediaryformat=GL_RGBA;
+    if (is_fake_compressed_rgb(internalformat)) internalformat=GL_RGB;
+    if (is_fake_compressed_rgba(internalformat)) internalformat=GL_RGBA;
     
     if(*format != intermediaryformat || intermediaryformat!=internalformat) {
         dest_format = intermediaryformat;
@@ -332,10 +347,11 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
             ret = GL_COMPRESSED_RGB;
             sret = GL_RGB;
             break;
+        case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:  // not good...
         case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:  // not good, but there is no DXT3 compressor
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
             ret = GL_COMPRESSED_RGBA;
-            sret = GL_RGB;
+            sret = GL_RGBA;
             break;
         default:
             ret = GL_RGBA;
@@ -359,6 +375,7 @@ static int default_tex_mipmap = 0;
 
 static int proxy_width = 0;
 static int proxy_height = 0;
+static GLint proxy_intformat = 0;
 
 void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
@@ -369,6 +386,7 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if (target == GL_PROXY_TEXTURE_2D) {
         proxy_width = ((width<<level)>(texshrink==8)?8192:2048)?0:width;
         proxy_height = ((height<<level)>(texshrink==8)?8192:2048)?0:height;
+        proxy_intformat = swizzle_internalformat(&internalformat);
         return;
     }
     //PUSH_IF_COMPILING(glTexImage2D);
@@ -399,7 +417,7 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->mipmap_need = 1;
      }
      GLenum new_format = swizzle_internalformat(&internalformat);
-     if (bound) {
+     if (bound && (level==0)) {
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
      }
@@ -821,7 +839,7 @@ void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yof
 	    pixels = (GLvoid *)dst;
 	    const GLubyte *src = (GLubyte *)datab;
 	    src += glstate.texture.unpack_skip_pixels * pixelSize + glstate.texture.unpack_skip_rows * imgWidth;
-	    for (int y = 0; y < height; y += 1) {
+	    for (int y = 0; y < height; y ++) {
 		    memcpy(dst, src, width * pixelSize);
 		    src += imgWidth;
 		    dst += width * pixelSize;
@@ -1369,16 +1387,20 @@ void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, G
             }
 			break;
 		case GL_TEXTURE_INTERNAL_FORMAT:
-            if (bound && bound->compressed)
-                (*params) = bound->format;
-            else {
-                if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
-                    if(bound->orig_internal==GL_COMPRESSED_RGB)
-                        *(params) = GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-                    else
-                        *(params) = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-                } else
-                    (*params) = GL_RGBA;
+            if (target==GL_PROXY_TEXTURE_2D)
+				(*params) = proxy_intformat;
+			else {
+                if (bound && bound->compressed)
+                    (*params) = bound->format;
+                else {
+                    if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
+                        if(bound->orig_internal==GL_COMPRESSED_RGB)
+                            *(params) = GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+                        else
+                            *(params) = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+                    } else
+                        (*params) = GL_RGBA;
+                }
             }
 			break;
 		case GL_TEXTURE_DEPTH:
