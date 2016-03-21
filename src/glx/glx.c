@@ -434,7 +434,7 @@ static void scan_env() {
 
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
-        printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", gl_version);
+        printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
     }
     snprintf(gl_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
     
