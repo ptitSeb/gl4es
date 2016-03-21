@@ -713,12 +713,13 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_BGRA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_BGRA)||(src_format == GL_RGBA)) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				tmp = *(const GLuint*)src_pos;
-				*(GLushort*)dst_pos = (tmp&0x0000ff00) | (tmp&0x000000ff);
+                *(GLushort*)dst_pos = (((((char*)src_pos)[2] + ((char*)src_pos)[1] + ((char*)src_pos)[0])/3)&0xff)<<8 | ((char*)src_pos)[3];
+//				*(GLushort*)dst_pos = (tmp&0x0000ff00) | (tmp&0x000000ff);
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -727,8 +728,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_BGR) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
-        GLuint tmp;
+    if (((src_format == GL_BGR)||(src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				((char*)dst_pos)[0] = ((char*)src_pos)[2];
@@ -742,8 +742,21 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-    if ((src_format == GL_RGB) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
-        GLuint tmp;
+    if ((src_format == GL_RGBA) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				((char*)dst_pos)[0] = ((char*)src_pos)[0];
+				((char*)dst_pos)[1] = ((char*)src_pos)[1];
+				((char*)dst_pos)[2] = ((char*)src_pos)[2];
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width;
+        }
+        return true;
+    }
+    if (((src_format == GL_RGB)||(src_format == GL_RGBA)) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[2]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[0]&0xf8)<<(11-3));
@@ -756,7 +769,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     if (((src_format == GL_BGR) || (src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type = GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[0]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[2]&0xf8)<<(11-3));

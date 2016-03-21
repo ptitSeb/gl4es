@@ -384,8 +384,8 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i), glstate.list.compiling=%d\n", PrintEnum(target), glstate.texture.unpack_row_length, width, height, glstate.texture.unpack_skip_pixels, glstate.texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (glstate.texture.bound[glstate.texture.active])?glstate.texture.bound[glstate.texture.active]->mipmap_need:0, (glstate.texture.bound[glstate.texture.active])?glstate.texture.bound[glstate.texture.active]->mipmap_auto:0, (glstate.texture.bound[glstate.texture.active])?glstate.texture.bound[glstate.texture.active]->texture:0, (glstate.texture.bound[glstate.texture.active])?glstate.texture.bound[glstate.texture.active]->streamed:0, glstate.list.compiling);
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D) {
-        proxy_width = ((width<<level)>(texshrink==8)?8192:2048)?0:width;
-        proxy_height = ((height<<level)>(texshrink==8)?8192:2048)?0:height;
+        proxy_width = ((width<<level)>(texshrink>=8)?8192:2048)?0:width;
+        proxy_height = ((height<<level)>(texshrink>=8)?8192:2048)?0:height;
         proxy_intformat = swizzle_internalformat(&internalformat);
         return;
     }
@@ -1779,7 +1779,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 		errorShim(GL_INVALID_OPERATION);
 	    return;		// no texture bounded...
 	}
-//printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=s, imagesize=%i, upackbuffer=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate.buffers.unpack?glstate.buffers.unpack->data:0);
+    //printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate.vao->unpack?glstate.vao->unpack->data:0);
     // hack...
     if (internalformat==GL_RGBA8)
         internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -1802,6 +1802,9 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
     GLvoid *datab = (GLvoid*)data;
     if (unpack)
 		datab += (uintptr_t)unpack->data;
+    
+    GLenum format = GL_RGBA;
+    GLenum type = GL_UNSIGNED_BYTE;
         
     if (isDXTc(internalformat)) {
 		GLvoid *pixels, *half;
@@ -1825,11 +1828,15 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
             // automaticaly reduce the pixel size
             half=pixels;
             glstate.texture.bound[glstate.texture.active]->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
-            glstate.texture.bound[glstate.texture.active]->format = GL_RGBA; //internalformat;
-            glstate.texture.bound[glstate.texture.active]->type = GL_UNSIGNED_SHORT_4_4_4_4;
+            format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
+            glstate.texture.bound[glstate.texture.active]->format = format; //internalformat;
+            type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
+            glstate.texture.bound[glstate.texture.active]->type = type;
             glstate.texture.bound[glstate.texture.active]->compressed = true;
-            if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
-                fact = 1;
+            if (pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
+                fact = 0;
+//            if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
+//                fact = 1;
             else
                 glstate.texture.bound[glstate.texture.active]->type = GL_UNSIGNED_BYTE;
         } else {
@@ -1840,7 +1847,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 		glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glshim_glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, half);
+		glshim_glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, type, format, half);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		if (half!=pixels)
