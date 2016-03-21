@@ -1112,7 +1112,7 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
         list->normal = alloc_sublist(3, list->cap);
         // catch up
         int i;
-        if (list->len) for (i = 0; i < list->len-1; i++) {
+        if (list->len) for (i = 0; i < list->len; i++) {
             GLfloat *normal = (list->normal + (i * 3));
             memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
         }
@@ -1127,7 +1127,7 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         list->color = alloc_sublist(4, list->cap);
         // catch up
         int i;
-        if (list->len) for (i = 0; i < list->len-1; i++) {
+        if (list->len) for (i = 0; i < list->len; i++) {
             GLfloat *color = (list->color + (i * 4));
             memcpy(color, glstate.color, sizeof(GLfloat) * 4);
         }/* else {
@@ -1145,7 +1145,7 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
         list->secondary = alloc_sublist(4, list->cap);
         // catch up
         int i;
-        if (list->len) for (i = 0; i < list->len-1; i++) {
+        if (list->len) for (i = 0; i < list->len; i++) {
             GLfloat *secondary = (list->secondary + (i * 4));
             memcpy(secondary, glstate.secondary, sizeof(GLfloat) * 4);
         }
@@ -1250,7 +1250,7 @@ void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q
         list->tex[0] = alloc_sublist(4, list->cap);
         // catch up
         GLfloat *tex = list->tex[0];
-        if (list->len) for (int i = 0; i < list->len-1; i++) {
+        if (list->len) for (int i = 0; i < list->len; i++) {
             memcpy(tex, glstate.texcoord[0], sizeof(GLfloat) * 4);
             tex += 4;
         }
@@ -1267,7 +1267,7 @@ void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, 
         list->tex[tmu] = alloc_sublist(4, list->cap);
         // catch up
         GLfloat *tex = list->tex[tmu];
-        if (list->len) for (int i = 0; i < list->len-1; i++) {
+        if (list->len) for (int i = 0; i < list->len; i++) {
             memcpy(tex, glstate.texcoord[tmu], sizeof(GLfloat) * 4);
             tex += 4;
         }

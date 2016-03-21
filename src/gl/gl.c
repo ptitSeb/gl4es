@@ -1208,7 +1208,7 @@ void glBegin(GLenum mode) __attribute__((alias("glshim_glBegin")));
 
 void glshim_glEnd() {
     if (!glstate.list.active) return;
-    // check if TEXTUREx is activate and no TexCoord (or texgen), in that cas, create a dummy one base on glstate...
+    // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate...
     for (int a=0; a<MAX_TEX; a++)
 		if (glstate.enable.texture_2d[a] && ((glstate.list.active->tex[a]==0) && (!glstate.enable.texgen_s[a])))
 			rlMultiTexCoord4f(glstate.list.active, GL_TEXTURE0+a, glstate.texcoord[a][0], glstate.texcoord[a][1], glstate.texcoord[a][2], glstate.texcoord[a][3]);
@@ -1227,7 +1227,6 @@ void glshim_glEnd() {
 void glEnd() __attribute__((alias("glshim_glEnd")));
 
 void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
-    glstate.normal[0] = nx; glstate.normal[1] = ny; glstate.normal[2] = nz;
     if (glstate.list.active) {
         if (glstate.list.active->stage != STAGE_DRAW) {
             if (glstate.list.active->stage != STAGE_DRAW) {
@@ -1245,6 +1244,7 @@ void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
         errorGL();
     }
 #endif
+    glstate.normal[0] = nx; glstate.normal[1] = ny; glstate.normal[2] = nz;
 }
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) __attribute__((alias("glshim_glNormal3f")));
 
@@ -1257,9 +1257,6 @@ void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) __attribute__((alias("glshim_glVertex4f")));
 
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    // change the state first thing
-    glstate.color[0] = red; glstate.color[1] = green;
-    glstate.color[2] = blue; glstate.color[3] = alpha;
     if (glstate.list.active) {
         if (glstate.list.active->stage != STAGE_DRAW) {
             PUSH_IF_COMPILING(glColor4f);
@@ -1274,19 +1271,22 @@ void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
         errorGL();
     }
 #endif
+    // change the state last thing
+    glstate.color[0] = red; glstate.color[1] = green;
+    glstate.color[2] = blue; glstate.color[3] = alpha;
 }
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) __attribute__((alias("glshim_glColor4f")));
 
 void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
-    // change the state first thing
-    glstate.secondary[0] = r; glstate.secondary[1] = g;
-    glstate.secondary[2] = b;
     if (glstate.list.active) {
         rlSecondary3f(glstate.list.active, r, g, b);
         noerrorShim();
     } else {
         noerrorShim();
     }
+    // change the state last thing
+    glstate.secondary[0] = r; glstate.secondary[1] = g;
+    glstate.secondary[2] = b;
 }
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) __attribute__((alias("glshim_glSecondaryColor3f")));
 
@@ -1328,20 +1328,18 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) __attribute__((
 #endif
 
 void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    glstate.texcoord[0][0] = s; glstate.texcoord[0][1] = t;
-    glstate.texcoord[0][2] = r; glstate.texcoord[0][3] = q;
     if (glstate.list.active) {
         rlTexCoord4f(glstate.list.active, s, t, r, q);
         noerrorShim();
     } else {
         noerrorShim();
     }
+    glstate.texcoord[0][0] = s; glstate.texcoord[0][1] = t;
+    glstate.texcoord[0][2] = r; glstate.texcoord[0][3] = q;
 }
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glTexCoord4f")));
 
 void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    glstate.texcoord[target-GL_TEXTURE0][0] = s; glstate.texcoord[target-GL_TEXTURE0][1] = t;
-    glstate.texcoord[target-GL_TEXTURE0][2] = r; glstate.texcoord[target-GL_TEXTURE0][3] = q;
 	// TODO, error if target is unsuported texture....
     if (glstate.list.active) {
         rlMultiTexCoord4f(glstate.list.active, target, s, t, r, q);
@@ -1349,6 +1347,8 @@ void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GL
     } else {
         noerrorShim();
     }
+    glstate.texcoord[target-GL_TEXTURE0][0] = s; glstate.texcoord[target-GL_TEXTURE0][1] = t;
+    glstate.texcoord[target-GL_TEXTURE0][2] = r; glstate.texcoord[target-GL_TEXTURE0][3] = q;
 }
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f")));
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f")));
