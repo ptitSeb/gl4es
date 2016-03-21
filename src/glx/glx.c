@@ -168,7 +168,7 @@ extern int copytex;
 extern int nolumalpha;
 extern int blendhack;
 extern int noerror;
-extern char gl_version[50];
+extern char glshim_version[50];
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -436,7 +436,7 @@ static void scan_env() {
     if (env_version) {
         printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
     }
-    snprintf(gl_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
+    snprintf(glshim_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

@@ -30,7 +30,7 @@ GLuint readhack_seq = 0;
 GLuint gl_batch = 0;
 GLuint gl_mergelist = 1;
 int blendhack = 0;
-char gl_version[50];
+char glshim_version[50];
 int initialized = 0;
 int noerror = 0;
 
@@ -121,7 +121,7 @@ const GLubyte *glshim_glGetString(GLenum name) {
 		printf("**warning** glGetString(%i) called with bad init\n", name);*/
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)gl_version;
+            return (GLubyte *)glshim_version;
         case GL_EXTENSIONS:
             return (const GLubyte *)(char *){
                 "GL_EXT_abgr "
