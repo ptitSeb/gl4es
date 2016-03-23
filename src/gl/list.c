@@ -604,7 +604,7 @@ void adjust_renderlist(renderlist_t *list) {
 }
 
 void end_renderlist(renderlist_t *list) {
-    if (! list->open)
+    if (!list || ! list->open)
         return;
 
     adjust_renderlist(list);
