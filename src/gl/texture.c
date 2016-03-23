@@ -2057,3 +2057,12 @@ void glCopyTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yof
 //ARB mapper
 void glActiveTextureARB(GLenum texture) __attribute__((alias("glshim_glActiveTexture")));
 void glClientActiveTextureARB(GLenum texture) __attribute__((alias("glshim_glClientActiveTexture")));
+void glTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,  GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid *data) __attribute__((alias("glshim_glTexSubImage3D")));
+void glCompressedTexImage2DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexImage2D")));
+void glCompressedTexImage1DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexImage1D")));
+void glCompressedTexImage3DARB(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexImage3D")));
+void glCompressedTexSubImage2DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexSubImage2D")));
+void glCompressedTexSubImage1DARB(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexSubImage1D")));
+void glCompressedTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid *data) __attribute__((alias("glshim_glCompressedTexSubImage3D")));
+void glGetCompressedTexImageARB(GLenum target, GLint lod, GLvoid *img) __attribute__((alias("glshim_glGetCompressedTexImage")));
+void glCopyTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glCopyTexSubImage3D")));
