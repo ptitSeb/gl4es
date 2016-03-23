@@ -1847,7 +1847,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 		glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glshim_glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, type, format, half);
+		glshim_glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, format, type, half);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		if (half!=pixels)
