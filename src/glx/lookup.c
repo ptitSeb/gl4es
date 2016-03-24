@@ -332,6 +332,8 @@ void *glXGetProcAddressARB(const char *name) {
     _EXT(glBlendFuncSeparatei);
     _ARB(glBlendFuncSeparatei);
 #endif
+    _EX(glStencilMaskSeparate);
+    _EXT(glStencilMaskSeparate);
     _EX(glCallList);
     _EX(glCallLists);
     _EX(glClearDepth);

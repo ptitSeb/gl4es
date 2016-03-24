@@ -384,6 +384,8 @@ void glshim_glLoadMatrixf(const GLfloat * m);
 void glshim_glMultMatrixf(const GLfloat * m);
 void glshim_glFogfv(GLenum pname, const GLfloat* params);
 
+void glshim_glStencilMaskSeparate(GLenum face, GLuint mask);
+
 
 void flush();
 void init_batch();

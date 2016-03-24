@@ -1855,6 +1855,15 @@ void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 }
 void glBlendFunc(GLenum sfactor, GLenum dfactor) __attribute__((alias("glshim_glBlendFunc")));
 
+
+void glshim_glStencilMaskSeparate(GLenum face, GLuint mask) {
+    // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
+    if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
+        glshim_glStencilMask(mask);
+}
+void glStencilMaskSeparate(GLenum face, GLuint mask) __attribute__((alias("glshim_glStencilMaskSeparate")));
+
+
 void init_statebatch() {
     memset(&glstate.statebatch, 0, sizeof(statebatch_t));
 }
