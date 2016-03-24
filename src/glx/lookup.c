@@ -6,6 +6,8 @@
 #include "../gl/directstate.h"
 //#define DEBUG_ADDRESS
 
+extern int export_blendcolor;
+
 #ifdef DEBUG_ADDRESS
 #define MAP(func_name, func) \
     if(cnt==1) {if ((uint32_t)((void*)func) <0x4000000) printf("glxGetProcAddress %s = %p\n", func_name, (void*)func);} if (strcmp(name, func_name) == 0) return (void *)func;
@@ -309,8 +311,11 @@ void *glXGetProcAddressARB(const char *name) {
     _EX(glArrayElement);
     _EX(glBegin);
     _EX(glBitmap);
-    /*EXT(glBlendColor);
-    ARB(glBlendColor);*/
+    if(export_blendcolor) {
+        _EX(glBlendColor);
+        _EXT(glBlendColor);
+        _ARB(glBlendColor);
+    }
     _EXT(glBlendEquation);
     _ARB(glBlendEquation);
     _EXT(glBlendFunc);

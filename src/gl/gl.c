@@ -30,6 +30,7 @@ GLuint readhack_seq = 0;
 GLuint gl_batch = 0;
 GLuint gl_mergelist = 1;
 int blendhack = 0;
+int export_blendcolor = 0;
 char glshim_version[50];
 int initialized = 0;
 int noerror = 0;
@@ -1743,10 +1744,17 @@ void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
     LOAD_GLES_OES(glBlendColor);
 	if  (gles_glBlendColor)
 		gles_glBlendColor(red, green, blue, alpha);
-	else
-		printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
+	else {
+        static int test = 1;
+        if (test) {
+            printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
+            test = 0;
+        }
+    }
 }
 void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
+void glBlendColorEXT(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
+void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
 
 void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {

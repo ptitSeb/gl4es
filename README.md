@@ -147,8 +147,14 @@ Experimental: Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE
  * 0 : Default, nothing special
  * 1 : Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE (can be usefull for Xash3D engine)
 
+##### LIBGL_BLENDCOLOR
+
+Hack: Export a (faked) glBlendColor
+ * 0 : Default, don't expose gBlendColor
+ * 1 : Exposed the function (if no hadware support, faked function willbe used)
+
 ##### LIBGL_VERSION
-Control the glGetString version. Overide version string (should be in the form of "1.x")
+Hack: Control the glGetString version. Overide version string (should be in the form of "1.x")
 
 ##### LIBGL_BATCH
 Experimental: Batch mode (fuse of contigous Display list, to limit Draw calls)
