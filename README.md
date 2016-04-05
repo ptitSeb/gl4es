@@ -148,7 +148,6 @@ Experimental: Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE
  * 1 : Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE (can be usefull for Xash3D engine)
 
 ##### LIBGL_BLENDCOLOR
-
 Hack: Export a (faked) glBlendColor
  * 0 : Default, don't expose gBlendColor
  * 1 : Exposed the function (if no hadware support, faked function willbe used)
@@ -166,4 +165,8 @@ Experimental: Batch mode (fuse of contigous Display list, to limit Draw calls)
 Hack: glGetError() always return GL_NOERROR
  * 0 : Default, glGetError behave as it should
  * 1 : glGetError never fail.
+
+##### LIBGL_GAMMA
+Pandora Hack: Set a Gamma value (in decimal formal, 1.0 means no gamma boost)
+ * X.Y : Use X.Y as gamma when creating context (typical value can be 1.6 or 2.0)
 

@@ -148,6 +148,7 @@ static int fbcontext_count = 0;
 #ifdef PANDORA
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
+static float pandora_gamma = 0.0f;
 #endif
 static int fbdev = -1;
 static bool g_vsync = false;
@@ -207,9 +208,26 @@ static void xrefresh() {
     system("xrefresh");
 }
 
+#ifdef PANDORA
+static void pandora_reset_gamma() {
+    if(pandora_gamma>0.0f)
+        system("sudo /usr/pandora/scripts/op_gamma.sh 0");
+}
+static void pandora_set_gamma() {
+    if(pandora_gamma>0.0f) {
+        char buf[50];
+        sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", pandora_gamma);
+        system(buf);
+    }
+}
+#endif
+
 static void signal_handler(int sig) {
     if (g_xrefresh)
         xrefresh();
+#ifdef PANDORA
+    pandora_reset_gamma();
+#endif
 
 #ifdef BCMHOST
     if (g_bcm_active) {
@@ -439,6 +457,14 @@ static void scan_env() {
         printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
     }
     snprintf(glshim_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
+#ifdef PANDORA
+    char *env_gamma = getenv("LIBGL_GAMMA");
+    if (env_gamma) {
+        pandora_gamma=atof(env_gamma);
+        printf("LIBGL: Set gamma to %.2f\n", pandora_gamma);
+        atexit(pandora_reset_gamma);
+    }
+#endif
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
@@ -725,6 +751,9 @@ Bool glXMakeCurrent(Display *display,
     
     context->drawable = drawable;
 
+#ifdef PANDORA
+    pandora_set_gamma();
+#endif
     CheckEGLErrors();
     if (result) {
         if (g_usefbo) {
