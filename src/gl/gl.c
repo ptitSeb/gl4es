@@ -687,8 +687,13 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
     }
 
 	noerrorShim();
-    GLushort *sindices = copy_gl_array((glstate.vao->elements)?glstate.vao->elements->data + (uintptr_t)indices:indices,
-		type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    GLushort *sindices;
+    int need_free = (type!=GL_UNSIGNED_SHORT);
+    if(need_free)
+        sindices = copy_gl_array((glstate.vao->elements)?glstate.vao->elements->data + (uintptr_t)indices:indices,
+            type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    else
+        sindices = (glstate.vao->elements)?(glstate.vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
     bool compiling = (glstate.list.active && (glstate.list.compiling || glstate.gl_batch));
 
     if (compiling) {
@@ -700,7 +705,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 
         normalize_indices(sindices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, min, max + 1);
-        list->indices = sindices;
+        list->indices = (need_free)?sindices:copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
         list->ilen = count;
         list->indice_cap = count;
         //end_renderlist(list);
@@ -715,7 +720,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 
         normalize_indices(sindices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, min, max + 1);
-        list->indices = sindices;
+        list->indices = (need_free)?sindices:copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
         list->ilen = count;
         list->indice_cap = count;
         end_renderlist(list);
@@ -871,7 +876,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
 			shift_pointer(normal, normal_array);
 #undef shift_pointer		
-        free(sindices);
+        if(need_free)
+            free(sindices);
     }
 }
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) __attribute__((alias("glshim_glDrawElements")));
