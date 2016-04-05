@@ -719,7 +719,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
                 unsigned char* byte_src = (unsigned char*)src_pos;
-                *(GLushort*)dst_pos = ((((int)byte_src[0])*77 + ((int)byte_src[1])*151 + ((int)byte_src[2])*28)&0xff00) | byte_src[3];
+                *(GLushort*)dst_pos = ((((int)byte_src[0])*77 + ((int)byte_src[1])*151 + ((int)byte_src[2])*28)&0xff00)>>8 | (byte_src[3]<<8);
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
