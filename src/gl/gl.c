@@ -688,7 +688,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 
 	noerrorShim();
     GLushort *sindices;
-    int need_free = (type!=GL_UNSIGNED_SHORT);
+    bool need_free = (type!=GL_UNSIGNED_SHORT);
     if(need_free)
         sindices = copy_gl_array((glstate.vao->elements)?glstate.vao->elements->data + (uintptr_t)indices:indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
