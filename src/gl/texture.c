@@ -122,6 +122,10 @@ static int is_fake_compressed_rgba(GLenum internalformat)
 void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
 {
     switch(internalformat) {
+        case GL_ALPHA:
+            *format = GL_ALPHA;
+            *type = GL_UNSIGNED_BYTE;
+            break;
         case GL_LUMINANCE:
             *format = GL_LUMINANCE;
             *type = GL_UNSIGNED_BYTE;
@@ -151,7 +155,7 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *type = GL_UNSIGNED_BYTE;
             break;
         default:
-            printf("LIBGL: Warning, unknonw Internalformat (%s)\n", PrintEnum(internalformat));
+            printf("LIBGL: Warning, unknown Internalformat (%s)\n", PrintEnum(internalformat));
             *format = GL_RGBA;
             *type = GL_UNSIGNED_BYTE;
             break;
