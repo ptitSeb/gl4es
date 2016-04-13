@@ -292,6 +292,15 @@ void glshim_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum r
         return;
     }
 
+    if ((current_fb!=0) && (renderbuffer!=0) && ((attachment==GL_DEPTH_ATTACHMENT) || (attachment==GL_STENCIL_ATTACHMENT))) {
+        GLuint tmp;
+        gles_glGetFramebufferAttachmentParameteriv(target, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &tmp);
+        if (tmp==renderbuffer) {
+            noerrorShim();
+            return;
+        }
+    }
+
     errorGL();
     gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
