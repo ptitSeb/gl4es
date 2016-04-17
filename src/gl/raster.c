@@ -9,6 +9,8 @@ GLfloat zoomy=1.0f;
 GLuint raster_texture=0;
 GLsizei raster_width=0;
 GLsizei raster_height=0;
+GLsizei raster_realwidth=0;
+GLsizei raster_realheight=0;
 
 GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 #define min(a, b)	((a)<b)?(a):(b)
@@ -120,6 +122,10 @@ void init_raster(int width, int height) {
 	int w, h;
 	w=npot(width);
 	h=npot(height);
+    #ifdef USE_DRAWTEX
+    raster_realwidth = width;
+    raster_realheight = height;
+    #endif
 	if (raster) {
 		if ((raster_width!=w) || (raster_height!=h)) {
 			free(raster);
@@ -164,6 +170,9 @@ GLuint raster_to_texture()
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glTexParameteri);
     LOAD_GLES(glTexParameterf);
+    #ifdef USE_DRAWTEX
+    LOAD_GLES(glTexParameteriv);
+    #endif
     
 	renderlist_t *old_list = glstate.list.active;
 	if (old_list) glstate.list.active = NULL;		// deactivate list...
@@ -195,6 +204,11 @@ GLuint raster_to_texture()
     gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_width, raster_height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, raster);
+    #ifdef USE_DRAWTEX
+    // setup the texture for glDrawTexiOES
+    GLint coords [] = {0, 0, raster_realwidth, raster_realheight};
+    gles_glTexParameteriv( GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, coords );
+    #endif
 
 	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
@@ -378,24 +392,53 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 }
 
 void render_raster_list(rasterlist_t* rast) {
-//printf("render_raster_list, rast->width=%i, rast->height=%i, rPos.x=%f, rPos.y=%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->width, rast->height, rPos.x, rPos.y, rast->zoomx, rast->zoomy, rast->texture);
+//printf("render_raster_list, rast->x/y=%f/%f rast->width/height=%i/%i, rPos.x/y/z=%f/%f/%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->xorig, rast->yorig, rast->width, rast->height, rPos.x, rPos.y, rPos.z, rast->zoomx, rast->zoomy, rast->texture);
+    #ifdef USE_DRAWTEX
+    LOAD_GLES_OES(glDrawTexf);
+    LOAD_GLES(glEnable);
+    LOAD_GLES(glDisable);
+    #else
     LOAD_GLES(glEnableClientState);
     LOAD_GLES(glDisableClientState);
-    LOAD_GLES(glBindTexture);
     LOAD_GLES(glVertexPointer);
     LOAD_GLES(glTexCoordPointer);
 	LOAD_GLES(glDrawArrays);
+    #endif
+    LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glClientActiveTexture);
     
 	if (rast->texture) {
-		glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
-		GLfloat old_projection[16], old_modelview[16], old_texture[16];
-
 		GLuint old_tex = glstate.texture.active;
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
 		GLuint old_cli = glstate.texture.client;
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
+        #ifdef USE_DRAWTEX
+        glshim_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+        
+        gltexture_t *old_bind = glstate.texture.bound[0];
+        glshim_glEnable(GL_TEXTURE_2D);
+		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
+
+		if (rast->bitmap) {
+			glshim_glEnable(GL_ALPHA_TEST);
+			glshim_glAlphaFunc(GL_GREATER, 0.0f);
+		} else {
+			glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+        
+        gles_glDrawTexf(rPos.x-rast->xorig, rPos.y-rast->yorig, rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
+        if (!glstate.enable.texture_2d[0]) glshim_glDisable(GL_TEXTURE_2D);
+		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
+		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
+        if (old_bind == NULL) 
+            gles_glBindTexture(GL_TEXTURE_2D, 0);
+        else
+            gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
+        #else
+		glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+		GLfloat old_projection[16], old_modelview[16], old_texture[16];
+
 		glshim_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
 		glshim_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
 		glshim_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
@@ -484,6 +527,7 @@ void render_raster_list(rasterlist_t* rast) {
 		glshim_glLoadMatrixf(old_modelview);
 		glshim_glMatrixMode(GL_PROJECTION);
 		glshim_glLoadMatrixf(old_projection);
+        #endif
 		glshim_glPopAttrib();
 	}
 	rPos.x += rast->xmove;

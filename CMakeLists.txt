@@ -12,6 +12,8 @@ option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
 
+option(USE_DRAWTEX "Set to ON to use the glDrawTexiOES extension" ${USE_DRAWTEX})
+
 # Raspberry PI
 if(BCMHOST)
     include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
@@ -26,6 +28,10 @@ endif()
 
 if(ODROID)
     add_definitions(-DODROID)
+endif()
+
+if(USE_DRAWTEX)
+    add_definitions(-DUSE_DRAWTEX)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)

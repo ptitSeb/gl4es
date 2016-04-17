@@ -467,6 +467,14 @@ void createMainFBO(int width, int height) {
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
 					0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    #ifdef USE_DRAWTEX
+    {
+        LOAD_GLES(glTexParameteriv);
+        // setup the texture for glDrawTexiOES
+        GLint coords [] = {0, 0, mainfbo_width, mainfbo_height};
+        gles_glTexParameteriv( GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, coords );
+    }
+    #endif
 	gles_glBindTexture(GL_TEXTURE_2D, 0);
     // create the render buffers
 	gles_glGenRenderbuffers(1, &mainfbo_dep);
@@ -514,7 +522,9 @@ void createMainFBO(int width, int height) {
 }
 
 void blitMainFBO() {
+    #ifdef USE_DRAWTEX
     LOAD_GLES_OES(glDrawTexi);
+    #endif
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glClientActiveTexture);
@@ -541,7 +551,7 @@ void blitMainFBO() {
     gles_glGetIntegerv(GL_VIEWPORT, old_vp);
     gles_glViewport(0, 0, mainfbo_width, mainfbo_height);
     // Draw the texture
-    #if 0
+    #ifdef USE_DRAWTEX
     gles_glDrawTexi(0, 0, 0, mainfbo_width, mainfbo_height);
     #else
     {
