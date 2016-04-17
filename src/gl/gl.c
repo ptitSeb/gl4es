@@ -1235,6 +1235,7 @@ void glEnd() __attribute__((alias("glshim_glEnd")));
 
 void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate.list.active) {
+        glstate.list.active->lastNormal[0] = nx; glstate.list.active->lastNormal[1] = ny; glstate.list.active->lastNormal[2] = nz;
         if (glstate.list.active->stage != STAGE_DRAW) {
             if (glstate.list.active->stage != STAGE_DRAW) {
                 PUSH_IF_COMPILING(glNormal3f);
@@ -1265,6 +1266,8 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) __attribute__((alias
 
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate.list.active) {
+        glstate.list.active->lastColors[0] = red; glstate.list.active->lastColors[1] = green;
+        glstate.list.active->lastColors[2] = blue; glstate.list.active->lastColors[3] = alpha;
         if (glstate.list.active->stage != STAGE_DRAW) {
             PUSH_IF_COMPILING(glColor4f);
         }
@@ -1286,6 +1289,8 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) __attrib
 
 void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate.list.active) {
+        glstate.list.active->lastSecondaryColors[0] = r; glstate.list.active->lastSecondaryColors[1] = g;
+        glstate.list.active->lastSecondaryColors[2] = b;
         rlSecondary3f(glstate.list.active, r, g, b);
         noerrorShim();
     } else {

@@ -14,62 +14,17 @@ renderlist_t *alloc_renderlist() {
 
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     memset(list, 0, sizeof(*list));
-    /*
-    list->len = 0;
-    list->ilen = 0;*/
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
-    /*
-    list->calls.len = 0;
-    list->calls.cap = 0;
-    list->calls.calls = NULL;
-
-    list->mode = 0;
-    list->mode_init = 0;
-    list->shared_arrays = false;
-    list->vert = NULL;
-    list->normal = NULL;
-    list->color = NULL;
-    list->secondary = NULL;
-
-    list->glcall_list = 0;
-    list->raster = NULL;
-    
-    list->stage = STAGE_NONE;
-    
-    list->pushattribute = 0;
-    list->popattribute = false;
-    
-    list->raster_op = 0;
-    for (a=0; a<3; a++)
-        list->raster_xyz[a]=0.0f;
-        
-    list->matrix_op = 0;
-    for (a=0; a<16; a++)
-        list->matrix_val[a]=((a%4)==0)?1.0f:0.0f;    // load identity matrix
-    */
     list->matrix_val[0] = list->matrix_val[5] = list->matrix_val[10] = 
                           list->matrix_val[15] = 1.0f;
-    /*
-    for (a=0; a<MAX_TEX; a++)
-       list->tex[a] = NULL;
-    list->material = NULL;
-    list->light = NULL;
-    list->texgen = NULL;
-    list->lightmodel = NULL;*/
     list->lightmodelparam = GL_LIGHT_MODEL_AMBIENT;
-    /*
-    list->indices = NULL;
-    list->indice_cap = 0;
-    list->set_texture = false;
-    list->texture = 0;*/
     list->target_texture = GL_TEXTURE_2D;
     list->tmu = glstate.texture.active;
-    /*
-    list->polygon_mode = 0;
-    list->fog_op = 0;
-    
-    list->prev = NULL;
-    list->next = NULL;*/
+
+    memcpy(list->lastNormal, glstate.normal, 3*sizeof(GLfloat));
+    memcpy(list->lastSecondaryColors, glstate.secondary, 3*sizeof(GLfloat));
+    memcpy(list->lastColors, glstate.color, 4*sizeof(GLfloat));
+
     list->open = true;
     return list;
 }
@@ -489,6 +444,10 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         renderlist_t *new = alloc_renderlist();
         new->prev = list->prev;
         list->prev->next = new;
+        // just in case
+        memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
+        memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
+        memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
         // detach
         list->prev = NULL;
         // free list now
@@ -499,6 +458,10 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         list->next = new;
         new->prev = list;
         new->tmu = list->tmu;
+        // copy local state
+        memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
+        memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
+        memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
         if (list->open)
             end_renderlist(list);
         return new;
@@ -1129,7 +1092,7 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         int i;
         if (list->len) for (i = 0; i < list->len; i++) {
             GLfloat *color = (list->color + (i * 4));
-            memcpy(color, glstate.color, sizeof(GLfloat) * 4);
+            memcpy(color,list->lastColors, sizeof(GLfloat) * 4);
         }/* else {
             GLfloat *color = list->color;
             color[0] = r; color[1] = g; color[2] = b; color[3] = a;
@@ -1147,7 +1110,7 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
         int i;
         if (list->len) for (i = 0; i < list->len; i++) {
             GLfloat *secondary = (list->secondary + (i * 4));
-            memcpy(secondary, glstate.secondary, sizeof(GLfloat) * 4);
+            memcpy(secondary, list->lastSecondaryColors, sizeof(GLfloat) * 4);
         }
     }
 

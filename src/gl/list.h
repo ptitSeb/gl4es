@@ -93,6 +93,8 @@ typedef struct _renderlist_t {
     GLenum mode;
     GLenum mode_init;		// initial requested mode
     GLfloat lastNormal[3];
+    GLfloat lastColors[4];
+    GLfloat lastSecondaryColors[3];
 
     call_list_t calls;
     
