@@ -231,7 +231,7 @@ int renderlist_getindicesize(renderlist_t *a) {
     int ilen_a;
     switch (a->mode) {
         case GL_LINE_LOOP:
-            ilen_a = (((a->indices)? a->ilen:a->len)-2)*3;
+            ilen_a = ((a->indices)? a->ilen:a->len)*2;
             if (ilen_a<0) ilen_a=1; // special borked case...
             break;
         case GL_LINE_STRIP:
