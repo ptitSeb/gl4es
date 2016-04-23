@@ -21,7 +21,7 @@ Compiling
 ----
 *for Pandora*
 
-    cmake . ; make GL
+    cmake . -DPANDORA=1; make GL
     
 *or for the Raspberry Pi*
 
