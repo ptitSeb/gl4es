@@ -352,6 +352,8 @@ static void scan_env() {
     if (g_vsync) {
         init_vsync();
     }
+#endif
+#ifdef PANDORA
     init_liveinfo();
     if (sock>-1) {
         printf("LIBGL: LiveInfo detected, fps will be shown\n");
