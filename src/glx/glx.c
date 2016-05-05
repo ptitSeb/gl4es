@@ -28,7 +28,11 @@ static bool eglInitialized = false;
 static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
+#ifdef PANDORA
 static int glx_default_depth=16;
+#else
+static int glx_default_depth=32;
+#endif
 #ifdef PANDORA
 static struct sockaddr_un sun;
 static int sock = -2;
