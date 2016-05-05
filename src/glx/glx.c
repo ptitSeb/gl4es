@@ -22,6 +22,7 @@ static bool eglInitialized = false;
 static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
+static int glx_default_depth=16;
 #ifdef PANDORA
 static struct sockaddr_un sun;
 static int sock = -2;
@@ -672,12 +673,12 @@ XVisualInfo *glXChooseVisual(Display *display,
         g_display = XOpenDisplay(NULL);
     }
 */
-    int default_depth = XDefaultDepth(display, screen);
-    if (default_depth != 16 && default_depth != 24  && default_depth != 32)
-        printf("libGL: unusual desktop color depth %d\n", default_depth);
+    glx_default_depth = XDefaultDepth(display, screen);
+    if (glx_default_depth != 16 && glx_default_depth != 24  && glx_default_depth != 32)
+        printf("libGL: unusual desktop color depth %d\n", glx_default_depth);
 
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    if (!XMatchVisualInfo(display, screen, default_depth, TrueColor, visual)) {
+    if (!XMatchVisualInfo(display, screen, glx_default_depth, TrueColor, visual)) {
         printf("libGL: XMatchVisualInfo failed in glXChooseVisual\n");
         return NULL;
     }
@@ -944,7 +945,7 @@ XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
         g_display = XOpenDisplay(NULL);
     }*/
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(display, 0, 16, TrueColor, visual);
+    XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, visual);
     return visual;
 }
 
