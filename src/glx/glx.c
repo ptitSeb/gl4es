@@ -673,7 +673,7 @@ XVisualInfo *glXChooseVisual(Display *display,
     }
 */
     int default_depth = XDefaultDepth(display, screen);
-    if (default_depth != 16 && default_depth != 24)
+    if (default_depth != 16 && default_depth != 24  && default_depth != 32)
         printf("libGL: unusual desktop color depth %d\n", default_depth);
 
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
