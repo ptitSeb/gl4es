@@ -232,6 +232,21 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         }
     }
     
+    if(attachment==GL_DEPTH_ATTACHMENT) {
+        noerrorShim();
+        if (level!=0) return;
+        // glshim doesn't support DEPTH Texture. So instead of ending with an incomplete FBO
+        // let's create a renderbuffer and attach it instead of the (presumably) depth texture
+        GLuint render_depth;    // memory leak here...
+        glshim_glGenRenderbuffers(1, &render_depth);
+        glshim_glBindRenderbuffer(GL_RENDERBUFFER, render_depth);
+        glshim_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
+        glshim_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        errorGL();
+        glshim_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depth);
+        return;
+    }
+
     twidth = twidth >> level; if(twidth<1) twidth=1;
     theight = theight >> level; if(theight<1) theight=1;
     
@@ -250,7 +265,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         }
         texture = scrap_tex;
     }
-
+    
     errorGL();
     gles_glFramebufferTexture2D(target, attachment, textarget, texture, 0);
 }
@@ -413,6 +428,15 @@ void glshim_glGenerateMipmap(GLenum target) {
 void glshim_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
     //printf("glGetFramebufferAttachmentParameteriv(%s, %s, %s, %p)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(pname), params);
     LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
+    
+    // hack to return DEPTH size
+    if(target==GL_FRAMEBUFFER && attachment==GL_DEPTH_ATTACHMENT && pname==GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE) {
+        noerrorShim();
+        glshim_glGetFramebufferAttachmentParameteriv(target, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, params);
+        if (params)
+            *params = 16;   //Depth buffer is 16 on GLES. No check for 24 bits here...
+        return;
+    }
     
     errorGL();
     return gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
