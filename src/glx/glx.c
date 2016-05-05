@@ -2,8 +2,14 @@
 #include <execinfo.h>
 #endif
 #include <fcntl.h>
-#ifdef PANDORA
+#if defined(PANDORA) || defined(ODROID)
+#define USE_FBIO 1
+#endif
+
+#ifdef USE_FBIO
 #include <linux/fb.h>
+#endif
+#ifdef PANDORA
 #include <sys/socket.h>
 #include <sys/un.h>
 #endif
@@ -146,9 +152,11 @@ static GLXContext fbContext = NULL;
 
 static int fbcontext_count = 0;
 
-#ifdef PANDORA
+#ifdef USE_FBIO
 #ifndef FBIO_WAITFORVSYNC
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
+#endif
+#ifdef PANDORA
 static float pandora_gamma = 0.0f;
 #endif
 static int fbdev = -1;
@@ -197,7 +205,7 @@ static void init_display(Display *display) {
 }
 #endif //ANDROID
 static void init_vsync() {
-#ifdef PANDORA
+#ifdef USE_FBIO
     fbdev = open("/dev/fb0", O_RDONLY);
     if (fbdev < 0) {
         fprintf(stderr, "Could not open /dev/fb0 for vsync.\n");
@@ -340,11 +348,13 @@ static void scan_env() {
             g_usefbo = true;
     }
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
-#ifdef PANDORA
+#ifdef USE_FBIO
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
     if (g_vsync) {
         init_vsync();
     }
+#endif
+#ifdef PANDORA
     init_liveinfo();
     if (sock>-1) {
         printf("LIBGL: LiveInfo detected, fps will be shown\n");
@@ -785,7 +795,7 @@ void glXSwapBuffers(Display *display,
     if (glstate.gl_batch || glstate.list.active){
         flush();
     }
-#ifdef PANDORA
+#ifdef USE_FBIO
     if (g_vsync && fbdev >= 0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
         // this will just block otherwise.
@@ -887,7 +897,7 @@ Bool glXQueryVersion(Display *display, int *major, int *minor) {
 const char *glXGetClientString(Display *display, int name) {
     // TODO: return actual data here
     switch (name) {
-        case GLX_VENDOR: return "OpenPandora";
+        case GLX_VENDOR: return "ptitSeb";
         case GLX_VERSION: return "1.4 OpenPandora";
         case GLX_EXTENSIONS: break;
     }
@@ -957,7 +967,7 @@ GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
 #endif //ANDROID
 void glXSwapIntervalMESA(int interval) {
     printf("glXSwapInterval(%i)\n", interval);
-#ifdef PANDORA
+#ifdef USE_FBIO
     if (! g_vsync)
         printf("Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
     swap_interval = interval;
