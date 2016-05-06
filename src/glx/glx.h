@@ -250,7 +250,7 @@ int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, in
 int glXQueryContext(Display *display, GLXContext ctx, int attribute, int *value);
 GLXFBConfig *glXChooseFBConfigSGIX(Display *display, int screen, const int *attrib_list, int *count);
 
-void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
+Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
 void glXDestroyWindow(Display *display, void *win);
 
 Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);

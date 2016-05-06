@@ -28,11 +28,7 @@ static bool eglInitialized = false;
 static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
-#ifdef PANDORA
-static int glx_default_depth=16;
-#else
-static int glx_default_depth=32;
-#endif
+static int glx_default_depth=0;
 #ifdef PANDORA
 static struct sockaddr_un sun;
 static int sock = -2;
@@ -958,6 +954,8 @@ XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
     /*if (g_display == NULL) {
         g_display = XOpenDisplay(NULL);
     }*/
+    if (glx_default_depth==0)
+        glx_default_depth = XDefaultDepth(display, 0);
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, visual);
     return visual;
@@ -997,7 +995,7 @@ void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mas
 }
 void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {} // should return GLXPixmap
 void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
-void glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
+Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
 void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
 
 GLXDrawable glXGetCurrentDrawable() {
