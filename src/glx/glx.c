@@ -995,7 +995,7 @@ void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mas
 }
 void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {} // should return GLXPixmap
 void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
-Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {} // should return GLXWindow
+Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {return win;} // should return GLXWindow
 void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
 
 GLXDrawable glXGetCurrentDrawable() {
