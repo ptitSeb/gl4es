@@ -1,18 +1,18 @@
 #include "raster.h"
 #include "debug.h"
 
-rasterpos_t rPos = {0, 0, 0};
-viewport_t viewport = {0, 0, 0, 0};
-GLubyte *raster = NULL;
-GLfloat zoomx=1.0f;
-GLfloat zoomy=1.0f;
-GLuint raster_texture=0;
-GLsizei raster_width=0;
-GLsizei raster_height=0;
-GLsizei raster_realwidth=0;
-GLsizei raster_realheight=0;
+static rasterpos_t rPos = {0, 0, 0};
+static viewport_t viewport = {0, 0, 0, 0};
+static GLubyte *raster = NULL;
+GLfloat raster_zoomx=1.0f;
+GLfloat raster_zoomy=1.0f;
+static GLuint raster_texture=0;
+static GLsizei raster_width=0;
+static GLsizei raster_height=0;
+static GLsizei raster_realwidth=0;
+static GLsizei raster_realheight=0;
 
-GLint	raster_x1, raster_x2, raster_y1, raster_y2;
+static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 #define min(a, b)	((a)<b)?(a):(b)
 #define max(a, b)	((a)>(b))?(a):(b)
 GLfloat raster_scale[4] = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -81,8 +81,8 @@ void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
         noerrorShim();
         return;
     }
-	zoomx = xfactor;
-	zoomy = yfactor;
+	raster_zoomx = xfactor;
+	raster_zoomy = yfactor;
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
@@ -223,7 +223,7 @@ GLuint raster_to_texture()
 void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
-	rPos.x, rPos.y, xorig, yorig, width, height, zoomx, zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
+	rPos.x, rPos.y, xorig, yorig, width, height, raster_zoomx, raster_zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
     noerrorShim();
@@ -299,8 +299,8 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 	r->width = width;
 	r->height = height;
 	r->bitmap = true;
-	r->zoomx = zoomx;
-	r->zoomy = zoomy;
+	r->zoomx = raster_zoomx;
+	r->zoomy = raster_zoomy;
     LOAD_GLES(glDeleteTextures);
 	if (!(glstate.list.compiling || glstate.gl_batch)) {
 		render_raster_list(r);
@@ -318,7 +318,7 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     noerrorShim();
     
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%s, type=%s, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
-	rPos.x, rPos.y, width, height, PrintEnum(format), PrintEnum(type), zoomx, zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
+	rPos.x, rPos.y, width, height, PrintEnum(format), PrintEnum(type), raster_zoomx, raster_zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
 	// check of unsuported format...
 	if ((format == GL_STENCIL_INDEX) || (format == GL_DEPTH_COMPONENT)) {
         errorShim(GL_INVALID_ENUM);
@@ -382,8 +382,8 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->width = width;
 	r->height = height;
 	r->bitmap = false;
-	r->zoomx = zoomx;
-	r->zoomy = zoomy;
+	r->zoomx = raster_zoomx;
+	r->zoomy = raster_zoomy;
 	if (!(glstate.list.compiling || glstate.gl_batch)) {
 		render_raster_list(r);
 /*		gles_glDeleteTextures(1, &r->texture);

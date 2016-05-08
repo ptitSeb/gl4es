@@ -194,7 +194,7 @@ void transposeMatrix(float *matrix)
 }
 
 // glGet
-extern float zoomx, zoomy;
+extern float raster_zoomx, raster_zoomy;
 extern GLfloat raster_scale[4];
 extern GLfloat raster_bias[4];
 
@@ -363,10 +363,10 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 	    *params = glstate.texture.pack_lsb_first;
 	    break;
         case GL_ZOOM_X:
-	    *params = zoomx;
+	    *params = raster_zoomx;
 	    break;
         case GL_ZOOM_Y:
-	    *params = zoomy;
+	    *params = raster_zoomy;
 	    break;
         case GL_RED_SCALE:
 	    *params = raster_scale[0];
