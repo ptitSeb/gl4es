@@ -192,7 +192,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     #undef write_each
 }
 static inline
-bool transform_pixel(const GLvoid *src, GLvoid *dst, 
+bool transform_pixel(const GLvoid *src, GLvoid *dst,
                  const colorlayout_t *src_color, GLenum src_type,
                  const GLfloat *scale, const GLfloat *bias) {
 
@@ -342,9 +342,9 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
 }
 
 static inline
-bool half_pixel(const GLvoid *src0, const GLvoid *src1, 
-                 const GLvoid *src2, const GLvoid *src3, 
-                 GLvoid *dst, 
+bool half_pixel(const GLvoid *src0, const GLvoid *src1,
+                 const GLvoid *src2, const GLvoid *src3,
+                 GLvoid *dst,
                  const colorlayout_t *src_color, GLenum src_type) {
 
     #define type_case(constant, type, ...)        \
@@ -521,8 +521,8 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
 
 
 static inline
-bool quarter_pixel(const GLvoid *src[16], 
-                 GLvoid *dst, 
+bool quarter_pixel(const GLvoid *src[16],
+                 GLvoid *dst,
                  const colorlayout_t *src_color, GLenum src_type) {
 
     #define type_case(constant, type, ...)        \
@@ -713,6 +713,23 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && (src_type == GL_UNSIGNED_SHORT_1_5_5_5_REV)) {
+      GLuint tmp;
+      unsigned short *wtexmemp = NULL, wtexmem;
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          // invert 1555/BGRA to 5551/RGBA (0x1f / 0x3e0 / 7c00)
+          wtexmemp=(unsigned short*)src_pos-1;
+          wtexmem=*(wtexmemp);
+          *(GLushort*)dst_pos = ((wtexmem&0x8000)>>15) | ((wtexmem&0x7fff)<<1);
+          src_pos += src_stride;
+          dst_pos += dst_stride;
+        }
+        if (stride)
+         dst_pos += dst_width;
+      }
+      return true;
+    }
     if ((src_format == GL_RGBA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
@@ -873,14 +890,14 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
-	if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+	if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
 					  src_color, src_type, dst_color, dst_type)) {
 		// fake convert, to get if it's ok or not
 		return false;
 	}
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos, 
+			remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
 							  src_color, src_type, dst_color, dst_type);
 			src_pos += src_stride;
 			dst_pos += dst_stride;
