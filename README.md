@@ -170,3 +170,8 @@ Hack: glGetError() always return GL_NOERROR
 Pandora Hack: Set a Gamma value (in decimal formal, 1.0 means no gamma boost)
  * X.Y : Use X.Y as gamma when creating context (typical value can be 1.6 or 2.0)
 
+##### LIBGL_SRGB
+Pandora Hack: Enable sRGB Surface (so Gamma corrected), if Hardware support it
+ * 0 : Default, don't try to use sRGB surface
+ * 1 : Enable sRGB Surface (but support will be tested first, must have EGL_KHR_gl_colorspace extension)
+
