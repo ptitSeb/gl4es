@@ -25,9 +25,9 @@
 #include "../glx/streaming.h"
 
 #ifndef EGL_GL_COLORSPACE_KHR
-#define EGL_GL_COLORSPACE_KHR           EGL_VG_COLORSPACE
-#define EGL_GL_COLORSPACE_SRGB_KHR      EGL_VG_COLORSPACE_sRGB
-#define EGL_GL_COLORSPACE_LINEAR_KHR    EGL_VG_COLORSPACE_LINEAR
+#define EGL_GL_COLORSPACE_KHR                   0x309D
+#define EGL_GL_COLORSPACE_SRGB_KHR              0x3089
+#define EGL_GL_COLORSPACE_LINEAR_KHR            0x308A
 #endif
 
 static bool eglInitialized = false;
@@ -633,7 +633,7 @@ GLXContext glXCreateContext(Display *display,
 		egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 	}
 
-	//*TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
+	// *TODO* put eglContext inside GLXcontext, to handle multiple Glxcontext
         
     return fake;
 }
@@ -773,7 +773,7 @@ Bool glXMakeCurrent(Display *display,
 		else {
 			eglSurface = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL);
         }
-        result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+        	result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 	} else {
         if (!eglSurface) {
             eglSurface = egl_eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL); // create surface only if needed
