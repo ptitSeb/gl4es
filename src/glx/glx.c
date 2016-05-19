@@ -35,7 +35,7 @@ static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
 static int glx_default_depth=0;
-static int glx_surface_srgb=1;  // default to try to create an sRGB surface
+static int glx_surface_srgb=0;  // default to not try to create an sRGB surface
 #ifdef PANDORA
 static struct sockaddr_un sun;
 static int sock = -2;
@@ -484,9 +484,9 @@ static void scan_env() {
     }
 #endif
     char *env_srgb = getenv("LIBGL_SRGB");
-    if (env_srgb && strcmp(env_srgb, "0") == 0) {
-        glx_surface_srgb = 0;
-        printf("LIBGL: disabling sRGB support\n");
+    if (env_srgb && strcmp(env_srgb, "1") == 0) {
+        glx_surface_srgb = 1;
+        printf("LIBGL: enabling sRGB support\n");
     }
     
     char cwd[1024];
