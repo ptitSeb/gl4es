@@ -24,11 +24,18 @@
 #include "../gl/gl.h"
 #include "../glx/streaming.h"
 
+#ifndef EGL_GL_COLORSPACE_KHR
+#define EGL_GL_COLORSPACE_KHR           EGL_VG_COLORSPACE
+#define EGL_GL_COLORSPACE_SRGB_KHR      EGL_VG_COLORSPACE_sRGB
+#define EGL_GL_COLORSPACE_LINEAR_KHR    EGL_VG_COLORSPACE_LINEAR
+#endif
+
 static bool eglInitialized = false;
 static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
 static int glx_default_depth=0;
+static int glx_surface_srgb=1;  // default to try to create an sRGB surface
 #ifdef PANDORA
 static struct sockaddr_un sun;
 static int sock = -2;
@@ -476,6 +483,11 @@ static void scan_env() {
         atexit(pandora_reset_gamma);
     }
 #endif
+    char *env_srgb = getenv("LIBGL_SRGB");
+    if (env_srgb && strcmp(env_srgb, "0") == 0) {
+        glx_surface_srgb = 0;
+        printf("LIBGL: disabling sRGB support\n");
+    }
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
@@ -533,8 +545,8 @@ GLXContext glXCreateContext(Display *display,
     LOAD_EGL(eglInitialize);
     LOAD_EGL(eglCreateContext);
     LOAD_EGL(eglChooseConfig);
+    LOAD_EGL(eglQueryString);
     
-
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
 	if (!g_usefb) {
@@ -580,6 +592,15 @@ GLXContext glXCreateContext(Display *display,
             return fake;
         }
         eglInitialized = true;
+    }
+
+    // With the display, try to check if sRGB surface are supported
+    if (glx_surface_srgb==1) {
+        if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
+            printf("LIBGL: sRGB surface supported\n");
+            glx_surface_srgb=2; // test only 1 time
+        } else
+            glx_surface_srgb=0;
     }
 
     int configsFound;
@@ -737,6 +758,7 @@ Bool glXMakeCurrent(Display *display,
     if (g_usefb)
         drawable = 0;
     EGLBoolean result;
+    EGLint const sRGB[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR, EGL_NONE};
 	if (!g_usefb) {
 		// need current surface for eglSwapBuffer
 		eglContext = context->eglContext;
@@ -748,12 +770,13 @@ Bool glXMakeCurrent(Display *display,
 		// Now get the Surface
 		if (context->eglSurface)
 			eglSurface = context->eglSurface;		// reused previously created Surface
-		else
-			eglSurface = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, NULL);
+		else {
+			eglSurface = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL);
+        }
         result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 	} else {
         if (!eglSurface) {
-            eglSurface = egl_eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, NULL); // create surface only if needed
+            eglSurface = egl_eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL); // create surface only if needed
             result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
         } else
             result = EGL_TRUE;
