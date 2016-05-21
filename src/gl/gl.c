@@ -671,7 +671,7 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-//printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate.vao->elements)?glstate.vao->elements->data:NULL);
+    //printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate.vao->elements)?glstate.vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
