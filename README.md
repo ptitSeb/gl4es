@@ -35,19 +35,16 @@ Compiling
 
     An Android.mk is provided that should compile with an NDK
 
-
 *or use ccmake*
-Alternatively, you can use the curses-bases ccmake to select wich platform to use interactively.
+
+Alternatively, you can use the curses-bases ccmake (or any other gui frontend for cmake) to select wich platform to use interactively.
     
 ----
 
 GLU
 ----
+
 Standard GLU do works without any issues.
-
-But you can also find a GLES optimized version og GLU there https://github.com/lunixbochs/glues
-
-    git clone git@github.com:lunixbochs/glues.git; git checkout glu; cmake .; make
 
 ----
 
@@ -171,7 +168,7 @@ Pandora Hack: Set a Gamma value (in decimal formal, 1.0 means no gamma boost)
  * X.Y : Use X.Y as gamma when creating context (typical value can be 1.6 or 2.0)
 
 ##### LIBGL_SRGB
-Pandora Hack: Enable sRGB Surface (so Gamma corrected), if Hardware support it
+ODROID Hack: Enable sRGB Surface (so Gamma corrected), if Hardware support it
  * 0 : Default, don't try to use sRGB surface
  * 1 : Enable sRGB Surface (but support will be tested first, must have EGL_KHR_gl_colorspace extension)
 
