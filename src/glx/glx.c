@@ -294,6 +294,17 @@ static void init_liveinfo() {
     } else
         fcntl(sock, F_SETFL, O_NONBLOCK);
 }
+
+static void fast_math() {
+  // enable Cortex A8 RunFast
+   int v = 0;
+   __asm__ __volatile__ (
+     "vmrs %0, fpscr\n"
+     "orr  %0, #((1<<25)|(1<<24))\n" // default NaN, flush-to-zero
+     "vmsr fpscr, %0\n"
+     //"vmrs %0, fpscr\n"
+     : "=&r"(v));
+}
 #endif
 extern void initialize_glshim();
 extern int initialized;
@@ -487,6 +498,15 @@ static void scan_env() {
     if (env_srgb && strcmp(env_srgb, "1") == 0) {
         glx_surface_srgb = 1;
         printf("LIBGL: enabling sRGB support\n");
+    }
+    char *env_fastmath = getenv("LIBGL_FASTMATH");
+    if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
+#ifdef PANDORA
+        printf("LIBGL: Enable FastMath for cortex-a8\n");
+        fast_math();
+#else
+        printf("LIBGL: No FastMath on this platform\n");
+#endif
     }
     
     char cwd[1024];

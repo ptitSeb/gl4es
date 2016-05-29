@@ -172,3 +172,9 @@ ODROID Hack: Enable sRGB Surface (so Gamma corrected), if Hardware support it
  * 0 : Default, don't try to use sRGB surface
  * 1 : Enable sRGB Surface (but support will be tested first, must have EGL_KHR_gl_colorspace extension)
 
+##### LIBGL_FASTMATH
+Hack: Activate some Fast Math in processor/coprocessor
+ * 0 : Default, nothing special
+ * 1 : On OpenPandora, activate "RunFast" on Cortex-A8 (mode default NaN, flush-to-zero)
+     : Not implemented on other platforms (will do nothing)
+
