@@ -1188,14 +1188,15 @@ gltexture_t* glshim_getTexture(GLenum target, GLuint texture) {
 void glshim_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)))  {
+        //printf("=> glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate.texture.active, glstate.texture.client, batch_activetex, glstate.statebatch.bound_targ[batch_activetex], glstate.statebatch.bound_tex[batch_activetex]);
         if ((glstate.statebatch.bound_targ[batch_activetex] == target) && (glstate.statebatch.bound_tex[batch_activetex] == texture))
             return; // nothing to do...
-        if (!glstate.statebatch.bound_targ[batch_activetex]) {
-            glstate.statebatch.bound_targ[batch_activetex] = target;
-            glstate.statebatch.bound_tex[batch_activetex] = texture;
-        } else {
+        if (glstate.statebatch.bound_targ[batch_activetex]) {
             flush();
         }
+        glstate.statebatch.bound_targ[batch_activetex] = target;
+        glstate.statebatch.bound_tex[batch_activetex] = texture;
+        //printf(" <= glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate.texture.active, glstate.texture.client, batch_activetex, glstate.statebatch.bound_targ[batch_activetex], glstate.statebatch.bound_tex[batch_activetex]);
     }
     if ((target!=GL_PROXY_TEXTURE_2D) && ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active)) {
         // check if already a texture binded, if yes, create a new list

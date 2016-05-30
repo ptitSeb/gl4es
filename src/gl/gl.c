@@ -1892,7 +1892,7 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-//printf("flush glstate.list.active=%p, gl_batch=%i(%i)\n", glstate.list.active, glstate.gl_batch, gl_batch);
+    //printf("flush glstate.list.active=%p, gl_batch=%i(%i)\n", glstate.list.active, glstate.gl_batch, gl_batch);
     renderlist_t *mylist = glstate.list.active;
     if (mylist) {
         GLuint old = glstate.gl_batch;

@@ -323,7 +323,6 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
     for (int i=0; i<MAX_TEX; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
-    
     // indices
     if (ilen_a + ilen_b)
     {
@@ -436,9 +435,6 @@ void adjust_renderlist(renderlist_t *list);
 
 renderlist_t *extend_renderlist(renderlist_t *list) {
     if ((list->prev!=NULL) && ispurerender_renderlist(list) && islistscompatible_renderlist(list->prev, list)) {
-        // close first!
-        if (list->open)
-            adjust_renderlist(list);
         // append list!
         append_renderlist(list->prev, list);
         renderlist_t *new = alloc_renderlist();
@@ -462,8 +458,6 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
         memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
-        if (list->open)
-            end_renderlist(list);
         return new;
     }
 }
@@ -615,6 +609,9 @@ void draw_renderlist(renderlist_t *list) {
 	int old_tex;
     GLushort *indices;
     do {
+        // close if needed!
+        if (list->open)
+            end_renderlist(list);
         // push/pop attributes
         if (list->pushattribute)
             glshim_glPushAttrib(list->pushattribute);
@@ -1218,7 +1215,6 @@ void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q
             tex += 4;
         }
     }
-    
     GLfloat *tex = glstate.texcoord[0];
     tex[0] = s; tex[1] = t;
     tex[2] = r; tex[3] = q;
