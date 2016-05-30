@@ -1184,15 +1184,15 @@ gltexture_t* glshim_getTexture(GLenum target, GLuint texture) {
     }
     return tex;
 }
-
+#define batch_activetex (glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active)
 void glshim_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)))  {
-        if ((glstate.statebatch.bound_targ == target) && (glstate.statebatch.bound_tex == texture))
+        if ((glstate.statebatch.bound_targ[batch_activetex] == target) && (glstate.statebatch.bound_tex[batch_activetex] == texture))
             return; // nothing to do...
-        if (!glstate.statebatch.bound_targ) {
-            glstate.statebatch.bound_targ = target;
-            glstate.statebatch.bound_tex = texture;
+        if (!glstate.statebatch.bound_targ[batch_activetex]) {
+            glstate.statebatch.bound_targ[batch_activetex] = target;
+            glstate.statebatch.bound_tex[batch_activetex] = texture;
         } else {
             flush();
         }
@@ -1260,6 +1260,7 @@ tex_changed=1;  // seems buggy, temporary disabling that...
         }
     }
 }
+#undef batch_activetex
 
 // TODO: also glTexParameterf(v)?
 void glshim_glTexParameteri(GLenum target, GLenum pname, GLint param) {

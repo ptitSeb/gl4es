@@ -522,7 +522,9 @@ void glshim_glEnable(GLenum cap) {
             case GL_BLEND: which_cap = ENABLED_BLEND; break;
             case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
             case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
-            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D; break;
+            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D_TEX0
+                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active); 
+                    break;
             default: which_cap = ENABLED_LAST; break;
         }
         if (which_cap!=ENABLED_LAST) {
@@ -556,7 +558,9 @@ void glshim_glDisable(GLenum cap) {
             case GL_BLEND: which_cap = ENABLED_BLEND; break;
             case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
             case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
-            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D; break;
+            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D_TEX0
+                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active); 
+                break;
             default: which_cap = ENABLED_LAST; break;
         }
         if (which_cap!=ENABLED_LAST) {

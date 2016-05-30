@@ -104,15 +104,22 @@ typedef enum {
     ENABLED_BLEND,
     ENABLED_CULL,
     ENABLED_DEPTH,
-    ENABLED_TEX2D,
+    ENABLED_TEX2D_TEX0,
+    ENABLED_TEX2D_TEX1,
+    ENABLED_TEX2D_TEX2,
+    ENABLED_TEX2D_TEX3,
+    ENABLED_TEX2D_TEX4,
+    ENABLED_TEX2D_TEX5,
+    ENABLED_TEX2D_TEX6,
+    ENABLED_TEX2D_TEX7,
     ENABLED_LAST
 } statbatch_enabled_t;
 
 typedef struct {
     int    active_tex_changed;
-    GLenum active_tex;  // only 1 active texture for now
-    GLenum bound_targ;
-    GLenum bound_tex;
+    GLenum active_tex;  // current active texture
+    GLenum bound_targ[MAX_TEX];
+    GLenum bound_tex[MAX_TEX];
     int enabled[ENABLED_LAST];    // the enabled are: 0=not set, 1=enabled, 2=disabled
     GLenum blendfunc_s;
     GLenum blendfunc_d;
