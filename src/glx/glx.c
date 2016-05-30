@@ -221,7 +221,7 @@ static void init_vsync() {
 }
 
 static void xrefresh() {
-    system("xrefresh");
+    int dummy = system("xrefresh");
 }
 
 #ifdef PANDORA
@@ -233,7 +233,7 @@ static void pandora_set_gamma() {
     if(pandora_gamma>0.0f) {
         char buf[50];
         sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", pandora_gamma);
-        system(buf);
+        int dummy = system(buf);
     }
 }
 #endif
@@ -263,7 +263,7 @@ static void signal_handler(int sig) {
                 if (! size) {
                     printf("No stacktrace. Compile with -funwind-tables.\n");
                 } else {
-                    printf("Stacktrace: %i\n", size);
+                    printf("Stacktrace: %zd\n", size);
                     backtrace_symbols_fd(array, size, 2);
                 }
                 break;
