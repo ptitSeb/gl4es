@@ -185,7 +185,7 @@ extern int copytex;
 extern int nolumalpha;
 extern int blendhack;
 extern int export_blendcolor;
-extern int noerror;
+extern int glshim_noerror;
 extern char glshim_version[50];
 
 bool g_recyclefbo = false;
@@ -479,7 +479,7 @@ static void scan_env() {
 
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     env(LIBGL_BLENDCOLOR, export_blendcolor, "Export a (faked) glBlendColor");
-    env(LIBGL_NOERROR, noerror, "glGetError() always return GL_NOERROR");
+    env(LIBGL_NOERROR, glshim_noerror, "glGetError() always return GL_NOERROR");
 
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {

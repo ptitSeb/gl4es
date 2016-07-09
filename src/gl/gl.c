@@ -33,7 +33,7 @@ int blendhack = 0;
 int export_blendcolor = 0;
 char glshim_version[50];
 int initialized = 0;
-int noerror = 0;
+int glshim_noerror = 0;
 
 __attribute__((constructor))
 void initialize_glshim() {
@@ -1750,7 +1750,7 @@ void glPopMatrix() __attribute__((alias("glshim_glPopMatrix")));
 
 GLenum glshim_glGetError() {
 	LOAD_GLES(glGetError);
-    if(noerror)
+    if(glshim_noerror)
         return GL_NO_ERROR;
 	if (glstate.shim_error) {
 		GLenum tmp = glstate.last_error;
