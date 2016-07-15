@@ -178,3 +178,8 @@ Hack: Activate some Fast Math in processor/coprocessor
  * 1 : On OpenPandora, activate "RunFast" on Cortex-A8 (mode default NaN, flush-to-zero)
      : Not implemented on other platforms (will do nothing)
 
+##### LIBGL_SILENTSTUB
+Debug: Hide or Show the Sub / Not found message
+ * 0 : Default, the messages are shown
+ * 1 : Silent, don't print the STUB or glXGetProcAddress glXXXXX not found message
+

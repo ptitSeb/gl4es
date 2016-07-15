@@ -7,10 +7,11 @@
 //#define DEBUG_ADDRESS
 
 extern int export_blendcolor;
+extern int export_silentstub;
 
 #ifdef DEBUG_ADDRESS
 #define MAP(func_name, func) \
-    if(cnt==1) {if ((uint32_t)((void*)func) <0x4000000) printf("glxGetProcAddress %s = %p\n", func_name, (void*)func);} if (strcmp(name, func_name) == 0) return (void *)func;
+    if (strcmp(name, func_name) == 0) return (void *)func;
 #else
 #define MAP(func_name, func) \
     if (strcmp(name, func_name) == 0) return (void *)func;
@@ -33,7 +34,7 @@ extern int export_blendcolor;
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
-        printf("glX stub: %s\n", #func_name); \
+        if(!export_silentstub) printf("glX stub: %s\n", #func_name); \
         return (void *)glXStub;               \
     }
 
@@ -602,7 +603,7 @@ void *glXGetProcAddressARB(const char *name) {
     _EX(glMatrixMultTransposef);
     _EX(glMatrixMultTransposed);
 
-    printf("glXGetProcAddress: %s not found.\n", name);
+    if (!export_silentstub) printf("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }
 

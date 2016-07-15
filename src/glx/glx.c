@@ -187,6 +187,7 @@ extern int blendhack;
 extern int export_blendcolor;
 extern int glshim_noerror;
 extern char glshim_version[50];
+int export_silentstub = 0;
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -480,6 +481,7 @@ static void scan_env() {
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     env(LIBGL_BLENDCOLOR, export_blendcolor, "Export a (faked) glBlendColor");
     env(LIBGL_NOERROR, glshim_noerror, "glGetError() always return GL_NOERROR");
+    env(LIBGL_SILENTSTUB, export_silentstub, "Stub/non present functions are not printed");
 
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
