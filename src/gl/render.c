@@ -133,7 +133,7 @@ void select_transform(GLfloat *a) {
 	/*
 	 Transform a[3] using projection and modelview matrix (init with init_select)
 	*/
-	GLfloat tmp[3];
+	GLfloat tmp[4];
 	matrix_vector(modelview, a, tmp);
 	matrix_vector(projection, tmp, a);
     //matrix_vector(model_proj, a, a);
@@ -224,8 +224,7 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 	if (glstate.selectbuf.buffer == NULL) return;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
-			GL_FLOAT, 3, 0, count+first);
-	GLfloat tmp[3];
+			GL_FLOAT, 4, 0, count+first);
 	GLfloat zmin=1.0f, zmax=0.0f;
 	init_select();
 
@@ -238,46 +237,46 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 		}
     // transform the points
 	for (int i=first; i<count+first; i++) {
-		select_transform(vert+i*3);
-		if (vert[i*3+2]<zmin) zmin=vert[i*3+2];
-		if (vert[i*3+2]>zmax) zmax=vert[i*3+2];
+		select_transform(vert+i*4);
+		if (vert[i*4+2]<zmin) zmin=vert[i*4+2];
+		if (vert[i*4+2]>zmax) zmax=vert[i*4+2];
     }
     // intersect with screen now
-    GLfloat *vert2 = vert + first*3;
+    GLfloat *vert2 = vert + first*4;
 	for (int i=0; i<count; i++) {
 		switch (mode) {
 			case GL_POINTS:
-				if (select_point_in_viewscreen(vert2+i*3))
+				if (select_point_in_viewscreen(vert2+i*4))
 					FOUND();
 				break;
 			case GL_LINES:
 				if (i%2==1) {
-					if (select_segment_in_viewscreen(vert2+(i-1)*3, vert2+i*3))
+					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4))
 						FOUND();
 				}
 				break;
 			case GL_LINE_STRIP:
 			case GL_LINE_LOOP:		//FIXME: the last "loop" segment is missing here
 				if (i>0) {
-					if (select_segment_in_viewscreen(vert2+(i-1)*3, vert2+i*3))
+					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLES:
 				if (i%3==2) {
-					if (select_triangle_in_viewscreen(vert2+(i-2)*3, vert2+(i-1)*3, vert2+i*3))
+					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLE_STRIP:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert2+(i-2)*3, vert2+(i-1)*3, vert2+i*3))
+					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLE_FAN:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert2, vert2+(i-1)*3, vert2+i*3))
+					if (select_triangle_in_viewscreen(vert2, vert2+(i-1)*4, vert2+i*4))
 						FOUND();
 				}
 				break;
@@ -300,14 +299,13 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
     max++;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
-			GL_FLOAT, 3, 0, max);
-	GLfloat tmp[3];
+			GL_FLOAT, 4, 0, max);
 	init_select();
 	GLfloat zmin=1.0f, zmax=0.0f;
 	for (int i=min; i<max; i++) {
 		select_transform(vert+i*3);
-		if (vert[i*3+2]<zmin) zmin=vert[i*3+2];
-		if (vert[i*3+2]>zmax) zmax=vert[i*3+2];
+		if (vert[i*4+2]<zmin) zmin=vert[i*4+2];
+		if (vert[i*4+2]>zmax) zmax=vert[i*4+2];
 	}
 	if (zmin<0.0f) zmin = 0.0f;
 	if (zmax>1.0f) zmax = 1.0f;
@@ -323,37 +321,37 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 	for (int i=0; i<count; i++) {
 		switch (mode) {
 			case GL_POINTS:
-				if (select_point_in_viewscreen(vert+ind[i]*3))
+				if (select_point_in_viewscreen(vert+ind[i]*4))
 					FOUND();
 				break;
 			case GL_LINES:
 				if (i%2==1) {
-					if (select_segment_in_viewscreen(vert+ind[(i-1)]*3, vert+ind[i]*3))
+					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4))
 						FOUND();
 				}
 				break;
 			case GL_LINE_STRIP:
 			case GL_LINE_LOOP:		//FIXME: the last "loop" segment is missing here
 				if (i>0) {
-					if (select_segment_in_viewscreen(vert+ind[(i-1)]*3, vert+ind[i]*3))
+					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLES:
 				if (i%3==2) {
-					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*3, vert+ind[(i-1)]*3, vert+ind[i]*3))
+					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLE_STRIP:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*3, vert+ind[(i-1)]*3, vert+ind[i]*3))
+					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
 						FOUND();
 				}
 				break;
 			case GL_TRIANGLE_FAN:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert+ind[0]*3, vert+ind[(i-1)]*3, vert+ind[i]*3))
+					if (select_triangle_in_viewscreen(vert+ind[0]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
 						FOUND();
 				}
 				break;
