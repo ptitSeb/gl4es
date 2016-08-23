@@ -24,6 +24,7 @@ endif()
 if(PANDORA)
     add_definitions(-DPANDORA)
     add_definitions(-DTEXSTREAM)
+    add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -fsingle-precision-constant -ffast-math)
 endif()
 
 if(ODROID)
@@ -35,7 +36,7 @@ if(USE_DRAWTEX)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
-add_definitions(-g -std=gnu99 -funwind-tables -O3)
+add_definitions(-g -std=gnu99 -funwind-tables -O3 -fvisibility=hidden)
 
 include_directories(include)
 add_subdirectory(src)

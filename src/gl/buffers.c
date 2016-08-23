@@ -308,30 +308,30 @@ void glshim_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) {
 }
 
 //Direct wrapper
-void glGenBuffers(GLsizei n, GLuint * buffers) __attribute__((alias("glshim_glGenBuffers")));
-void glBindBuffer(GLenum target, GLuint buffer) __attribute__((alias("glshim_glBindBuffer")));
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) __attribute__((alias("glshim_glBufferData")));
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) __attribute__((alias("glshim_glBufferSubData")));
-void glDeleteBuffers(GLsizei n, const GLuint * buffers) __attribute__((alias("glshim_glDeleteBuffers")));
-GLboolean glIsBuffer(GLuint buffer) __attribute__((alias("glshim_glIsBuffer")));
-void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) __attribute__((alias("glshim_glGetBufferParameteriv")));
-void *glMapBuffer(GLenum target, GLenum access) __attribute__((alias("glshim_glMapBuffer")));
-GLboolean glUnmapBuffer(GLenum target) __attribute__((alias("glshim_glUnmapBuffer")));
-void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) __attribute__((alias("glshim_glGetBufferSubData")));
-void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) __attribute__((alias("glshim_glGetBufferPointerv")));
+void glGenBuffers(GLsizei n, GLuint * buffers) AliasExport("glshim_glGenBuffers");
+void glBindBuffer(GLenum target, GLuint buffer) AliasExport("glshim_glBindBuffer");
+void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("glshim_glBufferData");
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("glshim_glBufferSubData");
+void glDeleteBuffers(GLsizei n, const GLuint * buffers) AliasExport("glshim_glDeleteBuffers");
+GLboolean glIsBuffer(GLuint buffer) AliasExport("glshim_glIsBuffer");
+void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) AliasExport("glshim_glGetBufferParameteriv");
+void *glMapBuffer(GLenum target, GLenum access) AliasExport("glshim_glMapBuffer");
+GLboolean glUnmapBuffer(GLenum target) AliasExport("glshim_glUnmapBuffer");
+void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("glshim_glGetBufferSubData");
+void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) AliasExport("glshim_glGetBufferPointerv");
 
 //ARB wrapper
-void glGenBuffersARB(GLsizei n, GLuint * buffers) __attribute__((alias("glshim_glGenBuffers")));
-void glBindBufferARB(GLenum target, GLuint buffer) __attribute__((alias("glshim_glBindBuffer")));
-void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) __attribute__((alias("glshim_glBufferData")));
-void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) __attribute__((alias("glshim_glBufferSubData")));
-void glDeleteBuffersARB(GLsizei n, const GLuint * buffers) __attribute__((alias("glshim_glDeleteBuffers")));
-GLboolean glIsBufferARB(GLuint buffer) __attribute__((alias("glshim_glIsBuffer")));
-void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data) __attribute__((alias("glshim_glGetBufferParameteriv")));
-void *glMapBufferARB(GLenum target, GLenum access) __attribute__((alias("glshim_glMapBuffer")));
-GLboolean glUnmapBufferARB(GLenum target) __attribute__((alias("glshim_glUnmapBuffer")));
-void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) __attribute__((alias("glshim_glGetBufferSubData")));
-void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) __attribute__((alias("glshim_glGetBufferPointerv")));
+void glGenBuffersARB(GLsizei n, GLuint * buffers) AliasExport("glshim_glGenBuffers");
+void glBindBufferARB(GLenum target, GLuint buffer) AliasExport("glshim_glBindBuffer");
+void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("glshim_glBufferData");
+void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("glshim_glBufferSubData");
+void glDeleteBuffersARB(GLsizei n, const GLuint * buffers) AliasExport("glshim_glDeleteBuffers");
+GLboolean glIsBufferARB(GLuint buffer) AliasExport("glshim_glIsBuffer");
+void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data) AliasExport("glshim_glGetBufferParameteriv");
+void *glMapBufferARB(GLenum target, GLenum access) AliasExport("glshim_glMapBuffer");
+GLboolean glUnmapBufferARB(GLenum target) AliasExport("glshim_glUnmapBuffer");
+void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("glshim_glGetBufferSubData");
+void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) AliasExport("glshim_glGetBufferPointerv");
 
 // VAO ****************
 static GLuint lastvao = 1;
@@ -429,8 +429,8 @@ GLboolean glshim_glIsVertexArray(GLuint array) {
 }
 
 //Dirzct wrapper
-void glGenVertexArrays(GLsizei n, GLuint *arrays) __attribute__((alias("glshim_glGenVertexArrays")));
-void glBindVertexArray(GLuint array) __attribute__((alias("glshim_glBindVertexArray")));
-void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) __attribute__((alias("glshim_glDeleteVertexArrays")));
-GLboolean glIsVertexArray(GLuint array) __attribute__((alias("glshim_glIsVertexArray")));
+void glGenVertexArrays(GLsizei n, GLuint *arrays) AliasExport("glshim_glGenVertexArrays");
+void glBindVertexArray(GLuint array) AliasExport("glshim_glBindVertexArray");
+void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) AliasExport("glshim_glDeleteVertexArrays");
+GLboolean glIsVertexArray(GLuint array) AliasExport("glshim_glIsVertexArray");
 

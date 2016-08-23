@@ -17,6 +17,10 @@
 #include <arm_neon.h>
 #endif
 
+#ifndef AliasExport
+#define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
+#endif
+
 #ifndef GL_H
 #define GL_H
 

@@ -182,7 +182,7 @@ const GLubyte *glshim_glGetString(GLenum name) {
             return (str)?str:(GLubyte*)"";
     }
 }
-const GLubyte *glGetString(GLenum name) __attribute__((alias("glshim_glGetString")));
+const GLubyte *glGetString(GLenum name) AliasExport("glshim_glGetString");
 
 void transposeMatrix(float *matrix)
 {
@@ -323,7 +323,7 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
             gles_glGetIntegerv(pname, params);
     }
 }
-void glGetIntegerv(GLenum pname, GLint *params) __attribute__((alias("glshim_glGetIntegerv")));
+void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetIntegerv");
 
 void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
@@ -447,7 +447,7 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 		gles_glGetFloatv(pname, params);
     }
 }
-void glGetFloatv(GLenum pname, GLfloat *params) __attribute__((alias("glshim_glGetFloatv")));
+void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("glshim_glGetFloatv");
 
 extern int alphahack;
 extern int texstream;
@@ -548,7 +548,7 @@ void glshim_glEnable(GLenum cap) {
     LOAD_GLES(glEnable);
     proxy_glEnable(cap, true, gles_glEnable);
 }
-void glEnable(GLenum cap) __attribute__((alias("glshim_glEnable")));
+void glEnable(GLenum cap) AliasExport("glshim_glEnable");
 
 void glshim_glDisable(GLenum cap) {
     if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
@@ -584,19 +584,19 @@ void glshim_glDisable(GLenum cap) {
     LOAD_GLES(glDisable);
     proxy_glEnable(cap, false, gles_glDisable);
 }
-void glDisable(GLenum cap) __attribute__((alias("glshim_glDisable")));
+void glDisable(GLenum cap) AliasExport("glshim_glDisable");
 
 void glshim_glEnableClientState(GLenum cap) {
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
-void glEnableClientState(GLenum cap) __attribute__((alias("glshim_glEnableClientState")));
+void glEnableClientState(GLenum cap) AliasExport("glshim_glEnableClientState");
 
 void glshim_glDisableClientState(GLenum cap) {
     LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
-void glDisableClientState(GLenum cap) __attribute__((alias("glshim_glDisableClientState")));
+void glDisableClientState(GLenum cap) AliasExport("glshim_glDisableClientState");
 
 
 #define isenabled(what, where) \
@@ -630,7 +630,7 @@ GLboolean glshim_glIsEnabled(GLenum cap) {
 }
 #undef isenabled
 #undef clientisenabled
-GLboolean glIsEnabled(GLenum cap) __attribute__((alias("glshim_glIsEnabled")));
+GLboolean glIsEnabled(GLenum cap) AliasExport("glshim_glIsEnabled");
 
 static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
@@ -884,7 +884,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
             free(sindices);
     }
 }
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) __attribute__((alias("glshim_glDrawElements")));
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("glshim_glDrawElements");
 
 void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
@@ -1068,7 +1068,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 }
 #undef client_state
-void glDrawArrays(GLenum mode, GLint first, GLsizei count) __attribute__((alias("glshim_glDrawArrays")));
+void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("glshim_glDrawArrays");
 
 #ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
@@ -1102,11 +1102,11 @@ void glshim_glSecondaryColorPointer(GLint size, GLenum type,
 
 #undef clone_gl_pointer
 #endif
-void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glVertexPointer")));
-void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glColorPointer")));
-void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glNormalPointer")));
-void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glTexCoordPointer")));
-void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glSecondaryColorPointer")));
+void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glVertexPointer");
+void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glColorPointer");
+void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glNormalPointer");
+void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glTexCoordPointer");
+void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glSecondaryColorPointer");
 
 void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     uintptr_t ptr = (uintptr_t)pointer;
@@ -1204,7 +1204,7 @@ void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *poi
         glshim_glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
     }
 }
-void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) __attribute__((alias("glshim_glInterleavedArrays")));
+void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glInterleavedArrays");
 
 // immediate mode functions
 void glshim_glBegin(GLenum mode) {
@@ -1215,7 +1215,7 @@ void glshim_glBegin(GLenum mode) {
     glstate.list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
 }
-void glBegin(GLenum mode) __attribute__((alias("glshim_glBegin")));
+void glBegin(GLenum mode) AliasExport("glshim_glBegin");
 
 void glshim_glEnd() {
     if (!glstate.list.active) return;
@@ -1235,7 +1235,7 @@ void glshim_glEnd() {
     }
     noerrorShim();
 }
-void glEnd() __attribute__((alias("glshim_glEnd")));
+void glEnd() AliasExport("glshim_glEnd");
 
 void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate.list.active) {
@@ -1261,7 +1261,7 @@ void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 #endif
     glstate.normal[0] = nx; glstate.normal[1] = ny; glstate.normal[2] = nz;
 }
-void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) __attribute__((alias("glshim_glNormal3f")));
+void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("glshim_glNormal3f");
 
 void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate.list.active) {
@@ -1269,7 +1269,7 @@ void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
         noerrorShim();
     }
 }
-void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) __attribute__((alias("glshim_glVertex4f")));
+void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("glshim_glVertex4f");
 
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate.list.active) {
@@ -1296,7 +1296,7 @@ void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     glstate.color[0] = red; glstate.color[1] = green;
     glstate.color[2] = blue; glstate.color[3] = alpha;
 }
-void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) __attribute__((alias("glshim_glColor4f")));
+void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("glshim_glColor4f");
 
 void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate.list.active) {
@@ -1311,7 +1311,7 @@ void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glstate.secondary[0] = r; glstate.secondary[1] = g;
     glstate.secondary[2] = b;
 }
-void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) __attribute__((alias("glshim_glSecondaryColor3f")));
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("glshim_glSecondaryColor3f");
 
 #ifndef USE_ES2
 void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
@@ -1329,7 +1329,7 @@ void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
         errorGL();
     }
 }
-void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) __attribute__((alias("glshim_glMaterialfv")));
+void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("glshim_glMaterialfv");
 void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     LOAD_GLES(glMaterialf);
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
@@ -1347,7 +1347,7 @@ void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
         errorGL();
     }
 }
-void glMaterialf(GLenum face, GLenum pname, const GLfloat param) __attribute__((alias("glshim_glMaterialf")));
+void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("glshim_glMaterialf");
 #endif
 
 void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -1360,7 +1360,7 @@ void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     glstate.texcoord[0][0] = s; glstate.texcoord[0][1] = t;
     glstate.texcoord[0][2] = r; glstate.texcoord[0][3] = q;
 }
-void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glTexCoord4f")));
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glTexCoord4f");
 
 void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 	// TODO, error if target is unsuported texture....
@@ -1373,8 +1373,8 @@ void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GL
     glstate.texcoord[target-GL_TEXTURE0][0] = s; glstate.texcoord[target-GL_TEXTURE0][1] = t;
     glstate.texcoord[target-GL_TEXTURE0][2] = r; glstate.texcoord[target-GL_TEXTURE0][3] = q;
 }
-void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f")));
-void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f")));
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
+void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
 
 void glshim_glArrayElement(GLint i) {
     GLfloat *v;
@@ -1440,7 +1440,7 @@ void glshim_glArrayElement(GLint i) {
         }
     }
 }
-void glArrayElement(GLint i) __attribute__((alias("glshim_glArrayElement")));
+void glArrayElement(GLint i) AliasExport("glshim_glArrayElement");
 
 // TODO: between a lock and unlock, I can assume the array pointers are unchanged
 // so I can build a renderlist_t on the first call and hold onto it
@@ -1449,12 +1449,12 @@ void glshim_glLockArrays(GLint first, GLsizei count) {
     glstate.list.locked = true;
     noerrorShim();
 }
-void glLockArraysEXT(GLint first, GLsizei count) __attribute__((alias("glshim_glLockArrays")));
+void glLockArraysEXT(GLint first, GLsizei count) AliasExport("glshim_glLockArrays");
 void glshim_glUnlockArrays() {
     glstate.list.locked = false;
     noerrorShim();
 }
-void glUnlockArraysEXT() __attribute__((alias("glshim_glUnlockArrays")));
+void glUnlockArraysEXT() AliasExport("glshim_glUnlockArrays");
 // display lists
 
 static renderlist_t *glshim_glGetList(GLuint list) {
@@ -1485,7 +1485,7 @@ GLuint glshim_glGenLists(GLsizei range) {
     }
     return start + 1;
 }
-GLuint glGenLists(GLsizei range) __attribute__((alias("glshim_glGenLists")));
+GLuint glGenLists(GLsizei range) AliasExport("glshim_glGenLists");
 
 
 void glshim_glNewList(GLuint list, GLenum mode) {
@@ -1505,7 +1505,7 @@ void glshim_glNewList(GLuint list, GLenum mode) {
     glstate.list.active = alloc_renderlist();
     glstate.list.compiling = true;
 }
-void glNewList(GLuint list, GLenum mode) __attribute__((alias("glshim_glNewList")));
+void glNewList(GLuint list, GLenum mode) AliasExport("glshim_glNewList");
 
 void glshim_glEndList() {
 	noerrorShim();
@@ -1525,7 +1525,7 @@ void glshim_glEndList() {
         }
     }
 }
-void glEndList() __attribute__((alias("glshim_glEndList")));
+void glEndList() AliasExport("glshim_glEndList");
 
 void glshim_glCallList(GLuint list) {
 	noerrorShim();
@@ -1539,7 +1539,7 @@ void glshim_glCallList(GLuint list) {
     if (l)
         draw_renderlist(l);
 }
-void glCallList(GLuint list) __attribute__((alias("glshim_glCallList")));
+void glCallList(GLuint list) AliasExport("glshim_glCallList");
 
 void glPushCall(void *call) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
@@ -1583,7 +1583,7 @@ void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #undef call
     #undef call_bytes
 }
-void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) __attribute__((alias("glshim_glCallLists")));
+void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) AliasExport("glshim_glCallLists");
 
 void glshim_glDeleteList(GLuint list) {
     if(glstate.gl_batch) {
@@ -1604,13 +1604,13 @@ void glshim_glDeleteLists(GLuint list, GLsizei range) {
         glshim_glDeleteList(list+i);
     }
 }
-void glDeleteLists(GLuint list, GLsizei range) __attribute__((alias("glshim_glDeleteLists")));
+void glDeleteLists(GLuint list, GLsizei range) AliasExport("glshim_glDeleteLists");
 
 void glshim_glListBase(GLuint base) {
 	noerrorShim();
     glstate.list.base = base;
 }
-void glListBase(GLuint base) __attribute__((alias("glshim_glListBase")));
+void glListBase(GLuint base) AliasExport("glshim_glListBase");
 
 GLboolean glshim_glIsList(GLuint list) {
 	noerrorShim();
@@ -1619,7 +1619,7 @@ GLboolean glshim_glIsList(GLuint list) {
     }
     return false;
 }
-GLboolean glIsList(GLuint list) __attribute__((alias("glshim_glIsList")));
+GLboolean glIsList(GLuint list) AliasExport("glshim_glIsList");
 
 void glshim_glPolygonMode(GLenum face, GLenum mode) {
 	noerrorShim();
@@ -1646,7 +1646,7 @@ void glshim_glPolygonMode(GLenum face, GLenum mode) {
 			glstate.polygon_mode = 0;
 	}
 }
-void glPolygonMode(GLenum face, GLenum mode) __attribute__((alias("glshim_glPolygonMode")));
+void glPolygonMode(GLenum face, GLenum mode) AliasExport("glshim_glPolygonMode");
 
 void alloc_matrix(matrixstack_t **matrixstack, int depth) {
 	*matrixstack = (matrixstack_t*)malloc(sizeof(matrixstack_t));
@@ -1699,7 +1699,7 @@ void glshim_glPushMatrix() {
 			//gles_glPushMatrix();
 	}
 }
-void glPushMatrix() __attribute__((alias("glshim_glPushMatrix")));
+void glPushMatrix() AliasExport("glshim_glPushMatrix");
 
 void glshim_glPopMatrix() {
 	PUSH_IF_COMPILING(glPopMatrix);
@@ -1746,7 +1746,7 @@ void glshim_glPopMatrix() {
 			//gles_glPopMatrix();
 	}
 }
-void glPopMatrix() __attribute__((alias("glshim_glPopMatrix")));
+void glPopMatrix() AliasExport("glshim_glPopMatrix");
 
 GLenum glshim_glGetError() {
 	LOAD_GLES(glGetError);
@@ -1759,7 +1759,7 @@ GLenum glshim_glGetError() {
 	}
 	return gles_glGetError();
 }
-GLenum glGetError() __attribute__((alias("glshim_glGetError")));
+GLenum glGetError() AliasExport("glshim_glGetError");
 
 void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
@@ -1774,9 +1774,9 @@ void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
         }
     }
 }
-void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
-void glBlendColorEXT(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
-void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
+void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
+void glBlendColorEXT(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
+void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
 
 void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
@@ -1787,8 +1787,8 @@ void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfa
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
-void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) __attribute__((alias("glshim_glBlendFuncSeparate")));
-void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) __attribute__((alias("glshim_glBlendFuncSeparate")));
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("glshim_glBlendFuncSeparate");
+void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("glshim_glBlendFuncSeparate");
 
 void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
@@ -1798,8 +1798,8 @@ void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
 #endif
     gles_glBlendEquationSeparate(modeRGB, modeA);
 }
-void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) __attribute__((alias("glshim_glBlendEquationSeparate")));
-void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) __attribute__((alias("glshim_glBlendEquationSeparate")));
+void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
+void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
 
 void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
@@ -1875,7 +1875,7 @@ void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 #endif
     gles_glBlendFunc(sfactor, dfactor);
 }
-void glBlendFunc(GLenum sfactor, GLenum dfactor) __attribute__((alias("glshim_glBlendFunc")));
+void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("glshim_glBlendFunc");
 
 
 void glshim_glStencilMaskSeparate(GLenum face, GLuint mask) {
@@ -1883,7 +1883,7 @@ void glshim_glStencilMaskSeparate(GLenum face, GLuint mask) {
     if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
         glshim_glStencilMask(mask);
 }
-void glStencilMaskSeparate(GLenum face, GLuint mask) __attribute__((alias("glshim_glStencilMaskSeparate")));
+void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("glshim_glStencilMaskSeparate");
 
 
 void init_statebatch() {
@@ -1926,7 +1926,7 @@ void glshim_glFlush() {
     gles_glFlush();
     errorGL();
 }
-void glFlush() __attribute__((alias("glshim_glFlush")));
+void glFlush() AliasExport("glshim_glFlush");
 
 void glshim_glFinish() {
 	LOAD_GLES(glFinish);
@@ -1940,7 +1940,7 @@ void glshim_glFinish() {
     gles_glFinish();
     errorGL();
 }
-void glFinish() __attribute__((alias("glshim_glFinish")));
+void glFinish() AliasExport("glshim_glFinish");
 
 void glshim_glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(glLoadMatrixf);
@@ -1953,7 +1953,7 @@ void glshim_glLoadMatrixf(const GLfloat * m) {
     }
     gles_glLoadMatrixf(m);
 }
-void glLoadMatrixf(const GLfloat * m) __attribute__((alias("glshim_glLoadMatrixf")));
+void glLoadMatrixf(const GLfloat * m) AliasExport("glshim_glLoadMatrixf");
 
 void glshim_glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(glMultMatrixf);
@@ -1966,7 +1966,7 @@ void glshim_glMultMatrixf(const GLfloat * m) {
     }
     gles_glMultMatrixf(m);
 }
-void glMultMatrixf(const GLfloat * m) __attribute__((alias("glshim_glMultMatrixf")));
+void glMultMatrixf(const GLfloat * m) AliasExport("glshim_glMultMatrixf");
 
 void glshim_glFogfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glFogfv);
@@ -1982,7 +1982,7 @@ void glshim_glFogfv(GLenum pname, const GLfloat* params) {
     
     gles_glFogfv(pname, params);
 }
-void glFogfv(GLenum pname, const GLfloat* params) __attribute__((alias("glshim_glFogfv")));
+void glFogfv(GLenum pname, const GLfloat* params) AliasExport("glshim_glFogfv");
 
 void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
@@ -1991,7 +1991,7 @@ void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) 
         warning = true;
     }
 }
-void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glIndexPointer")));
+void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("glshim_glIndexPointer");
 
 void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
@@ -2000,7 +2000,7 @@ void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
         warning = true;
     }
 }
-void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glEdgeFlagPointer")));
+void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("glshim_glEdgeFlagPointer");
 
 void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
@@ -2032,4 +2032,4 @@ void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
             errorShim(GL_INVALID_ENUM);
     }
 }
-void glGetPointerv(GLenum pname, GLvoid* *params) __attribute__((alias("glshim_glGetPointerv")));
+void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("glshim_glGetPointerv");

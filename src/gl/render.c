@@ -364,9 +364,9 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 }
 
 //Direct wrapper
-GLint glRenderMode(GLenum mode) __attribute__((alias("glshim_glRenderMode")));
-void glInitNames() __attribute__((alias("glshim_glInitNames")));
-void glPopName() __attribute__((alias("glshim_glPopName")));
-void glPushName(GLuint name) __attribute__((alias("glshim_glPushName")));
-void glLoadName(GLuint name) __attribute__((alias("glshim_glLoadName")));
-void glSelectBuffer(GLsizei size, GLuint *buffer) __attribute__((alias("glshim_glSelectBuffer")));
+GLint glRenderMode(GLenum mode) AliasExport("glshim_glRenderMode");
+void glInitNames() AliasExport("glshim_glInitNames");
+void glPopName() AliasExport("glshim_glPopName");
+void glPushName(GLuint name) AliasExport("glshim_glPushName");
+void glLoadName(GLuint name) AliasExport("glshim_glLoadName");
+void glSelectBuffer(GLsizei size, GLuint *buffer) AliasExport("glshim_glSelectBuffer");

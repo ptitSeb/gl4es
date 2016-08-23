@@ -30,7 +30,7 @@ void glshim_glLineStipple(GLuint factor, GLushort pattern) {
     glshim_glPopAttrib();
     noerrorShim();
 }
-void glLineStipple(GLuint factor, GLushort pattern) __attribute__((alias("glshim_glLineStipple")));
+void glLineStipple(GLuint factor, GLushort pattern) AliasExport("glshim_glLineStipple");
 
 void bind_stipple_tex() {
     glshim_glBindTexture(GL_TEXTURE_2D, stippleTexture);

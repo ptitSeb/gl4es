@@ -317,18 +317,18 @@ GL_GET_MAP(d, GLdouble)
 #undef GL_GET_MAP
 
 //Direct wrapper
-void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points) __attribute__((alias("glshim_glMap1d")));
-void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points) __attribute__((alias("glshim_glMap1f")));
-void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points) __attribute__((alias("glshim_glMap2d")));
-void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points) __attribute__((alias("glshim_glMap2f")));
-void glEvalCoord1f(GLfloat u) __attribute__((alias("glshim_glEvalCoord1f")));
-void glEvalCoord2f(GLfloat u, GLfloat v) __attribute__((alias("glshim_glEvalCoord2f")));
-void glEvalMesh1(GLenum mode, GLint i1, GLint i2) __attribute__((alias("glshim_glEvalMesh1")));
-void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) __attribute__((alias("glshim_glEvalMesh2")));
-void glEvalPoint1(GLint i) __attribute__((alias("glshim_glEvalPoint1")));
-void glEvalPoint2(GLint i, GLint j) __attribute__((alias("glshim_glEvalPoint2")));
-void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) __attribute__((alias("glshim_glMapGrid1f")));
-void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) __attribute__((alias("glshim_glMapGrid2f")));
-void glGetMapdv(GLenum target, GLenum query, GLdouble *v) __attribute__((alias("glshim_glGetMapdv")));
-void glGetMapfv(GLenum target, GLenum query, GLfloat *v) __attribute__((alias("glshim_glGetMapfv")));
-void glGetMapiv(GLenum target, GLenum query, GLint *v) __attribute__((alias("glshim_glGetMapiv")));
+void glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points) AliasExport("glshim_glMap1d");
+void glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points) AliasExport("glshim_glMap1f");
+void glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points) AliasExport("glshim_glMap2d");
+void glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points) AliasExport("glshim_glMap2f");
+void glEvalCoord1f(GLfloat u) AliasExport("glshim_glEvalCoord1f");
+void glEvalCoord2f(GLfloat u, GLfloat v) AliasExport("glshim_glEvalCoord2f");
+void glEvalMesh1(GLenum mode, GLint i1, GLint i2) AliasExport("glshim_glEvalMesh1");
+void glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) AliasExport("glshim_glEvalMesh2");
+void glEvalPoint1(GLint i) AliasExport("glshim_glEvalPoint1");
+void glEvalPoint2(GLint i, GLint j) AliasExport("glshim_glEvalPoint2");
+void glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) AliasExport("glshim_glMapGrid1f");
+void glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2) AliasExport("glshim_glMapGrid2f");
+void glGetMapdv(GLenum target, GLenum query, GLdouble *v) AliasExport("glshim_glGetMapdv");
+void glGetMapfv(GLenum target, GLenum query, GLfloat *v) AliasExport("glshim_glGetMapfv");
+void glGetMapiv(GLenum target, GLenum query, GLint *v) AliasExport("glshim_glGetMapiv");

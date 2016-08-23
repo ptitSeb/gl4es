@@ -8,7 +8,7 @@ void glshim_glBindFramebuffer(GLenum target, GLuint framebuffer) {
 #endif
     gles_glBindFramebuffer(target, framebuffer);
 }
-void glBindFramebuffer(GLenum target, GLuint framebuffer) __attribute__((alias("glshim_glBindFramebuffer")));
+void glBindFramebuffer(GLenum target, GLuint framebuffer) AliasExport("glshim_glBindFramebuffer");
 #endif
 #ifndef skip_glBindRenderbuffer
 void glshim_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
@@ -18,7 +18,7 @@ void glshim_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 #endif
     gles_glBindRenderbuffer(target, renderbuffer);
 }
-void glBindRenderbuffer(GLenum target, GLuint renderbuffer) __attribute__((alias("glshim_glBindRenderbuffer")));
+void glBindRenderbuffer(GLenum target, GLuint renderbuffer) AliasExport("glshim_glBindRenderbuffer");
 #endif
 #ifndef skip_glBlendColor
 void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
@@ -28,7 +28,7 @@ void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
 #endif
     gles_glBlendColor(red, green, blue, alpha);
 }
-void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glBlendColor")));
+void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
 #endif
 #ifndef skip_glBlendEquation
 void glshim_glBlendEquation(GLenum mode) {
@@ -38,7 +38,7 @@ void glshim_glBlendEquation(GLenum mode) {
 #endif
     gles_glBlendEquation(mode);
 }
-void glBlendEquation(GLenum mode) __attribute__((alias("glshim_glBlendEquation")));
+void glBlendEquation(GLenum mode) AliasExport("glshim_glBlendEquation");
 #endif
 #ifndef skip_glBlendEquationSeparate
 void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
@@ -48,7 +48,7 @@ void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
 #endif
     gles_glBlendEquationSeparate(modeRGB, modeA);
 }
-void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) __attribute__((alias("glshim_glBlendEquationSeparate")));
+void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
 #endif
 #ifndef skip_glBlendFuncSeparate
 void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
@@ -58,7 +58,7 @@ void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfa
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
-void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) __attribute__((alias("glshim_glBlendFuncSeparate")));
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("glshim_glBlendFuncSeparate");
 #endif
 #ifndef skip_glCheckFramebufferStatus
 GLenum glshim_glCheckFramebufferStatus(GLenum target) {
@@ -68,7 +68,7 @@ GLenum glshim_glCheckFramebufferStatus(GLenum target) {
 #endif
     return gles_glCheckFramebufferStatus(target);
 }
-GLenum glCheckFramebufferStatus(GLenum target) __attribute__((alias("glshim_glCheckFramebufferStatus")));
+GLenum glCheckFramebufferStatus(GLenum target) AliasExport("glshim_glCheckFramebufferStatus");
 #endif
 #ifndef skip_glDeleteFramebuffers
 void glshim_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
@@ -78,7 +78,7 @@ void glshim_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
 #endif
     gles_glDeleteFramebuffers(n, framebuffers);
 }
-void glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) __attribute__((alias("glshim_glDeleteFramebuffers")));
+void glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) AliasExport("glshim_glDeleteFramebuffers");
 #endif
 #ifndef skip_glDeleteRenderbuffers
 void glshim_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
@@ -88,7 +88,7 @@ void glshim_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
 #endif
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
-void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) __attribute__((alias("glshim_glDeleteRenderbuffers")));
+void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) AliasExport("glshim_glDeleteRenderbuffers");
 #endif
 #ifndef skip_glDrawTexf
 void glshim_glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {
@@ -98,7 +98,7 @@ void glshim_glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat h
 #endif
     gles_glDrawTexf(x, y, z, width, height);
 }
-void glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) __attribute__((alias("glshim_glDrawTexf")));
+void glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) AliasExport("glshim_glDrawTexf");
 #endif
 #ifndef skip_glDrawTexi
 void glshim_glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) {
@@ -108,7 +108,7 @@ void glshim_glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) {
 #endif
     gles_glDrawTexi(x, y, z, width, height);
 }
-void glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) __attribute__((alias("glshim_glDrawTexi")));
+void glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) AliasExport("glshim_glDrawTexi");
 #endif
 #ifndef skip_glFramebufferRenderbuffer
 void glshim_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
@@ -118,7 +118,7 @@ void glshim_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum r
 #endif
     gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
-void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) __attribute__((alias("glshim_glFramebufferRenderbuffer")));
+void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) AliasExport("glshim_glFramebufferRenderbuffer");
 #endif
 #ifndef skip_glFramebufferTexture2D
 void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
@@ -128,7 +128,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
 #endif
     gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
-void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) __attribute__((alias("glshim_glFramebufferTexture2D")));
+void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) AliasExport("glshim_glFramebufferTexture2D");
 #endif
 #ifndef skip_glGenFramebuffers
 void glshim_glGenFramebuffers(GLsizei n, GLuint * ids) {
@@ -138,7 +138,7 @@ void glshim_glGenFramebuffers(GLsizei n, GLuint * ids) {
 #endif
     gles_glGenFramebuffers(n, ids);
 }
-void glGenFramebuffers(GLsizei n, GLuint * ids) __attribute__((alias("glshim_glGenFramebuffers")));
+void glGenFramebuffers(GLsizei n, GLuint * ids) AliasExport("glshim_glGenFramebuffers");
 #endif
 #ifndef skip_glGenRenderbuffers
 void glshim_glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
@@ -148,7 +148,7 @@ void glshim_glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
 #endif
     gles_glGenRenderbuffers(n, renderbuffers);
 }
-void glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) __attribute__((alias("glshim_glGenRenderbuffers")));
+void glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) AliasExport("glshim_glGenRenderbuffers");
 #endif
 #ifndef skip_glGenerateMipmap
 void glshim_glGenerateMipmap(GLenum target) {
@@ -158,7 +158,7 @@ void glshim_glGenerateMipmap(GLenum target) {
 #endif
     gles_glGenerateMipmap(target);
 }
-void glGenerateMipmap(GLenum target) __attribute__((alias("glshim_glGenerateMipmap")));
+void glGenerateMipmap(GLenum target) AliasExport("glshim_glGenerateMipmap");
 #endif
 #ifndef skip_glGetFramebufferAttachmentParameteriv
 void glshim_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) {
@@ -168,7 +168,7 @@ void glshim_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachme
 #endif
     gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 }
-void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetFramebufferAttachmentParameteriv")));
+void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) AliasExport("glshim_glGetFramebufferAttachmentParameteriv");
 #endif
 #ifndef skip_glGetRenderbufferParameteriv
 void glshim_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -178,7 +178,7 @@ void glshim_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * pa
 #endif
     gles_glGetRenderbufferParameteriv(target, pname, params);
 }
-void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetRenderbufferParameteriv")));
+void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("glshim_glGetRenderbufferParameteriv");
 #endif
 #ifndef skip_glIsFramebuffer
 GLboolean glshim_glIsFramebuffer(GLuint framebuffer) {
@@ -188,7 +188,7 @@ GLboolean glshim_glIsFramebuffer(GLuint framebuffer) {
 #endif
     return gles_glIsFramebuffer(framebuffer);
 }
-GLboolean glIsFramebuffer(GLuint framebuffer) __attribute__((alias("glshim_glIsFramebuffer")));
+GLboolean glIsFramebuffer(GLuint framebuffer) AliasExport("glshim_glIsFramebuffer");
 #endif
 #ifndef skip_glIsRenderbuffer
 GLboolean glshim_glIsRenderbuffer(GLuint renderbuffer) {
@@ -198,7 +198,7 @@ GLboolean glshim_glIsRenderbuffer(GLuint renderbuffer) {
 #endif
     return gles_glIsRenderbuffer(renderbuffer);
 }
-GLboolean glIsRenderbuffer(GLuint renderbuffer) __attribute__((alias("glshim_glIsRenderbuffer")));
+GLboolean glIsRenderbuffer(GLuint renderbuffer) AliasExport("glshim_glIsRenderbuffer");
 #endif
 #ifndef skip_glRenderbufferStorage
 void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
@@ -208,7 +208,7 @@ void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei 
 #endif
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
-void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) __attribute__((alias("glshim_glRenderbufferStorage")));
+void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("glshim_glRenderbufferStorage");
 #endif
 #ifndef skip_glTexGenfv
 void glshim_glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
@@ -218,7 +218,7 @@ void glshim_glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
 #endif
     gles_glTexGenfv(coord, pname, params);
 }
-void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glTexGenfv")));
+void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) AliasExport("glshim_glTexGenfv");
 #endif
 #ifndef skip_glTexGeni
 void glshim_glTexGeni(GLenum coord, GLenum pname, GLint param) {
@@ -228,6 +228,6 @@ void glshim_glTexGeni(GLenum coord, GLenum pname, GLint param) {
 #endif
     gles_glTexGeni(coord, pname, param);
 }
-void glTexGeni(GLenum coord, GLenum pname, GLint param) __attribute__((alias("glshim_glTexGeni")));
+void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("glshim_glTexGeni");
 #endif
 #endif

@@ -69,8 +69,8 @@ void glshim_glLightf(GLenum light, GLenum pname, const GLfloat params) {
     errorGL();
 }
 
-void glLightModelf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glLightModelf")));
-void glLightModelfv(GLenum pname, const GLfloat* params) __attribute__((alias("glshim_glLightModelfv")));
-void glLightfv(GLenum light, GLenum pname, const GLfloat* params) __attribute__((alias("glshim_glLightfv")));
-void glLightf(GLenum light, GLenum pname, const GLfloat params) __attribute__((alias("glshim_glLightf")));
+void glLightModelf(GLenum pname, GLfloat param) AliasExport("glshim_glLightModelf");
+void glLightModelfv(GLenum pname, const GLfloat* params) AliasExport("glshim_glLightModelfv");
+void glLightfv(GLenum light, GLenum pname, const GLfloat* params) AliasExport("glshim_glLightfv");
+void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("glshim_glLightf");
 #endif

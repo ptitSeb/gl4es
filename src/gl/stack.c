@@ -584,7 +584,7 @@ void glshim_glPopClientAttrib() {
 #undef v4
 
 //Direct wrapper
-void glPushClientAttrib(GLbitfield mask) __attribute__((alias("glshim_glPushClientAttrib")));
-void glPopClientAttrib() __attribute__((alias("glshim_glPopClientAttrib")));
-void glPushAttrib(GLbitfield mask) __attribute__((alias("glshim_glPushAttrib")));
-void glPopAttrib() __attribute__((alias("glshim_glPopAttrib")));
+void glPushClientAttrib(GLbitfield mask) AliasExport("glshim_glPushClientAttrib");
+void glPopClientAttrib() AliasExport("glshim_glPopClientAttrib");
+void glPushAttrib(GLbitfield mask) AliasExport("glshim_glPushAttrib");
+void glPopAttrib() AliasExport("glshim_glPopAttrib");

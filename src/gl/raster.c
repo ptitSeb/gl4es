@@ -535,10 +535,10 @@ void render_raster_list(rasterlist_t* rast) {
 }
 
 //Direct wrapper
-void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) __attribute__((alias("glshim_glBitmap")));
-void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) __attribute__((alias("glshim_glDrawPixels")));
-void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glRasterPos3f")));
-void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glWindowPos3f")));
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glViewport")));
-void glPixelZoom(GLfloat xfactor, GLfloat yfactor) __attribute__((alias("glshim_glPixelZoom")));
-void glPixelTransferf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glPixelTransferf")));
+void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) AliasExport("glshim_glBitmap");
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("glshim_glDrawPixels");
+void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("glshim_glRasterPos3f");
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("glshim_glWindowPos3f");
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("glshim_glViewport");
+void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("glshim_glPixelZoom");
+void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("glshim_glPixelTransferf");

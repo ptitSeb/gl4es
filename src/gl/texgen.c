@@ -440,11 +440,11 @@ void glshim_glMultTransposeMatrixf(const GLfloat *m) {
     errorGL();
 }
 
-void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params) __attribute__((alias("glshim_glTexGenfv")));
-void glTexGeni(GLenum coord, GLenum pname, GLint param) __attribute__((alias("glshim_glTexGeni")));
-void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) __attribute__((alias("glshim_glGetTexGenfv")));
+void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params) AliasExport("glshim_glTexGenfv");
+void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("glshim_glTexGeni");
+void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) AliasExport("glshim_glGetTexGenfv");
 
-void glLoadTransposeMatrixf(const GLfloat *m) __attribute__((alias("glshim_glLoadTransposeMatrixf")));
-void glLoadTransposeMatrixd(const GLdouble *m) __attribute__((alias("glshim_glLoadTransposeMatrixd")));
-void glMultTransposeMatrixd(const GLdouble *m) __attribute__((alias("glshim_glMultTransposeMatrixd")));
-void glMultTransposeMatrixf(const GLfloat *m) __attribute__((alias("glshim_glMultTransposeMatrixf")));
+void glLoadTransposeMatrixf(const GLfloat *m) AliasExport("glshim_glLoadTransposeMatrixf");
+void glLoadTransposeMatrixd(const GLdouble *m) AliasExport("glshim_glLoadTransposeMatrixd");
+void glMultTransposeMatrixd(const GLdouble *m) AliasExport("glshim_glMultTransposeMatrixd");
+void glMultTransposeMatrixf(const GLfloat *m) AliasExport("glshim_glMultTransposeMatrixf");
