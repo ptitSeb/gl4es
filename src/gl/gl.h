@@ -374,6 +374,10 @@ void glshim_glPushMatrix();
 void glshim_glPopMatrix();
 GLenum glshim_glGetError();
 
+void glshim_glPointParameteri(GLenum pname, GLint param);
+void glshim_glPointParameteriv(GLenum pname, const GLint * params);
+
+
 void glshim_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
 void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);

@@ -503,6 +503,9 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EXT(glMultiDrawArrays);
     _EX(glMultiDrawElements);
     _EXT(glMultiDrawElements);
+
+    _EX(glPointParameteri);
+    _EX(glPointParameteriv);
     
     STUB(glFogCoordPointer);
     /*STUB(glEdgeFlagPointerEXT);

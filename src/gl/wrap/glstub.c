@@ -6,7 +6,7 @@ ret glshim_ ## def args {\
     if (debug && strcmp(debug, "1") == 0)\
         printf("stub: %s;\n", #def);\
 } \
-ret def args __attribute((alias("glshim_"#def)));
+ret def args __attribute((alias("glshim_"#def))) __attribute__((visibility("default")));
 
 STUB(void,glFogCoordd,(GLdouble coord));
 STUB(void,glFogCoordf,(GLfloat coord));

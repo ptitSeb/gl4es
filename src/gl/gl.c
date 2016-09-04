@@ -2036,6 +2036,22 @@ void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
 }
 void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("glshim_glGetPointerv");
 
+void glshim_glPointParameteri(GLenum pname, GLint param)
+{
+    glshim_glPointParameterf(pname, param);
+}
+void glPointParameteri(GLenum pname, GLint param) AliasExport("glshim_glPointParameteri");
+
+void glshim_glPointParameteriv(GLenum pname, const GLint * params)
+{
+    GLfloat tmp[3];
+    int v=(pname==GL_POINT_DISTANCE_ATTENUATION)?3:1;
+    for (int i=0; i<v; i++) tmp[i] = params[i];
+    glshim_glPointParameterfv(pname, tmp);
+}
+void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("glshim_glPointParameteriv");
+
+
 
 void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
 {

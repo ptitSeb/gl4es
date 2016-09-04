@@ -8,7 +8,7 @@ void glshim_glActiveTexture(GLenum texture) {
 #endif
     gles_glActiveTexture(texture);
 }
-void glActiveTexture(GLenum texture) __attribute__((alias("glshim_glActiveTexture")));
+void glActiveTexture(GLenum texture) __attribute__((alias("glshim_glActiveTexture"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glAlphaFunc
 void glshim_glAlphaFunc(GLenum func, GLclampf ref) {
@@ -18,7 +18,7 @@ void glshim_glAlphaFunc(GLenum func, GLclampf ref) {
 #endif
     gles_glAlphaFunc(func, ref);
 }
-void glAlphaFunc(GLenum func, GLclampf ref) __attribute__((alias("glshim_glAlphaFunc")));
+void glAlphaFunc(GLenum func, GLclampf ref) __attribute__((alias("glshim_glAlphaFunc"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glAlphaFuncx
 void glshim_glAlphaFuncx(GLenum func, GLclampx ref) {
@@ -28,7 +28,7 @@ void glshim_glAlphaFuncx(GLenum func, GLclampx ref) {
 #endif
     gles_glAlphaFuncx(func, ref);
 }
-void glAlphaFuncx(GLenum func, GLclampx ref) __attribute__((alias("glshim_glAlphaFuncx")));
+void glAlphaFuncx(GLenum func, GLclampx ref) __attribute__((alias("glshim_glAlphaFuncx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glBindBuffer
 void glshim_glBindBuffer(GLenum target, GLuint buffer) {
@@ -38,7 +38,7 @@ void glshim_glBindBuffer(GLenum target, GLuint buffer) {
 #endif
     gles_glBindBuffer(target, buffer);
 }
-void glBindBuffer(GLenum target, GLuint buffer) __attribute__((alias("glshim_glBindBuffer")));
+void glBindBuffer(GLenum target, GLuint buffer) __attribute__((alias("glshim_glBindBuffer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glBindTexture
 void glshim_glBindTexture(GLenum target, GLuint texture) {
@@ -48,7 +48,7 @@ void glshim_glBindTexture(GLenum target, GLuint texture) {
 #endif
     gles_glBindTexture(target, texture);
 }
-void glBindTexture(GLenum target, GLuint texture) __attribute__((alias("glshim_glBindTexture")));
+void glBindTexture(GLenum target, GLuint texture) __attribute__((alias("glshim_glBindTexture"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glBlendFunc
 void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
@@ -58,7 +58,7 @@ void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 #endif
     gles_glBlendFunc(sfactor, dfactor);
 }
-void glBlendFunc(GLenum sfactor, GLenum dfactor) __attribute__((alias("glshim_glBlendFunc")));
+void glBlendFunc(GLenum sfactor, GLenum dfactor) __attribute__((alias("glshim_glBlendFunc"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glBufferData
 void glshim_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
@@ -68,7 +68,7 @@ void glshim_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GL
 #endif
     gles_glBufferData(target, size, data, usage);
 }
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) __attribute__((alias("glshim_glBufferData")));
+void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) __attribute__((alias("glshim_glBufferData"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glBufferSubData
 void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
@@ -78,7 +78,7 @@ void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, con
 #endif
     gles_glBufferSubData(target, offset, size, data);
 }
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) __attribute__((alias("glshim_glBufferSubData")));
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) __attribute__((alias("glshim_glBufferSubData"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClear
 void glshim_glClear(GLbitfield mask) {
@@ -88,7 +88,7 @@ void glshim_glClear(GLbitfield mask) {
 #endif
     gles_glClear(mask);
 }
-void glClear(GLbitfield mask) __attribute__((alias("glshim_glClear")));
+void glClear(GLbitfield mask) __attribute__((alias("glshim_glClear"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClearColor
 void glshim_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
@@ -98,7 +98,7 @@ void glshim_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
 #endif
     gles_glClearColor(red, green, blue, alpha);
 }
-void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glClearColor")));
+void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) __attribute__((alias("glshim_glClearColor"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClearColorx
 void glshim_glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) {
@@ -108,7 +108,7 @@ void glshim_glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx 
 #endif
     gles_glClearColorx(red, green, blue, alpha);
 }
-void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) __attribute__((alias("glshim_glClearColorx")));
+void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) __attribute__((alias("glshim_glClearColorx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClearDepthf
 void glshim_glClearDepthf(GLclampf depth) {
@@ -118,7 +118,7 @@ void glshim_glClearDepthf(GLclampf depth) {
 #endif
     gles_glClearDepthf(depth);
 }
-void glClearDepthf(GLclampf depth) __attribute__((alias("glshim_glClearDepthf")));
+void glClearDepthf(GLclampf depth) __attribute__((alias("glshim_glClearDepthf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClearDepthx
 void glshim_glClearDepthx(GLclampx depth) {
@@ -128,7 +128,7 @@ void glshim_glClearDepthx(GLclampx depth) {
 #endif
     gles_glClearDepthx(depth);
 }
-void glClearDepthx(GLclampx depth) __attribute__((alias("glshim_glClearDepthx")));
+void glClearDepthx(GLclampx depth) __attribute__((alias("glshim_glClearDepthx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClearStencil
 void glshim_glClearStencil(GLint s) {
@@ -138,7 +138,7 @@ void glshim_glClearStencil(GLint s) {
 #endif
     gles_glClearStencil(s);
 }
-void glClearStencil(GLint s) __attribute__((alias("glshim_glClearStencil")));
+void glClearStencil(GLint s) __attribute__((alias("glshim_glClearStencil"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClientActiveTexture
 void glshim_glClientActiveTexture(GLenum texture) {
@@ -148,7 +148,7 @@ void glshim_glClientActiveTexture(GLenum texture) {
 #endif
     gles_glClientActiveTexture(texture);
 }
-void glClientActiveTexture(GLenum texture) __attribute__((alias("glshim_glClientActiveTexture")));
+void glClientActiveTexture(GLenum texture) __attribute__((alias("glshim_glClientActiveTexture"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClipPlanef
 void glshim_glClipPlanef(GLenum plane, const GLfloat * equation) {
@@ -158,7 +158,7 @@ void glshim_glClipPlanef(GLenum plane, const GLfloat * equation) {
 #endif
     gles_glClipPlanef(plane, equation);
 }
-void glClipPlanef(GLenum plane, const GLfloat * equation) __attribute__((alias("glshim_glClipPlanef")));
+void glClipPlanef(GLenum plane, const GLfloat * equation) __attribute__((alias("glshim_glClipPlanef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glClipPlanex
 void glshim_glClipPlanex(GLenum plane, const GLfixed * equation) {
@@ -168,7 +168,7 @@ void glshim_glClipPlanex(GLenum plane, const GLfixed * equation) {
 #endif
     gles_glClipPlanex(plane, equation);
 }
-void glClipPlanex(GLenum plane, const GLfixed * equation) __attribute__((alias("glshim_glClipPlanex")));
+void glClipPlanex(GLenum plane, const GLfixed * equation) __attribute__((alias("glshim_glClipPlanex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glColor4f
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -178,7 +178,7 @@ void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 #endif
     gles_glColor4f(red, green, blue, alpha);
 }
-void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) __attribute__((alias("glshim_glColor4f")));
+void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) __attribute__((alias("glshim_glColor4f"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glColor4ub
 void glshim_glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
@@ -188,7 +188,7 @@ void glshim_glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) 
 #endif
     gles_glColor4ub(red, green, blue, alpha);
 }
-void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) __attribute__((alias("glshim_glColor4ub")));
+void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) __attribute__((alias("glshim_glColor4ub"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glColor4x
 void glshim_glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
@@ -198,7 +198,7 @@ void glshim_glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 #endif
     gles_glColor4x(red, green, blue, alpha);
 }
-void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) __attribute__((alias("glshim_glColor4x")));
+void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) __attribute__((alias("glshim_glColor4x"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glColorMask
 void glshim_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
@@ -208,7 +208,7 @@ void glshim_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolea
 #endif
     gles_glColorMask(red, green, blue, alpha);
 }
-void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) __attribute__((alias("glshim_glColorMask")));
+void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) __attribute__((alias("glshim_glColorMask"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glColorPointer
 void glshim_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -218,7 +218,7 @@ void glshim_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
 #endif
     gles_glColorPointer(size, type, stride, pointer);
 }
-void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glColorPointer")));
+void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glColorPointer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glCompressedTexImage2D
 void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -228,7 +228,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 #endif
     gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
 }
-void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) __attribute__((alias("glshim_glCompressedTexImage2D")));
+void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) __attribute__((alias("glshim_glCompressedTexImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glCompressedTexSubImage2D
 void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -238,7 +238,7 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
 #endif
     gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
 }
-void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) __attribute__((alias("glshim_glCompressedTexSubImage2D")));
+void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) __attribute__((alias("glshim_glCompressedTexSubImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glCopyTexImage2D
 void glshim_glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
@@ -248,7 +248,7 @@ void glshim_glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, 
 #endif
     gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 }
-void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) __attribute__((alias("glshim_glCopyTexImage2D")));
+void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) __attribute__((alias("glshim_glCopyTexImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glCopyTexSubImage2D
 void glshim_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -258,7 +258,7 @@ void glshim_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint
 #endif
     gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 }
-void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glCopyTexSubImage2D")));
+void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glCopyTexSubImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glCullFace
 void glshim_glCullFace(GLenum mode) {
@@ -268,7 +268,7 @@ void glshim_glCullFace(GLenum mode) {
 #endif
     gles_glCullFace(mode);
 }
-void glCullFace(GLenum mode) __attribute__((alias("glshim_glCullFace")));
+void glCullFace(GLenum mode) __attribute__((alias("glshim_glCullFace"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteBuffers
 void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
@@ -278,7 +278,7 @@ void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 #endif
     gles_glDeleteBuffers(n, buffers);
 }
-void glDeleteBuffers(GLsizei n, const GLuint * buffers) __attribute__((alias("glshim_glDeleteBuffers")));
+void glDeleteBuffers(GLsizei n, const GLuint * buffers) __attribute__((alias("glshim_glDeleteBuffers"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteTextures
 void glshim_glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -288,7 +288,7 @@ void glshim_glDeleteTextures(GLsizei n, const GLuint * textures) {
 #endif
     gles_glDeleteTextures(n, textures);
 }
-void glDeleteTextures(GLsizei n, const GLuint * textures) __attribute__((alias("glshim_glDeleteTextures")));
+void glDeleteTextures(GLsizei n, const GLuint * textures) __attribute__((alias("glshim_glDeleteTextures"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDepthFunc
 void glshim_glDepthFunc(GLenum func) {
@@ -298,7 +298,7 @@ void glshim_glDepthFunc(GLenum func) {
 #endif
     gles_glDepthFunc(func);
 }
-void glDepthFunc(GLenum func) __attribute__((alias("glshim_glDepthFunc")));
+void glDepthFunc(GLenum func) __attribute__((alias("glshim_glDepthFunc"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDepthMask
 void glshim_glDepthMask(GLboolean flag) {
@@ -308,7 +308,7 @@ void glshim_glDepthMask(GLboolean flag) {
 #endif
     gles_glDepthMask(flag);
 }
-void glDepthMask(GLboolean flag) __attribute__((alias("glshim_glDepthMask")));
+void glDepthMask(GLboolean flag) __attribute__((alias("glshim_glDepthMask"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDepthRangef
 void glshim_glDepthRangef(GLclampf near, GLclampf far) {
@@ -318,7 +318,7 @@ void glshim_glDepthRangef(GLclampf near, GLclampf far) {
 #endif
     gles_glDepthRangef(near, far);
 }
-void glDepthRangef(GLclampf near, GLclampf far) __attribute__((alias("glshim_glDepthRangef")));
+void glDepthRangef(GLclampf near, GLclampf far) __attribute__((alias("glshim_glDepthRangef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDepthRangex
 void glshim_glDepthRangex(GLclampx near, GLclampx far) {
@@ -328,7 +328,7 @@ void glshim_glDepthRangex(GLclampx near, GLclampx far) {
 #endif
     gles_glDepthRangex(near, far);
 }
-void glDepthRangex(GLclampx near, GLclampx far) __attribute__((alias("glshim_glDepthRangex")));
+void glDepthRangex(GLclampx near, GLclampx far) __attribute__((alias("glshim_glDepthRangex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDisable
 void glshim_glDisable(GLenum cap) {
@@ -338,7 +338,7 @@ void glshim_glDisable(GLenum cap) {
 #endif
     gles_glDisable(cap);
 }
-void glDisable(GLenum cap) __attribute__((alias("glshim_glDisable")));
+void glDisable(GLenum cap) __attribute__((alias("glshim_glDisable"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDisableClientState
 void glshim_glDisableClientState(GLenum array) {
@@ -348,7 +348,7 @@ void glshim_glDisableClientState(GLenum array) {
 #endif
     gles_glDisableClientState(array);
 }
-void glDisableClientState(GLenum array) __attribute__((alias("glshim_glDisableClientState")));
+void glDisableClientState(GLenum array) __attribute__((alias("glshim_glDisableClientState"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDrawArrays
 void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -358,7 +358,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 #endif
     gles_glDrawArrays(mode, first, count);
 }
-void glDrawArrays(GLenum mode, GLint first, GLsizei count) __attribute__((alias("glshim_glDrawArrays")));
+void glDrawArrays(GLenum mode, GLint first, GLsizei count) __attribute__((alias("glshim_glDrawArrays"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDrawElements
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -368,7 +368,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 #endif
     gles_glDrawElements(mode, count, type, indices);
 }
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) __attribute__((alias("glshim_glDrawElements")));
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) __attribute__((alias("glshim_glDrawElements"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glEnable
 void glshim_glEnable(GLenum cap) {
@@ -378,7 +378,7 @@ void glshim_glEnable(GLenum cap) {
 #endif
     gles_glEnable(cap);
 }
-void glEnable(GLenum cap) __attribute__((alias("glshim_glEnable")));
+void glEnable(GLenum cap) __attribute__((alias("glshim_glEnable"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glEnableClientState
 void glshim_glEnableClientState(GLenum array) {
@@ -388,7 +388,7 @@ void glshim_glEnableClientState(GLenum array) {
 #endif
     gles_glEnableClientState(array);
 }
-void glEnableClientState(GLenum array) __attribute__((alias("glshim_glEnableClientState")));
+void glEnableClientState(GLenum array) __attribute__((alias("glshim_glEnableClientState"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFinish
 void glshim_glFinish() {
@@ -398,7 +398,7 @@ void glshim_glFinish() {
 #endif
     gles_glFinish();
 }
-void glFinish() __attribute__((alias("glshim_glFinish")));
+void glFinish() __attribute__((alias("glshim_glFinish"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFlush
 void glshim_glFlush() {
@@ -408,7 +408,7 @@ void glshim_glFlush() {
 #endif
     gles_glFlush();
 }
-void glFlush() __attribute__((alias("glshim_glFlush")));
+void glFlush() __attribute__((alias("glshim_glFlush"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFogf
 void glshim_glFogf(GLenum pname, GLfloat param) {
@@ -418,7 +418,7 @@ void glshim_glFogf(GLenum pname, GLfloat param) {
 #endif
     gles_glFogf(pname, param);
 }
-void glFogf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glFogf")));
+void glFogf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glFogf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFogfv
 void glshim_glFogfv(GLenum pname, const GLfloat * params) {
@@ -428,7 +428,7 @@ void glshim_glFogfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glFogfv(pname, params);
 }
-void glFogfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glFogfv")));
+void glFogfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glFogfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFogx
 void glshim_glFogx(GLenum pname, GLfixed param) {
@@ -438,7 +438,7 @@ void glshim_glFogx(GLenum pname, GLfixed param) {
 #endif
     gles_glFogx(pname, param);
 }
-void glFogx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glFogx")));
+void glFogx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glFogx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFogxv
 void glshim_glFogxv(GLenum pname, const GLfixed * params) {
@@ -448,7 +448,7 @@ void glshim_glFogxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glFogxv(pname, params);
 }
-void glFogxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glFogxv")));
+void glFogxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glFogxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFrontFace
 void glshim_glFrontFace(GLenum mode) {
@@ -458,7 +458,7 @@ void glshim_glFrontFace(GLenum mode) {
 #endif
     gles_glFrontFace(mode);
 }
-void glFrontFace(GLenum mode) __attribute__((alias("glshim_glFrontFace")));
+void glFrontFace(GLenum mode) __attribute__((alias("glshim_glFrontFace"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFrustumf
 void glshim_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
@@ -468,7 +468,7 @@ void glshim_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top,
 #endif
     gles_glFrustumf(left, right, bottom, top, near, far);
 }
-void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) __attribute__((alias("glshim_glFrustumf")));
+void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) __attribute__((alias("glshim_glFrustumf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFrustumx
 void glshim_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
@@ -478,7 +478,7 @@ void glshim_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top,
 #endif
     gles_glFrustumx(left, right, bottom, top, near, far);
 }
-void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) __attribute__((alias("glshim_glFrustumx")));
+void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) __attribute__((alias("glshim_glFrustumx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGenBuffers
 void glshim_glGenBuffers(GLsizei n, GLuint * buffers) {
@@ -488,7 +488,7 @@ void glshim_glGenBuffers(GLsizei n, GLuint * buffers) {
 #endif
     gles_glGenBuffers(n, buffers);
 }
-void glGenBuffers(GLsizei n, GLuint * buffers) __attribute__((alias("glshim_glGenBuffers")));
+void glGenBuffers(GLsizei n, GLuint * buffers) __attribute__((alias("glshim_glGenBuffers"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGenTextures
 void glshim_glGenTextures(GLsizei n, GLuint * textures) {
@@ -498,7 +498,7 @@ void glshim_glGenTextures(GLsizei n, GLuint * textures) {
 #endif
     gles_glGenTextures(n, textures);
 }
-void glGenTextures(GLsizei n, GLuint * textures) __attribute__((alias("glshim_glGenTextures")));
+void glGenTextures(GLsizei n, GLuint * textures) __attribute__((alias("glshim_glGenTextures"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetBooleanv
 void glshim_glGetBooleanv(GLenum pname, GLboolean * params) {
@@ -508,7 +508,7 @@ void glshim_glGetBooleanv(GLenum pname, GLboolean * params) {
 #endif
     gles_glGetBooleanv(pname, params);
 }
-void glGetBooleanv(GLenum pname, GLboolean * params) __attribute__((alias("glshim_glGetBooleanv")));
+void glGetBooleanv(GLenum pname, GLboolean * params) __attribute__((alias("glshim_glGetBooleanv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetBufferParameteriv
 void glshim_glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -518,7 +518,7 @@ void glshim_glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) 
 #endif
     gles_glGetBufferParameteriv(target, pname, params);
 }
-void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetBufferParameteriv")));
+void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetBufferParameteriv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetClipPlanef
 void glshim_glGetClipPlanef(GLenum plane, GLfloat * equation) {
@@ -528,7 +528,7 @@ void glshim_glGetClipPlanef(GLenum plane, GLfloat * equation) {
 #endif
     gles_glGetClipPlanef(plane, equation);
 }
-void glGetClipPlanef(GLenum plane, GLfloat * equation) __attribute__((alias("glshim_glGetClipPlanef")));
+void glGetClipPlanef(GLenum plane, GLfloat * equation) __attribute__((alias("glshim_glGetClipPlanef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetClipPlanex
 void glshim_glGetClipPlanex(GLenum plane, GLfixed * equation) {
@@ -538,7 +538,7 @@ void glshim_glGetClipPlanex(GLenum plane, GLfixed * equation) {
 #endif
     gles_glGetClipPlanex(plane, equation);
 }
-void glGetClipPlanex(GLenum plane, GLfixed * equation) __attribute__((alias("glshim_glGetClipPlanex")));
+void glGetClipPlanex(GLenum plane, GLfixed * equation) __attribute__((alias("glshim_glGetClipPlanex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetError
 GLenum glshim_glGetError() {
@@ -548,7 +548,7 @@ GLenum glshim_glGetError() {
 #endif
     return gles_glGetError();
 }
-GLenum glGetError() __attribute__((alias("glshim_glGetError")));
+GLenum glGetError() __attribute__((alias("glshim_glGetError"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetFixedv
 void glshim_glGetFixedv(GLenum pname, GLfixed * params) {
@@ -558,7 +558,7 @@ void glshim_glGetFixedv(GLenum pname, GLfixed * params) {
 #endif
     gles_glGetFixedv(pname, params);
 }
-void glGetFixedv(GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetFixedv")));
+void glGetFixedv(GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetFixedv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetFloatv
 void glshim_glGetFloatv(GLenum pname, GLfloat * params) {
@@ -568,7 +568,7 @@ void glshim_glGetFloatv(GLenum pname, GLfloat * params) {
 #endif
     gles_glGetFloatv(pname, params);
 }
-void glGetFloatv(GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetFloatv")));
+void glGetFloatv(GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetFloatv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetIntegerv
 void glshim_glGetIntegerv(GLenum pname, GLint * params) {
@@ -578,7 +578,7 @@ void glshim_glGetIntegerv(GLenum pname, GLint * params) {
 #endif
     gles_glGetIntegerv(pname, params);
 }
-void glGetIntegerv(GLenum pname, GLint * params) __attribute__((alias("glshim_glGetIntegerv")));
+void glGetIntegerv(GLenum pname, GLint * params) __attribute__((alias("glshim_glGetIntegerv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetLightfv
 void glshim_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
@@ -588,7 +588,7 @@ void glshim_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetLightfv(light, pname, params);
 }
-void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetLightfv")));
+void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetLightfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetLightxv
 void glshim_glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
@@ -598,7 +598,7 @@ void glshim_glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetLightxv(light, pname, params);
 }
-void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetLightxv")));
+void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetLightxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetMaterialfv
 void glshim_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
@@ -608,7 +608,7 @@ void glshim_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetMaterialfv(face, pname, params);
 }
-void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetMaterialfv")));
+void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetMaterialfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetMaterialxv
 void glshim_glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
@@ -618,7 +618,7 @@ void glshim_glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetMaterialxv(face, pname, params);
 }
-void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetMaterialxv")));
+void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetMaterialxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetPointerv
 void glshim_glGetPointerv(GLenum pname, GLvoid ** params) {
@@ -628,7 +628,7 @@ void glshim_glGetPointerv(GLenum pname, GLvoid ** params) {
 #endif
     gles_glGetPointerv(pname, params);
 }
-void glGetPointerv(GLenum pname, GLvoid ** params) __attribute__((alias("glshim_glGetPointerv")));
+void glGetPointerv(GLenum pname, GLvoid ** params) __attribute__((alias("glshim_glGetPointerv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetString
 const GLubyte * glshim_glGetString(GLenum name) {
@@ -638,7 +638,7 @@ const GLubyte * glshim_glGetString(GLenum name) {
 #endif
     return gles_glGetString(name);
 }
-const GLubyte * glGetString(GLenum name) __attribute__((alias("glshim_glGetString")));
+const GLubyte * glGetString(GLenum name) __attribute__((alias("glshim_glGetString"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexEnvfv
 void glshim_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -648,7 +648,7 @@ void glshim_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetTexEnvfv(target, pname, params);
 }
-void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetTexEnvfv")));
+void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetTexEnvfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexEnviv
 void glshim_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
@@ -658,7 +658,7 @@ void glshim_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
 #endif
     gles_glGetTexEnviv(target, pname, params);
 }
-void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetTexEnviv")));
+void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetTexEnviv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexEnvxv
 void glshim_glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -668,7 +668,7 @@ void glshim_glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetTexEnvxv(target, pname, params);
 }
-void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetTexEnvxv")));
+void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetTexEnvxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexParameterfv
 void glshim_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -678,7 +678,7 @@ void glshim_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetTexParameterfv(target, pname, params);
 }
-void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetTexParameterfv")));
+void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) __attribute__((alias("glshim_glGetTexParameterfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexParameteriv
 void glshim_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -688,7 +688,7 @@ void glshim_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
 #endif
     gles_glGetTexParameteriv(target, pname, params);
 }
-void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetTexParameteriv")));
+void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("glshim_glGetTexParameteriv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetTexParameterxv
 void glshim_glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -698,7 +698,7 @@ void glshim_glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetTexParameterxv(target, pname, params);
 }
-void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetTexParameterxv")));
+void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) __attribute__((alias("glshim_glGetTexParameterxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glHint
 void glshim_glHint(GLenum target, GLenum mode) {
@@ -708,7 +708,7 @@ void glshim_glHint(GLenum target, GLenum mode) {
 #endif
     gles_glHint(target, mode);
 }
-void glHint(GLenum target, GLenum mode) __attribute__((alias("glshim_glHint")));
+void glHint(GLenum target, GLenum mode) __attribute__((alias("glshim_glHint"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glIsBuffer
 GLboolean glshim_glIsBuffer(GLuint buffer) {
@@ -718,7 +718,7 @@ GLboolean glshim_glIsBuffer(GLuint buffer) {
 #endif
     return gles_glIsBuffer(buffer);
 }
-GLboolean glIsBuffer(GLuint buffer) __attribute__((alias("glshim_glIsBuffer")));
+GLboolean glIsBuffer(GLuint buffer) __attribute__((alias("glshim_glIsBuffer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glIsEnabled
 GLboolean glshim_glIsEnabled(GLenum cap) {
@@ -728,7 +728,7 @@ GLboolean glshim_glIsEnabled(GLenum cap) {
 #endif
     return gles_glIsEnabled(cap);
 }
-GLboolean glIsEnabled(GLenum cap) __attribute__((alias("glshim_glIsEnabled")));
+GLboolean glIsEnabled(GLenum cap) __attribute__((alias("glshim_glIsEnabled"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glIsTexture
 GLboolean glshim_glIsTexture(GLuint texture) {
@@ -738,7 +738,7 @@ GLboolean glshim_glIsTexture(GLuint texture) {
 #endif
     return gles_glIsTexture(texture);
 }
-GLboolean glIsTexture(GLuint texture) __attribute__((alias("glshim_glIsTexture")));
+GLboolean glIsTexture(GLuint texture) __attribute__((alias("glshim_glIsTexture"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightModelf
 void glshim_glLightModelf(GLenum pname, GLfloat param) {
@@ -748,7 +748,7 @@ void glshim_glLightModelf(GLenum pname, GLfloat param) {
 #endif
     gles_glLightModelf(pname, param);
 }
-void glLightModelf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glLightModelf")));
+void glLightModelf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glLightModelf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightModelfv
 void glshim_glLightModelfv(GLenum pname, const GLfloat * params) {
@@ -758,7 +758,7 @@ void glshim_glLightModelfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glLightModelfv(pname, params);
 }
-void glLightModelfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glLightModelfv")));
+void glLightModelfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glLightModelfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightModelx
 void glshim_glLightModelx(GLenum pname, GLfixed param) {
@@ -768,7 +768,7 @@ void glshim_glLightModelx(GLenum pname, GLfixed param) {
 #endif
     gles_glLightModelx(pname, param);
 }
-void glLightModelx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glLightModelx")));
+void glLightModelx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glLightModelx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightModelxv
 void glshim_glLightModelxv(GLenum pname, const GLfixed * params) {
@@ -778,7 +778,7 @@ void glshim_glLightModelxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glLightModelxv(pname, params);
 }
-void glLightModelxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glLightModelxv")));
+void glLightModelxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glLightModelxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightf
 void glshim_glLightf(GLenum light, GLenum pname, GLfloat param) {
@@ -788,7 +788,7 @@ void glshim_glLightf(GLenum light, GLenum pname, GLfloat param) {
 #endif
     gles_glLightf(light, pname, param);
 }
-void glLightf(GLenum light, GLenum pname, GLfloat param) __attribute__((alias("glshim_glLightf")));
+void glLightf(GLenum light, GLenum pname, GLfloat param) __attribute__((alias("glshim_glLightf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightfv
 void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
@@ -798,7 +798,7 @@ void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
 #endif
     gles_glLightfv(light, pname, params);
 }
-void glLightfv(GLenum light, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glLightfv")));
+void glLightfv(GLenum light, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glLightfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightx
 void glshim_glLightx(GLenum light, GLenum pname, GLfixed param) {
@@ -808,7 +808,7 @@ void glshim_glLightx(GLenum light, GLenum pname, GLfixed param) {
 #endif
     gles_glLightx(light, pname, param);
 }
-void glLightx(GLenum light, GLenum pname, GLfixed param) __attribute__((alias("glshim_glLightx")));
+void glLightx(GLenum light, GLenum pname, GLfixed param) __attribute__((alias("glshim_glLightx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLightxv
 void glshim_glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
@@ -818,7 +818,7 @@ void glshim_glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
 #endif
     gles_glLightxv(light, pname, params);
 }
-void glLightxv(GLenum light, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glLightxv")));
+void glLightxv(GLenum light, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glLightxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLineWidth
 void glshim_glLineWidth(GLfloat width) {
@@ -828,7 +828,7 @@ void glshim_glLineWidth(GLfloat width) {
 #endif
     gles_glLineWidth(width);
 }
-void glLineWidth(GLfloat width) __attribute__((alias("glshim_glLineWidth")));
+void glLineWidth(GLfloat width) __attribute__((alias("glshim_glLineWidth"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLineWidthx
 void glshim_glLineWidthx(GLfixed width) {
@@ -838,7 +838,7 @@ void glshim_glLineWidthx(GLfixed width) {
 #endif
     gles_glLineWidthx(width);
 }
-void glLineWidthx(GLfixed width) __attribute__((alias("glshim_glLineWidthx")));
+void glLineWidthx(GLfixed width) __attribute__((alias("glshim_glLineWidthx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLoadIdentity
 void glshim_glLoadIdentity() {
@@ -848,7 +848,7 @@ void glshim_glLoadIdentity() {
 #endif
     gles_glLoadIdentity();
 }
-void glLoadIdentity() __attribute__((alias("glshim_glLoadIdentity")));
+void glLoadIdentity() __attribute__((alias("glshim_glLoadIdentity"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLoadMatrixf
 void glshim_glLoadMatrixf(const GLfloat * m) {
@@ -858,7 +858,7 @@ void glshim_glLoadMatrixf(const GLfloat * m) {
 #endif
     gles_glLoadMatrixf(m);
 }
-void glLoadMatrixf(const GLfloat * m) __attribute__((alias("glshim_glLoadMatrixf")));
+void glLoadMatrixf(const GLfloat * m) __attribute__((alias("glshim_glLoadMatrixf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLoadMatrixx
 void glshim_glLoadMatrixx(const GLfixed * m) {
@@ -868,7 +868,7 @@ void glshim_glLoadMatrixx(const GLfixed * m) {
 #endif
     gles_glLoadMatrixx(m);
 }
-void glLoadMatrixx(const GLfixed * m) __attribute__((alias("glshim_glLoadMatrixx")));
+void glLoadMatrixx(const GLfixed * m) __attribute__((alias("glshim_glLoadMatrixx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLogicOp
 void glshim_glLogicOp(GLenum opcode) {
@@ -878,7 +878,7 @@ void glshim_glLogicOp(GLenum opcode) {
 #endif
     gles_glLogicOp(opcode);
 }
-void glLogicOp(GLenum opcode) __attribute__((alias("glshim_glLogicOp")));
+void glLogicOp(GLenum opcode) __attribute__((alias("glshim_glLogicOp"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMaterialf
 void glshim_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
@@ -888,7 +888,7 @@ void glshim_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
 #endif
     gles_glMaterialf(face, pname, param);
 }
-void glMaterialf(GLenum face, GLenum pname, GLfloat param) __attribute__((alias("glshim_glMaterialf")));
+void glMaterialf(GLenum face, GLenum pname, GLfloat param) __attribute__((alias("glshim_glMaterialf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMaterialfv
 void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
@@ -898,7 +898,7 @@ void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
 #endif
     gles_glMaterialfv(face, pname, params);
 }
-void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glMaterialfv")));
+void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glMaterialfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMaterialx
 void glshim_glMaterialx(GLenum face, GLenum pname, GLfixed param) {
@@ -908,7 +908,7 @@ void glshim_glMaterialx(GLenum face, GLenum pname, GLfixed param) {
 #endif
     gles_glMaterialx(face, pname, param);
 }
-void glMaterialx(GLenum face, GLenum pname, GLfixed param) __attribute__((alias("glshim_glMaterialx")));
+void glMaterialx(GLenum face, GLenum pname, GLfixed param) __attribute__((alias("glshim_glMaterialx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMaterialxv
 void glshim_glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
@@ -918,7 +918,7 @@ void glshim_glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
 #endif
     gles_glMaterialxv(face, pname, params);
 }
-void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glMaterialxv")));
+void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glMaterialxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMatrixMode
 void glshim_glMatrixMode(GLenum mode) {
@@ -928,7 +928,7 @@ void glshim_glMatrixMode(GLenum mode) {
 #endif
     gles_glMatrixMode(mode);
 }
-void glMatrixMode(GLenum mode) __attribute__((alias("glshim_glMatrixMode")));
+void glMatrixMode(GLenum mode) __attribute__((alias("glshim_glMatrixMode"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMultMatrixf
 void glshim_glMultMatrixf(const GLfloat * m) {
@@ -938,7 +938,7 @@ void glshim_glMultMatrixf(const GLfloat * m) {
 #endif
     gles_glMultMatrixf(m);
 }
-void glMultMatrixf(const GLfloat * m) __attribute__((alias("glshim_glMultMatrixf")));
+void glMultMatrixf(const GLfloat * m) __attribute__((alias("glshim_glMultMatrixf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMultMatrixx
 void glshim_glMultMatrixx(const GLfixed * m) {
@@ -948,7 +948,7 @@ void glshim_glMultMatrixx(const GLfixed * m) {
 #endif
     gles_glMultMatrixx(m);
 }
-void glMultMatrixx(const GLfixed * m) __attribute__((alias("glshim_glMultMatrixx")));
+void glMultMatrixx(const GLfixed * m) __attribute__((alias("glshim_glMultMatrixx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMultiTexCoord4f
 void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -958,7 +958,7 @@ void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GL
 #endif
     gles_glMultiTexCoord4f(target, s, t, r, q);
 }
-void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f")));
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) __attribute__((alias("glshim_glMultiTexCoord4f"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glMultiTexCoord4x
 void glshim_glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
@@ -968,7 +968,7 @@ void glshim_glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GL
 #endif
     gles_glMultiTexCoord4x(target, s, t, r, q);
 }
-void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) __attribute__((alias("glshim_glMultiTexCoord4x")));
+void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) __attribute__((alias("glshim_glMultiTexCoord4x"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glNormal3f
 void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
@@ -978,7 +978,7 @@ void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 #endif
     gles_glNormal3f(nx, ny, nz);
 }
-void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) __attribute__((alias("glshim_glNormal3f")));
+void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) __attribute__((alias("glshim_glNormal3f"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glNormal3x
 void glshim_glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
@@ -988,7 +988,7 @@ void glshim_glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
 #endif
     gles_glNormal3x(nx, ny, nz);
 }
-void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) __attribute__((alias("glshim_glNormal3x")));
+void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) __attribute__((alias("glshim_glNormal3x"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glNormalPointer
 void glshim_glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -998,7 +998,7 @@ void glshim_glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer)
 #endif
     gles_glNormalPointer(type, stride, pointer);
 }
-void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glNormalPointer")));
+void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glNormalPointer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glOrthof
 void glshim_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
@@ -1008,7 +1008,7 @@ void glshim_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, G
 #endif
     gles_glOrthof(left, right, bottom, top, near, far);
 }
-void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) __attribute__((alias("glshim_glOrthof")));
+void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) __attribute__((alias("glshim_glOrthof"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glOrthox
 void glshim_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
@@ -1018,7 +1018,7 @@ void glshim_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, G
 #endif
     gles_glOrthox(left, right, bottom, top, near, far);
 }
-void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) __attribute__((alias("glshim_glOrthox")));
+void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) __attribute__((alias("glshim_glOrthox"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPixelStorei
 void glshim_glPixelStorei(GLenum pname, GLint param) {
@@ -1028,7 +1028,7 @@ void glshim_glPixelStorei(GLenum pname, GLint param) {
 #endif
     gles_glPixelStorei(pname, param);
 }
-void glPixelStorei(GLenum pname, GLint param) __attribute__((alias("glshim_glPixelStorei")));
+void glPixelStorei(GLenum pname, GLint param) __attribute__((alias("glshim_glPixelStorei"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointParameterf
 void glshim_glPointParameterf(GLenum pname, GLfloat param) {
@@ -1038,7 +1038,7 @@ void glshim_glPointParameterf(GLenum pname, GLfloat param) {
 #endif
     gles_glPointParameterf(pname, param);
 }
-void glPointParameterf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glPointParameterf")));
+void glPointParameterf(GLenum pname, GLfloat param) __attribute__((alias("glshim_glPointParameterf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointParameterfv
 void glshim_glPointParameterfv(GLenum pname, const GLfloat * params) {
@@ -1048,7 +1048,7 @@ void glshim_glPointParameterfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glPointParameterfv(pname, params);
 }
-void glPointParameterfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glPointParameterfv")));
+void glPointParameterfv(GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glPointParameterfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointParameterx
 void glshim_glPointParameterx(GLenum pname, GLfixed param) {
@@ -1058,7 +1058,7 @@ void glshim_glPointParameterx(GLenum pname, GLfixed param) {
 #endif
     gles_glPointParameterx(pname, param);
 }
-void glPointParameterx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glPointParameterx")));
+void glPointParameterx(GLenum pname, GLfixed param) __attribute__((alias("glshim_glPointParameterx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointParameterxv
 void glshim_glPointParameterxv(GLenum pname, const GLfixed * params) {
@@ -1068,7 +1068,7 @@ void glshim_glPointParameterxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glPointParameterxv(pname, params);
 }
-void glPointParameterxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glPointParameterxv")));
+void glPointParameterxv(GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glPointParameterxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointSize
 void glshim_glPointSize(GLfloat size) {
@@ -1078,7 +1078,7 @@ void glshim_glPointSize(GLfloat size) {
 #endif
     gles_glPointSize(size);
 }
-void glPointSize(GLfloat size) __attribute__((alias("glshim_glPointSize")));
+void glPointSize(GLfloat size) __attribute__((alias("glshim_glPointSize"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointSizePointerOES
 void glshim_glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1088,7 +1088,7 @@ void glshim_glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * po
 #endif
     gles_glPointSizePointerOES(type, stride, pointer);
 }
-void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glPointSizePointerOES")));
+void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glPointSizePointerOES"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPointSizex
 void glshim_glPointSizex(GLfixed size) {
@@ -1098,7 +1098,7 @@ void glshim_glPointSizex(GLfixed size) {
 #endif
     gles_glPointSizex(size);
 }
-void glPointSizex(GLfixed size) __attribute__((alias("glshim_glPointSizex")));
+void glPointSizex(GLfixed size) __attribute__((alias("glshim_glPointSizex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPolygonOffset
 void glshim_glPolygonOffset(GLfloat factor, GLfloat units) {
@@ -1108,7 +1108,7 @@ void glshim_glPolygonOffset(GLfloat factor, GLfloat units) {
 #endif
     gles_glPolygonOffset(factor, units);
 }
-void glPolygonOffset(GLfloat factor, GLfloat units) __attribute__((alias("glshim_glPolygonOffset")));
+void glPolygonOffset(GLfloat factor, GLfloat units) __attribute__((alias("glshim_glPolygonOffset"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPolygonOffsetx
 void glshim_glPolygonOffsetx(GLfixed factor, GLfixed units) {
@@ -1118,7 +1118,7 @@ void glshim_glPolygonOffsetx(GLfixed factor, GLfixed units) {
 #endif
     gles_glPolygonOffsetx(factor, units);
 }
-void glPolygonOffsetx(GLfixed factor, GLfixed units) __attribute__((alias("glshim_glPolygonOffsetx")));
+void glPolygonOffsetx(GLfixed factor, GLfixed units) __attribute__((alias("glshim_glPolygonOffsetx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPopMatrix
 void glshim_glPopMatrix() {
@@ -1128,7 +1128,7 @@ void glshim_glPopMatrix() {
 #endif
     gles_glPopMatrix();
 }
-void glPopMatrix() __attribute__((alias("glshim_glPopMatrix")));
+void glPopMatrix() __attribute__((alias("glshim_glPopMatrix"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPushMatrix
 void glshim_glPushMatrix() {
@@ -1138,7 +1138,7 @@ void glshim_glPushMatrix() {
 #endif
     gles_glPushMatrix();
 }
-void glPushMatrix() __attribute__((alias("glshim_glPushMatrix")));
+void glPushMatrix() __attribute__((alias("glshim_glPushMatrix"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glReadPixels
 void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
@@ -1148,7 +1148,7 @@ void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum
 #endif
     gles_glReadPixels(x, y, width, height, format, type, pixels);
 }
-void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) __attribute__((alias("glshim_glReadPixels")));
+void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) __attribute__((alias("glshim_glReadPixels"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glRotatef
 void glshim_glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
@@ -1158,7 +1158,7 @@ void glshim_glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glRotatef(angle, x, y, z);
 }
-void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glRotatef")));
+void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glRotatef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glRotatex
 void glshim_glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
@@ -1168,7 +1168,7 @@ void glshim_glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glRotatex(angle, x, y, z);
 }
-void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glRotatex")));
+void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glRotatex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glSampleCoverage
 void glshim_glSampleCoverage(GLclampf value, GLboolean invert) {
@@ -1178,7 +1178,7 @@ void glshim_glSampleCoverage(GLclampf value, GLboolean invert) {
 #endif
     gles_glSampleCoverage(value, invert);
 }
-void glSampleCoverage(GLclampf value, GLboolean invert) __attribute__((alias("glshim_glSampleCoverage")));
+void glSampleCoverage(GLclampf value, GLboolean invert) __attribute__((alias("glshim_glSampleCoverage"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glSampleCoveragex
 void glshim_glSampleCoveragex(GLclampx value, GLboolean invert) {
@@ -1188,7 +1188,7 @@ void glshim_glSampleCoveragex(GLclampx value, GLboolean invert) {
 #endif
     gles_glSampleCoveragex(value, invert);
 }
-void glSampleCoveragex(GLclampx value, GLboolean invert) __attribute__((alias("glshim_glSampleCoveragex")));
+void glSampleCoveragex(GLclampx value, GLboolean invert) __attribute__((alias("glshim_glSampleCoveragex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glScalef
 void glshim_glScalef(GLfloat x, GLfloat y, GLfloat z) {
@@ -1198,7 +1198,7 @@ void glshim_glScalef(GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glScalef(x, y, z);
 }
-void glScalef(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glScalef")));
+void glScalef(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glScalef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glScalex
 void glshim_glScalex(GLfixed x, GLfixed y, GLfixed z) {
@@ -1208,7 +1208,7 @@ void glshim_glScalex(GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glScalex(x, y, z);
 }
-void glScalex(GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glScalex")));
+void glScalex(GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glScalex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glScissor
 void glshim_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1218,7 +1218,7 @@ void glshim_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
 #endif
     gles_glScissor(x, y, width, height);
 }
-void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glScissor")));
+void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glScissor"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glShadeModel
 void glshim_glShadeModel(GLenum mode) {
@@ -1228,7 +1228,7 @@ void glshim_glShadeModel(GLenum mode) {
 #endif
     gles_glShadeModel(mode);
 }
-void glShadeModel(GLenum mode) __attribute__((alias("glshim_glShadeModel")));
+void glShadeModel(GLenum mode) __attribute__((alias("glshim_glShadeModel"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glStencilFunc
 void glshim_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
@@ -1238,7 +1238,7 @@ void glshim_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
 #endif
     gles_glStencilFunc(func, ref, mask);
 }
-void glStencilFunc(GLenum func, GLint ref, GLuint mask) __attribute__((alias("glshim_glStencilFunc")));
+void glStencilFunc(GLenum func, GLint ref, GLuint mask) __attribute__((alias("glshim_glStencilFunc"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glStencilMask
 void glshim_glStencilMask(GLuint mask) {
@@ -1248,7 +1248,7 @@ void glshim_glStencilMask(GLuint mask) {
 #endif
     gles_glStencilMask(mask);
 }
-void glStencilMask(GLuint mask) __attribute__((alias("glshim_glStencilMask")));
+void glStencilMask(GLuint mask) __attribute__((alias("glshim_glStencilMask"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glStencilOp
 void glshim_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
@@ -1258,7 +1258,7 @@ void glshim_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
 #endif
     gles_glStencilOp(fail, zfail, zpass);
 }
-void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) __attribute__((alias("glshim_glStencilOp")));
+void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) __attribute__((alias("glshim_glStencilOp"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexCoordPointer
 void glshim_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1268,7 +1268,7 @@ void glshim_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLv
 #endif
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
-void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glTexCoordPointer")));
+void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glTexCoordPointer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnvf
 void glshim_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
@@ -1278,7 +1278,7 @@ void glshim_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 #endif
     gles_glTexEnvf(target, pname, param);
 }
-void glTexEnvf(GLenum target, GLenum pname, GLfloat param) __attribute__((alias("glshim_glTexEnvf")));
+void glTexEnvf(GLenum target, GLenum pname, GLfloat param) __attribute__((alias("glshim_glTexEnvf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnvfv
 void glshim_glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -1288,7 +1288,7 @@ void glshim_glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
 #endif
     gles_glTexEnvfv(target, pname, params);
 }
-void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glTexEnvfv")));
+void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glTexEnvfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnvi
 void glshim_glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -1298,7 +1298,7 @@ void glshim_glTexEnvi(GLenum target, GLenum pname, GLint param) {
 #endif
     gles_glTexEnvi(target, pname, param);
 }
-void glTexEnvi(GLenum target, GLenum pname, GLint param) __attribute__((alias("glshim_glTexEnvi")));
+void glTexEnvi(GLenum target, GLenum pname, GLint param) __attribute__((alias("glshim_glTexEnvi"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnviv
 void glshim_glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
@@ -1308,7 +1308,7 @@ void glshim_glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
 #endif
     gles_glTexEnviv(target, pname, params);
 }
-void glTexEnviv(GLenum target, GLenum pname, const GLint * params) __attribute__((alias("glshim_glTexEnviv")));
+void glTexEnviv(GLenum target, GLenum pname, const GLint * params) __attribute__((alias("glshim_glTexEnviv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnvx
 void glshim_glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
@@ -1318,7 +1318,7 @@ void glshim_glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
 #endif
     gles_glTexEnvx(target, pname, param);
 }
-void glTexEnvx(GLenum target, GLenum pname, GLfixed param) __attribute__((alias("glshim_glTexEnvx")));
+void glTexEnvx(GLenum target, GLenum pname, GLfixed param) __attribute__((alias("glshim_glTexEnvx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexEnvxv
 void glshim_glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -1328,7 +1328,7 @@ void glshim_glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
 #endif
     gles_glTexEnvxv(target, pname, params);
 }
-void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glTexEnvxv")));
+void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glTexEnvxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexImage2D
 void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -1338,7 +1338,7 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsiz
 #endif
     gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
 }
-void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("glshim_glTexImage2D")));
+void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("glshim_glTexImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameterf
 void glshim_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
@@ -1348,7 +1348,7 @@ void glshim_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 #endif
     gles_glTexParameterf(target, pname, param);
 }
-void glTexParameterf(GLenum target, GLenum pname, GLfloat param) __attribute__((alias("glshim_glTexParameterf")));
+void glTexParameterf(GLenum target, GLenum pname, GLfloat param) __attribute__((alias("glshim_glTexParameterf"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameterfv
 void glshim_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -1358,7 +1358,7 @@ void glshim_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params
 #endif
     gles_glTexParameterfv(target, pname, params);
 }
-void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glTexParameterfv")));
+void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) __attribute__((alias("glshim_glTexParameterfv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameteri
 void glshim_glTexParameteri(GLenum target, GLenum pname, GLint param) {
@@ -1368,7 +1368,7 @@ void glshim_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 #endif
     gles_glTexParameteri(target, pname, param);
 }
-void glTexParameteri(GLenum target, GLenum pname, GLint param) __attribute__((alias("glshim_glTexParameteri")));
+void glTexParameteri(GLenum target, GLenum pname, GLint param) __attribute__((alias("glshim_glTexParameteri"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameteriv
 void glshim_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -1378,7 +1378,7 @@ void glshim_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) 
 #endif
     gles_glTexParameteriv(target, pname, params);
 }
-void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) __attribute__((alias("glshim_glTexParameteriv")));
+void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) __attribute__((alias("glshim_glTexParameteriv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameterx
 void glshim_glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
@@ -1388,7 +1388,7 @@ void glshim_glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
 #endif
     gles_glTexParameterx(target, pname, param);
 }
-void glTexParameterx(GLenum target, GLenum pname, GLfixed param) __attribute__((alias("glshim_glTexParameterx")));
+void glTexParameterx(GLenum target, GLenum pname, GLfixed param) __attribute__((alias("glshim_glTexParameterx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameterxv
 void glshim_glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -1398,7 +1398,7 @@ void glshim_glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params
 #endif
     gles_glTexParameterxv(target, pname, params);
 }
-void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glTexParameterxv")));
+void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) __attribute__((alias("glshim_glTexParameterxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexSubImage2D
 void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
@@ -1408,7 +1408,7 @@ void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yof
 #endif
     gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
 }
-void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("glshim_glTexSubImage2D")));
+void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("glshim_glTexSubImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTranslatef
 void glshim_glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
@@ -1418,7 +1418,7 @@ void glshim_glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glTranslatef(x, y, z);
 }
-void glTranslatef(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glTranslatef")));
+void glTranslatef(GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("glshim_glTranslatef"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTranslatex
 void glshim_glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
@@ -1428,7 +1428,7 @@ void glshim_glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glTranslatex(x, y, z);
 }
-void glTranslatex(GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glTranslatex")));
+void glTranslatex(GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("glshim_glTranslatex"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glVertexPointer
 void glshim_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1438,7 +1438,7 @@ void glshim_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoi
 #endif
     gles_glVertexPointer(size, type, stride, pointer);
 }
-void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glVertexPointer")));
+void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("glshim_glVertexPointer"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glViewport
 void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1448,7 +1448,7 @@ void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 #endif
     gles_glViewport(x, y, width, height);
 }
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glViewport")));
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("glshim_glViewport"))) __attribute__((visibility("default")));
 #endif
 void glPackedCall(const packed_call_t *packed) {
     switch (packed->format) {
