@@ -498,6 +498,11 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);   //TODO
+
+    _EX(glMultiDrawArrays);
+    _EXT(glMultiDrawArrays);
+    _EX(glMultiDrawElements);
+    _EXT(glMultiDrawElements);
     
     STUB(glFogCoordPointer);
     /*STUB(glEdgeFlagPointerEXT);

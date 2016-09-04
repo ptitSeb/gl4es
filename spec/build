@@ -5,16 +5,16 @@ base=../src/
 gles1=$(ls -1 yml/*-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 gles=$(ls -1 yml/*es-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 glext=$(ls -1 yml/*ext-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
-gles2=$(ls -1 yml/*-2.0.yml | tr '\n' ',' | sed -e 's/,$//')
+#gles2=$(ls -1 yml/*-2.0.yml | tr '\n' ',' | sed -e 's/,$//')
 
 ./gen.py "$gles" --ifndef USE_ES2 gleswrap.c.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
 ./gen.py "$glext" --ifndef USE_ES2 glextwrap.c.j2 glextwrap.c gles.h > "$base/gl/wrap/glesext.c"
 ./gen.py "$gles1" --ifndef USE_ES2 glwrap.h.j2 gleswrap.h ../gl.h > "$base/gl/wrap/gles.h"
 ./gen.py "$gles1" --ifndef USE_ES2 glxfuncs.j2 glxfuncs.inc ../gl/gl.h > "$base/glx/glesfuncs.inc"
 
-./gen.py "$gles2" --ifdef USE_ES2 gleswrap.c.j2 gles2wrap.c gles2.h > "$base/gl/wrap/gles2.c"
-./gen.py "$gles2" --ifdef USE_ES2 glwrap.h.j2 gles2wrap.h ../gl.h > "$base/gl/wrap/gles2.h"
-./gen.py "$gles2" --ifdef USE_ES2 glxfuncs.j2 gles2funcs.inc ../gl/gl.h > "$base/glx/gles2funcs.inc"
+#./gen.py "$gles2" --ifdef USE_ES2 gleswrap.c.j2 gles2wrap.c gles2.h > "$base/gl/wrap/gles2.c"
+#./gen.py "$gles2" --ifdef USE_ES2 glwrap.h.j2 gles2wrap.h ../gl.h > "$base/gl/wrap/gles2.h"
+#./gen.py "$gles2" --ifdef USE_ES2 glxfuncs.j2 gles2funcs.inc ../gl/gl.h > "$base/glx/gles2funcs.inc"
 
 # ./gen.py "yml/egl.yml" eglwrap.c.j2 eglwrap.c "<GLES/egl.h>" > "$base/gl/wrap/egl.c" &
 

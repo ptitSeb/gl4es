@@ -117,6 +117,10 @@
 #define skip_glLoadMatrixf
 #define skip_glMultMatrixf
 
+// MultiDrawArrays
+#define skip_glMultiDrawArrays
+#define skip_glMultiDrawElements
+
 // don't compile these into display lists
 #define direct_glColorPointer
 #define direct_glDeleteLists

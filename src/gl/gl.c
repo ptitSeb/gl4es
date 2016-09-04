@@ -167,6 +167,8 @@ const GLubyte *glshim_glGetString(GLenum name) {
 #endif
                 "GL_ARB_draw_buffers "
                 "GL_EXT_direct_state_access "
+                "GL_EXT_multi_draw_arrays "
+                "GL_SUN_multi_draw_arrays "
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
@@ -2033,3 +2035,46 @@ void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
     }
 }
 void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("glshim_glGetPointerv");
+
+
+void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
+{
+    LOAD_GLES_OES(glMultiDrawArrays);
+    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) 
+        || (glstate.render_mode == GL_SELECT) || ((glstate.polygon_mode == GL_LINE) || (glstate.polygon_mode == GL_POINT)) )
+    {
+        // divide the call
+        // TODO optimize with forcing Batch mode
+        for (int i=0; i<primcount; i++)
+            glshim_glDrawArrays(mode, first[i], count[i]);
+    }
+    else
+    {
+        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
+        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
+        gles_glMultiDrawArrays(mode, first, count, primcount);
+        errorGL();
+    }
+}
+void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("glshim_glMultiDrawArrays");
+
+void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
+{
+    LOAD_GLES_OES(glMultiDrawElements);
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) 
+        || (glstate.render_mode == GL_SELECT) || ((glstate.polygon_mode == GL_LINE) || (glstate.polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
+    {
+        // divide the call
+        // TODO optimize with forcing Batch mode
+        for (int i=0; i<primcount; i++)
+            glshim_glDrawElements(mode, count[i], type, indices[i]);
+    }
+    else
+    {
+        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
+        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
+        gles_glMultiDrawElements(mode, count, type, indices, primcount);
+        errorGL();
+    }
+}
+void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("glshim_glMultiDrawElements");

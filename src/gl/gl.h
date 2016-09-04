@@ -390,6 +390,9 @@ void glshim_glFogfv(GLenum pname, const GLfloat* params);
 
 void glshim_glStencilMaskSeparate(GLenum face, GLuint mask);
 
+void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount);
+void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount);
+
 
 void flush();
 void init_batch();

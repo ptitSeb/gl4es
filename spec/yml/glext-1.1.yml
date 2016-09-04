@@ -25,3 +25,6 @@ glGetRenderbufferParameteriv: [void, GLenum target, GLenum pname, "GLint * param
 
 glDrawTexi: [void, GLint x, GLint y, GLint z, GLint width, GLint height]
 glDrawTexf: [void, GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height]
+
+glMultiDrawArrays: [void, GLenum mode, "const GLint *first", "const GLsizei *count", GLsizei primcount]
+glMultiDrawElements: [void, GLenum mode, "GLsizei *count", GLenum type, "const void * const *indices", GLsizei primcount]
