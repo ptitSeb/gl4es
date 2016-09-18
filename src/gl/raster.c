@@ -232,6 +232,8 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 			if (glstate.list.active->raster)
 				glstate.list.active = extend_renderlist(glstate.list.active);		// already a raster in the list, create a new one
 			rasterlist_t *r = glstate.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
+            r->shared = (int*)malloc(sizeof(int)); 
+            *r->shared = 0;
 			r->texture = 0;
 			r->xorig = 0;
 			r->yorig = 0;
@@ -288,6 +290,8 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 	if (glstate.list.compiling || glstate.gl_batch) {
 		NewStage(glstate.list.active, STAGE_RASTER);
 		r = glstate.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
+        r->shared = (int*)malloc(sizeof(int));
+        *r->shared = 0;
 	} else {
 		r = &rast;
 	}
@@ -364,11 +368,13 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	if (pixels != data)
         free(pixels);
 	
-    static rasterlist_t rast = {.texture=0};
+    static rasterlist_t rast = {.texture=0, .shared=NULL};
     rasterlist_t *r;
 	if (glstate.list.compiling || gl_batch) {
 		NewStage(glstate.list.active, STAGE_RASTER);
 		rasterlist_t *r = glstate.list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
+        r->shared = (int*)malloc(sizeof(int));
+        *r->shared = 0;
 	} else {
 		r = &rast;
         if(r->texture)

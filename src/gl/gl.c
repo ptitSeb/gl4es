@@ -476,10 +476,11 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     // cap = map_tex_target(cap);
     
     // Alpha Hack
-    if (alphahack && (cap==GL_ALPHA_TEST) && enable)
-	if (glstate.texture.bound[glstate.texture.active])
-	    if (!glstate.texture.bound[glstate.texture.active]->alpha)
-		enable = false;
+    if (alphahack && (cap==GL_ALPHA_TEST) && enable) {
+        if (glstate.texture.bound[glstate.texture.active])
+            if (!glstate.texture.bound[glstate.texture.active]->alpha)
+                enable = false;
+    }
 	noerrorShim();
 #ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG)
@@ -516,19 +517,23 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #undef clientenable
 }
 
-void glshim_glEnable(GLenum cap) {
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
+int Cap2BatchState(GLenum cap) {
         int which_cap;
         switch (cap) {
-            case GL_ALPHA_TEST: which_cap = ENABLED_ALPHA; break;
-            case GL_BLEND: which_cap = ENABLED_BLEND; break;
-            case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
-            case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
-            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D_TEX0
+            case GL_ALPHA_TEST: return ENABLED_ALPHA; break;
+            case GL_BLEND: return ENABLED_BLEND; break;
+            case GL_CULL_FACE: return ENABLED_CULL; break;
+            case GL_DEPTH_TEST: return ENABLED_DEPTH; break;
+            case GL_TEXTURE_2D: return  ENABLED_TEX2D_TEX0
                 +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active); 
                     break;
-            default: which_cap = ENABLED_LAST; break;
+            default: return ENABLED_LAST; break;
         }
+}
+
+void glshim_glEnable(GLenum cap) {
+    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
+        int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
             if ((glstate.statebatch.enabled[which_cap] == 1))
                 return; // nothing to do...
@@ -554,17 +559,7 @@ void glEnable(GLenum cap) AliasExport("glshim_glEnable");
 
 void glshim_glDisable(GLenum cap) {
     if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
-        int which_cap;
-        switch (cap) {
-            case GL_ALPHA_TEST: which_cap = ENABLED_ALPHA; break;
-            case GL_BLEND: which_cap = ENABLED_BLEND; break;
-            case GL_CULL_FACE: which_cap = ENABLED_CULL; break;
-            case GL_DEPTH_TEST: which_cap = ENABLED_DEPTH; break;
-            case GL_TEXTURE_2D: which_cap = ENABLED_TEX2D_TEX0
-                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active); 
-                break;
-            default: which_cap = ENABLED_LAST; break;
-        }
+        int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
             if ((glstate.statebatch.enabled[which_cap] == 2))
                 return; // nothing to do...
@@ -729,7 +724,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
         list->indices = (need_free)?sindices:copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
         list->ilen = count;
         list->indice_cap = count;
-        end_renderlist(list);
+        list = end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
         
@@ -920,12 +915,11 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     LOAD_GLES(glDisable);
     LOAD_GLES(glEnableClientState);
     LOAD_GLES(glDisableClientState);
-    renderlist_t *list;
 
     if (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) {
         NewStage(glstate.list.active, STAGE_DRAW);
         glstate.list.active = arrays_to_renderlist(glstate.list.active, mode, first, count+first);
-        end_renderlist(list);
+        glstate.list.active = extend_renderlist(glstate.list.active);
         return;
     }
 
@@ -935,8 +929,9 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		mode = GL_POINTS;
 
     if (should_intercept_render(mode)) {
+        renderlist_t *list;
         list = arrays_to_renderlist(NULL, mode, first, count+first);
-        end_renderlist(list);
+        list = end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
     } else {
@@ -1229,7 +1224,7 @@ void glshim_glEnd() {
     if (!(glstate.list.compiling || glstate.gl_batch)) {
         renderlist_t *mylist = glstate.list.active;
         glstate.list.active = NULL;
-        end_renderlist(mylist);
+        mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
     } else {
@@ -1529,11 +1524,13 @@ void glshim_glEndList() {
 }
 void glEndList() AliasExport("glshim_glEndList");
 
+renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
 void glshim_glCallList(GLuint list) {
 	noerrorShim();
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-		NewStage(glstate.list.active, STAGE_CALLLIST);
-		glstate.list.active->glcall_list = list;
+		/*NewStage(glstate.list.active, STAGE_CALLLIST);
+		glstate.list.active->glcall_list = list;*/
+        glstate.list.active = append_calllist(glstate.list.active, glshim_glGetList(list));
 		return;
 	}
     // TODO: the output of this call can be compiled into another display list
@@ -1900,7 +1897,7 @@ void flush() {
         GLuint old = glstate.gl_batch;
         glstate.list.active = NULL;
         glstate.gl_batch = 0;
-        end_renderlist(mylist);
+        mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
         glstate.gl_batch = old;

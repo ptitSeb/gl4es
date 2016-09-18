@@ -90,6 +90,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #endif
 
 #include "loader.h"
+packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 
 #define checkError(code)                          \
     {int error; while ((error = glGetError())) {} \

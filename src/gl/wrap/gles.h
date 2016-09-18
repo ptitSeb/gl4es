@@ -1387,6 +1387,7 @@ typedef struct {
 extern void glPushCall(void *data);
 void glPackedCall(const packed_call_t *packed);
 void glIndexedCall(const indexed_call_t *packed, void *ret_v);
+packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 
 #define glActiveTexture_INDEX 1
 #define glActiveTexture_RETURN void

@@ -74,6 +74,7 @@ typedef struct {
 	GLfloat zoomy;
 	GLboolean bitmap;
 	GLuint	texture;
+    int     *shared;
 } rasterlist_t;
 
 KHASH_MAP_INIT_INT(material, rendermaterial_t *)
@@ -94,7 +95,7 @@ typedef struct _renderlist_t {
     GLenum mode_init;		// initial requested mode
     GLfloat lastNormal[3];
     GLfloat lastColors[4];
-    GLfloat lastSecondaryColors[3];
+    GLfloat lastSecondaryColors[4];
 
     call_list_t calls;
     
@@ -151,7 +152,7 @@ extern renderlist_t *alloc_renderlist();
 extern renderlist_t *extend_renderlist(renderlist_t *list);
 extern void free_renderlist(renderlist_t *list);
 extern void draw_renderlist(renderlist_t *list);
-extern void end_renderlist(renderlist_t *list);
+extern renderlist_t* end_renderlist(renderlist_t *list);
 
 extern void rlActiveTexture(renderlist_t *list, GLenum texture );
 extern void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);

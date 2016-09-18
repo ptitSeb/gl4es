@@ -59,6 +59,10 @@ bool ispurerender_renderlist(renderlist_t *list) {
     return true;
 }
 
+bool isempty_renderlist(renderlist_t *list) {
+    return (list->stage == STAGE_NONE);
+}
+
 int rendermode_dimensions(GLenum mode) {
     // return 1 for points, 2 for any lines, 3 for any triangles, 4 for any Quad and 5 for polygon
     switch (mode) {
@@ -461,6 +465,103 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         return new;
     }
 }
+int Cap2BatchState(GLenum cap);
+
+renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
+{
+    // go to end of list
+    while(list->next) list = list->next;
+    while(a) {
+        if(ispurerender_renderlist(a) && islistscompatible_renderlist(list, a)) {
+            // append list!
+            append_renderlist(list, a);
+        } else {
+            // create a new appended list
+            renderlist_t *new = alloc_renderlist();
+            // batch copy first
+            memcpy(new, a, sizeof(renderlist_t));
+            list->next = new;
+            new->prev = list;
+            // ok, now on new list
+            list = new;
+            // copy the many list arrays
+            if (list->calls.cap > 0) {
+                list->calls.calls = (packed_call_t**)malloc(sizeof(packed_call_t*)*a->calls.cap);
+                for (int i = 0; i < list->calls.len; i++) {
+                    list->calls.calls[i] = glCopyPackedCall(a->calls.calls[i]);
+                }
+                // in case of batch mode, need to update the batchstate...
+                if(glstate.gl_batch) {
+                    for (int i = 0; i < list->calls.len; i++) {
+                        packed_call_t *p = list->calls.calls[i];
+                        if(p->func == &glshim_glEnable) {
+                            int wich_cap = Cap2BatchState(((glEnable_PACKED*)p)->args.a1);
+                            if(wich_cap!=ENABLED_LAST) glstate.statebatch.enabled[wich_cap] = 1;
+                        }
+                        if(p->func == &glshim_glDisable) {
+                            int wich_cap = Cap2BatchState(((glDisable_PACKED*)p)->args.a1);
+                            if(wich_cap!=ENABLED_LAST) glstate.statebatch.enabled[wich_cap] = 0;
+                        }
+                    }
+                }
+            }
+            int j;
+            #define PROCESS(W, N) if(list->W) {\
+                    list->W = (GLfloat*)malloc(N*sizeof(GLfloat)*list->cap); \
+                    memcpy(list->W, a->W, N*sizeof(GLfloat)*list->len); \
+                }
+            if (!list->shared_arrays) {
+                PROCESS(vert, 4);
+                PROCESS(normal, 3);
+                PROCESS(color, 4);
+                PROCESS(secondary, 4);
+                for (j=0; j<MAX_TEX; j++)
+                    PROCESS(tex[j], 4);
+            #undef PROCESS
+                if (list->indices) {
+                    list->indices = (GLushort*)malloc(sizeof(GLushort)*list->indice_cap);
+                    memcpy(list->indices, a->indices, sizeof(GLushort)*list->ilen);
+                }
+            }
+            #define PROCESS(W, T, C) if(list->W) { \
+                    list->W = kh_init(W);   \
+                    T *m, *m2;      \
+                    khint_t k;      \
+                    int ret;        \
+                    kh_foreach_value(a->W, m,   \
+                        k = kh_put(W, list->W, C, &ret);    \
+                        m2= kh_value(list->W, k) = malloc(sizeof(T));   \
+                        memcpy(m2, m, sizeof(T));           \
+                    );       \
+                }
+            PROCESS(material, rendermaterial_t, m->pname);
+            PROCESS(light, renderlight_t, m->pname | ((m->which-GL_LIGHT0)<<16));
+            PROCESS(texgen, rendertexgen_t, m->pname | ((m->coord-GL_S)<<16));
+            #undef PROCESS
+            if (list->lightmodel) {
+                list->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
+                memcpy(list->lightmodel, a->lightmodel, 4*sizeof(GLfloat));
+            }
+            if (list->raster) {
+                (*list->raster->shared)++;
+            }
+            // Update other batchstate states
+            if(glstate.gl_batch) {
+                if (list->set_tmu) {
+                    glstate.statebatch.active_tex = GL_TEXTURE0 + list->tmu;
+                    glstate.statebatch.active_tex_changed = 1;
+                }
+                if (list->set_texture) {
+                    const int batch_activetex = glstate.statebatch.active_tex_changed?(glstate.statebatch.active_tex-GL_TEXTURE0):glstate.texture.active;
+                    glstate.statebatch.bound_targ[batch_activetex] = list->target_texture;
+                    glstate.statebatch.bound_tex[batch_activetex] = list->texture;
+                }
+            }
+        }
+        a = a->next;
+    }
+    return list;
+}
 
 void free_renderlist(renderlist_t *list) {
 	// test if list is NULL
@@ -514,7 +615,7 @@ void free_renderlist(renderlist_t *list) {
         if (list->lightmodel)
 			free(list->lightmodel);
 			
-        if (list->raster) {
+        if (list->raster && !(*(list->raster->shared)--)) {
 			if (list->raster->texture)
 				glshim_glDeleteTextures(1, &list->raster->texture);
 			free(list->raster);
@@ -560,9 +661,9 @@ void adjust_renderlist(renderlist_t *list) {
     }
 }
 
-void end_renderlist(renderlist_t *list) {
+renderlist_t* end_renderlist(renderlist_t *list) {
     if (!list || ! list->open)
-        return;
+        return list;
 
     adjust_renderlist(list);
     
@@ -581,6 +682,15 @@ void end_renderlist(renderlist_t *list) {
             list->mode = GL_TRIANGLE_STRIP;
             break;
     }
+    if(list->prev && isempty_renderlist(list)) {
+        renderlist_t *p = list;
+        list = list->prev;
+        list->next = NULL;
+        p->prev = NULL;
+        free_renderlist(p);
+    }
+    
+    return list;
 }
 
 void draw_renderlist(renderlist_t *list) {
@@ -611,7 +721,7 @@ void draw_renderlist(renderlist_t *list) {
     do {
         // close if needed!
         if (list->open)
-            end_renderlist(list);
+            list = end_renderlist(list);
         // push/pop attributes
         if (list->pushattribute)
             glshim_glPushAttrib(list->pushattribute);

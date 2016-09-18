@@ -1902,4 +1902,533 @@ void glPackedCall(const packed_call_t *packed) {
         }
     }
 }
+packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
+    switch (packed->format) {
+        case FORMAT_void_GLenum: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum);
+            PACKED_void_GLenum *newpacked = (PACKED_void_GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLclampf: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLclampf);
+            PACKED_void_GLenum_GLclampf *newpacked = (PACKED_void_GLenum_GLclampf*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLclampx: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLclampx);
+            PACKED_void_GLenum_GLclampx *newpacked = (PACKED_void_GLenum_GLclampx*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLuint);
+            PACKED_void_GLenum_GLuint *newpacked = (PACKED_void_GLenum_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum);
+            PACKED_void_GLenum_GLenum *newpacked = (PACKED_void_GLenum_GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum);
+            PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum *newpacked = (PACKED_void_GLenum_GLsizeiptr_const_GLvoid___GENPT___GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLintptr_GLsizeiptr_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLbitfield: {
+            int sizeofpacked = sizeof(PACKED_void_GLbitfield);
+            PACKED_void_GLbitfield *newpacked = (PACKED_void_GLbitfield*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampf_GLclampf_GLclampf_GLclampf: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf);
+            PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf *newpacked = (PACKED_void_GLclampf_GLclampf_GLclampf_GLclampf*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampx_GLclampx_GLclampx_GLclampx: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx);
+            PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx *newpacked = (PACKED_void_GLclampx_GLclampx_GLclampx_GLclampx*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampf: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampf);
+            PACKED_void_GLclampf *newpacked = (PACKED_void_GLclampf*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampx: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampx);
+            PACKED_void_GLclampx *newpacked = (PACKED_void_GLclampx*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLint);
+            PACKED_void_GLint *newpacked = (PACKED_void_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_const_GLfloat___GENPT__);
+            PACKED_void_GLenum_const_GLfloat___GENPT__ *newpacked = (PACKED_void_GLenum_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_const_GLfixed___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_const_GLfixed___GENPT__);
+            PACKED_void_GLenum_const_GLfixed___GENPT__ *newpacked = (PACKED_void_GLenum_const_GLfixed___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLubyte_GLubyte_GLubyte_GLubyte: {
+            int sizeofpacked = sizeof(PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte);
+            PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte *newpacked = (PACKED_void_GLubyte_GLubyte_GLubyte_GLubyte*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed);
+            PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLboolean_GLboolean_GLboolean_GLboolean: {
+            int sizeofpacked = sizeof(PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean);
+            PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean *newpacked = (PACKED_void_GLboolean_GLboolean_GLboolean_GLboolean*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint);
+            PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint *newpacked = (PACKED_void_GLenum_GLint_GLenum_GLint_GLint_GLsizei_GLsizei_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei);
+            PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *newpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLsizei_const_GLuint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLsizei_const_GLuint___GENPT__);
+            PACKED_void_GLsizei_const_GLuint___GENPT__ *newpacked = (PACKED_void_GLsizei_const_GLuint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLboolean: {
+            int sizeofpacked = sizeof(PACKED_void_GLboolean);
+            PACKED_void_GLboolean *newpacked = (PACKED_void_GLboolean*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampf_GLclampf: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampf_GLclampf);
+            PACKED_void_GLclampf_GLclampf *newpacked = (PACKED_void_GLclampf_GLclampf*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampx_GLclampx: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampx_GLclampx);
+            PACKED_void_GLclampx_GLclampx *newpacked = (PACKED_void_GLclampx_GLclampx*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLsizei: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLsizei);
+            PACKED_void_GLenum_GLint_GLsizei *newpacked = (PACKED_void_GLenum_GLint_GLsizei*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void: {
+            int sizeofpacked = sizeof(PACKED_void);
+            PACKED_void *newpacked = (PACKED_void*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfloat);
+            PACKED_void_GLenum_GLfloat *newpacked = (PACKED_void_GLenum_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfixed);
+            PACKED_void_GLenum_GLfixed *newpacked = (PACKED_void_GLenum_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed);
+            PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLsizei_GLuint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLsizei_GLuint___GENPT__);
+            PACKED_void_GLsizei_GLuint___GENPT__ *newpacked = (PACKED_void_GLsizei_GLuint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLboolean___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLboolean___GENPT__);
+            PACKED_void_GLenum_GLboolean___GENPT__ *newpacked = (PACKED_void_GLenum_GLboolean___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLint___GENPT__);
+            PACKED_void_GLenum_GLenum_GLint___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfloat___GENPT__);
+            PACKED_void_GLenum_GLfloat___GENPT__ *newpacked = (PACKED_void_GLenum_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfixed___GENPT__);
+            PACKED_void_GLenum_GLfixed___GENPT__ *newpacked = (PACKED_void_GLenum_GLfixed___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLenum: {
+            int sizeofpacked = sizeof(PACKED_GLenum);
+            PACKED_GLenum *newpacked = (PACKED_GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint___GENPT__);
+            PACKED_void_GLenum_GLint___GENPT__ *newpacked = (PACKED_void_GLenum_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLfloat___GENPT__);
+            PACKED_void_GLenum_GLenum_GLfloat___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfixed___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLfixed___GENPT__);
+            PACKED_void_GLenum_GLenum_GLfixed___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_GLfixed___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLvoid___GENPT____GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLvoid___GENPT____GENPT__);
+            PACKED_void_GLenum_GLvoid___GENPT____GENPT__ *newpacked = (PACKED_void_GLenum_GLvoid___GENPT____GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_const_GLubyte___GENPT___GLenum: {
+            int sizeofpacked = sizeof(PACKED_const_GLubyte___GENPT___GLenum);
+            PACKED_const_GLubyte___GENPT___GLenum *newpacked = (PACKED_const_GLubyte___GENPT___GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLboolean_GLuint: {
+            int sizeofpacked = sizeof(PACKED_GLboolean_GLuint);
+            PACKED_GLboolean_GLuint *newpacked = (PACKED_GLboolean_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLboolean_GLenum: {
+            int sizeofpacked = sizeof(PACKED_GLboolean_GLenum);
+            PACKED_GLboolean_GLenum *newpacked = (PACKED_GLboolean_GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLfloat);
+            PACKED_void_GLenum_GLenum_GLfloat *newpacked = (PACKED_void_GLenum_GLenum_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__);
+            PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLfixed);
+            PACKED_void_GLenum_GLenum_GLfixed *newpacked = (PACKED_void_GLenum_GLenum_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__);
+            PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat);
+            PACKED_void_GLfloat *newpacked = (PACKED_void_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLfixed);
+            PACKED_void_GLfixed *newpacked = (PACKED_void_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_const_GLfloat___GENPT__);
+            PACKED_void_const_GLfloat___GENPT__ *newpacked = (PACKED_void_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_const_GLfixed___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_const_GLfixed___GENPT__);
+            PACKED_void_const_GLfixed___GENPT__ *newpacked = (PACKED_void_const_GLfixed___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLenum_GLfloat_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed);
+            PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed *newpacked = (PACKED_void_GLenum_GLfixed_GLfixed_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed_GLfixed);
+            PACKED_void_GLfixed_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint);
+            PACKED_void_GLenum_GLint *newpacked = (PACKED_void_GLenum_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat_GLfloat);
+            PACKED_void_GLfloat_GLfloat *newpacked = (PACKED_void_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfixed_GLfixed: {
+            int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed);
+            PACKED_void_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__);
+            PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__ *newpacked = (PACKED_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampf_GLboolean: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampf_GLboolean);
+            PACKED_void_GLclampf_GLboolean *newpacked = (PACKED_void_GLclampf_GLboolean*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLclampx_GLboolean: {
+            int sizeofpacked = sizeof(PACKED_void_GLclampx_GLboolean);
+            PACKED_void_GLclampx_GLboolean *newpacked = (PACKED_void_GLclampx_GLboolean*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLsizei_GLsizei: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLint_GLsizei_GLsizei);
+            PACKED_void_GLint_GLint_GLsizei_GLsizei *newpacked = (PACKED_void_GLint_GLint_GLsizei_GLsizei*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLuint);
+            PACKED_void_GLenum_GLint_GLuint *newpacked = (PACKED_void_GLenum_GLint_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint);
+            PACKED_void_GLuint *newpacked = (PACKED_void_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLenum: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLenum);
+            PACKED_void_GLenum_GLenum_GLenum *newpacked = (PACKED_void_GLenum_GLenum_GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLint);
+            PACKED_void_GLenum_GLenum_GLint *newpacked = (PACKED_void_GLenum_GLenum_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_const_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_const_GLint___GENPT__);
+            PACKED_void_GLenum_GLenum_const_GLint___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_const_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+    }
+}
 #endif

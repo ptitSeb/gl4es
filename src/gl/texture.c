@@ -1184,7 +1184,7 @@ gltexture_t* glshim_getTexture(GLenum target, GLuint texture) {
     }
     return tex;
 }
-#define batch_activetex (glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active)
+#define batch_activetex (glstate.statebatch.active_tex_changed?(glstate.statebatch.active_tex-GL_TEXTURE0):glstate.texture.active)
 void glshim_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)))  {
