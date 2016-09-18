@@ -108,7 +108,6 @@ typedef struct _renderlist_t {
     GLushort *indices;
     unsigned int indice_cap;
 	
-	GLuint	glcall_list;
 	rasterlist_t *raster;
 	
 	liststage_t	stage;

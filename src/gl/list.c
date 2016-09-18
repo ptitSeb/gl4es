@@ -33,8 +33,6 @@ bool ispurerender_renderlist(renderlist_t *list) {
     // return true if renderlist contains only rendering command, no state changes
     if (list->calls.len)
         return false;
-    if (list->glcall_list)
-        return false;
     if (list->matrix_op)
         return false;
     if (list->raster_op)
@@ -485,6 +483,18 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             // ok, now on new list
             list = new;
             // copy the many list arrays
+            if(glstate.gl_batch) {
+                if (list->popattribute) {
+                    // invalidate all batchstate
+                    for (int i=0; i<MAX_TEX; i++) {
+                        glstate.statebatch.bound_targ[i] = 0xffff;
+                        glstate.statebatch.bound_tex[i] = 0xffffffff;
+                    }
+                    for (int i=0; i<ENABLED_LAST; i++) {
+                        glstate.statebatch.enabled[i] = 3;   //undefined
+                    }
+                }
+            }
             if (list->calls.cap > 0) {
                 list->calls.calls = (packed_call_t**)malloc(sizeof(packed_call_t*)*a->calls.cap);
                 for (int i = 0; i < list->calls.len; i++) {
@@ -727,9 +737,6 @@ void draw_renderlist(renderlist_t *list) {
             glshim_glPushAttrib(list->pushattribute);
         if (list->popattribute)
             glshim_glPopAttrib();
-        // do call_list
-        if (list->glcall_list)
-            glshim_glCallList(list->glcall_list);
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
             for (int i = 0; i < cl->len; i++) {

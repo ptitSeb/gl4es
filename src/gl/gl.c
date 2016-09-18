@@ -1528,8 +1528,6 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
 void glshim_glCallList(GLuint list) {
 	noerrorShim();
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-		/*NewStage(glstate.list.active, STAGE_CALLLIST);
-		glstate.list.active->glcall_list = list;*/
         glstate.list.active = append_calllist(glstate.list.active, glshim_glGetList(list));
 		return;
 	}
