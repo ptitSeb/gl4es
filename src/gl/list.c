@@ -488,6 +488,10 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
                 a->shared_indices = (int*)malloc(sizeof(int));
                 *a->shared_indices = 0;
             }
+            if(a->calls.cap && !a->shared_calls) {
+                a->shared_calls = (int*)malloc(sizeof(int));
+                *a->shared_calls = 0;
+            }
             // batch copy first
             memcpy(new, a, sizeof(renderlist_t));
             list->next = new;
@@ -508,10 +512,12 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
                 }
             }
             if (list->calls.cap > 0) {
+                ++(*list->shared_calls);
+                /*
                 list->calls.calls = (packed_call_t**)malloc(sizeof(packed_call_t*)*a->calls.cap);
                 for (int i = 0; i < list->calls.len; i++) {
                     list->calls.calls[i] = glCopyPackedCall(a->calls.calls[i]);
-                }
+                }*/
                 // in case of batch mode, need to update the batchstate...
                 if(glstate.gl_batch) {
                     for (int i = 0; i < list->calls.len; i++) {
@@ -584,7 +590,8 @@ void free_renderlist(renderlist_t *list) {
 
     renderlist_t *next;
     do {
-        if (list->calls.len > 0) {
+        if ((list->calls.cap > 0) && (!list->shared_calls || ((*list->shared_calls)--)==0)) {
+            if(list->shared_calls) free(list->shared_calls);
             for (int i = 0; i < list->calls.len; i++) {
                 free(list->calls.calls[i]);
             }
@@ -1387,10 +1394,10 @@ void rlPushCall(renderlist_t *list, packed_call_t *data) {
     call_list_t *cl = &list->calls;
     if (!cl->calls) {
         cl->cap = DEFAULT_CALL_LIST_CAPACITY;
-        cl->calls = malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(uintptr_t));
+        cl->calls = malloc(DEFAULT_CALL_LIST_CAPACITY * sizeof(void*));
     } else if (list->calls.len == list->calls.cap) {
         cl->cap += DEFAULT_CALL_LIST_CAPACITY;
-        cl->calls = realloc(cl->calls, cl->cap * sizeof(uintptr_t));
+        cl->calls = realloc(cl->calls, cl->cap * sizeof(void*));
     }
     cl->calls[cl->len++] = data;
 }

@@ -1902,6 +1902,7 @@ void glPackedCall(const packed_call_t *packed) {
         }
     }
 }
+/*
 packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
     switch (packed->format) {
         case FORMAT_void_GLenum: {
@@ -2431,4 +2432,5 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         }
     }
 }
+*/
 #endif
