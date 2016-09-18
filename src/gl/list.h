@@ -99,12 +99,13 @@ typedef struct _renderlist_t {
 
     call_list_t calls;
     
-    GLboolean shared_arrays;
+    int *shared_arrays;
     GLfloat *vert;
     GLfloat *normal;
     GLfloat *color;
     GLfloat *secondary;
     GLfloat *tex[MAX_TEX];
+    int *shared_indices;
     GLushort *indices;
     unsigned int indice_cap;
 	

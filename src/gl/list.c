@@ -224,7 +224,7 @@ void renderlist_quads2triangles(renderlist_t *a) {
         a->indices[j+5] = vind(i+3);
     }
     a->ilen = ilen;
-    if ((ind) && !a->shared_arrays) free(ind);
+    if ((ind) && (!a->shared_indices || ((*a->shared_indices)--)==0))  {free(ind); free(a->shared_indices);}
     a->mode = GL_TRIANGLES;
 }
 #undef vind
@@ -268,7 +268,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // lets append all the arrays
     unsigned long cap = a->cap;
     if (a->len + b->len >= cap) cap += b->cap + DEFAULT_RENDER_LIST_CAPACITY;
-    if (a->shared_arrays) {
+    if (a->shared_arrays && ((*a->shared_arrays)--)>0) {
         // Unshare if shared (shared array are not used for now)
         a->cap = cap;
         GLfloat *tmp;
@@ -299,14 +299,6 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 memcpy(a->tex[i], tmp, 4*a->len*sizeof(GLfloat));
             }
         }
-        if (a->indices) {
-            GLushort* tmpi = a->indices;
-            a->indice_cap = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
-            if (a->indice_cap > 48) a->indice_cap = (a->indice_cap+511)&~511;
-            a->indices = (GLushort*)malloc(a->indice_cap*sizeof(GLushort));
-            memcpy(a->indices, tmpi, a->ilen*sizeof(GLushort));
-        }
-        a->shared_arrays = false;
     } else {
         if (a->cap < cap) {
             a->cap = cap;
@@ -318,6 +310,17 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                realloc_sublist(a->tex[i], 4, cap);
         }
     }
+    if(a->shared_arrays && *a->shared_arrays==0) {free(a->shared_arrays); a->shared_arrays=0;}
+    if (a->shared_indices && ((*a->shared_indices)--)>0) {
+        if (a->indices) {
+            GLushort* tmpi = a->indices;
+            a->indice_cap = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
+            if (a->indice_cap > 48) a->indice_cap = (a->indice_cap+511)&~511;
+            a->indices = (GLushort*)malloc(a->indice_cap*sizeof(GLushort));
+            memcpy(a->indices, tmpi, a->ilen*sizeof(GLushort));
+        }
+    } 
+    if(a->shared_indices && *a->shared_indices==0) {free(a->shared_indices); a->shared_indices=0;}
     // append arrays
     if (a->vert) memcpy(a->vert+a->len*4, b->vert, b->len*4*sizeof(GLfloat));
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
@@ -476,6 +479,15 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
         } else {
             // create a new appended list
             renderlist_t *new = alloc_renderlist();
+            // prepared shared stuff...
+            if(a->len && !a->shared_arrays) {
+                a->shared_arrays = (int*)malloc(sizeof(int));
+                *a->shared_arrays = 0;
+            }
+            if(a->ilen && !a->shared_indices) {
+                a->shared_indices = (int*)malloc(sizeof(int));
+                *a->shared_indices = 0;
+            }
             // batch copy first
             memcpy(new, a, sizeof(renderlist_t));
             list->next = new;
@@ -515,23 +527,12 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
                     }
                 }
             }
-            int j;
-            #define PROCESS(W, N) if(list->W) {\
-                    list->W = (GLfloat*)malloc(N*sizeof(GLfloat)*list->cap); \
-                    memcpy(list->W, a->W, N*sizeof(GLfloat)*list->len); \
-                }
-            if (!list->shared_arrays) {
-                PROCESS(vert, 4);
-                PROCESS(normal, 3);
-                PROCESS(color, 4);
-                PROCESS(secondary, 4);
-                for (j=0; j<MAX_TEX; j++)
-                    PROCESS(tex[j], 4);
+            if(list->len) {
+                ++(*list->shared_arrays);
+            }
             #undef PROCESS
-                if (list->indices) {
-                    list->indices = (GLushort*)malloc(sizeof(GLushort)*list->indice_cap);
-                    memcpy(list->indices, a->indices, sizeof(GLushort)*list->ilen);
-                }
+            if(list->ilen) {
+                ++(*list->shared_indices);
             }
             #define PROCESS(W, T, C) if(list->W) { \
                     list->W = kh_init(W);   \
@@ -590,13 +591,17 @@ void free_renderlist(renderlist_t *list) {
             free(list->calls.calls);
         }
         int a;
-        if (!list->shared_arrays) {
+        if (!list->shared_arrays || ((*list->shared_arrays)--)==0) {
+            if (list->shared_arrays) free(list->shared_arrays);
             if (list->vert) free(list->vert);
             if (list->normal) free(list->normal);
             if (list->color) free(list->color);
             if (list->secondary) free(list->secondary);
             for (a=0; a<MAX_TEX; a++)
                 if (list->tex[a]) free(list->tex[a]);
+        }
+        if (!list->shared_indices || ((*list->shared_indices)--)==0) {
+            if (list->shared_indices) free(list->shared_indices);
             if (list->indices)
                 free(list->indices);
         }
