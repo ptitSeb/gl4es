@@ -518,17 +518,15 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 int Cap2BatchState(GLenum cap) {
-        int which_cap;
         switch (cap) {
-            case GL_ALPHA_TEST: return ENABLED_ALPHA; break;
-            case GL_BLEND: return ENABLED_BLEND; break;
-            case GL_CULL_FACE: return ENABLED_CULL; break;
-            case GL_DEPTH_TEST: return ENABLED_DEPTH; break;
+            case GL_ALPHA_TEST: return ENABLED_ALPHA;
+            case GL_BLEND: return ENABLED_BLEND;
+            case GL_CULL_FACE: return ENABLED_CULL;
+            case GL_DEPTH_TEST: return ENABLED_DEPTH;
             case GL_TEXTURE_2D: return  ENABLED_TEX2D_TEX0
-                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex:glstate.texture.active); 
-                    break;
-            default: return ENABLED_LAST; break;
+                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex-GL_TEXTURE0:glstate.texture.active); 
         }
+        return ENABLED_LAST;
 }
 
 void glshim_glEnable(GLenum cap) {
