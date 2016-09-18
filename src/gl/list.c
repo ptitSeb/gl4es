@@ -641,7 +641,6 @@ void free_renderlist(renderlist_t *list) {
     } while ((list = next));
 }
 
-static inline
 void resize_renderlist(renderlist_t *list) {
     if (list->len >= list->cap) {
         list->cap += DEFAULT_RENDER_LIST_CAPACITY;
@@ -1156,7 +1155,7 @@ void draw_renderlist(renderlist_t *list) {
 
 // gl function wrappers
 
-void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (list->vert == NULL) {
         list->vert = alloc_sublist(4, list->cap);
     } else {
@@ -1164,28 +1163,28 @@ void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) 
     }
 
     if (list->normal) {
-        GLfloat *normal = list->normal + (list->len * 3);
+        GLfloat * const normal = list->normal + (list->len * 3);
         memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
     }
 
     if (list->color) {
-        GLfloat *color = list->color + (list->len * 4);
+        GLfloat * const color = list->color + (list->len * 4);
         memcpy(color, glstate.color, sizeof(GLfloat) * 4);
     }
 
     if (list->secondary) {
-        GLfloat *secondary = list->secondary + (list->len * 4);
+        GLfloat * const secondary = list->secondary + (list->len * 4);
         memcpy(secondary, glstate.secondary, sizeof(GLfloat) * 4);
     }
 
     for (int a=0; a<MAX_TEX; a++) {
 		if (list->tex[a]) {
-			GLfloat *tex = list->tex[a] + (list->len * 4);
+			GLfloat * const tex = list->tex[a] + (list->len * 4);
 			memcpy(tex, glstate.texcoord[a], sizeof(GLfloat) * 4);
 		}
     }
 
-    GLfloat *vert = list->vert + (list->len++ * 4);
+    GLfloat * const vert = list->vert + (list->len++ * 4);
     vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
 }
 

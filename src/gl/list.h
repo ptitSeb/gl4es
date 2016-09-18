@@ -148,24 +148,24 @@ typedef struct _renderlist_t {
 
 renderlist_t* GetFirst(renderlist_t* list);
 
-extern renderlist_t *alloc_renderlist();
-extern renderlist_t *extend_renderlist(renderlist_t *list);
-extern void free_renderlist(renderlist_t *list);
-extern void draw_renderlist(renderlist_t *list);
-extern renderlist_t* end_renderlist(renderlist_t *list);
+renderlist_t *alloc_renderlist();
+renderlist_t *extend_renderlist(renderlist_t *list);
+void free_renderlist(renderlist_t *list);
+void draw_renderlist(renderlist_t *list);
+renderlist_t* end_renderlist(renderlist_t *list);
 
-extern void rlActiveTexture(renderlist_t *list, GLenum texture );
-extern void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);
-extern void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-extern void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
-extern void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params);
-extern void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * params);
-extern void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z);
-extern void rlPushCall(renderlist_t *list, packed_call_t *data);
-extern void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-extern void rlMultiTexCoord4f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-extern void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-extern void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b);
-extern void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z);
-extern void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
+void rlActiveTexture(renderlist_t *list, GLenum texture );
+void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);
+void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) FASTMATH;
+void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
+void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params);
+void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * params);
+void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
+void rlPushCall(renderlist_t *list, packed_call_t *data);
+void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q) FASTMATH;
+void rlMultiTexCoord4f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t, GLfloat r, GLfloat q) FASTMATH;
+void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) FASTMATH;
+void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) FASTMATH;
+void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
+void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 #endif

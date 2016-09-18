@@ -18,8 +18,8 @@ static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 GLfloat raster_scale[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 GLfloat raster_bias[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 
-extern void matrix_column_row(const GLfloat *a, GLfloat *b);
-extern void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
+void matrix_column_row(const GLfloat *a, GLfloat *b);
+void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
 void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
@@ -148,7 +148,7 @@ GLubyte raster_transform(GLubyte pix, GLubyte number) {
 	if (a>1.0) a=1.0;
 	return (GLubyte)(a*255.0f);
 }
-GLfloat raster_transformf(GLfloat pix, GLubyte number) {
+GLfloat FASTMATH raster_transformf(GLfloat pix, GLubyte number) {
 	pix=pix*raster_scale[number]+raster_bias[number];
 	if (pix<0.0) pix=0.0;
 	if (pix>1.0) pix=1.0;

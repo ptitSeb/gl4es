@@ -120,11 +120,11 @@ void glshim_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
 }
 
 
-GLfloat dot(const GLfloat *a, const GLfloat *b) {
+GLfloat FASTMATH dot(const GLfloat *a, const GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
-GLfloat dot4(const GLfloat *a, const GLfloat *b) {
+GLfloat FASTMATH dot4(const GLfloat *a, const GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
 }
 

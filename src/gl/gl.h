@@ -21,6 +21,29 @@
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
 #endif
 
+#ifndef FASTMATH
+#ifdef __GNUC__
+ #ifdef __arm__
+  #ifdef __ARM_PCS_VFP
+   //#warning Arm Hardfloat detected
+   #define FASTMATH
+  #else
+   #if defined(__ARM_FP) && defined(PANDORA)
+    //#warning Arm SoftFP detected
+    #define FASTMATH __attribute__((pcs("aapcs-vfp")))
+   #else
+	//#warning Arm no FP detected
+	#define FASTMATH
+   #endif
+  #endif
+ #else
+  #define FASTMATH
+ #endif
+#else
+ #define FASTMATH
+#endif
+#endif
+
 #ifndef GL_H
 #define GL_H
 

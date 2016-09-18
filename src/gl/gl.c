@@ -1350,10 +1350,8 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl
 void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate.list.active) {
         rlTexCoord4f(glstate.list.active, s, t, r, q);
-        noerrorShim();
-    } else {
-        noerrorShim();
     }
+    noerrorShim();
     glstate.texcoord[0][0] = s; glstate.texcoord[0][1] = t;
     glstate.texcoord[0][2] = r; glstate.texcoord[0][3] = q;
 }
@@ -1363,10 +1361,8 @@ void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GL
 	// TODO, error if target is unsuported texture....
     if (glstate.list.active) {
         rlMultiTexCoord4f(glstate.list.active, target, s, t, r, q);
-		noerrorShim();
-    } else {
-        noerrorShim();
     }
+    noerrorShim();
     glstate.texcoord[target-GL_TEXTURE0][0] = s; glstate.texcoord[target-GL_TEXTURE0][1] = t;
     glstate.texcoord[target-GL_TEXTURE0][2] = r; glstate.texcoord[target-GL_TEXTURE0][3] = q;
 }
@@ -1626,8 +1622,6 @@ void glshim_glPolygonMode(GLenum face, GLenum mode) {
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
 	if ((glstate.list.compiling || glstate.gl_batch) && (glstate.list.active)) {
 		NewStage(glstate.list.active, STAGE_POLYGON);
-/*		if (glstate.list.active->polygon_mode)
-			glstate.list.active = extend_renderlist(glstate.list.active);*/
 		glstate.list.active->polygon_mode = mode;
 		return;
 	}
