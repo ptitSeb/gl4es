@@ -207,6 +207,7 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
     }
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
+    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -329,6 +330,7 @@ void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetInteger
 
 void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
+    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -2001,6 +2003,7 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("glsh
 
 void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
+    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
     switch(pname) {
         case GL_COLOR_ARRAY_POINTER:
             *params = (void*)glstate.vao->pointers.color.pointer;
