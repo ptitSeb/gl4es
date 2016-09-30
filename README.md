@@ -183,3 +183,7 @@ Debug: Hide or Show the Sub / Not found message
  * 0 : Default, the messages are shown
  * 1 : Silent, don't print the STUB or glXGetProcAddress glXXXXX not found message
 
+##### LIBGL_NOBANNER
+Show/Hide initial text
+ * 0 : Default, print starting message
+ * 1 : Silent: no LIBGL message at start (combile with LIBGL_SILENTSTUB for more silence)

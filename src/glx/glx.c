@@ -189,6 +189,7 @@ extern int blendhack;
 extern int export_blendcolor;
 extern int glshim_noerror;
 extern char glshim_version[50];
+extern int glshim_nobanner;
 int export_silentstub = 0;
 
 bool g_recyclefbo = false;
@@ -198,6 +199,8 @@ static bool g_bcmhost = false;
 static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
+
+#define SHUT(a) if(!glshim_nobanner) a
 
 static int swap_interval = 1;
 #ifndef ANDROID
@@ -322,15 +325,15 @@ static void scan_env() {
     /* Check for some corruption inside state.... */
     if ((glstate.texture.active < 0) || (glstate.texture.active > MAX_TEX) || 
         (glstate.vao->pointers.vertex.buffer!= 0) || (glstate.vao->vertex != 0) || (glstate.list.active!=0)) {
-        printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n");
+        SHUT(printf("LIBGL: Warning, memory corruption detected at init, trying to compensate\n"));
         initialize_glshim();
     }
     first = false;
-    printf("libGL: built on %s %s\n", __DATE__, __TIME__);
+    SHUT(printf("libGL: built on %s %s\n", __DATE__, __TIME__));
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \
         if (env_##name && strcmp(env_##name, "1") == 0) { \
-            printf("libGL: " message "\n");               \
+            SHUT(printf("libGL: " message "\n"));         \
             global = true;                                \
         }
 
@@ -364,7 +367,7 @@ static void scan_env() {
     }
     env(LIBGL_FB, g_usefb, "framebuffer output enabled");
     if (env_LIBGL_FB && strcmp(env_LIBGL_FB, "2") == 0) {
-            printf("libGL: using framebuffer + fbo\n");
+            SHUT(printf("libGL: using framebuffer + fbo\n"));
             g_usefb = true;
             g_usefbo = true;
     }
@@ -378,7 +381,7 @@ static void scan_env() {
 #ifdef PANDORA
     init_liveinfo();
     if (sock>-1) {
-        printf("LIBGL: LiveInfo detected, fps will be shown\n");
+        SHUT(printf("LIBGL: LiveInfo detected, fps will be shown\n"));
     }
 #endif
     env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
@@ -386,11 +389,11 @@ static void scan_env() {
     char *env_mipmap = getenv("LIBGL_MIPMAP");
     if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
         automipmap = 1;
-        printf("LIBGL: AutoMipMap forced\n");
+        SHUT(printf("LIBGL: AutoMipMap forced\n"));
     }
     if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
         automipmap = 2;
-        printf("LIBGL: guess AutoMipMap\n");
+        SHUT(printf("LIBGL: guess AutoMipMap\n"));
     }
     if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
         automipmap = 3;
@@ -398,17 +401,17 @@ static void scan_env() {
     }
     if (env_mipmap && strcmp(env_mipmap, "4") == 0) {
         automipmap = 4;
-        printf("LIBGL: ignore AutoMipMap on non-squared textures\n");
+        SHUT(printf("LIBGL: ignore AutoMipMap on non-squared textures\n"));
     }
     char *env_texcopy = getenv("LIBGL_TEXCOPY");
     if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
         texcopydata = 1;
-        printf("LIBGL: Texture copy enabled\n");
+        SHUT(printf("LIBGL: Texture copy enabled\n"));
     }
     char *env_shrink = getenv("LIBGL_SHRINK");
     if (env_shrink && strcmp(env_shrink, "1") == 0) {
         texshrink = 1;
-        printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n");
+        SHUT(printf("LIBGL: Texture shink, mode 1 selected (everything / 2)\n"));
     }
     if (env_shrink && strcmp(env_shrink, "2") == 0) {
         texshrink = 2;
@@ -416,97 +419,97 @@ static void scan_env() {
     }
     if (env_shrink && strcmp(env_shrink, "3") == 0) {
         texshrink = 3;
-        printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n");
+        SHUT(printf("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n"));
     }
     if (env_shrink && strcmp(env_shrink, "4") == 0) {
         texshrink = 4;
-        printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n");
+        SHUT(printf("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n"));
     }
     if (env_shrink && strcmp(env_shrink, "5") == 0) {
         texshrink = 5;
-        printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n");
+        SHUT(printf("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n"));
     }
     if (env_shrink && strcmp(env_shrink, "6") == 0) {
         texshrink = 6;
-        printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n");
+        SHUT(printf("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n"));
     }
     if (env_shrink && strcmp(env_shrink, "7") == 0) {
         texshrink = 7;
-        printf("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n");
+        SHUT(printf("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n"));
     }
     if (env_shrink && strcmp(env_shrink, "8") == 0) {
         texshrink = 8;
-        printf("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n");
+        SHUT(printf("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n"));
     }
     if (env_shrink && strcmp(env_shrink, "9") == 0) {
         texshrink = 9;
-        printf("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n");
+        SHUT(printf("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
     }
     if (env_shrink && strcmp(env_shrink, "10") == 0) {
         texshrink = 10;
-        printf("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n");
+        SHUT(printf("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
     }
     char *env_dump = getenv("LIBGL_TEXDUMP");
     if (env_dump && strcmp(env_dump, "1") == 0) {
         texdump = 1;
-        printf("LIBGL: Texture dump enabled\n");
+        SHUT(printf("LIBGL: Texture dump enabled\n"));
     }
     char *env_alpha = getenv("LIBGL_ALPHAHACK");
     if (env_alpha && strcmp(env_alpha, "1") == 0) {
         alphahack = 1;
-        printf("LIBGL: Alpha Hack enabled\n");
+        SHUT(printf("LIBGL: Alpha Hack enabled\n"));
     }
 #ifdef TEXSTREAM
     char *env_stream = getenv("LIBGL_STREAM");
     if (env_stream && strcmp(env_stream, "1") == 0) {
         texstream = InitStreamingCache();
-        printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available");
+        SHUT(printf("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available"));
         //FreeStreamed(AddStreamed(1024, 512, 0));
     }
     if (env_stream && strcmp(env_stream, "2") == 0) {
         texstream = InitStreamingCache()?2:0;
-        printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available");
+        SHUT(printf("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available"));
         //FreeStreamed(AddStreamed(1024, 512, 0));
     }
 #endif
     char *env_copy = getenv("LIBGL_COPY");
     if (env_copy && strcmp(env_copy, "1") == 0) {
-        printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n");
+        SHUT(printf("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n"));
         copytex = 1;
     }
     char *env_lumalpha = getenv("LIBGL_NOLUMALPHA");
     if (env_lumalpha && strcmp(env_lumalpha, "1") == 0) {
         nolumalpha = 1;
-        printf("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n");
+        SHUT(printf("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n"));
     }
 
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     env(LIBGL_BLENDCOLOR, export_blendcolor, "Export a (faked) glBlendColor");
     env(LIBGL_NOERROR, glshim_noerror, "glGetError() always return GL_NOERROR");
     env(LIBGL_SILENTSTUB, export_silentstub, "Stub/non present functions are not printed");
-
+    
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
-        printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
+        SHUT(printf("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version));
     }
     snprintf(glshim_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
 #ifdef PANDORA
     char *env_gamma = getenv("LIBGL_GAMMA");
     if (env_gamma) {
         pandora_gamma=atof(env_gamma);
-        printf("LIBGL: Set gamma to %.2f\n", pandora_gamma);
+        SHUT(printf("LIBGL: Set gamma to %.2f\n", pandora_gamma));
         atexit(pandora_reset_gamma);
     }
 #endif
     char *env_srgb = getenv("LIBGL_SRGB");
     if (env_srgb && strcmp(env_srgb, "1") == 0) {
         glx_surface_srgb = 1;
-        printf("LIBGL: enabling sRGB support\n");
+        SHUT(printf("LIBGL: enabling sRGB support\n"));
     }
     char *env_fastmath = getenv("LIBGL_FASTMATH");
     if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
 #ifdef PANDORA
-        printf("LIBGL: Enable FastMath for cortex-a8\n");
+        SHUT(printf("LIBGL: Enable FastMath for cortex-a8\n"));
         fast_math();
 #else
         printf("LIBGL: No FastMath on this platform\n");
@@ -515,7 +518,7 @@ static void scan_env() {
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
-        printf("LIBGL: Current folder is:%s\n", cwd);
+        SHUT(printf("LIBGL: Current folder is:%s\n", cwd));
 }
 #ifndef ANDROID	
 EXPORT GLXContext glXCreateContext(Display *display,

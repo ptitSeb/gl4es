@@ -34,10 +34,15 @@ int export_blendcolor = 0;
 char glshim_version[50];
 int initialized = 0;
 int glshim_noerror = 0;
+int glshim_nobanner = 0;
 
 __attribute__((constructor))
 void initialize_glshim() {
-	printf("LIBGL: Initialising glshim\n");
+    char *env_nobanner = getenv("LIBGL_NOBANNER");
+    if (env_nobanner && strcmp(env_nobanner, "1") == 0)
+        glshim_nobanner = 1;
+
+	if(!glshim_nobanner) printf("LIBGL: Initialising glshim\n");
 	
 	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memset(&glstate, 0, sizeof(glstate));
