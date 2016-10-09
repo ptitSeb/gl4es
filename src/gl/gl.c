@@ -35,6 +35,7 @@ char glshim_version[50];
 int initialized = 0;
 int glshim_noerror = 0;
 int glshim_nobanner = 0;
+int glshim_npot = 0;
 
 __attribute__((constructor))
 void initialize_glshim() {
@@ -123,14 +124,11 @@ const GLubyte *glshim_glGetString(GLenum name) {
 //    LOAD_GLES(glGetString);
     const GLubyte *str;
     errorShim(GL_NO_ERROR);
-/*	if ((str=gles_glGetString(name))==NULL)
-		printf("**warning** glGetString(%i) called with bad init\n", name);*/
-    switch (name) {
-        case GL_VERSION:
-            return (GLubyte *)glshim_version;
-        case GL_EXTENSIONS:
-            return (const GLubyte *)(char *){
-                "GL_EXT_abgr "
+	static GLubyte *extensions = NULL;
+	if(!extensions) {
+		extensions = (GLubyte*)malloc(5000);	// arbitrary size...
+		strcpy(extensions,
+				"GL_EXT_abgr "
                 "GL_EXT_packed_pixels "
                 "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_array_object "
@@ -177,7 +175,17 @@ const GLubyte *glshim_glGetString(GLenum name) {
 //                "GL_EXT_blend_logic_op "
 //                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
-            };
+				);
+		if(glshim_npot>=1)
+			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
+		if(glshim_npot>=2)
+			strcat(extensions, "GL_ARB_texture_non_power_of_two ");
+	}
+    switch (name) {
+        case GL_VERSION:
+            return (GLubyte *)glshim_version;
+        case GL_EXTENSIONS:
+            return extensions;
 		case GL_VENDOR:
 			return (GLubyte *)"ptitSeb";
 		case GL_RENDERER:

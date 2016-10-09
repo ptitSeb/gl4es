@@ -187,3 +187,9 @@ Debug: Hide or Show the Sub / Not found message
 Show/Hide initial text
  * 0 : Default, print starting message
  * 1 : Silent: no LIBGL message at start (combile with LIBGL_SILENTSTUB for more silence)
+
+##### LIBGL_NPOT
+Expose NPOT (Non Power of Two) Support
+ * 0 : Default, don't expose the extension (but npot are still supported)
+ * 1 : Expose limited POT extension
+ * 2 : Expose GL_ARB_texture_non_power_of_two extension

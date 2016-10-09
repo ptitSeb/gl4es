@@ -190,6 +190,7 @@ extern int export_blendcolor;
 extern int glshim_noerror;
 extern char glshim_version[50];
 extern int glshim_nobanner;
+extern int glshim_npot;
 int export_silentstub = 0;
 
 bool g_recyclefbo = false;
@@ -515,6 +516,15 @@ static void scan_env() {
         printf("LIBGL: No FastMath on this platform\n");
 #endif
     }
+    char *env_npot = getenv("LIBGL_NPOT");
+    if (env_npot && strcmp(env_npot, "1") == 0) {
+		glshim_npot = 1;
+		SHUT(printf("Expose limited NPOT extension\n"));
+	}
+    if (env_npot && strcmp(env_npot, "2") == 0) {
+		glshim_npot = 2;
+		SHUT(printf("Expose GL_ARB_texture_non_power_of_two extension\n"));
+	}
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
