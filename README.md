@@ -191,5 +191,5 @@ Show/Hide initial text
 ##### LIBGL_NPOT
 Expose NPOT (Non Power of Two) Support
  * 0 : Default, don't expose the extension (but npot are still supported)
- * 1 : Expose limited POT extension
+ * 1 : Expose limited NPOT extension
  * 2 : Expose GL_ARB_texture_non_power_of_two extension
