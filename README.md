@@ -193,3 +193,8 @@ Expose NPOT (Non Power of Two) Support
  * 0 : Default, don't expose the extension (but npot are still supported)
  * 1 : Expose limited NPOT extension
  * 2 : Expose GL_ARB_texture_non_power_of_two extension
+
+##### LIBGL_QUERIES
+Expose glQueries functions
+ * 0 : Default, don't expose the function (fake one will be used if called)
+ * 1 : Expose fake functions (always answer 0)

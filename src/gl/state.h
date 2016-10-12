@@ -6,6 +6,7 @@
 #include "eval.h"
 #include "texture.h"
 #include "buffers.h"
+#include "queries.h"
 
 typedef struct {
     GLboolean line_stipple,
@@ -163,6 +164,7 @@ typedef struct {
     GLint vp[4];
     statebatch_t statebatch;
     clientstate_t clientstate;
+    khash_t(queries) *queries;
 } glstate_t;
 
 #endif

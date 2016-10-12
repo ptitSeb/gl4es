@@ -192,6 +192,7 @@ extern char glshim_version[50];
 extern int glshim_nobanner;
 extern int glshim_npot;
 int export_silentstub = 0;
+int glshim_queries = 0;
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -525,7 +526,12 @@ static void scan_env() {
 		glshim_npot = 2;
 		SHUT(printf("Expose GL_ARB_texture_non_power_of_two extension\n"));
 	}
-    
+   char *env_queries = getenv("LIBGL_GLQUERIES");
+    if (env_queries && strcmp(env_queries, "1") == 0) {
+        glshim_queries = 1;
+        SHUT(printf("Expose fake glQueries functions\n"));
+    }
+     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(printf("LIBGL: Current folder is:%s\n", cwd));
