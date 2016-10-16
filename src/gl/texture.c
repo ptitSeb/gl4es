@@ -1850,7 +1850,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 		errorShim(GL_INVALID_OPERATION);
 	    return;		// no texture bounded...
 	}
-    //printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate->vao->unpack?glstate->vao->unpack->data:0);
+    //printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p data=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate->vao->unpack?glstate->vao->unpack->data:0, data);
     // hack...
     if (internalformat==GL_RGBA8)
         internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -1880,6 +1880,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
     if (isDXTc(internalformat)) {
 		GLvoid *pixels, *half;
         int fact = 0;
+        pixels = half = NULL;
         if (datab) {
             if (width<4 || height<4) {	// can happens :(
                 GLvoid *tmp;
@@ -1911,8 +1912,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
             else
                 glstate->texture.bound[glstate->texture.active]->type = GL_UNSIGNED_BYTE;
         } else {
-            half = NULL;
-            fact = 1;
+            fact = 0;
         }
 		int oldalign;
 		glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
@@ -1958,7 +1958,7 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
         glstate->gl_batch = old_glbatch;
 		return;
 	}
-    //printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i\n", glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize);
+    //printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i, data=%p\n", glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize, data);
     glbuffer_t *unpack = glstate->vao->unpack;
     glstate->vao->unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
@@ -1984,7 +1984,7 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
 			pixels = uncompressDXTc(width, height, format, imageSize, datab);
 		}
 		GLvoid *half=pixels;
-		#if 1
+		#if 0
 		pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE);
 		int oldalign;
 		glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
@@ -1992,8 +1992,10 @@ void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset,
 		glshim_glTexSubImage2D(target, level, xoffset/2, yoffset/2, width/2, height/2, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, half);
 		if (oldalign!=1) glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		#else
-		pixel_halfscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE);
-		glTexSubImage2D(target, level, xoffset/2, yoffset/2, width/2, height/2, GL_RGBA, GL_UNSIGNED_BYTE, half);
+        GLenum format = glstate->texture.bound[glstate->texture.active]->format;
+        GLenum type = glstate->texture.bound[glstate->texture.active]->type;
+		pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0);
+		glshim_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, half);
 		#endif
 		if (half!=pixels)
 			free(half);
