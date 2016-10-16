@@ -42,7 +42,7 @@ void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
 void tex_coord_npot(GLfloat *tex, GLsizei len,
                     GLsizei width, GLsizei height,
                     GLsizei nwidth, GLsizei nheight) {
-    if (!tex || !width || !height)
+    if (!tex || !nwidth || !nheight)
         return;
 
     GLfloat wratio = (width / (GLfloat)nwidth);
@@ -925,7 +925,7 @@ void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yof
 		tmp += (yoffset*bound->width+xoffset)*2;
 		if (! pixel_convert(old, &tmp, width, height,
 						format, type, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, bound->width)) {
-			printf("libGL swizzle error: (%#4x, %#4x -> GL_RGB, UNSIGNED_SHORT_5_6_5)\n",
+			printf("LIBGL: swizzle error: (%#4x, %#4x -> GL_RGB, UNSIGNED_SHORT_5_6_5)\n",
 						format, type);
 		}
 		format = GL_RGB;
