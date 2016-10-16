@@ -87,7 +87,6 @@ void* NewGLState(void* shared_glstate) {
     glstate->shared_cnt = 0;
 
     glstate->gl_batch = gl_batch;
-    if (gl_batch) init_batch();
 
     return (void*)glstate;
 }
@@ -163,6 +162,8 @@ void ActivateGLState(void* new_glstate) {
     if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
     if (glstate && glstate->gl_batch) flush();
     glstate = (glstate_t*)new_glstate;
+    if (gl_batch && glstate->init_batch==0) init_batch();
+
 }
 
 __attribute__((constructor))
@@ -198,7 +199,8 @@ void initialize_glshim() {
         printf("LIBGL: Batch mode disabled, merging of list disabled too\n");
     }
     
-    glstate = default_glstate = (glstate_t*)NewGLState(NULL);
+    default_glstate = (glstate_t*)NewGLState(NULL);
+    ActivateGLState(default_glstate);
     
     initialized = 1;
 }
@@ -2010,6 +2012,7 @@ void init_batch() {
     glstate->list.active = alloc_renderlist();
     init_statebatch();
     glstate->gl_batch = 1;
+    glstate->init_batch = 1;
 }
 
 void glshim_glFlush() {
