@@ -1193,8 +1193,11 @@ EXPORT GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
                        const int *attrib_list, int *count) {
 //printf("glXChooseFBConfig(%p, %d, %p, %p)\n", display, screen, attrib_list, count);
     *count = 1;
-    GLXFBConfig *configs = malloc(sizeof(GLXFBConfig) * (*count));
+    GLXFBConfig *configs = (GLXFBConfig *)malloc(sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
+    configs[0] = (GLXFBConfig)((char*)(&configs[0])+sizeof(GLXFBConfig));
+    memset(configs[0], 0, sizeof(struct __GLXFBConfigRec));
     // fill that config with some of the attrib_list info...
+    configs[0]->drawableType = GLX_WINDOW_BIT | GLX_PBUFFER_BIT;
     configs[0]->screen = 0;
     configs[0]->maxPbufferWidth = configs[0]->maxPbufferHeight = 2048;
     configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 0;
