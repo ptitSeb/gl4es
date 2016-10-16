@@ -22,6 +22,8 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 */
 glstate_t *glstate = NULL;
 
+glstate_t *default_glstate = NULL;
+
 GLuint readhack = 0;
 GLint readhack_x = 0;
 GLint readhack_y = 0;
@@ -195,6 +197,8 @@ void initialize_glshim() {
         gl_mergelist = 0;
         printf("LIBGL: Batch mode disabled, merging of list disabled too\n");
     }
+    
+    glstate = default_glstate = (glstate_t*)NewGLState(NULL);
     
     initialized = 1;
 }
@@ -423,7 +427,7 @@ void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetInteger
 
 void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
-    if (glstate && glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
