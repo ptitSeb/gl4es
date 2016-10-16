@@ -423,7 +423,7 @@ void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetInteger
 
 void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    if (glstate && glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -753,6 +753,17 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 }
 
 static inline bool should_intercept_render(GLenum mode) {
+    // check bounded tex that will be used if one need some transformations
+    for (int aa=0; aa<MAX_TEX; aa++) {
+        if (glstate->enable.texture_2d[aa] || glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa]) {
+            if(glstate->texture.rect_arb[aa])
+                return true;
+            gltexture_t *bound = glstate->texture.bound[aa];
+            if (bound && (bound->width!=bound->nwidth || bound->height!=bound->height))
+                return true;
+        }
+    }
+ 
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
         (/*glstate->enable.texture_2d[0] && */(glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0])) ||
