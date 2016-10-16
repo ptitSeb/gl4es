@@ -138,6 +138,8 @@ struct __GLXContextRec {
 	EGLSurface eglSurface;
 	EGLConfig eglConfigs[1];
 	EGLContext eglContext;
+    void* glstate;
+    int contextType;    // 0 = Window, 1 = PBuffer
 };
 typedef struct __GLXContextRec *GLXContext;
 
@@ -203,7 +205,7 @@ GLXContext glXCreateContext(Display *dpy,
                             GLXContext shareList,
                             Bool direct);
 
-GLXContext glXCreateContextAttribsARB(Display *display, void *config,
+GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
                                       GLXContext share_context, Bool direct,
                                       const int *attrib_list);
 

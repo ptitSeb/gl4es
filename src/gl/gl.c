@@ -20,7 +20,7 @@ glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
     .gl_batch = 0
 	};
 */
-glstate_t glstate;
+glstate_t *glstate = NULL;
 
 GLuint readhack = 0;
 GLint readhack_x = 0;
@@ -37,28 +37,24 @@ int glshim_noerror = 0;
 int glshim_nobanner = 0;
 int glshim_npot = 0;
 
-__attribute__((constructor))
-void initialize_glshim() {
-    char *env_nobanner = getenv("LIBGL_NOBANNER");
-    if (env_nobanner && strcmp(env_nobanner, "1") == 0)
-        glshim_nobanner = 1;
-
-	if(!glshim_nobanner) printf("LIBGL: Initialising glshim\n");
-	
+void* NewGLState(void* shared_glstate) {
+    if(shared_glstate) {
+        glstate_t* glstate = (glstate_t*)shared_glstate;
+        glstate->shared_cnt++;
+        return (void*)glstate;
+    }
+    glstate_t *glstate = (glstate_t*)malloc(sizeof(glstate_t));
 	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
-	memset(&glstate, 0, sizeof(glstate));
-	memcpy(glstate.color, white, sizeof(GLfloat)*4);
-	glstate.last_error = GL_NO_ERROR;
-    glstate.normal[3] = 1.0f; // default normal is 0/0/1
+	memset(glstate, 0, sizeof(glstate_t));
+	memcpy(glstate->color, white, sizeof(GLfloat)*4);
+	glstate->last_error = GL_NO_ERROR;
+    glstate->normal[3] = 1.0f; // default normal is 0/0/1
     
     // add default VBO
     {
         khint_t k;
         int ret;
-        khash_t(buff) *list = glstate.buffers;
-        if (! list) {
-            list = glstate.buffers = kh_init(buff);
-        }
+        khash_t(buff) *list = glstate->buffers = kh_init(buff);
         k = kh_put(buff, list, 0, &ret);
         glbuffer_t *buff = kh_value(list, k) = malloc(sizeof(glbuffer_t));
         buff->buffer = 0;
@@ -68,27 +64,113 @@ void initialize_glshim() {
         buff->size = 0;
         buff->access = GL_READ_WRITE;
         buff->mapped = 0;
-        glstate.defaultvbo = buff;
+        glstate->defaultvbo = buff;
     }
     // add default VAO
     {
         khint_t k;
         int ret;
-        khash_t(glvao) *list = glstate.vaos;
-        if (! list) {
-            list = glstate.vaos = kh_init(glvao);
-        }
+        khash_t(glvao) *list = glstate->vaos = kh_init(glvao);
         k = kh_put(glvao, list, 0, &ret);
         glvao_t *glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
         // new vao is binded to default vbo
         memset(glvao, 0, sizeof(glvao_t));
         // just put is number
         glvao->array = 0;
-        glstate.defaultvao = glvao;
+        glstate->defaultvao = glvao;
     }
     // Bind defaults...
-    glstate.vao = glstate.defaultvao;
-    
+    glstate->vao = glstate->defaultvao;
+
+    glstate->shared_cnt = 0;
+
+    glstate->gl_batch = gl_batch;
+    if (gl_batch) init_batch();
+
+    return (void*)glstate;
+}
+
+
+void DeleteGLState(void* oldstate) {
+    glstate_t* state = (glstate_t*)state;
+    if(!state) return;
+
+    if(state->shared_cnt) {
+        --state->shared_cnt;
+        return;
+    }
+
+    if(glstate == state)
+        glstate = NULL;
+
+
+    #define free_hashmap(T, N, K)           \
+    {                                       \
+        T *m;                               \
+        kh_foreach_value(state->N, m,       \
+            free(m);                        \
+        )                                   \
+        kh_destroy(K, state->N);            \
+    }
+    free_hashmap(glvao_t, vaos, glvao);
+    free_hashmap(glbuffer_t, buffers, buff);
+    free_hashmap(glquery_t, queries, queries);
+    free_hashmap(gltexture_t, texture.list, tex);
+    #undef free_hashmap
+    // free eval maps
+    #define freemap(dims, name)                              \
+    { map_statef_t *m = (map_statef_t *)state->map##dims.name; \
+    if (m) {                                                \
+        if (m->free)                                        \
+            free((void *)m->points);                        \
+        free(m);                                            \
+    } }
+    freemap(1, vertex3); freemap(1, vertex4); freemap(1, index); freemap(1, color4); freemap(1, normal); 
+    freemap(1, texture1); freemap(1, texture2); freemap(1, texture3); freemap(1, texture4);   
+    freemap(2, vertex3); freemap(2, vertex4); freemap(2, index); freemap(2, color4); freemap(2, normal); 
+    freemap(2, texture1); freemap(2, texture2); freemap(2, texture3); freemap(2, texture4);   
+    #undef freemap
+    // free lists
+    if(state->lists) {
+        for (int i=0; i<state->list.count; i++)
+            free_renderlist(state->lists[i]);
+        free(state->lists);
+    }
+    if(state->list.active) free_renderlist(state->list.active);
+
+    // free matrix stack
+    #define free_matrix(A)                  \
+        if (state->A) {                   \
+    	    free(state->A->stack);    \
+            free(state->A);               \
+        }
+	free_matrix(projection_matrix);
+	free_matrix(modelview_matrix);
+	for (int i=0; i<MAX_TEX; i++)
+		free_matrix(texture_matrix[i]);
+	free(glstate->texture_matrix);
+    #undef free_matrix
+    // probably missing some things to free here!
+
+    // all done
+    free(state);
+    return;
+}
+
+void ActivateGLState(void* new_glstate) {
+    if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
+    if (glstate && glstate->gl_batch) flush();
+    glstate = (glstate_t*)new_glstate;
+}
+
+__attribute__((constructor))
+void initialize_glshim() {
+    char *env_nobanner = getenv("LIBGL_NOBANNER");
+    if (env_nobanner && strcmp(env_nobanner, "1") == 0)
+        glshim_nobanner = 1;
+
+	if(!glshim_nobanner) printf("LIBGL: Initialising glshim\n");
+	
     // init read hack 
     char *env_readhack = getenv("LIBGL_READHACK");
     if (env_readhack && strcmp(env_readhack, "1") == 0) {
@@ -114,8 +196,6 @@ void initialize_glshim() {
         printf("LIBGL: Batch mode disabled, merging of list disabled too\n");
     }
     
-    if (gl_batch) init_batch();
-    glstate.gl_batch = gl_batch;
     initialized = 1;
 }
 
@@ -220,7 +300,7 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
     }
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -236,34 +316,34 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
             *params = 1;
             break;
         case GL_UNPACK_ROW_LENGTH:	
-			*params = glstate.texture.unpack_row_length;
+			*params = glstate->texture.unpack_row_length;
 			break;
         case GL_UNPACK_SKIP_PIXELS:
-			*params = glstate.texture.unpack_skip_pixels;
+			*params = glstate->texture.unpack_skip_pixels;
 			break;
         case GL_UNPACK_SKIP_ROWS:
-			*params = glstate.texture.unpack_skip_rows;
+			*params = glstate->texture.unpack_skip_rows;
 			break;
         case GL_UNPACK_LSB_FIRST:
-			*params = glstate.texture.unpack_lsb_first;
+			*params = glstate->texture.unpack_lsb_first;
 			break;
         case GL_UNPACK_IMAGE_HEIGHT:
-            *params = glstate.texture.unpack_image_height;
+            *params = glstate->texture.unpack_image_height;
             break;
         case GL_PACK_ROW_LENGTH:	
-			*params = glstate.texture.pack_row_length;
+			*params = glstate->texture.pack_row_length;
 			break;
         case GL_PACK_SKIP_PIXELS:
-			*params = glstate.texture.pack_skip_pixels;
+			*params = glstate->texture.pack_skip_pixels;
 			break;
         case GL_PACK_SKIP_ROWS:
-			*params = glstate.texture.pack_skip_rows;
+			*params = glstate->texture.pack_skip_rows;
 			break;
         case GL_PACK_LSB_FIRST:
-			*params = glstate.texture.pack_lsb_first;
+			*params = glstate->texture.pack_lsb_first;
 			break;
         case GL_PACK_IMAGE_HEIGHT:
-            *params = glstate.texture.pack_image_height;
+            *params = glstate->texture.pack_image_height;
             break;
         case GL_UNPACK_SWAP_BYTES:
         case GL_PACK_SWAP_BYTES:
@@ -275,10 +355,10 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
 			break;
 	case GL_RENDER_MODE:
-			*params = (glstate.render_mode)?glstate.render_mode:GL_RENDER;
+			*params = (glstate->render_mode)?glstate->render_mode:GL_RENDER;
 			break;
 	case GL_NAME_STACK_DEPTH:
-			*params = glstate.namestack.top;
+			*params = glstate->namestack.top;
 			break;
 	case GL_MAX_NAME_STACK_DEPTH:
 			*params = 1024;
@@ -311,28 +391,28 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
 			*params=MAX_STACK_TEXTURE;
 			break;
 	case GL_MODELVIEW_STACK_DEPTH:
-			*params=(glstate.modelview_matrix)?(glstate.modelview_matrix->top+1):1;
+			*params=(glstate->modelview_matrix)?(glstate->modelview_matrix->top+1):1;
 			break;
 	case GL_PROJECTION_STACK_DEPTH:
-			*params=(glstate.projection_matrix)?(glstate.projection_matrix->top+1):1;
+			*params=(glstate->projection_matrix)?(glstate->projection_matrix->top+1):1;
 			break;
 	case GL_TEXTURE_STACK_DEPTH:
-			*params=(glstate.texture_matrix)?(glstate.texture_matrix[glstate.texture.active]->top+1):1;
+			*params=(glstate->texture_matrix)?(glstate->texture_matrix[glstate->texture.active]->top+1):1;
 			break;
 	case GL_MAX_LIST_NESTING:
 			*params=64;	// fake, no limit in fact
 			break;
 	case  GL_ARRAY_BUFFER_BINDING:
-			*params=(glstate.vao->vertex)?glstate.vao->vertex->buffer:0;
+			*params=(glstate->vao->vertex)?glstate->vao->vertex->buffer:0;
 			break;
 	case  GL_ELEMENT_ARRAY_BUFFER_BINDING:
-			*params=(glstate.vao->elements)?glstate.vao->elements->buffer:0;
+			*params=(glstate->vao->elements)?glstate->vao->elements->buffer:0;
 			break;
 	case  GL_PIXEL_PACK_BUFFER_BINDING:
-			*params=(glstate.vao->pack)?glstate.vao->pack->buffer:0;
+			*params=(glstate->vao->pack)?glstate->vao->pack->buffer:0;
 			break;
 	case  GL_PIXEL_UNPACK_BUFFER_BINDING:
-			*params=(glstate.vao->unpack)?glstate.vao->unpack->buffer:0;
+			*params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
 			break;
     default:
 			errorGL();
@@ -343,7 +423,7 @@ void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetInteger
 
 void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
         case GL_MAX_ELEMENTS_INDICES:
@@ -356,28 +436,28 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
             *params = 0;
             break;
         case GL_UNPACK_ROW_LENGTH:	
-	    *params = glstate.texture.unpack_row_length;
+	    *params = glstate->texture.unpack_row_length;
 	    break;
         case GL_UNPACK_SKIP_PIXELS:
-	    *params = glstate.texture.unpack_skip_pixels;
+	    *params = glstate->texture.unpack_skip_pixels;
 	    break;
         case GL_UNPACK_SKIP_ROWS:
-	    *params = glstate.texture.unpack_skip_rows;
+	    *params = glstate->texture.unpack_skip_rows;
 	    break;
         case GL_UNPACK_LSB_FIRST:
-	    *params = glstate.texture.unpack_lsb_first;
+	    *params = glstate->texture.unpack_lsb_first;
 	    break;
         case GL_PACK_ROW_LENGTH:	
-	    *params = glstate.texture.pack_row_length;
+	    *params = glstate->texture.pack_row_length;
 	    break;
         case GL_PACK_SKIP_PIXELS:
-	    *params = glstate.texture.pack_skip_pixels;
+	    *params = glstate->texture.pack_skip_pixels;
 	    break;
         case GL_PACK_SKIP_ROWS:
-	    *params = glstate.texture.pack_skip_rows;
+	    *params = glstate->texture.pack_skip_rows;
 	    break;
         case GL_PACK_LSB_FIRST:
-	    *params = glstate.texture.pack_lsb_first;
+	    *params = glstate->texture.pack_lsb_first;
 	    break;
         case GL_ZOOM_X:
 	    *params = raster_zoomx;
@@ -406,10 +486,10 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 	    gles_glGetFloatv(GL_POINT_SIZE_MAX, params+1);
 	    break;
 	case GL_RENDER_MODE:
-	    *params = (glstate.render_mode)?glstate.render_mode:GL_RENDER;
+	    *params = (glstate->render_mode)?glstate->render_mode:GL_RENDER;
 	    break;
 	case GL_NAME_STACK_DEPTH:
-	    *params = glstate.namestack.top;
+	    *params = glstate->namestack.top;
 	    break;
 	case GL_MAX_NAME_STACK_DEPTH:
 	    *params = 1024;
@@ -424,28 +504,28 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 	    *params=MAX_STACK_TEXTURE;
 	    break;
 	case GL_MODELVIEW_STACK_DEPTH:
-	    *params=(glstate.modelview_matrix)?(glstate.modelview_matrix->top+1):1;
+	    *params=(glstate->modelview_matrix)?(glstate->modelview_matrix->top+1):1;
 	    break;
 	case GL_PROJECTION_STACK_DEPTH:
-	    *params=(glstate.projection_matrix)?(glstate.projection_matrix->top+1):1;
+	    *params=(glstate->projection_matrix)?(glstate->projection_matrix->top+1):1;
 	    break;
 	case GL_TEXTURE_STACK_DEPTH:
-	    *params=(glstate.texture_matrix)?(glstate.texture_matrix[glstate.texture.active]->top+1):1;
+	    *params=(glstate->texture_matrix)?(glstate->texture_matrix[glstate->texture.active]->top+1):1;
 	    break;
 	case GL_MAX_LIST_NESTING:
 	    *params=64;	// fake, no limit in fact
 	    break;
 	case  GL_ARRAY_BUFFER_BINDING:
-		*params=(glstate.vao->vertex)?glstate.vao->vertex->buffer:0;
+		*params=(glstate->vao->vertex)?glstate->vao->vertex->buffer:0;
 		break;
 	case  GL_ELEMENT_ARRAY_BUFFER_BINDING:
-		*params=(glstate.vao->elements)?glstate.vao->elements->buffer:0;
+		*params=(glstate->vao->elements)?glstate->vao->elements->buffer:0;
 		break;
 	case  GL_PIXEL_PACK_BUFFER_BINDING:
-        *params=(glstate.vao->pack)?glstate.vao->pack->buffer:0;
+        *params=(glstate->vao->pack)?glstate->vao->pack->buffer:0;
 		break;
 	case  GL_PIXEL_UNPACK_BUFFER_BINDING:
-		*params=(glstate.vao->unpack)?glstate.vao->unpack->buffer:0;
+		*params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
 		break;
     case GL_TRANSPOSE_PROJECTION_MATRIX:
         gles_glGetFloatv(GL_PROJECTION_MATRIX, params);
@@ -475,13 +555,13 @@ extern int texstream;
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_enable(constant, name) \
-        case constant: glstate.enable.name = enable; next(cap); break
+        case constant: glstate->enable.name = enable; next(cap); break
     #define enable(constant, name) \
-        case constant: glstate.enable.name = enable; break;
+        case constant: glstate->enable.name = enable; break;
     #define proxy_clientenable(constant, name) \
-        case constant: glstate.vao->name = enable; next(cap); break
+        case constant: glstate->vao->name = enable; next(cap); break
     #define clientenable(constant, name) \
-        case constant: glstate.vao->name = enable; break;
+        case constant: glstate->vao->name = enable; break;
 
     // TODO: maybe could be weird behavior if someone tried to:
     // 1. enable GL_TEXTURE_1D
@@ -492,22 +572,22 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     
     // Alpha Hack
     if (alphahack && (cap==GL_ALPHA_TEST) && enable) {
-        if (glstate.texture.bound[glstate.texture.active])
-            if (!glstate.texture.bound[glstate.texture.active]->alpha)
+        if (glstate->texture.bound[glstate->texture.active])
+            if (!glstate->texture.bound[glstate->texture.active]->alpha)
                 enable = false;
     }
 	noerrorShim();
 #ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG)
-        glstate.enable.texture_2d[glstate.texture.active] = enable;
+        glstate->enable.texture_2d[glstate->texture.active] = enable;
 #endif
     switch (cap) {
         enable(GL_AUTO_NORMAL, auto_normal);
         proxy_enable(GL_BLEND, blend);
-        proxy_enable(GL_TEXTURE_2D, texture_2d[glstate.texture.active]);
-        enable(GL_TEXTURE_GEN_S, texgen_s[glstate.texture.active]);
-        enable(GL_TEXTURE_GEN_T, texgen_t[glstate.texture.active]);
-        enable(GL_TEXTURE_GEN_R, texgen_r[glstate.texture.active]);
+        proxy_enable(GL_TEXTURE_2D, texture_2d[glstate->texture.active]);
+        enable(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
+        enable(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
+        enable(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
         enable(GL_LINE_STIPPLE, line_stipple);
         
         // Secondary color
@@ -518,11 +598,11 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         clientenable(GL_VERTEX_ARRAY, vertex_array);
         clientenable(GL_NORMAL_ARRAY, normal_array);
         clientenable(GL_COLOR_ARRAY, color_array);
-        clientenable(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate.texture.client]);
+        clientenable(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
         
         // Texture 1D and 3D
-        enable(GL_TEXTURE_1D, texture_1d[glstate.texture.active]);
-        enable(GL_TEXTURE_3D, texture_3d[glstate.texture.active]);
+        enable(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
+        enable(GL_TEXTURE_3D, texture_3d[glstate->texture.active]);
         
         default: errorGL(); next(cap); break;
     }
@@ -539,19 +619,19 @@ int Cap2BatchState(GLenum cap) {
             case GL_CULL_FACE: return ENABLED_CULL;
             case GL_DEPTH_TEST: return ENABLED_DEPTH;
             case GL_TEXTURE_2D: return  ENABLED_TEX2D_TEX0
-                +(glstate.statebatch.active_tex_changed?glstate.statebatch.active_tex-GL_TEXTURE0:glstate.texture.active); 
+                +(glstate->statebatch.active_tex_changed?glstate->statebatch.active_tex-GL_TEXTURE0:glstate->texture.active); 
         }
         return ENABLED_LAST;
 }
 
 void glshim_glEnable(GLenum cap) {
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
-            if ((glstate.statebatch.enabled[which_cap] == 1))
+            if ((glstate->statebatch.enabled[which_cap] == 1))
                 return; // nothing to do...
-            if (!glstate.statebatch.enabled[which_cap]) {
-                glstate.statebatch.enabled[which_cap] = 1;
+            if (!glstate->statebatch.enabled[which_cap]) {
+                glstate->statebatch.enabled[which_cap] = 1;
             } else {
                 flush();
             }
@@ -560,8 +640,8 @@ void glshim_glEnable(GLenum cap) {
 	PUSH_IF_COMPILING(glEnable)
         
 	if (texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate.texture.bound[glstate.texture.active])
-			if (glstate.texture.bound[glstate.texture.active]->streamed)
+		if (glstate->texture.bound[glstate->texture.active])
+			if (glstate->texture.bound[glstate->texture.active]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
 
@@ -571,13 +651,13 @@ void glshim_glEnable(GLenum cap) {
 void glEnable(GLenum cap) AliasExport("glshim_glEnable");
 
 void glshim_glDisable(GLenum cap) {
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
-            if ((glstate.statebatch.enabled[which_cap] == 2))
+            if ((glstate->statebatch.enabled[which_cap] == 2))
                 return; // nothing to do...
-            if (!glstate.statebatch.enabled[which_cap]) {
-                glstate.statebatch.enabled[which_cap] = 2;
+            if (!glstate->statebatch.enabled[which_cap]) {
+                glstate->statebatch.enabled[which_cap] = 2;
             } else {
                 flush();
             }
@@ -586,8 +666,8 @@ void glshim_glDisable(GLenum cap) {
 	PUSH_IF_COMPILING(glDisable)
         
 	if (texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate.texture.bound[glstate.texture.active])
-			if (glstate.texture.bound[glstate.texture.active]->streamed)
+		if (glstate->texture.bound[glstate->texture.active])
+			if (glstate->texture.bound[glstate->texture.active]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
 
@@ -610,29 +690,29 @@ void glDisableClientState(GLenum cap) AliasExport("glshim_glDisableClientState")
 
 
 #define isenabled(what, where) \
-    case what: return glstate.enable.where
+    case what: return glstate->enable.where
 #define clientisenabled(what, where) \
-    case what: return glstate.vao->where
+    case what: return glstate->vao->where
     
 GLboolean glshim_glIsEnabled(GLenum cap) {
     // should flush for now... to be optimized later!
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();
     switch (cap) {
         isenabled(GL_AUTO_NORMAL, auto_normal);
         isenabled(GL_LINE_STIPPLE, line_stipple);
-        isenabled(GL_TEXTURE_GEN_S, texgen_s[glstate.texture.active]);
-        isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate.texture.active]);
-        isenabled(GL_TEXTURE_GEN_R, texgen_r[glstate.texture.active]);
+        isenabled(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
+        isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
+        isenabled(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
 		isenabled(GL_COLOR_SUM, color_sum);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        isenabled(GL_TEXTURE_1D, texture_1d[glstate.texture.active]);
-        isenabled(GL_TEXTURE_3D, texture_3d[glstate.texture.active]);
+        isenabled(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
+        isenabled(GL_TEXTURE_3D, texture_3d[glstate->texture.active]);
         clientisenabled(GL_VERTEX_ARRAY, vertex_array);
         clientisenabled(GL_NORMAL_ARRAY, normal_array);
         clientisenabled(GL_COLOR_ARRAY, color_array);
-        clientisenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate.texture.client]);
+        clientisenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
         default:
 			errorGL();
             return gles_glIsEnabled(cap);
@@ -646,27 +726,27 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-//if (glstate.list.compiling) printf("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
+//if (glstate->list.compiling) printf("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
     list->mode = mode;
     list->mode_init = mode;
     list->len = count-skip;
     list->cap = count-skip;
     
-	if (glstate.vao->vertex_array) {
-		list->vert = copy_gl_pointer_tex(&glstate.vao->pointers.vertex, 4, skip, count, glstate.vao->pointers.vertex.buffer);
+	if (glstate->vao->vertex_array) {
+		list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count, glstate->vao->pointers.vertex.buffer);
 	}
-	if (glstate.vao->color_array) {
-		list->color = copy_gl_pointer_color(&glstate.vao->pointers.color, 4, skip, count, glstate.vao->pointers.color.buffer);
+	if (glstate->vao->color_array) {
+		list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count, glstate->vao->pointers.color.buffer);
 	}
-	if (glstate.vao->secondary_array/* && glstate.enable.color_array*/) {
-		list->secondary = copy_gl_pointer(&glstate.vao->pointers.secondary, 4, skip, count, glstate.vao->pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
+	if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
+		list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count, glstate->vao->pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
 	}
-	if (glstate.vao->normal_array) {
-		list->normal = copy_gl_pointer_raw(&glstate.vao->pointers.normal, 3, skip, count, glstate.vao->pointers.normal.buffer);
+	if (glstate->vao->normal_array) {
+		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count, glstate->vao->pointers.normal.buffer);
 	}
 	for (int i=0; i<MAX_TEX; i++) {
-		if (glstate.vao->tex_coord_array[i]) {
-		    list->tex[i] = copy_gl_pointer_tex(&glstate.vao->pointers.tex_coord[i], 4, skip, count, glstate.vao->pointers.tex_coord[i].buffer);
+		if (glstate->vao->tex_coord_array[i]) {
+		    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count, glstate->vao->pointers.tex_coord[i].buffer);
 		}
 	}
     return list;
@@ -674,18 +754,18 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 
 static inline bool should_intercept_render(GLenum mode) {
     return (
-        (glstate.vao->vertex_array && ! valid_vertex_type(glstate.vao->pointers.vertex.type)) ||
-        (/*glstate.enable.texture_2d[0] && */(glstate.enable.texgen_s[0] || glstate.enable.texgen_t[0] || glstate.enable.texgen_r[0])) ||
-        (/*glstate.enable.texture_2d[1] && */(glstate.enable.texgen_s[1] || glstate.enable.texgen_t[1] || glstate.enable.texgen_r[1])) ||
-        (/*glstate.enable.texture_2d[2] && */(glstate.enable.texgen_s[2] || glstate.enable.texgen_t[2] || glstate.enable.texgen_r[2])) ||
-        (/*glstate.enable.texture_2d[3] && */(glstate.enable.texgen_s[3] || glstate.enable.texgen_t[3] || glstate.enable.texgen_r[3])) ||
-        (mode == GL_LINES && glstate.enable.line_stipple) ||
-        (mode == GL_QUADS) || (glstate.list.active && (glstate.list.compiling || glstate.gl_batch))
+        (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
+        (/*glstate->enable.texture_2d[0] && */(glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0])) ||
+        (/*glstate->enable.texture_2d[1] && */(glstate->enable.texgen_s[1] || glstate->enable.texgen_t[1] || glstate->enable.texgen_r[1])) ||
+        (/*glstate->enable.texture_2d[2] && */(glstate->enable.texgen_s[2] || glstate->enable.texgen_t[2] || glstate->enable.texgen_r[2])) ||
+        (/*glstate->enable.texture_2d[3] && */(glstate->enable.texgen_s[3] || glstate->enable.texgen_t[3] || glstate->enable.texgen_r[3])) ||
+        (mode == GL_LINES && glstate->enable.line_stipple) ||
+        (mode == GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch))
     );
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate.vao->elements)?glstate.vao->elements->data:NULL);
+    //printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
@@ -704,18 +784,18 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
     GLushort *sindices;
     bool need_free = (type!=GL_UNSIGNED_SHORT);
     if(need_free)
-        sindices = copy_gl_array((glstate.vao->elements)?glstate.vao->elements->data + (uintptr_t)indices:indices,
+        sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     else
-        sindices = (glstate.vao->elements)?(glstate.vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
-    bool compiling = (glstate.list.active && (glstate.list.compiling || glstate.gl_batch));
+        sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+    bool compiling = (glstate->list.active && (glstate->list.compiling || glstate->gl_batch));
 
     if (compiling) {
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-		NewStage(glstate.list.active, STAGE_DRAW);
-        list = glstate.list.active;
+		NewStage(glstate->list.active, STAGE_DRAW);
+        list = glstate->list.active;
 
         normalize_indices(sindices, &max, &min, count);
         list = arrays_to_renderlist(list, mode, min, max + 1);
@@ -724,7 +804,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
         list->indice_cap = count;
         //end_renderlist(list);
         
-        glstate.list.active = extend_renderlist(list);
+        glstate->list.active = extend_renderlist(list);
         return;
      }
 
@@ -757,7 +837,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
             if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
         len++;  // lenght is max(indices) + 1 !
 #define shift_pointer(a, b) \
-		if (glstate.vao->b && glstate.vao->pointers.a.buffer) glstate.vao->pointers.a.pointer += (uintptr_t)glstate.vao->pointers.a.buffer->data;
+		if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer += (uintptr_t)glstate->vao->pointers.a.buffer->data;
 	
 		shift_pointer(color, color_array);
 		shift_pointer(secondary, secondary_array);
@@ -768,9 +848,9 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 #undef shift_pointer
 
 #define client_state(A, B, C) \
-            if(glstate.vao->A != glstate.clientstate.A) {           \
+            if(glstate->vao->A != glstate->clientstate.A) {           \
                 C                                              \
-                if((glstate.clientstate.A = glstate.vao->A)==true)  \
+                if((glstate->clientstate.A = glstate->vao->A)==true)  \
                     gles_glEnableClientState(B);                \
                 else                                            \
                     gles_glDisableClientState(B);               \
@@ -778,62 +858,62 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 
 
 		GLenum mode_init = mode;
-		if (glstate.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+		if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
 			mode = GL_LINE_LOOP;
-		if (glstate.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+		if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 			mode = GL_POINTS;
 
 		if (mode == GL_QUAD_STRIP)
 			mode = GL_TRIANGLE_STRIP;
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
-		if (glstate.render_mode == GL_SELECT) {
-			select_glDrawElements(&glstate.vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
+		if (glstate->render_mode == GL_SELECT) {
+			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
 			// secondary color...
 			GLfloat *final_colors = NULL;
 			pointer_state_t old_color;
             client_state(color_array, GL_COLOR_ARRAY, );
-			if (/*glstate.enable.color_sum && */(glstate.vao->secondary_array) && (glstate.vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate.vao->pointers.color, 4, 0, len, 0);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate.vao->pointers.secondary, 4, 0, len, 0);
+			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
+				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len, 0);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, len, 0);
 				for (int i=0; i<len*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 				free(seconds_colors);
-			} else if (glstate.vao->color_array && (glstate.vao->pointers.color.size != 4)) {
+			} else if (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)) {
 				// Pandora doesn't like Color Pointer with size != 4
-                if(glstate.vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate.vao->pointers.color, 4, 0, len, 0);
+                if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
+                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, len, 0);
                     gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
                 } else {
-                    final_colors=copy_gl_pointer_color(&glstate.vao->pointers.color, 4, 0, len, 0);
+                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len, 0);
                     gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
                 }
-			} else if (glstate.vao->color_array)
-				gles_glColorPointer(glstate.vao->pointers.color.size, glstate.vao->pointers.color.type, glstate.vao->pointers.color.stride, glstate.vao->pointers.color.pointer);
+			} else if (glstate->vao->color_array)
+				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
-			if (glstate.vao->normal_array)
-				gles_glNormalPointer(glstate.vao->pointers.normal.type, glstate.vao->pointers.normal.stride, glstate.vao->pointers.normal.pointer);
+			if (glstate->vao->normal_array)
+				gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
             client_state(vertex_array, GL_VERTEX_ARRAY, );
-			if (glstate.vao->vertex_array)
-				gles_glVertexPointer(glstate.vao->pointers.vertex.size, glstate.vao->pointers.vertex.type, glstate.vao->pointers.vertex.stride, glstate.vao->pointers.vertex.pointer);
-			GLuint old_tex = glstate.texture.client;
+			if (glstate->vao->vertex_array)
+				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+			GLuint old_tex = glstate->texture.client;
             for (int aa=0; aa<MAX_TEX; aa++)
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, glshim_glClientActiveTexture(aa+GL_TEXTURE0););
             for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
+                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     glshim_glClientActiveTexture(aa+GL_TEXTURE0);
                     gles_glEnable(GL_TEXTURE_2D);
                 }
-                if (glstate.vao->tex_coord_array[aa]) {
+                if (glstate->vao->tex_coord_array[aa]) {
                     tex_setup_texcoord(aa, len);
                 }
             }
-			if (glstate.texture.client!=old_tex)
+			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
 				
-			if (glstate.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
+			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
 					case GL_TRIANGLES:
@@ -872,16 +952,16 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 //				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
 			for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
+                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     glshim_glClientActiveTexture(aa+GL_TEXTURE0);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
             }
-			if (glstate.texture.client!=old_tex)
+			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
 		}
 #define shift_pointer(a, b) \
-	if (glstate.vao->b && glstate.vao->pointers.a.buffer) glstate.vao->pointers.a.pointer -= (uintptr_t)glstate.vao->pointers.a.buffer->data;
+	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer -= (uintptr_t)glstate->vao->pointers.a.buffer->data;
 		
 			shift_pointer(color, color_array);
 			shift_pointer(secondary, secondary_array);
@@ -929,16 +1009,16 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     LOAD_GLES(glEnableClientState);
     LOAD_GLES(glDisableClientState);
 
-    if (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) {
-        NewStage(glstate.list.active, STAGE_DRAW);
-        glstate.list.active = arrays_to_renderlist(glstate.list.active, mode, first, count+first);
-        glstate.list.active = extend_renderlist(glstate.list.active);
+    if (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) {
+        NewStage(glstate->list.active, STAGE_DRAW);
+        glstate->list.active = arrays_to_renderlist(glstate->list.active, mode, first, count+first);
+        glstate->list.active = extend_renderlist(glstate->list.active);
         return;
     }
 
-    if (glstate.polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+    if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
 		mode = GL_LINE_LOOP;
-    if (glstate.polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+    if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 		mode = GL_POINTS;
 
     if (should_intercept_render(mode)) {
@@ -953,7 +1033,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         LOAD_GLES(glDrawArrays);
 
 #define shift_pointer(a, b) \
-	if (glstate.vao->b && glstate.vao->pointers.a.buffer) glstate.vao->pointers.a.pointer = glstate.vao->pointers.a.buffer->data + (uintptr_t)glstate.vao->pointers.a.pointer;
+	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer = glstate->vao->pointers.a.buffer->data + (uintptr_t)glstate->vao->pointers.a.pointer;
 	
 	shift_pointer(color, color_array);
 	shift_pointer(secondary, secondary_array);
@@ -970,56 +1050,56 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
 			
-		if (glstate.render_mode == GL_SELECT) {
-			select_glDrawArrays(&glstate.vao->pointers.vertex, mode, first, count);
+		if (glstate->render_mode == GL_SELECT) {
+			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
 			// setup the Array Pointers
 			// secondary color...
 			GLfloat *final_colors = NULL;
             client_state(color_array, GL_COLOR_ARRAY, );
-			if (/*glstate.enable.color_sum && */(glstate.vao->secondary_array) && (glstate.vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate.vao->pointers.color, 4, 0, count+first, 0);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate.vao->pointers.secondary, 4, first, count+first, 0);
+			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
+				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first, 0);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, first, count+first, 0);
 				for (int i=0; i<(count+first)*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
 				free(seconds_colors);
-			} else if ((glstate.vao->color_array && (glstate.vao->pointers.color.size != 4)) 
-                    || (glstate.vao->color_array && (glstate.vao->pointers.color.stride!=0) && (glstate.vao->pointers.color.type != GL_FLOAT))) {
+			} else if ((glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)) 
+                    || (glstate->vao->color_array && (glstate->vao->pointers.color.stride!=0) && (glstate->vao->pointers.color.type != GL_FLOAT))) {
 				// Pandora doesn't like Color Pointer with size != 4
-                if(glstate.vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate.vao->pointers.color, 4, 0, count+first, 0);
+                if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
+                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, count+first, 0);
                     gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
                 } else {
-                    final_colors=copy_gl_pointer_color(&glstate.vao->pointers.color, 4, 0, count+first, 0);
+                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first, 0);
                     gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
                 }
-			} else if (glstate.vao->color_array)
-				gles_glColorPointer(glstate.vao->pointers.color.size, glstate.vao->pointers.color.type, glstate.vao->pointers.color.stride, glstate.vao->pointers.color.pointer);
+			} else if (glstate->vao->color_array)
+				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
-			if (glstate.vao->normal_array)
-				gles_glNormalPointer(glstate.vao->pointers.normal.type, glstate.vao->pointers.normal.stride, glstate.vao->pointers.normal.pointer);
+			if (glstate->vao->normal_array)
+				gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
             client_state(vertex_array, GL_VERTEX_ARRAY, );
-			if (glstate.vao->vertex_array)
-				gles_glVertexPointer(glstate.vao->pointers.vertex.size, glstate.vao->pointers.vertex.type, glstate.vao->pointers.vertex.stride, glstate.vao->pointers.vertex.pointer);
-			GLuint old_tex = glstate.texture.client;
+			if (glstate->vao->vertex_array)
+				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+			GLuint old_tex = glstate->texture.client;
 			for (int aa=0; aa<MAX_TEX; aa++)
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, glshim_glClientActiveTexture(aa+GL_TEXTURE0););
             for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
+                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     glshim_glClientActiveTexture(aa+GL_TEXTURE0);
                     gles_glEnable(GL_TEXTURE_2D);
                 }
-				if (glstate.vao->tex_coord_array[aa]) {
+				if (glstate->vao->tex_coord_array[aa]) {
                     tex_setup_texcoord(aa, count+first);
 					/*glClientActiveTexture(aa+GL_TEXTURE0);
-					gles_glTexCoordPointer(glstate.pointers.tex_coord[aa].size, glstate.pointers.tex_coord[aa].type, glstate.pointers.tex_coord[aa].stride, glstate.pointers.tex_coord[aa].pointer);*/
+					gles_glTexCoordPointer(glstate->pointers.tex_coord[aa].size, glstate->pointers.tex_coord[aa].type, glstate->pointers.tex_coord[aa].stride, glstate->pointers.tex_coord[aa].pointer);*/
 				}
             }
-			if (glstate.texture.client!=old_tex)
+			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
 
-			if (glstate.polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
+			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
 				switch (mode_init) {
 					case GL_TRIANGLES:
@@ -1057,15 +1137,15 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 				free(final_colors);
 			}
 			for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate.enable.texture_2d[aa] && (glstate.enable.texture_1d[aa] || glstate.enable.texture_3d[aa])) {
+                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     glshim_glClientActiveTexture(aa+GL_TEXTURE0);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
             }
-			if (glstate.texture.client!=old_tex)
+			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
 #define shift_pointer(a, b) \
-	if (glstate.vao->b && glstate.vao->pointers.a.buffer) glstate.vao->pointers.a.pointer = glstate.vao->pointers.a.pointer - (uintptr_t)glstate.vao->pointers.a.buffer->data;
+	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer = glstate->vao->pointers.a.pointer - (uintptr_t)glstate->vao->pointers.a.buffer->data;
 	
 		shift_pointer(color, color_array);
 		shift_pointer(secondary, secondary_array);
@@ -1082,31 +1162,31 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("glshim_g
 
 #ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
-    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer; t.buffer = glstate.vao->vertex
+    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer; t.buffer = glstate->vao->vertex
 void glshim_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
-    clone_gl_pointer(glstate.vao->pointers.vertex, size);
+    clone_gl_pointer(glstate->vao->pointers.vertex, size);
 }
 void glshim_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
-    clone_gl_pointer(glstate.vao->pointers.color, size);
+    clone_gl_pointer(glstate->vao->pointers.color, size);
 }
 void glshim_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
-    clone_gl_pointer(glstate.vao->pointers.normal, 3);
+    clone_gl_pointer(glstate->vao->pointers.normal, 3);
 }
 void glshim_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
-    clone_gl_pointer(glstate.vao->pointers.tex_coord[glstate.texture.client], size);
+    clone_gl_pointer(glstate->vao->pointers.tex_coord[glstate->texture.client], size);
 }
 void glshim_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
 	if (size!=3)
 		return;		// Size must be 3...
-    clone_gl_pointer(glstate.vao->pointers.secondary, size);
+    clone_gl_pointer(glstate->vao->pointers.secondary, size);
     noerrorShim();
 }
 
@@ -1218,47 +1298,47 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) A
 
 // immediate mode functions
 void glshim_glBegin(GLenum mode) {
-    if (!glstate.list.active)
-        glstate.list.active = alloc_renderlist();
-    NewStage(glstate.list.active, STAGE_DRAW);
-    glstate.list.active->mode = mode;
-    glstate.list.active->mode_init = mode;
+    if (!glstate->list.active)
+        glstate->list.active = alloc_renderlist();
+    NewStage(glstate->list.active, STAGE_DRAW);
+    glstate->list.active->mode = mode;
+    glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
 }
 void glBegin(GLenum mode) AliasExport("glshim_glBegin");
 
 void glshim_glEnd() {
-    if (!glstate.list.active) return;
-    // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate...
+    if (!glstate->list.active) return;
+    // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<MAX_TEX; a++)
-		if (glstate.enable.texture_2d[a] && ((glstate.list.active->tex[a]==0) && (!glstate.enable.texgen_s[a])))
-			rlMultiTexCoord4f(glstate.list.active, GL_TEXTURE0+a, glstate.texcoord[a][0], glstate.texcoord[a][1], glstate.texcoord[a][2], glstate.texcoord[a][3]);
+		if (glstate->enable.texture_2d[a] && ((glstate->list.active->tex[a]==0) && (!glstate->enable.texgen_s[a])))
+			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // render if we're not in a display list
-    if (!(glstate.list.compiling || glstate.gl_batch)) {
-        renderlist_t *mylist = glstate.list.active;
-        glstate.list.active = NULL;
+    if (!(glstate->list.compiling || glstate->gl_batch)) {
+        renderlist_t *mylist = glstate->list.active;
+        glstate->list.active = NULL;
         mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
     } else {
-        glstate.list.active = extend_renderlist(glstate.list.active);
+        glstate->list.active = extend_renderlist(glstate->list.active);
     }
     noerrorShim();
 }
 void glEnd() AliasExport("glshim_glEnd");
 
 void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
-    if (glstate.list.active) {
-        if (glstate.list.active->stage != STAGE_DRAW) {
-            if (glstate.list.active->stage != STAGE_DRAW) {
-                if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-                    glstate.list.active->lastNormal[0] = nx; glstate.list.active->lastNormal[1] = ny; glstate.list.active->lastNormal[2] = nz;
+    if (glstate->list.active) {
+        if (glstate->list.active->stage != STAGE_DRAW) {
+            if (glstate->list.active->stage != STAGE_DRAW) {
+                if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+                    glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
                 }
                 PUSH_IF_COMPILING(glNormal3f);
             }
         } else {
-            rlNormal3f(glstate.list.active, nx, ny, nz);
-            glstate.list.active->lastNormal[0] = nx; glstate.list.active->lastNormal[1] = ny; glstate.list.active->lastNormal[2] = nz;
+            rlNormal3f(glstate->list.active, nx, ny, nz);
+            glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
             noerrorShim();
         }
     }
@@ -1269,30 +1349,30 @@ void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
         errorGL();
     }
 #endif
-    glstate.normal[0] = nx; glstate.normal[1] = ny; glstate.normal[2] = nz;
+    glstate->normal[0] = nx; glstate->normal[1] = ny; glstate->normal[2] = nz;
 }
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("glshim_glNormal3f");
 
 void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    if (glstate.list.active) {
-        rlVertex4f(glstate.list.active, x, y, z, w);
+    if (glstate->list.active) {
+        rlVertex4f(glstate->list.active, x, y, z, w);
         noerrorShim();
     }
 }
 void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("glshim_glVertex4f");
 
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
-    if (glstate.list.active) {
-        if (glstate.list.active->stage != STAGE_DRAW) {
-            if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-                glstate.list.active->lastColors[0] = red; glstate.list.active->lastColors[1] = green;
-                glstate.list.active->lastColors[2] = blue; glstate.list.active->lastColors[3] = alpha;
+    if (glstate->list.active) {
+        if (glstate->list.active->stage != STAGE_DRAW) {
+            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+                glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
+                glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
             }
             PUSH_IF_COMPILING(glColor4f);
         }
-        rlColor4f(glstate.list.active, red, green, blue, alpha);
-        glstate.list.active->lastColors[0] = red; glstate.list.active->lastColors[1] = green;
-        glstate.list.active->lastColors[2] = blue; glstate.list.active->lastColors[3] = alpha;
+        rlColor4f(glstate->list.active, red, green, blue, alpha);
+        glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
+        glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
         noerrorShim();
     }
 #ifndef USE_ES2
@@ -1303,33 +1383,33 @@ void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     }
 #endif
     // change the state last thing
-    glstate.color[0] = red; glstate.color[1] = green;
-    glstate.color[2] = blue; glstate.color[3] = alpha;
+    glstate->color[0] = red; glstate->color[1] = green;
+    glstate->color[2] = blue; glstate->color[3] = alpha;
 }
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("glshim_glColor4f");
 
 void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
-    if (glstate.list.active) {
-        rlSecondary3f(glstate.list.active, r, g, b);
-        glstate.list.active->lastSecondaryColors[0] = r; glstate.list.active->lastSecondaryColors[1] = g;
-        glstate.list.active->lastSecondaryColors[2] = b;
+    if (glstate->list.active) {
+        rlSecondary3f(glstate->list.active, r, g, b);
+        glstate->list.active->lastSecondaryColors[0] = r; glstate->list.active->lastSecondaryColors[1] = g;
+        glstate->list.active->lastSecondaryColors[2] = b;
         noerrorShim();
     } else {
         noerrorShim();
     }
     // change the state last thing
-    glstate.secondary[0] = r; glstate.secondary[1] = g;
-    glstate.secondary[2] = b;
+    glstate->secondary[0] = r; glstate->secondary[1] = g;
+    glstate->secondary[2] = b;
 }
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("glshim_glSecondaryColor3f");
 
 #ifndef USE_ES2
 void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		//TODO: Materialfv can be done per vertex, how to handle that ?!
-		//NewStage(glstate.list.active, STAGE_MATERIAL);
-        rlMaterialfv(glstate.list.active, face, pname, params);
+		//NewStage(glstate->list.active, STAGE_MATERIAL);
+        rlMaterialfv(glstate->list.active, face, pname, params);
         noerrorShim();
     } else {
 	    if (face!=GL_FRONT_AND_BACK) {
@@ -1342,12 +1422,12 @@ void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("glshim_glMaterialfv");
 void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     LOAD_GLES(glMaterialf);
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		GLfloat params[4];
 		memset(params, 0, 4*sizeof(GLfloat));
 		params[0] = param;
-		NewStage(glstate.list.active, STAGE_MATERIAL);
-        rlMaterialfv(glstate.list.active, face, pname, params);
+		NewStage(glstate->list.active, STAGE_MATERIAL);
+        rlMaterialfv(glstate->list.active, face, pname, params);
         noerrorShim();
     } else {
 	    if (face!=GL_FRONT_AND_BACK) {
@@ -1361,23 +1441,23 @@ void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl
 #endif
 
 void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    if (glstate.list.active) {
-        rlTexCoord4f(glstate.list.active, s, t, r, q);
+    if (glstate->list.active) {
+        rlTexCoord4f(glstate->list.active, s, t, r, q);
     }
     noerrorShim();
-    glstate.texcoord[0][0] = s; glstate.texcoord[0][1] = t;
-    glstate.texcoord[0][2] = r; glstate.texcoord[0][3] = q;
+    glstate->texcoord[0][0] = s; glstate->texcoord[0][1] = t;
+    glstate->texcoord[0][2] = r; glstate->texcoord[0][3] = q;
 }
 void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glTexCoord4f");
 
 void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 	// TODO, error if target is unsuported texture....
-    if (glstate.list.active) {
-        rlMultiTexCoord4f(glstate.list.active, target, s, t, r, q);
+    if (glstate->list.active) {
+        rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
     }
     noerrorShim();
-    glstate.texcoord[target-GL_TEXTURE0][0] = s; glstate.texcoord[target-GL_TEXTURE0][1] = t;
-    glstate.texcoord[target-GL_TEXTURE0][2] = r; glstate.texcoord[target-GL_TEXTURE0][3] = q;
+    glstate->texcoord[target-GL_TEXTURE0][0] = s; glstate->texcoord[target-GL_TEXTURE0][1] = t;
+    glstate->texcoord[target-GL_TEXTURE0][2] = r; glstate->texcoord[target-GL_TEXTURE0][3] = q;
 }
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
@@ -1385,8 +1465,8 @@ void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloa
 void glshim_glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
-    p = &glstate.vao->pointers.color;
-    if (glstate.vao->color_array) {
+    p = &glstate->vao->pointers.color;
+    if (glstate->vao->color_array) {
         v = gl_pointer_index(p, i);
         GLfloat scale = 1.0f/gl_max_value(p->type);
         // color[3] defaults to 1.0f
@@ -1399,8 +1479,8 @@ void glshim_glArrayElement(GLint i) {
         }
         glshim_glColor4fv(v);
     }
-    p = &glstate.vao->pointers.secondary;
-    if (glstate.vao->secondary_array) {
+    p = &glstate->vao->pointers.secondary;
+    if (glstate->vao->secondary_array) {
         v = gl_pointer_index(p, i);
         GLfloat scale = 1.0f/gl_max_value(p->type);
 
@@ -1410,13 +1490,13 @@ void glshim_glArrayElement(GLint i) {
         }
         glshim_glSecondaryColor3fv(v);
     }
-    p = &glstate.vao->pointers.normal;
-    if (glstate.vao->normal_array) {
+    p = &glstate->vao->pointers.normal;
+    if (glstate->vao->normal_array) {
         v = gl_pointer_index(p, i);
         glshim_glNormal3fv(v);
     }
-    p = &glstate.vao->pointers.tex_coord[0];
-    if (glstate.vao->tex_coord_array[0]) {
+    p = &glstate->vao->pointers.tex_coord[0];
+    if (glstate->vao->tex_coord_array[0]) {
         v = gl_pointer_index(p, i);
         if (p->size<4)
             glshim_glTexCoord2fv(v);
@@ -1425,8 +1505,8 @@ void glshim_glArrayElement(GLint i) {
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
-	    p = &glstate.vao->pointers.tex_coord[a];
-	    if (glstate.vao->tex_coord_array[a]) {
+	    p = &glstate->vao->pointers.tex_coord[a];
+	    if (glstate->vao->tex_coord_array[a]) {
 			v = gl_pointer_index(p, i);
             if (p->size<4)
                 glshim_glMultiTexCoord2fv(GL_TEXTURE0+a, v);
@@ -1434,8 +1514,8 @@ void glshim_glArrayElement(GLint i) {
                 glshim_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
-    p = &glstate.vao->pointers.vertex;
-    if (glstate.vao->vertex_array) {
+    p = &glstate->vao->pointers.vertex;
+    if (glstate->vao->vertex_array) {
         v = gl_pointer_index(p, i);
         if (p->size == 4) {
             glshim_glVertex4fv(v);
@@ -1452,12 +1532,12 @@ void glArrayElement(GLint i) AliasExport("glshim_glArrayElement");
 // so I can build a renderlist_t on the first call and hold onto it
 // maybe I need a way to call a renderlist_t with (first, count)
 void glshim_glLockArrays(GLint first, GLsizei count) {
-    glstate.list.locked = true;
+    glstate->list.locked = true;
     noerrorShim();
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("glshim_glLockArrays");
 void glshim_glUnlockArrays() {
-    glstate.list.locked = false;
+    glstate->list.locked = false;
     noerrorShim();
 }
 void glUnlockArraysEXT() AliasExport("glshim_glUnlockArrays");
@@ -1465,7 +1545,7 @@ void glUnlockArraysEXT() AliasExport("glshim_glUnlockArrays");
 
 static renderlist_t *glshim_glGetList(GLuint list) {
     if (glIsList(list))
-        return glstate.lists[list - 1];
+        return glstate->lists[list - 1];
 
     return NULL;
 }
@@ -1476,18 +1556,18 @@ GLuint glshim_glGenLists(GLsizei range) {
 		return 0;
 	}
 	noerrorShim();
-    int start = glstate.list.count;
-    if (glstate.lists == NULL) {
-        glstate.list.cap += range + 100;
-        glstate.lists = malloc(glstate.list.cap * sizeof(uintptr_t));
-    } else if (glstate.list.count + range > glstate.list.cap) {
-        glstate.list.cap += range + 100;
-        glstate.lists = realloc(glstate.lists, glstate.list.cap * sizeof(uintptr_t));
+    int start = glstate->list.count;
+    if (glstate->lists == NULL) {
+        glstate->list.cap += range + 100;
+        glstate->lists = malloc(glstate->list.cap * sizeof(uintptr_t));
+    } else if (glstate->list.count + range > glstate->list.cap) {
+        glstate->list.cap += range + 100;
+        glstate->lists = realloc(glstate->lists, glstate->list.cap * sizeof(uintptr_t));
     }
-    glstate.list.count += range;
+    glstate->list.count += range;
 
     for (int i = 0; i < range; i++) {
-        glstate.lists[start+i] = NULL;
+        glstate->lists[start+i] = NULL;
     }
     return start + 1;
 }
@@ -1501,32 +1581,32 @@ void glshim_glNewList(GLuint list, GLenum mode) {
     if (! glIsList(list))
         return;
     noerrorShim();
-    if (glstate.gl_batch) {
-        glstate.gl_batch = 0;
+    if (glstate->gl_batch) {
+        glstate->gl_batch = 0;
         flush();
     }
-    glstate.list.name = list;
-    glstate.list.mode = mode;
-    // TODO: if glstate.list.active is already defined, we probably need to clean up here
-    glstate.list.active = alloc_renderlist();
-    glstate.list.compiling = true;
+    glstate->list.name = list;
+    glstate->list.mode = mode;
+    // TODO: if glstate->list.active is already defined, we probably need to clean up here
+    glstate->list.active = alloc_renderlist();
+    glstate->list.compiling = true;
 }
 void glNewList(GLuint list, GLenum mode) AliasExport("glshim_glNewList");
 
 void glshim_glEndList() {
 	noerrorShim();
-    GLuint list = glstate.list.name;
-    if (glstate.list.compiling) {
+    GLuint list = glstate->list.name;
+    if (glstate->list.compiling) {
 	// Free the previous list if it exist...
-        free_renderlist(glstate.lists[list - 1]);
-        glstate.lists[list - 1] = GetFirst(glstate.list.active);
-        glstate.list.compiling = false;
-        end_renderlist(glstate.list.active);
-        glstate.list.active = NULL;
+        free_renderlist(glstate->lists[list - 1]);
+        glstate->lists[list - 1] = GetFirst(glstate->list.active);
+        glstate->list.compiling = false;
+        end_renderlist(glstate->list.active);
+        glstate->list.active = NULL;
         if (gl_batch==1) {
             init_batch();
         } 
-        if (glstate.list.mode == GL_COMPILE_AND_EXECUTE) {
+        if (glstate->list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);
         }
     }
@@ -1536,8 +1616,8 @@ void glEndList() AliasExport("glshim_glEndList");
 renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
 void glshim_glCallList(GLuint list) {
 	noerrorShim();
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-        glstate.list.active = append_calllist(glstate.list.active, glshim_glGetList(list));
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        glstate->list.active = append_calllist(glstate->list.active, glshim_glGetList(list));
 		return;
 	}
     // TODO: the output of this call can be compiled into another display list
@@ -1548,15 +1628,15 @@ void glshim_glCallList(GLuint list) {
 void glCallList(GLuint list) AliasExport("glshim_glCallList");
 
 void glPushCall(void *call) {
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-		NewStage(glstate.list.active, STAGE_GLCALL);
-        rlPushCall(glstate.list.active, call);
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_GLCALL);
+        rlPushCall(glstate->list.active, call);
     }
 }
 
 void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type) \
-        case name: glCallList(((type *)lists)[i] + glstate.list.base); break
+        case name: glCallList(((type *)lists)[i] + glstate->list.base); break
 
     // seriously wtf
     #define call_bytes(name, stride)                             \
@@ -1566,7 +1646,7 @@ void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
             for (j = 0; j < stride; j++) {                       \
                 list += *(l + (i * stride + j)) << (stride - j); \
             }                                                    \
-            glshim_glCallList(list + glstate.list.base);                  \
+            glshim_glCallList(list + glstate->list.base);                  \
             break
 
     unsigned int i, j;
@@ -1592,13 +1672,13 @@ void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) AliasExport("glshim_glCallLists");
 
 void glshim_glDeleteList(GLuint list) {
-    if(glstate.gl_batch) {
+    if(glstate->gl_batch) {
         flush();
     }
     renderlist_t *l = glshim_glGetList(list);
     if (l) {
         free_renderlist(l);
-        glstate.lists[list-1] = NULL;
+        glstate->lists[list-1] = NULL;
     }
 
     // lists just grow upwards, maybe use a better storage mechanism?
@@ -1614,13 +1694,13 @@ void glDeleteLists(GLuint list, GLsizei range) AliasExport("glshim_glDeleteLists
 
 void glshim_glListBase(GLuint base) {
 	noerrorShim();
-    glstate.list.base = base;
+    glstate->list.base = base;
 }
 void glListBase(GLuint base) AliasExport("glshim_glListBase");
 
 GLboolean glshim_glIsList(GLuint list) {
 	noerrorShim();
-    if (list - 1 < glstate.list.count) {
+    if (list - 1 < glstate->list.count) {
         return true;
     }
     return false;
@@ -1633,21 +1713,21 @@ void glshim_glPolygonMode(GLenum face, GLenum mode) {
 		errorShim(GL_INVALID_ENUM);
 	if (face == GL_BACK)
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
-	if ((glstate.list.compiling || glstate.gl_batch) && (glstate.list.active)) {
-		NewStage(glstate.list.active, STAGE_POLYGON);
-		glstate.list.active->polygon_mode = mode;
+	if ((glstate->list.compiling || glstate->gl_batch) && (glstate->list.active)) {
+		NewStage(glstate->list.active, STAGE_POLYGON);
+		glstate->list.active->polygon_mode = mode;
 		return;
 	}
 	switch(mode) {
 		case GL_LINE:
 		case GL_POINT:
-			glstate.polygon_mode = mode;
+			glstate->polygon_mode = mode;
 			break;
 		case GL_FILL:
-			glstate.polygon_mode = 0;
+			glstate->polygon_mode = 0;
 			break;
 		default:
-			glstate.polygon_mode = 0;
+			glstate->polygon_mode = 0;
 	}
 }
 void glPolygonMode(GLenum face, GLenum mode) AliasExport("glshim_glPolygonMode");
@@ -1662,14 +1742,14 @@ void glshim_glPushMatrix() {
 	PUSH_IF_COMPILING(glPushMatrix);
 	LOAD_GLES(glPushMatrix);
 	// Alloc matrix stacks if needed
-	if (!glstate.projection_matrix)
-		alloc_matrix(&glstate.projection_matrix, MAX_STACK_PROJECTION);
-	if (!glstate.modelview_matrix)
-		alloc_matrix(&glstate.modelview_matrix, MAX_STACK_MODELVIEW);
-	if (!glstate.texture_matrix) {
-		glstate.texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+	if (!glstate->projection_matrix)
+		alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
+	if (!glstate->modelview_matrix)
+		alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
+	if (!glstate->texture_matrix) {
+		glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
 		for (int i=0; i<MAX_TEX; i++)
-			alloc_matrix(&glstate.texture_matrix[i], MAX_STACK_TEXTURE);
+			alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
 	}
 	// get matrix mode
 	GLint matrix_mode;
@@ -1678,20 +1758,20 @@ void glshim_glPushMatrix() {
 	// go...
 	switch(matrix_mode) {
 		case GL_PROJECTION:
-			if (glstate.projection_matrix->top<MAX_STACK_PROJECTION) {
-				glshim_glGetFloatv(GL_PROJECTION_MATRIX, glstate.projection_matrix->stack+16*glstate.projection_matrix->top++);
+			if (glstate->projection_matrix->top<MAX_STACK_PROJECTION) {
+				glshim_glGetFloatv(GL_PROJECTION_MATRIX, glstate->projection_matrix->stack+16*glstate->projection_matrix->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_MODELVIEW:
-			if (glstate.modelview_matrix->top<MAX_STACK_MODELVIEW) {
-				glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glstate.modelview_matrix->stack+16*glstate.modelview_matrix->top++);
+			if (glstate->modelview_matrix->top<MAX_STACK_MODELVIEW) {
+				glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glstate->modelview_matrix->stack+16*glstate->modelview_matrix->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_TEXTURE:
-			if (glstate.texture_matrix[glstate.texture.active]->top<MAX_STACK_PROJECTION) {
-				glshim_glGetFloatv(GL_TEXTURE_MATRIX, glstate.texture_matrix[glstate.texture.active]->stack+16*glstate.texture_matrix[glstate.texture.active]->top++);
+			if (glstate->texture_matrix[glstate->texture.active]->top<MAX_STACK_PROJECTION) {
+				glshim_glGetFloatv(GL_TEXTURE_MATRIX, glstate->texture_matrix[glstate->texture.active]->stack+16*glstate->texture_matrix[glstate->texture.active]->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
@@ -1709,14 +1789,14 @@ void glshim_glPopMatrix() {
 	PUSH_IF_COMPILING(glPopMatrix);
 	LOAD_GLES(glPopMatrix);
 	// Alloc matrix stacks if needed
-	if (!glstate.projection_matrix)
-		alloc_matrix(&glstate.projection_matrix, MAX_STACK_PROJECTION);
-	if (!glstate.modelview_matrix)
-		alloc_matrix(&glstate.modelview_matrix, MAX_STACK_MODELVIEW);
-	if (!glstate.texture_matrix) {
-		glstate.texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+	if (!glstate->projection_matrix)
+		alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
+	if (!glstate->modelview_matrix)
+		alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
+	if (!glstate->texture_matrix) {
+		glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
 		for (int i=0; i<MAX_TEX; i++)
-			alloc_matrix(&glstate.texture_matrix[i], MAX_STACK_TEXTURE);
+			alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
 	}
 	// get matrix mode
 	GLint matrix_mode;
@@ -1725,20 +1805,20 @@ void glshim_glPopMatrix() {
 	noerrorShim();
 	switch(matrix_mode) {
 		case GL_PROJECTION:
-			if (glstate.projection_matrix->top) {
-				glshim_glLoadMatrixf(glstate.projection_matrix->stack+16*--glstate.projection_matrix->top);
+			if (glstate->projection_matrix->top) {
+				glshim_glLoadMatrixf(glstate->projection_matrix->stack+16*--glstate->projection_matrix->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_MODELVIEW:
-			if (glstate.modelview_matrix->top) {
-				glshim_glLoadMatrixf(glstate.modelview_matrix->stack+16*--glstate.modelview_matrix->top);
+			if (glstate->modelview_matrix->top) {
+				glshim_glLoadMatrixf(glstate->modelview_matrix->stack+16*--glstate->modelview_matrix->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_TEXTURE:
-			if (glstate.texture_matrix[glstate.texture.active]->top) {
-				glshim_glLoadMatrixf(glstate.texture_matrix[glstate.texture.active]->stack+16*--glstate.texture_matrix[glstate.texture.active]->top);
+			if (glstate->texture_matrix[glstate->texture.active]->top) {
+				glshim_glLoadMatrixf(glstate->texture_matrix[glstate->texture.active]->stack+16*--glstate->texture_matrix[glstate->texture.active]->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
@@ -1756,9 +1836,9 @@ GLenum glshim_glGetError() {
 	LOAD_GLES(glGetError);
     if(glshim_noerror)
         return GL_NO_ERROR;
-	if (glstate.shim_error) {
-		GLenum tmp = glstate.last_error;
-		glstate.last_error = GL_NO_ERROR;
+	if (glstate->shim_error) {
+		GLenum tmp = glstate->last_error;
+		glstate->last_error = GL_NO_ERROR;
 		return tmp;
 	}
 	return gles_glGetError();
@@ -1806,12 +1886,12 @@ void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("glshim_g
 void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
 
 void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling))  {
-        if ((glstate.statebatch.blendfunc_s == sfactor) && (glstate.statebatch.blendfunc_d == dfactor))
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
+        if ((glstate->statebatch.blendfunc_s == sfactor) && (glstate->statebatch.blendfunc_d == dfactor))
             return; // nothing to do...
-        if (!glstate.statebatch.blendfunc_s) {
-            glstate.statebatch.blendfunc_s = sfactor;
-            glstate.statebatch.blendfunc_d = dfactor;
+        if (!glstate->statebatch.blendfunc_s) {
+            glstate->statebatch.blendfunc_s = sfactor;
+            glstate->statebatch.blendfunc_d = dfactor;
         } else {
             flush();
         }
@@ -1891,41 +1971,41 @@ void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("glshim_glStenc
 
 
 void init_statebatch() {
-    memset(&glstate.statebatch, 0, sizeof(statebatch_t));
+    memset(&glstate->statebatch, 0, sizeof(statebatch_t));
 }
 
 void flush() {
     // flush internal list
-    //printf("flush glstate.list.active=%p, gl_batch=%i(%i)\n", glstate.list.active, glstate.gl_batch, gl_batch);
-    renderlist_t *mylist = glstate.list.active;
+    //printf("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
+    renderlist_t *mylist = glstate->list.active;
     if (mylist) {
-        GLuint old = glstate.gl_batch;
-        glstate.list.active = NULL;
-        glstate.gl_batch = 0;
+        GLuint old = glstate->gl_batch;
+        glstate->list.active = NULL;
+        glstate->gl_batch = 0;
         mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
-        glstate.gl_batch = old;
+        glstate->gl_batch = old;
     }
-    if (glstate.gl_batch) init_statebatch();
-    glstate.list.active = (glstate.gl_batch)?alloc_renderlist():NULL;
+    if (glstate->gl_batch) init_statebatch();
+    glstate->list.active = (glstate->gl_batch)?alloc_renderlist():NULL;
 }
 
 void init_batch() {
-    glstate.list.active = alloc_renderlist();
+    glstate->list.active = alloc_renderlist();
     init_statebatch();
-    glstate.gl_batch = 1;
+    glstate->gl_batch = 1;
 }
 
 void glshim_glFlush() {
 	LOAD_GLES(glFlush);
     
-    if (glstate.list.active && !glstate.gl_batch) {
+    if (glstate->list.active && !glstate->gl_batch) {
         errorShim(GL_INVALID_OPERATION);
         return;
     }
     
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     
     gles_glFlush();
     errorGL();
@@ -1935,11 +2015,11 @@ void glFlush() AliasExport("glshim_glFlush");
 void glshim_glFinish() {
 	LOAD_GLES(glFinish);
     
-    if (glstate.list.active && !glstate.gl_batch) {
+    if (glstate->list.active && !glstate->gl_batch) {
         errorShim(GL_INVALID_OPERATION);
         return;
     }
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     
     gles_glFinish();
     errorGL();
@@ -1949,10 +2029,10 @@ void glFinish() AliasExport("glshim_glFinish");
 void glshim_glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(glLoadMatrixf);
     
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-        NewStage(glstate.list.active, STAGE_MATRIX);
-        glstate.list.active->matrix_op = 1;
-        memcpy(glstate.list.active->matrix_val, m, 16*sizeof(GLfloat));
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        NewStage(glstate->list.active, STAGE_MATRIX);
+        glstate->list.active->matrix_op = 1;
+        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
         return;
     }
     gles_glLoadMatrixf(m);
@@ -1962,10 +2042,10 @@ void glLoadMatrixf(const GLfloat * m) AliasExport("glshim_glLoadMatrixf");
 void glshim_glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(glMultMatrixf);
     
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
-        NewStage(glstate.list.active, STAGE_MATRIX);
-        glstate.list.active->matrix_op = 2;
-        memcpy(glstate.list.active->matrix_val, m, 16*sizeof(GLfloat));
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        NewStage(glstate->list.active, STAGE_MATRIX);
+        glstate->list.active->matrix_op = 2;
+        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
         return;
     }
     gles_glMultMatrixf(m);
@@ -1975,10 +2055,10 @@ void glMultMatrixf(const GLfloat * m) AliasExport("glshim_glMultMatrixf");
 void glshim_glFogfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glFogfv);
 
-    if ((glstate.list.compiling || glstate.gl_batch) && glstate.list.active) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         if (pname == GL_FOG_COLOR) {
-            NewStage(glstate.list.active, STAGE_FOG);
-            rlFogOp(glstate.list.active, 1, params);
+            NewStage(glstate->list.active, STAGE_FOG);
+            rlFogOp(glstate->list.active, 1, params);
             return;
         }
     }
@@ -2008,10 +2088,10 @@ void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("glsh
 
 void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
-    if (glstate.list.active && (glstate.gl_batch && !glstate.list.compiling)) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     switch(pname) {
         case GL_COLOR_ARRAY_POINTER:
-            *params = (void*)glstate.vao->pointers.color.pointer;
+            *params = (void*)glstate->vao->pointers.color.pointer;
             break;
         case GL_EDGE_FLAG_ARRAY_POINTER:
             *params = NULL;
@@ -2022,16 +2102,16 @@ void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
         case GL_INDEX_ARRAY_POINTER:
             *params = NULL;
         case GL_NORMAL_ARRAY_POINTER:
-            *params = (void*)glstate.vao->pointers.normal.pointer;
+            *params = (void*)glstate->vao->pointers.normal.pointer;
             break;
         case GL_TEXTURE_COORD_ARRAY_POINTER:
-            *params = (void*)glstate.vao->pointers.tex_coord[glstate.texture.client].pointer;
+            *params = (void*)glstate->vao->pointers.tex_coord[glstate->texture.client].pointer;
             break;
         case GL_SELECTION_BUFFER_POINTER:
-            *params = glstate.selectbuf.buffer;
+            *params = glstate->selectbuf.buffer;
             break;
         case GL_VERTEX_ARRAY_POINTER :
-            *params = (void*)glstate.vao->pointers.vertex.pointer;
+            *params = (void*)glstate->vao->pointers.vertex.pointer;
             break;
         default:
             errorShim(GL_INVALID_ENUM);
@@ -2059,8 +2139,8 @@ void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("glshim_
 void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
 {
     LOAD_GLES_OES(glMultiDrawArrays);
-    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) 
-        || (glstate.render_mode == GL_SELECT) || ((glstate.polygon_mode == GL_LINE) || (glstate.polygon_mode == GL_POINT)) )
+    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
     {
         // divide the call
         // TODO optimize with forcing Batch mode
@@ -2080,8 +2160,8 @@ void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GL
 void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
 {
     LOAD_GLES_OES(glMultiDrawElements);
-    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate.list.active && (glstate.list.compiling || glstate.gl_batch)) 
-        || (glstate.render_mode == GL_SELECT) || ((glstate.polygon_mode == GL_LINE) || (glstate.polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
     {
         // divide the call
         // TODO optimize with forcing Batch mode

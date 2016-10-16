@@ -19,7 +19,7 @@ void glshim_glClientAttribDefault(GLbitfield mask) {
     else glshim_glDisableClientState(pname)
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        int client = glstate.texture.client;
+        int client = glstate->texture.client;
         
 		enable_disable(GL_VERTEX_ARRAY, false);
 		enable_disable(GL_NORMAL_ARRAY, false);
@@ -30,7 +30,7 @@ void glshim_glClientAttribDefault(GLbitfield mask) {
            enable_disable(GL_TEXTURE_COORD_ARRAY, false);
         }
 #undef enable_disable
-		if (glstate.texture.client != client) glshim_glClientActiveTexture(GL_TEXTURE0+client);
+		if (glstate->texture.client != client) glshim_glClientActiveTexture(GL_TEXTURE0+client);
     }
 }
 void glshim_glPushClientAttribDefault(GLbitfield mask) {
@@ -197,12 +197,12 @@ void glshim_glGetCompressedTextureImage(GLuint texture, GLenum target, GLint lev
 
 #undef text
 #define text(f) \
-  GLenum old_tex = glstate.texture.active; \
+  GLenum old_tex = glstate->texture.active; \
   if(texunit != old_tex) glshim_glActiveTexture(texunit); \
   glshim_##f; \
   if(texunit != old_tex) glshim_glActiveTexture(old_tex)
 #define texc(f) \
-  GLenum old_tex = glstate.texture.client; \
+  GLenum old_tex = glstate->texture.client; \
   if(texunit != old_tex) glshim_glClientActiveTexture(texunit); \
   glshim_##f; \
   if(texunit != old_tex) glshim_glClientActiveTexture(old_tex)

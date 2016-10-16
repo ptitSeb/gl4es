@@ -275,7 +275,7 @@ GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
     GLsizei size = gl_sizeof(p->type);
     GLsizei stride = p->stride ? p->stride : (size * p->size);
     uintptr_t ptr = (uintptr_t)(p->pointer) + (stride * index) 
-		+ (uintptr_t)((glstate.vao->vertex)?glstate.vao->vertex->data:0);
+		+ (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0);
 
     GL_TYPE_SWITCH(src, ptr, p->type,
         for (int i = 0; i < p->size; i++) {

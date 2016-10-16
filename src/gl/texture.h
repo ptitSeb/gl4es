@@ -100,6 +100,8 @@ typedef struct {
     GLboolean mipmap_need;
 	GLenum min_filter;
 	GLenum mag_filter;
+    GLenum wrap_s;
+    GLenum wrap_t;
     GLboolean uploaded;
     GLboolean alpha;
     GLboolean compressed;

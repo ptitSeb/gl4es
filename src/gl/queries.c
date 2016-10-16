@@ -16,7 +16,7 @@ void glshim_glGenQueries(GLsizei n, GLuint * ids) {
 }
 
 GLboolean glshim_glIsQuery(GLuint id) {
-	khash_t(queries) *list = glstate.queries;
+	khash_t(queries) *list = glstate->queries;
 	khint_t k;
 	noerrorShim();
     if (list) {
@@ -29,7 +29,7 @@ GLboolean glshim_glIsQuery(GLuint id) {
 }
 
 void glshim_glDeleteQueries(GLsizei n, const GLuint* ids) {
-	khash_t(queries) *list = glstate.queries;
+	khash_t(queries) *list = glstate->queries;
     if (list) {
         khint_t k;
         glquery_t *query;
@@ -55,15 +55,15 @@ void glshim_glBeginQuery(GLenum target, GLuint id) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
    	khint_t k;
    	int ret;
     glquery_t *query;
-	khash_t(queries) *list = glstate.queries;
+	khash_t(queries) *list = glstate->queries;
 	if (! list) {
-		list = glstate.queries = kh_init(queries);
+		list = glstate->queries = kh_init(queries);
 		// segfaults if we don't do a single put
 		kh_put(queries, list, 1, &ret);
 		kh_del(queries, list, 1);
@@ -90,7 +90,7 @@ void glshim_glEndQuery(GLenum target) {
 		errorShim(GL_INVALID_OPERATION);
 		return;
 	}
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
     active_samples_passed = NULL;
@@ -119,9 +119,9 @@ void glshim_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
    	khint_t k;
    	int ret;
     glquery_t *query = NULL;
-	khash_t(queries) *list = glstate.queries;
+	khash_t(queries) *list = glstate->queries;
 	if (! list) {
-		list = glstate.queries = kh_init(queries);
+		list = glstate->queries = kh_init(queries);
 		// segfaults if we don't do a single put
 		kh_put(queries, list, 1, &ret);
 		kh_del(queries, list, 1);
@@ -152,9 +152,9 @@ void glshim_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
    	khint_t k;
    	int ret;
     glquery_t *query = NULL;
-	khash_t(queries) *list = glstate.queries;
+	khash_t(queries) *list = glstate->queries;
 	if (! list) {
-		list = glstate.queries = kh_init(queries);
+		list = glstate->queries = kh_init(queries);
 		// segfaults if we don't do a single put
 		kh_put(queries, list, 1, &ret);
 		kh_del(queries, list, 1);

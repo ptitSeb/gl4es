@@ -6,7 +6,7 @@
 
 #define STACK_SIZE 16
 
-typedef struct {
+typedef struct _glstack_t {
     GLbitfield mask;
 
     // GL_COLOR_BUFFER_BIT
@@ -139,7 +139,7 @@ typedef struct {
     unsigned int cap;
 } glstack_t;
 
-typedef struct {
+typedef struct _glclientstack_t {
     GLbitfield mask;
 
     // GL_CLIENT_PIXEL_STORE_BIT

@@ -70,7 +70,7 @@ void glshim_glGenFramebuffers(GLsizei n, GLuint *ids) {
 
 void glshim_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     //printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     if (g_recyclefbo) {
         //printf("Recycling %i FBOs\n", n);
         noerrorShim();
@@ -93,7 +93,7 @@ void glshim_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
 
 GLboolean glshim_glIsFramebuffer(GLuint framebuffer) {
     //printf("glIsFramebuffer(%u)\n", framebuffer);
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glIsFramebuffer);
     
     errorGL();
@@ -103,7 +103,7 @@ GLboolean glshim_glIsFramebuffer(GLuint framebuffer) {
 GLenum fb_status;
 
 GLenum glshim_glCheckFramebufferStatus(GLenum target) {
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
 //#define BEFORE 1
 #ifdef BEFORE
     GLenum result = fb_status;
@@ -120,9 +120,9 @@ GLenum glshim_glCheckFramebufferStatus(GLenum target) {
 }
 
 void glshim_glBindFramebuffer(GLenum target, GLuint framebuffer) {
-    //printf("glBindFramebuffer(%s, %u), list=%s\n", PrintEnum(target), framebuffer, glstate.list.active?"active":"none");
+    //printf("glBindFramebuffer(%s, %u), list=%s\n", PrintEnum(target), framebuffer, glstate->list.active?"active":"none");
 	//PUSH_IF_COMPILING(glBindFramebuffer);
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glBindFramebuffer);
     LOAD_GLES_OES(glCheckFramebufferStatus);
     LOAD_GLES(glGetError);
@@ -169,7 +169,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
     static int scrap_width = 0;
     static int scrap_height = 0;
     
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glFramebufferTexture2D);
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glBindTexture);
@@ -187,9 +187,9 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         gltexture_t *tex = NULL;
         int ret;
         khint_t k;
-        khash_t(tex) *list = glstate.texture.list;
+        khash_t(tex) *list = glstate->texture.list;
         if (! list) {
-            list = glstate.texture.list = kh_init(tex);
+            list = glstate->texture.list = kh_init(tex);
             // segfaults if we don't do a single put
             kh_put(tex, list, 1, &ret);
             kh_del(tex, list, 1);
@@ -209,7 +209,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
                 tex->nwidth = npot(tex->width);
                 tex->nheight = npot(tex->height);
                 tex->shrink = 0;
-                gltexture_t *bound = glstate.texture.bound[glstate.texture.active];
+                gltexture_t *bound = glstate->texture.bound[glstate->texture.active];
                 GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
@@ -222,7 +222,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
                 tex->nwidth = (tex->nwidth<32)?32:tex->nwidth;
                 tex->nheight = (tex->nheight<32)?32:tex->nheight;
                 tex->shrink = 0;
-                gltexture_t *bound = glstate.texture.bound[glstate.texture.active];
+                gltexture_t *bound = glstate->texture.bound[glstate->texture.active];
                 GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
@@ -257,7 +257,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         if ((scrap_width!=twidth) || (scrap_height!=theight)) {
                 scrap_width = twidth;
                 scrap_height = theight;
-                gltexture_t *bound = glstate.texture.bound[glstate.texture.active];
+                gltexture_t *bound = glstate->texture.bound[glstate->texture.active];
                 GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=scrap_tex) gles_glBindTexture(GL_TEXTURE_2D, scrap_tex);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scrap_width, scrap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
@@ -321,7 +321,7 @@ void glshim_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum r
 }
 
 void glshim_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glDeleteRenderbuffers);
     
     // check if we delete a depthstencil
@@ -398,7 +398,7 @@ void glshim_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLe
 }
 
 void glshim_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glBindRenderbuffer);
     //printf("glBindRenderbuffer(%s, %u), binded Fbo=%u\n", PrintEnum(target), renderbuffer, current_fb);
     
@@ -410,7 +410,7 @@ void glshim_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 
 GLboolean glshim_glIsRenderbuffer(GLuint renderbuffer) {
     //printf("glIsRenderbuffer(%u)\n", renderbuffer);
-    if (glstate.gl_batch) flush();
+    if (glstate->gl_batch) flush();
     LOAD_GLES_OES(glIsRenderbuffer);
     
     errorGL();
@@ -474,9 +474,9 @@ void createMainFBO(int width, int height) {
         deleteMainFBO();
     }
     // switch to texture unit 0 if needed
-    if (glstate.texture.active != 0)
+    if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0);
-    if (glstate.texture.client != 0)
+    if (glstate->texture.client != 0)
         gles_glClientActiveTexture(GL_TEXTURE0);
         
     mainfbo_width = width;
@@ -536,12 +536,12 @@ void createMainFBO(int width, int height) {
             gles_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
     // Put everything back, and active the MainFBO
-    if (glstate.texture.bound[0]) 
-        gles_glBindTexture(GL_TEXTURE_2D, glstate.texture.bound[0]->glname);
-    if (glstate.texture.active != 0)
-        gles_glActiveTexture(GL_TEXTURE0 + glstate.texture.active);
-    if (glstate.texture.client != 0)
-        gles_glClientActiveTexture(GL_TEXTURE0 + glstate.texture.client);
+    if (glstate->texture.bound[0]) 
+        gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0]->glname);
+    if (glstate->texture.active != 0)
+        gles_glActiveTexture(GL_TEXTURE0 + glstate->texture.active);
+    if (glstate->texture.client != 0)
+        gles_glClientActiveTexture(GL_TEXTURE0 + glstate->texture.client);
     
 }
 
@@ -561,11 +561,11 @@ void blitMainFBO() {
         return;
     
     // switch to texture unit 0 if needed
-    int old_tex = glstate.texture.active;
-    int old_client = glstate.texture.client;
-    if (glstate.texture.active != 0)
+    int old_tex = glstate->texture.active;
+    int old_client = glstate->texture.client;
+    if (glstate->texture.active != 0)
         glshim_glActiveTexture(GL_TEXTURE0);
-    if (glstate.texture.client != 0)
+    if (glstate->texture.client != 0)
         glshim_glClientActiveTexture(GL_TEXTURE0);
     // bind the FBO texture
     gles_glEnable(GL_TEXTURE_2D);
@@ -625,29 +625,29 @@ void blitMainFBO() {
 
 //        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
-        if(!glstate.clientstate.vertex_array) {
+        if(!glstate->clientstate.vertex_array) {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
-            glstate.clientstate.vertex_array = 1;
+            glstate->clientstate.vertex_array = 1;
         }
         gles_glVertexPointer(2, GL_FLOAT, 0, vert);
-        if(!glstate.clientstate.tex_coord_array[0]) {
+        if(!glstate->clientstate.tex_coord_array[0]) {
             gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glstate.clientstate.tex_coord_array[0] = 1;
+            glstate->clientstate.tex_coord_array[0] = 1;
         }
         gles_glTexCoordPointer(2, GL_FLOAT, 0, tex);
         for (int a=1; a <MAX_TEX; a++)
-            if(glstate.clientstate.tex_coord_array[a]) {
+            if(glstate->clientstate.tex_coord_array[a]) {
                 glshim_glClientActiveTexture(GL_TEXTURE0 + a);
                 gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate.clientstate.tex_coord_array[a] = 0;
+                glstate->clientstate.tex_coord_array[a] = 0;
             }
-        if(glstate.clientstate.color_array) {
+        if(glstate->clientstate.color_array) {
             gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate.clientstate.color_array = 0;
+            glstate->clientstate.color_array = 0;
         }
-        if(glstate.clientstate.normal_array) {
+        if(glstate->clientstate.normal_array) {
             gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate.clientstate.normal_array = 0;
+            glstate->clientstate.normal_array = 0;
         }
 
 
@@ -668,11 +668,11 @@ void blitMainFBO() {
     // put back viewport
     gles_glViewport(old_vp[0], old_vp[1], old_vp[2], old_vp[3]);
     // Put everything back
-    if (glstate.texture.bound[0]) 
-        gles_glBindTexture(GL_TEXTURE_2D, glstate.texture.bound[0]->glname);
+    if (glstate->texture.bound[0]) 
+        gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0]->glname);
     else
         gles_glBindTexture(GL_TEXTURE_2D, 0);
-    if (!glstate.enable.texture_2d[0])
+    if (!glstate->enable.texture_2d[0])
         gles_glDisable(GL_TEXTURE_2D);
     if (old_tex != 0)
         glshim_glActiveTexture(GL_TEXTURE0 + old_tex);

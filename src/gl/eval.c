@@ -6,22 +6,22 @@
 
 static inline map_state_t **get_map_pointer(GLenum target) {
     switch (target) {
-        case GL_MAP1_COLOR_4:         return &glstate.map1.color4;
-        case GL_MAP1_INDEX:           return &glstate.map1.index;
-        case GL_MAP1_TEXTURE_COORD_1: return &glstate.map1.texture1;
-        case GL_MAP1_TEXTURE_COORD_2: return &glstate.map1.texture2;
-        case GL_MAP1_TEXTURE_COORD_3: return &glstate.map1.texture3;
-        case GL_MAP1_TEXTURE_COORD_4: return &glstate.map1.texture4;
-        case GL_MAP1_VERTEX_3:        return &glstate.map1.vertex3;
-        case GL_MAP1_VERTEX_4:        return &glstate.map1.vertex4;
-        case GL_MAP2_COLOR_4:         return &glstate.map2.color4;
-        case GL_MAP2_INDEX:           return &glstate.map2.index;
-        case GL_MAP2_TEXTURE_COORD_1: return &glstate.map2.texture1;
-        case GL_MAP2_TEXTURE_COORD_2: return &glstate.map2.texture2;
-        case GL_MAP2_TEXTURE_COORD_3: return &glstate.map2.texture3;
-        case GL_MAP2_TEXTURE_COORD_4: return &glstate.map2.texture4;
-        case GL_MAP2_VERTEX_3:        return &glstate.map2.vertex3;
-        case GL_MAP2_VERTEX_4:        return &glstate.map2.vertex4;
+        case GL_MAP1_COLOR_4:         return &glstate->map1.color4;
+        case GL_MAP1_INDEX:           return &glstate->map1.index;
+        case GL_MAP1_TEXTURE_COORD_1: return &glstate->map1.texture1;
+        case GL_MAP1_TEXTURE_COORD_2: return &glstate->map1.texture2;
+        case GL_MAP1_TEXTURE_COORD_3: return &glstate->map1.texture3;
+        case GL_MAP1_TEXTURE_COORD_4: return &glstate->map1.texture4;
+        case GL_MAP1_VERTEX_3:        return &glstate->map1.vertex3;
+        case GL_MAP1_VERTEX_4:        return &glstate->map1.vertex4;
+        case GL_MAP2_COLOR_4:         return &glstate->map2.color4;
+        case GL_MAP2_INDEX:           return &glstate->map2.index;
+        case GL_MAP2_TEXTURE_COORD_1: return &glstate->map2.texture1;
+        case GL_MAP2_TEXTURE_COORD_2: return &glstate->map2.texture2;
+        case GL_MAP2_TEXTURE_COORD_3: return &glstate->map2.texture3;
+        case GL_MAP2_TEXTURE_COORD_4: return &glstate->map2.texture4;
+        case GL_MAP2_VERTEX_3:        return &glstate->map2.vertex3;
+        case GL_MAP2_VERTEX_4:        return &glstate->map2.vertex4;
         default:
             printf("libGL: unknown glMap target 0x%x\n", target);
     }
@@ -38,13 +38,13 @@ static inline map_state_t **get_map_pointer(GLenum target) {
 #define case_state(dims, magic, name)                           \
     case magic: {                                               \
         map->width = get_map_width(magic);                      \
-        map_statef_t *m = (map_statef_t *)glstate.map##dims.name; \
+        map_statef_t *m = (map_statef_t *)glstate->map##dims.name; \
         if (m) {                                                \
             if (m->free)                                        \
                 free((void *)m->points);                        \
             free(m);                                            \
         }                                                       \
-        glstate.map##dims.name = (map_state_t *)map;              \
+        glstate->map##dims.name = (map_state_t *)map;              \
         break;                                                  \
     }
 
@@ -110,7 +110,7 @@ void glshim_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
 #undef map_switch
 
 #define p_map(d, name, func, code) {                  \
-    map_state_t *_map = glstate.map##d.name;          \
+    map_state_t *_map = glstate->map##d.name;          \
     if (_map) {                                       \
         if (_map->type == GL_DOUBLE) {                \
             map_stated_t *map = (map_stated_t *)_map; \
@@ -161,10 +161,10 @@ void glshim_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     noerrorShim();
     // TODO: double support?
     map_statef_t *map;
-    if (! glstate.map_grid)
-        glstate.map_grid = malloc(sizeof(map_statef_t));
+    if (! glstate->map_grid)
+        glstate->map_grid = malloc(sizeof(map_statef_t));
 
-    map = (map_statef_t *)glstate.map_grid;
+    map = (map_statef_t *)glstate->map_grid;
     map->dims = 1;
     map->u.n = un;
     map->u._1 = u1;
@@ -176,10 +176,10 @@ void glshim_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
     noerrorShim();
     // TODO: double support?
     map_statef_t *map;
-    if (! glstate.map_grid)
-        glstate.map_grid = malloc(sizeof(map_statef_t));
+    if (! glstate->map_grid)
+        glstate->map_grid = malloc(sizeof(map_statef_t));
 
-    map = (map_statef_t *)glstate.map_grid;
+    map = (map_statef_t *)glstate->map_grid;
     map->dims = 2;
     map->u.n = un;
     map->u._1 = u1;
@@ -190,10 +190,10 @@ void glshim_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
 }
 
 static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
-    if (glstate.map2.vertex4) {
-        *map = (map_statef_t *)glstate.map2.vertex4;
-    } else if (glstate.map2.vertex3) {
-        *map = (map_statef_t *)glstate.map2.vertex3;
+    if (glstate->map2.vertex4) {
+        *map = (map_statef_t *)glstate->map2.vertex4;
+    } else if (glstate->map2.vertex3) {
+        *map = (map_statef_t *)glstate->map2.vertex3;
     } else {
         return 0;
     }

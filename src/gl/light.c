@@ -3,7 +3,7 @@
 #ifndef USE_ES2
 void glshim_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
-    if (glstate.list.compiling && glstate.list.active) {
+    if (glstate->list.compiling && glstate->list.active) {
 		GLfloat dummy[4];
 		dummy[0]=param;
 		glshim_glLightModelfv(pname, dummy);
@@ -25,13 +25,13 @@ void glshim_glLightModelf(GLenum pname, GLfloat param) {
 
 void glshim_glLightModelfv(GLenum pname, const GLfloat* params) {
 //printf("%sglLightModelfv(%04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", pname, params[0], params[1], params[2], params[3]);
-    if (glstate.list.compiling && glstate.list.active) {
-		NewStage(glstate.list.active, STAGE_LIGHTMODEL);
-/*		if (glstate.list.active->lightmodel)
-			glstate.list.active = extend_renderlist(glstate.list.active);*/
-		glstate.list.active->lightmodelparam = pname;
-		glstate.list.active->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
-		memcpy(glstate.list.active->lightmodel, params, 4*sizeof(GLfloat));
+    if (glstate->list.compiling && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_LIGHTMODEL);
+/*		if (glstate->list.active->lightmodel)
+			glstate->list.active = extend_renderlist(glstate->list.active);*/
+		glstate->list.active->lightmodelparam = pname;
+		glstate->list.active->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
+		memcpy(glstate->list.active->lightmodel, params, 4*sizeof(GLfloat));
         noerrorShim();
 		return;
 	}
@@ -50,10 +50,10 @@ void glshim_glLightModelfv(GLenum pname, const GLfloat* params) {
 }
 
 void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
-//printf("%sglLightfv(%04X, %04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", light, pname, params[0], params[1], params[2], params[3]);
-    if (glstate.list.compiling && glstate.list.active) {
-		NewStage(glstate.list.active, STAGE_LIGHT);
-		rlLightfv(glstate.list.active, light, pname, params);
+//printf("%sglLightfv(%04X, %04X, %p=[%.2f, %.2f, %.2f, %.2f])\n", (glstate->list.compiling)?"list":"", light, pname, params, (params)?params[0]:0.0f, (params)?params[1]:0.0f, (params)?params[2]:0.0f, (params)?params[3]:0.0f);
+    if (glstate->list.compiling && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_LIGHT);
+		rlLightfv(glstate->list.active, light, pname, params);
         noerrorShim();
 		return;
 	}

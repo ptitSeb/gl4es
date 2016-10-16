@@ -8,6 +8,9 @@
 #include "buffers.h"
 #include "queries.h"
 
+typedef struct _glstack_t glstack_t;
+typedef struct _glclientstack_t glclientstack_t;
+
 typedef struct {
     GLboolean line_stipple,
               auto_normal,
@@ -165,6 +168,9 @@ typedef struct {
     statebatch_t statebatch;
     clientstate_t clientstate;
     khash_t(queries) *queries;
+    glstack_t *stack;
+    glclientstack_t *clientStack;
+    int shared_cnt;
 } glstate_t;
 
 #endif

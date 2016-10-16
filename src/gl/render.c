@@ -2,31 +2,31 @@
 
 void push_hit() {
     // push current hit to hit list, and re-init current hit
-    if (glstate.selectbuf.hit) {
-        if (!glstate.selectbuf.overflow) {
-            if (glstate.selectbuf.zmin<0.0f) glstate.selectbuf.zmin=0.0f;   // not really normalized...
-            if (glstate.selectbuf.zmax>1.0f) glstate.selectbuf.zmax=1.0f;   // TODO, normalize for good?
-            int tocopy = glstate.namestack.top + 3;
-            if (tocopy+glstate.selectbuf.pos > glstate.selectbuf.size) {
-                glstate.selectbuf.overflow = 1;
-                tocopy = glstate.selectbuf.size - glstate.selectbuf.pos;
+    if (glstate->selectbuf.hit) {
+        if (!glstate->selectbuf.overflow) {
+            if (glstate->selectbuf.zmin<0.0f) glstate->selectbuf.zmin=0.0f;   // not really normalized...
+            if (glstate->selectbuf.zmax>1.0f) glstate->selectbuf.zmax=1.0f;   // TODO, normalize for good?
+            int tocopy = glstate->namestack.top + 3;
+            if (tocopy+glstate->selectbuf.pos > glstate->selectbuf.size) {
+                glstate->selectbuf.overflow = 1;
+                tocopy = glstate->selectbuf.size - glstate->selectbuf.pos;
             }
             if(tocopy>0)
-                glstate.selectbuf.buffer[glstate.selectbuf.pos+0] = glstate.namestack.top;
+                glstate->selectbuf.buffer[glstate->selectbuf.pos+0] = glstate->namestack.top;
             if(tocopy>1)
-                glstate.selectbuf.buffer[glstate.selectbuf.pos+1] = (unsigned int)(glstate.selectbuf.zmin * INT_MAX );
+                glstate->selectbuf.buffer[glstate->selectbuf.pos+1] = (unsigned int)(glstate->selectbuf.zmin * INT_MAX );
             if(tocopy>2)
-                glstate.selectbuf.buffer[glstate.selectbuf.pos+2] = (unsigned int)(glstate.selectbuf.zmax * INT_MAX );
+                glstate->selectbuf.buffer[glstate->selectbuf.pos+2] = (unsigned int)(glstate->selectbuf.zmax * INT_MAX );
             if(tocopy>3)
-                memcpy(glstate.selectbuf.buffer + glstate.selectbuf.pos + 3, glstate.namestack.names, (tocopy-3) * sizeof(GLuint));
+                memcpy(glstate->selectbuf.buffer + glstate->selectbuf.pos + 3, glstate->namestack.names, (tocopy-3) * sizeof(GLuint));
 
-            glstate.selectbuf.count++;
-            glstate.selectbuf.pos += tocopy;
+            glstate->selectbuf.count++;
+            glstate->selectbuf.pos += tocopy;
         }
-        glstate.selectbuf.hit = 0;
+        glstate->selectbuf.hit = 0;
     }
-    glstate.selectbuf.zmin = 1.0f;
-    glstate.selectbuf.zmax = 0.0f;
+    glstate->selectbuf.zmin = 1.0f;
+    glstate->selectbuf.zmax = 0.0f;
 }
 
 
@@ -38,83 +38,83 @@ GLint glshim_glRenderMode(GLenum mode) {
         errorShim(GL_INVALID_ENUM);
         return 0;
     }
-	if (glstate.render_mode == GL_SELECT) {
+	if (glstate->render_mode == GL_SELECT) {
         push_hit();
-		ret = glstate.selectbuf.count;
+		ret = glstate->selectbuf.count;
     }
 	if (mode == GL_SELECT) {
-		if (glstate.selectbuf.buffer == NULL)	{// error, cannot use Select Mode without select buffer
+		if (glstate->selectbuf.buffer == NULL)	{// error, cannot use Select Mode without select buffer
             errorShim(GL_INVALID_OPERATION);
 			return 0;
         }
-		glstate.selectbuf.count = 0;
-        glstate.selectbuf.pos = 0;
-        glstate.selectbuf.overflow = 0;
-        glstate.selectbuf.zmin = 1.0f;
-        glstate.selectbuf.zmax = 0.0f;
-        glstate.selectbuf.hit = 0;
+		glstate->selectbuf.count = 0;
+        glstate->selectbuf.pos = 0;
+        glstate->selectbuf.overflow = 0;
+        glstate->selectbuf.zmin = 1.0f;
+        glstate->selectbuf.zmax = 0.0f;
+        glstate->selectbuf.hit = 0;
 	}
     
-    if((mode==GL_SELECT) && (glstate.gl_batch)) {
-        glstate.gl_batch = 0;
+    if((mode==GL_SELECT) && (glstate->gl_batch)) {
+        glstate->gl_batch = 0;
         flush();
     }
-    if((mode==GL_RENDER) && (glstate.gl_batch==0) && (gl_batch==1)) {
-        glstate.gl_batch = 1;
+    if((mode==GL_RENDER) && (glstate->gl_batch==0) && (gl_batch==1)) {
+        glstate->gl_batch = 1;
         flush();
     }
     
-	glstate.render_mode = mode;
+	glstate->render_mode = mode;
 	return ret;
 }
 
 void glshim_glInitNames() {
-	if (glstate.namestack.names == 0) {
-		glstate.namestack.names = (GLuint*)malloc(1024*sizeof(GLuint));
+	if (glstate->namestack.names == 0) {
+		glstate->namestack.names = (GLuint*)malloc(1024*sizeof(GLuint));
 	}
-	glstate.namestack.top = 0;
+	glstate->namestack.top = 0;
     noerrorShim();
 }
 
 void glshim_glPopName() {
     noerrorShim();
-	if (glstate.render_mode != GL_SELECT)
+	if (glstate->render_mode != GL_SELECT)
 		return;
     push_hit();
-	if (glstate.namestack.top>0)
-		glstate.namestack.top--;
+	if (glstate->namestack.top>0)
+		glstate->namestack.top--;
     else
         errorShim(GL_STACK_UNDERFLOW);
 }
 
 void glshim_glPushName(GLuint name) {
     noerrorShim();
-	if (glstate.render_mode != GL_SELECT)
+	if (glstate->render_mode != GL_SELECT)
 		return;
-	if (glstate.namestack.names==0)
+	if (glstate->namestack.names==0)
 		return;
     push_hit();
-	if (glstate.namestack.top < 1024) {
-		glstate.namestack.names[glstate.namestack.top++] = name;
+	if (glstate->namestack.top < 1024) {
+		glstate->namestack.names[glstate->namestack.top++] = name;
 	}
 }
 
 void glshim_glLoadName(GLuint name) {
     noerrorShim();
-	if (glstate.render_mode != GL_SELECT)
+	if (glstate->render_mode != GL_SELECT)
 		return;
-	if (glstate.namestack.names == 0)
+	if (glstate->namestack.names == 0)
 		return;
     push_hit();
-    if (glstate.namestack.top == 0)
+    if (glstate->namestack.top == 0)
         return;
-	glstate.namestack.names[glstate.namestack.top-1] = name;
+	glstate->namestack.names[glstate->namestack.top-1] = name;
 }
 
 void glshim_glSelectBuffer(GLsizei size, GLuint *buffer) {
     noerrorShim();
-	glstate.selectbuf.buffer = buffer;
-	glstate.selectbuf.size = size;
+	glstate->selectbuf.buffer = buffer;
+	glstate->selectbuf.size = size;
 }
 
 GLfloat projection[16], modelview[16];
@@ -221,7 +221,7 @@ GLboolean select_triangle_in_viewscreen(const GLfloat *a, const GLfloat *b, cons
 void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, GLuint count) {
 	if (count == 0) return;
 	if (vtx->pointer == NULL) return;
-	if (glstate.selectbuf.buffer == NULL) return;
+	if (glstate->selectbuf.buffer == NULL) return;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
 			GL_FLOAT, 4, 0, count+first);
@@ -229,9 +229,9 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 	init_select();
 
 	#define FOUND()	{ 		\
-		if (zmin<glstate.selectbuf.zmin) 	glstate.selectbuf.zmin=zmin;	\
-		if (zmax>glstate.selectbuf.zmax) 	glstate.selectbuf.zmax=zmax;	\
-		glstate.selectbuf.hit = 1;                        \
+		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;	\
+		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;	\
+		glstate->selectbuf.hit = 1;                        \
         free(vert);         \
         return;                                         \
 		}
@@ -311,9 +311,9 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 	if (zmax>1.0f) zmax = 1.0f;
 
 	#define FOUND()	{ 		\
-		if (zmin<glstate.selectbuf.zmin) 	glstate.selectbuf.zmin=zmin;	\
-		if (zmax>glstate.selectbuf.zmax) 	glstate.selectbuf.zmax=zmax;	\
-		glstate.selectbuf.hit = 1; \
+		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;	\
+		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;	\
+		glstate->selectbuf.hit = 1; \
         free(vert);              \
         return;                  \
 		}

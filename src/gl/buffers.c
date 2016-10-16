@@ -8,16 +8,16 @@ static GLuint lastbuffer = 1;
 glbuffer_t** BUFF(GLenum target) {
  switch(target) {
      case GL_ARRAY_BUFFER:
-        return &glstate.vao->vertex;
+        return &glstate->vao->vertex;
         break;
      case GL_ELEMENT_ARRAY_BUFFER:
-        return &glstate.vao->elements;
+        return &glstate->vao->elements;
         break;
      case GL_PIXEL_PACK_BUFFER:
-        return &glstate.vao->pack;
+        return &glstate->vao->pack;
         break;
      case GL_PIXEL_UNPACK_BUFFER:
-        return &glstate.vao->unpack;
+        return &glstate->vao->unpack;
         break;
      default:
        printf("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
@@ -68,15 +68,15 @@ void glshim_glGenBuffers(GLsizei n, GLuint * buffers) {
 
 void glshim_glBindBuffer(GLenum target, GLuint buffer) {
 //printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
 
    	khint_t k;
    	int ret;
-	khash_t(buff) *list = glstate.buffers;
+	khash_t(buff) *list = glstate->buffers;
 	if (! list) {
-		list = glstate.buffers = kh_init(buff);
+		list = glstate->buffers = kh_init(buff);
 		// segfaults if we don't do a single put
 		kh_put(buff, list, 1, &ret);
 		kh_del(buff, list, 1);
@@ -153,11 +153,11 @@ void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, con
 
 void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 //printf("glDeleteBuffers(%i, %p)\n", n, buffers);
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
 
-	khash_t(buff) *list = glstate.buffers;
+	khash_t(buff) *list = glstate->buffers;
     if (list) {
         khint_t k;
         glbuffer_t *buff;
@@ -167,14 +167,14 @@ void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
                 k = kh_get(buff, list, t);
                 if (k != kh_end(list)) {
                     buff = kh_value(list, k);
-                    if (glstate.vao->vertex == buff)
-                        glstate.vao->vertex = NULL;
-                    if (glstate.vao->elements == buff)
-                        glstate.vao->elements = NULL;
-                    if (glstate.vao->pack == buff)
-                        glstate.vao->pack = NULL;
-                    if (glstate.vao->unpack == buff)
-                        glstate.vao->unpack = NULL;
+                    if (glstate->vao->vertex == buff)
+                        glstate->vao->vertex = NULL;
+                    if (glstate->vao->elements == buff)
+                        glstate->vao->elements = NULL;
+                    if (glstate->vao->pack == buff)
+                        glstate->vao->pack = NULL;
+                    if (glstate->vao->unpack == buff)
+                        glstate->vao->unpack = NULL;
                     if (buff->data) free(buff->data);
                     kh_del(buff, list, k);
                     free(buff);
@@ -187,7 +187,7 @@ void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 
 GLboolean glshim_glIsBuffer(GLuint buffer) {
 //printf("glIsBuffer(%u)\n", buffer);
-	khash_t(buff) *list = glstate.buffers;
+	khash_t(buff) *list = glstate->buffers;
 	khint_t k;
 	noerrorShim();
     if (list) {
@@ -349,15 +349,15 @@ void glshim_glGenVertexArrays(GLsizei n, GLuint *arrays) {
 }
 void glshim_glBindVertexArray(GLuint array) {
 //printf("glBindVertexArray(%u)\n", array);
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
 
    	khint_t k;
    	int ret;
-	khash_t(glvao) *list = glstate.vaos;
+	khash_t(glvao) *list = glstate->vaos;
 	if (! list) {
-		list = glstate.vaos = kh_init(glvao);
+		list = glstate->vaos = kh_init(glvao);
 		// segfaults if we don't do a single put
 		kh_put(glvao, list, 1, &ret);
 		kh_del(glvao, list, 1);
@@ -365,7 +365,7 @@ void glshim_glBindVertexArray(GLuint array) {
     // if array = 0 => unbind buffer!
     if (array == 0) {
         // unbind buffer
-        glstate.vao = glstate.defaultvao;
+        glstate->vao = glstate->defaultvao;
     } else {
         // search for an existing buffer
         k = kh_get(glvao, list, array);
@@ -376,10 +376,10 @@ void glshim_glBindVertexArray(GLuint array) {
             // new vao is binded to nothing
             memset(glvao, 0, sizeof(glvao_t));
             /*
-            glstate.vao->vertex = glstate.defaultvbo;
-            glstate.vao->elements = glstate.defaultvbo;
-            glstate.vao->pack = glstate.defaultvbo;
-            glstate.vao->unpack = glstate.defaultvbo;
+            glstate->vao->vertex = glstate->defaultvbo;
+            glstate->vao->elements = glstate->defaultvbo;
+            glstate->vao->pack = glstate->defaultvbo;
+            glstate->vao->unpack = glstate->defaultvbo;
             */
 
             // just put is number
@@ -387,16 +387,16 @@ void glshim_glBindVertexArray(GLuint array) {
         } else {
             glvao = kh_value(list, k);
         }
-        glstate.vao = glvao;
+        glstate->vao = glvao;
     }
     noerrorShim();
 }
 void glshim_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 //printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);
-    if (glstate.gl_batch) {
+    if (glstate->gl_batch) {
          flush();
     }
-	khash_t(glvao) *list = glstate.vaos;
+	khash_t(glvao) *list = glstate->vaos;
     if (list) {
         khint_t k;
         glvao_t *glvao;
@@ -416,7 +416,7 @@ void glshim_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 }
 GLboolean glshim_glIsVertexArray(GLuint array) {
 //printf("glIsVertexArray(%u)\n", array);
-	khash_t(glvao) *list = glstate.vaos;
+	khash_t(glvao) *list = glstate->vaos;
 	khint_t k;
 	noerrorShim();
     if (list) {
