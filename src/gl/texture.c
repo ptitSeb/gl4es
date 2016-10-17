@@ -1528,7 +1528,11 @@ void popViewport();
 
 
 void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
-    if (glstate->gl_batch) flush();
+     GLuint old_glbatch = glstate->gl_batch;
+     if (glstate->gl_batch) {
+         flush();
+         glstate->gl_batch = 0;
+     }
 	if (glstate->texture.bound[glstate->texture.active]==NULL)
 		return;		// no texture bounded...
 	gltexture_t* bound = glstate->texture.bound[glstate->texture.active];
@@ -1548,11 +1552,16 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
         }
         memcpy(img, tmp, width*height*pixel_sizeof(format, type));
         free(tmp);
+        if (old_glbatch)
+            glstate->gl_batch=old_glbatch;
         return;
 	}
 	
-	if (target!=GL_TEXTURE_2D)
+	if (target!=GL_TEXTURE_2D) {
+        if (old_glbatch)
+            glstate->gl_batch=old_glbatch;
 		return;
+    }
 
     //printf("glGetTexImage(%s, %i, %s, %s, 0x%p), texture=0x%x, size=%i,%i\n", PrintEnum(target), level, PrintEnum(format), PrintEnum(type), img, bound->glname, width, height);
 	
@@ -1564,6 +1573,8 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
         noerrorShim();
         pixel_convert(GetStreamingBuffer(bound->streamingID), &dst, width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, format, type, 0);
         readfboEnd();
+        if (old_glbatch)
+            glstate->gl_batch=old_glbatch;
         return;
     }
 #endif
@@ -1706,6 +1717,8 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
             noerrorShim();
         }
 	}
+    if (old_glbatch)
+        glstate->gl_batch=old_glbatch;
 }
 
 void glshim_glActiveTexture( GLenum texture ) {
