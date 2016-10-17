@@ -1381,15 +1381,12 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("glshim_
 void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-                glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
-                glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
-            }
+            glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
+            glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
+            glstate->list.active->lastColorsSet = 1;
             PUSH_IF_COMPILING(glColor4f);
         }
         rlColor4f(glstate->list.active, red, green, blue, alpha);
-        glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
-        glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
         noerrorShim();
     }
 #ifndef USE_ES2

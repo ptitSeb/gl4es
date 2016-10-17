@@ -432,6 +432,11 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // lenghts
     a->len += b->len;
     a->ilen += ilen_b;
+    // copy the lastColors if needed
+    if(b->lastColorsSet) {
+        a->lastColorsSet = 1;
+        memcpy(a->lastColors, b->lastColors, 4*sizeof(GLfloat));
+    }
     //all done
     a->stage = STAGE_DRAW;  // just in case
     return;
@@ -448,7 +453,6 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         // just in case
         memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
-        memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
         // detach
         list->prev = NULL;
         // free list now
@@ -463,6 +467,7 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
         memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
+        new->lastColorsSet = list->lastColorsSet;
         return new;
     }
 }
@@ -1212,6 +1217,7 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 
 void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (list->color == NULL) {
+        list->lastColorsSet = 1;
         list->color = alloc_sublist(4, list->cap);
         // catch up
         int i;
@@ -1226,6 +1232,7 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 
     GLfloat *color = glstate->color;
     color[0] = r; color[1] = g; color[2] = b; color[3] = a;
+    memcpy(list->lastColors, color, 4*sizeof(GLfloat));
 }
 
 void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {

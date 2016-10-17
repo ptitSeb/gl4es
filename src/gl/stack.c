@@ -255,6 +255,11 @@ void glshim_glPushAttrib(GLbitfield mask) {
 
 void glshim_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
+     GLuint old_glbatch = glstate->gl_batch;
+     if (glstate->gl_batch) {
+         flush();
+         glstate->gl_batch = 0;
+     }
     if (glstate->clientStack == NULL) {
         glstate->clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
         glstate->clientStack->len = 0;
@@ -292,6 +297,7 @@ void glshim_glPushClientAttrib(GLbitfield mask) {
     }
 
     glstate->clientStack->len++;
+    glstate->gl_batch=old_glbatch;
 }
 
 #define maybe_free(x) \
@@ -529,6 +535,11 @@ void glshim_glPopAttrib() {
 
 void glshim_glPopClientAttrib() {
     noerrorShim();
+     GLuint old_glbatch = glstate->gl_batch;
+     if (glstate->gl_batch) {
+         flush();
+         glstate->gl_batch = 0;
+     }
 	//LOAD_GLES(glVertexPointer);
 	//LOAD_GLES(glColorPointer);
 	//LOAD_GLES(glNormalPointer);
@@ -572,6 +583,7 @@ void glshim_glPopClientAttrib() {
     }
 
     glstate->clientStack->len--;
+    glstate->gl_batch = old_glbatch;
 }
 
 #undef maybe_free

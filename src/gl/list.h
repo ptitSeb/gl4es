@@ -97,6 +97,8 @@ typedef struct _renderlist_t {
     GLfloat lastColors[4];
     GLfloat lastSecondaryColors[4];
 
+    int lastColorsSet;
+
     int*        shared_calls;
     call_list_t calls;
     
