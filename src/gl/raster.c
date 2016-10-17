@@ -74,6 +74,17 @@ void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     viewport.height = height;
 }
 
+// hacky viewport temporary changes
+void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+    LOAD_GLES(glViewport);
+    gles_glViewport(x, y, width, height);
+}
+void popViewport() {
+    LOAD_GLES(glViewport);
+    gles_glViewport(viewport.x, viewport.y, viewport.width, viewport.height);
+}
+
+
 void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         NewStage(glstate->list.active, STAGE_RASTER);

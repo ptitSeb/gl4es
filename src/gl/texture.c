@@ -265,7 +265,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     if (is_fake_compressed_rgba(intermediaryformat)) intermediaryformat=GL_RGBA;
     if (is_fake_compressed_rgb(internalformat)) internalformat=GL_RGB;
     if (is_fake_compressed_rgba(internalformat)) internalformat=GL_RGBA;
-    
+
     if(*format != intermediaryformat || intermediaryformat!=internalformat) {
         internal2format_type(intermediaryformat, &dest_format, &dest_type);
         convert = true;
@@ -275,7 +275,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 			GLvoid *pixels = (GLvoid *)data;
 			if (! pixel_convert(data, &pixels, width, height,
 								*format, *type, dest_format, dest_type, 0)) {
-				printf("libGL swizzle error: (%s, %s -> %s, %s)\n",
+				printf("LIBGL: swizzle error: (%s, %s -> %s, %s)\n",
 					PrintEnum(*format), PrintEnum(*type), PrintEnum(dest_format), PrintEnum(dest_type));
 				return NULL;
 			}
@@ -286,7 +286,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 internal2format_type(internalformat, &dest_format, &dest_type);
                 if (! pixel_convert(pixels, &pix2, width, height,
                                     *format, *type, dest_format, dest_type, 0)) {
-                    printf("libGL swizzle error: (%s, %s -> %s, %s)\n",
+                    printf("LIBGL: swizzle error: (%s, %s -> %s, %s)\n",
                         PrintEnum(dest_format), PrintEnum(dest_type), PrintEnum(internalformat), PrintEnum(dest_type));
                     return NULL;
                 }
@@ -302,7 +302,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 			if (raster_need_transform())
 				if (!pixel_transform(data, &pixels, width, height,
 								*format, *type, raster_scale, raster_bias)) {
-					printf("libGL swizzle/convert error: (%s, %s -> %s, %s)\n",
+					printf("LIBGL: swizzle/convert error: (%s, %s -> %s, %s)\n",
 						PrintEnum(*format), PrintEnum(*type), PrintEnum(dest_format), PrintEnum(dest_type));
 					pix2 = pixels;
 				}
@@ -1522,6 +1522,10 @@ void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, G
 }
 
 extern GLuint current_fb;   // from framebuffers.c
+// hacky viewport temporary changes
+void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+void popViewport();
+
 
 void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
     if (glstate->gl_batch) flush();
@@ -1550,7 +1554,7 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
 	if (target!=GL_TEXTURE_2D)
 		return;
 
-    //printf("glGetTexImage(0x%04X, %i, 0x%04X, 0x%04X, 0x%p), texture=%u, size=%i,%i\n", target, level, format, type, img, bound->glname, width, height);
+    //printf("glGetTexImage(%s, %i, %s, %s, 0x%p), texture=0x%x, size=%i,%i\n", PrintEnum(target), level, PrintEnum(format), PrintEnum(type), img, bound->glname, width, height);
 	
 	GLvoid *dst = img;
     if (glstate->vao->pack)
@@ -1564,7 +1568,7 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
     }
 #endif
     if (texcopydata && bound->data) {
-        printf("texcopydata* glGetTexImage(0x%04X, %d, 0x%04x, 0x%04X, %p)\n", target, level, format, type, img);
+        //printf("texcopydata* glGetTexImage(0x%04X, %d, 0x%04x, 0x%04X, %p)\n", target, level, format, type, img);
         noerrorShim();
         if (!pixel_convert(bound->data, &dst, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
             printf("LIBGL: Error on pixel_convert while glGetTexImage\n");
@@ -1574,14 +1578,133 @@ void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
         GLuint old_fbo = current_fb;
         GLuint fbo;
 	
-		glshim_glGenFramebuffers(1, &fbo);
-		glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
-		glshim_glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
-		// Read the pixels!
-		glshim_glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
-		glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
-        glshim_glDeleteFramebuffers(1, &fbo);
-        noerrorShim();
+        // if the texture is not RGBA or RGB or ALPHA, the "just attach texture to the fbo" trick will not work, and a full Blit has to be done
+        if(bound->format==GL_RGBA || bound->format==GL_RGB || bound->format==GL_ALPHA) {
+            glshim_glGenFramebuffers(1, &fbo);
+            glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
+            glshim_glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
+            // Read the pixels!
+            glshim_glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
+            glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
+            glshim_glDeleteFramebuffers(1, &fbo);
+            noerrorShim();
+        } else {
+            glshim_glGenFramebuffers(1, &fbo);
+            glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
+            GLuint temptex;
+            glshim_glGenTextures(1, &temptex);
+            glshim_glBindTexture(GL_TEXTURE_2D, temptex);
+            glshim_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bound->nwidth, bound->nheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+            glshim_glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, temptex, 0);
+            glshim_glBindTexture(GL_TEXTURE_2D, oldBind);
+            // blit the texture
+            // TODO: create a blitTexture function (to be used in raster too)
+            LOAD_GLES(glEnableClientState);
+            LOAD_GLES(glDisableClientState);
+            LOAD_GLES(glVertexPointer);
+            LOAD_GLES(glTexCoordPointer);
+            LOAD_GLES(glDrawArrays);
+            LOAD_GLES(glBindTexture);
+            LOAD_GLES(glActiveTexture);
+            LOAD_GLES(glClientActiveTexture);
+            glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+            GLfloat old_projection[16], old_modelview[16], old_texture[16];
+
+            glshim_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glshim_glClear(GL_COLOR_BUFFER_BIT);
+
+            GLuint old_tex = glstate->texture.active;
+            if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
+            GLuint old_cli = glstate->texture.client;
+            if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
+            glshim_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
+            glshim_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
+            glshim_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
+            glshim_glMatrixMode(GL_TEXTURE);
+            glshim_glLoadIdentity();
+            glshim_glMatrixMode(GL_PROJECTION);
+            glshim_glLoadIdentity();
+            glshim_glMatrixMode(GL_MODELVIEW);
+            glshim_glLoadIdentity();
+
+            pushViewport(0,0,bound->nwidth, bound->nheight);
+            float w2 = 2.0f / bound->nwidth;
+            float h2 = 2.0f / bound->nheight;
+            float blit_x1=0;
+            float blit_x2=bound->nwidth;
+            float blit_y1=0;
+            float blit_y2=bound->nheight;
+            GLfloat blit_vert[] = {
+                blit_x1*w2-1.0f, blit_y1*h2-1.0f,
+                blit_x2*w2-1.0f, blit_y1*h2-1.0f,
+                blit_x2*w2-1.0f, blit_y2*h2-1.0f,
+                blit_x1*w2-1.0f, blit_y2*h2-1.0f
+            };
+            GLfloat blit_tex[] = {
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1
+            };
+
+            glshim_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
+
+            glshim_glDisable(GL_DEPTH_TEST);
+            glshim_glDisable(GL_LIGHTING);
+            glshim_glDisable(GL_CULL_FACE);
+            glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            glshim_glEnable(GL_TEXTURE_2D);
+            gles_glBindTexture(GL_TEXTURE_2D, oldBind);
+            glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+            if(!glstate->clientstate.vertex_array) 
+            {
+                gles_glEnableClientState(GL_VERTEX_ARRAY);
+                glstate->clientstate.vertex_array = 1;
+            }
+            gles_glVertexPointer(2, GL_FLOAT, 0, blit_vert);
+            if(!glstate->clientstate.tex_coord_array[0]) 
+            {
+                gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                glstate->clientstate.tex_coord_array[0] = 1;
+            }
+            gles_glTexCoordPointer(2, GL_FLOAT, 0, blit_tex);
+            for (int a=1; a <MAX_TEX; a++)
+                if(glstate->clientstate.tex_coord_array[a]) {
+                    gles_glClientActiveTexture(GL_TEXTURE0 + a);
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                    glstate->clientstate.tex_coord_array[a] = 0;
+                    gles_glClientActiveTexture(GL_TEXTURE0);
+                }
+            if(glstate->clientstate.color_array) {
+                gles_glDisableClientState(GL_COLOR_ARRAY);
+                glstate->clientstate.color_array = 0;
+            }
+            if(glstate->clientstate.normal_array) {
+                gles_glDisableClientState(GL_NORMAL_ARRAY);
+                glstate->clientstate.normal_array = 0;
+            }
+            gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+            // All the previous states are Pushed / Poped anyway...
+            if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
+            if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
+            glshim_glPopClientAttrib();
+            glshim_glMatrixMode(GL_TEXTURE);
+            glshim_glLoadMatrixf(old_texture);
+            glshim_glMatrixMode(GL_MODELVIEW);
+            glshim_glLoadMatrixf(old_modelview);
+            glshim_glMatrixMode(GL_PROJECTION);
+            glshim_glLoadMatrixf(old_projection);
+            glshim_glPopAttrib();
+            // Read the pixels!
+            glshim_glReadPixels(0, 0, width, height, format, type, img);	// using "full" version with conversion of format/type
+            glshim_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
+            glshim_glDeleteFramebuffers(1, &fbo);
+            glshim_glDeleteTextures(1, &temptex);
+            popViewport();
+            noerrorShim();
+        }
 	}
 }
 
@@ -1657,8 +1780,8 @@ void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum
     gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &dst, width, height,
 					    GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0)) {
-        printf("libGL ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %#4x, %#4x )\n",
-            format, type);
+        printf("LIBGL: ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %s, %s )\n",
+            PrintEnum(format), PrintEnum(type));
     }
     free(pixels);
     readfboEnd();

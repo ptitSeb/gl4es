@@ -18,7 +18,7 @@ static const colorlayout_t *get_color_map(GLenum format) {
 		map(GL_LUMINANCE, 0, 0, 0, -1);
 		map(GL_ALPHA,-1, -1, -1, 0);
         default:
-            printf("libGL: unknown pixel format %s\n", PrintEnum(format));
+            printf("LIBGL: unknown pixel format %s\n", PrintEnum(format));
             break;
     }
     static colorlayout_t null = {0};
@@ -126,7 +126,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: Unsupported source data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: Unsupported source data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -179,7 +179,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
                  (((GLushort)(color[3] * 15.0) & 0x0f));
         )
         default:
-            printf("libGL: Unsupported target data type: %s\n", PrintEnum(dst_type));
+            printf("LIBGL: Unsupported target data type: %s\n", PrintEnum(dst_type));
             return false;
             break;
     }
@@ -279,7 +279,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: transform_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: transform_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -327,7 +327,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
                  ((GLushort)(color[0] * 15.0f) & 0x0f);
         )
         default:
-            printf("libGL: Unsupported target data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: Unsupported target data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -457,7 +457,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: half_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: half_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -505,7 +505,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
                  ((GLushort)(color[3] * 15.0f) & 0x0f);
         )
         default:
-            printf("libGL: half_pixel: Unsupported target data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: half_pixel: Unsupported target data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -611,7 +611,7 @@ bool quarter_pixel(const GLvoid *src[16],
         )
         default:
             // TODO: add glSetError?
-            printf("libGL: quarter_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: quarter_pixel: Unsupported source data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
@@ -647,7 +647,7 @@ bool quarter_pixel(const GLvoid *src[16],
                  ((GLushort)(color[3] * 15.0) & 0x0f);
         )
         default:
-            printf("libGL: quarter_pixel Unsupported target data type: %s\n", PrintEnum(src_type));
+            printf("LIBGL: quarter_pixel Unsupported target data type: %s\n", PrintEnum(src_type));
             return false;
             break;
     }
