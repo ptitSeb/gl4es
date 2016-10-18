@@ -313,6 +313,7 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
 }
 
 void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture, GLushort *indices, GLuint ilen) {
+//printf("gen_tex_coords(%p, %p, %p, %d, %p, %d, %p, %d) texgen = S:%s T:%s R:%s\n", verts, norm, *coords, count, needclean, texture, indices, ilen, (glstate->enable.texgen_s[texture])?PrintEnum(glstate->texgen[texture].S):"-", (glstate->enable.texgen_t[texture])?PrintEnum(glstate->texgen[texture].T):"-", (glstate->enable.texgen_r[texture])?PrintEnum(glstate->texgen[texture].R):"-");
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
     // special case : no texgen but texture activated, create a simple 1 repeated element
@@ -405,10 +406,8 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		return;
 	if (cleancode == 1) {
 		GLuint old_tex=glstate->texture.active;
-		if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + texture);
 		LOAD_GLES(glDisable);
 		gles_glDisable(GL_TEXTURE_GEN_STR);
-		if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + old_tex);
 		return;
 	}
 }

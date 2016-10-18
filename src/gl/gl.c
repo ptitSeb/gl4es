@@ -958,16 +958,17 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			// secondary color
 			if (final_colors) {
 				free(final_colors);
-//				glColorPointer(old_color.size, old_color.type, old_color.stride, old_color.pointer);
 			}
+            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
 			for (int aa=0; aa<MAX_TEX; aa++) {
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+                    TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
             }
 			if (glstate->texture.client!=old_tex)
-				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
+				TEXTURE(old_tex);
+            #undef TEXTURE
 		}
         if(need_free)
             free(sindices);

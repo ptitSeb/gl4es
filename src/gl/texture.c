@@ -84,7 +84,7 @@ void tex_setup_texcoord(GLuint len) {
         tex[texunit] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         if (!tex[texunit]) {
             printf("LIBGL: Error with Texture tranform\n");
-            gles_glTexCoordPointer(len, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);
+            gles_glTexCoordPointer(glstate->vao->pointers.tex_coord[texunit].size, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);
             return;
         }
         // Normalize if needed
