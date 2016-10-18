@@ -920,30 +920,30 @@ void draw_renderlist(renderlist_t *list) {
 		}
     }
 	old_tex = glstate->texture.client;
+    GLuint cur_tex = old_tex;
+    #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<MAX_TEX; a++) {
 		    if ((list->tex[a] || texgened[a])/* && glstate->enable.texture_2d[a]*/) {
-                glshim_glClientActiveTexture(GL_TEXTURE0+a);
+                TEXTURE(a);
                 gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                 glstate->clientstate.tex_coord_array[a] = 1;
 		        gles_glTexCoordPointer(4, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
                 if (glstate->clientstate.tex_coord_array[a]) {
-                    glshim_glClientActiveTexture(GL_TEXTURE0+a);
+                    TEXTURE(a);
                     gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                     glstate->clientstate.tex_coord_array[a] = 0;
                 } 
 //else if (!glstate->enable.texgen_s[a] && glstate->enable.texture_2d[a]) printf("LIBGL: texture_2d[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
 			    
 		    }
-        }
-        for (int aa=0; aa<MAX_TEX; aa++) {
-            if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+            if (!glstate->enable.texture_2d[a] && (glstate->enable.texture_1d[a] || glstate->enable.texture_3d[a])) {
+                TEXTURE(a);
                 gles_glEnable(GL_TEXTURE_2D);
             }
         }
-        if (glstate->texture.client != old_tex) glshim_glClientActiveTexture(GL_TEXTURE0+old_tex);
-
+        if (glstate->texture.client != old_tex) TEXTURE(old_tex);
+    #undef TEXTURE
         GLenum mode;
         mode = list->mode;
         if ((glstate->polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))
@@ -1136,22 +1136,24 @@ void draw_renderlist(renderlist_t *list) {
                 }
             }
         }
+        #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<MAX_TEX; a++) {
-            if (needclean[a])
+            if (needclean[a]) {
+                TEXTURE(a);
                 gen_tex_clean(needclean[a], a);
+            }
 			if (texgened[a]) {
 				free(texgened[a]);
 				texgened[a] = NULL;
 			}
-		}
-        for (int aa=0; aa<MAX_TEX; aa++) {
-            if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+            if (!glstate->enable.texture_2d[a] && (glstate->enable.texture_1d[a] || glstate->enable.texture_3d[a])) {
+                TEXTURE(a);
                 gles_glDisable(GL_TEXTURE_2D);
             }
         }
         if (glstate->texture.client!=old_tex)
-            glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
+            TEXTURE(old_tex);
+        #undef TEXTURE
 
 		if (final_colors)
 			free(final_colors);

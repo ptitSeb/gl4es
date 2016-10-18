@@ -782,7 +782,7 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //printf("glDrawElements(0x%04X, %d, 0x%04X, %p), map=%p\n", mode, count, type, indices, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
+    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
@@ -905,19 +905,22 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-            for (int aa=0; aa<MAX_TEX; aa++)
-                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, glshim_glClientActiveTexture(aa+GL_TEXTURE0););
+            GLuint cur_tex = old_tex;
+            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
             for (int aa=0; aa<MAX_TEX; aa++) {
+                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+                    TEXTURE(aa);
                     gles_glEnable(GL_TEXTURE_2D);
                 }
                 if (glstate->vao->tex_coord_array[aa]) {
-                    tex_setup_texcoord(aa, len);
+                    TEXTURE(aa);
+                    tex_setup_texcoord(len);
                 }
             }
 			if (glstate->texture.client!=old_tex)
-				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
+				TEXTURE(old_tex);
+            #undef TEXTURE
 				
 			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -1067,21 +1070,24 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-			for (int aa=0; aa<MAX_TEX; aa++)
-                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, glshim_glClientActiveTexture(aa+GL_TEXTURE0););
+            GLuint cur_tex = old_tex;
+            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
             for (int aa=0; aa<MAX_TEX; aa++) {
+                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+                    TEXTURE(aa);
                     gles_glEnable(GL_TEXTURE_2D);
                 }
 				if (glstate->vao->tex_coord_array[aa]) {
-                    tex_setup_texcoord(aa, count+first);
+                    TEXTURE(aa);
+                    tex_setup_texcoord(count+first);
 					/*glClientActiveTexture(aa+GL_TEXTURE0);
 					gles_glTexCoordPointer(glstate->pointers.tex_coord[aa].size, glstate->pointers.tex_coord[aa].type, glstate->pointers.tex_coord[aa].stride, glstate->pointers.tex_coord[aa].pointer);*/
 				}
             }
 			if (glstate->texture.client!=old_tex)
-				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
+				TEXTURE(old_tex);
+            #undef TEXTURE
 
 			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;

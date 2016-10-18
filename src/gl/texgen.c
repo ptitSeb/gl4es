@@ -19,7 +19,7 @@ void glshim_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     generation function specified by pname.
     */
 
-    //printf("glTexGenfv(0x%04X, 0x%04X, [%.02f, ...]), texture=%i\n", coord, pname, param[0], glstate->texture.active);
+    //printf("glTexGenfv(%s, %s, [%s, ...]), texture=%i\n", PrintEnum(coord), PrintEnum(pname), PrintEnum(param[0]), glstate->texture.active);
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_TEXGEN);
 		rlTexGenfv(glstate->list.active, coord, pname, param);

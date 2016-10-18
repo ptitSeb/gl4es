@@ -60,9 +60,9 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
  * Or some NPOT texture used
  * Or SHRINKED texure used
  */
-void tex_setup_texcoord(GLuint texunit, GLuint len) {
+void tex_setup_texcoord(GLuint len) {
     LOAD_GLES(glTexCoordPointer);
-    GLuint old = glstate->texture.client;
+    GLuint texunit = glstate->texture.client;
     
     static void * tex[8] = {0,0,0,0,0,0,0,0};   // hugly but convenient...
     
@@ -79,14 +79,12 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
         (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)||
         (bound->shrink && (glstate->vao->pointers.tex_coord[texunit].type!=GL_FLOAT) && (glstate->vao->pointers.tex_coord[texunit].type!=GL_DOUBLE)))))
         changes = 1;
-	if (old!=texunit) glshim_glClientActiveTexture(texunit+GL_TEXTURE0);
     if (changes) {
         // first convert to GLfloat, without normalization
         tex[texunit] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         if (!tex[texunit]) {
-            printf("LibGL: Error with Texture tranform\n");
+            printf("LIBGL: Error with Texture tranform\n");
             gles_glTexCoordPointer(len, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);
-            if (old!=texunit) glshim_glClientActiveTexture(old+GL_TEXTURE0);
             return;
         }
         // Normalize if needed
@@ -99,7 +97,6 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
     } else {
         gles_glTexCoordPointer(glstate->vao->pointers.tex_coord[texunit].size, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);
     }
-	if (old!=texunit) glshim_glClientActiveTexture(old+GL_TEXTURE0);
 }
 
 int nolumalpha = 0;
