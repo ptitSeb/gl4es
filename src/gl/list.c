@@ -958,7 +958,6 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.type = GL_FLOAT;
                 vtx.size = 4;
                 vtx.stride = 0;
-                vtx.buffer = NULL;
                 select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
             } else {
                 if (glstate->polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
@@ -1050,7 +1049,6 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.type = GL_FLOAT;
                 vtx.size = 4;
                 vtx.stride = 0;
-                vtx.buffer = NULL;
                 select_glDrawArrays(&vtx, list->mode, 0, list->len);
             } else {
                 int len = list->len;

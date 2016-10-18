@@ -82,7 +82,7 @@ void tex_setup_texcoord(GLuint texunit, GLuint len) {
 	if (old!=texunit) glshim_glClientActiveTexture(texunit+GL_TEXTURE0);
     if (changes) {
         // first convert to GLfloat, without normalization
-        tex[texunit] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[texunit], 4, 0, len, /*glstate->vao->pointers.tex_coord[texunit].buffer*/NULL);  // the Buffer is already taken into account
+        tex[texunit] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         if (!tex[texunit]) {
             printf("LibGL: Error with Texture tranform\n");
             gles_glTexCoordPointer(len, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);

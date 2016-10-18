@@ -238,35 +238,30 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
     return dst;
 }
 
-GLvoid *copy_gl_pointer(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
+GLvoid *copy_gl_pointer(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
 	float filler = 0.0f;
-    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
-    return copy_gl_array_convert(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+    return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count, &filler);
 }
-GLvoid *copy_gl_pointer_color(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
+GLvoid *copy_gl_pointer_color(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
 	float filler = 1.0f;
-    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
-    return copy_gl_array_convert(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+    return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count, &filler);
 }
-GLvoid *copy_gl_pointer_bytecolor(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
+GLvoid *copy_gl_pointer_bytecolor(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
 	GLubyte filler = 255;
-    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
-    return copy_gl_array_convert(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+    return copy_gl_array_convert(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_UNSIGNED_BYTE, width, skip, count, &filler);
 }
 
-GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
-    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
-    return copy_gl_array(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+    return copy_gl_array(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count);
 }
 
-GLvoid *copy_gl_pointer_tex(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count, glbuffer_t *buff) {
+GLvoid *copy_gl_pointer_tex(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
     float filler = 1.0f;
-    uintptr_t buffer = (buff)?(uintptr_t)buff->data:0;
-    return copy_gl_array_texcoord(ptr->pointer+buffer, ptr->type, ptr->size, ptr->stride,
+    return copy_gl_array_texcoord(ptr->pointer, ptr->type, ptr->size, ptr->stride,
                          GL_FLOAT, width, skip, count, &filler);
 }
 
@@ -274,8 +269,7 @@ GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
     static GLfloat buf[4];
     GLsizei size = gl_sizeof(p->type);
     GLsizei stride = p->stride ? p->stride : (size * p->size);
-    uintptr_t ptr = (uintptr_t)(p->pointer) + (stride * index) 
-		+ (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0);
+    uintptr_t ptr = (uintptr_t)(p->pointer) + (stride * index);
 
     GL_TYPE_SWITCH(src, ptr, p->type,
         for (int i = 0; i < p->size; i++) {

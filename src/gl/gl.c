@@ -739,20 +739,20 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->cap = count-skip;
     
 	if (glstate->vao->vertex_array) {
-		list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count, glstate->vao->pointers.vertex.buffer);
+		list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count);
 	}
 	if (glstate->vao->color_array) {
-		list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count, glstate->vao->pointers.color.buffer);
+		list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
 	}
 	if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
-		list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count, glstate->vao->pointers.secondary.buffer);		// alpha chanel is always 0 for secondary...
+		list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
 	}
 	if (glstate->vao->normal_array) {
-		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count, glstate->vao->pointers.normal.buffer);
+		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
 	}
 	for (int i=0; i<MAX_TEX; i++) {
 		if (glstate->vao->tex_coord_array[i]) {
-		    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count, glstate->vao->pointers.tex_coord[i].buffer);
+		    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count);
 		}
 	}
     return list;
@@ -853,17 +853,6 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
         for (int i=0; i<count; i++)
             if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
         len++;  // lenght is max(indices) + 1 !
-#define shift_pointer(a, b) \
-		if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer += (uintptr_t)glstate->vao->pointers.a.buffer->data;
-	
-		shift_pointer(color, color_array);
-		shift_pointer(secondary, secondary_array);
-		shift_pointer(vertex, vertex_array);
-		for (int aa=0; aa<MAX_TEX; aa++)
-			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-		shift_pointer(normal, normal_array);
-#undef shift_pointer
-
 #define client_state(A, B, C) \
             if(glstate->vao->A != glstate->clientstate.A) {           \
                 C                                              \
@@ -892,8 +881,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			pointer_state_t old_color;
             client_state(color_array, GL_COLOR_ARRAY, );
 			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len, 0);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, len, 0);
+				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, len);
 				for (int i=0; i<len*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
@@ -901,10 +890,10 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			} else if (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)) {
 				// Pandora doesn't like Color Pointer with size != 4
                 if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, len, 0);
+                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, len);
                     gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
                 } else {
-                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len, 0);
+                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len);
                     gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
                 }
 			} else if (glstate->vao->color_array)
@@ -977,16 +966,6 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
 		}
-#define shift_pointer(a, b) \
-	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer -= (uintptr_t)glstate->vao->pointers.a.buffer->data;
-		
-			shift_pointer(color, color_array);
-			shift_pointer(secondary, secondary_array);
-			shift_pointer(vertex, vertex_array);
-			for (int aa=0; aa<MAX_TEX; aa++)
-				shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-			shift_pointer(normal, normal_array);
-#undef shift_pointer		
         if(need_free)
             free(sindices);
     }
@@ -1049,18 +1028,6 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         // like texgen, stipple, npot
         LOAD_GLES(glDrawArrays);
 
-#define shift_pointer(a, b) \
-	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer = glstate->vao->pointers.a.buffer->data + (uintptr_t)glstate->vao->pointers.a.pointer;
-	
-	shift_pointer(color, color_array);
-	shift_pointer(secondary, secondary_array);
-	shift_pointer(vertex, vertex_array);
-	for (int aa=0; aa<MAX_TEX; aa++) {
-		shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-    }
-	shift_pointer(normal, normal_array);
-#undef shift_pointer		
-
 		GLenum mode_init = mode;
 		if (mode == GL_QUAD_STRIP)
 			mode = GL_TRIANGLE_STRIP;
@@ -1075,8 +1042,8 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			GLfloat *final_colors = NULL;
             client_state(color_array, GL_COLOR_ARRAY, );
 			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first, 0);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, first, count+first, 0);
+				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first);
+				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, first, count+first);
 				for (int i=0; i<(count+first)*4; i++)
 					final_colors[i]+=seconds_colors[i];
 				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
@@ -1085,10 +1052,10 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     || (glstate->vao->color_array && (glstate->vao->pointers.color.stride!=0) && (glstate->vao->pointers.color.type != GL_FLOAT))) {
 				// Pandora doesn't like Color Pointer with size != 4
                 if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, count+first, 0);
+                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, count+first);
                     gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
                 } else {
-                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first, 0);
+                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first);
                     gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
                 }
 			} else if (glstate->vao->color_array)
@@ -1161,16 +1128,6 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             }
 			if (glstate->texture.client!=old_tex)
 				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
-#define shift_pointer(a, b) \
-	if (glstate->vao->b && glstate->vao->pointers.a.buffer) glstate->vao->pointers.a.pointer = glstate->vao->pointers.a.pointer - (uintptr_t)glstate->vao->pointers.a.buffer->data;
-	
-		shift_pointer(color, color_array);
-		shift_pointer(secondary, secondary_array);
-		shift_pointer(vertex, vertex_array);
-		for (int aa=0; aa<MAX_TEX; aa++)
-			shift_pointer(tex_coord[aa], tex_coord_array[aa]);
-		shift_pointer(normal, normal_array);
-#undef shift_pointer		
 		}
     }
 }
@@ -1179,7 +1136,7 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("glshim_g
 
 #ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
-    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer; t.buffer = glstate->vao->vertex
+    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
 void glshim_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
