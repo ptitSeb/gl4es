@@ -101,8 +101,8 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     EX(glXCreateWindow);
     EX(glXDestroyWindow);
     
-    STUB(glXCreatePbuffer); // to do, using Renderbuffers....
-    STUB(glXDestroyPbuffer);
+    EX(glXCreatePbuffer);
+    EX(glXDestroyPbuffer);
     STUB(glXCreatePixmap);
     STUB(glXDestroyPixmap);
     STUB(glXGetCurrentReadDrawable);
