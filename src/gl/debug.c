@@ -111,6 +111,16 @@ const char* PrintEnum(GLenum what) {
         p(GL_QUADS);
         p(GL_QUAD_STRIP);
         p(GL_POLYGON);
+        // texgen
+        p(GL_S);
+        p(GL_T);
+        p(GL_Q);
+        p(GL_TEXTURE_GEN_MODE);
+        p(GL_OBJECT_LINEAR);
+        p(GL_EYE_LINEAR);
+        p(GL_SPHERE_MAP);
+        p(GL_NORMAL_MAP);
+        p(GL_REFLECTION_MAP);
         default:
             sprintf(fallback, "0x%04X", what);
     }
