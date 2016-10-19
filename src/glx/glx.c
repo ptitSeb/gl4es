@@ -60,6 +60,15 @@ static int isPBuffer(GLXDrawable drawable) {
 }
 #endif
 
+static EGLint egl_context_attrib[] = {
+#ifdef USE_ES2
+    EGL_CONTEXT_CLIENT_VERSION, 2,
+#endif
+    EGL_NONE
+};
+
+
+
 extern void* egl;
 // GLState management
 void* NewGLState(void* shared_glstate);
@@ -598,13 +607,6 @@ EXPORT GLXContext glXCreateContext(Display *display,
         EGL_NONE
     };
 
-    EGLint attrib_list[] = {
-#ifdef USE_ES2
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-#endif
-        EGL_NONE
-    };
-
     scan_env();
     
     if (g_usefb && fbcontext_count>0) {
@@ -703,7 +705,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
         return fake;
     }
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
-	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, attrib_list);
+	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
     if(g_usefb)
         eglContext = fake->eglContext;
 
@@ -726,13 +728,6 @@ EXPORT GLXContext glXCreateContext(Display *display,
 }
 
 GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBConfig config) {
-
-    EGLint attrib_list[] = {
-#ifdef USE_ES2
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-#endif
-        EGL_NONE
-    };
 
     EGLint configAttribs[] = {
         EGL_RED_SIZE, (config)?config->redBits:0,
@@ -791,7 +786,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
 	memset(fake, 0, sizeof(struct __GLXContextRec));
     fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
 
-	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, attrib_list);
+	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
 
     CheckEGLErrors();
 
@@ -1506,13 +1501,12 @@ EXPORT void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
 
     delPBuffer(j);
 }
-EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list) {
-//printf("glXCreatePbuffer(%p, %p, %p)\n", dpy, config, attrib_list);
+
+int createPBuffer(Display * dpy, GLXFBConfig config, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context) {
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglCreatePbufferSurface);
     LOAD_EGL(eglInitialize);
     LOAD_EGL(eglBindAPI);
-    LOAD_EGL(eglQuerySurface);
     LOAD_EGL(eglCreateContext);
 
     EGLint configAttribs[] = {
@@ -1522,13 +1516,6 @@ EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int 
         EGL_ALPHA_SIZE, (config)?config->alphaBits:0,
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
-        EGL_NONE
-    };
-
-    EGLint context_attrib[] = {
-#ifdef USE_ES2
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-#endif
         EGL_NONE
     };
 
@@ -1568,7 +1555,26 @@ EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int 
         return 0;
     }
 
-	//let's create a PBuffer
+	// now, create the PBufferSurface
+    (*Surface) = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
+
+    if((*Surface)==EGL_NO_SURFACE) {
+        printf("LIBGL: Error creating PBuffer\n");
+        return 0;
+    }
+
+    (*Context) = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
+
+    return 1;
+}
+
+EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list) {
+//printf("glXCreatePbuffer(%p, %p, %p)\n", dpy, config, attrib_list);
+    LOAD_EGL(eglQuerySurface);
+
+	EGLSurface Surface = 0;
+    EGLContext Context = 0;
+	//let's create a PBuffer attributes
 	EGLint egl_attribs[128];	// should be enough
 	int i = 0;
 	if(attrib_list) {
@@ -1596,21 +1602,17 @@ EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int 
 		}
 	}
     egl_attribs[i++] = EGL_NONE;
-	// now, create the PBufferSurface
-	EGLSurface surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
 
-    if(surface==EGL_NO_SURFACE) {
-        printf("LIBGL: Error creating PBuffer\n");
+    if(createPBuffer(dpy, config, egl_attribs, &Surface, &Context)==0) {
         return 0;
     }
 
     int Width, Height;
 
-    egl_eglQuerySurface(eglDisplay,surface,EGL_WIDTH,&Width);
-    egl_eglQuerySurface(eglDisplay,surface,EGL_HEIGHT,&Height);
+    egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
+    egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
-    EGLContext Context;
-    Context = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, context_attrib);
-    return addPBuffer(surface, Width, Height, Context);
+    return addPBuffer(Surface, Width, Height, Context);
 }
+
 #endif //ANDROID
