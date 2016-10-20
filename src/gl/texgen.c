@@ -128,26 +128,81 @@ GLfloat FASTMATH dot4(const GLfloat *a, const GLfloat *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
 }
 
-//TODO: NEONize all thoses functions, maybe also making the vector an array of 4 float can help.
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+#ifdef __ARM_NEON__
+    const float* a1 = a+8;
+    asm volatile (
+    "vld4.f32 {d0,d2,d4,d6}, [%1]        \n" 
+    "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // %q0-%q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
+    "vld1.f32 {q4}, [%3]        \n" // %q4 = b
+    "vmul.f32 q0, q0, d8[0]    \n" // %q0 = a(0,4,8,12)*b[0]
+    "vmla.f32 q0, q1, d0[1]    \n" // %q0 = %q0 + a(1,5,9,13)*b[1]
+    "vmla.f32 q0, q2, d1[0]    \n" // %q0 = %q0 + a(2,6,10,14)*b[2]
+    "vmla.f32 q0, q3, d1[1]    \n" // %q0 = %q0 + a(3,7,11,15)*b[3]
+    "vst1.f32 {q0}, [%0]        \n"
+    ::"r"(c), "r"(a), "r"(a1), "r"(b)
+    : "q0", "q1", "q2", "q3", "q4", "memory"
+        );
+#else
     c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
     c[1] = a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7] * b[3];
     c[2] = a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11] * b[3];
     c[3] = a[12] * b[0] + a[13] * b[1] + a[14] * b[2] + a[15] * b[3];
+#endif
 }
 
 void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+#ifdef __ARM_NEON__
+    const float* b2=b+4;
+    const float* b3=b+8;
+    const float* b4=b+12;
+    asm volatile (
+    "vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..3)
+    "vld1.f32 {q1}, [%2]        \n" // %q1 = b(0..3)
+    "vmul.f32 q1, q1, d0[0]     \n" // %q1 = b(0..3)*a[0]
+    "vld1.f32 {q2}, [%3]        \n" // %q2 = b(4..7)
+    "vmla.f32 q1, q2, d0[1]     \n" // %q1 = %q1 + b(4..7)*a[1]
+    "vld1.f32 {q2}, [%4]        \n" // %q2 = b(8..11)
+    "vmla.f32 q1, q2, d1[0]     \n" // %q1 = %q1 + b(8..11)*a[2]
+    "vld1.f32 {q2}, [%5]        \n" // %q2 = b(12..15)
+    "vmla.f32 q1, q2, d1[1]     \n" // %q1 = %q1 + b(12..15)*a[3]
+    "vst1.f32 {q1}, [%0]        \n"
+    ::"r"(c), "r"(a), "r"(b), "r"(b2), "r"(b3), "r"(b4)
+    : "%2", "q0", "q1", "q2", "memory"
+        );
+#else
     c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + a[3] * b[12];
     c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9] + a[3] * b[13];
     c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + a[3] * b[14];
     c[3] = a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + a[3] * b[15];
+#endif
 }
 
 void vector3_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+#ifdef __ARM_NEON__
+    const float* b2=b+4;
+    const float* b3=b+8;
+    const float* b4=b+12;
+    asm volatile (
+    "vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..3)
+    "vld1.f32 {q1}, [%2]        \n" // %q1 = b(0..3)
+    "vmul.f32 q1, q1, d0[0]    \n" // %q1 = b(0..3)*a[0]
+    "vld1.f32 {q2}, [%3]   \n" // %q2 = b(4..7)
+    "vmla.f32 q1, q2, d0[1]    \n" // %q1 = %q1 + b(4..7)*a[1]
+    "vld1.f32 {q2}, [%4]   \n" // %q2 = b(8..11)
+    "vmla.f32 q1, q2, d1[0]    \n" // %q1 = %q1 + b(8..11)*a[2]
+    "vld1.f32 {q2}, [%5]   \n" // %q2 = b(12..15)
+    "vadd.f32 q1, q1, q2    \n" // %q1 = %q1 + b(12..15)
+    "vst1.f32 {q1}, [%0]        \n"
+    ::"r"(c), "r"(a), "r"(b), "r"(b2), "r"(b3), "r"(b4)
+    : "q0", "q1", "q2", "memory"
+        );
+#else
     c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + b[12];
     c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9] + b[13];
     c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + b[14];
     c[3] = a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + b[15];
+#endif
 }
 
 void vector_normalize(GLfloat *a) {
