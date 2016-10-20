@@ -787,6 +787,12 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             break;
         default: {
             GLsizei nheight = npot(height), nwidth = npot(width);
+#ifdef PANDORA
+            #define MIN_SIZE 2
+            if(nwidth < MIN_SIZE) nwidth=MIN_SIZE;
+            if(nheight < MIN_SIZE) nheight=MIN_SIZE;
+            #undef MIN_SIZE
+#endif
             if (texstream && bound && bound->streamed) {
 				nwidth = width;
 				nheight = height;
