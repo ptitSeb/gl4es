@@ -115,7 +115,7 @@ int8_t CheckEGLErrors() {
 
     return 0;
 }
-
+#ifndef ANDROID
 static int get_config_default(Display *display, int attribute, int *value) {
     switch (attribute) {
         case GLX_USE_GL:
@@ -188,14 +188,13 @@ static int get_config_default(Display *display, int attribute, int *value) {
     return 0;
 }
 
-// hmm...
-static EGLContext eglContext;
-
-#ifndef ANDROID
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
 #endif //ANDROID
+
+// hmm...
+static EGLContext eglContext;
 
 static int fbcontext_count = 0;
 
@@ -297,7 +296,7 @@ static void signal_handler(int sig) {
         bcm_host_deinit();
     }
 #endif
-
+#ifndef ANDROID
     if (g_stacktrace) {
         switch (sig) {
             case SIGBUS:
@@ -316,6 +315,7 @@ static void signal_handler(int sig) {
             }
         }
     }
+#endif
     signal(sig, SIG_DFL);
     raise(sig);
 }
