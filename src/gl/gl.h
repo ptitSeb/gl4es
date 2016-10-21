@@ -177,7 +177,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 
 #define GL_TYPE_SWITCH_MAX(name, var, type, code, extra)               \
     switch (type) {                                                \
-	    GL_TYPE_CASE_MAX(name, var, GL_DOUBLE, GLdouble, code, 1.0d)         \
+	    GL_TYPE_CASE_MAX(name, var, GL_DOUBLE, GLdouble, code, 1.0)         \
 	    GL_TYPE_CASE_MAX(name, var, GL_FLOAT, GLfloat, code, 1.0f)           \
 	    GL_TYPE_CASE_MAX(name, var, GL_INT, GLint, code, 2147483647l)               \
 	    GL_TYPE_CASE_MAX(name, var, GL_SHORT, GLshort, code, 32767)           \
