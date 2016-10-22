@@ -788,6 +788,9 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         default: {
             GLsizei nheight = npot(height), nwidth = npot(width);
 #ifdef PANDORA
+#define NO_1x1
+#endif
+#ifdef NO_1x1
             #define MIN_SIZE 2
             if(level==0) {
                 if(nwidth < MIN_SIZE) nwidth=MIN_SIZE;
@@ -830,6 +833,17 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     if (pixels) gles_glTexSubImage2D(target, level, 0, 0, width, height,
                                          format, type, pixels);
                     errorGL();
+#ifdef NO_1x1
+                    if(level==0 && (width==1 || height==1 && pixels)) {
+                        // complete the texture, juste in ase it use GL_REPEAT
+                        if(width==1) gles_glTexSubImage2D(target, level, 0, 1, width, height, format, type, pixels);
+                        if(height==1) gles_glTexSubImage2D(target, level, 1, 0, width, height, format, type, pixels);
+                        if(width==1 && height==1) {   // create a manual mipmap just in case_state
+                            gles_glTexSubImage2D(target, level, 1, 1, width, height, format, type, pixels);
+                            gles_glTexImage2D(target, 1, format, 1, 1, 0, format, type, pixels);
+                        }
+                    }
+#endif
                 } else {
                     gles_glTexImage2D(target, level, format, width, height, border,
                                     format, type, pixels);
