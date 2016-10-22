@@ -52,4 +52,11 @@ extern void load_libs();
         LOAD_RAW(gles, name, egl_eglGetProcAddress(#name"OES")); \
     }
 
+#define LOAD_GLES_EXT(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_EGL(eglGetProcAddress); \
+        LOAD_RAW(gles, name, egl_eglGetProcAddress(#name"EXT")); \
+    }
+
 #endif

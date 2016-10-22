@@ -765,11 +765,11 @@ static inline bool should_intercept_render(GLenum mode) {
             if(glstate->texture.rect_arb[aa])
                 return true;
             gltexture_t *bound = glstate->texture.bound[aa];
-            if (bound && (bound->width!=bound->nwidth || bound->height!=bound->height))
+            if (bound && (bound->width!=bound->nwidth || bound->height!=bound->nheight))
                 return true;
         }
     }
- 
+
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
         (/*glstate->enable.texture_2d[0] && */(glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0])) ||
@@ -905,8 +905,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-            GLuint cur_tex = old_tex;
-            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
+            #define TEXTURE(A) glshim_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
@@ -920,7 +919,6 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
             }
 			if (glstate->texture.client!=old_tex)
 				TEXTURE(old_tex);
-            #undef TEXTURE
 				
 			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -959,7 +957,6 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			if (final_colors) {
 				free(final_colors);
 			}
-            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
 			for (int aa=0; aa<MAX_TEX; aa++) {
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     TEXTURE(aa);
@@ -1071,8 +1068,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-            GLuint cur_tex = old_tex;
-            #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
+            #define TEXTURE(A) glshim_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
@@ -1088,7 +1084,6 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             }
 			if (glstate->texture.client!=old_tex)
 				TEXTURE(old_tex);
-            #undef TEXTURE
 
 			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
 				int n, s;
@@ -1129,12 +1124,13 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			}
 			for (int aa=0; aa<MAX_TEX; aa++) {
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    glshim_glClientActiveTexture(aa+GL_TEXTURE0);
+                    TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
             }
 			if (glstate->texture.client!=old_tex)
-				glshim_glClientActiveTexture(old_tex+GL_TEXTURE0);
+				TEXTURE(old_tex);
+            #undef TEXTURE
 		}
     }
 }
@@ -2117,7 +2113,7 @@ void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("glshim_
 
 void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
 {
-    LOAD_GLES_OES(glMultiDrawArrays);
+    LOAD_GLES_EXT(glMultiDrawArrays);
     if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
     {
@@ -2138,7 +2134,7 @@ void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GL
 
 void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
 {
-    LOAD_GLES_OES(glMultiDrawElements);
+    LOAD_GLES_EXT(glMultiDrawElements);
     if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
     {
