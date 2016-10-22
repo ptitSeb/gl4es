@@ -890,6 +890,38 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE) && (src_type == GL_UNSIGNED_SHORT_4_4_4_4_REV)) {
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+                const GLushort pix = *(GLushort*)src_pos;
+                ((char*)dst_pos)[3] = ((pix>>12)&0x0f)<<4;
+                ((char*)dst_pos)[2] = ((pix>>8)&0x0f)<<4;
+                ((char*)dst_pos)[1] = ((pix>>4)&0x0f)<<4;
+                ((char*)dst_pos)[0] = ((pix)&0x0f)<<4;  
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width;
+        }
+        return true;
+    }
+    if ((src_format == GL_RGBA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE) && (src_type == GL_UNSIGNED_SHORT_5_5_5_1)) {
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+                const GLushort pix = *(GLushort*)src_pos;
+                ((char*)dst_pos)[0] = ((pix>>11)&0x1f)<<3;
+                ((char*)dst_pos)[1] = ((pix>>6)&0x1f)<<3;
+                ((char*)dst_pos)[2] = ((pix>>1)&0x1f)<<3;
+                ((char*)dst_pos)[3] = ((pix)&0x01)?255:0;  
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			if (stride)
+				dst_pos += dst_width;
+        }
+        return true;
+    }
 	if (! remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
 					  src_color, src_type, dst_color, dst_type)) {
 		// fake convert, to get if it's ok or not
