@@ -836,8 +836,9 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 #ifdef NO_1x1
                     if(level==0 && (width==1 || height==1 && pixels)) {
                         // complete the texture, juste in ase it use GL_REPEAT
-                        if(width==1) gles_glTexSubImage2D(target, level, 0, 1, width, height, format, type, pixels);
-                        if(height==1) gles_glTexSubImage2D(target, level, 1, 0, width, height, format, type, pixels);
+                        // also, don't keep the fact we have resized, the non-adjusted coordinates will work (as the texture is enlarged)
+                        if(width==1) {gles_glTexSubImage2D(target, level, 1, 0, width, height, format, type, pixels); nwidth=1;}
+                        if(height==1) {gles_glTexSubImage2D(target, level, 0, 1, width, height, format, type, pixels); nheight=1;}
                         if(width==1 && height==1) {   // create a manual mipmap just in case_state
                             gles_glTexSubImage2D(target, level, 1, 1, width, height, format, type, pixels);
                             gles_glTexImage2D(target, 1, format, 1, 1, 0, format, type, pixels);
