@@ -925,8 +925,10 @@ void draw_renderlist(renderlist_t *list) {
         for (int a=0; a<MAX_TEX; a++) {
 		    if ((list->tex[a] || texgened[a])/* && glstate->enable.texture_2d[a]*/) {
                 TEXTURE(a);
-                gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate->clientstate.tex_coord_array[a] = 1;
+                if(!glstate->clientstate.tex_coord_array[a]) {
+                    gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                    glstate->clientstate.tex_coord_array[a] = 1;
+                }
 		        gles_glTexCoordPointer(4, GL_FLOAT, 0, (texgened[a])?texgened[a]:list->tex[a]);
 		    } else {
                 if (glstate->clientstate.tex_coord_array[a]) {
