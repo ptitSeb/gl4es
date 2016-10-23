@@ -125,7 +125,22 @@ GLfloat FASTMATH dot(const GLfloat *a, const GLfloat *b) {
 }
 
 GLfloat FASTMATH dot4(const GLfloat *a, const GLfloat *b) {
+#ifdef __ARM_NEON__
+    register float ret;
+    asm volatile (
+    "vld1.f32 {d0-d1}, [%1]        \n" //q0 = a(0..3)
+    "vld1.f32 {d2-d3}, [%2]        \n" //q1 = b(0..3)
+    "vmul.f32 q0, q0, q1           \n" //q0 = a(0)*b(0),a(1)*b(1),a(2)*b(2),a(3)*b(3)
+    "vadd.f32 d0, d0, d1           \n" //d0 = a(0)*b(0)+a(2)*b(2),a(1)*b(1)+a(3)*b(3)
+    "vpadd.f32 d0,d0               \n" //d0 = a(0)*b(0)+a(2)*b(2)+a(1)*b(1)+a(3)*b(3),a(0)*b(0)+a(2)*b(2)+a(1)*b(1)+a(3)*b(3)
+    "vmov.f32 %0, s0               \n"
+    :"=w"(ret): "r"(a), "r"(b)
+    : "q0", "q1"
+        );
+    return ret;
+#else
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
+#endif
 }
 
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
@@ -133,13 +148,13 @@ void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
     const float* a1 = a+8;
     asm volatile (
     "vld4.f32 {d0,d2,d4,d6}, [%1]        \n" 
-    "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // %q0-%q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
-    "vld1.f32 {q4}, [%3]        \n" // %q4 = b
-    "vmul.f32 q0, q0, d8[0]    \n" // %q0 = a(0,4,8,12)*b[0]
-    "vmla.f32 q0, q1, d8[1]    \n" // %q0 = %q0 + a(1,5,9,13)*b[1]
-    "vmla.f32 q0, q2, d9[0]    \n" // %q0 = %q0 + a(2,6,10,14)*b[2]
-    "vmla.f32 q0, q3, d9[1]    \n" // %q0 = %q0 + a(3,7,11,15)*b[3]
-    "vst1.f32 {q0}, [%0]        \n"
+    "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // q0-q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
+    "vld1.f32 {q4}, [%3]       \n" // q4 = b
+    "vmul.f32 q0, q0, d8[0]    \n" // q0 = a(0,4,8,12)*b[0]
+    "vmla.f32 q0, q1, d8[1]    \n" // q0 = q0 + a(1,5,9,13)*b[1]
+    "vmla.f32 q0, q2, d9[0]    \n" // q0 = q0 + a(2,6,10,14)*b[2]
+    "vmla.f32 q0, q3, d9[1]    \n" // q0 = q0 + a(3,7,11,15)*b[3]
+    "vst1.f32 {q0}, [%0]       \n"
     ::"r"(c), "r"(a), "r"(a1), "r"(b)
     : "q0", "q1", "q2", "q3", "q4", "memory"
         );
@@ -225,7 +240,7 @@ void vector_normalize(GLfloat *a) {
         "vmul.f32               d0, d0, d3                      \n\t"   //d0 = d0 * d4  */  // 1 iteration should be enough
 
         "vmul.f32               q2, q2, d0[0]                   \n\t"   //d0= d2*d4
-        "vst1.32                d4, [%0]                      	\n\t"   //
+        "vst1.32                {d4}, [%0]                     	\n\t"   //
         "fsts                   s10, [%0, #8]                   \n\t"   //
         
         :"+&r"(a): 
@@ -239,18 +254,58 @@ void vector_normalize(GLfloat *a) {
 #endif
 }
 
-void matrix_column_row(const GLfloat *a, GLfloat *b) {
+void vector4_normalize(GLfloat *a) {
+#ifdef __ARM_NEON__
+        asm volatile (
+        "vld1.32                {q2}, [%0]                      \n\t"   //q2={x0,y0,z0,00}
+
+        "vmul.f32               d0, d4, d4                      \n\t"   //d0= d4*d4
+        "vpadd.f32              d0, d0                          \n\t"   //d0 = d[0] + d[1]
+        "vmla.f32               d0, d5, d5                      \n\t"   //d0 = d0 + d5*d5 
+        
+        "vmov.f32               d1, d0                          \n\t"   //d1 = d0
+        "vrsqrte.f32    		d0, d0                          \n\t"   //d0 = ~ 1.0 / sqrt(d0)
+        "vmul.f32               d2, d0, d1                      \n\t"   //d2 = d0 * d1
+        "vrsqrts.f32    		d3, d2, d0                      \n\t"   //d3 = (3 - d0 * d2) / 2        
+        "vmul.f32               d0, d0, d3                      \n\t"   //d0 = d0 * d3
+/*        "vmul.f32               d2, d0, d1                      \n\t"   //d2 = d0 * d1  
+        "vrsqrts.f32    		d3, d2, d0                      \n\t"   //d4 = (3 - d0 * d3) / 2        
+        "vmul.f32               d0, d0, d3                      \n\t"   //d0 = d0 * d4  */  // 1 iteration should be enough
+
+        "vmul.f32               q2, q2, d0[0]                   \n\t"   //d0= d2*d4
+        "vst1.32                {q2}, [%0]                    	\n\t"   //
+        
+        :"+&r"(a): 
+    : "d0", "d1", "d2", "d3", "d4", "d5", "memory"
+        );
+#else
+    float det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+    a[0]*=det;
+    a[1]*=det;
+    a[2]*=det;
+    // a[3] is ignored and left as 0.0f
+#endif
+}
+
+void FASTMATH matrix_transpose(const GLfloat *a, GLfloat *b) {
     // column major -> row major
+    // a(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15) -> b(0,4,8,12,1,5,9,13,2,6,10,14,3,7,11,15)
+#ifdef __ARM_NEON__
+   const float* a1 = a+8;
+	float* b1=b+8;
+    asm volatile (
+    "vld4.f32 {d0,d2,d4,d6}, [%1]        \n" 
+    "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // %q0-%q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
+    "vst1.f32 {d0-d3}, [%0]        \n"
+    "vst1.f32 {d4-d7}, [%3]        \n"
+    ::"r"(b), "r"(a), "r"(a1), "r"(b1)
+    : "q0", "q1", "q2", "q3", "memory"
+        );
+#else
     for (int i=0; i<4; i++)
         for (int j=0; j<4; j++)
             b[i*4+j]=a[i+j*4];
-}
-
-void matrix_row_column(const GLfloat *a, GLfloat *b) {
-    // row major -> column major
-    for (int i=0; i<4; i++)
-        for (int j=0; j<4; j++)
-            b[i+j*4]=a[i*4+j];
+#endif
 }
 
 void matrix_inverse(const GLfloat *m, GLfloat *r) {
@@ -318,14 +373,14 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*4, eye);
-        vector_normalize(eye);
+        vector4_normalize(eye);
         vector3_matrix((norm)?(norm+k*3):glstate->normal, InvModelview, eye_norm);
-        vector_normalize(eye_norm);
-        a=dot(eye, eye_norm)*2.0f;
+        vector4_normalize(eye_norm);
+        a=dot4(eye, eye_norm)*2.0f;
         for (int j=0; j<4; j++)
             reflect[j]=eye[j]-eye_norm[j]*a;
         reflect[2]+=1.0f;
-        a = 1.0f / (2.0f*sqrtf(dot(reflect, reflect)));
+        a = 0.5f / sqrtf(dot4(reflect, reflect));
         out[k*4+0] = reflect[0]*a + 0.5f;
         out[k*4+1] = reflect[1]*a + 0.5f;
         out[k*4+2] = 0.0f;
@@ -340,7 +395,7 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
     GLfloat ModelviewMatrix[16], InvModelview[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
     // column major -> row major
-    matrix_column_row(InvModelview, ModelviewMatrix);
+    matrix_transpose(InvModelview, ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
     GLfloat plane[4], tmp[4];
@@ -469,7 +524,7 @@ void gen_tex_clean(GLint cleancode, int texture) {
 
 void glshim_glLoadTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
-	matrix_row_column(m, mf);
+	matrix_transpose(m, mf);
 	glshim_glLoadMatrixf(mf);
     errorGL();
 }
@@ -489,7 +544,7 @@ void glshim_glMultTransposeMatrixd(const GLdouble *m) {
 }
 void glshim_glMultTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
-	matrix_row_column(m, mf);
+	matrix_transpose(m, mf);
 	glshim_glMultMatrixf(mf);
     errorGL();
 }
