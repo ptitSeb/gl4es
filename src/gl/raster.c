@@ -18,7 +18,7 @@ static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 GLfloat raster_scale[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 GLfloat raster_bias[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 
-void matrix_column_row(const GLfloat *a, GLfloat *b);
+void matrix_transpose(const GLfloat *a, GLfloat *b);
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
 void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -33,9 +33,9 @@ void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	GLfloat glmatrix[16], projection[16], modelview[16];
 	GLfloat t[4], transl[4] = {x, y, z, 1.0f};
 	glshim_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
-	matrix_column_row(glmatrix, projection);
+	matrix_transpose(glmatrix, projection);
 	glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
-	matrix_column_row(glmatrix, modelview);
+	matrix_transpose(glmatrix, modelview);
 	matrix_vector(modelview, transl, t);
 	matrix_vector(projection, t, transl);
 	GLfloat w2, h2;

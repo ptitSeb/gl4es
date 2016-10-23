@@ -124,9 +124,9 @@ void init_select() {
 	*/
 	 GLfloat tmp[16];
 	 glshim_glGetFloatv(GL_PROJECTION_MATRIX, tmp);
-	 matrix_column_row(tmp, projection);
+	 matrix_transpose(tmp, projection);
 	 glshim_glGetFloatv(GL_MODELVIEW_MATRIX, tmp);
-	 matrix_column_row(tmp, modelview);
+	 matrix_transpose(tmp, modelview);
 }
 
 void select_transform(GLfloat *a) {
