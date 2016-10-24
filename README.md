@@ -6,13 +6,13 @@ This is a shim providing OpenGL 1.x functionality to OpenGL ES accelerated cards
 Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  * Reading of Depth or Stencil buffer will not work
  * GL_FEEDBACK mode is not implemented
- * OcclusionQuery is not implemented
  
 Some know limitations:
  * GL_SELECT as some limitation in its implementation (for exemple, current Depth buffer or binded texture are not taken into account)
  * NPOT texture are supported, but not with GL_REPEAT / GL_MIRRORED, only GL_CLAMP will work properly
  * Framebuffer use FRAMEBUFFER_OES extension (that must be present in the GLES 1.1 stack)
  * Multiple Color attachment on Framebuffer are not supported
+ * OcclusionQuery is implemented, but with a 0 bits precision
  * Probably many other things
 
 ----
