@@ -139,11 +139,12 @@ struct __GLXContextRec {
 	EGLConfig eglConfigs[1];
 	EGLContext eglContext;
     void* glstate;
-    int contextType;    // 0 = Window, 1 = PBuffer
+    int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };
 typedef struct __GLXContextRec *GLXContext;
 
 typedef XID GLXPbuffer;
+typedef XID GLXPixmap;
 #endif //ANDROID
 struct __GLXFBConfigRec {
     int visualType;
@@ -226,11 +227,9 @@ const char *glXQueryServerString(Display *display, int screen, int name);
 #endif //ANDROID
 GLXDrawable glXGetCurrentDrawable();
 #ifndef ANDROID
-void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
 void glXDestroyContext(Display *display, GLXContext ctx);
-void glXDestroyGLXPixmap(Display *display, void *pixmap);
 void glXSwapBuffers(Display *display, int drawable);
 void glXUseXFont(Font font, int first, int count, int listBase);
 #endif //ANDROID
@@ -260,4 +259,9 @@ GLXContext glXCreateNewContext(Display *display, GLXFBConfig config, int render_
 
 void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf);
 GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list);
+
+GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list);
+void glXDestroyPixmap(Display *display, void *pixmap);
+GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
+void glXDestroyGLXPixmap(Display *display, void *pixmap);
 #endif //ANDROID

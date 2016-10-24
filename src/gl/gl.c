@@ -161,9 +161,8 @@ void DeleteGLState(void* oldstate) {
 void ActivateGLState(void* new_glstate) {
     if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
     if (glstate && glstate->gl_batch) flush();
-    glstate = (glstate_t*)new_glstate;
+    glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
     if (gl_batch && glstate->init_batch==0) init_batch();
-
 }
 
 __attribute__((constructor))
@@ -1972,6 +1971,8 @@ void init_batch() {
     glstate->init_batch = 1;
 }
 
+extern void BlitEmulatedPixmap();
+extern int glshim_emulatedPixmap;
 void glshim_glFlush() {
 	LOAD_GLES(glFlush);
     
@@ -1984,6 +1985,9 @@ void glshim_glFlush() {
     
     gles_glFlush();
     errorGL();
+
+    if(glstate->emulatedPixmap)
+        BlitEmulatedPixmap();
 }
 void glFlush() AliasExport("glshim_glFlush");
 

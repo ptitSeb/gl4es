@@ -171,6 +171,7 @@ typedef struct {
     khash_t(queries) *queries;
     glstack_t *stack;
     glclientstack_t *clientStack;
+    int emulatedPixmap;
     int shared_cnt;
 } glstate_t;
 

@@ -67,9 +67,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     EX(glXCreateContext);
     EX(glXCreateNewContext);
 	EX(glXCreateContextAttribsARB);
-    EX(glXCreateGLXPixmap);
     EX(glXDestroyContext);
-    EX(glXDestroyGLXPixmap);
     EX(glXGetConfig);
     EX(glXGetCurrentDisplay);
     EX(glXGetCurrentDrawable);
@@ -103,8 +101,10 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     
     EX(glXCreatePbuffer);
     EX(glXDestroyPbuffer);
-    STUB(glXCreatePixmap);
-    STUB(glXDestroyPixmap);
+    EX(glXCreatePixmap);
+    EX(glXDestroyPixmap);
+    EX(glXCreateGLXPixmap);
+    EX(glXDestroyGLXPixmap);
     STUB(glXGetCurrentReadDrawable);
     STUB(glXGetSelectedEvent);
     STUB(glXSelectEvent);

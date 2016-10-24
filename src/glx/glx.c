@@ -44,7 +44,7 @@ static struct sockaddr_un sun;
 static int sock = -2;
 #endif
 
-typedef struct {int Width; int Height; EGLContext Context;} glx_buffSize;
+typedef struct {int Width; int Height; EGLContext Context; XID X; int Depth; Display *dpy; int Type; GC gc; void* pix} glx_buffSize;
 
 #ifndef ANDROID
 //PBuffer should work under ANDROID
@@ -58,6 +58,7 @@ static int isPBuffer(GLXDrawable drawable) {
             return i+1;
     return 0;
 }
+void BlitEmulatedPixmap();
 #endif
 
 static EGLint egl_context_attrib[] = {
@@ -895,14 +896,13 @@ not set to EGL_NO_CONTEXT.
 EXPORT Bool glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-//printf("glXMakeCurrent(%p, %p, %p)\n", display, drawable, context);                        
+//printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d\n", display, drawable, context, isPBuffer(drawable));                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
     LOAD_EGL(eglQuerySurface);
     int created = (context)?isPBuffer(drawable):0;
     EGLint const sRGB[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR, EGL_NONE};
-#if 1
     EGLContext eglContext = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
     EGLConfig eglConfig = 0;
@@ -933,55 +933,6 @@ EXPORT Bool glXMakeCurrent(Display *display,
     }
     glxContext = context;
     EGLBoolean result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
-#else                        
-    if (eglDisplay != NULL) {
-		if (!g_usefb)
-            egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
-        else {
-            if (!context) {
-                egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
-                if (eglSurface != NULL) {
-                    egl_eglDestroySurface(eglDisplay, eglSurface);
-                    eglSurface = NULL;
-                }
-            }
-        }
-    }
-    glxContext = context;
-    // call with NULL to just destroy old stuff.
-    if (! context) {
-        return true;
-    }
-    if (eglDisplay == NULL) {
-        init_display(display);
-    }
-    if (g_usefb)
-        drawable = 0;
-    EGLBoolean result;
-    created = 1;
-	if (!g_usefb) {
-		// need current surface for eglSwapBuffer
-		eglContext = context->eglContext;
-		// if surface on a different drawable exist, destroy it first
-		if ((context->drawable != drawable) && (context->eglSurface)) {
-			egl_eglDestroySurface(eglDisplay, context->eglSurface);
-			context->eglSurface = NULL;
-		}
-		// Now get the Surface
-		if (context->eglSurface)
-			eglSurface = context->eglSurface;		// reused previously created Surface
-		else {
-			eglSurface = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL);
-        }
-        	result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
-	} else {
-        if (!eglSurface) {
-            eglSurface = egl_eglCreateWindowSurface(eglDisplay, eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL); // create surface only if needed
-            result = egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
-        } else
-            result = EGL_TRUE;
-    }
-#endif
     CheckEGLErrors();
     {
         // update MapDrawable
@@ -998,6 +949,7 @@ EXPORT Bool glXMakeCurrent(Display *display,
         map->surface = eglSurf;
         map->PBuffer = created;
     }
+    
     if (context) {
         context->drawable = drawable;
 
@@ -1005,6 +957,9 @@ EXPORT Bool glXMakeCurrent(Display *display,
 #ifdef PANDORA
         if(created) pandora_set_gamma();
 #endif
+        glstate->emulatedPixmap = 0;
+        if(created && pbuffersize[created-1].Type == 3) glstate->emulatedPixmap = created;
+
         CheckEGLErrors();
         if (result) {
             if (g_usefbo && created) {
@@ -1066,8 +1021,10 @@ EXPORT void glXSwapBuffers(Display *display,
         blitMainFBO();
         // blit the main_fbo before swap
     }
-
     egl_eglSwapBuffers(eglDisplay, surface);
+    // check emulated Pixmap
+    if(PBuffer && glstate->emulatedPixmap)
+        BlitEmulatedPixmap();
     CheckEGLErrors();
 #ifdef PANDORA
     if (g_showfps || (sock>-1)) {
@@ -1296,8 +1253,6 @@ EXPORT void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLu
 	// mask is ignored for now, but should include glPushAttrib / glPopAttrib
 	memcpy(dst, src, sizeof(struct __GLXContextRec));
 }
-EXPORT void glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {} // should return GLXPixmap
-EXPORT void glXDestroyGLXPixmap(Display *display, void *pixmap) {} // really wants a GLXpixmap
 EXPORT Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {return win;} // should return GLXWindow
 EXPORT void glXDestroyWindow(Display *display, void *win) {} // really wants a GLXWindow
 
@@ -1476,6 +1431,9 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Width = Width;
     pbuffersize[pbufferlist_size].Height = Height;
     pbuffersize[pbufferlist_size].Context = Context;
+    pbuffersize[pbufferlist_size].pix = NULL;
+    pbuffersize[pbufferlist_size].gc = NULL;
+    pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
     return pbufferlist[pbufferlist_size++];
 }
 void delPBuffer(int j)
@@ -1484,6 +1442,8 @@ void delPBuffer(int j)
     pbufferlist[j] = 0;
     pbuffersize[j].Width = 0;
     pbuffersize[j].Height = 0;
+    pbuffersize[j].gc = 0;
+    pbuffersize[j].pix = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1502,7 +1462,7 @@ EXPORT void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     delPBuffer(j);
 }
 
-int createPBuffer(Display * dpy, GLXFBConfig config, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context) {
+int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, int redBits, int greenBits, int blueBits, int alphaBits) {
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglCreatePbufferSurface);
     LOAD_EGL(eglInitialize);
@@ -1510,18 +1470,14 @@ int createPBuffer(Display * dpy, GLXFBConfig config, const EGLint * egl_attribs,
     LOAD_EGL(eglCreateContext);
 
     EGLint configAttribs[] = {
-        EGL_RED_SIZE, (config)?config->redBits:0,
-        EGL_GREEN_SIZE, (config)?config->greenBits:0,
-        EGL_BLUE_SIZE, (config)?config->blueBits:0,
-        EGL_ALPHA_SIZE, (config)?config->alphaBits:0,
+        EGL_RED_SIZE, redBits,
+        EGL_GREEN_SIZE, greenBits,
+        EGL_BLUE_SIZE, blueBits,
+        EGL_ALPHA_SIZE, alphaBits,
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
         EGL_NONE
     };
-
-    // Check that the config is for PBuffer
-    if(config->drawableType&GLX_PBUFFER_BIT!=GLX_PBUFFER_BIT)
-        return 0;
 
     // Init what need to be done
     EGLBoolean result;
@@ -1603,7 +1559,12 @@ EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int 
 	}
     egl_attribs[i++] = EGL_NONE;
 
-    if(createPBuffer(dpy, config, egl_attribs, &Surface, &Context)==0) {
+    // Check that the config is for PBuffer
+    if(config->drawableType&GLX_PBUFFER_BIT!=GLX_PBUFFER_BIT)
+        return 0;
+
+
+    if(createPBuffer(dpy, egl_attribs, &Surface, &Context, config->redBits, config->greenBits, config->blueBits, config->alphaBits)==0) {
         return 0;
     }
 
@@ -1613,6 +1574,198 @@ EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int 
     egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
     return addPBuffer(Surface, Width, Height, Context);
+}
+
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated)
+{
+    if(pbufferlist_cap<=pbufferlist_size) {
+        pbufferlist_cap += 4;
+        pbufferlist = (GLXPbuffer*)realloc(pbufferlist, sizeof(GLXPbuffer)*pbufferlist_cap);
+        pbuffersize = (glx_buffSize*)realloc(pbuffersize, sizeof(glx_buffSize)*pbufferlist_cap);
+    }
+    pbufferlist[pbufferlist_size] = (GLXPbuffer)surface;
+    pbuffersize[pbufferlist_size].Width = Width;
+    pbuffersize[pbufferlist_size].Height = Height;
+    pbuffersize[pbufferlist_size].Context = Context;
+    pbuffersize[pbufferlist_size].X = pixmap;
+    pbuffersize[pbufferlist_size].Depth = depth;
+    pbuffersize[pbufferlist_size].dpy = dpy;
+    pbuffersize[pbufferlist_size].gc = (emulated)?XCreateGC(dpy, pixmap, 0, NULL):NULL;
+    pbuffersize[pbufferlist_size].pix = (emulated)?malloc(Width*Height*4):NULL;
+    pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap
+    return pbufferlist[pbufferlist_size++];
+}
+void delPixBuffer(int j)
+{
+    LOAD_EGL(eglDestroyContext);
+    if(pbuffersize[j].gc)
+        XFree(pbuffersize[j].gc);
+    if(pbuffersize[j].pix)
+        free(pbuffersize[j].pix);
+    pbufferlist[j] = 0;
+    pbuffersize[j].Width = 0;
+    pbuffersize[j].Height = 0;
+    pbuffersize[j].X = 0;
+    pbuffersize[j].Depth = 0;
+    pbuffersize[j].dpy = 0;
+    pbuffersize[j].gc = 0;
+    pbuffersize[j].pix = 0;
+    egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
+    // should pack, but I think it's useless for common use 
+}
+
+int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePixmapType nativepixmap, EGLSurface* Surface, EGLContext* Context) {
+    LOAD_EGL(eglChooseConfig);
+    LOAD_EGL(eglCreatePixmapSurface);
+    LOAD_EGL(eglInitialize);
+    LOAD_EGL(eglBindAPI);
+    LOAD_EGL(eglCreateContext);
+
+    EGLint configAttribs[] = {
+        EGL_RED_SIZE, (bpp>16)?8:5,
+        EGL_GREEN_SIZE, (bpp==15)?5:(bpp>16)?8:6,
+        EGL_BLUE_SIZE, (bpp>16)?8:5,
+        EGL_ALPHA_SIZE, (bpp==32)?8:0,
+        EGL_SURFACE_TYPE, EGL_PIXMAP_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_NONE
+    };
+
+    // Init what need to be done
+    EGLBoolean result;
+    if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
+        init_display(dpy);
+        if (eglDisplay == EGL_NO_DISPLAY) {
+            printf("LIBGL: Unable to create EGL display.\n");
+            return 0;
+        }
+    }
+
+    // first time?
+    if (eglInitialized == false) {
+        egl_eglBindAPI(EGL_OPENGL_ES_API);
+        result = egl_eglInitialize(eglDisplay, NULL, NULL);
+        if (result != EGL_TRUE) {
+            printf("LIBGL: Unable to initialize EGL display.\n");
+            return 0;
+        }
+        eglInitialized = true;
+    }
+
+	// select a configuration
+    int configsFound;
+    static EGLConfig pixbufConfigs[1];
+    result = egl_eglChooseConfig(eglDisplay, configAttribs, pixbufConfigs, 1, &configsFound);
+
+    CheckEGLErrors();
+    if (result != EGL_TRUE || configsFound == 0) {
+        printf("LIBGL: No EGL configs found.\n");
+        return 0;
+    }
+
+	// now, create the PBufferSurface
+    (*Surface) = egl_eglCreatePixmapSurface(eglDisplay, pixbufConfigs[0], nativepixmap,egl_attribs);
+
+    if((*Surface)==EGL_NO_SURFACE) {
+        printf("LIBGL: Error creating PBuffer\n");
+        return 0;
+    }
+
+    (*Context) = egl_eglCreateContext(eglDisplay, pixbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
+
+    return 1;
+}
+
+EXPORT GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {
+    //printf("glXCreateGLXPixmap(%p, %p, %p)\n", display, visual, pixmap);
+    LOAD_EGL(eglQuerySurface);
+
+	EGLSurface Surface = 0;
+    EGLContext Context = 0;
+    //first, analyse PixMap to get it's dimensions and color depth...
+    unsigned int width, height, border, depth;
+    Window root;
+    int x, y;
+    int emulated = 0;
+    XGetGeometry(display, pixmap, &root, &x, &y, &width, &height, &border, &depth);
+    // let's try to create a PixmapSurface directly
+    if(createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
+        // fail, so emulate with a PBuffer
+        SHUT(printf("LIBGL: Pixmap creation failed, trying PBuffer instead\n"));
+        //let's create a PixBuffer attributes
+        EGLint egl_attribs[10];	// should be enough
+        int i = 0;
+        egl_attribs[i++] = EGL_WIDTH;
+        egl_attribs[i++] = width;
+        egl_attribs[i++] = EGL_HEIGHT;
+        egl_attribs[i++] = height;
+        egl_attribs[i++] = EGL_NONE;
+
+        if(createPBuffer(display, egl_attribs, &Surface, &Context, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0)==0) {
+            // fail too, abort
+            SHUT(printf("LIBGL: PBuffer creation failed too\n"));
+            return 0;
+        }
+        emulated = 1;
+
+    }
+    int Width, Height;
+
+    egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
+    egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
+
+    return addPixBuffer(display, Surface, Width, Height, Context, pixmap, depth, emulated);
+}
+
+GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
+//    printf("glXCreatePixmap(%p, %p, %p, %p)\n", dpy, config, pixmap, attrib_list);
+    // Check that the config is for PBuffer
+    if(config->drawableType&GLX_PIXMAP_BIT!=GLX_PIXMAP_BIT)
+        return 0;
+    
+    return glXCreateGLXPixmap(dpy, NULL, pixmap);
+}
+
+
+EXPORT void glXDestroyGLXPixmap(Display *display, void *pixmap) {
+//printf("glXDestroyGLXPixmap(%p, %p)\n", display, pixmap);
+    LOAD_EGL(eglDestroySurface);
+    int j=0;
+    while(j<pbufferlist_size || pbufferlist[j]==(GLXPbuffer)pixmap) j++;
+    if(j==pbufferlist_size)
+        return;
+        // delete de Surface
+    EGLSurface surface = (EGLSurface)pbufferlist[j];
+    egl_eglDestroySurface(display, surface);
+
+    delPixBuffer(j);
+}
+
+EXPORT void glXDestroyPixmap(Display *display, void *pixmap) {
+    glXDestroyGLXPixmap(display, pixmap);
+}
+
+void BlitEmulatedPixmap() {
+    if(!glstate->emulatedPixmap)
+        return;
+    Pixmap drawable = (Pixmap)pbuffersize[glstate->emulatedPixmap-1].X;
+    int Width = pbuffersize[glstate->emulatedPixmap-1].Width;
+    int Height = pbuffersize[glstate->emulatedPixmap-1].Height;
+    int Depth = pbuffersize[glstate->emulatedPixmap-1].Depth;
+    Display *dpy = pbuffersize[glstate->emulatedPixmap-1].dpy;
+    GC gc = pbuffersize[glstate->emulatedPixmap-1].gc;
+    void* pix=pbuffersize[glstate->emulatedPixmap-1].pix;
+    // grab framebuffer
+    glshim_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, pix);
+    // create an X Bitmap with them
+    XImage* frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pix, Width, Height, 32, 0);
+    if (!frame) {
+        return;
+    }
+    // blit
+    XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
+    XSync(dpy, False);  // synch seems needed before the DestroyImage...
+    XDestroyImage(frame);
 }
 
 #endif //ANDROID
