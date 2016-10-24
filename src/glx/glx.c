@@ -44,7 +44,7 @@ static struct sockaddr_un sun;
 static int sock = -2;
 #endif
 
-typedef struct {int Width; int Height; EGLContext Context; XID X; int Depth; Display *dpy; int Type; GC gc; void* pix} glx_buffSize;
+typedef struct {int Width; int Height; EGLContext Context; XID X; int Depth; Display *dpy; int Type; GC gc; void* pix;} glx_buffSize;
 
 #ifndef ANDROID
 //PBuffer should work under ANDROID
