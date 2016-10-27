@@ -172,6 +172,7 @@ typedef struct {
     glstack_t *stack;
     glclientstack_t *clientStack;
     int emulatedPixmap;
+    int emulatedWin;
     int shared_cnt;
 } glstate_t;
 

@@ -44,9 +44,9 @@ static struct sockaddr_un sun;
 static int sock = -2;
 #endif
 
-typedef struct {int Width; int Height; EGLContext Context; XID X; int Depth; Display *dpy; int Type; GC gc; void* pix;} glx_buffSize;
-
 #ifndef ANDROID
+typedef struct {int Width; int Height; EGLContext Context; EGLSurface Surface; int Depth; Display *dpy; int Type; GC gc; void* pix; XImage* frame; GLXContext glxcontext;} glx_buffSize;
+
 //PBuffer should work under ANDROID
 static GLXPbuffer *pbufferlist = NULL;
 static glx_buffSize *pbuffersize = NULL;
@@ -59,6 +59,8 @@ static int isPBuffer(GLXDrawable drawable) {
     return 0;
 }
 void BlitEmulatedPixmap();
+int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, int redBits, int greenBits, int blueBits, int alphaBits);
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated);
 #endif
 
 static EGLint egl_context_attrib[] = {
@@ -192,6 +194,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
+static bool g_usepbuffer = false;
 #endif //ANDROID
 
 // hmm...
@@ -415,12 +418,23 @@ static void scan_env() {
 #endif
 #endif //ANDROID
     }
-    env(LIBGL_FB, g_usefb, "framebuffer output enabled");
-    if (env_LIBGL_FB && strcmp(env_LIBGL_FB, "2") == 0) {
+    char *env_fb = getenv("LIBGL_FB");
+    if (env_fb && strcmp(env_fb, "1") == 0) {
+            SHUT(printf("LIBGL: framebuffer output enabled\n"));
+            g_usefb = true;
+    }
+    if (env_fb && strcmp(env_fb, "2") == 0) {
             SHUT(printf("LIBGL: using framebuffer + fbo\n"));
             g_usefb = true;
             g_usefbo = true;
     }
+#ifndef ANDROID
+    if (env_fb && strcmp(env_fb, "3") == 0) {
+            SHUT(printf("LIBGL: using pbuffer\n"));
+            g_usefb = true;
+            g_usepbuffer = true;
+    }
+#endif
     env(LIBGL_FPS, g_showfps, "fps counter enabled");
 #ifdef USE_FBIO
     env(LIBGL_VSYNC, g_vsync, "vsync enabled");
@@ -602,7 +616,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 #else
         EGL_BUFFER_SIZE, 16,
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 #endif
         EGL_NONE
@@ -901,7 +915,11 @@ EXPORT Bool glXMakeCurrent(Display *display,
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
     LOAD_EGL(eglQuerySurface);
+#ifdef ANDROID
+    int created = 0;
+#else
     int created = (context)?isPBuffer(drawable):0;
+#endif
     EGLint const sRGB[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR, EGL_NONE};
     EGLContext eglContext = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
@@ -914,10 +932,46 @@ EXPORT Bool glXMakeCurrent(Display *display,
         else {
             // new one
             if(created) {
-                eglSurf = context->eglSurface = (EGLSurface)drawable;
+#ifndef ANDROID
+                eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
+#endif
             } else {
+#ifndef ANDROID
                 if(g_usefb) {
+                    if(g_usepbuffer) {
+                        // Get Window size and all...
+                        unsigned int width, height, border, depth;
+                        Window root;
+                        int x, y;
+                        XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
+                        //let's create a PBuffer attributes
+                        EGLint egl_attribs[10];	// should be enough
+                        int i = 0;
+                        egl_attribs[i++] = EGL_WIDTH;
+                        egl_attribs[i++] = width;
+                        egl_attribs[i++] = EGL_HEIGHT;
+                        egl_attribs[i++] = height;
+                        egl_attribs[i++] = EGL_NONE;
+
+                        if(createPBuffer(display, egl_attribs, &eglSurf, &eglContext, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0)==0) {
+                            // fail too, abort
+                            SHUT(printf("LIBGL: PBuffer creation failed too\n"));
+                            return 0;
+                        }
+                        int Width, Height;
+
+                        egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&Width);
+                        egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&Height);
+
+                        addPixBuffer(display, eglSurf, Width, Height, eglContext, drawable, depth, 2);
+                        context->eglSurface = eglSurf;
+                        context->eglContext = eglContext;
+                        // update, that context is a created emulated one...
+                        created = isPBuffer(drawable); 
+                    } else
+#endif
+                    
                     if(eglSurface)
                         eglSurf = context->eglSurface = eglSurface;
                     else 
@@ -948,6 +1002,8 @@ EXPORT Bool glXMakeCurrent(Display *display,
         }
         map->surface = eglSurf;
         map->PBuffer = created;
+
+        if(created) pbuffersize[created-1].glxcontext = context;
     }
     
     if (context) {
@@ -958,7 +1014,11 @@ EXPORT Bool glXMakeCurrent(Display *display,
         if(created) pandora_set_gamma();
 #endif
         glstate->emulatedPixmap = 0;
-        if(created && pbuffersize[created-1].Type == 3) glstate->emulatedPixmap = created;
+        glstate->emulatedWin = 0;
+        if(created && pbuffersize[created-1].Type >= 3) {
+            glstate->emulatedPixmap = created;
+            glstate->emulatedWin = pbuffersize[created-1].Type==4?1:0;
+        }
 
         CheckEGLErrors();
         if (result) {
@@ -1431,6 +1491,7 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Width = Width;
     pbuffersize[pbufferlist_size].Height = Height;
     pbuffersize[pbufferlist_size].Context = Context;
+    pbuffersize[pbufferlist_size].Surface = surface;
     pbuffersize[pbufferlist_size].pix = NULL;
     pbuffersize[pbufferlist_size].gc = NULL;
     pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
@@ -1583,16 +1644,18 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
         pbufferlist = (GLXPbuffer*)realloc(pbufferlist, sizeof(GLXPbuffer)*pbufferlist_cap);
         pbuffersize = (glx_buffSize*)realloc(pbuffersize, sizeof(glx_buffSize)*pbufferlist_cap);
     }
-    pbufferlist[pbufferlist_size] = (GLXPbuffer)surface;
+    pbufferlist[pbufferlist_size] = (GLXPbuffer)pixmap;
     pbuffersize[pbufferlist_size].Width = Width;
     pbuffersize[pbufferlist_size].Height = Height;
     pbuffersize[pbufferlist_size].Context = Context;
-    pbuffersize[pbufferlist_size].X = pixmap;
+    pbuffersize[pbufferlist_size].Surface = surface;
     pbuffersize[pbufferlist_size].Depth = depth;
     pbuffersize[pbufferlist_size].dpy = dpy;
     pbuffersize[pbufferlist_size].gc = (emulated)?XCreateGC(dpy, pixmap, 0, NULL):NULL;
-    pbuffersize[pbufferlist_size].pix = (emulated)?malloc(Width*Height*4):NULL;
-    pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap
+    pbuffersize[pbufferlist_size].pix = NULL;
+    pbuffersize[pbufferlist_size].frame = NULL;
+
+    pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap, 4 = emulated win
     return pbufferlist[pbufferlist_size++];
 }
 void delPixBuffer(int j)
@@ -1600,16 +1663,20 @@ void delPixBuffer(int j)
     LOAD_EGL(eglDestroyContext);
     if(pbuffersize[j].gc)
         XFree(pbuffersize[j].gc);
+    if(pbuffersize[j].frame) {
+        XDestroyImage(pbuffersize[j].frame);
+        pbuffersize[j].pix = 0; // linked and free by XDestroyImage 
+    }
     if(pbuffersize[j].pix)
         free(pbuffersize[j].pix);
     pbufferlist[j] = 0;
     pbuffersize[j].Width = 0;
     pbuffersize[j].Height = 0;
-    pbuffersize[j].X = 0;
     pbuffersize[j].Depth = 0;
     pbuffersize[j].dpy = 0;
     pbuffersize[j].gc = 0;
     pbuffersize[j].pix = 0;
+    pbuffersize[j].Surface = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1735,7 +1802,7 @@ EXPORT void glXDestroyGLXPixmap(Display *display, void *pixmap) {
     if(j==pbufferlist_size)
         return;
         // delete de Surface
-    EGLSurface surface = (EGLSurface)pbufferlist[j];
+    EGLSurface surface = pbuffersize[j].Surface;// (EGLSurface)pbufferlist[j];
     egl_eglDestroySurface(display, surface);
 
     delPixBuffer(j);
@@ -1748,24 +1815,101 @@ EXPORT void glXDestroyPixmap(Display *display, void *pixmap) {
 void BlitEmulatedPixmap() {
     if(!glstate->emulatedPixmap)
         return;
-    Pixmap drawable = (Pixmap)pbuffersize[glstate->emulatedPixmap-1].X;
+    Pixmap drawable = (Pixmap)pbufferlist[glstate->emulatedPixmap-1];
     int Width = pbuffersize[glstate->emulatedPixmap-1].Width;
     int Height = pbuffersize[glstate->emulatedPixmap-1].Height;
     int Depth = pbuffersize[glstate->emulatedPixmap-1].Depth;
     Display *dpy = pbuffersize[glstate->emulatedPixmap-1].dpy;
     GC gc = pbuffersize[glstate->emulatedPixmap-1].gc;
-    void* pix=pbuffersize[glstate->emulatedPixmap-1].pix;
+    // the reverse stuff can probably be better!
+    int reverse = pbuffersize[glstate->emulatedPixmap-1].Type==4?1:0;
+    int sbuf = Width * Height * (Depth==16?2:4);
+
+    // create things if needed
+    if(!pbuffersize[glstate->emulatedPixmap-1].pix)
+        pbuffersize[glstate->emulatedPixmap-1].pix = malloc(Width*(Height+reverse)*(Depth==16?2:4));
+    if(!pbuffersize[glstate->emulatedPixmap-1].frame)
+        pbuffersize[glstate->emulatedPixmap-1].frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pbuffersize[glstate->emulatedPixmap-1].pix, Width, Height, (Depth==16)?16:32, 0);
+
+    uintptr_t pix=(uintptr_t)pbuffersize[glstate->emulatedPixmap-1].pix;
+
     // grab framebuffer
-    glshim_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, pix);
+    glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+    if(reverse) {
+        int stride = Width * (Depth==16?2:4);
+        uintptr_t end=pix+sbuf-stride;
+        uintptr_t beg=pix;
+        void* const tmp = (void*)(pix+sbuf);
+        for (; beg < end; beg+=stride, end-=stride) {
+            memcpy(tmp, (void*)end, stride);
+            memcpy((void*)end, (void*)beg, stride);
+            memcpy((void*)beg, tmp, stride);
+        }
+    }
     // create an X Bitmap with them
-    XImage* frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pix, Width, Height, 32, 0);
+    //XImage* frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pix, Width, Height, (Depth==16)?16:32, 0);
+    XImage* frame = pbuffersize[glstate->emulatedPixmap-1].frame;
     if (!frame) {
         return;
     }
     // blit
     XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
-    XSync(dpy, False);  // synch seems needed before the DestroyImage...
-    XDestroyImage(frame);
+
+    // grab the size of the drawable if it has changed
+    if(reverse) {
+        // Get Window size and all...
+        unsigned int width, height, border, depth;
+        Window root;
+        int x, y;
+        XGetGeometry(dpy, drawable, &root, &x, &y, &width, &height, &border, &depth);
+        if(width!=Width || height!=Height || depth!=Depth) {
+            LOAD_EGL(eglCreatePbufferSurface);
+            LOAD_EGL(eglDestroySurface);
+            LOAD_EGL(eglMakeCurrent);
+            LOAD_EGL(eglChooseConfig);
+            // destroy old stuff
+            XSync(dpy, False);  // synch seems needed before the DestroyImage...
+            XDestroyImage(frame);
+            pbuffersize[glstate->emulatedPixmap-1].frame = 0;
+            pbuffersize[glstate->emulatedPixmap-1].pix = 0;
+            
+
+            //let's create a PBuffer attributes
+            EGLint egl_attribs[10];	// should be enough
+            int i = 0;
+            egl_attribs[i++] = EGL_WIDTH;
+            egl_attribs[i++] = width;
+            egl_attribs[i++] = EGL_HEIGHT;
+            egl_attribs[i++] = height;
+            egl_attribs[i++] = EGL_NONE;
+
+            EGLint configAttribs[] = {
+                EGL_RED_SIZE, (Depth>16)?8:5,
+                EGL_GREEN_SIZE, (Depth==15)?5:(Depth>16)?8:6,
+                EGL_BLUE_SIZE, (depth>16)?8:5,
+                EGL_ALPHA_SIZE, (depth==32)?8:0,
+                EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+                EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+                EGL_NONE
+            };
+
+            int configsFound;
+            static EGLConfig pbufConfigs[1];
+            egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
+
+            EGLSurface Surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
+
+            pbuffersize[glstate->emulatedPixmap-1].glxcontext->eglSurface = Surface;
+
+            egl_eglMakeCurrent(eglDisplay, Surface, Surface, eglContext);
+
+            egl_eglDestroySurface(eglDisplay, pbuffersize[glstate->emulatedPixmap-1].Surface);
+            pbuffersize[glstate->emulatedPixmap-1].Surface = Surface;
+            pbuffersize[glstate->emulatedPixmap-1].Width = width;
+            pbuffersize[glstate->emulatedPixmap-1].Height = height;
+            pbuffersize[glstate->emulatedPixmap-1].Depth = depth;
+        }
+    }
 }
 
 #endif //ANDROID

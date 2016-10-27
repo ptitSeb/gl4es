@@ -65,6 +65,7 @@ Controls the Framebuffer output
  * 0 : Default, using standard x11 rendering
  * 1 : Use Framebuffer output (x11 bypassed, only fullscreen)
  * 2 : Use Framebuffer, but also an intermediary FBO
+ * 3 : Use PBuffer, allowing x11 rendering even if driver doesn't support it 
 
 ##### LIBGL_XREFRESH
 Debug helper in specific cases

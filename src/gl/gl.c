@@ -1970,9 +1970,9 @@ void init_batch() {
     glstate->gl_batch = 1;
     glstate->init_batch = 1;
 }
-
+#ifndef ANDROID
 extern void BlitEmulatedPixmap();
-extern int glshim_emulatedPixmap;
+#endif
 void glshim_glFlush() {
 	LOAD_GLES(glFlush);
     
@@ -1986,8 +1986,10 @@ void glshim_glFlush() {
     gles_glFlush();
     errorGL();
 
-    if(glstate->emulatedPixmap)
+#ifndef ANDROID
+    if(glstate->emulatedPixmap && !glstate->emulatedWin)
         BlitEmulatedPixmap();
+#endif
 }
 void glFlush() AliasExport("glshim_glFlush");
 
