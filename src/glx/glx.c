@@ -25,6 +25,11 @@
 #include "../glx/streaming.h"
 #include "khash.h"
 
+#ifndef ANDROID
+#include <X11/extensions/XShm.h>
+#include <sys/shm.h>
+#endif
+
 #define EXPORT __attribute__((visibility("default")))
 
 #ifndef EGL_GL_COLORSPACE_KHR
@@ -45,7 +50,22 @@ static int sock = -2;
 #endif
 
 #ifndef ANDROID
-typedef struct {int Width; int Height; EGLContext Context; EGLSurface Surface; int Depth; Display *dpy; int Type; GC gc; void* pix; XImage* frame; GLXContext glxcontext;} glx_buffSize;
+static int shm_tested = 0;
+static int shm_shm = 0;
+typedef struct {
+    int Width; 
+    int Height; 
+    EGLContext Context; 
+    EGLSurface Surface; 
+    int Depth; 
+    Display *dpy; 
+    int Type; GC gc; 
+    XImage* frame; 
+    GLXContext glxcontext;
+    XShmSegmentInfo shminfo;
+    int shmevent;
+    int cnt;
+} glx_buffSize;
 
 //PBuffer should work under ANDROID
 static GLXPbuffer *pbufferlist = NULL;
@@ -1492,9 +1512,9 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Height = Height;
     pbuffersize[pbufferlist_size].Context = Context;
     pbuffersize[pbufferlist_size].Surface = surface;
-    pbuffersize[pbufferlist_size].pix = NULL;
     pbuffersize[pbufferlist_size].gc = NULL;
     pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
+    pbuffersize[pbufferlist_size].shmevent = 0;
     return pbufferlist[pbufferlist_size++];
 }
 void delPBuffer(int j)
@@ -1504,7 +1524,7 @@ void delPBuffer(int j)
     pbuffersize[j].Width = 0;
     pbuffersize[j].Height = 0;
     pbuffersize[j].gc = 0;
-    pbuffersize[j].pix = 0;
+    pbuffersize[j].shmevent = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1652,8 +1672,8 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
     pbuffersize[pbufferlist_size].Depth = depth;
     pbuffersize[pbufferlist_size].dpy = dpy;
     pbuffersize[pbufferlist_size].gc = (emulated)?XCreateGC(dpy, pixmap, 0, NULL):NULL;
-    pbuffersize[pbufferlist_size].pix = NULL;
     pbuffersize[pbufferlist_size].frame = NULL;
+    pbuffersize[pbufferlist_size].shmevent = 0;
 
     pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap, 4 = emulated win
     return pbufferlist[pbufferlist_size++];
@@ -1664,19 +1684,21 @@ void delPixBuffer(int j)
     if(pbuffersize[j].gc)
         XFree(pbuffersize[j].gc);
     if(pbuffersize[j].frame) {
-        XDestroyImage(pbuffersize[j].frame);
-        pbuffersize[j].pix = 0; // linked and free by XDestroyImage 
+        if(shm_shm) {
+            XShmDetach(pbuffersize[j].dpy, &pbuffersize[j].shminfo);
+            XDestroyImage(pbuffersize[j].frame);
+            shmdt(pbuffersize[j].shminfo.shmaddr);
+        } else
+            XDestroyImage(pbuffersize[j].frame);
     }
-    if(pbuffersize[j].pix)
-        free(pbuffersize[j].pix);
     pbufferlist[j] = 0;
     pbuffersize[j].Width = 0;
     pbuffersize[j].Height = 0;
     pbuffersize[j].Depth = 0;
     pbuffersize[j].dpy = 0;
     pbuffersize[j].gc = 0;
-    pbuffersize[j].pix = 0;
     pbuffersize[j].Surface = 0;
+    pbuffersize[j].shmevent = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1812,49 +1834,94 @@ EXPORT void glXDestroyPixmap(Display *display, void *pixmap) {
     glXDestroyGLXPixmap(display, pixmap);
 }
 
+
 void BlitEmulatedPixmap() {
     if(!glstate->emulatedPixmap)
         return;
+
     Pixmap drawable = (Pixmap)pbufferlist[glstate->emulatedPixmap-1];
-    int Width = pbuffersize[glstate->emulatedPixmap-1].Width;
-    int Height = pbuffersize[glstate->emulatedPixmap-1].Height;
-    int Depth = pbuffersize[glstate->emulatedPixmap-1].Depth;
-    Display *dpy = pbuffersize[glstate->emulatedPixmap-1].dpy;
-    GC gc = pbuffersize[glstate->emulatedPixmap-1].gc;
+
+    glx_buffSize *buff = &pbuffersize[glstate->emulatedPixmap-1]; 
+
+    int Width = buff->Width;
+    int Height = buff->Height;
+    int Depth = buff->Depth;
+    Display *dpy = buff->dpy;
+    GC gc = buff->gc;
     // the reverse stuff can probably be better!
-    int reverse = pbuffersize[glstate->emulatedPixmap-1].Type==4?1:0;
+    int reverse = buff->Type==4?1:0;
     int sbuf = Width * Height * (Depth==16?2:4);
 
-    // create things if needed
-    if(!pbuffersize[glstate->emulatedPixmap-1].pix)
-        pbuffersize[glstate->emulatedPixmap-1].pix = malloc(Width*(Height+reverse)*(Depth==16?2:4));
-    if(!pbuffersize[glstate->emulatedPixmap-1].frame)
-        pbuffersize[glstate->emulatedPixmap-1].frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pbuffersize[glstate->emulatedPixmap-1].pix, Width, Height, (Depth==16)?16:32, 0);
-
-    uintptr_t pix=(uintptr_t)pbuffersize[glstate->emulatedPixmap-1].pix;
-
-    // grab framebuffer
-    glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
-    if(reverse) {
-        int stride = Width * (Depth==16?2:4);
-        uintptr_t end=pix+sbuf-stride;
-        uintptr_t beg=pix;
-        void* const tmp = (void*)(pix+sbuf);
-        for (; beg < end; beg+=stride, end-=stride) {
-            memcpy(tmp, (void*)end, stride);
-            memcpy((void*)end, (void*)beg, stride);
-            memcpy((void*)beg, tmp, stride);
+    // Can we use Shm (Shared memory)?
+    if(shm_tested==0) {
+        shm_tested=1;
+        int ignore, major, minor;
+        Bool pixmaps;
+        if(XQueryExtension(dpy, "MIT-SHM", &ignore, &ignore, &ignore) ) {
+            if(XShmQueryVersion(dpy, &major, &minor, &pixmaps) == True) {
+                SHUT(printf("LIBGL: XShm extention version %d.%d %s shared pixmaps\n", major, minor, (pixmaps==True) ? "with" : "without"));
+                if(pixmaps) shm_shm = 1;    // need pixmaps extention!
+            }
         }
     }
-    // create an X Bitmap with them
-    //XImage* frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, pix, Width, Height, (Depth==16)?16:32, 0);
-    XImage* frame = pbuffersize[glstate->emulatedPixmap-1].frame;
+
+
+    // create things if needed
+    if(!buff->frame) {
+        buff->frame = (shm_shm)
+        ?XShmCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, &buff->shminfo, Width, Height)
+        :XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
+
+        if(shm_shm) {
+            buff->shminfo.shmid = shmget(IPC_PRIVATE, Width*(Depth==16?2:4)*(Height+1), IPC_CREAT | 0777 );
+            buff->shminfo.shmaddr = buff->frame->data = (char *)shmat(buff->shminfo.shmid, 0, 0);
+            buff->shminfo.readOnly = False;
+            buff->cnt = 0;
+            buff->shmevent = XShmGetEventBase(dpy) + ShmCompletion;
+            XShmAttach(dpy, &buff->shminfo);
+        }
+    }
+
+    XImage* frame = buff->frame;
     if (!frame) {
         return;
     }
-    // blit
-    XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
+    uintptr_t pix=(uintptr_t)frame->data;
 
+    int nodraw = 0;
+    //check if blitting of a previous picture is ongoing
+    if(shm_shm && buff->cnt) {
+        XEvent event_return;
+        if(XCheckTypedEvent(dpy, buff->shmevent, &event_return)) {
+            // finish
+            buff->cnt = 0;
+        } else {
+            if((--buff->cnt)>0)
+                nodraw = 1;
+        }
+    }
+
+    // grab framebuffer
+    if(nodraw==0) {
+        glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+        if(reverse) {
+            int stride = Width * (Depth==16?2:4);
+            uintptr_t end=pix+sbuf-stride;
+            uintptr_t beg=pix;
+            void* const tmp = (void*)(pix+sbuf);
+            for (; beg < end; beg+=stride, end-=stride) {
+                memcpy(tmp, (void*)end, stride);
+                memcpy((void*)end, (void*)beg, stride);
+                memcpy((void*)beg, tmp, stride);
+            }
+        }
+        // blit
+        if(shm_shm) {
+            XShmPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height, True);
+            buff->cnt = 16;   // failsafe...
+        } else
+            XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
+    }
     // grab the size of the drawable if it has changed
     if(reverse) {
         // Get Window size and all...
@@ -1869,9 +1936,15 @@ void BlitEmulatedPixmap() {
             LOAD_EGL(eglChooseConfig);
             // destroy old stuff
             XSync(dpy, False);  // synch seems needed before the DestroyImage...
-            XDestroyImage(frame);
-            pbuffersize[glstate->emulatedPixmap-1].frame = 0;
-            pbuffersize[glstate->emulatedPixmap-1].pix = 0;
+            if(shm_shm) {
+                XShmDetach(dpy, &buff->shminfo);
+                XDestroyImage(frame);
+                shmdt(buff->shminfo.shmaddr);
+            } else
+                XDestroyImage(frame);
+            buff->frame = 0;
+            buff->cnt = 0;
+            buff->shmevent = 0;
             
 
             //let's create a PBuffer attributes
@@ -1899,15 +1972,15 @@ void BlitEmulatedPixmap() {
 
             EGLSurface Surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
 
-            pbuffersize[glstate->emulatedPixmap-1].glxcontext->eglSurface = Surface;
+            buff->glxcontext->eglSurface = Surface;
 
             egl_eglMakeCurrent(eglDisplay, Surface, Surface, eglContext);
 
-            egl_eglDestroySurface(eglDisplay, pbuffersize[glstate->emulatedPixmap-1].Surface);
-            pbuffersize[glstate->emulatedPixmap-1].Surface = Surface;
-            pbuffersize[glstate->emulatedPixmap-1].Width = width;
-            pbuffersize[glstate->emulatedPixmap-1].Height = height;
-            pbuffersize[glstate->emulatedPixmap-1].Depth = depth;
+            egl_eglDestroySurface(eglDisplay, buff->Surface);
+            buff->Surface = Surface;
+            buff->Width = width;
+            buff->Height = height;
+            buff->Depth = depth;
         }
     }
 }
