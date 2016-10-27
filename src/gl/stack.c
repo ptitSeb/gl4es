@@ -432,11 +432,11 @@ void glshim_glPopAttrib() {
     }
 
     if (cur->mask & GL_HINT_BIT) {
-        enable_disable(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
-        enable_disable(GL_POINT_SMOOTH_HINT, cur->point_smooth_hint);
-        enable_disable(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
-        enable_disable(GL_FOG_HINT, cur->fog_hint);
-        enable_disable(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
+        glshim_glHint(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
+        glshim_glHint(GL_POINT_SMOOTH_HINT, cur->point_smooth_hint);
+        glshim_glHint(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
+        glshim_glHint(GL_FOG_HINT, cur->fog_hint);
+        glshim_glHint(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
     }
 	// GL_LIST_BIT
     if (cur->mask & GL_LIST_BIT) {
