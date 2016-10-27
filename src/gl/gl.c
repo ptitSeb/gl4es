@@ -593,6 +593,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         enable(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
         enable(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
         enable(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
+        enable(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
         enable(GL_LINE_STIPPLE, line_stipple);
         
         // Secondary color
@@ -710,6 +711,7 @@ GLboolean glshim_glIsEnabled(GLenum cap) {
         isenabled(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
+        isenabled(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
 		isenabled(GL_COLOR_SUM, color_sum);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
         isenabled(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
@@ -766,15 +768,13 @@ static inline bool should_intercept_render(GLenum mode) {
             gltexture_t *bound = glstate->texture.bound[aa];
             if (bound && (bound->width!=bound->nwidth || bound->height!=bound->nheight))
                 return true;
+            if ((glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0] || glstate->enable.texgen_q[0]))
+                return true;
         }
     }
 
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
-        (/*glstate->enable.texture_2d[0] && */(glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0])) ||
-        (/*glstate->enable.texture_2d[1] && */(glstate->enable.texgen_s[1] || glstate->enable.texgen_t[1] || glstate->enable.texgen_r[1])) ||
-        (/*glstate->enable.texture_2d[2] && */(glstate->enable.texgen_s[2] || glstate->enable.texgen_t[2] || glstate->enable.texgen_r[2])) ||
-        (/*glstate->enable.texture_2d[3] && */(glstate->enable.texgen_s[3] || glstate->enable.texgen_t[3] || glstate->enable.texgen_r[3])) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
         (mode == GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch))
     );

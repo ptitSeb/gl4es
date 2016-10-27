@@ -19,6 +19,7 @@ typedef struct {
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
+              texgen_q[MAX_TEX],
               texture_2d[MAX_TEX],
               texture_3d[MAX_TEX],
               texture_1d[MAX_TEX];
@@ -29,12 +30,15 @@ typedef struct {
     GLenum S;
     GLenum T;
     GLenum R;
+    GLenum Q;
     GLfloat S_E[4]; // Eye Plane
     GLfloat T_E[4];
     GLfloat R_E[4];
+    GLfloat Q_E[4];
     GLfloat S_O[4]; // Object Plane
     GLfloat T_O[4];
     GLfloat R_O[4];
+    GLfloat Q_O[4];
 } texgen_state_t;
 
 typedef struct {
