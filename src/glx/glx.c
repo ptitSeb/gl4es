@@ -1101,10 +1101,13 @@ EXPORT void glXSwapBuffers(Display *display,
         blitMainFBO();
         // blit the main_fbo before swap
     }
-    egl_eglSwapBuffers(eglDisplay, surface);
     // check emulated Pixmap
-    if(PBuffer && glstate->emulatedPixmap)
+    if(PBuffer && glstate->emulatedPixmap) {
+        LOAD_GLES(glFlush);
+        gles_glFlush();
         BlitEmulatedPixmap();
+    } else
+        egl_eglSwapBuffers(eglDisplay, surface);
     CheckEGLErrors();
 #ifdef PANDORA
     if (g_showfps || (sock>-1)) {
@@ -1918,7 +1921,7 @@ void BlitEmulatedPixmap() {
         // blit
         if(shm_shm) {
             XShmPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height, True);
-            buff->cnt = 16;   // failsafe...
+            buff->cnt = 0;   // asynch doesn't seems to works...
         } else
             XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
     }
