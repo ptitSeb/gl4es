@@ -15,7 +15,7 @@ extern void *open_lib(const char **names, const char *override);
 extern void load_libs();
 
 #ifndef WARN_NULL
-#define WARN_NULL(name) if (name == NULL) printf("libGL: warning, " #name " is NULL\n");
+#define WARN_NULL(name) if (name == NULL) LOGD("libGL: warning, " #name " is NULL\n");
 #endif
 
 #ifndef LOAD_RAW
