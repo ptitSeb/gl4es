@@ -8,11 +8,10 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := glshim
+LOCAL_MODULE := GL
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include \
-	$(LOCAL_PATH)/src/util \
-	$(LOCAL_PATH)/src/util/vectorial
+	$(LOCAL_PATH)/src/util
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES) -DBCMHOST
 
