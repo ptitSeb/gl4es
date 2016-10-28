@@ -171,31 +171,31 @@ void initialize_glshim() {
     if (env_nobanner && strcmp(env_nobanner, "1") == 0)
         glshim_nobanner = 1;
 
-	if(!glshim_nobanner) printf("LIBGL: Initialising glshim\n");
+	if(!glshim_nobanner) LOGD("LIBGL: Initialising glshim\n");
 	
     // init read hack 
     char *env_readhack = getenv("LIBGL_READHACK");
     if (env_readhack && strcmp(env_readhack, "1") == 0) {
         readhack = 1;
-        printf("LIBGL: glReadPixel Hack (for other-life, 1x1 reading multiple time)\n");
+        LOGD("LIBGL: glReadPixel Hack (for other-life, 1x1 reading multiple time)\n");
     }
     if (env_readhack && strcmp(env_readhack, "2") == 0) {
         readhack = 2;
-        printf("LIBGL: glReadPixel Depth Hack (for games that read GLDepth always at the same place, same 1x1 size)\n");
+        LOGD("LIBGL: glReadPixel Depth Hack (for games that read GLDepth always at the same place, same 1x1 size)\n");
     }
     char *env_batch = getenv("LIBGL_BATCH");
     if (env_batch && strcmp(env_batch, "1") == 0) {
         gl_batch = 1;
-        printf("LIBGL: Batch mode enabled\n");
+        LOGD("LIBGL: Batch mode enabled\n");
     }
     if (env_batch && strcmp(env_batch, "0") == 0) {
         gl_batch = 0;
-        printf("LIBGL: Batch mode disabled\n");
+        LOGD("LIBGL: Batch mode disabled\n");
     }
     if (env_batch && strcmp(env_batch, "2") == 0) {
         gl_batch = 0;
         gl_mergelist = 0;
-        printf("LIBGL: Batch mode disabled, merging of list disabled too\n");
+        LOGD("LIBGL: Batch mode disabled, merging of list disabled too\n");
     }
     
     default_glstate = (glstate_t*)NewGLState(NULL);
@@ -733,7 +733,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-//if (glstate->list.compiling) printf("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
+//if (glstate->list.compiling) LOGD("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
     list->mode = mode;
     list->mode_init = mode;
     list->len = count-skip;
@@ -781,7 +781,7 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
+    //LOGD("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
@@ -1752,7 +1752,7 @@ void glshim_glPushMatrix() {
 		default:
 			//Warning?
 			errorShim(GL_INVALID_OPERATION);
-			//printf("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//LOGE("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
 			//gles_glPushMatrix();
 	}
 }
@@ -1799,7 +1799,7 @@ void glshim_glPopMatrix() {
 		default:
 			//Warning?
 			errorShim(GL_INVALID_OPERATION);
-			//printf("LIBGL: PopMatrix withUnrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//LOGE("LIBGL: PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
 			//gles_glPopMatrix();
 	}
 }
@@ -1826,7 +1826,7 @@ void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
 	else {
         static int test = 1;
         if (test) {
-            printf("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
+            LOGD("stub glBlendColor(%f, %f, %f, %f)\n", red, green, blue, alpha);
             test = 0;
         }
     }
@@ -1949,7 +1949,7 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-    //printf("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
+    //LOGD("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
     renderlist_t *mylist = glstate->list.active;
     if (mylist) {
         GLuint old = glstate->gl_batch;
@@ -2052,7 +2052,7 @@ void glFogfv(GLenum pname, const GLfloat* params) AliasExport("glshim_glFogfv");
 void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
-        printf("Warning, stubbed glIndexPointer\n");
+        LOGD("Warning, stubbed glIndexPointer\n");
         warning = true;
     }
 }
@@ -2061,7 +2061,7 @@ void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasEx
 void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
-        printf("Warning, stubbed glEdgeFlagPointer\n");
+        LOGD("Warning, stubbed glEdgeFlagPointer\n");
         warning = true;
     }
 }

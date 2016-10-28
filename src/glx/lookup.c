@@ -37,7 +37,7 @@ extern int export_silentstub;
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
-        if(!export_silentstub) printf("glX stub: %s\n", #func_name); \
+        if(!export_silentstub) LOGD("glX stub: %s\n", #func_name); \
         return (void *)glXStub;               \
     }
 
@@ -627,7 +627,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
         _EX(glGetQueryObjectuiv);
     }
 
-    if (!export_silentstub) printf("glXGetProcAddress: %s not found.\n", name);
+    if (!export_silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }
 
