@@ -112,6 +112,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
             cur->texgen_s[a] = glstate->enable.texgen_s[a];
             cur->texgen_r[a] = glstate->enable.texgen_r[a];
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
+            cur->texgen_q[a] = glstate->enable.texgen_q[a];
         }
         
     }
@@ -223,6 +224,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
             cur->texgen_r[a] = glstate->enable.texgen_r[a];
             cur->texgen_s[a] = glstate->enable.texgen_s[a];
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
+            cur->texgen_q[a] = glstate->enable.texgen_q[a];
             cur->texgen[a] = glstate->texgen[a];   // all mode and planes per texture in 1 line
 	        cur->texture[a] = (glstate->texture.bound[a])?glstate->texture.bound[a]->texture:0;
         }
@@ -418,6 +420,7 @@ void glshim_glPopAttrib() {
             glstate->enable.texgen_r[a] = cur->texgen_r[a];
             glstate->enable.texgen_s[a] = cur->texgen_s[a];
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
+            glstate->enable.texgen_q[a] = cur->texgen_q[a];
          }
          if (glstate->texture.active != old_tex) glshim_glActiveTexture(GL_TEXTURE0+old_tex);
     }
@@ -482,6 +485,7 @@ void glshim_glPopAttrib() {
             glstate->enable.texgen_r[a] = cur->texgen_r[a];
             glstate->enable.texgen_s[a] = cur->texgen_s[a];
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
+            glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
 			if ((cur->texture[a]==0 && glstate->texture.bound[a] != 0) || (cur->texture[a]!=0 && glstate->texture.bound[a]==0)) {
 			   glshim_glActiveTexture(GL_TEXTURE0+a);

@@ -56,6 +56,7 @@ typedef struct _glstack_t {
     GLboolean texgen_s[MAX_TEX];
     GLboolean texgen_r[MAX_TEX];
     GLboolean texgen_t[MAX_TEX];
+    GLboolean texgen_q[MAX_TEX];
     GLboolean colormaterial;
     GLboolean autonormal;
 
