@@ -25,11 +25,6 @@
 #include "../glx/streaming.h"
 #include "khash.h"
 
-#ifndef ANDROID
-#include <X11/extensions/XShm.h>
-#include <sys/shm.h>
-#endif
-
 #define EXPORT __attribute__((visibility("default")))
 
 #ifndef EGL_GL_COLORSPACE_KHR
@@ -62,9 +57,6 @@ typedef struct {
     int Type; GC gc; 
     XImage* frame; 
     GLXContext glxcontext;
-    XShmSegmentInfo shminfo;
-    int shmevent;
-    int cnt;
 } glx_buffSize;
 
 //PBuffer should work under ANDROID
@@ -786,7 +778,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display(display);
+        init_display((g_usefb)?g_display:display);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -1517,7 +1509,6 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Surface = surface;
     pbuffersize[pbufferlist_size].gc = NULL;
     pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
-    pbuffersize[pbufferlist_size].shmevent = 0;
     return pbufferlist[pbufferlist_size++];
 }
 void delPBuffer(int j)
@@ -1527,7 +1518,6 @@ void delPBuffer(int j)
     pbuffersize[j].Width = 0;
     pbuffersize[j].Height = 0;
     pbuffersize[j].gc = 0;
-    pbuffersize[j].shmevent = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1566,7 +1556,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display(dpy);
+        init_display((g_usefb)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -1676,7 +1666,6 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
     pbuffersize[pbufferlist_size].dpy = dpy;
     pbuffersize[pbufferlist_size].gc = (emulated)?XCreateGC(dpy, pixmap, 0, NULL):NULL;
     pbuffersize[pbufferlist_size].frame = NULL;
-    pbuffersize[pbufferlist_size].shmevent = 0;
 
     pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap, 4 = emulated win
     return pbufferlist[pbufferlist_size++];
@@ -1687,12 +1676,7 @@ void delPixBuffer(int j)
     if(pbuffersize[j].gc)
         XFree(pbuffersize[j].gc);
     if(pbuffersize[j].frame) {
-        if(shm_shm) {
-            XShmDetach(pbuffersize[j].dpy, &pbuffersize[j].shminfo);
-            XDestroyImage(pbuffersize[j].frame);
-            shmdt(pbuffersize[j].shminfo.shmaddr);
-        } else
-            XDestroyImage(pbuffersize[j].frame);
+        XDestroyImage(pbuffersize[j].frame);
     }
     pbufferlist[j] = 0;
     pbuffersize[j].Width = 0;
@@ -1701,7 +1685,6 @@ void delPixBuffer(int j)
     pbuffersize[j].dpy = 0;
     pbuffersize[j].gc = 0;
     pbuffersize[j].Surface = 0;
-    pbuffersize[j].shmevent = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     // should pack, but I think it's useless for common use 
 }
@@ -1726,7 +1709,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display(dpy);
+        init_display((g_usefb)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             printf("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -1781,7 +1764,7 @@ EXPORT GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixm
     int emulated = 0;
     XGetGeometry(display, pixmap, &root, &x, &y, &width, &height, &border, &depth);
     // let's try to create a PixmapSurface directly
-    if(createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
+    if(g_usefb || createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
         // fail, so emulate with a PBuffer
         SHUT(printf("LIBGL: Pixmap creation failed, trying PBuffer instead\n"));
         //let's create a PixBuffer attributes
@@ -1855,34 +1838,9 @@ void BlitEmulatedPixmap() {
     int reverse = buff->Type==4?1:0;
     int sbuf = Width * Height * (Depth==16?2:4);
 
-    // Can we use Shm (Shared memory)?
-    if(shm_tested==0) {
-        shm_tested=1;
-        int ignore, major, minor;
-        Bool pixmaps;
-        if(XQueryExtension(dpy, "MIT-SHM", &ignore, &ignore, &ignore) ) {
-            if(XShmQueryVersion(dpy, &major, &minor, &pixmaps) == True) {
-                SHUT(printf("LIBGL: XShm extention version %d.%d %s shared pixmaps\n", major, minor, (pixmaps==True) ? "with" : "without"));
-                if(pixmaps) shm_shm = 1;    // need pixmaps extention!
-            }
-        }
-    }
-
-
     // create things if needed
     if(!buff->frame) {
-        buff->frame = (shm_shm)
-        ?XShmCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, &buff->shminfo, Width, Height)
-        :XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
-
-        if(shm_shm) {
-            buff->shminfo.shmid = shmget(IPC_PRIVATE, Width*(Depth==16?2:4)*(Height+1), IPC_CREAT | 0777 );
-            buff->shminfo.shmaddr = buff->frame->data = (char *)shmat(buff->shminfo.shmid, 0, 0);
-            buff->shminfo.readOnly = False;
-            buff->cnt = 0;
-            buff->shmevent = XShmGetEventBase(dpy) + ShmCompletion;
-            XShmAttach(dpy, &buff->shminfo);
-        }
+        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
     }
 
     XImage* frame = buff->frame;
@@ -1891,40 +1849,22 @@ void BlitEmulatedPixmap() {
     }
     uintptr_t pix=(uintptr_t)frame->data;
 
-    int nodraw = 0;
-    //check if blitting of a previous picture is ongoing
-    if(shm_shm && buff->cnt) {
-        XEvent event_return;
-        if(XCheckTypedEvent(dpy, buff->shmevent, &event_return)) {
-            // finish
-            buff->cnt = 0;
-        } else {
-            if((--buff->cnt)>0)
-                nodraw = 1;
-        }
-    }
-
     // grab framebuffer
-    if(nodraw==0) {
-        glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
-        if(reverse) {
-            int stride = Width * (Depth==16?2:4);
-            uintptr_t end=pix+sbuf-stride;
-            uintptr_t beg=pix;
-            void* const tmp = (void*)(pix+sbuf);
-            for (; beg < end; beg+=stride, end-=stride) {
-                memcpy(tmp, (void*)end, stride);
-                memcpy((void*)end, (void*)beg, stride);
-                memcpy((void*)beg, tmp, stride);
-            }
+    glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+    if(reverse) {
+        int stride = Width * (Depth==16?2:4);
+        uintptr_t end=pix+sbuf-stride;
+        uintptr_t beg=pix;
+        void* const tmp = (void*)(pix+sbuf);
+        for (; beg < end; beg+=stride, end-=stride) {
+            memcpy(tmp, (void*)end, stride);
+            memcpy((void*)end, (void*)beg, stride);
+            memcpy((void*)beg, tmp, stride);
         }
-        // blit
-        if(shm_shm) {
-            XShmPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height, True);
-            buff->cnt = 0;   // asynch doesn't seems to works...
-        } else
-            XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
     }
+    // blit
+    XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
+
     // grab the size of the drawable if it has changed
     if(reverse) {
         // Get Window size and all...
@@ -1939,15 +1879,8 @@ void BlitEmulatedPixmap() {
             LOAD_EGL(eglChooseConfig);
             // destroy old stuff
             XSync(dpy, False);  // synch seems needed before the DestroyImage...
-            if(shm_shm) {
-                XShmDetach(dpy, &buff->shminfo);
-                XDestroyImage(frame);
-                shmdt(buff->shminfo.shmaddr);
-            } else
-                XDestroyImage(frame);
+            XDestroyImage(frame);
             buff->frame = 0;
-            buff->cnt = 0;
-            buff->shmevent = 0;
             
 
             //let's create a PBuffer attributes
