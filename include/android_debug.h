@@ -29,14 +29,14 @@ namespace std
 			*((ostringstream*)this) << v;
 			if( this->str().find('\n') != ::std::string::npos )
 			{
-				__android_log_print(ANDROID_LOG_INFO, "glshim", "%s", this->str().c_str());
+				__android_log_print(ANDROID_LOG_INFO, "LIBGL", "%s", this->str().c_str());
 				this->str().clear();
 			}
 			return *this;
 		}
 		~android_cout()
 		{
-			__android_log_print(ANDROID_LOG_INFO, "glshim", "%s", this->str().c_str());
+			__android_log_print(ANDROID_LOG_INFO, "LIBGL", "%s", this->str().c_str());
 			this->str().clear();
 		}
 	};
@@ -48,7 +48,7 @@ namespace std
 
 #endif
 
-#define printf(...) __android_log_print(ANDROID_LOG_INFO, "glshim", __VA_ARGS__)
+#define printf(...) __android_log_print(ANDROID_LOG_INFO, "LIBGL", __VA_ARGS__)
 
 // Override fprintf(stderr, ...) constructs
 static inline int __sdl_logged_fprintf(FILE *stream, const char *format, ...)
@@ -57,7 +57,7 @@ static inline int __sdl_logged_fprintf(FILE *stream, const char *format, ...)
 	va_list args;
 	va_start(args, format);
 	if( stream == stderr || stream == stdout )
-		ret = __android_log_vprint(ANDROID_LOG_INFO, "glshim", format, args);
+		ret = __android_log_vprint(ANDROID_LOG_INFO, "LIBGL", format, args);
 	else
 		ret = vfprintf(stream, format, args);
 	va_end(args);
