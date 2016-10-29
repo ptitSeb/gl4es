@@ -7,6 +7,7 @@
 #include <EGL/eglext.h>
 #include "gles.h"
 #include "../glx/streaming.h"
+#include "../glx/hardext.h"
 
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
@@ -786,7 +787,7 @@ void glshim_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         case GL_PROXY_TEXTURE_2D:
             break;
         default: {
-            GLsizei nheight = npot(height), nwidth = npot(width);
+            GLsizei nheight = (hardext.npot==2)?height:npot(height), nwidth = (hardext.npot==2)?width:npot(width);
 #ifdef PANDORA
 #define NO_1x1
 #endif

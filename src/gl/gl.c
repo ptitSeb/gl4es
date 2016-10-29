@@ -1,5 +1,6 @@
 #include "gl.h"
 #include "debug.h"
+#include "../glx/hardext.h"
 /*
 glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
 	.secondary = {0.0f, 0.0f, 0.0f, 0.0f},
@@ -215,6 +216,7 @@ const GLubyte *glshim_glGetString(GLenum name) {
 		strcpy(extensions,
 				"GL_EXT_abgr "
                 "GL_EXT_packed_pixels "
+                "GL_EXT_compiled_vertex_array "
                 "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_array_object "
                 "GL_ARB_vertex_buffer "
@@ -248,11 +250,6 @@ const GLubyte *glshim_glGetString(GLenum name) {
                 "GL_EXT_stencil_wrap "
                 "SGIS_texture_edge_clamp "
                 "GL_EXT_texture_edge_clamp "
-#ifndef ODROID
-                "GL_EXT_blend_subtract "
-                "GL_EXT_blend_func_separate "
-                "GL_EXT_blend_equation_separate "
-#endif
                 "GL_ARB_draw_buffers "
                 "GL_EXT_direct_state_access "
                 "GL_EXT_multi_draw_arrays "
@@ -265,6 +262,16 @@ const GLubyte *glshim_glGetString(GLenum name) {
 			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
 		if(glshim_npot>=2)
 			strcat(extensions, "GL_ARB_texture_non_power_of_two ");
+        if(hardext.blendcolor)
+            strcat(extensions, "GL_EXT_blend_color");
+        if(hardext.blendminmax)
+            strcat(extensions, "GL_EXT_blend_minmax");
+        if(hardext.blendeq)
+            strcat(extensions, "GL_EXT_blend_equation_separate");
+        if(hardext.blendfunc)
+            strcat(extensions, "GL_EXT_blend_func_separate");
+        if(hardext.blendsub)
+            strcat(extensions, "GL_EXT_blend_subtract");
 	}
     switch (name) {
         case GL_VERSION:

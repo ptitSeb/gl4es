@@ -2,6 +2,7 @@
 #include "../gl/gl.h"
 #endif
 #include "glx.h"
+#include "hardext.h"
 
 #include "../gl/directstate.h"
 
@@ -317,7 +318,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glArrayElement);
     _EX(glBegin);
     _EX(glBitmap);
-    if(export_blendcolor) {
+    if(export_blendcolor || hardext.blendcolor) {
         _EX(glBlendColor);
         _EXT(glBlendColor);
         _ARB(glBlendColor);
@@ -326,18 +327,21 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _ARB(glBlendEquation);
     _EXT(glBlendFunc);
     _ARB(glBlendFunc);
-#ifndef ODROID
-    _EXT(glBlendEquationSeparate);
-    _ARB(glBlendEquationSeparate);
-    _EX(glBlendEquationSeparatei);
-    _EXT(glBlendEquationSeparatei);
-    _ARB(glBlendEquationSeparatei);
-    _EXT(glBlendFuncSeparate);
-    _ARB(glBlendFuncSeparate);
-    _EX(glBlendFuncSeparatei);
-    _EXT(glBlendFuncSeparatei);
-    _ARB(glBlendFuncSeparatei);
-#endif
+
+    if(hardext.blendeq) {
+        _EXT(glBlendEquationSeparate);
+        _ARB(glBlendEquationSeparate);
+        _EX(glBlendEquationSeparatei);
+        _EXT(glBlendEquationSeparatei);
+        _ARB(glBlendEquationSeparatei);
+    }
+    if(hardext.blendfunc) {
+        _EXT(glBlendFuncSeparate);
+        _ARB(glBlendFuncSeparate);
+        _EX(glBlendFuncSeparatei);
+        _EXT(glBlendFuncSeparatei);
+        _ARB(glBlendFuncSeparatei);
+    }
     _EX(glStencilMaskSeparate);
     _EXT(glStencilMaskSeparate);
     _EX(glCallList);
@@ -478,7 +482,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     STUB(glClearAccum);
     STUB(glColorMaterial);
     STUB(glCopyTexImage3D);
-    STUB(glCopyTexSubImage3D);
+    _EX(glCopyTexSubImage3D);   // It's a stub, calling the 2D one
     STUB(glFeedbackBuffer);
     STUB(glGetClipPlane);
     STUB(glGetLightiv);

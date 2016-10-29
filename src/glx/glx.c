@@ -24,6 +24,7 @@
 #include "../gl/gl.h"
 #include "../glx/streaming.h"
 #include "khash.h"
+#include "hardext.h"
 
 #define EXPORT __attribute__((visibility("default")))
 
@@ -460,6 +461,13 @@ static void scan_env() {
         SHUT(LOGD("LIBGL: LiveInfo detected, fps will be shown\n"));
     }
 #endif
+    int glshim_notest = 0;
+    char *env_notest = getenv("LIBGL_NOTEST");
+    if (env_notest && strcmp(env_notest, "1") == 0) {
+		glshim_npot = 1;
+    }
+    GetHardwareExtensions(glshim_notest);
+
     env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
     // Texture hacks
     char *env_mipmap = getenv("LIBGL_MIPMAP");
@@ -592,11 +600,12 @@ static void scan_env() {
 #endif
     }
     char *env_npot = getenv("LIBGL_NPOT");
-    if (env_npot && strcmp(env_npot, "1") == 0) {
+    glshim_npot = hardext.npot;
+    if (env_npot && strcmp(env_npot, "1") == 0 && glshim_npot<1) {
 		glshim_npot = 1;
 		SHUT(LOGD("LIBGL: Expose limited NPOT extension\n"));
 	}
-    if (env_npot && strcmp(env_npot, "2") == 0) {
+    if (env_npot && strcmp(env_npot, "2") == 0 && glshim_npot<2) {
 		glshim_npot = 2;
 		SHUT(LOGD("LIBGL: Expose GL_ARB_texture_non_power_of_two extension\n"));
 	}
