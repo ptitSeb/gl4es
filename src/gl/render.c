@@ -4,8 +4,11 @@ void push_hit() {
     // push current hit to hit list, and re-init current hit
     if (glstate->selectbuf.hit) {
         if (!glstate->selectbuf.overflow) {
-            if (glstate->selectbuf.zmin<0.0f) glstate->selectbuf.zmin=0.0f;   // not really normalized...
-            if (glstate->selectbuf.zmax>1.0f) glstate->selectbuf.zmax=1.0f;   // TODO, normalize for good?
+			//Normalize zmin/zmax
+			if((glstate->selectbuf.zmaxoverall - glstate->selectbuf.zminoverall)!=0.0f) {
+				glstate->selectbuf.zmin = (glstate->selectbuf.zmin-glstate->selectbuf.zminoverall)/(glstate->selectbuf.zmaxoverall - glstate->selectbuf.zminoverall);
+				glstate->selectbuf.zmax = (glstate->selectbuf.zmax-glstate->selectbuf.zminoverall)/(glstate->selectbuf.zmaxoverall - glstate->selectbuf.zminoverall);
+			}
             int tocopy = glstate->namestack.top + 3;
             if (tocopy+glstate->selectbuf.pos > glstate->selectbuf.size) {
                 glstate->selectbuf.overflow = 1;
@@ -25,8 +28,10 @@ void push_hit() {
         }
         glstate->selectbuf.hit = 0;
     }
-    glstate->selectbuf.zmin = 1.0f;
-    glstate->selectbuf.zmax = 0.0f;
+    glstate->selectbuf.zmin = 1e10f;
+    glstate->selectbuf.zmax = -1e10f;
+    glstate->selectbuf.zminoverall = 1e10f;
+    glstate->selectbuf.zmaxoverall = -1e10f;
 }
 
 
@@ -50,8 +55,10 @@ GLint glshim_glRenderMode(GLenum mode) {
 		glstate->selectbuf.count = 0;
         glstate->selectbuf.pos = 0;
         glstate->selectbuf.overflow = 0;
-        glstate->selectbuf.zmin = 1.0f;
-        glstate->selectbuf.zmax = 0.0f;
+        glstate->selectbuf.zmin = 1e10f;
+        glstate->selectbuf.zmax = -1e10f;
+		glstate->selectbuf.zminoverall = 1e10f;
+		glstate->selectbuf.zmaxoverall = -1e10f;
         glstate->selectbuf.hit = 0;
 	}
     
@@ -218,6 +225,12 @@ GLboolean select_triangle_in_viewscreen(const GLfloat *a, const GLfloat *b, cons
 	 return false;
 }
 
+static void FASTMATH ZMinMax(GLfloat *zmin, GLfloat *zmax, GLfloat *vtx) {
+	if (vtx[2]<*zmin) *zmin=vtx[2];
+	if (vtx[2]>*zmax) *zmax=vtx[2];
+}
+
+
 void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, GLuint count) {
 	if (count == 0) return;
 	if (vtx->pointer == NULL) return;
@@ -225,59 +238,77 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
 			GL_FLOAT, 4, 0, count+first);
-	GLfloat zmin=1.0f, zmax=0.0f;
+	GLfloat zmin=1e10f, zmax=-1e10f;
 	init_select();
+	int found = 0;
 
-	#define FOUND()	{ 		\
-		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;	\
-		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;	\
-		glstate->selectbuf.hit = 1;                        \
-        free(vert);         \
-        return;                                         \
-		}
+	#define FOUND()	{ 				\
+		found = 1;					\
+		glstate->selectbuf.hit = 1; \
+	}
+
     // transform the points
 	for (int i=first; i<count+first; i++) {
 		select_transform(vert+i*4);
-		if (vert[i*4+2]<zmin) zmin=vert[i*4+2];
-		if (vert[i*4+2]>zmax) zmax=vert[i*4+2];
+		ZMinMax(&glstate->selectbuf.zminoverall, &glstate->selectbuf.zmaxoverall, vert+i*4);
     }
     // intersect with screen now
     GLfloat *vert2 = vert + first*4;
 	for (int i=0; i<count; i++) {
 		switch (mode) {
 			case GL_POINTS:
-				if (select_point_in_viewscreen(vert2+i*4))
+				if (select_point_in_viewscreen(vert2+i*4)) {
+					ZMinMax(&zmin, &zmax, vert+i*4);
 					FOUND();
+				}
 				break;
 			case GL_LINES:
 				if (i%2==1) {
-					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4))
+					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4)) {
+						ZMinMax(&zmin, &zmax, vert+(i-1)*4);
+						ZMinMax(&zmin, &zmax, vert+i*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_LINE_STRIP:
 			case GL_LINE_LOOP:		//FIXME: the last "loop" segment is missing here
 				if (i>0) {
-					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4))
+					if (select_segment_in_viewscreen(vert2+(i-1)*4, vert2+i*4)) {
+						ZMinMax(&zmin, &zmax, vert+(i-1)*4);
+						ZMinMax(&zmin, &zmax, vert+i*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLES:
 				if (i%3==2) {
-					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4))
+					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4)) {
+						ZMinMax(&zmin, &zmax, vert+(i-2)*4);
+						ZMinMax(&zmin, &zmax, vert+(i-1)*4);
+						ZMinMax(&zmin, &zmax, vert+i*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLE_STRIP:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4))
+					if (select_triangle_in_viewscreen(vert2+(i-2)*4, vert2+(i-1)*4, vert2+i*4)) {
+						ZMinMax(&zmin, &zmax, vert+(i-2)*4);
+						ZMinMax(&zmin, &zmax, vert+(i-1)*4);
+						ZMinMax(&zmin, &zmax, vert+i*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLE_FAN:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert2, vert2+(i-1)*4, vert2+i*4))
+					if (select_triangle_in_viewscreen(vert2, vert2+(i-1)*4, vert2+i*4)) {
+						ZMinMax(&zmin, &zmax, vert);
+						ZMinMax(&zmin, &zmax, vert+(i-1)*4);
+						ZMinMax(&zmin, &zmax, vert+i*4);
 						FOUND();
+					}
 				}
 				break;
 			default:
@@ -285,6 +316,10 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 		}
 	}
 	free(vert);
+	if(found) {
+		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;
+		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;
+	}
 	#undef FOUND
 }
 
@@ -301,57 +336,71 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 			vtx->size, vtx->stride,
 			GL_FLOAT, 4, 0, max);
 	init_select();
-	GLfloat zmin=1.0f, zmax=0.0f;
+	GLfloat zmin=1e10f, zmax=-10e6f;
+	int found = 0;
 	for (int i=min; i<max; i++) {
-		select_transform(vert+i*3);
-		if (vert[i*4+2]<zmin) zmin=vert[i*4+2];
-		if (vert[i*4+2]>zmax) zmax=vert[i*4+2];
+		select_transform(vert+i*4);
+		ZMinMax(&glstate->selectbuf.zminoverall, &glstate->selectbuf.zmaxoverall, vert+i*4);
 	}
-	if (zmin<0.0f) zmin = 0.0f;
-	if (zmax>1.0f) zmax = 1.0f;
 
-	#define FOUND()	{ 		\
-		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;	\
-		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;	\
+	#define FOUND()	{ 				\
+		found = 1;					\
 		glstate->selectbuf.hit = 1; \
-        free(vert);              \
-        return;                  \
 		}
 
 	for (int i=0; i<count; i++) {
 		switch (mode) {
 			case GL_POINTS:
-				if (select_point_in_viewscreen(vert+ind[i]*4))
+				if (select_point_in_viewscreen(vert+ind[i]*4)) {
+					ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 					FOUND();
+				}
 				break;
 			case GL_LINES:
 				if (i%2==1) {
-					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4))
+					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4)) {
+						ZMinMax(&zmin, &zmax, vert+ind[i-1]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_LINE_STRIP:
 			case GL_LINE_LOOP:		//FIXME: the last "loop" segment is missing here
 				if (i>0) {
-					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4))
+					if (select_segment_in_viewscreen(vert+ind[(i-1)]*4, vert+ind[i]*4)) {
+						ZMinMax(&zmin, &zmax, vert+ind[i-1]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLES:
 				if (i%3==2) {
-					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
+					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4)) {
+						ZMinMax(&zmin, &zmax, vert+ind[i-2]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i-1]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLE_STRIP:
 				if (i>1) {
-					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
+					if (select_triangle_in_viewscreen(vert+ind[(i-2)]*4, vert+ind[(i-1)]*4, vert+ind[i]*4)) {
+						ZMinMax(&zmin, &zmax, vert+ind[i-2]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i-1]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 						FOUND();
+					}
 				}
 				break;
 			case GL_TRIANGLE_FAN:
 				if (i>1) {
 					if (select_triangle_in_viewscreen(vert+ind[0]*4, vert+ind[(i-1)]*4, vert+ind[i]*4))
+						ZMinMax(&zmin, &zmax, vert+ind[0]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i-1]*4);
+						ZMinMax(&zmin, &zmax, vert+ind[i]*4);
 						FOUND();
 				}
 				break;
@@ -360,6 +409,11 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 		}
 	}
 	free(vert);
+	if(found) {
+		if (zmin<glstate->selectbuf.zmin) 	glstate->selectbuf.zmin=zmin;
+		if (zmax>glstate->selectbuf.zmax) 	glstate->selectbuf.zmax=zmax;
+	}
+
 	#undef FOUND
 }
 

@@ -97,6 +97,8 @@ typedef struct {
     GLuint  size;
     GLfloat zmin;
     GLfloat zmax;
+    GLfloat zminoverall;
+    GLfloat zmaxoverall;
     GLuint  overflow;
     GLuint  pos;
     GLboolean  hit;
