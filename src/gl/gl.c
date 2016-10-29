@@ -772,7 +772,12 @@ static inline bool should_intercept_render(GLenum mode) {
                 return true;
         }
     }
-
+    if(glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+        return true;
+    if ((glstate->vao->secondary_array) && (glstate->vao->color_array))
+        return true;
+    if (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4))
+        return true;
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
@@ -781,7 +786,7 @@ static inline bool should_intercept_render(GLenum mode) {
 }
 
 void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //LOGD("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
+    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
@@ -875,27 +880,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 		if (glstate->render_mode == GL_SELECT) {
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
-			// secondary color...
-			GLfloat *final_colors = NULL;
-			pointer_state_t old_color;
-            client_state(color_array, GL_COLOR_ARRAY, );
-			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, len);
-				for (int i=0; i<len*4; i++)
-					final_colors[i]+=seconds_colors[i];
-				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-				free(seconds_colors);
-			} else if (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)) {
-				// Pandora doesn't like Color Pointer with size != 4
-                if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, len);
-                    gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
-                } else {
-                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, len);
-                    gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-                }
-			} else if (glstate->vao->color_array)
+            // secondry color and color sizef != 4 are "intercepted" and draw using a list
+            if (glstate->vao->color_array)
 				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
 			if (glstate->vao->normal_array)
@@ -918,44 +904,9 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
             }
 			if (glstate->texture.client!=old_tex)
 				TEXTURE(old_tex);
-				
-			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
-				int n, s;
-				switch (mode_init) {
-					case GL_TRIANGLES:
-						n = 3;
-						s = 3;
-						break;
-					case GL_TRIANGLE_STRIP:
-						n = 3;
-						s = 1;
-						break;
-					case GL_TRIANGLE_FAN:	// wrong here...
-						n = count;
-						s = count;
-						break;
-					case GL_QUADS:
-						n = 4;
-						s = 4;
-						break;
-					case GL_QUAD_STRIP:
-						n = 4;
-						s = 1;
-						break;
-					default:		// Polygon and other?
-						n = count;
-						s = count;
-						break;
-				}
-				for (int i=n; i<count; i+=s)
-					gles_glDrawElements(mode, n, GL_UNSIGNED_SHORT, sindices+i-n);
-			} else
-				gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
+			// POLYGON mode as LINE is "intercepted" and drawn using list
+			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
-			// secondary color
-			if (final_colors) {
-				free(final_colors);
-			}
 			for (int aa=0; aa<MAX_TEX; aa++) {
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     TEXTURE(aa);
@@ -1038,27 +989,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
 			// setup the Array Pointers
-			// secondary color...
-			GLfloat *final_colors = NULL;
-            client_state(color_array, GL_COLOR_ARRAY, );
-			if (/*glstate->enable.color_sum && */(glstate->vao->secondary_array) && (glstate->vao->color_array)) {
-				final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first);
-				GLfloat* seconds_colors=(GLfloat*)copy_gl_pointer(&glstate->vao->pointers.secondary, 4, first, count+first);
-				for (int i=0; i<(count+first)*4; i++)
-					final_colors[i]+=seconds_colors[i];
-				gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-				free(seconds_colors);
-			} else if ((glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)) 
-                    || (glstate->vao->color_array && (glstate->vao->pointers.color.stride!=0) && (glstate->vao->pointers.color.type != GL_FLOAT))) {
-				// Pandora doesn't like Color Pointer with size != 4
-                if(glstate->vao->pointers.color.type == GL_UNSIGNED_BYTE) {
-                    final_colors=copy_gl_pointer_bytecolor(&glstate->vao->pointers.color, 4, 0, count+first);
-                    gles_glColorPointer(4, GL_UNSIGNED_BYTE, 0, final_colors);
-                } else {
-                    final_colors=copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count+first);
-                    gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
-                }
-			} else if (glstate->vao->color_array)
+            if (glstate->vao->color_array)
 				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
 			if (glstate->vao->normal_array)
@@ -1084,43 +1015,8 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			if (glstate->texture.client!=old_tex)
 				TEXTURE(old_tex);
 
-			if (glstate->polygon_mode == GL_LINE && mode_init>=GL_TRIANGLES) {
-				int n, s;
-				switch (mode_init) {
-					case GL_TRIANGLES:
-						n = 3;
-						s = 3;
-						break;
-					case GL_TRIANGLE_STRIP:
-						n = 3;
-						s = 1;
-						break;
-					case GL_TRIANGLE_FAN:	// wrong here...
-						n = count;
-						s = count;
-						break;
-					case GL_QUADS:
-						n = 4;
-						s = 4;
-						break;
-					case GL_QUAD_STRIP:
-						n = 4;
-						s = 1;
-						break;
-					default:		// Polygon and other?
-						n = count;
-						s = count;
-						break;
-				}
-				for (int i=n; i<count; i+=s)
-					gles_glDrawArrays(mode, i-n, n);
-			} else
-				gles_glDrawArrays(mode, first, count);
+			gles_glDrawArrays(mode, first, count);
 			
-			// secondary color
-			if (final_colors) {
-				free(final_colors);
-			}
 			for (int aa=0; aa<MAX_TEX; aa++) {
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
                     TEXTURE(aa);
