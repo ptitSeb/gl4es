@@ -1864,13 +1864,37 @@ void BlitEmulatedPixmap() {
     if(Depth==16) {
         void* tmp = malloc(Width*Height*4);
         gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
-        pixel_convert(tmp, (void**)&pix, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 0);
+        if(reverse) {
+            int stride = Width * 2;
+            uintptr_t src_pos = (uintptr_t)tmp;
+            uintptr_t dst_pos = (uintptr_t)pix+sbuf-stride;
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width; j++) {
+                    *(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[0]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[2]&0xf8)<<(11-3));
+                    src_pos += 4;
+                    dst_pos += 2;
+                }
+                dst_pos -= 2*stride;
+            }
+        } else
+            pixel_convert(tmp, (void**)&pix, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 0);
         free(tmp);
-    } else
+    } else {
         gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
+        if(reverse) {
+            int stride = Width * 4;
+            uintptr_t end=pix+sbuf-stride;
+            uintptr_t beg=pix;
+            void* const tmp = (void*)(pix+sbuf);
+            for (; beg < end; beg+=stride, end-=stride) {
+                memcpy(tmp, (void*)end, stride);
+                memcpy((void*)end, (void*)beg, stride);
+                memcpy((void*)beg, tmp, stride);
+            }
+        }
+    }
 #else
     glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
-#endif
     if(reverse) {
         int stride = Width * (Depth==16?2:4);
         uintptr_t end=pix+sbuf-stride;
@@ -1882,6 +1906,7 @@ void BlitEmulatedPixmap() {
             memcpy((void*)beg, tmp, stride);
         }
     }
+#endif
     // blit
     XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
 
