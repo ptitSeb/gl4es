@@ -1782,9 +1782,8 @@ void glshim_glClientActiveTexture( GLenum texture ) {
  gles_glClientActiveTexture(texture);
  errorGL();
 }
-
 void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
-    //printf("glReadPixels(%i, %i, %i, %i, 0x%04X, 0x%04X, 0x%p)\n", x, y, width, height, format, type, data);
+    //printf("glReadPixels(%i, %i, %i, %i, %s, %s, 0x%p)\n", x, y, width, height, PrintEnum(format), PrintEnum(type), data);
     GLuint old_glbatch = glstate->gl_batch;
     if (glstate->gl_batch) {
         flush();
@@ -1802,20 +1801,26 @@ void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum
 		dst += (uintptr_t)glstate->vao->pack->data;
 		
 	readfboBegin();
-    if (format == GL_RGBA && format == GL_UNSIGNED_BYTE) {
+    if ((format == GL_RGBA && type == GL_UNSIGNED_BYTE)     // should not use default GL_RGBA on Pandora as it's very slow...
+       || (format == hardext.readf && type == hardext.readt)    // use the IMPLEMENTATION_READ too...
+       || (format == GL_DEPTH_COMPONENT && type == GL_FLOAT))   // this one will probably fail, as DEPTH is not readable on most GLES hardware 
+    {
         // easy passthru
-        gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+        gles_glReadPixels(x, y, width, height, format, type, dst);
         readfboEnd();
         glstate->gl_batch = old_glbatch;
         return;
     }
     // grab data in GL_RGBA format
+    int use_bgra = 0;
+    if(hardext.readf==GL_BGRA && hardext.readt==GL_UNSIGNED_BYTE)
+        use_bgra = 1;   // if IMPLEMENTATION_READ is BGRA, then use it as it's probably faster then RGBA.
     GLvoid *pixels = malloc(width*height*4);
-    gles_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    gles_glReadPixels(x, y, width, height, use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &dst, width, height,
-					    GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0)) {
-        printf("LIBGL: ReadPixels error: (GL_RGBA, UNSIGNED_BYTE -> %s, %s )\n",
-            PrintEnum(format), PrintEnum(type));
+					    use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0)) {
+        LOGE("LIBGL: ReadPixels error: (%s, UNSIGNED_BYTE -> %s, %s )\n",
+            PrintEnum(use_bgra?GL_BGRA:GL_RGBA), PrintEnum(format), PrintEnum(type));
     }
     free(pixels);
     readfboEnd();
