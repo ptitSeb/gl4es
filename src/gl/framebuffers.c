@@ -1,6 +1,6 @@
 #include "framebuffers.h"
 #include "debug.h"
-
+#include "../glx/hardext.h"
 #ifndef ANDROID
 #include <execinfo.h>
 #endif
@@ -197,17 +197,17 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         k = kh_get(tex, list, texture);
         
         if (k == kh_end(list)){
-            printf("*WARNING* texture for FBO not found, name=%u\n", texture);
+            LOGE("LIBGL: texture for FBO not found, name=%u\n", texture);
         } else {
             tex = kh_value(list, k);
             texture = tex->glname;
             // check if texture is shrinked...
             if (tex->shrink) {
-                printf("LIBGL: unshrinking shrinked texture for FBO\n");
+                LOGD("LIBGL: unshrinking shrinked texture for FBO\n");
                 tex->width *= 2*tex->shrink;
                 tex->height *= 2*tex->shrink;
-                tex->nwidth = npot(tex->width);
-                tex->nheight = npot(tex->height);
+                tex->nwidth = hardext.npot==2?tex->width:npot(tex->width);
+                tex->nheight = hardext.npot==2?tex->height:npot(tex->height);
                 tex->shrink = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active];
                 GLuint oldtex = (bound)?bound->glname:0;
@@ -353,8 +353,8 @@ void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei 
     //printf("glRenderbufferStorage(0x%04X, 0x%04X, %i, %i)\n", target, internalformat, width, height);
     
     errorGL();
-    width = npot(width);
-    height = npot(height);
+    width = hardext.npot==2?width:npot(width);
+    height = hardext.npot==2?height:npot(height);
     // check if internal format is GL_DEPTH_STENCIL_EXT
     // in that case, create first a STENCIL one then a DEPTH one....
     if ((internalformat == GL_DEPTH_STENCIL) || (internalformat == GL_DEPTH24_STENCIL8)) {
@@ -389,7 +389,7 @@ void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei 
     else if (internalformat == GL_DEPTH_COMPONENT) {    // Not much is supported on GLES...
         internalformat = GL_DEPTH_COMPONENT16;
     }
-    
+
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
 
@@ -481,8 +481,8 @@ void createMainFBO(int width, int height) {
         
     mainfbo_width = width;
     mainfbo_height = height;
-    mainfbo_nwidth = width = npot(width);
-    mainfbo_nheight = height = npot(height);
+    mainfbo_nwidth = width = hardext.npot==2?width:npot(width);
+    mainfbo_nheight = height = hardext.npot==2?width:npot(height);
 
     // create the texture
 	gles_glGenTextures(1, &mainfbo_tex);
