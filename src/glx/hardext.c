@@ -112,9 +112,13 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_point_sprite", pointsprite, 0); 
     S("GL_OES_point_size_array", pointsize, 0);
     S("GL_OES_element_index_uint", elementuint, 0);
-    S("GL_OES_packed_depth_stencil", depthstencil, 0);
+    S("GL_OES_framebuffer_object", fbo, 1);
+    S("GL_OES_packed_depth_stencil", depthstencil, 1);
+    S("GL_OES_depth24", depth24, 1);
+    S("GL_OES_rgb8_rgba8", rgba8, 1);
     S("GL_EXT_multi_draw_arrays", multidraw, 1);
     S("GL_IMG_texture_format_BGRA8888", bgra8888, 0);
+    S("GL_OES_depth_texture", depthtex, 1);
 
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);

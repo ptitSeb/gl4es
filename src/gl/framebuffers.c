@@ -232,10 +232,9 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         }
     }
     
-    if(attachment==GL_DEPTH_ATTACHMENT) {
+    if(attachment==GL_DEPTH_ATTACHMENT && hardext.depthtex==0) {
         noerrorShim();
         if (level!=0) return;
-        // glshim doesn't support DEPTH Texture. So instead of ending with an incomplete FBO
         // let's create a renderbuffer and attach it instead of the (presumably) depth texture
         GLuint render_depth;    // memory leak here...
         glshim_glGenRenderbuffers(1, &render_depth);
@@ -356,11 +355,13 @@ void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei 
     width = hardext.npot==2?width:npot(width);
     height = hardext.npot==2?height:npot(height);
     // check if internal format is GL_DEPTH_STENCIL_EXT
+    if (internalformat == GL_DEPTH_STENCIL)
+        internalformat = GL_DEPTH24_STENCIL8;
     // in that case, create first a STENCIL one then a DEPTH one....
-    if ((internalformat == GL_DEPTH_STENCIL) || (internalformat == GL_DEPTH24_STENCIL8)) {
+    if ((internalformat == GL_DEPTH24_STENCIL8) && (hardext.depthstencil==0)) {
         khint_t k;
         int ret;
-        internalformat = GL_DEPTH_COMPONENT24;
+        internalformat = (hardext.depth24)?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16;
         GLuint old_rb = current_rb;
         GLuint stencil;
         if (!depthstencil) {
@@ -386,9 +387,12 @@ void glshim_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei 
         gles_glRenderbufferStorage(target, GL_STENCIL_INDEX8, width, height);
         gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
     }
-    else if (internalformat == GL_DEPTH_COMPONENT) {    // Not much is supported on GLES...
+    else if (internalformat == GL_DEPTH_COMPONENT)    // Not much is supported on GLES...
         internalformat = GL_DEPTH_COMPONENT16;
-    }
+    else if (internalformat == GL_RGB8 && hardext.rgba8==0)
+        internalformat = GL_RGB565_OES;
+    else if (internalformat == GL_RGBA8 && hardext.rgba8==0)
+        internalformat = GL_RGBA4_OES;
 
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
@@ -430,7 +434,7 @@ void glshim_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachme
     LOAD_GLES_OES(glGetFramebufferAttachmentParameteriv);
     
     // hack to return DEPTH size
-    if(target==GL_FRAMEBUFFER && attachment==GL_DEPTH_ATTACHMENT && pname==GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE) {
+    if(target==GL_FRAMEBUFFER && attachment==GL_DEPTH_ATTACHMENT && pname==GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE && hardext.depthtex==0) {
         noerrorShim();
         glshim_glGetFramebufferAttachmentParameteriv(target, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, params);
         if (params)

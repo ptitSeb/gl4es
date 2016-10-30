@@ -152,6 +152,9 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *format = GL_RGBA;
             *type = GL_UNSIGNED_BYTE;
             break;
+        case GL_DEPTH_COMPONENT:
+            *format = GL_DEPTH_COMPONENT;
+            *type = GL_UNSIGNED_SHORT;
         default:
             printf("LIBGL: Warning, unknown Internalformat (%s)\n", PrintEnum(internalformat));
             *format = GL_RGBA;

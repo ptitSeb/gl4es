@@ -13,9 +13,13 @@ typedef struct _hardext {
     int pointsprite;    // GL_OES_point_sprite (not used yet) 
     int pointsize;      // GL_OES_point_size_array (not used yet)
     int elementuint;    // GL_OES_element_index_uint (not used yet)
+    int fbo;            // GL_OES_framebuffer_object
     int depthstencil;   // GL_OES_packed_depth_stencil
+    int depth24;        // GL_OES_depth24
+    int rgba8;          // GL_OES_rgb8_rgba8
     int multidraw;      // GL_EXT_multi_draw_arrays
     int bgra8888;       // GL_EXT_texture_format_BGRA8888 (not used yet)
+    int depthtex;       // GL_OES_depth_texture
     unsigned int readf; // implementation Read Format
     unsigned int readt; // implementation Read Type
 } hardext_t;

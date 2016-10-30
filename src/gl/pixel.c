@@ -17,6 +17,7 @@ static const colorlayout_t *get_color_map(GLenum format) {
 		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1);
 		map(GL_LUMINANCE, 0, 0, 0, -1);
 		map(GL_ALPHA,-1, -1, -1, 0);
+        map(GL_DEPTH_COMPONENT, 0, -1, -1, -1);
         default:
             printf("LIBGL: unknown pixel format %s\n", PrintEnum(format));
             break;

@@ -242,20 +242,15 @@ const GLubyte *glshim_glGetString(GLenum name) {
                 "GL_EXT_texture_compression_dxt3 "
                 "GL_EXT_texture_compression_dxt5 "
                 "GL_EXT_texture_compression_dxt1 "
-                "GL_ARB_framebuffer_object "
-                "GL_EXT_framebuffer_object "
-                "GL_EXT_packed_depth_stencil "
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
                 "GL_EXT_stencil_wrap "
                 "SGIS_texture_edge_clamp "
                 "GL_EXT_texture_edge_clamp "
-                "GL_ARB_draw_buffers "
                 "GL_EXT_direct_state_access "
                 "GL_EXT_multi_draw_arrays "
                 "GL_SUN_multi_draw_arrays "
 //                "GL_EXT_blend_logic_op "
-//                "GL_EXT_blend_color "
 //                "GL_ARB_texture_cube_map "
 				);
 		if(glshim_npot>=1)
@@ -272,6 +267,12 @@ const GLubyte *glshim_glGetString(GLenum name) {
             strcat(extensions, "GL_EXT_blend_func_separate");
         if(hardext.blendsub)
             strcat(extensions, "GL_EXT_blend_subtract");
+        if(hardext.fbo)
+            strcat(extensions,                 
+                "GL_ARB_framebuffer_object "
+                "GL_EXT_framebuffer_object "
+                "GL_EXT_packed_depth_stencil "
+                "GL_ARB_draw_buffers ");
 	}
     switch (name) {
         case GL_VERSION:
