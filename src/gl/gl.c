@@ -89,6 +89,14 @@ void* NewGLState(void* shared_glstate) {
 
     glstate->gl_batch = gl_batch;
 
+    //raster & viewport
+    glstate->raster.raster_zoomx=1.0f;
+    glstate->raster.raster_zoomy=1.0f;
+    for(int i=0; i<4; i++)
+        glstate->raster.raster_scale[i] = 1.0f;
+    LOAD_GLES(glGetFloatv);
+    gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
+
     return (void*)glstate;
 }
 
@@ -307,10 +315,6 @@ void transposeMatrix(float *matrix)
 }
 
 // glGet
-extern float raster_zoomx, raster_zoomy;
-extern GLfloat raster_scale[4];
-extern GLfloat raster_bias[4];
-
 void glshim_glGetIntegerv(GLenum pname, GLint *params) {
     if (params==NULL) {
         errorShim(GL_INVALID_OPERATION);
@@ -368,6 +372,28 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
             //Fake, *TODO* ?
 			*params = 0;
 			break;
+        case GL_ZOOM_X:
+	    *params = glstate->raster.raster_zoomx;
+	    break;
+        case GL_ZOOM_Y:
+	    *params = glstate->raster.raster_zoomy;
+	    break;
+        case GL_RED_SCALE:
+	    *params = glstate->raster.raster_scale[0];
+	    break;
+        case GL_RED_BIAS:
+	    *params = glstate->raster.raster_bias[0];
+	    break;
+        case GL_GREEN_SCALE:
+        case GL_BLUE_SCALE:
+        case GL_ALPHA_SCALE:
+	    *params = glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1];
+	    break;
+        case GL_GREEN_BIAS:
+        case GL_BLUE_BIAS:
+        case GL_ALPHA_BIAS:
+	    *params = glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1];
+	    break;
 	case GL_POINT_SIZE_RANGE:
 			gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
 			gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
@@ -478,26 +504,26 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 	    *params = glstate->texture.pack_lsb_first;
 	    break;
         case GL_ZOOM_X:
-	    *params = raster_zoomx;
+	    *params = glstate->raster.raster_zoomx;
 	    break;
         case GL_ZOOM_Y:
-	    *params = raster_zoomy;
+	    *params = glstate->raster.raster_zoomy;
 	    break;
         case GL_RED_SCALE:
-	    *params = raster_scale[0];
+	    *params = glstate->raster.raster_scale[0];
 	    break;
         case GL_RED_BIAS:
-	    *params = raster_bias[0];
+	    *params = glstate->raster.raster_bias[0];
 	    break;
         case GL_GREEN_SCALE:
         case GL_BLUE_SCALE:
         case GL_ALPHA_SCALE:
-	    *params = raster_scale[(pname-GL_GREEN_SCALE)/2+1];
+	    *params = glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1];
 	    break;
         case GL_GREEN_BIAS:
         case GL_BLUE_BIAS:
         case GL_ALPHA_BIAS:
-	    *params = raster_bias[(pname-GL_GREEN_BIAS)/2+1];
+	    *params = glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1];
 	    break;
 	case GL_POINT_SIZE_RANGE:
 	    gles_glGetFloatv(GL_POINT_SIZE_MIN, params);
@@ -768,7 +794,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 	if (glstate->vao->normal_array) {
 		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
 	}
-	for (int i=0; i<MAX_TEX; i++) {
+	for (int i=0; i<hardext.maxtex; i++) {
 		if (glstate->vao->tex_coord_array[i]) {
 		    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count);
 		}
@@ -778,14 +804,14 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 
 static inline bool should_intercept_render(GLenum mode) {
     // check bounded tex that will be used if one need some transformations
-    for (int aa=0; aa<MAX_TEX; aa++) {
+    for (int aa=0; aa<hardext.maxtex; aa++) {
         if (glstate->enable.texture_2d[aa] || glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa]) {
             if(glstate->texture.rect_arb[aa])
                 return true;
             gltexture_t *bound = glstate->texture.bound[aa];
             if (bound && (bound->width!=bound->nwidth || bound->height!=bound->nheight))
                 return true;
-            if ((glstate->enable.texgen_s[0] || glstate->enable.texgen_t[0] || glstate->enable.texgen_r[0] || glstate->enable.texgen_q[0]))
+            if ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa]))
                 return true;
         }
     }

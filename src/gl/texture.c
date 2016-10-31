@@ -302,7 +302,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 			GLvoid *pix2 = pixels;
 			if (raster_need_transform())
 				if (!pixel_transform(data, &pixels, width, height,
-								*format, *type, raster_scale, raster_bias)) {
+								*format, *type, glstate->raster.raster_scale, glstate->raster.raster_bias)) {
 					printf("LIBGL: swizzle/convert error: (%s, %s -> %s, %s)\n",
 						PrintEnum(*format), PrintEnum(*type), PrintEnum(dest_format), PrintEnum(dest_type));
 					pix2 = pixels;

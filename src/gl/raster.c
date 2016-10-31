@@ -1,11 +1,7 @@
 #include "raster.h"
 #include "debug.h"
 
-static rasterpos_t rPos = {0, 0, 0};
-static viewport_t viewport = {0, 0, 0, 0};
 static GLubyte *raster = NULL;
-GLfloat raster_zoomx=1.0f;
-GLfloat raster_zoomy=1.0f;
 static GLuint raster_texture=0;
 static GLsizei raster_width=0;
 static GLsizei raster_height=0;
@@ -15,8 +11,6 @@ static GLsizei raster_realheight=0;
 static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 #define min(a, b)	((a)<b)?(a):(b)
 #define max(a, b)	((a)>(b))?(a):(b)
-GLfloat raster_scale[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-GLfloat raster_bias[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 
 void matrix_transpose(const GLfloat *a, GLfloat *b);
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
@@ -28,7 +22,6 @@ void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
         noerrorShim();
         return;
     }
-	#if 1
 	// Transform xyz coordinates with current modelview and projection matrix...
 	GLfloat glmatrix[16], projection[16], modelview[16];
 	GLfloat t[4], transl[4] = {x, y, z, 1.0f};
@@ -39,17 +32,11 @@ void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	matrix_vector(modelview, transl, t);
 	matrix_vector(projection, t, transl);
 	GLfloat w2, h2;
-	w2=viewport.width/2.0f;
-	h2=viewport.height/2.0f;
-	rPos.x = transl[0]*w2+w2;
-	rPos.y = transl[1]*h2+h2;
-	rPos.z = transl[2];
-
-	#else
-    rPos.x = x;
-    rPos.y = y;
-    rPos.z = z;
-    #endif
+	w2=glstate->raster.viewport.width/2.0f;
+	h2=glstate->raster.viewport.height/2.0f;
+	glstate->raster.rPos.x = transl[0]*w2+w2;
+	glstate->raster.rPos.y = transl[1]*h2+h2;
+	glstate->raster.rPos.z = transl[2];
 }
 
 void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
@@ -59,19 +46,21 @@ void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
         noerrorShim();
         return;
     }
-    rPos.x = x;
-    rPos.y = y;
-    rPos.z = z;	
+    glstate->raster.rPos.x = x;
+    glstate->raster.rPos.y = y;
+    glstate->raster.rPos.z = z;	
 }
 
 void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
-    gles_glViewport(x, y, width, height);
-    viewport.x = x;
-    viewport.y = y;
-    viewport.width = width;
-    viewport.height = height;
+	if(glstate->raster.viewport.x!=x || glstate->raster.viewport.y!=y || glstate->raster.viewport.width!=width || glstate->raster.viewport.height!=height) {
+		gles_glViewport(x, y, width, height);
+		glstate->raster.viewport.x = x;
+		glstate->raster.viewport.y = y;
+		glstate->raster.viewport.width = width;
+		glstate->raster.viewport.height = height;
+	}
 }
 
 // hacky viewport temporary changes
@@ -81,7 +70,7 @@ void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 }
 void popViewport() {
     LOAD_GLES(glViewport);
-    gles_glViewport(viewport.x, viewport.y, viewport.width, viewport.height);
+    gles_glViewport(glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
 }
 
 
@@ -92,8 +81,8 @@ void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
         noerrorShim();
         return;
     }
-	raster_zoomx = xfactor;
-	raster_zoomy = yfactor;
+	glstate->raster.raster_zoomx = xfactor;
+	glstate->raster.raster_zoomy = yfactor;
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
@@ -107,20 +96,20 @@ void glshim_glPixelTransferf(GLenum pname, GLfloat param) {
 //printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
 	switch(pname) {
 		case GL_RED_SCALE:
-			raster_scale[0]=param;
+			glstate->raster.raster_scale[0]=param;
 			break;
 		case GL_RED_BIAS:
-			raster_bias[0]=param;
+			glstate->raster.raster_bias[0]=param;
 			break;
 		case GL_GREEN_SCALE:
 		case GL_BLUE_SCALE:
 		case GL_ALPHA_SCALE:
-			raster_scale[(pname-GL_GREEN_SCALE)/2+1]=param;
+			glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1]=param;
 			break;
 		case GL_GREEN_BIAS:
 		case GL_BLUE_BIAS:
 		case GL_ALPHA_BIAS:
-			raster_bias[(pname-GL_GREEN_BIAS)/2+1]=param;
+			glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1]=param;
 			break;
 		/*default:
 			printf("LIBGL: stubbed glPixelTransferf(%04x, %f)\n", pname, param);*/
@@ -154,21 +143,21 @@ void init_raster(int width, int height) {
 
 GLubyte raster_transform(GLubyte pix, GLubyte number) {
 	GLfloat a = (GLfloat)pix*(1.0f/255.0f);
-	a=a*raster_scale[number]+raster_bias[number];
+	a=a*glstate->raster.raster_scale[number]+glstate->raster.raster_bias[number];
 	if (a<0.0) a=0.0;
 	if (a>1.0) a=1.0;
 	return (GLubyte)(a*255.0f);
 }
 GLfloat FASTMATH raster_transformf(GLfloat pix, GLubyte number) {
-	pix=pix*raster_scale[number]+raster_bias[number];
+	pix=pix*glstate->raster.raster_scale[number]+glstate->raster.raster_bias[number];
 	if (pix<0.0) pix=0.0;
 	if (pix>1.0) pix=1.0;
 	return pix;
 }
 
 int raster_need_transform() {
-	for (int i=0; i<4; i++) if (raster_scale[i]!=1.0f) return 1;
-	for (int i=0; i<4; i++) if (raster_bias[i]!=0.0f) return 1;
+	for (int i=0; i<4; i++) if (glstate->raster.raster_scale[i]!=1.0f) return 1;
+	for (int i=0; i<4; i++) if (glstate->raster.raster_bias[i]!=0.0f) return 1;
 	return 0;
 }
 
@@ -234,7 +223,7 @@ GLuint raster_to_texture()
 void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
-	rPos.x, rPos.y, xorig, yorig, width, height, raster_zoomx, raster_zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
+	glstate->raster.rPos.x, glstate->raster.rPos.y, xorig, yorig, width, height, glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
     noerrorShim();
@@ -254,8 +243,8 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 			r->ymove = ymove;
 			
 		} else {
-			rPos.x += xmove;
-			rPos.y += ymove;
+			glstate->raster.rPos.x += xmove;
+			glstate->raster.rPos.y += ymove;
 		}
         return;
     }
@@ -314,8 +303,8 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 	r->width = width;
 	r->height = height;
 	r->bitmap = true;
-	r->zoomx = raster_zoomx;
-	r->zoomy = raster_zoomy;
+	r->zoomx = glstate->raster.raster_zoomx;
+	r->zoomy = glstate->raster.raster_zoomy;
     LOAD_GLES(glDeleteTextures);
 	if (!(glstate->list.compiling || glstate->gl_batch)) {
 		render_raster_list(r);
@@ -333,7 +322,7 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     noerrorShim();
     
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%s, type=%s, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
-	rPos.x, rPos.y, width, height, PrintEnum(format), PrintEnum(type), raster_zoomx, raster_zoomy, viewport.x, viewport.y, viewport.width, viewport.height);*/
+	glstate->raster.rPos.x, glstate->raster.rPos.y, width, height, PrintEnum(format), PrintEnum(type), glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
 	// check of unsuported format...
 	if ((format == GL_STENCIL_INDEX) || (format == GL_DEPTH_COMPONENT)) {
         errorShim(GL_INVALID_ENUM);
@@ -399,8 +388,8 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->width = width;
 	r->height = height;
 	r->bitmap = false;
-	r->zoomx = raster_zoomx;
-	r->zoomy = raster_zoomy;
+	r->zoomx = glstate->raster.raster_zoomx;
+	r->zoomy = glstate->raster.raster_zoomy;
 	if (!(glstate->list.compiling || glstate->gl_batch)) {
 		render_raster_list(r);
 /*		gles_glDeleteTextures(1, &r->texture);
@@ -409,7 +398,7 @@ void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 }
 
 void render_raster_list(rasterlist_t* rast) {
-//printf("render_raster_list, rast->x/y=%f/%f rast->width/height=%i/%i, rPos.x/y/z=%f/%f/%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->xorig, rast->yorig, rast->width, rast->height, rPos.x, rPos.y, rPos.z, rast->zoomx, rast->zoomy, rast->texture);
+//printf("render_raster_list, rast->x/y=%f/%f rast->width/height=%i/%i, rPos.x/y/z=%f/%f/%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->xorig, rast->yorig, rast->width, rast->height, glstate->raster.rPos.x, glstate->raster.rPos.y, glstate->raster.rPos.z, rast->zoomx, rast->zoomy, rast->texture);
     #ifdef USE_DRAWTEX
     LOAD_GLES_OES(glDrawTexf);
     LOAD_GLES(glEnable);
@@ -444,7 +433,7 @@ void render_raster_list(rasterlist_t* rast) {
 			glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		}
         
-        gles_glDrawTexf(rPos.x-rast->xorig, rPos.y-rast->yorig, rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
+        gles_glDrawTexf(glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig, glstate->raster.rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
         if (!glstate->enable.texture_2d[0]) glshim_glDisable(GL_TEXTURE_2D);
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
@@ -465,12 +454,12 @@ void render_raster_list(rasterlist_t* rast) {
 		glshim_glLoadIdentity();
 		glshim_glMatrixMode(GL_MODELVIEW);
 		glshim_glLoadIdentity();
-		float w2 = 2.0f / viewport.width;
-		float h2 = 2.0f / viewport.height;
-		float raster_x1=rPos.x-rast->xorig;
-		float raster_x2=rPos.x-rast->xorig + rast->width * rast->zoomx ;
-		float raster_y1=rPos.y-rast->yorig;
-		float raster_y2=rPos.y-rast->yorig + rast->height * rast->zoomy ;
+		float w2 = 2.0f / glstate->raster.viewport.width;
+		float h2 = 2.0f / glstate->raster.viewport.height;
+		float raster_x1=glstate->raster.rPos.x-rast->xorig;
+		float raster_x2=glstate->raster.rPos.x-rast->xorig + rast->width * rast->zoomx ;
+		float raster_y1=glstate->raster.rPos.y-rast->yorig;
+		float raster_y2=glstate->raster.rPos.y-rast->yorig + rast->height * rast->zoomy ;
 		GLfloat rast_vert[] = {
 			raster_x1*w2-1.0f, raster_y1*h2-1.0f,
 			raster_x2*w2-1.0f, raster_y1*h2-1.0f,
@@ -547,8 +536,8 @@ void render_raster_list(rasterlist_t* rast) {
         #endif
 		glshim_glPopAttrib();
 	}
-	rPos.x += rast->xmove;
-	rPos.y += rast->ymove;
+	glstate->raster.rPos.x += rast->xmove;
+	glstate->raster.rPos.y += rast->ymove;
 }
 
 //Direct wrapper

@@ -75,6 +75,15 @@ typedef struct {
     GLuint cap;
 } displaylist_state_t;
 
+typedef struct {
+    rasterpos_t rPos;
+    viewport_t viewport;
+    GLfloat raster_scale[4];
+    GLfloat raster_bias[4];
+    GLfloat raster_zoomx;
+    GLfloat raster_zoomy;
+} raster_state_t;
+
 
 typedef struct {
     map_state_t *vertex3,
@@ -179,6 +188,7 @@ typedef struct {
     khash_t(queries) *queries;
     glstack_t *stack;
     glclientstack_t *clientStack;
+    raster_state_t raster;
     int emulatedPixmap;
     int emulatedWin;
     int shared_cnt;
