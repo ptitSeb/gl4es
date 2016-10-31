@@ -24,6 +24,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
     cur->clip_planes = NULL;
     cur->lights_enabled = NULL;
     cur->lights = NULL;
+    cur->materials = NULL;
 
     // TODO: GL_ACCUM_BUFFER_BIT
 
@@ -78,10 +79,8 @@ void glshim_glPushAttrib(GLbitfield mask) {
         cur->dither = glshim_glIsEnabled(GL_DITHER);
         cur->fog = glshim_glIsEnabled(GL_FOG);
 
-        GLint max_lights;
-        glshim_glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
-        cur->lights_enabled = (GLboolean *)malloc(max_lights * sizeof(GLboolean));
-        for (i = 0; i < max_lights; i++) {
+        cur->lights_enabled = (GLboolean *)malloc(hardext.maxlights * sizeof(GLboolean));
+        for (i = 0; i < hardext.maxlights; i++) {
             *(cur->lights_enabled + i) = glshim_glIsEnabled(GL_LIGHT0 + i);
         }
 
@@ -139,20 +138,33 @@ void glshim_glPushAttrib(GLbitfield mask) {
 
     if (mask & GL_LIGHTING_BIT) {
         cur->lighting = glshim_glIsEnabled(GL_LIGHTING);
-        glshim_glGetIntegerv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
+        glshim_glGetFloatv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
         glshim_glGetIntegerv(GL_LIGHT_MODEL_TWO_SIDE, &cur->light_model_two_side);
 
         int i;
-        GLint max_lights;
-        glshim_glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
-        cur->lights_enabled = (GLboolean *)malloc(max_lights * sizeof(GLboolean));
-        cur->lights = (GLfloat *)malloc(max_lights * sizeof(GLfloat));
-        for (i = 0; i < max_lights; i++) {
+        int j=0;
+        cur->lights_enabled = (GLboolean *)malloc(hardext.maxlights * sizeof(GLboolean));
+        cur->lights = (GLfloat *)malloc(hardext.maxlights * sizeof(GLfloat)*(10*4));
+        for (i = 0; i < hardext.maxlights; i++) {
             *(cur->lights_enabled + i) = glshim_glIsEnabled(GL_LIGHT0 + i);
-            /* TODO: record all data about the lights
-            glGetFloatv(GL_LIGHT0 + i, cur->lights + i);
-            */
+            #define L(A) glshim_glGetLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
+            L(GL_AMBIENT);
+            L(GL_DIFFUSE);
+            L(GL_SPECULAR);
+            L(GL_POSITION); 
+            L(GL_SPOT_CUTOFF);
+            L(GL_SPOT_DIRECTION);
+            L(GL_SPOT_EXPONENT);
+            L(GL_CONSTANT_ATTENUATION);
+            L(GL_LINEAR_ATTENUATION);
+            L(GL_QUADRATIC_ATTENUATION);
+            #undef L
         }
+        j=0;
+        cur->materials = (GLfloat *)malloc(1 * sizeof(GLfloat)*(5*4));
+        #define M(A) glshim_glGetMaterialfv(GL_FRONT, A, cur->materials+j); j+=4
+        M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
+        #undef M
         glshim_glGetIntegerv(GL_SHADE_MODEL, &cur->shade_model);
     }
 
@@ -384,9 +396,7 @@ void glshim_glPopAttrib() {
         enable_disable(GL_DITHER, cur->dither);
         enable_disable(GL_FOG, cur->fog);
 
-        GLint max_lights;
-        glshim_glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
-        for (i = 0; i < max_lights; i++) {
+        for (i = 0; i < hardext.maxlights; i++) {
             enable_disable(GL_LIGHT0 + i, *(cur->lights_enabled + i));
         }
 
@@ -450,6 +460,37 @@ void glshim_glPopAttrib() {
         glshim_glHint(GL_FOG_HINT, cur->fog_hint);
         glshim_glHint(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
     }
+
+    if (cur->mask & GL_LIGHTING_BIT) {
+        enable_disable(GL_LIGHTING, cur->lighting);
+        glshim_glLightModelfv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
+        glshim_glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, cur->light_model_two_side);
+
+        int i;
+        int j=0;
+        for (i = 0; i < hardext.maxlights; i++) {
+            enable_disable(GL_LIGHT0 + i, *(cur->lights_enabled + i));
+            #define L(A) glshim_glLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
+            L(GL_AMBIENT);
+            L(GL_DIFFUSE);
+            L(GL_SPECULAR);
+            L(GL_POSITION); 
+            L(GL_SPOT_CUTOFF);
+            L(GL_SPOT_DIRECTION);
+            L(GL_SPOT_EXPONENT);
+            L(GL_CONSTANT_ATTENUATION);
+            L(GL_LINEAR_ATTENUATION);
+            L(GL_QUADRATIC_ATTENUATION);
+            #undef L
+        }
+        j=0;
+        #define M(A) glshim_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=4
+        M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
+        #undef M
+
+        glshim_glShadeModel(cur->shade_model);
+    }
+
 	// GL_LIST_BIT
     if (cur->mask & GL_LIST_BIT) {
         glshim_glListBase(cur->list_base);
@@ -549,6 +590,7 @@ void glshim_glPopAttrib() {
     maybe_free(cur->clip_planes);
     maybe_free(cur->lights_enabled);
     maybe_free(cur->lights);
+    maybe_free(cur->materials);
     glstate->stack->len--;
 }
 

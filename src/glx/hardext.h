@@ -4,6 +4,7 @@
 typedef struct _hardext {
     int npot;           // 0 = no npot capability, 1 = limited npot, 2 = full npot
     int maxtex;         // maximum number of texture
+    int maxlights;      // maximum number of light
     int maxsize;        // maximum texture size
     int blendsub;       // GL_OES_blend_subtract
     int blendfunc;      // GL_OES_blend_func_separate

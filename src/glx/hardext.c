@@ -125,7 +125,8 @@ void GetHardwareExtensions(int notest)
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
     SHUT(LOGD("LIBGL: Max texture size: %d\n", hardext.maxsize));
     gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, &hardext.maxtex);
-    SHUT(LOGD("LIBGL: Texture Units: %d\n", hardext.maxtex));
+    gles_glGetIntegerv(GL_MAX_LIGHTS, &hardext.maxlights);
+    SHUT(LOGD("LIBGL: Texture Units: %d, Max lights: %d\n", hardext.maxtex, hardext.maxlights));
 #ifndef PANDORA
 // The IMPLEMENTATION_COLOR_READ is pretty buggy on the Pandora, so disabling it (it's just use to blit PBuffer to Drawable in glx.c)
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &hardext.readf);

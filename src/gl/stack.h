@@ -83,8 +83,9 @@ typedef struct _glstack_t {
     GLboolean lighting;
     GLboolean *lights_enabled;
     GLfloat *lights;
-    GLint light_model_ambient[4];
+    GLfloat light_model_ambient[4];
     GLint light_model_two_side;
+    GLfloat *materials;
     GLint shade_model;
 
     // GL_LINE_BIT
