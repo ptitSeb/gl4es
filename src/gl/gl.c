@@ -96,7 +96,6 @@ void* NewGLState(void* shared_glstate) {
         glstate->raster.raster_scale[i] = 1.0f;
     LOAD_GLES(glGetFloatv);
     gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
-
     return (void*)glstate;
 }
 
@@ -171,6 +170,11 @@ void ActivateGLState(void* new_glstate) {
     if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
     if (glstate && glstate->gl_batch) flush();
     glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
+    // check if viewport is correct
+    if(glstate->raster.viewport.width==0.0f || glstate->raster.viewport.height==0.0f) {
+        LOAD_GLES(glGetFloatv);
+        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
+    }
     if (gl_batch && glstate->init_batch==0) init_batch();
 }
 
@@ -924,6 +928,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
             // secondry color and color sizef != 4 are "intercepted" and draw using a list
+            client_state(color_array, GL_COLOR_ARRAY, );
             if (glstate->vao->color_array)
 				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
@@ -1018,8 +1023,6 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         draw_renderlist(list);
         free_renderlist(list);
     } else {
-        // TODO: some draw states require us to use the full pipeline here
-        // like texgen, stipple, npot
         LOAD_GLES(glDrawArrays);
 
 		GLenum mode_init = mode;
@@ -1032,6 +1035,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
 			// setup the Array Pointers
+            client_state(color_array, GL_COLOR_ARRAY, );
             if (glstate->vao->color_array)
 				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
@@ -1226,7 +1230,7 @@ void glshim_glEnd() {
     if (!glstate->list.active) return;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<MAX_TEX; a++)
-		if (glstate->enable.texture_2d[a] && ((glstate->list.active->tex[a]==0) && (!glstate->enable.texgen_s[a])))
+		if (glstate->enable.texture_2d[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // render if we're not in a display list
     if (!(glstate->list.compiling || glstate->gl_batch)) {

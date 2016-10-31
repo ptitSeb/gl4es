@@ -213,7 +213,10 @@ void vector3_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
     const float* b3=b+8;
     const float* b4=b+12;
     asm volatile (
-    "vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..3)
+    //"vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..2)
+    "vld1.32  {d4}, [%1]        \n"
+    "flds     s10, [%1, #8]     \n"
+    "vsub.f32 s11, s11, s11     \n"
     "vld1.f32 {q1}, [%2]        \n" // %q1 = b(0..3)
     "vmul.f32 q1, q1, d0[0]    \n" // %q1 = b(0..3)*a[0]
     "vld1.f32 {q2}, [%3]   \n" // %q2 = b(4..7)
@@ -239,6 +242,7 @@ void vector_normalize(GLfloat *a) {
         asm volatile (
         "vld1.32                {d4}, [%0]                      \n\t"   //d4={x0,y0}
         "flds                   s10, [%0, #8]                   \n\t"   //d5[0]={z0}
+        "vsub.f32               s11, s11, s11                   \n\t"
 
         "vmul.f32               d0, d4, d4                      \n\t"   //d0= d4*d4
         "vpadd.f32              d0, d0                          \n\t"   //d0 = d[0] + d[1]
@@ -437,7 +441,7 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
 }
 
 void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture, GLushort *indices, GLuint ilen) {
-//printf("gen_tex_coords(%p, %p, %p, %d, %p, %d, %p, %d) texgen = S:%s T:%s R:%s\n", verts, norm, *coords, count, needclean, texture, indices, ilen, (glstate->enable.texgen_s[texture])?PrintEnum(glstate->texgen[texture].S):"-", (glstate->enable.texgen_t[texture])?PrintEnum(glstate->texgen[texture].T):"-", (glstate->enable.texgen_r[texture])?PrintEnum(glstate->texgen[texture].R):"-");
+//printf("gen_tex_coords(%p, %p, %p, %d, %p, %d, %p, %d) texgen = S:%s T:%s R:%s Q:%s\n", verts, norm, *coords, count, needclean, texture, indices, ilen, (glstate->enable.texgen_s[texture])?PrintEnum(glstate->texgen[texture].S):"-", (glstate->enable.texgen_t[texture])?PrintEnum(glstate->texgen[texture].T):"-", (glstate->enable.texgen_r[texture])?PrintEnum(glstate->texgen[texture].R):"-", (glstate->enable.texgen_q[texture])?PrintEnum(glstate->texgen[texture].Q):"-");
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
     // special case : no texgen but texture activated, create a simple 1 repeated element
@@ -515,18 +519,18 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     if ((*coords)==NULL) 
         *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
     if (glstate->enable.texgen_s[texture])
-        tex_coord_loop(verts, norm, *coords, (indices)?ilen:count, glstate->texgen[texture].S, glstate->texgen[texture].S_O, glstate->texgen[texture].S_E, indices);
+        tex_coord_loop(verts, norm, (*coords), (indices)?ilen:count, glstate->texgen[texture].S, glstate->texgen[texture].S_O, glstate->texgen[texture].S_E, indices);
     if (glstate->enable.texgen_t[texture])
-        tex_coord_loop(verts, norm, *coords+1, (indices)?ilen:count, glstate->texgen[texture].T, glstate->texgen[texture].T_O, glstate->texgen[texture].T_E, indices);
+        tex_coord_loop(verts, norm, (*coords)+1, (indices)?ilen:count, glstate->texgen[texture].T, glstate->texgen[texture].T_O, glstate->texgen[texture].T_E, indices);
     if (glstate->enable.texgen_r[texture])
-        tex_coord_loop(verts, norm, *coords+2, (indices)?ilen:count, glstate->texgen[texture].R, glstate->texgen[texture].R_O, glstate->texgen[texture].R_E, indices);
+        tex_coord_loop(verts, norm, (*coords)+2, (indices)?ilen:count, glstate->texgen[texture].R, glstate->texgen[texture].R_O, glstate->texgen[texture].R_E, indices);
     else
         for (int i=0; i<((indices)?ilen:count); i++) {
             GLushort k = indices?indices[i]:i;
             (*coords)[k*4+2] = 0.0f;
         }
     if (glstate->enable.texgen_q[texture])
-        tex_coord_loop(verts, norm, *coords+3, (indices)?ilen:count, glstate->texgen[texture].Q, glstate->texgen[texture].Q_O, glstate->texgen[texture].Q_E, indices);
+        tex_coord_loop(verts, norm, (*coords)+3, (indices)?ilen:count, glstate->texgen[texture].Q, glstate->texgen[texture].Q_O, glstate->texgen[texture].Q_E, indices);
     else
         for (int i=0; i<((indices)?ilen:count); i++) {
             GLushort k = indices?indices[i]:i;

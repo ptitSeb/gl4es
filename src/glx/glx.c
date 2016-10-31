@@ -672,7 +672,6 @@ EXPORT GLXContext glXCreateContext(Display *display,
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
 
-    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
     if(g_usefb)
         fbContext = fake;
     // make an egl context here...
@@ -681,7 +680,8 @@ EXPORT GLXContext glXCreateContext(Display *display,
         init_display(display);
         if (eglDisplay == EGL_NO_DISPLAY) {
             LOGE("LIBGL: Unable to create EGL display.\n");
-            return fake;
+            free(fake);
+            return 0;
         }
     }
 
@@ -691,7 +691,8 @@ EXPORT GLXContext glXCreateContext(Display *display,
         result = egl_eglInitialize(eglDisplay, NULL, NULL);
         if (result != EGL_TRUE) {
             LOGE("LIBGL: Unable to initialize EGL display.\n");
-            return fake;
+            free(fake);
+            return 0;
         }
         eglInitialized = true;
     }
@@ -704,7 +705,8 @@ EXPORT GLXContext glXCreateContext(Display *display,
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         LOGE("LIBGL: No EGL configs found.\n");
-        return fake;
+        free(fake);
+        return 0;
     }
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
 	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
@@ -724,6 +726,8 @@ EXPORT GLXContext glXCreateContext(Display *display,
     fake->rbits = 8; fake->gbits=8; fake->bbits=8; fake->abits=8;
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
+
+    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
     /*
     // why unassign the context, it's not assigned yet
    	if (!g_usefb) {
