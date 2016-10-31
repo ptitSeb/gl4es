@@ -138,6 +138,11 @@ struct __GLXContextRec {
 	EGLSurface eglSurface;
 	EGLConfig eglConfigs[1];
 	EGLContext eglContext;
+    int samples;
+    int samplebuffers;
+    int depth;
+    int stencil;
+    int rbits, gbits, bbits, abits;
     void* glstate;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };

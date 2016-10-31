@@ -110,7 +110,17 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     STUB(glXGetSelectedEvent);
     STUB(glXSelectEvent);
 #endif //ANDROID
-    
+    // GL_EXT_texture_object (yeah, super old!)
+    _EXT(glGenTextures);
+    _EXT(glBindTexture);
+    _EXT(glDeleteTextures);
+    _EXT(glIsTexture);
+    _EXT(glAreTexturesResident);
+    _EXT(glPrioritizeTextures);
+
+    // GL_EXT_polygonoffset
+    _EXT(glPolygonOffset);
+
     // GL_ARB_vertex_buffer_object
     _ARB(glBindBuffer);
     _ARB(glBufferData);
@@ -450,6 +460,8 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glTexImage3D);
     _EX(glTexSubImage1D);
     _EX(glTexSubImage3D);
+    _EXT(glTexImage3D);
+    _EXT(glTexSubImage3D);
     _EX(glCompressedTexImage1D);
     _EX(glCompressedTexSubImage1D);
     _EX(glCompressedTexImage3D);

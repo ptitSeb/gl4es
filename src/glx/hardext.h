@@ -22,6 +22,7 @@ typedef struct _hardext {
     int depthtex;       // GL_OES_depth_texture
     unsigned int readf; // implementation Read Format
     unsigned int readt; // implementation Read Type
+    int srgb;           // EGL_KHR_gl_colorspace
 } hardext_t;
 
 extern hardext_t hardext;

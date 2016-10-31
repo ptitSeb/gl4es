@@ -250,6 +250,9 @@ const GLubyte *glshim_glGetString(GLenum name) {
                 "GL_EXT_direct_state_access "
                 "GL_EXT_multi_draw_arrays "
                 "GL_SUN_multi_draw_arrays "
+                "GL_ARB_multisample "
+                "GL_EXT_texture_object "
+                "GL_EXT_polygon_offset "
 //                "GL_EXT_blend_logic_op "
 //                "GL_ARB_texture_cube_map "
 				);

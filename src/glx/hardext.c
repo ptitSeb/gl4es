@@ -20,6 +20,7 @@ void GetHardwareExtensions(int notest)
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglCreateContext);
+    LOAD_EGL(eglQueryString);
     LOAD_GLES(glGetString);
     LOAD_GLES(glGetIntegerv);
 
@@ -117,7 +118,7 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_depth24", depth24, 1);
     S("GL_OES_rgb8_rgba8", rgba8, 1);
     S("GL_EXT_multi_draw_arrays", multidraw, 1);
-    S("GL_IMG_texture_format_BGRA8888", bgra8888, 0);
+    S("GL_EXT_texture_format_BGRA8888", bgra8888, 0);
     S("GL_OES_depth_texture", depthtex, 1);
 
     // Now get some max stuffs
@@ -132,6 +133,10 @@ void GetHardwareExtensions(int notest)
     SHUT(LOGD("LIBGL: Implementation Read is %s/%s\n", PrintEnum(hardext.readf), PrintEnum(hardext.readt)));
 #endif
 
+    if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
+        LOGD("LIBGL: sRGB surface supported\n");
+        hardext.srgb = 1;
+    }
 
     // End, cleanup
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
