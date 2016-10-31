@@ -197,8 +197,8 @@ Expose NPOT (Non Power of Two) Support
 
 ##### LIBGL_GLQUERIES
 Expose glQueries functions
- * 0 : Default, don't expose the function (fake one will be used if called)
- * 1 : Expose fake functions (always answer 0)
+ * 0 : Don't expose the function (fake one will be used if called)
+ * 1 : Default, expose fake functions (always answer 0)
 
 ##### LIBGL_NOTEST
 Initial Hardware test

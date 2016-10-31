@@ -248,7 +248,7 @@ extern char glshim_version[50];
 extern int glshim_nobanner;
 extern int glshim_npot;
 int export_silentstub = 0;
-int glshim_queries = 0;
+int glshim_queries = 1;
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -612,9 +612,9 @@ static void scan_env() {
 		SHUT(LOGD("LIBGL: Expose GL_ARB_texture_non_power_of_two extension\n"));
 	}
    char *env_queries = getenv("LIBGL_GLQUERIES");
-    if (env_queries && strcmp(env_queries, "1") == 0) {
-        glshim_queries = 1;
-        SHUT(LOGD("LIBGL: Expose fake glQueries functions\n"));
+    if (env_queries && strcmp(env_queries, "0") == 0) {
+        glshim_queries = 0;
+        SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
     }
      
     char cwd[1024];
