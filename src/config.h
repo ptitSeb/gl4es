@@ -78,6 +78,10 @@
 #define skip_glMultiTexCoord4f
 #define skip_glTexGeni
 #define skip_glTexGenfv
+#define skip_glTexEnvf
+#define skip_glTexEnvi
+#define skip_glGetTexEnvfv
+#define skip_glGetTexEnviv
 #define skip_glReadPixels
 #define skip_glCompressedTexImage2D
 #define skip_glCompressedTexSubImage2D

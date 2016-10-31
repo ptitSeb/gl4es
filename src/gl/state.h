@@ -16,6 +16,7 @@ typedef struct {
               auto_normal,
               blend,
               color_sum,
+              pointsprite,
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
@@ -56,6 +57,7 @@ typedef struct {
     // TODO: do we only need to worry about GL_TEXTURE_2D?
     GLboolean rect_arb[MAX_TEX];
     gltexture_t *bound[MAX_TEX];
+    GLboolean pscoordreplace[MAX_TEX];
     khash_t(tex) *list;
     GLuint active;	// active texture
 	GLuint client;	// client active texture

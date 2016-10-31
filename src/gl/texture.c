@@ -2249,6 +2249,40 @@ void glshim_glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset,
 }
 
 
+void glshim_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
+    LOAD_GLES(glTexEnvf);
+    PUSH_IF_COMPILING(glTexEnvf);
+
+    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
+        glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0.0f)?1:0;
+    gles_glTexEnvf(target, pname, param);
+}
+void glshim_glTexEnvi(GLenum target, GLenum pname, GLint param) {
+    LOAD_GLES(glTexEnvi);
+    PUSH_IF_COMPILING(glTexEnvi);
+    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
+        glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0)?1:0;
+    gles_glTexEnvi(target, pname, param);
+}
+void glshim_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
+    LOAD_GLES(glGetTexEnvfv);
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
+        *params = glstate->texture.pscoordreplace[glstate->texture.active];
+    else
+        gles_glGetTexEnvfv(target, pname, params);
+
+}
+void glshim_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
+    LOAD_GLES(glGetTexEnviv);
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
+        *params = glstate->texture.pscoordreplace[glstate->texture.active];
+    else
+        gles_glGetTexEnviv(target, pname, params);
+}
+
+
 //Direct wrapper
 void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *data) AliasExport("glshim_glTexImage2D");
 void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data) AliasExport("glshim_glTexImage1D");
@@ -2281,6 +2315,11 @@ void glActiveTexture( GLenum texture ) AliasExport("glshim_glActiveTexture");
 void glClientActiveTexture( GLenum texture ) AliasExport("glshim_glClientActiveTexture");
 GLboolean glIsTexture( GLuint texture ) AliasExport("glshim_glIsTexture");
 void glPixelStorei(GLenum pname, GLint param) AliasExport("glshim_glPixelStorei");
+void glTexEnvf(GLenum target, GLenum pname, GLfloat param) AliasExport("glshim_glTexEnvf");
+void glTexEnvi(GLenum target, GLenum pname, GLint param) AliasExport("glshim_glTexEnvi");
+void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("glshim_glGetTexEnvfv");
+void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) AliasExport("glshim_glGetTexEnviv");
+
 //EXT mapper
 void glTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,  GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid *data) AliasExport("glshim_glTexSubImage3D");
 void glCompressedTexImage2DEXT(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data) AliasExport("glshim_glCompressedTexImage2D");

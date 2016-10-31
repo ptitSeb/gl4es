@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "../glx/hardext.h"
 
 void glshim_glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
@@ -105,7 +106,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
         cur->scissor_test = glshim_glIsEnabled(GL_SCISSOR_TEST);
         cur->stencil_test = glshim_glIsEnabled(GL_STENCIL_TEST);
         int a;
-        for (a=0; a<MAX_TEX; a++) {
+        for (a=0; a<hardext.maxtex; a++) {
             cur->texture_1d[a] = glstate->enable.texture_1d[a];
             cur->texture_2d[a] = glstate->enable.texture_2d[a];
             cur->texture_3d[a] = glstate->enable.texture_3d[a];
@@ -114,7 +115,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
         }
-        
+        cur->pointsprite = glshim_glIsEnabled(GL_POINT_SPRITE);
     }
 
     // TODO: GL_EVAL_BIT
@@ -189,6 +190,13 @@ void glshim_glPushAttrib(GLbitfield mask) {
     if (mask & GL_POINT_BIT) {
         cur->point_smooth = glshim_glIsEnabled(GL_POINT_SMOOTH);
         glshim_glGetFloatv(GL_POINT_SIZE, &cur->point_size);
+        if(hardext.pointsprite) {
+            cur->pointsprite = glshim_glIsEnabled(GL_POINT_SPRITE);
+            int a;
+            for (a=0; a<hardext.maxtex; a++) {
+                cur->pscoordreplace[a] = glstate->texture.pscoordreplace[a];
+            }
+        }
     }
 
     // TODO: GL_POLYGON_BIT
@@ -220,7 +228,7 @@ void glshim_glPushAttrib(GLbitfield mask) {
     if (mask & GL_TEXTURE_BIT) {
         cur->active=glstate->texture.active;
         int a;
-        for (a=0; a<MAX_TEX; a++) {
+        for (a=0; a<hardext.maxtex; a++) {
             cur->texgen_r[a] = glstate->enable.texgen_r[a];
             cur->texgen_s[a] = glstate->enable.texgen_s[a];
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
@@ -291,7 +299,7 @@ void glshim_glPushClientAttrib(GLbitfield mask) {
         cur->secondary_enable = glstate->vao->secondary_array;
         cur->normal_enable = glstate->vao->normal_array;
         int a;
-        for (a=0; a<MAX_TEX; a++) {
+        for (a=0; a<hardext.maxtex; a++) {
            cur->tex_enable[a] = glstate->vao->tex_coord_array[a];
         }
         memcpy(&(cur->pointers), &glstate->vao->pointers, sizeof(pointer_states_t));
@@ -402,9 +410,10 @@ void glshim_glPopAttrib() {
         enable_disable(GL_SAMPLE_COVERAGE, cur->sample_coverage);
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
+        enable_disable(GL_POINT_SPRITE, cur->pointsprite);
         int a;
         int old_tex = glstate->texture.active;
-        for (a=0; a<MAX_TEX; a++) {
+        for (a=0; a<hardext.maxtex; a++) {
 			if (glstate->enable.texture_1d[a] != cur->texture_1d[a]) {
 				glshim_glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_1D, cur->texture_1d[a]);
@@ -462,6 +471,17 @@ void glshim_glPopAttrib() {
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
         glshim_glPointSize(cur->point_size);
+        if(hardext.pointsprite) {
+            enable_disable(GL_POINT_SPRITE, cur->pointsprite);
+            int a;
+            for (a=0; a<hardext.maxtex; a++) {
+                if(glstate->texture.pscoordreplace[a]!=cur->pscoordreplace[a]) {
+                    glshim_glActiveTexture(GL_TEXTURE0+a);
+                    glshim_glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, cur->pscoordreplace[a]);
+                }
+            }
+            if (glstate->texture.active!= cur->active) glshim_glActiveTexture(GL_TEXTURE0+cur->active);
+        }
     }
 
     if (cur->mask & GL_SCISSOR_BIT) {
@@ -481,7 +501,7 @@ void glshim_glPopAttrib() {
     if (cur->mask & GL_TEXTURE_BIT) {
         int a;
         //TODO: Enable bit for the 4 texture coordinates
-        for (a=0; a<MAX_TEX; a++) {
+        for (a=0; a<hardext.maxtex; a++) {
             glstate->enable.texgen_r[a] = cur->texgen_r[a];
             glstate->enable.texgen_s[a] = cur->texgen_s[a];
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
@@ -575,7 +595,7 @@ void glshim_glPopClientAttrib() {
 			enable_disable(GL_COLOR_ARRAY, cur->color_enable);
 		if (glstate->vao->secondary_array != cur->secondary_enable)
 			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
-        for (int a=0; a<MAX_TEX; a++) {
+        for (int a=0; a<hardext.maxtex; a++) {
 		   if (glstate->vao->tex_coord_array[a] != cur->tex_enable[a]) {
 			   glshim_glClientActiveTexture(GL_TEXTURE0+a);
 			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);

@@ -915,7 +915,7 @@ void draw_renderlist(renderlist_t *list) {
         needclean[a]=0;
 		if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
-		} else if (glstate->enable.texture_2d[a] && (list->tex[a]==NULL)) {
+		} else if (glstate->enable.texture_2d[a] && (list->tex[a]==NULL) && !(list->mode==GL_POINT && glstate->texture.pscoordreplace[a])) {
 		    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
 		}
     }

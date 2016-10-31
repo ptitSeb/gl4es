@@ -20,6 +20,10 @@ typedef struct _glstack_t {
 	
     GLboolean dither;
 
+    // point sprite
+    GLboolean pointsprite;
+    GLint     pscoordreplace[MAX_TEX];
+
     GLboolean color_logic_op;
     GLint logic_op;
 

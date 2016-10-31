@@ -261,21 +261,23 @@ const GLubyte *glshim_glGetString(GLenum name) {
 		if(glshim_npot>=2)
 			strcat(extensions, "GL_ARB_texture_non_power_of_two ");
         if(hardext.blendcolor)
-            strcat(extensions, "GL_EXT_blend_color");
+            strcat(extensions, "GL_EXT_blend_color ");
         if(hardext.blendminmax)
-            strcat(extensions, "GL_EXT_blend_minmax");
+            strcat(extensions, "GL_EXT_blend_minmax ");
         if(hardext.blendeq)
-            strcat(extensions, "GL_EXT_blend_equation_separate");
+            strcat(extensions, "GL_EXT_blend_equation_separate ");
         if(hardext.blendfunc)
-            strcat(extensions, "GL_EXT_blend_func_separate");
+            strcat(extensions, "GL_EXT_blend_func_separate ");
         if(hardext.blendsub)
-            strcat(extensions, "GL_EXT_blend_subtract");
+            strcat(extensions, "GL_EXT_blend_subtract ");
         if(hardext.fbo)
             strcat(extensions,                 
                 "GL_ARB_framebuffer_object "
                 "GL_EXT_framebuffer_object "
                 "GL_EXT_packed_depth_stencil "
                 "GL_ARB_draw_buffers ");
+        if(hardext.pointsprite)
+            strcat(extensions, "GL_ARB_point_sprite ");
 	}
     switch (name) {
         case GL_VERSION:
@@ -606,6 +608,9 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         enable(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
         enable(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
         enable(GL_LINE_STIPPLE, line_stipple);
+
+        // point sprite
+        proxy_enable(GL_POINT_SPRITE, pointsprite);
         
         // Secondary color
         enable(GL_COLOR_SUM, color_sum);
@@ -724,6 +729,7 @@ GLboolean glshim_glIsEnabled(GLenum cap) {
         isenabled(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
 		isenabled(GL_COLOR_SUM, color_sum);
+        isenabled(GL_POINT_SPRITE, pointsprite);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
         isenabled(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
         isenabled(GL_TEXTURE_3D, texture_3d[glstate->texture.active]);

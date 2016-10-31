@@ -59,7 +59,9 @@
 #define GL_TEXTURE_GEN_STR          0x8D60
 
 
-
+// GL_ARB_point_sprite
+#define GL_POINT_SPRITE             0x8861
+#define GL_COORD_REPLACE            0x8862
 
 // GL_ARB_texture_rectangle
 #define GL_TEXTURE_RECTANGLE_ARB          0x84F5
