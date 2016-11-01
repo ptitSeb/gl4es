@@ -173,7 +173,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = GLX_NONE;
             break;
         case GLX_RENDER_TYPE:
-            *value = GLX_RGBA_BIT;
+            *value = GLX_RGBA_TYPE;
             break;
         case GLX_VISUAL_ID:
             *value = glXChooseVisual(display, 0, NULL)->visualid;
@@ -627,7 +627,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-//LOGD("glXCreateContext(%p, %p, %p, %i)\n", display, visual, shareList, isDirect);
+    //printf("glXCreateContext(%p, %p, %p, %i)\n", display, visual, shareList, isDirect);
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
@@ -825,6 +825,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
 EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
                                       GLXContext share_context, Bool direct,
                                       const int *attrib_list) {
+    //printf("glXCreateContextAttribsARB(%p, %p, %p, %d) ", display, config, share_context, direct);if(config)printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->drawableType); else printf("\n");
     if(config && config->drawableType==GLX_PBUFFER_BIT) {
         return createPBufferContext(display, share_context, config);
     } else {
@@ -940,7 +941,7 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
 }
 
 EXPORT void glXDestroyContext(Display *display, GLXContext ctx) {
-//LOGD("glXDestroyContext(%p, %p)\n", display, ctx);
+    //printf("glXDestroyContext(%p, %p)\n", display, ctx);
     if (g_usefb && ctx->contextType==0) {
         if (fbcontext_count==0)
             return; // Should not happens!
@@ -1026,7 +1027,7 @@ not set to EGL_NO_CONTEXT.
 EXPORT Bool glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-//LOGD("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d\n", display, drawable, context, isPBuffer(drawable));                        
+    //printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d\n", display, drawable, context, isPBuffer(drawable));                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -1156,6 +1157,7 @@ EXPORT Bool glXMakeCurrent(Display *display,
 
 EXPORT Bool glXMakeContextCurrent(Display *display, int drawable,
                            int readable, GLXContext context) {
+    //printf("glXMakeContextCurrent(%p, %X, %X, %p)\n", display, drawable, readable, context);
     return glXMakeCurrent(display, drawable, context);
 }
 
@@ -1323,16 +1325,22 @@ EXPORT GLXContext glXGetCurrentContext() {
 
 EXPORT GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
                        const int *attrib_list, int *count) {
-//LOGD("glXChooseFBConfig(%p, %d, %p, %p)\n", display, screen, attrib_list, count);
+    //printf("glXChooseFBConfig(%p, %d, %p, %p)\n", display, screen, attrib_list, count);
+    // this is not really good. A static table of all config should be build, and then a filter done according to attribs...
+    static struct __GLXFBConfigRec currentConfig[8];
+    static int idx = 0;
     *count = 1;
-    GLXFBConfig *configs = (GLXFBConfig *)malloc(sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
-    configs[0] = (GLXFBConfig)((char*)(&configs[0])+sizeof(GLXFBConfig));
+    GLXFBConfig *configs = (GLXFBConfig *)malloc(sizeof(GLXFBConfig));
+    configs[0] = &currentConfig[idx];
+    idx=(idx+1)%8;
     memset(configs[0], 0, sizeof(struct __GLXFBConfigRec));
     // fill that config with some of the attrib_list info...
-    configs[0]->drawableType = GLX_WINDOW_BIT | GLX_PBUFFER_BIT | GLX_PIXMAP_BIT;
+    configs[0]->drawableType = GLX_WINDOW_BIT;
     configs[0]->screen = 0;
     configs[0]->maxPbufferWidth = configs[0]->maxPbufferHeight = 2048;
     configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 0;
+    configs[0]->depthBits = 16;
+    configs[0]->stencilBits = 8;
     configs[0]->nMultiSampleBuffers = 0; configs[0]->multiSampleSize = 0;
     if(attrib_list) {
 		int i = 0;
@@ -1378,7 +1386,7 @@ EXPORT GLXFBConfig *glXChooseFBConfigSGIX(Display *display, int screen,
 }
 
 EXPORT GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count) {
-//LOGD("glXGetFBConfigs(%p, %d, %p)\n", display, screen, count);
+    //printf("glXGetFBConfigs(%p, %d, %p)\n", display, screen, count);
     *count = 1;
     // this is to only do 1 malloc instead of 1 for the array and one for the element...
     GLXFBConfig *configs = (GLXFBConfig *)malloc(sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
@@ -1391,7 +1399,7 @@ EXPORT GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count) {
 }
 
 EXPORT int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value) {
-//LOGD("glXGetFBConfigAttrib(%p, %p, 0x%04X, %p)\n", display, config, attribute, value);
+    //printf("glXGetFBConfigAttrib(%p, %p, 0x%04X, %p)\n", display, config, attribute, value);
     if(!config)
         return get_config_default(display, attribute, value);
 
@@ -1426,7 +1434,7 @@ EXPORT int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attrib
             *value = GLX_NONE;
             break;
         case GLX_RENDER_TYPE:
-            *value = GLX_RGBA_BIT;
+            *value = GLX_RGBA_TYPE;
             break;
         case GLX_VISUAL_ID:
             *value = glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
@@ -1458,7 +1466,7 @@ EXPORT int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attrib
 }
 
 EXPORT XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config) {
-//LOGD("glXGetVisualFromFBConfig(%p, %p)\n", display, config);
+    //printf("glXGetVisualFromFBConfig(%p, %p)\n", display, config);
     /*if (g_display == NULL) {
         g_display = XOpenDisplay(NULL);
     }*/
@@ -1472,8 +1480,8 @@ EXPORT XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig confi
 EXPORT GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
                                int render_type, GLXContext share_list,
                                Bool is_direct) {
-//LOGD("glXCreateNewContext(%p, %p, %d, %p, %i), drawableType=0x%02X\n", display, config, render_type, share_list, is_direct, (config)?config->drawableType:0);
-    if(render_type!=GLX_RGBA)
+    //printf("glXCreateNewContext(%p, %p, %d, %p, %i), drawableType=0x%02X\n", display, config, render_type, share_list, is_direct, (config)?config->drawableType:0);
+    if(render_type!=GLX_RGBA_TYPE)
         return 0;
     if(config && config->drawableType==GLX_PBUFFER_BIT) {
         return createPBufferContext(display, share_list, config);
@@ -1703,7 +1711,7 @@ void delPBuffer(int j)
 }
 
 EXPORT void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
-//    LOGD("LIBGL: Warning, stub glxDestroyPBuffer called\n");
+//    printf("glxDestroyPBuffer(%p, %p)\n", dpy, pbuf);
     LOAD_EGL(eglDestroySurface);
     int j=0;
     while(j<pbufferlist_size || pbufferlist[j]==pbuf) j++;
@@ -1781,7 +1789,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
 }
 
 EXPORT GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list) {
-//LOGD("glXCreatePbuffer(%p, %p, %p)\n", dpy, config, attrib_list);
+    //printf("glXCreatePbuffer(%p, %p, %p)\n", dpy, config, attrib_list);
     LOAD_EGL(eglQuerySurface);
 
 	EGLSurface Surface = 0;
