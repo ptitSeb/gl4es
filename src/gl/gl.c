@@ -682,11 +682,9 @@ void glshim_glEnable(GLenum cap) {
         if (which_cap!=ENABLED_LAST) {
             if ((glstate->statebatch.enabled[which_cap] == 1))
                 return; // nothing to do...
-            if (!glstate->statebatch.enabled[which_cap]) {
-                glstate->statebatch.enabled[which_cap] = 1;
-            } else {
+            if (glstate->statebatch.enabled[which_cap])
                 flush();
-            }
+            glstate->statebatch.enabled[which_cap] = 1;
         }
     }
 	PUSH_IF_COMPILING(glEnable)
@@ -708,11 +706,9 @@ void glshim_glDisable(GLenum cap) {
         if (which_cap!=ENABLED_LAST) {
             if ((glstate->statebatch.enabled[which_cap] == 2))
                 return; // nothing to do...
-            if (!glstate->statebatch.enabled[which_cap]) {
-                glstate->statebatch.enabled[which_cap] = 2;
-            } else {
+            if (glstate->statebatch.enabled[which_cap])
                 flush();
-            }
+            glstate->statebatch.enabled[which_cap] = 2;
         }
     }
 	PUSH_IF_COMPILING(glDisable)
@@ -729,12 +725,18 @@ void glshim_glDisable(GLenum cap) {
 void glDisable(GLenum cap) AliasExport("glshim_glDisable");
 
 void glshim_glEnableClientState(GLenum cap) {
+    // should flush for now... to be optimized later!
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
+        flush();
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
 void glEnableClientState(GLenum cap) AliasExport("glshim_glEnableClientState");
 
 void glshim_glDisableClientState(GLenum cap) {
+    // should flush for now... to be optimized later!
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
+        flush();
     LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
@@ -748,7 +750,8 @@ void glDisableClientState(GLenum cap) AliasExport("glshim_glDisableClientState")
     
 GLboolean glshim_glIsEnabled(GLenum cap) {
     // should flush for now... to be optimized later!
-    if (glstate->gl_batch) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
+        flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();
     switch (cap) {
@@ -1906,7 +1909,7 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-    //LOGD("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
+    //printf("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
     renderlist_t *mylist = glstate->list.active;
     if (mylist) {
         GLuint old = glstate->gl_batch;

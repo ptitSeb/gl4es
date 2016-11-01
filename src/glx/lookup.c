@@ -645,6 +645,9 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
         _EX(glGetQueryObjectuiv);
     }
 
+    // GL_ARB_multisample
+    _ARB(glSampleCoverage);
+
     if (!export_silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }

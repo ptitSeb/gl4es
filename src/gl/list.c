@@ -48,8 +48,6 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->fog_op)
         return false;
-    if (list->texgen)
-        return false;
     if (list->mode_init == 0)
         return false;
     if (list->set_texture || list->set_tmu)
