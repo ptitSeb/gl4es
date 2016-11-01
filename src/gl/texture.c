@@ -2062,6 +2062,12 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
             } else {
                 pixels = uncompressDXTc(width, height, internalformat, imageSize, datab);
             }
+            // if RGBA / DXT1, then RGB 000 needs to have 0 alpha too
+            if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) {
+                GLuint *p = (GLuint*)pixels;
+                for(int i=0; i<width*height; i++, p++)
+                    if(*p==0xff000000) *p=0;
+            }
             // automaticaly reduce the pixel size
             half=pixels;
             glstate->texture.bound[glstate->texture.active]->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
