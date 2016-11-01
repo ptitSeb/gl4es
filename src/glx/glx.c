@@ -1339,8 +1339,6 @@ EXPORT GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
     configs[0]->screen = 0;
     configs[0]->maxPbufferWidth = configs[0]->maxPbufferHeight = 2048;
     configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 0;
-    configs[0]->depthBits = 16;
-    configs[0]->stencilBits = 8;
     configs[0]->nMultiSampleBuffers = 0; configs[0]->multiSampleSize = 0;
     if(attrib_list) {
 		int i = 0;
@@ -1361,6 +1359,14 @@ EXPORT GLXFBConfig *glXChooseFBConfig(Display *display, int screen,
 				case GLX_ALPHA_SIZE:
 					configs[0]->alphaBits = attrib_list[i++];
 					if(configs[0]->alphaBits==GLX_DONT_CARE) configs[0]->alphaBits = 0;
+					break;
+                case GLX_DEPTH_SIZE:
+					configs[0]->depthBits = attrib_list[i++];
+					if(configs[0]->depthBits==GLX_DONT_CARE) configs[0]->depthBits = 0;
+					break;
+                case GLX_STENCIL_SIZE:
+					configs[0]->stencilBits = attrib_list[i++];
+					if(configs[0]->stencilBits==GLX_DONT_CARE) configs[0]->stencilBits = 0;
 					break;
                 case GLX_DRAWABLE_TYPE:
                     configs[0]->drawableType = attrib_list[i++];
