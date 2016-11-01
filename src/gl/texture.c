@@ -2066,16 +2066,18 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
             half=pixels;
             glstate->texture.bound[glstate->texture.active]->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
             format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
-            glstate->texture.bound[glstate->texture.active]->format = format; //internalformat;
             type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
-            glstate->texture.bound[glstate->texture.active]->type = type;
-            glstate->texture.bound[glstate->texture.active]->compressed = true;
             if (pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0))
                 fact = 0;
 //            if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
 //                fact = 1;
-            else
-                glstate->texture.bound[glstate->texture.active]->type = GL_UNSIGNED_BYTE;
+            else {
+                format = GL_RGBA;
+                type = GL_UNSIGNED_BYTE;
+            }
+            glstate->texture.bound[glstate->texture.active]->format = format; //internalformat;
+            glstate->texture.bound[glstate->texture.active]->type = type;
+            glstate->texture.bound[glstate->texture.active]->compressed = true;
         } else {
             fact = 0;
         }
@@ -2083,7 +2085,7 @@ void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfo
 		glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glshim_glTexImage2D(target, level, GL_RGBA, width>>fact, height>>fact, border, format, type, half);
+		glshim_glTexImage2D(target, level, format, width>>fact, height>>fact, border, format, type, half);
 		if (oldalign!=1) 
             glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		if (half!=pixels)
