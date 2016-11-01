@@ -217,7 +217,7 @@ void initialize_glshim() {
     
     initialized = 1;
 #ifdef ANDROID
-    scan_env()
+    scan_env();
 #endif
 }
 
