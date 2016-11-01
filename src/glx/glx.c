@@ -466,7 +466,7 @@ static void scan_env() {
     int glshim_notest = 0;
     char *env_notest = getenv("LIBGL_NOTEST");
     if (env_notest && strcmp(env_notest, "1") == 0) {
-		glshim_npot = 1;
+		glshim_notest = 1;
     }
     GetHardwareExtensions(glshim_notest);
 
