@@ -232,7 +232,7 @@ void glshim_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum text
         }
     }
     
-    if(attachment==GL_DEPTH_ATTACHMENT && hardext.depthtex==0) {
+    if(attachment==GL_DEPTH_ATTACHMENT /*&& hardext.depthtex==0*/) {
         noerrorShim();
         if (level!=0) return;
         // let's create a renderbuffer and attach it instead of the (presumably) depth texture
