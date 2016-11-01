@@ -865,9 +865,16 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 		NewStage(glstate->list.active, STAGE_DRAW);
         list = glstate->list.active;
 
-        normalize_indices(sindices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1);
-        list->indices = (need_free)?sindices:copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+        if(need_free) {
+            normalize_indices(sindices, &max, &min, count);
+            list = arrays_to_renderlist(list, mode, min, max + 1);
+            list->indices = sindices;
+        } else {
+            getminmax_indices(sindices, &max, &min, count);
+            list = arrays_to_renderlist(list, mode, min, max + 1);
+            list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+            if(min) normalize_indices(list->indices, &max, &min, count);
+        }
         list->ilen = count;
         list->indice_cap = count;
         //end_renderlist(list);
@@ -880,9 +887,16 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-        normalize_indices(sindices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1);
-        list->indices = (need_free)?sindices:copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+        if(need_free) {
+            normalize_indices(sindices, &max, &min, count);
+            list = arrays_to_renderlist(list, mode, min, max + 1);
+            list->indices = sindices;
+        } else {
+            getminmax_indices(sindices, &max, &min, count);
+            list = arrays_to_renderlist(list, mode, min, max + 1);
+            list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+            if(min) normalize_indices(list->indices, &max, &min, count);
+        }
         list->ilen = count;
         list->indice_cap = count;
         list = end_renderlist(list);
@@ -915,8 +929,8 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 
 
 		GLenum mode_init = mode;
-		if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
-			mode = GL_LINE_LOOP;
+		/*if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+			mode = GL_LINE_LOOP;*/
 		if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 			mode = GL_POINTS;
 
@@ -1011,8 +1025,8 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         return;
     }
 
-    if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
-		mode = GL_LINE_LOOP;
+    /*if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+		mode = GL_LINE_LOOP;*/
     if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 		mode = GL_POINTS;
 
@@ -1035,7 +1049,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
 			// setup the Array Pointers
-            client_state(color_array, GL_COLOR_ARRAY, );
+            client_state(color_array, GL_COLOR_ARRAY, );    
             if (glstate->vao->color_array)
 				gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
             client_state(normal_array, GL_NORMAL_ARRAY, );
