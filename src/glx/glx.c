@@ -373,10 +373,11 @@ static void fast_math() {
 #endif
 extern void initialize_glshim();
 extern int initialized;
-static void scan_env() {
+void scan_env() {
     static bool first = true;
     if (! first)
         return;
+    first = false;
     if (! initialized)
     {
 	initialize_glshim();
@@ -396,7 +397,6 @@ static void scan_env() {
         kh_put(mapdrawable, MapDrawable, 1, &ret);
         kh_del(mapdrawable, MapDrawable, 1);
     }
-    first = false;
     SHUT(LOGD("LIBGL: built on %s %s\n", __DATE__, __TIME__));
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \

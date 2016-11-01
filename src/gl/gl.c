@@ -178,6 +178,7 @@ void ActivateGLState(void* new_glstate) {
     if (gl_batch && glstate->init_batch==0) init_batch();
 }
 
+void scan_env();
 __attribute__((constructor))
 void initialize_glshim() {
     char *env_nobanner = getenv("LIBGL_NOBANNER");
@@ -215,6 +216,9 @@ void initialize_glshim() {
     ActivateGLState(default_glstate);
     
     initialized = 1;
+#ifdef ANDROID
+    scan_env()
+#endif
 }
 
 // config functions
@@ -1909,7 +1913,6 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-    //printf("flush glstate->list.active=%p, gl_batch=%i(%i)\n", glstate->list.active, glstate->gl_batch, gl_batch);
     renderlist_t *mylist = glstate->list.active;
     if (mylist) {
         GLuint old = glstate->gl_batch;
@@ -1920,7 +1923,7 @@ void flush() {
         free_renderlist(mylist);
         glstate->gl_batch = old;
     }
-    if (glstate->gl_batch) init_statebatch();
+    init_statebatch();
     glstate->list.active = (glstate->gl_batch)?alloc_renderlist():NULL;
 }
 
