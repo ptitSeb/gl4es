@@ -17,6 +17,7 @@ typedef enum {
 	STAGE_MATERIAL,
 	STAGE_LIGHT,
 	STAGE_LIGHTMODEL,
+	STAGE_TEXENV,
 	STAGE_TEXGEN,
 	STAGE_POLYGON,
 	STAGE_DRAW,
@@ -37,6 +38,7 @@ static int StageExclusive[STAGE_LAST] = {
 	0,  // STAGE_MATERIAL
 	0,  // STAGE_LIGHT
 	1,  // STAGE_LIGTMODEL
+	0,  // STAGE_TEXENV
 	0,  // STAGE_TEXGEN
 	1,  // STAGE_POLYGON
 	1   // STAGE_DRAW
@@ -64,6 +66,13 @@ typedef struct {
 } rendertexgen_t;
 
 typedef struct {
+    int target;
+    int pname;
+    GLfloat params[4];
+    int count;
+} rendertexenv_t;
+
+typedef struct {
 	GLfloat	xmove;
 	GLfloat ymove;
 	GLsizei width;
@@ -80,6 +89,7 @@ typedef struct {
 KHASH_MAP_INIT_INT(material, rendermaterial_t *)
 KHASH_MAP_INIT_INT(light, renderlight_t *)
 KHASH_MAP_INIT_INT(texgen, rendertexgen_t *)
+KHASH_MAP_INIT_INT(texenv, rendertexenv_t *)
 
 typedef struct _call_list_t {
     unsigned long len;
@@ -131,6 +141,7 @@ typedef struct _renderlist_t {
     khash_t(material) *material;
     khash_t(light) *light;
     khash_t(texgen) *texgen;
+    khash_t(texenv) *texenv;
     GLfloat	*lightmodel;
     GLenum	lightmodelparam;
     GLenum	polygon_mode;
@@ -163,6 +174,8 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) F
 void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat * params);
 void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params);
 void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * params);
+void rlTexEnvfv(renderlist_t *list, GLenum target, GLenum pname, const GLfloat * params);
+void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * params);
 void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
 void rlPushCall(renderlist_t *list, packed_call_t *data);
 void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q) FASTMATH;

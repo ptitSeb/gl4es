@@ -80,6 +80,8 @@
 #define skip_glTexGenfv
 #define skip_glTexEnvf
 #define skip_glTexEnvi
+#define skip_glTexEnvfv
+#define skip_glTexEnviv
 #define skip_glGetTexEnvfv
 #define skip_glGetTexEnviv
 #define skip_glReadPixels

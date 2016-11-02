@@ -2272,6 +2272,26 @@ void glshim_glTexEnvi(GLenum target, GLenum pname, GLint param) {
         glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0)?1:0;
     gles_glTexEnvi(target, pname, param);
 }
+void glshim_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_TEXENV);
+		rlTexEnvfv(glstate->list.active, target, pname, param);
+        noerrorShim();
+		return;
+	}
+    LOAD_GLES(glTexEnvfv);
+    gles_glTexEnvfv(target, pname, param);
+}
+void glshim_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_TEXENV);
+		rlTexEnviv(glstate->list.active, target, pname, param);
+        noerrorShim();
+		return;
+	}
+    LOAD_GLES(glTexEnviv);
+    gles_glTexEnviv(target, pname, param);
+}
 void glshim_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     LOAD_GLES(glGetTexEnvfv);
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();

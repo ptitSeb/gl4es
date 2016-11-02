@@ -44,7 +44,7 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->popattribute)
         return false;
-    if (list->material || list->light || list->lightmodel || list->texgen)
+    if (list->material || list->light || list->lightmodel || list->texgen || list->texenv)
         return false;
     if (list->fog_op)
         return false;
@@ -558,6 +558,7 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             PROCESS(material, rendermaterial_t, m->pname);
             PROCESS(light, renderlight_t, m->pname | ((m->which-GL_LIGHT0)<<16));
             PROCESS(texgen, rendertexgen_t, m->pname | ((m->coord-GL_S)<<16));
+            PROCESS(texenv, rendertexenv_t, m->pname | ((m->target)<<16));
             #undef PROCESS
             if (list->lightmodel) {
                 list->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
@@ -637,6 +638,13 @@ void free_renderlist(renderlist_t *list) {
                 free(m);
             )
             kh_destroy(texgen, list->texgen);
+        }
+        if (list->texenv) {
+            rendertexenv_t *m;
+            kh_foreach_value(list->texenv, m,
+                free(m);
+            )
+            kh_destroy(texenv, list->texenv);
         }
         if (list->lightmodel)
 			free(list->lightmodel);
@@ -828,6 +836,14 @@ void draw_renderlist(renderlist_t *list) {
             glshim_glLightModelfv(list->lightmodelparam, list->lightmodel);
         }
 		
+        if (list->texenv) {
+            khash_t(texenv) *tgn = list->texenv;
+            rendertexenv_t *m;
+            kh_foreach_value(tgn, m,
+                glshim_glTexEnvfv(m->target, m->pname, m->params);
+            )
+        }
+
         if (list->texgen) {
             khash_t(texgen) *tgn = list->texgen;
             rendertexgen_t *m;
@@ -1415,6 +1431,60 @@ renderlist_t* GetFirst(renderlist_t* list) {
         list = list->prev;
     return list;
 }
+
+void rlTexEnvfv(renderlist_t *list, GLenum target, GLenum pname, const GLfloat * params) {
+    int n = 1;
+    switch(target) {
+        case GL_POINT_SPRITE: n = 1; break;
+        default:
+            switch(pname) {
+                case GL_TEXTURE_ENV_MODE: n=4; break;
+                case GL_TEXTURE_ENV_COLOR: n=4; break;
+                case GL_TEXTURE_LOD_BIAS: n=4; break;
+            }
+    }
+    rendertexenv_t *m;
+    khash_t(texenv) *map;
+    khint_t k;
+    int ret;
+    if (! list->texenv) {
+        list->texenv = map = kh_init(texenv);
+        // segfaults if we don't do a single put
+        kh_put(texenv, map, 1, &ret);
+        kh_del(texenv, map, 1);
+    } else {
+        map = list->texenv;
+    }
+
+	int key = pname | ((target)<<16);
+    k = kh_get(texenv, map, key);
+    if (k == kh_end(map)) {
+        k = kh_put(texenv, map, key, &ret);
+        m = kh_value(map, k) = malloc(sizeof(rendertexenv_t));
+    } else {
+        m = kh_value(map, k);
+    }
+
+    m->target = target;
+    m->pname = pname;
+    memcpy(m->params, params, n*sizeof(GLfloat));
+}
+void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * params) {
+    GLfloat fparams[4];
+    int n = 1;
+    switch(target) {
+        case GL_POINT_SPRITE: n = 1; break;
+        default:
+            switch(pname) {
+                case GL_TEXTURE_ENV_MODE: n=4; break;
+                case GL_TEXTURE_ENV_COLOR: n=4; break;
+                case GL_TEXTURE_LOD_BIAS: n=4; break;
+            }
+    }
+    for (int i=0; i<n; i++) fparams[i] = params[i];
+    rlTexEnvfv(list, target, pname, fparams);
+}
+
 
 #undef alloc_sublist
 #undef realloc_sublist
