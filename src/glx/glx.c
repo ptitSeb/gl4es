@@ -1742,6 +1742,8 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
         EGL_GREEN_SIZE, greenBits,
         EGL_BLUE_SIZE, blueBits,
         EGL_ALPHA_SIZE, alphaBits,
+        EGL_DEPTH_SIZE, 1,
+        EGL_STENCIL_SIZE, 1,
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
         EGL_SAMPLE_BUFFERS, samplebuffers,
@@ -1897,6 +1899,8 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
         EGL_GREEN_SIZE, (bpp==15)?5:(bpp>16)?8:6,
         EGL_BLUE_SIZE, (bpp>16)?8:5,
         EGL_ALPHA_SIZE, (bpp==32)?8:0,
+        EGL_DEPTH_SIZE, 1,      // some depth
+        EGL_STENCIL_SIZE, 1,    // some stencil too
         EGL_SURFACE_TYPE, EGL_PIXMAP_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
         EGL_NONE
@@ -2129,6 +2133,8 @@ void BlitEmulatedPixmap() {
                 EGL_GREEN_SIZE, (Depth==15)?5:(Depth>16)?8:6,
                 EGL_BLUE_SIZE, (depth>16)?8:5,
                 EGL_ALPHA_SIZE, (depth==32)?8:0,
+                EGL_DEPTH_SIZE, 1,
+                EGL_STENCIL_SIZE, 1,
                 EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
                 EGL_NONE
