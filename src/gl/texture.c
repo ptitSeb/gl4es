@@ -2345,6 +2345,8 @@ GLboolean glIsTexture( GLuint texture ) AliasExport("glshim_glIsTexture");
 void glPixelStorei(GLenum pname, GLint param) AliasExport("glshim_glPixelStorei");
 void glTexEnvf(GLenum target, GLenum pname, GLfloat param) AliasExport("glshim_glTexEnvf");
 void glTexEnvi(GLenum target, GLenum pname, GLint param) AliasExport("glshim_glTexEnvi");
+void glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) AliasExport("glshim_glTexEnvfv");
+void glTexEnviv(GLenum target, GLenum pname, const GLint *param) AliasExport("glshim_glTexEnviv");
 void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("glshim_glGetTexEnvfv");
 void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) AliasExport("glshim_glGetTexEnviv");
 
