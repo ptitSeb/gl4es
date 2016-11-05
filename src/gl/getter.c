@@ -17,14 +17,6 @@ GLenum gl4es_glGetError() {
 }
 GLenum glGetError() AliasExport("gl4es_glGetError");
 
-// Utility function.
-void transposeMatrix(float *matrix)
-{
-    float tmp[16];
-    memcpy(tmp, matrix, sizeof(tmp));
-    matrix_transpose(tmp, matrix);
-}
-
 void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
@@ -97,7 +89,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
                 "GL_ARB_point_parameters "
                 "GL_EXT_point_parameters "
                 "GL_EXT_stencil_wrap "
-                "SGIS_texture_edge_clamp "
+                "GL_SGIS_texture_edge_clamp "
                 "GL_EXT_texture_edge_clamp "
                 "GL_EXT_direct_state_access "
                 "GL_EXT_multi_draw_arrays "
@@ -149,6 +141,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
     }
 }
 const GLubyte *glGetString(GLenum name) AliasExport("gl4es_glGetString");
+
+#define TOP(A) (glstate->A->stack+(glstate->A->top*16))
 
 // glGet
 void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
@@ -294,6 +288,9 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
 	case  GL_PIXEL_UNPACK_BUFFER_BINDING:
         *params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
         break;
+    case GL_MATRIX_MODE:
+        *params=glstate->matrix_mode;
+        break;
     case GL_SHRINK_HINT_GL4ES:
         *params=globals4es.texshrink;
         break;
@@ -438,16 +435,25 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             *params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
             break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
-            gles_glGetFloatv(GL_PROJECTION_MATRIX, params);
-            transposeMatrix(params);
+            matrix_transpose(TOP(projection_matrix), params);
             break;
         case GL_TRANSPOSE_MODELVIEW_MATRIX:
-            gles_glGetFloatv(GL_MODELVIEW_MATRIX, params);
-            transposeMatrix(params);
+            matrix_transpose(TOP(modelview_matrix), params);
             break;
         case GL_TRANSPOSE_TEXTURE_MATRIX:
-            gles_glGetFloatv(GL_TEXTURE_MATRIX, params);
-            transposeMatrix(params);
+            matrix_transpose(TOP(texture_matrix[glstate->texture.active]), params);
+            break;
+        case GL_MATRIX_MODE:
+            *params=glstate->matrix_mode;
+            break;
+        case GL_PROJECTION_MATRIX:
+            memcpy(params, TOP(projection_matrix), 16*sizeof(GLfloat));
+            break;
+        case GL_MODELVIEW_MATRIX:
+            memcpy(params, TOP(modelview_matrix), 16*sizeof(GLfloat));
+            break;
+        case GL_TEXTURE_MATRIX:
+            memcpy(params, TOP(texture_matrix[glstate->texture.active]), 16*sizeof(GLfloat));
             break;
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;
