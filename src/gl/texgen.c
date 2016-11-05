@@ -2,13 +2,13 @@
 
 //extern void* eglGetProcAddress(const char*);
 
-void glshim_glTexGeni(GLenum coord, GLenum pname, GLint param) {
+void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
     GLfloat params[4] = {0,0,0,0};
     params[0]=param;
-    glshim_glTexGenfv(coord, pname, params);
+    gl4es_glTexGenfv(coord, pname, params);
 }
 
-void glshim_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
+void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     
     /*
     If pname is GL_TEXTURE_GEN_MODE, then the array must contain
@@ -80,7 +80,7 @@ void glshim_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
             errorShim(GL_INVALID_ENUM);
     }
 }
-void glshim_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
+void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
     if (gl_batch) flush();
     noerrorShim();
 	switch(pname) {
@@ -379,7 +379,7 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
     }*/
     // First get the ModelviewMatrix
     GLfloat ModelviewMatrix[16], InvModelview[16];
-    glshim_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
+    gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
     // column major -> row major
     for (int i=0; i<4; i++)
         for (int j=0; j<4; j++)
@@ -476,7 +476,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         *needclean=1;
         // setup reflection map!
         GLuint old_tex=glstate->texture.active;
-        if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + texture);
+        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + texture);
         LOAD_GLES_OES(glTexGeni);
         LOAD_GLES_OES(glTexGenfv);
         LOAD_GLES(glEnable);
@@ -487,7 +487,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         // enable texgen
         gles_glEnable(GL_TEXTURE_GEN_STR);      //GLES only support the 3 gen at the same time!
 
-        if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + old_tex);
+        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
             
         return;
     }
@@ -499,7 +499,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         *needclean=1;
         // setup reflection map!
         GLuint old_tex=glstate->texture.active;
-        if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + texture);
+        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + texture);
         LOAD_GLES_OES(glTexGeni);
         LOAD_GLES_OES(glTexGenfv);
         LOAD_GLES(glEnable);
@@ -510,7 +510,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
         // enable texgen
         gles_glEnable(GL_TEXTURE_GEN_STR);
 
-        if (old_tex!=texture) glshim_glActiveTexture(GL_TEXTURE0 + old_tex);
+        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
             
         return;
     }
@@ -549,38 +549,38 @@ void gen_tex_clean(GLint cleancode, int texture) {
 	}
 }
 
-void glshim_glLoadTransposeMatrixf(const GLfloat *m) {
+void gl4es_glLoadTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_transpose(m, mf);
-	glshim_glLoadMatrixf(mf);
+	gl4es_glLoadMatrixf(mf);
     errorGL();
 }
 
-void glshim_glLoadTransposeMatrixd(const GLdouble *m) {
+void gl4es_glLoadTransposeMatrixd(const GLdouble *m) {
 	GLfloat mf[16];
 	for (int i=0; i<16; i++)
 		mf[i] = m[i];
-	glshim_glLoadTransposeMatrixf(mf);
+	gl4es_glLoadTransposeMatrixf(mf);
 }
 
-void glshim_glMultTransposeMatrixd(const GLdouble *m) {
+void gl4es_glMultTransposeMatrixd(const GLdouble *m) {
 	GLfloat mf[16];
 	for (int i=0; i<16; i++)
 		mf[i] = m[i];
-	glshim_glMultTransposeMatrixf(mf);
+	gl4es_glMultTransposeMatrixf(mf);
 }
-void glshim_glMultTransposeMatrixf(const GLfloat *m) {
+void gl4es_glMultTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_transpose(m, mf);
-	glshim_glMultMatrixf(mf);
+	gl4es_glMultMatrixf(mf);
     errorGL();
 }
 
-void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params) AliasExport("glshim_glTexGenfv");
-void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("glshim_glTexGeni");
-void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) AliasExport("glshim_glGetTexGenfv");
+void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params) AliasExport("gl4es_glTexGenfv");
+void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("gl4es_glTexGeni");
+void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) AliasExport("gl4es_glGetTexGenfv");
 
-void glLoadTransposeMatrixf(const GLfloat *m) AliasExport("glshim_glLoadTransposeMatrixf");
-void glLoadTransposeMatrixd(const GLdouble *m) AliasExport("glshim_glLoadTransposeMatrixd");
-void glMultTransposeMatrixd(const GLdouble *m) AliasExport("glshim_glMultTransposeMatrixd");
-void glMultTransposeMatrixf(const GLfloat *m) AliasExport("glshim_glMultTransposeMatrixf");
+void glLoadTransposeMatrixf(const GLfloat *m) AliasExport("gl4es_glLoadTransposeMatrixf");
+void glLoadTransposeMatrixd(const GLdouble *m) AliasExport("gl4es_glLoadTransposeMatrixd");
+void glMultTransposeMatrixd(const GLdouble *m) AliasExport("gl4es_glMultTransposeMatrixd");
+void glMultTransposeMatrixf(const GLfloat *m) AliasExport("gl4es_glMultTransposeMatrixf");

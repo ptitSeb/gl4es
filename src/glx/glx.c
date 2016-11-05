@@ -6,6 +6,8 @@
 #define USE_FBIO 1
 #endif
 
+#include "../../version.h"
+
 #ifdef USE_FBIO
 #include <linux/fb.h>
 #endif
@@ -243,12 +245,12 @@ extern int copytex;
 extern int nolumalpha;
 extern int blendhack;
 extern int export_blendcolor;
-extern int glshim_noerror;
-extern char glshim_version[50];
-extern int glshim_nobanner;
-extern int glshim_npot;
+extern int gl4es_noerror;
+extern char gl4es_version[50];
+extern int gl4es_nobanner;
+extern int gl4es_npot;
 int export_silentstub = 0;
-int glshim_queries = 1;
+int gl4es_queries = 1;
 
 bool g_recyclefbo = false;
 static int  g_width=0, g_height=0;
@@ -258,7 +260,7 @@ static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
 
-#define SHUT(a) if(!glshim_nobanner) a
+#define SHUT(a) if(!gl4es_nobanner) a
 
 static int swap_interval = 1;
 #ifndef ANDROID
@@ -371,7 +373,7 @@ static void fast_math() {
      : "=&r"(v));
 }
 #endif
-extern void initialize_glshim();
+extern void initialize_gl4es();
 extern int initialized;
 void scan_env() {
     static bool first = true;
@@ -380,16 +382,8 @@ void scan_env() {
     first = false;
     if (! initialized)
     {
-	initialize_glshim();
+	initialize_gl4es();
     }
-    /* Check for some corruption inside state.... */
-    /*
-    if ((glstate->texture.active < 0) || (glstate->texture.active > MAX_TEX) || 
-        (glstate->vao->pointers.vertex.buffer!= 0) || (glstate->vao->vertex != 0) || (glstate->list.active!=0)) {
-        SHUT(LOGD("LIBGL: Warning, memory corruption detected at init, trying to compensate\n"));
-        initialize_glshim();
-    }
-    */
     // initialise MapDrawable too
     {
         int ret;
@@ -397,7 +391,7 @@ void scan_env() {
         kh_put(mapdrawable, MapDrawable, 1, &ret);
         kh_del(mapdrawable, MapDrawable, 1);
     }
-    SHUT(LOGD("LIBGL: built on %s %s\n", __DATE__, __TIME__));
+    SHUT(LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__));
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \
         if (env_##name && strcmp(env_##name, "1") == 0) { \
@@ -463,12 +457,12 @@ void scan_env() {
         SHUT(LOGD("LIBGL: LiveInfo detected, fps will be shown\n"));
     }
 #endif
-    int glshim_notest = 0;
+    int gl4es_notest = 0;
     char *env_notest = getenv("LIBGL_NOTEST");
     if (env_notest && strcmp(env_notest, "1") == 0) {
-		glshim_notest = 1;
+		gl4es_notest = 1;
     }
-    GetHardwareExtensions(glshim_notest);
+    GetHardwareExtensions(gl4es_notest);
 
     env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
     // Texture hacks
@@ -571,14 +565,14 @@ void scan_env() {
 
     env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     env(LIBGL_BLENDCOLOR, export_blendcolor, "Export a (faked) glBlendColor");
-    env(LIBGL_NOERROR, glshim_noerror, "glGetError() always return GL_NOERROR");
+    env(LIBGL_NOERROR, gl4es_noerror, "glGetError() always return GL_NOERROR");
     env(LIBGL_SILENTSTUB, export_silentstub, "Stub/non present functions are not printed");
     
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
         SHUT(LOGD("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version));
     }
-    snprintf(glshim_version, 49, "%s glshim wrapper", (env_version)?env_version:"1.5");
+    snprintf(gl4es_version, 49, "%s gl4es wrapper", (env_version)?env_version:"1.5");
 #ifdef PANDORA
     char *env_gamma = getenv("LIBGL_GAMMA");
     if (env_gamma) {
@@ -602,18 +596,18 @@ void scan_env() {
 #endif
     }
     char *env_npot = getenv("LIBGL_NPOT");
-    glshim_npot = hardext.npot;
-    if (env_npot && strcmp(env_npot, "1") == 0 && glshim_npot<1) {
-		glshim_npot = 1;
+    gl4es_npot = hardext.npot;
+    if (env_npot && strcmp(env_npot, "1") == 0 && gl4es_npot<1) {
+		gl4es_npot = 1;
 		SHUT(LOGD("LIBGL: Expose limited NPOT extension\n"));
 	}
-    if (env_npot && strcmp(env_npot, "2") == 0 && glshim_npot<2) {
-		glshim_npot = 2;
+    if (env_npot && strcmp(env_npot, "2") == 0 && gl4es_npot<2) {
+		gl4es_npot = 2;
 		SHUT(LOGD("LIBGL: Expose GL_ARB_texture_non_power_of_two extension\n"));
 	}
    char *env_queries = getenv("LIBGL_GLQUERIES");
     if (env_queries && strcmp(env_queries, "0") == 0) {
-        glshim_queries = 0;
+        gl4es_queries = 0;
         SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
     }
      
@@ -1578,19 +1572,19 @@ EXPORT void glXUseXFont(Font font, int first, int count, int listBase) {
     // Save GL texture parameters
     GLint swapbytes, lsbfirst, rowlength;
     GLint skiprows, skippixels, alignment;
-    glshim_glGetIntegerv(GL_UNPACK_SWAP_BYTES, &swapbytes);
-    glshim_glGetIntegerv(GL_UNPACK_LSB_FIRST, &lsbfirst);
-    glshim_glGetIntegerv(GL_UNPACK_ROW_LENGTH, &rowlength);
-    glshim_glGetIntegerv(GL_UNPACK_SKIP_ROWS, &skiprows);
-    glshim_glGetIntegerv(GL_UNPACK_SKIP_PIXELS, &skippixels);
-    glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &alignment);
+    gl4es_glGetIntegerv(GL_UNPACK_SWAP_BYTES, &swapbytes);
+    gl4es_glGetIntegerv(GL_UNPACK_LSB_FIRST, &lsbfirst);
+    gl4es_glGetIntegerv(GL_UNPACK_ROW_LENGTH, &rowlength);
+    gl4es_glGetIntegerv(GL_UNPACK_SKIP_ROWS, &skiprows);
+    gl4es_glGetIntegerv(GL_UNPACK_SKIP_PIXELS, &skippixels);
+    gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &alignment);
 	// Set Safe Texture params
-	glshim_glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-    glshim_glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	gl4es_glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    gl4es_glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+    gl4es_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	// Create GC and Pixmap
 	pixmap = XCreatePixmap(dpy, win, 10, 10, 1);
     values.foreground = BlackPixel(dpy, DefaultScreen(dpy));
@@ -1634,18 +1628,18 @@ EXPORT void glXUseXFont(Font font, int first, int count, int listBase) {
          inefficient, but it makes the OpenGL part real easy.  */
        bm_width = (width + 7) / 8;
        bm_height = height;
-       glshim_glNewList(list, GL_COMPILE);
+       gl4es_glNewList(list, GL_COMPILE);
        if (valid && (bm_width > 0) && (bm_height > 0)) {
 
           memset(bm, '\0', bm_width * bm_height);
           fill_bitmap(dpy, win, gc, bm_width, bm_height, x, y, c, bm);
 
-          glshim_glBitmap(width, height, x0, y0, dx, dy, bm);
+          gl4es_glBitmap(width, height, x0, y0, dx, dy, bm);
        }
        else {
-          glshim_glBitmap(0, 0, 0.0, 0.0, dx, dy, NULL);
+          gl4es_glBitmap(0, 0, 0.0, 0.0, dx, dy, NULL);
        }
-       glshim_glEndList();
+       gl4es_glEndList();
     }
 
 	// Free GC & Pixmap
@@ -1654,12 +1648,12 @@ EXPORT void glXUseXFont(Font font, int first, int count, int listBase) {
     XFreeGC(dpy, gc);
 
     // Restore saved packing modes.
-    glshim_glPixelStorei(GL_UNPACK_SWAP_BYTES, swapbytes);
-    glshim_glPixelStorei(GL_UNPACK_LSB_FIRST, lsbfirst);
-    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, rowlength);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, skiprows);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, skippixels);
-    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
+    gl4es_glPixelStorei(GL_UNPACK_SWAP_BYTES, swapbytes);
+    gl4es_glPixelStorei(GL_UNPACK_LSB_FIRST, lsbfirst);
+    gl4es_glPixelStorei(GL_UNPACK_ROW_LENGTH, rowlength);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_ROWS, skiprows);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_PIXELS, skippixels);
+    gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 	// All done
 }
 #endif //ANDROID
@@ -2085,7 +2079,7 @@ void BlitEmulatedPixmap() {
         }
     }
 #else
-    glshim_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+    gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
     if(reverse) {
         int stride = Width * (Depth==16?2:4);
         uintptr_t end=pix+sbuf-stride;

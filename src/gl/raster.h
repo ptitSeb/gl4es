@@ -24,18 +24,18 @@ typedef struct {
 
 int raster_need_transform();
 
-void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
+void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
                      GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
-void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                          GLenum type, const GLvoid *data);
-void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
-void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z);
-void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z);
+void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z);
+void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void render_raster();
 
-void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor);
+void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor);
 
-void glshim_glPixelTransferf(GLenum pname, GLfloat param);
+void gl4es_glPixelTransferf(GLenum pname, GLfloat param);
 
 void render_raster_list(rasterlist_t* raster);
 	

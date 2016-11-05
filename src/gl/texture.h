@@ -3,84 +3,84 @@
 #ifndef GL_TEXTURE_H
 #define GL_TEXTURE_H
 
-void glshim_glTexImage2D(GLenum target, GLint level, GLint internalFormat,
+void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data);
 
-void glshim_glTexImage1D(GLenum target, GLint level, GLint internalFormat,
+void gl4es_glTexImage1D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLint border,
                   GLenum format, GLenum type, const GLvoid *data);
 
-void glshim_glTexImage3D(GLenum target, GLint level, GLint internalFormat,
+void gl4es_glTexImage3D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLsizei depth,
                   GLint border, GLenum format, GLenum type, const GLvoid *data);
 
-void glshim_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data);
                      
-void glshim_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
+void gl4es_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data);
                      
-void glshim_glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, 
+void gl4es_glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, 
                      GLsizei width, GLsizei height, GLsizei depth, GLenum format,
                      GLenum type, const GLvoid *data);
 
-void glshim_glBindTexture(GLenum target, GLuint texture);
-void glshim_glGenTextures(GLsizei n, GLuint * textures);
-void glshim_glDeleteTextures(GLsizei n, const GLuint * textures);
-void glshim_glTexParameteri(GLenum target, GLenum pname, GLint param);
-void glshim_glTexParameterf(GLenum target, GLenum pname, GLfloat param);
-GLboolean glshim_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
-void glshim_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
-void glshim_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
-void glshim_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data);
+void gl4es_glBindTexture(GLenum target, GLuint texture);
+void gl4es_glGenTextures(GLsizei n, GLuint * textures);
+void gl4es_glDeleteTextures(GLsizei n, const GLuint * textures);
+void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param);
+void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param);
+GLboolean gl4es_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences);
+void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);
+void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
+void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data);
 
-void glshim_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
+void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei width, GLsizei height, GLint border,
 							GLsizei imageSize, const GLvoid *data);
-void glshim_glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat,
+void gl4es_glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei width, GLint border,
 							GLsizei imageSize, const GLvoid *data);
-void glshim_glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
+void gl4es_glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat,
 							GLsizei width, GLsizei height, GLsizei depth, GLint border,
 							GLsizei imageSize, const GLvoid *data);
 							
-void glshim_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
-void glshim_glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset,
+void gl4es_glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset,
 							   GLsizei width, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
-void glshim_glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
+void gl4es_glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
 							   GLsizei width, GLsizei height, GLsizei depth, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data);
                                
-void glshim_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img);
+void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img);
 
                                
-void glshim_glCopyTexImage1D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
+void gl4es_glCopyTexImage1D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLint border);
 
-void glshim_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
+void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLsizei height,  GLint border);
 
-void glshim_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height);
                                 
-void glshim_glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
+void gl4es_glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y,
                                 GLsizei width);
 
-void glshim_glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
+void gl4es_glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height);
 
-void glshim_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
-void glshim_glTexEnvi(GLenum target, GLenum pname, GLint param);
-void glshim_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
-void glshim_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
-void glshim_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
-void glshim_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
+void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
+void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param);
+void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
+void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
+void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
+void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
 
                                
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
@@ -133,12 +133,12 @@ static inline GLenum map_tex_target(GLenum target) {
     }
     return target;
 }
-gltexture_t* glshim_getTexture(GLenum target, GLuint texture);
+gltexture_t* gl4es_getTexture(GLenum target, GLuint texture);
 
-void glshim_glActiveTexture( GLenum texture );
-void glshim_glClientActiveTexture( GLenum texture );
-void glshim_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
-GLboolean glshim_glIsTexture( GLuint texture );
+void gl4es_glActiveTexture( GLenum texture );
+void gl4es_glClientActiveTexture( GLenum texture );
+void gl4es_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
+GLboolean gl4es_glIsTexture( GLuint texture );
 
 void tex_setup_texcoord(GLuint len);
 

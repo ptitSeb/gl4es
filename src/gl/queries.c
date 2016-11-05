@@ -2,9 +2,9 @@
 
 static GLuint lastquery = 0;
 static glquery_t *active_samples_passed = 0;
-extern int glshim_queries;
+extern int gl4es_queries;
 
-void glshim_glGenQueries(GLsizei n, GLuint * ids) {
+void gl4es_glGenQueries(GLsizei n, GLuint * ids) {
 	noerrorShim();
     if (n<1) {
 		errorShim(GL_INVALID_VALUE);
@@ -15,7 +15,7 @@ void glshim_glGenQueries(GLsizei n, GLuint * ids) {
     }
 }
 
-GLboolean glshim_glIsQuery(GLuint id) {
+GLboolean gl4es_glIsQuery(GLuint id) {
 	khash_t(queries) *list = glstate->queries;
 	khint_t k;
 	noerrorShim();
@@ -28,7 +28,7 @@ GLboolean glshim_glIsQuery(GLuint id) {
 	return GL_FALSE;
 }
 
-void glshim_glDeleteQueries(GLsizei n, const GLuint* ids) {
+void gl4es_glDeleteQueries(GLsizei n, const GLuint* ids) {
 	khash_t(queries) *list = glstate->queries;
     if (list) {
         khint_t k;
@@ -50,7 +50,7 @@ void glshim_glDeleteQueries(GLsizei n, const GLuint* ids) {
     noerrorShim();
 }
 
-void glshim_glBeginQuery(GLenum target, GLuint id) {
+void gl4es_glBeginQuery(GLenum target, GLuint id) {
 	if(target!=GL_SAMPLES_PASSED) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -81,7 +81,7 @@ void glshim_glBeginQuery(GLenum target, GLuint id) {
     noerrorShim();
 }
 
-void glshim_glEndQuery(GLenum target) {
+void gl4es_glEndQuery(GLenum target) {
 	if(target!=GL_SAMPLES_PASSED) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -97,7 +97,7 @@ void glshim_glEndQuery(GLenum target) {
 	noerrorShim();
 }
 
-void glshim_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
+void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 	if(target!=GL_SAMPLES_PASSED) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -115,7 +115,7 @@ void glshim_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 	}
 }
 
-void glshim_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
+void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
    	khint_t k;
    	int ret;
     glquery_t *query = NULL;
@@ -148,7 +148,7 @@ void glshim_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
     }
 }
 
-void glshim_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
+void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
    	khint_t k;
    	int ret;
     glquery_t *query = NULL;
@@ -183,11 +183,11 @@ void glshim_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
 
 
 //Direct wrapper
-void glGenQueries(GLsizei n, GLuint * ids) AliasExport("glshim_glGenQueries");
-GLboolean glIsQuery(GLuint id) AliasExport("glshim_glIsQuery");
-void glDeleteQueries(GLsizei n, const GLuint* ids) AliasExport("glshim_glDeleteQueries");
-void glBeginQuery(GLenum target, GLuint id) AliasExport("glshim_glBeginQuery");
-void glEndQuery(GLenum target) AliasExport("glshim_glEndQuery");
-void glGetQueryiv(GLenum target, GLenum pname, GLint* params) AliasExport("glshim_glGetQueryiv");
-void glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) AliasExport("glshim_glGetQueryObjectiv");
-void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) AliasExport("glshim_glGetQueryObjectuiv");
+void glGenQueries(GLsizei n, GLuint * ids) AliasExport("gl4es_glGenQueries");
+GLboolean glIsQuery(GLuint id) AliasExport("gl4es_glIsQuery");
+void glDeleteQueries(GLsizei n, const GLuint* ids) AliasExport("gl4es_glDeleteQueries");
+void glBeginQuery(GLenum target, GLuint id) AliasExport("gl4es_glBeginQuery");
+void glEndQuery(GLenum target) AliasExport("gl4es_glEndQuery");
+void glGetQueryiv(GLenum target, GLenum pname, GLint* params) AliasExport("gl4es_glGetQueryiv");
+void glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) AliasExport("gl4es_glGetQueryObjectiv");
+void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) AliasExport("gl4es_glGetQueryObjectuiv");

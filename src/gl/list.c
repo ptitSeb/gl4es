@@ -526,11 +526,11 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
                 if(glstate->gl_batch) {
                     for (int i = 0; i < list->calls.len; i++) {
                         packed_call_t *p = list->calls.calls[i];
-                        if(p->func == &glshim_glEnable) {
+                        if(p->func == &gl4es_glEnable) {
                             int wich_cap = Cap2BatchState(((glEnable_PACKED*)p)->args.a1);
                             if(wich_cap!=ENABLED_LAST) glstate->statebatch.enabled[wich_cap] = 1;
                         }
-                        if(p->func == &glshim_glDisable) {
+                        if(p->func == &gl4es_glDisable) {
                             int wich_cap = Cap2BatchState(((glDisable_PACKED*)p)->args.a1);
                             if(wich_cap!=ENABLED_LAST) glstate->statebatch.enabled[wich_cap] = 0;
                         }
@@ -651,7 +651,7 @@ void free_renderlist(renderlist_t *list) {
 			
         if (list->raster && !(*(list->raster->shared)--)) {
 			if (list->raster->texture)
-				glshim_glDeleteTextures(1, &list->raster->texture);
+				gl4es_glDeleteTextures(1, &list->raster->texture);
 			free(list->raster);
 		}
 
@@ -682,7 +682,7 @@ void adjust_renderlist(renderlist_t *list) {
 	    gltexture_t *bound = glstate->texture.bound[a];
         // in case of Texture bounding inside a list
         if (list->set_texture && (list->tmu == a))
-            bound = glshim_getTexture(list->target_texture, list->texture);
+            bound = gl4es_getTexture(list->target_texture, list->texture);
         // adjust the tex_coord now
 	    if ((list->tex[a]) && (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
 		    tex_coord_npot(list->tex[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
@@ -746,7 +746,7 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES(glDisable);
     LOAD_GLES(glEnableClientState);
     LOAD_GLES(glDisableClientState);
-    glshim_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
+    gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	GLfloat *final_colors;
 	int old_tex;
@@ -757,9 +757,9 @@ void draw_renderlist(renderlist_t *list) {
             list = end_renderlist(list);
         // push/pop attributes
         if (list->pushattribute)
-            glshim_glPushAttrib(list->pushattribute);
+            gl4es_glPushAttrib(list->pushattribute);
         if (list->popattribute)
-            glshim_glPopAttrib();
+            gl4es_glPopAttrib();
         call_list_t *cl = &list->calls;
         if (cl->len > 0) {
             for (int i = 0; i < cl->len; i++) {
@@ -769,37 +769,37 @@ void draw_renderlist(renderlist_t *list) {
         if (list->fog_op) {
             switch (list->fog_op) {
                 case 1: // GL_FOG_COLOR
-                    glshim_glFogfv(GL_FOG_COLOR, list->fog_val);
+                    gl4es_glFogfv(GL_FOG_COLOR, list->fog_val);
                     break;
             }
         }
         if (list->matrix_op) {
             switch (list->matrix_op) {
                 case 1: // load
-                    glshim_glLoadMatrixf(list->matrix_val);
+                    gl4es_glLoadMatrixf(list->matrix_val);
                     break;
                 case 2: // mult
-                    glshim_glMultMatrixf(list->matrix_val);
+                    gl4es_glMultMatrixf(list->matrix_val);
                     break;
             }
         }
         if (list->set_tmu) {
-            glshim_glActiveTexture(GL_TEXTURE0+list->tmu);
+            gl4es_glActiveTexture(GL_TEXTURE0+list->tmu);
         }
 	    if (list->set_texture) {
-            glshim_glBindTexture(list->target_texture, list->texture);
+            gl4es_glBindTexture(list->target_texture, list->texture);
         }
         // raster
         old_tex = glstate->texture.active;
         if (list->raster_op) {
             if (list->raster_op==1) {
-                glshim_glRasterPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
+                gl4es_glRasterPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
             } else if (list->raster_op==2) {
-                glshim_glWindowPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
+                gl4es_glWindowPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);
             } else if (list->raster_op==3) {
-                glshim_glPixelZoom(list->raster_xyz[0], list->raster_xyz[1]);
+                gl4es_glPixelZoom(list->raster_xyz[0], list->raster_xyz[1]);
             } else if ((list->raster_op&0x10000) == 0x10000) {
-                glshim_glPixelTransferf(list->raster_op&0xFFFF, list->raster_xyz[0]);
+                gl4es_glPixelTransferf(list->raster_op&0xFFFF, list->raster_xyz[0]);
             }
         }
         if (list->raster) {
@@ -815,10 +815,10 @@ void draw_renderlist(renderlist_t *list) {
             kh_foreach_value(map, m,
                 switch (m->pname) {
                     case GL_SHININESS:
-                        glshim_glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
+                        gl4es_glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
                         break;
                     default:
-                        glshim_glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
+                        gl4es_glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
                 }
             )
         }
@@ -828,19 +828,19 @@ void draw_renderlist(renderlist_t *list) {
             kh_foreach_value(lig, m,
                 switch (m->pname) {
                     default:
-                        glshim_glLightfv(m->which, m->pname, m->color);
+                        gl4es_glLightfv(m->which, m->pname, m->color);
                 }
             )
         }
         if (list->lightmodel) {
-            glshim_glLightModelfv(list->lightmodelparam, list->lightmodel);
+            gl4es_glLightModelfv(list->lightmodelparam, list->lightmodel);
         }
 		
         if (list->texenv) {
             khash_t(texenv) *tgn = list->texenv;
             rendertexenv_t *m;
             kh_foreach_value(tgn, m,
-                glshim_glTexEnvfv(m->target, m->pname, m->params);
+                gl4es_glTexEnvfv(m->target, m->pname, m->params);
             )
         }
 
@@ -848,18 +848,18 @@ void draw_renderlist(renderlist_t *list) {
             khash_t(texgen) *tgn = list->texgen;
             rendertexgen_t *m;
             kh_foreach_value(tgn, m,
-                glshim_glTexGenfv(m->coord, m->pname, m->color);
+                gl4es_glTexGenfv(m->coord, m->pname, m->color);
             )
         }
         
         if (list->polygon_mode) {
-            glshim_glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);}
+            gl4es_glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);}
 
         if (! list->len)
             continue;
 #ifdef USE_ES2
         if (list->vert) {
-            glshim_glEnableVertexAttribArray(0);
+            gl4es_glEnableVertexAttribArray(0);
             gles_glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, list->vert);
         }
         gles_glDrawArrays(list->mode, 0, list->len);
@@ -916,10 +916,10 @@ void draw_renderlist(renderlist_t *list) {
             // TODO: do we need to support GL_LINE_STRIP?
             if (list->mode == GL_LINES && glstate->enable.line_stipple) {
                 stipple = true;
-                glshim_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
-                glshim_glEnable(GL_BLEND);
-                glshim_glEnable(GL_TEXTURE_2D);
-                glshim_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+                gl4es_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
+                gl4es_glEnable(GL_BLEND);
+                gl4es_glEnable(GL_TEXTURE_2D);
+                gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
 	}
@@ -936,7 +936,7 @@ void draw_renderlist(renderlist_t *list) {
     }
 	old_tex = glstate->texture.client;
     GLuint cur_tex = old_tex;
-    #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
+    #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<hardext.maxtex; a++) {
 		    if ((list->tex[a] || texgened[a])/* && glstate->enable.texture_2d[a]*/) {
                 TEXTURE(a);
@@ -1153,7 +1153,7 @@ void draw_renderlist(renderlist_t *list) {
                 }
             }
         }
-        #define TEXTURE(A) if (cur_tex!=A) {glshim_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
+        #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<hardext.maxtex; a++) {
             if (needclean[a]) {
                 TEXTURE(a);
@@ -1175,11 +1175,11 @@ void draw_renderlist(renderlist_t *list) {
 		if (final_colors)
 			free(final_colors);
         if (stipple) {
-            glshim_glPopAttrib();
+            gl4es_glPopAttrib();
         }
 #endif
     } while ((list = list->next));
-    glshim_glPopClientAttrib();
+    gl4es_glPopClientAttrib();
 }
 
 // gl function wrappers

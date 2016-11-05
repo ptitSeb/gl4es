@@ -5,8 +5,8 @@ static int tested = 0;
 
 hardext_t hardext;
 
-extern int glshim_nobanner;
-#define SHUT(a) if(!glshim_nobanner) a
+extern int gl4es_nobanner;
+#define SHUT(a) if(!gl4es_nobanner) a
 
 void GetHardwareExtensions(int notest)
 {

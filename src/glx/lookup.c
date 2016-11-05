@@ -30,11 +30,11 @@ extern int export_silentstub;
 
 #define EXT(func_name) MAP(#func_name "EXT", func_name)
 
-#define _EX(func_name) MAP(#func_name, glshim_ ## func_name)
+#define _EX(func_name) MAP(#func_name, gl4es_ ## func_name)
 
-#define _ARB(func_name) MAP(#func_name "ARB", glshim_ ## func_name)
+#define _ARB(func_name) MAP(#func_name "ARB", gl4es_ ## func_name)
 
-#define _EXT(func_name) MAP(#func_name "EXT", glshim_ ## func_name)
+#define _EXT(func_name) MAP(#func_name "EXT", gl4es_ ## func_name)
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
@@ -46,7 +46,7 @@ void glXStub(void *x, ...) {
     return;
 }
 
-extern int glshim_queries;
+extern int gl4es_queries;
 
 EXPORT void *glXGetProcAddressARB(const char *name) {
     LOAD_EGL(eglGetProcAddress);
@@ -634,7 +634,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glMatrixMultTransposef);
     _EX(glMatrixMultTransposed);
 
-    if(glshim_queries) {
+    if(gl4es_queries) {
         _EX(glGenQueries);
         _EX(glIsQuery);
         _EX(glDeleteQueries);

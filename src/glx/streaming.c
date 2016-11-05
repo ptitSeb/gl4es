@@ -260,8 +260,8 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter) {
 		return;
 	if (!stream_cache[ID].active)
 		return;
-    glshim_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, min_filter);
-    glshim_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, mag_filter);
+    gl4es_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, min_filter);
+    gl4es_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, mag_filter);
 }
 
 // Function to activate the Steaming texture ID on current tex...

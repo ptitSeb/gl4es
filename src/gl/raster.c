@@ -15,7 +15,7 @@ static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 void matrix_transpose(const GLfloat *a, GLfloat *b);
 void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
-void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
+void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         NewStage(glstate->list.active, STAGE_RASTER);
         rlRasterOp(glstate->list.active, 1, x, y, z);
@@ -25,9 +25,9 @@ void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	// Transform xyz coordinates with current modelview and projection matrix...
 	GLfloat glmatrix[16], projection[16], modelview[16];
 	GLfloat t[4], transl[4] = {x, y, z, 1.0f};
-	glshim_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
+	gl4es_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
 	matrix_transpose(glmatrix, projection);
-	glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
+	gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
 	matrix_transpose(glmatrix, modelview);
 	matrix_vector(modelview, transl, t);
 	matrix_vector(projection, t, transl);
@@ -39,7 +39,7 @@ void glshim_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	glstate->raster.rPos.z = transl[2];
 }
 
-void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
+void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         NewStage(glstate->list.active, STAGE_RASTER);
         rlRasterOp(glstate->list.active, 2, x, y, z);
@@ -51,7 +51,7 @@ void glshim_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     glstate->raster.rPos.z = z;	
 }
 
-void glshim_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
 	if(glstate->raster.viewport.x!=x || glstate->raster.viewport.y!=y || glstate->raster.viewport.width!=width || glstate->raster.viewport.height!=height) {
@@ -74,7 +74,7 @@ void popViewport() {
 }
 
 
-void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
+void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         NewStage(glstate->list.active, STAGE_RASTER);
         rlRasterOp(glstate->list.active, 3, xfactor, yfactor, 0.0f);
@@ -86,7 +86,7 @@ void glshim_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
-void glshim_glPixelTransferf(GLenum pname, GLfloat param) {
+void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
         NewStage(glstate->list.active, STAGE_RASTER);
         rlRasterOp(glstate->list.active, pname|0x10000, param, 0.0f, 0.0f);
@@ -180,24 +180,24 @@ GLuint raster_to_texture()
     GLuint state_batch = glstate->gl_batch;
 	glstate->list.compiling = false;
     glstate->gl_batch = 0;
-    glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
+    gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
 	GLuint old_tex_unit, old_tex;
-	glshim_glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
-	if (old_tex_unit!=GL_TEXTURE0) glshim_glActiveTexture(GL_TEXTURE0);
+	gl4es_glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
+	if (old_tex_unit!=GL_TEXTURE0) gl4es_glActiveTexture(GL_TEXTURE0);
 	old_tex = 0;
 	if (glstate->texture.bound[0])
 		old_tex = glstate->texture.bound[0]->texture;
 	GLuint raster_texture;
-	glshim_glEnable(GL_TEXTURE_2D);
+	gl4es_glEnable(GL_TEXTURE_2D);
 	gles_glGenTextures(1, &raster_texture);
 	gles_glBindTexture(GL_TEXTURE_2D, raster_texture);
 
-    glshim_glPixelStorei(GL_PACK_ALIGNMENT, 1);
-    glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    gl4es_glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    gl4es_glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    gl4es_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -212,15 +212,15 @@ GLuint raster_to_texture()
 
 	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
-		glshim_glActiveTexture(old_tex_unit);
-	glshim_glPopAttrib();
+		gl4es_glActiveTexture(old_tex_unit);
+	gl4es_glPopAttrib();
 	if (old_list) glstate->list.active = old_list;
 	glstate->list.compiling = compiling;
     glstate->gl_batch = state_batch;
 	return raster_texture;
 }
 
-void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
+void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	glstate->raster.rPos.x, glstate->raster.rPos.y, xorig, yorig, width, height, glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
@@ -313,7 +313,7 @@ void glshim_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig
 	}
 }
 
-void glshim_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
+void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
@@ -420,21 +420,21 @@ void render_raster_list(rasterlist_t* rast) {
 		GLuint old_cli = glstate->texture.client;
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
         #ifdef USE_DRAWTEX
-        glshim_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+        gl4es_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
         
         gltexture_t *old_bind = glstate->texture.bound[0];
-        glshim_glEnable(GL_TEXTURE_2D);
+        gl4es_glEnable(GL_TEXTURE_2D);
 		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
 
 		if (rast->bitmap) {
-			glshim_glEnable(GL_ALPHA_TEST);
-			glshim_glAlphaFunc(GL_GREATER, 0.0f);
+			gl4es_glEnable(GL_ALPHA_TEST);
+			gl4es_glAlphaFunc(GL_GREATER, 0.0f);
 		} else {
-			glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		}
         
         gles_glDrawTexf(glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig, glstate->raster.rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
-        if (!glstate->enable.texture_2d[0]) glshim_glDisable(GL_TEXTURE_2D);
+        if (!glstate->enable.texture_2d[0]) gl4es_glDisable(GL_TEXTURE_2D);
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
         if (old_bind == NULL) 
@@ -442,18 +442,18 @@ void render_raster_list(rasterlist_t* rast) {
         else
             gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
         #else
-		glshim_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+		gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 		GLfloat old_projection[16], old_modelview[16], old_texture[16];
 
-		glshim_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
-		glshim_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
-		glshim_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
-		glshim_glMatrixMode(GL_TEXTURE);
-		glshim_glLoadIdentity();
-		glshim_glMatrixMode(GL_PROJECTION);
-		glshim_glLoadIdentity();
-		glshim_glMatrixMode(GL_MODELVIEW);
-		glshim_glLoadIdentity();
+		gl4es_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
+		gl4es_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
+		gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
+		gl4es_glMatrixMode(GL_TEXTURE);
+		gl4es_glLoadIdentity();
+		gl4es_glMatrixMode(GL_PROJECTION);
+		gl4es_glLoadIdentity();
+		gl4es_glMatrixMode(GL_MODELVIEW);
+		gl4es_glLoadIdentity();
 		float w2 = 2.0f / glstate->raster.viewport.width;
 		float h2 = 2.0f / glstate->raster.viewport.height;
 		float raster_x1=glstate->raster.rPos.x-rast->xorig;
@@ -475,21 +475,21 @@ void render_raster_list(rasterlist_t* rast) {
 			0, sh
 		};
 
-		glshim_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
+		gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
 
-		glshim_glDisable(GL_DEPTH_TEST);
-		glshim_glDisable(GL_LIGHTING);
-		glshim_glDisable(GL_CULL_FACE);
+		gl4es_glDisable(GL_DEPTH_TEST);
+		gl4es_glDisable(GL_LIGHTING);
+		gl4es_glDisable(GL_CULL_FACE);
 		if (rast->bitmap) {
-			glshim_glEnable(GL_ALPHA_TEST);
-			glshim_glAlphaFunc(GL_GREATER, 0.0f);
+			gl4es_glEnable(GL_ALPHA_TEST);
+			gl4es_glAlphaFunc(GL_GREATER, 0.0f);
 		} else {
-			glshim_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		glshim_glEnable(GL_TEXTURE_2D);
+		gl4es_glEnable(GL_TEXTURE_2D);
 		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
-		glshim_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
         if(!glstate->clientstate.vertex_array) 
         {
@@ -526,25 +526,25 @@ void render_raster_list(rasterlist_t* rast) {
 		// All the previous states are Pushed / Poped anyway...
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-		glshim_glPopClientAttrib();
-		glshim_glMatrixMode(GL_TEXTURE);
-		glshim_glLoadMatrixf(old_texture);
-		glshim_glMatrixMode(GL_MODELVIEW);
-		glshim_glLoadMatrixf(old_modelview);
-		glshim_glMatrixMode(GL_PROJECTION);
-		glshim_glLoadMatrixf(old_projection);
+		gl4es_glPopClientAttrib();
+		gl4es_glMatrixMode(GL_TEXTURE);
+		gl4es_glLoadMatrixf(old_texture);
+		gl4es_glMatrixMode(GL_MODELVIEW);
+		gl4es_glLoadMatrixf(old_modelview);
+		gl4es_glMatrixMode(GL_PROJECTION);
+		gl4es_glLoadMatrixf(old_projection);
         #endif
-		glshim_glPopAttrib();
+		gl4es_glPopAttrib();
 	}
 	glstate->raster.rPos.x += rast->xmove;
 	glstate->raster.rPos.y += rast->ymove;
 }
 
 //Direct wrapper
-void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) AliasExport("glshim_glBitmap");
-void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("glshim_glDrawPixels");
-void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("glshim_glRasterPos3f");
-void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("glshim_glWindowPos3f");
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("glshim_glViewport");
-void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("glshim_glPixelZoom");
-void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("glshim_glPixelTransferf");
+void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) AliasExport("gl4es_glBitmap");
+void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glDrawPixels");
+void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glRasterPos3f");
+void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glWindowPos3f");
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glViewport");
+void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("gl4es_glPixelZoom");
+void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("gl4es_glPixelTransferf");

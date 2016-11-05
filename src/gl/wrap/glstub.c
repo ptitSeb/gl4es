@@ -1,12 +1,12 @@
 #include "stub.h"
 
 #define STUB(ret, def, args)\
-ret glshim_ ## def args {\
+ret gl4es_ ## def args {\
     char *debug = getenv("LIBGL_DEBUG");\
     if (debug && strcmp(debug, "1") == 0)\
         printf("stub: %s;\n", #def);\
 } \
-ret def args __attribute((alias("glshim_"#def))) __attribute__((visibility("default")));
+ret def args __attribute((alias("gl4es_"#def))) __attribute__((visibility("default")));
 
 STUB(void,glFogCoordd,(GLdouble coord));
 STUB(void,glFogCoordf,(GLfloat coord));

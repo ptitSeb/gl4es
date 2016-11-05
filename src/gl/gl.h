@@ -365,65 +365,65 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "array.h"
 #include "framebuffers.h"
 
-const GLubyte *glshim_glGetString(GLenum name);
-void glshim_glGetIntegerv(GLenum pname, GLint *params);
-void glshim_glGetFloatv(GLenum pname, GLfloat *params);
-void glshim_glEnable(GLenum cap);
-void glshim_glDisable(GLenum cap);
-void glshim_glEnableClientState(GLenum cap);
-void glshim_glDisableClientState(GLenum cap);
-GLboolean glshim_glIsEnabled(GLenum cap);
-void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
-void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count);
-void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer);
-void glshim_glBegin(GLenum mode);
-void glshim_glEnd();
-void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
-void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
-void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);
-void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
-void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-void glshim_glArrayElement(GLint i);
-void glshim_glLockArrays(GLint first, GLsizei count);
-void glshim_glUnlockArrays();
-GLuint glshim_glGenLists(GLsizei range);
-void glshim_glNewList(GLuint list, GLenum mode);
-void glshim_glEndList();
-void glshim_glCallList(GLuint list);
-void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
-void glshim_glDeleteLists(GLuint list, GLsizei range);
-void glshim_glListBase(GLuint base);
-GLboolean glshim_glIsList(GLuint list);
-void glshim_glPolygonMode(GLenum face, GLenum mode);
-void glshim_glPushMatrix();
-void glshim_glPopMatrix();
-GLenum glshim_glGetError();
+const GLubyte *gl4es_glGetString(GLenum name);
+void gl4es_glGetIntegerv(GLenum pname, GLint *params);
+void gl4es_glGetFloatv(GLenum pname, GLfloat *params);
+void gl4es_glEnable(GLenum cap);
+void gl4es_glDisable(GLenum cap);
+void gl4es_glEnableClientState(GLenum cap);
+void gl4es_glDisableClientState(GLenum cap);
+GLboolean gl4es_glIsEnabled(GLenum cap);
+void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
+void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count);
+void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer);
+void gl4es_glBegin(GLenum mode);
+void gl4es_glEnd();
+void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
+void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
+void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);
+void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
+void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
+void gl4es_glArrayElement(GLint i);
+void gl4es_glLockArrays(GLint first, GLsizei count);
+void gl4es_glUnlockArrays();
+GLuint gl4es_glGenLists(GLsizei range);
+void gl4es_glNewList(GLuint list, GLenum mode);
+void gl4es_glEndList();
+void gl4es_glCallList(GLuint list);
+void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
+void gl4es_glDeleteLists(GLuint list, GLsizei range);
+void gl4es_glListBase(GLuint base);
+GLboolean gl4es_glIsList(GLuint list);
+void gl4es_glPolygonMode(GLenum face, GLenum mode);
+void gl4es_glPushMatrix();
+void gl4es_glPopMatrix();
+GLenum gl4es_glGetError();
 
-void glshim_glPointParameteri(GLenum pname, GLint param);
-void glshim_glPointParameteriv(GLenum pname, const GLint * params);
+void gl4es_glPointParameteri(GLenum pname, GLint param);
+void gl4es_glPointParameteriv(GLenum pname, const GLint * params);
 
 
-void glshim_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
-void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
-void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
-void glshim_glGetPointerv(GLenum pname, GLvoid* *params);
-void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA);
-void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor);
-void glshim_glFlush();
-void glshim_glFinish();
-void glshim_glLoadMatrixf(const GLfloat * m);
-void glshim_glMultMatrixf(const GLfloat * m);
-void glshim_glFogfv(GLenum pname, const GLfloat* params);
+void gl4es_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
+void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
+void gl4es_glGetPointerv(GLenum pname, GLvoid* *params);
+void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA);
+void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor);
+void gl4es_glFlush();
+void gl4es_glFinish();
+void gl4es_glLoadMatrixf(const GLfloat * m);
+void gl4es_glMultMatrixf(const GLfloat * m);
+void gl4es_glFogfv(GLenum pname, const GLfloat* params);
 
-void glshim_glStencilMaskSeparate(GLenum face, GLuint mask);
+void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask);
 
-void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount);
-void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount);
+void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount);
+void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount);
 
 
 void flush();
@@ -437,7 +437,7 @@ GLuint gl_batch; // 0 = off, 1 = on
 static inline void errorGL() {	// next glGetError will be from GL 
 	glstate->shim_error = 0;
 }
-static inline void errorShim(GLenum error) {	// next glGetError will be "error" from glShim
+static inline void errorShim(GLenum error) {	// next glGetError will be "error" from gl4es
 	glstate->shim_error = 1;
 	glstate->last_error = error;
 }

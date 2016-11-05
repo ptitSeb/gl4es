@@ -3,14 +3,14 @@
 #ifndef GL_QUERIES_H
 #define GL_QUERIES_H
 
-void glshim_glBeginQuery(GLenum target, GLuint id);
-void glshim_glEndQuery(GLenum target);
-void glshim_glGenQueries(GLsizei n, GLuint * ids);
-void glshim_glDeleteQueries(GLsizei n, const GLuint* ids);
-GLboolean glshim_glIsQuery(GLuint id);
-void glshim_glGetQueryiv(GLenum target, GLenum pname, GLint* params);
-void glshim_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params);
-void glshim_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params);
+void gl4es_glBeginQuery(GLenum target, GLuint id);
+void gl4es_glEndQuery(GLenum target);
+void gl4es_glGenQueries(GLsizei n, GLuint * ids);
+void gl4es_glDeleteQueries(GLsizei n, const GLuint* ids);
+GLboolean gl4es_glIsQuery(GLuint id);
+void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params);
+void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params);
+void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params);
 
 typedef struct {
     GLuint id;

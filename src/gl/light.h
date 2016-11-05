@@ -1,6 +1,6 @@
 #include "gl.h"
 
-void glshim_glLightModelf(GLenum pname, GLfloat param);
-void glshim_glLightModelfv(GLenum pname, const GLfloat* params);
-void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat* params);
-void glshim_glLightf(GLenum light, GLenum pname, const GLfloat params);
+void gl4es_glLightModelf(GLenum pname, GLfloat param);
+void gl4es_glLightModelfv(GLenum pname, const GLfloat* params);
+void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params);
+void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params);

@@ -17,10 +17,3 @@ glext=$(ls -1 yml/*ext-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 #./gen.py "$gles2" --ifdef USE_ES2 glxfuncs.j2 gles2funcs.inc ../gl/gl.h > "$base/glx/gles2funcs.inc"
 
 # ./gen.py "yml/egl.yml" eglwrap.c.j2 eglwrap.c "<GLES/egl.h>" > "$base/gl/wrap/egl.c" &
-
-cats="VERSION_1_0,VERSION_1_1,VERSION_1_2,VERSION_1_3,VERSION_1_4,VERSION_1_5,glx"
-proxy='yml/opengl.yml,yml/my_glx.yml,yml/glxext.yml,yml/alsa.yml'
-./gen.py --deep --cats "$cats" "$proxy" proxy.h.j2 proxy.h "<GL/gl.h>" "<GL/glx.h>" "<stdlib.h>" "<alsa/asoundlib.h>" "../gl/defines.h" "../config.h" "config.h" > "$base/proxy/proxy.h"
-./gen.py --deep --cats "$cats" "$proxy" client.c.j2 client.c "../proxy.h" > "$base/proxy/client/src/client.c"
-./gen.py --deep --cats "$cats" "$proxy" host.c.j2 host.c "../proxy.h" > "$base/proxy/host/host.c"
-#wait

@@ -1,7 +1,7 @@
 #include "stack.h"
 #include "../glx/hardext.h"
 
-void glshim_glPushAttrib(GLbitfield mask) {
+void gl4es_glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -30,80 +30,80 @@ void glshim_glPushAttrib(GLbitfield mask) {
 
     // TODO: will tracking these myself be much faster than glGet?
     if (mask & GL_COLOR_BUFFER_BIT) {
-        cur->alpha_test = glshim_glIsEnabled(GL_ALPHA_TEST);
-        glshim_glGetIntegerv(GL_ALPHA_TEST_FUNC, &cur->alpha_test_func);
-        glshim_glGetFloatv(GL_ALPHA_TEST_REF, &cur->alpha_test_ref);
+        cur->alpha_test = gl4es_glIsEnabled(GL_ALPHA_TEST);
+        gl4es_glGetIntegerv(GL_ALPHA_TEST_FUNC, &cur->alpha_test_func);
+        gl4es_glGetFloatv(GL_ALPHA_TEST_REF, &cur->alpha_test_ref);
 
-        cur->blend = glshim_glIsEnabled(GL_BLEND);
-        glshim_glGetIntegerv(GL_BLEND_SRC, &cur->blend_src_func);
-        glshim_glGetIntegerv(GL_BLEND_DST, &cur->blend_dst_func);
+        cur->blend = gl4es_glIsEnabled(GL_BLEND);
+        gl4es_glGetIntegerv(GL_BLEND_SRC, &cur->blend_src_func);
+        gl4es_glGetIntegerv(GL_BLEND_DST, &cur->blend_dst_func);
 
-        cur->dither = glshim_glIsEnabled(GL_DITHER);
-        cur->color_logic_op = glshim_glIsEnabled(GL_COLOR_LOGIC_OP);
-        glshim_glGetIntegerv(GL_LOGIC_OP_MODE, &cur->logic_op);
+        cur->dither = gl4es_glIsEnabled(GL_DITHER);
+        cur->color_logic_op = gl4es_glIsEnabled(GL_COLOR_LOGIC_OP);
+        gl4es_glGetIntegerv(GL_LOGIC_OP_MODE, &cur->logic_op);
 
-        glshim_glGetFloatv(GL_COLOR_CLEAR_VALUE, cur->clear_color);
-        glshim_glGetFloatv(GL_COLOR_WRITEMASK, cur->color_mask);
+        gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, cur->clear_color);
+        gl4es_glGetFloatv(GL_COLOR_WRITEMASK, cur->color_mask);
     }
 
     if (mask & GL_CURRENT_BIT) {
-        glshim_glGetFloatv(GL_CURRENT_COLOR, cur->color);
-        glshim_glGetFloatv(GL_CURRENT_NORMAL, cur->normal);
-        glshim_glGetFloatv(GL_CURRENT_TEXTURE_COORDS, cur->tex);
+        gl4es_glGetFloatv(GL_CURRENT_COLOR, cur->color);
+        gl4es_glGetFloatv(GL_CURRENT_NORMAL, cur->normal);
+        gl4es_glGetFloatv(GL_CURRENT_TEXTURE_COORDS, cur->tex);
     }
 
     if (mask & GL_DEPTH_BUFFER_BIT) {
-        cur->depth_test = glshim_glIsEnabled(GL_DEPTH_TEST);
-        glshim_glGetIntegerv(GL_DEPTH_FUNC, &cur->depth_func);
-        glshim_glGetFloatv(GL_DEPTH_CLEAR_VALUE, &cur->clear_depth);
-        glshim_glGetIntegerv(GL_DEPTH_WRITEMASK, &cur->depth_mask);
+        cur->depth_test = gl4es_glIsEnabled(GL_DEPTH_TEST);
+        gl4es_glGetIntegerv(GL_DEPTH_FUNC, &cur->depth_func);
+        gl4es_glGetFloatv(GL_DEPTH_CLEAR_VALUE, &cur->clear_depth);
+        gl4es_glGetIntegerv(GL_DEPTH_WRITEMASK, &cur->depth_mask);
     }
 
     if (mask & GL_ENABLE_BIT) {
         int i;
         GLint max_clip_planes;
 
-        cur->alpha_test = glshim_glIsEnabled(GL_ALPHA_TEST);
-        cur->autonormal = glshim_glIsEnabled(GL_AUTO_NORMAL);
-        cur->blend = glshim_glIsEnabled(GL_BLEND);
+        cur->alpha_test = gl4es_glIsEnabled(GL_ALPHA_TEST);
+        cur->autonormal = gl4es_glIsEnabled(GL_AUTO_NORMAL);
+        cur->blend = gl4es_glIsEnabled(GL_BLEND);
         
-        glshim_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+        gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
         cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
         for (i = 0; i < max_clip_planes; i++) {
-            *(cur->clip_planes_enabled + i) = glshim_glIsEnabled(GL_CLIP_PLANE0 + i);
+            *(cur->clip_planes_enabled + i) = gl4es_glIsEnabled(GL_CLIP_PLANE0 + i);
         }
 
-        cur->colormaterial = glshim_glIsEnabled(GL_COLOR_MATERIAL);
-        cur->cull_face = glshim_glIsEnabled(GL_CULL_FACE);
-        cur->depth_test = glshim_glIsEnabled(GL_DEPTH_TEST);
-        cur->dither = glshim_glIsEnabled(GL_DITHER);
-        cur->fog = glshim_glIsEnabled(GL_FOG);
+        cur->colormaterial = gl4es_glIsEnabled(GL_COLOR_MATERIAL);
+        cur->cull_face = gl4es_glIsEnabled(GL_CULL_FACE);
+        cur->depth_test = gl4es_glIsEnabled(GL_DEPTH_TEST);
+        cur->dither = gl4es_glIsEnabled(GL_DITHER);
+        cur->fog = gl4es_glIsEnabled(GL_FOG);
 
         cur->lights_enabled = (GLboolean *)malloc(hardext.maxlights * sizeof(GLboolean));
         for (i = 0; i < hardext.maxlights; i++) {
-            *(cur->lights_enabled + i) = glshim_glIsEnabled(GL_LIGHT0 + i);
+            *(cur->lights_enabled + i) = gl4es_glIsEnabled(GL_LIGHT0 + i);
         }
 
-        cur->lighting = glshim_glIsEnabled(GL_LIGHTING);
-        cur->line_smooth = glshim_glIsEnabled(GL_LINE_SMOOTH);
-        cur->line_stipple = glshim_glIsEnabled(GL_LINE_STIPPLE);
-        cur->color_logic_op = glshim_glIsEnabled(GL_COLOR_LOGIC_OP);
+        cur->lighting = gl4es_glIsEnabled(GL_LIGHTING);
+        cur->line_smooth = gl4es_glIsEnabled(GL_LINE_SMOOTH);
+        cur->line_stipple = gl4es_glIsEnabled(GL_LINE_STIPPLE);
+        cur->color_logic_op = gl4es_glIsEnabled(GL_COLOR_LOGIC_OP);
         //TODO: GL_INDEX_LOGIC_OP
         //TODO: GL_MAP1_x
         //TODO: GL_MAP2_x
-        cur->multisample = glshim_glIsEnabled(GL_MULTISAMPLE);
-        cur->normalize = glshim_glIsEnabled(GL_NORMALIZE);
-        cur->point_smooth = glshim_glIsEnabled(GL_POINT_SMOOTH);
+        cur->multisample = gl4es_glIsEnabled(GL_MULTISAMPLE);
+        cur->normalize = gl4es_glIsEnabled(GL_NORMALIZE);
+        cur->point_smooth = gl4es_glIsEnabled(GL_POINT_SMOOTH);
         //TODO: GL_POLYGON_OFFSET_LINE
-        cur->polygon_offset_fill = glshim_glIsEnabled(GL_POLYGON_OFFSET_FILL);
+        cur->polygon_offset_fill = gl4es_glIsEnabled(GL_POLYGON_OFFSET_FILL);
         //TODO: GL_POLYGON_OFFSET_POINT
         //TODO: GL_POLYGON_SMOOTH
         //TODO: GL_POLYGON_STIPPLE
-        cur->sample_alpha_to_coverage = glshim_glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE);
-        cur->sample_alpha_to_one = glshim_glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE);
-        cur->sample_coverage = glshim_glIsEnabled(GL_SAMPLE_COVERAGE);
-        cur->scissor_test = glshim_glIsEnabled(GL_SCISSOR_TEST);
-        cur->stencil_test = glshim_glIsEnabled(GL_STENCIL_TEST);
+        cur->sample_alpha_to_coverage = gl4es_glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        cur->sample_alpha_to_one = gl4es_glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE);
+        cur->sample_coverage = gl4es_glIsEnabled(GL_SAMPLE_COVERAGE);
+        cur->scissor_test = gl4es_glIsEnabled(GL_SCISSOR_TEST);
+        cur->stencil_test = gl4es_glIsEnabled(GL_STENCIL_TEST);
         int a;
         for (a=0; a<hardext.maxtex; a++) {
             cur->texture_1d[a] = glstate->enable.texture_1d[a];
@@ -114,40 +114,40 @@ void glshim_glPushAttrib(GLbitfield mask) {
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
         }
-        cur->pointsprite = glshim_glIsEnabled(GL_POINT_SPRITE);
+        cur->pointsprite = gl4es_glIsEnabled(GL_POINT_SPRITE);
     }
 
     // TODO: GL_EVAL_BIT
 
     if (mask & GL_FOG_BIT) {
-        cur->fog = glshim_glIsEnabled(GL_FOG);
-        glshim_glGetFloatv(GL_FOG_COLOR, cur->fog_color);
-        glshim_glGetFloatv(GL_FOG_DENSITY, &cur->fog_density);
-        glshim_glGetFloatv(GL_FOG_START, &cur->fog_start);
-        glshim_glGetFloatv(GL_FOG_END, &cur->fog_end);
-        glshim_glGetIntegerv(GL_FOG_MODE, &cur->fog_mode);
+        cur->fog = gl4es_glIsEnabled(GL_FOG);
+        gl4es_glGetFloatv(GL_FOG_COLOR, cur->fog_color);
+        gl4es_glGetFloatv(GL_FOG_DENSITY, &cur->fog_density);
+        gl4es_glGetFloatv(GL_FOG_START, &cur->fog_start);
+        gl4es_glGetFloatv(GL_FOG_END, &cur->fog_end);
+        gl4es_glGetIntegerv(GL_FOG_MODE, &cur->fog_mode);
     }
 
     if (mask & GL_HINT_BIT) {
-        glshim_glGetIntegerv(GL_PERSPECTIVE_CORRECTION_HINT, &cur->perspective_hint);
-        glshim_glGetIntegerv(GL_POINT_SMOOTH_HINT, &cur->point_smooth_hint);
-        glshim_glGetIntegerv(GL_LINE_SMOOTH_HINT, &cur->line_smooth_hint);
-        glshim_glGetIntegerv(GL_FOG_HINT, &cur->fog_hint);
-        glshim_glGetIntegerv(GL_GENERATE_MIPMAP_HINT, &cur->mipmap_hint);
+        gl4es_glGetIntegerv(GL_PERSPECTIVE_CORRECTION_HINT, &cur->perspective_hint);
+        gl4es_glGetIntegerv(GL_POINT_SMOOTH_HINT, &cur->point_smooth_hint);
+        gl4es_glGetIntegerv(GL_LINE_SMOOTH_HINT, &cur->line_smooth_hint);
+        gl4es_glGetIntegerv(GL_FOG_HINT, &cur->fog_hint);
+        gl4es_glGetIntegerv(GL_GENERATE_MIPMAP_HINT, &cur->mipmap_hint);
     }
 
     if (mask & GL_LIGHTING_BIT) {
-        cur->lighting = glshim_glIsEnabled(GL_LIGHTING);
-        glshim_glGetFloatv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
-        glshim_glGetIntegerv(GL_LIGHT_MODEL_TWO_SIDE, &cur->light_model_two_side);
+        cur->lighting = gl4es_glIsEnabled(GL_LIGHTING);
+        gl4es_glGetFloatv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
+        gl4es_glGetIntegerv(GL_LIGHT_MODEL_TWO_SIDE, &cur->light_model_two_side);
 
         int i;
         int j=0;
         cur->lights_enabled = (GLboolean *)malloc(hardext.maxlights * sizeof(GLboolean));
         cur->lights = (GLfloat *)malloc(hardext.maxlights * sizeof(GLfloat)*(10*4));
         for (i = 0; i < hardext.maxlights; i++) {
-            *(cur->lights_enabled + i) = glshim_glIsEnabled(GL_LIGHT0 + i);
-            #define L(A) glshim_glGetLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
+            *(cur->lights_enabled + i) = gl4es_glIsEnabled(GL_LIGHT0 + i);
+            #define L(A) gl4es_glGetLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
             L(GL_AMBIENT);
             L(GL_DIFFUSE);
             L(GL_SPECULAR);
@@ -162,16 +162,16 @@ void glshim_glPushAttrib(GLbitfield mask) {
         }
         j=0;
         cur->materials = (GLfloat *)malloc(1 * sizeof(GLfloat)*(5*4));
-        #define M(A) glshim_glGetMaterialfv(GL_FRONT, A, cur->materials+j); j+=4
+        #define M(A) gl4es_glGetMaterialfv(GL_FRONT, A, cur->materials+j); j+=4
         M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
         #undef M
-        glshim_glGetIntegerv(GL_SHADE_MODEL, &cur->shade_model);
+        gl4es_glGetIntegerv(GL_SHADE_MODEL, &cur->shade_model);
     }
 
     if (mask & GL_LINE_BIT) {
-        cur->line_smooth = glshim_glIsEnabled(GL_LINE_SMOOTH);
+        cur->line_smooth = gl4es_glIsEnabled(GL_LINE_SMOOTH);
         // TODO: stipple stuff here
-        glshim_glGetFloatv(GL_LINE_WIDTH, &cur->line_width);
+        gl4es_glGetFloatv(GL_LINE_WIDTH, &cur->line_width);
     }
 
 	// GL_LIST_BIT
@@ -180,10 +180,10 @@ void glshim_glPushAttrib(GLbitfield mask) {
     }
 
     if (mask & GL_MULTISAMPLE_BIT) {
-        cur->multisample = glshim_glIsEnabled(GL_MULTISAMPLE);
-        cur->sample_alpha_to_coverage = glshim_glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE);
-        cur->sample_alpha_to_one = glshim_glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE);
-        cur->sample_coverage = glshim_glIsEnabled(GL_SAMPLE_COVERAGE);
+        cur->multisample = gl4es_glIsEnabled(GL_MULTISAMPLE);
+        cur->sample_alpha_to_coverage = gl4es_glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        cur->sample_alpha_to_one = gl4es_glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE);
+        cur->sample_coverage = gl4es_glIsEnabled(GL_SAMPLE_COVERAGE);
     }
 
     // GL_PIXEL_MODE_BIT
@@ -191,19 +191,19 @@ void glshim_glPushAttrib(GLbitfield mask) {
 		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
 		int i;
 		for (i=0; i<8; i++) 
-			glshim_glGetFloatv(pixel_name[i], &cur->pixel_scale_bias[i]);
+			gl4es_glGetFloatv(pixel_name[i], &cur->pixel_scale_bias[i]);
         //TODO: GL_DEPTH_BIAS & GL_DEPTH_SCALE (probably difficult)
         //TODO: GL_INDEX_OFFEST & GL_INDEX_SHIFT
         //TODO: GL_MAP_COLOR & GL_MAP_STENCIL (probably difficult too)
-		glshim_glGetFloatv(GL_ZOOM_X, &cur->pixel_zoomx);
-		glshim_glGetFloatv(GL_ZOOM_Y, &cur->pixel_zoomy);
+		gl4es_glGetFloatv(GL_ZOOM_X, &cur->pixel_zoomx);
+		gl4es_glGetFloatv(GL_ZOOM_Y, &cur->pixel_zoomy);
 	}
 	
     if (mask & GL_POINT_BIT) {
-        cur->point_smooth = glshim_glIsEnabled(GL_POINT_SMOOTH);
-        glshim_glGetFloatv(GL_POINT_SIZE, &cur->point_size);
+        cur->point_smooth = gl4es_glIsEnabled(GL_POINT_SMOOTH);
+        gl4es_glGetFloatv(GL_POINT_SIZE, &cur->point_size);
         if(hardext.pointsprite) {
-            cur->pointsprite = glshim_glIsEnabled(GL_POINT_SPRITE);
+            cur->pointsprite = gl4es_glIsEnabled(GL_POINT_SPRITE);
             int a;
             for (a=0; a<hardext.maxtex; a++) {
                 cur->pscoordreplace[a] = glstate->texture.pscoordreplace[a];
@@ -215,25 +215,25 @@ void glshim_glPushAttrib(GLbitfield mask) {
     // TODO: GL_POLYGON_STIPPLE_BIT
 
     if (mask & GL_SCISSOR_BIT) {
-        cur->scissor_test = glshim_glIsEnabled(GL_SCISSOR_TEST);
-        glshim_glGetFloatv(GL_SCISSOR_BOX, cur->scissor_box);
+        cur->scissor_test = gl4es_glIsEnabled(GL_SCISSOR_TEST);
+        gl4es_glGetFloatv(GL_SCISSOR_BOX, cur->scissor_box);
     }
 
     // TODO: GL_STENCIL_BUFFER_BIT
     if (mask & GL_STENCIL_BUFFER_BIT) {
-        cur->stencil_test = glshim_glIsEnabled(GL_STENCIL_TEST);
-        glshim_glGetIntegerv(GL_STENCIL_FUNC, &cur->stencil_func);
-        glshim_glGetIntegerv(GL_STENCIL_VALUE_MASK, &cur->stencil_mask);
-        glshim_glGetIntegerv(GL_STENCIL_REF, &cur->stencil_ref);
+        cur->stencil_test = gl4es_glIsEnabled(GL_STENCIL_TEST);
+        gl4es_glGetIntegerv(GL_STENCIL_FUNC, &cur->stencil_func);
+        gl4es_glGetIntegerv(GL_STENCIL_VALUE_MASK, &cur->stencil_mask);
+        gl4es_glGetIntegerv(GL_STENCIL_REF, &cur->stencil_ref);
         //TODO: glStencilFuncSeperate
         
         //TODO: Stencil value mask
-        glshim_glGetIntegerv(GL_STENCIL_FAIL, &cur->stencil_sfail);
-        glshim_glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &cur->stencil_dpfail);
-        glshim_glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &cur->stencil_dppass);
+        gl4es_glGetIntegerv(GL_STENCIL_FAIL, &cur->stencil_sfail);
+        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &cur->stencil_dpfail);
+        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &cur->stencil_dppass);
         //TODO: glStencilOpSeparate
 
-        glshim_glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &cur->stencil_clearvalue);
+        gl4es_glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &cur->stencil_clearvalue);
         //TODO: Stencil buffer writemask
     }
     // GL_TEXTURE_BIT - TODO: incomplete
@@ -256,26 +256,26 @@ void glshim_glPushAttrib(GLbitfield mask) {
 		if (!(mask & GL_ENABLE_BIT)) {
 			int i;
 			GLint max_clip_planes;
-			glshim_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+			gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
 			cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
 			for (i = 0; i < max_clip_planes; i++) {
-				*(cur->clip_planes_enabled + i) = glshim_glIsEnabled(GL_CLIP_PLANE0 + i);
+				*(cur->clip_planes_enabled + i) = gl4es_glIsEnabled(GL_CLIP_PLANE0 + i);
 			}
 		}
-		glshim_glGetIntegerv(GL_MATRIX_MODE, &cur->matrix_mode);
-		cur->rescale_normal_flag = glshim_glIsEnabled(GL_RESCALE_NORMAL);
-		cur->normalize_flag = glshim_glIsEnabled(GL_NORMALIZE);
+		gl4es_glGetIntegerv(GL_MATRIX_MODE, &cur->matrix_mode);
+		cur->rescale_normal_flag = gl4es_glIsEnabled(GL_RESCALE_NORMAL);
+		cur->normalize_flag = gl4es_glIsEnabled(GL_NORMALIZE);
 	}
     // GL_VIEWPORT_BIT
     if (mask & GL_VIEWPORT_BIT) {
-		glshim_glGetIntegerv(GL_VIEWPORT, cur->viewport_size);
-		glshim_glGetFloatv(GL_DEPTH_RANGE, cur->depth_range);
+		gl4es_glGetIntegerv(GL_VIEWPORT, cur->viewport_size);
+		gl4es_glGetFloatv(GL_DEPTH_RANGE, cur->depth_range);
 	}
 		
     glstate->stack->len++;
 }
 
-void glshim_glPushClientAttrib(GLbitfield mask) {
+void gl4es_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
      GLuint old_glbatch = glstate->gl_batch;
      if (glstate->gl_batch) {
@@ -295,8 +295,8 @@ void glshim_glPushClientAttrib(GLbitfield mask) {
     cur->mask = mask;
 
     if (mask & GL_CLIENT_PIXEL_STORE_BIT) {
-        glshim_glGetIntegerv(GL_PACK_ALIGNMENT, &cur->pack_align);
-        glshim_glGetIntegerv(GL_UNPACK_ALIGNMENT, &cur->unpack_align);
+        gl4es_glGetIntegerv(GL_PACK_ALIGNMENT, &cur->pack_align);
+        gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &cur->unpack_align);
         cur->unpack_row_length = glstate->texture.unpack_row_length;
         cur->unpack_skip_pixels = glstate->texture.unpack_skip_pixels;
         cur->unpack_skip_rows = glstate->texture.unpack_skip_rows;
@@ -326,14 +326,14 @@ void glshim_glPushClientAttrib(GLbitfield mask) {
     if (x) free(x)
 
 #define enable_disable(pname, enabled) \
-    if (enabled) glshim_glEnable(pname);      \
-    else glshim_glDisable(pname)
+    if (enabled) gl4es_glEnable(pname);      \
+    else gl4es_glDisable(pname)
 
 #define v2(c) c[0], c[1]
 #define v3(c) v2(c), c[2]
 #define v4(c) v3(c), c[3]
 
-void glshim_glPopAttrib() {
+void gl4es_glPopAttrib() {
 //printf("glPopAttrib()\n");
     noerrorShim();
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -350,31 +350,31 @@ void glshim_glPopAttrib() {
 
     if (cur->mask & GL_COLOR_BUFFER_BIT) {
         enable_disable(GL_ALPHA_TEST, cur->alpha_test);
-        glshim_glAlphaFunc(cur->alpha_test_func, cur->alpha_test_ref);
+        gl4es_glAlphaFunc(cur->alpha_test_func, cur->alpha_test_ref);
 
         enable_disable(GL_BLEND, cur->blend);
-        glshim_glBlendFunc(cur->blend_src_func, cur->blend_dst_func);
+        gl4es_glBlendFunc(cur->blend_src_func, cur->blend_dst_func);
 
         enable_disable(GL_DITHER, cur->dither);
         enable_disable(GL_COLOR_LOGIC_OP, cur->color_logic_op);
-        glshim_glLogicOp(cur->logic_op);
+        gl4es_glLogicOp(cur->logic_op);
 
         GLfloat *c;
-        glshim_glClearColor(v4(cur->clear_color));
-        glshim_glColorMask(v4(cur->color_mask));
+        gl4es_glClearColor(v4(cur->clear_color));
+        gl4es_glColorMask(v4(cur->color_mask));
     }
 
     if (cur->mask & GL_CURRENT_BIT) {
-        glshim_glColor4f(v4(cur->color));
-        glshim_glNormal3f(v3(cur->normal));
-        glshim_glTexCoord4f(v4(cur->tex));
+        gl4es_glColor4f(v4(cur->color));
+        gl4es_glNormal3f(v3(cur->normal));
+        gl4es_glTexCoord4f(v4(cur->tex));
     }
 
     if (cur->mask & GL_DEPTH_BUFFER_BIT) {
         enable_disable(GL_DEPTH_TEST, cur->depth_test);
-        glshim_glDepthFunc(cur->depth_func);
-        glshim_glClearDepth(cur->clear_depth);
-        glshim_glDepthMask(cur->depth_mask);
+        gl4es_glDepthFunc(cur->depth_func);
+        gl4es_glClearDepth(cur->clear_depth);
+        gl4es_glDepthMask(cur->depth_mask);
     }
 
     if (cur->mask & GL_ENABLE_BIT) {
@@ -385,7 +385,7 @@ void glshim_glPopAttrib() {
         enable_disable(GL_BLEND, cur->blend);
 
         GLint max_clip_planes;
-        glshim_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+        gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
         for (i = 0; i < max_clip_planes; i++) {
             enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
         }
@@ -425,15 +425,15 @@ void glshim_glPopAttrib() {
         int old_tex = glstate->texture.active;
         for (a=0; a<hardext.maxtex; a++) {
 			if (glstate->enable.texture_1d[a] != cur->texture_1d[a]) {
-				glshim_glActiveTexture(GL_TEXTURE0+a);
+				gl4es_glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_1D, cur->texture_1d[a]);
 			}
 			if (glstate->enable.texture_2d[a] != cur->texture_2d[a]) {
-				glshim_glActiveTexture(GL_TEXTURE0+a);
+				gl4es_glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
 			}
 			if (glstate->enable.texture_3d[a] != cur->texture_3d[a]) {
-				glshim_glActiveTexture(GL_TEXTURE0+a);
+				gl4es_glActiveTexture(GL_TEXTURE0+a);
 				enable_disable(GL_TEXTURE_3D, cur->texture_3d[a]);
 			}
             glstate->enable.texgen_r[a] = cur->texgen_r[a];
@@ -441,36 +441,36 @@ void glshim_glPopAttrib() {
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
          }
-         if (glstate->texture.active != old_tex) glshim_glActiveTexture(GL_TEXTURE0+old_tex);
+         if (glstate->texture.active != old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
     if (cur->mask & GL_FOG_BIT) {
         enable_disable(GL_FOG, cur->fog);
-        glshim_glFogfv(GL_FOG_COLOR, cur->fog_color);
-        glshim_glFogf(GL_FOG_DENSITY, cur->fog_density);
-        glshim_glFogf(GL_FOG_START, cur->fog_start);
-        glshim_glFogf(GL_FOG_END, cur->fog_end);
-        glshim_glFogf(GL_FOG_MODE, cur->fog_mode);
+        gl4es_glFogfv(GL_FOG_COLOR, cur->fog_color);
+        gl4es_glFogf(GL_FOG_DENSITY, cur->fog_density);
+        gl4es_glFogf(GL_FOG_START, cur->fog_start);
+        gl4es_glFogf(GL_FOG_END, cur->fog_end);
+        gl4es_glFogf(GL_FOG_MODE, cur->fog_mode);
     }
 
     if (cur->mask & GL_HINT_BIT) {
-        glshim_glHint(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
-        glshim_glHint(GL_POINT_SMOOTH_HINT, cur->point_smooth_hint);
-        glshim_glHint(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
-        glshim_glHint(GL_FOG_HINT, cur->fog_hint);
-        glshim_glHint(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
+        gl4es_glHint(GL_PERSPECTIVE_CORRECTION_HINT, cur->perspective_hint);
+        gl4es_glHint(GL_POINT_SMOOTH_HINT, cur->point_smooth_hint);
+        gl4es_glHint(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
+        gl4es_glHint(GL_FOG_HINT, cur->fog_hint);
+        gl4es_glHint(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
     }
 
     if (cur->mask & GL_LIGHTING_BIT) {
         enable_disable(GL_LIGHTING, cur->lighting);
-        glshim_glLightModelfv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
-        glshim_glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, cur->light_model_two_side);
+        gl4es_glLightModelfv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
+        gl4es_glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, cur->light_model_two_side);
 
         int i;
         int j=0;
         for (i = 0; i < hardext.maxlights; i++) {
             enable_disable(GL_LIGHT0 + i, *(cur->lights_enabled + i));
-            #define L(A) glshim_glLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
+            #define L(A) gl4es_glLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
             L(GL_AMBIENT);
             L(GL_DIFFUSE);
             L(GL_SPECULAR);
@@ -484,22 +484,22 @@ void glshim_glPopAttrib() {
             #undef L
         }
         j=0;
-        #define M(A) glshim_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=4
+        #define M(A) gl4es_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=4
         M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
         #undef M
 
-        glshim_glShadeModel(cur->shade_model);
+        gl4es_glShadeModel(cur->shade_model);
     }
 
 	// GL_LIST_BIT
     if (cur->mask & GL_LIST_BIT) {
-        glshim_glListBase(cur->list_base);
+        gl4es_glListBase(cur->list_base);
     }
 
     if (cur->mask & GL_LINE_BIT) {
         enable_disable(GL_LINE_SMOOTH, cur->line_smooth);
         // TODO: stipple stuff here
-        glshim_glLineWidth(cur->line_width);
+        gl4es_glLineWidth(cur->line_width);
     }
 
     if (cur->mask & GL_MULTISAMPLE_BIT) {
@@ -511,31 +511,31 @@ void glshim_glPopAttrib() {
 
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
-        glshim_glPointSize(cur->point_size);
+        gl4es_glPointSize(cur->point_size);
         if(hardext.pointsprite) {
             enable_disable(GL_POINT_SPRITE, cur->pointsprite);
             int a;
             for (a=0; a<hardext.maxtex; a++) {
                 if(glstate->texture.pscoordreplace[a]!=cur->pscoordreplace[a]) {
-                    glshim_glActiveTexture(GL_TEXTURE0+a);
-                    glshim_glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, cur->pscoordreplace[a]);
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                    gl4es_glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, cur->pscoordreplace[a]);
                 }
             }
-            if (glstate->texture.active!= cur->active) glshim_glActiveTexture(GL_TEXTURE0+cur->active);
+            if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);
         }
     }
 
     if (cur->mask & GL_SCISSOR_BIT) {
         enable_disable(GL_SCISSOR_TEST, cur->scissor_test);
-        glshim_glScissor(v4(cur->scissor_box));
+        gl4es_glScissor(v4(cur->scissor_box));
     }
 
     if (cur->mask & GL_STENCIL_BUFFER_BIT) {
         enable_disable(GL_STENCIL_TEST, cur->stencil_test);
-        glshim_glStencilFunc(cur->stencil_func, cur->stencil_ref, cur->stencil_mask);
+        gl4es_glStencilFunc(cur->stencil_func, cur->stencil_ref, cur->stencil_mask);
         //TODO: Stencil value mask
-        glshim_glStencilOp(cur->stencil_sfail, cur->stencil_dpfail, cur->stencil_dppass);
-        glshim_glClearStencil(cur->stencil_clearvalue);
+        gl4es_glStencilOp(cur->stencil_sfail, cur->stencil_dpfail, cur->stencil_dppass);
+        gl4es_glClearStencil(cur->stencil_clearvalue);
         //TODO: Stencil buffer writemask
     }
 
@@ -549,41 +549,41 @@ void glshim_glPopAttrib() {
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
 			if ((cur->texture[a]==0 && glstate->texture.bound[a] != 0) || (cur->texture[a]!=0 && glstate->texture.bound[a]==0)) {
-			   glshim_glActiveTexture(GL_TEXTURE0+a);
-			   glshim_glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
+			   gl4es_glActiveTexture(GL_TEXTURE0+a);
+			   gl4es_glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
 			}
         }
-        if (glstate->texture.active!= cur->active) glshim_glActiveTexture(GL_TEXTURE0+cur->active);
+        if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);
     }
     
 	if (cur->mask & GL_PIXEL_MODE_BIT) {
 		GLenum pixel_name[] = {GL_RED_BIAS, GL_RED_SCALE, GL_GREEN_BIAS, GL_GREEN_SCALE, GL_BLUE_BIAS, GL_BLUE_SCALE, GL_ALPHA_BIAS, GL_ALPHA_SCALE};
 		int i;
 		for (i=0; i<8; i++) 
-			glshim_glPixelTransferf(pixel_name[i], cur->pixel_scale_bias[i]);
+			gl4es_glPixelTransferf(pixel_name[i], cur->pixel_scale_bias[i]);
         //TODO: GL_DEPTH_BIAS & GL_DEPTH_SCALE (probably difficult)
         //TODO: GL_INDEX_OFFEST & GL_INDEX_SHIFT
         //TODO: GL_MAP_COLOR & GL_MAP_STENCIL (probably difficult too)
-		glshim_glPixelZoom(cur->pixel_zoomx, cur->pixel_zoomy);
+		gl4es_glPixelZoom(cur->pixel_zoomx, cur->pixel_zoomy);
 	}
 
 	if (cur->mask & GL_TRANSFORM_BIT) {
 		if (!(cur->mask & GL_ENABLE_BIT)) {
 			int i;
 			GLint max_clip_planes;
-			glshim_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
+			gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
 			for (i = 0; i < max_clip_planes; i++) {
 				enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
 			}
 		}
-		glshim_glMatrixMode(cur->matrix_mode);
+		gl4es_glMatrixMode(cur->matrix_mode);
 		enable_disable(GL_NORMALIZE, cur->normalize_flag);		
 		enable_disable(GL_RESCALE_NORMAL, cur->rescale_normal_flag);		
 	}
 
     if (cur->mask & GL_VIEWPORT_BIT) {
-		glshim_glViewport(cur->viewport_size[0], cur->viewport_size[1], cur->viewport_size[2], cur->viewport_size[3]);
-		glshim_glDepthRangef(cur->depth_range[0], cur->depth_range[1]);
+		gl4es_glViewport(cur->viewport_size[0], cur->viewport_size[1], cur->viewport_size[2], cur->viewport_size[3]);
+		gl4es_glDepthRangef(cur->depth_range[0], cur->depth_range[1]);
 	}
 	
     maybe_free(cur->clip_planes_enabled);
@@ -596,10 +596,10 @@ void glshim_glPopAttrib() {
 
 #undef enable_disable
 #define enable_disable(pname, enabled)             \
-    if (enabled) glshim_glEnableClientState(pname);       \
-    else glshim_glDisableClientState(pname)
+    if (enabled) gl4es_glEnableClientState(pname);       \
+    else gl4es_glDisableClientState(pname)
 
-void glshim_glPopClientAttrib() {
+void gl4es_glPopClientAttrib() {
     noerrorShim();
      GLuint old_glbatch = glstate->gl_batch;
      if (glstate->gl_batch) {
@@ -618,14 +618,14 @@ void glshim_glPopClientAttrib() {
 
     glclientstack_t *cur = glstate->clientStack + glstate->clientStack->len-1;
     if (cur->mask & GL_CLIENT_PIXEL_STORE_BIT) {
-        glshim_glPixelStorei(GL_PACK_ALIGNMENT, cur->pack_align);
-        glshim_glPixelStorei(GL_UNPACK_ALIGNMENT, cur->unpack_align);
-        glshim_glPixelStorei(GL_UNPACK_ROW_LENGTH, cur->unpack_row_length);
-        glshim_glPixelStorei(GL_UNPACK_SKIP_PIXELS, cur->unpack_skip_pixels);
-        glshim_glPixelStorei(GL_UNPACK_SKIP_ROWS, cur->unpack_skip_rows);
-        glshim_glPixelStorei(GL_PACK_ROW_LENGTH, cur->pack_row_length);
-        glshim_glPixelStorei(GL_PACK_SKIP_PIXELS, cur->pack_skip_pixels);
-        glshim_glPixelStorei(GL_PACK_SKIP_ROWS, cur->pack_skip_rows);
+        gl4es_glPixelStorei(GL_PACK_ALIGNMENT, cur->pack_align);
+        gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, cur->unpack_align);
+        gl4es_glPixelStorei(GL_UNPACK_ROW_LENGTH, cur->unpack_row_length);
+        gl4es_glPixelStorei(GL_UNPACK_SKIP_PIXELS, cur->unpack_skip_pixels);
+        gl4es_glPixelStorei(GL_UNPACK_SKIP_ROWS, cur->unpack_skip_rows);
+        gl4es_glPixelStorei(GL_PACK_ROW_LENGTH, cur->pack_row_length);
+        gl4es_glPixelStorei(GL_PACK_SKIP_PIXELS, cur->pack_skip_pixels);
+        gl4es_glPixelStorei(GL_PACK_SKIP_ROWS, cur->pack_skip_rows);
     }
 
     if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
@@ -639,13 +639,13 @@ void glshim_glPopClientAttrib() {
 			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
         for (int a=0; a<hardext.maxtex; a++) {
 		   if (glstate->vao->tex_coord_array[a] != cur->tex_enable[a]) {
-			   glshim_glClientActiveTexture(GL_TEXTURE0+a);
+			   gl4es_glClientActiveTexture(GL_TEXTURE0+a);
 			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);
 		   }
         }
 
         memcpy(&glstate->vao->pointers, &(cur->pointers), sizeof(pointer_states_t));
-		if (glstate->texture.client != cur->client) glshim_glClientActiveTexture(GL_TEXTURE0+cur->client);
+		if (glstate->texture.client != cur->client) gl4es_glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
     glstate->clientStack->len--;
@@ -659,7 +659,7 @@ void glshim_glPopClientAttrib() {
 #undef v4
 
 //Direct wrapper
-void glPushClientAttrib(GLbitfield mask) AliasExport("glshim_glPushClientAttrib");
-void glPopClientAttrib() AliasExport("glshim_glPopClientAttrib");
-void glPushAttrib(GLbitfield mask) AliasExport("glshim_glPushAttrib");
-void glPopAttrib() AliasExport("glshim_glPopAttrib");
+void glPushClientAttrib(GLbitfield mask) AliasExport("gl4es_glPushClientAttrib");
+void glPopClientAttrib() AliasExport("gl4es_glPopClientAttrib");
+void glPushAttrib(GLbitfield mask) AliasExport("gl4es_glPushAttrib");
+void glPopAttrib() AliasExport("gl4es_glPopAttrib");

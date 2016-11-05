@@ -34,11 +34,11 @@ GLuint gl_batch = 0;
 GLuint gl_mergelist = 1;
 int blendhack = 0;
 int export_blendcolor = 0;
-char glshim_version[50];
+char gl4es_version[50];
 int initialized = 0;
-int glshim_noerror = 0;
-int glshim_nobanner = 0;
-int glshim_npot = 0;
+int gl4es_noerror = 0;
+int gl4es_nobanner = 0;
+int gl4es_npot = 0;
 
 void* NewGLState(void* shared_glstate) {
     if(shared_glstate) {
@@ -180,12 +180,12 @@ void ActivateGLState(void* new_glstate) {
 
 void scan_env();
 __attribute__((constructor))
-void initialize_glshim() {
+void initialize_gl4es() {
     char *env_nobanner = getenv("LIBGL_NOBANNER");
     if (env_nobanner && strcmp(env_nobanner, "1") == 0)
-        glshim_nobanner = 1;
+        gl4es_nobanner = 1;
 
-	if(!glshim_nobanner) LOGD("LIBGL: Initialising glshim\n");
+	if(!gl4es_nobanner) LOGD("LIBGL: Initialising gl4es\n");
 	
     // init read hack 
     char *env_readhack = getenv("LIBGL_READHACK");
@@ -222,7 +222,7 @@ void initialize_glshim() {
 }
 
 // config functions
-const GLubyte *glshim_glGetString(GLenum name) {
+const GLubyte *gl4es_glGetString(GLenum name) {
 //    LOAD_GLES(glGetString);
     const GLubyte *str;
     errorShim(GL_NO_ERROR);
@@ -272,9 +272,9 @@ const GLubyte *glshim_glGetString(GLenum name) {
 //                "GL_EXT_blend_logic_op "
 //                "GL_ARB_texture_cube_map "
 				);
-		if(glshim_npot>=1)
+		if(gl4es_npot>=1)
 			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
-		if(glshim_npot>=2)
+		if(gl4es_npot>=2)
 			strcat(extensions, "GL_ARB_texture_non_power_of_two ");
         if(hardext.blendcolor)
             strcat(extensions, "GL_EXT_blend_color ");
@@ -297,7 +297,7 @@ const GLubyte *glshim_glGetString(GLenum name) {
 	}
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)glshim_version;
+            return (GLubyte *)gl4es_version;
         case GL_EXTENSIONS:
             return extensions;
 		case GL_VENDOR:
@@ -311,7 +311,7 @@ const GLubyte *glshim_glGetString(GLenum name) {
             return (str)?str:(GLubyte*)"";
     }
 }
-const GLubyte *glGetString(GLenum name) AliasExport("glshim_glGetString");
+const GLubyte *glGetString(GLenum name) AliasExport("gl4es_glGetString");
 
 void transposeMatrix(float *matrix)
 {
@@ -323,7 +323,7 @@ void transposeMatrix(float *matrix)
 }
 
 // glGet
-void glshim_glGetIntegerv(GLenum pname, GLint *params) {
+void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     if (params==NULL) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -471,9 +471,9 @@ void glshim_glGetIntegerv(GLenum pname, GLint *params) {
             gles_glGetIntegerv(pname, params);
     }
 }
-void glGetIntegerv(GLenum pname, GLint *params) AliasExport("glshim_glGetIntegerv");
+void glGetIntegerv(GLenum pname, GLint *params) AliasExport("gl4es_glGetIntegerv");
 
-void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
+void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
@@ -596,7 +596,7 @@ void glshim_glGetFloatv(GLenum pname, GLfloat *params) {
 		gles_glGetFloatv(pname, params);
     }
 }
-void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("glshim_glGetFloatv");
+void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv");
 
 extern int alphahack;
 extern int texstream;
@@ -680,7 +680,7 @@ int Cap2BatchState(GLenum cap) {
         return ENABLED_LAST;
 }
 
-void glshim_glEnable(GLenum cap) {
+void gl4es_glEnable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
@@ -702,9 +702,9 @@ void glshim_glEnable(GLenum cap) {
     LOAD_GLES(glEnable);
     proxy_glEnable(cap, true, gles_glEnable);
 }
-void glEnable(GLenum cap) AliasExport("glshim_glEnable");
+void glEnable(GLenum cap) AliasExport("gl4es_glEnable");
 
-void glshim_glDisable(GLenum cap) {
+void gl4es_glDisable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap!=ENABLED_LAST) {
@@ -726,25 +726,25 @@ void glshim_glDisable(GLenum cap) {
     LOAD_GLES(glDisable);
     proxy_glEnable(cap, false, gles_glDisable);
 }
-void glDisable(GLenum cap) AliasExport("glshim_glDisable");
+void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
 
-void glshim_glEnableClientState(GLenum cap) {
+void gl4es_glEnableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
         flush();
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
-void glEnableClientState(GLenum cap) AliasExport("glshim_glEnableClientState");
+void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 
-void glshim_glDisableClientState(GLenum cap) {
+void gl4es_glDisableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
         flush();
     LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
-void glDisableClientState(GLenum cap) AliasExport("glshim_glDisableClientState");
+void glDisableClientState(GLenum cap) AliasExport("gl4es_glDisableClientState");
 
 
 #define isenabled(what, where) \
@@ -752,7 +752,7 @@ void glDisableClientState(GLenum cap) AliasExport("glshim_glDisableClientState")
 #define clientisenabled(what, where) \
     case what: return glstate->vao->where
     
-GLboolean glshim_glIsEnabled(GLenum cap) {
+GLboolean gl4es_glIsEnabled(GLenum cap) {
     // should flush for now... to be optimized later!
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))
         flush();
@@ -781,7 +781,7 @@ GLboolean glshim_glIsEnabled(GLenum cap) {
 }
 #undef isenabled
 #undef clientisenabled
-GLboolean glIsEnabled(GLenum cap) AliasExport("glshim_glIsEnabled");
+GLboolean glIsEnabled(GLenum cap) AliasExport("gl4es_glIsEnabled");
 
 static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
@@ -839,7 +839,7 @@ static inline bool should_intercept_render(GLenum mode) {
     );
 }
 
-void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
+void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
@@ -959,7 +959,7 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-            #define TEXTURE(A) glshim_glClientActiveTexture(A+GL_TEXTURE0);
+            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
@@ -990,9 +990,9 @@ void glshim_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid
             free(sindices);
     }
 }
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("glshim_glDrawElements");
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
 
-void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
     else if (mode == GL_TRIANGLES) while(count%3) count--;
@@ -1011,7 +1011,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         int cnt = 4*8000;
         for (int i=0; i<count; i+=4*8000) {
             if (i+cnt>count) cnt = count-i;
-            glshim_glDrawArrays(mode, i, cnt);
+            gl4es_glDrawArrays(mode, i, cnt);
         }
         return;
     }
@@ -1066,7 +1066,7 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			if (glstate->vao->vertex_array)
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
-            #define TEXTURE(A) glshim_glClientActiveTexture(A+GL_TEXTURE0);
+            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
@@ -1098,31 +1098,31 @@ void glshim_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 }
 #undef client_state
-void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("glshim_glDrawArrays");
+void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
 
 #ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
-void glshim_glVertexPointer(GLint size, GLenum type,
+void gl4es_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.vertex, size);
 }
-void glshim_glColorPointer(GLint size, GLenum type,
+void gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.color, size);
 }
-void glshim_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.normal, 3);
 }
-void glshim_glTexCoordPointer(GLint size, GLenum type,
+void gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.tex_coord[glstate->texture.client], size);
 }
-void glshim_glSecondaryColorPointer(GLint size, GLenum type, 
+void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
 	if (size!=3)
 		return;		// Size must be 3...
@@ -1132,13 +1132,13 @@ void glshim_glSecondaryColorPointer(GLint size, GLenum type,
 
 #undef clone_gl_pointer
 #endif
-void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glVertexPointer");
-void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glColorPointer");
-void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glNormalPointer");
-void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glTexCoordPointer");
-void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glSecondaryColorPointer");
+void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glVertexPointer");
+void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glColorPointer");
+void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glNormalPointer");
+void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glTexCoordPointer");
+void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glSecondaryColorPointer");
 
-void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
+void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     uintptr_t ptr = (uintptr_t)pointer;
     // element lengths
     GLsizei tex=0, color=0, normal=0, vert=0;
@@ -1215,29 +1215,29 @@ void glshim_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *poi
                  normal * gl_sizeof(nf) +
                  vert * gl_sizeof(vf);
     if (tex) {
-		glshim_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glshim_glTexCoordPointer(tex, tf, stride, (GLvoid *)ptr);
+		gl4es_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        gl4es_glTexCoordPointer(tex, tf, stride, (GLvoid *)ptr);
         ptr += tex * gl_sizeof(tf);
     }
     if (color) {
-		glshim_glEnableClientState(GL_COLOR_ARRAY);
-        glshim_glColorPointer(color, cf, stride, (GLvoid *)ptr);
+		gl4es_glEnableClientState(GL_COLOR_ARRAY);
+        gl4es_glColorPointer(color, cf, stride, (GLvoid *)ptr);
         ptr += color * gl_sizeof(cf);
     }
     if (normal) {
-		glshim_glEnableClientState(GL_NORMAL_ARRAY);
-        glshim_glNormalPointer(nf, stride, (GLvoid *)ptr);
+		gl4es_glEnableClientState(GL_NORMAL_ARRAY);
+        gl4es_glNormalPointer(nf, stride, (GLvoid *)ptr);
         ptr += normal * gl_sizeof(nf);
     }
     if (vert) {
-		glshim_glEnableClientState(GL_VERTEX_ARRAY);
-        glshim_glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
+		gl4es_glEnableClientState(GL_VERTEX_ARRAY);
+        gl4es_glVertexPointer(vert, vf, stride, (GLvoid *)ptr);
     }
 }
-void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) AliasExport("glshim_glInterleavedArrays");
+void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glInterleavedArrays");
 
 // immediate mode functions
-void glshim_glBegin(GLenum mode) {
+void gl4es_glBegin(GLenum mode) {
     if (!glstate->list.active)
         glstate->list.active = alloc_renderlist();
     NewStage(glstate->list.active, STAGE_DRAW);
@@ -1245,9 +1245,9 @@ void glshim_glBegin(GLenum mode) {
     glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
 }
-void glBegin(GLenum mode) AliasExport("glshim_glBegin");
+void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
 
-void glshim_glEnd() {
+void gl4es_glEnd() {
     if (!glstate->list.active) return;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<MAX_TEX; a++)
@@ -1265,9 +1265,9 @@ void glshim_glEnd() {
     }
     noerrorShim();
 }
-void glEnd() AliasExport("glshim_glEnd");
+void glEnd() AliasExport("gl4es_glEnd");
 
-void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if (glstate->list.active->stage != STAGE_DRAW) {
@@ -1291,17 +1291,17 @@ void glshim_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 #endif
     glstate->normal[0] = nx; glstate->normal[1] = ny; glstate->normal[2] = nz;
 }
-void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("glshim_glNormal3f");
+void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("gl4es_glNormal3f");
 
-void glshim_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate->list.active) {
         rlVertex4f(glstate->list.active, x, y, z, w);
         noerrorShim();
     }
 }
-void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("glshim_glVertex4f");
+void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glVertex4f");
 
-void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
+void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
@@ -1323,9 +1323,9 @@ void glshim_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     glstate->color[0] = red; glstate->color[1] = green;
     glstate->color[2] = blue; glstate->color[3] = alpha;
 }
-void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("glshim_glColor4f");
+void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("gl4es_glColor4f");
 
-void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
+void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate->list.active) {
         rlSecondary3f(glstate->list.active, r, g, b);
         glstate->list.active->lastSecondaryColors[0] = r; glstate->list.active->lastSecondaryColors[1] = g;
@@ -1338,10 +1338,10 @@ void glshim_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glstate->secondary[0] = r; glstate->secondary[1] = g;
     glstate->secondary[2] = b;
 }
-void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("glshim_glSecondaryColor3f");
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glSecondaryColor3f");
 
 #ifndef USE_ES2
-void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
+void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     LOAD_GLES(glMaterialfv);
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		//TODO: Materialfv can be done per vertex, how to handle that ?!
@@ -1356,8 +1356,8 @@ void glshim_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
         errorGL();
     }
 }
-void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("glshim_glMaterialfv");
-void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("gl4es_glMaterialfv");
+void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     LOAD_GLES(glMaterialf);
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		GLfloat params[4];
@@ -1374,10 +1374,10 @@ void glshim_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
         errorGL();
     }
 }
-void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("glshim_glMaterialf");
+void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl4es_glMaterialf");
 #endif
 
-void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate->list.active) {
         rlTexCoord4f(glstate->list.active, s, t, r, q);
     }
@@ -1385,9 +1385,9 @@ void glshim_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     glstate->texcoord[0][0] = s; glstate->texcoord[0][1] = t;
     glstate->texcoord[0][2] = r; glstate->texcoord[0][3] = q;
 }
-void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glTexCoord4f");
+void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glTexCoord4f");
 
-void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
@@ -1396,10 +1396,10 @@ void glshim_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GL
     glstate->texcoord[target-GL_TEXTURE0][0] = s; glstate->texcoord[target-GL_TEXTURE0][1] = t;
     glstate->texcoord[target-GL_TEXTURE0][2] = r; glstate->texcoord[target-GL_TEXTURE0][3] = q;
 }
-void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
-void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("glshim_glMultiTexCoord4f");
+void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glMultiTexCoord4f");
+void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glMultiTexCoord4f");
 
-void glshim_glArrayElement(GLint i) {
+void gl4es_glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
     p = &glstate->vao->pointers.color;
@@ -1414,7 +1414,7 @@ void glshim_glArrayElement(GLint i) {
         for (int i = 0; i < p->size; i++) {
             v[i] *= scale;
         }
-        glshim_glColor4fv(v);
+        gl4es_glColor4fv(v);
     }
     p = &glstate->vao->pointers.secondary;
     if (glstate->vao->secondary_array) {
@@ -1425,20 +1425,20 @@ void glshim_glArrayElement(GLint i) {
         for (int i = 0; i < p->size; i++) {
             v[i] *= scale;
         }
-        glshim_glSecondaryColor3fv(v);
+        gl4es_glSecondaryColor3fv(v);
     }
     p = &glstate->vao->pointers.normal;
     if (glstate->vao->normal_array) {
         v = gl_pointer_index(p, i);
-        glshim_glNormal3fv(v);
+        gl4es_glNormal3fv(v);
     }
     p = &glstate->vao->pointers.tex_coord[0];
     if (glstate->vao->tex_coord_array[0]) {
         v = gl_pointer_index(p, i);
         if (p->size<4)
-            glshim_glTexCoord2fv(v);
+            gl4es_glTexCoord2fv(v);
         else
-            glshim_glTexCoord4fv(v);
+            gl4es_glTexCoord4fv(v);
     }
     int a;
     for (a=1; a<MAX_TEX; a++) {
@@ -1446,48 +1446,48 @@ void glshim_glArrayElement(GLint i) {
 	    if (glstate->vao->tex_coord_array[a]) {
 			v = gl_pointer_index(p, i);
             if (p->size<4)
-                glshim_glMultiTexCoord2fv(GL_TEXTURE0+a, v);
+                gl4es_glMultiTexCoord2fv(GL_TEXTURE0+a, v);
             else
-                glshim_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
+                gl4es_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
     p = &glstate->vao->pointers.vertex;
     if (glstate->vao->vertex_array) {
         v = gl_pointer_index(p, i);
         if (p->size == 4) {
-            glshim_glVertex4fv(v);
+            gl4es_glVertex4fv(v);
         } else if (p->size == 3) {
-            glshim_glVertex3fv(v);
+            gl4es_glVertex3fv(v);
         } else {
-            glshim_glVertex2fv(v);
+            gl4es_glVertex2fv(v);
         }
     }
 }
-void glArrayElement(GLint i) AliasExport("glshim_glArrayElement");
+void glArrayElement(GLint i) AliasExport("gl4es_glArrayElement");
 
 // TODO: between a lock and unlock, I can assume the array pointers are unchanged
 // so I can build a renderlist_t on the first call and hold onto it
 // maybe I need a way to call a renderlist_t with (first, count)
-void glshim_glLockArrays(GLint first, GLsizei count) {
+void gl4es_glLockArrays(GLint first, GLsizei count) {
     glstate->list.locked = true;
     noerrorShim();
 }
-void glLockArraysEXT(GLint first, GLsizei count) AliasExport("glshim_glLockArrays");
-void glshim_glUnlockArrays() {
+void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
+void gl4es_glUnlockArrays() {
     glstate->list.locked = false;
     noerrorShim();
 }
-void glUnlockArraysEXT() AliasExport("glshim_glUnlockArrays");
+void glUnlockArraysEXT() AliasExport("gl4es_glUnlockArrays");
 // display lists
 
-static renderlist_t *glshim_glGetList(GLuint list) {
+static renderlist_t *gl4es_glGetList(GLuint list) {
     if (glIsList(list))
         return glstate->lists[list - 1];
 
     return NULL;
 }
 
-GLuint glshim_glGenLists(GLsizei range) {
+GLuint gl4es_glGenLists(GLsizei range) {
 	if (range<0) {
 		errorShim(GL_INVALID_VALUE);
 		return 0;
@@ -1508,10 +1508,10 @@ GLuint glshim_glGenLists(GLsizei range) {
     }
     return start + 1;
 }
-GLuint glGenLists(GLsizei range) AliasExport("glshim_glGenLists");
+GLuint glGenLists(GLsizei range) AliasExport("gl4es_glGenLists");
 
 
-void glshim_glNewList(GLuint list, GLenum mode) {
+void gl4es_glNewList(GLuint list, GLenum mode) {
 	errorShim(GL_INVALID_VALUE);
 	if (list==0)
 		return;
@@ -1528,9 +1528,9 @@ void glshim_glNewList(GLuint list, GLenum mode) {
     glstate->list.active = alloc_renderlist();
     glstate->list.compiling = true;
 }
-void glNewList(GLuint list, GLenum mode) AliasExport("glshim_glNewList");
+void glNewList(GLuint list, GLenum mode) AliasExport("gl4es_glNewList");
 
-void glshim_glEndList() {
+void gl4es_glEndList() {
 	noerrorShim();
     GLuint list = glstate->list.name;
     if (glstate->list.compiling) {
@@ -1548,21 +1548,21 @@ void glshim_glEndList() {
         }
     }
 }
-void glEndList() AliasExport("glshim_glEndList");
+void glEndList() AliasExport("gl4es_glEndList");
 
 renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
-void glshim_glCallList(GLuint list) {
+void gl4es_glCallList(GLuint list) {
 	noerrorShim();
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-        glstate->list.active = append_calllist(glstate->list.active, glshim_glGetList(list));
+        glstate->list.active = append_calllist(glstate->list.active, gl4es_glGetList(list));
 		return;
 	}
     // TODO: the output of this call can be compiled into another display list
-    renderlist_t *l = glshim_glGetList(list);
+    renderlist_t *l = gl4es_glGetList(list);
     if (l)
         draw_renderlist(l);
 }
-void glCallList(GLuint list) AliasExport("glshim_glCallList");
+void glCallList(GLuint list) AliasExport("gl4es_glCallList");
 
 void glPushCall(void *call) {
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -1571,7 +1571,7 @@ void glPushCall(void *call) {
     }
 }
 
-void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
+void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type) \
         case name: glCallList(((type *)lists)[i] + glstate->list.base); break
 
@@ -1583,7 +1583,7 @@ void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
             for (j = 0; j < stride; j++) {                       \
                 list += *(l + (i * stride + j)) << (stride - j); \
             }                                                    \
-            glshim_glCallList(list + glstate->list.base);                  \
+            gl4es_glCallList(list + glstate->list.base);                  \
             break
 
     unsigned int i, j;
@@ -1606,13 +1606,13 @@ void glshim_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #undef call
     #undef call_bytes
 }
-void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) AliasExport("glshim_glCallLists");
+void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) AliasExport("gl4es_glCallLists");
 
-void glshim_glDeleteList(GLuint list) {
+void gl4es_glDeleteList(GLuint list) {
     if(glstate->gl_batch) {
         flush();
     }
-    renderlist_t *l = glshim_glGetList(list);
+    renderlist_t *l = gl4es_glGetList(list);
     if (l) {
         free_renderlist(l);
         glstate->lists[list-1] = NULL;
@@ -1621,30 +1621,30 @@ void glshim_glDeleteList(GLuint list) {
     // lists just grow upwards, maybe use a better storage mechanism?
 }
 
-void glshim_glDeleteLists(GLuint list, GLsizei range) {
+void gl4es_glDeleteLists(GLuint list, GLsizei range) {
 	noerrorShim();
     for (int i = 0; i < range; i++) {
-        glshim_glDeleteList(list+i);
+        gl4es_glDeleteList(list+i);
     }
 }
-void glDeleteLists(GLuint list, GLsizei range) AliasExport("glshim_glDeleteLists");
+void glDeleteLists(GLuint list, GLsizei range) AliasExport("gl4es_glDeleteLists");
 
-void glshim_glListBase(GLuint base) {
+void gl4es_glListBase(GLuint base) {
 	noerrorShim();
     glstate->list.base = base;
 }
-void glListBase(GLuint base) AliasExport("glshim_glListBase");
+void glListBase(GLuint base) AliasExport("gl4es_glListBase");
 
-GLboolean glshim_glIsList(GLuint list) {
+GLboolean gl4es_glIsList(GLuint list) {
 	noerrorShim();
     if (list - 1 < glstate->list.count) {
         return true;
     }
     return false;
 }
-GLboolean glIsList(GLuint list) AliasExport("glshim_glIsList");
+GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");
 
-void glshim_glPolygonMode(GLenum face, GLenum mode) {
+void gl4es_glPolygonMode(GLenum face, GLenum mode) {
 	noerrorShim();
 	if (face != GL_FRONT_AND_BACK)
 		errorShim(GL_INVALID_ENUM);
@@ -1667,7 +1667,7 @@ void glshim_glPolygonMode(GLenum face, GLenum mode) {
 			glstate->polygon_mode = 0;
 	}
 }
-void glPolygonMode(GLenum face, GLenum mode) AliasExport("glshim_glPolygonMode");
+void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
 void alloc_matrix(matrixstack_t **matrixstack, int depth) {
 	*matrixstack = (matrixstack_t*)malloc(sizeof(matrixstack_t));
@@ -1675,7 +1675,7 @@ void alloc_matrix(matrixstack_t **matrixstack, int depth) {
 	(*matrixstack)->stack = (GLfloat*)malloc(sizeof(GLfloat)*depth*16);
 }
 
-void glshim_glPushMatrix() {
+void gl4es_glPushMatrix() {
 	PUSH_IF_COMPILING(glPushMatrix);
 	LOAD_GLES(glPushMatrix);
 	// Alloc matrix stacks if needed
@@ -1690,25 +1690,25 @@ void glshim_glPushMatrix() {
 	}
 	// get matrix mode
 	GLint matrix_mode;
-	glshim_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
+	gl4es_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
 	noerrorShim();
 	// go...
 	switch(matrix_mode) {
 		case GL_PROJECTION:
 			if (glstate->projection_matrix->top<MAX_STACK_PROJECTION) {
-				glshim_glGetFloatv(GL_PROJECTION_MATRIX, glstate->projection_matrix->stack+16*glstate->projection_matrix->top++);
+				gl4es_glGetFloatv(GL_PROJECTION_MATRIX, glstate->projection_matrix->stack+16*glstate->projection_matrix->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_MODELVIEW:
 			if (glstate->modelview_matrix->top<MAX_STACK_MODELVIEW) {
-				glshim_glGetFloatv(GL_MODELVIEW_MATRIX, glstate->modelview_matrix->stack+16*glstate->modelview_matrix->top++);
+				gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, glstate->modelview_matrix->stack+16*glstate->modelview_matrix->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
 		case GL_TEXTURE:
 			if (glstate->texture_matrix[glstate->texture.active]->top<MAX_STACK_PROJECTION) {
-				glshim_glGetFloatv(GL_TEXTURE_MATRIX, glstate->texture_matrix[glstate->texture.active]->stack+16*glstate->texture_matrix[glstate->texture.active]->top++);
+				gl4es_glGetFloatv(GL_TEXTURE_MATRIX, glstate->texture_matrix[glstate->texture.active]->stack+16*glstate->texture_matrix[glstate->texture.active]->top++);
 			} else
 				errorShim(GL_STACK_OVERFLOW);
 			break;
@@ -1720,9 +1720,9 @@ void glshim_glPushMatrix() {
 			//gles_glPushMatrix();
 	}
 }
-void glPushMatrix() AliasExport("glshim_glPushMatrix");
+void glPushMatrix() AliasExport("gl4es_glPushMatrix");
 
-void glshim_glPopMatrix() {
+void gl4es_glPopMatrix() {
 	PUSH_IF_COMPILING(glPopMatrix);
 	LOAD_GLES(glPopMatrix);
 	// Alloc matrix stacks if needed
@@ -1737,25 +1737,25 @@ void glshim_glPopMatrix() {
 	}
 	// get matrix mode
 	GLint matrix_mode;
-	glshim_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
+	gl4es_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
 	// go...
 	noerrorShim();
 	switch(matrix_mode) {
 		case GL_PROJECTION:
 			if (glstate->projection_matrix->top) {
-				glshim_glLoadMatrixf(glstate->projection_matrix->stack+16*--glstate->projection_matrix->top);
+				gl4es_glLoadMatrixf(glstate->projection_matrix->stack+16*--glstate->projection_matrix->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_MODELVIEW:
 			if (glstate->modelview_matrix->top) {
-				glshim_glLoadMatrixf(glstate->modelview_matrix->stack+16*--glstate->modelview_matrix->top);
+				gl4es_glLoadMatrixf(glstate->modelview_matrix->stack+16*--glstate->modelview_matrix->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
 		case GL_TEXTURE:
 			if (glstate->texture_matrix[glstate->texture.active]->top) {
-				glshim_glLoadMatrixf(glstate->texture_matrix[glstate->texture.active]->stack+16*--glstate->texture_matrix[glstate->texture.active]->top);
+				gl4es_glLoadMatrixf(glstate->texture_matrix[glstate->texture.active]->stack+16*--glstate->texture_matrix[glstate->texture.active]->top);
 			} else
 				errorShim(GL_STACK_UNDERFLOW);
 			break;
@@ -1767,11 +1767,11 @@ void glshim_glPopMatrix() {
 			//gles_glPopMatrix();
 	}
 }
-void glPopMatrix() AliasExport("glshim_glPopMatrix");
+void glPopMatrix() AliasExport("gl4es_glPopMatrix");
 
-GLenum glshim_glGetError() {
+GLenum gl4es_glGetError() {
 	LOAD_GLES(glGetError);
-    if(glshim_noerror)
+    if(gl4es_noerror)
         return GL_NO_ERROR;
 	if (glstate->shim_error) {
 		GLenum tmp = glstate->last_error;
@@ -1780,9 +1780,9 @@ GLenum glshim_glGetError() {
 	}
 	return gles_glGetError();
 }
-GLenum glGetError() AliasExport("glshim_glGetError");
+GLenum glGetError() AliasExport("gl4es_glGetError");
 
-void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
     LOAD_GLES_OES(glBlendColor);
 	if  (gles_glBlendColor)
@@ -1795,11 +1795,11 @@ void glshim_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf a
         }
     }
 }
-void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
-void glBlendColorEXT(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
-void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("glshim_glBlendColor");
+void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("gl4es_glBlendColor");
+void glBlendColorEXT(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("gl4es_glBlendColor");
+void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("gl4es_glBlendColor");
 
-void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
+void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
     PUSH_IF_COMPILING(glBlendFuncSeparate);
     LOAD_GLES_OES(glBlendFuncSeparate);
@@ -1808,10 +1808,10 @@ void glshim_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfa
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
-void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("glshim_glBlendFuncSeparate");
-void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("glshim_glBlendFuncSeparate");
+void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("gl4es_glBlendFuncSeparate");
+void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("gl4es_glBlendFuncSeparate");
 
-void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
+void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
     LOAD_GLES_OES(glBlendEquationSeparate);
 #ifdef ODROID
@@ -1819,10 +1819,10 @@ void glshim_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
 #endif
     gles_glBlendEquationSeparate(modeRGB, modeA);
 }
-void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
-void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("glshim_glBlendEquationSeparate");
+void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_glBlendEquationSeparate");
+void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_glBlendEquationSeparate");
 
-void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
+void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         if ((glstate->statebatch.blendfunc_s == sfactor) && (glstate->statebatch.blendfunc_d == dfactor))
             return; // nothing to do...
@@ -1896,15 +1896,15 @@ void glshim_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 #endif
     gles_glBlendFunc(sfactor, dfactor);
 }
-void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("glshim_glBlendFunc");
+void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("gl4es_glBlendFunc");
 
 
-void glshim_glStencilMaskSeparate(GLenum face, GLuint mask) {
+void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
     // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
     if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
-        glshim_glStencilMask(mask);
+        gl4es_glStencilMask(mask);
 }
-void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("glshim_glStencilMaskSeparate");
+void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("gl4es_glStencilMaskSeparate");
 
 
 void init_statebatch() {
@@ -1936,7 +1936,7 @@ void init_batch() {
 #ifndef ANDROID
 extern void BlitEmulatedPixmap();
 #endif
-void glshim_glFlush() {
+void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
     if (glstate->list.active && !glstate->gl_batch) {
@@ -1954,9 +1954,9 @@ void glshim_glFlush() {
         BlitEmulatedPixmap();
 #endif
 }
-void glFlush() AliasExport("glshim_glFlush");
+void glFlush() AliasExport("gl4es_glFlush");
 
-void glshim_glFinish() {
+void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
     if (glstate->list.active && !glstate->gl_batch) {
@@ -1968,9 +1968,9 @@ void glshim_glFinish() {
     gles_glFinish();
     errorGL();
 }
-void glFinish() AliasExport("glshim_glFinish");
+void glFinish() AliasExport("gl4es_glFinish");
 
-void glshim_glLoadMatrixf(const GLfloat * m) {
+void gl4es_glLoadMatrixf(const GLfloat * m) {
     LOAD_GLES(glLoadMatrixf);
     
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -1981,9 +1981,9 @@ void glshim_glLoadMatrixf(const GLfloat * m) {
     }
     gles_glLoadMatrixf(m);
 }
-void glLoadMatrixf(const GLfloat * m) AliasExport("glshim_glLoadMatrixf");
+void glLoadMatrixf(const GLfloat * m) AliasExport("gl4es_glLoadMatrixf");
 
-void glshim_glMultMatrixf(const GLfloat * m) {
+void gl4es_glMultMatrixf(const GLfloat * m) {
     LOAD_GLES(glMultMatrixf);
     
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -1994,9 +1994,9 @@ void glshim_glMultMatrixf(const GLfloat * m) {
     }
     gles_glMultMatrixf(m);
 }
-void glMultMatrixf(const GLfloat * m) AliasExport("glshim_glMultMatrixf");
+void glMultMatrixf(const GLfloat * m) AliasExport("gl4es_glMultMatrixf");
 
-void glshim_glFogfv(GLenum pname, const GLfloat* params) {
+void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glFogfv);
 
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
@@ -2010,27 +2010,27 @@ void glshim_glFogfv(GLenum pname, const GLfloat* params) {
     
     gles_glFogfv(pname, params);
 }
-void glFogfv(GLenum pname, const GLfloat* params) AliasExport("glshim_glFogfv");
+void glFogfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glFogfv");
 
-void glshim_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
+void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
         LOGD("Warning, stubbed glIndexPointer\n");
         warning = true;
     }
 }
-void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("glshim_glIndexPointer");
+void glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glIndexPointer");
 
-void glshim_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
+void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
         LOGD("Warning, stubbed glEdgeFlagPointer\n");
         warning = true;
     }
 }
-void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("glshim_glEdgeFlagPointer");
+void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glEdgeFlagPointer");
 
-void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
+void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     switch(pname) {
@@ -2061,26 +2061,26 @@ void glshim_glGetPointerv(GLenum pname, GLvoid* *params) {
             errorShim(GL_INVALID_ENUM);
     }
 }
-void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("glshim_glGetPointerv");
+void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("gl4es_glGetPointerv");
 
-void glshim_glPointParameteri(GLenum pname, GLint param)
+void gl4es_glPointParameteri(GLenum pname, GLint param)
 {
-    glshim_glPointParameterf(pname, param);
+    gl4es_glPointParameterf(pname, param);
 }
-void glPointParameteri(GLenum pname, GLint param) AliasExport("glshim_glPointParameteri");
+void glPointParameteri(GLenum pname, GLint param) AliasExport("gl4es_glPointParameteri");
 
-void glshim_glPointParameteriv(GLenum pname, const GLint * params)
+void gl4es_glPointParameteriv(GLenum pname, const GLint * params)
 {
     GLfloat tmp[3];
     int v=(pname==GL_POINT_DISTANCE_ATTENUATION)?3:1;
     for (int i=0; i<v; i++) tmp[i] = params[i];
-    glshim_glPointParameterfv(pname, tmp);
+    gl4es_glPointParameterfv(pname, tmp);
 }
-void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("glshim_glPointParameteriv");
+void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("gl4es_glPointParameteriv");
 
 
 
-void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
+void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
 {
     LOAD_GLES_EXT(glMultiDrawArrays);
     if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
@@ -2089,7 +2089,7 @@ void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *co
         // divide the call
         // TODO optimize with forcing Batch mode
         for (int i=0; i<primcount; i++)
-            glshim_glDrawArrays(mode, first[i], count[i]);
+            gl4es_glDrawArrays(mode, first[i], count[i]);
     }
     else
     {
@@ -2099,9 +2099,9 @@ void glshim_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *co
         errorGL();
     }
 }
-void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("glshim_glMultiDrawArrays");
+void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("gl4es_glMultiDrawArrays");
 
-void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
+void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
 {
     LOAD_GLES_EXT(glMultiDrawElements);
     if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
@@ -2110,7 +2110,7 @@ void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const
         // divide the call
         // TODO optimize with forcing Batch mode
         for (int i=0; i<primcount; i++)
-            glshim_glDrawElements(mode, count[i], type, indices[i]);
+            gl4es_glDrawElements(mode, count[i], type, indices[i]);
     }
     else
     {
@@ -2120,4 +2120,4 @@ void glshim_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const
         errorGL();
     }
 }
-void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("glshim_glMultiDrawElements");
+void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");

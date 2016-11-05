@@ -1,12 +1,12 @@
 #include "light.h"
 
 #ifndef USE_ES2
-void glshim_glLightModelf(GLenum pname, GLfloat param) {
+void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
     if (glstate->list.compiling && glstate->list.active) {
 		GLfloat dummy[4];
 		dummy[0]=param;
-		glshim_glLightModelfv(pname, dummy);
+		gl4es_glLightModelfv(pname, dummy);
 		return;
 	}
     LOAD_GLES(glLightModelf);
@@ -23,7 +23,7 @@ void glshim_glLightModelf(GLenum pname, GLfloat param) {
     }
 }
 
-void glshim_glLightModelfv(GLenum pname, const GLfloat* params) {
+void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 //printf("%sglLightModelfv(%04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", pname, params[0], params[1], params[2], params[3]);
     if (glstate->list.compiling && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_LIGHTMODEL);
@@ -49,7 +49,7 @@ void glshim_glLightModelfv(GLenum pname, const GLfloat* params) {
     }
 }
 
-void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
+void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
 //printf("%sglLightfv(%04X, %04X, %p=[%.2f, %.2f, %.2f, %.2f])\n", (glstate->list.compiling)?"list":"", light, pname, params, (params)?params[0]:0.0f, (params)?params[1]:0.0f, (params)?params[2]:0.0f, (params)?params[3]:0.0f);
     if (glstate->list.compiling && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_LIGHT);
@@ -62,15 +62,15 @@ void glshim_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     errorGL();
 }
 
-void glshim_glLightf(GLenum light, GLenum pname, const GLfloat params) {
+void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
 	GLfloat dummy[4];
 	dummy[0]=params;
-	glshim_glLightfv(light, pname, dummy);
+	gl4es_glLightfv(light, pname, dummy);
     errorGL();
 }
 
-void glLightModelf(GLenum pname, GLfloat param) AliasExport("glshim_glLightModelf");
-void glLightModelfv(GLenum pname, const GLfloat* params) AliasExport("glshim_glLightModelfv");
-void glLightfv(GLenum light, GLenum pname, const GLfloat* params) AliasExport("glshim_glLightfv");
-void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("glshim_glLightf");
+void glLightModelf(GLenum pname, GLfloat param) AliasExport("gl4es_glLightModelf");
+void glLightModelfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightModelfv");
+void glLightfv(GLenum light, GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightfv");
+void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("gl4es_glLightf");
 #endif

@@ -16,18 +16,18 @@ typedef struct {
 
 KHASH_MAP_INIT_INT(buff, glbuffer_t *)
 
-void glshim_glGenBuffers(GLsizei n, GLuint * buffers);
-void glshim_glBindBuffer(GLenum target, GLuint buffer);
-void glshim_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-void glshim_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-void glshim_glDeleteBuffers(GLsizei n, const GLuint * buffers);
-GLboolean glshim_glIsBuffer(GLuint buffer);
-void glshim_glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
+void gl4es_glGenBuffers(GLsizei n, GLuint * buffers);
+void gl4es_glBindBuffer(GLenum target, GLuint buffer);
+void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
+void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers);
+GLboolean gl4es_glIsBuffer(GLuint buffer);
+void gl4es_glGetBufferParameteriv(GLenum target, GLenum value, GLint * data);
 
-void *glshim_glMapBuffer(GLenum target, GLenum access);
-GLboolean glshim_glUnmapBuffer(GLenum target);
-void glshim_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
-void glshim_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+void *gl4es_glMapBuffer(GLenum target, GLenum access);
+GLboolean gl4es_glUnmapBuffer(GLenum target);
+void gl4es_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
+void gl4es_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 
 void glGenBuffers(GLsizei n, GLuint * buffers);
 void glBindBuffer(GLenum target, GLuint buffer);
@@ -85,10 +85,10 @@ typedef struct {
 
 KHASH_MAP_INIT_INT(glvao, glvao_t*)
 
-void glshim_glGenVertexArrays(GLsizei n, GLuint *arrays);
-void glshim_glBindVertexArray(GLuint array);
-void glshim_glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
-GLboolean glshim_glIsVertexArray(GLuint array);
+void gl4es_glGenVertexArrays(GLsizei n, GLuint *arrays);
+void gl4es_glBindVertexArray(GLuint array);
+void gl4es_glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
+GLboolean gl4es_glIsVertexArray(GLuint array);
 
 void glGenVertexArrays(GLsizei n, GLuint *arrays);
 void glBindVertexArray(GLuint array);

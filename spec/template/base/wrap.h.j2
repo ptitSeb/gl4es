@@ -58,7 +58,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 {% endfor %}
 
 {% for func in functions %}
-{{ func.return }} glshim_{{ func.name }}({{ func.name }}_ARG_EXPAND);
+{{ func.return }} gl4es_{{ func.name }}({{ func.name }}_ARG_EXPAND);
 typedef {{ func.return }} (*{{ func.name }}_PTR)({{ func.name }}_ARG_EXPAND);
 {% endfor %}
 

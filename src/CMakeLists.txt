@@ -30,6 +30,7 @@ SET(GL_SRC
 )
 
 SET(GL_H
+    ../version.h
     gl/array.h
     gl/buffers.h
     gl/const.h
