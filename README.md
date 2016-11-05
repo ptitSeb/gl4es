@@ -214,5 +214,8 @@ Initial Hardware test
 Version history
 ----
 
+##### 0.9.1
+ * Added gl4es specifics glHint capabilities. If the extension GL_GL4ES_hint is present, than a few Hint are accessible. Look in include/gl4eshint.h for the list.
+
 ##### 0.9.0
  * New name: gl4es
