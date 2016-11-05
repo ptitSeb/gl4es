@@ -134,6 +134,8 @@ void gl4es_glPushAttrib(GLbitfield mask) {
         gl4es_glGetIntegerv(GL_LINE_SMOOTH_HINT, &cur->line_smooth_hint);
         gl4es_glGetIntegerv(GL_FOG_HINT, &cur->fog_hint);
         gl4es_glGetIntegerv(GL_GENERATE_MIPMAP_HINT, &cur->mipmap_hint);
+        for (int i=GL4ES_HINT_FIRST; i<GL4ES_HINT_LAST; i++)
+            gl4es_glGetIntegerv(i, &cur->gles4_hint[i-GL4ES_HINT_FIRST]);
     }
 
     if (mask & GL_LIGHTING_BIT) {
@@ -459,6 +461,8 @@ void gl4es_glPopAttrib() {
         gl4es_glHint(GL_LINE_SMOOTH_HINT, cur->line_smooth_hint);
         gl4es_glHint(GL_FOG_HINT, cur->fog_hint);
         gl4es_glHint(GL_GENERATE_MIPMAP_HINT, cur->mipmap_hint);
+        for (int i=GL4ES_HINT_FIRST; i<GL4ES_HINT_LAST; i++)
+            gl4es_glHint(i, cur->gles4_hint[i-GL4ES_HINT_FIRST]);
     }
 
     if (cur->mask & GL_LIGHTING_BIT) {

@@ -13,14 +13,10 @@
 #define skip_glColor4f
 #define skip_glDisable
 #define skip_glEnable
-#define skip_glGetIntegerv
-#define skip_glGetString
 #define skip_glIsEnabled
 #define skip_glMaterialfv
 #define skip_glMaterialf
 #define skip_glNormal3f
-
-#define skip_glGetFloatv
 
 #define skip_glPushMatrix
 #define skip_glPopMatrix
@@ -36,7 +32,6 @@
 #define skip_glUnmapBuffer
 #define skip_glGetBufferParameteriv
 #define skip_glGetBufferSubData
-#define skip_glGetPointerv
 
 #define skip_glBlendColor
 #define skip_glBlendFunc
@@ -49,7 +44,15 @@
 #define skip_glBlendFuncSeparate
 #define skip_glBlendFuncSeparatei
 
+// getter.c
 #define skip_glGetError
+#define skip_glGetPointerv
+#define skip_glGetIntegerv
+#define skip_glGetFloatv
+#define skip_glGetString
+
+// hint.c
+#define skip_glHint
 
 // light.c
 #define skip_glLightModelf

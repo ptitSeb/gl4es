@@ -1,10 +1,15 @@
 #include "gl.h"
 #include "state.h"
+#include <gl4eshint.h>
 
 #ifndef GL_STACK_H
 #define GL_STACK_H
 
 #define STACK_SIZE 16
+
+#define GL4ES_HINT_FIRST GL_SHRINK_HINT_GL4ES
+#define GL4ES_HINT_LAST (GL_NOERROR_HINT_GL4ES + 1)
+
 
 typedef struct _glstack_t {
     GLbitfield mask;
@@ -78,6 +83,7 @@ typedef struct _glstack_t {
     GLint line_smooth_hint;
     GLint fog_hint;
     GLint mipmap_hint;
+    GLint gles4_hint[GL4ES_HINT_LAST-GL4ES_HINT_FIRST];
 
     // GL_LIGHTING_BIT
     GLboolean lighting;

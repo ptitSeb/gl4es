@@ -24,6 +24,7 @@ LOCAL_SRC_FILES := \
 	src/gl/framebuffers.c \
 	src/gl/getter.c \
 	src/gl/gl.c \
+	src/gl/hint.c \
 	src/gl/init.c \
 	src/gl/light.c \
 	src/gl/line.c \
