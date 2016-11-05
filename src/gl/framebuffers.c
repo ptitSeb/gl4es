@@ -1,6 +1,7 @@
 #include "framebuffers.h"
 #include "debug.h"
 #include "../glx/hardext.h"
+#include "init.h"
 #ifndef ANDROID
 #include <execinfo.h>
 #endif
@@ -19,8 +20,6 @@ int mainfbo_width = 800;
 int mainfbo_height = 480;
 int mainfbo_nwidth = 1024;
 int mainfbo_nheight = 512;
-
-extern bool g_recyclefbo;
 
 GLuint fbo_read = 0;    // if not 0, that's the READ only Framebuffer attached
 GLuint fbo_draw = 0;     // if not 0, that's the DRAW only Framebuffer attached
@@ -57,7 +56,7 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
     LOAD_GLES_OES(glGenFramebuffers);
     //printf("glGenFramebuffers(%i, %p)\n", n, ids);
     GLsizei m = 0;
-    while(g_recyclefbo && (nbr_fbos>0) && (n-m>0)) {
+    while(globals4es.recyclefbo && (nbr_fbos>0) && (n-m>0)) {
         //printf("Recycled 1 FBO\n");
         ids[m++] = old_fbos[--nbr_fbos];
     }
@@ -71,7 +70,7 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     //printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);
     if (glstate->gl_batch) flush();
-    if (g_recyclefbo) {
+    if (globals4es.recyclefbo) {
         //printf("Recycling %i FBOs\n", n);
         noerrorShim();
         if(cap_fbos == 0) {

@@ -432,8 +432,6 @@ void init_batch();
 #include "state.h"
 extern glstate_t *glstate;
 
-GLuint gl_batch; // 0 = off, 1 = on
-
 static inline void errorGL() {	// next glGetError will be from GL 
 	glstate->shim_error = 0;
 }

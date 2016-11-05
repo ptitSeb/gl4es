@@ -11,11 +11,10 @@
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos;
 
-extern void *open_lib(const char **names, const char *override);
-extern void load_libs();
+void *open_lib(const char **names, const char *override);
 
 #ifndef WARN_NULL
-#define WARN_NULL(name) if (name == NULL) LOGD("libGL: warning, " #name " is NULL\n");
+#define WARN_NULL(name) if (name == NULL) LOGD("LIBGL: warning, " #name " is NULL\n");
 #endif
 
 #ifndef LOAD_RAW
@@ -25,9 +24,6 @@ extern void load_libs();
         static bool first = true; \
         if (first) { \
             first = false; \
-            if (lib == NULL) { \
-                load_libs(); \
-            } \
             if (lib != NULL) { \
                 lib##_##name = (name##_PTR)__VA_ARGS__; \
             } \

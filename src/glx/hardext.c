@@ -1,12 +1,12 @@
 #include "../gl/gl.h"
 #include "hardext.h"
+#include "../gl/init.h"
 
 static int tested = 0;
 
 hardext_t hardext;
 
-extern int gl4es_nobanner;
-#define SHUT(a) if(!gl4es_nobanner) a
+#define SHUT(a) if(!globals4es.nobanner) a
 
 void GetHardwareExtensions(int notest)
 {

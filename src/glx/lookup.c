@@ -3,15 +3,12 @@
 #endif
 #include "glx.h"
 #include "hardext.h"
-
+#include "../gl/init.h"
 #include "../gl/directstate.h"
 
 #define EXPORT __attribute__((visibility("default")))
 
 //#define DEBUG_ADDRESS
-
-extern int export_blendcolor;
-extern int export_silentstub;
 
 #ifdef DEBUG_ADDRESS
 #define MAP(func_name, func) \
@@ -38,15 +35,13 @@ extern int export_silentstub;
 
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
-        if(!export_silentstub) LOGD("glX stub: %s\n", #func_name); \
+        if(!globals4es.silentstub) LOGD("glX stub: %s\n", #func_name); \
         return (void *)glXStub;               \
     }
 
 void glXStub(void *x, ...) {
     return;
 }
-
-extern int gl4es_queries;
 
 EXPORT void *glXGetProcAddressARB(const char *name) {
     LOAD_EGL(eglGetProcAddress);
@@ -330,7 +325,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glArrayElement);
     _EX(glBegin);
     _EX(glBitmap);
-    if(export_blendcolor || hardext.blendcolor) {
+    if(globals4es.blendcolor || hardext.blendcolor) {
         _EX(glBlendColor);
         _EXT(glBlendColor);
         _ARB(glBlendColor);
@@ -634,7 +629,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glMatrixMultTransposef);
     _EX(glMatrixMultTransposed);
 
-    if(gl4es_queries) {
+    if(globals4es.queries) {
         _EX(glGenQueries);
         _EX(glIsQuery);
         _EX(glDeleteQueries);
@@ -648,7 +643,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     // GL_ARB_multisample
     _ARB(glSampleCoverage);
 
-    if (!export_silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
+    if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }
 

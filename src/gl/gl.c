@@ -1,44 +1,11 @@
 #include "gl.h"
 #include "debug.h"
 #include "../glx/hardext.h"
-/*
-glstate_t state = {.color = {1.0f, 1.0f, 1.0f, 1.0f},
-	.secondary = {0.0f, 0.0f, 0.0f, 0.0f},
-	.render_mode = 0,
-	.projection_matrix = NULL,
-	.modelview_matrix = NULL,
-	.texture_matrix = NULL,
-	.namestack = {0, NULL},
-	.enable.vertex_array = 0,
-	.enable.color_array = 0,
-	.enable.secondary_array = 0,
-	.enable.normal_array = 0,
-	.texture.client = 0,
-	.texture.active = 0,
-	.buffers = {NULL, NULL, NULL, NULL},
-	.shim_error = 0,
-	.last_error = GL_NO_ERROR,
-    .gl_batch = 0
-	};
-*/
+#include "init.h"
+
 glstate_t *glstate = NULL;
 
 glstate_t *default_glstate = NULL;
-
-GLuint readhack = 0;
-GLint readhack_x = 0;
-GLint readhack_y = 0;
-GLfloat readhack_depth = 0.0f;
-GLuint readhack_seq = 0;
-GLuint gl_batch = 0;
-GLuint gl_mergelist = 1;
-int blendhack = 0;
-int export_blendcolor = 0;
-char gl4es_version[50];
-int initialized = 0;
-int gl4es_noerror = 0;
-int gl4es_nobanner = 0;
-int gl4es_npot = 0;
 
 void* NewGLState(void* shared_glstate) {
     if(shared_glstate) {
@@ -87,7 +54,7 @@ void* NewGLState(void* shared_glstate) {
 
     glstate->shared_cnt = 0;
 
-    glstate->gl_batch = gl_batch;
+    glstate->gl_batch = globals4es.batch;
 
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
@@ -175,50 +142,12 @@ void ActivateGLState(void* new_glstate) {
         LOAD_GLES(glGetFloatv);
         gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
     }
-    if (gl_batch && glstate->init_batch==0) init_batch();
+    if (globals4es.batch && glstate->init_batch==0) init_batch();
 }
 
-void scan_env();
-__attribute__((constructor))
-void initialize_gl4es() {
-    char *env_nobanner = getenv("LIBGL_NOBANNER");
-    if (env_nobanner && strcmp(env_nobanner, "1") == 0)
-        gl4es_nobanner = 1;
-
-	if(!gl4es_nobanner) LOGD("LIBGL: Initialising gl4es\n");
-	
-    // init read hack 
-    char *env_readhack = getenv("LIBGL_READHACK");
-    if (env_readhack && strcmp(env_readhack, "1") == 0) {
-        readhack = 1;
-        LOGD("LIBGL: glReadPixel Hack (for other-life, 1x1 reading multiple time)\n");
-    }
-    if (env_readhack && strcmp(env_readhack, "2") == 0) {
-        readhack = 2;
-        LOGD("LIBGL: glReadPixel Depth Hack (for games that read GLDepth always at the same place, same 1x1 size)\n");
-    }
-    char *env_batch = getenv("LIBGL_BATCH");
-    if (env_batch && strcmp(env_batch, "1") == 0) {
-        gl_batch = 1;
-        LOGD("LIBGL: Batch mode enabled\n");
-    }
-    if (env_batch && strcmp(env_batch, "0") == 0) {
-        gl_batch = 0;
-        LOGD("LIBGL: Batch mode disabled\n");
-    }
-    if (env_batch && strcmp(env_batch, "2") == 0) {
-        gl_batch = 0;
-        gl_mergelist = 0;
-        LOGD("LIBGL: Batch mode disabled, merging of list disabled too\n");
-    }
-    
+void gl_init() {
     default_glstate = (glstate_t*)NewGLState(NULL);
     ActivateGLState(default_glstate);
-    
-    initialized = 1;
-#ifdef ANDROID
-    scan_env();
-#endif
 }
 
 // config functions
@@ -272,9 +201,9 @@ const GLubyte *gl4es_glGetString(GLenum name) {
 //                "GL_EXT_blend_logic_op "
 //                "GL_ARB_texture_cube_map "
 				);
-		if(gl4es_npot>=1)
+		if(globals4es.npot>=1)
 			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
-		if(gl4es_npot>=2)
+		if(globals4es.npot>=2)
 			strcat(extensions, "GL_ARB_texture_non_power_of_two ");
         if(hardext.blendcolor)
             strcat(extensions, "GL_EXT_blend_color ");
@@ -297,7 +226,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
 	}
     switch (name) {
         case GL_VERSION:
-            return (GLubyte *)gl4es_version;
+            return (GLubyte *)globals4es.version;
         case GL_EXTENSIONS:
             return extensions;
 		case GL_VENDOR:
@@ -598,9 +527,6 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
 }
 void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv");
 
-extern int alphahack;
-extern int texstream;
-
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
 #endif
@@ -623,7 +549,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     // cap = map_tex_target(cap);
     
     // Alpha Hack
-    if (alphahack && (cap==GL_ALPHA_TEST) && enable) {
+    if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
         if (glstate->texture.bound[glstate->texture.active])
             if (!glstate->texture.bound[glstate->texture.active]->alpha)
                 enable = false;
@@ -693,7 +619,7 @@ void gl4es_glEnable(GLenum cap) {
     }
 	PUSH_IF_COMPILING(glEnable)
         
-	if (texstream && (cap==GL_TEXTURE_2D)) {
+	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active])
 			if (glstate->texture.bound[glstate->texture.active]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
@@ -717,7 +643,7 @@ void gl4es_glDisable(GLenum cap) {
     }
 	PUSH_IF_COMPILING(glDisable)
         
-	if (texstream && (cap==GL_TEXTURE_2D)) {
+	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active])
 			if (glstate->texture.bound[glstate->texture.active]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
@@ -1540,7 +1466,7 @@ void gl4es_glEndList() {
         glstate->list.compiling = false;
         end_renderlist(glstate->list.active);
         glstate->list.active = NULL;
-        if (gl_batch==1) {
+        if (globals4es.batch==1) {
             init_batch();
         } 
         if (glstate->list.mode == GL_COMPILE_AND_EXECUTE) {
@@ -1771,7 +1697,7 @@ void glPopMatrix() AliasExport("gl4es_glPopMatrix");
 
 GLenum gl4es_glGetError() {
 	LOAD_GLES(glGetError);
-    if(gl4es_noerror)
+    if(globals4es.noerror)
         return GL_NO_ERROR;
 	if (glstate->shim_error) {
 		GLenum tmp = glstate->last_error;
@@ -1886,7 +1812,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
             break;
     }
     
-    if ((blendhack) && (sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
+    if ((globals4es.blendhack) && (sfactor==GL_SRC_ALPHA) && (dfactor==GL_ONE)) {
         // special case, as seen in Xash3D, but it breaks torus_trooper, so behind a parameter
         sfactor = GL_ONE;
     }

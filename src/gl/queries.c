@@ -2,7 +2,6 @@
 
 static GLuint lastquery = 0;
 static glquery_t *active_samples_passed = 0;
-extern int gl4es_queries;
 
 void gl4es_glGenQueries(GLsizei n, GLuint * ids) {
 	noerrorShim();

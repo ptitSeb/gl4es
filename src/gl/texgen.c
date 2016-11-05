@@ -81,7 +81,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     }
 }
 void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
-    if (gl_batch) flush();
+    if (glstate->gl_batch) flush();
     noerrorShim();
 	switch(pname) {
 		case GL_TEXTURE_GEN_MODE:

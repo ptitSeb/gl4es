@@ -1,5 +1,6 @@
 #include "raster.h"
 #include "debug.h"
+#include "init.h"
 
 static GLubyte *raster = NULL;
 static GLuint raster_texture=0;
@@ -370,7 +371,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	
     static rasterlist_t rast = {.texture=0, .shared=NULL};
     rasterlist_t *r;
-	if (glstate->list.compiling || gl_batch) {
+	if (glstate->list.compiling || globals4es.batch) {
 		NewStage(glstate->list.active, STAGE_RASTER);
 		rasterlist_t *r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
         r->shared = (int*)malloc(sizeof(int));

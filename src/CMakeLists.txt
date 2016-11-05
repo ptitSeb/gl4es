@@ -10,6 +10,7 @@ SET(GL_SRC
     gl/eval.c
     gl/framebuffers.c
     gl/gl.c
+    gl/init.c
     gl/light.c
     gl/line.c
     gl/list.c
@@ -42,6 +43,7 @@ SET(GL_H
     gl/framebuffers.h
     gl/gles.h
     gl/gl.h
+    gl/init.h
     gl/light.h
     gl/line.h
     gl/list.h

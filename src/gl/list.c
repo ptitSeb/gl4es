@@ -2,6 +2,7 @@
 #include "list.h"
 #include "debug.h"
 #include "../glx/hardext.h"
+#include "init.h"
 
 #define alloc_sublist(n, cap) \
     (GLfloat *)malloc(n * sizeof(GLfloat) * cap)
@@ -82,10 +83,8 @@ int rendermode_dimensions(GLenum mode) {
     return 0;
 }
 
-extern GLuint gl_mergelist;
-
 bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
-    if (!gl_mergelist || !a)
+    if (!globals4es.mergelist || !a)
         return false;
         
     // check if 2 "pure rendering" list are compatible for merge

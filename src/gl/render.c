@@ -1,4 +1,5 @@
 #include "render.h"
+#include "init.h"
 
 void push_hit() {
     // push current hit to hit list, and re-init current hit
@@ -66,7 +67,7 @@ GLint gl4es_glRenderMode(GLenum mode) {
         glstate->gl_batch = 0;
         flush();
     }
-    if((mode==GL_RENDER) && (glstate->gl_batch==0) && (gl_batch==1)) {
+    if((mode==GL_RENDER) && (glstate->gl_batch==0) && (globals4es.batch==1)) {
         glstate->gl_batch = 1;
         flush();
     }

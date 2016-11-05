@@ -2,11 +2,9 @@
 #include <execinfo.h>
 #endif
 #include <fcntl.h>
-#if defined(PANDORA) || defined(ODROID)
-#define USE_FBIO 1
-#endif
 
 #include "../../version.h"
+#include "../gl/init.h"
 
 #ifdef USE_FBIO
 #include <linux/fb.h>
@@ -47,8 +45,6 @@ static int sock = -2;
 #endif
 
 #ifndef ANDROID
-static int shm_tested = 0;
-static int shm_shm = 0;
 typedef struct {
     int Width; 
     int Height; 
@@ -75,7 +71,34 @@ static int isPBuffer(GLXDrawable drawable) {
 void BlitEmulatedPixmap();
 int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, int redBits, int greenBits, int blueBits, int alphaBits, int samplebuffers, int samples);
 GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated);
+
+static Display *g_display = NULL;
+static GLXContext glxContext = NULL;
+static GLXContext fbContext = NULL;
+#endif //ANDROID
+
+// hmm...
+static EGLContext eglContext;
+
+static int fbcontext_count = 0;
+
+#ifdef USE_FBIO
+#ifndef FBIO_WAITFORVSYNC
+#define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
+static int fbdev = -1;
+#endif
+
+static int  g_width=0, g_height=0;
+// RPI stuffs
+static bool g_bcmhost = false;
+static bool g_bcm_active = false;
+void (*bcm_host_init)();
+void (*bcm_host_deinit)();
+
+#define SHUT(a) if(!globals4es.nobanner) a
+
+static int swap_interval = 1;
 
 static EGLint egl_context_attrib[] = {
 #ifdef USE_ES2
@@ -207,70 +230,13 @@ static int get_config_default(Display *display, int attribute, int *value) {
     return 0;
 }
 
-static Display *g_display = NULL;
-static GLXContext glxContext = NULL;
-static GLXContext fbContext = NULL;
-static bool g_usepbuffer = false;
-#endif //ANDROID
-
-// hmm...
-static EGLContext eglContext;
-
-static int fbcontext_count = 0;
-static int glx_surface_srgb = 0;
-
-#ifdef USE_FBIO
-#ifndef FBIO_WAITFORVSYNC
-#define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
-#endif
-#ifdef PANDORA
-static float pandora_gamma = 0.0f;
-#endif
-static int fbdev = -1;
-static bool g_vsync = false;
-#endif
-static bool g_showfps = false;
-static bool g_usefb = false;
-static bool g_usefbo = false;
-static bool g_xrefresh = false;
-static bool g_stacktrace = false;
-extern int automipmap;
-extern int texcopydata;
-extern int tested_env;
-extern int texshrink;
-extern int texdump;
-extern int alphahack;
-extern int texstream;
-extern int copytex;
-extern int nolumalpha;
-extern int blendhack;
-extern int export_blendcolor;
-extern int gl4es_noerror;
-extern char gl4es_version[50];
-extern int gl4es_nobanner;
-extern int gl4es_npot;
-int export_silentstub = 0;
-int gl4es_queries = 1;
-
-bool g_recyclefbo = false;
-static int  g_width=0, g_height=0;
-// RPI stuffs
-static bool g_bcmhost = false;
-static bool g_bcm_active = false;
-void (*bcm_host_init)();
-void (*bcm_host_deinit)();
-
-#define SHUT(a) if(!gl4es_nobanner) a
-
-static int swap_interval = 1;
-#ifndef ANDROID
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
     
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
     }
-    if (g_usefb) {
+    if (globals4es.usefb) {
         eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
     } else {
 		eglDisplay = egl_eglGetDisplay(display);
@@ -292,20 +258,20 @@ static void xrefresh() {
 
 #ifdef PANDORA
 static void pandora_reset_gamma() {
-    if(pandora_gamma>0.0f)
+    if(globals4es.gamma>0.0f)
         system("sudo /usr/pandora/scripts/op_gamma.sh 0");
 }
 static void pandora_set_gamma() {
-    if(pandora_gamma>0.0f) {
+    if(globals4es.gamma>0.0f) {
         char buf[50];
-        sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", pandora_gamma);
+        sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", globals4es.gamma);
         int dummy = system(buf);
     }
 }
 #endif
 
 static void signal_handler(int sig) {
-    if (g_xrefresh)
+    if (globals4es.xrefresh)
         xrefresh();
 #ifdef PANDORA
     pandora_reset_gamma();
@@ -318,7 +284,7 @@ static void signal_handler(int sig) {
     }
 #endif
 #ifndef ANDROID
-    if (g_stacktrace) {
+    if (globals4es.stacktrace) {
         switch (sig) {
             case SIGBUS:
             case SIGFPE:
@@ -362,45 +328,14 @@ static void init_liveinfo() {
         fcntl(sock, F_SETFL, O_NONBLOCK);
 }
 
-static void fast_math() {
-  // enable Cortex A8 RunFast
-   int v = 0;
-   __asm__ __volatile__ (
-     "vmrs %0, fpscr\n"
-     "orr  %0, #((1<<25)|(1<<24))\n" // default NaN, flush-to-zero
-     "vmsr fpscr, %0\n"
-     //"vmrs %0, fpscr\n"
-     : "=&r"(v));
-}
 #endif
-extern void initialize_gl4es();
-extern int initialized;
-void scan_env() {
-    static bool first = true;
-    if (! first)
-        return;
-    first = false;
-    if (! initialized)
-    {
-	initialize_gl4es();
-    }
-    // initialise MapDrawable too
-    {
-        int ret;
-        MapDrawable = kh_init(mapdrawable);
-        kh_put(mapdrawable, MapDrawable, 1, &ret);
-        kh_del(mapdrawable, MapDrawable, 1);
-    }
-    SHUT(LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__));
-    #define env(name, global, message)                    \
-        char *env_##name = getenv(#name);                 \
-        if (env_##name && strcmp(env_##name, "1") == 0) { \
-            SHUT(LOGD("LIBGL: " message "\n"));         \
-            global = true;                                \
-        }
 
-    env(LIBGL_XREFRESH, g_xrefresh, "xrefresh will be called on cleanup");
-    env(LIBGL_STACKTRACE, g_stacktrace, "stacktrace will be printed on crash");
+void glx_init() {
+    // init map_drawable
+    int ret;
+    MapDrawable = kh_init(mapdrawable);
+    kh_put(mapdrawable, MapDrawable, 1, &ret);
+    kh_del(mapdrawable, MapDrawable, 1);
     // if ok, grab the init/deinit functions
     if (bcm_host) {
         bcm_host_init = dlsym(bcm_host, "bcm_host_init");
@@ -408,18 +343,18 @@ void scan_env() {
         if (bcm_host_init && bcm_host_deinit)
             g_bcmhost = true;
     }
-    if (g_xrefresh || g_stacktrace || g_bcmhost) {
+    if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
         signal(SIGFPE, signal_handler);
         signal(SIGILL, signal_handler);
         signal(SIGSEGV, signal_handler);
-        if (g_xrefresh || g_bcmhost) {
+        if (globals4es.xrefresh || g_bcmhost) {
             signal(SIGINT, signal_handler);
             signal(SIGQUIT, signal_handler);
             signal(SIGTERM, signal_handler);
         }
-        if (g_xrefresh)
+        if (globals4es.xrefresh)
             atexit(xrefresh);
 #ifndef ANDROID	
 #ifdef BCMHOST
@@ -427,193 +362,20 @@ void scan_env() {
 #endif
 #endif //ANDROID
     }
-    char *env_fb = getenv("LIBGL_FB");
-    if (env_fb && strcmp(env_fb, "1") == 0) {
-            SHUT(LOGD("LIBGL: framebuffer output enabled\n"));
-            g_usefb = true;
-    }
-    if (env_fb && strcmp(env_fb, "2") == 0) {
-            SHUT(LOGD("LIBGL: using framebuffer + fbo\n"));
-            g_usefb = true;
-            g_usefbo = true;
-    }
-#ifndef ANDROID
-    if (env_fb && strcmp(env_fb, "3") == 0) {
-            SHUT(LOGD("LIBGL: using pbuffer\n"));
-            g_usefb = true;
-            g_usepbuffer = true;
-    }
-#endif
-    env(LIBGL_FPS, g_showfps, "fps counter enabled");
-#ifdef USE_FBIO
-    env(LIBGL_VSYNC, g_vsync, "vsync enabled");
-    if (g_vsync) {
+    //V-Sync
+    if (globals4es.vsync) {
         init_vsync();
     }
-#endif
 #ifdef PANDORA
+
     init_liveinfo();
     if (sock>-1) {
         SHUT(LOGD("LIBGL: LiveInfo detected, fps will be shown\n"));
     }
-#endif
-    int gl4es_notest = 0;
-    char *env_notest = getenv("LIBGL_NOTEST");
-    if (env_notest && strcmp(env_notest, "1") == 0) {
-		gl4es_notest = 1;
-    }
-    GetHardwareExtensions(gl4es_notest);
-
-    env(LIBGL_RECYCLEFBO, g_recyclefbo, "Recycling of FBO enabled");
-    // Texture hacks
-    char *env_mipmap = getenv("LIBGL_MIPMAP");
-    if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
-        automipmap = 1;
-        SHUT(LOGD("LIBGL: AutoMipMap forced\n"));
-    }
-    if (env_mipmap && strcmp(env_mipmap, "2") == 0) {
-        automipmap = 2;
-        SHUT(LOGD("LIBGL: guess AutoMipMap\n"));
-    }
-    if (env_mipmap && strcmp(env_mipmap, "3") == 0) {
-        automipmap = 3;
-        SHUT(LOGD("LIBGL: ignore MipMap\n"));
-    }
-    if (env_mipmap && strcmp(env_mipmap, "4") == 0) {
-        automipmap = 4;
-        SHUT(LOGD("LIBGL: ignore AutoMipMap on non-squared textures\n"));
-    }
-    char *env_texcopy = getenv("LIBGL_TEXCOPY");
-    if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
-        texcopydata = 1;
-        SHUT(LOGD("LIBGL: Texture copy enabled\n"));
-    }
-    char *env_shrink = getenv("LIBGL_SHRINK");
-    if (env_shrink && strcmp(env_shrink, "1") == 0) {
-        texshrink = 1;
-        SHUT(LOGD("LIBGL: Texture shink, mode 1 selected (everything / 2)\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "2") == 0) {
-        texshrink = 2;
-        SHUT(LOGD("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "3") == 0) {
-        texshrink = 3;
-        SHUT(LOGD("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "4") == 0) {
-        texshrink = 4;
-        SHUT(LOGD("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "5") == 0) {
-        texshrink = 5;
-        SHUT(LOGD("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "6") == 0) {
-        texshrink = 6;
-        SHUT(LOGD("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "7") == 0) {
-        texshrink = 7;
-        SHUT(LOGD("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "8") == 0) {
-        texshrink = 8;
-        SHUT(LOGD("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "9") == 0) {
-        texshrink = 9;
-        SHUT(LOGD("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "10") == 0) {
-        texshrink = 10;
-        SHUT(LOGD("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
-    }
-    char *env_dump = getenv("LIBGL_TEXDUMP");
-    if (env_dump && strcmp(env_dump, "1") == 0) {
-        texdump = 1;
-        SHUT(LOGD("LIBGL: Texture dump enabled\n"));
-    }
-    char *env_alpha = getenv("LIBGL_ALPHAHACK");
-    if (env_alpha && strcmp(env_alpha, "1") == 0) {
-        alphahack = 1;
-        SHUT(LOGD("LIBGL: Alpha Hack enabled\n"));
-    }
-#ifdef TEXSTREAM
-    char *env_stream = getenv("LIBGL_STREAM");
-    if (env_stream && strcmp(env_stream, "1") == 0) {
-        texstream = InitStreamingCache();
-        SHUT(LOGD("LIBGL: Streaming texture %s\n",(texstream)?"enabled":"not available"));
-        //FreeStreamed(AddStreamed(1024, 512, 0));
-    }
-    if (env_stream && strcmp(env_stream, "2") == 0) {
-        texstream = InitStreamingCache()?2:0;
-        SHUT(LOGD("LIBGL: Streaming texture %s\n",(texstream)?"forced":"not available"));
-        //FreeStreamed(AddStreamed(1024, 512, 0));
-    }
-#endif
-    char *env_copy = getenv("LIBGL_COPY");
-    if (env_copy && strcmp(env_copy, "1") == 0) {
-        SHUT(LOGD("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n"));
-        copytex = 1;
-    }
-    char *env_lumalpha = getenv("LIBGL_NOLUMALPHA");
-    if (env_lumalpha && strcmp(env_lumalpha, "1") == 0) {
-        nolumalpha = 1;
-        SHUT(LOGD("LIBGL: GL_LUMINANCE_ALPHA hardware support disabled\n"));
-    }
-
-    env(LIBGL_BLENDHACK, blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
-    env(LIBGL_BLENDCOLOR, export_blendcolor, "Export a (faked) glBlendColor");
-    env(LIBGL_NOERROR, gl4es_noerror, "glGetError() always return GL_NOERROR");
-    env(LIBGL_SILENTSTUB, export_silentstub, "Stub/non present functions are not printed");
-    
-    char *env_version = getenv("LIBGL_VERSION");
-    if (env_version) {
-        SHUT(LOGD("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version));
-    }
-    snprintf(gl4es_version, 49, "%s gl4es wrapper", (env_version)?env_version:"1.5");
-#ifdef PANDORA
-    char *env_gamma = getenv("LIBGL_GAMMA");
-    if (env_gamma) {
-        pandora_gamma=atof(env_gamma);
-        SHUT(LOGD("LIBGL: Set gamma to %.2f\n", pandora_gamma));
+    if (globals4es.gamma != 0) {
         atexit(pandora_reset_gamma);
     }
 #endif
-    char *env_srgb = getenv("LIBGL_SRGB");
-    if (env_srgb && strcmp(env_srgb, "1") == 0 && hardext.srgb) {
-        glx_surface_srgb = 2;
-        SHUT(LOGD("LIBGL: enabling sRGB support\n"));
-    }
-    char *env_fastmath = getenv("LIBGL_FASTMATH");
-    if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
-#ifdef PANDORA
-        SHUT(LOGD("LIBGL: Enable FastMath for cortex-a8\n"));
-        fast_math();
-#else
-        SHUT(LOGD("LIBGL: No FastMath on this platform\n"));
-#endif
-    }
-    char *env_npot = getenv("LIBGL_NPOT");
-    gl4es_npot = hardext.npot;
-    if (env_npot && strcmp(env_npot, "1") == 0 && gl4es_npot<1) {
-		gl4es_npot = 1;
-		SHUT(LOGD("LIBGL: Expose limited NPOT extension\n"));
-	}
-    if (env_npot && strcmp(env_npot, "2") == 0 && gl4es_npot<2) {
-		gl4es_npot = 2;
-		SHUT(LOGD("LIBGL: Expose GL_ARB_texture_non_power_of_two extension\n"));
-	}
-   char *env_queries = getenv("LIBGL_GLQUERIES");
-    if (env_queries && strcmp(env_queries, "0") == 0) {
-        gl4es_queries = 0;
-        SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
-    }
-     
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd))!= NULL)
-        SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
 }
 
 #ifndef ANDROID	
@@ -639,9 +401,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
         EGL_NONE
     };
 
-    scan_env();
-    
-    if (g_usefb && fbcontext_count>0) {
+    if (globals4es.usefb && fbcontext_count>0) {
         // don't create a new context, one FB is enough...
         fbcontext_count++;
         return fbContext;
@@ -666,7 +426,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
 
-    if(g_usefb)
+    if(globals4es.usefb)
         fbContext = fake;
     // make an egl context here...
     EGLBoolean result;
@@ -693,7 +453,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
 
     int configsFound;
 	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
-    if(g_usefb)
+    if(globals4es.usefb)
 		eglConfigs[0] = fake->eglConfigs[0];
 
     CheckEGLErrors();
@@ -704,13 +464,13 @@ EXPORT GLXContext glXCreateContext(Display *display,
     }
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
 	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
-    if(g_usefb)
+    if(globals4es.usefb)
         eglContext = fake->eglContext;
 
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    fake->display = (g_usefb)?g_display:display;
+    fake->display = (globals4es.usefb)?g_display:display;
     fake->direct = true;
     fake->xid = 1;  //TODO: Proper handling of that id...
     fake->contextType = 0;  //Window
@@ -724,7 +484,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
     fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
     /*
     // why unassign the context, it's not assigned yet
-   	if (!g_usefb) {
+   	if (!globals4es.usefb) {
 		// unassign the context, it's not supposed to be active at the creation
 		egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
 	}
@@ -760,7 +520,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((g_usefb)?g_display:display);
+        init_display((globals4es.usefb)?g_display:display);
         if (eglDisplay == EGL_NO_DISPLAY) {
             LOGE("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -800,7 +560,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     CheckEGLErrors();
 
     // need to return a glx context pointing at it
-    fake->display = (g_usefb)?g_display:display;
+    fake->display = (globals4es.usefb)?g_display:display;
     fake->direct = true;
     fake->xid = 1;  //TODO: Proper handling of that id...
     fake->contextType = 1;  //PBuffer
@@ -846,9 +606,7 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
             EGL_NONE
         };
 
-        scan_env();
-
-        if (g_usefb && fbcontext_count>0) {
+        if (globals4es.usefb && fbcontext_count>0) {
             // don't create a new context, one FB is enough...
             fbcontext_count++;
             return fbContext;
@@ -875,7 +633,7 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
         memset(fake, 0, sizeof(struct __GLXContextRec));
 
         fake->glstate = NewGLState((share_context)?share_context->glstate:NULL);
-        if(g_usefb)
+        if(globals4es.usefb)
             fbContext = fake;
         // make an egl context here...
         EGLBoolean result;
@@ -900,7 +658,7 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
 
         int configsFound;
         result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
-        if(g_usefb)
+        if(globals4es.usefb)
             eglConfigs[0] = fake->eglConfigs[0];
 
         CheckEGLErrors();
@@ -910,13 +668,13 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
         }
         EGLContext shared = (share_context)?share_context->eglContext:EGL_NO_CONTEXT;
         fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
-        if(g_usefb)
+        if(globals4es.usefb)
             eglContext = fake->eglContext;
 
         CheckEGLErrors();
 
         // need to return a glx context pointing at it
-        fake->display = (g_usefb)?g_display:display;
+        fake->display = (globals4es.usefb)?g_display:display;
         fake->direct = true;
         fake->xid = 1;  //TODO: Proper handling of that id...
         fake->contextType = 0;  //Window
@@ -936,14 +694,14 @@ EXPORT GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig confi
 
 EXPORT void glXDestroyContext(Display *display, GLXContext ctx) {
     //printf("glXDestroyContext(%p, %p)\n", display, ctx);
-    if (g_usefb && ctx->contextType==0) {
+    if (globals4es.usefb && ctx->contextType==0) {
         if (fbcontext_count==0)
             return; // Should not happens!
         if (--fbcontext_count > 0)
             return; // Nothing to do...
     }
-    if ((!g_usefb && ctx->eglContext) || (g_usefb && eglContext)) {
-        if (g_usefbo && ctx->contextType==0) {
+    if ((!globals4es.usefb && ctx->eglContext) || (globals4es.usefb && eglContext)) {
+        if (globals4es.usefbo && ctx->contextType==0) {
             deleteMainFBO();
         }
 
@@ -958,7 +716,7 @@ EXPORT void glXDestroyContext(Display *display, GLXContext ctx) {
             egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
 			ctx->eglSurface = 0;
         }
-        if(g_usefb && ctx->contextType==0) {
+        if(globals4es.usefb && ctx->contextType==0) {
             // clean global eglFB too
             eglSurface = 0;
             eglContext = 0;
@@ -972,14 +730,14 @@ EXPORT void glXDestroyContext(Display *display, GLXContext ctx) {
             fbdev = -1;
         }*/
     }
-    if (g_usefb)
+    if (globals4es.usefb)
         fbContext = NULL;
         
     return;
 }
 
 EXPORT Display *glXGetCurrentDisplay() {
-	if (!g_usefb)
+	if (!globals4es.usefb)
 		return XOpenDisplay(NULL);
 	else
 		if (g_display && eglContext) {
@@ -1049,8 +807,8 @@ EXPORT Bool glXMakeCurrent(Display *display,
 #endif
             } else {
 #ifndef ANDROID
-                if(g_usefb) {
-                    if(g_usepbuffer) {
+                if(globals4es.usefb) {
+                    if(globals4es.usepbuffer) {
                         // Get Window size and all...
                         unsigned int width, height, border, depth;
                         Window root;
@@ -1086,11 +844,11 @@ EXPORT Bool glXMakeCurrent(Display *display,
                     if(eglSurface)
                         eglSurf = context->eglSurface = eglSurface;
                     else 
-                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], 0, (glx_surface_srgb)?sRGB:NULL);
+                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], 0, (globals4es.glx_surface_srgb)?sRGB:NULL);
                 } else {
                     if(context->eglSurface)
                         egl_eglDestroySurface(eglDisplay, context->eglSurface);
-                    eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (glx_surface_srgb)?sRGB:NULL);
+                    eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (globals4es.glx_surface_srgb)?sRGB:NULL);
                 }
             }
         }
@@ -1133,7 +891,7 @@ EXPORT Bool glXMakeCurrent(Display *display,
 
         CheckEGLErrors();
         if (result) {
-            if (g_usefbo && created) {
+            if (globals4es.usefbo && created) {
                 // get size of the surface...
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&g_width);
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&g_height);
@@ -1178,7 +936,7 @@ EXPORT void glXSwapBuffers(Display *display,
         }
     }
 #ifdef USE_FBIO
-    if (g_vsync && fbdev >= 0 && PBuffer==0) {
+    if (globals4es.vsync && fbdev >= 0 && PBuffer==0) {
         // TODO: can I just return if I don't meet vsync over multiple frames?
         // this will just block otherwise.
         int arg = 0;
@@ -1187,7 +945,7 @@ EXPORT void glXSwapBuffers(Display *display,
         }
     }
 #endif
-    if (g_usefbo && PBuffer==0) {
+    if (globals4es.usefbo && PBuffer==0) {
         glstate->gl_batch = 0;
         unbindMainFBO();
         blitMainFBO();
@@ -1202,7 +960,7 @@ EXPORT void glXSwapBuffers(Display *display,
         egl_eglSwapBuffers(eglDisplay, surface);
     CheckEGLErrors();
 #ifdef PANDORA
-    if (g_showfps || (sock>-1)) {
+    if (globals4es.showfps || (sock>-1)) {
         // framerate counter
         static float avg, fps = 0;
         static int frame1, last_frame, frame, now, current_frames;
@@ -1226,7 +984,7 @@ EXPORT void glXSwapBuffers(Display *display,
                 current_frames = 0;
 
                 avg = frame / (float)(now - frame1);
-                if (g_showfps) LOGD("LIBGL: fps: %.2f, avg: %.2f\n", fps, avg);
+                if (globals4es.showfps) LOGD("LIBGL: fps: %.2f, avg: %.2f\n", fps, avg);
                 if (sock>-1) {
                     char tmp[60];
                     snprintf(tmp, 60, "gl:  %2.2f", fps);
@@ -1237,7 +995,7 @@ EXPORT void glXSwapBuffers(Display *display,
         last_frame = now;
     }
 #endif
-    if (g_usefbo && PBuffer==0) {
+    if (globals4es.usefbo && PBuffer==0) {
         glstate->gl_batch = old_batch;
         bindMainFBO();
     }
@@ -1311,7 +1069,7 @@ EXPORT void glXQueryDrawable( Display *dpy, int draw, int attribute,
 // stubs for glfw (GLX 1.3)
 EXPORT GLXContext glXGetCurrentContext() {
     // hack to make some games start
-    if (g_usefb)
+    if (globals4es.usefb)
 		return glxContext ? glxContext : fbContext;
 	else
 		return glxContext;
@@ -1493,7 +1251,7 @@ EXPORT GLXContext glXCreateNewContext(Display *display, GLXFBConfig config,
 EXPORT void glXSwapIntervalMESA(int interval) {
 //LOGD("glXSwapInterval(%i)\n", interval);
 #ifdef USE_FBIO
-    if (! g_vsync)
+    if (! globals4es.vsync)
         LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
     swap_interval = interval;
 #else
@@ -1545,7 +1303,7 @@ EXPORT void glXUseXFont(Font font, int first, int count, int listBase) {
 	GLubyte *bm;
 	Display *dpy;
 	Window win;
-    if (g_usefb) {
+    if (globals4es.usefb) {
         dpy = g_display;
         win = RootWindow(dpy, XDefaultScreen(dpy));
     } else {
@@ -1748,7 +1506,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((g_usefb)?g_display:dpy);
+        init_display((globals4es.usefb)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             LOGD("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -1903,7 +1661,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((g_usefb)?g_display:dpy);
+        init_display((globals4es.usefb)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             LOGE("LIBGL: Unable to create EGL display.\n");
             return 0;
@@ -1958,7 +1716,7 @@ EXPORT GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixm
     int emulated = 0;
     XGetGeometry(display, pixmap, &root, &x, &y, &width, &height, &border, &depth);
     // let's try to create a PixmapSurface directly
-    if(g_usefb || createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
+    if(globals4es.usefb || createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
         // fail, so emulate with a PBuffer
         SHUT(LOGE("LIBGL: Pixmap creation failed, trying PBuffer instead\n"));
         //let's create a PixBuffer attributes
