@@ -9,6 +9,7 @@ SET(GL_SRC
     gl/directstate.c
     gl/eval.c
     gl/framebuffers.c
+    gl/getter.c
     gl/gl.c
     gl/init.c
     gl/light.c

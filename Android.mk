@@ -22,7 +22,9 @@ LOCAL_SRC_FILES := \
 	src/gl/directstate.c \
 	src/gl/eval.c \
 	src/gl/framebuffers.c \
+	src/gl/getter.c \
 	src/gl/gl.c \
+	src/gl/init.c \
 	src/gl/light.c \
 	src/gl/line.c \
 	src/gl/list.c \
