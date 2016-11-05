@@ -208,3 +208,11 @@ Expose glQueries functions
 Initial Hardware test
  * 0 : Default, perform intial hardware testing (using a PBuffer)
  * 1 : Do not perform test (no extensions tested or used)
+
+----
+
+Version history
+----
+
+##### 0.9.0
+ * New name: gl4es
