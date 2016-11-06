@@ -1,11 +1,13 @@
 gl4es
 ====
 
-This is a library providing OpenGL 1.x functionality for OpenGL ES accelerated cards.
+This is a library providing OpenGL 1.x functionality for OpenGL ES accelerated hardware.
 
 This is a fork a glshim (https://github.com/lunixbochs/glshim). Go check this lib if you need things like RemoteGL or if need support for TinyGLES (for 100% software rendering).
 
 The focusse is on compatibility with a wide selection of game and software, as well as speed.
+
+It has been tested successfully of a large selection of games and software, including: Mincraft, OpenMW, SeriousSam, RVGL, TSMC, TORCS, SpeedDreams, GL-117, Blender 2.68 and many more.
 
 Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  * Reading of Depth or Stencil buffer will not work
@@ -13,7 +15,7 @@ Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  
 Some know limitations:
  * GL_SELECT as some limitation in its implementation (for exemple, current Depth buffer or binded texture are not taken into account)
- * NPOT texture are supported, but not with GL_REPEAT / GL_MIRRORED, only GL_CLAMP will work properly
+ * NPOT texture are supported, but not with GL_REPEAT / GL_MIRRORED, only GL_CLAMP will work properly (unless the GLES Hardware support NPOT)
  * Framebuffer use FRAMEBUFFER_OES extension (that must be present in the GLES 1.1 stack)
  * Multiple Color attachment on Framebuffer are not supported
  * OcclusionQuery is implemented, but with a 0 bits precision
