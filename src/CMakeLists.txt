@@ -17,6 +17,8 @@ SET(GL_SRC
     gl/line.c
     gl/list.c
     gl/loader.c
+    gl/matrix.c
+    gl/matvec.c
     gl/pixel.c
     gl/queries.c
     gl/raster.c
@@ -52,6 +54,8 @@ SET(GL_H
     gl/list.h
     gl/loader.h
     gl/logs.h
+    gl/matrix.h
+    gl/matvec.h
     gl/pixel.h
     gl/queries.h
     gl/raster.h

@@ -7,6 +7,8 @@ glstate_t *glstate = NULL;
 
 glstate_t *default_glstate = NULL;
 
+void init_matrix(glstate_t* glstate);
+
 void* NewGLState(void* shared_glstate) {
     if(shared_glstate) {
         glstate_t* glstate = (glstate_t*)shared_glstate;
@@ -19,6 +21,7 @@ void* NewGLState(void* shared_glstate) {
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
 	glstate->last_error = GL_NO_ERROR;
     glstate->normal[3] = 1.0f; // default normal is 0/0/1
+    glstate->matrix_mode = GL_MODELVIEW;
     
     // add default VBO
     {
@@ -59,6 +62,10 @@ void* NewGLState(void* shared_glstate) {
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
+
+    // init the matrix tracking
+    init_matrix(glstate);
+
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
     LOAD_GLES(glGetFloatv);
@@ -1218,106 +1225,6 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
 }
 void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
-void alloc_matrix(matrixstack_t **matrixstack, int depth) {
-	*matrixstack = (matrixstack_t*)malloc(sizeof(matrixstack_t));
-	(*matrixstack)->top = 0;
-	(*matrixstack)->stack = (GLfloat*)malloc(sizeof(GLfloat)*depth*16);
-}
-
-void gl4es_glPushMatrix() {
-	PUSH_IF_COMPILING(glPushMatrix);
-	LOAD_GLES(glPushMatrix);
-	// Alloc matrix stacks if needed
-	if (!glstate->projection_matrix)
-		alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
-	if (!glstate->modelview_matrix)
-		alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
-	if (!glstate->texture_matrix) {
-		glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
-		for (int i=0; i<MAX_TEX; i++)
-			alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
-	}
-	// get matrix mode
-	GLint matrix_mode;
-	gl4es_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
-	noerrorShim();
-	// go...
-	switch(matrix_mode) {
-		case GL_PROJECTION:
-			if (glstate->projection_matrix->top<MAX_STACK_PROJECTION) {
-				gl4es_glGetFloatv(GL_PROJECTION_MATRIX, glstate->projection_matrix->stack+16*glstate->projection_matrix->top++);
-			} else
-				errorShim(GL_STACK_OVERFLOW);
-			break;
-		case GL_MODELVIEW:
-			if (glstate->modelview_matrix->top<MAX_STACK_MODELVIEW) {
-				gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, glstate->modelview_matrix->stack+16*glstate->modelview_matrix->top++);
-			} else
-				errorShim(GL_STACK_OVERFLOW);
-			break;
-		case GL_TEXTURE:
-			if (glstate->texture_matrix[glstate->texture.active]->top<MAX_STACK_PROJECTION) {
-				gl4es_glGetFloatv(GL_TEXTURE_MATRIX, glstate->texture_matrix[glstate->texture.active]->stack+16*glstate->texture_matrix[glstate->texture.active]->top++);
-			} else
-				errorShim(GL_STACK_OVERFLOW);
-			break;
-			
-		default:
-			//Warning?
-			errorShim(GL_INVALID_OPERATION);
-			//LOGE("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
-			//gles_glPushMatrix();
-	}
-}
-void glPushMatrix() AliasExport("gl4es_glPushMatrix");
-
-void gl4es_glPopMatrix() {
-	PUSH_IF_COMPILING(glPopMatrix);
-	LOAD_GLES(glPopMatrix);
-	// Alloc matrix stacks if needed
-	if (!glstate->projection_matrix)
-		alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
-	if (!glstate->modelview_matrix)
-		alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
-	if (!glstate->texture_matrix) {
-		glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
-		for (int i=0; i<MAX_TEX; i++)
-			alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
-	}
-	// get matrix mode
-	GLint matrix_mode;
-	gl4es_glGetIntegerv(GL_MATRIX_MODE, &matrix_mode);
-	// go...
-	noerrorShim();
-	switch(matrix_mode) {
-		case GL_PROJECTION:
-			if (glstate->projection_matrix->top) {
-				gl4es_glLoadMatrixf(glstate->projection_matrix->stack+16*--glstate->projection_matrix->top);
-			} else
-				errorShim(GL_STACK_UNDERFLOW);
-			break;
-		case GL_MODELVIEW:
-			if (glstate->modelview_matrix->top) {
-				gl4es_glLoadMatrixf(glstate->modelview_matrix->stack+16*--glstate->modelview_matrix->top);
-			} else
-				errorShim(GL_STACK_UNDERFLOW);
-			break;
-		case GL_TEXTURE:
-			if (glstate->texture_matrix[glstate->texture.active]->top) {
-				gl4es_glLoadMatrixf(glstate->texture_matrix[glstate->texture.active]->stack+16*--glstate->texture_matrix[glstate->texture.active]->top);
-			} else
-				errorShim(GL_STACK_UNDERFLOW);
-			break;
-			
-		default:
-			//Warning?
-			errorShim(GL_INVALID_OPERATION);
-			//LOGE("LIBGL: PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
-			//gles_glPopMatrix();
-	}
-}
-void glPopMatrix() AliasExport("gl4es_glPopMatrix");
-
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
     LOAD_GLES_OES(glBlendColor);
@@ -1505,32 +1412,6 @@ void gl4es_glFinish() {
     errorGL();
 }
 void glFinish() AliasExport("gl4es_glFinish");
-
-void gl4es_glLoadMatrixf(const GLfloat * m) {
-    LOAD_GLES(glLoadMatrixf);
-    
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-        NewStage(glstate->list.active, STAGE_MATRIX);
-        glstate->list.active->matrix_op = 1;
-        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
-        return;
-    }
-    gles_glLoadMatrixf(m);
-}
-void glLoadMatrixf(const GLfloat * m) AliasExport("gl4es_glLoadMatrixf");
-
-void gl4es_glMultMatrixf(const GLfloat * m) {
-    LOAD_GLES(glMultMatrixf);
-    
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-        NewStage(glstate->list.active, STAGE_MATRIX);
-        glstate->list.active->matrix_op = 2;
-        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
-        return;
-    }
-    gles_glMultMatrixf(m);
-}
-void glMultMatrixf(const GLfloat * m) AliasExport("gl4es_glMultMatrixf");
 
 void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glFogfv);

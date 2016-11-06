@@ -398,8 +398,6 @@ void gl4es_glDeleteLists(GLuint list, GLsizei range);
 void gl4es_glListBase(GLuint base);
 GLboolean gl4es_glIsList(GLuint list);
 void gl4es_glPolygonMode(GLenum face, GLenum mode);
-void gl4es_glPushMatrix();
-void gl4es_glPopMatrix();
 GLenum gl4es_glGetError();
 
 void gl4es_glPointParameteri(GLenum pname, GLint param);
@@ -416,8 +414,6 @@ void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA);
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor);
 void gl4es_glFlush();
 void gl4es_glFinish();
-void gl4es_glLoadMatrixf(const GLfloat * m);
-void gl4es_glMultMatrixf(const GLfloat * m);
 void gl4es_glFogfv(GLenum pname, const GLfloat* params);
 
 void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask);

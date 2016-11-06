@@ -172,6 +172,7 @@ typedef struct {
     matrixstack_t *modelview_matrix;
     matrixstack_t *projection_matrix;
     matrixstack_t **texture_matrix;
+    int matrix_mode;
     selectbuf_t selectbuf;
     khash_t(glvao) *vaos;
     khash_t(buff) *buffers;

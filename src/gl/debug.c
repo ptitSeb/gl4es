@@ -122,6 +122,10 @@ const char* PrintEnum(GLenum what) {
         p(GL_SPHERE_MAP);
         p(GL_NORMAL_MAP);
         p(GL_REFLECTION_MAP);
+        // matrix mode
+        p(GL_PROJECTION);
+        p(GL_MODELVIEW);
+        p(GL_TEXTURE);
         default:
             sprintf(fallback, "0x%04X", what);
     }
