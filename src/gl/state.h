@@ -117,6 +117,7 @@ typedef struct {
 
 typedef struct {
 	int		top;
+    int     identity;
 	GLfloat	*stack;
 } matrixstack_t;
 

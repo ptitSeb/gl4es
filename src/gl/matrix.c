@@ -12,12 +12,8 @@
 void alloc_matrix(matrixstack_t **matrixstack, int depth) {
 	*matrixstack = (matrixstack_t*)malloc(sizeof(matrixstack_t));
 	(*matrixstack)->top = 0;
+	(*matrixstack)->identity = 0;
 	(*matrixstack)->stack = (GLfloat*)malloc(sizeof(GLfloat)*depth*16);
-}
-
-void set_identity(GLfloat* mat) {
-    memset(mat, 0, 16*sizeof(GLfloat));
-    mat[0] = mat[1+4] = mat[2+8] = mat[3+12] = 1.0f;
 }
 
 #define TOP(A) (glstate->A->stack+(glstate->A->top*16))
@@ -34,15 +30,30 @@ static GLfloat* update_current_mat() {
 	return NULL;
 }
 
+static void update_current_identity(int I) {
+	switch(glstate->matrix_mode) {
+		case GL_MODELVIEW:
+			glstate->modelview_matrix->identity = (I)?1:is_identity(TOP(modelview_matrix));
+			break;
+		case GL_PROJECTION:
+			glstate->projection_matrix->identity = (I)?1:is_identity(TOP(projection_matrix));
+		case GL_TEXTURE:
+			glstate->texture_matrix[glstate->texture.active]->identity = (I)?1:is_identity(TOP(texture_matrix[glstate->texture.active]));
+	}
+}
+
 void init_matrix(glstate_t* glstate) {
     alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
     set_identity(TOP(projection_matrix));
+	glstate->projection_matrix->identity = 1;
     alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
     set_identity(TOP(modelview_matrix));
+	glstate->modelview_matrix->identity = 1;
     glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
     for (int i=0; i<MAX_TEX; i++) {
         alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
         set_identity(TOP(texture_matrix[i]));
+		glstate->texture_matrix[i]->identity = 1;
     }
 }
 
@@ -103,6 +114,7 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 	switch(matrix_mode) {
 		#define P(A) if(glstate->A->top) { \
 			--glstate->A->top; \
+			glstate->A->identity = is_identity(update_current_mat()); \
 			gles_glLoadMatrixf(update_current_mat()); \
 		} else errorShim(GL_STACK_UNDERFLOW)
 		case GL_PROJECTION:
@@ -135,6 +147,7 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
         return;
     }
 	memcpy(update_current_mat(), m, 16*sizeof(GLfloat));
+	update_current_identity(0);
     gles_glLoadMatrixf(m);
 }
 
@@ -154,6 +167,7 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
     }
 	GLfloat *current_mat = update_current_mat();
 	matrix_mul(current_mat, m, current_mat);
+	update_current_identity(0);
     gles_glLoadMatrixf(current_mat);
 }
 
@@ -168,6 +182,7 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
     }
 	
 	set_identity(update_current_mat());
+	update_current_identity(1);
 	gles_glLoadIdentity();
 }
 
@@ -244,8 +259,6 @@ DBG(printf("glFrustumf(%f, %f, %f, %f, %f, %f) list=%p\n", left, right, top, bot
 
 	gl4es_glMultMatrixf(tmp);
 }
-
-
 
 void glMatrixMode(GLenum mode) AliasExport("gl4es_glMatrixMode");
 void glPushMatrix() AliasExport("gl4es_glPushMatrix");

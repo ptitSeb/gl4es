@@ -66,7 +66,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
 
 GLvoid *copy_gl_array_texcoord(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
-                      GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler) {
+                      GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler, void* dest) {
     if (! src || !count)
         return NULL;
 						  
@@ -74,7 +74,7 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
         stride = width * gl_sizeof(from);
 
     const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
-    GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
+    GLvoid *dst = (dest)?dest:malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_elem = gl_sizeof(to);
     //texcoord are now 4 dim, so this should never happens
@@ -262,7 +262,13 @@ GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, G
 GLvoid *copy_gl_pointer_tex(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
     float filler = 1.0f;
     return copy_gl_array_texcoord(ptr->pointer, ptr->type, ptr->size, ptr->stride,
-                         GL_FLOAT, width, skip, count, &filler);
+                         GL_FLOAT, width, skip, count, &filler, 0);
+}
+
+void copy_gl_pointer_tex_noalloc(void* dest, pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+    float filler = 1.0f;
+    copy_gl_array_texcoord(ptr->pointer, ptr->type, ptr->size, ptr->stride,
+                         GL_FLOAT, width, skip, count, &filler, dest);
 }
 
 GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {

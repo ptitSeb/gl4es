@@ -283,3 +283,14 @@ void matrix_mul(const float *a, const float *b, float *c) {
 #endif
 }
 
+void set_identity(float* mat) {
+    memset(mat, 0, 16*sizeof(GLfloat));
+    mat[0] = mat[1+4] = mat[2+8] = mat[3+12] = 1.0f;
+}
+
+int is_identity(const float* mat) {
+    static float i1[16];
+    static int set=0;
+    if(!set) set_identity(i1);
+    return memcmp(mat, i1, 16*sizeof(float))==0;
+}

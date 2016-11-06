@@ -11,3 +11,7 @@ void gl4es_glScalef(GLfloat x, GLfloat y, GLfloat z);
 void gl4es_glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 void gl4es_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearVal, GLfloat farVal);
 void gl4es_glFrustumf(GLfloat left,	GLfloat right, GLfloat bottom, GLfloat top,	GLfloat nearVal, GLfloat farVal);
+
+GLfloat* getTexMat(int tmu) {
+	return glstate->texture_matrix[tmu]->stack+glstate->texture_matrix[tmu]->top*16;
+}

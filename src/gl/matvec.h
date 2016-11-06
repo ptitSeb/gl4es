@@ -13,6 +13,7 @@ void vector4_normalize(float *a);
 void matrix_transpose(const float *a, float *b);
 void matrix_inverse(const float *m, float *r);
 void matrix_mul(const float *a, const float *b, float *c);
-
+void set_identity(float* mat);
+int is_identity(const float* mat);
 
 #endif
