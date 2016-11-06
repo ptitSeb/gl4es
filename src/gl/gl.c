@@ -373,11 +373,6 @@ static inline bool should_intercept_render(GLenum mode) {
     // check bounded tex that will be used if one need some transformations
     for (int aa=0; aa<hardext.maxtex; aa++) {
         if (glstate->enable.texture_2d[aa] || glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa]) {
-            if(glstate->texture.rect_arb[aa])
-                return true;
-            gltexture_t *bound = glstate->texture.bound[aa];
-            if (bound && (bound->width!=bound->nwidth || bound->height!=bound->nheight))
-                return true;
             if ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa]))
                 return true;
         }

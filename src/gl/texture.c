@@ -9,6 +9,7 @@
 #include "../glx/streaming.h"
 #include "../glx/hardext.h"
 #include "init.h"
+#include "matrix.h"
 
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
@@ -55,11 +56,20 @@ void tex_coord_npot(GLfloat *tex, GLsizei len,
     }
 }
 
+void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat) {
+    if (!tex || !len || !mat)
+        return;
+    for (int i = 0; i < len; i++) {
+        vector_matrix(tex, mat, tex);
+        tex += 4;
+    }
+}
+
 /* Setup the texture coordinates
  * 
  * Have to check is ARB_RECTANGLE is used
+ * Apply texture matrix if not identity 
  * Or some NPOT texture used
- * Or SHRINKED texure used
  */
 void tex_setup_texcoord(GLuint len) {
     LOAD_GLES(glTexCoordPointer);
@@ -74,8 +84,8 @@ void tex_setup_texcoord(GLuint len) {
     int changes = 0;
     if ((glstate->texture.rect_arb[texunit]) 
         || (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
-        || (bound->shrink && (glstate->vao->pointers.tex_coord[texunit].type!=GL_FLOAT) && (glstate->vao->pointers.tex_coord[texunit].type!=GL_DOUBLE)))
-        ) )
+        )) || !glstate->texture_matrix[texunit]->identity 
+        )
         changes = 1;
     if (changes) {
         // first convert to GLfloat, without normalization
@@ -86,8 +96,11 @@ void tex_setup_texcoord(GLuint len) {
         }
         copy_gl_pointer_tex_noalloc(tex[texunit], &glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         // Normalize if needed
-        if ((glstate->texture.rect_arb[texunit]) || ((glstate->vao->pointers.tex_coord[texunit].type!=GL_FLOAT) && (glstate->vao->pointers.tex_coord[texunit].type!=GL_DOUBLE)))
+        if ((glstate->texture.rect_arb[texunit]))
             tex_coord_rect_arb(tex[texunit], len, bound->width, bound->height);
+        // Apply transformation matrix if any
+        if (!glstate->texture_matrix[texunit]->identity)
+            tex_coord_matrix(tex[texunit], len, getTexMat(texunit));
         // NPOT adjust
         if ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight))
             tex_coord_npot(tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);

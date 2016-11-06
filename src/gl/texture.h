@@ -88,6 +88,9 @@ void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
 void tex_coord_npot(GLfloat *tex, GLsizei len,
                     GLsizei width, GLsizei height,
                     GLsizei nwidth, GLsizei nheight);
+
+void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat);
+
 int npot(int n);
 
 typedef struct {

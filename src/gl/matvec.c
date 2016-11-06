@@ -67,10 +67,11 @@ void vector_matrix(const float *a, const float *b, float *c) {
     : "%2", "q0", "q1", "q2", "memory"
         );
 #else
-    c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8] + a[3] * b[12];
-    c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9] + a[3] * b[13];
-    c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + a[3] * b[14];
-    c[3] = a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + a[3] * b[15];
+    const float a0=a[0], a1=a[1], a2=a[2], a3=a[3];
+    c[0] = a0 * b[0] + a1 * b[4] + a2 * b[8] + a3 * b[12];
+    c[1] = a0 * b[1] + a1 * b[5] + a2 * b[9] + a3 * b[13];
+    c[2] = a0 * b[2] + a1 * b[6] + a2 * b[10] + a3 * b[14];
+    c[3] = a0 * b[3] + a1 * b[7] + a2 * b[11] + a3 * b[15];
 #endif
 }
 
@@ -291,6 +292,6 @@ void set_identity(float* mat) {
 int is_identity(const float* mat) {
     static float i1[16];
     static int set=0;
-    if(!set) set_identity(i1);
-    return memcmp(mat, i1, 16*sizeof(float))==0;
+    if(!set) {set_identity(i1); set=1;}
+    return memcmp(mat, i1, 16*sizeof(float))==0?1:0;
 }

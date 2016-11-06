@@ -19,7 +19,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     generation function specified by pname.
     */
 
-    //printf("glTexGenfv(%s, %s, [%s, ...]), texture=%i\n", PrintEnum(coord), PrintEnum(pname), PrintEnum(param[0]), glstate->texture.active);
+    //printf("glTexGenf(%s, %s, %s/%f), texture=%i\n", PrintEnum(coord), PrintEnum(pname), PrintEnum(param[0]), param[0], glstate->texture.active);
     if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_TEXGEN);
 		rlTexGenfv(glstate->list.active, coord, pname, param);
@@ -151,9 +151,7 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
     GLfloat ModelviewMatrix[16], InvModelview[16];
     gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
     // column major -> row major
-    for (int i=0; i<4; i++)
-        for (int j=0; j<4; j++)
-            ModelviewMatrix[i*4+j]=InvModelview[i+j*4];
+    matrix_transpose(InvModelview, ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
     GLfloat eye[4], eye_norm[4], reflect[4];
@@ -172,6 +170,36 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
         out[k*4+0] = reflect[0]*a + 0.5f;
         out[k*4+1] = reflect[1]*a + 0.5f;
         out[k*4+2] = 0.0f;
+        out[k*4+3] = 1.0f;
+    }
+
+}
+
+void reflection_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint count, GLushort *indices) {
+    // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
+/*    if (!norm) {
+        printf("LIBGL: GL_REFLECTION_MAP without Normals\n");
+        return;
+    }*/
+    // First get the ModelviewMatrix
+    GLfloat ModelviewMatrix[16], InvModelview[16];
+    gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
+    // column major -> row major
+    matrix_transpose(InvModelview, ModelviewMatrix);
+    // And get the inverse
+    matrix_inverse(ModelviewMatrix, InvModelview);
+    GLfloat eye[4], eye_norm[4];
+    GLfloat a;
+    for (int i=0; i<count; i++) {
+	GLushort k = indices?indices[i]:i;
+        matrix_vector(ModelviewMatrix, verts+k*4, eye);
+        vector4_normalize(eye);
+        vector3_matrix((norm)?(norm+k*3):glstate->normal, InvModelview, eye_norm);
+        vector4_normalize(eye_norm);
+        a=dot4(eye, eye_norm)*2.0f;
+        out[k*4+0] = eye[0] - eye_norm[0]*a;
+        out[k*4+1] = eye[1] - eye_norm[1]*a;
+        out[k*4+2] = eye[2] - eye_norm[2]*a;
         out[k*4+3] = 1.0f;
     }
 
@@ -231,10 +259,10 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     // special case: SPHERE_MAP needs both texgen to make sense
     if ((glstate->enable.texgen_s[texture] && (glstate->texgen[texture].S==GL_SPHERE_MAP)) && (glstate->enable.texgen_t[texture] && (glstate->texgen[texture].T==GL_SPHERE_MAP)))
     {
-	if (!glstate->enable.texture_2d[texture])
-	    return;
-	if ((*coords)==NULL) 
-	    *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
+        if (!glstate->enable.texture_2d[texture])
+            return;
+        if ((*coords)==NULL) 
+            *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
         sphere_loop(verts, norm, *coords, (indices)?ilen:count, indices);
         return;
     }
@@ -243,22 +271,11 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (glstate->enable.texgen_t[texture] && (glstate->texgen[texture].T==GL_REFLECTION_MAP))
      && (glstate->enable.texgen_r[texture] && (glstate->texgen[texture].R==GL_REFLECTION_MAP)))
     {
-        *needclean=1;
-        // setup reflection map!
-        GLuint old_tex=glstate->texture.active;
-        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + texture);
-        LOAD_GLES_OES(glTexGeni);
-        LOAD_GLES_OES(glTexGenfv);
-        LOAD_GLES(glEnable);
-        // setup cube map mode
-        gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-        gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-        gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
-        // enable texgen
-        gles_glEnable(GL_TEXTURE_GEN_STR);      //GLES only support the 3 gen at the same time!
-
-        if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
-            
+        if (!glstate->enable.texture_2d[texture])
+            return;
+        if ((*coords)==NULL) 
+            *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
+        reflection_loop(verts, norm, *coords, (indices)?ilen:count, indices);
         return;
     }
     // special case: NORMAL_MAP  needs the 3 texgen to make sense
