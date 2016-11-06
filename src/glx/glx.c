@@ -3,7 +3,6 @@
 #endif
 #include <fcntl.h>
 
-#include "../../version.h"
 #include "../gl/init.h"
 
 #ifdef USE_FBIO

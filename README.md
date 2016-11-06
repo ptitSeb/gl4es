@@ -214,6 +214,10 @@ Initial Hardware test
 Version history
 ----
 
+##### 0.9.2
+ * All matrix are tracked now
+ * Texture Matrix are 100% handled by gl4es. GLES Hardware keep an Identity matrix (TexCoord are transformed if needed). This allows a better handling of NPOT texture on hadware that doesn't support Full NPOT (fixed movies beiing horizontaly shifted in openmw with LIBGL_NPOT=1 for example)
+
 ##### 0.9.1
  * Added gl4es specifics glHint capabilities. If the extension GL_GL4ES_hint is present, than a few Hint are accessible. Look in include/gl4eshint.h for the list.
 
