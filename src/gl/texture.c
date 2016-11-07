@@ -102,7 +102,7 @@ void tex_setup_texcoord(GLuint len) {
         if (!glstate->texture_matrix[texunit]->identity)
             tex_coord_matrix(tex[texunit], len, getTexMat(texunit));
         // NPOT adjust
-        if ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight))
+        if (bound && ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight)))
             tex_coord_npot(tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);
         // All done, setup the texcoord array now
         gles_glTexCoordPointer(4, GL_FLOAT, 0, tex[texunit]);
