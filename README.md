@@ -216,6 +216,9 @@ Initial Hardware test
 Version history
 ----
 
+##### Current version
+ * Return some values in glXQueryServerString, coherent with glXGetClientString
+
 ##### 0.9.2
  * All matrix are tracked now
  * Texture Matrix are 100% handled by gl4es. GLES Hardware keep an Identity matrix (TexCoord are transformed if needed). This allows a better handling of NPOT texture on hadware that doesn't support Full NPOT (fixed movies beiing horizontaly shifted in openmw with LIBGL_NPOT=1 for example)
