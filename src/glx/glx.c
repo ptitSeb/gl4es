@@ -395,12 +395,17 @@ EXPORT GLXContext glXCreateContext(Display *display,
         EGL_RED_SIZE, 5,
         EGL_GREEN_SIZE, 6,
         EGL_BLUE_SIZE, 5,
+#else
+        EGL_RED_SIZE, (visual==0)?0:(visual->depth==16)?5:8;
+        EGL_GREEN_SIZE, (visual==0)?0:(visual->depth==16)?6:8;
+        EGL_BLUE_SIZE, (visual==0)?0:(visual->depth==16)?5:8;
+        EGL_ALPHA_SIZE, (visual==0)?0:(visual->depth>24)?0:8;
 #endif
         EGL_DEPTH_SIZE, 16,
 #ifdef USE_ES2
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 #else
-        EGL_BUFFER_SIZE, 16,
+        EGL_BUFFER_SIZE, (visual==0)?16:visual->depth,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 #endif
@@ -483,7 +488,10 @@ EXPORT GLXContext glXCreateContext(Display *display,
 #ifdef PANDORA
     fake->rbits = 5; fake->gbits=6; fake->bbits=5; fake->abits=0;
 #else
-    fake->rbits = 8; fake->gbits=8; fake->bbits=8; fake->abits=8;
+    fake->rbits = (visual==0)?8:(visual->depth==16)?5:8;
+    fake->gbits= (visual==0)?8:(visual->depth==16)?5:8
+    fake->bbits= (visual==0)?8:(visual->depth==16)?5:8;
+    fake->abits= (visual==0)?8:(visual->depth>24)?0:8;
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
 
@@ -756,7 +764,7 @@ EXPORT Display *glXGetCurrentDisplay() {
 EXPORT XVisualInfo *glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
-    DBG(printf("glXChooseVisual(%p, %d, %p)\n", display, screen, attribute);)
+    DBG(printf("glXChooseVisual(%p, %d, %p)\n", display, screen, attributes);)
     // apparently can't trust the Display I'm passed?
 /*
     if (g_display == NULL) {
@@ -800,6 +808,11 @@ EXPORT Bool glXMakeCurrent(Display *display,
     EGLContext eglContext = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
     EGLConfig eglConfig = 0;
+    if(context && glxContext==context && context->drawable==drawable) {
+        //same context, all is done bye
+        DBG(printf("Same context and drawable, doing nothing\n");)
+        return true;
+    }
     if(context) {
         eglContext = context->eglContext;
         if(context->drawable==drawable && context->eglSurface)
@@ -1067,7 +1080,7 @@ EXPORT const char *glXGetClientString(Display *display, int name) {
 }
 
 EXPORT int glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *value ){
-    DBG(printf("glXQueryContext(%p, %p, %d, %p)\n", display, ctx, attribute, value);)
+    DBG(printf("glXQueryContext(%p, %p, %d, %p)\n", dpy, ctx, attribute, value);)
 	*value=0;
 	if (ctx) switch (attribute) {
 		case GLX_FBCONFIG_ID: *value=ctx->xid; break;
