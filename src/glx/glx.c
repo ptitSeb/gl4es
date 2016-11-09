@@ -399,7 +399,7 @@ EXPORT GLXContext glXCreateContext(Display *display,
         EGL_RED_SIZE, (visual==0)?0:(visual->depth==16)?5:8,
         EGL_GREEN_SIZE, (visual==0)?0:(visual->depth==16)?6:8,
         EGL_BLUE_SIZE, (visual==0)?0:(visual->depth==16)?5:8,
-        EGL_ALPHA_SIZE, (visual==0)?0:(visual->depth>24)?0:8,
+        EGL_ALPHA_SIZE, (visual==0)?0:(visual->depth!=32)?0:8,
 #endif
         EGL_DEPTH_SIZE, 16,
 #ifdef USE_ES2
@@ -489,9 +489,9 @@ EXPORT GLXContext glXCreateContext(Display *display,
     fake->rbits = 5; fake->gbits=6; fake->bbits=5; fake->abits=0;
 #else
     fake->rbits = (visual==0)?8:(visual->depth==16)?5:8,
-    fake->gbits= (visual==0)?8:(visual->depth==16)?5:8,
+    fake->gbits= (visual==0)?8:(visual->depth==16)?6:8,
     fake->bbits= (visual==0)?8:(visual->depth==16)?5:8,
-    fake->abits= (visual==0)?8:(visual->depth>24)?0:8,
+    fake->abits= (visual==0)?8:(visual->depth!=32)?0:8,
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
 
