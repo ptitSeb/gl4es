@@ -206,67 +206,66 @@ struct __GLXFBConfigRec {
 };
 typedef struct __GLXFBConfigRec *GLXFBConfig;
 #ifndef ANDROID
-GLXContext glXCreateContext(Display *dpy,
+GLXContext gl4es_glXCreateContext(Display *dpy,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool direct);
 
-GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
+GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
                                       GLXContext share_context, Bool direct,
                                       const int *attrib_list);
 
-void glXSwapIntervalEXT(Display *display, int drawable, int interval);
+void gl4es_glXSwapIntervalEXT(Display *display, int drawable, int interval);
 #endif //ANDROID
-void glXSwapIntervalMESA(int interval);
-void glXSwapIntervalSGI(int interval);
+void gl4es_glXSwapInterval(int interval);
 
 // GLX 1.1?
 #ifndef ANDROID
-Bool glXIsDirect(Display * display, GLXContext ctx);
-Bool glXMakeCurrent(Display *display, int drawable, GLXContext context);
-Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase);
-Bool glXQueryVersion(Display *display, int *major, int *minor);
-const char *glXGetClientString(Display *display, int name);
-const char *glXQueryExtensionsString(Display *display, int screen);
-const char *glXQueryServerString(Display *display, int screen, int name);
+Bool gl4es_glXIsDirect(Display * display, GLXContext ctx);
+Bool gl4es_glXMakeCurrent(Display *display, int drawable, GLXContext context);
+Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase);
+Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor);
+const char *gl4es_glXGetClientString(Display *display, int name);
+const char *gl4es_glXQueryExtensionsString(Display *display, int screen);
+const char *gl4es_glXQueryServerString(Display *display, int screen, int name);
 #endif //ANDROID
-GLXDrawable glXGetCurrentDrawable();
+GLXDrawable gl4es_glXGetCurrentDrawable();
 #ifndef ANDROID
-int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
-void glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
-void glXDestroyContext(Display *display, GLXContext ctx);
-void glXSwapBuffers(Display *display, int drawable);
-void glXUseXFont(Font font, int first, int count, int listBase);
+int gl4es_glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
+void gl4es_glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
+void gl4es_glXDestroyContext(Display *display, GLXContext ctx);
+void gl4es_glXSwapBuffers(Display *display, int drawable);
+void gl4es_glXUseXFont(Font font, int first, int count, int listBase);
 #endif //ANDROID
-void glXWaitGL();
-void glXWaitX();
+void gl4es_glXWaitGL();
+void gl4es_glXWaitX();
 #ifndef ANDROID
-XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes);
-int glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value);
+XVisualInfo *gl4es_glXChooseVisual(Display *display, int screen, int *attributes);
+int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value);
 
 // GLX 1.2
-Display *glXGetCurrentDisplay();
+Display *gl4es_glXGetCurrentDisplay();
 
 // GLX 1.3
-GLXContext glXGetCurrentContext();
-XVisualInfo *glXGetVisualFromFBConfig(Display *display, GLXFBConfig config);
-GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count);
-GLXFBConfig *glXGetFBConfigs(Display *display, int screen, int *count);
-int glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value);
-int glXQueryContext(Display *display, GLXContext ctx, int attribute, int *value);
-GLXFBConfig *glXChooseFBConfigSGIX(Display *display, int screen, const int *attrib_list, int *count);
+GLXContext gl4es_glXGetCurrentContext();
+XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config);
+GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count);
+GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count);
+int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value);
+int gl4es_glXQueryContext(Display *display, GLXContext ctx, int attribute, int *value);
+GLXFBConfig *gl4es_glXChooseFBConfigSGIX(Display *display, int screen, const int *attrib_list, int *count);
 
-Window glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
-void glXDestroyWindow(Display *display, void *win);
+Window gl4es_glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list);
+void gl4es_glXDestroyWindow(Display *display, void *win);
 
-Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);
-GLXContext glXCreateNewContext(Display *display, GLXFBConfig config, int render_type, GLXContext share_list, Bool is_direct);
+Bool gl4es_glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context);
+GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config, int render_type, GLXContext share_list, Bool is_direct);
 
-void glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf);
-GLXPbuffer glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list);
+void gl4es_glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf);
+GLXPbuffer gl4es_glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int * attrib_list);
 
-GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list);
-void glXDestroyPixmap(Display *display, void *pixmap);
-GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
-void glXDestroyGLXPixmap(Display *display, void *pixmap);
+GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list);
+void gl4es_glXDestroyPixmap(Display *display, void *pixmap);
+GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
+void gl4es_glXDestroyGLXPixmap(Display *display, void *pixmap);
 #endif //ANDROID
