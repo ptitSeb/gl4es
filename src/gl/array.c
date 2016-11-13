@@ -10,7 +10,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
     if (! stride)
         stride = width * gl_sizeof(from);
 
-    const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
+    const char *unknown_str = "LIBGL: copy_gl_array -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     if (to_width < width) {
@@ -73,7 +73,7 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
     if (! stride)
         stride = width * gl_sizeof(from);
 
-    const char *unknown_str = "libGL: copy_gl_array -> unknown type: %x\n";
+    const char *unknown_str = "LIBGL: copy_gl_array -> unknown type: %x\n";
     GLvoid *dst = (dest)?dest:malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_elem = gl_sizeof(to);
@@ -140,7 +140,7 @@ GLvoid *copy_gl_array_quickconvert(const GLvoid *src,
                           
     if (! stride)
         stride = 4 * gl_sizeof(from);
-    const char *unknown_str = "libGL: copy_gl_array_quickconvert -> unknown type: %x\n";
+    const char *unknown_str = "LIBGL: copy_gl_array_quickconvert -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * 4 * gl_sizeof(GL_FLOAT));
 
     uintptr_t in = (uintptr_t)src;
@@ -176,7 +176,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
 						  
     if (! stride)
         stride = width * gl_sizeof(from);
-    const char *unknown_str = "libGL: copy_gl_array_convert -> unknown type: %x\n";
+    const char *unknown_str = "LIBGL: copy_gl_array_convert -> unknown type: %x\n";
     GLvoid *dst = malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     if (to_width < width) {
@@ -286,7 +286,7 @@ GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
             buf[i] = 0;
         },
         default:
-            printf("libGL: unknown pointer type: 0x%x\n", p->type);
+            printf("LIBGL: unknown pointer type: 0x%x\n", p->type);
     )
     return buf;
 }
@@ -335,4 +335,31 @@ void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei co
     for (int i = 0; i < count; i++) {
         indices[i] -= *min;
     }
+}
+
+GLvoid *copy_gl_pointer_color_bgra(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+	// this one only convert from BGRA (unsigned byte) to RGBA FLOAT
+    GLubyte* src = (GLubyte*)ptr->pointer;
+    int stride = ptr->stride;
+
+    if (! src || !(count-skip))
+        return NULL;
+						  
+    if (! stride)
+        stride = 4;
+
+    void* out = malloc(4*sizeof(GLfloat)*(count-skip));
+    GLfloat* dst = out;
+    src += skip*(stride);
+
+    for (int i=skip; i<count; i++) {
+        const GLubyte b = src[0], g = src[1], r = src[2], a = src[3];
+        *dst++ = r*(1.0f/255.0f);
+        *dst++ = g*(1.0f/255.0f);
+        *dst++ = b*(1.0f/255.0f);
+        *dst++ = a*(1.0f/255.0f);
+        src+=stride;
+    }
+
+    return out;
 }

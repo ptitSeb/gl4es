@@ -353,10 +353,16 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 		list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count);
 	}
 	if (glstate->vao->color_array) {
-		list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
+        if(glstate->vao->pointers.color.size==GL_BGRA)
+            list->color = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, skip, count);
+        else
+		    list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
 	}
 	if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
-		list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
+        if(glstate->vao->pointers.secondary.size==GL_BGRA)
+            list->secondary = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, skip, count);
+        else
+		    list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
 	}
 	if (glstate->vao->normal_array) {
 		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
@@ -656,11 +662,19 @@ void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_gl
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
 void gl4es_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+    if(size<1 || size>4) {
+        errorShim(GL_INVALID_VALUE);
+		return;
+    }
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.vertex, size);
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+	if (!((size>0 && size<=4) || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
+        errorShim(GL_INVALID_VALUE);
+		return;
+    }
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.color, size);
 }
@@ -670,13 +684,19 @@ void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+    if(size<1 || size>4) {
+        errorShim(GL_INVALID_VALUE);
+		return;
+    }
     noerrorShim();
     clone_gl_pointer(glstate->vao->pointers.tex_coord[glstate->texture.client], size);
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
-	if (size!=3)
+	if (!(size==3 || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
+        errorShim(GL_INVALID_VALUE);
 		return;		// Size must be 3...
+    }
     clone_gl_pointer(glstate->vao->pointers.secondary, size);
     noerrorShim();
 }

@@ -589,19 +589,17 @@ void blitMainFBO() {
         LOAD_GLES(glTexCoordPointer);
         LOAD_GLES(glDrawArrays);
         LOAD_GLES(glOrthof);
-        LOAD_GLES(glPushMatrix);
-        LOAD_GLES(glPopMatrix);
         
         gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 
         gl4es_glMatrixMode(GL_TEXTURE);
-        gles_glPushMatrix();
+        gl4es_glPushMatrix();
         gl4es_glLoadIdentity();
         gl4es_glMatrixMode(GL_PROJECTION);
-        gles_glPushMatrix();
+        gl4es_glPushMatrix();
         gl4es_glLoadIdentity();
         gl4es_glMatrixMode(GL_MODELVIEW);
-        gles_glPushMatrix();
+        gl4es_glPushMatrix();
         gl4es_glLoadIdentity();
         GLfloat vert[] = {
             -1, -1,
@@ -660,11 +658,11 @@ void blitMainFBO() {
         // All the previous states are Pushed / Poped anyway...
         gl4es_glPopClientAttrib();
         gl4es_glMatrixMode(GL_MODELVIEW);
-        gles_glPopMatrix();
+        gl4es_glPopMatrix();
         gl4es_glMatrixMode(GL_PROJECTION);
-        gles_glPopMatrix();
+        gl4es_glPopMatrix();
         gl4es_glMatrixMode(GL_TEXTURE);
-        gles_glPopMatrix();
+        gl4es_glPopMatrix();
         gl4es_glPopAttrib();
     }
     #endif
