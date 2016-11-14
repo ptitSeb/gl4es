@@ -62,7 +62,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glXCopyContext);
     _EX(glXCreateContext);
     _EX(glXCreateNewContext);
-	_EX(glXCreateContextAttribsARB);
+    _EX(glXCreateContextAttribsARB);
     _EX(glXDestroyContext);
     _EX(glXGetConfig);
     _EX(glXGetCurrentDisplay);
@@ -193,31 +193,16 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
         STUB(glDrawBuffersARB);
     }
     
-        /*
-    MAP_EGL(glGenFramebuffersARB, glGenFramebuffersOES);
-    MAP_EGL(glDeleteFramebuffersARB, glDeleteFramebuffersOES);
-    MAP_EGL(glBindFramebufferARB, glBindFramebufferOES);
-    MAP_EGL(glFramebufferRenderbufferARB, glFramebufferRenderbufferOES);
-    MAP_EGL(glFramebufferTexture2DARB, glFramebufferTexture2DOES);
-    MAP_EGL(glIsFramebufferARB, glIsFramebufferOES);
-    MAP_EGL(glGenRenderbuffersARB, glGenRenderbuffersOES);
-    MAP_EGL(glDeleteRenderbuffersARB, glDeleteRenderbuffersOES);
-    MAP_EGL(glCheckFramebufferStatusARB, glCheckFramebufferStatusOES);
-    MAP_EGL(glRenderbufferStorageARB, glRenderbufferStorageOES);
-    MAP_EGL(glBindRenderbufferARB, glBindRenderbufferOES);
-    MAP_EGL(glIsRenderbufferARB, glIsRenderbufferOES);
-    */
-
     // GL_EXT_vertex_array
     _EXT(glArrayElement);
     _EXT(glDrawArrays);
     _EXT(glVertexPointer);
     _EXT(glNormalPointer);
     _EXT(glColorPointer);
-    _EX(glIndexPointer);	//TODO, stub for now
+    _EX(glIndexPointer);    //TODO, stub for now
     _EXT(glIndexPointer);
     _EXT(glTexCoordPointer);
-    _EX(glEdgeFlagPointer);	//TODO, stub for now
+    _EX(glEdgeFlagPointer); //TODO, stub for now
     _EXT(glEdgeFlagPointer);
     _EX(glGetPointerv);
     _EXT(glGetPointerv);
@@ -485,13 +470,13 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glCopyTexSubImage1D);
     _EX(glTranslated);
     _EXT(glUnlockArrays);
-	_EX(glGetTexGenfv);
+    _EX(glGetTexGenfv);
     _EX(glGetTexGendv);
     _EX(glGetTexGeniv);
-	_EX(glLoadTransposeMatrixf);
-	_EX(glLoadTransposeMatrixd);
-	_EX(glMultTransposeMatrixd);
-	_EX(glMultTransposeMatrixf);
+    _EX(glLoadTransposeMatrixf);
+    _EX(glLoadTransposeMatrixd);
+    _EX(glMultTransposeMatrixd);
+    _EX(glMultTransposeMatrixf);
     // stubs for unimplemented functions
     STUB(glAccum);
     STUB(glAreTexturesResident);
@@ -602,16 +587,16 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glMultiTexImage3D);
     _EX(glMultiTexSubImage3D);
     _EX(glCopyMultiTexSubImage3D);
-    STUB(EnableClientStateIndexedEXT);
-    STUB(DisableClientStateIndexedEXT);
-    STUB(GetFloatIndexedvEXT);
-    STUB(GetDoubleIndexedvEXT);
-    STUB(GetPointerIndexedvEXT);
-    STUB(EnableIndexedEXT);
-    STUB(DisableIndexedEXT);
-    STUB(IsEnabledIndexedEXT);
-    STUB(GetIntegerIndexedvEXT);
-    STUB(GetBooleanIndexedvEXT);
+    _EX(glEnableClientStateIndexedEXT);
+    _EX(glDisableClientStateIndexedEXT);
+    _EX(glGetFloatIndexedvEXT);
+    _EX(glGetDoubleIndexedvEXT);
+    _EX(glGetIntegerIndexedvEXT);
+    _EX(glGetBooleanIndexedvEXT);
+    _EX(glGetPointerIndexedvEXT);
+    _EX(glEnableIndexedEXT);
+    _EX(glDisableIndexedEXT);
+    _EX(glIsEnabledIndexedEXT);
     _EX(glCompressedTextureImage3D);
     _EX(glCompressedTextureImage2D);
     _EX(glCompressedTextureImage1D);

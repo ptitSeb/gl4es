@@ -21,16 +21,16 @@ void gl4es_glClientAttribDefault(GLbitfield mask) {
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
         int client = glstate->texture.client;
         
-		enable_disable(GL_VERTEX_ARRAY, false);
-		enable_disable(GL_NORMAL_ARRAY, false);
-		enable_disable(GL_COLOR_ARRAY, false);
-		enable_disable(GL_SECONDARY_COLOR_ARRAY, false);
+        enable_disable(GL_VERTEX_ARRAY, false);
+        enable_disable(GL_NORMAL_ARRAY, false);
+        enable_disable(GL_COLOR_ARRAY, false);
+        enable_disable(GL_SECONDARY_COLOR_ARRAY, false);
         for (int a=0; a<MAX_TEX; a++) {
            gl4es_glClientActiveTexture(GL_TEXTURE0+a);
            enable_disable(GL_TEXTURE_COORD_ARRAY, false);
         }
 #undef enable_disable
-		if (glstate->texture.client != client) gl4es_glClientActiveTexture(GL_TEXTURE0+client);
+        if (glstate->texture.client != client) gl4es_glClientActiveTexture(GL_TEXTURE0+client);
     }
 }
 void gl4es_glPushClientAttribDefault(GLbitfield mask) {
@@ -341,6 +341,157 @@ void gl4es_glGetCompressedMultiTexImage(GLenum texunit, GLenum target, GLint lev
     text(glGetCompressedTexImage(target, level, img));
 }
 
+void gl4es_glEnableClientStateIndexedEXT(GLenum array, GLuint index) {
+    if (array == GL_TEXTURE_COORD_ARRAY) {
+        int old = glstate->texture.client;
+        if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+index);
+        gl4es_glEnableClientState(array);
+        if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+old);
+        errorGL();
+    } else {
+        errorShim(GL_INVALID_ENUM);
+    }
+}
+void gl4es_glDisableClientStateIndexedEXT(GLenum array, GLuint index) {
+    if (array == GL_TEXTURE_COORD_ARRAY) {
+        int old = glstate->texture.client;
+        if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+index);
+        gl4es_glDisableClientState(array);
+        if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+old);
+        errorGL();
+    } else {
+        errorShim(GL_INVALID_ENUM);
+    }
+}
+
+#define GETXXX(XXX, xxx) \
+void gl4es_glGet##XXX##IndexedvEXT(GLenum target, GLuint index, GL##xxx *data) { \
+    switch(target) { \
+     case GL_PROGRAM_MATRIX_EXT: \
+     case GL_TRANSPOSE_PROGRAM_MATRIX_EXT: \
+     case GL_PROGRAM_MATRIX_STACK_DEPTH_EXT: \
+        { \
+            int old = glstate->matrix_mode; \
+            gl4es_glMatrixMode(GL_MATRIX0_ARB+index); \
+            switch(target) { \
+             case GL_PROGRAM_MATRIX_EXT: \
+                gl4es_glGet##XXX##v(GL_CURRENT_MATRIX_ARB, data); \
+                break; \
+            case GL_TRANSPOSE_PROGRAM_MATRIX_EXT: \
+                gl4es_glGet##XXX##v(GL_TRANSPOSE_CURRENT_MATRIX_ARB, data); \
+                break; \
+            case GL_PROGRAM_MATRIX_STACK_DEPTH_EXT: \
+                gl4es_glGet##XXX##v(GL_CURRENT_MATRIX_STACK_DEPTH_ARB, data); \
+                break; \
+            } \
+            gl4es_glMatrixMode(old); \
+        } \
+        break; \
+        case GL_CURRENT_RASTER_TEXTURE_COORDS: \
+        case GL_CURRENT_TEXTURE_COORDS: \
+        case GL_TEXTURE_BINDING_1D: \
+        case GL_TEXTURE_BINDING_1D_ARRAY: \
+        case GL_TEXTURE_BINDING_2D: \
+        case GL_TEXTURE_BINDING_2D_ARRAY: \
+        case GL_TEXTURE_BINDING_3D: \
+        case GL_TEXTURE_BINDING_BUFFER_EXT: \
+        case GL_TEXTURE_BINDING_CUBE_MAP: \
+        case GL_TEXTURE_BINDING_RECTANGLE_ARB: \
+        case GL_TEXTURE_BUFFER_DATA_STORE_BINDING_EXT: \
+        case GL_TEXTURE_BUFFER_FORMAT_EXT: \
+        case GL_TEXTURE_GEN_Q: \
+        case GL_TEXTURE_GEN_R: \
+        case GL_TEXTURE_GEN_S: \
+        case GL_TEXTURE_GEN_T: \
+        case GL_TEXTURE_MATRIX: \
+        case GL_TEXTURE_STACK_DEPTH: \
+        case GL_TRANSPOSE_TEXTURE_MATRIX: \
+        case GL_TEXTURE_1D: \
+        case GL_TEXTURE_2D: \
+        case GL_TEXTURE_3D: \
+        case GL_TEXTURE_CUBE_MAP: \
+        case GL_TEXTURE_RECTANGLE_ARB: \
+        { \
+            int old = glstate->texture.active; \
+            if(old!=index+GL_TEXTURE0) gl4es_glActiveTexture(index+GL_TEXTURE0); \
+            gl4es_glGet##XXX##v(target, data); \
+            if(old!=index+GL_TEXTURE0) gl4es_glActiveTexture(old); \
+        } \
+        break; \
+        case GL_TEXTURE_COORD_ARRAY: \
+        case GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING: \
+        case GL_TEXTURE_COORD_ARRAY_COUNT: \
+        case GL_TEXTURE_COORD_ARRAY_SIZE: \
+        case GL_TEXTURE_COORD_ARRAY_STRIDE: \
+        case GL_TEXTURE_COORD_ARRAY_TYPE: \
+        { \
+            int old = glstate->texture.client; \
+            if(old!=index) gl4es_glClientActiveTexture(index+GL_TEXTURE0); \
+            gl4es_glGet##XXX##v(target, data); \
+            if(old!=index) gl4es_glClientActiveTexture(old+GL_TEXTURE0); \
+        } \
+        break; \
+        default: \
+            gl4es_glGet##XXX##v(target, data); \
+    } \
+}
+
+GETXXX(Float, float);
+GETXXX(Double, double);
+GETXXX(Integer, int);
+GETXXX(Boolean, boolean);
+#undef GETXXX
+
+void gl4es_glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) {
+    int old = glstate->texture.client;
+    if(old!=index) gl4es_glClientActiveTexture(index+GL_TEXTURE0);
+    gl4es_glGetPointerv(pname, params);
+    if(old!=index) gl4es_glClientActiveTexture(old+GL_TEXTURE0);
+    
+}
+
+void gl4es_glEnableIndexedEXT(GLenum cap, GLuint index) {
+    int old = glstate->texture.active;
+    if(old!=index) gl4es_glActiveTexture(index+GL_TEXTURE0);
+    gl4es_glEnable(cap);
+    if(old!=index) gl4es_glActiveTexture(old);
+}
+
+void gl4es_glDisableIndexedEXT(GLenum cap, GLuint index) {
+    int old = glstate->texture.active;
+    if(old!=index) gl4es_glActiveTexture(index+GL_TEXTURE0);
+    gl4es_glDisable(cap);
+    if(old!=index) gl4es_glActiveTexture(old);
+}
+
+GLboolean gl4es_glIsEnabledIndexedEXT(GLenum cap, GLuint index) {
+    int old;
+    GLboolean rv;
+    switch(cap) {
+        case GL_TEXTURE_1D:
+        case GL_TEXTURE_2D:
+        case GL_TEXTURE_3D:
+        case GL_TEXTURE_CUBE_MAP:
+        case GL_TEXTURE_RECTANGLE_ARB:
+        case GL_TEXTURE_GEN_S:
+        case GL_TEXTURE_GEN_T:
+        case GL_TEXTURE_GEN_R:
+        case GL_TEXTURE_GEN_Q:
+            old = glstate->texture.active;
+            if(old!=index) gl4es_glActiveTexture(index+GL_TEXTURE0);
+            rv = gl4es_glIsEnabled(cap);
+            if(old!=index) gl4es_glActiveTexture(old);
+            return rv;
+        case GL_TEXTURE_COORD_ARRAY:
+            old = glstate->texture.client;
+            if(old!=index) gl4es_glClientActiveTexture(index+GL_TEXTURE0);
+            rv = gl4es_glIsEnabled(cap);
+            if(old!=index) gl4es_glClientActiveTexture(old+GL_TEXTURE0);
+            return rv;
+    }
+    return gl4es_glIsEnabled(cap);
+}
+
 //EXT wrapper
 void glClientAttribDefaultEXT(GLbitfield mask) AliasExport("gl4es_glClientAttribDefault");
 void glPushClientAttribDefaultEXT(GLbitfield mask) AliasExport("gl4es_glPushClientAttribDefault");
@@ -434,6 +585,15 @@ void glMatrixLoadTransposefEXT(GLenum matrixMode, const GLfloat *m) AliasExport(
 void glMatrixLoadTransposedEXT(GLenum matrixMode, const GLdouble *m) AliasExport("gl4es_glMatrixLoadTransposed");
 void glMatrixMultTransposefEXT(GLenum matrixMode, const GLfloat *m) AliasExport("gl4es_glMatrixMultTransposef");
 void glMatrixMultTransposedEXT(GLenum matrixMode, const GLdouble *m) AliasExport("gl4es_glMatrixMultTransposed");
-
+void glEnableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glEnableClientStateIndexedEXT");
+void glDisableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glDisableClientStateIndexedEXT");
+void glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) AliasExport("gl4es_glGetPointerIndexedvEXT");
+void glGetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat *data) AliasExport("gl4es_glGetFloatIndexedvEXT");
+void glGetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble *data) AliasExport("gl4es_glGetDoubleIndexedvEXT");
+void glGetIntegerIndexedvEXT(GLenum target, GLuint index, GLint *data) AliasExport("gl4es_glGetIntegerIndexedvEXT");
+void glGetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean *data) AliasExport("gl4es_glGetBooleanIndexedvEXT");
+void glEnableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glEnableIndexedEXT");
+void glDisableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glDisableIndexedEXT");
+GLboolean glIsEnabledIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glIsEnabledIndexedEXT");
 #undef text
 #undef texc

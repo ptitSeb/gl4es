@@ -103,4 +103,18 @@ void gl4es_glMatrixLoadTransposed(GLenum matrixMode, const GLdouble *m);
 void gl4es_glMatrixMultTransposef(GLenum matrixMode, const GLfloat *m);
 void gl4es_glMatrixMultTransposed(GLenum matrixMode, const GLdouble *m);
 
+void gl4es_glEnableClientStateIndexedEXT(GLenum array, GLuint index);
+void gl4es_glDisableClientStateIndexedEXT(GLenum array, GLuint index);
+
+void gl4es_glGetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat *data);
+void gl4es_glGetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble *data);
+void gl4es_glGetIntegerIndexedvEXT(GLenum target, GLuint index, GLint *data);
+void gl4es_glGetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean *data);
+
+void gl4es_glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params);
+
+void gl4es_glEnableIndexedEXT(GLenum cap, GLuint index);
+void gl4es_glDisableIndexedEXT(GLenum cap, GLuint index);
+GLboolean gl4es_glIsEnabledIndexedEXT(GLenum cap, GLuint index);
+
 #endif
