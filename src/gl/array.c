@@ -352,14 +352,29 @@ GLvoid *copy_gl_pointer_color_bgra(pointer_state_t *ptr, GLsizei width, GLsizei 
     GLfloat* dst = out;
     src += skip*(stride);
 
+    static const float d = 1.0f/255.0f;
     for (int i=skip; i<count; i++) {
+        #ifdef __ARM_NEON__
+        int lsrc = *(int*)src;
+        lsrc = (lsrc&0xff00ff00) | ((lsrc&0x00ff0000)>>16) | ((lsrc&0x000000ff)<<16);
+        asm volatile (
+        "vmov           s12, %1              \n\t"   // because you cannot vmovl.u8 d6, s11
+        "vmovl.u8       q3, d6               \n\t"   // Expand to 16-bit (so unsetuped s13 is expanded in d7)
+        "vmovl.u16      q3, d6               \n\t"   // Expand to 32-bit, ignoring expanded d7
+        "vcvt.f32.u32   q3, q3               \n\t"   // Convert to float
+        "vmul.f32       q3, q3, %y2          \n\t"   // Normlize
+        "vst1.f32       {q3}, [%0]!          \n\t"   // Store, next
+        :"+r"(dst) :"w"(lsrc), "w"(d)
+        : "q3", "memory"
+        );
+        #else
         const GLubyte b = src[0], g = src[1], r = src[2], a = src[3];
-        *dst++ = r*(1.0f/255.0f);
-        *dst++ = g*(1.0f/255.0f);
-        *dst++ = b*(1.0f/255.0f);
-        *dst++ = a*(1.0f/255.0f);
+        *dst++ = r*d;
+        *dst++ = g*d;
+        *dst++ = b*d;
+        *dst++ = a*d;
+        #endif
         src+=stride;
     }
-
     return out;
 }
