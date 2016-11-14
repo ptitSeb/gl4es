@@ -395,7 +395,6 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glGetTexImage);
     _EX(glGetTexLevelParameterfv);
     _EX(glGetTexLevelParameteriv);
-    _EX(glGetTexGendv);
     _EX(glInitNames);
     _EX(glInterleavedArrays);
     _EX(glIsList);
@@ -419,6 +418,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glMapGrid2d);
     _EX(glMapGrid2f);
     _EX(glMateriali);
+    _EX(glMaterialiv);
     _EX(glMultMatrixd);
     _EX(glNewList);
     _EX(glOrtho);
@@ -486,6 +486,8 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glTranslated);
     _EXT(glUnlockArrays);
 	_EX(glGetTexGenfv);
+    _EX(glGetTexGendv);
+    _EX(glGetTexGeniv);
 	_EX(glLoadTransposeMatrixf);
 	_EX(glLoadTransposeMatrixd);
 	_EX(glMultTransposeMatrixd);
@@ -495,21 +497,16 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     STUB(glAreTexturesResident);
     STUB(glClearAccum);
     STUB(glColorMaterial);
-    STUB(glCopyTexImage3D);
     _EX(glCopyTexSubImage3D);   // It's a stub, calling the 2D one
     STUB(glFeedbackBuffer);
     STUB(glGetClipPlane);
-    STUB(glGetLightiv);
-    STUB(glGetMaterialiv);
+    _EX(glGetLightiv);
+    _EX(glGetMaterialiv);
     STUB(glGetPixelMapfv);
     STUB(glGetPixelMapuiv);
     STUB(glGetPixelMapusv);
     STUB(glGetPolygonStipple);
     STUB(glGetStringi);
-    STUB(glGetTexGendv);
-    //STUB(glGetTexGenfv);
-    STUB(glGetTexGeniv);    //TODO
-    STUB(glMaterialiv);     //TODO
     STUB(glPassThrough);
     STUB(glPixelMapfv);
     STUB(glPixelMapuiv);
