@@ -371,6 +371,10 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glEvalCoord1f);
     _EX(glEvalCoord2d);
     _EX(glEvalCoord2f);
+    _EX(glEvalCoord1dv);
+    _EX(glEvalCoord1fv);
+    _EX(glEvalCoord2dv);
+    _EX(glEvalCoord2fv);
     _EX(glEvalMesh1);
     _EX(glEvalMesh2);
     _EX(glEvalPoint1);
