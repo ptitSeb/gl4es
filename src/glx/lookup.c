@@ -395,6 +395,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _EX(glGetTexImage);
     _EX(glGetTexLevelParameterfv);
     _EX(glGetTexLevelParameteriv);
+    _EX(glGetTexGendv);
     _EX(glInitNames);
     _EX(glInterleavedArrays);
     _EX(glIsList);
