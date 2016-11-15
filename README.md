@@ -222,6 +222,10 @@ Version history
 ----
 
 ##### Current version
+ * Added LIBGL_NOTEXMAT env. var. switch for Texture Matrix handling
+ * Added GL_EXT_vertex_array_bgra (and NEONinzed some loop)
+ * Finished GL_EXT_direct_state_access extension
+ * Mangled glX function (to be abble to use apitrace to capture GL frames)
  * Return some values in glXQueryServerString, coherent with glXGetClientString
 
 ##### 0.9.2
