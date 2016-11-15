@@ -249,6 +249,8 @@ void initialize_gl4es() {
         globals4es.queries = 0;
         SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
     }
+
+    env(LIBGL_NOTEXMAT, globals4es.texmat, "Don't handle Texture Matrice internaly");
      
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

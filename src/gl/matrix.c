@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include "gl.h"
+#include "init.h"
 #include "debug.h"
 
 //#define DEBUG
@@ -49,7 +50,7 @@ static int send_to_hardware() {
 		case GL_MODELVIEW:
 			return 1;
 		case GL_TEXTURE:
-			return 0;
+			return (globals4es.texmat)?1:0;
 	}
 	return 0;
 }

@@ -84,7 +84,7 @@ void tex_setup_texcoord(GLuint len) {
     int changes = 0;
     if ((glstate->texture.rect_arb[texunit]) 
         || (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
-        )) || !glstate->texture_matrix[texunit]->identity 
+        )) || !(globals4es.texmat || glstate->texture_matrix[texunit]->identity) 
         )
         changes = 1;
     if (changes) {
@@ -99,7 +99,7 @@ void tex_setup_texcoord(GLuint len) {
         if ((glstate->texture.rect_arb[texunit]))
             tex_coord_rect_arb(tex[texunit], len, bound->width, bound->height);
         // Apply transformation matrix if any
-        if (!glstate->texture_matrix[texunit]->identity)
+        if (!(globals4es.texmat || glstate->texture_matrix[texunit]->identity))
             tex_coord_matrix(tex[texunit], len, getTexMat(texunit));
         // NPOT adjust
         if (bound && ((bound->width!=bound->nwidth) || (bound->height!=bound->nheight)))

@@ -36,6 +36,7 @@ typedef struct _globals4es {
 #ifdef PANDORA
  float gamma;
 #endif
+ int texmat;
  char version[50];
 } globals4es_t;
 

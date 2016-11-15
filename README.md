@@ -206,6 +206,11 @@ Expose glQueries functions
  * 0 : Don't expose the function (fake one will be used if called)
  * 1 : Default, expose fake functions (always answer 0)
 
+##### LIBGL_NOTEXMAT
+Handling of Texture Matrix
+ * 0 : Default, perform handling internaly (better handling of NPOT texture on all hardware)
+ * 1 : Let the driver handle texmat (can be faster in some cases, but NPOT texture may be broken)
+
 ##### LIBGL_NOTEST
 Initial Hardware test
  * 0 : Default, perform intial hardware testing (using a PBuffer)

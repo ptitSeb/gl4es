@@ -936,12 +936,12 @@ void draw_renderlist(renderlist_t *list) {
 		}         
         // adjust the tex_coord now if needed, even on texgened ones
         gltexture_t *bound = glstate->texture.bound[a];
-        if((list->tex[a] || use_texgen[a]) && ((!glstate->texture_matrix[a]->identity) || (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
+        if((list->tex[a] || use_texgen[a]) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
             if(!use_texgen[a]) {
                 RS(a, list->len);
                 memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
             }
-            if (!glstate->texture_matrix[a]->identity)
+            if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
                 tex_coord_matrix(texgened[a], list->len, getTexMat(a));
             if ((bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
                 tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
