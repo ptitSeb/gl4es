@@ -11,6 +11,7 @@ link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
+option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 
 option(USE_DRAWTEX "Set to ON to use the glDrawTexiOES extension" ${USE_DRAWTEX})
 
@@ -29,6 +30,11 @@ endif()
 
 if(ODROID)
     add_definitions(-DODROID)
+endif()
+
+if(CHIP)
+    add_definitions(-DCHIP)
+    add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
 endif()
 
 if(USE_DRAWTEX)
