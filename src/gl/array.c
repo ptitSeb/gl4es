@@ -364,7 +364,7 @@ GLvoid *copy_gl_pointer_color_bgra(pointer_state_t *ptr, GLsizei width, GLsizei 
         "vcvt.f32.u32   q3, q3               \n\t"   // Convert to float
         "vmul.f32       q3, q3, %y2          \n\t"   // Normlize
         "vst1.f32       {q3}, [%0]!          \n\t"   // Store, next
-        :"+r"(dst) :"w"(lsrc), "w"(d)
+        :"+r"(dst) :"r"(lsrc), "w"(d)
         : "q3", "memory"
         );
         #else
