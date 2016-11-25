@@ -59,9 +59,7 @@ typedef struct _glstack_t {
     GLboolean normalize;
     GLboolean polygon_offset_fill;
     GLboolean stencil_test;
-    GLboolean texture_1d[MAX_TEX];
-    GLboolean texture_2d[MAX_TEX];
-    GLboolean texture_3d[MAX_TEX];
+    GLuint    tex_enabled[MAX_TEX];
     GLboolean texgen_s[MAX_TEX];
     GLboolean texgen_r[MAX_TEX];
     GLboolean texgen_t[MAX_TEX];
@@ -129,7 +127,7 @@ typedef struct _glstack_t {
     GLenum stencil_dppass;
 
     // GL_TEXTURE_BIT
-    GLint texture[MAX_TEX];
+    GLint texture[MAX_TEX][ENABLED_TEXTURE_LAST];
     texgen_state_t texgen[MAX_TEX];
     GLint active;
 

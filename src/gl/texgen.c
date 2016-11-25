@@ -259,7 +259,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
     // special case: SPHERE_MAP needs both texgen to make sense
     if ((glstate->enable.texgen_s[texture] && (glstate->texgen[texture].S==GL_SPHERE_MAP)) && (glstate->enable.texgen_t[texture] && (glstate->texgen[texture].T==GL_SPHERE_MAP)))
     {
-        if (!glstate->enable.texture_2d[texture])
+        if (!IS_TEX2D(glstate->enable.texture[texture]))
             return;
         if ((*coords)==NULL) 
             *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
@@ -271,7 +271,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (glstate->enable.texgen_t[texture] && (glstate->texgen[texture].T==GL_REFLECTION_MAP))
      && (glstate->enable.texgen_r[texture] && (glstate->texgen[texture].R==GL_REFLECTION_MAP)))
     {
-        if (!glstate->enable.texture_2d[texture])
+        if (!IS_TEX2D(glstate->enable.texture[texture]))
             return;
         if ((*coords)==NULL) 
             *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
@@ -301,7 +301,7 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
             
         return;
     }
-    if (!glstate->enable.texture_2d[texture])
+    if (!IS_ANYTEX(glstate->enable.texture[texture]))
 	return;
     if ((*coords)==NULL) 
         *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));

@@ -20,12 +20,9 @@ typedef struct {
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
-              texgen_q[MAX_TEX],
-              texture_2d[MAX_TEX],
-              texture_3d[MAX_TEX],
-              texture_1d[MAX_TEX];
+              texgen_q[MAX_TEX];
+    GLuint    texture[MAX_TEX]; // flag
 } enable_state_t;
-
 
 typedef struct {
     GLenum S;
@@ -56,7 +53,7 @@ typedef struct {
     GLboolean pack_lsb_first;
     // TODO: do we only need to worry about GL_TEXTURE_2D?
     GLboolean rect_arb[MAX_TEX];
-    gltexture_t *bound[MAX_TEX];
+    gltexture_t *bound[MAX_TEX][ENABLED_TEXTURE_LAST];
     GLboolean pscoordreplace[MAX_TEX];
     khash_t(tex) *list;
     GLuint active;	// active texture

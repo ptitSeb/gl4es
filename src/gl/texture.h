@@ -93,6 +93,19 @@ void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat);
 
 int npot(int n);
 
+typedef enum {
+    ENABLED_TEX1D = 0,
+    ENABLED_TEX2D,
+    ENABLED_TEX3D,
+    ENABLED_CUBE_MAP_POSITIVE_X,
+    ENABLED_CUBE_MAP_NEGATIVE_X,
+    ENABLED_CUBE_MAP_POSITIVE_Y,
+    ENABLED_CUBE_MAP_NEGATIVE_Y,
+    ENABLED_CUBE_MAP_POSITIVE_Z,
+    ENABLED_CUBE_MAP_NEGATIVE_Z,
+    ENABLED_TEXTURE_LAST
+} texture_enabled_t;
+
 typedef struct {
     GLuint texture;
     GLuint glname;
@@ -138,11 +151,62 @@ static inline GLenum map_tex_target(GLenum target) {
 }
 gltexture_t* gl4es_getTexture(GLenum target, GLuint texture);
 
+static inline GLuint what_target(GLenum target) {
+    switch(target) {
+        case GL_TEXTURE_1D:
+            return ENABLED_TEX1D;
+        case GL_TEXTURE_3D:
+            return ENABLED_TEX3D;
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+            return ENABLED_CUBE_MAP_POSITIVE_X+(target-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+        case GL_TEXTURE_RECTANGLE_ARB:
+        case GL_TEXTURE_2D:
+        default:
+            return ENABLED_TEX2D;
+    }
+}
+static inline GLenum to_target(GLuint itarget) {
+    switch(itarget) {
+        case ENABLED_TEX1D:
+            return GL_TEXTURE_1D;
+        case ENABLED_TEX3D:
+            return GL_TEXTURE_3D;
+        case ENABLED_CUBE_MAP_POSITIVE_X:
+        case ENABLED_CUBE_MAP_NEGATIVE_X:
+        case ENABLED_CUBE_MAP_POSITIVE_Y:
+        case ENABLED_CUBE_MAP_NEGATIVE_Y:
+        case ENABLED_CUBE_MAP_POSITIVE_Z:
+        case ENABLED_CUBE_MAP_NEGATIVE_Z:
+            return GL_TEXTURE_CUBE_MAP_POSITIVE_X+(itarget-ENABLED_CUBE_MAP_POSITIVE_X);
+        case ENABLED_TEX2D:
+        default:
+            return GL_TEXTURE_2D;
+    }
+}
+#define IS_TEX2D(T) (T&(1<<ENABLED_TEX2D))
+#define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)))
+
+static inline GLint get_target(GLuint enabled) {
+    if(!enabled)
+        return -1;
+    GLint itarget = ENABLED_TEX2D;
+    if(enabled!=(1<<itarget))
+        for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
+            if(enabled & (1<<j))
+                itarget = j;
+    return itarget;
+}
+
 void gl4es_glActiveTexture( GLenum texture );
 void gl4es_glClientActiveTexture( GLenum texture );
 void gl4es_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
 GLboolean gl4es_glIsTexture( GLuint texture );
 
-void tex_setup_texcoord(GLuint len);
+void tex_setup_texcoord(GLuint len, GLuint texture);
 
 #endif

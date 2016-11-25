@@ -106,9 +106,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
         cur->stencil_test = gl4es_glIsEnabled(GL_STENCIL_TEST);
         int a;
         for (a=0; a<hardext.maxtex; a++) {
-            cur->texture_1d[a] = glstate->enable.texture_1d[a];
-            cur->texture_2d[a] = glstate->enable.texture_2d[a];
-            cur->texture_3d[a] = glstate->enable.texture_3d[a];
+            cur->tex_enabled[a] = glstate->enable.texture[a];
             cur->texgen_s[a] = glstate->enable.texgen_s[a];
             cur->texgen_r[a] = glstate->enable.texgen_r[a];
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
@@ -248,7 +246,8 @@ void gl4es_glPushAttrib(GLbitfield mask) {
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
             cur->texgen[a] = glstate->texgen[a];   // all mode and planes per texture in 1 line
-	        cur->texture[a] = (glstate->texture.bound[a])?glstate->texture.bound[a]->texture:0;
+            for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
+	            cur->texture[a][j] = (glstate->texture.bound[a][j])?glstate->texture.bound[a][j]->texture:0;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
     }
@@ -426,18 +425,15 @@ void gl4es_glPopAttrib() {
         int a;
         int old_tex = glstate->texture.active;
         for (a=0; a<hardext.maxtex; a++) {
-			if (glstate->enable.texture_1d[a] != cur->texture_1d[a]) {
-				gl4es_glActiveTexture(GL_TEXTURE0+a);
-				enable_disable(GL_TEXTURE_1D, cur->texture_1d[a]);
-			}
-			if (glstate->enable.texture_2d[a] != cur->texture_2d[a]) {
-				gl4es_glActiveTexture(GL_TEXTURE0+a);
-				enable_disable(GL_TEXTURE_2D, cur->texture_2d[a]);
-			}
-			if (glstate->enable.texture_3d[a] != cur->texture_3d[a]) {
-				gl4es_glActiveTexture(GL_TEXTURE0+a);
-				enable_disable(GL_TEXTURE_3D, cur->texture_3d[a]);
-			}
+            if(glstate->enable.texture[a] != cur->tex_enabled[a]) {
+                gl4es_glActiveTexture(GL_TEXTURE0+a);
+                for (int j=0; j<ENABLED_TEXTURE_LAST; j++) {
+                    const GLuint t = cur->tex_enabled[a] & (1<<j);
+                    if ((glstate->enable.texture[a] & (1<<j)) != t) {
+                        enable_disable(to_target(j), t); 
+                    }
+                }
+            }
             glstate->enable.texgen_r[a] = cur->texgen_r[a];
             glstate->enable.texgen_s[a] = cur->texgen_s[a];
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
@@ -552,10 +548,11 @@ void gl4es_glPopAttrib() {
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
-			if ((cur->texture[a]==0 && glstate->texture.bound[a] != 0) || (cur->texture[a]!=0 && glstate->texture.bound[a]==0)) {
-			   gl4es_glActiveTexture(GL_TEXTURE0+a);
-			   gl4es_glBindTexture(GL_TEXTURE_2D, cur->texture[a]);
-			}
+            for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
+                if ((cur->texture[a][j]==0 && glstate->texture.bound[a][j] != 0) || (cur->texture[a][j]!=0 && glstate->texture.bound[a][j]==0)) {
+                gl4es_glActiveTexture(GL_TEXTURE0+a);
+                gl4es_glBindTexture(to_target(j), cur->texture[a][j]);
+                }
         }
         if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);
     }

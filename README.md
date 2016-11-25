@@ -226,6 +226,7 @@ Version history
 ----
 
 ##### Current version
+ * Improved Texture state tracking
  * Added LIBGL_NOTEXMAT env. var. switch for Texture Matrix handling
  * Added GL_EXT_vertex_array_bgra (and NEONinzed some loop)
  * Finished GL_EXT_direct_state_access extension

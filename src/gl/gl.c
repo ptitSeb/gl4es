@@ -180,19 +180,29 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     
     // Alpha Hack
     if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
-        if (glstate->texture.bound[glstate->texture.active])
-            if (!glstate->texture.bound[glstate->texture.active]->alpha)
+        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
+            if (!glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->alpha)
                 enable = false;
     }
 	noerrorShim();
 #ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG)
-        glstate->enable.texture_2d[glstate->texture.active] = enable;
+        if(enable)
+            glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
+        else
+            glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
 #endif
     switch (cap) {
         enable(GL_AUTO_NORMAL, auto_normal);
         proxy_enable(GL_BLEND, blend);
-        proxy_enable(GL_TEXTURE_2D, texture_2d[glstate->texture.active]);
+        case GL_TEXTURE_2D:
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
+            next(cap);
+            break;
+
         enable(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
         enable(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
         enable(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
@@ -213,8 +223,34 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         clientenable(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
         
         // Texture 1D and 3D
-        enable(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
-        enable(GL_TEXTURE_3D, texture_3d[glstate->texture.active]);
+        case GL_TEXTURE_1D:
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX1D);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX1D);
+            break;
+        case GL_TEXTURE_3D:
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX3D);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
+            break;
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+            {
+                GLuint itarget=ENABLED_CUBE_MAP_POSITIVE_X+(cap-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+                if(enable)
+                    glstate->enable.texture[glstate->texture.active] |= (1<<itarget);
+                else
+                    glstate->enable.texture[glstate->texture.active] &= ~(1<<itarget);
+            }
+            next(cap);
+            break;
+
         
         default: errorGL(); next(cap); break;
     }
@@ -239,7 +275,7 @@ int Cap2BatchState(GLenum cap) {
 void gl4es_glEnable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
-        if (which_cap!=ENABLED_LAST) {
+        if (which_cap<ENABLED_LAST) {
             if ((glstate->statebatch.enabled[which_cap] == 1))
                 return; // nothing to do...
             if (glstate->statebatch.enabled[which_cap])
@@ -250,8 +286,8 @@ void gl4es_glEnable(GLenum cap) {
 	PUSH_IF_COMPILING(glEnable)
         
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate->texture.bound[glstate->texture.active])
-			if (glstate->texture.bound[glstate->texture.active]->streamed)
+		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
+			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
 
@@ -263,7 +299,7 @@ void glEnable(GLenum cap) AliasExport("gl4es_glEnable");
 void gl4es_glDisable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
-        if (which_cap!=ENABLED_LAST) {
+        if (which_cap<ENABLED_LAST) {
             if ((glstate->statebatch.enabled[which_cap] == 2))
                 return; // nothing to do...
             if (glstate->statebatch.enabled[which_cap])
@@ -274,8 +310,8 @@ void gl4es_glDisable(GLenum cap) {
 	PUSH_IF_COMPILING(glDisable)
         
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate->texture.bound[glstate->texture.active])
-			if (glstate->texture.bound[glstate->texture.active]->streamed)
+		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
+			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
 
@@ -324,8 +360,19 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
 		isenabled(GL_COLOR_SUM, color_sum);
         isenabled(GL_POINT_SPRITE, pointsprite);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        isenabled(GL_TEXTURE_1D, texture_1d[glstate->texture.active]);
-        isenabled(GL_TEXTURE_3D, texture_3d[glstate->texture.active]);
+        case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
+        case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);
+        case GL_TEXTURE_3D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX3D);
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+            {
+                GLuint itarget=ENABLED_CUBE_MAP_POSITIVE_X+(cap-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+                return glstate->enable.texture[glstate->texture.active]&(1<<itarget);
+            }
         clientisenabled(GL_VERTEX_ARRAY, vertex_array);
         clientisenabled(GL_NORMAL_ARRAY, normal_array);
         clientisenabled(GL_COLOR_ARRAY, color_array);
@@ -378,7 +425,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 static inline bool should_intercept_render(GLenum mode) {
     // check bounded tex that will be used if one need some transformations
     for (int aa=0; aa<hardext.maxtex; aa++) {
-        if (glstate->enable.texture_2d[aa] || glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa]) {
+        if (glstate->enable.texture[aa]) {
             if ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa]))
                 return true;
         }
@@ -519,13 +566,17 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    TEXTURE(aa);
-                    gles_glEnable(GL_TEXTURE_2D);
-                }
-                if (glstate->vao->tex_coord_array[aa]) {
-                    TEXTURE(aa);
-                    tex_setup_texcoord(len);
+                // get 1st enabled target
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget>=0) {
+                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D) {
+                        TEXTURE(aa);
+                        gles_glEnable(GL_TEXTURE_2D);
+                    }
+                    if (glstate->vao->tex_coord_array[aa]) {
+                        TEXTURE(aa);
+                        tex_setup_texcoord(len, itarget);
+                    }
                 }
             }
 			if (glstate->texture.client!=old_tex)
@@ -534,7 +585,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
 			for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
@@ -626,16 +677,20 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
             for (int aa=0; aa<MAX_TEX; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
-                    TEXTURE(aa);
-                    gles_glEnable(GL_TEXTURE_2D);
+                // get 1st enabled target
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if(itarget>=0) {
+                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D) {
+                        TEXTURE(aa);
+                        gles_glEnable(GL_TEXTURE_2D);
+                    }
+                    if (glstate->vao->tex_coord_array[aa]) {
+                        TEXTURE(aa);
+                        tex_setup_texcoord(count+first, itarget);
+                        /*glClientActiveTexture(aa+GL_TEXTURE0);
+                        gles_glTexCoordPointer(glstate->pointers.tex_coord[aa].size, glstate->pointers.tex_coord[aa].type, glstate->pointers.tex_coord[aa].stride, glstate->pointers.tex_coord[aa].pointer);*/
+                    }
                 }
-				if (glstate->vao->tex_coord_array[aa]) {
-                    TEXTURE(aa);
-                    tex_setup_texcoord(count+first);
-					/*glClientActiveTexture(aa+GL_TEXTURE0);
-					gles_glTexCoordPointer(glstate->pointers.tex_coord[aa].size, glstate->pointers.tex_coord[aa].type, glstate->pointers.tex_coord[aa].stride, glstate->pointers.tex_coord[aa].pointer);*/
-				}
             }
 			if (glstate->texture.client!=old_tex)
 				TEXTURE(old_tex);
@@ -643,7 +698,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			gles_glDrawArrays(mode, first, count);
 			
 			for (int aa=0; aa<MAX_TEX; aa++) {
-                if (!glstate->enable.texture_2d[aa] && (glstate->enable.texture_1d[aa] || glstate->enable.texture_3d[aa])) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
@@ -822,7 +877,7 @@ void gl4es_glEnd() {
     if (!glstate->list.active) return;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<MAX_TEX; a++)
-		if (glstate->enable.texture_2d[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
+		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // render if we're not in a display list
     if (!(glstate->list.compiling || glstate->gl_batch)) {

@@ -186,8 +186,8 @@ GLuint raster_to_texture()
 	gl4es_glGetIntegerv(GL_ACTIVE_TEXTURE, &old_tex_unit);
 	if (old_tex_unit!=GL_TEXTURE0) gl4es_glActiveTexture(GL_TEXTURE0);
 	old_tex = 0;
-	if (glstate->texture.bound[0])
-		old_tex = glstate->texture.bound[0]->texture;
+	if (glstate->texture.bound[0][ENABLED_TEX2D])
+		old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->texture;
 	GLuint raster_texture;
 	gl4es_glEnable(GL_TEXTURE_2D);
 	gles_glGenTextures(1, &raster_texture);
@@ -423,7 +423,7 @@ void render_raster_list(rasterlist_t* rast) {
         #ifdef USE_DRAWTEX
         gl4es_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
         
-        gltexture_t *old_bind = glstate->texture.bound[0];
+        gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
         gl4es_glEnable(GL_TEXTURE_2D);
 		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
 
@@ -435,7 +435,7 @@ void render_raster_list(rasterlist_t* rast) {
 		}
         
         gles_glDrawTexf(glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig, glstate->raster.rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
-        if (!glstate->enable.texture_2d[0]) gl4es_glDisable(GL_TEXTURE_2D);
+        if (!IS_TEX2D(glstate->enable.texture[0])) gl4es_glDisable(GL_TEXTURE_2D);
 		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
         if (old_bind == NULL) 
