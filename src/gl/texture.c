@@ -702,7 +702,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 			if (bound->streamingID>-1) {	// success
 				bound->streamed = true;
 				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
-				GLboolean tmp = glstate->enable.texture_2d[glstate->texture.active];
+				GLboolean tmp = IS_TEX2D(glstate->enable.texture[glstate->texture.active]);
 				LOAD_GLES(glDisable);
 				LOAD_GLES(glEnable);
 				if (tmp)
