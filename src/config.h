@@ -35,6 +35,9 @@
 
 #define skip_glFogfv
 
+#define skip_glPointParameterfv
+#define skip_glPointParameterf
+
 //#define skip_glBlendEquation
 #define skip_glBlendEquationSeparate
 #define skip_glBlendEquationSeparatei

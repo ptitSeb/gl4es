@@ -50,6 +50,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->fog_op)
         return false;
+    if (list->pointparam_op)
+        return false;
     if (list->mode_init == 0)
         return false;
     if (list->set_texture || list->set_tmu)
@@ -769,6 +771,13 @@ void draw_renderlist(renderlist_t *list) {
                     break;
             }
         }
+        if (list->pointparam_op) {
+            switch (list->pointparam_op) {
+                case 1: // GL_POINT_DISTANCE_ATTENUATION 
+                    gl4es_glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION , list->pointparam_val);
+                    break;
+            }
+        }
         if (list->matrix_op) {
             switch (list->matrix_op) {
                 case 1: // load
@@ -1426,6 +1435,14 @@ void rlFogOp(renderlist_t *list, int op, const GLfloat* v) {
     list->fog_val[1] = v[1];
     list->fog_val[2] = v[2];
     list->fog_val[3] = v[3];
+}
+
+void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v) {
+    list->pointparam_op = op;
+    list->pointparam_val[0] = v[0];
+    list->pointparam_val[1] = v[1];
+    list->pointparam_val[2] = v[2];
+    list->pointparam_val[3] = v[3];
 }
 
 void rlPushCall(renderlist_t *list, packed_call_t *data) {

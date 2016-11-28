@@ -1532,6 +1532,30 @@ void gl4es_glPointParameteriv(GLenum pname, const GLint * params)
 }
 void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("gl4es_glPointParameteriv");
 
+void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
+    PUSH_IF_COMPILING(glPointParameterf);
+    LOAD_GLES(glPointParameterf);
+    gles_glPointParameterf(pname, param);
+}void glPointParameterf(GLenum pname, GLfloat param) AliasExport("gl4es_glPointParameterf");
+
+void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
+{
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if (pname == GL_POINT_DISTANCE_ATTENUATION) {
+            NewStage(glstate->list.active, STAGE_POINTPARAM);
+            rlPointParamOp(glstate->list.active, 1, params);
+            return;
+        } else {
+            gl4es_glPointParameterf(pname, params[0]);
+            return;
+        }
+    }
+    LOAD_GLES(glPointParameterfv);
+
+    gles_glPointParameterfv(pname, params);
+}
+void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
+
 
 
 void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
