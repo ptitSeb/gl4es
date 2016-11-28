@@ -362,7 +362,7 @@ GLvoid *copy_gl_pointer_color_bgra(pointer_state_t *ptr, GLsizei width, GLsizei 
         "vmovl.u8       q3, d6               \n\t"   // Expand to 16-bit (so unsetuped s13 is expanded in d7)
         "vmovl.u16      q3, d6               \n\t"   // Expand to 32-bit, ignoring expanded d7
         "vcvt.f32.u32   q3, q3               \n\t"   // Convert to float
-        "vmul.f32       q3, q3, %y2          \n\t"   // Normlize
+        "vmul.f32       q3, q3, %y2          \n\t"   // Normalize
         "vst1.f32       {q3}, [%0]!          \n\t"   // Store, next
         :"+r"(dst) :"r"(lsrc), "w"(d)
         : "q3", "memory"

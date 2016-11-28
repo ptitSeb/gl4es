@@ -142,6 +142,10 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     _ARB(glBindVertexArray);
     _ARB(glDeleteVertexArrays);
     _ARB(glIsVertexArray);
+    _EXT(glGenVertexArrays);
+    _EXT(glBindVertexArray);
+    _EXT(glDeleteVertexArrays);
+    _EXT(glIsVertexArray);
     
     // GL_ARB_frameBuffer_ext
     if(hardext.fbo) {
