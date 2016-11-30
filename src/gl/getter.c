@@ -124,6 +124,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
                 "GL_ARB_draw_buffers ");
         if(hardext.pointsprite)
             strcat(extensions, "GL_ARB_point_sprite ");
+        if(hardext.cubemap)
+            strcat(extensions, "GL_ARB_texture_cube_map ");
 	}
     switch (name) {
         case GL_VERSION:

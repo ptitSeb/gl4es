@@ -97,12 +97,7 @@ typedef enum {
     ENABLED_TEX1D = 0,
     ENABLED_TEX2D,
     ENABLED_TEX3D,
-    ENABLED_CUBE_MAP_POSITIVE_X,
-    ENABLED_CUBE_MAP_NEGATIVE_X,
-    ENABLED_CUBE_MAP_POSITIVE_Y,
-    ENABLED_CUBE_MAP_NEGATIVE_Y,
-    ENABLED_CUBE_MAP_POSITIVE_Z,
-    ENABLED_CUBE_MAP_NEGATIVE_Z,
+    ENABLED_CUBE_MAP,
     ENABLED_TEXTURE_LAST
 } texture_enabled_t;
 
@@ -157,13 +152,14 @@ static inline GLuint what_target(GLenum target) {
             return ENABLED_TEX1D;
         case GL_TEXTURE_3D:
             return ENABLED_TEX3D;
+        case GL_TEXTURE_CUBE_MAP:
         case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
         case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
         case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-            return ENABLED_CUBE_MAP_POSITIVE_X+(target-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+            return ENABLED_CUBE_MAP;
         case GL_TEXTURE_RECTANGLE_ARB:
         case GL_TEXTURE_2D:
         default:
@@ -176,13 +172,8 @@ static inline GLenum to_target(GLuint itarget) {
             return GL_TEXTURE_1D;
         case ENABLED_TEX3D:
             return GL_TEXTURE_3D;
-        case ENABLED_CUBE_MAP_POSITIVE_X:
-        case ENABLED_CUBE_MAP_NEGATIVE_X:
-        case ENABLED_CUBE_MAP_POSITIVE_Y:
-        case ENABLED_CUBE_MAP_NEGATIVE_Y:
-        case ENABLED_CUBE_MAP_POSITIVE_Z:
-        case ENABLED_CUBE_MAP_NEGATIVE_Z:
-            return GL_TEXTURE_CUBE_MAP_POSITIVE_X+(itarget-ENABLED_CUBE_MAP_POSITIVE_X);
+        case ENABLED_CUBE_MAP:
+            return GL_TEXTURE_CUBE_MAP;
         case ENABLED_TEX2D:
         default:
             return GL_TEXTURE_2D;

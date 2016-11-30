@@ -445,7 +445,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->texture:0, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->streamed:0, glstate->list.compiling);
+    //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->texture:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed:0, glstate->list.compiling);
     // proxy case
     if (target == GL_PROXY_TEXTURE_2D || target == GL_PROXY_TEXTURE_1D || target == GL_PROXY_TEXTURE_3D) {
         proxy_width = ((width<<level)>(globals4es.texshrink>=8)?8192:2048)?0:width;
@@ -822,7 +822,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if (bound && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto)))
                 gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_TRUE );
             else {
-                gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
+                if(itarget!=ENABLED_CUBE_MAP) gles_glTexParameteri( target, GL_GENERATE_MIPMAP, GL_FALSE );
                 if ((bound) && (bound->mipmap_need)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
@@ -900,7 +900,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-    //printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active]->texture);
+    //printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->texture);
     if (width==0 || height==0) {
         glstate->gl_batch = old_glbatch;
         return;

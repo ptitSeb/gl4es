@@ -225,7 +225,8 @@ Initial Hardware test
 Version history
 ----
 
-##### Current version
+##### 0.9.3
+ * Added support for Cube Mapping (with hardware support)
  * Improved Texture state tracking
  * Added LIBGL_NOTEXMAT env. var. switch for Texture Matrix handling
  * Added GL_EXT_vertex_array_bgra (and NEONinzed some loop)

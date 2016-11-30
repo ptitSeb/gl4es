@@ -18,6 +18,13 @@ const char* PrintEnum(GLenum what) {
         p(GL_PROXY_TEXTURE_3D);
         p(GL_READ_FRAMEBUFFER);
         p(GL_DRAW_FRAMEBUFFER);
+        p(GL_TEXTURE_CUBE_MAP);
+        p(GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+        p(GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+        p(GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+        p(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+        p(GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+        p(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
         // format
         p(GL_RED);
         p(GL_R);

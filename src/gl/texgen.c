@@ -1,4 +1,7 @@
 #include "texgen.h"
+#include "init.h"
+#include "matrix.h"
+#include "../glx/hardext.h"
 
 //extern void* eglGetProcAddress(const char*);
 
@@ -271,11 +274,35 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (glstate->enable.texgen_t[texture] && (glstate->texgen[texture].T==GL_REFLECTION_MAP))
      && (glstate->enable.texgen_r[texture] && (glstate->texgen[texture].R==GL_REFLECTION_MAP)))
     {
-        if (!IS_TEX2D(glstate->enable.texture[texture]))
-            return;
-        if ((*coords)==NULL) 
-            *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
-        reflection_loop(verts, norm, *coords, (indices)?ilen:count, indices);
+        if(hardext.cubemap) {
+            *needclean=1;
+            // setup reflection map!
+            GLuint old_tex=glstate->texture.active;
+            if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + texture);
+            LOAD_GLES_OES(glTexGeni);
+            LOAD_GLES_OES(glTexGenfv);
+            LOAD_GLES(glEnable);
+            // setup cube map mode
+            gles_glTexGeni(GL_TEXTURE_GEN_STR, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP);
+            // enable texgen
+            gles_glEnable(GL_TEXTURE_GEN_STR);
+            // check Texture Matrix
+            if (!(globals4es.texmat || glstate->texture_matrix[texture]->identity)) {
+                LOAD_GLES(glLoadMatrixf);
+                GLenum old_mat = glstate->matrix_mode;
+                if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(GL_TEXTURE);
+                gles_glLoadMatrixf(getTexMat(texture));
+                if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(old_mat);
+            }
+
+            if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
+        } else {
+            if (!IS_TEX2D(glstate->enable.texture[texture]))
+                return;
+            if ((*coords)==NULL) 
+                *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
+            reflection_loop(verts, norm, *coords, (indices)?ilen:count, indices);
+        }
         return;
     }
     // special case: NORMAL_MAP  needs the 3 texgen to make sense
@@ -284,18 +311,24 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
      && (glstate->enable.texgen_r[texture] && (glstate->texgen[texture].R==GL_NORMAL_MAP)))
     {
         *needclean=1;
-        // setup reflection map!
+        // setup normal map!
         GLuint old_tex=glstate->texture.active;
         if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + texture);
         LOAD_GLES_OES(glTexGeni);
         LOAD_GLES_OES(glTexGenfv);
         LOAD_GLES(glEnable);
         // setup cube map mode
-        gles_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
-        gles_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
-        gles_glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
+        gles_glTexGeni(GL_TEXTURE_GEN_STR, GL_TEXTURE_GEN_MODE, GL_NORMAL_MAP);
         // enable texgen
         gles_glEnable(GL_TEXTURE_GEN_STR);
+        // check Texture Matrix
+        if (!(globals4es.texmat || glstate->texture_matrix[texture]->identity)) {
+            LOAD_GLES(glLoadMatrixf);
+            GLenum old_mat = glstate->matrix_mode;
+            if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(GL_TEXTURE);
+            gles_glLoadMatrixf(getTexMat(texture));
+            if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(old_mat);
+        }
 
         if (old_tex!=texture) gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
             
@@ -332,6 +365,14 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		GLuint old_tex=glstate->texture.active;
 		LOAD_GLES(glDisable);
 		gles_glDisable(GL_TEXTURE_GEN_STR);
+        // check Texture Matrix
+        if (!(globals4es.texmat || glstate->texture_matrix[texture]->identity)) {
+            LOAD_GLES(glLoadIdentity);
+            GLenum old_mat = glstate->matrix_mode;
+            if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(GL_TEXTURE);
+            gles_glLoadIdentity();
+            if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(old_mat);
+        }
 		return;
 	}
 }

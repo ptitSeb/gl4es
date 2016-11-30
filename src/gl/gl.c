@@ -235,19 +235,11 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
             break;
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-            {
-                GLuint itarget=ENABLED_CUBE_MAP_POSITIVE_X+(cap-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-                if(enable)
-                    glstate->enable.texture[glstate->texture.active] |= (1<<itarget);
-                else
-                    glstate->enable.texture[glstate->texture.active] &= ~(1<<itarget);
-            }
+        case GL_TEXTURE_CUBE_MAP:
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
             next(cap);
             break;
 
@@ -363,16 +355,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);
         case GL_TEXTURE_3D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX3D);
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
-        case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
-        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-            {
-                GLuint itarget=ENABLED_CUBE_MAP_POSITIVE_X+(cap-GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-                return glstate->enable.texture[glstate->texture.active]&(1<<itarget);
-            }
+        case GL_TEXTURE_CUBE_MAP: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_CUBE_MAP);
         clientisenabled(GL_VERTEX_ARRAY, vertex_array);
         clientisenabled(GL_NORMAL_ARRAY, normal_array);
         clientisenabled(GL_COLOR_ARRAY, color_array);
