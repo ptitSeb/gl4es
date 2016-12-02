@@ -32,7 +32,7 @@ void load_libs();
 void glx_init();
 
 #ifdef NO_INIT_CONSTRUCTOR
-__attribute((visibility("default")))
+__attribute__((visibility("default")))
 #else
 __attribute__((constructor))
 #endif

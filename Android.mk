@@ -13,7 +13,6 @@ LOCAL_MODULE := GL
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES) -DBCMHOST
-#LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES) -DNO_INIT_CONSTRUCTOR
 
 LOCAL_SRC_FILES := \
 	src/gl/array.c \
@@ -52,6 +51,7 @@ LOCAL_SRC_FILES := \
 	src/glx/streaming.c \
 
 LOCAL_CFLAGS += -g -std=c99 -funwind-tables -O3 -DBCMHOST -fvisibility=hidden -include include/android_debug.h
+#LOCAL_CFLAGS += -DNO_INIT_CONSTRUCTOR
 
 LOCAL_LDLIBS := -ldl -llog
 
