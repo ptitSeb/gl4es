@@ -25,6 +25,12 @@ int npot(int n) {
     return i;
 }
 
+static int inline nlevel(int size, int level) {
+    size>>=level;
+    if(!size) size=1;
+    return size;
+}
+
 // conversions for GL_ARB_texture_rectangle
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height) {
@@ -1463,9 +1469,9 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 	switch (pname) {
 		case GL_TEXTURE_WIDTH:
 			if (target==GL_PROXY_TEXTURE_2D)
-				(*params) = proxy_width>>level;
+				(*params) = nlevel(proxy_width,level);
 			else
-				(*params) = ((bound)?bound->width:2048)>>level;
+				(*params) = nlevel((bound)?bound->width:2048,level);
             /*if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
                 if (*params<4)      // minimum size of a compressed block is 4
                     *params = 0;
@@ -1476,9 +1482,9 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 			break;
 		case GL_TEXTURE_HEIGHT: 
 			if (target==GL_PROXY_TEXTURE_2D)
-				(*params) = proxy_height>>level;
+				(*params) = nlevel(proxy_height,level);
 			else
-				(*params) = ((bound)?bound->height:2048)>>level; 
+				(*params) = nlevel((bound)?bound->height:2048,level); 
             /*if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
                 if (*params<4)      // minimum size of a compressed block is 4
                     *params = 0;
@@ -1535,9 +1541,8 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 			break;
 		case GL_TEXTURE_COMPRESSED_IMAGE_SIZE:
             if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
-                int w = (bound->width>>level)>>2;
-                int h = (bound->height>>level)>>2;
-                if(!w) w=1; if(!h) h=1;   //DXT works on 4x4 blocks...
+                int w = nlevel((bound->width>>level),2); //DXT works on 4x4 blocks...
+                int h = nlevel((bound->height>>level),2);
                 w<<=2; h<<=2;
                 if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=8) for a 4x4 block
                     (*params) = (w*h)/2;
@@ -1586,8 +1591,8 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
             pixel_halfscale(tmp, &tmp2, width, height, format, type);
             free(tmp);
             tmp = tmp2;
-            if(width>1) width>>=1;
-            if(height>1) height>>=1;
+            width = nlevel(width, 1);
+            height = nlevel(height, 1);
         }
         memcpy(img, tmp, width*height*pixel_sizeof(format, type));
         free(tmp);
@@ -2042,12 +2047,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if (internalformat==GL_RGBA8)
         internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
     // test if internalformat is not a compressed one
-    if (level != 0) {
-		noerrorShim();
-	    //TODO
-	    //printf("STUBBED glCompressedTexImage2D with level=%i\n", level);
-	    //return;
-    }
     if ((width<=0) || (height<=0)) {
         noerrorShim();
         return; // nothing to do...
@@ -2114,7 +2113,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 		gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		gl4es_glTexImage2D(target, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width>>fact, height>>fact, border, format, type, half);
+		gl4es_glTexImage2D(target, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, nlevel(width,fact), nlevel(height,fact), border, format, type, half);
         // re-update bounded texture info
         bound->compressed = true;
         bound->internalformat = internalformat;
@@ -2219,10 +2218,10 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
         return;
     if(bound->orig_internal!=GL_COMPRESSED_RGB && bound->orig_internal!=GL_COMPRESSED_RGBA)
         return;
-    int width = bound->width>>lod; if(!width) ++width;
-    int height = bound->height>>lod; if(!height) ++height;
-    int w = (width>>2); if(!w) ++w; w<<=2;
-    int h = (height>>2); if(!h) ++h; h<<=2;
+    int width = nlevel(bound->width,lod);
+    int height = nlevel(bound->height,lod);
+    int w = nlevel(width,2); w<<=2;
+    int h = nlevel(height,2); h<<=2;
 
     int alpha = (bound->orig_internal==GL_COMPRESSED_RGBA)?1:0;
 
