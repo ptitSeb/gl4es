@@ -1021,8 +1021,8 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
                  GLuint width, GLuint height,
                  GLenum format, GLenum type) {
     GLuint pixel_size, new_width, new_height;
-    new_width = width / 2; if(new_width==0) new_width=1;
-    new_height = height / 2; if(new_height==0) new_height==1;
+    new_width = width / 2; if(!new_width) ++new_width;
+    new_height = height / 2; if(!new_height) ++new_height;
 /*    if (new_width*2!=width || new_height*2!=height) {
         printf("LIBGL: halfscaling %ux%u failed\n", width, height);
         return false;
@@ -1037,16 +1037,18 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
     dst = malloc(pixel_size * new_width * new_height);
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
+    const int dx = (width>1)?1:0;
+    const int dy = (height>1)?1:0;
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             pix0 = src + ((x * 2) +
                           (y * 2) * width) * pixel_size;
-            pix1 = src + ((x * 2 + 1) +
+            pix1 = src + ((x * 2 + dx) +
                           (y * 2) * width) * pixel_size;
             pix2 = src + ((x * 2) +
-                          (y * 2 + 1) * width) * pixel_size;
-            pix3 = src + ((x * 2 + 1) +
-                          (y * 2 + 1) * width) * pixel_size;
+                          (y * 2 + dy) * width) * pixel_size;
+            pix3 = src + ((x * 2 + dx) +
+                          (y * 2 + dy) * width) * pixel_size;
             half_pixel((GLvoid *)pix0, (GLvoid *)pix1, (GLvoid *)pix2, (GLvoid *)pix3, (GLvoid *)pos, src_color, type);
             pos += pixel_size;
         }
@@ -1059,8 +1061,8 @@ bool pixel_thirdscale(const GLvoid *old, GLvoid **new,
                  GLuint width, GLuint height,
                  GLenum format, GLenum type) {
     GLuint pixel_size, new_width, new_height, dest_size;
-    new_width = width / 2;
-    new_height = height / 2;
+    new_width = width / 2; if(!new_width) ++new_width;
+    new_height = height / 2; if(!new_height) ++new_height;
     if (new_width*2!=width || new_height*2!=height || format!=GL_RGBA || type!=GL_UNSIGNED_BYTE) {
         //printf("LIBGL: thirdscaling %ux%u failed\n", width, height);
         return false;
@@ -1076,17 +1078,19 @@ bool pixel_thirdscale(const GLvoid *old, GLvoid **new,
     dst = malloc(dest_size * new_width * new_height);
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
+    const int dx = (width>1)?1:0;
+    const int dy = (height>1)?1:0;
     GLubyte tmp[4];
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             pix0 = src + ((x * 2) +
                           (y * 2) * width) * pixel_size;
-            pix1 = src + ((x * 2 + 1) +
+            pix1 = src + ((x * 2 + dx) +
                           (y * 2) * width) * pixel_size;
             pix2 = src + ((x * 2) +
-                          (y * 2 + 1) * width) * pixel_size;
-            pix3 = src + ((x * 2 + 1) +
-                          (y * 2 + 1) * width) * pixel_size;
+                          (y * 2 + dy) * width) * pixel_size;
+            pix3 = src + ((x * 2 + dx) +
+                          (y * 2 + dy) * width) * pixel_size;
             half_pixel((GLvoid *)pix0, (GLvoid *)pix1, (GLvoid *)pix2, (GLvoid *)pix3, (GLvoid *)tmp, src_color, type);
             *((GLushort*)pos) = (((GLushort)tmp[0])&0xf0)<<8 | (((GLushort)tmp[1])&0xf0)<<4 | (((GLushort)tmp[2])&0xf0) | (((GLushort)tmp[3])>>4);
             pos += dest_size;
@@ -1100,8 +1104,8 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
                  GLuint width, GLuint height,
                  GLenum format, GLenum type) {
     GLuint pixel_size, new_width, new_height;
-    new_width = width / 4;
-    new_height = height / 4;
+    new_width = width / 4; if(!new_width) ++new_width;
+    new_height = height / 4; if(!new_height) ++new_height;
 /*    if (new_width*4!=width || new_height*4!=height) {
         printf("LIBGL: quarterscaling %ux%u failed\n", width, height);
         return false;
@@ -1116,12 +1120,14 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
     dst = malloc(pixel_size * new_width * new_height);
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
+    const int dxs[4] = {0, width>1?1:0, width>2?2:0, width>3?3:width>1?1:0};
+    const int dys[4] = {0, height>1?1:0, height>2?2:0, height>3?3:height>1?1:0};
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             for (int dx=0; dx<4; dx++) {
                 for (int dy=0; dy<4; dy++) {
-                    pix[dx+dy*4] = src + ((x * 4 + dx) +
-                                          (y * 4 + dy) * width) * pixel_size;
+                    pix[dx+dy*4] = src + ((x * 4 + dxs[dx]) +
+                                          (y * 4 + dys[dy]) * width) * pixel_size;
                 }
             }
             quarter_pixel((const GLvoid **)pix, (GLvoid *)pos, src_color, type);

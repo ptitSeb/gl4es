@@ -17,6 +17,7 @@
 #define GL_TEXTURE_GEN_T            0x0C61
 #define GL_TEXTURE_GEN_MODE         0x2500
 #define GL_TEXTURE_BORDER_COLOR     0x1004
+#define GL_TEXTURE_BORDER           0x1005
 #define GL_TEXTURE_WIDTH            0x1000
 #define GL_TEXTURE_HEIGHT           0x1001
 #define GL_TEXTURE_BORDER           0x1005

@@ -82,6 +82,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_WIDTH);
         p(GL_TEXTURE_HEIGHT);
         p(GL_TEXTURE_COMPRESSED);
+        p(GL_TEXTURE_BORDER);
+        p(GL_TEXTURE_INTERNAL_FORMAT);
         // texture pack/unpack
         p(GL_UNPACK_ALIGNMENT);
         // framebuffer

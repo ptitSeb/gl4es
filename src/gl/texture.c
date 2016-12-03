@@ -1466,33 +1466,33 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 				(*params) = proxy_width>>level;
 			else
 				(*params) = ((bound)?bound->width:2048)>>level;
-            if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
+            /*if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
                 if (*params<4)      // minimum size of a compressed block is 4
                     *params = 0;
             } else {
                 if (*params<=0)     // 1 is the minimum, not 0
                     *params = 1;
-            }
+            }*/
 			break;
 		case GL_TEXTURE_HEIGHT: 
 			if (target==GL_PROXY_TEXTURE_2D)
 				(*params) = proxy_height>>level;
 			else
 				(*params) = ((bound)?bound->height:2048)>>level; 
-            if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
+            /*if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
                 if (*params<4)      // minimum size of a compressed block is 4
                     *params = 0;
             } else {
                 if (*params<=0)      // 1 is the minimum, not 0, but only on uncompressed textures
                     *params = 1;
-            }
+            }*/
 			break;
 		case GL_TEXTURE_INTERNAL_FORMAT:
             if (target==GL_PROXY_TEXTURE_2D)
 				(*params) = proxy_intformat;
 			else {
                 if (bound && bound->compressed)
-                    (*params) = bound->format;
+                    (*params) = bound->internalformat;
                 else {
                     if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
                         if(bound->orig_internal==GL_COMPRESSED_RGB)
@@ -1535,9 +1535,10 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 			break;
 		case GL_TEXTURE_COMPRESSED_IMAGE_SIZE:
             if(bound && ((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA))) {
-                int w = bound->width>>level;
-                int h = bound->height>>level;
-                w = ((w>>2)+1) << 2; h = ((h>>2)+1) << 2;   //DXT works on 4x4 blocks...
+                int w = (bound->width>>level)>>2;
+                int h = (bound->height>>level)>>2;
+                if(!w) w=1; if(!h) h=1;   //DXT works on 4x4 blocks...
+                w<<=2; h<<=2;
                 if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=8) for a 4x4 block
                     (*params) = (w*h)/2;
                 else    //DXT5, 64+64 (i.e. size = 16) for a 4x4 block
@@ -1545,9 +1546,12 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
             } else
 			 (*params) = (bound)?(bound->width*bound->height*4):0;
 			break;
+        case GL_TEXTURE_BORDER:
+            (*params) = 0;
+            break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...
-			printf("Stubbed glGetTexLevelParameteriv(%04x, %i, %04x, %p)\n", target, level, pname, params);
+			printf("Stubbed glGetTexLevelParameteriv(%s, %i, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
 	}
 }
 
@@ -2102,6 +2106,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             bound->format = format; //internalformat;
             bound->type = type;
             bound->compressed = true;
+            bound->internalformat = internalformat;
         } else {
             fact = 0;
         }
@@ -2109,7 +2114,10 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 		gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
 		if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		gl4es_glTexImage2D(target, level, format, width>>fact, height>>fact, border, format, type, half);
+		gl4es_glTexImage2D(target, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width>>fact, height>>fact, border, format, type, half);
+        // re-update bounded texture info
+        bound->compressed = true;
+        bound->internalformat = internalformat;
 		if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
 		if (half!=pixels)
@@ -2120,6 +2128,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 	    bound->alpha = true;
         bound->format = internalformat;
         bound->type = GL_UNSIGNED_BYTE;
+        bound->internalformat = internalformat;
         bound->compressed = true;
 	    gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, datab);
 	}
@@ -2210,10 +2219,10 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
         return;
     if(bound->orig_internal!=GL_COMPRESSED_RGB && bound->orig_internal!=GL_COMPRESSED_RGBA)
         return;
-    int width = bound->width>>lod;
-    int height = bound->height>>lod;
-    int w = ((width>>2)+1)<<2;
-    int h = ((height>>2)+1)<<2;
+    int width = bound->width>>lod; if(!width) ++width;
+    int height = bound->height>>lod; if(!height) ++height;
+    int w = (width>>2); if(!w) ++w; w<<=2;
+    int h = (height>>2); if(!h) ++h; h<<=2;
 
     int alpha = (bound->orig_internal==GL_COMPRESSED_RGBA)?1:0;
 
