@@ -935,7 +935,7 @@ void draw_renderlist(renderlist_t *list) {
         old_tex = glstate->texture.client;
         GLuint cur_tex = old_tex;
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
-        GLint needclean[MAX_TEX];
+        GLint needclean[MAX_TEX] = {0};
         for (int a=0; a<hardext.maxtex; a++) {
             if(glstate->enable.texture[a]) {
                 const GLint itarget = get_target(glstate->enable.texture[a]);

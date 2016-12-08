@@ -56,6 +56,7 @@ static int send_to_hardware() {
 }
 
 void init_matrix(glstate_t* glstate) {
+DBG(printf("init_matrix(%p)\n", glstate);)
     alloc_matrix(&glstate->projection_matrix, MAX_STACK_PROJECTION);
     set_identity(TOP(projection_matrix));
 	glstate->projection_matrix->identity = 1;
@@ -93,7 +94,7 @@ DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
 	noerrorShim();
 	// go...
 	switch(matrix_mode) {
-		#define P(A, B) if(glstate->A->top<MAX_STACK_##B) { \
+		#define P(A, B) if(glstate->A->top+1<MAX_STACK_##B) { \
 			memcpy(TOP(A)+16, TOP(A), 16*sizeof(GLfloat)); \
 			glstate->A->top++; \
 		} else errorShim(GL_STACK_OVERFLOW)
