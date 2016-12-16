@@ -23,5 +23,7 @@
 #define GL_BATCH_HINT_GL4ES             0xA109
 // same as using LIBGL_NOERROR=x
 #define GL_NOERROR_HINT_GL4ES           0xA10A
+// same as using LIBGL_NODOWNSAMPLING=x
+#define GL_NODOWNSAMPLING_HINT_GL4ES	0xA10B
 
 #endif

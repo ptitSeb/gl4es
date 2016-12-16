@@ -134,6 +134,11 @@ Experimental: enable Alpha test only when using texture that contains an alpha c
  * 0 : Default, nothing special
  * 1 : Alpha Hack enabled
 
+##### LIBGL_NODOWNSAMPLING
+Texture downsampling control
+ * 0 : Default, DXTc texture are downsampled to 16bits
+ * 1 : DXTc texture are left as 32bits RGBA
+
 ##### LIBGL_STREAM
 PANDORA only: enable Texture Streaming (works only on RGB textures)
  * 0 : Default, nothing special
@@ -224,6 +229,9 @@ Initial Hardware test
 
 Version history
 ----
+
+##### current version
+ * Added LIBGL_NODOWNSAMPLING and associated Hint
 
 ##### 0.9.3
  * Added support for Cube Mapping (with hardware support)

@@ -257,6 +257,11 @@ void initialize_gl4es() {
         globals4es.queries = 0;
         SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
     }
+    char *env_nodownsampling = getenv("LIBGL_NODOWNSAMPLING");
+    if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
+        globals4es.nodownsampling = 1;
+        SHUT(LOGD("LIBGL: No downsampling of DXTc textures\n"));
+    }
 
     env(LIBGL_NOTEXMAT, globals4es.texmat, "Don't handle Texture Matrice internaly");
      

@@ -69,6 +69,12 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             else
                 errorShim(GL_INVALID_ENUM); 
             break;
+        case GL_NODOWNSAMPLING_HINT_GL4ES:
+            if (mode<=1)
+                globals4es.nodownsampling = mode;
+            else
+                errorShim(GL_INVALID_ENUM); 
+            break;
         default:
             errorGL();
             gles_glHint(pname, mode);
