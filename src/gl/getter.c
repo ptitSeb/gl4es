@@ -488,6 +488,9 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_NOERROR_HINT_GL4ES: 
             *params=globals4es.noerror;
             break;
+        case GL_NODOWNSAMPLING_HINT_GL4ES:
+            *params=globals4es.nodownsampling;
+            break;
         default:
             errorGL();
             gles_glGetFloatv(pname, params);
