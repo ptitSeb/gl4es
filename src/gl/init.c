@@ -258,7 +258,7 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Dont't expose fake glQueries functions\n"));
     }
     char *env_nodownsampling = getenv("LIBGL_NODOWNSAMPLING");
-    if (env_mipmap && strcmp(env_mipmap, "1") == 0) {
+    if (env_nodownsampling && strcmp(env_nodownsampling, "1") == 0) {
         globals4es.nodownsampling = 1;
         SHUT(LOGD("LIBGL: No downsampling of DXTc textures\n"));
     }
