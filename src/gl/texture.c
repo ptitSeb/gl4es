@@ -441,6 +441,86 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
     return sret;
 }
 
+static int get_shrinklevel(int width, int height, int level) {
+    int shrink = 0;
+    int mipwidth = width << level;
+    int mipheight = height << level;
+    switch(globals4es.texshrink) {
+        case 0: // nothing
+            break;
+        case 1: //everything / 2
+            if ((mipwidth > 1) && (mipheight > 1)) {
+                shrink = 1;
+            }
+            break;
+        case 2: //only > 512 /2
+        case 7: //only > 512 /2 , but not for empty texture
+            if (((mipwidth%2==0) && (mipheight%2==0)) && 
+                ((mipwidth > 512) && (mipheight > 8)) || ((mipheight > 512) && (mipwidth > 8))) {
+                shrink = 1;
+            }
+            break;
+        case 3: //only > 256 /2
+            if (((mipwidth%2==0) && (mipheight%2==0)) && 
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+                shrink = 1;
+            }
+            break;
+        case 4: //only > 256 /2, >=1024 /4
+        case 5: //every > 256 is downscaled to 256, but not for empty texture   (as there is no downscale stronger than 4, there are the same)
+            if (((mipwidth%4==0) && (mipheight%4==0)) && 
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+                if ((mipwidth>=1024) || (mipheight>=1024)) {
+                    shrink = 2;
+                } else {
+                    shrink = 1;
+                }
+            }
+            break;
+        case 6: //only > 128 /2, >=512 is downscaled to 256, but not for empty texture
+            if (((mipwidth%2==0) && (mipheight%2==0)) && 
+                ((mipwidth > 128) && (mipheight > 8)) || ((mipheight > 128) && (mipwidth > 8))) {
+                if (((mipwidth%2==0) && (mipheight%2==0)) && (mipwidth>=512) || (mipheight>=512)) {
+                    while (((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+                        width /= 2;
+                        height /= 2;
+                        mipwidth /= 2;
+                        mipheight /= 2;
+                        shrink+=1;
+                    }
+                } else {
+                    shrink = 1;
+                }
+            }
+            break;
+        case 8: //advertise 8192 max texture size, but >2048 are shrinked to 2048
+            if ((mipwidth>4096) || (mipheight>4096)) {
+                shrink=2;
+            } else
+            if ((mipwidth>2048) || (mipheight>2048)) {
+                shrink=1;
+            }
+            break;
+        case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture
+            if ((mipwidth>4096) || (mipheight>4096)) {
+                shrink=2;
+            } else
+            if ((mipwidth>512) || (mipheight>512)) {
+                shrink=1;
+            }
+            break;
+        case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture
+            if ((mipwidth>2048) || (mipheight>2048)) {
+                shrink=2;
+            } else
+            if ((mipwidth>512) || (mipheight>512)) {
+                shrink=1;
+            }
+            break;
+        }
+    return shrink;
+} 
+
 static int default_tex_mipmap = 0;
 
 static int proxy_width = 0;
@@ -493,6 +573,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
      }
+    // shrink checking
+    int mipwidth = width << level;
+    int mipheight = height << level;
+    int shrink = 0;
+    if(bound) {
+        bound->shrink = shrink = get_shrinklevel(width, height, level);
+    }
+    if(width>>shrink==0 && height>>shrink==0) return;   // nothing to do
      if (datab) {
 
         // implements GL_UNPACK_ROW_LENGTH
@@ -517,13 +605,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             free(old);
         }
 
-        if (bound) {
-        bound->shrink = 0;
-        switch(globals4es.texshrink) {
-            case 0: // nothing
+        if (bound && bound->shrink!=0) {
+            switch(globals4es.texshrink) {
+            case 0: // nothing ???
                 break;
             case 1: //everything / 2
-                if ((width > 1) && (height > 1)) {
+                if ((mipwidth > 1) && (mipheight > 1)) {
                     GLvoid *out = pixels;
                     GLfloat ratio = 0.5;
                     pixel_scale(pixels, &out, width, height, ratio, format, type);
@@ -535,163 +622,28 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     bound->shrink = 1;
                 }
                 break;
-            case 2: //only > 512 /2
-            case 7: //only > 512 /2 , but not for empty texture
-                if (((width%2==0) && (height%2==0)) && 
-                    ((width > 512) && (height > 8)) || ((height > 512) && (width > 8))) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink = 1;
-                }
-                break;
-            case 3: //only > 256 /2
-                if (((width%2==0) && (height%2==0)) && 
-                    ((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink = 1;
-                }
-                break;
-            case 4: //only > 256 /2, >=1024 /4
-            case 5: //every > 256 is downscaled to 256, but not for empty texture   (as there is no downscale stronger than 4, there are the same)
-                if (((width%4==0) && (height%4==0)) && 
-                    ((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
-                    if ((width>=1024) || (height>=1024)) {
+            default:
+                while(shrink) {
+                    if (shrink>1) { // quarterscale
                         GLvoid *out = pixels;
                         pixel_quarterscale(pixels, &out, width, height, format, type);
                         if (out != pixels && pixels!=datab)
                             free(pixels);
                         pixels = out;
-                        width /= 4;
-                        height /= 4;
-                        bound->shrink = 2;
-                    } else {
+                        width = nlevel(width, 2);
+                        height = nlevel(height, 2);
+                        shrink-=2;
+                    } else {    //halfscale
                         GLvoid *out = pixels;
                         pixel_halfscale(pixels, &out, width, height, format, type);
                         if (out != pixels && pixels!=datab)
                             free(pixels);
                         pixels = out;
-                        width /= 2;
-                        height /= 2;
-                        bound->shrink = 1;
+                        width = nlevel(width, 1);
+                        height = nlevel(height, 1);
+                        shrink--;
                     }
                 }
-                break;
-            /*case 5: //every > 256 is downscaled to 256, but not for empty texture
-                while (((width%2==0) && (height%2==0)) && 
-                    ((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink+=1;
-                }
-                break;*/
-            case 6: //only > 128 /2, >=512 is downscaled to 256, but not for empty texture
-                if (((width%2==0) && (height%2==0)) && 
-                    ((width > 128) && (height > 8)) || ((height > 128) && (width > 8))) {
-                    if (((width%2==0) && (height%2==0)) && (width>=512) || (height>=512)) {
-                        while (((width > 256) && (height > 8)) || ((height > 256) && (width > 8))) {
-                            GLvoid *out = pixels;
-                            pixel_halfscale(pixels, &out, width, height, format, type);
-                            if (out != pixels && pixels!=datab)
-                                free(pixels);
-                            pixels = out;
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink=1;
-                        }
-                    } else {
-                        GLvoid *out = pixels;
-                        pixel_halfscale(pixels, &out, width, height, format, type);
-                        if (out != pixels && pixels!=datab)
-                            free(pixels);
-                        pixels = out;
-                        width /= 2;
-                        height /= 2;
-                        bound->shrink = 1;
-                    }
-                }
-                break;
-            case 8: //advertise 8192 max texture size, but >2048 are shrinked to 2048
-                if ((width>4096) || (height>4096)) {
-                    GLvoid *out = pixels;
-                    pixel_quarterscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 4;
-                    height /= 4;
-                    bound->shrink=2;
-                } else
-                if ((width>2048) || (height>2048)) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink=1;
-                }
-                break;
-            case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture
-                if ((width>4096) || (height>4096)) {
-                    GLvoid *out = pixels;
-                    pixel_quarterscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 4;
-                    height /= 4;
-                    bound->shrink=2;
-                } else
-                if ((width>512) || (height>512)) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink=1;
-                }
-                break;
-            case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture
-                if ((width>2048) || (height>2048)) {
-                    GLvoid *out = pixels;
-                    pixel_quarterscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 4;
-                    height /= 4;
-                    bound->shrink=2;
-                } else
-                if ((width>512) || (height>512)) {
-                    GLvoid *out = pixels;
-                    pixel_halfscale(pixels, &out, width, height, format, type);
-                    if (out != pixels && pixels!=datab)
-                        free(pixels);
-                    pixels = out;
-                    width /= 2;
-                    height /= 2;
-                    bound->shrink=1;
-                }
-                break;
             }
         }
         
@@ -706,6 +658,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 		((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_BGR) || (internalformat==GL_RGB5)) || (globals4es.texstream==2) ) {
 			bound->streamingID = AddStreamed(width, height, bound->texture);
 			if (bound->streamingID>-1) {	// success
+                bound->shrink = 0;  // no shrink on Stream texture
 				bound->streamed = true;
 				ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
 				GLboolean tmp = IS_TEX2D(glstate->enable.texture[glstate->texture.active]);
@@ -722,62 +675,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 	    }
 #endif
 	    if (bound) {
-            bound->shrink = 0;
             if (!bound->streamed)
                 swizzle_texture(width, height, &format, &type, internalformat, new_format, NULL);	// convert format even if data is NULL
-            if ((globals4es.texshrink>0) && !bound->streamed) {
-                switch(globals4es.texshrink) {
-                    case 1: //everything / 2
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink = 1;
-                            break;
-                    case 2: //only > 512 /2
-                        if((width>512) || (height>512)) {
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink = 1;
-                        }
-                        break;
-                    case 3: //only > 256 /2
-                        if((width>256) || (height>256)) {
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink = 1;
-                        }
-                        break;
-                    case 4: //only > 256 /2, >=1024 /4
-                        if((width>1024) || (height>1024)) {
-                            width /= 4;
-                            height /= 4;
-                            bound->shrink = 2;
-                        } else if((width>256) || (height>256)) {
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink = 1;
-                        }
-                        break;
-                    case 5: //every > 256 is downscaled to 256, but not for empty texture
-                        break;
-                    case 6: //only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture
-                        break;
-                    case 7: //only > 512 /2, but not for empty texture
-                        break;
-                    case 8: //advertise 8192 max texture size, but >2048 are shrinked to 2048
-                    case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture (but >2048 are not supported anyway)
-                    case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture (but >2048 are not supported anyway)
-                        if((width>4096) || (height>4096)) {
-                            width /= 4;
-                            height /= 4;
-                            bound->shrink = 2;
-                        } else if((width>2048) || (height>2048)) {
-                            width /= 2;
-                            height /= 2;
-                            bound->shrink = 1;
-                        }                    
-                        break;
-                }
-            }
+            width = nlevel(width, bound->shrink);
+            height = nlevel(height, bound->shrink);
 	    }
 	}
     
@@ -1209,6 +1110,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->type = GL_UNSIGNED_BYTE;
         tex->orig_internal = GL_RGBA;
         tex->internalformat = GL_RGBA;
+        tex->shrink = 0;
         tex->data = NULL;
     } else {
         tex = kh_value(list, k);
@@ -1442,6 +1344,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 			tex->min_filter = tex->mag_filter = GL_NEAREST;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
+            tex->shrink = 0;
 			tex->data = NULL;
 		} else {
 			tex = kh_value(list, k);
