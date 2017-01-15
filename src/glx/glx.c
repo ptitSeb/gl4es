@@ -388,34 +388,58 @@ void glx_init() {
 #endif
 }
 
-#ifndef ANDROID	
+#ifndef ANDROID
+static XVisualInfo *latest_visual = NULL;
+static GLXFBConfig latest_glxfbconfig = NULL;
+
 GLXContext gl4es_glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-    DBG(printf("glXCreateContext(%p, %p, %p, %i)\n", display, visual, shareList, isDirect);)
+    DBG(printf("glXCreateContext(%p, %p, %p, %i), latest_visual=%p\n", display, visual, shareList, isDirect, latest_visual);)
+
+    static struct __GLXFBConfigRec default_glxfbconfig;
+    GLXFBConfig glxfbconfig;
+
+    if(visual==latest_visual)
+        glxfbconfig = latest_glxfbconfig;
+    else {
+        glxfbconfig = &default_glxfbconfig;
+        memset(glxfbconfig, 0, sizeof(struct __GLXFBConfigRec));
+        default_glxfbconfig.redBits = (visual==0)?0:(visual->depth==16)?5:8;
+        default_glxfbconfig.greenBits = (visual==0)?0:(visual->depth==16)?6:8;
+        default_glxfbconfig.blueBits = (visual==0)?0:(visual->depth==16)?5:8;
+        default_glxfbconfig.alphaBits = (visual==0)?0:(visual->depth!=32)?0:8;
+        default_glxfbconfig.depthBits = 16;
+        default_glxfbconfig.stencilBits = 8;
+    }
+
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
         EGL_GREEN_SIZE, 6,
         EGL_BLUE_SIZE, 5,
 #else
-        EGL_RED_SIZE, (visual==0)?0:(visual->depth==16)?5:8,
-        EGL_GREEN_SIZE, (visual==0)?0:(visual->depth==16)?6:8,
-        EGL_BLUE_SIZE, (visual==0)?0:(visual->depth==16)?5:8,
-        EGL_ALPHA_SIZE, (visual==0)?0:(visual->depth!=32)?0:8,
+        EGL_RED_SIZE, glxfbconfig->redBits,
+        EGL_GREEN_SIZE, glxfbconfig->greenBits,
+        EGL_BLUE_SIZE, glxfbconfig->blueBits,
+        EGL_ALPHA_SIZE, glxfbconfig->alphaBits,
 #endif
         EGL_DEPTH_SIZE, 16,
 #ifdef USE_ES2
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 #else
-        EGL_BUFFER_SIZE, (visual==0)?16:visual->depth,
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 #endif
+        EGL_BUFFER_SIZE, glxfbconfig->depthBits,
+        EGL_STENCIL_SIZE, glxfbconfig->stencilBits,
+
+        EGL_SAMPLE_BUFFERS, glxfbconfig->nMultiSampleBuffers,
+        EGL_SAMPLES, glxfbconfig->multiSampleSize,
+
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
         EGL_NONE
     };
-
     if (globals4es.usefb && fbcontext_count>0) {
         // don't create a new context, one FB is enough...
         fbcontext_count++;
@@ -615,12 +639,14 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
 #endif
             EGL_DEPTH_SIZE, config->depthBits,
             EGL_STENCIL_SIZE, config->stencilBits,
+            EGL_SAMPLES, config->multiSampleSize,
+            EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
 #ifdef USE_ES2
             EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 #else
-            EGL_SURFACE_TYPE, (config->drawableType)==GLX_PIXMAP_BIT?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
             EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 #endif
+            EGL_SURFACE_TYPE, (config->drawableType)==GLX_PIXMAP_BIT?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
             EGL_NONE
         };
 
@@ -784,6 +810,11 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
         LOGE("LIBGL: XMatchVisualInfo failed in glXChooseVisual\n");
         return NULL;
     }
+
+    // create and store the glxConfig that goes with thoses attributes
+    latest_visual = visual;
+    int count = 1;
+    latest_glxfbconfig = gl4es_glXChooseFBConfig(display, screen, attributes, &count)[0];
 
     return visual;
 }
@@ -1124,6 +1155,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     configs[0]->maxPbufferWidth = configs[0]->maxPbufferHeight = 2048;
     configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 0;
     configs[0]->nMultiSampleBuffers = 0; configs[0]->multiSampleSize = 0;
+    configs[0]->depthBits = 16; configs[0]->stencilBits = 8;
     if(attrib_list) {
 		int i = 0;
 		while(attrib_list[i]!=0) {
@@ -1131,35 +1163,44 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 				case GLX_RED_SIZE:
 					configs[0]->redBits = attrib_list[i++];
 					if(configs[0]->redBits==GLX_DONT_CARE) configs[0]->redBits = 0;
+                    DBG(printf("FBConfig redBits=%d\n", configs[0]->redBits);)
 					break;
 				case GLX_GREEN_SIZE:
 					configs[0]->greenBits = attrib_list[i++];
 					if(configs[0]->greenBits==GLX_DONT_CARE) configs[0]->greenBits = 0;
+                    DBG(printf("FBConfig greenBits=%d\n", configs[0]->greenBits);)
 					break;
 				case GLX_BLUE_SIZE:
 					configs[0]->blueBits = attrib_list[i++];
 					if(configs[0]->blueBits==GLX_DONT_CARE) configs[0]->blueBits = 0;
+                    DBG(printf("FBConfig blueBits=%d\n", configs[0]->blueBits);)
 					break;
 				case GLX_ALPHA_SIZE:
 					configs[0]->alphaBits = attrib_list[i++];
 					if(configs[0]->alphaBits==GLX_DONT_CARE) configs[0]->alphaBits = 0;
+                    DBG(printf("FBConfig alphaBits=%d\n", configs[0]->alphaBits);)
 					break;
                 case GLX_DEPTH_SIZE:
 					configs[0]->depthBits = attrib_list[i++];
 					if(configs[0]->depthBits==GLX_DONT_CARE) configs[0]->depthBits = 0;
+                    DBG(printf("FBConfig depthBits=%d\n", configs[0]->depthBits);)
 					break;
                 case GLX_STENCIL_SIZE:
 					configs[0]->stencilBits = attrib_list[i++];
 					if(configs[0]->stencilBits==GLX_DONT_CARE) configs[0]->stencilBits = 0;
+                    DBG(printf("FBConfig stencilBits=%d\n", configs[0]->stencilBits);)
 					break;
                 case GLX_DRAWABLE_TYPE:
                     configs[0]->drawableType = attrib_list[i++];
+                    DBG(printf("FBConfig drawableType=%d\n", configs[0]->drawableType);)
                     break;
                 case GLX_SAMPLE_BUFFERS:
                     configs[0]->nMultiSampleBuffers = attrib_list[i++];
+                    DBG(printf("FBConfig multisampleBuffers=%d\n", configs[0]->nMultiSampleBuffers);)
                     break;
                 case GLX_SAMPLES:
                     configs[0]->multiSampleSize = attrib_list[i++];
+                    DBG(printf("FBConfig multiSampleSize=%d\n", configs[0]->multiSampleSize);)
                     break;
                 default:
                     ++i;
