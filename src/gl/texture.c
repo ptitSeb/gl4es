@@ -1457,6 +1457,19 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
         case GL_TEXTURE_BORDER:
             (*params) = 0;
             break;
+        case GL_TEXTURE_INTENSITY_SIZE:
+            if(bound)
+                (*params) = 32;  // is it correct ? GLES doesn't store Intensity... Shall I return 0 instead? Or fake it and return 8?
+            else
+                (*params) = 0;
+            break;
+        case GL_TEXTURE_LUMINANCE_SIZE:
+            if(bound)
+                (*params) = (bound->orig_internal==GL_LUMINANCE || bound->orig_internal==GL_LUMINANCE_ALPHA)?8:0;
+            else
+                (*params) = 0;
+            break;
+            break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...
 			printf("Stubbed glGetTexLevelParameteriv(%s, %i, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
