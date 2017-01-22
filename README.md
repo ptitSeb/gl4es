@@ -231,6 +231,7 @@ Version history
 ----
 
 ##### current version
+ * Fixed (Added in fact) support for Multisampling on the GLX Context creation (a bit hacky, but seems to works)
  * Added LIBGL_NODOWNSAMPLING and associated Hint
 
 ##### 0.9.3
