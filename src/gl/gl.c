@@ -628,6 +628,27 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 		mode = GL_POINTS;
 
+    if (glstate->polygon_mode != GL_LINES && mode==GL_QUADS) {
+        static GLushort *indices = NULL;
+        static int indcnt = 0;
+        if(indcnt < count+first) {
+            indcnt = count + first;
+            if (indices) free(indices);
+            indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
+            for (int i=0, j=0; i+3<indcnt; i+=4, j+=6) {
+                    indices[j+0] = i+0;
+                    indices[j+1] = i+1;
+                    indices[j+2] = i+2;
+
+                    indices[j+3] = i+0;
+                    indices[j+4] = i+2;
+                    indices[j+5] = i+3;
+            }
+        }
+        gl4es_glDrawElements(GL_TRIANGLE_FAN, count, GL_UNSIGNED_SHORT, indices+first*3/2);
+        return;
+    }
+
     if (should_intercept_render(mode)) {
         renderlist_t *list;
         list = arrays_to_renderlist(NULL, mode, first, count+first);
