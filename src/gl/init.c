@@ -264,6 +264,7 @@ void initialize_gl4es() {
     }
 
     env(LIBGL_NOTEXMAT, globals4es.texmat, "Don't handle Texture Matrice internaly");
+    env(LIBGL_NOVAOCACHE, globals4es.novaocache, "Don't use VAO cache");
      
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

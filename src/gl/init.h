@@ -38,6 +38,7 @@ typedef struct _globals4es {
  float gamma;
 #endif
  int texmat;
+ int novaocache;
  char version[50];
 } globals4es_t;
 

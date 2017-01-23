@@ -65,6 +65,12 @@ typedef struct {
     pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary;
 } pointer_states_t;
 
+typedef struct {
+    GLfloat *ptr;
+    pointer_state_t state;
+    GLboolean enabled;
+} pointer_cache_t;
+
 // VAO ****************
 typedef struct {
     GLuint           array;
@@ -81,7 +87,17 @@ typedef struct {
                normal_array,
                vertex_array,
                tex_coord_array[MAX_TEX];
+    // VAO optimisation: keep a shared copy of the digested datas (unless the vao is the default one)
+    int *shared_arrays;
+    pointer_cache_t vert;
+    pointer_cache_t normal;
+    pointer_cache_t color;
+    pointer_cache_t secondary;
+    pointer_cache_t tex[MAX_TEX];
+    int cache_count;
 } glvao_t;
+
+void VaoSharedClear(glvao_t *vao);
 
 KHASH_MAP_INIT_INT(glvao, glvao_t*)
 

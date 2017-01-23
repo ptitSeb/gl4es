@@ -225,6 +225,11 @@ Initial Hardware test
  * 0 : Default, perform intial hardware testing (using a PBuffer)
  * 1 : Do not perform test (no extensions tested or used)
 
+##### LIBGL_NOVAOCACHE
+VAO Caching
+ * 0 : Default, tr to cache vao to avoid memcpy in render list
+ * 1 : Don't cache VAO
+
 ----
 
 Version history
@@ -233,6 +238,7 @@ Version history
 ##### current version
  * Fixed (Added in fact) support for Multisampling on the GLX Context creation (a bit hacky, but seems to works)
  * Added LIBGL_NODOWNSAMPLING and associated Hint
+ * Try to implement some caching on VAO to avoid some memcpy in renderlist (with a way to disable it just in case)
 
 ##### 0.9.3
  * Added support for Cube Mapping (with hardware support)

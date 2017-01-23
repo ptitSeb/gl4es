@@ -369,6 +369,28 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
 #undef clientisenabled
 GLboolean glIsEnabled(GLenum cap) AliasExport("gl4es_glIsEnabled");
 
+static GLboolean is_cache_compatible(GLsizei count) {
+    #define T2(AA, A, B) \
+    if(glstate->vao->AA!=glstate->vao->B.enabled) return GL_FALSE; \
+    if(glstate->vao->B.enabled && memcmp(&glstate->vao->pointers.A, &glstate->vao->B.state, sizeof(pointer_state_t))) return GL_FALSE;
+    #define TEST(A,B) T2(A##_array, A, B)
+    #define TESTA(A,B,I) T2(A##_array[i], A[i], B[i])
+
+    if(glstate->vao == glstate->defaultvao) return GL_FALSE;
+    if(count > glstate->vao->cache_count) return GL_FALSE;
+    TEST(vertex, vert)
+    TEST(color, color)
+    TEST(secondary, secondary)
+    TEST(normal, normal)
+    for (int i=0; i<hardext.maxtex; i++) {
+        TESTA(tex_coord,tex,i)
+    }
+    #undef TESTA
+    #undef TEST
+    #undef T2
+    return GL_TRUE;
+}
+
 static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
@@ -378,30 +400,99 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->mode_init = mode;
     list->len = count-skip;
     list->cap = count-skip;
+
+    // check cache if any
+    if(glstate->vao->shared_arrays)  {
+        if (!is_cache_compatible(count))
+            VaoSharedClear(glstate->vao);
+    }
     
-	if (glstate->vao->vertex_array) {
-		list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count);
-	}
-	if (glstate->vao->color_array) {
-        if(glstate->vao->pointers.color.size==GL_BGRA)
-            list->color = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, skip, count);
-        else
-		    list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
-	}
-	if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
-        if(glstate->vao->pointers.secondary.size==GL_BGRA)
-            list->secondary = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, skip, count);
-        else
-		    list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
-	}
-	if (glstate->vao->normal_array) {
-		list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
-	}
-	for (int i=0; i<hardext.maxtex; i++) {
-		if (glstate->vao->tex_coord_array[i]) {
-		    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count);
-		}
-	}
+    if(glstate->vao->shared_arrays) {
+        #define OP(A, N) (A)?A+skip*N:NULL
+        list->vert = OP(glstate->vao->vert.ptr,4);
+        list->color = OP(glstate->vao->color.ptr,4);
+        list->secondary = OP(glstate->vao->secondary.ptr,4);
+        list->normal = OP(glstate->vao->normal.ptr,3);
+        for (int i=0; i<hardext.maxtex; i++)
+            list->tex[i] = OP(glstate->vao->tex[i].ptr,4);
+        #undef OP
+        
+        list->shared_arrays = glstate->vao->shared_arrays;
+        (*glstate->vao->shared_arrays)++;
+    } else {
+        if(!globals4es.novaocache && glstate->vao != glstate->defaultvao) {
+            // prepare a vao cache object
+            list->shared_arrays = glstate->vao->shared_arrays = (int*)malloc(sizeof(int));
+            *glstate->vao->shared_arrays = 1;
+            #define G2(AA, A, B) \
+            glstate->vao->B.enabled = glstate->vao->AA; \
+            memcpy(&glstate->vao->B.state, &glstate->vao->pointers.A, sizeof(pointer_state_t));
+            #define GO(A,B) G2(A##_array, A, B)
+            #define GOA(A,B,I) G2(A##_array[i], A[i], B[i])
+            GO(vertex, vert)
+            GO(color, color)
+            GO(secondary, secondary)
+            GO(normal, normal)
+            for (int i=0; i<hardext.maxtex; i++) {
+                GOA(tex_coord,tex,i)
+            }
+            glstate->vao->cache_count = count;
+            #undef GOA
+            #undef GO
+            #undef G2
+        }
+        if (glstate->vao->vertex_array) {
+            if(glstate->vao->shared_arrays) {
+                glstate->vao->vert.ptr = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, 0, count);
+                list->vert = glstate->vao->vert.ptr + 4*skip;
+            } else
+                list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count);
+        }
+        if (glstate->vao->color_array) {
+            if(glstate->vao->shared_arrays) {
+                if(glstate->vao->pointers.color.size==GL_BGRA)
+                    glstate->vao->color.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, 0, count);
+                else
+                    glstate->vao->color.ptr = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count);
+                list->color = glstate->vao->color.ptr + 4*skip;
+            } else {
+                if(glstate->vao->pointers.color.size==GL_BGRA)
+                    list->color = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, skip, count);
+                else
+                    list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
+            }
+        }
+        if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
+            if(glstate->vao->shared_arrays) {
+                if(glstate->vao->pointers.secondary.size==GL_BGRA)
+                    glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, 0, count);
+                else
+                    glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, count);		// alpha chanel is always 0 for secondary...
+                    list->secondary = glstate->vao->secondary.ptr + 4*skip;
+            } else {
+                if(glstate->vao->pointers.secondary.size==GL_BGRA)
+                    list->secondary = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, skip, count);
+                else
+                    list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
+            }
+        }
+        if (glstate->vao->normal_array) {
+            if(glstate->vao->shared_arrays) {
+                glstate->vao->normal.ptr = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, 0, count);
+                list->normal = glstate->vao->normal.ptr + 3*skip;
+            } else
+                list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
+        }
+        for (int i=0; i<hardext.maxtex; i++) {
+            if (glstate->vao->tex_coord_array[i]) {
+                if(glstate->vao->shared_arrays) {
+                    glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, 0, count);
+                    list->tex[i] = glstate->vao->tex[i].ptr + 4*skip;
+                } else
+                    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count);
+            }
+        }
+    }
     return list;
 }
 
