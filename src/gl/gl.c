@@ -426,7 +426,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             *glstate->vao->shared_arrays = 1;
             #define G2(AA, A, B) \
             glstate->vao->B.enabled = glstate->vao->AA; \
-            memcpy(&glstate->vao->B.state, &glstate->vao->pointers.A, sizeof(pointer_state_t));
+            if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->pointers.A, sizeof(pointer_state_t));
             #define GO(A,B) G2(A##_array, A, B)
             #define GOA(A,B,I) G2(A##_array[i], A[i], B[i])
             GO(vertex, vert)
