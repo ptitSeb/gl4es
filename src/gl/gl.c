@@ -736,7 +736,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     indices[j+5] = i+3;
             }
         }
-        gl4es_glDrawElements(GL_TRIANGLE_FAN, count, GL_UNSIGNED_SHORT, indices+first*3/2);
+        gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices+first*3/2);
         return;
     }
 
