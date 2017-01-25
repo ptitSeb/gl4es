@@ -736,7 +736,11 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     indices[j+5] = i+3;
             }
         }
+        // take care of vao elements, just in case
+        glbuffer_t *old_vao_elements = glstate->vao->elements;
+        glstate->vao->elements = NULL;
         gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices+first*3/2);
+        glstate->vao->elements = old_vao_elements;
         return;
     }
 
