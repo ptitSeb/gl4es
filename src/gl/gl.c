@@ -722,24 +722,28 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (glstate->polygon_mode != GL_LINES && mode==GL_QUADS) {
         static GLushort *indices = NULL;
         static int indcnt = 0;
-        if(indcnt < count+first) {
-            indcnt = count + first;
-            if (indices) free(indices);
-            indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
+        static int indfirst = 0;
+        if((indcnt < count+first) || (indfirst!=first)) {
+            if(indcnt < count+first) {
+                indcnt = count + first;
+                if (indices) free(indices);
+                indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
+            }
+            indfirst = first;
             for (int i=0, j=0; i+3<indcnt; i+=4, j+=6) {
-                    indices[j+0] = i+0;
-                    indices[j+1] = i+1;
-                    indices[j+2] = i+2;
+                    indices[j+0] = indfirst + i+0;
+                    indices[j+1] = indfirst + i+1;
+                    indices[j+2] = indfirst + i+2;
 
-                    indices[j+3] = i+0;
-                    indices[j+4] = i+2;
-                    indices[j+5] = i+3;
+                    indices[j+3] = indfirst + i+0;
+                    indices[j+4] = indfirst + i+2;
+                    indices[j+5] = indfirst + i+3;
             }
         }
         // take care of vao elements, just in case
         glbuffer_t *old_vao_elements = glstate->vao->elements;
         glstate->vao->elements = NULL;
-        gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices+first*3/2);
+        gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices);
         glstate->vao->elements = old_vao_elements;
         return;
     }
