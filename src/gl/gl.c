@@ -513,7 +513,7 @@ static inline bool should_intercept_render(GLenum mode) {
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
-        (mode == GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch))
+        /*(mode == GL_QUADS) ||*/ (glstate->list.active && (glstate->list.compiling || glstate->gl_batch))
     );
 }
 
@@ -568,7 +568,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         return;
      }
 
-     if (should_intercept_render(mode)) {
+     if (should_intercept_render(mode) || (mode==GL_QUADS)) {
         renderlist_t *list = NULL;
         GLsizei min, max;
 
@@ -719,35 +719,6 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 		mode = GL_POINTS;
 
-    if (glstate->polygon_mode != GL_LINES && mode==GL_QUADS) {
-        static GLushort *indices = NULL;
-        static int indcnt = 0;
-        static int indfirst = 0;
-        if((indcnt < count+first) || (indfirst!=first)) {
-            if(indcnt < count+first) {
-                indcnt = count + first;
-                if (indices) free(indices);
-                indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
-            }
-            indfirst = first;
-            for (int i=0, j=0; i+3<indcnt; i+=4, j+=6) {
-                    indices[j+0] = indfirst + i+0;
-                    indices[j+1] = indfirst + i+1;
-                    indices[j+2] = indfirst + i+2;
-
-                    indices[j+3] = indfirst + i+0;
-                    indices[j+4] = indfirst + i+2;
-                    indices[j+5] = indfirst + i+3;
-            }
-        }
-        // take care of vao elements, just in case
-        glbuffer_t *old_vao_elements = glstate->vao->elements;
-        glstate->vao->elements = NULL;
-        gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices);
-        glstate->vao->elements = old_vao_elements;
-        return;
-    }
-
     if (should_intercept_render(mode)) {
         renderlist_t *list;
         list = arrays_to_renderlist(NULL, mode, first, count+first);
@@ -755,6 +726,35 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         draw_renderlist(list);
         free_renderlist(list);
     } else {
+        if (mode==GL_QUADS) {
+            static GLushort *indices = NULL;
+            static int indcnt = 0;
+            static int indfirst = 0;
+            if((indcnt < count+first) || (indfirst!=first)) {
+                if(indcnt < count+first) {
+                    indcnt = count + first;
+                    if (indices) free(indices);
+                    indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
+                }
+                indfirst = first;
+                for (int i=0, j=0; i+3<indcnt; i+=4, j+=6) {
+                        indices[j+0] = indfirst + i+0;
+                        indices[j+1] = indfirst + i+1;
+                        indices[j+2] = indfirst + i+2;
+
+                        indices[j+3] = indfirst + i+0;
+                        indices[j+4] = indfirst + i+2;
+                        indices[j+5] = indfirst + i+3;
+                }
+            }
+            // take care of vao elements, just in case
+            glbuffer_t *old_vao_elements = glstate->vao->elements;
+            glstate->vao->elements = NULL;
+            gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices);
+            glstate->vao->elements = old_vao_elements;
+            return;
+        }
+
         LOAD_GLES(glDrawArrays);
 
 		GLenum mode_init = mode;
@@ -1685,7 +1685,7 @@ void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GL
 void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
 {
     LOAD_GLES_EXT(glMultiDrawElements);
-    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
     {
         // divide the call
