@@ -730,9 +730,9 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             static GLushort *indices = NULL;
             static int indcnt = 0;
             static int indfirst = 0;
-            if((indcnt < count+first) || (indfirst!=first)) {
-                if(indcnt < count+first) {
-                    indcnt = count + first;
+            if((indcnt < count) || (indfirst!=first)) {
+                if(indcnt < count) {
+                    indcnt = count;
                     if (indices) free(indices);
                     indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
                 }
