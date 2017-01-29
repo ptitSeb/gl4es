@@ -502,6 +502,10 @@ static inline bool should_intercept_render(GLenum mode) {
         if (glstate->enable.texture[aa]) {
             if ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa]))
                 return true;
+            if ((!glstate->vao->tex_coord_array[aa]) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
+                return true;
+            if ((glstate->vao->tex_coord_array[aa]) && (glstate->vao->pointers.tex_coord[aa].size == 1))
+                return true;
         }
     }
     if(glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
@@ -638,7 +642,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
-            for (int aa=0; aa<MAX_TEX; aa++) {
+            for (int aa=0; aa<hardext.maxtex; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
@@ -658,7 +662,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			// POLYGON mode as LINE is "intercepted" and drawn using list
 			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
-			for (int aa=0; aa<MAX_TEX; aa++) {
+			for (int aa=0; aa<hardext.maxtex; aa++) {
                 if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
@@ -778,7 +782,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 				gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
 			GLuint old_tex = glstate->texture.client;
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
-            for (int aa=0; aa<MAX_TEX; aa++) {
+            for (int aa=0; aa<hardext.maxtex; aa++) {
                 client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
@@ -800,7 +804,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
 			gles_glDrawArrays(mode, first, count);
 			
-			for (int aa=0; aa<MAX_TEX; aa++) {
+			for (int aa=0; aa<hardext.maxtex; aa++) {
                 if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
