@@ -9,7 +9,8 @@ GLenum gl4es_glGetError() {
     if(globals4es.noerror)
         return GL_NO_ERROR;
 	if (glstate->shim_error) {
-		GLenum tmp = glstate->last_error;
+		GLenum tmp = gles_glGetError(); // to purge GLES error stack
+        tmp = glstate->last_error;
 		glstate->last_error = GL_NO_ERROR;
 		return tmp;
 	}
