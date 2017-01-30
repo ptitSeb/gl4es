@@ -276,13 +276,13 @@ void gl4es_glEnable(GLenum cap) {
         }
     }
 	PUSH_IF_COMPILING(glEnable)
-        
+#ifdef TEXSTREAM
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
 			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
-
+#endif
     LOAD_GLES(glEnable);
     proxy_glEnable(cap, true, gles_glEnable);
 }
@@ -603,6 +603,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         LOAD_GLES(glDisable);
         LOAD_GLES(glEnableClientState);
         LOAD_GLES(glDisableClientState);
+        LOAD_GLES(glMultiTexCoord4f);
         GLuint len = 0;
         for (int i=0; i<count; i++)
             if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
@@ -654,7 +655,13 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                     if (glstate->vao->tex_coord_array[aa]) {
                         TEXTURE(aa);
                         tex_setup_texcoord(len, itarget);
-                    }
+                    } else
+                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+                } else if (glstate->clientstate.tex_coord_array[aa]) {
+                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    TEXTURE(aa);
+                    glstate->clientstate.tex_coord_array[aa] = 0;
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 }
             }
 			if (glstate->texture.client!=old_tex)
@@ -710,6 +717,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     LOAD_GLES(glDisable);
     LOAD_GLES(glEnableClientState);
     LOAD_GLES(glDisableClientState);
+    LOAD_GLES(glMultiTexCoord4f);
 
     if (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) {
         NewStage(glstate->list.active, STAGE_DRAW);
@@ -794,9 +802,13 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     if (glstate->vao->tex_coord_array[aa]) {
                         TEXTURE(aa);
                         tex_setup_texcoord(count+first, itarget);
-                        /*glClientActiveTexture(aa+GL_TEXTURE0);
-                        gles_glTexCoordPointer(glstate->pointers.tex_coord[aa].size, glstate->pointers.tex_coord[aa].type, glstate->pointers.tex_coord[aa].stride, glstate->pointers.tex_coord[aa].pointer);*/
-                    }
+                    } else
+                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+                }  else if (glstate->clientstate.tex_coord_array[aa]) {
+                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    TEXTURE(aa);
+                    glstate->clientstate.tex_coord_array[aa] = 0;
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 }
             }
 			if (glstate->texture.client!=old_tex)
