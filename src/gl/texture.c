@@ -88,7 +88,7 @@ void tex_setup_texcoord(GLuint len, GLuint itarget) {
     
     // check if some changes are needed
     int changes = 0;
-    if ((glstate->texture.rect_arb[texunit]) 
+    if ((itarget == ENABLED_TEXTURE_RECTANGLE) 
         || (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
         )) || !(globals4es.texmat || glstate->texture_matrix[texunit]->identity) 
         )
@@ -102,7 +102,7 @@ void tex_setup_texcoord(GLuint len, GLuint itarget) {
         }
         copy_gl_pointer_tex_noalloc(tex[texunit], &glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         // Normalize if needed
-        if ((glstate->texture.rect_arb[texunit]))
+        if (itarget == ENABLED_TEXTURE_RECTANGLE)
             tex_coord_rect_arb(tex[texunit], len, bound->width, bound->height);
         // Apply transformation matrix if any
         if (!(globals4es.texmat || glstate->texture_matrix[texunit]->identity))
@@ -1173,7 +1173,6 @@ tex_changed=1;  // seems buggy, temporary disabling that...
 	        }
 #endif
 
-	        glstate->texture.rect_arb[glstate->texture.active] = (target == GL_TEXTURE_RECTANGLE_ARB);
 	        target = map_tex_target(target);
 
             glstate->texture.bound[glstate->texture.active][itarget] = tex;

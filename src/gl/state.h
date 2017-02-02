@@ -51,8 +51,6 @@ typedef struct {
            pack_skip_rows,
            pack_image_height;
     GLboolean pack_lsb_first;
-    // TODO: do we only need to worry about GL_TEXTURE_2D?
-    GLboolean rect_arb[MAX_TEX];
     gltexture_t *bound[MAX_TEX][ENABLED_TEXTURE_LAST];
     GLboolean pscoordreplace[MAX_TEX];
     khash_t(tex) *list;

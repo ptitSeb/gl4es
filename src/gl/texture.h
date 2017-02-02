@@ -97,6 +97,7 @@ typedef enum {
     ENABLED_TEX1D = 0,
     ENABLED_TEX2D,
     ENABLED_TEX3D,
+    ENABLED_TEXTURE_RECTANGLE,
     ENABLED_CUBE_MAP,
     ENABLED_TEXTURE_LAST
 } texture_enabled_t;
@@ -161,6 +162,7 @@ static inline GLuint what_target(GLenum target) {
         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
             return ENABLED_CUBE_MAP;
         case GL_TEXTURE_RECTANGLE_ARB:
+            return ENABLED_TEXTURE_RECTANGLE;
         case GL_TEXTURE_2D:
         default:
             return ENABLED_TEX2D;
@@ -172,6 +174,8 @@ static inline GLenum to_target(GLuint itarget) {
             return GL_TEXTURE_1D;
         case ENABLED_TEX3D:
             return GL_TEXTURE_3D;
+        case ENABLED_TEXTURE_RECTANGLE:
+            return GL_TEXTURE_RECTANGLE_ARB;
         case ENABLED_CUBE_MAP:
             return GL_TEXTURE_CUBE_MAP;
         case ENABLED_TEX2D:
