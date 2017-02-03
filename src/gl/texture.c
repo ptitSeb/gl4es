@@ -843,10 +843,11 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     // compressed format are not handled here, so mask them....
     GLenum orig_internal = bound->orig_internal;
     GLenum internalformat = bound->internalformat;
-    if (orig_internal==GL_COMPRESSED_RGB) orig_internal=GL_RGB;
-    if (orig_internal==GL_COMPRESSED_RGBA) orig_internal=GL_RGBA;
-    if (internalformat==GL_COMPRESSED_RGB) internalformat=GL_RGB;
-    if (internalformat==GL_COMPRESSED_RGBA) internalformat=GL_RGBA;
+    // compressed format are not handled here, so mask them....
+    if (is_fake_compressed_rgb(orig_internal)) orig_internal=GL_RGB;
+    if (is_fake_compressed_rgba(orig_internal)) orig_internal=GL_RGBA;
+    if (is_fake_compressed_rgb(internalformat)) internalformat=GL_RGB;
+    if (is_fake_compressed_rgba(internalformat)) internalformat=GL_RGBA;
 
 
     GLvoid *old = pixels;
