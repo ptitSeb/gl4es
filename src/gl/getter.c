@@ -100,8 +100,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
                 "GL_EXT_polygon_offset "
                 "GL_GL4ES_hint "
                 "GL_ARB_vertex_array_bgra "
+                "GL_ARB_texture_rectangle "
 //                "GL_EXT_blend_logic_op "
-//                "GL_ARB_texture_cube_map "
 				);
 		if(globals4es.npot>=1)
 			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
