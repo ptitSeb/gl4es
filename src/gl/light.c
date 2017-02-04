@@ -43,11 +43,19 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
     LOAD_GLES(glLightModelf);
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
+            if(memcmp(glstate->light.ambient, params, 4*sizeof(GLfloat))==0) {
+                noerrorShim();
+                return;
+            }
             errorGL();
             memcpy(glstate->light.ambient, params, 4*sizeof(GLfloat));
             gles_glLightModelfv(pname, params);
             break;
         case GL_LIGHT_MODEL_TWO_SIDE:
+            if(glstate->light.two_side == params[0]) {
+                noerrorShim();
+                return;
+            }
             errorGL();
             glstate->light.two_side = params[0];
             gles_glLightModelf(pname, params[0]);
@@ -72,30 +80,44 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
 		return;
 	}
     GLfloat tmp[4];
+    noerrorShim();
     switch(pname) {
         case GL_AMBIENT:
+            if(memcmp(glstate->light.lights[light].ambient, params, 4*sizeof(GLfloat))==0)
+                return;
             memcpy(glstate->light.lights[light].ambient, params, 4*sizeof(GLfloat));
             break;
         case GL_DIFFUSE:
+            if(memcmp(glstate->light.lights[light].diffuse, params, 4*sizeof(GLfloat)))
+                return;
             memcpy(glstate->light.lights[light].diffuse, params, 4*sizeof(GLfloat));
             break;
         case GL_SPECULAR:
+            if(memcmp(glstate->light.lights[light].specular, params, 4*sizeof(GLfloat)))
+                return;
             memcpy(glstate->light.lights[light].specular, params, 4*sizeof(GLfloat));
             break;
         case GL_POSITION:
-            memcpy(tmp, params, 4*sizeof(GLfloat));
-            vector_matrix(tmp, getMVMat(), glstate->light.lights[light].position);
+            vector_matrix(params, getMVMat(), tmp);
+            if(memcmp(glstate->light.lights[light].position, tmp, 4*sizeof(GLfloat)))
+                return;
+            memcpy(glstate->light.lights[light].position, tmp, 4*sizeof(GLfloat));
             break;
         case GL_SPOT_DIRECTION:
             memcpy(tmp, params, 3*sizeof(GLfloat));
             tmp[3] = 0.0f;
-            vector_matrix(tmp, getMVMat(), glstate->light.lights[light].spotDirection);
+            vector_matrix(tmp, getMVMat(), tmp);
+            if(memcmp(glstate->light.lights[light].spotDirection, tmp, 4*sizeof(GLfloat)))
+                return;
+            memcpy(glstate->light.lights[light].spotDirection, tmp, 4*sizeof(GLfloat));
             break;
         case GL_SPOT_EXPONENT:
             if(params[0]<0 || params[0]>128) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
+            if(glstate->light.lights[light].spotExponent == params[0])
+                return;
             glstate->light.lights[light].spotExponent = params[0];
             break;
         case GL_SPOT_CUTOFF:
@@ -103,6 +125,8 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
+            if(glstate->light.lights[light].spotCutoff == params[0])
+                return;
             glstate->light.lights[light].spotCutoff = params[0];
             break;
         case GL_CONSTANT_ATTENUATION:
@@ -110,6 +134,8 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
+            if(glstate->light.lights[light].constantAttenuation == params[0])
+                return;
             glstate->light.lights[light].constantAttenuation = params[0];
             break;
         case GL_LINEAR_ATTENUATION:
@@ -117,6 +143,8 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
+            if(glstate->light.lights[light].linearAttenuation == params[0])
+                return;
             glstate->light.lights[light].linearAttenuation = params[0];
             break;
         case GL_QUADRATIC_ATTENUATION:
@@ -124,6 +152,8 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
+            if(glstate->light.lights[light].quadraticAttenuation == params[0])
+                return;
             glstate->light.lights[light].quadraticAttenuation = params[0];
             break;
     }
