@@ -66,6 +66,22 @@ void* NewGLState(void* shared_glstate) {
     // init the matrix tracking
     init_matrix(glstate);
 
+    // init the light tracking
+    glstate->light.ambient[0]=glstate->light.ambient[1]=glstate->light.ambient[2]=0.2f;
+    glstate->light.ambient[3]=1.0f;
+    glstate->light.lights[0].diffuse[0]=
+    glstate->light.lights[0].diffuse[1]=
+    glstate->light.lights[0].diffuse[2]=
+    glstate->light.lights[0].diffuse[3]=1.0f;
+    memcpy(glstate->light.lights[0].specular, glstate->light.lights[0].diffuse, 4*sizeof(GLfloat));
+    for (int i=0; i<hardext.maxlights; i++) {
+        glstate->light.lights[i].ambient[3] = 1.0f;
+        glstate->light.lights[i].position[2] = 1.0f;
+        glstate->light.lights[i].spotDirection[2] = -1.0f;
+        glstate->light.lights[i].spotCutoff = 180;
+        glstate->light.lights[i].constantAttenuation = 1;
+    }
+
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
     LOAD_GLES(glGetFloatv);

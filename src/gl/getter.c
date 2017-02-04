@@ -3,6 +3,7 @@
 #include "texgen.h"
 #include "../glx/hardext.h"
 #include "gl4eshint.h"
+#include "light.h"
 
 GLenum gl4es_glGetError() {
 	LOAD_GLES(glGetError);
@@ -295,6 +296,13 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     case GL_MATRIX_MODE:
         *params=glstate->matrix_mode;
         break;
+    case GL_LIGHT_MODEL_TWO_SIDE:
+        *params=glstate->light.two_side;
+        break;
+    case GL_LIGHT_MODEL_AMBIENT:
+        for (dummy=0; dummy<4; dummy++)
+                params[dummy]=glstate->light.ambient[dummy];
+        break;
     case GL_SHRINK_HINT_GL4ES:
         *params=globals4es.texshrink;
         break;
@@ -459,6 +467,12 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_TEXTURE_MATRIX:
             memcpy(params, TOP(texture_matrix[glstate->texture.active]), 16*sizeof(GLfloat));
             break;
+        case GL_LIGHT_MODEL_TWO_SIDE:
+            *params=glstate->light.two_side;
+            break;
+        case GL_LIGHT_MODEL_AMBIENT:
+            memcpy(params, glstate->light.ambient, 4*sizeof(GLfloat));
+            break;
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;
             break;
@@ -498,3 +512,47 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     }
 }
 void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv");
+
+void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
+    if(light<0 || light>=hardext.maxlights) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    switch(pname) {
+        case GL_AMBIENT:
+            memcpy(params, glstate->light.lights[light].ambient, 4*sizeof(GLfloat));
+            break;
+        case GL_DIFFUSE:
+            memcpy(params, glstate->light.lights[light].diffuse, 4*sizeof(GLfloat));
+            break;
+        case GL_SPECULAR:
+            memcpy(params, glstate->light.lights[light].specular, 4*sizeof(GLfloat));
+            break;
+        case GL_POSITION:
+            memcpy(params, glstate->light.lights[light].position, 4*sizeof(GLfloat));
+            break;
+        case GL_SPOT_DIRECTION:
+            memcpy(params, glstate->light.lights[light].spotDirection, 3*sizeof(GLfloat));
+            break;
+        case GL_SPOT_EXPONENT:
+            params[0] = glstate->light.lights[light].spotExponent;
+            break;
+        case GL_SPOT_CUTOFF:
+            params[0] = glstate->light.lights[light].spotCutoff;
+            break;
+        case GL_CONSTANT_ATTENUATION:
+            params[0] = glstate->light.lights[light].constantAttenuation;
+            break;
+        case GL_LINEAR_ATTENUATION:
+            params[0] = glstate->light.lights[light].linearAttenuation;
+            break;
+        case GL_QUADRATIC_ATTENUATION:
+            params[0] = glstate->light.lights[light].quadraticAttenuation;
+            break;
+        default:
+            errorShim(GL_INVALID_ENUM);
+            return;
+    }
+    noerrorShim();
+}
+void glGetLightfv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetLightfv");

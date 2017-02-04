@@ -51,6 +51,8 @@
 #define skip_glGetIntegerv
 #define skip_glGetFloatv
 #define skip_glGetString
+#define skip_glGetLightfv
+#define skip_glGetLightiv
 
 // hint.c
 #define skip_glHint

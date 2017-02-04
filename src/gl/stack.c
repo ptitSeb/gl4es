@@ -468,6 +468,14 @@ void gl4es_glPopAttrib() {
 
         int i;
         int j=0;
+        int old_matrixmode = glstate->matrix_mode;
+        // Light position / direction is transformed. So load identity in modelview to restore correct stuff
+        int identity = is_identity(getMVMat());
+        if(!identity) {
+            if(old_matrixmode != GL_MODELVIEW) gl4es_glMatrixMode(GL_MODELVIEW);
+            gl4es_glPushMatrix();
+            gl4es_glLoadIdentity();
+        }
         for (i = 0; i < hardext.maxlights; i++) {
             enable_disable(GL_LIGHT0 + i, *(cur->lights_enabled + i));
             #define L(A) gl4es_glLightfv(GL_LIGHT0 + i, A, cur->lights+j); j+=4
@@ -482,6 +490,10 @@ void gl4es_glPopAttrib() {
             L(GL_LINEAR_ATTENUATION);
             L(GL_QUADRATIC_ATTENUATION);
             #undef L
+        }
+        if(!identity) {
+            gl4es_glPopMatrix();
+            if(old_matrixmode != GL_MODELVIEW) gl4es_glMatrixMode(old_matrixmode);
         }
         j=0;
         #define M(A) gl4es_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=4

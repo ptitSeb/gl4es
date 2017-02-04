@@ -1,4 +1,7 @@
 #include "light.h"
+#include "../glx/hardext.h"
+#include "matrix.h"
+#include "matvec.h"
 
 #ifndef USE_ES2
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
@@ -11,11 +14,12 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 	}
     LOAD_GLES(glLightModelf);
     switch (pname) {
-        case GL_LIGHT_MODEL_AMBIENT:
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
+            glstate->light.two_side = param;
             gles_glLightModelf(pname, param);
 			break;
+        case GL_LIGHT_MODEL_AMBIENT:
         default:
             errorShim(GL_INVALID_ENUM);
             //printf("stubbed glLightModelf(%i, %.2f)\n", pname, param);
@@ -36,11 +40,17 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 		return;
 	}
     LOAD_GLES(glLightModelfv);
+    LOAD_GLES(glLightModelf);
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
+            errorGL();
+            memcpy(glstate->light.ambient, params, 4*sizeof(GLfloat));
+            gles_glLightModelfv(pname, params);
+            break;
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
-            gles_glLightModelfv(pname, params);
+            glstate->light.two_side = params[0];
+            gles_glLightModelf(pname, params[0]);
 			break;
         default:
             errorShim(GL_INVALID_ENUM);
@@ -51,12 +61,72 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 
 void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
 //printf("%sglLightfv(%04X, %04X, %p=[%.2f, %.2f, %.2f, %.2f])\n", (glstate->list.compiling)?"list":"", light, pname, params, (params)?params[0]:0.0f, (params)?params[1]:0.0f, (params)?params[2]:0.0f, (params)?params[3]:0.0f);
+    if(light<0 || light>=hardext.maxlights) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
     if (glstate->list.compiling && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_LIGHT);
 		rlLightfv(glstate->list.active, light, pname, params);
         noerrorShim();
 		return;
 	}
+    GLfloat tmp[4];
+    switch(pname) {
+        case GL_AMBIENT:
+            memcpy(glstate->light.lights[light].ambient, params, 4*sizeof(GLfloat));
+            break;
+        case GL_DIFFUSE:
+            memcpy(glstate->light.lights[light].diffuse, params, 4*sizeof(GLfloat));
+            break;
+        case GL_SPECULAR:
+            memcpy(glstate->light.lights[light].specular, params, 4*sizeof(GLfloat));
+            break;
+        case GL_POSITION:
+            memcpy(tmp, params, 4*sizeof(GLfloat));
+            vector_matrix(tmp, getMVMat(), glstate->light.lights[light].position);
+            break;
+        case GL_SPOT_DIRECTION:
+            memcpy(tmp, params, 3*sizeof(GLfloat));
+            tmp[3] = 0.0f;
+            vector_matrix(tmp, getMVMat(), glstate->light.lights[light].spotDirection);
+            break;
+        case GL_SPOT_EXPONENT:
+            if(params[0]<0 || params[0]>128) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->light.lights[light].spotExponent = params[0];
+            break;
+        case GL_SPOT_CUTOFF:
+            if(params[0]<0 || (params[0]>90 && params[0]!=180)) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->light.lights[light].spotCutoff = params[0];
+            break;
+        case GL_CONSTANT_ATTENUATION:
+            if(params[0]<0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->light.lights[light].constantAttenuation = params[0];
+            break;
+        case GL_LINEAR_ATTENUATION:
+            if(params[0]<0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->light.lights[light].linearAttenuation = params[0];
+            break;
+        case GL_QUADRATIC_ATTENUATION:
+            if(params[0]<0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->light.lights[light].quadraticAttenuation = params[0];
+            break;
+    }
     LOAD_GLES(glLightfv);
     gles_glLightfv(light, pname, params);
     errorGL();

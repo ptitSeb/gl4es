@@ -95,7 +95,10 @@ void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	if (pname==GL_SPOT_CUTOFF) n=1;
 	if (pname==GL_SPOT_EXPONENT) n=1;
 	if (pname==GL_SPOT_DIRECTION) n=3;
-	else for (int i=0; i<n; i++) params[i]=fparams[i];
+    if(pname==GL_AMBIENT || pname==GL_DIFFUSE || pname==GL_SPECULAR)
+        for (int i=0; i<n; i++) params[i]=(double)2147483647*fparams[i];
+    else
+	    for (int i=0; i<n; i++) params[i]=fparams[i];
 }
 void gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
 	GLint iparams;

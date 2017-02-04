@@ -15,3 +15,7 @@ void gl4es_glFrustumf(GLfloat left,	GLfloat right, GLfloat bottom, GLfloat top,	
 static inline GLfloat* getTexMat(int tmu) {
 	return glstate->texture_matrix[tmu]->stack+glstate->texture_matrix[tmu]->top*16;
 }
+
+static inline GLfloat* getMVMat() {
+	return glstate->modelview_matrix->stack+glstate->modelview_matrix->top*16;
+}
