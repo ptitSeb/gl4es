@@ -127,26 +127,28 @@ void gl4es_glPixelTransferi(GLenum pname, GLint param) {
 }
 
 void gl4es_glLightiv(GLenum light, GLenum pname, GLint *iparams) {
+    GLfloat params[4];
     switch (pname) {
         case GL_AMBIENT:
         case GL_DIFFUSE:
         case GL_SPECULAR:
-        case GL_POSITION: {
-            GLfloat params[4];
+            for (int i = 0; i < 4; i++) {
+                params[i] = (double)iparams[i]/2147483647;  // double to keep some precisions
+            }
+            gl4es_glLightfv(light, pname, params);
+            break;
+        case GL_POSITION:
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
             gl4es_glLightfv(light, pname, params);
             break;
-        }
-        case GL_SPOT_DIRECTION: {
-            GLfloat params[4];
+        case GL_SPOT_DIRECTION:
             for (int i = 0; i < 4; i++) {
                 params[i] = iparams[i];
             }
             gl4es_glLightfv(light, pname, params);
             break;
-        }
         case GL_SPOT_EXPONENT:
         case GL_SPOT_CUTOFF:
         case GL_CONSTANT_ATTENUATION:
