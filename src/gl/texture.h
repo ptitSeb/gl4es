@@ -126,6 +126,8 @@ typedef struct {
     GLboolean compressed;
 	GLboolean streamed;
 	int	streamingID;
+    int base_level;
+    int max_level;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 
@@ -185,7 +187,7 @@ static inline GLenum to_target(GLuint itarget) {
     }
 }
 #define IS_TEX2D(T) (T&(1<<ENABLED_TEX2D))
-#define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)))
+#define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)|(1<<ENABLED_TEXTURE_RECTANGLE)))
 
 static inline GLint get_target(GLuint enabled) {
     if(!enabled)

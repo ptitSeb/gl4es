@@ -733,7 +733,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if ((bound) && (globals4es.automipmap==4) && (nwidth!=nheight))
             bound->mipmap_auto = 0;
 
-        if((bound) && target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot==1) {
+        if((bound) && (target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot==1)) {
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         }
@@ -742,8 +742,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if (bound && (target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto)))
                 gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
             else {
-                if(itarget!=ENABLED_CUBE_MAP &&  target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
-                if ((bound)  && (target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
+                //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
+                if ((bound)  && (itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
                     gl4es_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
@@ -773,6 +773,58 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 gles_glTexImage2D(rtarget, level, format, width, height, border,
                                 format, type, pixels);
                 errorGL();
+            }
+            // check if base_level is set... and calculate lower level mipmap
+            if(bound->base_level == level) {
+                int leveln = level, nw = width, nh = height, nww=nwidth, nhh=nheight;
+                int pot = (nh==nhh && nw==nww);
+                void *ndata = pixels;
+                while(leveln) {
+                    if(pixels) {
+                        GLvoid *out = ndata;
+                        pixel_doublescale(ndata, &out, nw, nh, format, type);
+                        if (out != ndata && ndata!=pixels)
+                            free(ndata);
+                        ndata = out;
+                    }
+                    nw <<= 1;
+                    nh <<= 1;
+                    nww <<= 1;
+                    nhh <<= 1;
+                    --leveln;
+                    gles_glTexImage2D(rtarget, leveln, format, nww, nhh, border,
+                                    format, type, (pot)?ndata:NULL);
+                    if(!pot && pixels) gles_glTexSubImage2D(rtarget, leveln, 0, 0, nw, nh,
+                                        format, type, ndata);
+                }
+                if (ndata!=pixels)
+                    free(ndata);
+            }
+            // check if max_level is set... and calculate highr level mipmap
+            if(bound->max_level == level) {
+                int leveln = level, nw = nwidth, nh = nheight, nww=width, nhh=height;
+                int pot = (nh==nhh && nw==nww);
+                void *ndata = pixels;
+                while(nw!=1 && nh!=1) {
+                    if(pixels) {
+                        GLvoid *out = ndata;
+                        pixel_halfscale(ndata, &out, nww, nhh, format, type);
+                        if (out != ndata && ndata!=pixels)
+                            free(ndata);
+                        ndata = out;
+                    }
+                    nw = nlevel(nw, 1);
+                    nh = nlevel(nh, 1);
+                    nww = nlevel(nww, 1);
+                    nhh = nlevel(nhh, 1);
+                    ++leveln;
+                    gles_glTexImage2D(rtarget, leveln, format, nw, nh, border,
+                                    format, type, (pot)?ndata:NULL);
+                    if(!pot && pixels) gles_glTexSubImage2D(rtarget, leveln, 0, 0, nww, nhh,
+                                        format, type, ndata);
+                }
+                if (ndata!=pixels)
+                    free(ndata);
             }
         /*if (bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3))
             gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );*/
@@ -952,6 +1004,53 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         gles_glTexSubImage2D(rtarget, level, xoffset, yoffset,
 					 width, height, format, type, pixels);
 		errorGL();
+        // check if base_level is set... and calculate lower level mipmap
+        if(bound->base_level == level) {
+            int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
+            void *ndata = pixels;
+            while(leveln) {
+                if(pixels) {
+                    GLvoid *out = ndata;
+                    pixel_doublescale(ndata, &out, nw, nh, format, type);
+                    if (out != ndata && ndata!=pixels)
+                        free(ndata);
+                    ndata = out;
+                }
+                nw <<= 1;
+                nh <<= 1;
+                xx <<= 1;
+                yy <<= 1;
+                --leveln;
+                gles_glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
+                                    format, type, ndata);
+            }
+            if (ndata!=pixels)
+                free(ndata);
+        }
+        // check if max_level is set... and calculate highr level mipmap
+        if(bound->max_level == level) {
+            int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
+            void *ndata = pixels;
+            while(nw!=1 && nh!=1) {
+                if(pixels) {
+                    GLvoid *out = ndata;
+                    pixel_halfscale(ndata, &out, nw, nh, format, type);
+                    if (out != ndata && ndata!=pixels)
+                        free(ndata);
+                    ndata = out;
+                }
+                nw = nlevel(nw, 1);
+                nh = nlevel(nh, 1);
+                xx = nlevel(xx, 1);
+                yy = nlevel(yy, 1);
+                ++leveln;
+                gles_glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
+                                    format, type, ndata);
+            }
+            if (ndata!=pixels)
+                free(ndata);
+        }
+
     }
 
     /*if (bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
@@ -1252,11 +1351,17 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         if (pname==GL_TEXTURE_WRAP_S) if (texture) texture->wrap_s = param;
 		if (pname==GL_TEXTURE_WRAP_T) if (texture) texture->wrap_t = param;
 	    break;
+	case GL_TEXTURE_WRAP_R:
+        // ignore it on GLES...
+        break;
 	case GL_TEXTURE_MAX_LEVEL:
 	    if (texture)
-		texture->mipmap_auto = (param)?1:0;
+		    texture->max_level = param;
 	    return;			// not on GLES
     case GL_TEXTURE_BASE_LEVEL:
+	    if (texture)
+		    texture->base_level = param;
+	    return;			// not on GLES
 	case GL_TEXTURE_MIN_LOD:
 	case GL_TEXTURE_MAX_LOD:
 	case GL_TEXTURE_LOD_BIAS:
@@ -1268,7 +1373,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
                 default_tex_mipmap = texture->mipmap_auto;
         } else
             default_tex_mipmap = (param)?1:0;       // default?
-	    return;         // We control the behavour later
+	    //return;         // We control the behavour later
+        break;
     }
     gles_glTexParameteri(rtarget, pname, param);
     errorGL();
@@ -1351,6 +1457,8 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 			tex->mipmap_auto = 0;
 			tex->mipmap_need = 0;
 			tex->streamingID = -1;
+            tex->base_level = -1;
+            tex->max_level = -1;
 			tex->streamed = false;
             tex->alpha = true;
             tex->compressed = false;

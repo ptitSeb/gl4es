@@ -1129,6 +1129,41 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
     return true;
 }
 
+bool pixel_doublescale(const GLvoid *old, GLvoid **new,
+                 GLuint width, GLuint height,
+                 GLenum format, GLenum type) {
+    GLuint pixel_size, new_width, new_height;
+    new_width = width * 2;
+    new_height = height * 2;
+    //printf("LIBGL: doublescaling %ux%u -> %ux%u (%s / %s)\n", width, height, new_width, new_height, PrintEnum(format), PrintEnum(type));
+    const colorlayout_t *src_color;
+    src_color = get_color_map(format);
+    GLvoid *dst;
+    uintptr_t src, pos, pix0, pix1, pix2, pix3;
+
+    pixel_size = pixel_sizeof(format, type);
+    dst = malloc(pixel_size * new_width * new_height);
+    src = (uintptr_t)old;
+    pos = (uintptr_t)dst;
+    const int dx = (width>1)?1:0;
+    const int dy = (height>1)?1:0;
+    for (int y = 0; y+1 < new_height; y+=2) {
+        for (int x = 0; x+1 < new_width; x+=2) {
+            pix0 = src + ((x / 2) +
+                          (y / 2) * width) * pixel_size;
+            memcpy((void*)pos, (void*)pix0, pixel_size);
+            memcpy((void*)(pos+new_width*pixel_size), (void*)pix0, pixel_size);
+            pos += pixel_size;
+            memcpy((void*)pos, (void*)pix0, pixel_size);
+            memcpy((void*)(pos+new_width*pixel_size), (void*)pix0, pixel_size);
+            pos += pixel_size;
+        }
+        pos += new_width*pixel_size;
+    }
+    *new = dst;
+    return true;
+}
+
 bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height,
                   GLenum format, GLenum type, GLuint name) {
     if (! pixels)
