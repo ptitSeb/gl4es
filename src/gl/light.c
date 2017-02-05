@@ -12,19 +12,18 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 		gl4es_glLightModelfv(pname, dummy);
 		return;
 	}
-    LOAD_GLES(glLightModelf);
     switch (pname) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
             glstate->light.two_side = param;
-            gles_glLightModelf(pname, param);
 			break;
         case GL_LIGHT_MODEL_AMBIENT:
         default:
             errorShim(GL_INVALID_ENUM);
-            //printf("stubbed glLightModelf(%i, %.2f)\n", pname, param);
-            break;
+            return;
     }
+    LOAD_GLES(glLightModelf);
+    gles_glLightModelf(pname, param);
 }
 
 void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
@@ -39,8 +38,6 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
         noerrorShim();
 		return;
 	}
-    LOAD_GLES(glLightModelfv);
-    LOAD_GLES(glLightModelf);
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
             if(memcmp(glstate->light.ambient, params, 4*sizeof(GLfloat))==0) {
@@ -49,7 +46,6 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             }
             errorGL();
             memcpy(glstate->light.ambient, params, 4*sizeof(GLfloat));
-            gles_glLightModelfv(pname, params);
             break;
         case GL_LIGHT_MODEL_TWO_SIDE:
             if(glstate->light.two_side == params[0]) {
@@ -58,13 +54,13 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             }
             errorGL();
             glstate->light.two_side = params[0];
-            gles_glLightModelf(pname, params[0]);
 			break;
         default:
             errorShim(GL_INVALID_ENUM);
-            //printf("stubbed glLightModelfv(%i, %p [%.2f])\n", pname, params, params[0]);
-            break;
+            return;
     }
+    LOAD_GLES(glLightModelfv);
+    gles_glLightModelfv(pname, params);
 }
 
 void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
