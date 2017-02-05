@@ -236,6 +236,7 @@ Version history
 ----
 
 ##### current version
+ * Added tracking of Lights and Materials
  * Fixed (Added in fact) support for Multisampling on the GLX Context creation (a bit hacky, but seems to works)
  * Added LIBGL_NODOWNSAMPLING and associated Hint
  * Try to implement some caching on VAO to avoid some memcpy in renderlist (with a way to disable it just in case)
