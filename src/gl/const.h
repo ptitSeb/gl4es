@@ -10,6 +10,7 @@
 #define GL_TEXTURE_3D               0x806F
 #define GL_TEXTURE_WRAP_S           0x2802
 #define GL_TEXTURE_WRAP_T           0x2803
+#define GL_TEXTURE_WRAP_R           0x8072
 #define GL_TEXTURE_MAG_FILTER       0x2800
 #define GL_TEXTURE_MIN_FILTER       0x2801
 #define GL_TEXTURE_ENV_COLOR        0x2201
