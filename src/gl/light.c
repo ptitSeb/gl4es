@@ -232,11 +232,12 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
                 
         }
 
-	    if (face!=GL_FRONT_AND_BACK) {
-		    face=GL_FRONT_AND_BACK;
-		}
         LOAD_GLES(glMaterialfv);
-        gles_glMaterialfv(face, pname, params);
+        if(face==GL_BACK) { // lets ignore GL_BACK in GLES 1.1
+            noerrorShim();
+            return;
+        }
+        gles_glMaterialfv(GL_FRONT_AND_BACK, pname, params);
         errorGL();
     }
 }
@@ -264,10 +265,11 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
             glstate->material.back.shininess = param;
 
         LOAD_GLES(glMaterialf);
-	    if (face!=GL_FRONT_AND_BACK) {
-		    face=GL_FRONT_AND_BACK;
-		}
-        gles_glMaterialf(face, pname, param);
+        if(face==GL_BACK) { // lets ignore GL_BACK in GLES 1.1
+            noerrorShim();
+            return;
+        }
+        gles_glMaterialf(GL_FRONT_AND_BACK, pname, param);
         errorGL();
     }
 }
