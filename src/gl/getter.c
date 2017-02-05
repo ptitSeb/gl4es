@@ -556,3 +556,58 @@ void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     noerrorShim();
 }
 void glGetLightfv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetLightfv");
+
+void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
+    if(face!=GL_FRONT && face!=GL_BACK) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    switch(pname) {
+        case GL_AMBIENT:
+            if(face==GL_FRONT)
+                memcpy(params, glstate->material.front.ambient, 4*sizeof(GLfloat));
+            if(face==GL_BACK)
+                memcpy(params, glstate->material.back.ambient, 4*sizeof(GLfloat));
+            break;
+        case GL_DIFFUSE:
+            if(face==GL_FRONT)
+                memcpy(params, glstate->material.front.diffuse, 4*sizeof(GLfloat));
+            if(face==GL_BACK)
+                memcpy(params, glstate->material.back.diffuse, 4*sizeof(GLfloat));
+            break;
+        case GL_SPECULAR:
+            if(face==GL_FRONT)
+                memcpy(params, glstate->material.front.specular, 4*sizeof(GLfloat));
+            if(face==GL_BACK)
+                memcpy(params, glstate->material.back.specular, 4*sizeof(GLfloat));
+            break;
+        case GL_EMISSION:
+            if(face==GL_FRONT)
+                memcpy(params, glstate->material.front.emission, 4*sizeof(GLfloat));
+            if(face==GL_BACK)
+                memcpy(params, glstate->material.back.emission, 4*sizeof(GLfloat));
+            break;
+        case GL_SHININESS:
+            if(face==GL_FRONT)
+                *params = glstate->material.front.shininess;
+            if(face==GL_BACK)
+                *params = glstate->material.back.shininess;
+            break;
+        case GL_COLOR_INDEXES:
+            if(face==GL_FRONT) {
+                params[0] = glstate->material.front.indexes[0];
+                params[1] = glstate->material.front.indexes[1];
+                params[2] = glstate->material.front.indexes[2];
+            }
+            if(face==GL_BACK) {
+                params[0] = glstate->material.back.indexes[0];
+                params[1] = glstate->material.back.indexes[1];
+                params[2] = glstate->material.back.indexes[2];
+            }
+        default:
+            errorShim(GL_INVALID_ENUM);
+            return;
+    }
+    noerrorShim();
+}
+void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetMaterialfv");

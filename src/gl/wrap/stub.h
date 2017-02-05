@@ -5,7 +5,7 @@
 void gl4es_glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
 //void gl4es_glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
 void gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-void gl4es_glColorMaterial(GLenum face, GLenum mode);
+//void gl4es_glColorMaterial(GLenum face, GLenum mode);
 void gl4es_glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);
 void gl4es_glDrawBuffer(GLenum mode);
 void gl4es_glEdgeFlag(GLboolean flag);

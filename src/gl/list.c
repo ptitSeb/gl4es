@@ -46,7 +46,7 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->popattribute)
         return false;
-    if (list->material || list->light || list->lightmodel || list->texgen || list->texenv)
+    if (list->material || list->colormat_face || list->light || list->lightmodel || list->texgen || list->texenv)
         return false;
     if (list->fog_op)
         return false;
@@ -828,6 +828,8 @@ void draw_renderlist(renderlist_t *list) {
                 }
             )
         }
+        if (list->colormat_face)
+            gl4es_glColorMaterial(list->colormat_face, list->colormat_mode);
         if (list->light) {
             khash_t(light) *lig = list->light;
             renderlight_t *m;

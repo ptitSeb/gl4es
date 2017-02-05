@@ -169,8 +169,141 @@ void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
     errorGL();
 }
 
+void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		//TODO: Materialfv can be done per vertex, how to handle that ?!
+		//NewStage(glstate->list.active, STAGE_MATERIAL);
+        rlMaterialfv(glstate->list.active, face, pname, params);
+        noerrorShim();
+    } else {
+        if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        switch(pname) {
+            case GL_AMBIENT:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+                    memcpy(glstate->material.front.ambient, params, 4*sizeof(GLfloat));
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                    memcpy(glstate->material.back.ambient, params, 4*sizeof(GLfloat));
+                break;
+            case GL_DIFFUSE:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+                    memcpy(glstate->material.front.diffuse, params, 4*sizeof(GLfloat));
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                    memcpy(glstate->material.back.diffuse, params, 4*sizeof(GLfloat));
+                break;
+            case GL_SPECULAR:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+                    memcpy(glstate->material.front.specular, params, 4*sizeof(GLfloat));
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                    memcpy(glstate->material.back.specular, params, 4*sizeof(GLfloat));
+                break;
+            case GL_EMISSION:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+                    memcpy(glstate->material.front.emission, params, 4*sizeof(GLfloat));
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                    memcpy(glstate->material.back.emission, params, 4*sizeof(GLfloat));
+                break;
+            case GL_AMBIENT_AND_DIFFUSE:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
+                    memcpy(glstate->material.front.ambient, params, 4*sizeof(GLfloat));
+                    memcpy(glstate->material.front.diffuse, params, 4*sizeof(GLfloat));
+                }
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
+                    memcpy(glstate->material.back.ambient, params, 4*sizeof(GLfloat));
+                    memcpy(glstate->material.back.diffuse, params, 4*sizeof(GLfloat));
+                }
+                break;
+            case GL_SHININESS:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+                    glstate->material.front.shininess = *params;
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                    glstate->material.back.shininess = *params;
+                break;
+            case GL_COLOR_INDEXES:
+                if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
+                    glstate->material.front.indexes[0] = params[0];
+                    glstate->material.front.indexes[1] = params[1];
+                    glstate->material.front.indexes[2] = params[2];
+                }
+                if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
+                    glstate->material.back.indexes[0] = params[0];
+                    glstate->material.back.indexes[1] = params[1];
+                    glstate->material.back.indexes[2] = params[2];
+                }
+                break;
+                
+        }
+
+	    if (face!=GL_FRONT_AND_BACK) {
+		    face=GL_FRONT_AND_BACK;
+		}
+        LOAD_GLES(glMaterialfv);
+        gles_glMaterialfv(face, pname, params);
+        errorGL();
+    }
+}
+
+void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		GLfloat params[4];
+		memset(params, 0, 4*sizeof(GLfloat));
+		params[0] = param;
+		NewStage(glstate->list.active, STAGE_MATERIAL);
+        rlMaterialfv(glstate->list.active, face, pname, params);
+        noerrorShim();
+    } else {
+        if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        if(pname!=GL_SHININESS) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+            glstate->material.front.shininess = param;
+        if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+            glstate->material.back.shininess = param;
+
+        LOAD_GLES(glMaterialf);
+	    if (face!=GL_FRONT_AND_BACK) {
+		    face=GL_FRONT_AND_BACK;
+		}
+        gles_glMaterialf(face, pname, param);
+        errorGL();
+    }
+}
+
+void gl4es_glColorMaterial(GLenum face, GLenum mode) {
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_COLOR_MATERIAL);
+        glstate->list.active->colormat_face = face;
+        glstate->list.active->colormat_mode = mode;
+        noerrorShim();
+    } else {
+        if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        if(mode!=GL_EMISSION && mode!=GL_AMBIENT && mode!=GL_DIFFUSE && mode!=GL_SPECULAR && mode!=GL_AMBIENT_AND_DIFFUSE) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+            glstate->material.front.colormat = mode;
+        if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+            glstate->material.back.colormat = mode;
+        noerrorShim();
+    }
+}
+
 void glLightModelf(GLenum pname, GLfloat param) AliasExport("gl4es_glLightModelf");
 void glLightModelfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightModelfv");
 void glLightfv(GLenum light, GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightfv");
 void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("gl4es_glLightf");
+void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("gl4es_glMaterialfv");
+void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl4es_glMaterialf");
+void glColorMaterial(GLenum face, GLenum mode) AliasExport("gl4es_glColorMaterial");
 #endif

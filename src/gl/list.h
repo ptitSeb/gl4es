@@ -16,6 +16,7 @@ typedef enum {
 	STAGE_BINDTEX,
 	STAGE_RASTER,
 	STAGE_MATERIAL,
+    STAGE_COLOR_MATERIAL,
 	STAGE_LIGHT,
 	STAGE_LIGHTMODEL,
 	STAGE_TEXENV,
@@ -38,6 +39,7 @@ static int StageExclusive[STAGE_LAST] = {
 	1,  // STAGE_BINDTEX
 	1,  // STAGE_RASTER
 	0,  // STAGE_MATERIAL
+    1,  // STAGE_COLOR_MATERIAL
 	0,  // STAGE_LIGHT
 	1,  // STAGE_LIGTMODEL
 	0,  // STAGE_TEXENV
@@ -144,6 +146,8 @@ typedef struct _renderlist_t {
     GLfloat pointparam_val[4];
     
     khash_t(material) *material;
+    GLenum  colormat_face;
+    GLenum  colormat_mode;
     khash_t(light) *light;
     khash_t(texgen) *texgen;
     khash_t(texenv) *texenv;

@@ -485,7 +485,7 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     STUB(glAccum);
     STUB(glAreTexturesResident);
     STUB(glClearAccum);
-    STUB(glColorMaterial);
+    _EX(glColorMaterial);
     _EX(glCopyTexSubImage3D);   // It's a stub, calling the 2D one
     STUB(glFeedbackBuffer);
     STUB(glGetClipPlane);

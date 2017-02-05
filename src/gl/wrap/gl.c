@@ -85,7 +85,12 @@ void gl4es_glGetMaterialiv(GLenum face, GLenum pname, GLint * params) {
 	GLfloat fparams[4];
 	gl4es_glGetMaterialfv(face, pname, fparams);
 	if (pname==GL_SHININESS) *params=fparams[0];
-	else for (int i=0; i<4; i++) params[i]=fparams[i];
+	else {
+        if (pname==GL_COLOR_INDEXES)
+            for (int i=0; i<3; i++) params[i]=fparams[i];
+        else
+            for (int i=0; i<4; i++) params[i]=((int)fparams[i]*32767)<<16;
+    }
 }
 void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	GLfloat fparams[4];
@@ -96,7 +101,7 @@ void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	if (pname==GL_SPOT_EXPONENT) n=1;
 	if (pname==GL_SPOT_DIRECTION) n=3;
     if(pname==GL_AMBIENT || pname==GL_DIFFUSE || pname==GL_SPECULAR)
-        for (int i=0; i<n; i++) params[i]=(double)2147483647*fparams[i];
+        for (int i=0; i<n; i++) params[i]=((int)fparams[i]*32767)<<16;
     else
 	    for (int i=0; i<n; i++) params[i]=fparams[i];
 }
@@ -133,7 +138,7 @@ void gl4es_glLightiv(GLenum light, GLenum pname, GLint *iparams) {
         case GL_DIFFUSE:
         case GL_SPECULAR:
             for (int i = 0; i < 4; i++) {
-                params[i] = (double)iparams[i]/2147483647;  // double to keep some precisions
+                params[i] = (iparams[i]>>16)/32767.f;
             }
             gl4es_glLightfv(light, pname, params);
             break;
@@ -191,10 +196,11 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
 		case GL_DIFFUSE:
 		case GL_SPECULAR:
 		case GL_EMISSION:
+        case GL_AMBIENT_AND_DIFFUSE:
 		{
             GLfloat params[4];
             for (int i = 0; i < 4; i++) {
-                params[i] = iparams[i];	// should divide by MAX_INT
+                params[i] = (iparams[i]>>16)/32767.f;
             }
             gl4es_glMaterialfv(face, pname, params);
             break;
@@ -206,10 +212,6 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
                 params[i] = iparams[i];
             }
             gl4es_glMaterialfv(face, pname, params);
-            break;
-        }
-        case GL_AMBIENT_AND_DIFFUSE: {
-            gl4es_glMaterialf(face, pname, *iparams);
             break;
         }
 		case GL_COLOR_INDEXES:

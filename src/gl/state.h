@@ -191,6 +191,7 @@ typedef struct {
     int emulatedWin;
     int shared_cnt;
     light_state_t light;
+    material_state_t material;
 } glstate_t;
 
 #endif
