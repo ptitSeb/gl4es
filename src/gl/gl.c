@@ -683,7 +683,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
                 if (itarget>=0) {
-                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                    if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                         TEXTURE(aa);
                         gles_glEnable(GL_TEXTURE_2D);
                     }
@@ -705,8 +705,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
 			for (int aa=0; aa<hardext.maxtex; aa++) {
-                const GLint itarget = get_target(glstate->enable.texture[aa]);
-                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }

@@ -821,10 +821,10 @@ void draw_renderlist(renderlist_t *list) {
             kh_foreach_value(map, m,
                 switch (m->pname) {
                     case GL_SHININESS:
-                        gl4es_glMaterialf(GL_FRONT_AND_BACK,  m->pname, m->color[0]);
+                        gl4es_glMaterialf(m->face,  m->pname, m->color[0]);
                         break;
                     default:
-                        gl4es_glMaterialfv(GL_FRONT_AND_BACK, m->pname, m->color);
+                        gl4es_glMaterialfv(m->face, m->pname, m->color);
                 }
             )
         }
@@ -969,7 +969,6 @@ void draw_renderlist(renderlist_t *list) {
         }
         #undef RS
         for (int a=0; a<hardext.maxtex; a++) {
-            const GLint itarget = get_target(glstate->enable.texture[a]);
 		    if ((list->tex[a] || (use_texgen[a] && !needclean[a]))/* && glstate->enable.texture[a]*/) {
                 TEXTURE(a);
                 if(!glstate->clientstate.tex_coord_array[a]) {
@@ -986,7 +985,7 @@ void draw_renderlist(renderlist_t *list) {
 //else if (!glstate->enable.texgen_s[a] && glstate->enable.texture[a]) printf("LIBGL: texture[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
 			    
 		    }
-            if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+            if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
                 TEXTURE(a);
                 gles_glEnable(GL_TEXTURE_2D);
             }
@@ -1187,12 +1186,11 @@ void draw_renderlist(renderlist_t *list) {
         }
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<hardext.maxtex; a++) {
-            const GLint itarget = get_target(glstate->enable.texture[a]);
             if (needclean[a]) {
                 TEXTURE(a);
                 gen_tex_clean(needclean[a], a);
             }
-            if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+            if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
                 TEXTURE(a);
                 gles_glDisable(GL_TEXTURE_2D);
             }
