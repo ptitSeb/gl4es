@@ -162,8 +162,9 @@ void gl4es_glPushAttrib(GLbitfield mask) {
             #undef L
         }
         j=0;
-        cur->materials = (GLfloat *)malloc(1 * sizeof(GLfloat)*(5*4));
-        #define M(A) gl4es_glGetMaterialfv(GL_FRONT, A, cur->materials+j); j+=4
+        cur->materials = (GLfloat *)malloc(2 * sizeof(GLfloat)*(5*4));
+        memset(cur->materials, 0, 2 * sizeof(GLfloat)*(5*4));
+        #define M(A) gl4es_glGetMaterialfv(GL_BACK, A, cur->materials+j); j+=4; gl4es_glGetMaterialfv(GL_FRONT, A, cur->materials+j); j+=4
         M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
         #undef M
         gl4es_glGetIntegerv(GL_SHADE_MODEL, &cur->shade_model);
@@ -497,7 +498,10 @@ void gl4es_glPopAttrib() {
             if(old_matrixmode != GL_MODELVIEW) gl4es_glMatrixMode(old_matrixmode);
         }
         j=0;
-        #define M(A) gl4es_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=4
+        #define M(A) if(memcmp(cur->materials+j, cur->materials+j+4, 4*sizeof(GLfloat))==0) \
+            {gl4es_glMaterialfv(GL_FRONT_AND_BACK, A, cur->materials+j); j+=8;} \
+            else \
+            {gl4es_glMaterialfv(GL_BACK, A, cur->materials+j); j+=4; gl4es_glMaterialfv(GL_FRONT, A, cur->materials+j); j+=4;}
         M(GL_AMBIENT); M(GL_DIFFUSE); M(GL_SPECULAR); M(GL_EMISSION); M(GL_SHININESS);  // handle both face at some point?
         #undef M
 
