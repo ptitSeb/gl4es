@@ -264,6 +264,12 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
             break;
+        case GL_TEXTURE_RECTANGLE_ARB:
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEXTURE_RECTANGLE);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEXTURE_RECTANGLE);
+            break;
         case GL_TEXTURE_CUBE_MAP:
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
@@ -677,7 +683,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
                 if (itarget>=0) {
-                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D) {
+                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
                         TEXTURE(aa);
                         gles_glEnable(GL_TEXTURE_2D);
                     }
@@ -699,7 +705,8 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
 			
 			for (int aa=0; aa<hardext.maxtex; aa++) {
-                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
@@ -824,7 +831,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
                 if(itarget>=0) {
-                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D) {
+                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
                         TEXTURE(aa);
                         gles_glEnable(GL_TEXTURE_2D);
                     }
@@ -846,7 +853,8 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			gles_glDrawArrays(mode, first, count);
 			
 			for (int aa=0; aa<hardext.maxtex; aa++) {
-                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }

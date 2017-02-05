@@ -303,6 +303,9 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         for (dummy=0; dummy<4; dummy++)
                 params[dummy]=glstate->light.ambient[dummy];
         break;
+    case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
+        *params=hardext.maxsize;
+        break;
     case GL_SHRINK_HINT_GL4ES:
         *params=globals4es.texshrink;
         break;
@@ -472,6 +475,9 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_LIGHT_MODEL_AMBIENT:
             memcpy(params, glstate->light.ambient, 4*sizeof(GLfloat));
+            break;
+        case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
+            *params=hardext.maxsize;
             break;
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;

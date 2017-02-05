@@ -140,6 +140,7 @@ static inline GLenum map_tex_target(GLenum target) {
             break;
         case GL_PROXY_TEXTURE_1D:
         case GL_PROXY_TEXTURE_3D:
+        case GL_PROXY_TEXTURE_RECTANGLE_ARB:
             target = GL_PROXY_TEXTURE_2D;
             break;
     }

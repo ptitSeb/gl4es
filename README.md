@@ -236,6 +236,7 @@ Version history
 ----
 
 ##### current version
+ * Added back GL_TEXTURE_RECTANGLE_ARB handling (and using npot texture, even limited, if available)
  * Added tracking of Lights and Materials
  * Fixed (Added in fact) support for Multisampling on the GLX Context creation (a bit hacky, but seems to works)
  * Added LIBGL_NODOWNSAMPLING and associated Hint
