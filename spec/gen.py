@@ -91,6 +91,11 @@ def gen(files, template, guard_name, headers,
             else:
                 ret = 'void'
 
+            loadlib = 'LOAD_GLES'
+            if name.endswith('_OES_'):
+                loadlib = 'LOAD_GLES_OES'
+                name = name[:-5]
+
             args = [split_arg(arg) for arg in args if not arg == 'void']
             if any(arg.get('type') == 'unknown' for arg in args):
                 continue
@@ -112,6 +117,7 @@ def gen(files, template, guard_name, headers,
                 'args': args,
                 'types': types,
                 'void': ret == 'void',
+                'loadlib': loadlib,
             })
             if not types in unique_formats:
                 unique_formats.add(types)

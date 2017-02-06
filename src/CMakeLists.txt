@@ -28,8 +28,6 @@ SET(GL_SRC
     gl/texture.c
 	gl/wrap/gl.c
 	gl/wrap/gles.c
-	gl/wrap/gles2.c
-	gl/wrap/glesext.c
 	gl/wrap/glstub.c
 	gl/math/eval.c
 )
@@ -67,7 +65,6 @@ SET(GL_H
     gl/texture.h
     gl/math/eval.h
     gl/wrap/es.h
-    gl/wrap/gles2.h
     gl/wrap/gles.h
     gl/wrap/gl.h
     gl/wrap/stub.h

@@ -3,7 +3,7 @@
 {% include "base/headers.j2" %}
 {% for func in functions %}
 {% block definition scoped %}
-{{ func.return }} glshim_{{ func.name }}({{ func.args|args }}) {
+{{ func.return }} gl4es_{{ func.name }}({{ func.args|args }}) {
     {% block load scoped %}{% endblock %}
     {% block call scoped %}
     {% if not func.void %}return {% endif %}{% block prefix %}wrap{% endblock %}_{{ func.name }}({{ func.args|args(0) }});

@@ -9,7 +9,7 @@
 #endif
 {% endblock %}
 {% block load %}
-    LOAD_GLES_OES({{ func.name }});
+    {{ func.loadlib }}({{ func.name }});
 {% endblock %}
 {% block call %}
 #ifndef direct_{{ func.name }}
