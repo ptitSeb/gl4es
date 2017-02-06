@@ -235,7 +235,8 @@ VAO Caching
 Version history
 ----
 
-##### current version
+##### 0.9.4
+ * Fixed some extended functions (like glBlendFuncSeparate) not working inside list (fixing some issues with Batch mode)
  * Added back GL_TEXTURE_RECTANGLE_ARB handling (and using npot texture, even limited, if available)
  * Added tracking of Lights and Materials
  * Fixed (Added in fact) support for Multisampling on the GLX Context creation (a bit hacky, but seems to works)
