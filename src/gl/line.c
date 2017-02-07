@@ -6,6 +6,14 @@ GLubyte *stippleData = NULL;
 GLuint stippleTexture = 0;
 
 void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
+    if(glstate->list.active) {
+        NewStage(glstate->list.active, STAGE_LINESTIPPLE);
+        glstate->list.active->linestipple_op = 1;
+        glstate->list.active->linestipple_factor = factor;
+        glstate->list.active->linestipple_pattern = pattern;
+        return;
+    }
+    
     stippleFactor = factor;
     stipplePattern = pattern;
     if (stippleData != NULL) {

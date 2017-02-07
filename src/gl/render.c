@@ -37,6 +37,9 @@ void push_hit() {
 
 
 GLint gl4es_glRenderMode(GLenum mode) {
+	if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return 0;}
+	if(glstate->list.active) flush();
+
 	int ret = 0;
     if ((mode==GL_SELECT) || (mode==GL_RENDER)) {  // missing GL_FEEDBACK
         noerrorShim();
@@ -77,6 +80,12 @@ GLint gl4es_glRenderMode(GLenum mode) {
 }
 
 void gl4es_glInitNames() {
+	if(glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_RENDER);
+		glstate->list.active->render_op = 1;
+		return;
+	}
+	//TODO list stuffs
 	if (glstate->namestack.names == 0) {
 		glstate->namestack.names = (GLuint*)malloc(1024*sizeof(GLuint));
 	}
@@ -85,6 +94,11 @@ void gl4es_glInitNames() {
 }
 
 void gl4es_glPopName() {
+	if(glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_RENDER);
+		glstate->list.active->render_op = 2;
+		return;
+	}
     noerrorShim();
 	if (glstate->render_mode != GL_SELECT)
 		return;
@@ -96,6 +110,12 @@ void gl4es_glPopName() {
 }
 
 void gl4es_glPushName(GLuint name) {
+	if(glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_RENDER);
+		glstate->list.active->render_op = 3;
+		glstate->list.active->render_arg = name;
+		return;
+	}
     noerrorShim();
 	if (glstate->render_mode != GL_SELECT)
 		return;
@@ -108,6 +128,12 @@ void gl4es_glPushName(GLuint name) {
 }
 
 void gl4es_glLoadName(GLuint name) {
+	if(glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_RENDER);
+		glstate->list.active->render_op = 4;
+		glstate->list.active->render_arg = name;
+		return;
+	}
     noerrorShim();
 	if (glstate->render_mode != GL_SELECT)
 		return;
@@ -120,6 +146,9 @@ void gl4es_glLoadName(GLuint name) {
 }
 
 void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
+	ERROR_IN_LIST
+	if(glstate->list.active) flush();
+
     noerrorShim();
 	glstate->selectbuf.buffer = buffer;
 	glstate->selectbuf.size = size;

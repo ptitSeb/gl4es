@@ -135,6 +135,11 @@ const char* PrintEnum(GLenum what) {
         p(GL_PROJECTION);
         p(GL_MODELVIEW);
         p(GL_TEXTURE);
+        // blend
+        p(GL_SRC_ALPHA);
+        p(GL_DST_ALPHA);
+        p(GL_ONE_MINUS_SRC_ALPHA);
+        p(GL_ONE_MINUS_DST_ALPHA);
         default:
             sprintf(fallback, "0x%04X", what);
     }

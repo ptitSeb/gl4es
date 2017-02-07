@@ -243,7 +243,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 }
 
 void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+    if (glstate->list.active) {
 		GLfloat params[4];
 		memset(params, 0, 4*sizeof(GLfloat));
 		params[0] = param;
@@ -275,7 +275,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 }
 
 void gl4es_glColorMaterial(GLenum face, GLenum mode) {
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+    if (glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_COLOR_MATERIAL);
         glstate->list.active->colormat_face = face;
         glstate->list.active->colormat_mode = mode;

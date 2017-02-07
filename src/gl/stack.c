@@ -5,11 +5,13 @@
 void gl4es_glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-		NewStage(glstate->list.active, STAGE_PUSH);
-		glstate->list.active->pushattribute = mask;
-		return;
-	}
+    if (glstate->list.active)
+        if (glstate->list.compiling || glstate->gl_batch) {
+            NewStage(glstate->list.active, STAGE_PUSH);
+            glstate->list.active->pushattribute = mask;
+            return;
+        } else flush();
+
     if (glstate->stack == NULL) {
         glstate->stack = (glstack_t *)malloc(STACK_SIZE * sizeof(glstack_t));
         glstate->stack->len = 0;
@@ -280,8 +282,9 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 
 void gl4es_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
+    ERROR_IN_LIST
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->gl_batch) {
+     if (glstate->list.active) {
          flush();
          glstate->gl_batch = 0;
      }
@@ -339,11 +342,13 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
 void gl4es_glPopAttrib() {
 //printf("glPopAttrib()\n");
     noerrorShim();
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-		NewStage(glstate->list.active, STAGE_POP);
-		glstate->list.active->popattribute = true;
-		return;
-	}
+    if (glstate->list.active)
+        if (glstate->list.compiling || glstate->gl_batch) {
+            NewStage(glstate->list.active, STAGE_POP);
+		    glstate->list.active->popattribute = true;
+		    return;
+        } else flush();
+
     if (glstate->stack == NULL || glstate->stack->len == 0) {
         errorShim(GL_STACK_UNDERFLOW);
         return;
@@ -619,8 +624,9 @@ void gl4es_glPopAttrib() {
 
 void gl4es_glPopClientAttrib() {
     noerrorShim();
+    ERROR_IN_LIST   
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->gl_batch) {
+     if (glstate->list.active) {
          flush();
          glstate->gl_batch = 0;
      }

@@ -9,6 +9,7 @@ typedef enum {
 	STAGE_POP,
 	STAGE_CALLLIST,
 	STAGE_GLCALL,
+    STAGE_RENDER,
 	STAGE_FOG,
     STAGE_POINTPARAM,
     STAGE_MATRIX,
@@ -19,6 +20,7 @@ typedef enum {
     STAGE_COLOR_MATERIAL,
 	STAGE_LIGHT,
 	STAGE_LIGHTMODEL,
+    STAGE_LINESTIPPLE,
 	STAGE_TEXENV,
 	STAGE_TEXGEN,
 	STAGE_POLYGON,
@@ -32,6 +34,7 @@ static int StageExclusive[STAGE_LAST] = {
 	1,  // STAGE_POP
 	1, 	// STAGE_CALLLIST
 	0,  // STAGE_GLCALL
+    1,  // STAGE_RENDER
 	1, 	// STAGE_FOG
 	1, 	// STAGE_POINTPARAM
     1,  // STAGE_MATRIX
@@ -42,6 +45,7 @@ static int StageExclusive[STAGE_LAST] = {
     1,  // STAGE_COLOR_MATERIAL
 	0,  // STAGE_LIGHT
 	1,  // STAGE_LIGTMODEL
+    1,  // STAGE_LINESTIPPLE
 	0,  // STAGE_TEXENV
 	0,  // STAGE_TEXGEN
 	1,  // STAGE_POLYGON
@@ -133,6 +137,9 @@ typedef struct _renderlist_t {
 	GLbitfield pushattribute;
 	GLboolean  popattribute;
     
+    int     render_op;
+    GLuint  render_arg;
+
     int     raster_op;
     GLfloat raster_xyz[3];
     
@@ -144,6 +151,9 @@ typedef struct _renderlist_t {
 
     int     pointparam_op;
     GLfloat pointparam_val[4];
+
+    int     linestipple_op;
+    GLuint  linestipple_factor, linestipple_pattern;
     
     khash_t(material) *material;
     GLenum  colormat_face;

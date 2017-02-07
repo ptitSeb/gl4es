@@ -767,6 +767,14 @@ void draw_renderlist(renderlist_t *list) {
                 glPackedCall(cl->calls[i]);
             }
         }
+        if(list->render_op) {
+            switch(list->render_op) {
+                case 1: gl4es_glInitNames(); break;
+                case 2: gl4es_glPopName(); break;
+                case 3: gl4es_glPushName(list->render_arg); break;
+                case 4: gl4es_glLoadName(list->render_arg); break;
+            }
+        }
         if (list->fog_op) {
             switch (list->fog_op) {
                 case 1: // GL_FOG_COLOR
@@ -844,6 +852,10 @@ void draw_renderlist(renderlist_t *list) {
         }
         if (list->lightmodel) {
             gl4es_glLightModelfv(list->lightmodelparam, list->lightmodel);
+        }
+
+        if (list->linestipple_op) {
+            gl4es_glLineStipple(list->linestipple_factor, list->linestipple_pattern);
         }
 		
         if (list->texenv) {

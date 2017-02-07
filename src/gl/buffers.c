@@ -69,9 +69,9 @@ void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
 
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
 //printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);
-    if (glstate->gl_batch) {
+    ERROR_IN_LIST
+    if (glstate->list.active)
          flush();
-    }
 
    	khint_t k;
    	int ret;
@@ -162,9 +162,9 @@ void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, cons
 
 void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 //printf("glDeleteBuffers(%i, %p)\n", n, buffers);
-    if (glstate->gl_batch) {
+    ERROR_IN_LIST
+    if (glstate->list.active)
          flush();
-    }
 
     VaoSharedClear(glstate->vao);
 	khash_t(buff) *list = glstate->buffers;
@@ -272,6 +272,10 @@ void *gl4es_glMapBuffer(GLenum target, GLenum access) {
 
 GLboolean gl4es_glUnmapBuffer(GLenum target) {
 //printf("glUnmapBuffer(%s)\n", PrintEnum(target));
+    if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
+    if(glstate->list.active)
+        flush();
+        
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return GL_FALSE;
@@ -368,7 +372,8 @@ void gl4es_glGenVertexArrays(GLsizei n, GLuint *arrays) {
 }
 void gl4es_glBindVertexArray(GLuint array) {
 //printf("glBindVertexArray(%u)\n", array);
-    if (glstate->gl_batch) {
+    ERROR_IN_LIST
+    if (glstate->list.active) {
          flush();
     }
 
@@ -412,7 +417,8 @@ void gl4es_glBindVertexArray(GLuint array) {
 }
 void gl4es_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 //printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);
-    if (glstate->gl_batch) {
+    ERROR_IN_LIST
+    if (glstate->list.active) {
          flush();
     }
 	khash_t(glvao) *list = glstate->vaos;
