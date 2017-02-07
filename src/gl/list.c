@@ -728,10 +728,22 @@ renderlist_t* end_renderlist(renderlist_t *list) {
 }
 
 void recycle_renderlist(renderlist_t *list) {
-    renderlist_t* old=list;
-    list = list->prev;
-    old->prev=NULL;
-    free_renderlist(old);
+    if(isempty_renderlist(list)) {
+        renderlist_t* old=list;
+        list = list->prev;
+        old->prev=NULL;
+        free_renderlist(old);
+    }
+    // check if pending color...
+    if (list->post_color) {
+        list->post_color = 0;
+        rlColor4f(list, list->post_colors[0], list->post_colors[1], list->post_colors[2], list->post_colors[3]);
+    }
+    if (list->post_normal) {
+        list->post_normal = 0;
+        rlNormal3f(list, list->post_normals[0], list->post_normals[1], list->post_normals[2]);
+    }
+    // All done
     list->stage=STAGE_DRAW;
 }
 
@@ -1227,6 +1239,8 @@ void draw_renderlist(renderlist_t *list) {
             gl4es_glPopAttrib();
         }
 #endif
+        if(list->post_color) gl4es_glColor4fv(list->post_colors);
+        if(list->post_normal) gl4es_glNormal3fv(list->post_normals);
     } while ((list = list->next));
     gl4es_glPopClientAttrib();
 }

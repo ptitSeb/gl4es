@@ -191,7 +191,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 	
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \
-        if (glstate->list.pending) { \
+        if (!glstate->list.pending) { \
             NewStage(glstate->list.active, STAGE_GLCALL);   \
             push_##nam(__VA_ARGS__);                \
             noerrorShim();							\

@@ -1067,7 +1067,13 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
                 glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
+            } else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
+                glstate->list.active->post_normals[0] = nx; glstate->list.active->post_normals[1] = ny;
+                glstate->list.active->post_normals[2] = nz;
+                glstate->list.active->post_normal = 1;
+                return;                
             }
+
             PUSH_IF_COMPILING(glNormal3f);
         } else {
             rlNormal3f(glstate->list.active, nx, ny, nz);
@@ -1097,11 +1103,17 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_g
 void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage!=STAGE_NONE) {
+            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage<STAGE_DRAW) {
                 glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
                 glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
                 glstate->list.active->lastColorsSet = 1;
                 PUSH_IF_COMPILING(glColor4f);
+            }
+            else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
+                glstate->list.active->post_colors[0] = red; glstate->list.active->post_colors[1] = green;
+                glstate->list.active->post_colors[2] = blue; glstate->list.active->post_colors[3] = alpha;
+                glstate->list.active->post_color = 1;
+                return;                
             }
             PUSH_IF_COMPILING(glColor4f);
         } else {

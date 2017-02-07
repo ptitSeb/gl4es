@@ -156,6 +156,11 @@ typedef struct _renderlist_t {
 
     int     linestipple_op;
     GLuint  linestipple_factor, linestipple_pattern;
+
+    int     post_color;
+    GLfloat post_colors[4];
+    int     post_normal;
+    GLfloat post_normals[3];
     
     khash_t(material) *material;
     GLenum  colormat_face;
@@ -180,7 +185,11 @@ typedef struct _renderlist_t {
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
 void recycle_renderlist(renderlist_t* list);
-#define NewDrawStage(l, m) if(l->prev && isempty_renderlist(l) && l->prev->mode==mode && l->prev->mode_init==mode && mode!=GL_POLYGON) recycle_renderlist(l); else NewStage(l, STAGE_DRAW)
+#define NewDrawStage(l, m) if(l->prev && (isempty_renderlist(l) || l->stage==STAGE_POSTDRAW) && l->prev->mode==mode && \
+            l->prev->mode_init==mode && \
+            mode!=GL_POLYGON && mode!=GL_LINE_STRIP && mode!=GL_LINE_LOOP && \
+            mode!=GL_TRIANGLE_FAN && mode!=GL_TRIANGLE_STRIP && mode!=GL_QUAD_STRIP) \
+                recycle_renderlist(l); else NewStage(l, STAGE_DRAW)
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
 renderlist_t* GetFirst(renderlist_t* list);
