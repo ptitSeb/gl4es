@@ -41,8 +41,6 @@ LOCAL_SRC_FILES := \
 	src/gl/texture.c \
 	src/gl/wrap/gl.c \
 	src/gl/wrap/gles.c \
-	src/gl/wrap/gles2.c \
-	src/gl/wrap/glesext.c \
 	src/gl/wrap/glstub.c \
 	src/gl/math/eval.c \
 	src/glx/hardext.c \
