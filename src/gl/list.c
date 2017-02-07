@@ -727,6 +727,14 @@ renderlist_t* end_renderlist(renderlist_t *list) {
     return list;
 }
 
+void recycle_renderlist(renderlist_t *list) {
+    renderlist_t* old=list;
+    list = list->prev;
+    old->prev=NULL;
+    free_renderlist(old);
+    list->stage=STAGE_DRAW;
+}
+
 void draw_renderlist(renderlist_t *list) {
     if (!list) return;
     // go to 1st...

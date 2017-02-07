@@ -25,6 +25,7 @@ typedef enum {
 	STAGE_TEXGEN,
 	STAGE_POLYGON,
 	STAGE_DRAW,
+    STAGE_POSTDRAW,
 	STAGE_LAST
 } liststage_t;
 
@@ -49,7 +50,8 @@ static int StageExclusive[STAGE_LAST] = {
 	0,  // STAGE_TEXENV
 	0,  // STAGE_TEXGEN
 	1,  // STAGE_POLYGON
-	1   // STAGE_DRAW
+	1,  // STAGE_DRAW
+    1,  // STAGE_POSTDRAW   (used for "pending", i.e. post glEnd(), in case a similar glBegin occurs)
 };
 
 typedef struct {
@@ -177,7 +179,8 @@ typedef struct _renderlist_t {
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
-#define NewDrawStage(l, m) if(l->prev && isempty_renderlist(l) && l->prev->mode==mode && l->prev->mode_init==mode && mode!=GL_POLYGON) { renderlist_t* old=l; l=l->prev; old->prev=NULL; free_renderlist(old); l->stage=STAGE_DRAW; } else NewStage(l, STAGE_DRAW)
+void recycle_renderlist(renderlist_t* list);
+#define NewDrawStage(l, m) if(l->prev && isempty_renderlist(l) && l->prev->mode==mode && l->prev->mode_init==mode && mode!=GL_POLYGON) recycle_renderlist(l); else NewStage(l, STAGE_DRAW)
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
 renderlist_t* GetFirst(renderlist_t* list);

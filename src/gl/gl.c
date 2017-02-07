@@ -1052,9 +1052,11 @@ void gl4es_glEnd() {
         draw_renderlist(mylist);
         free_renderlist(mylist);
     } else {
-        if(!(glstate->list.compiling || glstate->gl_batch))
+        if(!(glstate->list.compiling || glstate->gl_batch)) {
             glstate->list.pending = 1;
-        glstate->list.active = extend_renderlist(glstate->list.active);
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+        }
+        else glstate->list.active = extend_renderlist(glstate->list.active);
     }
     noerrorShim();
 }
