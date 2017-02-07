@@ -727,11 +727,12 @@ renderlist_t* end_renderlist(renderlist_t *list) {
     return list;
 }
 
-void recycle_renderlist(renderlist_t *list) {
+renderlist_t* recycle_renderlist(renderlist_t *list) {
     if(isempty_renderlist(list)) {
         renderlist_t* old=list;
         list = list->prev;
-        old->prev=NULL;
+        old->prev = NULL;
+        list->next = NULL;
         free_renderlist(old);
     }
     // check if pending color...
@@ -745,6 +746,8 @@ void recycle_renderlist(renderlist_t *list) {
     }
     // All done
     list->stage=STAGE_DRAW;
+
+    return list;
 }
 
 void draw_renderlist(renderlist_t *list) {
