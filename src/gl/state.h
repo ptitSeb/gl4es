@@ -62,6 +62,8 @@ typedef struct {
 typedef struct {
     renderlist_t *active;
     GLboolean compiling;
+    GLboolean pending;
+    GLboolean begin;
     GLboolean locked;
     GLuint base;
     GLuint name;

@@ -177,6 +177,7 @@ typedef struct _renderlist_t {
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
+#define NewDrawStage(l, m) if(l->prev && isempty_renderlist(l) && l->prev->mode==mode && l->prev->mode_init==mode && mode!=GL_POLYGON) { renderlist_t* old=l; l=l->prev; old->prev=NULL; free_renderlist(old); l->stage=STAGE_DRAW; } else NewStage(l, STAGE_DRAW)
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
 renderlist_t* GetFirst(renderlist_t* list);
@@ -186,6 +187,7 @@ renderlist_t *extend_renderlist(renderlist_t *list);
 void free_renderlist(renderlist_t *list);
 void draw_renderlist(renderlist_t *list);
 renderlist_t* end_renderlist(renderlist_t *list);
+bool isempty_renderlist(renderlist_t *list);
 
 void rlActiveTexture(renderlist_t *list, GLenum texture );
 void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);

@@ -191,7 +191,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 	
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \
-        if (glstate->list.compiling || glstate->gl_batch) { \
+        if (glstate->list.pending) { \
             NewStage(glstate->list.active, STAGE_GLCALL);   \
             push_##nam(__VA_ARGS__);                \
             noerrorShim();							\
@@ -207,6 +207,7 @@ const char* PrintEnum(GLenum what);
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
 #define ERROR_IN_LIST if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return;}
+#define ERROR_IN_BEGIN if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return;}
 
 static const GLsizei gl_sizeof(GLenum type) {
     // types

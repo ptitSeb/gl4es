@@ -1234,6 +1234,9 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
 }
 #define batch_activetex (glstate->statebatch.active_tex_changed?(glstate->statebatch.active_tex-GL_TEXTURE0):glstate->texture.active)
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
+    ERROR_IN_BEGIN
+    if(glstate->list.active && !glstate->gl_batch && !glstate->list.compiling)
+        flush();
 	noerrorShim();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)))  {
         //printf("=> glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
@@ -1246,8 +1249,6 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
         glstate->statebatch.bound_tex[batch_activetex] = texture;
         //printf(" <= glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
     }
-    if(glstate->list.active && !glstate->gl_batch && !glstate->list.compiling)
-        flush();
     if ((target!=GL_PROXY_TEXTURE_2D) && glstate->list.active) {
         // check if already a texture binded, if yes, create a new list
         NewStage(glstate->list.active, STAGE_BINDTEX);
@@ -1389,6 +1390,7 @@ void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
+    ERROR_IN_BEGIN
     ERROR_IN_LIST
     if (glstate->list.active) flush();
 	noerrorShim();
@@ -1433,6 +1435,7 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
 void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     if (n<=0) 
 		return;
+    ERROR_IN_BEGIN
     ERROR_IN_LIST
     if (glstate->list.active) flush();
     LOAD_GLES(glGenTextures);

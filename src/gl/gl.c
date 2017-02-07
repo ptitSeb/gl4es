@@ -348,8 +348,10 @@ void gl4es_glDisable(GLenum cap) {
 void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
 
 void gl4es_glEnableClientState(GLenum cap) {
+    ERROR_IN_BEGIN
+    ERROR_IN_LIST
     // should flush for now... to be optimized later!
-    if (glstate->list.active && (!glstate->list.compiling))
+    if (glstate->list.active)
         flush();
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
@@ -357,6 +359,8 @@ void gl4es_glEnableClientState(GLenum cap) {
 void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 
 void gl4es_glDisableClientState(GLenum cap) {
+    ERROR_IN_BEGIN
+    ERROR_IN_LIST
     // should flush for now... to be optimized later!
     if (glstate->list.active && (!glstate->list.compiling))
         flush();
@@ -372,8 +376,10 @@ void glDisableClientState(GLenum cap) AliasExport("gl4es_glDisableClientState");
     case what: return glstate->vao->where
     
 GLboolean gl4es_glIsEnabled(GLenum cap) {
+    if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
+    if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
     // should flush for now... to be optimized later!
-    if (glstate->list.active && (!glstate->list.compiling))
+    if (glstate->list.active)
         flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();
@@ -1019,11 +1025,12 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) A
 
 // immediate mode functions
 void gl4es_glBegin(GLenum mode) {
+    glstate->list.begin = 1;
+    glstate->list.pending = 0;
     if (!glstate->list.active)
         glstate->list.active = alloc_renderlist();
     // small optim... continue a render command if possible
-    if(mode==GL_POLYGON || glstate->list.active->mode!=mode || glstate->list.active->mode_init!=mode || glstate->list.active->stage!=STAGE_DRAW)
-        NewStage(glstate->list.active, STAGE_DRAW);
+    NewDrawStage(glstate->list.active, mode);
     glstate->list.active->mode = mode;
     glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
@@ -1032,6 +1039,7 @@ void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
 
 void gl4es_glEnd() {
     if (!glstate->list.active) return;
+    glstate->list.begin = 0;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<MAX_TEX; a++)
 		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
@@ -1044,6 +1052,8 @@ void gl4es_glEnd() {
         draw_renderlist(mylist);
         free_renderlist(mylist);
     } else {
+        if(!(glstate->list.compiling || glstate->gl_batch))
+            glstate->list.pending = 1;
         glstate->list.active = extend_renderlist(glstate->list.active);
     }
     noerrorShim();
@@ -1053,12 +1063,10 @@ void glEnd() AliasExport("gl4es_glEnd");
 void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if (glstate->list.active->stage != STAGE_DRAW) {
-                if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-                    glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
-                }
-                PUSH_IF_COMPILING(glNormal3f);
+            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+                glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
             }
+            PUSH_IF_COMPILING(glNormal3f);
         } else {
             rlNormal3f(glstate->list.active, nx, ny, nz);
             glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
@@ -1087,13 +1095,17 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_g
 void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
-            glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
-            glstate->list.active->lastColorsSet = 1;
+            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage!=STAGE_NONE) {
+                glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
+                glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
+                glstate->list.active->lastColorsSet = 1;
+                PUSH_IF_COMPILING(glColor4f);
+            }
             PUSH_IF_COMPILING(glColor4f);
+        } else {
+            rlColor4f(glstate->list.active, red, green, blue, alpha);
+            noerrorShim();
         }
-        rlColor4f(glstate->list.active, red, green, blue, alpha);
-        noerrorShim();
     }
 #ifndef USE_ES2
     else {
@@ -1392,6 +1404,7 @@ GLboolean gl4es_glIsList(GLuint list) {
 GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");
 
 void gl4es_glPolygonMode(GLenum face, GLenum mode) {
+    ERROR_IN_BEGIN
 	noerrorShim();
 	if (face != GL_FRONT_AND_BACK)
 		errorShim(GL_INVALID_ENUM);
@@ -1555,6 +1568,7 @@ void flush() {
     if (mylist) {
         GLuint old = glstate->gl_batch;
         glstate->list.active = NULL;
+        glstate->list.pending = 0;
         glstate->gl_batch = 0;
         mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
