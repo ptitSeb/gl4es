@@ -1641,20 +1641,17 @@ void gl4es_glFinish() {
 void glFinish() AliasExport("gl4es_glFinish");
 
 void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
-    LOAD_GLES(glFogfv);
 
     if (glstate->list.active)
         if (glstate->list.compiling || glstate->gl_batch) {
             if (pname == GL_FOG_COLOR) {
                 NewStage(glstate->list.active, STAGE_FOG);
-                rlFogOp(glstate->list.active, 1, params);
+                rlFogOp(glstate->list.active, GL_FOG_COLOR, params);
                 return;
             }
-        }
-        else flush();
+        } else flush();
 
-    PUSH_IF_COMPILING(glFogfv)
-    
+    LOAD_GLES(glFogfv);
     gles_glFogfv(pname, params);
 }
 void glFogfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glFogfv");

@@ -54,15 +54,15 @@ void gl4es_glFogiv(GLenum pname, GLint *iparams) {
         case GL_FOG_DENSITY:
         case GL_FOG_START:
         case GL_FOG_END:
+        case GL_FOG_MODE:
         case GL_FOG_INDEX: {
             gl4es_glFogf(pname, *iparams);
             break;
         }
-        case GL_FOG_MODE:
         case GL_FOG_COLOR: {
             GLfloat params[4];
             for (int i = 0; i < 4; i++) {
-                params[i] = iparams[i];
+                params[i] = (iparams[i]>>16)*1.0f/32767.f;
             }
             gl4es_glFogfv(pname, params);
             break;
@@ -96,10 +96,18 @@ void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
 	GLfloat fparams[4];
 	gl4es_glGetLightfv(light, pname, fparams);
 	int n=4;
-	if (pname==GL_SPOT_EXPONENT) n=1;
-	if (pname==GL_SPOT_CUTOFF) n=1;
-	if (pname==GL_SPOT_EXPONENT) n=1;
-	if (pname==GL_SPOT_DIRECTION) n=3;
+    switch(pname) {
+        case GL_SPOT_EXPONENT:
+        case GL_SPOT_CUTOFF:
+        case GL_CONSTANT_ATTENUATION:
+        case GL_LINEAR_ATTENUATION:
+        case GL_QUADRATIC_ATTENUATION:
+             n=1;
+             break;
+	    case GL_SPOT_DIRECTION:
+             n=3;
+             break;
+    }
     if(pname==GL_AMBIENT || pname==GL_DIFFUSE || pname==GL_SPECULAR)
         for (int i=0; i<n; i++) params[i]=((int)fparams[i]*32767)<<16;
     else
@@ -138,7 +146,7 @@ void gl4es_glLightiv(GLenum light, GLenum pname, GLint *iparams) {
         case GL_DIFFUSE:
         case GL_SPECULAR:
             for (int i = 0; i < 4; i++) {
-                params[i] = (iparams[i]>>16)/32767.f;
+                params[i] = (iparams[i]>>16)*(1.0f/32767.f);
             }
             gl4es_glLightfv(light, pname, params);
             break;
@@ -173,7 +181,7 @@ void gl4es_glLightModeliv(GLenum pname, GLint *iparams) {
         case GL_LIGHT_MODEL_AMBIENT: {
             GLfloat params[4];
             for (int i = 0; i < 4; i++) {
-                params[i] = iparams[i];
+                params[i] = (iparams[i]>>16)*1.f/32767.f;
             }
             gl4es_glLightModelfv(pname, params);
             break;
@@ -200,18 +208,14 @@ printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
 		{
             GLfloat params[4];
             for (int i = 0; i < 4; i++) {
-                params[i] = (iparams[i]>>16)/32767.f;
+                params[i] = (iparams[i]>>16)*1.f/32767.f;
             }
             gl4es_glMaterialfv(face, pname, params);
             break;
         }
 		case GL_SHININESS:
 		{
-            GLfloat params[2];
-            for (int i = 0; i < 2; i++) {
-                params[i] = iparams[i];
-            }
-            gl4es_glMaterialfv(face, pname, params);
+            gl4es_glMaterialf(face, pname, *iparams);
             break;
         }
 		case GL_COLOR_INDEXES:

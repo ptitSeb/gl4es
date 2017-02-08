@@ -140,6 +140,25 @@ const char* PrintEnum(GLenum what) {
         p(GL_DST_ALPHA);
         p(GL_ONE_MINUS_SRC_ALPHA);
         p(GL_ONE_MINUS_DST_ALPHA);
+        // lights
+        p(GL_LIGHT0);
+        p(GL_LIGHT1);
+        p(GL_LIGHT2);
+        p(GL_LIGHT3);
+        p(GL_LIGHT4);
+        p(GL_LIGHT5);
+        p(GL_LIGHT6);
+        p(GL_LIGHT7);
+        p(GL_AMBIENT);
+        p(GL_DIFFUSE);
+        p(GL_SPECULAR);
+        p(GL_POSITION);
+        p(GL_SPOT_DIRECTION);
+        p(GL_SPOT_EXPONENT);
+        p(GL_SPOT_CUTOFF);
+        p(GL_CONSTANT_ATTENUATION);
+        p(GL_LINEAR_ATTENUATION);
+        p(GL_QUADRATIC_ATTENUATION);
         default:
             sprintf(fallback, "0x%04X", what);
     }

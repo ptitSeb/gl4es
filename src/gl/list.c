@@ -801,11 +801,7 @@ void draw_renderlist(renderlist_t *list) {
             }
         }
         if (list->fog_op) {
-            switch (list->fog_op) {
-                case 1: // GL_FOG_COLOR
-                    gl4es_glFogfv(GL_FOG_COLOR, list->fog_val);
-                    break;
-            }
+            gl4es_glFogfv(GL_FOG_COLOR, list->fog_val);
         }
         if (list->pointparam_op) {
             switch (list->pointparam_op) {
@@ -1475,11 +1471,13 @@ void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void rlFogOp(renderlist_t *list, int op, const GLfloat* v) {
+    int n = 1;
+    if (op==GL_FOG_COLOR) n = 4;
     list->fog_op = op;
     list->fog_val[0] = v[0];
-    list->fog_val[1] = v[1];
-    list->fog_val[2] = v[2];
-    list->fog_val[3] = v[3];
+    if (n>1) list->fog_val[1] = v[1];
+    if (n>2) list->fog_val[2] = v[2];
+    if (n>3) list->fog_val[3] = v[3];
 }
 
 void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v) {
