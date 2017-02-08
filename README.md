@@ -235,6 +235,11 @@ VAO Caching
 Version history
 ----
 
+##### Current version
+ * Added some optimisations for sequencial glBegin/glEnd blocks
+ * Fixed many issue with Lights introduced with 0.9.4
+ * Fixed Android build introduced with 0.9.4
+
 ##### 0.9.4
  * Fixed some extended functions (like glBlendFuncSeparate) not working inside list (fixing some issues with Batch mode)
  * Added back GL_TEXTURE_RECTANGLE_ARB handling (and using npot texture, even limited, if available)
