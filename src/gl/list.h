@@ -185,7 +185,8 @@ typedef struct _renderlist_t {
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
 renderlist_t* recycle_renderlist(renderlist_t* list);
-#define NewDrawStage(l, m) if(((l->prev && isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
+#define NewDrawStage(l, m) if(globals4es.mergelist \
+            && ((l->prev && isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
             || (l->stage==STAGE_POSTDRAW && l->open && l->mode==mode && l->mode_init==mode))  && \
             mode!=GL_POLYGON && mode!=GL_LINE_STRIP && mode!=GL_LINE_LOOP && \
             mode!=GL_TRIANGLE_FAN && mode!=GL_TRIANGLE_STRIP && mode!=GL_QUAD_STRIP) \

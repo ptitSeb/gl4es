@@ -1838,7 +1838,9 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
 	 errorShim(GL_INVALID_ENUM);
    return;
  }
- ERROR_IN_LIST
+ ERROR_IN_BEGIN
+ //if(glstate->list.active && !glstate->list.compiling && !glstate->gl_batch) flush();
+ PUSH_IF_COMPILING(glClientActiveTexture);
  // try to speed-up things...
  if (glstate->texture.client == (texture - GL_TEXTURE0))
     return;

@@ -126,6 +126,8 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     // polygon mode
     if(a->polygon_mode!=b->polygon_mode)
         return false;
+    if(a->post_color || b->post_color || a->post_normal || b->post_normal)
+        return false;
         
     // Check the size of a list, if it"s too big, don't merge...
     if ((a->len+b->len)>30000)

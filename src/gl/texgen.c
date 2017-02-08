@@ -23,6 +23,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     */
 
     //printf("glTexGenf(%s, %s, %s/%f), texture=%i\n", PrintEnum(coord), PrintEnum(pname), PrintEnum(param[0]), param[0], glstate->texture.active);
+    ERROR_IN_BEGIN
     if (glstate->list.active)
         if (glstate->list.compiling || glstate->gl_batch) {
             NewStage(glstate->list.active, STAGE_TEXGEN);

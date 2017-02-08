@@ -151,7 +151,7 @@
 #define direct_glDisableClientState
 #define direct_glEdgeFlagPointer
 #define direct_glEnableClientState
-#define direct_glClientActiveTexture
+//#define direct_glClientActiveTexture  // will use it in Batch mode
 #define direct_glFeedbackBuffer
 #define direct_glGenLists
 #define direct_glIndexPointer

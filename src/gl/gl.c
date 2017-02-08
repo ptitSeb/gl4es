@@ -566,6 +566,8 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
+    if(glstate->list.active && !glstate->list.compiling && glstate->gl_batch) 
+        flush();
     if (mode == GL_QUADS) while(count%4) count--;
     else if (mode == GL_TRIANGLES) while(count%3) count--;
     
@@ -727,6 +729,8 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
 
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    if(glstate->list.active && !glstate->list.compiling && glstate->gl_batch) 
+        flush();
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
     else if (mode == GL_TRIANGLES) while(count%3) count--;
