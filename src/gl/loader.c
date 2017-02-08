@@ -1,5 +1,6 @@
 #include "loader.h"
 #include "logs.h"
+#include "init.h"
 #include <linux/limits.h>
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL;
@@ -48,7 +49,7 @@ void *open_lib(const char **names, const char *override) {
     if (override) {
         if ((lib = dlopen(override, flags))) {
             strncpy(path_name, override, PATH_MAX);
-            LOGD("LIBGL:loaded: %s\n", path_name);
+            if(!globals4es.nobanner) LOGD("LIBGL:loaded: %s\n", path_name);
             return lib;
         } else {
             LOGE("LIBGL_GLES override failed: %s\n", dlerror());
@@ -59,7 +60,7 @@ void *open_lib(const char **names, const char *override) {
             for (int e = 0; lib_ext[e]; e++) {
                 snprintf(path_name, PATH_MAX, "%s%s.%s", path_prefix[p], names[i], lib_ext[e]);
                 if ((lib = dlopen(path_name, flags))) {
-                    LOGD("LIBGL:loaded: %s\n", path_name);
+                    if(!globals4es.nobanner) LOGD("LIBGL:loaded: %s\n", path_name);
                     return lib;
                 }
             }

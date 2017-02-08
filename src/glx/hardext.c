@@ -138,7 +138,7 @@ void GetHardwareExtensions(int notest)
 #endif
 
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
-        LOGD("LIBGL: sRGB surface supported\n");
+        SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
     }
 
