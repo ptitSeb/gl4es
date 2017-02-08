@@ -160,6 +160,12 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
+        case GL_MAJOR_VERSION:
+            *params = 1;
+            break;
+        case GL_MINOR_VERSION:
+            *params = 5;
+            break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
@@ -348,6 +354,12 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch (pname) {
+        case GL_MAJOR_VERSION:
+            *params = 1;
+            break;
+        case GL_MINOR_VERSION:
+            *params = 5;
+            break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
