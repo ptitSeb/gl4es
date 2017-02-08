@@ -1055,7 +1055,7 @@ typedef struct {
     GLenum a1;
     GLsizei * a2;
     GLenum a3;
-    void * * a4;
+    const void * const * a4;
     GLsizei a5;
 } ARGS_void_GLenum_GLsizei___GENPT___GLenum_const_void___GENPT___const___GENPT___GLsizei;
 typedef struct {
