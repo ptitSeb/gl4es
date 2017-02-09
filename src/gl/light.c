@@ -6,12 +6,14 @@
 #ifndef USE_ES2
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
-    if(glstate->list.active) {
-        GLfloat dummy[4];
-        dummy[0]=param;
-        gl4es_glLightModelfv(pname, dummy);
-        return;
-    }
+    ERROR_IN_BEGIN
+    if(glstate->list.active) 
+        if ((glstate->list.compiling || glstate->gl_batch)) {
+            GLfloat dummy[4];
+            dummy[0]=param;
+            gl4es_glLightModelfv(pname, dummy);
+            return;
+        } else flush();
     switch (pname) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
@@ -30,7 +32,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 //printf("%sglLightModelfv(%04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", pname, params[0], params[1], params[2], params[3]);
     ERROR_IN_BEGIN
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if ((glstate->list.compiling || glstate->gl_batch)) {
             NewStage(glstate->list.active, STAGE_LIGHTMODEL);
     /*		if (glstate->list.active->lightmodel)
                 glstate->list.active = extend_renderlist(glstate->list.active);*/
@@ -72,8 +74,9 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
         errorShim(GL_INVALID_ENUM);
         return;
     }
+    ERROR_IN_BEGIN
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if (glstate->list.compiling || glstate->gl_batch) {
             NewStage(glstate->list.active, STAGE_LIGHT);
             rlLightfv(glstate->list.active, light, pname, params);
             noerrorShim();
@@ -171,8 +174,9 @@ void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
 }
 
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
+    ERROR_IN_BEGIN      // that not true, but don't know how to handle it
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if (glstate->list.compiling || glstate->gl_batch) {
             //TODO: Materialfv can be done per vertex, how to handle that ?!
             //NewStage(glstate->list.active, STAGE_MATERIAL);
             rlMaterialfv(glstate->list.active, face, pname, params);
@@ -249,8 +253,9 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 }
 
 void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+    ERROR_IN_BEGIN
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if (glstate->list.compiling || glstate->gl_batch) {
             GLfloat params[4];
             memset(params, 0, 4*sizeof(GLfloat));
             params[0] = param;
@@ -283,8 +288,9 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 }
 
 void gl4es_glColorMaterial(GLenum face, GLenum mode) {
+    ERROR_IN_BEGIN
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+        if (glstate->list.compiling || glstate->gl_batch) {
             NewStage(glstate->list.active, STAGE_COLOR_MATERIAL);
             glstate->list.active->colormat_face = face;
             glstate->list.active->colormat_mode = mode;

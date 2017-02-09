@@ -4,8 +4,8 @@ static GLuint lastquery = 0;
 static glquery_t *active_samples_passed = 0;
 
 void gl4es_glGenQueries(GLsizei n, GLuint * ids) {
-	ERROR_IN_LIST
-	if(glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
 	noerrorShim();
     if (n<1) {
 		errorShim(GL_INVALID_VALUE);
@@ -32,8 +32,8 @@ GLboolean gl4es_glIsQuery(GLuint id) {
 }
 
 void gl4es_glDeleteQueries(GLsizei n, const GLuint* ids) {
-	ERROR_IN_LIST
-	if(glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
 	khash_t(queries) *list = glstate->queries;
     if (list) {
         khint_t k;
@@ -60,8 +60,8 @@ void gl4es_glBeginQuery(GLenum target, GLuint id) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-	ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
 
    	khint_t k;
    	int ret;
@@ -95,8 +95,8 @@ void gl4es_glEndQuery(GLenum target) {
 		errorShim(GL_INVALID_OPERATION);
 		return;
 	}
-	ERROR_IN_LIST
-    if (glstate->list.active)  flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
 
     active_samples_passed = NULL;
 	noerrorShim();
@@ -107,8 +107,9 @@ void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
-	ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
+
 	noerrorShim();
 	switch (pname) {
 		case GL_CURRENT_QUERY:
@@ -125,8 +126,9 @@ void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
    	khint_t k;
    	int ret;
-	ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
+
     glquery_t *query = NULL;
 	khash_t(queries) *list = glstate->queries;
 	if (! list) {
@@ -160,8 +162,9 @@ void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
 void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
    	khint_t k;
    	int ret;
-	ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
+		
     glquery_t *query = NULL;
 	khash_t(queries) *list = glstate->queries;
 	if (! list) {

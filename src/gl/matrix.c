@@ -155,10 +155,13 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	LOAD_GLES(glLoadIdentity);
 
     if (glstate->list.active) {
-        NewStage(glstate->list.active, STAGE_MATRIX);
-        glstate->list.active->matrix_op = 1;
-        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
-        return;
+		if(glstate->list.pending) flush();
+		else {
+			NewStage(glstate->list.active, STAGE_MATRIX);
+			glstate->list.active->matrix_op = 1;
+			memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
+			return;
+		}
     }
 	memcpy(update_current_mat(), m, 16*sizeof(GLfloat));
 	const int id = update_current_identity(0);
@@ -172,16 +175,19 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
     LOAD_GLES(glLoadMatrixf);
 	LOAD_GLES(glLoadIdentity);
     if (glstate->list.active) {
-		if(glstate->list.active->stage == STAGE_MATRIX) {
-			// multiply the matrix mith the current one....
-			matrix_mul(glstate->list.active->matrix_val, m, glstate->list.active->matrix_val);
+		if(glstate->list.pending) flush();
+		else {
+			if(glstate->list.active->stage == STAGE_MATRIX) {
+				// multiply the matrix mith the current one....
+				matrix_mul(glstate->list.active->matrix_val, m, glstate->list.active->matrix_val);
+				return;
+			}
+			NewStage(glstate->list.active, STAGE_MATRIX);
+			glstate->list.active->matrix_op = 2;
+			memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
 			return;
 		}
-        NewStage(glstate->list.active, STAGE_MATRIX);
-        glstate->list.active->matrix_op = 2;
-        memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
-        return;
-    }
+	}
 	GLfloat *current_mat = update_current_mat();
 	matrix_mul(current_mat, m, current_mat);
 	const int id = update_current_identity(0);
@@ -194,12 +200,14 @@ void gl4es_glLoadIdentity() {
 DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	LOAD_GLES(glLoadIdentity);
     if (glstate->list.active) {
-        NewStage(glstate->list.active, STAGE_MATRIX);
-        glstate->list.active->matrix_op = 1;
-        set_identity(glstate->list.active->matrix_val);
-        return;
-    }
-	
+		if(glstate->list.pending) flush();
+		else {
+			NewStage(glstate->list.active, STAGE_MATRIX);
+			glstate->list.active->matrix_op = 1;
+			set_identity(glstate->list.active->matrix_val);
+			return;
+		}
+	}
 	set_identity(update_current_mat());
 	update_current_identity(1);
 	if(send_to_hardware()) gles_glLoadIdentity();

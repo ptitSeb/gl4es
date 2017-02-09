@@ -4,8 +4,8 @@
 
 void gl4es_glHint(GLenum pname, GLenum mode) {
     
-    ERROR_IN_LIST
-    if(glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
 
     LOAD_GLES(glHint);
     noerrorShim();

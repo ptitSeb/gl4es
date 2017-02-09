@@ -546,9 +546,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         return;
     }
     //PUSH_IF_COMPILING(glTexImage2D);
-    ERROR_IN_LIST
     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -857,9 +856,8 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                      const GLvoid *data) {
 
 	//PUSH_IF_COMPILING(glTexSubImage2D);
-    ERROR_IN_LIST
     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -1391,8 +1389,8 @@ void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
     ERROR_IN_BEGIN
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
 	noerrorShim();
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = glstate->texture.list;
@@ -1436,8 +1434,8 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     if (n<=0) 
 		return;
     ERROR_IN_BEGIN
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
     LOAD_GLES(glGenTextures);
     gles_glGenTextures(n, textures);
     errorGL();
@@ -1493,8 +1491,8 @@ GLboolean gl4es_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboole
 void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
     //printf("glGetTexLevelParameteriv(%s, %d, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
 	// simplification: (mostly) not taking "target" into account here
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
 	*params = 0;
 	noerrorShim();
     const GLuint itarget = what_target(target);
@@ -1607,9 +1605,8 @@ void popViewport();
 
 void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
 //printf("glGetTexImage(%s, %i, %s, %s, %p)\n", PrintEnum(target), level, PrintEnum(format), PrintEnum(type), img);
-    ERROR_IN_LIST
     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -1852,9 +1849,8 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
 }
 void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
     //printf("glReadPixels(%i, %i, %i, %i, %s, %s, 0x%p)\n", x, y, width, height, PrintEnum(format), PrintEnum(type), data);
-    ERROR_IN_LIST
     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -1901,9 +1897,8 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
     //printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->texture:0, PrintEnum((glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->format:0), PrintEnum((glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->type:0));
     // PUSH_IF_COMPILING(glCopyTexSubImage2D);
-    ERROR_IN_LIST
     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -1963,9 +1958,8 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
 								GLsizei width,  GLsizei height,  GLint border) {
      //printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
      //PUSH_IF_COMPILING(glCopyTexImage2D);
-     ERROR_IN_LIST
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
          flush();
          glstate->gl_batch = 0;
      }
@@ -2070,9 +2064,8 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 							GLsizei width, GLsizei height, GLint border,
 							GLsizei imageSize, const GLvoid *data) 
 {
-    ERROR_IN_LIST
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
          flush();
          glstate->gl_batch = 0;
      }
@@ -2195,9 +2188,8 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data) 
 {
-    ERROR_IN_LIST
     const GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->list.active) {
+    if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
@@ -2265,8 +2257,8 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
 }
 
 void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
 
     const GLuint itarget = what_target(target); 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
@@ -2383,8 +2375,8 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     gles_glTexEnviv(target, pname, param);
 }
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
     LOAD_GLES(glGetTexEnvfv);
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         *params = glstate->texture.pscoordreplace[glstate->texture.active];
@@ -2393,8 +2385,8 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 
 }
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
-    ERROR_IN_LIST
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending)
+        flush();
     LOAD_GLES(glGetTexEnviv);
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         *params = glstate->texture.pscoordreplace[glstate->texture.active];

@@ -146,9 +146,9 @@ void gl4es_glLoadName(GLuint name) {
 }
 
 void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
-	ERROR_IN_LIST
-	if(glstate->list.active) flush();
-
+    if (glstate->gl_batch || glstate->list.pending)
+		flush();
+		
     noerrorShim();
 	glstate->selectbuf.buffer = buffer;
 	glstate->selectbuf.size = size;

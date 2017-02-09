@@ -282,9 +282,8 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 
 void gl4es_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
-    ERROR_IN_LIST
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->list.active) {
+     if (glstate->gl_batch || glstate->list.pending) {
          flush();
          glstate->gl_batch = 0;
      }
@@ -624,9 +623,8 @@ void gl4es_glPopAttrib() {
 
 void gl4es_glPopClientAttrib() {
     noerrorShim();
-    ERROR_IN_LIST   
      GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->list.active) {
+     if (glstate->gl_batch || glstate->list.pending) {
          flush();
          glstate->gl_batch = 0;
      }
