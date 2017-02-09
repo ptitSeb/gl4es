@@ -349,9 +349,8 @@ void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
 
 void gl4es_glEnableClientState(GLenum cap) {
     ERROR_IN_BEGIN
-    ERROR_IN_LIST
     // should flush for now... to be optimized later!
-    if (glstate->list.active)
+    if (glstate->list.active && (!glstate->list.compiling && !glstate->gl_batch))
         flush();
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
@@ -360,9 +359,8 @@ void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 
 void gl4es_glDisableClientState(GLenum cap) {
     ERROR_IN_BEGIN
-    ERROR_IN_LIST
     // should flush for now... to be optimized later!
-    if (glstate->list.active && (!glstate->list.compiling))
+    if (glstate->list.active && (!glstate->list.compiling && !glstate->gl_batch))
         flush();
     LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
@@ -1497,10 +1495,8 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
             if (!glstate->statebatch.blendfunc_s) {
                 glstate->statebatch.blendfunc_s = sfactor;
                 glstate->statebatch.blendfunc_d = dfactor;
-            } else {
-                flush();
             }
-        } else flush();
+        } 
 
     PUSH_IF_COMPILING(glBlendFunc)
     LOAD_GLES(glBlendFunc);
