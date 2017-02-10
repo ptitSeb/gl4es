@@ -227,7 +227,26 @@ void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint co
         matrix_vector(ModelviewMatrix, verts+k*4, tmp);
         out[k*4]=dot4(plane, tmp);
     }
+}
 
+void eye_loop_dual(const GLfloat *verts, const GLfloat *param1, const GLfloat* param2, GLfloat *out, GLint count, GLushort *indices) {
+    // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
+    // First get the ModelviewMatrix
+    GLfloat ModelviewMatrix[16], InvModelview[16];
+    glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
+    // column major -> row major
+    matrix_transpose(InvModelview, ModelviewMatrix);
+    // And get the inverse
+    matrix_inverse(ModelviewMatrix, InvModelview);
+    GLfloat plane1[4], plane2[4], tmp[4];
+    vector_matrix(param1, InvModelview, plane1);
+    vector_matrix(param2, InvModelview, plane2);
+    for (int i=0; i<count; i++) {
+	GLushort k = indices?indices[i]:i;
+        matrix_vector(ModelviewMatrix, verts+k*4, tmp);
+        out[k*4+0]=dot4(plane1, tmp);
+        out[k*4+1]=dot4(plane2, tmp);
+    }
 }
 
 static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, GLint count, GLenum type, GLfloat *param_o, GLfloat *param_e, GLushort *indices) {
@@ -341,10 +360,16 @@ void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count
 	return;
     if ((*coords)==NULL) 
         *coords = (GLfloat *)malloc(count * 4 * sizeof(GLfloat));
-    if (glstate->enable.texgen_s[texture])
-        tex_coord_loop(verts, norm, (*coords), (indices)?ilen:count, glstate->texgen[texture].S, glstate->texgen[texture].S_O, glstate->texgen[texture].S_E, indices);
-    if (glstate->enable.texgen_t[texture])
-        tex_coord_loop(verts, norm, (*coords)+1, (indices)?ilen:count, glstate->texgen[texture].T, glstate->texgen[texture].T_O, glstate->texgen[texture].T_E, indices);
+    if (    (glstate->enable.texgen_s[texture] && glstate->texgen[texture].S==GL_EYE_LINEAR) 
+        &&  (glstate->enable.texgen_t[texture] && glstate->texgen[texture].T==GL_EYE_LINEAR) )
+    {
+        eye_loop_dual(verts, glstate->texgen[texture].S_E, glstate->texgen[texture].T_E, (*coords), (indices)?ilen:count, indices);
+    } else {
+        if (glstate->enable.texgen_s[texture])
+            tex_coord_loop(verts, norm, (*coords), (indices)?ilen:count, glstate->texgen[texture].S, glstate->texgen[texture].S_O, glstate->texgen[texture].S_E, indices);
+        if (glstate->enable.texgen_t[texture])
+            tex_coord_loop(verts, norm, (*coords)+1, (indices)?ilen:count, glstate->texgen[texture].T, glstate->texgen[texture].T_O, glstate->texgen[texture].T_E, indices);
+    }
     if (glstate->enable.texgen_r[texture])
         tex_coord_loop(verts, norm, (*coords)+2, (indices)?ilen:count, glstate->texgen[texture].R, glstate->texgen[texture].R_O, glstate->texgen[texture].R_E, indices);
     else
