@@ -531,7 +531,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->texture:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed:0, glstate->list.compiling);
+    //printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i, base_level=%i, max_level=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(internalformat), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->base_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->max_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->texture:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed:0, glstate->list.compiling);
     // proxy case
 
     const GLuint itarget = what_target(target);
@@ -1191,7 +1191,7 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
 gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
     // Get a texture based on glID
     gltexture_t* tex = NULL;
-    if (texture == 0) return tex;
+    //if (texture == 0) return tex; // texture 0 is a texture like any other... it is not "unbind" texture in fact!!
     int ret;
     khint_t k;
     khash_t(tex) *list = glstate->texture.list;
@@ -1215,14 +1215,15 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->uploaded = false;
         tex->mipmap_auto = default_tex_mipmap || (globals4es.automipmap==1);
         tex->mipmap_need = (globals4es.automipmap==1)?1:0;
-        tex->alpha = true;
-        tex->streamed = false;
         tex->streamingID = -1;
+        tex->base_level = -1;
+        tex->max_level = -1;
+        tex->streamed = false;
+        tex->alpha = true;
+        tex->compressed = false;
         tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
-        tex->orig_internal = GL_RGBA;
-        tex->internalformat = GL_RGBA;
         tex->shrink = 0;
         tex->data = NULL;
     } else {
@@ -1233,9 +1234,9 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
 #define batch_activetex (glstate->statebatch.active_tex_changed?(glstate->statebatch.active_tex-GL_TEXTURE0):glstate->texture.active)
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
+    //printf("glBindTexture(%s, %u), active=%i, client=%i\n", PrintEnum(target), texture, glstate->texture.active, glstate->texture.client);
     if(glstate->list.pending) flush();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)))  {
-        //printf("=> glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
         if ((glstate->statebatch.bound_targ[batch_activetex] == target) && (glstate->statebatch.bound_tex[batch_activetex] == texture))
             return; // nothing to do...
         if (glstate->statebatch.bound_targ[batch_activetex]) {
@@ -1243,7 +1244,6 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
         }
         glstate->statebatch.bound_targ[batch_activetex] = target;
         glstate->statebatch.bound_tex[batch_activetex] = texture;
-        //printf(" <= glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
     }
     if ((target!=GL_PROXY_TEXTURE_2D) && ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active)) {
         // check if already a texture binded, if yes, create a new list
@@ -1254,18 +1254,13 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 		int streamingID = -1;
         gltexture_t *tex = NULL;
         const GLuint itarget = what_target(target);
-        //printf("glBindTexture(0x%04X, %u), active=%i, client=%i\n", target, texture, glstate->texture.active, glstate->texture.client);
-        if (texture) {
-            tex = gl4es_getTexture(target, texture);
-            if (glstate->texture.bound[glstate->texture.active][itarget] == tex)
-            	tex_changed = 0;
-            texture = tex->glname;
-			if (globals4es.texstream && tex->streamed)
-				streamingID = tex->streamingID;
-        } else {
-            if (glstate->texture.bound[glstate->texture.active][itarget] == NULL)
-            	tex_changed = 0;
-        }
+
+        tex = gl4es_getTexture(target, texture);
+        if (glstate->texture.bound[glstate->texture.active][itarget] == tex)
+            tex_changed = 0;
+        texture = tex->glname;
+        if (globals4es.texstream && tex->streamed)
+            streamingID = tex->streamingID;
 	
         LOAD_GLES(glDisable);
         LOAD_GLES(glEnable);
@@ -1455,15 +1450,15 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 			tex->width = 0;
 			tex->height = 0;
 			tex->uploaded = false;
-			tex->mipmap_auto = 0;
-			tex->mipmap_need = 0;
+            tex->mipmap_auto = default_tex_mipmap || (globals4es.automipmap==1);
+            tex->mipmap_need = (globals4es.automipmap==1)?1:0;
 			tex->streamingID = -1;
             tex->base_level = -1;
             tex->max_level = -1;
 			tex->streamed = false;
             tex->alpha = true;
             tex->compressed = false;
-			tex->min_filter = tex->mag_filter = GL_NEAREST;
+			tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
             tex->shrink = 0;
