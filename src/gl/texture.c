@@ -167,6 +167,10 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *format = GL_RGBA;
             *type = GL_UNSIGNED_BYTE;
             break;
+        case GL_BGRA:
+            *format = GL_BGRA;
+            *type = GL_UNSIGNED_BYTE;
+            break;
         case GL_DEPTH_COMPONENT:
             *format = GL_DEPTH_COMPONENT;
             *type = GL_UNSIGNED_SHORT;
@@ -228,6 +232,12 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
         case GL_RGBA8:
             dest_format = GL_RGBA;
             *format = GL_RGBA;
+            break;
+        case GL_BGRA:
+            if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE)) {
+                dest_format = GL_BGRA;
+                *format = GL_BGRA;
+            } else convert = true;
             break;
         default:
             convert = true;
@@ -336,7 +346,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     return (void *)data;
 }
 
-GLenum swizzle_internalformat(GLenum *internalformat) {
+GLenum swizzle_internalformat(GLenum *internalformat, GLenum format) {
     GLenum ret = *internalformat;
     GLenum sret;
     switch(*internalformat) {
@@ -372,13 +382,16 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
             break;
         case GL_RGBA:
         case GL_RGBA8:
-        case GL_BGRA:
         case GL_RGBA16:
         case GL_RGBA16F:
         case GL_RGBA32F:
         case GL_RGB10_A2:
         case 4: 
-            ret = GL_RGBA; sret = GL_RGBA; 
+            if(format==GL_BGRA && hardext.bgra8888) {
+                ret = GL_BGRA; sret = GL_BGRA; 
+            } else {
+                ret = GL_RGBA; sret = GL_RGBA; 
+            }
             break;
         case GL_ALPHA8:
         case GL_ALPHA:
@@ -430,6 +443,15 @@ GLenum swizzle_internalformat(GLenum *internalformat) {
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
             ret = GL_COMPRESSED_RGBA;
             sret = GL_RGBA;
+            break;
+        case GL_BGRA:
+            if(hardext.bgra8888) {
+                ret = GL_BGRA;
+                sret = GL_BGRA;
+            } else {
+                ret = GL_RGBA;
+                sret = GL_RGBA;
+            }
             break;
         default:
             ret = GL_RGBA;
@@ -542,7 +564,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if (globals4es.texshrink>=8 && max1>8192) max1=8192;
         proxy_width = ((width<<level)>max1)?0:width;
         proxy_height = ((height<<level)>max1)?0:height;
-        proxy_intformat = swizzle_internalformat(&internalformat);
+        proxy_intformat = swizzle_internalformat(&internalformat, format);
         return;
     }
     //PUSH_IF_COMPILING(glTexImage2D);
@@ -572,7 +594,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             else
                 bound->mipmap_need = 1;
      }
-     GLenum new_format = swizzle_internalformat(&internalformat);
+     GLenum new_format = swizzle_internalformat(&internalformat, format);
      if (bound && (level==0)) {
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
