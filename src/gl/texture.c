@@ -1232,10 +1232,8 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
 }
 #define batch_activetex (glstate->statebatch.active_tex_changed?(glstate->statebatch.active_tex-GL_TEXTURE0):glstate->texture.active)
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
-    ERROR_IN_BEGIN
-    if(glstate->list.active && !glstate->gl_batch && !glstate->list.compiling)
-        flush();
 	noerrorShim();
+    if(glstate->list.pending) flush();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)))  {
         //printf("=> glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
         if ((glstate->statebatch.bound_targ[batch_activetex] == target) && (glstate->statebatch.bound_tex[batch_activetex] == texture))
@@ -1247,7 +1245,7 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
         glstate->statebatch.bound_tex[batch_activetex] = texture;
         //printf(" <= glBindTexture(0x%04X, %u), active=%i, client=%i, batch_active=%i, batch_bound=0x%04X, batch_tex=%u\n", target, texture, glstate->texture.active, glstate->texture.client, batch_activetex, glstate->statebatch.bound_targ[batch_activetex], glstate->statebatch.bound_tex[batch_activetex]);
     }
-    if ((target!=GL_PROXY_TEXTURE_2D) && glstate->list.active) {
+    if ((target!=GL_PROXY_TEXTURE_2D) && ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active)) {
         // check if already a texture binded, if yes, create a new list
         NewStage(glstate->list.active, STAGE_BINDTEX);
         rlBindTexture(glstate->list.active, target, texture);
@@ -1388,9 +1386,7 @@ void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
-    ERROR_IN_BEGIN
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
+    if (glstate->gl_batch || glstate->list.pending) flush();
 	noerrorShim();
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = glstate->texture.list;
@@ -1433,9 +1429,7 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
 void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     if (n<=0) 
 		return;
-    ERROR_IN_BEGIN
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
+    if (glstate->gl_batch || glstate->list.pending) flush();
     LOAD_GLES(glGenTextures);
     gles_glGenTextures(n, textures);
     errorGL();
@@ -1491,8 +1485,7 @@ GLboolean gl4es_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboole
 void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
     //printf("glGetTexLevelParameteriv(%s, %d, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
 	// simplification: (mostly) not taking "target" into account here
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
+    if (glstate->gl_batch || glstate->list.pending) flush();
 	*params = 0;
 	noerrorShim();
     const GLuint itarget = what_target(target);
@@ -1805,6 +1798,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
 }
 
 void gl4es_glActiveTexture( GLenum texture ) {
+ if (glstate->list.pending) flush();
  if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
     if (glstate->statebatch.active_tex_changed) {
         if(glstate->statebatch.active_tex == texture)
@@ -1835,13 +1829,10 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
 	 errorShim(GL_INVALID_ENUM);
    return;
  }
- ERROR_IN_BEGIN
- //if(glstate->list.active && !glstate->list.compiling && !glstate->gl_batch) flush();
- PUSH_IF_COMPILING(glClientActiveTexture);
  // try to speed-up things...
  if (glstate->texture.client == (texture - GL_TEXTURE0))
     return;
- if (glstate->list.active) flush();
+ if (glstate->gl_batch || glstate->list.pending) flush();
  glstate->texture.client = texture - GL_TEXTURE0;
  LOAD_GLES(glClientActiveTexture);
  gles_glClientActiveTexture(texture);
@@ -1959,7 +1950,7 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
      //printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);
      //PUSH_IF_COMPILING(glCopyTexImage2D);
      GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->gl_batch || glstate->list.pending) {
+     if (glstate->gl_batch || glstate->list.pending) {
          flush();
          glstate->gl_batch = 0;
      }
@@ -2064,11 +2055,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 							GLsizei width, GLsizei height, GLint border,
 							GLsizei imageSize, const GLvoid *data) 
 {
-     GLuint old_glbatch = glstate->gl_batch;
-    if (glstate->gl_batch || glstate->list.pending) {
-         flush();
-         glstate->gl_batch = 0;
-     }
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
     if (target == GL_PROXY_TEXTURE_2D) {
@@ -2076,6 +2062,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         proxy_height = (height>2048)?0:height;
         return;
     }
+     GLuint old_glbatch = glstate->gl_batch;
+     if (glstate->gl_batch || glstate->list.pending) {
+         flush();
+         glstate->gl_batch = 0;
+     }
 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget]; 
     if (bound==NULL) {
@@ -2188,12 +2179,12 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
 							   GLsizei width, GLsizei height, GLenum format, 
 							   GLsizei imageSize, const GLvoid *data) 
 {
+    const GLuint itarget = what_target(target);
     const GLuint old_glbatch = glstate->gl_batch;
     if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
     }
-    const GLuint itarget = what_target(target);
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
 	if (bound==NULL) {
 		errorShim(GL_INVALID_OPERATION);
@@ -2257,8 +2248,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
 }
 
 void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
+    if (glstate->gl_batch || glstate->list.pending) flush();
 
     const GLuint itarget = what_target(target); 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
@@ -2351,33 +2341,30 @@ void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
     gles_glTexEnvi(target, pname, param);
 }
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
-    if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
-            NewStage(glstate->list.active, STAGE_TEXENV);
-            rlTexEnvfv(glstate->list.active, target, pname, param);
-            noerrorShim();
-            return;
-        } else flush();
-
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_TEXENV);
+		rlTexEnvfv(glstate->list.active, target, pname, param);
+        noerrorShim();
+		return;
+	}
     LOAD_GLES(glTexEnvfv);
     gles_glTexEnvfv(target, pname, param);
 }
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
-    if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
-            NewStage(glstate->list.active, STAGE_TEXENV);
-            rlTexEnviv(glstate->list.active, target, pname, param);
-            noerrorShim();
-            return;
-        } else flush();
-
+    if (glstate->list.pending) flush();
+    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+		NewStage(glstate->list.active, STAGE_TEXENV);
+		rlTexEnviv(glstate->list.active, target, pname, param);
+        noerrorShim();
+		return;
+	}
     LOAD_GLES(glTexEnviv);
     gles_glTexEnviv(target, pname, param);
 }
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
     LOAD_GLES(glGetTexEnvfv);
+    if (glstate->list.pending) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         *params = glstate->texture.pscoordreplace[glstate->texture.active];
     else
@@ -2385,9 +2372,9 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 
 }
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
-    if (glstate->gl_batch || glstate->list.pending)
-        flush();
     LOAD_GLES(glGetTexEnviv);
+    if (glstate->list.pending) flush();
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         *params = glstate->texture.pscoordreplace[glstate->texture.active];
     else

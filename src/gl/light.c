@@ -3,7 +3,6 @@
 #include "matrix.h"
 #include "matvec.h"
 
-#ifndef USE_ES2
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
     ERROR_IN_BEGIN
@@ -320,4 +319,3 @@ void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("gl4
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("gl4es_glMaterialfv");
 void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl4es_glMaterialf");
 void glColorMaterial(GLenum face, GLenum mode) AliasExport("gl4es_glColorMaterial");
-#endif

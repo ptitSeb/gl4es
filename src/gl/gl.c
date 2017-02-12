@@ -350,7 +350,7 @@ void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
 void gl4es_glEnableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
-    if (glstate->list.active && (!glstate->list.compiling && glstate->gl_batch))
+    if (glstate->list.active && !glstate->list.compiling)
         flush();
     LOAD_GLES(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
@@ -360,7 +360,7 @@ void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 void gl4es_glDisableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
-    if (glstate->list.active && (!glstate->list.compiling && glstate->gl_batch))
+    if (glstate->list.active && !glstate->list.compiling)
         flush();
     LOAD_GLES(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
@@ -1138,9 +1138,14 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExp
 
 void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate->list.active) {
-        rlSecondary3f(glstate->list.active, r, g, b);
-        glstate->list.active->lastSecondaryColors[0] = r; glstate->list.active->lastSecondaryColors[1] = g;
-        glstate->list.active->lastSecondaryColors[2] = b;
+        if(glstate->list.pending)
+            flush();
+        else
+        {
+            rlSecondary3f(glstate->list.active, r, g, b);
+            glstate->list.active->lastSecondaryColors[0] = r; glstate->list.active->lastSecondaryColors[1] = g;
+            glstate->list.active->lastSecondaryColors[2] = b;
+        }
         noerrorShim();
     } else {
         noerrorShim();
@@ -1154,7 +1159,10 @@ void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glSe
 
 void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate->list.active) {
-        rlTexCoord4f(glstate->list.active, s, t, r, q);
+        if(glstate->list.pending)
+            flush();
+        else
+            rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
     }
     noerrorShim();
     glstate->texcoord[0][0] = s; glstate->texcoord[0][1] = t;
@@ -1165,7 +1173,10 @@ void glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es
 void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
-        rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
+        if(glstate->list.pending)
+            flush();
+        else
+            rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
     }
     noerrorShim();
     glstate->texcoord[target-GL_TEXTURE0][0] = s; glstate->texcoord[target-GL_TEXTURE0][1] = t;
@@ -1605,12 +1616,8 @@ extern void BlitEmulatedPixmap();
 void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
-    if (glstate->list.active && glstate->list.compiling) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
-    
     if (glstate->gl_batch || glstate->list.pending) flush();
+    PUSH_IF_COMPILING(glFlush);
     
     gles_glFlush();
     errorGL();
@@ -1625,11 +1632,8 @@ void glFlush() AliasExport("gl4es_glFlush");
 void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
-    if (glstate->list.active && glstate->list.compiling) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
-    if (glstate->list.active) flush();
+    if (glstate->gl_batch || glstate->list.pending) flush();
+    PUSH_IF_COMPILING(glFinish);
     
     gles_glFinish();
     errorGL();
@@ -1640,12 +1644,11 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
 
     if (glstate->list.active)
         if (glstate->list.compiling || glstate->gl_batch) {
-            if (pname == GL_FOG_COLOR) {
                 NewStage(glstate->list.active, STAGE_FOG);
-                rlFogOp(glstate->list.active, GL_FOG_COLOR, params);
+                rlFogOp(glstate->list.active, pname, params);
                 return;
             }
-        } else flush();
+        else flush();
 
     LOAD_GLES(glFogfv);
     gles_glFogfv(pname, params);
@@ -1716,7 +1719,8 @@ void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es
 void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
 {
     LOAD_GLES_EXT(glMultiDrawArrays);
-    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active) 
+    if(glstate->list.pending) flush();
+    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
     {
         // GL_QUADS special case can probably by improved
@@ -1738,7 +1742,8 @@ void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GL
 void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
 {
     LOAD_GLES_EXT(glMultiDrawElements);
-    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active) 
+    if(glstate->list.pending) flush();
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
     {
         // divide the call

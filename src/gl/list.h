@@ -212,7 +212,6 @@ void rlTexEnvfv(renderlist_t *list, GLenum target, GLenum pname, const GLfloat *
 void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * params);
 void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
 void rlPushCall(renderlist_t *list, packed_call_t *data);
-void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q) FASTMATH;
 void rlMultiTexCoord4f(renderlist_t *list, GLenum texture, GLfloat s, GLfloat t, GLfloat r, GLfloat q) FASTMATH;
 void rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) FASTMATH;
 void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) FASTMATH;

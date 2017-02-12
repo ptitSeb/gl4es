@@ -1421,21 +1421,6 @@ void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * 
     memcpy(m->color, params, 4*sizeof(GLfloat));
 }
 
-void rlTexCoord4f(renderlist_t *list, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    if (list->tex[0] == NULL) {
-        list->tex[0] = alloc_sublist(4, list->cap);
-        // catch up
-        GLfloat *tex = list->tex[0];
-        if (list->len) for (int i = 0; i < list->len; i++) {
-            memcpy(tex, glstate->texcoord[0], sizeof(GLfloat) * 4);
-            tex += 4;
-        }
-    }
-    GLfloat *tex = glstate->texcoord[0];
-    tex[0] = s; tex[1] = t;
-    tex[2] = r; tex[3] = q;
-}
-
 void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     const int tmu = target - GL_TEXTURE0;
     if (list->tex[tmu] == NULL) {
