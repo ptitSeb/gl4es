@@ -1047,7 +1047,7 @@ void gl4es_glEnd() {
 		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // render if we're not in a display list
-    if (!(glstate->list.compiling || glstate->gl_batch) && !(globals4es.mergelist)) {
+    if (!(glstate->list.compiling || glstate->gl_batch) && (!(globals4es.mergelist) || (glstate->polygon_mode==GL_LINE))) {
         renderlist_t *mylist = glstate->list.active;
         glstate->list.active = NULL;
         mylist = end_renderlist(mylist);
