@@ -829,7 +829,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d\n", display, drawable, context, isPBuffer(drawable));)                        
+    DBG(printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSuface:0);)                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
