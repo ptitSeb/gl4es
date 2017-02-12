@@ -82,9 +82,9 @@ void vector3_matrix(const float *a, const float *b, float *c) {
     const float* b4=b+12;
     asm volatile (
     //"vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..2)
-    "vld1.32  {d4}, [%1]        \n"
-    "flds     s10, [%1, #8]     \n"
-    "vsub.f32 s11, s11, s11     \n"
+    "vld1.32  {d0}, [%1]        \n"
+    "flds     s2, [%1, #8]      \n"
+    "vsub.f32 s3, s3, s3        \n"
     "vld1.f32 {q1}, [%2]        \n" // %q1 = b(0..3)
     "vmul.f32 q1, q1, d0[0]    \n" // %q1 = b(0..3)*a[0]
     "vld1.f32 {q2}, [%3]   \n" // %q2 = b(4..7)
