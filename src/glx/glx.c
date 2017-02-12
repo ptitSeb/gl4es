@@ -19,13 +19,11 @@
 
 #include "glx.h"
 #include "utils.h"
-//#include <GLES/gl.h>
 #include "../gl/gl.h"
 #include "../glx/streaming.h"
 #include "khash.h"
 #include "hardext.h"
 
-//#define EXPORT __attribute__((visibility("default")))
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
 #endif
@@ -829,7 +827,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSuface:0);)                        
+    DBG(printf("glXMakeCurrent(%p, %p, %p) 'isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0);)                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
