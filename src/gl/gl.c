@@ -20,7 +20,7 @@ void* NewGLState(void* shared_glstate) {
 	memset(glstate, 0, sizeof(glstate_t));
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
 	glstate->last_error = GL_NO_ERROR;
-    glstate->normal[3] = 1.0f; // default normal is 0/0/1
+    glstate->normal[2] = 1.0f; // default normal is 0/0/1
     glstate->matrix_mode = GL_MODELVIEW;
     
     // add default VBO
