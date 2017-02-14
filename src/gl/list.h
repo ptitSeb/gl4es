@@ -29,7 +29,7 @@ typedef enum {
 	STAGE_LAST
 } liststage_t;
 
-static int StageExclusive[STAGE_LAST] = {
+static int StageExclusive[] = {
 	0, 	// STAGE_NONE
 	1,	// STAGE_PUSH
 	1,  // STAGE_POP
@@ -52,6 +52,7 @@ static int StageExclusive[STAGE_LAST] = {
 	1,  // STAGE_POLYGON
 	1,  // STAGE_DRAW
     1,  // STAGE_POSTDRAW   (used for "pending", i.e. post glEnd(), in case a similar glBegin occurs)
+    0   // STAGE_LAST
 };
 
 typedef struct {

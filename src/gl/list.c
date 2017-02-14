@@ -686,7 +686,7 @@ void adjust_renderlist(renderlist_t *list) {
     list->open = false;
     for (int a=0; a<hardext.maxtex; a++) {
         const GLint itarget = get_target(glstate->enable.texture[a]);
-	    gltexture_t *bound = glstate->texture.bound[a][itarget];
+	    gltexture_t *bound = (itarget>=0)?glstate->texture.bound[a][itarget]:NULL;
         // in case of Texture bounding inside a list
         if (list->set_texture && (list->tmu == a))
             bound = gl4es_getTexture(list->target_texture, list->texture);
