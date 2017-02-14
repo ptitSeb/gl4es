@@ -103,6 +103,8 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         if (a_mode != b_mode)
             return false;
     }
+    if(!a->open || !b->open)
+        return false;
 /*    if ((a->indices==NULL) != (b->indices==NULL))
         return false;*/
     if (a->polygon_mode != b->polygon_mode)
