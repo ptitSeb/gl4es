@@ -230,10 +230,10 @@ VAO Caching
  * 0 : Default, try to cache vao to avoid memcpy in render list
  * 1 : Don't cache VAO
 
-##### LIBGL_NOVABGRA
+##### LIBGL_VABGRA
 Vertex Array BGRA extension
- * 0 : Default, GL_ARB_vertex_array_bgra exposed (and emulated)
- * 1 : Extension not exposed (still emulated), may be faster in some cases, like with Irrlicht
+ * 0 : Default, GL_ARB_vertex_array_bgra not exposed (still emulated)
+ * 1 : Extension exposed may be faster in some cases (Arx Libertatis mainly)
 
 ----
 

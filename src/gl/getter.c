@@ -103,7 +103,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
                 "GL_ARB_texture_rectangle "
 //                "GL_EXT_blend_logic_op "
 				);
-        if(!globals4es.novabgra)
+        if(globals4es.vabgra)
             strcat(extensions, "GL_ARB_vertex_array_bgra ");
 		if(globals4es.npot>=1)
 			strcat(extensions, "GL_APPLE_texture_2D_limited_npot ");
