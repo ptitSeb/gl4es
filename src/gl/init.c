@@ -221,6 +221,7 @@ void initialize_gl4es() {
     env(LIBGL_BLENDCOLOR, globals4es.blendcolor, "Export a (faked) glBlendColor");
     env(LIBGL_NOERROR, globals4es.noerror, "glGetError() always return GL_NOERROR");
     env(LIBGL_SILENTSTUB, globals4es.silentstub, "Stub/non present functions are not printed");
+    env(LIBGL_NOVABGRA, globals4es.novabgra, "Do not export GL_ARB_vertex_array_bgra extension");
     
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {

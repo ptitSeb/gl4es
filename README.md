@@ -227,8 +227,13 @@ Initial Hardware test
 
 ##### LIBGL_NOVAOCACHE
 VAO Caching
- * 0 : Default, tr to cache vao to avoid memcpy in render list
+ * 0 : Default, try to cache vao to avoid memcpy in render list
  * 1 : Don't cache VAO
+
+##### LIBGL_NOVABGRA
+Vertex Array BGRA extension
+ * 0 : Default, GL_ARB_vertex_array_bgra exposed (and emulated)
+ * 1 : Extension not exposed (still emulated), may be faster in some cases, like with Irrlicht
 
 ----
 
