@@ -194,6 +194,7 @@ typedef struct {
     int shared_cnt;
     light_state_t light;
     material_state_t material;
+    int immediateMV;
 } glstate_t;
 
 #endif

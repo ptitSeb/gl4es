@@ -235,13 +235,19 @@ Vertex Array BGRA extension
  * 0 : Default, GL_ARB_vertex_array_bgra not exposed (still emulated)
  * 1 : Extension exposed may be faster in some cases (Arx Libertatis mainly)
 
+##### LIBGL_BEGINEND
+Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is used)
+ * 0 : Don't try to merge
+ * 1 : Try to merge, even if there is a glColor / glNormal in between (default)
+ * 2 : Try hard to merge, even if there is a glColor / glNormal or Matrix operations in between
+
 ----
 
 Version history
 ----
 
 ##### Current version
- * Added some optimisations for sequencial glBegin/glEnd blocks
+ * Added some optimisations for sequencial glBegin/glEnd blocks, with a switch to control them
  * Fixed many issue with Lights introduced with 0.9.4
  * Fixed Android build introduced with 0.9.4
 

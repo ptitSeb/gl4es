@@ -78,6 +78,17 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             else
                 errorShim(GL_INVALID_ENUM); 
             break;
+        case GL_NOVAOCACHE_HINT_GL4ES:
+            if (mode<=1)
+                globals4es.novaocache = mode;
+            else
+                errorShim(GL_INVALID_ENUM); 
+            break;
+        case GL_BEGINEND_HINT_GL4ES:
+            if(mode<=2)
+                globals4es.beginend = mode;
+            else
+                errorShim(GL_INVALID_ENUM); 
         default:
             errorGL();
             gles_glHint(pname, mode);

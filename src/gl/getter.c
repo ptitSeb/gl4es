@@ -525,6 +525,12 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_NODOWNSAMPLING_HINT_GL4ES:
             *params=globals4es.nodownsampling;
             break;
+        case GL_NOVAOCACHE_HINT_GL4ES:
+            *params=globals4es.novaocache;
+            break;
+        case GL_BEGINEND_HINT_GL4ES:
+            *params=globals4es.beginend;
+            break;
         default:
             errorGL();
             gles_glGetFloatv(pname, params);

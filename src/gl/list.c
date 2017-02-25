@@ -1281,6 +1281,9 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
 
     GLfloat * const vert = list->vert + (list->len++ * 4);
     vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
+    if(glstate->immediateMV) { // need to trasform the vector if immediateMV is active
+        vector_matrix(vert, getMVMat(), vert);
+    }
 }
 
 void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
@@ -1296,6 +1299,9 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     
     GLfloat *normal = list->lastNormal;
     normal[0] = x; normal[1] = y; normal[2] = z;
+    if(glstate->immediateMV) { // need to trasform the vector if immediateMV is active
+        vector3_matrix(normal, getMVMat(), normal);
+    }
 }
 
 void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {

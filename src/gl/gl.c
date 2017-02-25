@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "init.h"
+#include "matrix.h"
 
 glstate_t *glstate = NULL;
 
@@ -1036,6 +1037,10 @@ void gl4es_glBegin(GLenum mode) {
     glstate->list.active->mode = mode;
     glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
+    if (!(glstate->list.compiling || glstate->gl_batch) && (globals4es.beginend==2) && !(glstate->polygon_mode==GL_LINE)) { //TODO: check TexGen?
+        // immediate MV matrix handling
+        gl4es_immediateMVBegin();
+    }   
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
 
@@ -1047,7 +1052,7 @@ void gl4es_glEnd() {
 		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // render if we're not in a display list
-    if (!(glstate->list.compiling || glstate->gl_batch) && (!(globals4es.mergelist) || (glstate->polygon_mode==GL_LINE))) {
+    if (!(glstate->list.compiling || glstate->gl_batch) && (!(globals4es.beginend) || (glstate->polygon_mode==GL_LINE))) {
         renderlist_t *mylist = glstate->list.active;
         glstate->list.active = NULL;
         mylist = end_renderlist(mylist);
@@ -1600,6 +1605,8 @@ void flush() {
         free_renderlist(mylist);
         glstate->gl_batch = old;
     }
+    if(glstate->immediateMV)
+        gl4es_immediateMVEnd();
     init_statebatch();
     glstate->list.active = (glstate->gl_batch)?alloc_renderlist():NULL;
 }

@@ -25,5 +25,9 @@
 #define GL_NOERROR_HINT_GL4ES           0xA10A
 // same as using LIBGL_NODOWNSAMPLING=x
 #define GL_NODOWNSAMPLING_HINT_GL4ES	0xA10B
+// same as using LIBGL_NOVAOCACHE=x
+#define GL_NOVAOCACHE_HINT_GL4ES	    0xA10C
+// same as using LIBGL_BEGINEND=x
+#define GL_BEGINEND_HINT_GL4ES	        0xA10D
 
 #endif
