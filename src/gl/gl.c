@@ -318,6 +318,11 @@ void gl4es_glEnable(GLenum cap) {
 			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
+	if (globals4es.texstream && (cap==GL_TEXTURE_RECTANGLE_ARB)) {
+		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE])
+			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
+				cap = GL_TEXTURE_STREAM_IMG;
+	}
 #endif
     LOAD_GLES(glEnable);
     proxy_glEnable(cap, true, gles_glEnable);
@@ -337,12 +342,18 @@ void gl4es_glDisable(GLenum cap) {
     }
 	PUSH_IF_COMPILING(glDisable)
         
+#ifdef TEXSTREAM
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
 			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
 				cap = GL_TEXTURE_STREAM_IMG;
 	}
-
+	if (globals4es.texstream && (cap==GL_TEXTURE_RECTANGLE_ARB)) {
+		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE])
+			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
+				cap = GL_TEXTURE_STREAM_IMG;
+	}
+#endif
     LOAD_GLES(glDisable);
     proxy_glEnable(cap, false, gles_glDisable);
 }
