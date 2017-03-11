@@ -1495,8 +1495,18 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
 {
     PUSH_IF_COMPILING(glBlendFuncSeparate);
     LOAD_GLES_OES(glBlendFuncSeparate);
-#ifdef ODROID
-    if(gles_glBlendFuncSeparate)
+#ifndef PANDORA
+    if(gles_glBlendFuncSeparate==NULL) {
+        // some fallback function to have better rendering with SDL2, better then nothing...
+        if(sfactorRGB==GL_SRC_ALPHA && dfactorRGB==GL_ONE_MINUS_SRC_ALPHA && sfactorAlpha==GL_ONE && dfactorAlpha==GL_ONE_MINUS_SRC_ALPHA)
+            gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        else if (sfactorRGB==GL_SRC_ALPHA && dfactorRGB==GL_ONE && sfactorAlpha==GL_ZERO && dfactorAlpha==GL_ONE)
+            gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        else if (sfactorRGB==GL_ZERO && dfactorRGB==GL_SRC_COLOR && sfactorAlpha==GL_ZERO && dfactorAlpha==GL_ONE)
+            gl4es_glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+        else if (sfactorRGB==sfactorAlpha && dfactorRGB==dfactorAlpha)
+            gl4es_glBlendFunc(sfactorRGB, dfactorRGB);
+    } else
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
@@ -1506,7 +1516,7 @@ void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfacto
 void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
     LOAD_GLES_OES(glBlendEquationSeparate);
-#ifdef ODROID
+#ifndef PANDORA
     if(gles_glBlendEquationSeparate)
 #endif
     gles_glBlendEquationSeparate(modeRGB, modeA);
