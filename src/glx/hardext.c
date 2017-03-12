@@ -113,8 +113,10 @@ void GetHardwareExtensions(int notest)
     if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
-        if(gles_glBlendColor != NULL)
+        if(gles_glBlendColor != NULL) {
             hardext.blendcolor = 1;
+	    SHUT(LOGD("LIBGL: Extension glBlendColor found and used\n"));
+	}
     }
     S("GL_OES_point_sprite", pointsprite, 1); 
     S("GL_OES_point_size_array", pointsize, 0);
