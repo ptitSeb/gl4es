@@ -95,7 +95,12 @@ void* NewGLState(void* shared_glstate) {
     glstate->material.front.emission[3] = 1.0f;
     glstate->material.front.colormat = GL_AMBIENT_AND_DIFFUSE;
     memcpy(&glstate->material.back, &glstate->material.front, sizeof(material_t));
-
+    // Fog
+    glstate->fog.mode = GL_EXP;
+    glstate->fog.density = 1.0f;
+    glstate->fog.end = 1.0f;
+    glstate->fog.coord_src = GL_FRAGMENT_DEPTH;
+    // Raster
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
     LOAD_GLES(glGetFloatv);
@@ -1675,21 +1680,6 @@ void gl4es_glFinish() {
     errorGL();
 }
 void glFinish() AliasExport("gl4es_glFinish");
-
-void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
-
-    if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
-                NewStage(glstate->list.active, STAGE_FOG);
-                rlFogOp(glstate->list.active, pname, params);
-                return;
-            }
-        else flush();
-
-    LOAD_GLES(glFogfv);
-    gles_glFogfv(pname, params);
-}
-void glFogfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glFogfv");
 
 void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;

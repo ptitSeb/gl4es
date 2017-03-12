@@ -310,6 +310,28 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         for (dummy=0; dummy<4; dummy++)
                 params[dummy]=glstate->light.ambient[dummy];
         break;
+    case GL_FOG_MODE:
+        *params=glstate->fog.mode;
+        break;
+    case GL_FOG_DENSITY:
+        *params=glstate->fog.density;
+        break;
+    case GL_FOG_START:
+        *params=glstate->fog.start;
+        break;
+    case GL_FOG_END:
+        *params=glstate->fog.end;
+        break;
+    case GL_FOG_INDEX:
+        *params=glstate->fog.start;
+        break;
+    case GL_FOG_COLOR:
+        for (dummy=0; dummy<4; dummy++)
+            params[dummy]=glstate->fog.color[dummy];
+        break;
+    case GL_FOG_COORD_SRC:
+        *params=glstate->fog.coord_src;
+        break;
     case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
         *params=hardext.maxsize;
         break;
@@ -488,6 +510,27 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_LIGHT_MODEL_AMBIENT:
             memcpy(params, glstate->light.ambient, 4*sizeof(GLfloat));
+            break;
+        case GL_FOG_MODE:
+            *params=glstate->fog.mode;
+            break;
+        case GL_FOG_DENSITY:
+            *params=glstate->fog.density;
+            break;
+        case GL_FOG_START:
+            *params=glstate->fog.start;
+            break;
+        case GL_FOG_END:
+            *params=glstate->fog.end;
+            break;
+        case GL_FOG_INDEX:
+            *params=glstate->fog.start;
+            break;
+        case GL_FOG_COLOR:
+            memcpy(params, glstate->fog.color, 4*sizeof(GLfloat));
+            break;
+        case GL_FOG_COORD_SRC:
+            *params=glstate->fog.coord_src;
             break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
             *params=hardext.maxsize;

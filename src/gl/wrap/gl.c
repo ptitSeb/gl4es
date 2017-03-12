@@ -55,7 +55,9 @@ void gl4es_glFogiv(GLenum pname, GLint *iparams) {
         case GL_FOG_START:
         case GL_FOG_END:
         case GL_FOG_MODE:
-        case GL_FOG_INDEX: {
+        case GL_FOG_INDEX: 
+        case GL_FOG_COORD_SRC:
+        {
             gl4es_glFogf(pname, *iparams);
             break;
         }

@@ -8,6 +8,7 @@
 #include "buffers.h"
 #include "queries.h"
 #include "light.h"
+#include "fog.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -193,6 +194,7 @@ typedef struct {
     int emulatedWin;
     int shared_cnt;
     light_state_t light;
+    fog_t fog;
     material_state_t material;
     int immediateMV;
 } glstate_t;
