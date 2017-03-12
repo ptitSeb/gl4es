@@ -1476,7 +1476,7 @@ void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
-    LOAD_GLES_OES(glBlendColor);
+    LOAD_GLES_OR_OES(glBlendColor);
 	if  (gles_glBlendColor)
 		gles_glBlendColor(red, green, blue, alpha);
 	else {
@@ -1541,6 +1541,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     errorGL();
     // There are some limitations in GLES1.1 Blend functions
     switch(sfactor) {
+        #if 0
         case GL_SRC_COLOR:
             if (gles_glBlendFuncSeparate) {
                 gles_glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
@@ -1555,34 +1556,41 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
             }
             sfactor = GL_ONE;  // not sure it make sense...
             break;
+        #endif
         // here, we need support for glBlendColor...
         case GL_CONSTANT_COLOR:
         case GL_CONSTANT_ALPHA:
-            sfactor = GL_ONE;
+            if(hardext.blendcolor==0)
+                sfactor = GL_ONE;
             break;
         case GL_ONE_MINUS_CONSTANT_COLOR:
         case GL_ONE_MINUS_CONSTANT_ALPHA:
-            sfactor = GL_ZERO;
+            if(hardext.blendcolor==0)
+                sfactor = GL_ZERO;
             break;
         default:
             break;
     }
     
     switch(dfactor) {
+        #if 0
         case GL_DST_COLOR:
             sfactor = GL_ONE;   // approx...
             break;
         case GL_ONE_MINUS_DST_COLOR:
             sfactor = GL_ZERO;  // not sure it make sense...
             break;
+        #endif
         // here, we need support for glBlendColor...
         case GL_CONSTANT_COLOR:
         case GL_CONSTANT_ALPHA:
-            sfactor = GL_ONE;
+            if(hardext.blendcolor==0)
+                sfactor = GL_ONE;
             break;
         case GL_ONE_MINUS_CONSTANT_COLOR:
         case GL_ONE_MINUS_CONSTANT_ALPHA:
-            sfactor = GL_ZERO;
+            if(hardext.blendcolor==0)
+                sfactor = GL_ZERO;
             break;
         default:
             break;

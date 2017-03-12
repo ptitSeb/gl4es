@@ -30,6 +30,17 @@ void *open_lib(const char **names, const char *override);
             WARN_NULL(lib##_##name); \
         } \
     }
+
+#define LOAD_RAW_SILENT(lib, name, ...) \
+    { \
+        static bool first = true; \
+        if (first) { \
+            first = false; \
+            if (lib != NULL) { \
+                lib##_##name = (name##_PTR)__VA_ARGS__; \
+            } \
+        } \
+    }
 #endif
 
 #define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, dlsym(lib, #name))
@@ -53,6 +64,13 @@ void *open_lib(const char **names, const char *override);
     { \
         LOAD_EGL(eglGetProcAddress); \
         LOAD_RAW(gles, name, egl_eglGetProcAddress(#name"EXT")); \
+    }
+
+#define LOAD_GLES_OR_OES(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_EGL(eglGetProcAddress); \
+        LOAD_RAW_SILENT(gles, name, (egl_eglGetProcAddress(#name)==NULL)?(void*)egl_eglGetProcAddress(#name"OES"):(void*)dlsym(gles, #name)); \
     }
 
 #endif

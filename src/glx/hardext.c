@@ -110,6 +110,12 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_blend_equation_separate", blendeq, 1);
     S("GL_EXT_blend_minmax", blendminmax, 1);
     S("GL_EXT_blend_color", blendcolor, 1);
+    if(hardext.blendcolor==0) {
+        // try by just loading the function
+        LOAD_GLES_OR_OES(glBlendColor);
+        if(gles_glBlendColor != NULL)
+            hardext.blendcolor = 1;
+    }
     S("GL_OES_point_sprite", pointsprite, 1); 
     S("GL_OES_point_size_array", pointsize, 0);
     S("GL_OES_element_index_uint", elementuint, 0);
