@@ -659,6 +659,9 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLenum dst_format, GLenum dst_type, GLuint stride) {
     const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
+    if(src_type==GL_UNSIGNED_INT_8_8_8_8_REV) src_type=GL_UNSIGNED_BYTE;
+    if(dst_type==GL_UNSIGNED_INT_8_8_8_8_REV) dst_type=GL_UNSIGNED_BYTE;
+
     GLuint dst_size = pixels * pixel_sizeof(dst_format, dst_type);
     GLuint dst_width = ((stride?stride:width) - width) * pixel_sizeof(dst_format, dst_type);
     GLuint src_width = width * pixel_sizeof(src_format, src_type);
@@ -694,7 +697,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     // TODO: Rewrite that with some Macro, it's obviously doable to simplify the reading (and writting) of all this
     // simple BGRA <-> RGBA / UNSIGNED_BYTE 
     if ((((src_format == GL_BGRA) && (dst_format == GL_RGBA)) || ((src_format == GL_RGBA) && (dst_format == GL_BGRA))) 
-        && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+        && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -727,7 +730,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
       return true;
     }
     // RGBA -> LA
-    if ((src_format == GL_RGBA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_RGBA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -743,7 +746,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGRA -> LA
-    if ((src_format == GL_BGRA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_BGRA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -759,7 +762,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // RGB(A) -> L
-    if (((src_format == GL_RGBA)||(src_format == GL_RGB)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_RGBA)||(src_format == GL_RGB)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -775,7 +778,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGR(A) -> L
-    if (((src_format == GL_BGRA)||(src_format == GL_BGR)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_BGRA)||(src_format == GL_BGR)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -791,7 +794,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGR(A) -> RGB
-    if (((src_format == GL_BGR)||(src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_BGR)||(src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				((char*)dst_pos)[0] = ((char*)src_pos)[2];
@@ -806,7 +809,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // RGBA -> RGB
-    if ((src_format == GL_RGBA) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_RGBA) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				((char*)dst_pos)[0] = ((char*)src_pos)[0];
@@ -821,7 +824,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // RGB(A) -> RGB565
-    if (((src_format == GL_RGB)||(src_format == GL_RGBA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_RGB)||(src_format == GL_RGBA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[2]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[0]&0xf8)<<(11-3));
@@ -834,7 +837,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGR(A) -> RGB565
-    if (((src_format == GL_BGR) || (src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if (((src_format == GL_BGR) || (src_format == GL_BGRA)) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_SHORT_5_6_5) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[0]&0xf8)>>(3)) | ((GLushort)(((char*)src_pos)[1]&0xfc)<<(5-2)) | ((GLushort)(((char*)src_pos)[2]&0xf8)<<(11-3));
@@ -847,7 +850,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // RGBA -> RGBA5551
-    if ((src_format == GL_RGBA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_RGBA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[2]&0xf8)>>(3-1)) | ((GLushort)(((char*)src_pos)[1]&0xf8)<<(5-2)) | ((GLushort)(((char*)src_pos)[0]&0xf8)<<(10-2)) | ((GLushort)(((char*)src_pos)[3])>>15);
@@ -860,7 +863,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGRA -> RGBA5551
-    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[0]&0xf8)>>(3-1)) | ((GLushort)(((char*)src_pos)[1]&0xf8)<<(5-2)) | ((GLushort)(((char*)src_pos)[2]&0xf8)<<(10-2)) | ((GLushort)(((char*)src_pos)[3])>>15);
@@ -873,7 +876,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // RGBA -> RGBA4444
-    if ((src_format == GL_RGBA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_4_4_4_4) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_RGBA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_4_4_4_4) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[3]&0xf0))>>(4) | ((GLushort)(((char*)src_pos)[2]&0xf0)) | ((GLushort)(((char*)src_pos)[1]&0xf0))<<(4) | ((GLushort)(((char*)src_pos)[0]&0xf0))<<(8);
@@ -886,7 +889,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     // BGRA -> RGBA4444
-    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_4_4_4_4) && ((src_type == GL_UNSIGNED_BYTE)||(src_type == GL_UNSIGNED_INT_8_8_8_8_REV))) {
+    if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_4_4_4_4) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				*(GLushort*)dst_pos = ((GLushort)(((char*)src_pos)[3]&0xf0)>>(4)) | ((GLushort)(((char*)src_pos)[0]&0xf0)) | ((GLushort)(((char*)src_pos)[1]&0xf0)<<(4)) | ((GLushort)(((char*)src_pos)[2]&0xf0)<<(8));
