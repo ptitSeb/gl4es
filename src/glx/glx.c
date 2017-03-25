@@ -219,7 +219,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = GLX_WINDOW_BIT;
             break;
         case GLX_BUFFER_SIZE:
-             *value = 0;
+             *value = 16;
             break;
         case GLX_X_VISUAL_TYPE:
         case GLX_CONFIG_CAVEAT:
