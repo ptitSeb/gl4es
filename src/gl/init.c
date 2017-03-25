@@ -86,14 +86,14 @@ void initialize_gl4es() {
     }
     if (env_fb && strcmp(env_fb, "2") == 0) {
             SHUT(LOGD("LIBGL: using framebuffer + fbo\n"));
-            globals4es.usefb = true;
-            globals4es.usefbo = true;
+            globals4es.usefb = 1;
+            globals4es.usefbo = 1;
     }
 #ifndef ANDROID
     if (env_fb && strcmp(env_fb, "3") == 0) {
             SHUT(LOGD("LIBGL: using pbuffer\n"));
             globals4es.usefb = 1;
-            globals4es.usepbuffer = true;
+            globals4es.usepbuffer = 1;
     }
 #endif
     env(LIBGL_FPS, globals4es.showfps, "fps counter enabled");
