@@ -933,7 +933,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
         ActivateGLState(context->glstate);
 #ifdef PANDORA
-        if(created) pandora_set_gamma();
+        if(!created) pandora_set_gamma();
 #endif
         glstate->emulatedPixmap = 0;
         glstate->emulatedWin = 0;
@@ -944,7 +944,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
         CheckEGLErrors();
         if (result) {
-            if (globals4es.usefbo && created) {
+            if (globals4es.usefbo && !created) {
                 // get size of the surface...
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&g_width);
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&g_height);
