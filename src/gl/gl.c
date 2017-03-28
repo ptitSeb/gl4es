@@ -1067,20 +1067,25 @@ void gl4es_glEnd() {
     for (int a=0; a<MAX_TEX; a++)
 		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
+    int withColor = 0;
     // render if we're not in a display list
     if (!(glstate->list.compiling || glstate->gl_batch) && (!(globals4es.beginend) || (glstate->polygon_mode==GL_LINE))) {
         renderlist_t *mylist = glstate->list.active;
+        withColor = (mylist->color!=NULL);
         glstate->list.active = NULL;
         mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
     } else {
         if(!(glstate->list.compiling || glstate->gl_batch)) {
+            withColor = (glstate->list.active->color!=NULL);
             glstate->list.pending = 1;
             NewStage(glstate->list.active, STAGE_POSTDRAW);
         }
         else glstate->list.active = extend_renderlist(glstate->list.active);
     }
+    if(withColor)
+        gl4es_glColor4f(glstate->color[0], glstate->color[1], glstate->color[2], glstate->color[3]);
     noerrorShim();
 }
 void glEnd() AliasExport("gl4es_glEnd");
