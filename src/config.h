@@ -31,17 +31,17 @@
 
 #define skip_glBlendColor
 #define skip_glBlendFunc
+#define skip_glBlendEquation
+#define skip_glBlendEquationSeparate
+#define skip_glBlendEquationSeparatei
+#define skip_glBlendFuncSeparate
+#define skip_glBlendFuncSeparatei
 
 #define skip_glFogfv
 
 #define skip_glPointParameterfv
 #define skip_glPointParameterf
 
-//#define skip_glBlendEquation
-#define skip_glBlendEquationSeparate
-#define skip_glBlendEquationSeparatei
-#define skip_glBlendFuncSeparate
-#define skip_glBlendFuncSeparatei
 
 // getter.c
 #define skip_glGetError

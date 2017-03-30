@@ -3,6 +3,7 @@ include_directories(util)
 #file(GLOB_RECURSE GL_SOURCES gl/*.c)
 SET(GL_SRC
     gl/array.c
+    gl/blend.c
     gl/buffers.c
     gl/debug.c
     gl/decompress.c
@@ -36,6 +37,7 @@ SET(GL_SRC
 SET(GL_H
     ../version.h
     gl/array.h
+    gl/blend.h
     gl/buffers.h
     gl/const.h
     gl/debug.h

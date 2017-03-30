@@ -369,6 +369,7 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 #include "texture.h"
 #include "array.h"
 #include "framebuffers.h"
+#include "blend.h"
 
 const GLubyte *gl4es_glGetString(GLenum name);
 void gl4es_glGetIntegerv(GLenum pname, GLint *params);
@@ -415,10 +416,6 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, cons
 void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
 void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);
 void gl4es_glGetPointerv(GLenum pname, GLvoid* *params);
-void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA);
-void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor);
 void gl4es_glFlush();
 void gl4es_glFinish();
 void gl4es_glFogfv(GLenum pname, const GLfloat* params);
