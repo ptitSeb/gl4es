@@ -139,8 +139,11 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("gl4es_glBlendFunc"
 
 void gl4es_glBlendEquation(GLenum mode) {
     PUSH_IF_COMPILING(glBlendEquation)
-    LOAD_GLES(glBlendEquation);
+    LOAD_GLES_OR_OES(glBlendEquation);
     errorGL();
+#ifdef ODROID
+    if(gles_glBlendEquation)
+#endif
     gles_glBlendEquation(mode);
 }
 void glBlendEquation(GLenum mode) AliasExport("gl4es_glBlendEquation");
