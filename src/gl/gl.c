@@ -53,6 +53,14 @@ void* NewGLState(void* shared_glstate) {
         glvao->array = 0;
         glstate->defaultvao = glvao;
     }
+    // initialize gllists
+    {
+        khint_t k;
+        int ret;
+        khash_t(gllisthead) *list = glstate->headlists = kh_init(gllisthead);
+		kh_put(gllisthead, list, 1, &ret);
+		kh_del(gllisthead, list, 1);
+    }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
 
@@ -122,18 +130,19 @@ void DeleteGLState(void* oldstate) {
         glstate = NULL;
 
 
-    #define free_hashmap(T, N, K)           \
+    #define free_hashmap(T, N, K, F)        \
     {                                       \
         T *m;                               \
         kh_foreach_value(state->N, m,       \
-            free(m);                        \
+            F(m);                        \
         )                                   \
         kh_destroy(K, state->N);            \
     }
-    free_hashmap(glvao_t, vaos, glvao);
-    free_hashmap(glbuffer_t, buffers, buff);
-    free_hashmap(glquery_t, queries, queries);
-    free_hashmap(gltexture_t, texture.list, tex);
+    free_hashmap(glvao_t, vaos, glvao, free);
+    free_hashmap(glbuffer_t, buffers, buff, free);
+    free_hashmap(glquery_t, queries, queries, free);
+    free_hashmap(gltexture_t, texture.list, tex, free);
+    free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
     #undef free_hashmap
     // free eval maps
     #define freemap(dims, name)                              \
@@ -148,12 +157,7 @@ void DeleteGLState(void* oldstate) {
     freemap(2, vertex3); freemap(2, vertex4); freemap(2, index); freemap(2, color4); freemap(2, normal); 
     freemap(2, texture1); freemap(2, texture2); freemap(2, texture3); freemap(2, texture4);   
     #undef freemap
-    // free lists
-    if(state->lists) {
-        for (int i=0; i<state->list.count; i++)
-            free_renderlist(state->lists[i]);
-        free(state->lists);
-    }
+    // free active list
     if(state->list.active) free_renderlist(state->list.active);
 
     // free matrix stack
@@ -1293,9 +1297,12 @@ void glUnlockArraysEXT() AliasExport("gl4es_glUnlockArrays");
 // display lists
 
 static renderlist_t *gl4es_glGetList(GLuint list) {
-    if (glIsList(list))
-        return glstate->lists[list - 1];
-
+    khint_t k;
+    int ret;
+    khash_t(gllisthead) *lists = glstate->headlists;
+    k = kh_get(gllisthead, lists, list);
+    if (k != kh_end(lists))
+        return kh_value(lists, k);
     return NULL;
 }
 
@@ -1305,18 +1312,18 @@ GLuint gl4es_glGenLists(GLsizei range) {
 		return 0;
 	}
 	noerrorShim();
+   	khint_t k;
+   	int ret;
+	khash_t(gllisthead) *lists = glstate->headlists;
     int start = glstate->list.count;
-    if (glstate->lists == NULL) {
-        glstate->list.cap += range + 100;
-        glstate->lists = malloc(glstate->list.cap * sizeof(uintptr_t));
-    } else if (glstate->list.count + range > glstate->list.cap) {
-        glstate->list.cap += range + 100;
-        glstate->lists = realloc(glstate->lists, glstate->list.cap * sizeof(uintptr_t));
-    }
     glstate->list.count += range;
 
     for (int i = 0; i < range; i++) {
-        glstate->lists[start+i] = NULL;
+        k = kh_get(gllisthead, lists, start+i);
+        if (k == kh_end(lists)){
+            k = kh_put(gllisthead, lists, start+i, &ret);
+            kh_value(lists, k) = NULL;  // create an empty gllist
+        }
     }
     return start + 1;
 }
@@ -1327,8 +1334,16 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
 	errorShim(GL_INVALID_VALUE);
 	if (list==0)
 		return;
-    if (! glIsList(list))
-        return;
+    {
+        khint_t k;
+        int ret;
+        khash_t(gllisthead) *lists = glstate->headlists;
+        k = kh_get(gllisthead, lists, list);
+        if (k == kh_end(lists)){
+            k = kh_put(gllisthead, lists, list, &ret);
+            kh_value(lists, k) = NULL;
+        }
+    }
     noerrorShim();
     if (glstate->gl_batch) {
         glstate->gl_batch = 0;
@@ -1345,10 +1360,20 @@ void glNewList(GLuint list, GLenum mode) AliasExport("gl4es_glNewList");
 void gl4es_glEndList() {
 	noerrorShim();
     GLuint list = glstate->list.name;
+    khash_t(gllisthead) *lists = glstate->headlists;
+    khint_t k;
+    {
+        int ret;
+        k = kh_get(gllisthead, lists, list);
+        if (k == kh_end(lists)){
+            k = kh_put(gllisthead, lists, list, &ret);
+            kh_value(lists, k) = NULL;
+        }
+    }
     if (glstate->list.compiling) {
 	// Free the previous list if it exist...
-        free_renderlist(glstate->lists[list - 1]);
-        glstate->lists[list - 1] = GetFirst(glstate->list.active);
+        free_renderlist(kh_value(lists, k));
+        kh_value(lists, k) = GetFirst(glstate->list.active);
         glstate->list.compiling = false;
         end_renderlist(glstate->list.active);
         glstate->list.active = NULL;
@@ -1424,13 +1449,19 @@ void gl4es_glDeleteList(GLuint list) {
     if(glstate->gl_batch) {
         flush();
     }
-    renderlist_t *l = gl4es_glGetList(list);
-    if (l) {
-        free_renderlist(l);
-        glstate->lists[list-1] = NULL;
+    renderlist_t *gllist = NULL;
+    {
+        khint_t k;
+        int ret;
+        khash_t(gllisthead) *lists = glstate->headlists;
+        k = kh_get(gllisthead, lists, list);
+        renderlist_t *gllist = NULL;
+        if (k != kh_end(lists)){
+            gllist = kh_value(lists, k);
+            free_renderlist(gllist);
+            kh_del(gllisthead, lists, k);
+        }
     }
-
-    // lists just grow upwards, maybe use a better storage mechanism?
 }
 
 void gl4es_glDeleteLists(GLuint list, GLsizei range) {
@@ -1449,9 +1480,12 @@ void glListBase(GLuint base) AliasExport("gl4es_glListBase");
 
 GLboolean gl4es_glIsList(GLuint list) {
 	noerrorShim();
-    if (list - 1 < glstate->list.count) {
+    khint_t k;
+    int ret;
+    khash_t(gllisthead) *lists = glstate->headlists;
+    k = kh_get(gllisthead, lists, list);
+    if (k != kh_end(lists))
         return true;
-    }
     return false;
 }
 GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");

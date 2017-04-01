@@ -159,7 +159,7 @@ typedef struct {
     enable_state_t enable;
     map_state_t *map_grid;
     map_states_t map1, map2;
-    renderlist_t **lists;
+    khash_t(gllisthead) *headlists;
     texgen_state_t texgen[MAX_TEX];
     texture_state_t texture;
     GLfloat color[4];

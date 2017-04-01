@@ -182,6 +182,8 @@ typedef struct _renderlist_t {
     GLboolean open;
 } renderlist_t;
 
+KHASH_MAP_INIT_INT(gllisthead, renderlist_t*)
+
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
