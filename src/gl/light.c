@@ -173,7 +173,6 @@ void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
 }
 
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
-    ERROR_IN_BEGIN      // that not true, but don't know how to handle it
     if(glstate->list.active)
         if (glstate->list.compiling || glstate->gl_batch) {
             //TODO: Materialfv can be done per vertex, how to handle that ?!
@@ -181,7 +180,11 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
             rlMaterialfv(glstate->list.active, face, pname, params);
             noerrorShim();
             return;
-        } else flush();
+        } else if (!glstate->list.begin) flush();
+    //                   ^^^^ 
+    // if a glMaterialfv is called inside a glBegin/glEnd block
+    // then just execute it immediatly.
+    // It's not real behavour, but it's better then nothing
 
     if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
