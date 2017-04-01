@@ -72,6 +72,10 @@ void* NewGLState(void* shared_glstate) {
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
 
+    // pack & unpack alignment
+    glstate->texture.pack_align = 4;
+    glstate->texture.unpack_align = 4;
+
     // init the matrix tracking
     init_matrix(glstate);
 

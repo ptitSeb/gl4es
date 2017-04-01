@@ -343,7 +343,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	GLsizei bmp_width = (glstate->texture.unpack_row_length)?glstate->texture.unpack_row_length:width;
 
     if (! pixel_convert(data, &dst, bmp_width, height,
-                        format, type, GL_RGBA, GL_UNSIGNED_BYTE, 0)) {
+                        format, type, GL_RGBA, GL_UNSIGNED_BYTE, 0, 1)) {	// pack_align is forced to 1 when drawing
         return;
     }
 					  

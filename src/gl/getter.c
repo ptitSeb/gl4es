@@ -179,6 +179,12 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_MAX_DRAW_BUFFERS_ARB:   // fake...
             *params = 1;
             break;
+        case GL_PACK_ALIGNMENT:
+            *params = glstate->texture.pack_align;
+            break;
+        case GL_UNPACK_ALIGNMENT:
+            *params = glstate->texture.unpack_align;
+            break;
         case GL_UNPACK_ROW_LENGTH:	
 			*params = glstate->texture.unpack_row_length;
 			break;
@@ -391,6 +397,12 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_AUX_BUFFERS:
             *params = 0;
+            break;
+        case GL_PACK_ALIGNMENT:
+            *params = glstate->texture.pack_align;
+            break;
+        case GL_UNPACK_ALIGNMENT:
+            *params = glstate->texture.unpack_align;
             break;
         case GL_UNPACK_ROW_LENGTH:	
             *params = glstate->texture.unpack_row_length;

@@ -52,6 +52,8 @@ typedef struct {
            pack_skip_pixels,
            pack_skip_rows,
            pack_image_height;
+    GLuint  pack_align,
+            unpack_align;            
     GLboolean pack_lsb_first;
     gltexture_t *bound[MAX_TEX][ENABLED_TEXTURE_LAST];
     GLboolean pscoordreplace[MAX_TEX];
