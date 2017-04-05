@@ -119,16 +119,16 @@ typedef struct {
     int width;
     int height;
 } bcm_EGL_DISPMANX_WINDOW_T;
-int32_t (*graphics_get_display_size)(const uint16_t, uint32_t *, uint32_t*);
-bcm_DISPMANX_DISPLAY_HANDLE_T (*vc_dispmanx_display_open)(uint32_t);
-bcm_DISPMANX_UPDATE_HANDLE_T (*vc_dispmanx_update_start)(int32_t);
-bcm_DISPMANX_ELEMENT_HANDLE_T (*vc_dispmanx_element_add)(
+int32_t (*bcm_graphics_get_display_size)(const uint16_t, uint32_t *, uint32_t*);
+bcm_DISPMANX_DISPLAY_HANDLE_T (*bcm_vc_dispmanx_display_open)(uint32_t);
+bcm_DISPMANX_UPDATE_HANDLE_T (*bcm_vc_dispmanx_update_start)(int32_t);
+bcm_DISPMANX_ELEMENT_HANDLE_T (*bcm_vc_dispmanx_element_add)(
     bcm_DISPMANX_UPDATE_HANDLE_T, bcm_DISPMANX_DISPLAY_HANDLE_T, int32_t,
     bcm_VC_RECT_T *, bcm_DISPMANX_RESOURCE_HANDLE_T,
     bcm_VC_RECT_T *, bcm_DISPMANX_PROTECTION_T, 
     /*VC_DISPMANX_ALPHA_T*/void*, /*DISPMANX_CLAMP_T*/void*, 
     /*DISPMANX_TRANSFORM_T*/ int32_t);
-int (*vc_dispmanx_update_submit_sync)(bcm_DISPMANX_RESOURCE_HANDLE_T);
+int (*bcm_vc_dispmanx_update_submit_sync)(bcm_DISPMANX_RESOURCE_HANDLE_T);
 static bcm_DISPMANX_UPDATE_HANDLE_T dispman_update;
 static bcm_DISPMANX_DISPLAY_HANDLE_T dispman_display;
 static bcm_VC_RECT_T dst_rect;
@@ -140,7 +140,7 @@ static bcm_EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
     // create a simple RPI nativewindow of size w*h, on output 0 (i.e. LCD)...
     // code heavily inspired from Allegro 5.2
     uint32_t screenwidth, screenheight;
-    graphics_get_display_size(/*LCD*/ 0, &screenwidth, & screenheight);
+    bcm_graphics_get_display_size(/*LCD*/ 0, &screenwidth, & screenheight);
     if(w==0) w=screenwidth;
     if(h==0) h=screenheight;
     bcm_DISPMANX_ELEMENT_HANDLE_T dispman_element;
@@ -151,16 +151,16 @@ static bcm_EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
     src_rect.x = 0; src_rect.y = 0;
     src_rect.width = w << 16;
     src_rect.height = h << 16;
-    dispman_display = vc_dispmanx_display_open(/*LCD*/ 0);
-    dispman_update = vc_dispmanx_update_start(0);
-    dispman_element = vc_dispmanx_element_add(
+    dispman_display = bcm_vc_dispmanx_display_open(/*LCD*/ 0);
+    dispman_update = bcm_vc_dispmanx_update_start(0);
+    dispman_element = bcm_vc_dispmanx_element_add(
         dispman_update,dispman_display, 0, &dst_rect,
         0, &src_rect, /*DISPMANX_PROTECTION_NONE*/ 0, 0, 0, 
         /*DISPMAN_NO_ROTATE*/ 0);
     nativewindow.element = dispman_element;
     nativewindow.width = w;
     nativewindow.height = h;
-    vc_dispmanx_update_submit_sync(dispman_update);
+    bcm_vc_dispmanx_update_submit_sync(dispman_update);
 
     return &nativewindow;
 }
@@ -419,7 +419,7 @@ void glx_init() {
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit)
             g_bcmhost = true;
-        #define GO(A) A = dlsym(bcm_host, #A); if(A==NULL) printf("LIBGL: Warning, " #A " is null")
+        #define GO(A) bcm_##A = dlsym(bcm_host, #A); if(bcm_##A==NULL) printf("LIBGL: Warning, " #A " is null")
         GO(graphics_get_display_size);
         GO(vc_dispmanx_display_open);
         GO(vc_dispmanx_update_start);
