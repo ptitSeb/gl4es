@@ -874,14 +874,17 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
 #endif
             } else {
+                unsigned int width = 0, height = 0, depth = 0;
 #ifndef ANDROID
+                if(globals4es.usefb && (bcm_host || globals4es.usepbuffer)) {
+                    // Get Window size and all...
+                    unsigned int width, height, border;
+                    Window root;
+                    int x, y;
+                    XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
+                }
                 if(globals4es.usefb) {
                     if(globals4es.usepbuffer) {
-                        // Get Window size and all...
-                        unsigned int width, height, border, depth;
-                        Window root;
-                        int x, y;
-                        XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
                         //let's create a PBuffer attributes
                         EGLint egl_attribs[10];	// should be enough
                         int i = 0;
@@ -912,7 +915,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     if(eglSurface)
                         eglSurf = context->eglSurface = eglSurface;
                     else 
-                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(0,0), (globals4es.glx_surface_srgb)?sRGB:NULL);
+                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), (globals4es.glx_surface_srgb)?sRGB:NULL);
                 } else {
                     if(context->eglSurface)
                         egl_eglDestroySurface(eglDisplay, context->eglSurface);
