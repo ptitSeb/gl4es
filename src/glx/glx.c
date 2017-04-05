@@ -98,11 +98,80 @@ static int fbdev = -1;
 #endif
 
 static int  g_width=0, g_height=0;
-// RPI stuffs
+// **** RPI stuffs ****
 static bool g_bcmhost = false;
 static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
+typedef uint32_t DISPMANX_DISPLAY_HANDLE_T;
+typedef uint32_t DISPMANX_UPDATE_HANDLE_T;
+typedef uint32_t DISPMANX_ELEMENT_HANDLE_T;
+typedef uint32_t DISPMANX_RESOURCE_HANDLE_T;
+typedef uint32_t DISPMANX_PROTECTION_T;
+typedef struct tag_VC_RECT_T {
+    int32_t x;
+    int32_t y;
+    int32_t width;
+    int32_t height;
+} VC_RECT_T;
+typedef struct {
+    DISPMANX_ELEMENT_HANDLE_T element;
+    int width;
+    int height;
+} EGL_DISPMANX_WINDOW_T;
+int32_t (*graphics_get_display_size)(const uint16_t, uint32_t *, uint32_t*);
+DISPMANX_DISPLAY_HANDLE_T (*vc_dispmanx_display_open)(uint32_t);
+DISPMANX_UPDATE_HANDLE_T (*vc_dispmanx_update_start)(int32_t);
+DISPMANX_ELEMENT_HANDLE_T (*vc_dispmanx_element_add)(
+    DISPMANX_UPDATE_HANDLE_T, DISPMANX_DISPLAY_HANDLE_T, int32_t,
+    VC_RECT_T *, DISPMANX_RESOURCE_HANDLE_T,
+    VC_RECT_T *, DISPMANX_PROTECTION_T, 
+    /*VC_DISPMANX_ALPHA_T*/void*, /*DISPMANX_CLAMP_T*/void*, 
+    /*DISPMANX_TRANSFORM_T*/ int32_t);
+int (*vc_dispmanx_update_submit_sync)(DISPMANX_RESOURCE_HANDLE_T);
+static DISPMANX_UPDATE_HANDLE_T dispman_update;
+static DISPMANX_DISPLAY_HANDLE_T dispman_display;
+static VC_RECT_T dst_rect;
+static VC_RECT_T src_rect;
+
+static EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
+    static EGL_DISPMANX_WINDOW_T nativewindow;
+    if(!bcm_host) return NULL;
+    // create a simple RPI nativewindow of size w*h, on output 0 (i.e. LCD)...
+    // code heavily inspired from Allegro 5.2
+    uint32_t screenwidth, screenheight;
+    graphics_get_display_size(/*LCD*/ 0, &screenwidth, & screenheight);
+    if(w==0) w=screenwidth;
+    if(h==0) h=screenheight;
+    DISPMANX_ELEMENT_HANDLE_T dispman_element;
+    VC_RECT_T dst_rect, src_rect;
+    dst_rect.x = 0; dst_rect.y = 0;
+    dst_rect.width = screenwidth;
+    dst_rect.height = screenheight;
+    src_rect.x = 0; src_rect.y = 0;
+    src_rect.width = w << 16;
+    src_rect.height = h << 16;
+    dispman_display = vc_dispmanx_display_open(/*LCD*/ 0);
+    dispman_update = vc_dispmanx_update_start(0);
+    dispman_element = vc_dispmanx_element_add(
+        dispman_update,dispman_display, 0, &dst_rect,
+        0, &src_rect, /*DISPMANX_PROTECTION_NONE*/ 0, 0, 0, 
+        /*DISPMAN_NO_ROTATE*/ 0);
+    nativewindow.element = dispman_element;
+    nativewindow.width = w;
+    nativewindow.height = h;
+    vc_dispmanx_update_submit_sync(dispman_update);
+
+    return &nativewindow;
+}
+// ***** end of RPI stuffs ****
+
+// Generic create native window to use with "LIBGL_FB=1" (so with EGL_DEFAULT_DISPLAY and without X11)
+static void* create_native_window(int w, int h) {
+    if(bcm_host) return create_rpi_window(w, h);
+
+    return NULL;
+}
 
 #define SHUT(a) if(!globals4es.nobanner) a
 
@@ -350,6 +419,13 @@ void glx_init() {
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit)
             g_bcmhost = true;
+        #define GO(A) A = dlsym(bcm_host, #A); if(A==NULL) printf("LIBGL: Warning, " #A " is null")
+        GO(graphics_get_display_size);
+        GO(vc_dispmanx_display_open);
+        GO(vc_dispmanx_update_start);
+        GO(vc_dispmanx_element_add);
+        GO(vc_dispmanx_update_submit_sync);
+        #undef GO
     }
     if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
@@ -897,7 +973,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     if(eglSurface)
                         eglSurf = context->eglSurface = eglSurface;
                     else 
-                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], 0, (globals4es.glx_surface_srgb)?sRGB:NULL);
+                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(0,0), (globals4es.glx_surface_srgb)?sRGB:NULL);
                 } else {
                     if(context->eglSurface)
                         egl_eglDestroySurface(eglDisplay, context->eglSurface);
