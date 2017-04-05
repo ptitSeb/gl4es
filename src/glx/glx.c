@@ -103,39 +103,39 @@ static bool g_bcmhost = false;
 static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
-typedef uint32_t DISPMANX_DISPLAY_HANDLE_T;
-typedef uint32_t DISPMANX_UPDATE_HANDLE_T;
-typedef uint32_t DISPMANX_ELEMENT_HANDLE_T;
-typedef uint32_t DISPMANX_RESOURCE_HANDLE_T;
-typedef uint32_t DISPMANX_PROTECTION_T;
-typedef struct tag_VC_RECT_T {
+typedef uint32_t bcm_DISPMANX_DISPLAY_HANDLE_T;
+typedef uint32_t bcm_DISPMANX_UPDATE_HANDLE_T;
+typedef uint32_t bcm_DISPMANX_ELEMENT_HANDLE_T;
+typedef uint32_t bcm_DISPMANX_RESOURCE_HANDLE_T;
+typedef uint32_t bcm_DISPMANX_PROTECTION_T;
+typedef struct bcm_tag_bcm_VC_RECT_T {
     int32_t x;
     int32_t y;
     int32_t width;
     int32_t height;
-} VC_RECT_T;
+} bcm_VC_RECT_T;
 typedef struct {
-    DISPMANX_ELEMENT_HANDLE_T element;
+    bcm_DISPMANX_ELEMENT_HANDLE_T element;
     int width;
     int height;
-} EGL_DISPMANX_WINDOW_T;
+} bcm_EGL_DISPMANX_WINDOW_T;
 int32_t (*graphics_get_display_size)(const uint16_t, uint32_t *, uint32_t*);
-DISPMANX_DISPLAY_HANDLE_T (*vc_dispmanx_display_open)(uint32_t);
-DISPMANX_UPDATE_HANDLE_T (*vc_dispmanx_update_start)(int32_t);
-DISPMANX_ELEMENT_HANDLE_T (*vc_dispmanx_element_add)(
-    DISPMANX_UPDATE_HANDLE_T, DISPMANX_DISPLAY_HANDLE_T, int32_t,
-    VC_RECT_T *, DISPMANX_RESOURCE_HANDLE_T,
-    VC_RECT_T *, DISPMANX_PROTECTION_T, 
+bcm_DISPMANX_DISPLAY_HANDLE_T (*vc_dispmanx_display_open)(uint32_t);
+bcm_DISPMANX_UPDATE_HANDLE_T (*vc_dispmanx_update_start)(int32_t);
+bcm_DISPMANX_ELEMENT_HANDLE_T (*vc_dispmanx_element_add)(
+    bcm_DISPMANX_UPDATE_HANDLE_T, bcm_DISPMANX_DISPLAY_HANDLE_T, int32_t,
+    bcm_VC_RECT_T *, bcm_DISPMANX_RESOURCE_HANDLE_T,
+    bcm_VC_RECT_T *, bcm_DISPMANX_PROTECTION_T, 
     /*VC_DISPMANX_ALPHA_T*/void*, /*DISPMANX_CLAMP_T*/void*, 
     /*DISPMANX_TRANSFORM_T*/ int32_t);
-int (*vc_dispmanx_update_submit_sync)(DISPMANX_RESOURCE_HANDLE_T);
-static DISPMANX_UPDATE_HANDLE_T dispman_update;
-static DISPMANX_DISPLAY_HANDLE_T dispman_display;
-static VC_RECT_T dst_rect;
-static VC_RECT_T src_rect;
+int (*vc_dispmanx_update_submit_sync)(bcm_DISPMANX_RESOURCE_HANDLE_T);
+static bcm_DISPMANX_UPDATE_HANDLE_T dispman_update;
+static bcm_DISPMANX_DISPLAY_HANDLE_T dispman_display;
+static bcm_VC_RECT_T dst_rect;
+static bcm_VC_RECT_T src_rect;
 
-static EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
-    static EGL_DISPMANX_WINDOW_T nativewindow;
+static bcm_EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
+    static bcm_EGL_DISPMANX_WINDOW_T nativewindow;
     if(!bcm_host) return NULL;
     // create a simple RPI nativewindow of size w*h, on output 0 (i.e. LCD)...
     // code heavily inspired from Allegro 5.2
@@ -143,8 +143,8 @@ static EGL_DISPMANX_WINDOW_T* create_rpi_window(int w, int h) {
     graphics_get_display_size(/*LCD*/ 0, &screenwidth, & screenheight);
     if(w==0) w=screenwidth;
     if(h==0) h=screenheight;
-    DISPMANX_ELEMENT_HANDLE_T dispman_element;
-    VC_RECT_T dst_rect, src_rect;
+    bcm_DISPMANX_ELEMENT_HANDLE_T dispman_element;
+    bcm_VC_RECT_T dst_rect, src_rect;
     dst_rect.x = 0; dst_rect.y = 0;
     dst_rect.width = screenwidth;
     dst_rect.height = screenheight;
