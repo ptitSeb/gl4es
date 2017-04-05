@@ -174,22 +174,22 @@ void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
 
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     if(glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
-            //TODO: Materialfv can be done per vertex, how to handle that ?!
-            //NewStage(glstate->list.active, STAGE_MATERIAL);
-            rlMaterialfv(glstate->list.active, face, pname, params);
-            noerrorShim();
-            return;
-        } else {
-        if (!glstate->list.begin) flush();
-        else {
+        if(glstate->list.begin) {
             // if a glMaterialfv is called inside a glBegin/glEnd block
-            // then break current Draw list and start with a rlMaterial..
-            // It's not real behavour, but it's better then nothing (unless it's called every vertex)
+            // then use rlMaterial to store in current list the material wanted
+            // as if the material was asked before the glBegin()
+            // It's not real behavour, but it's better then nothing
                 rlMaterialfv(glstate->list.active, face, pname, params);
-            }
+                noerrorShim();
+                return;
+        } else {
+            if (glstate->list.compiling || glstate->gl_batch) {
+                NewStage(glstate->list.active, STAGE_MATERIAL);
+                rlMaterialfv(glstate->list.active, face, pname, params);
+                noerrorShim();
+                return;
+            } else flush();
         }
-
     if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
         return;
