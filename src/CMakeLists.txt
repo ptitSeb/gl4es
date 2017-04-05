@@ -82,12 +82,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	    glx/hardext.c
 	    glx/glx.c
 	    glx/lookup.c
+        glx/rpi.c
 	    glx/streaming.c
         glx/utils.c
     )
     list(APPEND GL_H
         glx/glx.h
         glx/hardext.h
+        glx/rpi.h
         glx/streaming.h
         glx/utils.h
     )
