@@ -29,6 +29,7 @@
 #endif
 
 
+
 //#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
@@ -409,7 +410,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-    DBG(printf("glXCreateContext(%p, %p, %p, %i), latest_visual=%p\n", display, visual, shareList, isDirect, latest_visual);)
+    DBG(printf("glXCreateContext(%p, %p, %p, %i), latest_visual=%p, fbcontext_count=%d\n", display, visual, shareList, isDirect, latest_visual, fbcontext_count);)
 
     static struct __GLXFBConfigRec default_glxfbconfig;
     GLXFBConfig glxfbconfig;
@@ -426,6 +427,11 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.depthBits = 16;
         default_glxfbconfig.stencilBits = 8;
     }
+    int depthBits = glxfbconfig->depthBits;
+#ifdef PANDORA
+    if(depthBits==24 && glxfbconfig->stencilBits==8 && !(globals4es.usefbo || globals4es.usepbuffer))
+        depthBits = 16;
+#endif    
 
     EGLint configAttribs[] = {
 #ifdef PANDORA
@@ -444,7 +450,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
 #else
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 #endif
-        EGL_BUFFER_SIZE, glxfbconfig->depthBits,
+        EGL_BUFFER_SIZE, depthBits,
         EGL_STENCIL_SIZE, glxfbconfig->stencilBits,
 
         EGL_SAMPLE_BUFFERS, glxfbconfig->nMultiSampleBuffers,
@@ -453,9 +459,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
         EGL_NONE
     };
-    if (globals4es.usefb && fbcontext_count>0) {
+    if (globals4es.usefb && fbcontext_count++>0) {
         // don't create a new context, one FB is enough...
-        fbcontext_count++;
         return fbContext;
     }
 
@@ -510,7 +515,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
-        LOGE("LIBGL: No EGL configs found.\n");
+        LOGE("LIBGL: No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
         free(fake);
         return 0;
     }
@@ -750,7 +755,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
 }
 
 void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
-    DBG(printf("glXDestroyContext(%p, %p)\n", display, ctx);)
+    DBG(printf("glXDestroyContext(%p, %p), fbcontext_count=%d\n", display, ctx, fbcontext_count);)
     if (globals4es.usefb && ctx->contextType==0) {
         if (fbcontext_count==0)
             return; // Should not happens!
