@@ -135,7 +135,7 @@ Experimental: enable Alpha test only when using texture that contains an alpha c
  * 1 : Alpha Hack enabled
 
 ##### LIBGL_NODOWNSAMPLING
-Texture downsampling control
+Texture downsampling control (deprecated, use LIBGL_AVOID16BITS instead)
  * 0 : Default, DXTc texture are downsampled to 16bits
  * 1 : DXTc texture are left as 32bits RGBA
 
@@ -241,10 +241,21 @@ Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is
  * 1 : Try to merge, even if there is a glColor / glNormal in between (default)
  * 2 : Try hard to merge, even if there is a glColor / glNormal or Matrix operations in between
 
+##### LIBGL_AVOID16BITS
+Try to avoid 16bits textures
+ * 0 : Default, use 16bits texture if it can avoid a convertion or for DXTc textures
+ * 1 : Use 32bits texture unless specifically requested (using internalformat)
+
 ----
 
 Version history
 ----
+##### Current version
+ * Some fixes in GL_TEXTURE_RECTANGLE_ARB handling
+ * Tracking of glFog
+ * Exposed glBlendEquation if supported
+ * New LIBGL_AVOID16BITS parameter to prefer 32bits texture (usefull on ODroid)
+ * Some optimisations in texture conversion
 
 ##### 0.9.5
  * Added some optimisations for sequencial glBegin/glEnd blocks, with a switch to control them

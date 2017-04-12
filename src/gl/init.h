@@ -41,6 +41,7 @@ typedef struct _globals4es {
  int texmat;
  int novaocache;
  int beginend;
+ int avoid16bits;
  char version[50];
 } globals4es_t;
 

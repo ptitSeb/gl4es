@@ -346,7 +346,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     return (void *)data;
 }
 
-GLenum swizzle_internalformat(GLenum *internalformat, GLenum format) {
+GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type) {
     GLenum ret = *internalformat;
     GLenum sret;
     switch(*internalformat) {
@@ -365,8 +365,12 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format) {
         case GL_RGB5:
             sret = GL_RGB5;
             break;
-        case GL_RGB8:
         case GL_RGB:
+             if(globals4es.avoid16bits==0 && format==GL_RGB && type==GL_UNSIGNED_SHORT_5_6_5) {
+                sret = ret = GL_RGB5;
+                break;
+            }
+        case GL_RGB8:
         case GL_BGR:
         case GL_RGB16:
         case GL_RGB16F:
@@ -381,6 +385,14 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format) {
             sret = GL_RGB5_A1;
             break;
         case GL_RGBA:
+            if(globals4es.avoid16bits==0 && format==GL_RGBA && type==GL_UNSIGNED_SHORT_5_5_5_1) {
+                sret = ret = GL_RGB5_A1;
+                break;
+            }
+            if(globals4es.avoid16bits==0 && format==GL_RGBA && type==GL_UNSIGNED_SHORT_4_4_4_4) {
+                sret = ret = GL_RGBA4;
+                break;
+            }
         case GL_RGBA8:
         case GL_RGBA16:
         case GL_RGBA16F:
@@ -564,7 +576,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if (globals4es.texshrink>=8 && max1>8192) max1=8192;
         proxy_width = ((width<<level)>max1)?0:width;
         proxy_height = ((height<<level)>max1)?0:height;
-        proxy_intformat = swizzle_internalformat(&internalformat, format);
+        proxy_intformat = swizzle_internalformat(&internalformat, format, type);
         return;
     }
     //PUSH_IF_COMPILING(glTexImage2D);
@@ -594,7 +606,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             else
                 bound->mipmap_need = 1;
      }
-     GLenum new_format = swizzle_internalformat(&internalformat, format);
+     GLenum new_format = swizzle_internalformat(&internalformat, format, type);
      if (bound && (level==0)) {
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
@@ -2157,23 +2169,26 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             // automaticaly reduce the pixel size
             half=pixels;
             bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
-            if(globals4es.nodownsampling==1) {
+            if(globals4es.nodownsampling==1) {  // will be removed soon, avoid16bits is better
                 format = GL_RGBA;
                 type = GL_UNSIGNED_BYTE;
             } else {
-                format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
-#ifdef PANDORA
-                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
-#else
-                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
-#endif
-                if (pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.pack_align))
-                    fact = 0;
-//            if (pixel_thirdscale(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE)) 
-//                fact = 1;
-                else {
+                if(globals4es.avoid16bits) {
                     format = GL_RGBA;
                     type = GL_UNSIGNED_BYTE;
+                } else {
+                    format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
+#ifdef PANDORA
+                    type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
+#else
+                    type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
+#endif
+                    if (pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.pack_align))
+                        fact = 0;
+                    else {
+                        format = GL_RGBA;
+                        type = GL_UNSIGNED_BYTE;
+                    }
                 }
             }
             bound->format = format; //internalformat;

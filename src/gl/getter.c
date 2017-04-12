@@ -344,32 +344,35 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     case GL_SHRINK_HINT_GL4ES:
         *params=globals4es.texshrink;
         break;
-    case GL_ALPHAHACK_HINT_GL4ES: 
+    case GL_ALPHAHACK_HINT_GL4ES:
         *params=globals4es.alphahack;
         break;
-    case GL_RECYCLEFBO_HINT_GL4ES: 
+    case GL_RECYCLEFBO_HINT_GL4ES:
         *params=globals4es.recyclefbo;
         break;
-    case GL_MIPMAP_HINT_GL4ES: 
+    case GL_MIPMAP_HINT_GL4ES:
         *params=globals4es.automipmap;
         break;
-    case GL_TEXDUMP_HINT_GL4ES: 
+    case GL_TEXDUMP_HINT_GL4ES:
         *params=globals4es.texdump;
         break;
-    case GL_COPY_HINT_GL4ES: 
+    case GL_COPY_HINT_GL4ES:
         *params=globals4es.copytex;
         break;
-    case GL_NOLUMAPHA_HINT_GL4ES: 
+    case GL_NOLUMAPHA_HINT_GL4ES:
         *params=globals4es.nolumalpha;
         break;
-    case GL_BLENDHACK_HINT_GL4ES: 
+    case GL_BLENDHACK_HINT_GL4ES:
         *params=globals4es.blendhack;
         break;
-    case GL_BATCH_HINT_GL4ES: 
+    case GL_BATCH_HINT_GL4ES:
         *params=globals4es.batch;
         break;
-    case GL_NOERROR_HINT_GL4ES: 
+    case GL_NOERROR_HINT_GL4ES:
         *params=globals4es.noerror;
+        break;
+    case GL_AVOID16BITS_HINT_GL4ES:
+        *params=globals4es.avoid16bits;
         break;
     default:
         errorGL();
@@ -585,6 +588,9 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_BEGINEND_HINT_GL4ES:
             *params=globals4es.beginend;
+            break;
+        case GL_AVOID16BITS_HINT_GL4ES:
+            *params=globals4es.avoid16bits;
             break;
         default:
             errorGL();

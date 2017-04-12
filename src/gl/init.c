@@ -283,6 +283,7 @@ void initialize_gl4es() {
                 SHUT(LOGD("LIBGL: Try hard to merge subsequent glBegin/glEnd blocks, even if there is a glColor / glNormal or Matrix operations in between\n"));
         } 
     }
+    env(LIBGL_AVOID16BITS, globals4es.avoid16bits, "Avoid 16bits textures");
 
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

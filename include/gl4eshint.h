@@ -29,5 +29,7 @@
 #define GL_NOVAOCACHE_HINT_GL4ES	    0xA10C
 // same as using LIBGL_BEGINEND=x
 #define GL_BEGINEND_HINT_GL4ES	        0xA10D
+// same as using LIBGL_AVOID16BITS=x
+#define GL_AVOID16BITS_HINT_GL4ES	    0xA10E
 
 #endif
