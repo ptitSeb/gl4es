@@ -61,7 +61,7 @@
 #define GL_TEXTURE_LOD_BIAS         0x8501
 #define GL_TEXTURE_CUBE_MAP         0x8513
 #define GL_TEXTURE_GEN_STR          0x8D60
-
+#define GL_CLAMP_TO_BORDER          0x812D
 
 // GL_ARB_point_sprite
 #define GL_POINT_SPRITE             0x8861

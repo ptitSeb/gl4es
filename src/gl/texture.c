@@ -1392,6 +1392,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 	case GL_TEXTURE_WRAP_T:
 	    switch (param) {
 		case GL_CLAMP:
+        case GL_CLAMP_TO_BORDER:
 		    param = GL_CLAMP_TO_EDGE;
 		    break;
 	    }
@@ -1429,6 +1430,61 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 
 void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     gl4es_glTexParameteri(target, pname, param);
+}
+
+void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
+    switch (pname) {
+	case GL_TEXTURE_MIN_FILTER:
+	case GL_TEXTURE_MAG_FILTER:
+	case GL_TEXTURE_WRAP_S:
+	case GL_TEXTURE_WRAP_T:
+	case GL_TEXTURE_WRAP_R:
+	case GL_TEXTURE_MAX_LEVEL:
+    case GL_TEXTURE_BASE_LEVEL:
+	case GL_TEXTURE_MIN_LOD:
+	case GL_TEXTURE_MAX_LOD:
+	case GL_TEXTURE_LOD_BIAS:
+	case GL_GENERATE_MIPMAP:
+        gl4es_glTexParameteri(target, pname, params[0]);
+        return;
+    case GL_TEXTURE_BORDER_COLOR:
+        // not supported on GLES,
+        noerrorShim();
+        return;
+    }
+    PUSH_IF_COMPILING(glTexParameterfv);
+    LOAD_GLES(glTexParameterfv);
+    errorGL();
+    const GLuint rtarget = map_tex_target(target);
+    gles_glTexParameterfv(rtarget, pname, params);
+
+}
+
+void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
+    switch (pname) {
+	case GL_TEXTURE_MIN_FILTER:
+	case GL_TEXTURE_MAG_FILTER:
+	case GL_TEXTURE_WRAP_S:
+	case GL_TEXTURE_WRAP_T:
+	case GL_TEXTURE_WRAP_R:
+	case GL_TEXTURE_MAX_LEVEL:
+    case GL_TEXTURE_BASE_LEVEL:
+	case GL_TEXTURE_MIN_LOD:
+	case GL_TEXTURE_MAX_LOD:
+	case GL_TEXTURE_LOD_BIAS:
+	case GL_GENERATE_MIPMAP:
+        gl4es_glTexParameteri(target, pname, params[0]);
+        return;
+    case GL_TEXTURE_BORDER_COLOR:
+        // not supported on GLES,
+        noerrorShim();
+        return;
+    }
+    PUSH_IF_COMPILING(glTexParameteriv);
+    LOAD_GLES(glTexParameteriv);
+    errorGL();
+    const GLuint rtarget = map_tex_target(target);
+    gles_glTexParameteriv(rtarget, pname, params);
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
@@ -2443,6 +2499,8 @@ void glGenTextures(GLsizei n, GLuint * textures) AliasExport("gl4es_glGenTexture
 void glDeleteTextures(GLsizei n, const GLuint * textures) AliasExport("gl4es_glDeleteTextures");
 void glTexParameteri(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexParameteri");
 void glTexParameterf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexParameterf");
+void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) AliasExport("gl4es_glTexParameterfv");
+void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) AliasExport("gl4es_glTexParameteriv");
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) AliasExport("gl4es_glAreTexturesResident");
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) AliasExport("gl4es_glGetTexLevelParameteriv");
 void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) AliasExport("gl4es_glGetTexImage");

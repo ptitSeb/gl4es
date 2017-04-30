@@ -78,6 +78,8 @@
 #define skip_glTexImage2D
 #define skip_glTexParameteri
 #define skip_glTexParameterf
+#define skip_glTexParameterfv
+#define skip_glTexParameteriv
 #define skip_glTexSubImage2D
 #define skip_glActiveTexture
 #define skip_glClientActiveTexture
