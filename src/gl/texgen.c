@@ -167,12 +167,12 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
         matrix_vector(ModelviewMatrix, verts+k*4, eye);
         vector4_normalize(eye);
         vector3_matrix((norm)?(norm+k*3):glstate->normal, InvModelview, eye_norm);
-        vector4_normalize(eye_norm);
-        a=dot4(eye, eye_norm)*2.0f;
-        for (int j=0; j<4; j++)
+        vector_normalize(eye_norm);
+        a=dot(eye, eye_norm)*2.0f;
+        for (int j=0; j<3; j++)
             reflect[j]=eye[j]-eye_norm[j]*a;
         reflect[2]+=1.0f;
-        a = 0.5f / sqrtf(dot4(reflect, reflect));
+        a = 0.5f / sqrtf(dot(reflect, reflect));
         out[k*4+0] = reflect[0]*a + 0.5f;
         out[k*4+1] = reflect[1]*a + 0.5f;
         out[k*4+2] = 0.0f;

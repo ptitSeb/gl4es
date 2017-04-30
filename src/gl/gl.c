@@ -205,22 +205,15 @@ void gl_init() {
 #endif
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
-    #define proxy_enable(constant, name) \
+    #define proxy_GO(constant, name) \
         case constant: glstate->enable.name = enable; next(cap); break
-    #define enable(constant, name) \
+    #define GO(constant, name) \
         case constant: glstate->enable.name = enable; break;
-    #define proxy_clientenable(constant, name) \
+    #define proxy_clientGO(constant, name) \
         case constant: glstate->vao->name = enable; next(cap); break
-    #define clientenable(constant, name) \
+    #define clientGO(constant, name) \
         case constant: glstate->vao->name = enable; break;
 
-    // TODO: maybe could be weird behavior if someone tried to:
-    // 1. enable GL_TEXTURE_1D
-    // 2. enable GL_TEXTURE_2D
-    // 3. disable GL_TEXTURE_1D
-    // 4. render. GL_TEXTURE_2D would be disabled.
-    // cap = map_tex_target(cap);
-    
     // Alpha Hack
     if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
         if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
@@ -236,8 +229,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
 #endif
     switch (cap) {
-        enable(GL_AUTO_NORMAL, auto_normal);
-        proxy_enable(GL_BLEND, blend);
+        GO(GL_AUTO_NORMAL, auto_normal);
+        proxy_GO(GL_BLEND, blend);
         case GL_TEXTURE_2D:
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
@@ -246,24 +239,24 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             next(cap);
             break;
 
-        enable(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
-        enable(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
-        enable(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
-        enable(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
-        enable(GL_LINE_STIPPLE, line_stipple);
+        GO(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
+        GO(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
+        GO(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
+        GO(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
+        GO(GL_LINE_STIPPLE, line_stipple);
 
         // point sprite
-        proxy_enable(GL_POINT_SPRITE, pointsprite);
+        proxy_GO(GL_POINT_SPRITE, pointsprite);
         
         // Secondary color
-        enable(GL_COLOR_SUM, color_sum);
-        clientenable(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        GO(GL_COLOR_SUM, color_sum);
+        clientGO(GL_SECONDARY_COLOR_ARRAY, secondary_array);
 	
         // for glDrawArrays
-        clientenable(GL_VERTEX_ARRAY, vertex_array);
-        clientenable(GL_NORMAL_ARRAY, normal_array);
-        clientenable(GL_COLOR_ARRAY, color_array);
-        clientenable(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        clientGO(GL_VERTEX_ARRAY, vertex_array);
+        clientGO(GL_NORMAL_ARRAY, normal_array);
+        clientGO(GL_COLOR_ARRAY, color_array);
+        clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
         
         // Texture 1D and 3D
         case GL_TEXTURE_1D:
@@ -295,10 +288,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         
         default: errorGL(); next(cap); break;
     }
-    #undef proxy_enable
-    #undef enable
-    #undef proxy_clientenable
-    #undef clientenable
+    #undef proxy_GO
+    #undef GO
+    #undef proxy_clientGO
+    #undef clientGO
 }
 
 int Cap2BatchState(GLenum cap) {
