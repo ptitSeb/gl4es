@@ -125,6 +125,7 @@
 
 #define GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20B2
 
+#define GLX_SWAP_INTERVAL_EXT   0x20F1
 
 typedef int GLXDrawable;
 #ifndef ANDROID
