@@ -1340,7 +1340,7 @@ typedef struct {
     int func;
     ARGS_void_GLenum_GLenum_const_GLint___GENPT__ args;
 } INDEXED_void_GLenum_GLenum_const_GLint___GENPT__;
-typedef void (*FUNC_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void (*FUNC_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data);
 typedef struct {
     GLenum a1;
     GLint a2;
@@ -1361,7 +1361,7 @@ typedef struct {
     int func;
     ARGS_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__ args;
 } INDEXED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__;
-typedef void (*FUNC_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void (*FUNC_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data);
 typedef struct {
     GLenum a1;
     GLint a2;
@@ -2496,8 +2496,8 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glTexGeni_FORMAT FORMAT_void_GLenum_GLenum_GLint
 #define glTexImage2D_INDEX 159
 #define glTexImage2D_RETURN void
-#define glTexImage2D_ARG_NAMES target, level, internalformat, width, height, border, format, type, pixels
-#define glTexImage2D_ARG_EXPAND GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels
+#define glTexImage2D_ARG_NAMES target, level, internalformat, width, height, border, format, type, data
+#define glTexImage2D_ARG_EXPAND GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data
 #define glTexImage2D_PACKED PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexImage2D_INDEXED INDEXED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexImage2D_FORMAT FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
@@ -2545,8 +2545,8 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glTexParameterxv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__
 #define glTexSubImage2D_INDEX 166
 #define glTexSubImage2D_RETURN void
-#define glTexSubImage2D_ARG_NAMES target, level, xoffset, yoffset, width, height, format, type, pixels
-#define glTexSubImage2D_ARG_EXPAND GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels
+#define glTexSubImage2D_ARG_NAMES target, level, xoffset, yoffset, width, height, format, type, data
+#define glTexSubImage2D_ARG_EXPAND GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data
 #define glTexSubImage2D_PACKED PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexSubImage2D_INDEXED INDEXED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexSubImage2D_FORMAT FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
@@ -4597,7 +4597,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glTexImage2D
-#define push_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels) { \
+#define push_glTexImage2D(target, level, internalformat, width, height, border, format, type, data) { \
     glTexImage2D_PACKED *packed_data = malloc(sizeof(glTexImage2D_PACKED)); \
     packed_data->format = glTexImage2D_FORMAT; \
     packed_data->func = gl4es_glTexImage2D; \
@@ -4609,7 +4609,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a6 = (GLint)border; \
     packed_data->args.a7 = (GLenum)format; \
     packed_data->args.a8 = (GLenum)type; \
-    packed_data->args.a9 = (GLvoid *)pixels; \
+    packed_data->args.a9 = (GLvoid *)data; \
     glPushCall((void *)packed_data); \
 }
 #endif
@@ -4680,7 +4680,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glTexSubImage2D
-#define push_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels) { \
+#define push_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data) { \
     glTexSubImage2D_PACKED *packed_data = malloc(sizeof(glTexSubImage2D_PACKED)); \
     packed_data->format = glTexSubImage2D_FORMAT; \
     packed_data->func = gl4es_glTexSubImage2D; \
@@ -4692,7 +4692,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a6 = (GLsizei)height; \
     packed_data->args.a7 = (GLenum)format; \
     packed_data->args.a8 = (GLenum)type; \
-    packed_data->args.a9 = (GLvoid *)pixels; \
+    packed_data->args.a9 = (GLvoid *)data; \
     glPushCall((void *)packed_data); \
 }
 #endif

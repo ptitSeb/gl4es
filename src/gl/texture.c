@@ -579,13 +579,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         proxy_intformat = swizzle_internalformat(&internalformat, format, type);
         return;
     }
-    //PUSH_IF_COMPILING(glTexImage2D);
     GLuint old_glbatch = glstate->gl_batch;
     if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
+    } else {
+        PUSH_IF_COMPILING(glTexImage2D);
     }
-
+    
     GLvoid *datab = (GLvoid*)data;
     
 	if (glstate->vao->unpack)
@@ -889,11 +890,12 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
 
-	//PUSH_IF_COMPILING(glTexSubImage2D);
     GLuint old_glbatch = glstate->gl_batch;
     if (glstate->gl_batch || glstate->list.pending) {
         flush();
         glstate->gl_batch = 0;
+    } else {
+        PUSH_IF_COMPILING(glTexSubImage2D);
     }
 
     GLvoid *datab = (GLvoid*)data;
@@ -1285,7 +1287,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
 #define batch_activetex (glstate->statebatch.active_tex_changed?(glstate->statebatch.active_tex-GL_TEXTURE0):glstate->texture.active)
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
-    //printf("glBindTexture(%s, %u), active=%i, client=%i\n", PrintEnum(target), texture, glstate->texture.active, glstate->texture.client);
+    //printf("glBindTexture(%s, %u), active=%i, client=%i, list.active=%p (compiling=%d, pending=%d)\n", PrintEnum(target), texture, glstate->texture.active, glstate->texture.client, glstate->list.active, glstate->list.compiling, glstate->list.pending);
     if(glstate->list.pending) flush();
     if ((target!=GL_PROXY_TEXTURE_2D) && (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)))  {
         if ((glstate->statebatch.bound_targ[batch_activetex] == target) && (glstate->statebatch.bound_tex[batch_activetex] == texture))

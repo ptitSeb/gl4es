@@ -1580,14 +1580,14 @@ void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
 void glTexGeni(GLenum coord, GLenum pname, GLint param) __attribute__((alias("gl4es_glTexGeni"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexImage2D
-void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) {
+void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data) {
     LOAD_GLES(glTexImage2D);
 #ifndef direct_glTexImage2D
     PUSH_IF_COMPILING(glTexImage2D)
 #endif
-    gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+    gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, data);
 }
-void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("gl4es_glTexImage2D"))) __attribute__((visibility("default")));
+void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data) __attribute__((alias("gl4es_glTexImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexParameterf
 void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
@@ -1650,14 +1650,14 @@ void gl4es_glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params)
 void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) __attribute__((alias("gl4es_glTexParameterxv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexSubImage2D
-void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) {
+void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data) {
     LOAD_GLES(glTexSubImage2D);
 #ifndef direct_glTexSubImage2D
     PUSH_IF_COMPILING(glTexSubImage2D)
 #endif
-    gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+    gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
-void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) __attribute__((alias("gl4es_glTexSubImage2D"))) __attribute__((visibility("default")));
+void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data) __attribute__((alias("gl4es_glTexSubImage2D"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTranslatef
 void gl4es_glTranslatef(GLfloat x, GLfloat y, GLfloat z) {

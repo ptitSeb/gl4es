@@ -7,7 +7,6 @@ typedef enum {
 	STAGE_NONE = 0,
 	STAGE_PUSH,
 	STAGE_POP,
-	STAGE_CALLLIST,
 	STAGE_GLCALL,
     STAGE_RENDER,
 	STAGE_FOG,
@@ -33,7 +32,6 @@ static int StageExclusive[] = {
 	0, 	// STAGE_NONE
 	1,	// STAGE_PUSH
 	1,  // STAGE_POP
-	1, 	// STAGE_CALLLIST
 	0,  // STAGE_GLCALL
     1,  // STAGE_RENDER
 	1, 	// STAGE_FOG
