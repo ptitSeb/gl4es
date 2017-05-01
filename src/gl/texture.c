@@ -300,7 +300,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 		if (convert) {
 			GLvoid *pixels = (GLvoid *)data;
 			if (! pixel_convert(data, &pixels, width, height,
-								*format, *type, dest_format, dest_type, 0, glstate->texture.pack_align)) {
+								*format, *type, dest_format, dest_type, 0, glstate->texture.unpack_align)) {
 				printf("LIBGL: swizzle error: (%s, %s -> %s, %s)\n",
 					PrintEnum(*format), PrintEnum(*type), PrintEnum(dest_format), PrintEnum(dest_type));
 				return NULL;
@@ -311,7 +311,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 GLvoid *pix2 = (GLvoid *)pixels;
                 internal2format_type(internalformat, &dest_format, &dest_type);
                 if (! pixel_convert(pixels, &pix2, width, height,
-                                    *format, *type, dest_format, dest_type, 0, glstate->texture.pack_align)) {
+                                    *format, *type, dest_format, dest_type, 0, glstate->texture.unpack_align)) {
                     printf("LIBGL: swizzle error: (%s, %s -> %s, %s)\n",
                         PrintEnum(dest_format), PrintEnum(dest_type), PrintEnum(internalformat), PrintEnum(dest_type));
                     return NULL;
@@ -590,7 +590,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     GLvoid *datab = (GLvoid*)data;
     
 	if (glstate->vao->unpack)
-		datab += (uintptr_t)glstate->vao->pack->data;
+		datab += (uintptr_t)glstate->vao->unpack->data;
         
     GLvoid *pixels = (GLvoid *)datab;
     border = 0;	//TODO: something?
@@ -900,7 +900,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 
     GLvoid *datab = (GLvoid*)data;
 	if (glstate->vao->unpack)
-		datab += (uintptr_t)glstate->vao->pack->data;
+		datab += (uintptr_t)glstate->vao->unpack->data;
     GLvoid *pixels = (GLvoid*)datab;
 
     const GLuint itarget = what_target(target);
