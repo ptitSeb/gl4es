@@ -7,7 +7,7 @@ This is a fork a glshim (https://github.com/lunixbochs/glshim). Go check this li
 
 The focus is on compatibility with a wide selection of game and software, as well as speed.
 
-It has been tested successfully of a large selection of games and software, including: Mincraft, OpenMW, SeriousSam, RVGL, TSMC, TORCS, SpeedDreams, GL-117, Foobillard(plus), Blender 2.68 and many more.
+It has been tested successfully of a large selection of games and software, including: Minecraft, OpenMW, SeriousSam (both First and Second Encounters), RVGL (ReVolt GL), TSMC (The Secret Maryo Chronicles), TORCS, SpeedDreams, GL-117, Foobillard(plus), Blender 2.68 to name just a few.
 
 Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  * Reading of Depth or Stencil buffer will not work
@@ -250,8 +250,10 @@ Try to avoid 16bits textures
 
 Version history
 ----
-##### Current version
+##### 0.9.6
  * Some fixes in GL_TEXTURE_RECTANGLE_ARB handling
+ * Some other fixes in texture handling (unpack and glList related)
+ * Some fix with the PBuffer glX context creation
  * Tracking of glFog
  * Exposed glBlendEquation if supported
  * New LIBGL_AVOID16BITS parameter to prefer 32bits texture (usefull on ODroid)
