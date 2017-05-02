@@ -79,7 +79,7 @@ static int isPBuffer(GLXDrawable drawable) {
 }
 void BlitEmulatedPixmap();
 int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, int redBits, int greenBits, int blueBits, int alphaBits, int samplebuffers, int samples);
-GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated);
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated, GLXContext glxcontext);
 
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
@@ -923,7 +923,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&Width);
                         egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&Height);
 
-                        addPixBuffer(display, eglSurf, Width, Height, eglContext, drawable, depth, 2);
+                        addPixBuffer(display, eglSurf, Width, Height, eglContext, drawable, depth, 2, glxContext);
                         context->eglSurface = eglSurf;
                         context->eglContext = eglContext;
                         // update, that context is a created emulated one...
@@ -1737,7 +1737,7 @@ GLXPbuffer gl4es_glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int *
     return addPBuffer(Surface, Width, Height, Context, fake);
 }
 
-GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated)
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated, GLXContext glxcontext)
 {
     if(pbufferlist_cap<=pbufferlist_size) {
         pbufferlist_cap += 4;
@@ -1755,6 +1755,7 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
     pbuffersize[pbufferlist_size].frame = NULL;
 
     pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap, 4 = emulated win
+    pbuffersize[pbufferlist_size].glxcontext = glxcontext;
     return pbufferlist[pbufferlist_size++];
 }
 void delPixBuffer(int j)
@@ -1878,7 +1879,11 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
     egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
     egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
-    return addPixBuffer(display, Surface, Width, Height, Context, pixmap, depth, emulated);
+    GLXContext fake = malloc(sizeof(struct __GLXContextRec));
+    memset(fake, 0, sizeof(struct __GLXContextRec));
+    fake->glstate = NewGLState(NULL);
+
+    return addPixBuffer(display, Surface, Width, Height, Context, pixmap, depth, emulated, fake);
 }
 
 GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
