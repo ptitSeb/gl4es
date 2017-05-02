@@ -250,6 +250,9 @@ Try to avoid 16bits textures
 
 Version history
 ----
+##### Current version
+ * Some fix with the PixMap glX context creation
+ 
 ##### 0.9.6
  * Some fixes in GL_TEXTURE_RECTANGLE_ARB handling
  * Some other fixes in texture handling (unpack and glList related)
