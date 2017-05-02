@@ -63,7 +63,6 @@ typedef struct {
     Display *dpy; 
     int Type; GC gc; 
     XImage* frame; 
-    GLXContext glxcontext;
 } glx_buffSize;
 
 //PBuffer should work under ANDROID
@@ -79,7 +78,7 @@ static int isPBuffer(GLXDrawable drawable) {
 }
 void BlitEmulatedPixmap();
 int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, int redBits, int greenBits, int blueBits, int alphaBits, int samplebuffers, int samples);
-GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated, GLXContext glxcontext);
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated);
 
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
@@ -463,6 +462,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         // don't create a new context, one FB is enough...
         GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     	memcpy(fake, fbContext, sizeof(struct __GLXContextRec));
+        fake->glstate = NewGLState(fbContext->glstate); // let's create a new shared glsate
 
         DBG(printf(" => %p\n", fake);)
         return fake;
@@ -748,7 +748,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         fake->display = (globals4es.usefb)?g_display:display;
         fake->direct = true;
         fake->xid = 1;  //TODO: Proper handling of that id...
-        fake->contextType = 0;  //Window
+        fake->contextType = (config->drawableType)==GLX_PIXMAP_BIT?2:0;  //Pixmap:Window
 
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_RED_SIZE, &fake->rbits);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_GREEN_SIZE, &fake->gbits);
@@ -769,11 +769,12 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         if (fbcontext_count==0)
             return; // Should not happens!
         if (--fbcontext_count > 0) {
+            DeleteGLState(ctx->glstate);
             free(ctx);
-            return; // Nothing to do...
+            return; // Not much to do...
         }
     }
-    if ((!globals4es.usefb && ctx->eglContext) || (globals4es.usefb && eglContext)) {
+    if (ctx->eglContext) {
         if (globals4es.usefbo && ctx->contextType==0) {
             deleteMainFBO();
         }
@@ -890,7 +891,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #ifndef ANDROID
                 eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
-                context->glstate = pbuffersize[created-1].glxcontext->glstate;
+                if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
+                    DeleteGLState(context->glstate);
+                    context->glstate = NewGLState(NULL);
+                }
 #endif
             } else {
                 unsigned int width = 0, height = 0, depth = 0;
@@ -923,7 +927,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&Width);
                         egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&Height);
 
-                        addPixBuffer(display, eglSurf, Width, Height, eglContext, drawable, depth, 2, glxContext);
+                        addPixBuffer(display, eglSurf, Width, Height, eglContext, drawable, depth, 2);
                         context->eglSurface = eglSurf;
                         context->eglContext = eglContext;
                         // update, that context is a created emulated one...
@@ -962,7 +966,6 @@ Bool gl4es_glXMakeCurrent(Display *display,
         map->surface = eglSurf;
         map->PBuffer = created;
 
-        if(created) pbuffersize[created-1].glxcontext = context;
     }
     
     if (context) {
@@ -1572,7 +1575,7 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
     return 0;
 }
 
-GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Context, GLXContext glxcontext)
+GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Context)
 {
     if(pbufferlist_cap<=pbufferlist_size) {
         pbufferlist_cap += 4;
@@ -1586,7 +1589,6 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Surface = surface;
     pbuffersize[pbufferlist_size].gc = NULL;
     pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
-    pbuffersize[pbufferlist_size].glxcontext = glxcontext;
     return pbufferlist[pbufferlist_size++];
 }
 void delPBuffer(int j)
@@ -1730,14 +1732,10 @@ GLXPbuffer gl4es_glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int *
     egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
     egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
-    GLXContext fake = malloc(sizeof(struct __GLXContextRec));
-	memset(fake, 0, sizeof(struct __GLXContextRec));
-    fake->glstate = NewGLState(NULL);
-
-    return addPBuffer(Surface, Width, Height, Context, fake);
+    return addPBuffer(Surface, Width, Height, Context);
 }
 
-GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated, GLXContext glxcontext)
+GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated)
 {
     if(pbufferlist_cap<=pbufferlist_size) {
         pbufferlist_cap += 4;
@@ -1755,7 +1753,6 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
     pbuffersize[pbufferlist_size].frame = NULL;
 
     pbuffersize[pbufferlist_size].Type = 2+emulated;    //2 = pixmap, 3 = emulated pixmap, 4 = emulated win
-    pbuffersize[pbufferlist_size].glxcontext = glxcontext;
     return pbufferlist[pbufferlist_size++];
 }
 void delPixBuffer(int j)
@@ -1879,11 +1876,7 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
     egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
     egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
-    GLXContext fake = malloc(sizeof(struct __GLXContextRec));
-    memset(fake, 0, sizeof(struct __GLXContextRec));
-    fake->glstate = NewGLState(NULL);
-
-    return addPixBuffer(display, Surface, Width, Height, Context, pixmap, depth, emulated, fake);
+    return addPixBuffer(display, Surface, Width, Height, Context, pixmap, depth, emulated);
 }
 
 GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
@@ -2040,8 +2033,6 @@ void BlitEmulatedPixmap() {
             egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
 
             EGLSurface Surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
-
-            buff->glxcontext->eglSurface = Surface;
 
             egl_eglMakeCurrent(eglDisplay, Surface, Surface, eglContext);
 
