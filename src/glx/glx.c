@@ -901,10 +901,11 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #ifndef ANDROID
                 if(globals4es.usefb && (bcm_host || globals4es.usepbuffer)) {
                     // Get Window size and all...
-                    unsigned int width, height, border;
+                    unsigned int border;
                     Window root;
                     int x, y;
                     XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
+                    DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, drawable);)
                 }
                 if(globals4es.usefb) {
                     if(globals4es.usepbuffer) {
