@@ -363,7 +363,9 @@ void glx_init() {
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit) {
             g_bcmhost = true;
+#ifndef ANDROID
             rpi_init();
+#endif
         }
     }
     if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) {
