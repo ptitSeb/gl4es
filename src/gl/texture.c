@@ -2438,6 +2438,9 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0.0f)?1:0;
+    // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
+    if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
+    if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
     gles_glTexEnvf(target, pname, param);
 }
 void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -2445,6 +2448,9 @@ void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
     PUSH_IF_COMPILING(glTexEnvi);
     if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
         glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0)?1:0;
+    // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
+    if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
+    if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
     gles_glTexEnvi(target, pname, param);
 }
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {

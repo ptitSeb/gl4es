@@ -309,6 +309,8 @@
 #define GL_ONE_MINUS_CONSTANT_COLOR       0x8002
 #define GL_CONSTANT_ALPHA        0x8003
 #define GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
+#define GL_DOT3_RGB_EXT         0x8740
+#define GL_DOT3_RGBA_EXT        0x8741
 
 // glGet
 #define GL_AUX_BUFFERS           0x0C00
