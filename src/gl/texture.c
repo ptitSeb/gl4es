@@ -501,7 +501,6 @@ static int get_shrinklevel(int width, int height, int level) {
             }
             break;
         case 4: //only > 256 /2, >=1024 /4
-        case 5: //every > 256 is downscaled to 256, but not for empty texture   (as there is no downscale stronger than 4, there are the same)
             if (((mipwidth%4==0) && (mipheight%4==0)) && 
                 ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
                 if ((mipwidth>=1024) || (mipheight>=1024)) {
@@ -511,10 +510,26 @@ static int get_shrinklevel(int width, int height, int level) {
                 }
             }
             break;
+        case 5: //every > 256 is downscaled to 256, but not for empty texture
+            if (((mipwidth%4==0) && (mipheight%4==0)) && 
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+                if ((mipwidth>256) || (mipheight>256)) {
+                    while (((mipwidth > 256) && (mipheight > 4)) || ((mipheight > 256) && (mipwidth > 4))) {
+                        width /= 2;
+                        height /= 2;
+                        mipwidth /= 2;
+                        mipheight /= 2;
+                        shrink+=1;
+                    }
+                } else {
+                    shrink = 1;
+                }
+            }
+            break;
         case 6: //only > 128 /2, >=512 is downscaled to 256, but not for empty texture
             if (((mipwidth%2==0) && (mipheight%2==0)) && 
                 ((mipwidth > 128) && (mipheight > 8)) || ((mipheight > 128) && (mipwidth > 8))) {
-                if (((mipwidth%2==0) && (mipheight%2==0)) && (mipwidth>=512) || (mipheight>=512)) {
+                if ((mipwidth>=512) || (mipheight>=512)) {
                     while (((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
                         width /= 2;
                         height /= 2;
@@ -619,7 +634,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if(bound) {
         bound->shrink = shrink = get_shrinklevel(width, height, level);
     }
-    if(width>>shrink==0 && height>>shrink==0) return;   // nothing to do
+    if(((width>>shrink)==0) && ((height>>shrink)==0)) return;   // nothing to do
      if (datab) {
 
         // implements GL_UNPACK_ROW_LENGTH
@@ -663,25 +678,18 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 break;
             default:
                 while(shrink) {
-                    if (shrink>1) { // quarterscale
-                        GLvoid *out = pixels;
-                        pixel_quarterscale(pixels, &out, width, height, format, type);
-                        if (out != pixels && pixels!=datab)
-                            free(pixels);
-                        pixels = out;
-                        width = nlevel(width, 2);
-                        height = nlevel(height, 2);
-                        shrink-=2;
-                    } else {    //halfscale
-                        GLvoid *out = pixels;
+                    int toshrink = (shrink>1)?2:1;
+                    GLvoid *out = pixels;
+                    if(toshrink==1)
                         pixel_halfscale(pixels, &out, width, height, format, type);
-                        if (out != pixels && pixels!=datab)
-                            free(pixels);
-                        pixels = out;
-                        width = nlevel(width, 1);
-                        height = nlevel(height, 1);
-                        shrink--;
-                    }
+                    else
+                        pixel_quarterscale(pixels, &out, width, height, format, type);
+                    if (out != pixels && pixels!=datab)
+                        free(pixels);
+                    pixels = out;
+                    width = nlevel(width, toshrink);
+                    height = nlevel(height, toshrink);
+                    shrink-=toshrink;
                 }
             }
         }
