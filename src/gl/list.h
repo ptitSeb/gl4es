@@ -130,6 +130,7 @@ typedef struct _renderlist_t {
     int *shared_indices;
     GLushort *indices;
     unsigned int indice_cap;
+    int maxtex;
 	
 	rasterlist_t *raster;
 	

@@ -470,7 +470,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
         list->color = OP(glstate->vao->color.ptr,4);
         list->secondary = OP(glstate->vao->secondary.ptr,4);
         list->normal = OP(glstate->vao->normal.ptr,3);
-        for (int i=0; i<hardext.maxtex; i++)
+        for (int i=0; i<hardext.maxtex; i++) 
             list->tex[i] = OP(glstate->vao->tex[i].ptr,4);
         #undef OP
         
@@ -550,6 +550,8 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             }
         }
     }
+    for (int i=0; i<hardext.maxtex; i++)
+        if(list->tex[i] && list->maxtex < i+1) list->maxtex = i+1;
     return list;
 }
 

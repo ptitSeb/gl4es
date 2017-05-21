@@ -118,7 +118,9 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     if ((a->secondary==NULL) != (b->secondary==NULL))
         return false;
     // check the textures
-    for (int i=0; i<hardext.maxtex; i++)
+    if(a->maxtex!=b->maxtex)
+        return false;
+    for (int i=0; i<a->maxtex; i++)
         if ((a->tex[i]==NULL) != (b->tex[i]==NULL))
             return false;
     if ((a->set_texture==b->set_texture) && ((a->texture != b->texture) || (a->target_texture != b->target_texture)))
@@ -297,7 +299,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             a->secondary = alloc_sublist(4, cap);
             memcpy(a->secondary, tmp, 4*a->len*sizeof(GLfloat));
         }
-        for (int i=0; i<hardext.maxtex; i++) {
+        for (int i=0; i<a->maxtex; i++) {
             tmp = a->tex[i];
             if (tmp) {
                 a->tex[i] = alloc_sublist(4, cap);
@@ -311,7 +313,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             realloc_sublist(a->normal, 3, cap);
             realloc_sublist(a->color, 4, cap);
             realloc_sublist(a->secondary, 4, cap);
-            for (int i=0; i<hardext.maxtex; i++)
+            for (int i=0; i<a->maxtex; i++)
                realloc_sublist(a->tex[i], 4, cap);
         }
     }
@@ -331,7 +333,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
-    for (int i=0; i<hardext.maxtex; i++)
+    for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
     if (ilen_a + ilen_b)
@@ -616,7 +618,7 @@ void free_renderlist(renderlist_t *list) {
             if (list->normal) free(list->normal);
             if (list->color) free(list->color);
             if (list->secondary) free(list->secondary);
-            for (a=0; a<hardext.maxtex; a++)
+            for (a=0; a<list->maxtex; a++)
                 if (list->tex[a]) free(list->tex[a]);
         }
         if (!list->shared_indices || ((*list->shared_indices)--)==0) {
@@ -674,7 +676,7 @@ void resize_renderlist(renderlist_t *list) {
         realloc_sublist(list->normal, 3, list->cap);
         realloc_sublist(list->color, 4, list->cap);
         realloc_sublist(list->secondary, 4, list->cap);
-        for (int a=0; a<hardext.maxtex; a++)
+        for (int a=0; a<list->maxtex; a++)
            realloc_sublist(list->tex[a], 4, list->cap);
     }
 }
@@ -685,7 +687,7 @@ void adjust_renderlist(renderlist_t *list) {
 
     list->stage = STAGE_LAST;
     list->open = false;
-    for (int a=0; a<hardext.maxtex; a++) {
+    for (int a=0; a<list->maxtex; a++) {
         const GLint itarget = get_target(glstate->enable.texture[a]);
 	    gltexture_t *bound = (itarget>=0)?glstate->texture.bound[a][itarget]:NULL;
         // in case of Texture bounding inside a list
@@ -975,6 +977,7 @@ void draw_renderlist(renderlist_t *list) {
         GLint needclean[MAX_TEX] = {0};
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
+        // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
         for (int a=0; a<hardext.maxtex; a++) {
             if(glstate->enable.texture[a]) {
                 const GLint itarget = get_target(glstate->enable.texture[a]);
@@ -1269,7 +1272,7 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
         memcpy(secondary, glstate->secondary, sizeof(GLfloat) * 4);
     }
 
-    for (int a=0; a<hardext.maxtex; a++) {
+    for (int a=0; a<list->maxtex; a++) {
 		if (list->tex[a]) {
 			GLfloat * const tex = list->tex[a] + (list->len * 4);
 			memcpy(tex, glstate->texcoord[a], sizeof(GLfloat) * 4);
@@ -1429,6 +1432,7 @@ void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * 
 void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     const int tmu = target - GL_TEXTURE0;
     if (list->tex[tmu] == NULL) {
+        if (list->maxtex<tmu+1) list->maxtex = tmu+1;
         list->tex[tmu] = alloc_sublist(4, list->cap);
         // catch up
         GLfloat *tex = list->tex[tmu];
@@ -1445,6 +1449,7 @@ void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, 
 void rlActiveTexture(renderlist_t *list, GLenum texture ) {
     list->set_tmu = true;
     list->tmu = texture - GL_TEXTURE0;
+    if(list->maxtex < list->tmu+1) list->maxtex = list->tmu+1;
 }
 
 void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture) {
