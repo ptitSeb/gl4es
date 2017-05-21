@@ -20,5 +20,5 @@ static inline GLfloat* getMVMat() {
 	return glstate->modelview_matrix->stack+glstate->modelview_matrix->top*16;
 }
 
-void gl4es_immediateMVBegin();
-void gl4es_immediateMVEnd();
+void gl4es_immediateMVBegin(renderlist_t *list);
+void gl4es_immediateMVEnd(renderlist_t *list);

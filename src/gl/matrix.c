@@ -76,8 +76,11 @@ DBG(printf("init_matrix(%p)\n", glstate);)
 
 void gl4es_glMatrixMode(GLenum mode) {
 DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active);)
+	noerrorShim();
+	if (glstate->list.active && glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW && mode==GL_MODELVIEW) {
+		return;	// nothing to do...
+	}
 	PUSH_IF_COMPILING(glMatrixMode);
-	LOAD_GLES(glMatrixMode);
 
 	if(!(mode==GL_MODELVIEW || mode==GL_PROJECTION || mode==GL_TEXTURE)) {
 		errorShim(GL_INVALID_ENUM);
@@ -85,13 +88,16 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 	}
     if(glstate->matrix_mode != mode) {
         glstate->matrix_mode = mode;
-        gles_glMatrixMode(mode);
+		if (send_to_hardware()) {
+			LOAD_GLES(glMatrixMode);
+        	gles_glMatrixMode(mode);
+		}
     }
 }
 
 void gl4es_glPushMatrix() {
 DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
-	/*if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW))*/ {
+	if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
 		PUSH_IF_COMPILING(glPushMatrix);
 	}
 	// get matrix mode
@@ -123,7 +129,7 @@ DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
 
 void gl4es_glPopMatrix() {
 DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
-	/*if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW))*/ {
+	if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
 		PUSH_IF_COMPILING(glPopMatrix);
 	}
 	// get matrix mode
@@ -157,7 +163,14 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 
 void gl4es_glLoadMatrixf(const GLfloat * m) {
 DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
-
+	// check if beginend+matrix optim should trigger...
+	if (glstate->list.active 
+	 && !(glstate->list.compiling || glstate->gl_batch)
+	 && (globals4es.beginend==2) 
+	 && !(glstate->polygon_mode==GL_LINE) 
+	 && glstate->list.pending) { //TODO: check TexGen?
+		gl4es_immediateMVBegin(glstate->list.active);
+	}
     if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
 		if(glstate->list.pending) flush();
 		else {
@@ -179,6 +192,14 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 
 void gl4es_glMultMatrixf(const GLfloat * m) {
 DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
+	// check if beginend+matrix optim should trigger...
+	if (glstate->list.active 
+	 && !(glstate->list.compiling || glstate->gl_batch)
+	 && (globals4es.beginend==2) 
+	 && !(glstate->polygon_mode==GL_LINE) 
+	 && glstate->list.pending) { //TODO: check TexGen?
+		gl4es_immediateMVBegin(glstate->list.active);
+	}
     if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
 		if(glstate->list.pending) flush();
 		else {
@@ -297,11 +318,13 @@ DBG(printf("glFrustumf(%f, %f, %f, %f, %f, %f) list=%p\n", left, right, top, bot
 	gl4es_glMultMatrixf(tmp);
 }
 
-void gl4es_immediateMVBegin() {
-	if(glstate->immediateMV)
+void gl4es_immediateMVBegin(renderlist_t *list) {
+	if(glstate->immediateMV || !list)
 		return;	// nothing to do...
+	if(!list->len)
+		return;
 
-	glstate->immediateMV = 1;
+	glstate->immediateMV = list->len;
 
 	// set MV matrix to identity
 	if(!glstate->modelview_matrix->identity) {
@@ -315,14 +338,25 @@ void gl4es_immediateMVBegin() {
 	}
 
 }
-void gl4es_immediateMVEnd() {
-	if(glstate->immediateMV==0)
+void gl4es_immediateMVEnd(renderlist_t *list) {
+	if(glstate->immediateMV==0 || !list)
 		return;	// nothing to do
-	
-	glstate->immediateMV=0;
 
-	// send MV matrix back
 	if(!glstate->modelview_matrix->identity) {
+		// adjust the new Normals and Vertex
+		GLfloat* mat = getMVMat();
+		GLfloat* t;
+		if(list->normal) {
+			t = list->normal + glstate->immediateMV*3;
+			for (int i=glstate->immediateMV; i<list->len; i++, t+=3)
+				vector3_matrix(t, getMVMat(), t);
+		}
+		if(list->vert) {	// should be there!
+			t = list->vert + glstate->immediateMV*4;
+			for (int i=glstate->immediateMV; i<list->len; i++, t+=4)
+				vector_matrix(t, getMVMat(), t);
+		}
+		// send MV matrix back
 		LOAD_GLES(glLoadMatrixf);
 		LOAD_GLES(glMatrixMode);
 		if(glstate->matrix_mode!=GL_MODELVIEW)
@@ -331,6 +365,7 @@ void gl4es_immediateMVEnd() {
 		if(glstate->matrix_mode!=GL_MODELVIEW)
 			gles_glMatrixMode(glstate->matrix_mode);
 	}
+	glstate->immediateMV=0;
 }
 
 void glMatrixMode(GLenum mode) AliasExport("gl4es_glMatrixMode");

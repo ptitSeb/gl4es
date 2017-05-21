@@ -1056,10 +1056,6 @@ void gl4es_glBegin(GLenum mode) {
     glstate->list.active->mode = mode;
     glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
-    if (!(glstate->list.compiling || glstate->gl_batch) && (globals4es.beginend==2) && !(glstate->polygon_mode==GL_LINE)) { //TODO: check TexGen?
-        // immediate MV matrix handling
-        gl4es_immediateMVBegin();
-    }   
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
 
@@ -1067,25 +1063,29 @@ void gl4es_glEnd() {
     if (!glstate->list.active) return;
     glstate->list.begin = 0;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
-    for (int a=0; a<MAX_TEX; a++)
+    for (int a=0; a<hardext.maxtex; a++)
 		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
-    int withColor = 0;
+    // end immediateMV if needed
+    if(glstate->immediateMV)
+        gl4es_immediateMVEnd(glstate->list.active);
     // render if we're not in a display list
-    if (!(glstate->list.compiling || glstate->gl_batch) && (!(globals4es.beginend) || (glstate->polygon_mode==GL_LINE))) {
-        renderlist_t *mylist = glstate->list.active;
-        withColor = (mylist->color!=NULL);
-        glstate->list.active = NULL;
-        mylist = end_renderlist(mylist);
-        draw_renderlist(mylist);
-        free_renderlist(mylist);
+    int withColor = 0;
+    if(glstate->list.compiling || glstate->gl_batch) {
+        glstate->list.active = extend_renderlist(glstate->list.active);
     } else {
-        if(!(glstate->list.compiling || glstate->gl_batch)) {
+        if (!globals4es.beginend /*|| (glstate->polygon_mode==GL_LINE)*/) {
+            renderlist_t *mylist = glstate->list.active;
+            withColor = (mylist->color!=NULL);
+            glstate->list.active = NULL;
+            mylist = end_renderlist(mylist);
+            draw_renderlist(mylist);
+            free_renderlist(mylist);
+        } else {
             withColor = (glstate->list.active->color!=NULL);
             glstate->list.pending = 1;
             NewStage(glstate->list.active, STAGE_POSTDRAW);
         }
-        else glstate->list.active = extend_renderlist(glstate->list.active);
     }
     if(withColor)
         gl4es_glColor4f(glstate->color[0], glstate->color[1], glstate->color[2], glstate->color[3]);
@@ -1544,7 +1544,7 @@ void flush() {
         glstate->gl_batch = old;
     }
     if(glstate->immediateMV)
-        gl4es_immediateMVEnd();
+        gl4es_immediateMVEnd(glstate->list.active);
     init_statebatch();
     glstate->list.active = (glstate->gl_batch)?alloc_renderlist():NULL;
 }
