@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := \
 	src/gl/matrix.c \
 	src/gl/matvec.c \
 	src/gl/pixel.c \
+	src/gl/planes.c \
 	src/gl/queries.c \
 	src/gl/raster.c \
 	src/gl/render.c \

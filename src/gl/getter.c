@@ -604,6 +604,7 @@ void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv")
 
 void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     const int nl = light-GL_LIGHT0;
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(nl<0 || nl>=hardext.maxlights) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -648,6 +649,7 @@ void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
 void glGetLightfv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetLightfv");
 
 void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -701,3 +703,17 @@ void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     noerrorShim();
 }
 void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetMaterialfv");
+
+void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation)
+{
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    if(plane<GL_CLIP_PLANE0 || plane>=GL_CLIP_PLANE0+hardext.maxplanes) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    int p = plane-GL_CLIP_PLANE0;
+    noerrorShim();
+    memcpy(equation, glstate->planes[p], 4*sizeof(GLfloat));
+
+}
+void glGetClipPlanef(GLenum plane, GLfloat * equation) AliasExport("gl4es_glGetClipPlanef");

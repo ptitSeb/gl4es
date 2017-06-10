@@ -6,6 +6,7 @@ typedef struct _hardext {
     int maxtex;         // maximum number of texture
     int maxlights;      // maximum number of light
     int maxsize;        // maximum texture size
+    int maxplanes;      // maximum clip planes
     int blendsub;       // GL_OES_blend_subtract
     int blendfunc;      // GL_OES_blend_func_separate
     int blendeq;        // GL_OES_blend_equation_separate

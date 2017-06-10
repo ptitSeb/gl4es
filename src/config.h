@@ -6,6 +6,7 @@
 #define MAX_STACK_TEXTURE	16
 #define MAX_STACK_MODELVIEW	64
 #define MAX_STACK_COLOR 16
+#define MAX_CLIP_PLANES 6
 
 // don't auto-wrap these functions
 #define skip_glColor4ub
@@ -51,6 +52,7 @@
 #define skip_glGetString
 #define skip_glGetLightfv
 #define skip_glGetMaterialfv
+#define skip_glGetClipPlanef
 
 // hint.c
 #define skip_glHint
@@ -139,6 +141,9 @@
 #define skip_glRotatef
 #define skip_glOrthof
 #define skip_glFrustumf
+
+// planes.c
+#define skip_glClipPlanef
 
 // MultiDrawArrays
 #define skip_glMultiDrawArrays

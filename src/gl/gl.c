@@ -245,6 +245,14 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         GO(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
         GO(GL_LINE_STIPPLE, line_stipple);
 
+        // clip plane
+        GO(GL_CLIP_PLANE0, plane[0]);
+        GO(GL_CLIP_PLANE1, plane[1]);
+        GO(GL_CLIP_PLANE2, plane[2]);
+        GO(GL_CLIP_PLANE3, plane[3]);
+        GO(GL_CLIP_PLANE4, plane[4]);
+        GO(GL_CLIP_PLANE5, plane[5]);
+
         // point sprite
         proxy_GO(GL_POINT_SPRITE, pointsprite);
         
@@ -408,6 +416,12 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
 		isenabled(GL_COLOR_SUM, color_sum);
         isenabled(GL_POINT_SPRITE, pointsprite);
+        isenabled(GL_CLIP_PLANE0, plane[0]);
+        isenabled(GL_CLIP_PLANE1, plane[1]);
+        isenabled(GL_CLIP_PLANE2, plane[2]);
+        isenabled(GL_CLIP_PLANE3, plane[3]);
+        isenabled(GL_CLIP_PLANE4, plane[4]);
+        isenabled(GL_CLIP_PLANE5, plane[5]);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);

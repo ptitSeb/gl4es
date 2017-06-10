@@ -22,7 +22,8 @@ typedef struct {
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
-              texgen_q[MAX_TEX];
+              texgen_q[MAX_TEX],
+              plane[MAX_CLIP_PLANES];
     GLuint    texture[MAX_TEX]; // flag
 } enable_state_t;
 
@@ -198,6 +199,7 @@ typedef struct {
     light_state_t light;
     fog_t fog;
     material_state_t material;
+    float planes[MAX_CLIP_PLANES][4];
     int immediateMV;
 } glstate_t;
 

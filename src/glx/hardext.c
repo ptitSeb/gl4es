@@ -136,9 +136,11 @@ void GetHardwareExtensions(int notest)
     SHUT(LOGD("LIBGL: Max texture size: %d\n", hardext.maxsize));
     gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, &hardext.maxtex);
     gles_glGetIntegerv(GL_MAX_LIGHTS, &hardext.maxlights);
+    gles_glGetIntegerv(GL_MAX_CLIP_PLANES, &hardext.maxplanes);
     if(hardext.maxtex>MAX_TEX) hardext.maxtex=MAX_TEX;      // caping, as there are some fixed-sized array...
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
-    SHUT(LOGD("LIBGL: Texture Units: %d, Max lights: %d\n", hardext.maxtex, hardext.maxlights));
+    if(hardext.maxlights>MAX_CLIP_PLANES) hardext.maxlights=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
+    SHUT(LOGD("LIBGL: Texture Units: %d, Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxlights, hardext.maxplanes));
 #ifndef PANDORA
 // The IMPLEMENTATION_COLOR_READ is pretty buggy on the Pandora, so disabling it (it's just use to blit PBuffer to Drawable in glx.c)
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &hardext.readf);
