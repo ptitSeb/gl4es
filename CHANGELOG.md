@@ -2,6 +2,7 @@ Version history
 ----
 
 ##### Current version
+ * Refactor Blitting function, and use glDrawTex extension if present
  * Restructured README and split in several files
  * Some improvments and fixes to LIBGL_BEGINEND=2 mode
  * Some improvments to some LIBGL_SHRINK mode

@@ -48,6 +48,7 @@ Usage
 ----
 
 There are many environnement variable to control gl4es behavour, also usable at runtime using `glHint(...)`.
+
 See [here](USAGE.md) for all variables and what they do.
 
 ----
