@@ -3,6 +3,6 @@
 
 #define MAJOR 0
 #define MINOR 9
-#define REVISION 6
+#define REVISION 7
 
 #endif //_GL4ES_VERSION_H

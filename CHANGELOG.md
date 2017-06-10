@@ -1,7 +1,7 @@
 Version history
 ----
 
-##### Current version
+##### 0.9.7
  * Tracking Clip Planes
  * Refactor Blitting function, and use glDrawTex extension if present
  * Restructured README and split in several files
