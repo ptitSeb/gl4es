@@ -43,7 +43,7 @@ void glXStub(void *x, ...) {
     return;
 }
 
-EXPORT void *glXGetProcAddressARB(const char *name) {
+EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     LOAD_EGL(eglGetProcAddress);
 #ifdef DEBUG_ADDRESS
     static int cnt = 0;
@@ -105,6 +105,8 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     STUB(glXGetSelectedEvent);
     STUB(glXSelectEvent);
 #endif //ANDROID
+    _EX(glXGetProcAddress);
+    _ARB(glXGetProcAddress);
     // GL_EXT_texture_object (yeah, super old!)
     _EXT(glGenTextures);
     _EXT(glBindTexture);
@@ -638,6 +640,5 @@ EXPORT void *glXGetProcAddressARB(const char *name) {
     return NULL;
 }
 
-EXPORT void *glXGetProcAddress(const char *name) {
-    return glXGetProcAddressARB(name);
-}
+void glXGetProcAddress(const char* name) AliasExport("gl4es_glXGetProcAddress");
+void glXGetProcAddressARB(const char* name) AliasExport("gl4es_glXGetProcAddress");
