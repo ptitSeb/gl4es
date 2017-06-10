@@ -5,6 +5,7 @@
 #ifndef ANDROID
 #include <execinfo.h>
 #endif
+#include "blit.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -597,136 +598,14 @@ void createMainFBO(int width, int height) {
 }
 
 void blitMainFBO() {
-    #ifdef USE_DRAWTEX
-    LOAD_GLES_OES(glDrawTexi);
-    #endif
-    LOAD_GLES(glBindTexture);
-    LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glClientActiveTexture);
-    LOAD_GLES(glViewport);
-    LOAD_GLES(glEnable);
-    LOAD_GLES(glDisable);
-    LOAD_GLES(glGetIntegerv);
-    
     if (mainfbo_fbo==0)
         return;
-    
-    // switch to texture unit 0 if needed
-    int old_tex = glstate->texture.active;
-    int old_client = glstate->texture.client;
-    if (glstate->texture.active != 0)
-        gl4es_glActiveTexture(GL_TEXTURE0);
-    if (glstate->texture.client != 0)
-        gl4es_glClientActiveTexture(GL_TEXTURE0);
-    // bind the FBO texture
-    gles_glEnable(GL_TEXTURE_2D);
-    gles_glBindTexture(GL_TEXTURE_2D, mainfbo_tex);
-    // blit
-    GLuint old_vp[4];
-    gles_glGetIntegerv(GL_VIEWPORT, old_vp);
-    gles_glViewport(0, 0, mainfbo_width, mainfbo_height);
-    // Draw the texture
-    #ifdef USE_DRAWTEX
-    gles_glDrawTexi(0, 0, 0, mainfbo_width, mainfbo_height);
-    #else
-    {
-        LOAD_GLES(glEnableClientState);
-        LOAD_GLES(glDisableClientState);
-        LOAD_GLES(glBindTexture);
-        LOAD_GLES(glVertexPointer);
-        LOAD_GLES(glTexCoordPointer);
-        LOAD_GLES(glDrawArrays);
-        LOAD_GLES(glOrthof);
-        
-        gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 
-        gl4es_glMatrixMode(GL_TEXTURE);
-        gl4es_glPushMatrix();
-        gl4es_glLoadIdentity();
-        gl4es_glMatrixMode(GL_PROJECTION);
-        gl4es_glPushMatrix();
-        gl4es_glLoadIdentity();
-        gl4es_glMatrixMode(GL_MODELVIEW);
-        gl4es_glPushMatrix();
-        gl4es_glLoadIdentity();
-        GLfloat vert[] = {
-            -1, -1,
-            +1, -1,
-            +1, +1,
-            -1, +1,
-        };
-        float sw = (float)mainfbo_width / (float)mainfbo_nwidth;
-        float sh = (float)mainfbo_height / (float)mainfbo_nheight;
-        GLfloat tex[] = {
-            0, 0,
-            sw, 0,
-            sw, sh,
-            0, sh
-        };
+    // blit the texture
+    gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gl4es_glClear(GL_COLOR_BUFFER_BIT);
 
-        gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
-
-        gl4es_glDisable(GL_DEPTH_TEST);
-        gl4es_glDisable(GL_LIGHTING);
-        gl4es_glDisable(GL_CULL_FACE);
-        gl4es_glDisable(GL_ALPHA_TEST);
-        gl4es_glDisable(GL_BLEND);
-
-//        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-        if(!glstate->clientstate.vertex_array) {
-            gles_glEnableClientState(GL_VERTEX_ARRAY);
-            glstate->clientstate.vertex_array = 1;
-        }
-        gles_glVertexPointer(2, GL_FLOAT, 0, vert);
-        if(!glstate->clientstate.tex_coord_array[0]) {
-            gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glstate->clientstate.tex_coord_array[0] = 1;
-        }
-        gles_glTexCoordPointer(2, GL_FLOAT, 0, tex);
-        for (int a=1; a <MAX_TEX; a++)
-            if(glstate->clientstate.tex_coord_array[a]) {
-                gl4es_glClientActiveTexture(GL_TEXTURE0 + a);
-                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate->clientstate.tex_coord_array[a] = 0;
-            }
-        if(glstate->clientstate.color_array) {
-            gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate.color_array = 0;
-        }
-        if(glstate->clientstate.normal_array) {
-            gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate->clientstate.normal_array = 0;
-        }
-
-
-        gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        
-        gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        // All the previous states are Pushed / Poped anyway...
-        gl4es_glPopClientAttrib();
-        gl4es_glMatrixMode(GL_MODELVIEW);
-        gl4es_glPopMatrix();
-        gl4es_glMatrixMode(GL_PROJECTION);
-        gl4es_glPopMatrix();
-        gl4es_glMatrixMode(GL_TEXTURE);
-        gl4es_glPopMatrix();
-        gl4es_glPopAttrib();
-    }
-    #endif
-    // put back viewport
-    gles_glViewport(old_vp[0], old_vp[1], old_vp[2], old_vp[3]);
-    // Put everything back
-    if (glstate->texture.bound[0][ENABLED_TEX2D]) 
-        gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0][ENABLED_TEX2D]->glname);
-    else
-        gles_glBindTexture(GL_TEXTURE_2D, 0);
-    if (!IS_TEX2D(glstate->enable.texture[0]))
-        gles_glDisable(GL_TEXTURE_2D);
-    if (old_tex != 0)
-        gl4es_glActiveTexture(GL_TEXTURE0 + old_tex);
-    if (old_client != 0)
-        gl4es_glClientActiveTexture(GL_TEXTURE0 + old_client);
+    gl4es_blitTexture(mainfbo_tex, mainfbo_width, mainfbo_height, mainfbo_nwidth, mainfbo_nheight, mainfbo_width, mainfbo_height, 0, 0, BLIT_OPAQUE);
 }
 
 void bindMainFBO() {

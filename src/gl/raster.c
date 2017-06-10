@@ -1,13 +1,15 @@
 #include "raster.h"
 #include "debug.h"
 #include "init.h"
+#include "blit.h"
+#include "../glx/hardext.h"
 
 static GLubyte *raster = NULL;
 static GLuint raster_texture=0;
 static GLsizei raster_width=0;
 static GLsizei raster_height=0;
-static GLsizei raster_realwidth=0;
-static GLsizei raster_realheight=0;
+static GLsizei raster_nwidth=0;
+static GLsizei raster_nheight=0;
 
 static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 #define min(a, b)	((a)<b)?(a):(b)
@@ -129,12 +131,8 @@ void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
 
 void init_raster(int width, int height) {
 	int w, h;
-	w=npot(width);
-	h=npot(height);
-    #ifdef USE_DRAWTEX
-    raster_realwidth = width;
-    raster_realheight = height;
-    #endif
+	w=(hardext.npot>0)?width:npot(width);
+	h=(hardext.npot>0)?height:npot(height);
 	if (raster) {
 		if ((raster_width!=w) || (raster_height!=h)) {
 			free(raster);
@@ -146,7 +144,8 @@ void init_raster(int width, int height) {
         raster = (GLubyte *)malloc(4 * w * h * sizeof(GLubyte));
 		memset(raster, 0, 4 * w * h * sizeof(GLubyte));
 		raster_x1 = 0; raster_y1 = 0; raster_x2 = width; raster_y2 = height;
-		raster_width = w; raster_height = h;
+		raster_nwidth = w; raster_nheight = h;
+		raster_width = width; raster_height = height;
 	}
 }
 
@@ -179,9 +178,6 @@ GLuint raster_to_texture()
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glTexParameteri);
     LOAD_GLES(glTexParameterf);
-    #ifdef USE_DRAWTEX
-    LOAD_GLES(glTexParameteriv);
-    #endif
     
 	renderlist_t *old_list = glstate->list.active;
 	if (old_list) glstate->list.active = NULL;		// deactivate list...
@@ -211,13 +207,8 @@ GLuint raster_to_texture()
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_width, raster_height,
+	gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_nwidth, raster_nheight,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, raster);
-    #ifdef USE_DRAWTEX
-    // setup the texture for glDrawTexiOES
-    GLint coords [] = {0, 0, raster_realwidth, raster_realheight};
-    gles_glTexParameteriv( GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, coords );
-    #endif
 
 	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
@@ -311,6 +302,8 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->yorig = yorig;
 	r->width = width;
 	r->height = height;
+	r->nwidth = raster_nwidth;
+	r->nheight = raster_nheight;
 	r->bitmap = true;
 	r->zoomx = glstate->raster.raster_zoomx;
 	r->zoomy = glstate->raster.raster_zoomy;
@@ -396,6 +389,8 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	r->yorig = 0;
 	r->width = width;
 	r->height = height;
+	r->nwidth = raster_nwidth;
+	r->nheight = raster_nheight;
 	r->bitmap = false;
 	r->zoomx = glstate->raster.raster_zoomx;
 	r->zoomy = glstate->raster.raster_zoomy;
@@ -408,143 +403,15 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 
 void render_raster_list(rasterlist_t* rast) {
 //printf("render_raster_list, rast->x/y=%f/%f rast->width/height=%i/%i, rPos.x/y/z=%f/%f/%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->xorig, rast->yorig, rast->width, rast->height, glstate->raster.rPos.x, glstate->raster.rPos.y, glstate->raster.rPos.z, rast->zoomx, rast->zoomy, rast->texture);
-    #ifdef USE_DRAWTEX
-    LOAD_GLES_OES(glDrawTexf);
-    LOAD_GLES(glEnable);
-    LOAD_GLES(glDisable);
-    #else
-    LOAD_GLES(glEnableClientState);
-    LOAD_GLES(glDisableClientState);
-    LOAD_GLES(glVertexPointer);
-    LOAD_GLES(glTexCoordPointer);
-	LOAD_GLES(glDrawArrays);
-    #endif
-    LOAD_GLES(glBindTexture);
-    LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glClientActiveTexture);
-    
-	if (rast->texture) {
-		GLuint old_tex = glstate->texture.active;
-		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
-		GLuint old_cli = glstate->texture.client;
-		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
-        #ifdef USE_DRAWTEX
-        gl4es_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
-        
-        gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
-        gl4es_glEnable(GL_TEXTURE_2D);
-		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
-
-		if (rast->bitmap) {
-			gl4es_glEnable(GL_ALPHA_TEST);
-			gl4es_glAlphaFunc(GL_GREATER, 0.0f);
-		} else {
-			gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-        
-        gles_glDrawTexf(glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig, glstate->raster.rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
-        if (!IS_TEX2D(glstate->enable.texture[0])) gl4es_glDisable(GL_TEXTURE_2D);
-		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
-		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-        if (old_bind == NULL) 
-            gles_glBindTexture(GL_TEXTURE_2D, 0);
-        else
-            gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
-        #else
-		gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
-		GLfloat old_projection[16], old_modelview[16], old_texture[16];
-
-		gl4es_glGetFloatv(GL_TEXTURE_MATRIX, old_texture);
-		gl4es_glGetFloatv(GL_PROJECTION_MATRIX, old_projection);
-		gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, old_modelview);
-		gl4es_glMatrixMode(GL_TEXTURE);
-		gl4es_glLoadIdentity();
-		gl4es_glMatrixMode(GL_PROJECTION);
-		gl4es_glLoadIdentity();
-		gl4es_glMatrixMode(GL_MODELVIEW);
-		gl4es_glLoadIdentity();
-		float w2 = 2.0f / glstate->raster.viewport.width;
-		float h2 = 2.0f / glstate->raster.viewport.height;
-		float raster_x1=glstate->raster.rPos.x-rast->xorig;
-		float raster_x2=glstate->raster.rPos.x-rast->xorig + rast->width * rast->zoomx ;
-		float raster_y1=glstate->raster.rPos.y-rast->yorig;
-		float raster_y2=glstate->raster.rPos.y-rast->yorig + rast->height * rast->zoomy ;
-		GLfloat rast_vert[] = {
-			raster_x1*w2-1.0f, raster_y1*h2-1.0f,
-			raster_x2*w2-1.0f, raster_y1*h2-1.0f,
-			raster_x2*w2-1.0f, raster_y2*h2-1.0f,
-			raster_x1*w2-1.0f, raster_y2*h2-1.0f
-		};
-		float sw = rast->width / (GLfloat)npot(rast->width);
-		float sh = rast->height / (GLfloat)npot(rast->height);
-		GLfloat rast_tex[] = {
-			0, 0,
-			sw, 0,
-			sw, sh,
-			0, sh
-		};
-
-		gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
-
-		gl4es_glDisable(GL_DEPTH_TEST);
-		gl4es_glDisable(GL_LIGHTING);
-		gl4es_glDisable(GL_CULL_FACE);
-		if (rast->bitmap) {
-			gl4es_glEnable(GL_ALPHA_TEST);
-			gl4es_glAlphaFunc(GL_GREATER, 0.0f);
-		} else {
-			gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-
-		gl4es_glEnable(GL_TEXTURE_2D);
-		gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
-		gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-        if(!glstate->clientstate.vertex_array) 
-        {
-            gles_glEnableClientState(GL_VERTEX_ARRAY);
-            glstate->clientstate.vertex_array = 1;
-        }
-		gles_glVertexPointer(2, GL_FLOAT, 0, rast_vert);
-        if(!glstate->clientstate.tex_coord_array[0]) 
-        {
-            gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glstate->clientstate.tex_coord_array[0] = 1;
-        }
-		gles_glTexCoordPointer(2, GL_FLOAT, 0, rast_tex);
-        for (int a=1; a <MAX_TEX; a++)
-            if(glstate->clientstate.tex_coord_array[a]) {
-                gles_glClientActiveTexture(GL_TEXTURE0 + a);
-                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate->clientstate.tex_coord_array[a] = 0;
-                gles_glClientActiveTexture(GL_TEXTURE0);
-            }
-        if(glstate->clientstate.color_array) {
-            gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate.color_array = 0;
-        }
-        if(glstate->clientstate.normal_array) {
-            gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate->clientstate.normal_array = 0;
-        }
-
-
-		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		
-		gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		// All the previous states are Pushed / Poped anyway...
-		if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
-		if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-		gl4es_glPopClientAttrib();
-		gl4es_glMatrixMode(GL_TEXTURE);
-		gl4es_glLoadMatrixf(old_texture);
-		gl4es_glMatrixMode(GL_MODELVIEW);
-		gl4es_glLoadMatrixf(old_modelview);
-		gl4es_glMatrixMode(GL_PROJECTION);
-		gl4es_glLoadMatrixf(old_projection);
-        #endif
-		gl4es_glPopAttrib();
-	}
+	if (rast->texture)
+		gl4es_blitTexture(
+			rast->texture, 
+			rast->width * rast->zoomx, rast->height * rast->zoomy,
+			npot(rast->width) * rast->zoomx, npot(rast->height) * rast->zoomy,
+			0, 0,	//vp is default here
+			glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig,
+			(rast->bitmap)?BLIT_ALPHA:BLIT_COLOR
+		);
 	glstate->raster.rPos.x += rast->xmove;
 	glstate->raster.rPos.y += rast->ymove;
 }

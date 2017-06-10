@@ -86,6 +86,8 @@ typedef struct {
 	GLfloat ymove;
 	GLsizei width;
 	GLsizei height;
+	GLsizei nwidth;
+	GLsizei nheight;
 	GLfloat xorig;
 	GLfloat yorig;
 	GLfloat zoomx;

@@ -2,6 +2,11 @@ Version history
 ----
 
 ##### Current version
+ * Restructured README and split in several files
+ * Some improvments and fixes to LIBGL_BEGINEND=2 mode
+ * Some improvments to some LIBGL_SHRINK mode
+ * Proper support for DOT3 extension
+ * Some fixes to Read/Draw Buffer handling
  * Some fix with the PixMap glX context creation
  
 ##### 0.9.6
