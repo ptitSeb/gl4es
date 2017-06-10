@@ -22,6 +22,7 @@ typedef struct _hardext {
     int bgra8888;       // GL_EXT_texture_format_BGRA8888 (not used yet)
     int depthtex;       // GL_OES_depth_texture
     int cubemap;        // GL_OES_texture_cube_map
+    int drawtex;        // GL_OES_draw_texture
     unsigned int readf; // implementation Read Format
     unsigned int readt; // implementation Read Type
     int srgb;           // EGL_KHR_gl_colorspace

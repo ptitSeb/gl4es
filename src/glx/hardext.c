@@ -129,6 +129,7 @@ void GetHardwareExtensions(int notest)
     S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
     S("GL_OES_depth_texture", depthtex, 1);
     S("GL_OES_texture_cube_map", cubemap, 1);
+    S("GL_OES_draw_texture", drawtex, 1);
 
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
