@@ -43,6 +43,7 @@ void gl4es_blitTexture(GLuint texture, float width, float height, float nwidth, 
     GLfloat old_projection[16], old_modelview[16], old_texture[16];
 
     int customvp = (vpwidth>0.0);
+    int drawtexok = (hardext.drawtex) && (width>0) && (height>0);
 
     GLuint old_tex = glstate->texture.active;
     if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
@@ -72,7 +73,7 @@ void gl4es_blitTexture(GLuint texture, float width, float height, float nwidth, 
     gles_glBindTexture(GL_TEXTURE_2D, texture);
     gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-    if(hardext.drawtex) {
+    if(drawtexok) {
         LOAD_GLES_OES(glDrawTexf);
         LOAD_GLES(glTexParameteriv);
         // setup texture first
