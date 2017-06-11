@@ -31,13 +31,14 @@ void GetHardwareExtensions(int notest)
     if(tested) return;
     // put some default values
     memset(&hardext, 0, sizeof(hardext));
-    hardext.maxtex = 1;
+    hardext.maxtex = 2;
     hardext.maxsize = 2048;
     hardext.readf = GL_RGBA;
     hardext.readt = GL_UNSIGNED_BYTE;
 
     if(notest) {
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
+        return;
     }
 
     // Create a PBuffer first...
