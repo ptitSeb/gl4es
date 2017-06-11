@@ -134,11 +134,11 @@ void init_raster(int width, int height) {
 	w=(hardext.npot>0)?width:npot(width);
 	h=(hardext.npot>0)?height:npot(height);
 	if (raster) {
-		if ((raster_width!=w) || (raster_height!=h)) {
+		if ((raster_nwidth!=w) || (raster_nheight!=h)) {
 			free(raster);
 			raster = NULL;
 		} else 
-			memset(raster, 0, 4 * raster_width * raster_height * sizeof(GLubyte));
+			memset(raster, 0, 4 * raster_nwidth * raster_nheight * sizeof(GLubyte));
 	}
     if (!raster) {
         raster = (GLubyte *)malloc(4 * w * h * sizeof(GLubyte));
@@ -258,7 +258,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // copy to pixel data
 	if (pixtrans) {
         for (y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = raster + 4 * (GLint)(y * raster_nwidth);
             from = bitmap + (y * ((width+7)/8));
             for (x = 0; x < width; x++) {
                 GLubyte b = from[(x / 8)];
@@ -272,7 +272,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         }
 	} else {
         for (y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = raster + 4 * (GLint)(y * raster_nwidth);
             from = bitmap + (y * ((width+7)/8));
             for (x = 0; x < width; x++) {
                 GLubyte b = from[(x / 8)];
@@ -346,7 +346,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 
     if (pixtrans) {
         for (int y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = raster + 4 * (GLint)(y * raster_nwidth);
             from = pixels + 4 * (glstate->texture.unpack_skip_pixels + (y + glstate->texture.unpack_skip_rows) * bmp_width);
             for (int x = 0; x < width; x++) {
 				*to++ = raster_transform(*from++, 0);
@@ -357,7 +357,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
         }
 	} else {
         for (int y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = raster + 4 * (GLint)(y * raster_nwidth);
             from = pixels + 4 * (glstate->texture.unpack_skip_pixels + (y + glstate->texture.unpack_skip_rows) * bmp_width);
             for (int x = 0; x < width; x++) {
 				*to++ = *from++;
