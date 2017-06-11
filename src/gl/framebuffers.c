@@ -597,7 +597,7 @@ void blitMainFBO() {
     gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl4es_glClear(GL_COLOR_BUFFER_BIT);
 
-    gl4es_blitTexture(mainfbo_tex, mainfbo_width, mainfbo_height, mainfbo_nwidth, mainfbo_nheight, mainfbo_width, mainfbo_height, 0, 0, BLIT_OPAQUE);
+    gl4es_blitTexture(mainfbo_tex, mainfbo_width, mainfbo_height, mainfbo_nwidth, mainfbo_nheight, 1.0f, 1.0f, mainfbo_width, mainfbo_height, 0, 0, BLIT_OPAQUE);
 }
 
 void bindMainFBO() {

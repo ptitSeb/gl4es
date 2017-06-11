@@ -406,8 +406,9 @@ void render_raster_list(rasterlist_t* rast) {
 	if (rast->texture)
 		gl4es_blitTexture(
 			rast->texture, 
-			rast->width * rast->zoomx, rast->height * rast->zoomy,
-			npot(rast->width) * rast->zoomx, npot(rast->height) * rast->zoomy,
+			rast->width , rast->height,
+			rast->nwidth, rast->nheight,
+			rast->zoomx, rast->zoomy, 
 			0, 0,	//vp is default here
 			glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig,
 			(rast->bitmap)?BLIT_ALPHA:BLIT_COLOR

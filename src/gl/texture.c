@@ -1795,7 +1795,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
             // blit the texture
             gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             gl4es_glClear(GL_COLOR_BUFFER_BIT);
-            gl4es_blitTexture(oldBind, width, height, nwidth, nheight, nwidth<<shrink, nheight<<shrink, 0, 0, BLIT_OPAQUE);
+            gl4es_blitTexture(oldBind, width, height, nwidth, nheight, 1.0f, 1.0f, nwidth<<shrink, nheight<<shrink, 0, 0, BLIT_OPAQUE);
             // Read the pixels!
             gl4es_glReadPixels(0, (nheight-height)<<shrink, width<<shrink, height<<shrink, format, type, img);	// using "full" version with conversion of format/type
             gl4es_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
