@@ -201,6 +201,7 @@ typedef struct {
     material_state_t material;
     float planes[MAX_CLIP_PLANES][4];
     int immediateMV;
+    GLenum shademodel;
 } glstate_t;
 
 #endif

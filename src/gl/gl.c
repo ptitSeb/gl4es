@@ -115,6 +115,8 @@ void* NewGLState(void* shared_glstate) {
     // Raster
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
+    // ShadeModel
+    glstate->shademodel = GL_SMOOTH;
     LOAD_GLES(glGetFloatv);
     gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
     return (void*)glstate;
@@ -1704,3 +1706,18 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
     }
 }
 void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");
+
+void gl4es_glShadeModel(GLenum mode) {
+    if(mode!=GL_SMOOTH && mode!=GL_FLAT) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    PUSH_IF_COMPILING(glShadeModel);
+    noerrorShim();
+    if(mode==glstate->shademodel)
+        return;
+    glstate->shademodel = mode;
+    LOAD_GLES(glShadeModel);
+    gles_glShadeModel(mode);
+}
+void glShadeModel(GLenum mode) AliasExport("gl4es_glShadeModel");

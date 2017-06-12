@@ -43,6 +43,7 @@
 #define skip_glPointParameterfv
 #define skip_glPointParameterf
 
+#define skip_glShadeModel
 
 // getter.c
 #define skip_glGetError
