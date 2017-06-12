@@ -1912,40 +1912,12 @@ void gl4es_glXDestroyPixmap(Display *display, void *pixmap) {
 }
 
 
-void BlitEmulatedPixmap() {
-    if(!glstate->emulatedPixmap)
-        return;
-
-    Pixmap drawable = (Pixmap)pbufferlist[glstate->emulatedPixmap-1];
-
-    glx_buffSize *buff = &pbuffersize[glstate->emulatedPixmap-1]; 
-
-    int Width = buff->Width;
-    int Height = buff->Height;
-    int Depth = buff->Depth;
-    Display *dpy = buff->dpy;
-    GC gc = buff->gc;
-    // the reverse stuff can probably be better!
-    int reverse = buff->Type==4?1:0;
-    int sbuf = Width * Height * (Depth==16?2:4);
-
-    // create things if needed
-    if(!buff->frame) {
-        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
-    }
-
-    XImage* frame = buff->frame;
-    if (!frame) {
-        return;
-    }
-    uintptr_t pix=(uintptr_t)frame->data;
-
-    // grab framebuffer
+void actualBlit(int reverse, int Width, int Height, int Depth, 
+                    Display *dpy, Pixmap drawable, GC gc, XImage* frame,
+                    uintptr_t pix, void* tmp) {
+const int sbuf = Width * Height * (Depth==16?2:4);
 #ifdef PANDORA
-    LOAD_GLES(glReadPixels);
-    if(Depth==16) {
-        void* tmp = malloc(Width*Height*4);
-        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
+    if (tmp) {
         if(reverse) {
             int stride = Width * 2;
             uintptr_t src_pos = (uintptr_t)tmp;
@@ -1961,12 +1933,12 @@ void BlitEmulatedPixmap() {
         } else
             pixel_convert(tmp, (void**)&pix, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 0, glstate->texture.unpack_align);
         free(tmp);
-    } else {
-        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
+    } else
+#endif
         if(reverse) {
             int stride = Width * 4;
-            uintptr_t end=pix+sbuf-stride;
-            uintptr_t beg=pix;
+            uintptr_t end=(uintptr_t)pix+sbuf-stride;
+            uintptr_t beg=(uintptr_t)pix;
             void* const tmp = (void*)(pix+sbuf);
             for (; beg < end; beg+=stride, end-=stride) {
                 memcpy(tmp, (void*)end, stride);
@@ -1974,23 +1946,28 @@ void BlitEmulatedPixmap() {
                 memcpy((void*)beg, tmp, stride);
             }
         }
-    }
-#else
-    gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
-    if(reverse) {
-        int stride = Width * (Depth==16?2:4);
-        uintptr_t end=pix+sbuf-stride;
-        uintptr_t beg=pix;
-        void* const tmp = (void*)(pix+sbuf);
-        for (; beg < end; beg+=stride, end-=stride) {
-            memcpy(tmp, (void*)end, stride);
-            memcpy((void*)end, (void*)beg, stride);
-            memcpy((void*)beg, tmp, stride);
-        }
-    }
-#endif
+
     // blit
     XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
+}
+
+void BlitEmulatedPixmap() {
+    if(!glstate->emulatedPixmap)
+        return;
+
+    Pixmap drawable = (Pixmap)pbufferlist[glstate->emulatedPixmap-1];
+
+    glx_buffSize *buff = &pbuffersize[glstate->emulatedPixmap-1]; 
+
+    int Width = buff->Width;
+    int Height = buff->Height;
+    int Depth = buff->Depth;
+    Display *dpy = buff->dpy;
+    GC gc = buff->gc;
+    // the reverse stuff can probably be better!
+    int reverse = buff->Type==4?1:0;
+    const int sbuf = Width * Height * (Depth==16?2:4);
+    XImage* frame = buff->frame;
 
     // grab the size of the drawable if it has changed
     if(reverse) {
@@ -2006,7 +1983,7 @@ void BlitEmulatedPixmap() {
             LOAD_EGL(eglChooseConfig);
             // destroy old stuff
             XSync(dpy, False);  // synch seems needed before the DestroyImage...
-            XDestroyImage(frame);
+            if(frame) XDestroyImage(frame);
             buff->frame = 0;
             
 
@@ -2020,8 +1997,8 @@ void BlitEmulatedPixmap() {
             egl_attribs[i++] = EGL_NONE;
 
             EGLint configAttribs[] = {
-                EGL_RED_SIZE, (Depth>16)?8:5,
-                EGL_GREEN_SIZE, (Depth==15)?5:(Depth>16)?8:6,
+                EGL_RED_SIZE, (depth>16)?8:5,
+                EGL_GREEN_SIZE, (depth==15)?5:((depth>16)?8:6),
                 EGL_BLUE_SIZE, (depth>16)?8:5,
                 EGL_ALPHA_SIZE, (depth==32)?8:0,
                 EGL_DEPTH_SIZE, 1,
@@ -2037,15 +2014,42 @@ void BlitEmulatedPixmap() {
 
             EGLSurface Surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
 
-            egl_eglMakeCurrent(eglDisplay, Surface, Surface, eglContext);
+            egl_eglMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
 
             egl_eglDestroySurface(eglDisplay, buff->Surface);
             buff->Surface = Surface;
             buff->Width = width;
             buff->Height = height;
             buff->Depth = depth;
+            return;
         }
     }
+
+    // create things if needed
+    if(!buff->frame) {
+        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
+    }
+
+    if (!frame) {
+        return;
+    }
+    uintptr_t pix=(uintptr_t)frame->data;
+
+    // grab framebuffer
+    void* tmp = NULL;
+#ifdef PANDORA
+    LOAD_GLES(glReadPixels);
+    if(Depth==16) {
+        tmp = malloc(Width*Height*4);
+        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
+    } else {
+        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
+    }
+#else
+    gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+#endif
+    actualBlit(reverse, Width, Height, Depth, dpy, drawable, gc, frame, pix, tmp);
+
 }
 
 #endif //ANDROID
