@@ -23,6 +23,7 @@
 #include "../glx/streaming.h"
 #include "khash.h"
 #include "hardext.h"
+#include "../gl/debug.h"
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
@@ -146,7 +147,7 @@ khash_t(mapdrawable) *MapDrawable = NULL;
 
 int8_t CheckEGLErrors() {
     EGLenum error;
-    char *errortext = PrintEGLError(1);
+    const char *errortext = PrintEGLError(1);
     
     if (errortext) {
         LOGE("LIBGL: ERROR: EGL Error detected: %s (0x%X)\n", errortext, error);
