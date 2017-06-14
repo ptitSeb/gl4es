@@ -1,6 +1,7 @@
 #include "../gl/gl.h"
 #include "hardext.h"
 #include "../gl/init.h"
+#include "../gl/debug.h"
 
 static int tested = 0;
 
@@ -75,23 +76,23 @@ void GetHardwareExtensions(int notest)
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
     if (egl_eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) {
-        LOGE("LIBGL: Error while gathering supported extension (Init issue), default to none\n");
+        LOGE("LIBGL: Error while gathering supported extension (eglInitialize: %s), default to none\n", PrintEGLError(0));
         return;
     }
 
     egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
     if(!configsFound) {
-        SHUT(LOGE("LIBGL: Error while gathering supported extension (Config issue), default to none\n"));
+        SHUT(LOGE("LIBGL: Error while gathering supported extension (eglChooseConfig: %s), default to none\n", PrintEGLError(0)));
         return;
     }
     eglContext = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
     if(!eglContext) {
-        SHUT(LOGE("LIBGL: Error while gathering supported extension (Context issue), default to none\n"));
+        SHUT(LOGE("LIBGL: Error while gathering supported extension (eglCreateContext: %s), default to none\n", PrintEGLError(0)));
         return;
     }
     eglSurface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
     if(!eglSurface) {
-        SHUT(LOGE("LIBGL: Error while gathering supported extension (Surface issue), default to none\n"));
+        SHUT(LOGE("LIBGL: Error while gathering supported extension (eglCreatePBufferSurface: %s), default to none\n", PrintEGLError(0)));
         egl_eglDestroyContext(eglDisplay, eglContext);
         return;
     }

@@ -5,4 +5,5 @@
 
 const char* PrintEnum(GLenum what);
 
+const char* PrintEGLError(int onlyerror);
 #endif

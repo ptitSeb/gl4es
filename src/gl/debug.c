@@ -164,3 +164,32 @@ const char* PrintEnum(GLenum what) {
     }
     return fallback;
 }
+
+const char* PrintEGLError(int onlyerror) {
+    LOAD_EGL(eglGetError);
+    static char fallback[64];
+    GLenum what = egl_eglGetError();
+    if(onlyerror && what==EGL_SUCCESS)
+        return NULL;
+    switch(what)
+    {
+        p(EGL_SUCCESS);
+        p(EGL_NOT_INITIALIZED);
+        p(EGL_BAD_ACCESS);
+        p(EGL_BAD_ALLOC);
+        p(EGL_BAD_ATTRIBUTE);
+        p(EGL_BAD_CONTEXT);
+        p(EGL_BAD_CONFIG);
+        p(EGL_BAD_CURRENT_SURFACE);
+        p(EGL_BAD_DISPLAY);
+        p(EGL_BAD_SURFACE);
+        p(EGL_BAD_MATCH);
+        p(EGL_BAD_PARAMETER);
+        p(EGL_BAD_NATIVE_PIXMAP);
+        p(EGL_BAD_NATIVE_WINDOW);
+        p(EGL_CONTEXT_LOST);
+        default:
+            sprintf(fallback, "0x%04X", what);
+    }
+    return fallback;
+}
