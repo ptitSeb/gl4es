@@ -9,6 +9,7 @@
 #include "queries.h"
 #include "light.h"
 #include "fog.h"
+#include "texenv.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -41,6 +42,11 @@ typedef struct {
     GLfloat R_O[4];
     GLfloat Q_O[4];
 } texgen_state_t;
+
+typedef struct {
+    texenv_t        env;
+    texfilter_t     filter;
+} texenv_state_t;
 
 typedef struct {
     GLuint unpack_row_length,
@@ -164,6 +170,7 @@ typedef struct {
     map_states_t map1, map2;
     khash_t(gllisthead) *headlists;
     texgen_state_t texgen[MAX_TEX];
+    texenv_state_t texenv[MAX_TEX];
     texture_state_t texture;
     GLfloat color[4];
     GLfloat secondary[4];

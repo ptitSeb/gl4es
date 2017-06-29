@@ -75,14 +75,6 @@ void gl4es_glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint 
 void gl4es_glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height);
 
-void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
-void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param);
-void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
-void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
-void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
-void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
-
-                               
 void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,

@@ -2339,68 +2339,6 @@ void gl4es_glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, 
 }
 
 
-void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
-    LOAD_GLES(glTexEnvf);
-    PUSH_IF_COMPILING(glTexEnvf);
-
-    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
-        glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0.0f)?1:0;
-    // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
-    if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
-    if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
-    gles_glTexEnvf(target, pname, param);
-}
-void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
-    LOAD_GLES(glTexEnvi);
-    PUSH_IF_COMPILING(glTexEnvi);
-    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
-        glstate->texture.pscoordreplace[glstate->texture.active] = (param!=0)?1:0;
-    // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
-    if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
-    if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
-    gles_glTexEnvi(target, pname, param);
-}
-void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-		NewStage(glstate->list.active, STAGE_TEXENV);
-		rlTexEnvfv(glstate->list.active, target, pname, param);
-        noerrorShim();
-		return;
-	}
-    LOAD_GLES(glTexEnvfv);
-    gles_glTexEnvfv(target, pname, param);
-}
-void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
-    if (glstate->list.pending) flush();
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
-		NewStage(glstate->list.active, STAGE_TEXENV);
-		rlTexEnviv(glstate->list.active, target, pname, param);
-        noerrorShim();
-		return;
-	}
-    LOAD_GLES(glTexEnviv);
-    gles_glTexEnviv(target, pname, param);
-}
-void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
-    LOAD_GLES(glGetTexEnvfv);
-    if (glstate->list.pending) flush();
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
-    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
-        *params = glstate->texture.pscoordreplace[glstate->texture.active];
-    else
-        gles_glGetTexEnvfv(target, pname, params);
-
-}
-void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
-    LOAD_GLES(glGetTexEnviv);
-    if (glstate->list.pending) flush();
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
-    if(target==GL_POINT_SPRITE && pname==GL_COORD_REPLACE)
-        *params = glstate->texture.pscoordreplace[glstate->texture.active];
-    else
-        gles_glGetTexEnviv(target, pname, params);
-}
-
 
 //Direct wrapper
 void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexImage2D");
@@ -2436,12 +2374,6 @@ void glActiveTexture( GLenum texture ) AliasExport("gl4es_glActiveTexture");
 void glClientActiveTexture( GLenum texture ) AliasExport("gl4es_glClientActiveTexture");
 GLboolean glIsTexture( GLuint texture ) AliasExport("gl4es_glIsTexture");
 void glPixelStorei(GLenum pname, GLint param) AliasExport("gl4es_glPixelStorei");
-void glTexEnvf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexEnvf");
-void glTexEnvi(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexEnvi");
-void glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) AliasExport("gl4es_glTexEnvfv");
-void glTexEnviv(GLenum target, GLenum pname, const GLint *param) AliasExport("gl4es_glTexEnviv");
-void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexEnvfv");
-void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexEnviv");
 
 //EXT mapper
 void glTexSubImage3DEXT(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,  GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexSubImage3D");

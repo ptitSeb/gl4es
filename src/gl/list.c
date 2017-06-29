@@ -1501,9 +1501,9 @@ void rlTexEnvfv(renderlist_t *list, GLenum target, GLenum pname, const GLfloat *
         case GL_POINT_SPRITE: n = 1; break;
         default:
             switch(pname) {
-                case GL_TEXTURE_ENV_MODE: n=4; break;
+                case GL_TEXTURE_ENV_MODE: n=1; break;
                 case GL_TEXTURE_ENV_COLOR: n=4; break;
-                case GL_TEXTURE_LOD_BIAS: n=4; break;
+                case GL_TEXTURE_LOD_BIAS: n=1; break;
             }
     }
     rendertexenv_t *m;
@@ -1539,9 +1539,9 @@ void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * p
         case GL_POINT_SPRITE: n = 1; break;
         default:
             switch(pname) {
-                case GL_TEXTURE_ENV_MODE: n=4; break;
+                case GL_TEXTURE_ENV_MODE: n=1; break;
                 case GL_TEXTURE_ENV_COLOR: n=4; break;
-                case GL_TEXTURE_LOD_BIAS: n=4; break;
+                case GL_TEXTURE_LOD_BIAS: n=1; break;
             }
     }
     for (int i=0; i<n; i++) fparams[i] = params[i];

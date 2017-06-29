@@ -117,8 +117,16 @@ void* NewGLState(void* shared_glstate) {
         glstate->raster.raster_scale[i] = 1.0f;
     // ShadeModel
     glstate->shademodel = GL_SMOOTH;
+    // TexEnv
+    for (int i=0; i<hardext.maxtex; i++) {
+        glstate->texenv[i].env.mode = GL_MODULATE;
+        glstate->texenv[i].env.rgb_scale = 1.0f;
+        glstate->texenv[i].env.alpha_scale = 1.0f;
+    }
+    // Grab ViewPort
     LOAD_GLES(glGetFloatv);
     gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
+    // All done
     return (void*)glstate;
 }
 
