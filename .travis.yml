@@ -13,7 +13,8 @@ before_script:
     - cmake .. -DODROID=1
 
 stage: build
-    script: make
+    script:
+        - make
 
 stage: test
     script:
