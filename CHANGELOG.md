@@ -1,5 +1,7 @@
 Version history
 ----
+##### Current version
+ * Added TravisCI build on github
 
 ##### 0.9.7
  * Tracking Clip Planes
