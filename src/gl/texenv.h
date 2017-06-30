@@ -1,0 +1,32 @@
+#include "gl.h"
+
+#ifndef GL_TEXENV_H
+#define GL_TEXENV_H
+
+typedef struct {
+    GLenum          mode;
+    GLfloat         color[4];
+    GLenum          combine_rgb;
+    GLenum          combine_alpha;
+    GLfloat         rgb_scale;
+    GLfloat         alpha_scale;
+    GLenum          src0_rgb;
+    GLenum          src1_rgb;
+    GLenum          src2_rgb;
+    GLenum          src0_alpha;
+    GLenum          src1_alpha;
+    GLenum          src2_alpha;
+} texenv_t;
+
+typedef struct {
+    GLenum          lod_bias;
+} texfilter_t;
+
+void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
+void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param);
+void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
+void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
+void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
+void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
+
+#endif //GL_TEXENV_H
