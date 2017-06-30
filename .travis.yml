@@ -12,11 +12,7 @@ before_script:
     - cd build
     - cmake .. -DODROID=1
 
-stage: build
-    script:
-        - make
-
-stage: test
-    script:
-        - cd ../tests
-        - ./tests.sh ../lib
+script:
+    - make
+    - cd ../tests
+    - ./tests.sh ../lib
