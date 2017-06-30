@@ -1,6 +1,6 @@
 language: c
 sudo: true
-dist: xenial
+#dist: xenial
 
 compiler:
     - gcc
