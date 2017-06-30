@@ -37,8 +37,8 @@ echo "glxgears"
 
 tar xf ../traces/glxgears.tgz
 apitrace dump-images --calls="8203" glxgears.trace
-result=$(compare -metric AE -fuzz 5% ../refs/glxgears.0000008203.png glxgears.0000008203.png diff.png 2>&1)
-if [ ! "$result" -lt "5" ];then
+result=$(compare -metric AE -fuzz 20% ../refs/glxgears.0000008203.png glxgears.0000008203.png diff.png 2>&1)
+if [ ! "$result" -lt "25" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
     exit 1
