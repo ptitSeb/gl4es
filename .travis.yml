@@ -1,6 +1,6 @@
 language: c
 sudo: true
-dist: trusty
+dist: xenial
 
 compiler:
     - gcc
@@ -17,5 +17,4 @@ script:
 
 after_script:
     - cd ../tests
-    - Xvfb :1 &
-    - DISPLAY=:1 ./tests.sh ../lib
+    - xvfb-run ./tests.sh ../lib
