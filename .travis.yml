@@ -1,5 +1,5 @@
 language: c
-sudo: true
+sudo: false
 dist: xenial
 
 compiler:
