@@ -12,15 +12,15 @@ pushd "$TESTS" >/dev/null
 
 echo "StuntCarRacer"
 
-if [ -e stuntcarracer.0000180445.png ];then
-    rm stuntcarracer.0000180445.png
+if [ -e stuntcarracer.0000118817.png ];then
+    rm stuntcarracer.0000118817.png
 fi
 if [ -e stuntcarracer.trace ];then
     rm stuntcarracer.trace
 fi
 tar xf ../traces/stuntcarracer.tgz
 apitrace dump-images --calls="180445" stuntcarracer.trace
-result=$(compare -metric AE ../refs/stuntcarracer.0000180445.png stuntcarracer.0000180445.png diff.png 2>&1)
+result=$(compare -metric AE -fuzz 15% -extract 638x478+1+1../refs/stuntcarracer.0000118817.png stuntcarracer.0000118817.png diff.png 2>&1)
 if [ ! "$result" == "0" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
@@ -28,8 +28,8 @@ if [ ! "$result" == "0" ];then
 fi
 
 # cleanup
-if [ -e stuntcarracer.0000180445.png ];then
-    rm stuntcarracer.0000180445.png
+if [ -e stuntcarracer.0000118817.png ];then
+    rm stuntcarracer.0000118817.png
 fi
 if [ -e stuntcarracer.trace ];then
     rm stuntcarracer.trace
