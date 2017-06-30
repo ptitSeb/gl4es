@@ -1,5 +1,5 @@
 language: c
-sudo: false
+sudo: true
 dist: trusty
 
 compiler:
@@ -7,8 +7,15 @@ compiler:
 
 #Build steps
 before_script:
+    - sudo apt-get install apitrace imagemagick -y
     - mkdir build
     - cd build
     - cmake .. -DODROID=1
 
-script: make
+stage: build
+    script: make
+
+stage: test
+    script:
+        - cd ../tests
+        - ./tests.sh ../lib
