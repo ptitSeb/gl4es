@@ -2,6 +2,8 @@ Version history
 ----
 ##### Current version
  * Added TravisCI build on github
+ * Added some optimisation when to discal call to glBindTexture if useless (same texture) between 2 glBegin/glEnd blocks
+ * Stubbed glGet with GL_DRAW_BUFFER
 
 ##### 0.9.7
  * Tracking Clip Planes

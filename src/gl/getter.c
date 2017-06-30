@@ -347,6 +347,9 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     case GL_SHADE_MODEL:
         *params=glstate->shademodel;
         break;
+    case GL_DRAW_BUFFER:
+        *params=GL_FRONT;
+        break;
     case GL_SHRINK_HINT_GL4ES:
         *params=globals4es.texshrink;
         break;
@@ -561,6 +564,9 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;
+            break;
+        case GL_DRAW_BUFFER:
+            *params=GL_FRONT;
             break;
         case GL_ALPHAHACK_HINT_GL4ES: 
             *params=globals4es.alphahack;
