@@ -19,9 +19,9 @@ if [ -e stuntcarracer.trace ];then
     rm stuntcarracer.trace
 fi
 tar xf ../traces/stuntcarracer.tgz
-apitrace dump-images --calls="180445" stuntcarracer.trace
-result=$(compare -metric AE -fuzz 15% -extract 638x478+1+1../refs/stuntcarracer.0000118817.png stuntcarracer.0000118817.png diff.png 2>&1)
-if [ ! "$result" == "0" ];then
+apitrace dump-images --calls="118817" stuntcarracer.trace
+result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/stuntcarracer.0000118817.png stuntcarracer.0000118817.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
     exit 1
