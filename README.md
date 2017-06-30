@@ -1,6 +1,8 @@
 gl4es
 ====
 
+![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status")
+
 This is a library providing OpenGL 1.x functionality for OpenGL ES accelerated hardware.
 
 This is a fork a glshim (https://github.com/lunixbochs/glshim). Go check this lib if you need things like RemoteGL or TinyGLES (for 100% software rendering).
