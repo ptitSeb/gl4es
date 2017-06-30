@@ -1,14 +1,13 @@
 language: c
 sudo: true
-dist: xenial
+dist: trusty
 
 compiler:
     - gcc
 
 #Build steps
-# apt-get is for regression testing and building apitrace
 before_script:
-    - sudo apt-get install libqjson-dev libqt4-dev imagemagick -y
+    - sudo apt-get install apitrace-gl-frontend imagemagick -y
     - mkdir build
     - cd build
     - cmake .. -DODROID=1
@@ -16,10 +15,4 @@ before_script:
 script:
     - make
     - cd ../tests
-    - git clone https://github.com/apitrace/apitrace.git
-    - cd apitrace
-    - cmake -H. -Bbuild
-    - make -C build
-    - cd ..
-    - export PATH=$(pwd)/apitrace/build:$PATH
     - ./tests.sh ../lib
