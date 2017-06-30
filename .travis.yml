@@ -1,11 +1,12 @@
 language: c
 sudo: true
-dist: trusty
+dist: xenial
 
 compiler:
     - gcc
 
 #Build steps
+# apt-get is for regression testing and building apitrace
 before_script:
     - sudo apt-get install apitrace imagemagick -y
     - mkdir build
