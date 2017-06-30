@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$1" ];then
+if [ ! -z "$1" ];then
  export LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH
 fi
 

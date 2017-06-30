@@ -7,7 +7,6 @@ compiler:
 
 #Build steps
 before_script:
-    - sudo apt-get install apitrace-gl-frontend imagemagick xvfb -y
     - mkdir build
     - cd build
     - cmake .. -DODROID=1
@@ -16,5 +15,6 @@ script:
     - make
 
 after_script:
+    - sudo apt-get install apitrace-gl-frontend=6\* imagemagick xvfb -y
     - cd ../tests
     - xvfb-run ./tests.sh ../lib
