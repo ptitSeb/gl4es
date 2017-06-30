@@ -1,0 +1,30 @@
+language: c
+sudo: false
+dist: trusty
+
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+        apt:
+            sources:
+            - george-edison55-precise-backports
+            packages:
+            - cmake-data
+            - cmake
+    env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
+#Build steps
+script:
+    - mkdir build
+    - cd build
+    - cmake .. -DODROID=1 && make
