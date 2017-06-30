@@ -5,6 +5,7 @@ if [ -z "$1" ];then
 fi
 
 export LIBGL_FB=3
+export DISPLAY=:0
 
 TESTS=`dirname "$0"`
 

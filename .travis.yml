@@ -14,5 +14,7 @@ before_script:
 
 script:
     - make
+
+after_script:
     - cd ../tests
     - ./tests.sh ../lib
