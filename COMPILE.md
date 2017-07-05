@@ -35,6 +35,7 @@ The tests use a pre-recorded GL trace that is replayed, than a specific frame is
 Because each renderer may render slightly differently, there are some fuzz in the comparison, so only significant changes will be detected.
 For now, 2 tests are done, one with glxgears (basic testing, using mostly glBegin / glEnd) and stuntcarracer (with more GL stuff, textures and lighting).
 
+----
 
 Per-platform
 ----
