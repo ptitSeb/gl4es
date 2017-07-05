@@ -2,9 +2,13 @@ Version history
 ----
 ##### Current version
  * Added TravisCI build on github
- * Added some optimisation when to discal call to glBindTexture if useless (same texture) between 2 glBegin/glEnd blocks
+ * Added some optimisation when to discard call to glBindTexture if useless (same texture) between 2 glBegin/glEnd blocks
  * Stubbed glGet with GL_DRAW_BUFFER
-
+ * Improvement to Raster operations
+ * Factorised Blit function (only 1 function for that now)
+ * Tracking ShadeModel
+ * Tracking TexEnv
+ 
 ##### 0.9.7
  * Tracking Clip Planes
  * Refactor Blitting function, and use glDrawTex extension if present

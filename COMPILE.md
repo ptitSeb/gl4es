@@ -26,6 +26,16 @@ Alternatively, you can use the curses-bases ccmake (or any other gui frontend fo
 
 ----
 
+Testing
+----
+A few tests are included.
+They can be launched with `tests/tests.sh`
+You will need apitrace and imagemagick for them to run. (on debian and friend, it's `sudo apt install apitrace-gl-frontend imagemagick`)
+The tests use a pre-recorded GL trace that is replayed, than a specific frame is captured and compared to a reference picture.
+Because each renderer may render slightly differently, there are some fuzz in the comparison, so only significant changes will be detected.
+For now, 2 tests are done, one with glxgears (basic testing, using mostly glBegin / glEnd) and stuntcarracer (with more GL stuff, textures and lighting).
+
+
 Per-platform
 ----
 
