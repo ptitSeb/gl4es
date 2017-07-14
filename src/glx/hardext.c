@@ -43,10 +43,12 @@ void GetHardwareExtensions(int notest)
     }
 
     // Create a PBuffer first...
-    EGLint egl_context_attrib[] = {
-    #ifdef USE_ES2
+    EGLint egl_context_attrib_es2[] = {
         EGL_CONTEXT_CLIENT_VERSION, 2,
-    #endif
+        EGL_NONE
+    };
+
+    EGLint egl_context_attrib[] = {
         EGL_NONE
     };
 

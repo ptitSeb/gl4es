@@ -919,7 +919,6 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 #undef client_state
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
 
-#ifndef USE_ES2
 #define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
 void gl4es_glVertexPointer(GLint size, GLenum type,
@@ -964,7 +963,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
 }
 
 #undef clone_gl_pointer
-#endif
+
 void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glVertexPointer");
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glColorPointer");
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glNormalPointer");
@@ -1136,13 +1135,11 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
             noerrorShim();
         }
     }
-#ifndef USE_ES2
     else {
         LOAD_GLES(glNormal3f);
         gles_glNormal3f(nx, ny, nz);
         errorGL();
     }
-#endif
     glstate->normal[0] = nx; glstate->normal[1] = ny; glstate->normal[2] = nz;
 }
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("gl4es_glNormal3f");
@@ -1176,13 +1173,11 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
             noerrorShim();
         }
     }
-#ifndef USE_ES2
     else {
         LOAD_GLES(glColor4f);
         gles_glColor4f(red, green, blue, alpha);
         errorGL();
     }
-#endif
     // change the state last thing
     glstate->color[0] = red; glstate->color[1] = green;
     glstate->color[2] = blue; glstate->color[3] = alpha;

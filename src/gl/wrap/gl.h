@@ -6,12 +6,6 @@
 
 
 // misc naive wrappers
-#ifdef USE_ES2
-void gl4es_glCompileShaderARB(GLuint shader);
-GLuint gl4es_glCreateShaderObjectARB(GLenum shaderType);
-void gl4es_glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params);
-void gl4es_glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length);
-#endif
 
 void gl4es_glClearDepth(GLdouble depth);
 void gl4es_glClipPlane(GLenum plane, const GLdouble *equation);

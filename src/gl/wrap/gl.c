@@ -11,31 +11,6 @@
 
 // naive wrappers
 
-#ifdef USE_ES2
-void gl4es_glCompileShader(GLuint shader) {
-    gl4es_glCompileShader(shader);
-    GLint status;
-    gl4es_glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE) {
-        GLint log_length;
-        gl4es_glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
-        GLchar *log = malloc(sizeof(GLchar) * log_length);
-        gl4es_glGetShaderInfoLog(shader, log_length, NULL, log);
-        printf("Shader compile failed: %s\n", log);
-        free(log);
-    }
-}
-GLuint gl4es_glCreateShaderObject(GLenum shaderType) {
-    return glCreateShader(shaderType);
-}
-void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) {
-    gl4es_glShaderSource(shader, count, string, length);
-}
-void gl4es_glGetObjectParameteriv(GLuint shader, GLenum pname, GLint *params) {
-    gl4es_glGetShaderiv(shader, pname, params);
-}
-#endif
-
 void gl4es_glClearDepth(GLdouble depth) {
     gl4es_glClearDepthf(depth);
 }
@@ -174,7 +149,7 @@ void gl4es_glLightiv(GLenum light, GLenum pname, GLint *iparams) {
         }
     }
 }
-#ifndef USE_ES2
+
 void gl4es_glLightModeli(GLenum pname, GLint param) {
     gl4es_glLightModelf(pname, param);
 }
@@ -195,7 +170,7 @@ void gl4es_glLightModeliv(GLenum pname, GLint *iparams) {
         }
     }
 }
-#endif
+
 void gl4es_glMateriali(GLenum face, GLenum pname, GLint param) {
     gl4es_glMaterialf(face, pname, param);
 }
@@ -734,18 +709,6 @@ void gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum
 #undef constDoubleToFloat
 
 //Direct wrapper
-#ifdef USE_ES2
-void glCompileShader(GLuint shader) AliasExport("gl4es_glCompileShader");
-GLuint glCreateShaderObject(GLenum shaderType) AliasExport("gl4es_glCreateShaderObject");
-void glGetObjectParameteriv(GLuint shader, GLenum pname, GLint *params) AliasExport("gl4es_glGetObjectParameteriv");
-void glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) AliasExport("gl4es_glShaderSource");
-
-void glCompileShaderARB(GLuint shader) AliasExport("gl4es_glCompileShader");
-GLuint glCreateShaderObjectARB(GLenum shaderType) AliasExport("gl4es_glCreateShaderObject");
-void glGetObjectParameterivARB(GLuint shader, GLenum pname, GLint *params) AliasExport("gl4es_glGetObjectParameteriv");
-void glShaderSourceARB(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) AliasExport("gl4es_glShaderSource");
-#endif
-
 void glClearDepth(GLdouble depth) AliasExport("gl4es_glClearDepth");
 void glClipPlane(GLenum plane, const GLdouble *equation) AliasExport("gl4es_glClipPlane");
 void glDepthRange(GLdouble nearVal, GLdouble farVal) AliasExport("gl4es_glDepthRange");

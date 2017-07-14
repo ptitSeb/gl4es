@@ -763,14 +763,10 @@ void draw_renderlist(renderlist_t *list) {
 //printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, glstate->gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
-#ifdef USE_ES2
-    LOAD_GLES(glVertexAttribPointer);
-#else
     LOAD_GLES(glVertexPointer);
     LOAD_GLES(glNormalPointer);
     LOAD_GLES(glColorPointer);
     LOAD_GLES(glTexCoordPointer);
-#endif
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
     LOAD_GLES(glEnableClientState);
@@ -903,13 +899,6 @@ void draw_renderlist(renderlist_t *list) {
 
         if (! list->len)
             continue;
-#ifdef USE_ES2
-        if (list->vert) {
-            gl4es_glEnableVertexAttribArray(0);
-            gles_glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, list->vert);
-        }
-        gles_glDrawArrays(list->mode, 0, list->len);
-#else
         if (list->vert) {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
             gles_glVertexPointer(4, GL_FLOAT, 0, list->vert);
@@ -1241,7 +1230,6 @@ void draw_renderlist(renderlist_t *list) {
         if (stipple) {
             gl4es_glPopAttrib();
         }
-#endif
         if(list->post_color) gl4es_glColor4fv(list->post_colors);
         if(list->post_normal) gl4es_glNormal3fv(list->post_normals);
     } while ((list = list->next));

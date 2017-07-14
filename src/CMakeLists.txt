@@ -74,7 +74,6 @@ SET(GL_H
     gl/texgen.h
     gl/texture.h
     gl/math/eval.h
-    gl/wrap/es.h
     gl/wrap/gles.h
     gl/wrap/gl.h
     gl/wrap/stub.h

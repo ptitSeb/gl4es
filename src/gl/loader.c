@@ -22,14 +22,15 @@ static const char *lib_ext[] = {
     NULL,
 };
 
-static const char *gles_lib[] = {
-#ifdef USE_ES2
+static const char *gles2_lib[] = {
     "libGLESv2_CM",
     "libGLESv2",
-#else
+    NULL
+};
+
+static const char *gles_lib[] = {
     "libGLESv1_CM",
     "libGLES_CM",
-#endif // USE_ES2
     NULL
 };
 

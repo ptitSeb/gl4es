@@ -49,7 +49,7 @@
 #define GL_H
 
 #include "../config.h"
-#include "wrap/es.h"
+#include "wrap/gles.h"
 #include "const.h"
 
 //Typedef for egl to be abble to call LOAD_EGL...

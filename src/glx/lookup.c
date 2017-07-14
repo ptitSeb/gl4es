@@ -50,11 +50,7 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     cnt++;
 #endif
     // generated gles wrappers
-#ifdef USE_ES2
-    #include "gles2funcs.inc"
-#else
     #include "glesfuncs.inc"
-#endif
 
 #ifndef ANDROID
     // glX calls
@@ -303,13 +299,6 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EXT(glPointParameterf);
     _EXT(glPointParameterfv);
 
-#ifdef USE_ES2
-    _EX(glCompileShaderARB);
-    _EX(glCreateShaderObjectARB);
-    _EX(glGetObjectParameterivARB);
-    _EX(glShaderSourceARB);
-#endif
-
     // functions we actually define
     _EXT(glActiveTexture);
     _ARB(glActiveTexture);
@@ -389,12 +378,10 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glInitNames);
     _EX(glInterleavedArrays);
     _EX(glIsList);
-#ifndef USE_ES2
     _EX(glLighti);
     _EX(glLightiv);
     _EX(glLightModeli);
     _EX(glLightModeliv);
-#endif
     _EX(glLineStipple);
     _EX(glListBase);
     _EX(glLoadMatrixd);

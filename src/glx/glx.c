@@ -122,10 +122,12 @@ static void* create_native_window(int w, int h) {
 
 static int swap_interval = 1;
 
-static EGLint egl_context_attrib[] = {
-#ifdef USE_ES2
+static EGLint egl_context_attrib_es2[] = {
     EGL_CONTEXT_CLIENT_VERSION, 2,
-#endif
+    EGL_NONE
+};
+
+static EGLint egl_context_attrib[] = {
     EGL_NONE
 };
 
@@ -426,11 +428,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_ALPHA_SIZE, glxfbconfig->alphaBits,
 #endif
         EGL_DEPTH_SIZE, 16,
-#ifdef USE_ES2
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-#else
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
-#endif
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT, //EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
         EGL_BUFFER_SIZE, depthBits,
         EGL_STENCIL_SIZE, glxfbconfig->stencilBits,
 
@@ -653,11 +651,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             EGL_STENCIL_SIZE, config->stencilBits,
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
-#ifdef USE_ES2
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-#else
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
-#endif
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT, //EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT
             EGL_SURFACE_TYPE, (config->drawableType)==GLX_PIXMAP_BIT?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
             EGL_NONE
         };
