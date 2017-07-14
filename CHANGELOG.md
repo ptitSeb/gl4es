@@ -1,5 +1,8 @@
 Version history
 ----
+##### Current version
+ * Added ES2 backen infrastructure
+
 ##### 1.0.0
  * Removed old ES2 defines (ES2 will be dynamic later)
 

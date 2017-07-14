@@ -1,3 +1,4 @@
+#GLES 1.1 Core
 glActiveTexture: [void, GLenum texture]
 glAlphaFunc: [void, GLenum func, GLclampf ref]
 glAlphaFuncx: [void, GLenum func, GLclampx ref]

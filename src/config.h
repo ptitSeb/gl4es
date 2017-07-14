@@ -153,6 +153,23 @@
 #define direct_glMultiDrawArrays
 #define direct_glMultiDrawElements
 
+// buffer.c
+#define skip_glGenBuffers
+#define skip_glBindBuffer
+#define skip_glBufferData
+#define skip_glBufferSubData
+#define skip_glDeleteBuffers
+#define skip_glIsBuffer
+#define skip_glGetBufferParameteriv
+#define skip_glMapBuffer
+#define skip_glUnmapBuffer
+#define skip_glGetBufferPointerv
+#define skip_glGetBufferSubData
+#define skip_glGenVertexArrays
+#define skip_glBindVertexArray
+#define skip_glDeleteVertexArrays
+#define skip_glIsVertexArray
+
 // don't compile these into display lists
 #define direct_glColorPointer
 #define direct_glDeleteLists

@@ -1,3 +1,4 @@
+#GLES 1.1 Extensions (might be GLES 2.0 Core)
 glBlendColor_OES_: [void, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha]
 glBlendEquation_OES_: [void, GLenum mode]
 glBlendEquationSeparate_OES_: [void, GLenum modeRGB, GLenum modeA]

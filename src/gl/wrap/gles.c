@@ -29,6 +29,26 @@ void gl4es_glAlphaFuncx(GLenum func, GLclampx ref) {
 }
 void glAlphaFuncx(GLenum func, GLclampx ref) __attribute__((alias("gl4es_glAlphaFuncx"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glAttachShader
+void gl4es_glAttachShader(GLuint program, GLuint shader) {
+    LOAD_GLES(glAttachShader);
+#ifndef direct_glAttachShader
+    PUSH_IF_COMPILING(glAttachShader)
+#endif
+    gles_glAttachShader(program, shader);
+}
+void glAttachShader(GLuint program, GLuint shader) __attribute__((alias("gl4es_glAttachShader"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glBindAttribLocation
+void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar * name) {
+    LOAD_GLES(glBindAttribLocation);
+#ifndef direct_glBindAttribLocation
+    PUSH_IF_COMPILING(glBindAttribLocation)
+#endif
+    gles_glBindAttribLocation(program, index, name);
+}
+void glBindAttribLocation(GLuint program, GLuint index, const GLchar * name) __attribute__((alias("gl4es_glBindAttribLocation"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glBindBuffer
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
     LOAD_GLES(glBindBuffer);
@@ -289,6 +309,16 @@ void gl4es_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid 
 }
 void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("gl4es_glColorPointer"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glCompileShader
+void gl4es_glCompileShader(GLuint shader) {
+    LOAD_GLES(glCompileShader);
+#ifndef direct_glCompileShader
+    PUSH_IF_COMPILING(glCompileShader)
+#endif
+    gles_glCompileShader(shader);
+}
+void glCompileShader(GLuint shader) __attribute__((alias("gl4es_glCompileShader"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glCompressedTexImage2D
 void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
     LOAD_GLES(glCompressedTexImage2D);
@@ -329,6 +359,26 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 }
 void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) __attribute__((alias("gl4es_glCopyTexSubImage2D"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glCreateProgram
+GLuint gl4es_glCreateProgram() {
+    LOAD_GLES(glCreateProgram);
+#ifndef direct_glCreateProgram
+    PUSH_IF_COMPILING(glCreateProgram)
+#endif
+    return gles_glCreateProgram();
+}
+GLuint glCreateProgram() __attribute__((alias("gl4es_glCreateProgram"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glCreateShader
+GLuint gl4es_glCreateShader(GLenum type) {
+    LOAD_GLES(glCreateShader);
+#ifndef direct_glCreateShader
+    PUSH_IF_COMPILING(glCreateShader)
+#endif
+    return gles_glCreateShader(type);
+}
+GLuint glCreateShader(GLenum type) __attribute__((alias("gl4es_glCreateShader"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glCullFace
 void gl4es_glCullFace(GLenum mode) {
     LOAD_GLES(glCullFace);
@@ -340,14 +390,14 @@ void gl4es_glCullFace(GLenum mode) {
 void glCullFace(GLenum mode) __attribute__((alias("gl4es_glCullFace"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteBuffers
-void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
+void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffer) {
     LOAD_GLES(glDeleteBuffers);
 #ifndef direct_glDeleteBuffers
     PUSH_IF_COMPILING(glDeleteBuffers)
 #endif
-    gles_glDeleteBuffers(n, buffers);
+    gles_glDeleteBuffers(n, buffer);
 }
-void glDeleteBuffers(GLsizei n, const GLuint * buffers) __attribute__((alias("gl4es_glDeleteBuffers"))) __attribute__((visibility("default")));
+void glDeleteBuffers(GLsizei n, const GLuint * buffer) __attribute__((alias("gl4es_glDeleteBuffers"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteFramebuffers
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
@@ -359,6 +409,16 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
 }
 void glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) __attribute__((alias("gl4es_glDeleteFramebuffers"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glDeleteProgram
+void gl4es_glDeleteProgram(GLuint program) {
+    LOAD_GLES(glDeleteProgram);
+#ifndef direct_glDeleteProgram
+    PUSH_IF_COMPILING(glDeleteProgram)
+#endif
+    gles_glDeleteProgram(program);
+}
+void glDeleteProgram(GLuint program) __attribute__((alias("gl4es_glDeleteProgram"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glDeleteRenderbuffers
 void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
     LOAD_GLES_OES(glDeleteRenderbuffers);
@@ -368,6 +428,16 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
 void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) __attribute__((alias("gl4es_glDeleteRenderbuffers"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glDeleteShader
+void gl4es_glDeleteShader(GLuint program) {
+    LOAD_GLES(glDeleteShader);
+#ifndef direct_glDeleteShader
+    PUSH_IF_COMPILING(glDeleteShader)
+#endif
+    gles_glDeleteShader(program);
+}
+void glDeleteShader(GLuint program) __attribute__((alias("gl4es_glDeleteShader"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteTextures
 void gl4es_glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -419,6 +489,16 @@ void gl4es_glDepthRangex(GLclampx near, GLclampx far) {
 }
 void glDepthRangex(GLclampx near, GLclampx far) __attribute__((alias("gl4es_glDepthRangex"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glDetachShader
+void gl4es_glDetachShader(GLuint program, GLuint shader) {
+    LOAD_GLES(glDetachShader);
+#ifndef direct_glDetachShader
+    PUSH_IF_COMPILING(glDetachShader)
+#endif
+    gles_glDetachShader(program, shader);
+}
+void glDetachShader(GLuint program, GLuint shader) __attribute__((alias("gl4es_glDetachShader"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glDisable
 void gl4es_glDisable(GLenum cap) {
     LOAD_GLES(glDisable);
@@ -438,6 +518,16 @@ void gl4es_glDisableClientState(GLenum array) {
     gles_glDisableClientState(array);
 }
 void glDisableClientState(GLenum array) __attribute__((alias("gl4es_glDisableClientState"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glDisableVertexAttribArray
+void gl4es_glDisableVertexAttribArray(GLuint index) {
+    LOAD_GLES(glDisableVertexAttribArray);
+#ifndef direct_glDisableVertexAttribArray
+    PUSH_IF_COMPILING(glDisableVertexAttribArray)
+#endif
+    gles_glDisableVertexAttribArray(index);
+}
+void glDisableVertexAttribArray(GLuint index) __attribute__((alias("gl4es_glDisableVertexAttribArray"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDrawArrays
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -498,6 +588,16 @@ void gl4es_glEnableClientState(GLenum array) {
     gles_glEnableClientState(array);
 }
 void glEnableClientState(GLenum array) __attribute__((alias("gl4es_glEnableClientState"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glEnableVertexAttribArray
+void gl4es_glEnableVertexAttribArray(GLuint index) {
+    LOAD_GLES(glEnableVertexAttribArray);
+#ifndef direct_glEnableVertexAttribArray
+    PUSH_IF_COMPILING(glEnableVertexAttribArray)
+#endif
+    gles_glEnableVertexAttribArray(index);
+}
+void glEnableVertexAttribArray(GLuint index) __attribute__((alias("gl4es_glEnableVertexAttribArray"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glFinish
 void gl4es_glFinish() {
@@ -610,14 +710,14 @@ void gl4es_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, 
 void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) __attribute__((alias("gl4es_glFrustumx"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGenBuffers
-void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
+void gl4es_glGenBuffers(GLsizei n, GLuint * buffer) {
     LOAD_GLES(glGenBuffers);
 #ifndef direct_glGenBuffers
     PUSH_IF_COMPILING(glGenBuffers)
 #endif
-    gles_glGenBuffers(n, buffers);
+    gles_glGenBuffers(n, buffer);
 }
-void glGenBuffers(GLsizei n, GLuint * buffers) __attribute__((alias("gl4es_glGenBuffers"))) __attribute__((visibility("default")));
+void glGenBuffers(GLsizei n, GLuint * buffer) __attribute__((alias("gl4es_glGenBuffers"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGenFramebuffers
 void gl4es_glGenFramebuffers(GLsizei n, GLuint * ids) {
@@ -658,6 +758,46 @@ void gl4es_glGenerateMipmap(GLenum target) {
     gles_glGenerateMipmap(target);
 }
 void glGenerateMipmap(GLenum target) __attribute__((alias("gl4es_glGenerateMipmap"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetActiveAttrib
+void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
+    LOAD_GLES(glGetActiveAttrib);
+#ifndef direct_glGetActiveAttrib
+    PUSH_IF_COMPILING(glGetActiveAttrib)
+#endif
+    gles_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
+}
+void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) __attribute__((alias("gl4es_glGetActiveAttrib"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetActiveUniform
+void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
+    LOAD_GLES(glGetActiveUniform);
+#ifndef direct_glGetActiveUniform
+    PUSH_IF_COMPILING(glGetActiveUniform)
+#endif
+    gles_glGetActiveUniform(program, index, bufSize, length, size, type, name);
+}
+void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) __attribute__((alias("gl4es_glGetActiveUniform"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetAttachedShaders
+void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj) {
+    LOAD_GLES(glGetAttachedShaders);
+#ifndef direct_glGetAttachedShaders
+    PUSH_IF_COMPILING(glGetAttachedShaders)
+#endif
+    gles_glGetAttachedShaders(program, maxCount, count, obj);
+}
+void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj) __attribute__((alias("gl4es_glGetAttachedShaders"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetAttribLocation
+GLint gl4es_glGetAttribLocation(GLuint program, const GLchar * name) {
+    LOAD_GLES(glGetAttribLocation);
+#ifndef direct_glGetAttribLocation
+    PUSH_IF_COMPILING(glGetAttribLocation)
+#endif
+    return gles_glGetAttribLocation(program, name);
+}
+GLint glGetAttribLocation(GLuint program, const GLchar * name) __attribute__((alias("gl4es_glGetAttribLocation"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetBooleanv
 void gl4es_glGetBooleanv(GLenum pname, GLboolean * params) {
@@ -799,6 +939,26 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid ** params) {
 }
 void glGetPointerv(GLenum pname, GLvoid ** params) __attribute__((alias("gl4es_glGetPointerv"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glGetProgramInfoLog
+void gl4es_glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
+    LOAD_GLES(glGetProgramInfoLog);
+#ifndef direct_glGetProgramInfoLog
+    PUSH_IF_COMPILING(glGetProgramInfoLog)
+#endif
+    gles_glGetProgramInfoLog(program, bufSize, length, infoLog);
+}
+void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) __attribute__((alias("gl4es_glGetProgramInfoLog"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetProgramiv
+void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint * params) {
+    LOAD_GLES(glGetProgramiv);
+#ifndef direct_glGetProgramiv
+    PUSH_IF_COMPILING(glGetProgramiv)
+#endif
+    gles_glGetProgramiv(program, pname, params);
+}
+void glGetProgramiv(GLuint program, GLenum pname, GLint * params) __attribute__((alias("gl4es_glGetProgramiv"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glGetRenderbufferParameteriv
 void gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     LOAD_GLES_OES(glGetRenderbufferParameteriv);
@@ -808,6 +968,46 @@ void gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * par
     gles_glGetRenderbufferParameteriv(target, pname, params);
 }
 void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) __attribute__((alias("gl4es_glGetRenderbufferParameteriv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetShaderInfoLog
+void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
+    LOAD_GLES(glGetShaderInfoLog);
+#ifndef direct_glGetShaderInfoLog
+    PUSH_IF_COMPILING(glGetShaderInfoLog)
+#endif
+    gles_glGetShaderInfoLog(shader, bufSize, length, infoLog);
+}
+void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog) __attribute__((alias("gl4es_glGetShaderInfoLog"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetShaderPrecisionFormat
+void gl4es_glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision) {
+    LOAD_GLES(glGetShaderPrecisionFormat);
+#ifndef direct_glGetShaderPrecisionFormat
+    PUSH_IF_COMPILING(glGetShaderPrecisionFormat)
+#endif
+    gles_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
+}
+void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision) __attribute__((alias("gl4es_glGetShaderPrecisionFormat"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetShaderSource
+void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source) {
+    LOAD_GLES(glGetShaderSource);
+#ifndef direct_glGetShaderSource
+    PUSH_IF_COMPILING(glGetShaderSource)
+#endif
+    gles_glGetShaderSource(shader, bufSize, length, source);
+}
+void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source) __attribute__((alias("gl4es_glGetShaderSource"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetShaderiv
+void gl4es_glGetShaderiv(GLuint shader, GLenum pname, GLint * params) {
+    LOAD_GLES(glGetShaderiv);
+#ifndef direct_glGetShaderiv
+    PUSH_IF_COMPILING(glGetShaderiv)
+#endif
+    gles_glGetShaderiv(shader, pname, params);
+}
+void glGetShaderiv(GLuint shader, GLenum pname, GLint * params) __attribute__((alias("gl4es_glGetShaderiv"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glGetString
 const GLubyte * gl4es_glGetString(GLenum name) {
@@ -879,6 +1079,66 @@ void gl4es_glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
 }
 void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) __attribute__((alias("gl4es_glGetTexParameterxv"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glGetUniformLocation
+GLint gl4es_glGetUniformLocation(GLuint program, const GLchar * name) {
+    LOAD_GLES(glGetUniformLocation);
+#ifndef direct_glGetUniformLocation
+    PUSH_IF_COMPILING(glGetUniformLocation)
+#endif
+    return gles_glGetUniformLocation(program, name);
+}
+GLint glGetUniformLocation(GLuint program, const GLchar * name) __attribute__((alias("gl4es_glGetUniformLocation"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetUniformfv
+void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat * params) {
+    LOAD_GLES(glGetUniformfv);
+#ifndef direct_glGetUniformfv
+    PUSH_IF_COMPILING(glGetUniformfv)
+#endif
+    gles_glGetUniformfv(program, location, params);
+}
+void glGetUniformfv(GLuint program, GLint location, GLfloat * params) __attribute__((alias("gl4es_glGetUniformfv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetUniformiv
+void gl4es_glGetUniformiv(GLuint program, GLint location, GLint * params) {
+    LOAD_GLES(glGetUniformiv);
+#ifndef direct_glGetUniformiv
+    PUSH_IF_COMPILING(glGetUniformiv)
+#endif
+    gles_glGetUniformiv(program, location, params);
+}
+void glGetUniformiv(GLuint program, GLint location, GLint * params) __attribute__((alias("gl4es_glGetUniformiv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetVertexAttribPointerv
+void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) {
+    LOAD_GLES(glGetVertexAttribPointerv);
+#ifndef direct_glGetVertexAttribPointerv
+    PUSH_IF_COMPILING(glGetVertexAttribPointerv)
+#endif
+    gles_glGetVertexAttribPointerv(index, pname, pointer);
+}
+void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) __attribute__((alias("gl4es_glGetVertexAttribPointerv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetVertexAttribfv
+void gl4es_glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) {
+    LOAD_GLES(glGetVertexAttribfv);
+#ifndef direct_glGetVertexAttribfv
+    PUSH_IF_COMPILING(glGetVertexAttribfv)
+#endif
+    gles_glGetVertexAttribfv(index, pname, params);
+}
+void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) __attribute__((alias("gl4es_glGetVertexAttribfv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glGetVertexAttribiv
+void gl4es_glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) {
+    LOAD_GLES(glGetVertexAttribiv);
+#ifndef direct_glGetVertexAttribiv
+    PUSH_IF_COMPILING(glGetVertexAttribiv)
+#endif
+    gles_glGetVertexAttribiv(index, pname, params);
+}
+void glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) __attribute__((alias("gl4es_glGetVertexAttribiv"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glHint
 void gl4es_glHint(GLenum target, GLenum mode) {
     LOAD_GLES(glHint);
@@ -919,6 +1179,16 @@ GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
 }
 GLboolean glIsFramebuffer(GLuint framebuffer) __attribute__((alias("gl4es_glIsFramebuffer"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glIsProgram
+GLboolean gl4es_glIsProgram(GLuint program) {
+    LOAD_GLES(glIsProgram);
+#ifndef direct_glIsProgram
+    PUSH_IF_COMPILING(glIsProgram)
+#endif
+    return gles_glIsProgram(program);
+}
+GLboolean glIsProgram(GLuint program) __attribute__((alias("gl4es_glIsProgram"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glIsRenderbuffer
 GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
     LOAD_GLES_OES(glIsRenderbuffer);
@@ -928,6 +1198,16 @@ GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
     return gles_glIsRenderbuffer(renderbuffer);
 }
 GLboolean glIsRenderbuffer(GLuint renderbuffer) __attribute__((alias("gl4es_glIsRenderbuffer"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glIsShader
+GLboolean gl4es_glIsShader(GLuint shader) {
+    LOAD_GLES(glIsShader);
+#ifndef direct_glIsShader
+    PUSH_IF_COMPILING(glIsShader)
+#endif
+    return gles_glIsShader(shader);
+}
+GLboolean glIsShader(GLuint shader) __attribute__((alias("gl4es_glIsShader"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glIsTexture
 GLboolean gl4es_glIsTexture(GLuint texture) {
@@ -1038,6 +1318,16 @@ void gl4es_glLineWidthx(GLfixed width) {
     gles_glLineWidthx(width);
 }
 void glLineWidthx(GLfixed width) __attribute__((alias("gl4es_glLineWidthx"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glLinkProgram
+void gl4es_glLinkProgram(GLuint program) {
+    LOAD_GLES(glLinkProgram);
+#ifndef direct_glLinkProgram
+    PUSH_IF_COMPILING(glLinkProgram)
+#endif
+    gles_glLinkProgram(program);
+}
+void glLinkProgram(GLuint program) __attribute__((alias("gl4es_glLinkProgram"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glLoadIdentity
 void gl4es_glLoadIdentity() {
@@ -1369,6 +1659,16 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 }
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) __attribute__((alias("gl4es_glReadPixels"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glReleaseShaderCompiler
+void gl4es_glReleaseShaderCompiler() {
+    LOAD_GLES(glReleaseShaderCompiler);
+#ifndef direct_glReleaseShaderCompiler
+    PUSH_IF_COMPILING(glReleaseShaderCompiler)
+#endif
+    gles_glReleaseShaderCompiler();
+}
+void glReleaseShaderCompiler() __attribute__((alias("gl4es_glReleaseShaderCompiler"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glRenderbufferStorage
 void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
     LOAD_GLES_OES(glRenderbufferStorage);
@@ -1458,6 +1758,26 @@ void gl4es_glShadeModel(GLenum mode) {
     gles_glShadeModel(mode);
 }
 void glShadeModel(GLenum mode) __attribute__((alias("gl4es_glShadeModel"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glShaderBinary
+void gl4es_glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length) {
+    LOAD_GLES(glShaderBinary);
+#ifndef direct_glShaderBinary
+    PUSH_IF_COMPILING(glShaderBinary)
+#endif
+    gles_glShaderBinary(n, shaders, binaryformat, binary, length);
+}
+void glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length) __attribute__((alias("gl4es_glShaderBinary"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glShaderSource
+void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length) {
+    LOAD_GLES(glShaderSource);
+#ifndef direct_glShaderSource
+    PUSH_IF_COMPILING(glShaderSource)
+#endif
+    gles_glShaderSource(shader, count, string, length);
+}
+void glShaderSource(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length) __attribute__((alias("gl4es_glShaderSource"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glStencilFunc
 void gl4es_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
@@ -1679,6 +1999,306 @@ void gl4es_glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
 }
 void glTranslatex(GLfixed x, GLfixed y, GLfixed z) __attribute__((alias("gl4es_glTranslatex"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glUniform1f
+void gl4es_glUniform1f(GLint location, GLfloat v0) {
+    LOAD_GLES(glUniform1f);
+#ifndef direct_glUniform1f
+    PUSH_IF_COMPILING(glUniform1f)
+#endif
+    gles_glUniform1f(location, v0);
+}
+void glUniform1f(GLint location, GLfloat v0) __attribute__((alias("gl4es_glUniform1f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform1fv
+void gl4es_glUniform1fv(GLint location, GLsizei count, const GLfloat * value) {
+    LOAD_GLES(glUniform1fv);
+#ifndef direct_glUniform1fv
+    PUSH_IF_COMPILING(glUniform1fv)
+#endif
+    gles_glUniform1fv(location, count, value);
+}
+void glUniform1fv(GLint location, GLsizei count, const GLfloat * value) __attribute__((alias("gl4es_glUniform1fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform1i
+void gl4es_glUniform1i(GLint location, GLint v0) {
+    LOAD_GLES(glUniform1i);
+#ifndef direct_glUniform1i
+    PUSH_IF_COMPILING(glUniform1i)
+#endif
+    gles_glUniform1i(location, v0);
+}
+void glUniform1i(GLint location, GLint v0) __attribute__((alias("gl4es_glUniform1i"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform1iv
+void gl4es_glUniform1iv(GLint location, GLsizei count, const GLint * value) {
+    LOAD_GLES(glUniform1iv);
+#ifndef direct_glUniform1iv
+    PUSH_IF_COMPILING(glUniform1iv)
+#endif
+    gles_glUniform1iv(location, count, value);
+}
+void glUniform1iv(GLint location, GLsizei count, const GLint * value) __attribute__((alias("gl4es_glUniform1iv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform2f
+void gl4es_glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
+    LOAD_GLES(glUniform2f);
+#ifndef direct_glUniform2f
+    PUSH_IF_COMPILING(glUniform2f)
+#endif
+    gles_glUniform2f(location, v0, v1);
+}
+void glUniform2f(GLint location, GLfloat v0, GLfloat v1) __attribute__((alias("gl4es_glUniform2f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform2fv
+void gl4es_glUniform2fv(GLint location, GLsizei count, const GLfloat * value) {
+    LOAD_GLES(glUniform2fv);
+#ifndef direct_glUniform2fv
+    PUSH_IF_COMPILING(glUniform2fv)
+#endif
+    gles_glUniform2fv(location, count, value);
+}
+void glUniform2fv(GLint location, GLsizei count, const GLfloat * value) __attribute__((alias("gl4es_glUniform2fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform2i
+void gl4es_glUniform2i(GLint location, GLint v0, GLint v1) {
+    LOAD_GLES(glUniform2i);
+#ifndef direct_glUniform2i
+    PUSH_IF_COMPILING(glUniform2i)
+#endif
+    gles_glUniform2i(location, v0, v1);
+}
+void glUniform2i(GLint location, GLint v0, GLint v1) __attribute__((alias("gl4es_glUniform2i"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform2iv
+void gl4es_glUniform2iv(GLint location, GLsizei count, const GLint * value) {
+    LOAD_GLES(glUniform2iv);
+#ifndef direct_glUniform2iv
+    PUSH_IF_COMPILING(glUniform2iv)
+#endif
+    gles_glUniform2iv(location, count, value);
+}
+void glUniform2iv(GLint location, GLsizei count, const GLint * value) __attribute__((alias("gl4es_glUniform2iv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform3f
+void gl4es_glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
+    LOAD_GLES(glUniform3f);
+#ifndef direct_glUniform3f
+    PUSH_IF_COMPILING(glUniform3f)
+#endif
+    gles_glUniform3f(location, v0, v1, v2);
+}
+void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) __attribute__((alias("gl4es_glUniform3f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform3fv
+void gl4es_glUniform3fv(GLint location, GLsizei count, const GLfloat * value) {
+    LOAD_GLES(glUniform3fv);
+#ifndef direct_glUniform3fv
+    PUSH_IF_COMPILING(glUniform3fv)
+#endif
+    gles_glUniform3fv(location, count, value);
+}
+void glUniform3fv(GLint location, GLsizei count, const GLfloat * value) __attribute__((alias("gl4es_glUniform3fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform3i
+void gl4es_glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
+    LOAD_GLES(glUniform3i);
+#ifndef direct_glUniform3i
+    PUSH_IF_COMPILING(glUniform3i)
+#endif
+    gles_glUniform3i(location, v0, v1, v2);
+}
+void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) __attribute__((alias("gl4es_glUniform3i"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform3iv
+void gl4es_glUniform3iv(GLint location, GLsizei count, const GLint * value) {
+    LOAD_GLES(glUniform3iv);
+#ifndef direct_glUniform3iv
+    PUSH_IF_COMPILING(glUniform3iv)
+#endif
+    gles_glUniform3iv(location, count, value);
+}
+void glUniform3iv(GLint location, GLsizei count, const GLint * value) __attribute__((alias("gl4es_glUniform3iv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform4f
+void gl4es_glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
+    LOAD_GLES(glUniform4f);
+#ifndef direct_glUniform4f
+    PUSH_IF_COMPILING(glUniform4f)
+#endif
+    gles_glUniform4f(location, v0, v1, v2, v3);
+}
+void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) __attribute__((alias("gl4es_glUniform4f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform4fv
+void gl4es_glUniform4fv(GLint location, GLsizei count, const GLfloat * value) {
+    LOAD_GLES(glUniform4fv);
+#ifndef direct_glUniform4fv
+    PUSH_IF_COMPILING(glUniform4fv)
+#endif
+    gles_glUniform4fv(location, count, value);
+}
+void glUniform4fv(GLint location, GLsizei count, const GLfloat * value) __attribute__((alias("gl4es_glUniform4fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform4i
+void gl4es_glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
+    LOAD_GLES(glUniform4i);
+#ifndef direct_glUniform4i
+    PUSH_IF_COMPILING(glUniform4i)
+#endif
+    gles_glUniform4i(location, v0, v1, v2, v3);
+}
+void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) __attribute__((alias("gl4es_glUniform4i"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniform4iv
+void gl4es_glUniform4iv(GLint location, GLsizei count, const GLint * value) {
+    LOAD_GLES(glUniform4iv);
+#ifndef direct_glUniform4iv
+    PUSH_IF_COMPILING(glUniform4iv)
+#endif
+    gles_glUniform4iv(location, count, value);
+}
+void glUniform4iv(GLint location, GLsizei count, const GLint * value) __attribute__((alias("gl4es_glUniform4iv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniformMatrix2fv
+void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
+    LOAD_GLES(glUniformMatrix2fv);
+#ifndef direct_glUniformMatrix2fv
+    PUSH_IF_COMPILING(glUniformMatrix2fv)
+#endif
+    gles_glUniformMatrix2fv(location, count, transpose, value);
+}
+void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) __attribute__((alias("gl4es_glUniformMatrix2fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniformMatrix3fv
+void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
+    LOAD_GLES(glUniformMatrix3fv);
+#ifndef direct_glUniformMatrix3fv
+    PUSH_IF_COMPILING(glUniformMatrix3fv)
+#endif
+    gles_glUniformMatrix3fv(location, count, transpose, value);
+}
+void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) __attribute__((alias("gl4es_glUniformMatrix3fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUniformMatrix4fv
+void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
+    LOAD_GLES(glUniformMatrix4fv);
+#ifndef direct_glUniformMatrix4fv
+    PUSH_IF_COMPILING(glUniformMatrix4fv)
+#endif
+    gles_glUniformMatrix4fv(location, count, transpose, value);
+}
+void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) __attribute__((alias("gl4es_glUniformMatrix4fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glUseProgram
+void gl4es_glUseProgram(GLuint program) {
+    LOAD_GLES(glUseProgram);
+#ifndef direct_glUseProgram
+    PUSH_IF_COMPILING(glUseProgram)
+#endif
+    gles_glUseProgram(program);
+}
+void glUseProgram(GLuint program) __attribute__((alias("gl4es_glUseProgram"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glValidateProgram
+void gl4es_glValidateProgram(GLuint program) {
+    LOAD_GLES(glValidateProgram);
+#ifndef direct_glValidateProgram
+    PUSH_IF_COMPILING(glValidateProgram)
+#endif
+    gles_glValidateProgram(program);
+}
+void glValidateProgram(GLuint program) __attribute__((alias("gl4es_glValidateProgram"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib1f
+void gl4es_glVertexAttrib1f(GLuint index, GLfloat x) {
+    LOAD_GLES(glVertexAttrib1f);
+#ifndef direct_glVertexAttrib1f
+    PUSH_IF_COMPILING(glVertexAttrib1f)
+#endif
+    gles_glVertexAttrib1f(index, x);
+}
+void glVertexAttrib1f(GLuint index, GLfloat x) __attribute__((alias("gl4es_glVertexAttrib1f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib1fv
+void gl4es_glVertexAttrib1fv(GLuint index, const GLfloat * v) {
+    LOAD_GLES(glVertexAttrib1fv);
+#ifndef direct_glVertexAttrib1fv
+    PUSH_IF_COMPILING(glVertexAttrib1fv)
+#endif
+    gles_glVertexAttrib1fv(index, v);
+}
+void glVertexAttrib1fv(GLuint index, const GLfloat * v) __attribute__((alias("gl4es_glVertexAttrib1fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib2f
+void gl4es_glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
+    LOAD_GLES(glVertexAttrib2f);
+#ifndef direct_glVertexAttrib2f
+    PUSH_IF_COMPILING(glVertexAttrib2f)
+#endif
+    gles_glVertexAttrib2f(index, x, y);
+}
+void glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) __attribute__((alias("gl4es_glVertexAttrib2f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib2fv
+void gl4es_glVertexAttrib2fv(GLuint index, const GLfloat * v) {
+    LOAD_GLES(glVertexAttrib2fv);
+#ifndef direct_glVertexAttrib2fv
+    PUSH_IF_COMPILING(glVertexAttrib2fv)
+#endif
+    gles_glVertexAttrib2fv(index, v);
+}
+void glVertexAttrib2fv(GLuint index, const GLfloat * v) __attribute__((alias("gl4es_glVertexAttrib2fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib3f
+void gl4es_glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
+    LOAD_GLES(glVertexAttrib3f);
+#ifndef direct_glVertexAttrib3f
+    PUSH_IF_COMPILING(glVertexAttrib3f)
+#endif
+    gles_glVertexAttrib3f(index, x, y, z);
+}
+void glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) __attribute__((alias("gl4es_glVertexAttrib3f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib3fv
+void gl4es_glVertexAttrib3fv(GLuint index, const GLfloat * v) {
+    LOAD_GLES(glVertexAttrib3fv);
+#ifndef direct_glVertexAttrib3fv
+    PUSH_IF_COMPILING(glVertexAttrib3fv)
+#endif
+    gles_glVertexAttrib3fv(index, v);
+}
+void glVertexAttrib3fv(GLuint index, const GLfloat * v) __attribute__((alias("gl4es_glVertexAttrib3fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib4f
+void gl4es_glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+    LOAD_GLES(glVertexAttrib4f);
+#ifndef direct_glVertexAttrib4f
+    PUSH_IF_COMPILING(glVertexAttrib4f)
+#endif
+    gles_glVertexAttrib4f(index, x, y, z, w);
+}
+void glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) __attribute__((alias("gl4es_glVertexAttrib4f"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttrib4fv
+void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat * v) {
+    LOAD_GLES(glVertexAttrib4fv);
+#ifndef direct_glVertexAttrib4fv
+    PUSH_IF_COMPILING(glVertexAttrib4fv)
+#endif
+    gles_glVertexAttrib4fv(index, v);
+}
+void glVertexAttrib4fv(GLuint index, const GLfloat * v) __attribute__((alias("gl4es_glVertexAttrib4fv"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glVertexAttribPointer
+void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) {
+    LOAD_GLES(glVertexAttribPointer);
+#ifndef direct_glVertexAttribPointer
+    PUSH_IF_COMPILING(glVertexAttribPointer)
+#endif
+    gles_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) __attribute__((alias("gl4es_glVertexAttribPointer"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glVertexPointer
 void gl4es_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(glVertexPointer);
@@ -1717,6 +2337,18 @@ void glPackedCall(const packed_call_t *packed) {
             PACKED_void_GLenum_GLclampx *unpacked = (PACKED_void_GLenum_GLclampx *)packed;
             ARGS_void_GLenum_GLclampx args = unpacked->args;
             unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLuint_GLuint: {
+            PACKED_void_GLuint_GLuint *unpacked = (PACKED_void_GLuint_GLuint *)packed;
+            ARGS_void_GLuint_GLuint args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLuint_GLuint_const_GLchar___GENPT__: {
+            PACKED_void_GLuint_GLuint_const_GLchar___GENPT__ *unpacked = (PACKED_void_GLuint_GLuint_const_GLchar___GENPT__ *)packed;
+            ARGS_void_GLuint_GLuint_const_GLchar___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
         case FORMAT_void_GLenum_GLuint: {
@@ -1833,6 +2465,12 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
+        case FORMAT_void_GLuint: {
+            PACKED_void_GLuint *unpacked = (PACKED_void_GLuint *)packed;
+            ARGS_void_GLuint args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
         case FORMAT_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__: {
             PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *)packed;
             ARGS_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
@@ -1855,6 +2493,17 @@ void glPackedCall(const packed_call_t *packed) {
             PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *unpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *)packed;
             ARGS_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei args = unpacked->args;
             unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8);
+            break;
+        }
+        case FORMAT_GLuint: {
+            PACKED_GLuint *unpacked = (PACKED_GLuint *)packed;
+            unpacked->func();
+            break;
+        }
+        case FORMAT_GLuint_GLenum: {
+            PACKED_GLuint_GLenum *unpacked = (PACKED_GLuint_GLenum *)packed;
+            ARGS_GLuint_GLenum args = unpacked->args;
+            unpacked->func(args.a1);
             break;
         }
         case FORMAT_void_GLsizei_const_GLuint___GENPT__: {
@@ -1952,6 +2601,24 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
             break;
         }
+        case FORMAT_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__: {
+            PACKED_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__ *unpacked = (PACKED_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__ *)packed;
+            ARGS_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7);
+            break;
+        }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__: {
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__ *unpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__ *)packed;
+            ARGS_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_GLint_GLuint_const_GLchar___GENPT__: {
+            PACKED_GLint_GLuint_const_GLchar___GENPT__ *unpacked = (PACKED_GLint_GLuint_const_GLchar___GENPT__ *)packed;
+            ARGS_GLint_GLuint_const_GLchar___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
         case FORMAT_void_GLenum_GLboolean___GENPT__: {
             PACKED_void_GLenum_GLboolean___GENPT__ *unpacked = (PACKED_void_GLenum_GLboolean___GENPT__ *)packed;
             ARGS_void_GLenum_GLboolean___GENPT__ args = unpacked->args;
@@ -2011,10 +2678,52 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2);
             break;
         }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__: {
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *unpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *)packed;
+            ARGS_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLint___GENPT__: {
+            PACKED_void_GLuint_GLenum_GLint___GENPT__ *unpacked = (PACKED_void_GLuint_GLenum_GLint___GENPT__ *)packed;
+            ARGS_void_GLuint_GLenum_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__: {
+            PACKED_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__ *unpacked = (PACKED_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__ *)packed;
+            ARGS_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
         case FORMAT_const_GLubyte___GENPT___GLenum: {
             PACKED_const_GLubyte___GENPT___GLenum *unpacked = (PACKED_const_GLubyte___GENPT___GLenum *)packed;
             ARGS_const_GLubyte___GENPT___GLenum args = unpacked->args;
             unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLfloat___GENPT__: {
+            PACKED_void_GLuint_GLint_GLfloat___GENPT__ *unpacked = (PACKED_void_GLuint_GLint_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLuint_GLint_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLint___GENPT__: {
+            PACKED_void_GLuint_GLint_GLint___GENPT__ *unpacked = (PACKED_void_GLuint_GLint_GLint___GENPT__ *)packed;
+            ARGS_void_GLuint_GLint_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLvoid___GENPT____GENPT__: {
+            PACKED_void_GLuint_GLenum_GLvoid___GENPT____GENPT__ *unpacked = (PACKED_void_GLuint_GLenum_GLvoid___GENPT____GENPT__ *)packed;
+            ARGS_void_GLuint_GLenum_GLvoid___GENPT____GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLfloat___GENPT__: {
+            PACKED_void_GLuint_GLenum_GLfloat___GENPT__ *unpacked = (PACKED_void_GLuint_GLenum_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLuint_GLenum_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
         case FORMAT_GLboolean_GLuint: {
@@ -2167,16 +2876,22 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
+        case FORMAT_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei: {
+            PACKED_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei *unpacked = (PACKED_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei *)packed;
+            ARGS_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__: {
+            PACKED_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__ *unpacked = (PACKED_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__ *)packed;
+            ARGS_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
         case FORMAT_void_GLenum_GLint_GLuint: {
             PACKED_void_GLenum_GLint_GLuint *unpacked = (PACKED_void_GLenum_GLint_GLuint *)packed;
             ARGS_void_GLenum_GLint_GLuint args = unpacked->args;
             unpacked->func(args.a1, args.a2, args.a3);
-            break;
-        }
-        case FORMAT_void_GLuint: {
-            PACKED_void_GLuint *unpacked = (PACKED_void_GLuint *)packed;
-            ARGS_void_GLuint args = unpacked->args;
-            unpacked->func(args.a1);
             break;
         }
         case FORMAT_void_GLenum_GLenum_GLenum: {
@@ -2209,6 +2924,102 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6, args.a7, args.a8, args.a9);
             break;
         }
+        case FORMAT_void_GLint_GLfloat: {
+            PACKED_void_GLint_GLfloat *unpacked = (PACKED_void_GLint_GLfloat *)packed;
+            ARGS_void_GLint_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__: {
+            PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__ *unpacked = (PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLint_GLsizei_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLint_GLint: {
+            PACKED_void_GLint_GLint *unpacked = (PACKED_void_GLint_GLint *)packed;
+            ARGS_void_GLint_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_const_GLint___GENPT__: {
+            PACKED_void_GLint_GLsizei_const_GLint___GENPT__ *unpacked = (PACKED_void_GLint_GLsizei_const_GLint___GENPT__ *)packed;
+            ARGS_void_GLint_GLsizei_const_GLint___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat: {
+            PACKED_void_GLint_GLfloat_GLfloat *unpacked = (PACKED_void_GLint_GLfloat_GLfloat *)packed;
+            ARGS_void_GLint_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLint: {
+            PACKED_void_GLint_GLint_GLint *unpacked = (PACKED_void_GLint_GLint_GLint *)packed;
+            ARGS_void_GLint_GLint_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLint_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLint_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLint_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLint_GLint: {
+            PACKED_void_GLint_GLint_GLint_GLint *unpacked = (PACKED_void_GLint_GLint_GLint_GLint *)packed;
+            ARGS_void_GLint_GLint_GLint_GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__: {
+            PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__ *unpacked = (PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat: {
+            PACKED_void_GLuint_GLfloat *unpacked = (PACKED_void_GLuint_GLfloat *)packed;
+            ARGS_void_GLuint_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLuint_const_GLfloat___GENPT__: {
+            PACKED_void_GLuint_const_GLfloat___GENPT__ *unpacked = (PACKED_void_GLuint_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_GLuint_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat: {
+            PACKED_void_GLuint_GLfloat_GLfloat *unpacked = (PACKED_void_GLuint_GLfloat_GLfloat *)packed;
+            ARGS_void_GLuint_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLuint_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLuint_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLuint_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat: {
+            PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat *unpacked = (PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat *)packed;
+            ARGS_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5, args.a6);
+            break;
+        }
     }
 }
 /*
@@ -2231,6 +3042,20 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLenum_GLclampx: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLclampx);
             PACKED_void_GLenum_GLclampx *newpacked = (PACKED_void_GLenum_GLclampx*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLuint);
+            PACKED_void_GLuint_GLuint *newpacked = (PACKED_void_GLuint_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLuint_const_GLchar___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLuint_const_GLchar___GENPT__);
+            PACKED_void_GLuint_GLuint_const_GLchar___GENPT__ *newpacked = (PACKED_void_GLuint_GLuint_const_GLchar___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
@@ -2368,6 +3193,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
+        case FORMAT_void_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint);
+            PACKED_void_GLuint *newpacked = (PACKED_void_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
         case FORMAT_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__);
             PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLenum_GLsizei_GLsizei_GLint_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
@@ -2392,6 +3224,20 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei);
             PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei *newpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLint_GLint_GLsizei_GLsizei*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLuint: {
+            int sizeofpacked = sizeof(PACKED_GLuint);
+            PACKED_GLuint *newpacked = (PACKED_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLuint_GLenum: {
+            int sizeofpacked = sizeof(PACKED_GLuint_GLenum);
+            PACKED_GLuint_GLenum *newpacked = (PACKED_GLuint_GLenum*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
@@ -2508,6 +3354,27 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
+        case FORMAT_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__);
+            PACKED_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__ *newpacked = (PACKED_void_GLuint_GLuint_GLsizei_GLsizei___GENPT___GLint___GENPT___GLenum___GENPT___GLchar___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__);
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__ *newpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLuint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_GLint_GLuint_const_GLchar___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_GLint_GLuint_const_GLchar___GENPT__);
+            PACKED_GLint_GLuint_const_GLchar___GENPT__ *newpacked = (PACKED_GLint_GLuint_const_GLchar___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
         case FORMAT_void_GLenum_GLboolean___GENPT__: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLboolean___GENPT__);
             PACKED_void_GLenum_GLboolean___GENPT__ *newpacked = (PACKED_void_GLenum_GLboolean___GENPT__*)malloc(sizeofpacked);
@@ -2578,9 +3445,58 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__);
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *newpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLenum_GLint___GENPT__);
+            PACKED_void_GLuint_GLenum_GLint___GENPT__ *newpacked = (PACKED_void_GLuint_GLenum_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__);
+            PACKED_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__ *newpacked = (PACKED_void_GLenum_GLenum_GLint___GENPT___GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
         case FORMAT_const_GLubyte___GENPT___GLenum: {
             int sizeofpacked = sizeof(PACKED_const_GLubyte___GENPT___GLenum);
             PACKED_const_GLubyte___GENPT___GLenum *newpacked = (PACKED_const_GLubyte___GENPT___GLenum*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLint_GLfloat___GENPT__);
+            PACKED_void_GLuint_GLint_GLfloat___GENPT__ *newpacked = (PACKED_void_GLuint_GLint_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLint_GLint___GENPT__);
+            PACKED_void_GLuint_GLint_GLint___GENPT__ *newpacked = (PACKED_void_GLuint_GLint_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLvoid___GENPT____GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLenum_GLvoid___GENPT____GENPT__);
+            PACKED_void_GLuint_GLenum_GLvoid___GENPT____GENPT__ *newpacked = (PACKED_void_GLuint_GLenum_GLvoid___GENPT____GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLenum_GLfloat___GENPT__);
+            PACKED_void_GLuint_GLenum_GLfloat___GENPT__ *newpacked = (PACKED_void_GLuint_GLenum_GLfloat___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
@@ -2760,16 +3676,23 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
-        case FORMAT_void_GLenum_GLint_GLuint: {
-            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLuint);
-            PACKED_void_GLenum_GLint_GLuint *newpacked = (PACKED_void_GLenum_GLint_GLuint*)malloc(sizeofpacked);
+        case FORMAT_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei: {
+            int sizeofpacked = sizeof(PACKED_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei);
+            PACKED_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei *newpacked = (PACKED_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
         }
-        case FORMAT_void_GLuint: {
-            int sizeofpacked = sizeof(PACKED_void_GLuint);
-            PACKED_void_GLuint *newpacked = (PACKED_void_GLuint*)malloc(sizeofpacked);
+        case FORMAT_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__);
+            PACKED_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__ *newpacked = (PACKED_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLint_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLuint);
+            PACKED_void_GLenum_GLint_GLuint *newpacked = (PACKED_void_GLenum_GLint_GLuint*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
@@ -2805,6 +3728,118 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__);
             PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLfloat);
+            PACKED_void_GLint_GLfloat *newpacked = (PACKED_void_GLint_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__);
+            PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__ *newpacked = (PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLint);
+            PACKED_void_GLint_GLint *newpacked = (PACKED_void_GLint_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_const_GLint___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLsizei_const_GLint___GENPT__);
+            PACKED_void_GLint_GLsizei_const_GLint___GENPT__ *newpacked = (PACKED_void_GLint_GLsizei_const_GLint___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLfloat_GLfloat);
+            PACKED_void_GLint_GLfloat_GLfloat *newpacked = (PACKED_void_GLint_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLint_GLint);
+            PACKED_void_GLint_GLint_GLint *newpacked = (PACKED_void_GLint_GLint_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLint_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLint_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLint_GLint_GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLint_GLint_GLint);
+            PACKED_void_GLint_GLint_GLint_GLint *newpacked = (PACKED_void_GLint_GLint_GLint_GLint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__);
+            PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__ *newpacked = (PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLfloat);
+            PACKED_void_GLuint_GLfloat *newpacked = (PACKED_void_GLuint_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_const_GLfloat___GENPT__);
+            PACKED_void_GLuint_const_GLfloat___GENPT__ *newpacked = (PACKED_void_GLuint_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLfloat_GLfloat);
+            PACKED_void_GLuint_GLfloat_GLfloat *newpacked = (PACKED_void_GLuint_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLuint_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLuint_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat);
+            PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat *newpacked = (PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
