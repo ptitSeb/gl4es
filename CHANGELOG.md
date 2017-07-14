@@ -1,6 +1,6 @@
 Version history
 ----
-##### Current version
+##### 1.0.0
  * Removed old ES2 defines (ES2 will be dynamic later)
 
 ##### 0.9.8
