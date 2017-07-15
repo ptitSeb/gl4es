@@ -75,12 +75,6 @@ void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
    	khint_t k;
    	int ret;
 	khash_t(buff) *list = glstate->buffers;
-	if (! list) {
-		list = glstate->buffers = kh_init(buff);
-		// segfaults if we don't do a single put
-		kh_put(buff, list, 1, &ret);
-		kh_del(buff, list, 1);
-	}
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
