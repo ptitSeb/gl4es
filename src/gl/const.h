@@ -613,3 +613,25 @@
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z    0x851A
 #define GL_PROXY_TEXTURE_CUBE_MAP         0x851B
 #define GL_AX_CUBE_MAP_TEXTURE_SIZE       0x851C
+
+// Shaders
+#define GL_FRAGMENT_SHADER                  0x8B30
+#define GL_VERTEX_SHADER                    0x8B31
+#define GL_MAX_VERTEX_ATTRIBS               0x8869
+#define GL_MAX_VERTEX_UNIFORM_VECTORS       0x8DFB
+#define GL_MAX_VARYING_VECTORS              0x8DFC
+#define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
+#define GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS   0x8B4C
+#define GL_MAX_TEXTURE_IMAGE_UNITS          0x8872
+#define GL_MAX_FRAGMENT_UNIFORM_VECTORS     0x8DFD
+#define GL_SHADER_TYPE                      0x8B4F
+#define GL_DELETE_STATUS                    0x8B80
+#define GL_LINK_STATUS                      0x8B82
+#define GL_VALIDATE_STATUS                  0x8B83
+#define GL_ATTACHED_SHADERS                 0x8B85
+#define GL_ACTIVE_UNIFORMS                  0x8B86
+#define GL_ACTIVE_UNIFORM_MAX_LENGTH        0x8B87
+#define GL_ACTIVE_ATTRIBUTES                0x8B89
+#define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH      0x8B8A
+#define GL_SHADING_LANGUAGE_VERSION         0x8B8C
+#define GL_CURRENT_PROGRAM                  0x8B8D

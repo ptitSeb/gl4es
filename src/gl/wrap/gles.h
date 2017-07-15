@@ -1539,7 +1539,7 @@ typedef void (*FUNC_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___c
 typedef struct {
     GLuint a1;
     GLsizei a2;
-    GLchar * * a3;
+    const GLchar * const * a3;
     GLint * a4;
 } ARGS_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__;
 typedef struct {
@@ -5876,7 +5876,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->func = gl4es_glShaderSource; \
     packed_data->args.a1 = (GLuint)shader; \
     packed_data->args.a2 = (GLsizei)count; \
-    packed_data->args.a3 = (GLchar * *)string; \
+    packed_data->args.a3 = (const GLchar * const *)string; \
     packed_data->args.a4 = (GLint *)length; \
     glPushCall((void *)packed_data); \
 }

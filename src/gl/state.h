@@ -10,6 +10,7 @@
 #include "light.h"
 #include "fog.h"
 #include "texenv.h"
+#include "shader.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -163,6 +164,10 @@ typedef struct {
 } clientstate_t;
 
 typedef struct {
+    khash_t(shaderlist)    *shaders;
+} glsl_t;
+
+typedef struct {
     int dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t enable;
@@ -209,6 +214,7 @@ typedef struct {
     float planes[MAX_CLIP_PLANES][4];
     int immediateMV;
     GLenum shademodel;
+    glsl_t  glsl;
 } glstate_t;
 
 #endif

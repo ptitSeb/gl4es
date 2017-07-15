@@ -123,6 +123,15 @@ void* NewGLState(void* shared_glstate) {
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
     }
+    // GLSL stuff
+    {
+        khint_t k;
+        int ret;
+        khash_t(shaderlist) *shaders = glstate->glsl.shaders = kh_init(shaderlist);
+		kh_put(shaderlist, shaders, 1, &ret);
+		kh_del(shaderlist, shaders, 1);
+    }
+
     // Grab ViewPort
     LOAD_GLES(glGetFloatv);
     gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);

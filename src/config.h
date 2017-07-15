@@ -170,6 +170,19 @@
 #define skip_glDeleteVertexArrays
 #define skip_glIsVertexArray
 
+// shader.c
+#define skip_glCreateShader
+#define skip_glDeleteShader
+#define skip_glCompileShader
+#define skip_glShaderSource
+#define skip_glGetShaderSource
+#define skip_glIsShader
+#define skip_glGetShaderInfoLog
+#define skip_glGetShaderiv
+#define skip_glGetShaderPrecisionFormat
+#define skip_glShaderBinary
+#define skip_glReleaseShaderCompiler
+
 // don't compile these into display lists
 #define direct_glColorPointer
 #define direct_glDeleteLists

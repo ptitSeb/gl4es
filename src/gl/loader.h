@@ -73,4 +73,11 @@ void *open_lib(const char **names, const char *override);
         LOAD_RAW_SILENT(gles, name, (((void*)egl_eglGetProcAddress(#name"OES")!=NULL)?((void*)egl_eglGetProcAddress(#name"OES")):((void*)dlsym(gles, #name)))); \
     }
 
+#define LOAD_GLES2(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_EGL(eglGetProcAddress); \
+        LOAD_RAW_SILENT(gles, name, egl_eglGetProcAddress(#name)); \
+    }
+
 #endif
