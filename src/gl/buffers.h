@@ -71,6 +71,19 @@ typedef struct {
     GLboolean enabled;
 } pointer_cache_t;
 
+// Vertex Attrib.. ***
+typedef struct {
+    GLint           size;
+    GLenum          type;
+    GLboolean       normalized;
+    GLsizei         stride;
+    const GLvoid*           pointer;
+    int             dirty;  // 1 if VATTRIB has been changed since last push to the hardware
+    glbuffer_t      *buffer;    // reference buffer
+    GLfloat         current[4];
+    GLboolean       vaarray;
+} vertexattrib_t;
+
 // VAO ****************
 typedef struct {
     GLuint           array;
@@ -95,9 +108,13 @@ typedef struct {
     pointer_cache_t secondary;
     pointer_cache_t tex[MAX_TEX];
     int cache_count;
+    // Vertex Attrib
+    vertexattrib_t  vertexattrib[MAX_VATTRIB];
+    // TODO: Cache VA also?
 } glvao_t;
 
 void VaoSharedClear(glvao_t *vao);
+void VaoInit(glvao_t *vao);
 
 KHASH_MAP_INIT_INT(glvao, glvao_t*)
 

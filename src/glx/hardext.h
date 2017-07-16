@@ -27,6 +27,9 @@ typedef struct _hardext {
     unsigned int readf; // implementation Read Format
     unsigned int readt; // implementation Read Type
     int srgb;           // EGL_KHR_gl_colorspace
+    // es2 stuffs
+    int esversion;      // 1 is ES1.1 backend, 2 is ES2
+    int maxvattrib;     // GL_MAX_VERTEX_ATTRIBS (or 0 if not using es2)
 } hardext_t;
 
 extern hardext_t hardext;

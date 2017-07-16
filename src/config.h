@@ -7,6 +7,7 @@
 #define MAX_STACK_MODELVIEW	64
 #define MAX_STACK_COLOR 16
 #define MAX_CLIP_PLANES 6
+#define MAX_VATTRIB 32
 
 // don't auto-wrap these functions
 #define skip_glColor4ub
@@ -182,6 +183,22 @@
 #define skip_glGetShaderPrecisionFormat
 #define skip_glShaderBinary
 #define skip_glReleaseShaderCompiler
+
+// vertexattrib.c
+#define skip_glVertexAttribPointer
+#define skip_glEnableVertexAttribArray
+#define skip_glDisableVertexAttribArray
+#define skip_glVertexAttrib1f
+#define skip_glVertexAttrib2f
+#define skip_glVertexAttrib3f
+#define skip_glVertexAttrib4f
+#define skip_glVertexAttrib1fv
+#define skip_glVertexAttrib2fv
+#define skip_glVertexAttrib3fv
+#define skip_glVertexAttrib4fv
+#define skip_glGetVertexAttribfv
+#define skip_glGetVertexAttribiv
+#define skip_glGetVertexAttribPointerv
 
 // don't compile these into display lists
 #define direct_glColorPointer

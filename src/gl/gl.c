@@ -48,7 +48,7 @@ void* NewGLState(void* shared_glstate) {
         k = kh_put(glvao, list, 0, &ret);
         glvao_t *glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
         // new vao is binded to default vbo
-        memset(glvao, 0, sizeof(glvao_t));
+        VaoInit(glvao);
         // just put is number
         glvao->array = 0;
         glstate->defaultvao = glvao;

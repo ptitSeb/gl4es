@@ -623,6 +623,27 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     // GL_ARB_multisample
     _ARB(glSampleCoverage);
 
+    // extra shaders stuff
+    #define THUNK(suffix) \
+    _EX(glVertexAttrib1##suffix); \
+    _EX(glVertexAttrib2##suffix); \
+    _EX(glVertexAttrib3##suffix); \
+    _EX(glVertexAttrib4##suffix)
+    THUNK(s);
+    THUNK(d);
+    THUNK(sv);
+    THUNK(dv);
+    #undef THUNK
+    #define THUNK(suffix) \
+    _EX(glVertexAttrib4##suffix##v); \
+    _EX(glVertexAttrib4u##suffix##v); \
+    _EX(glVertexAttrib4N##suffix##v); \
+    _EX(glVertexAttrib4Nu##suffix##v)
+    THUNK(b);
+    THUNK(s);
+    THUNK(i);
+    #undef THUNK
+
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;
 }

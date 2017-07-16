@@ -706,7 +706,55 @@ void gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum
 	// TODO: handle buf
 	gl4es_glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 }
+
 #undef constDoubleToFloat
+
+// VertexArray stuff
+void gl4es_glVertexAttrib1f (GLuint index, GLfloat v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); };
+void gl4es_glVertexAttrib2f (GLuint index, GLfloat v0, GLfloat v1) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; gl4es_glVertexAttrib4fv(index, f); };
+void gl4es_glVertexAttrib3f (GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; f[2]=v2; gl4es_glVertexAttrib4fv(index, f); };
+void gl4es_glVertexAttrib1fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib2fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib3fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; gl4es_glVertexAttrib4fv(index, f); }; \
+void glVertexAttrib1f (GLuint index, GLfloat v0) AliasExport("gl4es_glVertexAttrib1f");
+void glVertexAttrib2f (GLuint index, GLfloat v0, GLfloat v1) AliasExport("gl4es_glVertexAttrib2f");
+void glVertexAttrib3f (GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glVertexAttrib3f");
+void glVertexAttrib1fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib1fv");
+void glVertexAttrib2fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib2fv");
+void glVertexAttrib3fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib3fv");
+#define THUNK(suffix, type) \
+void gl4es_glVertexAttrib1##suffix (GLuint index, type v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib2##suffix (GLuint index, type v0, type v1) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib3##suffix (GLuint index, type v0, type v1, type v2) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; f[2]=v2; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib4##suffix (GLuint index, type v0, type v1, type v2, type v3) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; f[2]=v2; f[3]=v3; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib1##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib2##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; gl4es_glVertexAttrib4fv(index, f); }; \
+void gl4es_glVertexAttrib3##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; gl4es_glVertexAttrib4fv(index, f); }; \
+void glVertexAttrib1##suffix (GLuint index, type v0) AliasExport("gl4es_glVertexAttrib1"#suffix); \
+void glVertexAttrib2##suffix (GLuint index, type v0, type v1) AliasExport("gl4es_glVertexAttrib2"#suffix); \
+void glVertexAttrib3##suffix (GLuint index, type v0, type v1, type v2) AliasExport("gl4es_glVertexAttrib3"#suffix); \
+void glVertexAttrib4##suffix (GLuint index, type v0, type v1, type v2, type v3) AliasExport("gl4es_glVertexAttrib4"#suffix); \
+void glVertexAttrib1##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib1"#suffix "v"); \
+void glVertexAttrib2##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib2"#suffix "v"); \
+void glVertexAttrib3##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib3"#suffix "v")
+THUNK(s, GLshort);
+THUNK(d, GLdouble);
+#undef THUNK
+void gl4es_glVertexAttrib4dv (GLuint index, const GLdouble *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; f[3]=v[3]; gl4es_glVertexAttrib4fv(index, f); };
+void glVertexAttrib4dv (GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib4dv");
+
+#define THUNK(suffix, type, norm) \
+void gl4es_glVertexAttrib4##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; f[3]=v[3]; gl4es_glVertexAttrib4fv(index, f); }; \
+void glVertexAttrib4##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib4"#suffix "v"); \
+void gl4es_glVertexAttrib4N##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]/norm; f[1]=v[1]/norm; f[2]=v[2]/norm; f[3]=v[3]/norm; gl4es_glVertexAttrib4fv(index, f); }; \
+void glVertexAttrib4N##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib4N"#suffix "v")
+THUNK(b, GLbyte, 127.0f);
+THUNK(ub, GLubyte, 255.0f);
+THUNK(s, GLshort, 32767.0f);
+THUNK(us, GLushort, 65535.0f);
+THUNK(i, GLint, 2147483647.0f);
+THUNK(ui, GLuint, 4294967295.0f);
+#undef THUNK
 
 //Direct wrapper
 void glClearDepth(GLdouble depth) AliasExport("gl4es_glClearDepth");

@@ -36,11 +36,15 @@ void GetHardwareExtensions(int notest)
     hardext.maxsize = 2048;
     hardext.readf = GL_RGBA;
     hardext.readt = GL_UNSIGNED_BYTE;
+    
+    hardext.esversion = 1;  // forcing ES1.1 backend for now, ES2 backend doesn't exist yet :p
 
     if(notest) {
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
         return;
     }
+
+    SHUT(LOGD("LIBGL: Using GLES %s backend\n", (hardext.esversion==1)?"1.1":"2.0"));
 
     // Create a PBuffer first...
     EGLint egl_context_attrib_es2[] = {
@@ -87,7 +91,7 @@ void GetHardwareExtensions(int notest)
         SHUT(LOGE("LIBGL: Error while gathering supported extension (eglChooseConfig: %s), default to none\n", PrintEGLError(0)));
         return;
     }
-    eglContext = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
+    eglContext = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
     if(!eglContext) {
         SHUT(LOGE("LIBGL: Error while gathering supported extension (eglCreateContext: %s), default to none\n", PrintEGLError(0)));
         return;
@@ -155,6 +159,10 @@ void GetHardwareExtensions(int notest)
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
+    }
+    if (hardext.esversion>1) {
+        gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
+        SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
     }
 
     // End, cleanup

@@ -177,6 +177,9 @@ void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
                         glstate->vao->pack = NULL;
                     if (glstate->vao->unpack == buff)
                         glstate->vao->unpack = NULL;
+                    for (int j = 0; j < hardext.maxvattrib; j++)
+                        if (glstate->vao->vertexattrib[j].buffer == buff)
+                            glstate->vao->vertexattrib[j].buffer = NULL;
                     if (buff->data) free(buff->data);
                     kh_del(buff, list, k);
                     free(buff);
@@ -370,12 +373,6 @@ void gl4es_glBindVertexArray(GLuint array) {
    	khint_t k;
    	int ret;
 	khash_t(glvao) *list = glstate->vaos;
-	if (! list) {
-		list = glstate->vaos = kh_init(glvao);
-		// segfaults if we don't do a single put
-		kh_put(glvao, list, 1, &ret);
-		kh_del(glvao, list, 1);
-	}
     // if array = 0 => unbind buffer!
     if (array == 0) {
         // unbind buffer
@@ -388,13 +385,8 @@ void gl4es_glBindVertexArray(GLuint array) {
             k = kh_put(glvao, list, array, &ret);
             glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
             // new vao is binded to nothing
-            memset(glvao, 0, sizeof(glvao_t));
-            /*
-            glstate->vao->vertex = glstate->defaultvbo;
-            glstate->vao->elements = glstate->defaultvbo;
-            glstate->vao->pack = glstate->defaultvbo;
-            glstate->vao->unpack = glstate->defaultvbo;
-            */
+            VaoInit(glvao);
+            // TODO: check if should copy status of current VAO instead of cleanning everything
 
             // just put is number
             glvao->array = array;
@@ -462,6 +454,15 @@ void VaoSharedClear(glvao_t *vao) {
     for (int i=0; i<hardext.maxtex; i++)
         vao->tex[i].ptr = NULL;
     vao->shared_arrays = NULL;
+}
+
+void VaoInit(glvao_t *vao) {
+    memset(vao, 0, sizeof(glvao_t));
+    for (int i=0; i<hardext.maxvattrib; i++) {
+        vao->vertexattrib[i].size = 4;
+        vao->vertexattrib[i].type = GL_FLOAT;
+        vao->vertexattrib[i].current[3] = 1.0f;
+    }
 }
 
 //Direct wrapper

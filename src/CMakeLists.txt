@@ -32,6 +32,7 @@ SET(GL_SRC
     gl/texenv.c
     gl/texgen.c
     gl/texture.c
+    gl/vertexattrib.c
 	gl/wrap/gl.c
 	gl/wrap/gles.c
 	gl/wrap/glstub.c
@@ -75,6 +76,7 @@ SET(GL_H
     gl/texenv.h
     gl/texgen.h
     gl/texture.h
+    gl/vertexattrib.h
     gl/math/eval.h
     gl/wrap/gles.h
     gl/wrap/gl.h

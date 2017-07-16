@@ -11,6 +11,7 @@
 #include "fog.h"
 #include "texenv.h"
 #include "shader.h"
+#include "vertexattrib.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
