@@ -6,7 +6,7 @@
 typedef struct {
     GLuint          id;     // internal id of the shader
     GLenum          type;   // type of the shader (GL_VERTEX or GL_FRAGMENT)
-    GLuint          binded; // program ID the shader is binded to (0 if none)
+    int             attached; // number of time the shader is attached
     int             deleted;// flagged for deletion
     int             compiled;// flag if compiled
     char*           source; // original source of the shader

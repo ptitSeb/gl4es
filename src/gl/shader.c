@@ -74,7 +74,7 @@ void gl4es_glDeleteShader(GLuint shader) {
         noerrorShim();
         return;
     }
-    if(glshader->binded) {
+    if(glshader->attached) {
         glshader->deleted = 1;
     } else {
         actualy_deleteshader(k);

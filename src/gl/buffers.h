@@ -78,7 +78,6 @@ typedef struct {
     GLboolean       normalized;
     GLsizei         stride;
     const GLvoid*           pointer;
-    int             dirty;  // 1 if VATTRIB has been changed since last push to the hardware
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
     GLboolean       vaarray;

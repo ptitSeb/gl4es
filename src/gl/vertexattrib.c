@@ -24,7 +24,6 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
-    v->dirty = 1;
     // TODO: move the sending of the data to the Hardware when drawing, to convert if needed the data
     // send to hardware, if any
     LOAD_GLES2(glVertexAttribPointer);
