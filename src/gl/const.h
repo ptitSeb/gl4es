@@ -636,6 +636,10 @@
 #define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH      0x8B8A
 #define GL_SHADING_LANGUAGE_VERSION         0x8B8C
 #define GL_CURRENT_PROGRAM                  0x8B8D
+// Shaders extensions
+#define GL_PROGRAM_BINARY_LENGTH            0x8741
+#define GL_NUM_PROGRAM_BINARY_FORMATS       0x87FE
+#define GL_PROGRAM_BINARY_FORMATS           0x87FF
 
 // Vertex Arrays
 #define GL_VERTEX_ATTRIB_ARRAY_ENABLED        0x8622

@@ -23,8 +23,6 @@ glGetAttachedShaders: [void, GLuint program, GLsizei maxCount, GLsizei * count, 
     * obj]
 glGetAttribLocation: [GLint, GLuint program, const GLchar * name]
 glGetBufferParameteriv: [void, GLenum target, GLenum pname, GLint * params]
-glGetFramebufferAttachmentParameteriv: [void, GLenum target, GLenum attachment, GLenum
-    pname, GLint * params]
 glGetProgramInfoLog: [void, GLuint program, GLsizei bufSize, GLsizei * length, GLchar
     * infoLog]
 glGetProgramiv: [void, GLuint program, GLenum pname, GLint * params]

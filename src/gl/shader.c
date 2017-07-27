@@ -19,6 +19,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
         }
     } else {
         shader = ++lastshader;
+        noerrorShim();
     }
     // store the new empty shader in the list for later use
    	khint_t k;
@@ -44,41 +45,45 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
     return shader;
 }
 
-void actualy_deleteshader(khint_t k) {
+void actualy_deleteshader(GLuint shader) {
+    khint_t k;
+    int ret;
     khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-    shader_t *glshader = kh_value(shaders, k);
-    kh_del(shaderlist, shaders, k);
-    if(glshader->source)
-        free(glshader->source);
-    free(glshader);
+    k = kh_get(shaderlist, shaders, shader);
+    if (k != kh_end(shaders)) {
+        shader_t *glshader = kh_value(shaders, k);
+        if(glshader->deleted && !glshader->attached) {
+            kh_del(shaderlist, shaders, k);
+            if(glshader->source)
+                free(glshader->source);
+            free(glshader);
+        }
+    }
+}
+
+void actualy_detachshader(GLuint shader) {
+    khint_t k;
+    int ret;
+    khash_t(shaderlist) *shaders = glstate->glsl.shaders;
+    k = kh_get(shaderlist, shaders, shader);
+    if (k != kh_end(shaders)) {
+        shader_t *glshader = kh_value(shaders, k);
+        if((--glshader->attached)<1 && glshader->deleted)
+            actualy_deleteshader(shader); 
+    }
 }
 
 void gl4es_glDeleteShader(GLuint shader) {
     // sanity check...
-    if(!shader) {
-        noerrorShim();
-        return;
-    }
-    // look for the shader
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
+    CHECK_SHADER(void, shader)
     // delete the shader from the list
     if(!glshader) {
         noerrorShim();
         return;
     }
-    if(glshader->attached) {
-        glshader->deleted = 1;
-    } else {
-        actualy_deleteshader(k);
-    }
+    glshader->deleted = 1;
+    actualy_deleteshader(shader);
+
     // delete the shader in GLES2 hardware (if any)
     LOAD_GLES2(glDeleteShader);
     if(gles_glDeleteShader) {
@@ -90,19 +95,8 @@ void gl4es_glDeleteShader(GLuint shader) {
 
 void gl4es_glCompileShader(GLuint shader) {
     // look for the shader
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
-    if (!glshader) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
+    CHECK_SHADER(void, shader)
+
     glshader->compiled = 1;
     LOAD_GLES2(glCompileShader);
     if(gles_glCompileShader) {
@@ -118,19 +112,7 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
-    if (!glshader) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
+    CHECK_SHADER(void, shader)
     // get the size of the shader sources and than concatenate in a single string
     int l = 0;
     for (int i=0; i<count; i++) l+=(length)?length[i]:strlen(string[i]);
@@ -156,16 +138,8 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
 
 void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) {
     // find shader
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
-    if (!glshader || bufSize<=0) {
+    CHECK_SHADER(void, shader)
+    if (bufSize<=0) {
         errorShim(GL_INVALID_OPERATION);
         return;
     }
@@ -203,16 +177,8 @@ static const char* GLES_NoGLSLSupport = "No Shader support with current backend"
 
 void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) {
     // find shader
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
-    if(!glshader || maxLength<=0) {
+    CHECK_SHADER(void, shader)
+    if(maxLength<=0) {
         errorShim(GL_INVALID_OPERATION);
         return;
     }
@@ -228,19 +194,7 @@ void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length,
 
 void gl4es_glGetShaderiv(GLuint shader, GLenum pname, GLint *params) {
     // find shader
-    shader_t *glshader = NULL;
-    khint_t k;
-    {
-        int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
-        k = kh_get(shaderlist, shaders, shader);
-        if (k != kh_end(shaders))
-            glshader = kh_value(shaders, k);
-    }
-    if(!glshader) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
+    CHECK_SHADER(void, shader)
     LOAD_GLES2(glGetShaderiv);
     noerrorShim();
     switch (pname) {
@@ -288,6 +242,7 @@ void gl4es_glGetShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, G
 }
 
 void gl4es_glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length) {
+    // TODO: check consistancy of "shaders" values
     LOAD_GLES2(glShaderBinary);
     if (gles_glShaderBinary) {
         gles_glShaderBinary(count, shaders, binaryFormat, binary, length);

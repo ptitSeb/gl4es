@@ -200,6 +200,23 @@
 #define skip_glGetVertexAttribiv
 #define skip_glGetVertexAttribPointerv
 
+// program.c
+#define skip_glAttachShader
+#define skip_glBindAttribLocation
+#define skip_glCreateProgram
+#define skip_glDeleteProgram
+#define skip_glDetachShader
+#define skip_glGetActiveAttrib
+#define skip_glGetAttachedShaders
+#define skip_glGetAttribLocation
+#define skip_glGetProgramInfoLog
+#define skip_glGetProgramiv
+#define skip_glGetUniformLocation
+#define skip_glIsProgram
+#define skip_glLinkProgram
+#define skip_glUseProgram
+
+
 // don't compile these into display lists
 #define direct_glColorPointer
 #define direct_glDeleteLists

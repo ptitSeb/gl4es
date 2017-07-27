@@ -27,4 +27,24 @@ void gl4es_glGetShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, G
 void gl4es_glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
 void gl4es_glReleaseShaderCompiler(void);
 
+#define CHECK_SHADER(type, shader) \
+    if(!shader) { \
+        noerrorShim(); \
+        return; \
+    } \
+    shader_t *glshader = NULL; \
+    khint_t k_##shader; \
+    { \
+        int ret; \
+        khash_t(shaderlist) *shaders = glstate->glsl.shaders; \
+        k_##shader = kh_get(shaderlist, shaders, shader); \
+        if (k_##shader != kh_end(shaders)) \
+            glshader = kh_value(shaders, k_##shader); \
+    } \
+    if (!glshader) { \
+        errorShim(GL_INVALID_OPERATION); \
+        return; \
+    }
+
+
 #endif

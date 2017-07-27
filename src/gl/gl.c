@@ -130,6 +130,9 @@ void* NewGLState(void* shared_glstate) {
         khash_t(shaderlist) *shaders = glstate->glsl.shaders = kh_init(shaderlist);
 		kh_put(shaderlist, shaders, 1, &ret);
 		kh_del(shaderlist, shaders, 1);
+        khash_t(programlist) *programs = glstate->glsl.programs = kh_init(programlist);
+		kh_put(programlist, programs, 1, &ret);
+		kh_del(programlist, programs, 1);
     }
 
     // Grab ViewPort

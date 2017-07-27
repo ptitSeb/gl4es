@@ -12,6 +12,7 @@
 #include "texenv.h"
 #include "shader.h"
 #include "vertexattrib.h"
+#include "program.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -166,6 +167,8 @@ typedef struct {
 
 typedef struct {
     khash_t(shaderlist)    *shaders;
+    khash_t(programlist)   *programs;
+    GLuint                 program;
 } glsl_t;
 
 typedef struct {
