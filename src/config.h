@@ -215,6 +215,7 @@
 #define skip_glIsProgram
 #define skip_glLinkProgram
 #define skip_glUseProgram
+#define skip_glValidateProgram
 
 
 // don't compile these into display lists

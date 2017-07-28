@@ -47,6 +47,7 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name);
 GLboolean gl4es_glIsProgram(GLuint program);
 void gl4es_glLinkProgram(GLuint program);
 void gl4es_glUseProgram(GLuint program);
+void gl4es_glValidateProgram(GLuint program);
 
 
 #define CHECK_PROGRAM(type, program) \

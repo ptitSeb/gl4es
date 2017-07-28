@@ -378,6 +378,16 @@ void gl4es_glLinkProgram(GLuint program) {
     CHECK_PROGRAM(void, program)
     noerrorShim();
 
+    // clear all Attrib location cache
+    if(glprogram->attribloc) {
+        attribloc_t *m;
+        khint_t k;
+        kh_foreach(glprogram->attribloc, k, m,
+            free(m->name); free(m);
+            kh_del(attribloclist, glprogram->attribloc, k);
+        )
+    }
+
     LOAD_GLES2(glLinkProgram);
     if(gles_glLinkProgram) {
         gles_glLinkProgram(glprogram->id);
@@ -407,6 +417,25 @@ void gl4es_glUseProgram(GLuint program) {
     };
 }
 
+void gl4es_glValidateProgram(GLuint program) {
+    CHECK_PROGRAM(void, program)
+    noerrorShim();
+
+    LOAD_GLES2(glValidateProgram);
+    if(gles_glValidateProgram) {
+        LOAD_GLES(glGetError);
+        LOAD_GLES2(glGetProgramiv);
+        gles_glValidateProgram(glprogram->id);
+        GLenum err = gles_glGetError();
+        gles_glGetProgramiv(glprogram->id, GL_VALIDATE_STATUS, &glprogram->valid_result);
+        errorShim(err);
+        // TODO: grab all Uniform and Attrib of the program
+    } else {
+        noerrorShim();
+    }
+    glprogram->validated = 1;
+}
+
 
 void glAttachShader(GLuint program, GLuint shader) AliasExport("gl4es_glAttachShader");
 void glBindAttribLocation(GLuint program, GLuint index, const GLchar *name) AliasExport("gl4es_glBindAttribLocation");
@@ -422,3 +451,4 @@ GLint glGetUniformLocation(GLuint program, const GLchar *name) AliasExport("gl4e
 GLboolean glIsProgram(GLuint program) AliasExport("gl4es_glIsProgram");
 void glLinkProgram(GLuint program) AliasExport("gl4es_glLinkProgram");
 void glUseProgram(GLuint program) AliasExport("gl4es_glUseProgram");
+void glValidateProgram(GLuint program) AliasExport("gl4es_glValidateProgram");
