@@ -4,19 +4,34 @@
 #define __PROGRAM_H_
 
 #include "shader.h"
+#include "uniform.h"
 
 typedef struct {
     GLuint      index;
     GLint       real_index;
+    GLenum      type;
+    int         size;
     char*       name;
 } attribloc_t;
 KHASH_MAP_INIT_INT(attribloclist, attribloc_t *)
 
 typedef struct {
-    GLint       loc;
-    GLint       real_loc;
-    char*       name;
-} uniformloc_t;
+    GLuint          internal_id; // internal id of the uniform
+    GLuint          id;     // glsl id of the uniform
+    GLenum          type;   // type of the uniform (GL_VERTEX or GL_FRAGMENT)
+    GLint           size;
+    char*           name; // original source of the uniform
+    uintptr_t       cache_offs;
+    int             cache_size; // this is GLsizeof(type)*size
+} uniform_t;
+
+KHASH_MAP_INIT_INT(uniformlist, uniform_t *)
+
+typedef struct {
+    void*           cache;  // buffer of the uniform size
+    int             cap;    // capacity of the cache
+    int             size;   // next available free space in the cache
+} uniformcache_t;
 
 typedef struct {
     GLuint          id;     // internal id of the shader
@@ -27,8 +42,8 @@ typedef struct {
     int             attach_size;
     GLuint          *attach;
     khash_t(attribloclist)     *attribloc;
-    int             uniformloc_size;
-    uniformloc_t    *uniformloc;
+    khash_t(uniformlist) *uniform;
+    uniformcache_t  cache;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)
@@ -39,6 +54,7 @@ GLuint gl4es_glCreateProgram(void);
 void gl4es_glDeleteProgram(GLuint program);
 void gl4es_glDetachShader(GLuint program, GLuint shader);
 void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
+void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
 void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders);
 GLint gl4es_glGetAttribLocation(GLuint program, const GLchar *name);
 void gl4es_glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog);

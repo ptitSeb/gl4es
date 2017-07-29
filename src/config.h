@@ -207,6 +207,7 @@
 #define skip_glDeleteProgram
 #define skip_glDetachShader
 #define skip_glGetActiveAttrib
+#define skip_glGetActiveUniform
 #define skip_glGetAttachedShaders
 #define skip_glGetAttribLocation
 #define skip_glGetProgramInfoLog
@@ -217,6 +218,28 @@
 #define skip_glUseProgram
 #define skip_glValidateProgram
 
+//uniform.c
+#define skip_glGetUniformfv
+#define skip_glGetUniformiv
+#define skip_glUniform1f
+#define skip_glUniform2f
+#define skip_glUniform3f
+#define skip_glUniform4f
+#define skip_glUniform1i
+#define skip_glUniform2i
+#define skip_glUniform3i
+#define skip_glUniform4i
+#define skip_glUniform1fv
+#define skip_glUniform2fv
+#define skip_glUniform3fv
+#define skip_glUniform4fv
+#define skip_glUniform1iv
+#define skip_glUniform2iv
+#define skip_glUniform3iv
+#define skip_glUniform4iv
+#define skip_glUniformMatrix2fv
+#define skip_glUniformMatrix3fv
+#define skip_glUniformMatrix4fv
 
 // don't compile these into display lists
 #define direct_glColorPointer

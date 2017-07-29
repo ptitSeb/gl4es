@@ -649,3 +649,20 @@
 #define GL_VERTEX_ATTRIB_ARRAY_NORMALIZED     0x886A
 #define GL_VERTEX_ATTRIB_ARRAY_POINTER        0x8645
 #define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING 0x889F
+
+// Uniform Types
+#define GL_FLOAT_VEC2                     0x8B50
+#define GL_FLOAT_VEC3                     0x8B51
+#define GL_FLOAT_VEC4                     0x8B52
+#define GL_INT_VEC2                       0x8B53
+#define GL_INT_VEC3                       0x8B54
+#define GL_INT_VEC4                       0x8B55
+#define GL_BOOL                           0x8B56
+#define GL_BOOL_VEC2                      0x8B57
+#define GL_BOOL_VEC3                      0x8B58
+#define GL_BOOL_VEC4                      0x8B59
+#define GL_FLOAT_MAT2                     0x8B5A
+#define GL_FLOAT_MAT3                     0x8B5B
+#define GL_FLOAT_MAT4                     0x8B5C
+#define GL_SAMPLER_2D                     0x8B5E
+#define GL_SAMPLER_CUBE                   0x8B60
