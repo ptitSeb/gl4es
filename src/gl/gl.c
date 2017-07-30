@@ -616,6 +616,13 @@ static inline bool should_intercept_render(GLenum mode) {
     );
 }
 
+GLuint len_indices(GLushort *sindices, GLsizei count) {
+    GLuint len = 0;
+    for (int i=0; i<count; i++)
+        if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
+    return len+1;  // lenght is max(indices) + 1 !
+}
+
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
@@ -702,9 +709,6 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         LOAD_GLES(glDisableClientState);
         LOAD_GLES(glMultiTexCoord4f);
         GLuint len = 0;
-        for (int i=0; i<count; i++)
-            if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
-        len++;  // lenght is max(indices) + 1 !
 #define client_state(A, B, C) \
             if(glstate->vao->A != glstate->clientstate.A) {           \
                 C                                              \
@@ -751,6 +755,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                     }
                     if (glstate->vao->tex_coord_array[aa]) {
                         TEXTURE(aa);
+                        if(!len) len = len_indices(sindices, count);
                         tex_setup_texcoord(len, itarget);
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
