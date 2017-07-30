@@ -122,6 +122,15 @@ void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
 		case GL_ALPHA_BIAS:
 			glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1]=param;
 			break;
+		case GL_INDEX_SHIFT:
+			glstate->raster.index_shift=param;
+			break;
+		case GL_INDEX_OFFSET:
+			glstate->raster.index_offset=param;
+			break;
+		case GL_MAP_COLOR:
+			glstate->raster.map_color=param?1:0;
+			break;
 		/*default:
 			printf("LIBGL: stubbed glPixelTransferf(%04x, %f)\n", pname, param);*/
 	// the other...
@@ -417,6 +426,192 @@ void render_raster_list(rasterlist_t* rast) {
 	glstate->raster.rPos.y += rast->ymove;
 }
 
+int map_pixelmap(GLenum map, int* wf, int** size, void** array) {
+	*wf = 1;
+	switch (map) {
+		case GL_PIXEL_MAP_I_TO_I:
+			*wf = 0;
+			*array = (void*)glstate->raster.map_i2i;
+			*size = &glstate->raster.map_i2i_size;
+			break;
+		case GL_PIXEL_MAP_I_TO_R:
+			*array = (void*)glstate->raster.map_i2r;
+			*size = &glstate->raster.map_i2r_size;
+			break;
+		case GL_PIXEL_MAP_I_TO_G:
+			*array = (void*)glstate->raster.map_i2g;
+			*size = &glstate->raster.map_i2g_size;
+			break;
+		case GL_PIXEL_MAP_I_TO_B:
+			*array = (void*)glstate->raster.map_i2b;
+			*size = &glstate->raster.map_i2b_size;
+			break;
+		case GL_PIXEL_MAP_I_TO_A:
+			*array = (void*)glstate->raster.map_i2a;
+			*size = &glstate->raster.map_i2a_size;
+			break;
+		case GL_PIXEL_MAP_S_TO_S:
+		case GL_PIXEL_MAP_R_TO_R:
+		case GL_PIXEL_MAP_G_TO_G:
+		case GL_PIXEL_MAP_B_TO_B:
+		case GL_PIXEL_MAP_A_TO_A:
+			// not handled
+			noerrorShim();
+			return 0;
+		default:
+			errorShim(GL_INVALID_ENUM);
+			return 0;
+	}
+	return 1;
+}
+
+void gl4es_glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values) {
+	if(mapsize>MAX_MAP_SIZE) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int need_pot = 0;
+	if(map==GL_PIXEL_MAP_I_TO_I || map==GL_PIXEL_MAP_S_TO_S 
+		|| map==GL_PIXEL_MAP_I_TO_R || map==GL_PIXEL_MAP_I_TO_G
+		|| map==GL_PIXEL_MAP_I_TO_B || map==GL_PIXEL_MAP_I_TO_A)
+		need_pot=1;
+	if(need_pot && npot(mapsize)!=mapsize) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = values[i];
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = values[i];
+	}
+	*size = mapsize;
+}
+void gl4es_glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values) {
+	if(mapsize>MAX_MAP_SIZE) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int need_pot = 0;
+	if(map==GL_PIXEL_MAP_I_TO_I || map==GL_PIXEL_MAP_S_TO_S 
+		|| map==GL_PIXEL_MAP_I_TO_R || map==GL_PIXEL_MAP_I_TO_G
+		|| map==GL_PIXEL_MAP_I_TO_B || map==GL_PIXEL_MAP_I_TO_A)
+		need_pot=1;
+	if(need_pot && npot(mapsize)!=mapsize) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = (values[i]>>16)/65535.0f;
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = values[i];
+	}
+	*size = mapsize;
+}
+
+void gl4es_glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values) {
+	if(mapsize>MAX_MAP_SIZE) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int need_pot = 0;
+	if(map==GL_PIXEL_MAP_I_TO_I || map==GL_PIXEL_MAP_S_TO_S 
+		|| map==GL_PIXEL_MAP_I_TO_R || map==GL_PIXEL_MAP_I_TO_G
+		|| map==GL_PIXEL_MAP_I_TO_B || map==GL_PIXEL_MAP_I_TO_A)
+		need_pot=1;
+	if(need_pot && npot(mapsize)!=mapsize) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = values[i]/65535.0f;
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<mapsize; i++)
+			p[i] = values[i];
+	}
+	*size = mapsize;
+}
+void gl4es_glGetPixelMapfv(GLenum map, GLfloat *data) {
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = p[i];
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = p[i];
+	}
+}
+void gl4es_glGetPixelMapuiv(GLenum map, GLuint *data) {
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = ((GLuint)(p[i]*65535.0f))<<16;
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = p[i];
+	}
+}
+void gl4es_glGetPixelMapusv(GLenum map, GLushort *data) {
+	int wf = 1;
+	void* array = NULL;
+	int* size = NULL;
+	if(!map_pixelmap(map, &wf, &size, &array))
+		return;
+	noerrorShim();
+	if(wf) {
+		GLfloat *p = (GLfloat*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = (GLuint)(p[i]*65535.0f);
+	} else {
+		GLuint *p = (GLuint*)array;
+		for (int i=0; i<*size; i++)
+			data[i] = p[i];
+	}
+}
+
+
 //Direct wrapper
 void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) AliasExport("gl4es_glBitmap");
 void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glDrawPixels");
@@ -425,3 +620,9 @@ void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glWindowP
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glViewport");
 void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("gl4es_glPixelZoom");
 void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("gl4es_glPixelTransferf");
+void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values) AliasExport("gl4es_glPixelMapfv");
+void glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values) AliasExport("gl4es_glPixelMapuiv");
+void glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values) AliasExport("gl4es_glPixelMapusv");
+void glGetPixelMapfv(GLenum map, GLfloat *data) AliasExport("gl4es_glGetPixelMapfv");
+void glGetPixelMapuiv(GLenum map, GLuint *data) AliasExport("gl4es_glGetPixelMapuiv");
+void glGetPixelMapusv(GLenum map, GLushort *data) AliasExport("gl4es_glGetPixelMapusv");

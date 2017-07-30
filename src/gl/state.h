@@ -93,6 +93,33 @@ typedef struct {
     GLfloat raster_bias[4];
     GLfloat raster_zoomx;
     GLfloat raster_zoomy;
+    GLint index_shift;
+    GLint index_offset;
+    int     map_color;
+    int     map_i2i_size;
+    int     map_i2r_size;
+    int     map_i2g_size;
+    int     map_i2b_size;
+    int     map_i2a_size;
+    /*
+    int     map_s2s_size;
+    int     map_r2r_size;
+    int     map_g2g_size;
+    int     map_b2b_size;
+    int     map_a2a_size;
+    */
+    GLuint  map_i2i[MAX_MAP_SIZE];
+    GLfloat map_i2r[MAX_MAP_SIZE];
+    GLfloat map_i2g[MAX_MAP_SIZE];
+    GLfloat map_i2b[MAX_MAP_SIZE];
+    GLfloat map_i2a[MAX_MAP_SIZE];
+    /*
+    GLuint  map_s2s[MAX_MAP_SIZE];   
+    GLfloat map_r2r[MAX_MAP_SIZE];
+    GLfloat map_g2g[MAX_MAP_SIZE];
+    GLfloat map_b2b[MAX_MAP_SIZE];
+    GLfloat map_a2a[MAX_MAP_SIZE];
+    */
 } raster_state_t;
 
 

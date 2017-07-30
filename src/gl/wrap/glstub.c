@@ -33,14 +33,14 @@ STUB(void,glColorTable,(GLenum target, GLenum internalformat, GLsizei width, GLe
 
 STUB(void,glAccum,(GLenum op, GLfloat value));
 STUB(void,glPrioritizeTextures,(GLsizei n, const GLuint *textures, const GLclampf *priorities));
-STUB(void,glPixelMapfv,(GLenum map, GLsizei mapsize, const GLfloat *values));
-STUB(void,glPixelMapuiv,(GLenum map,GLsizei mapsize, const GLuint *values));
-STUB(void,glPixelMapusv,(GLenum map,GLsizei mapsize, const GLushort *values));
+//STUB(void,glPixelMapfv,(GLenum map, GLsizei mapsize, const GLfloat *values));
+//STUB(void,glPixelMapuiv,(GLenum map,GLsizei mapsize, const GLuint *values));
+//STUB(void,glPixelMapusv,(GLenum map,GLsizei mapsize, const GLushort *values));
 STUB(void,glPassThrough,(GLfloat token));
 STUB(void,glIndexMask,(GLuint mask));
-STUB(void,glGetPixelMapfv,(GLenum map, GLfloat *data));
-STUB(void,glGetPixelMapuiv,(GLenum map, GLuint *data));
-STUB(void,glGetPixelMapusv,(GLenum map, GLushort *data));
+//STUB(void,glGetPixelMapfv,(GLenum map, GLfloat *data));
+//STUB(void,glGetPixelMapuiv,(GLenum map, GLuint *data));
+//STUB(void,glGetPixelMapusv,(GLenum map, GLushort *data));
 STUB(void,glClearIndex,(GLfloat c));
 STUB(void,glGetPolygonStipple,(GLubyte *pattern));
 STUB(void,glFeedbackBuffer,(GLsizei size, GLenum type, GLfloat *buffer));

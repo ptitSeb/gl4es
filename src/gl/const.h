@@ -128,6 +128,7 @@
 
 
 // pixel formats
+#define GL_COLOR_INDEX                 0x1900
 #define GL_RED                         0x1903
 #define GL_R3_G3_B2                    0x2A10
 #define GL_RG                          0x8227
@@ -292,6 +293,7 @@
 #define GL_PACK_IMAGE_HEIGHT     0x806C
 #define GL_ZOOM_X                0x0D16
 #define GL_ZOOM_Y                0x0D17
+#define GL_MAX_PIXEL_MAP_TABLE   0x0D34
 #define GL_TEXTURE_BASE_LEVEL    0x813C
 
 // blending

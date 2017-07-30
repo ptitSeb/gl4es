@@ -26,6 +26,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
         p(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
         // format
+        p(GL_COLOR_INDEX);
         p(GL_RED);
         p(GL_R);
         p(GL_R3_G3_B2);

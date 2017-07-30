@@ -8,6 +8,7 @@
 #define MAX_STACK_COLOR 16
 #define MAX_CLIP_PLANES 6
 #define MAX_VATTRIB 32
+#define MAX_MAP_SIZE 256
 
 // don't auto-wrap these functions
 #define skip_glColor4ub

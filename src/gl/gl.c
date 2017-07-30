@@ -71,7 +71,19 @@ void* NewGLState(void* shared_glstate) {
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
-
+    glstate->raster.map_i2i_size=1;
+    glstate->raster.map_i2r_size=1;
+    glstate->raster.map_i2g_size=1;
+    glstate->raster.map_i2b_size=1;
+    glstate->raster.map_i2a_size=1;
+    /*
+    glstate->raster.map_s2s_size=1;
+    glstate->raster.map_r2r_size=1;
+    glstate->raster.map_g2g_size=1;
+    glstate->raster.map_b2b_size=1;
+    glstate->raster.map_a2a_size=1;
+    */
+    
     // pack & unpack alignment
     glstate->texture.pack_align = 4;
     glstate->texture.unpack_align = 4;

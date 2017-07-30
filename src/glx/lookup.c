@@ -480,15 +480,15 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     STUB(glGetClipPlane);
     _EX(glGetLightiv);
     _EX(glGetMaterialiv);
-    STUB(glGetPixelMapfv);
-    STUB(glGetPixelMapuiv);
-    STUB(glGetPixelMapusv);
+    _EX(glGetPixelMapfv);
+    _EX(glGetPixelMapuiv);
+    _EX(glGetPixelMapusv);
     STUB(glGetPolygonStipple);
     STUB(glGetStringi);
     STUB(glPassThrough);
-    STUB(glPixelMapfv);
-    STUB(glPixelMapuiv);
-    STUB(glPixelMapusv);
+    _EX(glPixelMapfv);
+    _EX(glPixelMapuiv);
+    _EX(glPixelMapusv);
     _EX(glPixelStoref);
     STUB(glPrioritizeTextures);
     STUB(glSelectBuffer);   //TODO

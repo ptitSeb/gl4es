@@ -37,6 +37,13 @@ void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor);
 
 void gl4es_glPixelTransferf(GLenum pname, GLfloat param);
 
+void gl4es_glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values);
+void gl4es_glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values);
+void gl4es_glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values);
+void gl4es_glGetPixelMapfv(GLenum map, GLfloat *data);
+void gl4es_glGetPixelMapuiv(GLenum map, GLuint *data);
+void gl4es_glGetPixelMapusv(GLenum map, GLushort *data);
+
 void render_raster_list(rasterlist_t* raster);
 	
 #endif
