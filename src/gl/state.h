@@ -109,16 +109,16 @@ typedef struct {
     int     map_a2a_size;
     */
     GLuint  map_i2i[MAX_MAP_SIZE];
-    GLfloat map_i2r[MAX_MAP_SIZE];
-    GLfloat map_i2g[MAX_MAP_SIZE];
-    GLfloat map_i2b[MAX_MAP_SIZE];
-    GLfloat map_i2a[MAX_MAP_SIZE];
+    GLubyte map_i2r[MAX_MAP_SIZE];
+    GLubyte map_i2g[MAX_MAP_SIZE];
+    GLubyte map_i2b[MAX_MAP_SIZE];
+    GLubyte map_i2a[MAX_MAP_SIZE];
     /*
     GLuint  map_s2s[MAX_MAP_SIZE];   
-    GLfloat map_r2r[MAX_MAP_SIZE];
-    GLfloat map_g2g[MAX_MAP_SIZE];
-    GLfloat map_b2b[MAX_MAP_SIZE];
-    GLfloat map_a2a[MAX_MAP_SIZE];
+    GLubyte map_r2r[MAX_MAP_SIZE];
+    GLubyte map_g2g[MAX_MAP_SIZE];
+    GLubyte map_b2b[MAX_MAP_SIZE];
+    GLubyte map_a2a[MAX_MAP_SIZE];
     */
 } raster_state_t;
 

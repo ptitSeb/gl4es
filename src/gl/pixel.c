@@ -18,6 +18,7 @@ static const colorlayout_t *get_color_map(GLenum format) {
 		map(GL_LUMINANCE, 0, 0, 0, -1);
 		map(GL_ALPHA,-1, -1, -1, 0);
         map(GL_DEPTH_COMPONENT, 0, -1, -1, -1);
+        map(GL_COLOR_INDEX, 0, 1, 2, 3);
         default:
             printf("LIBGL: unknown pixel format %s\n", PrintEnum(format));
             break;
@@ -958,16 +959,41 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 		// fake convert, to get if it's ok or not
 		return false;
 	}
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
-			remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
-							  src_color, src_type, dst_color, dst_type);
-			src_pos += src_stride;
-			dst_pos += dst_stride;
-		}
-        dst_pos += dst_width;
-        src_pos += src_widthadj;
-	}
+    // special case for GL_COLOR_INDEX
+    if(src_format==GL_COLOR_INDEX) {
+        if(src_type!=GL_UNSIGNED_BYTE)
+            return false;   // only unsigned byte for now
+        GLubyte tmp[4];
+        int idx;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                idx = (((*((GLubyte*)src_pos))<<glstate->raster.index_shift) + glstate->raster.index_offset);
+                if (glstate->raster.map_i2i_size-1)
+                    idx = glstate->raster.map_i2i[idx&(glstate->raster.map_i2i_size-1)];
+                tmp[0] = glstate->raster.map_i2r[idx&(glstate->raster.map_i2r_size-1)];
+                tmp[1] = glstate->raster.map_i2g[idx&(glstate->raster.map_i2g_size-1)];
+                tmp[2] = glstate->raster.map_i2b[idx&(glstate->raster.map_i2b_size-1)];
+                tmp[3] = glstate->raster.map_i2a[idx&(glstate->raster.map_i2a_size-1)];
+                remap_pixel((const GLvoid *)tmp, (GLvoid *)dst_pos,
+                                src_color, GL_FLOAT, dst_color, dst_type);
+                src_pos += src_stride;
+                dst_pos += dst_stride;
+            }
+            dst_pos += dst_width;
+            src_pos += src_widthadj;
+        }
+    } else {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                remap_pixel((const GLvoid *)src_pos, (GLvoid *)dst_pos,
+                                src_color, src_type, dst_color, dst_type);
+                src_pos += src_stride;
+                dst_pos += dst_stride;
+            }
+            dst_pos += dst_width;
+            src_pos += src_widthadj;
+        }
+    }
 	return true;
 }
 

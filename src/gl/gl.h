@@ -242,6 +242,7 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_UNSIGNED_BYTE_2_3_3_REV:
         case GL_UNSIGNED_BYTE_3_3_2:
         case GL_DEPTH_COMPONENT:
+        case GL_COLOR_INDEX:
             return 1;
     }
     // formats
@@ -296,6 +297,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
 		case GL_ALPHA:
 		case GL_LUMINANCE:
         case GL_DEPTH_COMPONENT:
+        case GL_COLOR_INDEX:
             width = 1;
             break;
         case GL_RG:
@@ -330,6 +332,7 @@ static const GLboolean pixel_hasalpha(GLenum format) {
     case GL_RGBA:
     case GL_BGRA:
     case GL_RGBA8:
+    case GL_COLOR_INDEX:
 	    return true;
 	case GL_RED:
 	case GL_LUMINANCE:

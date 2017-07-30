@@ -488,7 +488,7 @@ void gl4es_glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<mapsize; i++)
-			p[i] = values[i];
+			p[i] = values[i]*255.0f;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<mapsize; i++)
@@ -519,7 +519,7 @@ void gl4es_glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<mapsize; i++)
-			p[i] = (values[i]>>16)/65535.0f;
+			p[i] = values[i]>>24;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<mapsize; i++)
@@ -551,7 +551,7 @@ void gl4es_glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<mapsize; i++)
-			p[i] = values[i]/65535.0f;
+			p[i] = values[i]>>8;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<mapsize; i++)
@@ -569,7 +569,7 @@ void gl4es_glGetPixelMapfv(GLenum map, GLfloat *data) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<*size; i++)
-			data[i] = p[i];
+			data[i] = p[i]/255.0f;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<*size; i++)
@@ -586,7 +586,7 @@ void gl4es_glGetPixelMapuiv(GLenum map, GLuint *data) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<*size; i++)
-			data[i] = ((GLuint)(p[i]*65535.0f))<<16;
+			data[i] = ((GLuint)(p[i]))<<24;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<*size; i++)
@@ -603,7 +603,7 @@ void gl4es_glGetPixelMapusv(GLenum map, GLushort *data) {
 	if(wf) {
 		GLfloat *p = (GLfloat*)array;
 		for (int i=0; i<*size; i++)
-			data[i] = (GLuint)(p[i]*65535.0f);
+			data[i] = ((GLuint)(p[i]))<<8;
 	} else {
 		GLuint *p = (GLuint*)array;
 		for (int i=0; i<*size; i++)
