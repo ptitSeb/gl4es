@@ -643,14 +643,15 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             int imgWidth, pixelSize;
             pixelSize = pixel_sizeof(format, type);
             imgWidth = ((glstate->texture.unpack_row_length)? glstate->texture.unpack_row_length:width) * pixelSize;
-            GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
-            pixels = (GLvoid *)dst;
-            const GLubyte *src = (GLubyte *)datab;
+            const GLubyte *src = (GLubyte *)pixels;
+            pixels = malloc(width * height * pixelSize);
+            GLubyte *dst = (GLubyte *)pixels;
+            const int dstWidth = width * pixelSize;
             src += glstate->texture.unpack_skip_pixels * pixelSize + glstate->texture.unpack_skip_rows * imgWidth;
-            for (int y = 0; y < height; y += 1) {
-                memcpy(dst, src, width * pixelSize);
+            for (int y = 0; y < height; y++) {
+                memcpy(dst, src, dstWidth);
                 src += imgWidth;
-                dst += width;
+                dst += dstWidth;
             }
         }
 
