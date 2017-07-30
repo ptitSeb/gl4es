@@ -123,8 +123,8 @@ void GetHardwareExtensions(int notest)
         LOAD_GLES_OR_OES(glBlendColor);
         if(gles_glBlendColor != NULL) {
             hardext.blendcolor = 1;
-	    SHUT(LOGD("LIBGL: Extension glBlendColor found and used\n"));
-	}
+	        SHUT(LOGD("LIBGL: Extension glBlendColor found and used\n"));
+	    }
     }
     S("GL_OES_point_sprite", pointsprite, 1); 
     S("GL_OES_point_size_array", pointsize, 0);
@@ -138,6 +138,9 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_depth_texture", depthtex, 1);
     S("GL_OES_texture_cube_map", cubemap, 1);
     S("GL_OES_draw_texture", drawtex, 1);
+    S("GL_EXT_texture_rg", rgtex, 0);
+    S("GL_OES_texture_float", floattex, 0);
+    S("GL_OES_fragment_precision_high", highp, 0);
 
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
