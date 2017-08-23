@@ -155,9 +155,8 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
     }*/
     // First get the ModelviewMatrix
     GLfloat ModelviewMatrix[16], InvModelview[16];
-    gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
     // column major -> row major
-    matrix_transpose(InvModelview, ModelviewMatrix);
+    matrix_transpose(getMVMat(), ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
     GLfloat eye[4], eye_norm[4], reflect[4];

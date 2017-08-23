@@ -24,12 +24,11 @@ void gl4es_glClipPlanef(GLenum plane, const GLfloat *equation)
     } else {
         int p = plane-GL_CLIP_PLANE0;
         GLfloat ModelviewMatrix[16], InvModelview[16];
-        gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
         // column major -> row major
-        matrix_transpose(InvModelview, ModelviewMatrix);
+        matrix_transpose(getMVMat(), ModelviewMatrix);
         // And get the inverse
         matrix_inverse(ModelviewMatrix, InvModelview);
-        matrix_vector(ModelviewMatrix, equation, glstate->planes[p]);
+        matrix_vector(InvModelview, equation, glstate->planes[p]);
         noerrorShim();
     }
 }
