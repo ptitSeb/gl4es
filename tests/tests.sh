@@ -15,6 +15,13 @@ function clean_tests {
     if [ -e stuntcarracer.trace ];then
         rm stuntcarracer.trace
     fi
+    #neverball
+    if [ -e neverball.0000078750.png ];then
+        rm neverball.0000078750.png
+    fi
+    if [ -e neverball.trace ];then
+        rm neverball.trace
+    fi
     #diff result
     if [ -e diff.png ];then
         rm diff.png
@@ -49,6 +56,17 @@ echo "StuntCarRacer"
 tar xf ../traces/stuntcarracer.tgz
 apitrace dump-images --calls="118817" stuntcarracer.trace
 result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/stuntcarracer.0000118817.png stuntcarracer.0000118817.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
+
+echo "Neverball"
+
+tar xf ../traces/neverball.tgz
+apitrace dump-images --calls="78750" neverball.trace
+result=$(compare -metric AE -fuzz 20% -extract 798x478+1+1 ../refs/neverball.0000078750.png neverball.0000078750.png diff.png 2>&1)
 if [ ! "$result" -lt "20" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
