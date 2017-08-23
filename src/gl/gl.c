@@ -280,12 +280,12 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         GO(GL_LINE_STIPPLE, line_stipple);
 
         // clip plane
-        GO(GL_CLIP_PLANE0, plane[0]);
-        GO(GL_CLIP_PLANE1, plane[1]);
-        GO(GL_CLIP_PLANE2, plane[2]);
-        GO(GL_CLIP_PLANE3, plane[3]);
-        GO(GL_CLIP_PLANE4, plane[4]);
-        GO(GL_CLIP_PLANE5, plane[5]);
+        proxy_GO(GL_CLIP_PLANE0, plane[0]);
+        proxy_GO(GL_CLIP_PLANE1, plane[1]);
+        proxy_GO(GL_CLIP_PLANE2, plane[2]);
+        proxy_GO(GL_CLIP_PLANE3, plane[3]);
+        proxy_GO(GL_CLIP_PLANE4, plane[4]);
+        proxy_GO(GL_CLIP_PLANE5, plane[5]);
 
         // point sprite
         proxy_GO(GL_POINT_SPRITE, pointsprite);

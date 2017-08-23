@@ -817,9 +817,15 @@ void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation)
         errorShim(GL_INVALID_ENUM);
         return;
     }
-    int p = plane-GL_CLIP_PLANE0;
-    noerrorShim();
-    memcpy(equation, glstate->planes[p], 4*sizeof(GLfloat));
-
+    LOAD_GLES(glGetClipPlanef);
+    if(gles_glGetClipPlanef)
+    {
+        errorGL();
+        gles_glGetClipPlanef(plane, equation);
+    } else {
+        int p = plane-GL_CLIP_PLANE0;
+        noerrorShim();
+        memcpy(equation, glstate->planes[p], 4*sizeof(GLfloat)); // should return transformed coordinates
+    }
 }
 void glGetClipPlanef(GLenum plane, GLfloat * equation) AliasExport("gl4es_glGetClipPlanef");
