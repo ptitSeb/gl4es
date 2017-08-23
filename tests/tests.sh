@@ -22,6 +22,13 @@ function clean_tests {
     if [ -e neverball.trace ];then
         rm neverball.trace
     fi
+    #foobillardplus
+    if [ -e foobillardplus.0000014748.png ];then
+        rm foobillardplus.0000014748.png
+    fi
+    if [ -e foobillardplus.trace ];then
+        rm foobillardplus.trace
+    fi
     #diff result
     if [ -e diff.png ];then
         rm diff.png
@@ -67,6 +74,17 @@ echo "Neverball"
 tar xf ../traces/neverball.tgz
 apitrace dump-images --calls="78750" neverball.trace
 result=$(compare -metric AE -fuzz 20% -extract 798x478+1+1 ../refs/neverball.0000078750.png neverball.0000078750.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
+
+echo "Foobillard Plus"
+
+tar xf ../traces/foobillardplus.tgz
+apitrace dump-images --calls="14748" foobillardplus.trace
+result=$(compare -metric AE -fuzz 20% -extract 798x478+1+1 ../refs/foobillardplus.0000014748.png foobillardplus.0000014748.png diff.png 2>&1)
 if [ ! "$result" -lt "20" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
