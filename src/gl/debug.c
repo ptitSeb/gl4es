@@ -132,6 +132,10 @@ const char* PrintEnum(GLenum what) {
         p(GL_SPHERE_MAP);
         p(GL_NORMAL_MAP);
         p(GL_REFLECTION_MAP);
+        p(GL_TEXTURE_GEN_S);
+        p(GL_TEXTURE_GEN_T);
+        p(GL_TEXTURE_GEN_R);
+        p(GL_TEXTURE_GEN_Q);
         // matrix mode
         p(GL_PROJECTION);
         p(GL_MODELVIEW);

@@ -43,8 +43,8 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                 case GL_Q: glstate->texgen[glstate->texture.active].Q = param[0]; break;
                 default:
                     errorShim(GL_INVALID_ENUM);
-                return;
             }
+            return;
         case GL_OBJECT_PLANE:
             switch (coord) {
                 case GL_S:
@@ -61,8 +61,8 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                     break;
                 default:
                     errorShim(GL_INVALID_ENUM);
-                return;
             }
+            return;
         case GL_EYE_PLANE:
             switch (coord) {
                 case GL_S:
@@ -79,8 +79,8 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                     break;
                 default:
                     errorShim(GL_INVALID_ENUM);
-                return;
             }
+            return;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -116,6 +116,7 @@ void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
                 default:
                     errorShim(GL_INVALID_ENUM);
 			}
+            break;
 		case GL_EYE_PLANE:
 			switch (coord) {
 				case GL_S:
@@ -133,7 +134,7 @@ void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
                 default:
                     errorShim(GL_INVALID_ENUM);
 			}
-		break;
+		    break;
         default:
             errorShim(GL_INVALID_ENUM);
 	}
@@ -263,7 +264,7 @@ static inline void tex_coord_loop(GLfloat *verts, GLfloat *norm, GLfloat *out, G
 }
 
 void gen_tex_coords(GLfloat *verts, GLfloat *norm, GLfloat **coords, GLint count, GLint *needclean, int texture, GLushort *indices, GLuint ilen) {
-//printf("gen_tex_coords(%p, %p, %p, %d, %p, %d, %p, %d) texgen = S:%s T:%s R:%s Q:%s\n", verts, norm, *coords, count, needclean, texture, indices, ilen, (glstate->enable.texgen_s[texture])?PrintEnum(glstate->texgen[texture].S):"-", (glstate->enable.texgen_t[texture])?PrintEnum(glstate->texgen[texture].T):"-", (glstate->enable.texgen_r[texture])?PrintEnum(glstate->texgen[texture].R):"-", (glstate->enable.texgen_q[texture])?PrintEnum(glstate->texgen[texture].Q):"-");
+//printf("gen_tex_coords(%p, %p, %p, %d, %p, %d, %p, %d) texgen = S:%s T:%s R:%s Q:%s, enabled:%c%c%c%c, tex=%02X\n", verts, norm, *coords, count, needclean, texture, indices, ilen, (glstate->enable.texgen_s[texture])?PrintEnum(glstate->texgen[texture].S):"-", (glstate->enable.texgen_t[texture])?PrintEnum(glstate->texgen[texture].T):"-", (glstate->enable.texgen_r[texture])?PrintEnum(glstate->texgen[texture].R):"-", (glstate->enable.texgen_q[texture])?PrintEnum(glstate->texgen[texture].Q):"-", (glstate->enable.texgen_s[texture])?'S':'-', (glstate->enable.texgen_t[texture])?'T':'-', (glstate->enable.texgen_r[texture])?'R':'-', (glstate->enable.texgen_q[texture])?'Q':'-', glstate->enable.texture[texture]);
     // TODO: do less work when called from glDrawElements?
     (*needclean) = 0;
     // special case : no texgen but texture activated, create a simple 1 repeated element
