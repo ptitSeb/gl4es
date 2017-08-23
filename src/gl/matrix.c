@@ -50,8 +50,7 @@ static int send_to_hardware() {
 		case GL_MODELVIEW:
 			if (glstate->immediateMV)
 				return 0;
-			else
-				return 1;
+			return 1;
 		case GL_TEXTURE:
 			return (globals4es.texmat)?1:0;
 	}
@@ -88,7 +87,7 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 	}
     if(glstate->matrix_mode != mode) {
         glstate->matrix_mode = mode;
-		if (send_to_hardware()) {
+		if (mode!=GL_MODELVIEW || !glstate->immediateMV) {
 			LOAD_GLES(glMatrixMode);
         	gles_glMatrixMode(mode);
 		}

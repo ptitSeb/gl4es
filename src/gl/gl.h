@@ -197,7 +197,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
             noerrorShim();							\
             return (nam##_RETURN)0;                 \
         }                                           \
-        else if(glstate->list.pending) flush();     \
+        else flush();                               \
     }
 
 //printf("list:%i, " #nam "\n", state.list.name);
