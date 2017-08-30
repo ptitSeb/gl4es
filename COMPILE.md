@@ -54,6 +54,7 @@ On ODroid, the EGL context can be created with SRGB attribute, by using `LIBGL_S
 ##### C.H.I.P.
 
 GL4ES should work on CHIP ad PocketCHIP. Framebuffers mode will probably ot work, expect `LIBGL_FB=3` mode that seems to work fine, and with adequate performances (there is probably no slow blit, as the driver handle directly the GL->X11 blit).
+Also, on the CHIP, you will probably need to do `sudo apt-get install chip-mali-userspace` to be sure the GLES driver of the CHIP is present.
 
 ##### RaspberryPI
 
