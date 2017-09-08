@@ -95,6 +95,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_COLOR_ATTACHMENT4);
         p(GL_DEPTH_ATTACHMENT);
         p(GL_STENCIL_ATTACHMENT);
+        p(GL_DEPTH_COMPONENT);
         // VBO
         p(GL_STATIC_DRAW);
         p(GL_READ_WRITE);
@@ -164,6 +165,46 @@ const char* PrintEnum(GLenum what) {
         p(GL_CONSTANT_ATTENUATION);
         p(GL_LINEAR_ATTENUATION);
         p(GL_QUADRATIC_ATTENUATION);
+        // uniform type
+        p(GL_FLOAT_VEC2);
+        p(GL_FLOAT_VEC3);
+        p(GL_FLOAT_VEC4);
+        p(GL_INT_VEC2);
+        p(GL_INT_VEC3);
+        p(GL_INT_VEC4);
+        p(GL_BOOL);
+        p(GL_BOOL_VEC2);
+        p(GL_BOOL_VEC3);
+        p(GL_BOOL_VEC4);
+        p(GL_FLOAT_MAT2);
+        p(GL_FLOAT_MAT3);
+        p(GL_FLOAT_MAT4);
+        p(GL_SAMPLER_2D);
+        p(GL_SAMPLER_CUBE);
+        // Shaders
+        p(GL_FRAGMENT_SHADER);
+        p(GL_VERTEX_SHADER);
+        p(GL_MAX_VERTEX_ATTRIBS);
+        p(GL_MAX_VERTEX_UNIFORM_VECTORS);
+        p(GL_MAX_VARYING_VECTORS);
+        p(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+        p(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+        p(GL_MAX_TEXTURE_IMAGE_UNITS);
+        p(GL_MAX_FRAGMENT_UNIFORM_VECTORS);
+        p(GL_SHADER_TYPE);
+        p(GL_DELETE_STATUS);
+        p(GL_LINK_STATUS);
+        p(GL_VALIDATE_STATUS);
+        p(GL_ATTACHED_SHADERS);
+        p(GL_ACTIVE_UNIFORMS);
+        p(GL_ACTIVE_UNIFORM_MAX_LENGTH);
+        p(GL_ACTIVE_ATTRIBUTES);
+        p(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
+        p(GL_SHADING_LANGUAGE_VERSION);
+        p(GL_CURRENT_PROGRAM);
+        p(GL_PROGRAM_BINARY_LENGTH);
+        p(GL_NUM_PROGRAM_BINARY_FORMATS);
+        p(GL_PROGRAM_BINARY_FORMATS);
         default:
             sprintf(fallback, "0x%04X", what);
     }

@@ -42,6 +42,8 @@ typedef struct _globals4es {
  int novaocache;
  int beginend;
  int avoid16bits;
+ int es;
+ int gl;
  char version[50];
 } globals4es_t;
 

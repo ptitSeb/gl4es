@@ -44,6 +44,8 @@ static int update_current_identity(int I) {
 }
 
 static int send_to_hardware() {
+	if(glstate->fpe_state)
+		return 0;
 	switch(glstate->matrix_mode) {
 		case GL_PROJECTION:
 			return 1;

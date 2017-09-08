@@ -13,6 +13,7 @@
 #include "shader.h"
 #include "vertexattrib.h"
 #include "program.h"
+#include "fpe.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -27,7 +28,8 @@ typedef struct {
               texgen_t[MAX_TEX],
               texgen_r[MAX_TEX],
               texgen_q[MAX_TEX],
-              plane[MAX_CLIP_PLANES];
+              plane[MAX_CLIP_PLANES],
+              light[MAX_LIGHT];
     GLuint    texture[MAX_TEX]; // flag
 } enable_state_t;
 
@@ -196,6 +198,7 @@ typedef struct {
     khash_t(shaderlist)    *shaders;
     khash_t(programlist)   *programs;
     GLuint                 program;
+    int                    es2; // context is es2
 } glsl_t;
 
 typedef struct {
@@ -245,7 +248,12 @@ typedef struct {
     float planes[MAX_CLIP_PLANES][4];
     int immediateMV;
     GLenum shademodel;
+    GLenum alphafunc;
+    GLfloat alpharef;
+    GLenum logicop;
     glsl_t  glsl;
+    fpe_state_t *fpe_state;
+    program_t *fpe;
 } glstate_t;
 
 #endif

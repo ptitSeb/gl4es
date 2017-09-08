@@ -11,6 +11,7 @@ SET(GL_SRC
     gl/directstate.c
     gl/eval.c
     gl/fog.c
+    gl/fpe.c
     gl/framebuffers.c
     gl/getter.c
     gl/gl.c
@@ -52,8 +53,9 @@ SET(GL_H
     gl/decompress.h
     gl/defines.h
     gl/directstate.h
-    gl/fog.h
     gl/eval.h
+    gl/fog.h
+    gl/fpe.h
     gl/framebuffers.h
     gl/gles.h
     gl/gl.h

@@ -134,8 +134,9 @@ static EGLint egl_context_attrib[] = {
 
 
 extern void* egl;
+int globales2 = 0;
 // GLState management
-void* NewGLState(void* shared_glstate);
+void* NewGLState(void* shared_glstate, int es2only);
 void DeleteGLState(void* oldstate);
 void ActivateGLState(void* new_glstate);
 
@@ -428,7 +429,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_ALPHA_SIZE, glxfbconfig->alphaBits,
 #endif
         EGL_DEPTH_SIZE, 16,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT, //EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
         EGL_BUFFER_SIZE, depthBits,
         EGL_STENCIL_SIZE, glxfbconfig->stencilBits,
 
@@ -442,7 +443,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         // don't create a new context, one FB is enough...
         GLXContext fake = malloc(sizeof(struct __GLXContextRec));
     	memcpy(fake, fbContext, sizeof(struct __GLXContextRec));
-        fake->glstate = NewGLState(fbContext->glstate); // let's create a new shared glsate
+        fake->glstate = NewGLState(fbContext->glstate, fake->es2only); // let's create a new shared glsate
 
         DBG(printf(" => %p\n", fake);)
         return fake;
@@ -507,7 +508,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         return 0;
     }
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
-	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
+	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
     if(globals4es.usefb)
         eglContext = fake->eglContext;
 
@@ -528,7 +529,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
 
-    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
+    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
+
     /*
     // why unassign the context, it's not assigned yet
    	if (!globals4es.usefb) {
@@ -552,7 +554,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
         EGL_BLUE_SIZE, (config)?config->blueBits:0,
         EGL_ALPHA_SIZE, (config)?config->alphaBits:0,
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
         EGL_SAMPLE_BUFFERS, (config)?config->nMultiSampleBuffers:0,
         EGL_SAMPLES, (config)?config->multiSampleSize:0,
         EGL_NONE
@@ -605,9 +607,10 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
-    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL);
+    fake->es2only = globales2;
+    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
 
-	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
+	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
     CheckEGLErrors();
 
@@ -651,7 +654,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             EGL_STENCIL_SIZE, config->stencilBits,
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT, //EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT
+            EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
             EGL_SURFACE_TYPE, (config->drawableType)==GLX_PIXMAP_BIT?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
             EGL_NONE
         };
@@ -681,8 +684,9 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
 
         GLXContext fake = malloc(sizeof(struct __GLXContextRec));
         memset(fake, 0, sizeof(struct __GLXContextRec));
+        fake->es2only = globales2;
 
-        fake->glstate = NewGLState((share_context)?share_context->glstate:NULL);
+        fake->glstate = NewGLState((share_context)?share_context->glstate:NULL, fake->es2only);
         if(globals4es.usefb)
             fbContext = fake;
         // make an egl context here...
@@ -718,7 +722,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             return fake;
         }
         EGLContext shared = (share_context)?share_context->eglContext:EGL_NO_CONTEXT;
-        fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, egl_context_attrib);
+        fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
         if(globals4es.usefb)
             eglContext = fake->eglContext;
 
@@ -874,7 +878,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
                 if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
                     DeleteGLState(context->glstate);
-                    context->glstate = NewGLState(NULL);
+                    context->glstate = NewGLState(NULL, context->es2only);
                 }
 #endif
             } else {
@@ -1088,7 +1092,7 @@ int gl4es_glXGetConfig(Display *display,
 
 const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
     DBG(printf("glXQueryExtensionString(%p, %d)\n", display, screen);)
-    const char *extensions = {
+    const char *extensions = 
         "GLX_ARB_create_context "
         "GLX_ARB_create_context_profile "
         "GLX_ARB_get_proc_address "
@@ -1096,8 +1100,10 @@ const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
         "GLX_SGI_swap_control "
         "GLX_MESA_swap_control "
         "GLX_EXT_swap_control "
-//        "GLX_EXT_create_context_es2_profile "
-    };
+        "GLX_ARB_create_context "
+        "GLX_ARB_create_context_profile "
+        "GLX_EXT_create_context_es2_profile ";
+    //TODO: make this string parametrable, to remo ES2 profile if not on ES2 Backend?
     return extensions;
 }
 
@@ -1106,7 +1112,7 @@ const char *gl4es_glXQueryServerString(Display *display, int screen, int name) {
     switch (name) {
         case GLX_VENDOR: return "ptitSeb";
         case GLX_VERSION: return "1.4 GL4ES";
-        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, 0);
+        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, screen);
     }
     return 0;    
 }
@@ -1618,7 +1624,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
         EGL_DEPTH_SIZE, 1,
         EGL_STENCIL_SIZE, 1,
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
         EGL_SAMPLE_BUFFERS, samplebuffers,
         EGL_SAMPLES, samples,
         EGL_NONE
@@ -1666,7 +1672,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
         LOGD("LIBGL: Error creating PBuffer\n");
         return 0;
     }
-    (*Context) = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
+    (*Context) = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
     CheckEGLErrors();
 
     return 1;
@@ -1779,7 +1785,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
         EGL_DEPTH_SIZE, 1,      // some depth
         EGL_STENCIL_SIZE, 1,    // some stencil too
         EGL_SURFACE_TYPE, EGL_PIXMAP_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
         EGL_NONE
     };
 
@@ -1826,7 +1832,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
         return 0;
     }
 
-    (*Context) = egl_eglCreateContext(eglDisplay, pixbufConfigs[0], EGL_NO_CONTEXT, egl_context_attrib);
+    (*Context) = egl_eglCreateContext(eglDisplay, pixbufConfigs[0], EGL_NO_CONTEXT, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
     CheckEGLErrors();
 
     return 1;
@@ -1996,7 +2002,7 @@ void BlitEmulatedPixmap() {
                 EGL_DEPTH_SIZE, 1,
                 EGL_STENCIL_SIZE, 1,
                 EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-                EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+                EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
                 EGL_NONE
             };
 
@@ -2048,6 +2054,57 @@ void BlitEmulatedPixmap() {
 
 }
 
+GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) {
+    DBG(printf("glXCreateContextAttribs(%p, %p, %p, %d, %p)\n", dpy, config, share_context, direct, attrib_list);)
+    int ask_es = 0;
+    int ask_shaders = 0;
+    int majver = 0, minver = 0;
+    int flags = 0;
+    int mask = 0;
+    const int *attr = attrib_list;
+    while (attr && (*attr)!= 0) {
+        int name = (*(attr++));
+        int pair = (*(attr++));
+        switch(name) {
+            case GLX_CONTEXT_MAJOR_VERSION_ARB:
+                majver = pair;
+                break;
+            case GLX_CONTEXT_MINOR_VERSION_ARB:
+                minver = pair;
+                break;
+            case GLX_CONTEXT_FLAGS_ARB:
+                flags = pair;
+                break;
+            case GLX_CONTEXT_PROFILE_MASK_ARB:
+                mask = pair;
+                break;
+            default: {
+                DBG(printf(" unknow Attrib %04X (value=%d)\n", name, pair);)
+            }
+        }   
+    }
+    if(majver*10+minver != 0) {
+        DBG(printf(" Required context version %d.%d\n", majver, minver);)
+        if(majver*10+minver>21) {
+            LOGE("LIBGL: Asked for unsupported context version %d.%d\n", majver, minver);
+            return 0;
+        }
+        if(majver*10+minver>globals4es.gl) {
+            LOGE("LIBGL: Asked for unsupported context version %d.%d (max version is %d.%d)\n", majver, minver, globals4es.gl/10, globals4es.gl%10);
+            return 0;
+        }
+        if((mask&GLX_CONTEXT_ES2_PROFILE_BIT_EXT) && hardext.esversion<2) {
+            LOGE("LIBGL: Asked for ES2 compatible context on GLES1.1 Backend\n");
+            return 0;
+        }
+    }
+    if(mask&GLX_CONTEXT_ES2_PROFILE_BIT_EXT)
+        globales2 = 1;
+    GLXContext context = gl4es_glXCreateNewContext(dpy, config, GLX_RGBA_TYPE, share_context, direct);
+    globales2 = 0;
+    return context;
+}
+
 #endif //ANDROID
 
 // New export the Alias
@@ -2088,6 +2145,7 @@ GLXPixmap glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixm
 GLXPixmap glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) AliasExport("gl4es_glXCreatePixmap");
 void glXDestroyGLXPixmap(Display *display, void *pixmap) AliasExport("gl4es_glXDestroyGLXPixmap");
 void glXDestroyPixmap(Display *display, void *pixmap) AliasExport("gl4es_glXDestroyPixmap");
+GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) AliasExport("gl4es_glXCreateContextAttribs");
 #endif
 
 void glXSwapInterval(int interval) AliasExport("gl4es_glXSwapInterval");

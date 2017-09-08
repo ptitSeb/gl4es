@@ -132,6 +132,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
             strcat(extensions, "GL_ARB_point_sprite ");
         if(hardext.cubemap)
             strcat(extensions, "GL_ARB_texture_cube_map ");
+        if(hardext.esversion>1)
+            strcat(extensions, "GL_ARB_ES2_compatibility ");
 	}
     switch (name) {
         case GL_VERSION:
@@ -143,6 +145,10 @@ const GLubyte *gl4es_glGetString(GLenum name) {
 		case GL_RENDERER:
 			return (GLubyte *)"GLES_CM wrapper";
 		case GL_SHADING_LANGUAGE_VERSION:
+            if(globals4es.gl==21)
+            return (GLubyte *)"1.20 via gl4es";
+            else if(globals4es.gl==20)
+                return (GLubyte *)"1.10 via gl4es";
 			return (GLubyte *)"";
         default:
 			errorShim(GL_INVALID_ENUM);
@@ -165,10 +171,10 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     noerrorShim();
     switch (pname) {
         case GL_MAJOR_VERSION:
-            *params = 1;
+            *params = globals4es.gl/10;
             break;
         case GL_MINOR_VERSION:
-            *params = 5;
+            *params = globals4es.gl%10;
             break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -301,8 +307,7 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             *params = 1024;
             break;
         case GL_MAX_TEXTURE_IMAGE_UNITS:
-            /*gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, params);*/
-            *params = 4;
+            *params = hardext.maxteximage;
             break;
         case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
             gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
@@ -389,6 +394,18 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_SHADE_MODEL:
             *params=glstate->shademodel;
             break;
+        case GL_ALPHA_TEST_FUNC:
+            *params=glstate->alphafunc;
+            break;
+        case GL_ALPHA_TEST_REF:
+            *params=glstate->alpharef;
+            break;
+        case GL_LOGIC_OP_MODE:
+            *params=glstate->logicop;
+            break;
+        case GL_MAX_CLIP_PLANES:
+            *params=hardext.maxplanes;
+            break;
         case GL_DRAW_BUFFER:
             *params=GL_FRONT;
             break;
@@ -443,10 +460,10 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     noerrorShim();
     switch (pname) {
         case GL_MAJOR_VERSION:
-            *params = 1;
+            *params = globals4es.gl/10;
             break;
         case GL_MINOR_VERSION:
-            *params = 5;
+            *params = globals4es.gl%10;
             break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
@@ -648,8 +665,23 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_SHADE_MODEL:
             *params=glstate->shademodel;
             break;
+        case GL_ALPHA_TEST_FUNC:
+            *params=glstate->alphafunc;
+            break;
+        case GL_ALPHA_TEST_REF:
+            *params=glstate->alpharef;
+            break;
+        case GL_LOGIC_OP_MODE:
+            *params=glstate->logicop;
+            break;
+        case GL_MAX_CLIP_PLANES:
+            *params=hardext.maxplanes;
+            break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
             *params=hardext.maxsize;
+            break;
+        case GL_MAX_TEXTURE_IMAGE_UNITS:
+            *params = hardext.maxteximage;
             break;
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;

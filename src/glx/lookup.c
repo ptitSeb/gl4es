@@ -100,6 +100,9 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     STUB(glXGetCurrentReadDrawable);
     STUB(glXGetSelectedEvent);
     STUB(glXSelectEvent);
+
+    _EX(glXCreateContextAttribs);
+    _ARB(glXCreateContextAttribs);
 #endif //ANDROID
     _EX(glXGetProcAddress);
     _ARB(glXGetProcAddress);

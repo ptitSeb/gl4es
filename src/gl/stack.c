@@ -64,15 +64,13 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 
     if (mask & GL_ENABLE_BIT) {
         int i;
-        GLint max_clip_planes;
 
         cur->alpha_test = gl4es_glIsEnabled(GL_ALPHA_TEST);
         cur->autonormal = gl4es_glIsEnabled(GL_AUTO_NORMAL);
         cur->blend = gl4es_glIsEnabled(GL_BLEND);
         
-        gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
-        cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
-        for (i = 0; i < max_clip_planes; i++) {
+        cur->clip_planes_enabled = (GLboolean *)malloc(hardext.maxplanes * sizeof(GLboolean));
+        for (i = 0; i < hardext.maxplanes; i++) {
             *(cur->clip_planes_enabled + i) = gl4es_glIsEnabled(GL_CLIP_PLANE0 + i);
         }
 
@@ -260,10 +258,8 @@ void gl4es_glPushAttrib(GLbitfield mask) {
     if (mask & GL_TRANSFORM_BIT) {
 		if (!(mask & GL_ENABLE_BIT)) {
 			int i;
-			GLint max_clip_planes;
-			gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
-			cur->clip_planes_enabled = (GLboolean *)malloc(max_clip_planes * sizeof(GLboolean));
-			for (i = 0; i < max_clip_planes; i++) {
+			cur->clip_planes_enabled = (GLboolean *)malloc(hardext.maxplanes * sizeof(GLboolean));
+			for (i = 0; i < hardext.maxplanes; i++) {
 				*(cur->clip_planes_enabled + i) = gl4es_glIsEnabled(GL_CLIP_PLANE0 + i);
 			}
 		}
@@ -391,9 +387,7 @@ void gl4es_glPopAttrib() {
         enable_disable(GL_AUTO_NORMAL, cur->autonormal);
         enable_disable(GL_BLEND, cur->blend);
 
-        GLint max_clip_planes;
-        gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
-        for (i = 0; i < max_clip_planes; i++) {
+        for (i = 0; i < hardext.maxplanes; i++) {
             enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
         }
 
@@ -592,9 +586,7 @@ void gl4es_glPopAttrib() {
 	if (cur->mask & GL_TRANSFORM_BIT) {
 		if (!(cur->mask & GL_ENABLE_BIT)) {
 			int i;
-			GLint max_clip_planes;
-			gl4es_glGetIntegerv(GL_MAX_CLIP_PLANES, &max_clip_planes);
-			for (i = 0; i < max_clip_planes; i++) {
+			for (i = 0; i < hardext.maxplanes; i++) {
 				enable_disable(GL_CLIP_PLANE0 + i, *(cur->clip_planes_enabled + i));
 			}
 		}

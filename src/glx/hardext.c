@@ -36,9 +36,9 @@ void GetHardwareExtensions(int notest)
     hardext.maxsize = 2048;
     hardext.readf = GL_RGBA;
     hardext.readt = GL_UNSIGNED_BYTE;
-    
-    hardext.esversion = 1;  // forcing ES1.1 backend for now, ES2 backend doesn't exist yet :p
 
+    hardext.esversion = globals4es.es;
+    
     if(notest) {
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
         return;
@@ -66,12 +66,20 @@ void GetHardwareExtensions(int notest)
     egl_attribs[i++] = EGL_NONE;
 
     EGLint configAttribs[] = {
+#ifdef PANDORA
+    // on the Pandora, there don't seem to exist a 8888 PBuffer config for GLES2.
+        EGL_RED_SIZE, (hardext.esversion==1)?8:5,
+        EGL_GREEN_SIZE, (hardext.esversion==1)?8:6,
+        EGL_BLUE_SIZE, (hardext.esversion==1)?8:5,
+        EGL_ALPHA_SIZE, (hardext.esversion==1)?8:0,
+#else
         EGL_RED_SIZE, 8,
         EGL_GREEN_SIZE, 8,
         EGL_BLUE_SIZE, 8,
         EGL_ALPHA_SIZE, 8,
+#endif
         EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
         EGL_NONE
     };
 
@@ -129,7 +137,12 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_point_sprite", pointsprite, 1); 
     S("GL_OES_point_size_array", pointsize, 0);
     S("GL_OES_element_index_uint", elementuint, 0);
-    S("GL_OES_framebuffer_object", fbo, 1);
+    if(hardext.esversion<2) {
+        S("GL_OES_framebuffer_object", fbo, 1);
+    } else {
+        hardext.fbo = 1; 
+        SHUT(LOGD("LIBGL: FBO are in core, and so used\n"));
+    }
     S("GL_OES_packed_depth_stencil", depthstencil, 1);
     S("GL_OES_depth24", depth24, 1);
     S("GL_OES_rgb8_rgba8", rgba8, 1);
@@ -140,18 +153,26 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_draw_texture", drawtex, 1);
     S("GL_EXT_texture_rg", rgtex, 0);
     S("GL_OES_texture_float", floattex, 0);
-    S("GL_OES_fragment_precision_high", highp, 0);
 
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
     SHUT(LOGD("LIBGL: Max texture size: %d\n", hardext.maxsize));
-    gles_glGetIntegerv(GL_MAX_TEXTURE_UNITS, &hardext.maxtex);
-    gles_glGetIntegerv(GL_MAX_LIGHTS, &hardext.maxlights);
-    gles_glGetIntegerv(GL_MAX_CLIP_PLANES, &hardext.maxplanes);
+    gles_glGetIntegerv((hardext.esversion==1)?GL_MAX_TEXTURE_UNITS:GL_MAX_TEXTURE_IMAGE_UNITS, &hardext.maxtex);
+    if (hardext.esversion==1) {
+        gles_glGetIntegerv(GL_MAX_LIGHTS, &hardext.maxlights);
+        gles_glGetIntegerv(GL_MAX_CLIP_PLANES, &hardext.maxplanes);
+        hardext.maxteximage=hardext.maxtex;
+    } else {
+        // simulated stuff using the FPE
+        hardext.maxlights = 8;
+        hardext.maxplanes = 6;
+        gles_glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &hardext.maxteximage);
+    }
     if(hardext.maxtex>MAX_TEX) hardext.maxtex=MAX_TEX;      // caping, as there are some fixed-sized array...
+    if(hardext.maxteximage>MAX_TEX) hardext.maxteximage=MAX_TEX;
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
-    SHUT(LOGD("LIBGL: Texture Units: %d, Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxlights, hardext.maxplanes));
+    SHUT(LOGD("LIBGL: Texture Units: %d(%d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardext.maxlights, hardext.maxplanes));
 #ifndef PANDORA
 // The IMPLEMENTATION_COLOR_READ is pretty buggy on the Pandora, so disabling it (it's just use to blit PBuffer to Drawable in glx.c)
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &hardext.readf);
@@ -164,6 +185,8 @@ void GetHardwareExtensions(int notest)
         hardext.srgb = 1;
     }
     if (hardext.esversion>1) {
+        S("GL_OES_fragment_precision_high", highp, 0);
+        S("GL_EXT_frag_depth", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
     }

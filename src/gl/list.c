@@ -4,6 +4,7 @@
 #include "../glx/hardext.h"
 #include "init.h"
 #include "matrix.h"
+#include "fpe.h"
 
 #define alloc_sublist(n, cap) \
     (GLfloat *)malloc(n * sizeof(GLfloat) * cap)
@@ -763,14 +764,14 @@ void draw_renderlist(renderlist_t *list) {
 //printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, glstate->gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
     LOAD_GLES(glDrawArrays);
     LOAD_GLES(glDrawElements);
-    LOAD_GLES(glVertexPointer);
-    LOAD_GLES(glNormalPointer);
-    LOAD_GLES(glColorPointer);
-    LOAD_GLES(glTexCoordPointer);
-    LOAD_GLES(glEnable);
-    LOAD_GLES(glDisable);
-    LOAD_GLES(glEnableClientState);
-    LOAD_GLES(glDisableClientState);
+    LOAD_GLES_FPE(glVertexPointer);
+    LOAD_GLES_FPE(glNormalPointer);
+    LOAD_GLES_FPE(glColorPointer);
+    LOAD_GLES_FPE(glTexCoordPointer);
+    LOAD_GLES_FPE(glEnable);
+    LOAD_GLES_FPE(glDisable);
+    LOAD_GLES_FPE(glEnableClientState);
+    LOAD_GLES_FPE(glDisableClientState);
     gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	GLfloat *final_colors;

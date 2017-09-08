@@ -180,6 +180,7 @@ static inline GLenum to_target(GLuint itarget) {
 }
 #define IS_TEX2D(T) (T&(1<<ENABLED_TEX2D))
 #define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)|(1<<ENABLED_TEXTURE_RECTANGLE)))
+#define IS_TEXCUBE(T) (T&(1<<ENABLED_CUBE_MAP))
 
 static inline GLint get_target(GLuint enabled) {
     if(!enabled)

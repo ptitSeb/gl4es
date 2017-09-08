@@ -11,6 +11,19 @@ Controls the Framebuffer output
  * 2 : Use Framebuffer, but also an intermediary FBO
  * 3 : Use PBuffer, allowing x11 (and windowed) rendering even if driver doesn't support it 
 
+##### LIBGL_ES
+Controls tje version of GLES to use
+ * 0 : Default, using GLES 1.1 backend
+ * 1 : Use GLES 1.1 backend
+ * 2 : Use GLES 2.0 backend (not finished, don't use for now)
+
+##### LIBGL_GL
+Controls the version of OpenGL exposed
+ * 0 : Default, expose OpenGL 1.5
+ * 15: Expose OpenGL 1.5
+ * 20: Expose OpenGL 2.0
+ * 21: Expose OpenGL 2.1
+
 ##### LIBGL_XREFRESH
 Debug helper in specific cases
  * 0 : Default, nothing special
@@ -179,3 +192,16 @@ Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is
 Try to avoid 16bits textures
  * 0 : Default, use 16bits texture if it can avoid a convertion or for DXTc textures
  * 1 : Use 32bits texture unless specifically requested (using internalformat)
+
+##### LIBGL_ES
+Choose GLES hardware backend. WIP, don't use for now
+ * 0 : Default, auto choose (GLES 1.1 for now on all platforms)
+ * 1 : Use GLES 1.1 backend (so no shaders)
+ * 2 : Use GLES 2.0 backend (shaders, but Fixed Pipeline function not implemented for now)
+
+##### LIBGL_GL
+Choose OpenGL version target for emulation
+ * 0 : Default, auto choose (1.5 for now)
+ * 15: Target OpenGL 1.5
+ * 20: Target OpenGL 2.0 (with GLSL 1.10)
+ * 21: Target OpenGL 2.1 (with GLSL 1.20)

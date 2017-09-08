@@ -47,6 +47,9 @@
 
 #define skip_glShadeModel
 
+#define skip_glAlphaFunc
+#define skip_glLogicOp
+
 // getter.c
 #define skip_glGetError
 #define skip_glGetPointerv

@@ -1,7 +1,10 @@
 Version history
 ----
 ##### Current version
- * Added ES2 backen infrastructure
+ * Added ES2 backend infrastructure
+ * Begin GLES2 backend
+ * Infrastructure for FPE (Fixed Pipeline Emulator)
+ * Basic and Crude Shader convertor
 
 ##### 1.0.0
  * Removed old ES2 defines (ES2 will be dynamic later)

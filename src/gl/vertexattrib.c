@@ -2,7 +2,15 @@
 #include "buffers.h"
 #include "../glx/hardext.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
 void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) {
+    DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p), vertex buffer = %p\n", index, size, PrintEnum(type), normalized, stride, pointer, (glstate->vao->vertex)?glstate->vao->vertex->data:0);)
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -16,8 +24,10 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     vertexattrib_t *v = &glstate->vao->vertexattrib[index];
     noerrorShim();
     if(stride==0) stride=((size==GL_BGRA)?4:size)*gl_sizeof(type);
-    if(size==v->size && type==v->type && normalized==v->normalized && stride==v->stride && pointer==v->pointer && glstate->vao->vertex==v->buffer)
+    /*if(size==v->size && type==v->type && normalized==v->normalized && stride==v->stride && pointer==v->pointer && glstate->vao->vertex==v->buffer) {
+        DBG(printf(" ... in cache\n");)
         return; // no changes
+    }*/
     v->size = size;
     v->type = type;
     v->normalized = normalized;
@@ -34,6 +44,7 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
         errorShim(GL_INVALID_VALUE);
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
+    DBG(printf("glEnableVertexAttrib(%d)\n", index);)
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -54,6 +65,7 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
     }
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
+    DBG(printf("glDisableVertexAttrib(%d)\n", index);)
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -76,11 +88,13 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
 
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
 void gl4es_glVertexAttrib4f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
+    DBG(printf("glVertexAttrib4f(%d, %f, %f, %f, %f)\n", index, v0, v1, v2, v3);)
     static GLfloat f[4];
     f[0] = v0; f[1] = v1; f[2] = v2; f[3] = v3;
     gl4es_glVertexAttrib4fv(index, f);
 }
 void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
+    DBG(printf("glVertexAttrib4fv(%d, %p)\n", index, v);)
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);

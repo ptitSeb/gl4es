@@ -3,6 +3,13 @@
 #include "matvec.h"
 #include "../glx/hardext.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
 int uniformsize(GLenum type) {
     #define GO(T, t, s) \
         case T: return sizeof(t)*s
@@ -96,6 +103,7 @@ int n_uniform(GLenum type) {
 }
 
 void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat *params) {
+    DBG(printf("glGetUniformfv(%d, %d, %p)\n", program, location, params);)
     CHECK_PROGRAM(void, program);
 
     khint_t k;
@@ -121,6 +129,7 @@ void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat *params) {
     errorShim(GL_INVALID_VALUE);
 }
 void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
+    DBG(printf("glGetUniformiv(%d, %d, %p)\n", program, location, params);)
     CHECK_PROGRAM(void, program);
 
     khint_t k;
@@ -213,6 +222,7 @@ void GoUniformiv(GLint location, int size, int count, const GLint *value)
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
     }
+    m = kh_value(glprogram->uniform, k);
     if(size != n_uniform(m->type) || !is_uniform_int(m->type)  || count>m->size) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -242,17 +252,21 @@ void GoUniformiv(GLint location, int size, int count, const GLint *value)
 }
 
 void gl4es_glUniform1f(GLint location, GLfloat v0) {
+    DBG(printf("glUniform1f(%d, %f)\n", location, v0);)
     GoUniformfv(location, 1, 1, &v0);
 }
 void gl4es_glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
+    DBG(printf("glUniform2f(%d, %f, %f)\n", location, v0, v1);)
     GLfloat fl[2] = {v0, v1};
     GoUniformfv(location, 2, 1, fl);
 }
 void gl4es_glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
+    DBG(printf("glUniform3f(%d, %f, %f, %f)\n", location, v0, v1, v2);)
     GLfloat fl[3] = {v0, v1, v2};
     GoUniformfv(location, 3, 1, fl);
 }
 void gl4es_glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
+    DBG(printf("glUniform4f(%d, %f, %f, %f, %f)\n", location, v0, v1, v2, v3);)
     GLfloat fl[4] = {v0, v1, v2, v3};
     GoUniformfv(location, 4, 1, fl);
 }
@@ -297,6 +311,7 @@ void gl4es_glUniform4iv(GLint location, GLsizei count, const GLint *value) {
 }
 
 void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix2fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
     GLuint program = glstate->glsl.program;
     if(location==-1) {
         noerrorShim();
@@ -313,6 +328,7 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
     }
+    m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT2  || count>m->size) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -344,6 +360,7 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
 }
 
 void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix3fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
     GLuint program = glstate->glsl.program;
     if(location==-1) {
         noerrorShim();
@@ -360,6 +377,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
     }
+    m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT3  || count>m->size) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -390,6 +408,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_OPERATION);    // no GLSL hardware
 }
 void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix4fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
     GLuint program = glstate->glsl.program;
     if(location==-1) {
         noerrorShim();
@@ -406,6 +425,7 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
     }
+    m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT4  || count>m->size) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -430,8 +450,10 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
     if (gles_glUniformMatrix4fv) {
         gles_glUniformMatrix4fv(m->id, count, GL_FALSE, v);
         errorGL();
-    } else
+    } else {
+        //printf("No GLES2 function\n");
         errorShim(GL_INVALID_OPERATION);    // no GLSL hardware
+    }
 }
 
 void glGetUniformfv(GLuint program, GLint location, GLfloat *params) AliasExport("gl4es_glGetUniformfv");

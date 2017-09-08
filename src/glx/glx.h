@@ -127,6 +127,18 @@
 
 #define GLX_SWAP_INTERVAL_EXT   0x20F1
 
+#define GLX_CONTEXT_MAJOR_VERSION_ARB           0x2091
+#define GLX_CONTEXT_MINOR_VERSION_ARB           0x2092
+#define GLX_CONTEXT_FLAGS_ARB                   0x2094
+#define GLX_CONTEXT_PROFILE_MASK_ARB            0x9126
+#define GLX_CONTEXT_DEBUG_BIT_ARB               0x0001
+#define GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB  0x0002
+#define GLX_CONTEXT_CORE_PROFILE_BIT_ARB        0x00000001
+#define GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB 0x00000002
+#define GLX_CONTEXT_ES_PROFILE_BIT_EXT		    0x00000004
+#define GLX_CONTEXT_ES2_PROFILE_BIT_EXT		    0x00000004
+
+
 typedef int GLXDrawable;
 #ifndef ANDROID
 struct __GLXContextRec {
@@ -144,6 +156,7 @@ struct __GLXContextRec {
     int depth;
     int stencil;
     int rbits, gbits, bbits, abits;
+    int es2only;
     void* glstate;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };
@@ -269,4 +282,6 @@ GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap
 void gl4es_glXDestroyPixmap(Display *display, void *pixmap);
 GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap);
 void gl4es_glXDestroyGLXPixmap(Display *display, void *pixmap);
+
+GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
 #endif //ANDROID

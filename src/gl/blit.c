@@ -7,57 +7,25 @@
 void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void popViewport();
 
-/* TODO, implement glDrawTexi path
-    gles_glDrawTexi(0, 0, 0, mainfbo_width, mainfbo_height);
-or
-    gl4es_glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
-    
-    gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
-    gl4es_glEnable(GL_TEXTURE_2D);
-    gles_glBindTexture(GL_TEXTURE_2D, rast->texture);
-
-    if (rast->bitmap) {
-        gl4es_glEnable(GL_ALPHA_TEST);
-        gl4es_glAlphaFunc(GL_GREATER, 0.0f);
-    } else {
-        gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    }
-    
-    gles_glDrawTexf(glstate->raster.rPos.x-rast->xorig, glstate->raster.rPos.y-rast->yorig, glstate->raster.rPos.z, rast->width * rast->zoomx, rast->height * rast->zoomy);
-    if (!IS_TEX2D(glstate->enable.texture[0])) gl4es_glDisable(GL_TEXTURE_2D);
-    if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
-    if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-    if (old_bind == NULL) 
-        gles_glBindTexture(GL_TEXTURE_2D, 0);
-    else
-        gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
-
-*/
-
-void gl4es_blitTexture(GLuint texture, 
+void gl4es_blitTexture_gles1(GLuint texture, 
     float width, float height, 
     float nwidth, float nheight, 
     float zoomx, float zoomy, 
     float vpwidth, float vpheight, 
     float x, float y, int mode) {
-//printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, width, height, nwidth, nheight, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
-    LOAD_GLES(glBindTexture);
-    LOAD_GLES(glActiveTexture);
+
     LOAD_GLES(glClientActiveTexture);
-    gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+
     GLfloat old_projection[16], old_modelview[16], old_texture[16];
 
     int customvp = (vpwidth>0.0);
     int drawtexok = (hardext.drawtex) && (zoomx==1.0f) && (zoomy==1.0f);
 
-    GLuint old_tex = glstate->texture.active;
-    if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
     GLuint old_cli = glstate->texture.client;
     if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0);
 
-    gl4es_glDisable(GL_DEPTH_TEST);
     gl4es_glDisable(GL_LIGHTING);
-    gl4es_glDisable(GL_CULL_FACE);
+    gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     switch (mode) {
         case BLIT_OPAQUE:
             gl4es_glDisable(GL_ALPHA_TEST);
@@ -72,11 +40,6 @@ void gl4es_blitTexture(GLuint texture,
             gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             break;
     }
-
-    gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
-    gl4es_glEnable(GL_TEXTURE_2D);
-    gles_glBindTexture(GL_TEXTURE_2D, texture);
-    gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     if(drawtexok) {
         LOAD_GLES_OES(glDrawTexf);
@@ -172,6 +135,52 @@ void gl4es_blitTexture(GLuint texture,
         gl4es_glMatrixMode(GL_PROJECTION);
         gl4es_glLoadMatrixf(old_projection);
     }
+
+    if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
+
+}
+
+void gl4es_blitTexture_gles2(GLuint texture, 
+    float width, float height, 
+    float nwidth, float nheight, 
+    float zoomx, float zoomy, 
+    float vpwidth, float vpheight, 
+    float x, float y, int mode) {
+
+        /* TODO */
+}
+
+void gl4es_blitTexture(GLuint texture, 
+    float width, float height, 
+    float nwidth, float nheight, 
+    float zoomx, float zoomy, 
+    float vpwidth, float vpheight, 
+    float x, float y, int mode) {
+//printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, width, height, nwidth, nheight, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
+    LOAD_GLES(glBindTexture);
+    LOAD_GLES(glActiveTexture);
+    gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+
+    GLuint old_tex = glstate->texture.active;
+    if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
+
+    gl4es_glDisable(GL_DEPTH_TEST);
+    gl4es_glDisable(GL_CULL_FACE);
+
+    gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
+    gl4es_glEnable(GL_TEXTURE_2D);
+    gles_glBindTexture(GL_TEXTURE_2D, texture);
+
+    if(hardext.esversion==1) {
+        gl4es_blitTexture_gles1(texture, width, height, 
+                                nwidth, nheight, zoomx, zoomy, 
+                                vpwidth, vpheight, x, y, mode);
+    } else {
+        gl4es_blitTexture_gles2(texture, width, height, 
+            nwidth, nheight, zoomx, zoomy, 
+            vpwidth, vpheight, x, y, mode);
+    }
+
     // All the previous states are Pushed / Poped anyway...
     if (old_bind == NULL) 
         gles_glBindTexture(GL_TEXTURE_2D, 0);
@@ -179,7 +188,6 @@ void gl4es_blitTexture(GLuint texture,
         gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
 
     if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
-    if (old_cli!=0) gles_glClientActiveTexture(GL_TEXTURE0+old_cli);
-
+    
     gl4es_glPopAttrib();
 }

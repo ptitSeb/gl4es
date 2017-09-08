@@ -10,6 +10,7 @@ typedef struct {
     int             deleted;// flagged for deletion
     int             compiled;// flag if compiled
     char*           source; // original source of the shader
+    char*           converted;  // converted source (or null if nothing)
 } shader_t;
 
 KHASH_MAP_INIT_INT(shaderlist, shader_t *)

@@ -82,7 +82,7 @@ void load_libs() {
         bcm_host = open_lib(bcm_host_name, NULL);
         vcos = open_lib(vcos_name, NULL);
     }
-    gles = open_lib(gles_lib, gles_override);
+    gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
     WARN_NULL(gles);
 
     char *egl_override = getenv("LIBGL_EGL");

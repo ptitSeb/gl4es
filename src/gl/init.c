@@ -107,6 +107,32 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Set gamma to %.2f\n", globals4es.gamma));
     }
 #endif
+    char *env_es = getenv("LIBGL_ES");
+    if (env_es && strcmp(env_es, "1") == 0) {
+            globals4es.es = 1;
+    }
+    if (env_es && strcmp(env_es, "2") == 0) {
+            globals4es.es = 2;
+    }
+    // automatic ES backend selection
+    if(globals4es.es==0)
+        globals4es.es = 1;  // forcing GLES 1.1 for now
+
+    char *env_gl = getenv("LIBGL_GL");
+    if (env_gl && strcmp(env_gl, "15") == 0) {
+            globals4es.es = 15;
+    }
+    if (env_gl && strcmp(env_gl, "20") == 0) {
+            globals4es.gl = 20;
+    }
+    if (env_gl && strcmp(env_gl, "21") == 0) {
+            globals4es.gl = 21;
+    }
+    // automatic GL version selection
+    if(globals4es.gl==0)
+        globals4es.gl = 15;  // forcing GL 1.5
+
+    SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
     load_libs();
     gl_init();
@@ -228,7 +254,13 @@ void initialize_gl4es() {
     if (env_version) {
         SHUT(LOGD("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version));
     }
-    snprintf(globals4es.version, 49, "%s gl4es wrapper", (env_version)?env_version:"1.5");
+    if(env_version) {
+        snprintf(globals4es.version, 49, "%s gl4es wrapper", env_version);
+        SHUT(LOGD("LIBGL: Targeting OpenGL %s\n", env_version));
+    } else {
+        snprintf(globals4es.version, 49, "%d.%d gl4es wrapper", globals4es.gl/10, globals4es.gl%10);
+        SHUT(LOGD("LIBGL: Targeting OpenGL %d.%d\n", globals4es.gl/10, globals4es.gl%10));
+    }
 
     char *env_srgb = getenv("LIBGL_SRGB");
     if (env_srgb && strcmp(env_srgb, "1") == 0 && hardext.srgb) {

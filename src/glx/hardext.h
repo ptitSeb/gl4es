@@ -32,7 +32,9 @@ typedef struct _hardext {
     // es2 stuffs
     int esversion;      // 1 is ES1.1 backend, 2 is ES2
     int maxvattrib;     // GL_MAX_VERTEX_ATTRIBS (or 0 if not using es2)
+    int maxteximage;    // GL_MAX_TEXTURE_IMAGE_UNITS for es2
     int highp;          // GL_OES_fragment_precision_high
+    int fragdepth;      // GL_EXT_frag_depth
 } hardext_t;
 
 extern hardext_t hardext;

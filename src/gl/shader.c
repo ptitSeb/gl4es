@@ -1,7 +1,16 @@
 #include "shader.h"
 #include "../glx/hardext.h"
+#include "debug.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
 
 GLuint gl4es_glCreateShader(GLenum shaderType) {
+    DBG(printf("glCreateShader(%s)\n", PrintEnum(shaderType));)
     // sanity check
     if (shaderType!=GL_VERTEX_SHADER && shaderType!=GL_FRAGMENT_SHADER) {
         errorShim(GL_INVALID_ENUM);
@@ -56,6 +65,8 @@ void actualy_deleteshader(GLuint shader) {
             kh_del(shaderlist, shaders, k);
             if(glshader->source)
                 free(glshader->source);
+            if(glshader->converted)
+                free(glshader->converted);
             free(glshader);
         }
     }
@@ -74,6 +85,7 @@ void actualy_detachshader(GLuint shader) {
 }
 
 void gl4es_glDeleteShader(GLuint shader) {
+    DBG(printf("glDeleteShader(%d)\n", shader);)
     // sanity check...
     CHECK_SHADER(void, shader)
     // delete the shader from the list
@@ -94,6 +106,7 @@ void gl4es_glDeleteShader(GLuint shader) {
 }
 
 void gl4es_glCompileShader(GLuint shader) {
+    DBG(printf("glCompileShader(%d)\n", shader);)
     // look for the shader
     CHECK_SHADER(void, shader)
 
@@ -106,7 +119,102 @@ void gl4es_glCompileShader(GLuint shader) {
         noerrorShim();
 }
 
+void InplaceReplace(char* pBuffer, const char* S, const char* D)
+{
+    // TODO: Check this function
+    char* p = pBuffer;
+    int lS = strlen(S), lD = strlen(D);
+    while((p = strstr(p, S)))
+    {
+        // found an occurence of S
+        // move out rest of string
+        memmove(p+lD, p+lS, strlen(p)-lS+lD+1);
+        // replace
+        memcpy(p, D, strlen(D));
+        // next
+        p+=lD;
+    } 
+}
+
+char* ConvertShader(const char* pBuffer)
+{
+  DBG(printf("Shader source:\n%s\n", pBuffer);)
+  // first change the version header, and add default precision
+  char* newptr;
+  newptr=strstr(pBuffer, "#version");
+  if (!newptr) 
+    newptr = (char*)pBuffer;
+  else {
+    while(*newptr!=0x0a) newptr++;
+  }
+  const char* GLESHeader = "#version 100\nprecision mediump float;\n";
+  char* Tmp = (char*)malloc(strlen(newptr)+strlen(GLESHeader)+500);
+  strcpy(Tmp, GLESHeader);
+  // check if gl_FragDepth is used
+  int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
+  const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable";
+  const char* GLESFakeFragDepth = "mediump float fakeFragDepth = 0.0;";
+  if (fragdepth)
+    strcat(Tmp, hardext.fragdepth?GLESUseFragDepth:GLESFakeFragDepth);
+  strcat(Tmp, newptr);
+    // now check to remove trailling "f" after float, as it's not supported too
+  newptr = Tmp;
+  // simple state machine...
+  int state = 0;
+  while (*newptr!=0x00) {
+    switch(state) {
+      case 0:
+        if ((*newptr >= '0') && (*newptr <= '9'))
+          state = 1;  // integer part
+        else if (*newptr == '.')
+          state = 2;  // fractional part
+        else if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
+          state = 0; // separator
+        else 
+          state = 3; // something else
+        break;
+      case 1: // integer part
+        if ((*newptr >= '0') && (*newptr <= '9'))
+          state = 1;  // integer part
+        else if (*newptr == '.')
+          state = 2;  // fractional part
+        else if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
+          state = 0; // separator
+        else  if ((*newptr == 'f' )) {
+          // remove that f
+          memmove(newptr, newptr+1, strlen(newptr+1)+1);
+          newptr--;
+        } else
+          state = 3;
+          break;
+      case 2: // fractionnal part
+        if ((*newptr >= '0') && (*newptr <= '9'))
+          state = 2;
+        else if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
+          state = 0; // separator
+        else  if ((*newptr == 'f' )) {
+          // remove that f
+          memmove(newptr, newptr+1, strlen(newptr+1)+1);
+          newptr--;
+        } else
+          state = 3;
+          break;
+      case 3:
+        if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
+          state = 0; // separator
+        else      
+          state = 3;
+          break;
+    }
+    newptr++;
+  }
+  InplaceReplace(Tmp, "gl_FragDepth", (hardext.fragdepth)?"gl_FragDepthEXT":"fakeFragDepth");
+  DBG(printf("New Shader source:\n%s\n", Tmp);)
+  return Tmp;
+}
+
 void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length) {
+    DBG(printf("glShaderSource(%d, %d, %p, %p)\n", shader, count, string, length);)
     // sanity check
     if(count<=0) {
         errorShim(GL_INVALID_VALUE);
@@ -128,15 +236,18 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     }
     LOAD_GLES2(glShaderSource);
     if (gles_glShaderSource) {
-        // TODO: adapt the shader?
+        // adapt shader if needed (i.e. not an es2 context and shader is not #version 100)
+        if(!glstate->glsl.es2 && strncmp(glshader->source, "#version 100", 12))
+            glshader->converted = ConvertShader(glshader->source);
         // send source to GLES2 hardware if any
-        gles_glShaderSource(shader, 1, (const GLchar * const*)&glshader->source, NULL);
+        gles_glShaderSource(shader, 1, (const GLchar * const*)((glshader->converted)?(&glshader->converted):(&glshader->source)), NULL);
         errorGL();
     } else
         noerrorShim();
 }
 
 void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) {
+    DBG(printf("glGetShaderSource(%d, %d, %p, %p)\n", shader, bufSize, length, source);)
     // find shader
     CHECK_SHADER(void, shader)
     if (bufSize<=0) {
@@ -160,6 +271,7 @@ void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GL
 }
 
 GLboolean gl4es_glIsShader(GLuint shader) {
+    DBG(printf("glIsShader(%d)\n", shader);)
     // find shader
     shader_t *glshader = NULL;
     khint_t k;
@@ -176,6 +288,7 @@ GLboolean gl4es_glIsShader(GLuint shader) {
 static const char* GLES_NoGLSLSupport = "No Shader support with current backend";
 
 void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) {
+    DBG(printf("glGetShaderInfoLog(%d, %d, %p, %p)\n", shader, maxLength, length, infoLog);)
     // find shader
     CHECK_SHADER(void, shader)
     if(maxLength<=0) {
@@ -193,6 +306,7 @@ void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length,
 }
 
 void gl4es_glGetShaderiv(GLuint shader, GLenum pname, GLint *params) {
+    DBG(printf("glGetShaderiv(%d, %s, %p)\n", shader, PrintEnum(pname), params);)
     // find shader
     CHECK_SHADER(void, shader)
     LOAD_GLES2(glGetShaderiv);
