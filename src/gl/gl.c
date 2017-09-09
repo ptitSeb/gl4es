@@ -1631,8 +1631,8 @@ GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");
 void gl4es_glPolygonMode(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
 	noerrorShim();
-	if (face != GL_FRONT_AND_BACK)
-		errorShim(GL_INVALID_ENUM);
+	if (face == GL_FRONT)
+		face = GL_FRONT_AND_BACK;   //TODO, better handle all this
 	if (face == GL_BACK)
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
     if (glstate->list.active)
