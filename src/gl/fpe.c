@@ -60,3 +60,36 @@ void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     noerrorShim();
 }
+
+void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    CHECKFPE
+    realize_fpeenv();
+    LOAD_GLES(glDrawArrays);
+    gles_glDrawArrays(mode, first, count);
+}
+
+void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
+    CHECKFPE
+    realize_fpeenv();
+    LOAD_GLES(glDrawElements);
+    gles_glDrawElements(mode, count, type, indices);
+}
+
+
+// ********* Realize GLES Environnements *********
+
+void realize_glenv() {
+    LOAD_GLES2(glUseProgram);
+    // activate program if needed
+    if(glstate->gleshard.program != glstate->glsl.program) {
+        glstate->gleshard.program = glstate->glsl.program;
+        gles_glUseProgram(glstate->gleshard.program);
+    }
+    // set Attrib if needed
+}
+void realize_fpeenv() {
+
+}
+void realize_blitenv() {
+
+}

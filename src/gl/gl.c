@@ -790,7 +790,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         
         return;
      } else {
-		LOAD_GLES(glDrawElements);
+		LOAD_GLES_FPE(glDrawElements);
 		LOAD_GLES_FPE(glNormalPointer);
 		LOAD_GLES_FPE(glVertexPointer);
 		LOAD_GLES_FPE(glColorPointer);
@@ -826,7 +826,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 		} else {
 			GLuint old_tex = glstate->texture.client;
             if(glstate->glsl.program!=0) {
-                //TODO: Move the "realize" GLSL state here
+                realize_glenv();
             } else {
                 // secondry color and color sizef != 4 are "intercepted" and draw using a list
                 client_state(color_array, GL_COLOR_ARRAY, );
@@ -968,7 +968,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             return;
         }
 
-        LOAD_GLES(glDrawArrays);
+        LOAD_GLES_FPE(glDrawArrays);
 
 		GLenum mode_init = mode;
 		if (mode == GL_QUAD_STRIP)
@@ -981,7 +981,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		} else {
 			GLuint old_tex = glstate->texture.client;
             if(glstate->glsl.program!=0) {
-                //TODO: Move the "realize" GLSL state here
+                realize_glenv();
             } else {
                 // setup the Array Pointers
                 client_state(color_array, GL_COLOR_ARRAY, );    

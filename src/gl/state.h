@@ -202,6 +202,11 @@ typedef struct {
 } glsl_t;
 
 typedef struct {
+    vertexattrib_t  vertexattrib[MAX_VATTRIB];
+    GLuint          program;
+} gleshard_t;
+
+typedef struct {
     int dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t enable;
@@ -254,6 +259,7 @@ typedef struct {
     glsl_t  glsl;
     fpe_state_t *fpe_state;
     program_t *fpe;
+    gleshard_t  gleshard;
 } glstate_t;
 
 #endif

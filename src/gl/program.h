@@ -85,5 +85,12 @@ void gl4es_glValidateProgram(GLuint program);
         return (type)0; \
     }
 
+#define APPLY_PROGRAM(prg) \
+    if(glstate->gleshard.program != prg) {  \
+        glstate->gleshard.program = prg;    \
+        LOAD_GLES2(glUseProgram);           \
+        if(gles_glUseProgram)               \
+            gles_glUseProgram(prg);         \
+    }
 
 #endif

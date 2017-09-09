@@ -44,9 +44,13 @@ void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glEnable(GLenum cap);
 void fpe_glDisable(GLenum cap);
-//void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count);
-//void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
+void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count);
+void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
 void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
+
+void realize_glenv();
+void realize_fpeenv();
+void realize_blitenv();
 
 #endif

@@ -558,13 +558,6 @@ void gl4es_glUseProgram(GLuint program) {
     }
 
     glstate->glsl.program=glprogram->id;
-
-    // TODO: actualy bind the program when drawing
-    LOAD_GLES2(glUseProgram);
-    if(gles_glUseProgram) {
-        gles_glUseProgram(glprogram->id);
-        errorGL();
-    };
 }
 
 void gl4es_glValidateProgram(GLuint program) {

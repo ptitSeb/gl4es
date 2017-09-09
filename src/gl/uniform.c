@@ -157,8 +157,8 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
 
 void GoUniformfv(GLint location, int size, int count, const GLfloat *value)
 {
-    GLuint program = glstate->glsl.program; // to be checked, current program may not be this one
-
+    GLuint program = glstate->glsl.program; 
+    
     if(location==-1) {
         noerrorShim();
         return;
@@ -168,6 +168,7 @@ void GoUniformfv(GLint location, int size, int count, const GLfloat *value)
         return;
     }
     CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program);
 
     khint_t k;
     uniform_t *m;
@@ -215,7 +216,9 @@ void GoUniformiv(GLint location, int size, int count, const GLint *value)
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    CHECK_PROGRAM(void, program); // to be checked, current program may not be this one
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program);
+
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -321,7 +324,8 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    CHECK_PROGRAM(void, program); // to be checked, current program may not be this one
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -370,7 +374,8 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    CHECK_PROGRAM(void, program); // to be checked, current program may not be this one
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -418,7 +423,8 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    CHECK_PROGRAM(void, program); // to be checked, current program may not be this one
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
