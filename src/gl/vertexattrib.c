@@ -24,24 +24,13 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     vertexattrib_t *v = &glstate->vao->vertexattrib[index];
     noerrorShim();
     if(stride==0) stride=((size==GL_BGRA)?4:size)*gl_sizeof(type);
-    /*if(size==v->size && type==v->type && normalized==v->normalized && stride==v->stride && pointer==v->pointer && glstate->vao->vertex==v->buffer) {
-        DBG(printf(" ... in cache\n");)
-        return; // no changes
-    }*/
     v->size = size;
     v->type = type;
     v->normalized = normalized;
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
-    // TODO: move the sending of the data to the Hardware when drawing, to convert if needed the data
-    // send to hardware, if any
-    LOAD_GLES2(glVertexAttribPointer);
-    if(gles_glVertexAttribPointer) {
-        gles_glVertexAttribPointer(index, size, type, normalized, stride, (GLvoid*)((uintptr_t)pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));
-        errorGL();
-    } else
-        errorShim(GL_INVALID_VALUE);
+    memcpy(&glstate->gleshard.wanted[index], v, sizeof(vertexattrib_t));
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
@@ -50,19 +39,8 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    if(glstate->vao->vertexattrib[index].vaarray == 1) {
-        noerrorShim();
-        return; // already enalbled
-    }
     glstate->vao->vertexattrib[index].vaarray = 1;
-    // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
-    LOAD_GLES2(glEnableVertexAttribArray);
-    if(gles_glEnableVertexAttribArray) {
-        gles_glEnableVertexAttribArray(index);
-        errorGL();
-    } else {
-        errorShim(GL_INVALID_ENUM);
-    }
+    glstate->gleshard.wanted[index].vaarray = 1;
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
@@ -71,19 +49,8 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    if(glstate->vao->vertexattrib[index].vaarray == 0) {
-        noerrorShim();
-        return; // already enalbled
-    }
     glstate->vao->vertexattrib[index].vaarray = 0;
-    // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
-    LOAD_GLES2(glDisableVertexAttribArray);
-    if(gles_glDisableVertexAttribArray) {
-        gles_glDisableVertexAttribArray(index);
-        errorGL();
-    } else {
-        errorShim(GL_INVALID_ENUM);
-    }
+    glstate->gleshard.wanted[index].vaarray = 0;
 }
 
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
@@ -106,13 +73,7 @@ void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
         return;
     }
     memcpy(glstate->vao->vertexattrib[index].current, v, 4*sizeof(GLfloat));
-    LOAD_GLES2(glVertexAttrib4fv);
-    if(gles_glVertexAttrib4fv) {
-        gles_glVertexAttrib4fv(index, v);
-        errorGL();
-    } else {
-        errorShim(GL_INVALID_VALUE);
-    }
+    memcpy(glstate->gleshard.wanted[index].current, v, 4*sizeof(GLfloat));
 }
 
 #define GetVertexAttrib(suffix, Type, factor) \

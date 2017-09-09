@@ -203,6 +203,7 @@ typedef struct {
 
 typedef struct {
     vertexattrib_t  vertexattrib[MAX_VATTRIB];
+    vertexattrib_t  wanted[MAX_VATTRIB];
     GLuint          program;
 } gleshard_t;
 

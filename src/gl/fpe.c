@@ -79,13 +79,50 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
 // ********* Realize GLES Environnements *********
 
 void realize_glenv() {
+    if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // activate program if needed
     if(glstate->gleshard.program != glstate->glsl.program) {
         glstate->gleshard.program = glstate->glsl.program;
         gles_glUseProgram(glstate->gleshard.program);
     }
-    // set Attrib if needed
+    // set VertexAttrib if needed
+    for(int i=0; i<hardext.maxvattrib; i++) {
+        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
+        vertexattrib_t *w = &glstate->gleshard.wanted[i];
+        // enable / disable Array if needed
+        if(v->vaarray != w->vaarray) {
+            LOAD_GLES2(glEnableVertexAttribArray)
+            LOAD_GLES2(glDisableVertexAttribArray);
+            v->vaarray = w->vaarray;
+            if(v->vaarray)
+                gles_glEnableVertexAttribArray(i);
+            else
+                gles_glDisableVertexAttribArray(i);
+        }
+        // check if new value has to be sent to hardware
+        if(v->vaarray) {
+            // array case
+            if(v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
+                || v->stride!=w->stride || v->pointer!=w->pointer || v->buffer!=w->buffer) {
+                v->size = w->size;
+                v->type = w->type;
+                v->normalized = w->normalized;
+                v->stride = w->stride;
+                v->pointer = w->pointer;
+                v->buffer = w->buffer;
+                LOAD_GLES2(glVertexAttribPointer);
+                gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));
+            }
+        } else {
+            // single value case
+            if(memcmp(v->current, w->current, 4*sizeof(GLfloat))==0) {
+                memcpy(glstate->gleshard.vertexattrib[i].current, glstate->vao->vertexattrib[i].current, 4*sizeof(GLfloat));
+                LOAD_GLES2(glVertexAttrib4fv);
+                gles_glVertexAttrib4fv(i, glstate->gleshard.vertexattrib[i].current);
+            }
+        }
+    }
 }
 void realize_fpeenv() {
 
