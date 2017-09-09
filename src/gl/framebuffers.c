@@ -305,6 +305,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     
     errorGL();
     gles_glFramebufferTexture2D(ntarget, attachment, textarget, texture, 0);
+    DBG(CheckGLError(1);)
     ReadDraw_Pop(target);
 }
 
@@ -361,6 +362,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
 
     errorGL();
     gles_glFramebufferRenderbuffer(ntarget, attachment, renderbuffertarget, renderbuffer);
+    DBG(CheckGLError(1);)
     ReadDraw_Pop(target);
 }
 
@@ -441,6 +443,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         internalformat = GL_RGBA4_OES;
 
     gles_glRenderbufferStorage(target, internalformat, width, height);
+    DBG(CheckGLError(1);)
 }
 
 void gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {    //STUB
