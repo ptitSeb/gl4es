@@ -154,6 +154,12 @@ void GetHardwareExtensions(int notest)
     S("GL_EXT_texture_rg", rgtex, 0);
     S("GL_OES_texture_float", floattex, 0);
 
+    if (hardext.esversion>1) {
+        S("GL_OES_fragment_precision_high", highp, 0);
+        S("GL_EXT_frag_depth", fragdepth, 1);
+        gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
+        SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
+    }
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
     SHUT(LOGD("LIBGL: Max texture size: %d\n", hardext.maxsize));
@@ -167,6 +173,8 @@ void GetHardwareExtensions(int notest)
         hardext.maxlights = 8;
         hardext.maxplanes = 6;
         gles_glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &hardext.maxteximage);
+        if(hardext.maxvattrib<16 && hardext.maxtex>4)
+            hardext.maxtex = 4; // with less then 16 vertexattrib, more then 4 textures seems unreasonnable
     }
     if(hardext.maxtex>MAX_TEX) hardext.maxtex=MAX_TEX;      // caping, as there are some fixed-sized array...
     if(hardext.maxteximage>MAX_TEX) hardext.maxteximage=MAX_TEX;
@@ -183,12 +191,6 @@ void GetHardwareExtensions(int notest)
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
-    }
-    if (hardext.esversion>1) {
-        S("GL_OES_fragment_precision_high", highp, 0);
-        S("GL_EXT_frag_depth", fragdepth, 1);
-        gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
-        SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
     }
 
     // End, cleanup
