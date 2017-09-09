@@ -239,3 +239,13 @@ const char* PrintEGLError(int onlyerror) {
     }
     return fallback;
 }
+
+void CheckGLError(int fwd) {
+    LOAD_GLES(glGetError);
+    GLenum err=gles_glGetError();
+    if(err!=GL_NO_ERROR) {
+        printf("LIBGL: glGetError(): %s\n", PrintEnum(err));
+        if(fwd)
+            errorShim(err);
+    }
+}
