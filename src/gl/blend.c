@@ -23,7 +23,7 @@ void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha
 void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
     PUSH_IF_COMPILING(glBlendFuncSeparate);
-    LOAD_GLES_OES(glBlendFuncSeparate);
+    LOAD_GLES_OR_OES(glBlendFuncSeparate);
 #ifndef PANDORA
     if(gles_glBlendFuncSeparate==NULL) {
         // some fallback function to have better rendering with SDL2, better then nothing...
@@ -44,7 +44,7 @@ void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfacto
 
 void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
-    LOAD_GLES_OES(glBlendEquationSeparate);
+    LOAD_GLES_OR_OES(glBlendEquationSeparate);
 #ifndef PANDORA
     if(gles_glBlendEquationSeparate)
 #endif
@@ -66,7 +66,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 
     PUSH_IF_COMPILING(glBlendFunc)
     LOAD_GLES(glBlendFunc);
-    LOAD_GLES_OES(glBlendFuncSeparate);
+    LOAD_GLES_OR_OES(glBlendFuncSeparate);
     errorGL();
     // There are some limitations in GLES1.1 Blend functions
     switch(sfactor) {

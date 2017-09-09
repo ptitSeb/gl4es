@@ -430,14 +430,14 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
 void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) __attribute__((alias("gl4es_glDeleteRenderbuffers"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteShader
-void gl4es_glDeleteShader(GLuint program) {
+void gl4es_glDeleteShader(GLuint shader) {
     LOAD_GLES(glDeleteShader);
 #ifndef direct_glDeleteShader
     PUSH_IF_COMPILING(glDeleteShader)
 #endif
-    gles_glDeleteShader(program);
+    gles_glDeleteShader(shader);
 }
-void glDeleteShader(GLuint program) __attribute__((alias("gl4es_glDeleteShader"))) __attribute__((visibility("default")));
+void glDeleteShader(GLuint shader) __attribute__((alias("gl4es_glDeleteShader"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDeleteTextures
 void gl4es_glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -1789,6 +1789,16 @@ void gl4es_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
 }
 void glStencilFunc(GLenum func, GLint ref, GLuint mask) __attribute__((alias("gl4es_glStencilFunc"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glStencilFuncSeparate
+void gl4es_glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
+    LOAD_GLES(glStencilFuncSeparate);
+#ifndef direct_glStencilFuncSeparate
+    PUSH_IF_COMPILING(glStencilFuncSeparate)
+#endif
+    gles_glStencilFuncSeparate(face, func, ref, mask);
+}
+void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) __attribute__((alias("gl4es_glStencilFuncSeparate"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glStencilMask
 void gl4es_glStencilMask(GLuint mask) {
     LOAD_GLES(glStencilMask);
@@ -1799,6 +1809,16 @@ void gl4es_glStencilMask(GLuint mask) {
 }
 void glStencilMask(GLuint mask) __attribute__((alias("gl4es_glStencilMask"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glStencilMaskSeparate
+void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
+    LOAD_GLES(glStencilMaskSeparate);
+#ifndef direct_glStencilMaskSeparate
+    PUSH_IF_COMPILING(glStencilMaskSeparate)
+#endif
+    gles_glStencilMaskSeparate(face, mask);
+}
+void glStencilMaskSeparate(GLenum face, GLuint mask) __attribute__((alias("gl4es_glStencilMaskSeparate"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glStencilOp
 void gl4es_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     LOAD_GLES(glStencilOp);
@@ -1808,6 +1828,16 @@ void gl4es_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
     gles_glStencilOp(fail, zfail, zpass);
 }
 void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) __attribute__((alias("gl4es_glStencilOp"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glStencilOpSeparate
+void gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass) {
+    LOAD_GLES(glStencilOpSeparate);
+#ifndef direct_glStencilOpSeparate
+    PUSH_IF_COMPILING(glStencilOpSeparate)
+#endif
+    gles_glStencilOpSeparate(face, sfail, zfail, zpass);
+}
+void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass) __attribute__((alias("gl4es_glStencilOpSeparate"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glTexCoordPointer
 void gl4es_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -2894,6 +2924,12 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
+        case FORMAT_void_GLenum_GLenum_GLint_GLuint: {
+            PACKED_void_GLenum_GLenum_GLint_GLuint *unpacked = (PACKED_void_GLenum_GLenum_GLint_GLuint *)packed;
+            ARGS_void_GLenum_GLenum_GLint_GLuint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
+            break;
+        }
         case FORMAT_void_GLenum_GLenum_GLenum: {
             PACKED_void_GLenum_GLenum_GLenum *unpacked = (PACKED_void_GLenum_GLenum_GLenum *)packed;
             ARGS_void_GLenum_GLenum_GLenum args = unpacked->args;
@@ -3693,6 +3729,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLenum_GLint_GLuint: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLuint);
             PACKED_void_GLenum_GLint_GLuint *newpacked = (PACKED_void_GLenum_GLint_GLuint*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLenum_GLenum_GLint_GLuint: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLenum_GLint_GLuint);
+            PACKED_void_GLenum_GLenum_GLint_GLuint *newpacked = (PACKED_void_GLenum_GLenum_GLint_GLuint*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;

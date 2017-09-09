@@ -111,6 +111,7 @@ enum FORMAT {
     FORMAT_void_GLsizei_const_GLuint___GENPT___GLenum_const_GLvoid___GENPT___GLsizei,
     FORMAT_void_GLuint_GLsizei_const_GLchar___GENPT___const___GENPT___const_GLint___GENPT__,
     FORMAT_void_GLenum_GLint_GLuint,
+    FORMAT_void_GLenum_GLenum_GLint_GLuint,
     FORMAT_void_GLenum_GLenum_GLenum,
     FORMAT_void_GLenum_GLenum_GLint,
     FORMAT_void_GLenum_GLenum_const_GLint___GENPT__,
@@ -1566,6 +1567,22 @@ typedef struct {
     int func;
     ARGS_void_GLenum_GLint_GLuint args;
 } INDEXED_void_GLenum_GLint_GLuint;
+typedef void (*FUNC_void_GLenum_GLenum_GLint_GLuint)(GLenum face, GLenum func, GLint ref, GLuint mask);
+typedef struct {
+    GLenum a1;
+    GLenum a2;
+    GLint a3;
+    GLuint a4;
+} ARGS_void_GLenum_GLenum_GLint_GLuint;
+typedef struct {
+    int format;
+    FUNC_void_GLenum_GLenum_GLint_GLuint func;
+    ARGS_void_GLenum_GLenum_GLint_GLuint args;
+} PACKED_void_GLenum_GLenum_GLint_GLuint;
+typedef struct {
+    int func;
+    ARGS_void_GLenum_GLenum_GLint_GLuint args;
+} INDEXED_void_GLenum_GLenum_GLint_GLuint;
 typedef void (*FUNC_void_GLenum_GLenum_GLenum)(GLenum fail, GLenum zfail, GLenum zpass);
 typedef struct {
     GLenum a1;
@@ -2209,8 +2226,8 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glDeleteRenderbuffers_FORMAT FORMAT_void_GLsizei_GLuint___GENPT__
 #define glDeleteShader_INDEX 44
 #define glDeleteShader_RETURN void
-#define glDeleteShader_ARG_NAMES program
-#define glDeleteShader_ARG_EXPAND GLuint program
+#define glDeleteShader_ARG_NAMES shader
+#define glDeleteShader_ARG_EXPAND GLuint shader
 #define glDeleteShader_PACKED PACKED_void_GLuint
 #define glDeleteShader_INDEXED INDEXED_void_GLuint
 #define glDeleteShader_FORMAT FORMAT_void_GLuint
@@ -3159,371 +3176,392 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glStencilFunc_PACKED PACKED_void_GLenum_GLint_GLuint
 #define glStencilFunc_INDEXED INDEXED_void_GLenum_GLint_GLuint
 #define glStencilFunc_FORMAT FORMAT_void_GLenum_GLint_GLuint
-#define glStencilMask_INDEX 180
+#define glStencilFuncSeparate_INDEX 180
+#define glStencilFuncSeparate_RETURN void
+#define glStencilFuncSeparate_ARG_NAMES face, func, ref, mask
+#define glStencilFuncSeparate_ARG_EXPAND GLenum face, GLenum func, GLint ref, GLuint mask
+#define glStencilFuncSeparate_PACKED PACKED_void_GLenum_GLenum_GLint_GLuint
+#define glStencilFuncSeparate_INDEXED INDEXED_void_GLenum_GLenum_GLint_GLuint
+#define glStencilFuncSeparate_FORMAT FORMAT_void_GLenum_GLenum_GLint_GLuint
+#define glStencilMask_INDEX 181
 #define glStencilMask_RETURN void
 #define glStencilMask_ARG_NAMES mask
 #define glStencilMask_ARG_EXPAND GLuint mask
 #define glStencilMask_PACKED PACKED_void_GLuint
 #define glStencilMask_INDEXED INDEXED_void_GLuint
 #define glStencilMask_FORMAT FORMAT_void_GLuint
-#define glStencilOp_INDEX 181
+#define glStencilMaskSeparate_INDEX 182
+#define glStencilMaskSeparate_RETURN void
+#define glStencilMaskSeparate_ARG_NAMES face, mask
+#define glStencilMaskSeparate_ARG_EXPAND GLenum face, GLuint mask
+#define glStencilMaskSeparate_PACKED PACKED_void_GLenum_GLuint
+#define glStencilMaskSeparate_INDEXED INDEXED_void_GLenum_GLuint
+#define glStencilMaskSeparate_FORMAT FORMAT_void_GLenum_GLuint
+#define glStencilOp_INDEX 183
 #define glStencilOp_RETURN void
 #define glStencilOp_ARG_NAMES fail, zfail, zpass
 #define glStencilOp_ARG_EXPAND GLenum fail, GLenum zfail, GLenum zpass
 #define glStencilOp_PACKED PACKED_void_GLenum_GLenum_GLenum
 #define glStencilOp_INDEXED INDEXED_void_GLenum_GLenum_GLenum
 #define glStencilOp_FORMAT FORMAT_void_GLenum_GLenum_GLenum
-#define glTexCoordPointer_INDEX 182
+#define glStencilOpSeparate_INDEX 184
+#define glStencilOpSeparate_RETURN void
+#define glStencilOpSeparate_ARG_NAMES face, sfail, zfail, zpass
+#define glStencilOpSeparate_ARG_EXPAND GLenum face, GLenum sfail, GLenum zfail, GLenum zpass
+#define glStencilOpSeparate_PACKED PACKED_void_GLenum_GLenum_GLenum_GLenum
+#define glStencilOpSeparate_INDEXED INDEXED_void_GLenum_GLenum_GLenum_GLenum
+#define glStencilOpSeparate_FORMAT FORMAT_void_GLenum_GLenum_GLenum_GLenum
+#define glTexCoordPointer_INDEX 185
 #define glTexCoordPointer_RETURN void
 #define glTexCoordPointer_ARG_NAMES size, type, stride, pointer
 #define glTexCoordPointer_ARG_EXPAND GLint size, GLenum type, GLsizei stride, const GLvoid * pointer
 #define glTexCoordPointer_PACKED PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glTexCoordPointer_INDEXED INDEXED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glTexCoordPointer_FORMAT FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
-#define glTexEnvf_INDEX 183
+#define glTexEnvf_INDEX 186
 #define glTexEnvf_RETURN void
 #define glTexEnvf_ARG_NAMES target, pname, param
 #define glTexEnvf_ARG_EXPAND GLenum target, GLenum pname, GLfloat param
 #define glTexEnvf_PACKED PACKED_void_GLenum_GLenum_GLfloat
 #define glTexEnvf_INDEXED INDEXED_void_GLenum_GLenum_GLfloat
 #define glTexEnvf_FORMAT FORMAT_void_GLenum_GLenum_GLfloat
-#define glTexEnvfv_INDEX 184
+#define glTexEnvfv_INDEX 187
 #define glTexEnvfv_RETURN void
 #define glTexEnvfv_ARG_NAMES target, pname, params
 #define glTexEnvfv_ARG_EXPAND GLenum target, GLenum pname, const GLfloat * params
 #define glTexEnvfv_PACKED PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexEnvfv_INDEXED INDEXED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexEnvfv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__
-#define glTexEnvi_INDEX 185
+#define glTexEnvi_INDEX 188
 #define glTexEnvi_RETURN void
 #define glTexEnvi_ARG_NAMES target, pname, param
 #define glTexEnvi_ARG_EXPAND GLenum target, GLenum pname, GLint param
 #define glTexEnvi_PACKED PACKED_void_GLenum_GLenum_GLint
 #define glTexEnvi_INDEXED INDEXED_void_GLenum_GLenum_GLint
 #define glTexEnvi_FORMAT FORMAT_void_GLenum_GLenum_GLint
-#define glTexEnviv_INDEX 186
+#define glTexEnviv_INDEX 189
 #define glTexEnviv_RETURN void
 #define glTexEnviv_ARG_NAMES target, pname, params
 #define glTexEnviv_ARG_EXPAND GLenum target, GLenum pname, const GLint * params
 #define glTexEnviv_PACKED PACKED_void_GLenum_GLenum_const_GLint___GENPT__
 #define glTexEnviv_INDEXED INDEXED_void_GLenum_GLenum_const_GLint___GENPT__
 #define glTexEnviv_FORMAT FORMAT_void_GLenum_GLenum_const_GLint___GENPT__
-#define glTexEnvx_INDEX 187
+#define glTexEnvx_INDEX 190
 #define glTexEnvx_RETURN void
 #define glTexEnvx_ARG_NAMES target, pname, param
 #define glTexEnvx_ARG_EXPAND GLenum target, GLenum pname, GLfixed param
 #define glTexEnvx_PACKED PACKED_void_GLenum_GLenum_GLfixed
 #define glTexEnvx_INDEXED INDEXED_void_GLenum_GLenum_GLfixed
 #define glTexEnvx_FORMAT FORMAT_void_GLenum_GLenum_GLfixed
-#define glTexEnvxv_INDEX 188
+#define glTexEnvxv_INDEX 191
 #define glTexEnvxv_RETURN void
 #define glTexEnvxv_ARG_NAMES target, pname, params
 #define glTexEnvxv_ARG_EXPAND GLenum target, GLenum pname, const GLfixed * params
 #define glTexEnvxv_PACKED PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__
 #define glTexEnvxv_INDEXED INDEXED_void_GLenum_GLenum_const_GLfixed___GENPT__
 #define glTexEnvxv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__
-#define glTexGenfv_INDEX 189
+#define glTexGenfv_INDEX 192
 #define glTexGenfv_RETURN void
 #define glTexGenfv_ARG_NAMES coord, pname, params
 #define glTexGenfv_ARG_EXPAND GLenum coord, GLenum pname, const GLfloat * params
 #define glTexGenfv_PACKED PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexGenfv_INDEXED INDEXED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexGenfv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__
-#define glTexGeni_INDEX 190
+#define glTexGeni_INDEX 193
 #define glTexGeni_RETURN void
 #define glTexGeni_ARG_NAMES coord, pname, param
 #define glTexGeni_ARG_EXPAND GLenum coord, GLenum pname, GLint param
 #define glTexGeni_PACKED PACKED_void_GLenum_GLenum_GLint
 #define glTexGeni_INDEXED INDEXED_void_GLenum_GLenum_GLint
 #define glTexGeni_FORMAT FORMAT_void_GLenum_GLenum_GLint
-#define glTexImage2D_INDEX 191
+#define glTexImage2D_INDEX 194
 #define glTexImage2D_RETURN void
 #define glTexImage2D_ARG_NAMES target, level, internalformat, width, height, border, format, type, data
 #define glTexImage2D_ARG_EXPAND GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data
 #define glTexImage2D_PACKED PACKED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexImage2D_INDEXED INDEXED_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexImage2D_FORMAT FORMAT_void_GLenum_GLint_GLint_GLsizei_GLsizei_GLint_GLenum_GLenum_const_GLvoid___GENPT__
-#define glTexParameterf_INDEX 192
+#define glTexParameterf_INDEX 195
 #define glTexParameterf_RETURN void
 #define glTexParameterf_ARG_NAMES target, pname, param
 #define glTexParameterf_ARG_EXPAND GLenum target, GLenum pname, GLfloat param
 #define glTexParameterf_PACKED PACKED_void_GLenum_GLenum_GLfloat
 #define glTexParameterf_INDEXED INDEXED_void_GLenum_GLenum_GLfloat
 #define glTexParameterf_FORMAT FORMAT_void_GLenum_GLenum_GLfloat
-#define glTexParameterfv_INDEX 193
+#define glTexParameterfv_INDEX 196
 #define glTexParameterfv_RETURN void
 #define glTexParameterfv_ARG_NAMES target, pname, params
 #define glTexParameterfv_ARG_EXPAND GLenum target, GLenum pname, const GLfloat * params
 #define glTexParameterfv_PACKED PACKED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexParameterfv_INDEXED INDEXED_void_GLenum_GLenum_const_GLfloat___GENPT__
 #define glTexParameterfv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfloat___GENPT__
-#define glTexParameteri_INDEX 194
+#define glTexParameteri_INDEX 197
 #define glTexParameteri_RETURN void
 #define glTexParameteri_ARG_NAMES target, pname, param
 #define glTexParameteri_ARG_EXPAND GLenum target, GLenum pname, GLint param
 #define glTexParameteri_PACKED PACKED_void_GLenum_GLenum_GLint
 #define glTexParameteri_INDEXED INDEXED_void_GLenum_GLenum_GLint
 #define glTexParameteri_FORMAT FORMAT_void_GLenum_GLenum_GLint
-#define glTexParameteriv_INDEX 195
+#define glTexParameteriv_INDEX 198
 #define glTexParameteriv_RETURN void
 #define glTexParameteriv_ARG_NAMES target, pname, params
 #define glTexParameteriv_ARG_EXPAND GLenum target, GLenum pname, const GLint * params
 #define glTexParameteriv_PACKED PACKED_void_GLenum_GLenum_const_GLint___GENPT__
 #define glTexParameteriv_INDEXED INDEXED_void_GLenum_GLenum_const_GLint___GENPT__
 #define glTexParameteriv_FORMAT FORMAT_void_GLenum_GLenum_const_GLint___GENPT__
-#define glTexParameterx_INDEX 196
+#define glTexParameterx_INDEX 199
 #define glTexParameterx_RETURN void
 #define glTexParameterx_ARG_NAMES target, pname, param
 #define glTexParameterx_ARG_EXPAND GLenum target, GLenum pname, GLfixed param
 #define glTexParameterx_PACKED PACKED_void_GLenum_GLenum_GLfixed
 #define glTexParameterx_INDEXED INDEXED_void_GLenum_GLenum_GLfixed
 #define glTexParameterx_FORMAT FORMAT_void_GLenum_GLenum_GLfixed
-#define glTexParameterxv_INDEX 197
+#define glTexParameterxv_INDEX 200
 #define glTexParameterxv_RETURN void
 #define glTexParameterxv_ARG_NAMES target, pname, params
 #define glTexParameterxv_ARG_EXPAND GLenum target, GLenum pname, const GLfixed * params
 #define glTexParameterxv_PACKED PACKED_void_GLenum_GLenum_const_GLfixed___GENPT__
 #define glTexParameterxv_INDEXED INDEXED_void_GLenum_GLenum_const_GLfixed___GENPT__
 #define glTexParameterxv_FORMAT FORMAT_void_GLenum_GLenum_const_GLfixed___GENPT__
-#define glTexSubImage2D_INDEX 198
+#define glTexSubImage2D_INDEX 201
 #define glTexSubImage2D_RETURN void
 #define glTexSubImage2D_ARG_NAMES target, level, xoffset, yoffset, width, height, format, type, data
 #define glTexSubImage2D_ARG_EXPAND GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data
 #define glTexSubImage2D_PACKED PACKED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexSubImage2D_INDEXED INDEXED_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
 #define glTexSubImage2D_FORMAT FORMAT_void_GLenum_GLint_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_const_GLvoid___GENPT__
-#define glTranslatef_INDEX 199
+#define glTranslatef_INDEX 202
 #define glTranslatef_RETURN void
 #define glTranslatef_ARG_NAMES x, y, z
 #define glTranslatef_ARG_EXPAND GLfloat x, GLfloat y, GLfloat z
 #define glTranslatef_PACKED PACKED_void_GLfloat_GLfloat_GLfloat
 #define glTranslatef_INDEXED INDEXED_void_GLfloat_GLfloat_GLfloat
 #define glTranslatef_FORMAT FORMAT_void_GLfloat_GLfloat_GLfloat
-#define glTranslatex_INDEX 200
+#define glTranslatex_INDEX 203
 #define glTranslatex_RETURN void
 #define glTranslatex_ARG_NAMES x, y, z
 #define glTranslatex_ARG_EXPAND GLfixed x, GLfixed y, GLfixed z
 #define glTranslatex_PACKED PACKED_void_GLfixed_GLfixed_GLfixed
 #define glTranslatex_INDEXED INDEXED_void_GLfixed_GLfixed_GLfixed
 #define glTranslatex_FORMAT FORMAT_void_GLfixed_GLfixed_GLfixed
-#define glUniform1f_INDEX 201
+#define glUniform1f_INDEX 204
 #define glUniform1f_RETURN void
 #define glUniform1f_ARG_NAMES location, v0
 #define glUniform1f_ARG_EXPAND GLint location, GLfloat v0
 #define glUniform1f_PACKED PACKED_void_GLint_GLfloat
 #define glUniform1f_INDEXED INDEXED_void_GLint_GLfloat
 #define glUniform1f_FORMAT FORMAT_void_GLint_GLfloat
-#define glUniform1fv_INDEX 202
+#define glUniform1fv_INDEX 205
 #define glUniform1fv_RETURN void
 #define glUniform1fv_ARG_NAMES location, count, value
 #define glUniform1fv_ARG_EXPAND GLint location, GLsizei count, const GLfloat * value
 #define glUniform1fv_PACKED PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform1fv_INDEXED INDEXED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform1fv_FORMAT FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__
-#define glUniform1i_INDEX 203
+#define glUniform1i_INDEX 206
 #define glUniform1i_RETURN void
 #define glUniform1i_ARG_NAMES location, v0
 #define glUniform1i_ARG_EXPAND GLint location, GLint v0
 #define glUniform1i_PACKED PACKED_void_GLint_GLint
 #define glUniform1i_INDEXED INDEXED_void_GLint_GLint
 #define glUniform1i_FORMAT FORMAT_void_GLint_GLint
-#define glUniform1iv_INDEX 204
+#define glUniform1iv_INDEX 207
 #define glUniform1iv_RETURN void
 #define glUniform1iv_ARG_NAMES location, count, value
 #define glUniform1iv_ARG_EXPAND GLint location, GLsizei count, const GLint * value
 #define glUniform1iv_PACKED PACKED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform1iv_INDEXED INDEXED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform1iv_FORMAT FORMAT_void_GLint_GLsizei_const_GLint___GENPT__
-#define glUniform2f_INDEX 205
+#define glUniform2f_INDEX 208
 #define glUniform2f_RETURN void
 #define glUniform2f_ARG_NAMES location, v0, v1
 #define glUniform2f_ARG_EXPAND GLint location, GLfloat v0, GLfloat v1
 #define glUniform2f_PACKED PACKED_void_GLint_GLfloat_GLfloat
 #define glUniform2f_INDEXED INDEXED_void_GLint_GLfloat_GLfloat
 #define glUniform2f_FORMAT FORMAT_void_GLint_GLfloat_GLfloat
-#define glUniform2fv_INDEX 206
+#define glUniform2fv_INDEX 209
 #define glUniform2fv_RETURN void
 #define glUniform2fv_ARG_NAMES location, count, value
 #define glUniform2fv_ARG_EXPAND GLint location, GLsizei count, const GLfloat * value
 #define glUniform2fv_PACKED PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform2fv_INDEXED INDEXED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform2fv_FORMAT FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__
-#define glUniform2i_INDEX 207
+#define glUniform2i_INDEX 210
 #define glUniform2i_RETURN void
 #define glUniform2i_ARG_NAMES location, v0, v1
 #define glUniform2i_ARG_EXPAND GLint location, GLint v0, GLint v1
 #define glUniform2i_PACKED PACKED_void_GLint_GLint_GLint
 #define glUniform2i_INDEXED INDEXED_void_GLint_GLint_GLint
 #define glUniform2i_FORMAT FORMAT_void_GLint_GLint_GLint
-#define glUniform2iv_INDEX 208
+#define glUniform2iv_INDEX 211
 #define glUniform2iv_RETURN void
 #define glUniform2iv_ARG_NAMES location, count, value
 #define glUniform2iv_ARG_EXPAND GLint location, GLsizei count, const GLint * value
 #define glUniform2iv_PACKED PACKED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform2iv_INDEXED INDEXED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform2iv_FORMAT FORMAT_void_GLint_GLsizei_const_GLint___GENPT__
-#define glUniform3f_INDEX 209
+#define glUniform3f_INDEX 212
 #define glUniform3f_RETURN void
 #define glUniform3f_ARG_NAMES location, v0, v1, v2
 #define glUniform3f_ARG_EXPAND GLint location, GLfloat v0, GLfloat v1, GLfloat v2
 #define glUniform3f_PACKED PACKED_void_GLint_GLfloat_GLfloat_GLfloat
 #define glUniform3f_INDEXED INDEXED_void_GLint_GLfloat_GLfloat_GLfloat
 #define glUniform3f_FORMAT FORMAT_void_GLint_GLfloat_GLfloat_GLfloat
-#define glUniform3fv_INDEX 210
+#define glUniform3fv_INDEX 213
 #define glUniform3fv_RETURN void
 #define glUniform3fv_ARG_NAMES location, count, value
 #define glUniform3fv_ARG_EXPAND GLint location, GLsizei count, const GLfloat * value
 #define glUniform3fv_PACKED PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform3fv_INDEXED INDEXED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform3fv_FORMAT FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__
-#define glUniform3i_INDEX 211
+#define glUniform3i_INDEX 214
 #define glUniform3i_RETURN void
 #define glUniform3i_ARG_NAMES location, v0, v1, v2
 #define glUniform3i_ARG_EXPAND GLint location, GLint v0, GLint v1, GLint v2
 #define glUniform3i_PACKED PACKED_void_GLint_GLint_GLint_GLint
 #define glUniform3i_INDEXED INDEXED_void_GLint_GLint_GLint_GLint
 #define glUniform3i_FORMAT FORMAT_void_GLint_GLint_GLint_GLint
-#define glUniform3iv_INDEX 212
+#define glUniform3iv_INDEX 215
 #define glUniform3iv_RETURN void
 #define glUniform3iv_ARG_NAMES location, count, value
 #define glUniform3iv_ARG_EXPAND GLint location, GLsizei count, const GLint * value
 #define glUniform3iv_PACKED PACKED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform3iv_INDEXED INDEXED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform3iv_FORMAT FORMAT_void_GLint_GLsizei_const_GLint___GENPT__
-#define glUniform4f_INDEX 213
+#define glUniform4f_INDEX 216
 #define glUniform4f_RETURN void
 #define glUniform4f_ARG_NAMES location, v0, v1, v2, v3
 #define glUniform4f_ARG_EXPAND GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3
 #define glUniform4f_PACKED PACKED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat
 #define glUniform4f_INDEXED INDEXED_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat
 #define glUniform4f_FORMAT FORMAT_void_GLint_GLfloat_GLfloat_GLfloat_GLfloat
-#define glUniform4fv_INDEX 214
+#define glUniform4fv_INDEX 217
 #define glUniform4fv_RETURN void
 #define glUniform4fv_ARG_NAMES location, count, value
 #define glUniform4fv_ARG_EXPAND GLint location, GLsizei count, const GLfloat * value
 #define glUniform4fv_PACKED PACKED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform4fv_INDEXED INDEXED_void_GLint_GLsizei_const_GLfloat___GENPT__
 #define glUniform4fv_FORMAT FORMAT_void_GLint_GLsizei_const_GLfloat___GENPT__
-#define glUniform4i_INDEX 215
+#define glUniform4i_INDEX 218
 #define glUniform4i_RETURN void
 #define glUniform4i_ARG_NAMES location, v0, v1, v2, v3
 #define glUniform4i_ARG_EXPAND GLint location, GLint v0, GLint v1, GLint v2, GLint v3
 #define glUniform4i_PACKED PACKED_void_GLint_GLint_GLint_GLint_GLint
 #define glUniform4i_INDEXED INDEXED_void_GLint_GLint_GLint_GLint_GLint
 #define glUniform4i_FORMAT FORMAT_void_GLint_GLint_GLint_GLint_GLint
-#define glUniform4iv_INDEX 216
+#define glUniform4iv_INDEX 219
 #define glUniform4iv_RETURN void
 #define glUniform4iv_ARG_NAMES location, count, value
 #define glUniform4iv_ARG_EXPAND GLint location, GLsizei count, const GLint * value
 #define glUniform4iv_PACKED PACKED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform4iv_INDEXED INDEXED_void_GLint_GLsizei_const_GLint___GENPT__
 #define glUniform4iv_FORMAT FORMAT_void_GLint_GLsizei_const_GLint___GENPT__
-#define glUniformMatrix2fv_INDEX 217
+#define glUniformMatrix2fv_INDEX 220
 #define glUniformMatrix2fv_RETURN void
 #define glUniformMatrix2fv_ARG_NAMES location, count, transpose, value
 #define glUniformMatrix2fv_ARG_EXPAND GLint location, GLsizei count, GLboolean transpose, const GLfloat * value
 #define glUniformMatrix2fv_PACKED PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix2fv_INDEXED INDEXED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix2fv_FORMAT FORMAT_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
-#define glUniformMatrix3fv_INDEX 218
+#define glUniformMatrix3fv_INDEX 221
 #define glUniformMatrix3fv_RETURN void
 #define glUniformMatrix3fv_ARG_NAMES location, count, transpose, value
 #define glUniformMatrix3fv_ARG_EXPAND GLint location, GLsizei count, GLboolean transpose, const GLfloat * value
 #define glUniformMatrix3fv_PACKED PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix3fv_INDEXED INDEXED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix3fv_FORMAT FORMAT_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
-#define glUniformMatrix4fv_INDEX 219
+#define glUniformMatrix4fv_INDEX 222
 #define glUniformMatrix4fv_RETURN void
 #define glUniformMatrix4fv_ARG_NAMES location, count, transpose, value
 #define glUniformMatrix4fv_ARG_EXPAND GLint location, GLsizei count, GLboolean transpose, const GLfloat * value
 #define glUniformMatrix4fv_PACKED PACKED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix4fv_INDEXED INDEXED_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
 #define glUniformMatrix4fv_FORMAT FORMAT_void_GLint_GLsizei_GLboolean_const_GLfloat___GENPT__
-#define glUseProgram_INDEX 220
+#define glUseProgram_INDEX 223
 #define glUseProgram_RETURN void
 #define glUseProgram_ARG_NAMES program
 #define glUseProgram_ARG_EXPAND GLuint program
 #define glUseProgram_PACKED PACKED_void_GLuint
 #define glUseProgram_INDEXED INDEXED_void_GLuint
 #define glUseProgram_FORMAT FORMAT_void_GLuint
-#define glValidateProgram_INDEX 221
+#define glValidateProgram_INDEX 224
 #define glValidateProgram_RETURN void
 #define glValidateProgram_ARG_NAMES program
 #define glValidateProgram_ARG_EXPAND GLuint program
 #define glValidateProgram_PACKED PACKED_void_GLuint
 #define glValidateProgram_INDEXED INDEXED_void_GLuint
 #define glValidateProgram_FORMAT FORMAT_void_GLuint
-#define glVertexAttrib1f_INDEX 222
+#define glVertexAttrib1f_INDEX 225
 #define glVertexAttrib1f_RETURN void
 #define glVertexAttrib1f_ARG_NAMES index, x
 #define glVertexAttrib1f_ARG_EXPAND GLuint index, GLfloat x
 #define glVertexAttrib1f_PACKED PACKED_void_GLuint_GLfloat
 #define glVertexAttrib1f_INDEXED INDEXED_void_GLuint_GLfloat
 #define glVertexAttrib1f_FORMAT FORMAT_void_GLuint_GLfloat
-#define glVertexAttrib1fv_INDEX 223
+#define glVertexAttrib1fv_INDEX 226
 #define glVertexAttrib1fv_RETURN void
 #define glVertexAttrib1fv_ARG_NAMES index, v
 #define glVertexAttrib1fv_ARG_EXPAND GLuint index, const GLfloat * v
 #define glVertexAttrib1fv_PACKED PACKED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib1fv_INDEXED INDEXED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib1fv_FORMAT FORMAT_void_GLuint_const_GLfloat___GENPT__
-#define glVertexAttrib2f_INDEX 224
+#define glVertexAttrib2f_INDEX 227
 #define glVertexAttrib2f_RETURN void
 #define glVertexAttrib2f_ARG_NAMES index, x, y
 #define glVertexAttrib2f_ARG_EXPAND GLuint index, GLfloat x, GLfloat y
 #define glVertexAttrib2f_PACKED PACKED_void_GLuint_GLfloat_GLfloat
 #define glVertexAttrib2f_INDEXED INDEXED_void_GLuint_GLfloat_GLfloat
 #define glVertexAttrib2f_FORMAT FORMAT_void_GLuint_GLfloat_GLfloat
-#define glVertexAttrib2fv_INDEX 225
+#define glVertexAttrib2fv_INDEX 228
 #define glVertexAttrib2fv_RETURN void
 #define glVertexAttrib2fv_ARG_NAMES index, v
 #define glVertexAttrib2fv_ARG_EXPAND GLuint index, const GLfloat * v
 #define glVertexAttrib2fv_PACKED PACKED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib2fv_INDEXED INDEXED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib2fv_FORMAT FORMAT_void_GLuint_const_GLfloat___GENPT__
-#define glVertexAttrib3f_INDEX 226
+#define glVertexAttrib3f_INDEX 229
 #define glVertexAttrib3f_RETURN void
 #define glVertexAttrib3f_ARG_NAMES index, x, y, z
 #define glVertexAttrib3f_ARG_EXPAND GLuint index, GLfloat x, GLfloat y, GLfloat z
 #define glVertexAttrib3f_PACKED PACKED_void_GLuint_GLfloat_GLfloat_GLfloat
 #define glVertexAttrib3f_INDEXED INDEXED_void_GLuint_GLfloat_GLfloat_GLfloat
 #define glVertexAttrib3f_FORMAT FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat
-#define glVertexAttrib3fv_INDEX 227
+#define glVertexAttrib3fv_INDEX 230
 #define glVertexAttrib3fv_RETURN void
 #define glVertexAttrib3fv_ARG_NAMES index, v
 #define glVertexAttrib3fv_ARG_EXPAND GLuint index, const GLfloat * v
 #define glVertexAttrib3fv_PACKED PACKED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib3fv_INDEXED INDEXED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib3fv_FORMAT FORMAT_void_GLuint_const_GLfloat___GENPT__
-#define glVertexAttrib4f_INDEX 228
+#define glVertexAttrib4f_INDEX 231
 #define glVertexAttrib4f_RETURN void
 #define glVertexAttrib4f_ARG_NAMES index, x, y, z, w
 #define glVertexAttrib4f_ARG_EXPAND GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w
 #define glVertexAttrib4f_PACKED PACKED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat
 #define glVertexAttrib4f_INDEXED INDEXED_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat
 #define glVertexAttrib4f_FORMAT FORMAT_void_GLuint_GLfloat_GLfloat_GLfloat_GLfloat
-#define glVertexAttrib4fv_INDEX 229
+#define glVertexAttrib4fv_INDEX 232
 #define glVertexAttrib4fv_RETURN void
 #define glVertexAttrib4fv_ARG_NAMES index, v
 #define glVertexAttrib4fv_ARG_EXPAND GLuint index, const GLfloat * v
 #define glVertexAttrib4fv_PACKED PACKED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib4fv_INDEXED INDEXED_void_GLuint_const_GLfloat___GENPT__
 #define glVertexAttrib4fv_FORMAT FORMAT_void_GLuint_const_GLfloat___GENPT__
-#define glVertexAttribPointer_INDEX 230
+#define glVertexAttribPointer_INDEX 233
 #define glVertexAttribPointer_RETURN void
 #define glVertexAttribPointer_ARG_NAMES index, size, type, normalized, stride, pointer
 #define glVertexAttribPointer_ARG_EXPAND GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer
 #define glVertexAttribPointer_PACKED PACKED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__
 #define glVertexAttribPointer_INDEXED INDEXED_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__
 #define glVertexAttribPointer_FORMAT FORMAT_void_GLuint_GLint_GLenum_GLboolean_GLsizei_const_GLvoid___GENPT__
-#define glVertexPointer_INDEX 231
+#define glVertexPointer_INDEX 234
 #define glVertexPointer_RETURN void
 #define glVertexPointer_ARG_NAMES size, type, stride, pointer
 #define glVertexPointer_ARG_EXPAND GLint size, GLenum type, GLsizei stride, const GLvoid * pointer
 #define glVertexPointer_PACKED PACKED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glVertexPointer_INDEXED INDEXED_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glVertexPointer_FORMAT FORMAT_void_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
-#define glViewport_INDEX 232
+#define glViewport_INDEX 235
 #define glViewport_RETURN void
 #define glViewport_ARG_NAMES x, y, width, height
 #define glViewport_ARG_EXPAND GLint x, GLint y, GLsizei width, GLsizei height
@@ -3889,10 +3927,16 @@ void gl4es_glShaderSource(glShaderSource_ARG_EXPAND);
 typedef void (*glShaderSource_PTR)(glShaderSource_ARG_EXPAND);
 void gl4es_glStencilFunc(glStencilFunc_ARG_EXPAND);
 typedef void (*glStencilFunc_PTR)(glStencilFunc_ARG_EXPAND);
+void gl4es_glStencilFuncSeparate(glStencilFuncSeparate_ARG_EXPAND);
+typedef void (*glStencilFuncSeparate_PTR)(glStencilFuncSeparate_ARG_EXPAND);
 void gl4es_glStencilMask(glStencilMask_ARG_EXPAND);
 typedef void (*glStencilMask_PTR)(glStencilMask_ARG_EXPAND);
+void gl4es_glStencilMaskSeparate(glStencilMaskSeparate_ARG_EXPAND);
+typedef void (*glStencilMaskSeparate_PTR)(glStencilMaskSeparate_ARG_EXPAND);
 void gl4es_glStencilOp(glStencilOp_ARG_EXPAND);
 typedef void (*glStencilOp_PTR)(glStencilOp_ARG_EXPAND);
+void gl4es_glStencilOpSeparate(glStencilOpSeparate_ARG_EXPAND);
+typedef void (*glStencilOpSeparate_PTR)(glStencilOpSeparate_ARG_EXPAND);
 void gl4es_glTexCoordPointer(glTexCoordPointer_ARG_EXPAND);
 typedef void (*glTexCoordPointer_PTR)(glTexCoordPointer_ARG_EXPAND);
 void gl4es_glTexEnvf(glTexEnvf_ARG_EXPAND);
@@ -4463,11 +4507,11 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glDeleteShader
-#define push_glDeleteShader(program) { \
+#define push_glDeleteShader(shader) { \
     glDeleteShader_PACKED *packed_data = malloc(sizeof(glDeleteShader_PACKED)); \
     packed_data->format = glDeleteShader_FORMAT; \
     packed_data->func = gl4es_glDeleteShader; \
-    packed_data->args.a1 = (GLuint)program; \
+    packed_data->args.a1 = (GLuint)shader; \
     glPushCall((void *)packed_data); \
 }
 #endif
@@ -5876,7 +5920,7 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->func = gl4es_glShaderSource; \
     packed_data->args.a1 = (GLuint)shader; \
     packed_data->args.a2 = (GLsizei)count; \
-    packed_data->args.a3 = (const GLchar * const *)string; \
+    packed_data->args.a3 = (GLchar * *)string; \
     packed_data->args.a4 = (GLint *)length; \
     glPushCall((void *)packed_data); \
 }
@@ -5892,12 +5936,34 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     glPushCall((void *)packed_data); \
 }
 #endif
+#ifndef direct_glStencilFuncSeparate
+#define push_glStencilFuncSeparate(face, func, ref, mask) { \
+    glStencilFuncSeparate_PACKED *packed_data = malloc(sizeof(glStencilFuncSeparate_PACKED)); \
+    packed_data->format = glStencilFuncSeparate_FORMAT; \
+    packed_data->func = gl4es_glStencilFuncSeparate; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)func; \
+    packed_data->args.a3 = (GLint)ref; \
+    packed_data->args.a4 = (GLuint)mask; \
+    glPushCall((void *)packed_data); \
+}
+#endif
 #ifndef direct_glStencilMask
 #define push_glStencilMask(mask) { \
     glStencilMask_PACKED *packed_data = malloc(sizeof(glStencilMask_PACKED)); \
     packed_data->format = glStencilMask_FORMAT; \
     packed_data->func = gl4es_glStencilMask; \
     packed_data->args.a1 = (GLuint)mask; \
+    glPushCall((void *)packed_data); \
+}
+#endif
+#ifndef direct_glStencilMaskSeparate
+#define push_glStencilMaskSeparate(face, mask) { \
+    glStencilMaskSeparate_PACKED *packed_data = malloc(sizeof(glStencilMaskSeparate_PACKED)); \
+    packed_data->format = glStencilMaskSeparate_FORMAT; \
+    packed_data->func = gl4es_glStencilMaskSeparate; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLuint)mask; \
     glPushCall((void *)packed_data); \
 }
 #endif
@@ -5909,6 +5975,18 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a1 = (GLenum)fail; \
     packed_data->args.a2 = (GLenum)zfail; \
     packed_data->args.a3 = (GLenum)zpass; \
+    glPushCall((void *)packed_data); \
+}
+#endif
+#ifndef direct_glStencilOpSeparate
+#define push_glStencilOpSeparate(face, sfail, zfail, zpass) { \
+    glStencilOpSeparate_PACKED *packed_data = malloc(sizeof(glStencilOpSeparate_PACKED)); \
+    packed_data->format = glStencilOpSeparate_FORMAT; \
+    packed_data->func = gl4es_glStencilOpSeparate; \
+    packed_data->args.a1 = (GLenum)face; \
+    packed_data->args.a2 = (GLenum)sfail; \
+    packed_data->args.a3 = (GLenum)zfail; \
+    packed_data->args.a4 = (GLenum)zpass; \
     glPushCall((void *)packed_data); \
 }
 #endif

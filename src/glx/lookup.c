@@ -196,6 +196,7 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
         _ARB(glFramebufferTextureLayer);
         _ARB(glBlitFramebuffer);
         STUB(glDrawBuffersARB);
+        STUB(glDrawBuffers);    //TODO: implement something?
     }
     
     // GL_EXT_vertex_array
@@ -646,6 +647,8 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     THUNK(s);
     THUNK(i);
     #undef THUNK
+    _EX(glGetVertexAttribdv);
+    _EX(glVertexAttrib4Nub);
 
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;

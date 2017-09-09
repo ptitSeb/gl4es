@@ -224,6 +224,7 @@ THUNK(us, GLushort);
 THUNK(i, GLint);
 THUNK(ui, GLuint);
 #undef THUNK
+void gl4es_glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3);
 
 
 #endif

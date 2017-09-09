@@ -48,6 +48,9 @@ glShaderBinary: [void, GLsizei n, const GLuint * shaders, GLenum binaryformat, c
     GLvoid * binary, GLsizei length]
 glShaderSource: [void, GLuint shader, GLsizei count, const GLchar * const * string,
   const GLint * length]
+glStencilFuncSeparate: [void, GLenum face, GLenum func, GLint ref, GLuint mask]
+glStencilMaskSeparate: [void, GLenum face, GLuint mask]
+glStencilOpSeparate: [void, GLenum face, GLenum sfail, GLenum zfail, GLenum zpass]
 glUniform1f: [void, GLint location, GLfloat v0]
 glUniform1fv: [void, GLint location, GLsizei count, const GLfloat * value]
 glUniform1i: [void, GLint location, GLint v0]

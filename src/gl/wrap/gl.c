@@ -755,6 +755,8 @@ THUNK(us, GLushort, 65535.0f);
 THUNK(i, GLint, 2147483647.0f);
 THUNK(ui, GLuint, 4294967295.0f);
 #undef THUNK
+void gl4es_glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) {GLfloat f[4] = {0,0,0,1}; f[0] =v0/255.f; f[1]=v1/255.f; f[2]=v2/255.f; f[3]=v3/255.f; gl4es_glVertexAttrib4fv(index, f); };
+void glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) AliasExport("gl4es_glVertexAttrib4Nub");
 
 //Direct wrapper
 void glClearDepth(GLdouble depth) AliasExport("gl4es_glClearDepth");

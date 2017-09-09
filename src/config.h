@@ -40,6 +40,10 @@
 #define skip_glBlendFuncSeparate
 #define skip_glBlendFuncSeparatei
 
+#define skip_glStencilFuncSeparate
+#define skip_glStencilMaskSeparate
+#define skip_glStencilOpSeparate
+
 #define skip_glFogfv
 
 #define skip_glPointParameterfv
