@@ -35,6 +35,7 @@ typedef struct _globals4es {
  int glx_surface_srgb;
  int nodownsampling;
  int vabgra;
+ int nobgra;
 #ifdef PANDORA
  float gamma;
 #endif

@@ -147,7 +147,9 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_depth24", depth24, 1);
     S("GL_OES_rgb8_rgba8", rgba8, 1);
     S("GL_EXT_multi_draw_arrays", multidraw, 1);
-    S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
+    if(!globals4es.nobgra) {
+        S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
+    }
     S("GL_OES_depth_texture", depthtex, 1);
     S("GL_OES_texture_cube_map", cubemap, 1);
     S("GL_OES_draw_texture", drawtex, 1);

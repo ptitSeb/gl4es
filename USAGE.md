@@ -19,7 +19,7 @@ Controls tje version of GLES to use
 
 ##### LIBGL_GL
 Controls the version of OpenGL exposed
- * 0 : Default, expose OpenGL 1.5
+ * 0 : Default, expose OpenGL 1.5 when using GLES1.1 or OpenGL 2.0 when using GLES2.0
  * 15: Expose OpenGL 1.5
  * 20: Expose OpenGL 2.0
  * 21: Expose OpenGL 2.1
@@ -192,6 +192,11 @@ Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is
 Try to avoid 16bits textures
  * 0 : Default, use 16bits texture if it can avoid a convertion or for DXTc textures
  * 1 : Use 32bits texture unless specifically requested (using internalformat)
+
+##### LIBGL_NOBGRA
+Ignore BGRA Texture hardware extension
+ * 0 : Default, use BGRA extension if possible
+ * 1 : Ignore BGRA extension, even if supported by GLES hardware
 
 ##### LIBGL_ES
 Choose GLES hardware backend. WIP, don't use for now

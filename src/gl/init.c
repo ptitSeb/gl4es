@@ -107,6 +107,7 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Set gamma to %.2f\n", globals4es.gamma));
     }
 #endif
+    env(LIBGL_NOBGRA, globals4es.nobgra, "Ignore BGRA texture capability");
     char *env_es = getenv("LIBGL_ES");
     if (env_es && strcmp(env_es, "1") == 0) {
             globals4es.es = 1;
@@ -130,7 +131,7 @@ void initialize_gl4es() {
     }
     // automatic GL version selection
     if(globals4es.gl==0)
-        globals4es.gl = 15;  // forcing GL 1.5
+        globals4es.gl = (globals4es.es==1)?15:20;  // forcing GL 1.5 for es1.1 and GL 2.0 for es2.0
 
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
