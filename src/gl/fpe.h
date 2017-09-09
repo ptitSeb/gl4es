@@ -51,6 +51,6 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
 
 void realize_glenv();
 void realize_fpeenv();
-void realize_blitenv();
+void realize_blitenv(int alpha);
 
 #endif

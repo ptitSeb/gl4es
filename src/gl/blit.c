@@ -2,6 +2,9 @@
 
 #include "blit.h"
 #include "../glx/hardext.h"
+#include "init.h"
+
+#define SHUT(a) if(!globals4es.nobanner) a
 
 // hacky viewport temporary changes
 void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
@@ -140,6 +143,44 @@ void gl4es_blitTexture_gles1(GLuint texture,
 
 }
 
+const char _blit_vsh[] = "#version 100                  \n\t" \
+"attribute highp vec2 aPosition;                        \n\t" \
+"attribute highp vec2 aTexCoord;                        \n\t" \
+"varying mediump vec2 vTexCoord;                        \n\t" \
+"void main(){                                           \n\t" \
+"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n\t" \
+"vTexCoord = aTexCoord;                                 \n\t" \
+"}                                                      \n\t";
+
+const char _blit_fsh[] = "#version 100                  \n\t" \
+"uniform sampler2D uTex;                                \n\t" \
+"varying mediump vec2 vTexCoord;                        \n\t" \
+"void main(){                                           \n\t" \
+"gl_FragColor = texture2D(uTex, vTexCoord);             \n\t" \
+"}                                                      \n\t";
+
+const char _blit_vsh_alpha[] = "#version 100            \n\t" \
+"attribute highp vec2 aPosition;                        \n\t" \
+"attribute highp vec2 aTexCoord;                        \n\t" \
+"attribute lowp vec4 aColor;                            \n\t" \
+"varying mediump vec2 vTexCoord;                        \n\t" \
+"varying lowp vec4 vColor;                              \n\t" \
+"void main(){                                           \n\t" \
+"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n\t" \
+"vTexCoord = aTexCoord;                                 \n\t" \
+"vColor = aColor;                                       \n\t" \
+"}                                                      \n\t";
+
+const char _blit_fsh_alpha[] = "#version 100            \n\t" \
+"uniform sampler2D uTex;                                \n\t" \
+"varying mediump vec2 vTexCoord;                        \n\t" \
+"varying lowp vec4 vColor;                              \n\t" \
+"void main(){                                           \n\t" \
+"lowp vec4 p = texture2D(uTex, vTexCoord);              \n\t" \
+"if (p.a>0.0) discard;                                  \n\t" \
+"gl_FragColor = p*vColor;                               \n\t" \
+"}                                                      \n\t";
+
 void gl4es_blitTexture_gles2(GLuint texture, 
     float width, float height, 
     float nwidth, float nheight, 
@@ -147,7 +188,154 @@ void gl4es_blitTexture_gles2(GLuint texture,
     float vpwidth, float vpheight, 
     float x, float y, int mode) {
 
-        /* TODO */
+    LOAD_GLES(glDrawArrays);
+
+    if(!glstate->blit) {
+        LOAD_GLES2(glCreateShader);
+        LOAD_GLES2(glShaderSource);
+        LOAD_GLES2(glCompileShader);
+        LOAD_GLES2(glGetShaderiv);
+        LOAD_GLES2(glBindAttribLocation);
+        LOAD_GLES2(glAttachShader);
+        LOAD_GLES2(glCreateProgram);
+        LOAD_GLES2(glLinkProgram);
+        LOAD_GLES2(glGetProgramiv);
+        LOAD_GLES(glGetUniformLocation);
+        LOAD_GLES2(glUniform1i);
+
+        glstate->blit = (glesblit_t*)malloc(sizeof(glesblit_t));
+        memset(glstate->blit, 0, sizeof(glesblit_t));
+
+        GLint success;
+        const char *src[1];
+        src[0] = _blit_fsh;
+        glstate->blit->pixelshader = gles_glCreateShader( GL_FRAGMENT_SHADER );
+        gles_glShaderSource( glstate->blit->pixelshader, 1, (const char**) src, NULL );
+        gles_glCompileShader( glstate->blit->pixelshader );
+        gles_glGetShaderiv( glstate->blit->pixelshader, GL_COMPILE_STATUS, &success );
+        if (!success)
+        {
+            LOAD_GLES(glGetShaderInfoLog);
+            char log[400];
+            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            SHUT(printf("LIBGL: Failed to produce blit fragment shader.\n%s", log);)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+    
+        src[0] = _blit_fsh_alpha;
+        glstate->blit->pixelshader_alpha = gles_glCreateShader( GL_FRAGMENT_SHADER );
+        gles_glShaderSource( glstate->blit->pixelshader_alpha, 1, (const char**) src, NULL );
+        gles_glCompileShader( glstate->blit->pixelshader_alpha );
+        gles_glGetShaderiv( glstate->blit->pixelshader_alpha, GL_COMPILE_STATUS, &success );
+        if (!success)
+        {
+            LOAD_GLES(glGetShaderInfoLog);
+            char log[400];
+            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            SHUT(printf("LIBGL: Failed to produce blit with alpha fragment shader.\n%s", log);)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+    
+        src[0] = _blit_vsh;
+        glstate->blit->vertexshader = gles_glCreateShader( GL_VERTEX_SHADER );
+        gles_glShaderSource( glstate->blit->vertexshader, 1, (const char**) src, NULL );
+        gles_glCompileShader( glstate->blit->vertexshader );
+        gles_glGetShaderiv( glstate->blit->vertexshader, GL_COMPILE_STATUS, &success );
+        if( !success )
+        {
+            LOAD_GLES(glGetShaderInfoLog);
+            char log[400];
+            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            SHUT(printf("LIBGL: Failed to produce blit vertex shader.\n%s", log);)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+    
+        src[0] = _blit_vsh_alpha;
+        glstate->blit->vertexshader_alpha = gles_glCreateShader( GL_VERTEX_SHADER );
+        gles_glShaderSource( glstate->blit->vertexshader_alpha, 1, (const char**) src, NULL );
+        gles_glCompileShader( glstate->blit->vertexshader_alpha );
+        gles_glGetShaderiv( glstate->blit->vertexshader_alpha, GL_COMPILE_STATUS, &success );
+        if( !success )
+        {
+            LOAD_GLES(glGetShaderInfoLog);
+            char log[400];
+            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            SHUT(printf("LIBGL: Failed to produce blit with alpha vertex shader.\n%s", log);)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+
+        glstate->blit->program = gles_glCreateProgram();
+        gles_glBindAttribLocation( glstate->blit->program, 0, "aPosition" );
+        gles_glBindAttribLocation( glstate->blit->program, 1, "aTexCoord" );
+        gles_glAttachShader( glstate->blit->program, glstate->blit->pixelshader );
+        gles_glAttachShader( glstate->blit->program, glstate->blit->vertexshader );
+        gles_glLinkProgram( glstate->blit->program );
+        gles_glGetProgramiv( glstate->blit->program, GL_LINK_STATUS, &success );
+        if( !success )
+        {
+            SHUT(printf("LIBGL: Failed to link blit program.\n");)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+        gles_glUniform1i( gles_glGetUniformLocation( glstate->blit->program, "uTex" ), 0 );
+
+        glstate->blit->program_alpha = gles_glCreateProgram();
+        gles_glBindAttribLocation( glstate->blit->program_alpha, 0, "aPosition" );
+        gles_glBindAttribLocation( glstate->blit->program_alpha, 1, "aTexCoord" );
+        gles_glBindAttribLocation( glstate->blit->program_alpha, 2, "aColor" );
+        gles_glAttachShader( glstate->blit->program_alpha, glstate->blit->pixelshader_alpha );
+        gles_glAttachShader( glstate->blit->program_alpha, glstate->blit->vertexshader_alpha );
+        gles_glLinkProgram( glstate->blit->program_alpha );
+        gles_glGetProgramiv( glstate->blit->program_alpha, GL_LINK_STATUS, &success );
+        if( !success )
+        {
+            SHUT(printf("LIBGL: Failed to link blit program.\n");)
+            free(glstate->blit);
+            glstate->blit = NULL;
+        }
+        gles_glUniform1i( gles_glGetUniformLocation( glstate->blit->program_alpha, "uTex" ), 0 );
+    }
+
+    int customvp = (vpwidth>0.0);
+    float w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
+    float h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
+    float blit_x1=x;
+    float blit_x2=x+width*zoomx;
+    float blit_y1=y;
+    float blit_y2=y+height*zoomy;
+    GLfloat *vert = glstate->blit->vert;
+    GLfloat *tex = glstate->blit->tex;
+    vert[0] = blit_x1*w2-1.0f;  vert[1] = blit_y1*h2-1.0f;
+    vert[2] = blit_x2*w2-1.0f;  vert[3] = vert[1];
+    vert[4] = vert[2];          vert[5] = blit_y2*h2-1.0f;
+    vert[6] = vert[0];          vert[7] = vert[5];
+    GLfloat rw = width/nwidth;
+    GLfloat rh = height/nheight;
+    tex[0] = 0.0f;  tex[1] = 0.0f;
+    tex[2] = rw;    tex[3] = 0.0f;
+    tex[4] = rw;    tex[5] = rh;
+    tex[6] = 0.0f;  tex[7] = rh;
+
+    int alpha = 0;
+    switch (mode) {
+        case BLIT_OPAQUE:
+            //gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            break;
+        case BLIT_ALPHA:
+            alpha = 1;
+            break;
+        case BLIT_COLOR:
+            //gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            break;
+    }
+
+    realize_blitenv(alpha);
+
+    gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
 void gl4es_blitTexture(GLuint texture, 

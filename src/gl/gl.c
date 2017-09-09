@@ -220,6 +220,11 @@ void DeleteGLState(void* oldstate) {
 		free_matrix(texture_matrix[i]);
 	free(glstate->texture_matrix);
     #undef free_matrix
+    // free blit GLES2 stuff
+    if(state->blit) {
+        //TODO: check if should delete GL object too
+        free(state->blit);
+    }
     // probably missing some things to free here!
 
     // all done

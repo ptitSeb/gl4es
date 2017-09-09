@@ -1,10 +1,11 @@
 Version history
 ----
 ##### Current version
- * Added ES2 backend infrastructure
+ * Added GLES2 backend infrastructure
  * Begin GLES2 backend
  * Infrastructure for FPE (Fixed Pipeline Emulator)
  * Basic and Crude Shader convertor
+ * Added blit function for GLES2 backend
 
 ##### 1.0.0
  * Removed old ES2 defines (ES2 will be dynamic later)

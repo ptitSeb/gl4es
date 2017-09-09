@@ -26,7 +26,6 @@ Some know limitations:
 Status of the GLES2 backend
  * This backend is at its early stage of development, so do not expect much from it
  * The FPE (Fixed Pipeline Emulator) is not implemented yet, so no OpenGL 1.5 drawing call will work
- * The blit texture function is not writen yet, so some functions will not work (some GetTexImage call, of LIBGL_FB=2 for example)
  * The Shader Conversion is really crude, so only simple shaders will work
  * An ES2 context should be usable (usefull for SDL2)
  * Only OpenRA has been tested for now (and it does work fine in game)

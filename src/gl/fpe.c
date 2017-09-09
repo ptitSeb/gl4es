@@ -127,6 +127,48 @@ void realize_glenv() {
 void realize_fpeenv() {
 
 }
-void realize_blitenv() {
+void realize_blitenv(int alpha) {
+    LOAD_GLES2(glUseProgram);
+    if(glstate->gleshard.program != ((alpha)?glstate->blit->program_alpha:glstate->blit->program)) {
+        glstate->gleshard.program = ((alpha)?glstate->blit->program_alpha:glstate->blit->program);
+        gles_glUseProgram(glstate->gleshard.program);
+    }
+    // set VertexAttrib if needed
+    for(int i=0; i<hardext.maxvattrib; i++) {
+        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
+        // enable / disable Array if needed
+        if(v->vaarray != ((i<2)?1:0)) {
+            LOAD_GLES2(glEnableVertexAttribArray)
+            LOAD_GLES2(glDisableVertexAttribArray);
+            v->vaarray = ((i<2)?1:0);
+            if(v->vaarray)
+                gles_glEnableVertexAttribArray(i);
+            else
+                gles_glDisableVertexAttribArray(i);
+        }
+        // check if new value has to be sent to hardware
+        if(i<2) {
+            // array case
+            if(v->size!=2 || v->type!=GL_FLOAT || v->normalized!=0 
+                || v->stride!=0 || v->pointer!=((i==0)?glstate->blit->vert:glstate->blit->tex) 
+                || v->buffer!=0) {
+                v->size = 2;
+                v->type = GL_FLOAT;
+                v->normalized = 0;
+                v->stride = 0;
+                v->pointer = ((i==0)?glstate->blit->vert:glstate->blit->tex);
+                v->buffer = 0;
+                LOAD_GLES2(glVertexAttribPointer);
+                gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
+            }
+        }
+        if(i==2 && alpha) {
+            if(memcmp(v->current, glstate->color, 4*sizeof(GLfloat))==0) {
+                memcpy(glstate->gleshard.vertexattrib[i].current, glstate->color, 4*sizeof(GLfloat));
+                LOAD_GLES2(glVertexAttrib4fv);
+                gles_glVertexAttrib4fv(i, glstate->gleshard.vertexattrib[i].current);
+            }
+        }
+    }
 
 }

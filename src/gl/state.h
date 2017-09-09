@@ -208,6 +208,16 @@ typedef struct {
 } gleshard_t;
 
 typedef struct {
+    GLuint          vertexshader;
+    GLuint          pixelshader;
+    GLuint          vertexshader_alpha;
+    GLuint          pixelshader_alpha;
+    GLuint          program;
+    GLuint          program_alpha;
+    GLfloat         vert[8], tex[8];
+} glesblit_t;
+
+typedef struct {
     int dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t enable;
@@ -261,6 +271,7 @@ typedef struct {
     fpe_state_t *fpe_state;
     program_t *fpe;
     gleshard_t  gleshard;
+    glesblit_t *blit;
 } glstate_t;
 
 #endif
