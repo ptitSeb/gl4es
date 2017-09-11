@@ -1934,7 +1934,7 @@ const int sbuf = Width * Height * (Depth==16?2:4);
     } else
 #endif
         if(reverse) {
-            int stride = Width * 4;
+            int stride = Width * (Depth==16?2:4);
             uintptr_t end=(uintptr_t)pix+sbuf-stride;
             uintptr_t beg=(uintptr_t)pix;
             void* const tmp = (void*)(pix+sbuf);
