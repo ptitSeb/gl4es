@@ -2040,16 +2040,18 @@ void BlitEmulatedPixmap() {
     // grab framebuffer
     void* tmp = NULL;
 #ifdef PANDORA
-    LOAD_GLES(glReadPixels);
-    if(Depth==16) {
-        tmp = malloc(Width*Height*4);
-        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
-    } else {
-        gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
-    }
-#else
-    gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+    if(hardext.esversion==1) {
+        LOAD_GLES(glReadPixels);
+        if(Depth==16) {
+            tmp = malloc(Width*Height*4);
+            gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
+        } else {
+            gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
+        }
+    } else
 #endif
+    gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
+
     actualBlit(reverse, Width, Height, Depth, dpy, drawable, gc, frame, pix, tmp);
 
 }
