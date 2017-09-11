@@ -15,6 +15,43 @@ typedef struct {
 } attribloc_t;
 KHASH_MAP_INIT_INT(attribloclist, attribloc_t *)
 
+typedef enum {
+    ATT_VERTEX = 0,
+    ATT_COLOR,
+    ATT_MULTITEXCOORD0,
+    ATT_MULTITEXCOORD1,
+    ATT_MULTITEXCOORD2,
+    ATT_MULTITEXCOORD3,
+    ATT_MULTITEXCOORD4,
+    ATT_MULTITEXCOORD5,
+    ATT_MULTITEXCOORD6,
+    ATT_MULTITEXCOORD7,
+    ATT_NORMAL,
+    //ATT_POINTSIZE,   //this one is supported by GLES hardware
+    ATT_MAX
+} reserved_attrib_t;
+
+typedef enum {
+    MAT_MV = 0,
+    MAT_MV_I,
+    MAT_MV_T,
+    MAT_MV_IT,
+    MAT_P,
+    MAT_P_I,
+    MAT_P_T,
+    MAT_P_IT,
+    MAT_MVP,
+    MAT_MVP_I,
+    MAT_MVP_T,
+    MAT_MVP_IT,
+    MAT_T,
+    MAT_T_I,
+    MAT_T_T,
+    MAT_T_IT,
+    MAT_N,
+    MAT_MAX
+} reserved_matrix_t;
+
 typedef struct {
     GLuint          internal_id; // internal id of the uniform
     GLuint          id;     // glsl id of the uniform
@@ -34,6 +71,39 @@ typedef struct {
 } uniformcache_t;
 
 typedef struct {
+    GLint       ambient; //vec4
+    GLint       diffuse; //vec4
+    GLint       specular; //vec4
+    GLint       position; //vec4
+    GLint       halfVector; //vec4
+    GLint       spotDirection; //vec3
+    GLint       spotExponent; //float
+    GLint       spotCutoff; //float
+    GLint       spotCosCutoff; //float
+    GLint       constantAttenuation; //float
+    GLint       linearAttenuation; //float
+    GLint       quadraticAttenuation; //float
+} builtin_lightsource_t;
+
+typedef struct {
+    GLint       emission; //vec4
+    GLint       ambient; //vec4
+    GLint       diffuse; //vec4
+    GLint       specular; //vec4
+    GLint       shininess; //float
+} builtin_material_t;
+
+typedef struct {
+    GLint       sceneColor; //vec4
+} builtin_lightmodelproducts_t;
+
+typedef struct {
+    GLint       ambient; //vec4
+    GLint       diffuse; //vec4
+    GLint       specular; //vec4
+} builtin_lightproducts_t;
+
+typedef struct {
     GLuint          id;     // internal id of the shader
     int             linked;
     int             validated;
@@ -44,6 +114,12 @@ typedef struct {
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
     uniformcache_t  cache;
+    GLint           builtin_attrib[ATT_MAX];
+    GLint           builtin_matrix[MAT_MAX];
+    builtin_lightsource_t           builtin_lights[MAX_LIGHT];
+    builtin_material_t              builtin_material[2];
+    builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
+    builtin_lightproducts_t         builtin_lightprod[2][MAX_LIGHT];
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)
@@ -85,9 +161,10 @@ void gl4es_glValidateProgram(GLuint program);
         return (type)0; \
     }
 
-#define APPLY_PROGRAM(prg) \
+#define APPLY_PROGRAM(prg, glprg) \
     if(glstate->gleshard.program != prg) {  \
         glstate->gleshard.program = prg;    \
+        glstate->gleshard.glprogram = glprg;\
         LOAD_GLES2(glUseProgram);           \
         if(gles_glUseProgram)               \
             gles_glUseProgram(prg);         \

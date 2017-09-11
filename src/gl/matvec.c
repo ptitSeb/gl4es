@@ -105,6 +105,12 @@ void vector3_matrix(const float *a, const float *b, float *c) {
 #endif
 }
 
+void vector3_matrix4(const float *a, const float *b, float *c) {
+    c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8];
+    c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9];
+    c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10];
+}
+
 void vector_normalize(float *a) {
 #ifdef __ARM_NEON__
         asm volatile (
@@ -284,6 +290,24 @@ void matrix_mul(const float *a, const float *b, float *c) {
 #endif
 }
 
+void vector4_mult(const float *a, const float *b, float *c) {
+//TODO: NEON version of this
+    for (int i=0; i<4; i++)
+        c[i] = a[i]*b[i];
+}
+
+void vector4_add(const float *a, const float *b, float *c) {
+//TODO: NEON version of this
+    for (int i=0; i<4; i++)
+        c[i] = a[i]+b[i];
+}
+
+void vector4_sub(const float *a, const float *b, float *c) {
+    //TODO: NEON version of this
+        for (int i=0; i<4; i++)
+            c[i] = a[i]-b[i];
+}
+    
 void set_identity(float* mat) {
     memset(mat, 0, 16*sizeof(GLfloat));
     mat[0] = mat[1+4] = mat[2+8] = mat[3+12] = 1.0f;

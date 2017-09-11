@@ -1,6 +1,10 @@
 #include "fpe.h"
 #include "gl.h"
 #include "../glx/hardext.h"
+#include "matrix.h"
+#include "matvec.h"
+#include "program.h"
+#include "shaderconv.h"
 
 // ********* Cache handling *********
 
@@ -75,17 +79,265 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
     gles_glDrawElements(mode, count, type, indices);
 }
 
+void fpe_glMatrixMode(GLenum mode) {
+    noerrorShim();
+}
+
+void fpe_glLightModelf(GLenum pname, GLfloat param) {
+    noerrorShim();
+}
+void fpe_glLightModelfv(GLenum pname, const GLfloat* params) {
+    noerrorShim();
+}
+void fpe_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
+    noerrorShim();
+}
+void fpe_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
+    noerrorShim();
+}
+void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+    noerrorShim();
+}
+
 
 // ********* Realize GLES Environnements *********
 
-void realize_glenv() {
+void realize_glenv(renderlist_t* list) {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // activate program if needed
     if(glstate->gleshard.program != glstate->glsl.program) {
         glstate->gleshard.program = glstate->glsl.program;
+        glstate->gleshard.glprogram = glstate->glsl.glprogram;
         gles_glUseProgram(glstate->gleshard.program);
     }
+    // setup fixed pipeline builtin vertex attrib if needed
+    program_t *glprogram = glstate->gleshard.glprogram;
+    {
+        int vaarray = 0;
+        int id = -1;
+        // Vertex....
+        id = glprogram->builtin_attrib[ATT_VERTEX];
+        if(id!=-1) {
+            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            pointer_state_t *p = &glstate->vao->pointers.vertex;
+            w->vaarray = list?(list->vert!=NULL):(glstate->vao->vertex_array);
+            if(w->vaarray) {
+                if(list) {
+                    w->size = 4;
+                    w->type = GL_FLOAT;
+                    w->normalized = GL_FALSE;
+                    w->stride = 0;
+                    w->pointer = list->vert;
+                    w->buffer = NULL;
+                } else {
+                    w->size = p->size;
+                    w->type = p->type;
+                    w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                    w->stride = p->stride;
+                    w->pointer = p->pointer;
+                    w->buffer = glstate->vao->vertex;
+                }
+            } else {
+                memcpy(w->current, glstate->vertex, 4*sizeof(GLfloat));
+            }
+        }
+        // Color....
+        id = glprogram->builtin_attrib[ATT_COLOR];
+        if(id!=-1) {
+            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            pointer_state_t *p = &glstate->vao->pointers.color;
+            w->vaarray = list?(list->color!=NULL):(glstate->vao->color_array);
+            if(w->vaarray) {
+                if(list) {
+                    w->size = 4;
+                    w->type = GL_FLOAT;
+                    w->normalized = GL_FALSE;
+                    w->stride = 0;
+                    w->pointer = list->color;
+                    w->buffer = NULL;
+                } else {
+                    w->size = p->size;
+                    w->type = p->type;
+                    w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                    w->stride = p->stride;
+                    w->pointer = p->pointer;
+                    w->buffer = glstate->vao->vertex;
+                }
+            } else {
+                memcpy(w->current, glstate->color, 4*sizeof(GLfloat));
+            }
+        }
+        // TexCoordX
+        for(int tex=0; tex<hardext.maxtex; tex++) {
+            id = glprogram->builtin_attrib[ATT_MULTITEXCOORD0+tex];
+            if(id!=-1) {
+                vertexattrib_t *w = &glstate->gleshard.wanted[id];
+                pointer_state_t *p = &glstate->vao->pointers.tex_coord[tex];
+                w->vaarray = list?(list->tex[tex]!=NULL):(glstate->vao->tex_coord_array[tex]);
+                if(w->vaarray) {
+                    if(list) {
+                        w->size = 4;
+                        w->type = GL_FLOAT;
+                        w->normalized = GL_FALSE;
+                        w->stride = 0;
+                        w->pointer = list->tex[tex];
+                        w->buffer = NULL;
+                    } else {
+                        w->size = p->size;
+                        w->type = p->type;
+                        w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                        w->stride = p->stride;
+                        w->pointer = p->pointer;
+                        w->buffer = glstate->vao->vertex;
+                    }
+                } else {
+                    memcpy(w->current, glstate->texcoord[tex], 4*sizeof(GLfloat));
+                }
+            }
+        }
+        // Normal....
+        id = glprogram->builtin_attrib[ATT_NORMAL];
+        if(id!=-1) {
+            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            pointer_state_t *p = &glstate->vao->pointers.normal;
+            w->vaarray = list?(list->normal!=NULL):(glstate->vao->normal_array);
+            if(w->vaarray) {
+                if(list) {
+                    w->size = 3;
+                    w->type = GL_FLOAT;
+                    w->normalized = GL_FALSE;
+                    w->stride = 0;
+                    w->pointer = list->normal;
+                    w->buffer = NULL;
+                } else {
+                    w->size = p->size;
+                    w->type = p->type;
+                    w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                    w->stride = p->stride;
+                    w->pointer = p->pointer;
+                    w->buffer = glstate->vao->vertex;
+                }
+            } else {
+                memcpy(w->current, glstate->normal, 3*sizeof(GLfloat));
+                w->current[3] = 1.0f;
+            }
+        }
+    }
+    // setup fixed pipeline builtin matrix uniform if needed
+    {
+        if(glprogram->builtin_matrix[MAT_MVP]!=-1 || glprogram->builtin_matrix[MAT_MVP_I]!=-1
+            || glprogram->builtin_matrix[MAT_MVP_T]!=-1 || glprogram->builtin_matrix[MAT_MVP_IT]!=-1)
+        {
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP], 1, GL_FALSE, getMVPMat());
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_T], 1, GL_TRUE, getMVPMat());
+            if(glprogram->builtin_matrix[MAT_MVP_I]!=-1 || glprogram->builtin_matrix[MAT_MVP_IT]!=-1) {
+                GLfloat invmat[16];
+                matrix_inverse(getMVPMat(), invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_I], 1, GL_FALSE, invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_IT], 1, GL_TRUE, invmat);
+            }
+        }
+        if(glprogram->builtin_matrix[MAT_MV]!=-1 || glprogram->builtin_matrix[MAT_MV_I]!=-1
+            || glprogram->builtin_matrix[MAT_MV_T]!=-1 || glprogram->builtin_matrix[MAT_MV_IT]!=-1)
+        {
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV], 1, GL_FALSE, getMVMat());
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_T], 1, GL_TRUE, getMVMat());
+            if(glprogram->builtin_matrix[MAT_MV_I]!=-1 || glprogram->builtin_matrix[MAT_MV_IT]!=-1) {
+                GLfloat invmat[16];
+                matrix_inverse(getMVMat(), invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_I], 1, GL_FALSE, invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_IT], 1, GL_TRUE, invmat);
+            }
+        }
+        if(glprogram->builtin_matrix[MAT_P]!=-1 || glprogram->builtin_matrix[MAT_P_I]!=-1
+            || glprogram->builtin_matrix[MAT_P_T]!=-1 || glprogram->builtin_matrix[MAT_P_IT]!=-1)
+        {
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P], 1, GL_FALSE, getPMat());
+            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_T], 1, GL_TRUE, getPMat());
+            if(glprogram->builtin_matrix[MAT_P_I]!=-1 || glprogram->builtin_matrix[MAT_P_IT]!=-1) {
+                GLfloat invmat[16];
+                matrix_inverse(getPMat(), invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_I], 1, GL_FALSE, invmat);
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_IT], 1, GL_TRUE, invmat);
+            }
+        }
+        //Normal matrix (mat3 version of transpose(inverse(gl_ModelViewMatrix)))
+        if(glprogram->builtin_matrix[MAT_N]!=-1)
+        {
+            GLfloat invmat[16], matn[9];
+            matrix_inverse(getMVMat(), invmat);
+            for(int i=0; i<3; i++)
+                for(int j=0; j<3; j++)
+                    matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
+            gl4es_glUniformMatrix3fv(glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+        }
+        //TODO Texture matrices
+    }
+    // set light and material if needed
+    {
+        for (int i=0; i<MAX_LIGHT; i++) {
+            if(glprogram->builtin_lights[i].ambient!=-1) {
+               GLfloat tmp[4];
+               gl4es_glUniform4fv(glprogram->builtin_lights[i].ambient, 1, glstate->light.lights[i].ambient);
+               gl4es_glUniform4fv(glprogram->builtin_lights[i].diffuse, 1, glstate->light.lights[i].diffuse);
+               gl4es_glUniform4fv(glprogram->builtin_lights[i].specular, 1, glstate->light.lights[i].specular);
+               gl4es_glUniform4fv(glprogram->builtin_lights[i].position, 1, glstate->light.lights[i].position);
+               gl4es_glUniform3fv(glprogram->builtin_lights[i].spotDirection, 1, glstate->light.lights[i].spotDirection);
+               gl4es_glUniform1f(glprogram->builtin_lights[i].spotExponent, glstate->light.lights[i].spotExponent);
+               gl4es_glUniform1f(glprogram->builtin_lights[i].spotCutoff, glstate->light.lights[i].spotCutoff);
+               gl4es_glUniform1f(glprogram->builtin_lights[i].spotCosCutoff, cosf(glstate->light.lights[i].spotCutoff*3.1415926535f/180.0f));
+               gl4es_glUniform1f(glprogram->builtin_lights[i].constantAttenuation, glstate->light.lights[i].constantAttenuation);
+               gl4es_glUniform1f(glprogram->builtin_lights[i].linearAttenuation, glstate->light.lights[i].linearAttenuation);
+               gl4es_glUniform1f(glprogram->builtin_lights[i].quadraticAttenuation, glstate->light.lights[i].quadraticAttenuation);
+            }
+            if(glprogram->builtin_lightprod[0][i].ambient!=-1) {
+                GLfloat tmp[4];
+                vector4_mult(glstate->material.front.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].ambient, 1, tmp);
+                vector4_mult(glstate->material.front.diffuse, glstate->light.lights[i].diffuse, tmp);
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].diffuse, 1, tmp);
+                vector4_mult(glstate->material.front.specular, glstate->light.lights[i].specular, tmp);
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].specular, 1, tmp);
+            }
+            if(glprogram->builtin_lightprod[1][i].ambient!=-1) {
+                GLfloat tmp[4];
+                vector4_mult(glstate->material.back.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].ambient, 1, tmp);
+                vector4_mult(glstate->material.back.diffuse, glstate->light.lights[i].diffuse, tmp);
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].diffuse, 1, tmp);
+                vector4_mult(glstate->material.back.specular, glstate->light.lights[i].specular, tmp);
+                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].specular, 1, tmp);
+            }
+        }
+        if(glprogram->builtin_material[0].ambient!=-1) {
+            gl4es_glUniform4fv(glprogram->builtin_material[0].emission, 1, glstate->material.front.emission);
+            gl4es_glUniform4fv(glprogram->builtin_material[0].ambient, 1, glstate->material.front.ambient);
+            gl4es_glUniform4fv(glprogram->builtin_material[0].diffuse, 1, glstate->material.front.diffuse);
+            gl4es_glUniform4fv(glprogram->builtin_material[0].specular, 1, glstate->material.front.specular);
+            gl4es_glUniform1f(glprogram->builtin_material[0].shininess, glstate->material.front.shininess);
+        }
+        if(glprogram->builtin_material[1].ambient!=-1) {
+            gl4es_glUniform4fv(glprogram->builtin_material[1].emission, 1, glstate->material.back.emission);
+            gl4es_glUniform4fv(glprogram->builtin_material[1].ambient, 1, glstate->material.back.ambient);
+            gl4es_glUniform4fv(glprogram->builtin_material[1].diffuse, 1, glstate->material.back.diffuse);
+            gl4es_glUniform4fv(glprogram->builtin_material[1].specular, 1, glstate->material.back.specular);
+            gl4es_glUniform1f(glprogram->builtin_material[1].shininess, glstate->material.back.shininess);
+        }
+        if(glprogram->builtin_lightmodelprod[0].sceneColor!=-1) {
+            GLfloat tmp[4];
+            vector4_mult(glstate->material.front.ambient, glstate->light.ambient, tmp);  //TODO: check that
+            vector4_add(tmp, glstate->material.front.emission, tmp);
+            gl4es_glUniform4fv(glprogram->builtin_lightmodelprod[0].sceneColor, 1, tmp);
+        }
+        if(glprogram->builtin_lightmodelprod[1].sceneColor!=-1) {
+            GLfloat tmp[4];
+            vector4_mult(glstate->material.back.ambient, glstate->light.ambient, tmp);  //TODO: check that
+            vector4_add(tmp, glstate->material.back.emission, tmp);
+            gl4es_glUniform4fv(glprogram->builtin_lightmodelprod[1].sceneColor, 1, tmp);
+        }
+    }
+
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) {
         vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
@@ -171,4 +423,121 @@ void realize_blitenv(int alpha) {
         }
     }
 
+}
+
+// ********* Builtin GL Uniform, VertexAttrib and co *********
+
+void builtin_Init(program_t *glprogram) {
+    // initialise emulated builtin matrix uniform to -1
+    for (int i=0; i<MAT_MAX; i++)
+        glprogram->builtin_matrix[i] = -1;
+    for (int i=0; i<MAX_LIGHT; i++) {
+        glprogram->builtin_lights[i].ambient = -1;
+        glprogram->builtin_lights[i].diffuse = -1;
+        glprogram->builtin_lights[i].specular = -1;
+        glprogram->builtin_lights[i].position = -1;
+        glprogram->builtin_lights[i].halfVector = -1;
+        glprogram->builtin_lights[i].spotDirection = -1;
+        glprogram->builtin_lights[i].spotExponent = -1;
+        glprogram->builtin_lights[i].spotCutoff = -1;
+        glprogram->builtin_lights[i].spotCosCutoff = -1;
+        glprogram->builtin_lights[i].constantAttenuation = -1;
+        glprogram->builtin_lights[i].linearAttenuation = -1;
+        glprogram->builtin_lights[i].quadraticAttenuation = -1;
+    }
+    for (int i=0; i<2; i++) { // 0:Front, 1:Back
+        glprogram->builtin_material[i].emission = -1;
+        glprogram->builtin_material[i].ambient = -1;
+        glprogram->builtin_material[i].diffuse = -1;
+        glprogram->builtin_material[i].specular = -1;
+        glprogram->builtin_material[i].shininess = -1;
+        
+        glprogram->builtin_lightmodelprod[i].sceneColor = -1;
+
+        for (int j=0; j<MAX_LIGHT; j++) {
+            glprogram->builtin_lightprod[i][j].ambient = -1;
+            glprogram->builtin_lightprod[i][j].diffuse = -1;
+            glprogram->builtin_lightprod[i][j].specular = -1;
+        }
+    }
+
+    // initialise emulated builtin attrib to -1
+    for (int i=0; i<ATT_MAX; i++)
+        glprogram->builtin_attrib[i] = -1;
+}
+
+const char* lightsource_code = "_gl4es_LightSource[";
+const char* frontmaterial_code = "_gl4es_FrontMaterial";
+const char* backmaterial_code = "_gl4es_BackMaterial";
+const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
+const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
+const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
+const char* backlightprod_code = "_gl4es_BackLightProduct[";
+int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
+    int builtin = isBuiltinMatrix(name);
+    // check matrices
+    if(builtin!=-1) {
+        glprogram->builtin_matrix[builtin] = id;
+        return 1;
+    }
+    // lightsource
+    if(strncmp(name, lightsource_code, strlen(lightsource_code))==0) {
+        // it a light! grab it's number
+        int n = name[strlen(lightsource_code)]-'0';   // only 8 light, so this works
+        if(strstr(name, ".ambient")) glprogram->builtin_lights[n].ambient = id;
+        else if(strstr(name, ".diffuse")) glprogram->builtin_lights[n].diffuse = id;
+        else if(strstr(name, ".specular")) glprogram->builtin_lights[n].specular = id;
+        else if(strstr(name, ".position")) glprogram->builtin_lights[n].position = id;
+        else if(strstr(name, ".halfVector")) glprogram->builtin_lights[n].halfVector = id;
+        else if(strstr(name, ".spotDirection")) glprogram->builtin_lights[n].spotDirection = id;
+        else if(strstr(name, ".spotExponent")) glprogram->builtin_lights[n].spotExponent = id;
+        else if(strstr(name, ".spotCutoff")) glprogram->builtin_lights[n].spotCutoff = id;
+        else if(strstr(name, ".spotCosCutoff")) glprogram->builtin_lights[n].spotCosCutoff = id;
+        else if(strstr(name, ".constantAttenuation")) glprogram->builtin_lights[n].constantAttenuation = id;
+        else if(strstr(name, ".linearAttenuation")) glprogram->builtin_lights[n].linearAttenuation = id;
+        else if(strstr(name, ".quadraticAttenuation")) glprogram->builtin_lights[n].quadraticAttenuation = id;
+        return 1;
+    }
+    if(strncmp(name, frontmaterial_code, strlen(frontmaterial_code))==0 
+        || strncmp(name, backmaterial_code, strlen(backmaterial_code))==0)
+    {
+        // it's a material
+        int n=(strncmp(name, frontmaterial_code, strlen(frontmaterial_code))==0)?0:1;
+        if(strstr(name, ".emission")) glprogram->builtin_material[n].emission = id;
+        else if(strstr(name, ".ambient")) glprogram->builtin_material[n].ambient = id;
+        else if(strstr(name, ".diffuse")) glprogram->builtin_material[n].diffuse = id;
+        else if(strstr(name, ".specular")) glprogram->builtin_material[n].specular = id;
+        else if(strstr(name, ".shininess")) glprogram->builtin_material[n].shininess = id;
+        return 1;
+    }
+    if(strncmp(name, frontlightmodelprod_code, strlen(frontlightmodelprod_code))==0 
+    || strncmp(name, backlightmodelprod_code, strlen(backlightmodelprod_code))==0)
+    {
+        // it's a front light model product
+        int n=(strncmp(name, frontlightmodelprod_code, strlen(frontlightmodelprod_code))==0)?0:1;
+        if(strstr(name, ".sceneColor")) glprogram->builtin_lightmodelprod[n].sceneColor = id;
+        return 1;
+    }
+    if(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0 
+    || strncmp(name, backlightprod_code, strlen(backlightprod_code))==0)
+    {
+        // it's a material
+        int i=(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0)?0:1;
+        int n = name[strlen(i?backlightprod_code:frontlightprod_code)]-'0';   // only 8 light, so this works
+        if(strstr(name, ".ambient")) glprogram->builtin_lightprod[i][n].ambient = id;
+        else if(strstr(name, ".diffuse")) glprogram->builtin_lightprod[i][n].diffuse = id;
+        else if(strstr(name, ".specular")) glprogram->builtin_lightprod[i][n].specular = id;
+        return 1;
+    }
+
+    return 0;
+}
+
+int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id) {
+    int builtin = isBuiltinAttrib(name);
+    if(builtin!=-1) {
+        glprogram->builtin_attrib[builtin] = id;
+        return 1;
+    }
+    return 0;
 }

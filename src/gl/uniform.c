@@ -168,7 +168,7 @@ void GoUniformfv(GLint location, int size, int count, const GLfloat *value)
         return;
     }
     CHECK_PROGRAM(void, program);
-    APPLY_PROGRAM(program);
+    APPLY_PROGRAM(program, glprogram);
 
     khint_t k;
     uniform_t *m;
@@ -217,7 +217,7 @@ void GoUniformiv(GLint location, int size, int count, const GLint *value)
         return;
     }
     CHECK_PROGRAM(void, program);
-    APPLY_PROGRAM(program);
+    APPLY_PROGRAM(program, glprogram);
 
     khint_t k;
     uniform_t *m;
@@ -274,30 +274,38 @@ void gl4es_glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLflo
     GoUniformfv(location, 4, 1, fl);
 }
 void gl4es_glUniform1i(GLint location, GLint v0) {
+    DBG(printf("glUniform1i(%d, %d)\n", location, v0);)
     GoUniformiv(location, 1, 1, &v0);
 }
 void gl4es_glUniform2i(GLint location, GLint v0, GLint v1) {
+    DBG(printf("glUniform2i(%d, %d, %d)\n", location, v0, v1);)
     GLint fl[2] = {v0, v1};
     GoUniformiv(location, 2, 1, fl);
 }
 void gl4es_glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
+    DBG(printf("glUniform3i(%d, %d, %d, %d)\n", location, v0, v1, v2);)
     GLint fl[3] = {v0, v1, v2};
     GoUniformiv(location, 3, 1, fl);
 }
 void gl4es_glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
+    DBG(printf("glUniform4i(%d, %d, %d, %d, %d)\n", location, v0, v1, v2, v3);)
     GLint fl[4] = {v0, v1, v2, v3};
     GoUniformiv(location, 4, 1, fl);
 }
 void gl4es_glUniform1fv(GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform1fv(%d, %d, %p) =>(%f)\n", location, count, value, value[0]);)
     GoUniformfv(location, 1, 1, value);
 }
 void gl4es_glUniform2fv(GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform2fv(%d, %d, %p) =>(%f %f)\n", location, count, value, value[0], value[1]);)
     GoUniformfv(location, 2, 1, value);
 }
 void gl4es_glUniform3fv(GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform3fv(%d, %d, %p) =>(%f %f, %f)\n", location, count, value, value[0], value[1], value[2]);)
     GoUniformfv(location, 3, 1, value);
 }
 void gl4es_glUniform4fv(GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform4fv(%d, %d, %p) =>(%f %f, %f, %f)\n", location, count, value, value[0], value[1], value[2], value[3]);)
     GoUniformfv(location, 4, 1, value);
 }
 void gl4es_glUniform1iv(GLint location, GLsizei count, const GLint *value) {
@@ -325,7 +333,7 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
         return;
     }
     CHECK_PROGRAM(void, program);
-    APPLY_PROGRAM(program);
+    APPLY_PROGRAM(program, glprogram);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -340,7 +348,7 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
     // transpose if needed
     GLfloat *v = (GLfloat*)value;
     if(transpose) {
-        v = (GLfloat*)malloc(sizeof(GLfloat)*2*2);
+        v = (GLfloat*)malloc(count*sizeof(GLfloat)*2*2);
         for (int n=0; n<count; n++)
             for (int i=0; i<2; i++)
                 for (int j=0; j<2; j++)
@@ -375,7 +383,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
         return;
     }
     CHECK_PROGRAM(void, program);
-    APPLY_PROGRAM(program);
+    APPLY_PROGRAM(program, glprogram);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -390,7 +398,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
     // transpose if needed
     GLfloat *v = (GLfloat*)value;
     if(transpose) {
-        v = (GLfloat*)malloc(sizeof(GLfloat)*3*3);
+        v = (GLfloat*)malloc(count*sizeof(GLfloat)*3*3);
         for (int n=0; n<count; n++)
             for (int i=0; i<3; i++)
                 for (int j=0; j<3; j++)
@@ -413,8 +421,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_OPERATION);    // no GLSL hardware
 }
 void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
-    DBG(printf("glUniformMatrix4fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
-    GLuint program = glstate->glsl.program;
+    DBG(printf("glUniformMatrix4fv(%d, %d, %d, %p) p=>(%f, %f, %f, %f, %f...)\n", location, count, transpose, value, value[0], value[1], value[2], value[3], value[4]);)
     if(location==-1) {
         noerrorShim();
         return;
@@ -423,8 +430,9 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
         errorShim(GL_INVALID_VALUE);
         return;
     }
+    GLuint program = glstate->glsl.program;
     CHECK_PROGRAM(void, program);
-    APPLY_PROGRAM(program);
+    APPLY_PROGRAM(program, glprogram);
     khint_t k;
     uniform_t *m;
     k = kh_get(uniformlist, glprogram->uniform, location);
@@ -439,7 +447,7 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
     // transpose if needed
     GLfloat *v = (GLfloat*)value;
     if(transpose) {
-        v = (GLfloat*)malloc(sizeof(GLfloat)*4*4);
+        v = (GLfloat*)malloc(count*sizeof(GLfloat)*4*4);
         for (int n=0; n<count; n++)
             matrix_transpose(value+n*4*4, v+n*4*4);
 

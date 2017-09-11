@@ -632,7 +632,11 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glVertexAttrib1##suffix); \
     _EX(glVertexAttrib2##suffix); \
     _EX(glVertexAttrib3##suffix); \
-    _EX(glVertexAttrib4##suffix)
+    _EX(glVertexAttrib4##suffix); \
+    /*_ARB(glVertexAttrib1##suffix); \
+    _ARB(glVertexAttrib2##suffix); \
+    _ARB(glVertexAttrib3##suffix); \
+    _ARB(glVertexAttrib4##suffix)*/
     THUNK(s);
     THUNK(d);
     THUNK(sv);
@@ -642,13 +646,81 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glVertexAttrib4##suffix##v); \
     _EX(glVertexAttrib4u##suffix##v); \
     _EX(glVertexAttrib4N##suffix##v); \
-    _EX(glVertexAttrib4Nu##suffix##v)
+    _EX(glVertexAttrib4Nu##suffix##v);\
+    /*_ARB(glVertexAttrib4##suffix##v); \
+    _ARB(glVertexAttrib4u##suffix##v); \
+    _ARB(glVertexAttrib4N##suffix##v); \
+    _ARB(glVertexAttrib4Nu##suffix##v)*/
     THUNK(b);
     THUNK(s);
     THUNK(i);
     #undef THUNK
     _EX(glGetVertexAttribdv);
+    _ARB(glGetVertexAttribdv);
     _EX(glVertexAttrib4Nub);
+    _ARB(glVertexAttrib4Nub);
+    // arb version of shader stuffs
+    /*_ARB(glAttachShader);
+    _ARB(glBindAttribLocation);
+    _ARB(glCompileShader);
+    _ARB(glCreateProgram);
+    _ARB(glCreateShader);
+    _ARB(glDeleteProgram);
+    _ARB(glDeleteShader);
+    _ARB(glDetachShader);
+    _ARB(glGetActiveAttrib);
+    _ARB(glGetActiveUniform);
+    _ARB(glGetAttachedShaders);
+    _ARB(glGetAttribLocation);
+    _ARB(glGetProgramInfoLog);
+    _ARB(glGetProgramiv);
+    _ARB(glGetShaderInfoLog);
+    _ARB(glGetShaderPrecisionFormat);
+    _ARB(glGetShaderSource);
+    _ARB(glGetShaderiv);
+    _ARB(glGetUniformLocation);
+    _ARB(glGetUniformfv);
+    _ARB(glGetUniformiv);
+    _ARB(glGetVertexAttribPointerv);
+    _ARB(glGetVertexAttribfv);
+    _ARB(glGetVertexAttribiv);
+    _ARB(glIsProgram);
+    _ARB(glIsShader);
+    _ARB(glReleaseShaderCompiler);
+    _ARB(glShaderBinary);
+    _ARB(glShaderSource);
+    _ARB(glUniform1f);
+    _ARB(glUniform1fv);
+    _ARB(glUniform1i);
+    _ARB(glUniform1iv);
+    _ARB(glUniform2f);
+    _ARB(glUniform2fv);
+    _ARB(glUniform2i);
+    _ARB(glUniform2iv);
+    _ARB(glUniform3f);
+    _ARB(glUniform3fv);
+    _ARB(glUniform3i);
+    _ARB(glUniform3iv);
+    _ARB(glUniform4f);
+    _ARB(glUniform4fv);
+    _ARB(glUniform4i);
+    _ARB(glUniform4iv);
+    _ARB(glUniformMatrix2fv);
+    _ARB(glUniformMatrix3fv);
+    _ARB(glUniformMatrix4fv);
+    _ARB(glUseProgram);
+    _ARB(glValidateProgram);
+    _ARB(glVertexAttrib1f);
+    _ARB(glVertexAttrib1fv);
+    _ARB(glVertexAttrib2f);
+    _ARB(glVertexAttrib2fv);
+    _ARB(glVertexAttrib3f);
+    _ARB(glVertexAttrib3fv);
+    _ARB(glVertexAttrib4f);
+    _ARB(glVertexAttrib4fv);
+    _ARB(glVertexAttribPointer);
+    _ARB(glVertexPointer);*/
+            
 
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;

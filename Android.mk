@@ -42,6 +42,7 @@ LOCAL_SRC_FILES := \
 	src/gl/raster.c \
 	src/gl/render.c \
 	src/gl/shader.c \
+	src/gl/shaderconv.c \
 	src/gl/stack.c \
 	src/gl/texenv.c \
 	src/gl/texgen.c \

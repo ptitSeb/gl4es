@@ -489,7 +489,7 @@ void gl4es_glEnableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     if (glstate->list.active && !glstate->list.compiling)
         flush();
-    LOAD_GLES(glEnableClientState);
+    LOAD_GLES_FPE(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
 void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
@@ -499,7 +499,7 @@ void gl4es_glDisableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     if (glstate->list.active && !glstate->list.compiling)
         flush();
-    LOAD_GLES(glDisableClientState);
+    LOAD_GLES_FPE(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
 void glDisableClientState(GLenum cap) AliasExport("gl4es_glDisableClientState");
@@ -831,7 +831,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 		} else {
 			GLuint old_tex = glstate->texture.client;
             if(glstate->glsl.program!=0) {
-                realize_glenv();
+                realize_glenv(NULL);
             } else {
                 // secondry color and color sizef != 4 are "intercepted" and draw using a list
                 client_state(color_array, GL_COLOR_ARRAY, );
@@ -986,7 +986,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		} else {
 			GLuint old_tex = glstate->texture.client;
             if(glstate->glsl.program!=0) {
-                realize_glenv();
+                realize_glenv(NULL);
             } else {
                 // setup the Array Pointers
                 client_state(color_array, GL_COLOR_ARRAY, );    
@@ -1273,6 +1273,8 @@ void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate->list.active) {
         rlVertex4f(glstate->list.active, x, y, z, w);
         noerrorShim();
+    } else {
+        glstate->vertex[0]=x; glstate->vertex[1]=y; glstate->vertex[2]=z; glstate->vertex[3]=w;
     }
 }
 void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glVertex4f");

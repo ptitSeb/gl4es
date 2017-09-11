@@ -1,6 +1,7 @@
 #include "program.h"
 #include "../glx/hardext.h"
 #include "debug.h"
+#include "shaderconv.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -8,7 +9,6 @@
 #else
 #define DBG(a)
 #endif
-
 
 void gl4es_glAttachShader(GLuint program, GLuint shader) {
     DBG(printf("glAttachShader(%d, %d)\n", program, shader);)
@@ -486,6 +486,8 @@ void gl4es_glLinkProgram(GLuint program) {
         gles_glGetProgramiv(glprogram->id, GL_LINK_STATUS, &glprogram->linked);
         DBG(printf(" link status = %d\n", glprogram->linked);)
         if(glprogram->linked) {
+            // init bluitin emulation first
+            builtin_Init(glprogram);
             // Grab all Uniform
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_UNIFORMS, &n);
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxsize);
@@ -498,18 +500,21 @@ void gl4es_glLinkProgram(GLuint program) {
             for (int i=0; i<n; i++) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
                 GLint id = gles_glGetUniformLocation(glprogram->id, name);
-                k = kh_put(uniformlist, uniforms, id, &ret);
-                gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
-                memset(gluniform, 0, sizeof(uniform_t));
-                gluniform->name = strdup(name);
-                gluniform->id = id;
-                gluniform->internal_id = i;
-                gluniform->size = size;
-                gluniform->type = type;
-                gluniform->cache_offs = uniform_cache;
-                gluniform->cache_size = uniformsize(type)*size;
-                uniform_cache += gluniform->cache_size;
-                DBG(printf(" uniform #%d : %s type=%s size=%d\n", id, gluniform->name, PrintEnum(gluniform->type), gluniform->size);)
+                if(id!=-1) {
+                    k = kh_put(uniformlist, uniforms, id, &ret);
+                    gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
+                    memset(gluniform, 0, sizeof(uniform_t));
+                    gluniform->name = strdup(name);
+                    gluniform->id = id;
+                    gluniform->internal_id = i;
+                    gluniform->size = size;
+                    gluniform->type = type;
+                    gluniform->cache_offs = uniform_cache;
+                    gluniform->cache_size = uniformsize(type)*size;
+                    uniform_cache += gluniform->cache_size;
+                    int builtin = builtin_CheckUniform(glprogram, name, id);
+                    DBG(printf(" uniform #%d : %s%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                }
             }
             free(name);
             // reset uniform cache
@@ -527,15 +532,18 @@ void gl4es_glLinkProgram(GLuint program) {
             for (int i=0; i<n; i++) {
                 gles_glGetActiveAttrib(glprogram->id, i, maxsize, NULL, &size, &type, name);
                 GLint id = gles_glGetAttribLocation(glprogram->id, name);
-                k = kh_put(attribloclist, attriblocs, id, &ret);
-                glattribloc = kh_value(attriblocs, k) = malloc(sizeof(uniform_t));
-                memset(glattribloc, 0, sizeof(attribloc_t));
-                glattribloc->name = strdup(name);
-                glattribloc->size = size;
-                glattribloc->type = type;
-                glattribloc->index = id;
-                glattribloc->real_index = i;
-                DBG(printf(" attrib #%d : %s type=%s size=%d\n", id, glattribloc->name, PrintEnum(glattribloc->type), glattribloc->size);)
+                if(id!=-1) {
+                    k = kh_put(attribloclist, attriblocs, id, &ret);
+                    glattribloc = kh_value(attriblocs, k) = malloc(sizeof(uniform_t));
+                    memset(glattribloc, 0, sizeof(attribloc_t));
+                    glattribloc->name = strdup(name);
+                    glattribloc->size = size;
+                    glattribloc->type = type;
+                    glattribloc->index = id;
+                    glattribloc->real_index = i;
+                    int builtin = builtin_CheckVertexAttrib(glprogram, name, id);
+                    DBG(printf(" attrib #%d : %s%stype=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
+                }
             }
             free(name);
         }
@@ -553,11 +561,12 @@ void gl4es_glUseProgram(GLuint program) {
     noerrorShim();
     DBG(printf("program id=%d\n", glprogram->id);)
 
-    if(glstate->glsl.program==glprogram->id) {
+    /*if(glstate->glsl.program==glprogram->id) {
         return; // already binded
-    }
+    }*/
 
     glstate->glsl.program=glprogram->id;
+    glstate->glsl.glprogram=glprogram;
 }
 
 void gl4es_glValidateProgram(GLuint program) {

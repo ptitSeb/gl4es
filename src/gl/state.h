@@ -198,6 +198,7 @@ typedef struct {
     khash_t(shaderlist)    *shaders;
     khash_t(programlist)   *programs;
     GLuint                 program;
+    program_t              *glprogram;
     int                    es2; // context is es2
 } glsl_t;
 
@@ -205,6 +206,7 @@ typedef struct {
     vertexattrib_t  vertexattrib[MAX_VATTRIB];
     vertexattrib_t  wanted[MAX_VATTRIB];
     GLuint          program;
+    program_t       *glprogram;
 } gleshard_t;
 
 typedef struct {
@@ -227,6 +229,7 @@ typedef struct {
     texgen_state_t texgen[MAX_TEX];
     texenv_state_t texenv[MAX_TEX];
     texture_state_t texture;
+    GLfloat vertex[4];
     GLfloat color[4];
     GLfloat secondary[4];
     GLfloat texcoord[MAX_TEX][4];
@@ -234,6 +237,8 @@ typedef struct {
     int	render_mode;
     int polygon_mode;
     namestack_t namestack;
+    GLfloat       mvp_matrix[16];
+    int           mvp_matrix_dirty;
     matrixstack_t *modelview_matrix;
     matrixstack_t *projection_matrix;
     matrixstack_t **texture_matrix;

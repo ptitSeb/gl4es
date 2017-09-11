@@ -2,6 +2,7 @@
 #include "../glx/hardext.h"
 #include "matrix.h"
 #include "matvec.h"
+#include "fpe.h"
 
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
@@ -23,7 +24,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
             errorShim(GL_INVALID_ENUM);
             return;
     }
-    LOAD_GLES(glLightModelf);
+    LOAD_GLES_FPE(glLightModelf);
     gles_glLightModelf(pname, param);
 }
 
@@ -62,7 +63,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             errorShim(GL_INVALID_ENUM);
             return;
     }
-    LOAD_GLES(glLightModelfv);
+    LOAD_GLES_FPE(glLightModelfv);
     gles_glLightModelfv(pname, params);
 }
 
@@ -83,6 +84,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
         } else flush();
 
     GLfloat tmp[4];
+    GLfloat mtmp[16];
     noerrorShim();
     switch(pname) {
         case GL_AMBIENT:
@@ -107,12 +109,11 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             memcpy(glstate->light.lights[nl].position, tmp, 4*sizeof(GLfloat));
             break;
         case GL_SPOT_DIRECTION:
-            memcpy(tmp, params, 3*sizeof(GLfloat));
-            tmp[3] = 0.0f;
-            vector_matrix(tmp, getMVMat(), tmp);
-            if(memcmp(glstate->light.lights[nl].spotDirection, tmp, 4*sizeof(GLfloat))==0)
+            matrix_inverse(getMVMat(), mtmp);
+            vector3_matrix4(params, mtmp, tmp);
+            if(memcmp(glstate->light.lights[nl].spotDirection, tmp, 3*sizeof(GLfloat))==0)
                 return;
-            memcpy(glstate->light.lights[nl].spotDirection, tmp, 4*sizeof(GLfloat));
+            memcpy(glstate->light.lights[nl].spotDirection, tmp, 3*sizeof(GLfloat));
             break;
         case GL_SPOT_EXPONENT:
             if(params[0]<0 || params[0]>128) {
@@ -160,7 +161,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             glstate->light.lights[nl].quadraticAttenuation = params[0];
             break;
     }
-    LOAD_GLES(glLightfv);
+    LOAD_GLES_FPE(glLightfv);
     gles_glLightfv(light, pname, params);
     errorGL();
 }
@@ -169,7 +170,6 @@ void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
 	GLfloat dummy[4];
 	dummy[0]=params;
 	gl4es_glLightfv(light, pname, dummy);
-    errorGL();
 }
 
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
@@ -253,7 +253,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
         noerrorShim();
         return;
     }
-    LOAD_GLES(glMaterialfv);
+    LOAD_GLES_FPE(glMaterialfv);
     gles_glMaterialfv(GL_FRONT_AND_BACK, pname, params);
     errorGL();
 }
@@ -284,11 +284,12 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     if(face==GL_FRONT_AND_BACK || face==GL_BACK)
         glstate->material.back.shininess = param;
 
-    LOAD_GLES(glMaterialf);
     if(face==GL_BACK) { // lets ignore GL_BACK in GLES 1.1
         noerrorShim();
         return;
     }
+
+    LOAD_GLES_FPE(glMaterialf);
     gles_glMaterialf(GL_FRONT_AND_BACK, pname, param);
     errorGL();
 }

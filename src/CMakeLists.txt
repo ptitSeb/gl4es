@@ -30,6 +30,7 @@ SET(GL_SRC
     gl/raster.c
     gl/render.c
     gl/shader.c
+    gl/shaderconv.c
     gl/stack.c
     gl/texenv.c
     gl/texgen.c
@@ -75,6 +76,7 @@ SET(GL_H
     gl/raster.h
     gl/render.h
     gl/shader.h
+    gl/shaderconv.h
     gl/stack.h
     gl/state.h
     gl/stb_dxt_104.h

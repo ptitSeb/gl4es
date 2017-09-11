@@ -132,8 +132,13 @@ const GLubyte *gl4es_glGetString(GLenum name) {
             strcat(extensions, "GL_ARB_point_sprite ");
         if(hardext.cubemap)
             strcat(extensions, "GL_ARB_texture_cube_map ");
-        if(hardext.esversion>1)
+        if(hardext.esversion>1) {
             strcat(extensions, "GL_ARB_ES2_compatibility ");
+            /*strcat(extensions,
+                "GL_ARB_fragment_shader "
+                "GL_ARB_vertex_shader "
+                "GL_ARB_shader_objects ");*/
+        }
 	}
     switch (name) {
         case GL_VERSION:

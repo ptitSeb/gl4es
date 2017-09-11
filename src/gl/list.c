@@ -910,7 +910,7 @@ void draw_renderlist(renderlist_t *list) {
         if (! list->len)
             continue;
         if(glstate->glsl.program) {
-            realize_glenv();
+            realize_glenv(list);
         } else {
             if (list->vert) {
                 gles_glEnableClientState(GL_VERTEX_ARRAY);

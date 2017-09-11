@@ -67,7 +67,9 @@ DBG(printf("init_matrix(%p)\n", glstate);)
     alloc_matrix(&glstate->modelview_matrix, MAX_STACK_MODELVIEW);
     set_identity(TOP(modelview_matrix));
 	glstate->modelview_matrix->identity = 1;
-    glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+	glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+	set_identity(glstate->mvp_matrix);
+	glstate->mvp_matrix_dirty = 0;
     for (int i=0; i<MAX_TEX; i++) {
         alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
         set_identity(TOP(texture_matrix[i]));
@@ -90,7 +92,7 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
     if(glstate->matrix_mode != mode) {
         glstate->matrix_mode = mode;
 		if (mode!=GL_MODELVIEW || !glstate->immediateMV) {
-			LOAD_GLES(glMatrixMode);
+			LOAD_GLES_FPE(glMatrixMode);
         	gles_glMatrixMode(mode);
 		}
     }
@@ -145,9 +147,11 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 		} else errorShim(GL_STACK_UNDERFLOW)
 		case GL_PROJECTION:
 			P(projection_matrix);
+			glstate->mvp_matrix_dirty = 1;
 			break;
 		case GL_MODELVIEW:
 			P(modelview_matrix);
+			glstate->mvp_matrix_dirty = 1;
 			break;
 		case GL_TEXTURE:
 			P(texture_matrix[glstate->texture.active]);
@@ -182,6 +186,8 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		}
     }
 	memcpy(update_current_mat(), m, 16*sizeof(GLfloat));
+	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
+		glstate->mvp_matrix_dirty = 1;
 	const int id = update_current_identity(0);
     if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
@@ -217,6 +223,9 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	}
 	GLfloat *current_mat = update_current_mat();
 	matrix_mul(current_mat, m, current_mat);
+	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
+		glstate->mvp_matrix_dirty = 1;
+	DBG(printf(" => (%f, %f, %f, %f, %f, %f, %f...)\n", current_mat[0], current_mat[1], current_mat[2], current_mat[3], current_mat[4], current_mat[5], current_mat[6]);)
 	const int id = update_current_identity(0);
     if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
@@ -239,6 +248,8 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	}
 	set_identity(update_current_mat());
 	update_current_identity(1);
+	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
+		glstate->mvp_matrix_dirty = 1;
 	if(send_to_hardware()) {
 		LOAD_GLES(glLoadIdentity);
 		gles_glLoadIdentity();
@@ -329,13 +340,15 @@ void gl4es_immediateMVBegin(renderlist_t *list) {
 
 	// set MV matrix to identity
 	if(!glstate->modelview_matrix->identity) {
-		LOAD_GLES(glLoadIdentity);
-		LOAD_GLES(glMatrixMode);
-		if(glstate->matrix_mode!=GL_MODELVIEW)
-			gles_glMatrixMode(GL_MODELVIEW);
-		gles_glLoadIdentity();
-		if(glstate->matrix_mode!=GL_MODELVIEW)
-			gles_glMatrixMode(glstate->matrix_mode);
+		LOAD_GLES2(glLoadIdentity);
+		LOAD_GLES2(glMatrixMode);
+		if(gles_glMatrixMode) {
+			if(glstate->matrix_mode!=GL_MODELVIEW)
+				gles_glMatrixMode(GL_MODELVIEW);
+			gles_glLoadIdentity();
+			if(glstate->matrix_mode!=GL_MODELVIEW)
+				gles_glMatrixMode(glstate->matrix_mode);
+		}
 	}
 
 }
@@ -357,14 +370,17 @@ void gl4es_immediateMVEnd(renderlist_t *list) {
 			for (int i=glstate->immediateMV; i<list->len; i++, t+=4)
 				vector_matrix(t, getMVMat(), t);
 		}
+		glstate->mvp_matrix_dirty = 1;
 		// send MV matrix back
-		LOAD_GLES(glLoadMatrixf);
-		LOAD_GLES(glMatrixMode);
-		if(glstate->matrix_mode!=GL_MODELVIEW)
-			gles_glMatrixMode(GL_MODELVIEW);
-		gles_glLoadMatrixf(getMVMat());
-		if(glstate->matrix_mode!=GL_MODELVIEW)
-			gles_glMatrixMode(glstate->matrix_mode);
+		LOAD_GLES2(glLoadMatrixf);
+		LOAD_GLES2(glMatrixMode);
+		if(gles_glMatrixMode) {
+			if(glstate->matrix_mode!=GL_MODELVIEW)
+				gles_glMatrixMode(GL_MODELVIEW);
+			gles_glLoadMatrixf(getMVMat());
+			if(glstate->matrix_mode!=GL_MODELVIEW)
+				gles_glMatrixMode(glstate->matrix_mode);
+		}
 	}
 	glstate->immediateMV=0;
 }

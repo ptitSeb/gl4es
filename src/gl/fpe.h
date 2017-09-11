@@ -49,7 +49,19 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
 void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
 
-void realize_glenv();
+void fpe_glMatrixMode(GLenum mode);
+
+void fpe_glLightModelf(GLenum pname, GLfloat param);
+void fpe_glLightModelfv(GLenum pname, const GLfloat* params);
+void fpe_glLightfv(GLenum light, GLenum pname, const GLfloat* params);
+void fpe_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);
+void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
+
+void builtin_Init(program_t *glprogram);
+int builtin_CheckUniform(program_t *glprogram, char* name, GLint id);
+int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
+
+void realize_glenv(renderlist_t* list);
 void realize_fpeenv();
 void realize_blitenv(int alpha);
 
