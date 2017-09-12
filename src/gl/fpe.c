@@ -272,7 +272,21 @@ void realize_glenv(renderlist_t* list) {
                     matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
             gl4es_glUniformMatrix3fv(glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
         }
-        //TODO Texture matrices
+        //Texture matrices
+        for (int i=0; i<MAX_TEX; i++) {
+            if(glprogram->builtin_matrix[MAT_T0+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_I+i*4]!=-1
+                || glprogram->builtin_matrix[MAT_T0_T+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_IT+i*4]!=-1)
+            {
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0+i*4], 1, GL_FALSE, getTexMat(i));
+                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_T+i*4], 1, GL_TRUE, getTexMat(i));
+                if(glprogram->builtin_matrix[MAT_T0_I+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_IT+i*4]!=-1) {
+                    GLfloat invmat[16];
+                    matrix_inverse(getTexMat(i), invmat);
+                    gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_I+i*4], 1, GL_FALSE, invmat);
+                    gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_IT+i*4], 1, GL_TRUE, invmat);
+                }
+            }
+        }
     }
     // set light and material if needed
     {

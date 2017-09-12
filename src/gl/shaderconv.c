@@ -52,10 +52,10 @@ const builtin_matrix_t builtin_matrix[] = {
     {"gl_ModelViewProjectionMatrixInverse", "_gl4es_IModelViewProjectionMatrix", "mat4", 0, MAT_MVP_I},
     {"gl_ModelViewProjectionMatrixTranspose", "_gl4es_TModelViewProjectionMatrix", "mat4", 0, MAT_MVP_T},
     {"gl_ModelViewProjectionMatrix", "_gl4es_ModelViewProjectionMatrix", "mat4", 0, MAT_MVP},
-    {"gl_TextureMatrixInverseTranspose", "_gl4es_ITTextureMatrix", "mat4", 1, MAT_T_IT},
-    {"gl_TextureMatrixInverse", "_gl4es_ITextureMatrix", "mat4", 1, MAT_T_I},
-    {"gl_TextureMatrixTranspose", "_gl4es_TTextureMatrix", "mat4", 1, MAT_T_T},
-    {"gl_TextureMatrix", "_gl4es_TextureMatrix", "mat4", 1, MAT_T},
+    {"gl_TextureMatrixInverseTranspose", "_gl4es_ITTextureMatrix", "mat4", 1, MAT_T0_IT},
+    {"gl_TextureMatrixInverse", "_gl4es_ITextureMatrix", "mat4", 1, MAT_T0_I},
+    {"gl_TextureMatrixTranspose", "_gl4es_TTextureMatrix", "mat4", 1, MAT_T0_T},
+    {"gl_TextureMatrix", "_gl4es_TextureMatrix", "mat4", 1, MAT_T0},
     {"gl_NormalMatrix", "_gl4es_NormalMatrix", "mat3", 0, MAT_N}
 };
 
@@ -377,8 +377,16 @@ int isBuiltinMatrix(const char* name) {
     int ret = -1;
     int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
     for (int i=0; i<n && ret==-1; i++) {
-        if (strcmp(builtin_matrix[i].name, name)==0)
-            ret=builtin_matrix[i].matrix;
+        if (strncmp(builtin_matrix[i].name, name, strlen(builtin_matrix[i].name))==0) {
+            int l=strlen(builtin_matrix[i].name);
+            if(strlen(name)==l || (strlen(name)==l+3 && name[l]=='[' && builtin_matrix[i].texarray)) {
+                ret=builtin_matrix[i].matrix;
+                if(builtin_matrix[i].texarray) {
+                    int n = name[l+1] - '0';
+                    ret+=n*4;
+                }
+            }
+        }
     }
     return ret;
 }

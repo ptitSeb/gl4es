@@ -6,6 +6,7 @@ Version history
  * Infrastructure for FPE (Fixed Pipeline Emulator)
  * Basic and Crude Shader convertor
  * Added blit function for GLES2 backend
+ * Added some OpenGL Builtin VAs and Uniforms
 
 ##### 1.0.0
  * Removed old ES2 defines (ES2 will be dynamic later)

@@ -79,7 +79,7 @@ void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat) {
  * Or some NPOT texture used
  */
 void tex_setup_texcoord(GLuint len, GLuint itarget) {
-    LOAD_GLES(glTexCoordPointer);
+    LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
     static void * tex[MAX_TEX] = {0};
