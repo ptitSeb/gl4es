@@ -106,7 +106,7 @@ echo "GLES2.0: OpenRA"
 
 tar xf ../traces/openra.tgz
 apitrace dump-images --calls="31249" openra.trace
-result=$(compare -metric AE -fuzz 20% -extract 798x478+1+1 ../refs/openra.0000031249.png openra.0000031249.png diff.png 2>&1)
+result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/openra.0000031249.png openra.0000031249.png diff.png 2>&1)
 if [ ! "$result" -lt "20" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
