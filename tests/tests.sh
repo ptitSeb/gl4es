@@ -29,6 +29,13 @@ function clean_tests {
     if [ -e foobillardplus.trace ];then
         rm foobillardplus.trace
     fi
+    #openra
+    if [ -e openra.0000031249.png ];then
+        rm openra.0000031249.png
+    fi
+    if [ -e openra.trace ];then
+        rm openra.trace
+    fi
     #diff result
     if [ -e diff.png ];then
         rm diff.png
@@ -47,7 +54,9 @@ pushd "$TESTS" >/dev/null
 
 clean_tests
 
-echo "glxgears"
+export LIBGL_ES=1
+
+echo "GLES1.1: glxgears"
 
 tar xf ../traces/glxgears.tgz
 apitrace dump-images --calls="8203" glxgears.trace
@@ -58,7 +67,7 @@ if [ ! "$result" -lt "25" ];then
     exit 1
 fi
 
-echo "StuntCarRacer"
+echo "GLES1.1: StuntCarRacer"
 
 tar xf ../traces/stuntcarracer.tgz
 apitrace dump-images --calls="118817" stuntcarracer.trace
@@ -69,7 +78,7 @@ if [ ! "$result" -lt "20" ];then
     exit 1
 fi
 
-echo "Neverball"
+echo "GLES1.1: Neverball"
 
 tar xf ../traces/neverball.tgz
 apitrace dump-images --calls="78750" neverball.trace
@@ -80,7 +89,7 @@ if [ ! "$result" -lt "20" ];then
     exit 1
 fi
 
-echo "Foobillard Plus"
+echo "GLES1.1: Foobillard Plus"
 
 tar xf ../traces/foobillardplus.tgz
 apitrace dump-images --calls="14748" foobillardplus.trace
@@ -90,6 +99,20 @@ if [ ! "$result" -lt "20" ];then
     echo "error, $result pixels diff"
     exit 1
 fi
+
+export LIBGL_ES=2
+
+echo "GLES2.0: OpenRA"
+
+tar xf ../traces/openra.tgz
+apitrace dump-images --calls="31249" openra.trace
+result=$(compare -metric AE -fuzz 20% -extract 798x478+1+1 ../refs/openra.0000031249.png openra.0000031249.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
+
 
 # cleanup
 clean_tests
