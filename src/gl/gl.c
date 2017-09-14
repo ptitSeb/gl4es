@@ -156,6 +156,10 @@ void* NewGLState(void* shared_glstate, int es2only) {
 		kh_put(programlist, programs, 1, &ret);
 		kh_del(programlist, programs, 1);
     }
+    if(hardext.esversion!=1) {
+        glstate->fpe = (fpe_fpe_t*)malloc(sizeof(fpe_fpe_t));
+        memset(glstate->fpe, 0, sizeof(fpe_fpe_t));
+    }
 
     // Grab ViewPort
     LOAD_GLES(glGetFloatv);
@@ -224,6 +228,10 @@ void DeleteGLState(void* oldstate) {
     if(state->blit) {
         //TODO: check if should delete GL object too
         free(state->blit);
+    }
+    //TODO: free sharderlist and programlist...
+    if(state->fpe) {
+        free(state->fpe);
     }
     // probably missing some things to free here!
 

@@ -36,6 +36,10 @@ typedef struct {
     int dummy:3;                // 62:63  to be sure it's int32 aligned
 }__attribute__((packed)) fpe_state_t;
 
+typedef struct {
+  GLuint  frag, vert, prog;   // only dummy shader for now
+  program_t *glprogram;
+} fpe_fpe_t;
 
 void fpe_glEnableClientState(GLenum cap);
 void fpe_glDisableClientState(GLenum cap);

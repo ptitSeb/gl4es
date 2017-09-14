@@ -294,31 +294,31 @@ void gl4es_glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 }
 void gl4es_glUniform1fv(GLint location, GLsizei count, const GLfloat *value) {
     DBG(printf("glUniform1fv(%d, %d, %p) =>(%f)\n", location, count, value, value[0]);)
-    GoUniformfv(location, 1, 1, value);
+    GoUniformfv(location, 1, count, value);
 }
 void gl4es_glUniform2fv(GLint location, GLsizei count, const GLfloat *value) {
     DBG(printf("glUniform2fv(%d, %d, %p) =>(%f %f)\n", location, count, value, value[0], value[1]);)
-    GoUniformfv(location, 2, 1, value);
+    GoUniformfv(location, 2, count, value);
 }
 void gl4es_glUniform3fv(GLint location, GLsizei count, const GLfloat *value) {
     DBG(printf("glUniform3fv(%d, %d, %p) =>(%f %f, %f)\n", location, count, value, value[0], value[1], value[2]);)
-    GoUniformfv(location, 3, 1, value);
+    GoUniformfv(location, 3, count, value);
 }
 void gl4es_glUniform4fv(GLint location, GLsizei count, const GLfloat *value) {
     DBG(printf("glUniform4fv(%d, %d, %p) =>(%f %f, %f, %f)\n", location, count, value, value[0], value[1], value[2], value[3]);)
-    GoUniformfv(location, 4, 1, value);
+    GoUniformfv(location, 4, count, value);
 }
 void gl4es_glUniform1iv(GLint location, GLsizei count, const GLint *value) {
-    GoUniformiv(location, 1, 1, value);
+    GoUniformiv(location, 1, count, value);
 }
 void gl4es_glUniform2iv(GLint location, GLsizei count, const GLint *value) {
-    GoUniformiv(location, 2, 1, value);
+    GoUniformiv(location, 2, count, value);
 }
 void gl4es_glUniform3iv(GLint location, GLsizei count, const GLint *value) {
-    GoUniformiv(location, 3, 1, value);
+    GoUniformiv(location, 3, count, value);
 }
 void gl4es_glUniform4iv(GLint location, GLsizei count, const GLint *value) {
-    GoUniformiv(location, 4, 1, value);
+    GoUniformiv(location, 4, count, value);
 }
 
 void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {

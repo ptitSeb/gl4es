@@ -309,7 +309,7 @@ typedef struct {
     GLenum logicop;
     glsl_t  glsl;
     fpe_state_t *fpe_state;
-    program_t *fpe;
+    fpe_fpe_t *fpe;
     fpestatus_t fpe_client;
     gleshard_t  gleshard;
     glesblit_t *blit;

@@ -119,22 +119,7 @@ GLuint gl4es_glCreateProgram(void) {
 void actualy_deleteshader(GLuint shader);
 void actualy_detachshader(GLuint shader);
 
-void gl4es_glDeleteProgram(GLuint program) {
-    DBG(printf("glDeleteProgram(%d)\n", program);)
-    CHECK_PROGRAM(void, program)
-    // send to hardware
-    LOAD_GLES2(glDeleteProgram);
-    if(gles_glDeleteProgram) {
-        gles_glDeleteProgram(glprogram->id);
-        errorGL();
-    } else
-        noerrorShim();
-    // TODO: check GL ERROR to not clean in case of error?
-    // clean attached shaders
-    for (int i=0; i<glprogram->attach_size; i++) {
-        actualy_detachshader(glprogram->attach[i]);
-        actualy_deleteshader(glprogram->attach[i]);
-    }
+void deleteProgram(program_t *glprogram, khint_t k_program) {
     free(glprogram->attach);
     // clean attribloc
     if(glprogram->attribloc) {
@@ -162,6 +147,25 @@ void gl4es_glDeleteProgram(GLuint program) {
     // delete program
     kh_del(programlist, glstate->glsl.programs, k_program);
     free(glprogram);
+}
+
+void gl4es_glDeleteProgram(GLuint program) {
+    DBG(printf("glDeleteProgram(%d)\n", program);)
+    CHECK_PROGRAM(void, program)
+    // send to hardware
+    LOAD_GLES2(glDeleteProgram);
+    if(gles_glDeleteProgram) {
+        gles_glDeleteProgram(glprogram->id);
+        errorGL();
+    } else
+        noerrorShim();
+    // TODO: check GL ERROR to not clean in case of error?
+    // clean attached shaders
+    for (int i=0; i<glprogram->attach_size; i++) {
+        actualy_detachshader(glprogram->attach[i]);
+        actualy_deleteshader(glprogram->attach[i]);
+    }
+    deleteProgram(glprogram, k_program);
 }
 
 void gl4es_glDetachShader(GLuint program, GLuint shader) {
@@ -413,12 +417,26 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
         return res;
     }
 
+    int index = 0;
+    int l = strlen(name);
+    // get array
+    if(strchr(name, '[')) {
+        char * p = strchr(name, '[');
+        l = p-name;
+        p++;
+        while(p && *p>='0' && *p<='9') {
+            index = index*10 + *(p++)-'0';
+        }
+    }
     if(glprogram->uniform) {
         uniform_t *m;
         khint_t k;
         kh_foreach_value(glprogram->uniform, m,
-            if(strcmp(m->name, name)==0) {
+            if(strlen(m->name)==l && strncmp(m->name, name, l)==0) {
                 res = m->id;
+                if(index>m->size) {
+                    res = -1;   // too big !
+                }
                 break;
             }
         )
@@ -499,21 +517,30 @@ void gl4es_glLinkProgram(GLuint program) {
             GLchar *name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
+                // remove any "[]" that could be present
+                if(strchr(name, '[')) (*strchr(name, '['))='\0';
                 GLint id = gles_glGetUniformLocation(glprogram->id, name);
                 if(id!=-1) {
-                    k = kh_put(uniformlist, uniforms, id, &ret);
-                    gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
-                    memset(gluniform, 0, sizeof(uniform_t));
-                    gluniform->name = strdup(name);
-                    gluniform->id = id;
-                    gluniform->internal_id = i;
-                    gluniform->size = size;
-                    gluniform->type = type;
-                    gluniform->cache_offs = uniform_cache;
-                    gluniform->cache_size = uniformsize(type)*size;
-                    uniform_cache += gluniform->cache_size;
-                    int builtin = builtin_CheckUniform(glprogram, name, id);
-                    DBG(printf(" uniform #%d : %s%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                    for (int j = 0; j<size; j++) {
+                        k = kh_put(uniformlist, uniforms, id, &ret);
+                        gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
+                        memset(gluniform, 0, sizeof(uniform_t));
+                        if(j) {
+                            gluniform->name = malloc(strlen(name)+1+5);
+                            sprintf(gluniform->name, "%s[%d]", name, j);
+                        } else
+                            gluniform->name = strdup(name);
+                        gluniform->id = id;
+                        gluniform->internal_id = i;
+                        gluniform->size = size-j;
+                        gluniform->type = type;
+                        gluniform->cache_offs = uniform_cache+j*uniformsize(type);
+                        gluniform->cache_size = uniformsize(type)*(size-j);
+                        int builtin = builtin_CheckUniform(glprogram, name, id);
+                        DBG(printf(" uniform #%d : %s%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                        id++;
+                    }
+                    uniform_cache += uniformsize(type)*size;
                 }
             }
             free(name);
@@ -557,13 +584,14 @@ void gl4es_glLinkProgram(GLuint program) {
 
 void gl4es_glUseProgram(GLuint program) {
     DBG(printf("glUseProgram(%d) old=%d\n", program, glstate->glsl.program);)
+    if(program==0) {
+        glstate->glsl.program=0;
+        glstate->glsl.glprogram=NULL;
+        return;
+    }
     CHECK_PROGRAM(void, program)
     noerrorShim();
     DBG(printf("program id=%d\n", glprogram->id);)
-
-    /*if(glstate->glsl.program==glprogram->id) {
-        return; // already binded
-    }*/
 
     glstate->glsl.program=glprogram->id;
     glstate->glsl.glprogram=glprogram;

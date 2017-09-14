@@ -9,6 +9,7 @@
 
 //#define DEBUG
 #ifdef DEBUG
+#pragma GCC optimize 0
 #define DBG(a) a
 #else
 #define DBG(a)
@@ -17,7 +18,43 @@
 // ********* Cache handling *********
 
 // ********* Shader stuffs handling *********
+const char* dummy_vertex = \
+"varying vec4 Color; \n"
+"void main() {\n"
+"Color = gl_Color;\n"
+"gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}";
+
+const char* dummy_frag = \
+"varying vec4 Color; \n"
+"void main() {\n"
+"gl_FragColor = Color;\n"
+"}\n";
+
 void fpe_program() {
+    // dummy program for now...
+    if(glstate->fpe->glprogram==NULL) {
+        glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(glstate->fpe->vert, 1, &dummy_vertex, NULL);
+        gl4es_glCompileShader(glstate->fpe->vert);
+        glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+        gl4es_glShaderSource(glstate->fpe->frag, 1, &dummy_frag, NULL);
+        gl4es_glCompileShader(glstate->fpe->frag);
+        glstate->fpe->prog = gl4es_glCreateProgram();
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
+        gl4es_glLinkProgram(glstate->fpe->prog);
+        // now find the program
+        khint_t k_program;
+        {
+            int ret;
+            khash_t(programlist) *programs = glstate->glsl.programs;
+            k_program = kh_get(programlist, programs, glstate->fpe->prog);
+            if (k_program != kh_end(programs))
+                glstate->fpe->glprogram = kh_value(programs, k_program);
+        }
+        DBG(printf("creating dummy FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
+    }
 
 }
 
@@ -161,10 +198,21 @@ void realize_glenv() {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // activate program if needed
-    if(glstate->gleshard.program != glstate->glsl.program) {
-        glstate->gleshard.program = glstate->glsl.program;
-        glstate->gleshard.glprogram = glstate->glsl.glprogram;
-        gles_glUseProgram(glstate->gleshard.program);
+    if(glstate->glsl.program) {
+        if(glstate->gleshard.program != glstate->glsl.program) {
+            glstate->gleshard.program = glstate->glsl.program;
+            glstate->gleshard.glprogram = glstate->glsl.glprogram;
+            gles_glUseProgram(glstate->gleshard.program);
+            DBG(printf("Use GLSL program %d\n", glstate->gleshard.program);)
+        }
+    } else {
+        fpe_program();
+        if(glstate->gleshard.program != glstate->fpe->prog) {
+            glstate->gleshard.program = glstate->fpe->prog;
+            glstate->gleshard.glprogram = glstate->fpe->glprogram;
+            gles_glUseProgram(glstate->gleshard.program);
+            DBG(printf("Use FPE program %d\n", glstate->gleshard.program);)
+        }
     }
     // setup fixed pipeline builtin vertex attrib if needed
     program_t *glprogram = glstate->gleshard.glprogram;
@@ -381,6 +429,7 @@ void realize_glenv() {
             LOAD_GLES2(glEnableVertexAttribArray)
             LOAD_GLES2(glDisableVertexAttribArray);
             v->vaarray = w->vaarray;
+            DBG(printf("VertexAttribArray[%d]:%s\n", i, (v->vaarray)?"Enable":"Disable");)
             if(v->vaarray)
                 gles_glEnableVertexAttribArray(i);
             else
@@ -399,13 +448,15 @@ void realize_glenv() {
                 v->buffer = w->buffer;
                 LOAD_GLES2(glVertexAttribPointer);
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));
+                DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
             }
         } else {
             // single value case
-            if(memcmp(v->current, w->current, 4*sizeof(GLfloat))==0) {
-                memcpy(glstate->gleshard.vertexattrib[i].current, glstate->vao->vertexattrib[i].current, 4*sizeof(GLfloat));
+            if(memcmp(v->current, w->current, 4*sizeof(GLfloat))) {
+                memcpy(v->current, w->current, 4*sizeof(GLfloat));
                 LOAD_GLES2(glVertexAttrib4fv);
-                gles_glVertexAttrib4fv(i, glstate->gleshard.vertexattrib[i].current);
+                gles_glVertexAttrib4fv(i, v->current);
+                DBG(printf("glVertexAttrib4fv(%d, %p) => (%f, %f, %f, %f)\n", i, v->current, v->current[0], v->current[1], v->current[2], v->current[3]);)
             }
         }
     }
@@ -451,7 +502,7 @@ void realize_blitenv(int alpha) {
             }
         }
         if(i==2 && alpha) {
-            if(memcmp(v->current, glstate->color, 4*sizeof(GLfloat))==0) {
+            if(memcmp(v->current, glstate->color, 4*sizeof(GLfloat))) {
                 memcpy(glstate->gleshard.vertexattrib[i].current, glstate->color, 4*sizeof(GLfloat));
                 LOAD_GLES2(glVertexAttrib4fv);
                 gles_glVertexAttrib4fv(i, glstate->gleshard.vertexattrib[i].current);
@@ -507,8 +558,8 @@ const char* frontmaterial_code = "_gl4es_FrontMaterial";
 const char* backmaterial_code = "_gl4es_BackMaterial";
 const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
 const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
-const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
-const char* backlightprod_code = "_gl4es_BackLightProduct[";
+const char* frontlightprod_code = "_gl4es_FrontLightProduct";
+const char* backlightprod_code = "_gl4es_BackLightProduct";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinMatrix(name);
     // check matrices

@@ -151,6 +151,7 @@ typedef struct {
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)
+void deleteProgram(program_t *glprogram, khint_t k_program);
 
 void gl4es_glAttachShader(GLuint program, GLuint shader);
 void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar *name);
