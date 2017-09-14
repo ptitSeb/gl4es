@@ -30,7 +30,25 @@ typedef struct {
               texgen_r[MAX_TEX],
               texgen_q[MAX_TEX],
               plane[MAX_CLIP_PLANES],
-              light[MAX_LIGHT];
+              light[MAX_LIGHT],
+              map1_color4,
+              map1_index,
+              map1_normal,
+              map1_texture1,
+              map1_texture2,
+              map1_texture3,
+              map1_texture4,
+              map1_vertex3,
+              map1_vertex4,
+              map2_color4,
+              map2_index,
+              map2_normal,
+              map2_texture1,
+              map2_texture2,
+              map2_texture3,
+              map2_texture4,
+              map2_vertex3,
+              map2_vertex4;
     GLuint    texture[MAX_TEX]; // flag
 } enable_state_t;
 

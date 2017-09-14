@@ -111,7 +111,7 @@ void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
 
 #define p_map(d, name, func, code) {                  \
     map_state_t *_map = glstate->map##d.name;          \
-    if (_map) {                                       \
+    if (_map && glstate->enable.map##d##_##name) {                                       \
         if (_map->type == GL_DOUBLE) {                \
             map_stated_t *map = (map_stated_t *)_map; \
             printf("double: not implemented\n");      \
