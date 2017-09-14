@@ -205,6 +205,12 @@ const char* PrintEnum(GLenum what) {
         p(GL_PROGRAM_BINARY_LENGTH);
         p(GL_NUM_PROGRAM_BINARY_FORMATS);
         p(GL_PROGRAM_BINARY_FORMATS);
+        // Client State
+        p(GL_VERTEX_ARRAY);
+        p(GL_COLOR_ARRAY);
+        p(GL_NORMAL_ARRAY);
+        p(GL_TEXTURE_COORD_ARRAY);
+        p(GL_SECONDARY_COLOR_ARRAY);
         default:
             sprintf(fallback, "0x%04X", what);
     }
