@@ -66,6 +66,7 @@ void fpe_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLflo
 }
 
 void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("fpe_glSecondaryColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
     glstate->fpe_client.secondary.size = size;
     glstate->fpe_client.secondary.type = type;
     glstate->fpe_client.secondary.stride = stride;
@@ -81,6 +82,7 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
 }
 
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("fpe_glColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
     glstate->fpe_client.color.size = size;
     glstate->fpe_client.color.type = type;
     glstate->fpe_client.color.stride = stride;
@@ -88,6 +90,7 @@ void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *p
 }
 
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("fpe_glNormalPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
     glstate->fpe_client.normal.size = 3;
     glstate->fpe_client.normal.type = type;
     glstate->fpe_client.normal.stride = stride;
@@ -95,6 +98,7 @@ void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, glstate->fpe_client.client);)
     glstate->fpe_client.tex[glstate->fpe_client.client].size = size;
     glstate->fpe_client.tex[glstate->fpe_client.client].type = type;
     glstate->fpe_client.tex[glstate->fpe_client.client].stride = stride;
@@ -124,7 +128,7 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    DBG(printf("fpe_glDrawElements(%s, %d, %s, %d)\n", PrintEnum(mode), count, PrintEnum(type), indices);)
+    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p)\n", PrintEnum(mode), count, PrintEnum(type), indices);)
     realize_glenv();
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
