@@ -21,6 +21,7 @@ typedef struct _glclientstack_t glclientstack_t;
 typedef struct {
     GLboolean line_stipple,
               auto_normal,
+              lightning,
               blend,
               color_sum,
               pointsprite,
@@ -220,6 +221,22 @@ typedef struct {
 } glesblit_t;
 
 typedef struct {
+    GLboolean  secondary_array,
+    color_array,
+    normal_array,
+    vertex_array,
+    tex_coord_array[MAX_TEX];
+
+    GLuint          client; //active client texture
+
+    pointer_state_t vert;
+    pointer_state_t normal;
+    pointer_state_t color;
+    pointer_state_t secondary;
+    pointer_state_t tex[MAX_TEX];
+} fpestatus_t;
+
+typedef struct {
     int dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t enable;
@@ -275,6 +292,7 @@ typedef struct {
     glsl_t  glsl;
     fpe_state_t *fpe_state;
     program_t *fpe;
+    fpestatus_t fpe_client;
     gleshard_t  gleshard;
     glesblit_t *blit;
 } glstate_t;

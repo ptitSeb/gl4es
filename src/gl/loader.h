@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "const.h"
+#include "../glx/hardext.h"
 
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos;
@@ -62,8 +63,16 @@ void *open_lib(const char **names, const char *override);
 #define LOAD_GLES2(name) \
     LOAD_LIB_SILENT(gles, name)
 
-#define LOAD_GLES_FPE(name) \
+#define LOAD_GLES_OR_FPE(name) \
     LOAD_LIB_ALT(gles, fpe, name)
+
+#define LOAD_GLES_FPE(name) \
+    DEFINE_RAW(gles, name); \
+    if(hardext.esversion==1) { \
+        LOAD_RAW(gles, name, dlsym(gles, #name)); \
+    } else { \
+        gles_##name = fpe_##name; \
+    }
     
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
 #define LOAD_GLES_OES(name) \

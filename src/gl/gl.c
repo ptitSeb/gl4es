@@ -355,6 +355,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GOFPE(GL_LIGHT5, light[5], fpe_changelight(5, enable));
         proxy_GOFPE(GL_LIGHT6, light[6], fpe_changelight(6, enable));
         proxy_GOFPE(GL_LIGHT7, light[7], fpe_changelight(7, enable));
+        proxy_GOFPE(GL_LIGHTING, lightning, glstate->fpe_state->lightning=enable);
+        proxy_GOFPE(GL_NORMALIZE, auto_normal, glstate->fpe_state->normalize=enable);
 
         // point sprite
         proxy_GO(GL_POINT_SPRITE, pointsprite); // TODO: plugin fpe stuffs
@@ -830,57 +832,53 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
 			GLuint old_tex = glstate->texture.client;
-            if(glstate->glsl.program!=0) {
-                realize_glenv(NULL);
-            } else {
-                // secondry color and color sizef != 4 are "intercepted" and draw using a list
-                client_state(color_array, GL_COLOR_ARRAY, );
-                if (glstate->vao->color_array)
-                    gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
-                client_state(normal_array, GL_NORMAL_ARRAY, );
-                if (glstate->vao->normal_array)
-                    gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
-                client_state(vertex_array, GL_VERTEX_ARRAY, );
-                if (glstate->vao->vertex_array)
-                    gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
-                #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
-                for (int aa=0; aa<hardext.maxtex; aa++) {
-                    client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                    // get 1st enabled target
-                    const GLint itarget = get_target(glstate->enable.texture[aa]);
-                    if (itarget>=0) {
-                        if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                            TEXTURE(aa);
-                            gles_glEnable(GL_TEXTURE_2D);
-                        }
-                        if (glstate->vao->tex_coord_array[aa]) {
-                            TEXTURE(aa);
-                            if(!len) len = len_indices(sindices, count);
-                            tex_setup_texcoord(len, itarget);
-                        } else
-                            gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-                    } else if (glstate->clientstate.tex_coord_array[aa]) {
-                        // special case, Tex disable but CoordArray enabled... disabling it temporarly
-                        TEXTURE(aa);
-                        glstate->clientstate.tex_coord_array[aa] = 0;
-                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                    }
-                }
-                if (glstate->texture.client!=old_tex)
-                    TEXTURE(old_tex);
-            }
-			// POLYGON mode as LINE is "intercepted" and drawn using list
-			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
-			if(glstate->glsl.program==0) {
-                for (int aa=0; aa<hardext.maxtex; aa++) {
+            // secondry color and color sizef != 4 are "intercepted" and draw using a list
+            client_state(color_array, GL_COLOR_ARRAY, );
+            if (glstate->vao->color_array)
+                gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+            client_state(normal_array, GL_NORMAL_ARRAY, );
+            if (glstate->vao->normal_array)
+                gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
+            client_state(vertex_array, GL_VERTEX_ARRAY, );
+            if (glstate->vao->vertex_array)
+                gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+            for (int aa=0; aa<hardext.maxtex; aa++) {
+                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                // get 1st enabled target
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget>=0) {
                     if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                         TEXTURE(aa);
-                        gles_glDisable(GL_TEXTURE_2D);
+                        gles_glEnable(GL_TEXTURE_2D);
                     }
+                    if (glstate->vao->tex_coord_array[aa]) {
+                        TEXTURE(aa);
+                        if(!len) len = len_indices(sindices, count);
+                        tex_setup_texcoord(len, itarget);
+                    } else
+                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+                } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
+                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    TEXTURE(aa);
+                    glstate->clientstate.tex_coord_array[aa] = 0;
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 }
-                if (glstate->texture.client!=old_tex)
-                    TEXTURE(old_tex);
             }
+            if (glstate->texture.client!=old_tex)
+                TEXTURE(old_tex);
+
+            // POLYGON mode as LINE is "intercepted" and drawn using list
+			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
+
+            for (int aa=0; aa<hardext.maxtex; aa++) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                    TEXTURE(aa);
+                    gles_glDisable(GL_TEXTURE_2D);
+                }
+            }
+            if (glstate->texture.client!=old_tex)
+                TEXTURE(old_tex);
             #undef TEXTURE
 		}
         if(need_free)
@@ -985,65 +983,236 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
 			GLuint old_tex = glstate->texture.client;
-            if(glstate->glsl.program!=0) {
-                realize_glenv(NULL);
-            } else {
-                // setup the Array Pointers
-                client_state(color_array, GL_COLOR_ARRAY, );    
-                if (glstate->vao->color_array)
-                    gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
-                client_state(normal_array, GL_NORMAL_ARRAY, );
-                if (glstate->vao->normal_array)
-                    gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
-                client_state(vertex_array, GL_VERTEX_ARRAY, );
-                if (glstate->vao->vertex_array)
-                    gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
-                #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
-                for (int aa=0; aa<hardext.maxtex; aa++) {
-                    client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                    // get 1st enabled target
-                    const GLint itarget = get_target(glstate->enable.texture[aa]);
-                    if(itarget>=0) {
-                        if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                            TEXTURE(aa);
-                            gles_glEnable(GL_TEXTURE_2D);
-                        }
-                        if (glstate->vao->tex_coord_array[aa]) {
-                            TEXTURE(aa);
-                            tex_setup_texcoord(count+first, itarget);
-                        } else
-                            gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-                    }  else if (glstate->clientstate.tex_coord_array[aa]) {
-                        // special case, Tex disable but CoordArray enabled... disabling it temporarly
+
+            // setup the Array Pointers
+            client_state(color_array, GL_COLOR_ARRAY, );    
+            if (glstate->vao->color_array)
+                gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+            client_state(normal_array, GL_NORMAL_ARRAY, );
+            if (glstate->vao->normal_array)
+                gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
+            client_state(vertex_array, GL_VERTEX_ARRAY, );
+            if (glstate->vao->vertex_array)
+                gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+            for (int aa=0; aa<hardext.maxtex; aa++) {
+                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                // get 1st enabled target
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if(itarget>=0) {
+                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
                         TEXTURE(aa);
-                        glstate->clientstate.tex_coord_array[aa] = 0;
-                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                        gles_glEnable(GL_TEXTURE_2D);
                     }
+                    if (glstate->vao->tex_coord_array[aa]) {
+                        TEXTURE(aa);
+                        tex_setup_texcoord(count+first, itarget);
+                    } else
+                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+                }  else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
+                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    TEXTURE(aa);
+                    glstate->clientstate.tex_coord_array[aa] = 0;
+                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 }
-                if (glstate->texture.client!=old_tex)
-                    TEXTURE(old_tex);
             }
+            if (glstate->texture.client!=old_tex)
+                TEXTURE(old_tex);
 
 			gles_glDrawArrays(mode, first, count);
 			
-            if(glstate->glsl.program==0) {
-                for (int aa=0; aa<hardext.maxtex; aa++) {
-                    const GLint itarget = get_target(glstate->enable.texture[aa]);
-                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                        TEXTURE(aa);
-                        gles_glDisable(GL_TEXTURE_2D);
-                    }
+            for (int aa=0; aa<hardext.maxtex; aa++) {
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                    TEXTURE(aa);
+                    gles_glDisable(GL_TEXTURE_2D);
                 }
-                if (glstate->texture.client!=old_tex)
-                    TEXTURE(old_tex);
             }
+            if (glstate->texture.client!=old_tex)
+                TEXTURE(old_tex);
             #undef TEXTURE
 		}
     }
 }
-#undef client_state
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
 
+//#define ACTIVE_MULTIDRAW
+void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
+{
+    #ifdef ACTIVE_MULTIDRAW
+    LOAD_GLES_EXT(glMultiDrawArrays);
+    if(glstate->list.pending) flush();
+    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
+    #endif
+    {
+        // GL_QUADS special case can probably by improved
+        // divide the call
+        // TODO optimize with forcing Batch mode
+        for (int i=0; i<primcount; i++)
+            gl4es_glDrawArrays(mode, first[i], count[i]);
+    }
+    #ifdef ACTIVE_MULTIDRAW
+    else
+    {
+        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
+        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
+
+        LOAD_GLES_FPE(glNormalPointer);
+        LOAD_GLES_FPE(glVertexPointer);
+        LOAD_GLES_FPE(glColorPointer);
+        LOAD_GLES_FPE(glTexCoordPointer);
+        LOAD_GLES_FPE(glEnable);
+        LOAD_GLES_FPE(glDisable);
+        LOAD_GLES_FPE(glEnableClientState);
+        LOAD_GLES_FPE(glDisableClientState);
+        LOAD_GLES_FPE(glMultiTexCoord4f);
+
+        GLuint old_tex = glstate->texture.client;
+        
+        // setup the Array Pointers
+        client_state(color_array, GL_COLOR_ARRAY, );    
+        if (glstate->vao->color_array)
+            gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+        client_state(normal_array, GL_NORMAL_ARRAY, );
+        if (glstate->vao->normal_array)
+            gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
+        client_state(vertex_array, GL_VERTEX_ARRAY, );
+        if (glstate->vao->vertex_array)
+            gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+        #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+            // get 1st enabled target
+            const GLint itarget = get_target(glstate->enable.texture[aa]);
+            if(itarget>=0) {
+                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                    TEXTURE(aa);
+                    gles_glEnable(GL_TEXTURE_2D);
+                }
+                if (glstate->vao->tex_coord_array[aa]) {
+                    TEXTURE(aa);
+                    tex_setup_texcoord(count+first, itarget);
+                } else
+                    gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+            }  else if (glstate->clientstate.tex_coord_array[aa]) {
+                // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                TEXTURE(aa);
+                glstate->clientstate.tex_coord_array[aa] = 0;
+                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+        
+        if(hardext.esversion!=1) realize_glenv();
+        gles_glMultiDrawArrays(mode, first, count, primcount);
+
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            const GLint itarget = get_target(glstate->enable.texture[aa]);
+            if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                TEXTURE(aa);
+                gles_glDisable(GL_TEXTURE_2D);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+        #undef TEXTURE
+
+        errorGL();
+    }
+    #endif
+}
+void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("gl4es_glMultiDrawArrays");
+
+void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
+{
+    #ifdef ACTIVE_MULTIDRAW
+    LOAD_GLES_EXT(glMultiDrawElements);
+    if(glstate->list.pending) flush();
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
+    #endif
+    {
+        // divide the call
+        // TODO optimize with forcing Batch mode
+        for (int i=0; i<primcount; i++)
+            gl4es_glDrawElements(mode, count[i], type, indices[i]);
+    }
+    #ifdef ACTIVE_MULTIDRAW
+    else
+    {
+        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
+        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
+
+        LOAD_GLES_FPE(glNormalPointer);
+        LOAD_GLES_FPE(glVertexPointer);
+        LOAD_GLES_FPE(glColorPointer);
+        LOAD_GLES_FPE(glTexCoordPointer);
+        LOAD_GLES_FPE(glEnable);
+        LOAD_GLES_FPE(glDisable);
+        LOAD_GLES_FPE(glEnableClientState);
+        LOAD_GLES_FPE(glDisableClientState);
+        LOAD_GLES_FPE(glMultiTexCoord4f);
+
+        GLuint old_tex = glstate->texture.client;
+        
+        // setup the Array Pointers
+        client_state(color_array, GL_COLOR_ARRAY, );    
+        if (glstate->vao->color_array)
+            gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+        client_state(normal_array, GL_NORMAL_ARRAY, );
+        if (glstate->vao->normal_array)
+            gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
+        client_state(vertex_array, GL_VERTEX_ARRAY, );
+        if (glstate->vao->vertex_array)
+            gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+        #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+            // get 1st enabled target
+            const GLint itarget = get_target(glstate->enable.texture[aa]);
+            if(itarget>=0) {
+                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                    TEXTURE(aa);
+                    gles_glEnable(GL_TEXTURE_2D);
+                }
+                if (glstate->vao->tex_coord_array[aa]) {
+                    TEXTURE(aa);
+                    tex_setup_texcoord(count+first, itarget);
+                } else
+                    gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+            }  else if (glstate->clientstate.tex_coord_array[aa]) {
+                // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                TEXTURE(aa);
+                glstate->clientstate.tex_coord_array[aa] = 0;
+                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+        
+        if(hardext.esversion!=1) realize_glenv();
+        gles_glMultiDrawElements(mode, count, type, indices, primcount);
+
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            const GLint itarget = get_target(glstate->enable.texture[aa]);
+            if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                TEXTURE(aa);
+                gles_glDisable(GL_TEXTURE_2D);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+        #undef TEXTURE
+
+        errorGL();
+    }
+    #endif
+}
+void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");
+
+#undef client_state
 #define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
 void gl4es_glVertexPointer(GLint size, GLenum type,
@@ -1829,51 +1998,6 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
 void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
 
 
-
-void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
-{
-    LOAD_GLES_EXT(glMultiDrawArrays);
-    if(glstate->list.pending) flush();
-    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
-        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
-    {
-        // GL_QUADS special case can probably by improved
-        // divide the call
-        // TODO optimize with forcing Batch mode
-        for (int i=0; i<primcount; i++)
-            gl4es_glDrawArrays(mode, first[i], count[i]);
-    }
-    else
-    {
-        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
-        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
-        gles_glMultiDrawArrays(mode, first, count, primcount);
-        errorGL();
-    }
-}
-void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("gl4es_glMultiDrawArrays");
-
-void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount)
-{
-    LOAD_GLES_EXT(glMultiDrawElements);
-    if(glstate->list.pending) flush();
-    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
-        || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
-    {
-        // divide the call
-        // TODO optimize with forcing Batch mode
-        for (int i=0; i<primcount; i++)
-            gl4es_glDrawElements(mode, count[i], type, indices[i]);
-    }
-    else
-    {
-        if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
-        else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
-        gles_glMultiDrawElements(mode, count, type, indices, primcount);
-        errorGL();
-    }
-}
-void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");
 
 void gl4es_glShadeModel(GLenum mode) {
     if(mode!=GL_SMOOTH && mode!=GL_FLAT) {

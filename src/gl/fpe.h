@@ -29,8 +29,11 @@ typedef struct {
     int fogmode:4;              // 22:25  fog mode
     int colorsum:1;             // 26:26  secondary color enabled
     int texture:32;             // 27:58  8 texture stored on 4 bits
+    int lightning:1;            // 59:59  global lightning enabled
+    int normalize:1;            // 60:60  normalization
+    int rescaling:1;            // 61:61  rescale normal
 
-    int dummy:5;                // 59:63  to be sure it's int32 aligned
+    int dummy:3;                // 62:63  to be sure it's int32 aligned
 }__attribute__((packed)) fpe_state_t;
 
 
@@ -48,6 +51,7 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count);
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
 void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
+void fpe_glClientActiveTexture(GLenum texture);
 
 void fpe_glMatrixMode(GLenum mode);
 
@@ -61,7 +65,7 @@ void builtin_Init(program_t *glprogram);
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
-void realize_glenv(renderlist_t* list);
+void realize_glenv();
 void realize_fpeenv();
 void realize_blitenv(int alpha);
 
