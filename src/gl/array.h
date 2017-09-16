@@ -23,5 +23,5 @@ void copy_gl_pointer_tex_noalloc(void* dest, pointer_state_t *ptr, GLsizei width
 GLfloat *gl_pointer_index(pointer_state_t *ptr, GLint index);
 GLfloat *copy_eval_double(GLenum target, GLint ustride, GLint uorder, GLint vstride, GLint vorder, const GLdouble *points);
 void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
-void getminmax_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
+void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
 #endif

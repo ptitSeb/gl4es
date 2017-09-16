@@ -419,9 +419,9 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
 
     int index = 0;
     int l = strlen(name);
-    // get array
-    if(strchr(name, '[')) {
-        char * p = strchr(name, '[');
+    // get array (only if end with ])
+    if(name[l-1]==']') {
+        char * p = strrchr(name, '[');
         l = p-name;
         p++;
         while(p && *p>='0' && *p<='9') {
@@ -517,8 +517,8 @@ void gl4es_glLinkProgram(GLuint program) {
             GLchar *name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
-                // remove any "[]" that could be present
-                if(strchr(name, '[')) (*strchr(name, '['))='\0';
+                // remove any ending "[]" that could be present
+                if(name[strlen(name)-1]==']' && strrchr(name, '[')) (*strrchr(name, '['))='\0';
                 GLint id = gles_glGetUniformLocation(glprogram->id, name);
                 if(id!=-1) {
                     for (int j = 0; j<size; j++) {
@@ -569,6 +569,7 @@ void gl4es_glLinkProgram(GLuint program) {
                     glattribloc->index = id;
                     glattribloc->real_index = i;
                     int builtin = builtin_CheckVertexAttrib(glprogram, name, id);
+                    glprogram->va_size[id] = n_uniform(type); // same as uniform
                     DBG(printf(" attrib #%d : %s%stype=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
                 }
             }

@@ -70,7 +70,6 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
 void realize_glenv();
-void realize_fpeenv();
 void realize_blitenv(int alpha);
 
 #endif

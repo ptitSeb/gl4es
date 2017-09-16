@@ -77,14 +77,6 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
     GLvoid *dst = (dest)?dest:malloc((count-skip) * to_width * gl_sizeof(to));
     GLsizei from_size = gl_sizeof(from) * width;
     GLsizei to_elem = gl_sizeof(to);
-    //texcoord are now 4 dim, so this should never happens
-/*    if (to_width < width) {
-        printf("Warning: copy_gl_array: %i < %i\n", to_width, width);
-        return NULL;
-    }*/
-						  
-    // if stride is weird, we need to be able to arbitrarily shift src
-    // so we leave it in a uintptr_t and cast after incrementing
     uintptr_t in = (uintptr_t)src;
     in += stride*skip;
     if (from == to && to_width >= width) {
@@ -112,7 +104,7 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
                         out[j] = input[j];
                     }
                     for (int j = width; j < to_width; j++) {
-                        if(j==to_width-1)
+                        if(j==3)
                             memcpy(out+j, filler, to_elem);
                         else
                             out[j] = 0;
@@ -320,7 +312,7 @@ GLfloat *copy_eval_double(GLenum target, GLint ustride, GLint uorder,
     return points;
 }
 
-void getminmax_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
     if (!count) return;
     *max = indices[0];
     *min = indices[0];

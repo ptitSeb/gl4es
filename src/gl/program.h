@@ -139,6 +139,7 @@ typedef struct {
     int             attach_cap;
     int             attach_size;
     GLuint          *attach;
+    int             va_size[MAX_VATTRIB];
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
     uniformcache_t  cache;
@@ -198,5 +199,11 @@ void gl4es_glValidateProgram(GLuint program);
         if(gles_glUseProgram)               \
             gles_glUseProgram(prg);         \
     }
+
+void GoUniformfv(program_t *glprogram, GLint location, int size, int count, const GLfloat *value);
+void GoUniformiv(program_t *glprogram, GLint location, int size, int count, const GLint *value);
+void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 
 #endif

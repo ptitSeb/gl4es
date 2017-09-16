@@ -6,6 +6,7 @@
 #include "program.h"
 #include "shaderconv.h"
 #include "debug.h"
+#include "array.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -59,9 +60,6 @@ void fpe_program() {
 }
 
 // ********* Fixed Pipeling function wrapper *********
-#define CHECKFPE      \
-    if(!glstate->fpe) \
-        fpe_program();
 
 void fpe_glClientActiveTexture(GLenum texture) {
     DBG(printf("fpe_glClientActiveTexture(%s)\n", PrintEnum(texture));)
@@ -99,7 +97,6 @@ void fpe_glDisableClientState(GLenum cap) {
 }
 
 void fpe_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
-    CHECKFPE
 }
 
 void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -199,7 +196,8 @@ void realize_glenv() {
     LOAD_GLES2(glUseProgram);
     // activate program if needed
     if(glstate->glsl.program) {
-        if(glstate->gleshard.program != glstate->glsl.program) {
+        if(glstate->gleshard.program != glstate->glsl.program)
+        {
             glstate->gleshard.program = glstate->glsl.program;
             glstate->gleshard.glprogram = glstate->glsl.glprogram;
             gles_glUseProgram(glstate->gleshard.program);
@@ -207,7 +205,8 @@ void realize_glenv() {
         }
     } else {
         fpe_program();
-        if(glstate->gleshard.program != glstate->fpe->prog) {
+        if(glstate->gleshard.program != glstate->fpe->prog)
+        {
             glstate->gleshard.program = glstate->fpe->prog;
             glstate->gleshard.glprogram = glstate->fpe->glprogram;
             gles_glUseProgram(glstate->gleshard.program);
@@ -297,37 +296,37 @@ void realize_glenv() {
         if(glprogram->builtin_matrix[MAT_MVP]!=-1 || glprogram->builtin_matrix[MAT_MVP_I]!=-1
             || glprogram->builtin_matrix[MAT_MVP_T]!=-1 || glprogram->builtin_matrix[MAT_MVP_IT]!=-1)
         {
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP], 1, GL_FALSE, getMVPMat());
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_T], 1, GL_TRUE, getMVPMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MVP], 1, GL_FALSE, getMVPMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MVP_T], 1, GL_TRUE, getMVPMat());
             if(glprogram->builtin_matrix[MAT_MVP_I]!=-1 || glprogram->builtin_matrix[MAT_MVP_IT]!=-1) {
                 GLfloat invmat[16];
                 matrix_inverse(getMVPMat(), invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_I], 1, GL_FALSE, invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MVP_IT], 1, GL_TRUE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MVP_I], 1, GL_FALSE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MVP_IT], 1, GL_TRUE, invmat);
             }
         }
         if(glprogram->builtin_matrix[MAT_MV]!=-1 || glprogram->builtin_matrix[MAT_MV_I]!=-1
             || glprogram->builtin_matrix[MAT_MV_T]!=-1 || glprogram->builtin_matrix[MAT_MV_IT]!=-1)
         {
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV], 1, GL_FALSE, getMVMat());
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_T], 1, GL_TRUE, getMVMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV], 1, GL_FALSE, getMVMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_T], 1, GL_TRUE, getMVMat());
             if(glprogram->builtin_matrix[MAT_MV_I]!=-1 || glprogram->builtin_matrix[MAT_MV_IT]!=-1) {
                 GLfloat invmat[16];
                 matrix_inverse(getMVMat(), invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_I], 1, GL_FALSE, invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_MV_IT], 1, GL_TRUE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_I], 1, GL_FALSE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_IT], 1, GL_TRUE, invmat);
             }
         }
         if(glprogram->builtin_matrix[MAT_P]!=-1 || glprogram->builtin_matrix[MAT_P_I]!=-1
             || glprogram->builtin_matrix[MAT_P_T]!=-1 || glprogram->builtin_matrix[MAT_P_IT]!=-1)
         {
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P], 1, GL_FALSE, getPMat());
-            gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_T], 1, GL_TRUE, getPMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_P], 1, GL_FALSE, getPMat());
+            GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_P_T], 1, GL_TRUE, getPMat());
             if(glprogram->builtin_matrix[MAT_P_I]!=-1 || glprogram->builtin_matrix[MAT_P_IT]!=-1) {
                 GLfloat invmat[16];
                 matrix_inverse(getPMat(), invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_I], 1, GL_FALSE, invmat);
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_P_IT], 1, GL_TRUE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_P_I], 1, GL_FALSE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_P_IT], 1, GL_TRUE, invmat);
             }
         }
         //Normal matrix (mat3 version of transpose(inverse(gl_ModelViewMatrix)))
@@ -338,20 +337,20 @@ void realize_glenv() {
             for(int i=0; i<3; i++)
                 for(int j=0; j<3; j++)
                     matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
-            gl4es_glUniformMatrix3fv(glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+            GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
         }
         //Texture matrices
         for (int i=0; i<MAX_TEX; i++) {
             if(glprogram->builtin_matrix[MAT_T0+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_I+i*4]!=-1
                 || glprogram->builtin_matrix[MAT_T0_T+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_IT+i*4]!=-1)
             {
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0+i*4], 1, GL_FALSE, getTexMat(i));
-                gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_T+i*4], 1, GL_TRUE, getTexMat(i));
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_T0+i*4], 1, GL_FALSE, getTexMat(i));
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_T0_T+i*4], 1, GL_TRUE, getTexMat(i));
                 if(glprogram->builtin_matrix[MAT_T0_I+i*4]!=-1 || glprogram->builtin_matrix[MAT_T0_IT+i*4]!=-1) {
                     GLfloat invmat[16];
                     matrix_inverse(getTexMat(i), invmat);
-                    gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_I+i*4], 1, GL_FALSE, invmat);
-                    gl4es_glUniformMatrix4fv(glprogram->builtin_matrix[MAT_T0_IT+i*4], 1, GL_TRUE, invmat);
+                    GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_T0_I+i*4], 1, GL_FALSE, invmat);
+                    GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_T0_IT+i*4], 1, GL_TRUE, invmat);
                 }
             }
         }
@@ -361,71 +360,76 @@ void realize_glenv() {
         for (int i=0; i<MAX_LIGHT; i++) {
             if(glprogram->builtin_lights[i].ambient!=-1) {
                GLfloat tmp[4];
-               gl4es_glUniform4fv(glprogram->builtin_lights[i].ambient, 1, glstate->light.lights[i].ambient);
-               gl4es_glUniform4fv(glprogram->builtin_lights[i].diffuse, 1, glstate->light.lights[i].diffuse);
-               gl4es_glUniform4fv(glprogram->builtin_lights[i].specular, 1, glstate->light.lights[i].specular);
-               gl4es_glUniform4fv(glprogram->builtin_lights[i].position, 1, glstate->light.lights[i].position);
-               gl4es_glUniform3fv(glprogram->builtin_lights[i].spotDirection, 1, glstate->light.lights[i].spotDirection);
-               gl4es_glUniform1f(glprogram->builtin_lights[i].spotExponent, glstate->light.lights[i].spotExponent);
-               gl4es_glUniform1f(glprogram->builtin_lights[i].spotCutoff, glstate->light.lights[i].spotCutoff);
-               gl4es_glUniform1f(glprogram->builtin_lights[i].spotCosCutoff, cosf(glstate->light.lights[i].spotCutoff*3.1415926535f/180.0f));
-               gl4es_glUniform1f(glprogram->builtin_lights[i].constantAttenuation, glstate->light.lights[i].constantAttenuation);
-               gl4es_glUniform1f(glprogram->builtin_lights[i].linearAttenuation, glstate->light.lights[i].linearAttenuation);
-               gl4es_glUniform1f(glprogram->builtin_lights[i].quadraticAttenuation, glstate->light.lights[i].quadraticAttenuation);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].ambient, 4, 1, glstate->light.lights[i].ambient);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].diffuse, 4, 1, glstate->light.lights[i].diffuse);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].specular, 4, 1, glstate->light.lights[i].specular);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].position, 4, 1, glstate->light.lights[i].position);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotDirection, 3, 1, glstate->light.lights[i].spotDirection);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotExponent, 1, 1, &glstate->light.lights[i].spotExponent);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCutoff, 1, 1, &glstate->light.lights[i].spotCutoff);
+               tmp[0] = cosf(glstate->light.lights[i].spotCutoff*3.1415926535f/180.0f);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCosCutoff, 1, 1, tmp);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].constantAttenuation, 1, 1, &glstate->light.lights[i].constantAttenuation);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].linearAttenuation, 1, 1, &glstate->light.lights[i].linearAttenuation);
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].quadraticAttenuation, 1, 1, &glstate->light.lights[i].quadraticAttenuation);
             }
             if(glprogram->builtin_lightprod[0][i].ambient!=-1) {
                 GLfloat tmp[4];
                 vector4_mult(glstate->material.front.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].ambient, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[0][i].ambient, 4, 1, tmp);
                 vector4_mult(glstate->material.front.diffuse, glstate->light.lights[i].diffuse, tmp);
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].diffuse, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[0][i].diffuse, 4, 1, tmp);
                 vector4_mult(glstate->material.front.specular, glstate->light.lights[i].specular, tmp);
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[0][i].specular, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[0][i].specular, 4, 1, tmp);
             }
             if(glprogram->builtin_lightprod[1][i].ambient!=-1) {
                 GLfloat tmp[4];
                 vector4_mult(glstate->material.back.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].ambient, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[1][i].ambient, 4, 1, tmp);
                 vector4_mult(glstate->material.back.diffuse, glstate->light.lights[i].diffuse, tmp);
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].diffuse, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[1][i].diffuse, 4, 1, tmp);
                 vector4_mult(glstate->material.back.specular, glstate->light.lights[i].specular, tmp);
-                gl4es_glUniform4fv(glprogram->builtin_lightprod[1][i].specular, 1, tmp);
+                GoUniformfv(glprogram, glprogram->builtin_lightprod[1][i].specular, 4, 1, tmp);
             }
         }
         if(glprogram->builtin_material[0].ambient!=-1) {
-            gl4es_glUniform4fv(glprogram->builtin_material[0].emission, 1, glstate->material.front.emission);
-            gl4es_glUniform4fv(glprogram->builtin_material[0].ambient, 1, glstate->material.front.ambient);
-            gl4es_glUniform4fv(glprogram->builtin_material[0].diffuse, 1, glstate->material.front.diffuse);
-            gl4es_glUniform4fv(glprogram->builtin_material[0].specular, 1, glstate->material.front.specular);
-            gl4es_glUniform1f(glprogram->builtin_material[0].shininess, glstate->material.front.shininess);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].emission, 4, 1, glstate->material.front.emission);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].ambient, 4, 1, glstate->material.front.ambient);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].diffuse, 4, 1, glstate->material.front.diffuse);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].specular, 4, 1, glstate->material.front.specular);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].shininess, 1, 1, &glstate->material.front.shininess);
         }
         if(glprogram->builtin_material[1].ambient!=-1) {
-            gl4es_glUniform4fv(glprogram->builtin_material[1].emission, 1, glstate->material.back.emission);
-            gl4es_glUniform4fv(glprogram->builtin_material[1].ambient, 1, glstate->material.back.ambient);
-            gl4es_glUniform4fv(glprogram->builtin_material[1].diffuse, 1, glstate->material.back.diffuse);
-            gl4es_glUniform4fv(glprogram->builtin_material[1].specular, 1, glstate->material.back.specular);
-            gl4es_glUniform1f(glprogram->builtin_material[1].shininess, glstate->material.back.shininess);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].emission, 4, 1, glstate->material.back.emission);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].ambient, 4, 1, glstate->material.back.ambient);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].diffuse, 4, 1, glstate->material.back.diffuse);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].specular, 4, 1, glstate->material.back.specular);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].shininess, 1, 1, &glstate->material.back.shininess);
         }
         if(glprogram->builtin_lightmodelprod[0].sceneColor!=-1) {
             GLfloat tmp[4];
             vector4_mult(glstate->material.front.ambient, glstate->light.ambient, tmp);  //TODO: check that
             vector4_add(tmp, glstate->material.front.emission, tmp);
-            gl4es_glUniform4fv(glprogram->builtin_lightmodelprod[0].sceneColor, 1, tmp);
+            GoUniformfv(glprogram, glprogram->builtin_lightmodelprod[0].sceneColor, 4, 1, tmp);
         }
         if(glprogram->builtin_lightmodelprod[1].sceneColor!=-1) {
             GLfloat tmp[4];
             vector4_mult(glstate->material.back.ambient, glstate->light.ambient, tmp);  //TODO: check that
             vector4_add(tmp, glstate->material.back.emission, tmp);
-            gl4es_glUniform4fv(glprogram->builtin_lightmodelprod[1].sceneColor, 1, tmp);
+            GoUniformfv(glprogram, glprogram->builtin_lightmodelprod[1].sceneColor, 4, 1, tmp);
         }
     }
 
     // set VertexAttrib if needed
-    for(int i=0; i<hardext.maxvattrib; i++) {
+    for(int i=0; i<hardext.maxvattrib; i++) 
+    if(glprogram->va_size[i])   // only check used VA...
+    {
         vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
         vertexattrib_t *w = &glstate->gleshard.wanted[i];
+        int dirty = 0;
         // enable / disable Array if needed
         if(v->vaarray != w->vaarray) {
+            dirty = 1;
             LOAD_GLES2(glEnableVertexAttribArray)
             LOAD_GLES2(glDisableVertexAttribArray);
             v->vaarray = w->vaarray;
@@ -438,7 +442,7 @@ void realize_glenv() {
         // check if new value has to be sent to hardware
         if(v->vaarray) {
             // array case
-            if(v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
+            if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
                 || v->stride!=w->stride || v->pointer!=w->pointer || v->buffer!=w->buffer) {
                 v->size = w->size;
                 v->type = w->type;
@@ -452,18 +456,23 @@ void realize_glenv() {
             }
         } else {
             // single value case
-            if(memcmp(v->current, w->current, 4*sizeof(GLfloat))) {
+            if(dirty || memcmp(v->current, w->current, 4*sizeof(GLfloat))) {
                 memcpy(v->current, w->current, 4*sizeof(GLfloat));
                 LOAD_GLES2(glVertexAttrib4fv);
                 gles_glVertexAttrib4fv(i, v->current);
                 DBG(printf("glVertexAttrib4fv(%d, %p) => (%f, %f, %f, %f)\n", i, v->current, v->current[0], v->current[1], v->current[2], v->current[3]);)
             }
         }
+    } else {
+        // disable VAArray, to be on the safe side
+        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
+        if(v->vaarray) {
+            LOAD_GLES2(glDisableVertexAttribArray);
+            v->vaarray = 0;
+            DBG(printf("VertexAttribArray[%d]:%s\n", i, "Disable");)
+            gles_glDisableVertexAttribArray(i);
+        }
     }
-}
-
-void realize_fpeenv() {
-    realize_glenv();
 }
 
 void realize_blitenv(int alpha) {
@@ -558,8 +567,8 @@ const char* frontmaterial_code = "_gl4es_FrontMaterial";
 const char* backmaterial_code = "_gl4es_BackMaterial";
 const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
 const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
-const char* frontlightprod_code = "_gl4es_FrontLightProduct";
-const char* backlightprod_code = "_gl4es_BackLightProduct";
+const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
+const char* backlightprod_code = "_gl4es_BackLightProduct[";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinMatrix(name);
     // check matrices

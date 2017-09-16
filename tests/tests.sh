@@ -36,6 +36,13 @@ function clean_tests {
     if [ -e openra.trace ];then
         rm openra.trace
     fi
+    #glsl_lighting
+    if [ -e glsl_lighting.0000505393.png ];then
+        rm glsl_lighting.0000505393.png
+    fi
+    if [ -e glsl_lighting.trace ];then
+        rm glsl_lighting.trace
+    fi
     #diff result
     if [ -e diff.png ];then
         rm diff.png
@@ -107,6 +114,17 @@ echo "GLES2.0: OpenRA"
 tar xf ../traces/openra.tgz
 apitrace dump-images --calls="31249" openra.trace
 result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/openra.0000031249.png openra.0000031249.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
+
+echo "GLES2.0: glsl_lighting"
+
+tar xf ../traces/glsl_lighting.tgz
+apitrace dump-images --calls="505393" glsl_lighting.trace
+result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/glsl_lighting.0000505393.png glsl_lighting.0000505393.png diff.png 2>&1)
 if [ ! "$result" -lt "20" ];then
     popd >/dev/null
     echo "error, $result pixels diff"
