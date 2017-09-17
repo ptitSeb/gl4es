@@ -14,21 +14,22 @@ typedef struct {
     const char* glname;
     const char* name;
     const char* type;
+    const char* prec;
     reserved_attrib_t attrib;
 } builtin_attrib_t;
 
 const builtin_attrib_t builtin_attrib[] = {
-    {"gl_Vertex", "_gl4es_Vertex", "vec4", ATT_VERTEX},
-    {"gl_Color", "_gl4es_Color", "vec4", ATT_COLOR},
-    {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", ATT_MULTITEXCOORD0},
-    {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", ATT_MULTITEXCOORD1},
-    {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", ATT_MULTITEXCOORD2},
-    {"gl_MultiTexCoord3", "_gl4es_MultiTexCoord3", "vec4", ATT_MULTITEXCOORD3},
-    {"gl_MultiTexCoord4", "_gl4es_MultiTexCoord4", "vec4", ATT_MULTITEXCOORD4},
-    {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", ATT_MULTITEXCOORD5},
-    {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", ATT_MULTITEXCOORD6},
-    {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", ATT_MULTITEXCOORD7},
-    {"gl_Normal", "_gl4es_Normal", "vec3", ATT_NORMAL}
+    {"gl_Vertex", "_gl4es_Vertex", "vec4", "highp", ATT_VERTEX},
+    {"gl_Color", "_gl4es_Color", "vec4", "lowp", ATT_COLOR},
+    {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", "highp", ATT_MULTITEXCOORD0},
+    {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", "highp", ATT_MULTITEXCOORD1},
+    {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", "highp", ATT_MULTITEXCOORD2},
+    {"gl_MultiTexCoord3", "_gl4es_MultiTexCoord3", "vec4", "highp", ATT_MULTITEXCOORD3},
+    {"gl_MultiTexCoord4", "_gl4es_MultiTexCoord4", "vec4", "highp", ATT_MULTITEXCOORD4},
+    {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ATT_MULTITEXCOORD5},
+    {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ATT_MULTITEXCOORD6},
+    {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ATT_MULTITEXCOORD7},
+    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL}
 };
 
 typedef struct {
@@ -282,9 +283,9 @@ char* ConvertShader(const char* pBuffer, int isVertex)
             // insert a declaration of it
             char def[100];
             if(builtin_matrix[i].texarray)
-                sprintf(def, "uniform %s %s[%d];\n", builtin_matrix[i].type, builtin_matrix[i].name, hardext.maxtex);
+                sprintf(def, "uniform %s%s %s[%d];\n", (isVertex)?"highp ":"", builtin_matrix[i].type, builtin_matrix[i].name, hardext.maxtex);
             else
-                sprintf(def, "uniform %s %s;\n", builtin_matrix[i].type, builtin_matrix[i].name);
+                sprintf(def, "uniform %s%s %s;\n", (isVertex)?"highp ":"", builtin_matrix[i].type, builtin_matrix[i].name);
             Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
             InplaceInsert(GetLine(Tmp, headline++), def);
         }
@@ -300,7 +301,7 @@ char* ConvertShader(const char* pBuffer, int isVertex)
               Tmp = InplaceReplace(Tmp, &tmpsize, builtin_attrib[i].glname, builtin_attrib[i].name);
               // insert a declaration of it
               char def[100];
-              sprintf(def, "attribute %s %s;\n", builtin_attrib[i].type, builtin_attrib[i].name);
+              sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
               Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
               InplaceInsert(GetLine(Tmp, headline++), def);
           }
