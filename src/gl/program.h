@@ -132,6 +132,16 @@ typedef struct {
 } builtin_lightproducts_t;
 
 typedef struct {
+    GLint       size;
+    GLint       sizeMin;
+    GLint       sizeMax;
+    GLint       fadeThresholdSize;
+    GLint       distanceConstantAttenuation;
+    GLint       distanceLinearAttenuation;
+    GLint       distanceQuadraticAttenuation;
+} builtin_pointsprite_t;
+
+typedef struct {
     GLuint          id;     // internal id of the shader
     int             linked;
     int             validated;
@@ -155,6 +165,8 @@ typedef struct {
     GLuint                          builtin_normalrescale;
     GLuint                          builtin_clipplanes[MAX_CLIP_PLANES];
     int                             has_builtin_clipplanes;
+    builtin_pointsprite_t           builtin_pointsprite;
+    int                             has_builtin_pointsprite;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)

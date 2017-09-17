@@ -25,6 +25,7 @@ SET(GL_SRC
     gl/matvec.c
     gl/pixel.c
     gl/planes.c
+    gl/pointsprite.c
     gl/program.c
     gl/queries.c
     gl/raster.c
@@ -71,6 +72,7 @@ SET(GL_H
     gl/matvec.h
     gl/pixel.h
     gl/planes.h
+    gl/pointsprite.h
     gl/program.h
     gl/queries.h
     gl/raster.h

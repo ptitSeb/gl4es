@@ -585,6 +585,11 @@
 #define GL_DEPTH_COMPONENT                0x1902
 #define GL_MAX_DRAW_BUFFERS_ARB           0x8824
 
+// point sprite extension
+#define GL_POINT_SPRITE_COORD_ORIGIN      0x8CA0
+#define GL_LOWER_LEFT                     0x8CA1
+#define GL_UPPER_LEFT                     0x8CA2
+
 // direct state
 #define GL_MATRIX0_ARB                    0x88C0
 #define GL_PROGRAM_MATRIX_EXT             0x8E2D

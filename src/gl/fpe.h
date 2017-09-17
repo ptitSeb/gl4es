@@ -66,6 +66,9 @@ void fpe_glLightfv(GLenum light, GLenum pname, const GLfloat* params);
 void fpe_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);
 void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
 
+void fpe_glPointParameterfv(GLenum pname, const GLfloat * params);
+void fpe_glPointSize(GLfloat size);
+
 void builtin_Init(program_t *glprogram);
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);

@@ -134,6 +134,12 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Alpha Func
     glstate->alphafunc = GL_ALWAYS;
     glstate->alpharef = 0.0f;
+    // Point Sprite
+    glstate->pointsprite.size = 1.0f;
+    glstate->pointsprite.sizeMax = 1.0f;
+    glstate->pointsprite.fadeThresholdSize = 1.0f;
+    glstate->pointsprite.distance[0] = 1.0f;
+    glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;
     // Raster
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
@@ -1986,47 +1992,6 @@ void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     }
 }
 void glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glEdgeFlagPointer");
-
-void gl4es_glPointParameteri(GLenum pname, GLint param)
-{
-    gl4es_glPointParameterf(pname, param);
-}
-void glPointParameteri(GLenum pname, GLint param) AliasExport("gl4es_glPointParameteri");
-
-void gl4es_glPointParameteriv(GLenum pname, const GLint * params)
-{
-    GLfloat tmp[3];
-    int v=(pname==GL_POINT_DISTANCE_ATTENUATION)?3:1;
-    for (int i=0; i<v; i++) tmp[i] = params[i];
-    gl4es_glPointParameterfv(pname, tmp);
-}
-void glPointParameteriv(GLenum pname, const GLint * params) AliasExport("gl4es_glPointParameteriv");
-
-void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
-    PUSH_IF_COMPILING(glPointParameterf);
-    LOAD_GLES(glPointParameterf);
-    gles_glPointParameterf(pname, param);
-}void glPointParameterf(GLenum pname, GLfloat param) AliasExport("gl4es_glPointParameterf");
-
-void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
-{
-    if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
-            if (pname == GL_POINT_DISTANCE_ATTENUATION) {
-                NewStage(glstate->list.active, STAGE_POINTPARAM);
-                rlPointParamOp(glstate->list.active, 1, params);
-                return;
-            } else {
-                gl4es_glPointParameterf(pname, params[0]);
-                return;
-            }
-        } else flush();
-
-    LOAD_GLES(glPointParameterfv);
-
-    gles_glPointParameterfv(pname, params);
-}
-void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
 
 
 

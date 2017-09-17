@@ -115,6 +115,19 @@ const char* gl4es_LightProductsSource =
 "uniform gl_LightProducts gl_FrontLightProduct[gl_MaxLights];\n"
 "uniform gl_LightProducts gl_BackLightProduct[gl_MaxLights];\n";
 
+const char* gl4es_PointSpriteSource =
+"struct gl_PointParameters\n"
+"{\n"
+"   float size;\n"
+"   float sizeMin;\n"
+"   float sizeMax;\n"
+"   float fadeThresholdSize;\n"
+"   float distanceConstantAttenuation;\n"
+"   float distanceLinearAttenuation;\n"
+"   float distanceQuadraticAttenuation;\n"
+"};\n"
+"uniform gl_PointParameters gl_Point;\n";
+
 const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 int CountString(char* pBuffer, const char* S);
@@ -363,6 +376,16 @@ char* ConvertShader(const char* pBuffer, int isVertex)
   if(strstr(Tmp, "gl_ClipPlane"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipPlane", "_gl4es_ClipPlane");
 
+  if(strstr(Tmp, "gl_PointParameters") || strstr(Tmp, "gl_Point"))
+    {
+      Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_PointSpriteSource));
+      InplaceInsert(GetLine(Tmp, headline), gl4es_PointSpriteSource);
+      headline+=CountLine(gl4es_PointSpriteSource);
+      Tmp = InplaceReplace(Tmp, &tmpsize, "gl_PointParameters", "_gl4es_PointParameters");
+    }
+  if(strstr(Tmp, "gl_Point"))
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Point", "_gl4es_Point");
+  
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)
   return Tmp;

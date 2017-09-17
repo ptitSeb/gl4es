@@ -14,6 +14,7 @@
 #include "vertexattrib.h"
 #include "program.h"
 #include "fpe.h"
+#include "pointsprite.h"
 
 typedef struct _glstack_t glstack_t;
 typedef struct _glclientstack_t glclientstack_t;
@@ -257,64 +258,65 @@ typedef struct {
 } fpestatus_t;
 
 typedef struct {
-    int dummy[16];  // dummy zone, test for memory overwriting...
+    int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
-    enable_state_t enable;
-    map_state_t *map_grid;
-    map_states_t map1, map2;
+    enable_state_t      enable;
+    map_state_t         *map_grid;
+    map_states_t        map1, map2;
     khash_t(gllisthead) *headlists;
-    texgen_state_t texgen[MAX_TEX];
-    texenv_state_t texenv[MAX_TEX];
-    texture_state_t texture;
-    GLfloat vertex[4];
-    GLfloat color[4];
-    GLfloat secondary[4];
-    GLfloat texcoord[MAX_TEX][4];
-    GLfloat normal[3];
-    int	render_mode;
-    int polygon_mode;
-    namestack_t namestack;
-    GLfloat       mvp_matrix[16];
-    int           mvp_matrix_dirty;
-    matrixstack_t *modelview_matrix;
-    matrixstack_t *projection_matrix;
-    matrixstack_t **texture_matrix;
-    int matrix_mode;
-    selectbuf_t selectbuf;
-    khash_t(glvao) *vaos;
-    khash_t(buff) *buffers;
-    glvao_t *vao;
-    glbuffer_t *defaultvbo; 
-    glvao_t *defaultvao;
-    int shim_error;
-    GLenum last_error;
-    GLuint gl_batch;
-    int init_batch;
-    GLint vp[4];
-    statebatch_t statebatch;
-    clientstate_t clientstate;
-    khash_t(queries) *queries;
-    glstack_t *stack;
-    glclientstack_t *clientStack;
-    raster_state_t raster;
-    int emulatedPixmap;
-    int emulatedWin;
-    int shared_cnt;
-    light_state_t light;
-    fog_t fog;
-    material_state_t material;
-    float planes[MAX_CLIP_PLANES][4];
-    int immediateMV;
-    GLenum shademodel;
-    GLenum alphafunc;
-    GLfloat alpharef;
-    GLenum logicop;
-    glsl_t  glsl;
-    fpe_state_t *fpe_state;
-    fpe_fpe_t *fpe;
-    fpestatus_t fpe_client;
-    gleshard_t  gleshard;
-    glesblit_t *blit;
+    texgen_state_t      texgen[MAX_TEX];
+    texenv_state_t      texenv[MAX_TEX];
+    texture_state_t     texture;
+    GLfloat             vertex[4];
+    GLfloat             color[4];
+    GLfloat             secondary[4];
+    GLfloat             texcoord[MAX_TEX][4];
+    GLfloat             normal[3];
+    int	                render_mode;
+    int                 polygon_mode;
+    namestack_t         namestack;
+    GLfloat             mvp_matrix[16];
+    int                 mvp_matrix_dirty;
+    matrixstack_t       *modelview_matrix;
+    matrixstack_t       *projection_matrix;
+    matrixstack_t       **texture_matrix;
+    int                 matrix_mode;
+    selectbuf_t         selectbuf;
+    khash_t(glvao)      *vaos;
+    khash_t(buff)       *buffers;
+    glvao_t             *vao;
+    glbuffer_t          *defaultvbo; 
+    glvao_t             *defaultvao;
+    int                 shim_error;
+    GLenum              last_error;
+    GLuint              gl_batch;
+    int                 init_batch;
+    GLint               vp[4];
+    statebatch_t        statebatch;
+    clientstate_t       clientstate;
+    khash_t(queries)    *queries;
+    glstack_t           *stack;
+    glclientstack_t     *clientStack;
+    raster_state_t      raster;
+    int                 emulatedPixmap;
+    int                 emulatedWin;
+    int                 shared_cnt;
+    light_state_t       light;
+    fog_t               fog;
+    material_state_t    material;
+    float               planes[MAX_CLIP_PLANES][4];
+    pointsprite_t       pointsprite;
+    int                 immediateMV;
+    GLenum              shademodel;
+    GLenum              alphafunc;
+    GLfloat             alpharef;
+    GLenum              logicop;
+    glsl_t              glsl;
+    fpe_state_t         *fpe_state;
+    fpe_fpe_t           *fpe;
+    fpestatus_t         fpe_client;
+    gleshard_t          gleshard;
+    glesblit_t          *blit;
 } glstate_t;
 
 #endif

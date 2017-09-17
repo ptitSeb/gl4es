@@ -47,9 +47,6 @@
 #define skip_glFogfv
 #define skip_glFogf
 
-#define skip_glPointParameterfv
-#define skip_glPointParameterf
-
 #define skip_glShadeModel
 
 #define skip_glAlphaFunc
@@ -162,6 +159,11 @@
 // this is to avoid a warning. I don't Push those anyway
 #define direct_glMultiDrawArrays
 #define direct_glMultiDrawElements
+
+// pointsprite.c
+#define skip_glPointSize
+#define skip_glPointParameterfv
+#define skip_glPointParameterf
 
 // buffer.c
 #define skip_glGenBuffers

@@ -409,12 +409,6 @@ GLboolean gl4es_glIsList(GLuint list);
 void gl4es_glPolygonMode(GLenum face, GLenum mode);
 GLenum gl4es_glGetError();
 
-void gl4es_glPointParameteri(GLenum pname, GLint param);
-void gl4es_glPointParameteriv(GLenum pname, const GLint * params);
-void gl4es_glPointParameterf(GLenum pname, GLfloat param);
-void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params);
-
-
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer);
 void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer);

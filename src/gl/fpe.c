@@ -192,6 +192,14 @@ void fpe_glFogfv(GLenum pname, const GLfloat* params) {
     noerrorShim();
 }
 
+void fpe_glPointParameterfv(GLenum pname, const GLfloat * params) {
+    noerrorShim();
+}
+void fpe_glPointSize(GLfloat size) {
+    noerrorShim();
+}
+
+
 // ********* Realize GLES Environnements *********
 
 void realize_glenv() {
@@ -437,6 +445,17 @@ void realize_glenv() {
             GoUniformfv(glprogram, glprogram->builtin_lightmodelprod[1].sceneColor, 4, 1, tmp);
         }
     }
+    // check point sprite if needed
+    if(glprogram->has_builtin_pointsprite)
+    {
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.size, 1, 1, &glstate->pointsprite.size);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.sizeMin, 1, 1, &glstate->pointsprite.sizeMin);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.sizeMax, 1, 1, &glstate->pointsprite.sizeMax);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.fadeThresholdSize, 1, 1, &glstate->pointsprite.fadeThresholdSize);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.distanceConstantAttenuation, 1, 1, glstate->pointsprite.distance+0);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.distanceLinearAttenuation, 1, 1, glstate->pointsprite.distance+1);
+        GoUniformfv(glprogram, glprogram->builtin_pointsprite.distanceQuadraticAttenuation, 1, 1, glstate->pointsprite.distance+2);
+    }
 
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) 
@@ -589,6 +608,7 @@ const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
 const char* backlightprod_code = "_gl4es_BackLightProduct[";
 const char* normalrescale_code = "_gl4es_NormalScale";
 const char* clipplanes_code = "_gl4es_ClipPlane[";
+const char* point_code = "_gl4es_Point";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinMatrix(name);
     // check matrices
@@ -661,6 +681,19 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
         int n = name[strlen(clipplanes_code)]-'0';   // only 6 clip planes, so this works
         glprogram->builtin_clipplanes[n] = id;
         glprogram->has_builtin_clipplanes = 1;
+        return 1;
+    }
+    if(strncmp(name, point_code, strlen(point_code))==0)
+    {
+        // it's a Point parameter
+        if(strstr(name, ".size")) glprogram->builtin_pointsprite.size = id;
+        else if(strstr(name, ".sizeMin")) glprogram->builtin_pointsprite.sizeMin = id;
+        else if(strstr(name, ".sizeMax")) glprogram->builtin_pointsprite.sizeMax = id;
+        else if(strstr(name, ".fadeThresholdSize")) glprogram->builtin_pointsprite.fadeThresholdSize = id;
+        else if(strstr(name, ".distanceConstantAttenuation")) glprogram->builtin_pointsprite.distanceConstantAttenuation = id;
+        else if(strstr(name, ".distanceLinearAttenuation")) glprogram->builtin_pointsprite.distanceLinearAttenuation = id;
+        else if(strstr(name, ".distanceQuadraticAttenuation")) glprogram->builtin_pointsprite.distanceQuadraticAttenuation = id;
+        glprogram->has_builtin_pointsprite = 1;
         return 1;
     }
 
