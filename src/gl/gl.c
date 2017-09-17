@@ -364,7 +364,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GOFPE(GL_LIGHT6, light[6], fpe_changelight(6, enable));
         proxy_GOFPE(GL_LIGHT7, light[7], fpe_changelight(7, enable));
         proxy_GOFPE(GL_LIGHTING, lightning, glstate->fpe_state->lightning=enable);
-        proxy_GOFPE(GL_NORMALIZE, auto_normal, glstate->fpe_state->normalize=enable);
+        proxy_GOFPE(GL_NORMALIZE, normalize, glstate->fpe_state->normalize=enable);
+        proxy_GOFPE(GL_RESCALE_NORMAL, normal_rescale, glstate->fpe_state->rescaling=enable);
 
         // point sprite
         proxy_GO(GL_POINT_SPRITE, pointsprite); // TODO: plugin fpe stuffs
@@ -580,6 +581,8 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         clientisenabled(GL_NORMAL_ARRAY, normal_array);
         clientisenabled(GL_COLOR_ARRAY, color_array);
         clientisenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        isenabled(GL_NORMALIZE, normalize);
+        isenabled(GL_RESCALE_NORMAL, normal_rescale);
         default:
 			errorGL();
             return gles_glIsEnabled(cap);

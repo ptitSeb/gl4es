@@ -56,6 +56,7 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
 void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
 void fpe_glClientActiveTexture(GLenum texture);
+void fpe_glFogfv(GLenum pname, const GLfloat* params);
 
 void fpe_glMatrixMode(GLenum mode);
 

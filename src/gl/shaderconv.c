@@ -358,6 +358,8 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     headline+=CountLine(gl4es_MaxLightsSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxLights", "_gl4es_MaxLights");
   }
+  if(strstr(Tmp, "gl_NormalScale"))
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_NormalScale", "_gl4es_NormalScale");
 
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)

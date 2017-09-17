@@ -21,6 +21,8 @@ typedef struct _glclientstack_t glclientstack_t;
 typedef struct {
     GLboolean line_stipple,
               auto_normal,
+              normalize,
+              normal_rescale,
               lightning,
               blend,
               color_sum,

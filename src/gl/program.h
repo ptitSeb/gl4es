@@ -143,12 +143,16 @@ typedef struct {
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
     uniformcache_t  cache;
+    int             has_builtin_attrib;
     GLint           builtin_attrib[ATT_MAX];
+    int             has_builtin_matrix;
     GLint           builtin_matrix[MAT_MAX];
+    int             has_builtin_light;
     builtin_lightsource_t           builtin_lights[MAX_LIGHT];
     builtin_material_t              builtin_material[2];
     builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
     builtin_lightproducts_t         builtin_lightprod[2][MAX_LIGHT];
+    GLuint                          builtin_normalrescale;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)

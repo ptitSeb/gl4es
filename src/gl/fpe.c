@@ -188,6 +188,9 @@ void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     noerrorShim();
 }
 
+void fpe_glFogfv(GLenum pname, const GLfloat* params) {
+    noerrorShim();
+}
 
 // ********* Realize GLES Environnements *********
 
@@ -213,8 +216,9 @@ void realize_glenv() {
             DBG(printf("Use FPE program %d\n", glstate->gleshard.program);)
         }
     }
-    // setup fixed pipeline builtin vertex attrib if needed
     program_t *glprogram = glstate->gleshard.glprogram;
+    // setup fixed pipeline builtin vertex attrib if needed
+    if(glprogram->has_builtin_attrib)
     {
         int vaarray = 0;
         int id = -1;
@@ -292,6 +296,7 @@ void realize_glenv() {
         //TODO: Secondary colors
     }
     // setup fixed pipeline builtin matrix uniform if needed
+    if(glprogram->has_builtin_matrix)
     {
         if(glprogram->builtin_matrix[MAT_MVP]!=-1 || glprogram->builtin_matrix[MAT_MVP_I]!=-1
             || glprogram->builtin_matrix[MAT_MVP_T]!=-1 || glprogram->builtin_matrix[MAT_MVP_IT]!=-1)
@@ -330,14 +335,26 @@ void realize_glenv() {
             }
         }
         //Normal matrix (mat3 version of transpose(inverse(gl_ModelViewMatrix)))
-        if(glprogram->builtin_matrix[MAT_N]!=-1)
+        if(glprogram->builtin_matrix[MAT_N]!=-1 || glprogram->builtin_normalrescale!=-1)
         {
-            GLfloat invmat[16], matn[9];
-            matrix_inverse(getMVMat(), invmat);
-            for(int i=0; i<3; i++)
-                for(int j=0; j<3; j++)
-                    matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
-            GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+            if(glprogram->builtin_normalrescale!=-1 && !glstate->fpe_state->rescaling)
+            {
+                float tmp = 1.0f;
+                GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);
+            }
+            if((glprogram->builtin_normalrescale!=-1 && glstate->fpe_state->rescaling) || glprogram->builtin_matrix[MAT_N]!=-1)
+            {
+                GLfloat invmat[16], matn[9];
+                matrix_inverse(getMVMat(), invmat);
+                for(int i=0; i<3; i++)
+                    for(int j=0; j<3; j++)
+                        matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
+                GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+                if(glprogram->builtin_normalrescale!=-1) {
+                    float tmp = 1.0f/sqrtf(invmat[3*3+1]*invmat[3*3+1]+invmat[3*3+2]*invmat[3*3+2]+invmat[3*3+3]*invmat[3*3+3]);
+                    GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);
+                }
+            }
         }
         //Texture matrices
         for (int i=0; i<MAX_TEX; i++) {
@@ -356,6 +373,7 @@ void realize_glenv() {
         }
     }
     // set light and material if needed
+    if(glprogram->has_builtin_light)
     {
         for (int i=0; i<MAX_LIGHT; i++) {
             if(glprogram->builtin_lights[i].ambient!=-1) {
@@ -569,11 +587,13 @@ const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
 const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
 const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
 const char* backlightprod_code = "_gl4es_BackLightProduct[";
+const char* normalrescale_code = "_gl4es_NormalScale";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinMatrix(name);
     // check matrices
     if(builtin!=-1) {
         glprogram->builtin_matrix[builtin] = id;
+        glprogram->has_builtin_matrix = 1;
         return 1;
     }
     // lightsource
@@ -592,6 +612,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
         else if(strstr(name, ".constantAttenuation")) glprogram->builtin_lights[n].constantAttenuation = id;
         else if(strstr(name, ".linearAttenuation")) glprogram->builtin_lights[n].linearAttenuation = id;
         else if(strstr(name, ".quadraticAttenuation")) glprogram->builtin_lights[n].quadraticAttenuation = id;
+        glprogram->has_builtin_light = 1;
         return 1;
     }
     if(strncmp(name, frontmaterial_code, strlen(frontmaterial_code))==0 
@@ -604,6 +625,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
         else if(strstr(name, ".diffuse")) glprogram->builtin_material[n].diffuse = id;
         else if(strstr(name, ".specular")) glprogram->builtin_material[n].specular = id;
         else if(strstr(name, ".shininess")) glprogram->builtin_material[n].shininess = id;
+        glprogram->has_builtin_light = 1;
         return 1;
     }
     if(strncmp(name, frontlightmodelprod_code, strlen(frontlightmodelprod_code))==0 
@@ -612,6 +634,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
         // it's a front light model product
         int n=(strncmp(name, frontlightmodelprod_code, strlen(frontlightmodelprod_code))==0)?0:1;
         if(strstr(name, ".sceneColor")) glprogram->builtin_lightmodelprod[n].sceneColor = id;
+        glprogram->has_builtin_light = 1;
         return 1;
     }
     if(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0 
@@ -623,6 +646,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
         if(strstr(name, ".ambient")) glprogram->builtin_lightprod[i][n].ambient = id;
         else if(strstr(name, ".diffuse")) glprogram->builtin_lightprod[i][n].diffuse = id;
         else if(strstr(name, ".specular")) glprogram->builtin_lightprod[i][n].specular = id;
+        glprogram->has_builtin_light = 1;
+        return 1;
+    }
+    if(strncmp(name, normalrescale_code, strlen(normalrescale_code))==0)
+    {
+        glprogram->builtin_normalrescale = id;
+        glprogram->has_builtin_matrix = 1;  // this is in the matrix block
         return 1;
     }
 
@@ -633,6 +663,7 @@ int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinAttrib(name);
     if(builtin!=-1) {
         glprogram->builtin_attrib[builtin] = id;
+        glprogram->has_builtin_attrib = 1;
         return 1;
     }
     return 0;
