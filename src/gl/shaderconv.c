@@ -360,6 +360,8 @@ char* ConvertShader(const char* pBuffer, int isVertex)
   }
   if(strstr(Tmp, "gl_NormalScale"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_NormalScale", "_gl4es_NormalScale");
+  if(strstr(Tmp, "gl_ClipPlane"))
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipPlane", "_gl4es_ClipPlane");
 
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)

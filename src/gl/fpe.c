@@ -588,6 +588,7 @@ const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
 const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
 const char* backlightprod_code = "_gl4es_BackLightProduct[";
 const char* normalrescale_code = "_gl4es_NormalScale";
+const char* clipplanes_code = "_gl4es_ClipPlane[";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     int builtin = isBuiltinMatrix(name);
     // check matrices
@@ -653,6 +654,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id) {
     {
         glprogram->builtin_normalrescale = id;
         glprogram->has_builtin_matrix = 1;  // this is in the matrix block
+        return 1;
+    }
+    if(strncmp(name, clipplanes_code, strlen(clipplanes_code))==0) {
+        // it a clip plane! grab it's number
+        int n = name[strlen(clipplanes_code)]-'0';   // only 6 clip planes, so this works
+        glprogram->builtin_clipplanes[n] = id;
+        glprogram->has_builtin_clipplanes = 1;
         return 1;
     }
 

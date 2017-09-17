@@ -153,6 +153,8 @@ typedef struct {
     builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
     builtin_lightproducts_t         builtin_lightprod[2][MAX_LIGHT];
     GLuint                          builtin_normalrescale;
+    GLuint                          builtin_clipplanes[MAX_CLIP_PLANES];
+    int                             has_builtin_clipplanes;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)
