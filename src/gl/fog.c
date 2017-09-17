@@ -41,14 +41,14 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             return;
     }
     #undef GO
-    LOAD_GLES(glFogfv);
+    LOAD_GLES2(glFogfv);
     gles_glFogfv(pname, params);
     errorGL();
 }
 
-
-
-
+void gl4es_glFogf(GLenum pname, GLfloat param) {
+    gl4es_glFogfv(pname, &param);
+}
 
 void glFogfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glFogfv");
-
+void glFogf(GLenum pname, GLfloat param) AliasExport("gl4es_glFogf");

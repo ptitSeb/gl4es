@@ -14,5 +14,5 @@ typedef struct {
 } fog_t;
 
 void gl4es_glFogfv(GLenum pname, const GLfloat* params);
-
+void gl4es_glFogf(GLenum pname, GLfloat param);
 #endif

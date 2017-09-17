@@ -45,6 +45,7 @@
 #define skip_glStencilOpSeparate
 
 #define skip_glFogfv
+#define skip_glFogf
 
 #define skip_glPointParameterfv
 #define skip_glPointParameterf
