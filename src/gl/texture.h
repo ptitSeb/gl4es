@@ -106,6 +106,7 @@ typedef struct {
     GLenum  type;
     GLenum  orig_internal;
     GLenum  internalformat;
+    GLenum  inter_format, inter_type;
     int shrink;
     GLboolean mipmap_auto;
     GLboolean mipmap_need;
