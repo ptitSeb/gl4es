@@ -633,6 +633,7 @@ void builtin_Init(program_t *glprogram) {
         glprogram->builtin_attrib[i] = -1;
 }
 
+const char* gl4es_code = "_gl4es_";
 const char* lightsource_code = "_gl4es_LightSource[";
 const char* frontmaterial_code = "_gl4es_FrontMaterial";
 const char* backmaterial_code = "_gl4es_BackMaterial";
@@ -651,6 +652,8 @@ const char* texgenobj_code = "_gl4es_ObjectPlane%c[";
 const char* texgenobj_noa_code = "_gl4es_ObjectPlane%c";
 const char texgenCoords[4] = {'S', 'T', 'R', 'Q'};
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
+    if(strncmp(name, gl4es_code, strlen(gl4es_code)))
+        return 0;   // doesn't start with "_gl4es_", no need to look further
     int builtin = isBuiltinMatrix(name);
     // check matrices
     if(builtin!=-1) {
@@ -794,6 +797,8 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
 }
 
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id) {
+    if(strncmp(name, gl4es_code, strlen(gl4es_code)))
+        return 0;   // doesn't start with "_gl4es_", no need to look further
     int builtin = isBuiltinAttrib(name);
     if(builtin!=-1) {
         glprogram->builtin_attrib[builtin] = id;
