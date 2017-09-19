@@ -128,6 +128,21 @@ const char* gl4es_PointSpriteSource =
 "};\n"
 "uniform gl_PointParameters gl_Point;\n";
 
+const char* gl4es_texenvcolorSource =
+"uniform vec4 gl_TextureEnvColor[gl_MaxTextureUnits];\n";
+
+const char* gl4es_texgeneyeSource[4] = {
+"uniform vec4 gl_EyePlaneS[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_EyePlaneT[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_EyePlaneR[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_EyePlaneQ[gl_MaxTextureCoords];\n" };
+
+const char* gl4es_texgenobjSource[4] = {
+"uniform vec4 gl_ObjectPlaneS[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_ObjectPlaneT[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_ObjectPlaneR[gl_MaxTextureCoords];\n",
+"uniform vec4 gl_ObjectPlaneQ[gl_MaxTextureCoords];\n" };
+
 const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 int CountString(char* pBuffer, const char* S);
@@ -385,6 +400,60 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     }
   if(strstr(Tmp, "gl_Point"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Point", "_gl4es_Point");
+  if(strstr(Tmp, "gl_TextureEnvColor")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texenvcolorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texenvcolorSource);
+    headline+=CountLine(gl4es_texenvcolorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TextureEnvColor", "_gl4es_TextureEnvColor");
+  }
+  if(strstr(Tmp, "gl_EyePlaneS")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgeneyeSource[0]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgeneyeSource[0]);
+    headline+=CountLine(gl4es_texgeneyeSource[0]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_EyePlaneS", "_gl4es_EyePlaneS");
+  }
+  if(strstr(Tmp, "gl_EyePlaneT")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgeneyeSource[1]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgeneyeSource[1]);
+    headline+=CountLine(gl4es_texgeneyeSource[1]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_EyePlaneT", "_gl4es_EyePlaneT");
+  }
+  if(strstr(Tmp, "gl_EyePlaneR")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgeneyeSource[2]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgeneyeSource[2]);
+    headline+=CountLine(gl4es_texgeneyeSource[2]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_EyePlaneR", "_gl4es_EyePlaneR");
+  }
+  if(strstr(Tmp, "gl_EyePlaneQ")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgeneyeSource[3]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgeneyeSource[3]);
+    headline+=CountLine(gl4es_texgeneyeSource[3]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_EyePlaneQ", "_gl4es_EyePlaneQ");
+  }
+  if(strstr(Tmp, "gl_ObjectPlaneS")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgenobjSource[0]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgenobjSource[0]);
+    headline+=CountLine(gl4es_texgenobjSource[0]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneS", "_gl4es_ObjectPlaneS");
+  }
+  if(strstr(Tmp, "gl_ObjectPlaneT")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgenobjSource[1]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgenobjSource[1]);
+    headline+=CountLine(gl4es_texgenobjSource[1]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneT", "_gl4es_ObjectPlaneT");
+  }
+  if(strstr(Tmp, "gl_ObjectPlaneR")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgenobjSource[2]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgenobjSource[2]);
+    headline+=CountLine(gl4es_texgenobjSource[2]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneR", "_gl4es_ObjectPlaneR");
+  }
+  if(strstr(Tmp, "gl_ObjectPlaneQ")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texgenobjSource[3]));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_texgenobjSource[3]);
+    headline+=CountLine(gl4es_texgenobjSource[3]);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneQ", "_gl4es_ObjectPlaneQ");
+  }
   
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)

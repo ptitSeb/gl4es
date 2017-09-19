@@ -70,7 +70,7 @@ void fpe_glPointParameterfv(GLenum pname, const GLfloat * params);
 void fpe_glPointSize(GLfloat size);
 
 void builtin_Init(program_t *glprogram);
-int builtin_CheckUniform(program_t *glprogram, char* name, GLint id);
+int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
 void realize_glenv();

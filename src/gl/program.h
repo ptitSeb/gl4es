@@ -153,11 +153,11 @@ typedef struct {
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
     uniformcache_t  cache;
-    int             has_builtin_attrib;
-    GLint           builtin_attrib[ATT_MAX];
-    int             has_builtin_matrix;
-    GLint           builtin_matrix[MAT_MAX];
-    int             has_builtin_light;
+    int                             has_builtin_attrib;
+    GLint                           builtin_attrib[ATT_MAX];
+    int                             has_builtin_matrix;
+    GLint                           builtin_matrix[MAT_MAX];
+    int                             has_builtin_light;
     builtin_lightsource_t           builtin_lights[MAX_LIGHT];
     builtin_material_t              builtin_material[2];
     builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
@@ -167,6 +167,11 @@ typedef struct {
     int                             has_builtin_clipplanes;
     builtin_pointsprite_t           builtin_pointsprite;
     int                             has_builtin_pointsprite;
+    GLuint                          builtin_texenvcolor[MAX_TEX];
+    int                             has_builtin_texenv;
+    GLuint                          builtin_eye[4][MAX_TEX];
+    GLuint                          builtin_obj[4][MAX_TEX];
+    int                             has_builtin_texgen;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)
