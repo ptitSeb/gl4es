@@ -159,7 +159,10 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *type = GL_UNSIGNED_SHORT_5_6_5;
             break;
         case GL_RGB:
-            *format = GL_RGB;
+            if(globals4es.avoid24bits)
+                *format = GL_RGBA;
+            else
+                *format = GL_RGB;
             *type = GL_UNSIGNED_BYTE;
             break;
         case GL_RGB5_A1:
@@ -297,10 +300,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 else
                     convert = true;
                 break;
-            case GL_UNSIGNED_BYTE:
-                break;
             case GL_UNSIGNED_INT_8_8_8_8_REV:
                 *type = GL_UNSIGNED_BYTE;
+                // fall through
+            case GL_UNSIGNED_BYTE:
+                if(dest_format==GL_RGB && globals4es.avoid24bits) {
+                    dest_format = GL_RGBA;
+                    convert = true;
+                }
                 break;
             default:
                 convert = true;

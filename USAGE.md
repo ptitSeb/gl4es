@@ -193,6 +193,11 @@ Try to avoid 16bits textures
  * 0 : Default, use 16bits texture if it can avoid a convertion or for DXTc textures
  * 1 : Use 32bits texture unless specifically requested (using internalformat)
 
+##### LIBGL_AVOID24BITS
+Try to avoid 24bits textures (i.e. GL_RGB)
+ * 0 : Default on Pandora, use 24bits texture when it's possible
+ * 1 : Default on other hardware, use 32bits texture (i.e. GL_RGBA) when GL_RGB is asked (as internal or not). Does not impact GL_UNSIGNED_SHORT_5_6_5 and friends.
+
 ##### LIBGL_NOBGRA
 Ignore BGRA Texture hardware extension
  * 0 : Default, use BGRA extension if possible
