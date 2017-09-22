@@ -663,13 +663,13 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     if(src_type==GL_UNSIGNED_INT_8_8_8_8_REV) src_type=GL_UNSIGNED_BYTE;
     if(dst_type==GL_UNSIGNED_INT_8_8_8_8_REV) dst_type=GL_UNSIGNED_BYTE;
 
-    GLuint dst_size = height * widthalign(width*pixel_sizeof(dst_format, dst_type), align);
+    GLuint dst_size = height * widthalign(width * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width2 = widthalign((stride?stride:width) * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width = dst_width2 - (width * pixel_sizeof(dst_format, dst_type));
     GLuint src_width = widthalign(width * pixel_sizeof(src_format, src_type), align);
     GLuint src_widthadj = src_width -(width * pixel_sizeof(src_format, src_type));
 
-    //printf("pixel conversion: %ix%i - %s, %s (%d) ==> %s, %s (%d), transform=%i\n", width, height, PrintEnum(src_format), PrintEnum(src_type),pixel_sizeof(src_format, src_type), PrintEnum(dst_format), PrintEnum(dst_type), pixel_sizeof(dst_format, dst_type), raster_need_transform());
+    //printf("pixel conversion: %ix%i - %s, %s (%d) ==> %s, %s (%d), transform=%i, align=%d, src_width=%d(%d), dst_width=%d(%d)\n", width, height, PrintEnum(src_format), PrintEnum(src_type),pixel_sizeof(src_format, src_type), PrintEnum(dst_format), PrintEnum(dst_type), pixel_sizeof(dst_format, dst_type), raster_need_transform(), align, src_width, src_widthadj, dst_width2, dst_width);
     src_color = get_color_map(src_format);
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
@@ -694,8 +694,8 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
     if (*dst == src || *dst == NULL)
         *dst = malloc(dst_size);
-    uintptr_t src_pos = (uintptr_t)src;
-    uintptr_t dst_pos = (uintptr_t)*dst;
+    uintptr_t src_pos = widthalign((uintptr_t)src, align);
+    uintptr_t dst_pos = widthalign((uintptr_t)*dst, align);
     // fast optimized loop for common conversion cases first...
     // TODO: Rewrite that with some Macro, it's obviously doable to simplify the reading (and writting) of all this
     // simple BGRA <-> RGBA / UNSIGNED_BYTE 

@@ -354,22 +354,29 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 			if (pix2!=pixels && pixels!=data)
 				free(pixels);
 			return pix2;
-		} 
-    } else {
-		if (convert) {
+		} else {
             if(bound) {
                 bound->inter_format = dest_format;
+                bound->format = dest_format;
                 bound->inter_type = dest_type;
+                bound->type = dest_type;
             }
+        }
+    } else {
+        if(bound) {
+            bound->inter_format = dest_format;
+            bound->inter_type = dest_type;
+        }
+        if (convert) {
             internal2format_type(internalformat, &dest_format, &dest_type); // in case they are differents
 			*type = dest_type;
             *format = dest_format;
-            if(bound) {
-                bound->format = dest_format;
-                bound->type = dest_type;
-            }
 		}
-	}
+        if(bound) {
+            bound->format = dest_format;
+            bound->type = dest_type;
+        }
+}
     return (void *)data;
 }
 
@@ -797,8 +804,6 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->height = height;
             bound->nwidth = nwidth;
             bound->nheight = nheight;
-            bound->format = format;
-            bound->type = type;
             bound->compressed = false;
         }
         if ((bound) && (globals4es.automipmap==4) && (nwidth!=nheight))
@@ -998,7 +1003,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         } else {
             format = bound->inter_format;
             type = bound->inter_type;
-            if(bound->inter_format!=bound->format && bound->inter_type!=bound->type) {
+            if(bound->inter_format!=bound->format || bound->inter_type!=bound->type) {
                 GLvoid* pix2 = pixels;
                 if (!pixel_convert(pixels, &pix2, width, height, format, type, bound->format, bound->type, 0, glstate->texture.pack_align)) {
                     printf("LIBGL: Error in pixel_convert while glTexSubImage2D\n");
