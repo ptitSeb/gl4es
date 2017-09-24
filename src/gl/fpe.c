@@ -473,6 +473,11 @@ void realize_glenv() {
                     (j==0)?glstate->texgen[i].S_O:((j==1)?glstate->texgen[i].T_O:((j==2)?glstate->texgen[i].R_O:glstate->texgen[i].Q_O)));
         }
     }
+    // fpe
+    if(glprogram->has_fpe)
+    {
+        GoUniformfv(glprogram, glprogram->fpe_alpharef, 1, 1, &glstate->alpharef);
+    }
 
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) 
@@ -627,7 +632,8 @@ void builtin_Init(program_t *glprogram) {
             glprogram->builtin_obj[j][i] = -1;
         }
     }
-
+    // fpe uniform
+    glprogram->fpe_alpharef = -1;
     // initialise emulated builtin attrib to -1
     for (int i=0; i<ATT_MAX; i++)
         glprogram->builtin_attrib[i] = -1;
@@ -651,6 +657,7 @@ const char* texgeneye_noa_code = "_gl4es_EyePlane%c";
 const char* texgenobj_code = "_gl4es_ObjectPlane%c[";
 const char* texgenobj_noa_code = "_gl4es_ObjectPlane%c";
 const char texgenCoords[4] = {'S', 'T', 'R', 'Q'};
+const char* alpharef_code = "_gl4es_AlphaRef";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -791,6 +798,12 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             glprogram->has_builtin_texgen = 1;
             return 1;
         }
+    }
+    // fpe specials
+    if(strncmp(name, alpharef_code, strlen(alpharef_code))==0) {
+        glprogram->fpe_alpharef = id;
+        glprogram->has_fpe = 1;
+        return 1;
     }
 
     return 0;

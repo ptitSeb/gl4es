@@ -143,6 +143,20 @@ const char* gl4es_texgenobjSource[4] = {
 "uniform vec4 gl_ObjectPlaneR[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_ObjectPlaneQ[gl_MaxTextureCoords];\n" };
 
+const char* gl4es_colorSource =
+"varying lowp vec4 _gl4es_FrontColor;\n"
+"varying lowp vec4 _gl4es_BackColor;\n";
+
+const char* gl4es_secondSource =
+"varying lowp vec4 _gl4es_FrontSecondaryColor;\n"
+"varying lowp vec4 _gl4es_BackSecondaryColor;\n";
+
+const char* gl4es_texcoordSource =
+"varying mediump vec4 _gl4es_TexCoord[%d];\n";
+
+const char* gl4es_fogcoordSource =
+"varying mediump vec4 _gl4es_FogFragCoord;\n";
+
 const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 int CountString(char* pBuffer, const char* S);
@@ -454,6 +468,38 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     headline+=CountLine(gl4es_texgenobjSource[3]);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneQ", "_gl4es_ObjectPlaneQ");
   }
+  // builtin varying
+  if(strstr(Tmp, "gl_FrontColor") || strstr(Tmp, "gl_BackColor") || strstr(Tmp, "gl_Color")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_colorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_colorSource);
+    headline+=CountLine(gl4es_colorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontColor", "_gl4es_FrontColor");
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackColor", "_gl4es_BackColor");
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Color", "(gl_FrontFacing?_gles_FrontColor:_gl4es_BackColor)");
+  }
+  if(strstr(Tmp, "gl_FrontSecondaryColor") || strstr(Tmp, "gl_BackSecondaryColor") || strstr(Tmp, "gl_SecondaryColor")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_secondSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_secondSource);
+    headline+=CountLine(gl4es_secondSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontSecondaryColor", "_gl4es_FrontSecondaryColor");
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackSecondaryColor", "_gl4es_BackSecondaryColor");
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_SecondaryColor", "(gl_FrontFacing?_gles_FrontSecondaryColor:_gl4es_BackSecondaryColor)");
+  }
+  if(strstr(Tmp, "gl_TexCoord")) {
+    char d[100];
+    sprintf(d, gl4es_texcoordSource, hardext.maxtex);
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
+    InplaceInsert(GetLine(Tmp, headline), d);
+    headline+=CountLine(d);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
+  }
+  if(strstr(Tmp, "gl_FogFragCoord")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_fogcoordSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource);
+    headline+=CountLine(gl4es_fogcoordSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
+  }
+
   
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)
