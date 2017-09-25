@@ -720,6 +720,14 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _ARB(glVertexAttrib4fv);
     _ARB(glVertexAttribPointer);
     _ARB(glVertexPointer);*/
+
+    // stub non-squared matrix access
+    STUB(glUniformMatrix2x3fv);
+    STUB(glUniformMatrix3x2fv);
+    STUB(glUniformMatrix2x4fv);
+    STUB(glUniformMatrix4x2fv);
+    STUB(glUniformMatrix3x4fv);
+    STUB(glUniformMatrix4x3fv);
             
 
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
