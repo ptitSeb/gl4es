@@ -157,6 +157,11 @@ const char* gl4es_texcoordSource =
 const char* gl4es_fogcoordSource =
 "varying mediump vec4 _gl4es_FogFragCoord;\n";
 
+const char* gl4es_ftransformSource = 
+"highp vec4 ftransform() {\n"
+" return _gl4es_ModelViewProjectionMatrix * _gl4es_Vertex;\n"
+"};\n";
+
 const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 int CountString(char* pBuffer, const char* S);
@@ -498,6 +503,14 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource);
     headline+=CountLine(gl4es_fogcoordSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
+  }
+  // check for ftransform function
+  if(isVertex) {
+    if(strstr(Tmp, "ftransform(")) {
+      Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_ftransformSource));
+      InplaceInsert(GetLine(Tmp, headline), gl4es_ftransformSource);
+      headline+=CountLine(gl4es_ftransformSource);
+    }
   }
 
   
