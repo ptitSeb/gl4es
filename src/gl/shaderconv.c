@@ -260,10 +260,11 @@ char* ConvertShader(const char* pBuffer, int isVertex)
   int headline = 2;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
-  const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable";
-  const char* GLESFakeFragDepth = "mediump float fakeFragDepth = 0.0;";
+  const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable\n";
+  const char* GLESFakeFragDepth = "mediump float fakeFragDepth = 0.0;\n";
   if (fragdepth) {
-    strcat(Tmp, hardext.fragdepth?GLESUseFragDepth:GLESFakeFragDepth);
+    /* If #extension is used, it should be placed before the second line of the header. */
+    InplaceInsert(GetLine(Tmp, headline-1), hardext.fragdepth?GLESUseFragDepth:GLESFakeFragDepth);
     headline++;
   }
   strcat(Tmp, newptr);
