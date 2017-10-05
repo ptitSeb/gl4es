@@ -12,7 +12,7 @@ typedef struct {
     GLfloat r, g, b, a;
 } pixel_t;
 
-#define widthalign(width, align) (((width)+(align-1))&(~(align-1)))
+#define widthalign(width, align) ((((uintptr_t)(width))+((uintptr_t)(align)-1))&(~((uintptr_t)(align)-1)))
 
 bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLuint width, GLuint height,
