@@ -130,13 +130,17 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     CHECK_SHADER(void, shader)
     // get the size of the shader sources and than concatenate in a single string
     int l = 0;
-    for (int i=0; i<count; i++) l+=(length)?length[i]:strlen(string[i]);
+    for (int i=0; i<count; i++) l+=(length && length[i] >= 0)?length[i]:strlen(string[i]);
     if(glshader->source) free(glshader->source);
     glshader->source = malloc(l+1);
     memset(glshader->source, 0, l+1);
     if(length) {
-        for (int i=0; i<count; i++)
-            strncat(glshader->source, string[i], length[i]);
+        for (int i=0; i<count; i++) {
+            if(length[i] >= 0)
+                strncat(glshader->source, string[i], length[i]);
+            else
+                strcat(glshader->source, string[i]);
+        }
     } else {
         for (int i=0; i<count; i++)
             strcat(glshader->source, string[i]);
