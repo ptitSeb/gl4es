@@ -99,7 +99,6 @@ GLuint gl4es_glCreateProgram(void) {
                 free(m->name); free(m);
             )
             kh_destroy(attribloclist, glprogram->attribloc);
-            free(glprogram->attribloc);
             glprogram->attribloc = NULL;
         }
     }
@@ -128,7 +127,6 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
             free(m->name); free(m);
         )
         kh_destroy(attribloclist, glprogram->attribloc);
-        free(glprogram->attribloc);
         glprogram->attribloc = NULL;
     }
     // clean uniform list
@@ -138,7 +136,6 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
             free(m->name); free(m);
         )
         kh_destroy(uniformlist, glprogram->uniform);
-        free(glprogram->uniform);
         glprogram->uniform = NULL;
     }
     // clean cache
