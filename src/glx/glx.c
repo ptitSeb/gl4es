@@ -100,6 +100,9 @@ static int fbdev = -1;
 #endif
 
 static int  g_width=0, g_height=0;
+static int swapinterval = 1;    // default value. Also, should be tracked by drawable...
+static int minswap=0;
+static int maxswap=1;
 // **** RPI stuffs ****
 static bool g_bcmhost = false;
 static bool g_bcm_active = false;
@@ -743,7 +746,8 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_STENCIL_SIZE, &fake->stencil);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLES, &fake->samples);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
-
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MIN_SWAP_INTERVAL, &minswap);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MAX_SWAP_INTERVAL, &maxswap);
         return fake;
     }
 }
@@ -1360,6 +1364,10 @@ void gl4es_glXSwapInterval(int interval) {
     LOAD_EGL(eglSwapInterval);
     egl_eglSwapInterval(eglDisplay, swap_interval);
     CheckEGLErrors();
+    if(interval<minswap || interval>maxswap) {
+        SHUT(printf("LIBGL: Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);)
+    } else
+        swapinterval = interval;
 #endif
 }
 
@@ -1559,8 +1567,12 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
             DBG(printf("(%d), GLX_FBCONFIG_ID, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_SWAP_INTERVAL_EXT:
-            *value = 0;
+            *value = swapinterval;
             DBG(printf("(%d), GLX_SWAP_INTERVAL_EXT, %p = %d)\n", pbuf, value, *value);)
+            return 1;
+        case GLX_MAX_SWAP_INTERVAL_EXT:
+            *value = maxswap; // fake, should eglQuery the Config for EGL_MAX_SWAP_INTERVAL (and EGL_MIN_SWAP_INTERVAL)
+            DBG(printf("(%d), GLX_MAX_SWAP_INTERVAL_EXT, %p = %d)\n", pbuf, value, *value);)
             return 1;
     }
     DBG(printf("(%d), %04x, %p)\n", pbuf, attribute, value);)
