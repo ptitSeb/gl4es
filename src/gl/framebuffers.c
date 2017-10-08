@@ -522,7 +522,7 @@ void createMainFBO(int width, int height) {
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glTexParameteri);
-    LOAD_GLES(glClientActiveTexture);
+    LOAD_GLES2(glClientActiveTexture);
     LOAD_GLES(glClear);
 
     // If there is already a Framebuffer created, let's delete it.... unless it's already the right size!
@@ -534,7 +534,7 @@ void createMainFBO(int width, int height) {
     // switch to texture unit 0 if needed
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0);
-    if (glstate->texture.client != 0)
+    if (glstate->texture.client != 0 && gles_glClientActiveTexture)
         gles_glClientActiveTexture(GL_TEXTURE0);
         
     mainfbo_width = width;
@@ -590,7 +590,7 @@ void createMainFBO(int width, int height) {
         gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0][ENABLED_TEX2D]->glname);
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0 + glstate->texture.active);
-    if (glstate->texture.client != 0)
+    if (glstate->texture.client != 0 && gles_glClientActiveTexture)
         gles_glClientActiveTexture(GL_TEXTURE0 + glstate->texture.client);
     
 }
