@@ -2022,7 +2022,7 @@ void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
         return;
     if(func!=GL_NEVER && func!=GL_LESS && func!=GL_EQUAL
         && func!=GL_LEQUAL && func!=GL_GREATER && func!=GL_NOTEQUAL
-        && func!=GL_ALWAYS) {
+        && func!=GL_ALWAYS && func!=GL_GEQUAL) {
             errorShim(GL_INVALID_ENUM);
             return;
     }
