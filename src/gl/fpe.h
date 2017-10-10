@@ -22,24 +22,45 @@
 #define FPE_TEX_CUBE 2
 #define FPE_TEX_STRM 3
 
+#define FPE_ALWAYS   0
+#define FPE_NEVER    1
+#define FPE_LESS     2
+#define FPE_EQUAL    3
+#define FPE_LEQUAL   4
+#define FPE_GREATER  5
+#define FPE_NOTEQUAL 6
+#define FPE_GEQUAL   7
+
 typedef struct {
     int plane:6;                //  0: 5  the 6 planes packed
     int light:8;                //  5:13  the 8 lights packed
     int light_2sided:8;         // 14:21  the 8 two sided bits packed (equation is simpler when not 2-sided)
-    int fogmode:4;              // 22:25  fog mode
-    int colorsum:1;             // 26:26  secondary color enabled
-    int texture:32;             // 27:58  8 texture stored on 4 bits
-    int lightning:1;            // 59:59  global lightning enabled
-    int normalize:1;            // 60:60  normalization
-    int rescaling:1;            // 61:61  rescale normal
+    int fogmode:2;              // 22:23  fog mode
+    int colorsum:1;             // 24:24  secondary color enabled
+    int texture:16;             // 25:40  8 texture stored on 2 bits
+    int lightning:1;            // 41:41  global lightning enabled
+    int normalize:1;            // 42:42  normalization
+    int rescaling:1;            // 43:43  rescale normal
+    int alphfunc:3;             // 44:46  alpha functions
 
-    int dummy:3;                // 62:63  to be sure it's int32 aligned
+    int dummy:17;               // 47:63  to be sure it's int32 aligned
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {
-  GLuint  frag, vert, prog;   // only dummy shader for now
+  GLuint  frag, vert, prog;   // shader info
+  fpe_state_t state;          // state relevent to the current fpe program
   program_t *glprogram;
 } fpe_fpe_t;
+
+
+typedef struct {
+  void      *cache;
+  fpe_fpe_t *fpe;
+} fpe_cache_t;
+
+KHASH_MAP_INIT_INT(fpecachelist, fpe_cache_t *);
+
+fpe_fpe_t *fpe_GetCache();
 
 void fpe_glEnableClientState(GLenum cap);
 void fpe_glDisableClientState(GLenum cap);

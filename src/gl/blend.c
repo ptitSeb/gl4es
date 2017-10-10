@@ -56,6 +56,10 @@ void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("gl4es
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if (glstate->list.active)
         if (!glstate->list.compiling && glstate->gl_batch) {
+            if(glstate->blendsfactor == 0 && glstate->blenddfactor == 0) {
+                glstate->statebatch.blendfunc_s = glstate->blendsfactor;
+                glstate->statebatch.blendfunc_d = glstate->blenddfactor;
+            }
             if ((glstate->statebatch.blendfunc_s == sfactor) && (glstate->statebatch.blendfunc_d == dfactor))
                 return; // nothing to do...
             if (!glstate->statebatch.blendfunc_s) {
@@ -129,7 +133,10 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         // special case, as seen in Xash3D, but it breaks torus_trooper, so behind a parameter
         sfactor = GL_ONE;
     }
-
+    if(glstate->blendsfactor==sfactor && glstate->blenddfactor==dfactor)
+        return; // already set
+    glstate->blendsfactor = sfactor;
+    glstate->blenddfactor = dfactor;
 #ifdef ODROID
     if(gles_glBlendFunc)
 #endif

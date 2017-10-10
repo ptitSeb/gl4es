@@ -93,6 +93,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     if(hardext.esversion>1) {
         glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
         glstate->glsl.es2 = es2only;
+        fpe_Init(glstate);
     }
 
     // init the matrix tracking
@@ -134,6 +135,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Alpha Func
     glstate->alphafunc = GL_ALWAYS;
     glstate->alpharef = 0.0f;
+    // Blend
+    glstate->blendsfactor = GL_ONE;
+    glstate->blenddfactor = GL_ZERO;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
     glstate->pointsprite.sizeMax = 1.0f;
@@ -161,10 +165,6 @@ void* NewGLState(void* shared_glstate, int es2only) {
         khash_t(programlist) *programs = glstate->glsl.programs = kh_init(programlist);
 		kh_put(programlist, programs, 1, &ret);
 		kh_del(programlist, programs, 1);
-    }
-    if(hardext.esversion!=1) {
-        glstate->fpe = (fpe_fpe_t*)malloc(sizeof(fpe_fpe_t));
-        memset(glstate->fpe, 0, sizeof(fpe_fpe_t));
     }
 
     // Grab ViewPort
@@ -236,8 +236,8 @@ void DeleteGLState(void* oldstate) {
         free(state->blit);
     }
     //TODO: free sharderlist and programlist...
-    if(state->fpe) {
-        free(state->fpe);
+    if(state->fpe_cache) {
+        fpe_Dispose(state);
     }
     // probably missing some things to free here!
 
@@ -303,15 +303,15 @@ static void fpe_changetex(int n, int state)
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_GO(constant, name) \
-        case constant: glstate->enable.name = enable; next(cap); break
+        case constant: if(glstate->enable.name != enable) {glstate->enable.name = enable; next(cap);} break
     #define proxy_GOFPE(constant, name, fct) \
-        case constant: glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap); break
+        case constant: if(glstate->enable.name != enable) {glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
     #define GO(constant, name) \
         case constant: glstate->enable.name = enable; break;
     #define GOFPE(constant, name, fct) \
         case constant: glstate->enable.name = enable; if(glstate->fpe_state) { fct; } break;
     #define proxy_clientGO(constant, name) \
-        case constant: glstate->vao->name = enable; next(cap); break
+        case constant: if (glstate->vao->name != enable) {glstate->vao->name = enable; next(cap);} break
     #define clientGO(constant, name) \
         case constant: glstate->vao->name = enable; break;
 
@@ -333,6 +333,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 #endif
     switch (cap) {
         GO(GL_AUTO_NORMAL, auto_normal);
+        proxy_GO(GL_ALPHA_TEST, alpha_test);
         proxy_GO(GL_BLEND, blend);
         case GL_TEXTURE_2D:
             if(enable)
@@ -461,16 +462,28 @@ int Cap2BatchState(GLenum cap) {
         }
         return ENABLED_LAST;
 }
+int Enabled2BatchState(int cap) {
+    switch(cap) {
+        case ENABLED_ALPHA: return 2-glstate->enable.alpha_test;
+        case ENABLED_BLEND: return 2-glstate->enable.blend;
+        case GL_CULL_FACE: return 2-glstate->enable.cull_face;
+        case GL_DEPTH_TEST: return 2-glstate->enable.depth_test;
+        default:
+            return (IS_TEX2D(glstate->enable.texture[cap-ENABLED_TEX2D_TEX0]))?1:2;
+    }
+}
 
 void gl4es_glEnable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap<ENABLED_LAST) {
+            if(glstate->statebatch.enabled[which_cap]==0)
+                glstate->statebatch.enabled[which_cap] = Enabled2BatchState(which_cap);
             if ((glstate->statebatch.enabled[which_cap] == 1))
                 return; // nothing to do...
-            if (glstate->statebatch.enabled[which_cap])
-                flush();
-            glstate->statebatch.enabled[which_cap] = 1;
+            flush();
+            if (glstate->list.active)   // change value only if still in list
+                glstate->statebatch.enabled[which_cap] = 1;
         }
     }
 	PUSH_IF_COMPILING(glEnable)
@@ -495,11 +508,13 @@ void gl4es_glDisable(GLenum cap) {
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
         int which_cap = Cap2BatchState(cap);
         if (which_cap<ENABLED_LAST) {
+            if(glstate->statebatch.enabled[which_cap]==0)
+                glstate->statebatch.enabled[which_cap] = Enabled2BatchState(which_cap);
             if ((glstate->statebatch.enabled[which_cap] == 2))
                 return; // nothing to do...
-            if (glstate->statebatch.enabled[which_cap])
-                flush();
-            glstate->statebatch.enabled[which_cap] = 2;
+            flush();
+            if (glstate->list.active)   // change value only if still in list
+                glstate->statebatch.enabled[which_cap] = 2;
         }
     }
 	PUSH_IF_COMPILING(glDisable)
@@ -557,6 +572,10 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
     noerrorShim();
     switch (cap) {
         isenabled(GL_AUTO_NORMAL, auto_normal);
+        isenabled(GL_ALPHA_TEST, alpha_test);
+        isenabled(GL_BLEND, blend);
+        isenabled(GL_CULL_FACE, cull_face);
+        isenabled(GL_DEPTH_TEST, depth_test);
         isenabled(GL_LINE_STIPPLE, line_stipple);
         isenabled(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);

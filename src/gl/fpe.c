@@ -18,6 +18,71 @@
 
 // ********* Cache handling *********
 
+fpe_cache_t* fpe_NewCache() {
+    fpe_cache_t *ret = (fpe_cache_t*)malloc(sizeof(fpe_cache_t));
+    khash_t(fpecachelist) *cache = kh_init(fpecachelist);
+    ret->cache = cache;
+    int r;
+    kh_put(fpecachelist, cache, 1, &r);
+    kh_del(fpecachelist, cache, 1);
+    ret->fpe = (fpe_fpe_t*)malloc(sizeof(fpe_fpe_t));
+    memset(ret->fpe, 0, sizeof(fpe_fpe_t));
+    return ret;
+}
+
+void fpe_Init(glstate_t *glstate) {
+    // initialize cache
+    glstate->fpe_cache = fpe_NewCache();
+}
+
+void fpe_disposeCache(fpe_cache_t* cache) {
+    if(!cache) return;
+    if(cache->fpe) {
+        free(cache->fpe);
+        cache->fpe = NULL;
+    }
+    if(cache->cache) {
+        fpe_cache_t *m;
+        kh_foreach_value((khash_t(fpecachelist)*)cache->cache, m,
+            fpe_disposeCache(m); free(m);
+        )
+        kh_destroy(fpecachelist, cache->cache);
+        free(cache->cache);
+        cache->cache = NULL;
+    }
+}
+
+void fpe_Dispose(glstate_t *glstate) {
+    fpe_disposeCache(glstate->fpe_cache);
+    free(glstate->fpe_cache);
+    glstate->fpe_cache = NULL;
+}
+
+fpe_fpe_t *fpe_GetCache() {
+    fpe_cache_t *cur = glstate->fpe_cache;
+    // multi stage hash search    
+    for(int i=0; i<sizeof(fpe_state_t)/4; i++) {
+        uint32_t t;
+        memcpy(&t, ((void*)&glstate->fpe_state)+sizeof(t)*i, sizeof(t));
+        fpe_cache_t *next = NULL;
+        khint_t k_next;
+        {
+            int ret;
+            khash_t(fpecachelist) *curcache = (khash_t(fpecachelist) *)cur->cache;
+            k_next = kh_get(fpecachelist, curcache, t);
+            if (k_next != kh_end(curcache))
+                cur = kh_value(curcache, k_next);
+            else {
+                k_next = kh_put(fpecachelist, curcache, t, &ret);
+                cur = kh_value(curcache, k_next) = fpe_NewCache();
+            }
+        }
+    }
+
+    return cur->fpe;
+}
+
+
 // ********* Shader stuffs handling *********
 const char* dummy_vertex = \
 "varying vec4 Color; \n"
@@ -33,8 +98,12 @@ const char* dummy_frag = \
 "}\n";
 
 void fpe_program() {
-    // dummy program for now...
+    if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t))) {
+        // get cached fpe (or new one)
+        glstate->fpe = fpe_GetCache();
+    }   
     if(glstate->fpe->glprogram==NULL) {
+        // dummy program for now...
         glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
         gl4es_glShaderSource(glstate->fpe->vert, 1, &dummy_vertex, NULL);
         gl4es_glCompileShader(glstate->fpe->vert);
@@ -54,9 +123,11 @@ void fpe_program() {
             if (k_program != kh_end(programs))
                 glstate->fpe->glprogram = kh_value(programs, k_program);
         }
+        // save relevent state
+        memcpy(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
+        // all done
         DBG(printf("creating dummy FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
     }
-
 }
 
 // ********* Fixed Pipeling function wrapper *********

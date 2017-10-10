@@ -429,6 +429,9 @@ void init_batch();
 #include "state.h"
 extern glstate_t *glstate;
 
+void fpe_Init(glstate_t *glstate);       // defined in fpe.c
+void fpe_Dispose(glstate_t *glstate);    // defined in fpe.c
+
 static inline void errorGL() {	// next glGetError will be from GL 
 	glstate->shim_error = 0;
 }

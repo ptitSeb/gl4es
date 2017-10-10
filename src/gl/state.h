@@ -25,8 +25,11 @@ typedef struct {
               normalize,
               normal_rescale,
               lightning,
+              alpha_test,
               blend,
+              cull_face,
               color_sum,
+              depth_test,
               pointsprite,
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],
@@ -255,6 +258,9 @@ typedef struct {
     pointer_state_t color;
     pointer_state_t secondary;
     pointer_state_t tex[MAX_TEX];
+
+    char*           shadersource; // scrach buffer for fpe shader construction
+    int             shadersize;
 } fpestatus_t;
 
 typedef struct {
@@ -310,11 +316,14 @@ typedef struct {
     GLenum              shademodel;
     GLenum              alphafunc;
     GLfloat             alpharef;
+    GLenum              blendsfactor;
+    GLenum              blenddfactor;
     GLenum              logicop;
     glsl_t              glsl;
     fpe_state_t         *fpe_state;
     fpe_fpe_t           *fpe;
     fpestatus_t         fpe_client;
+    fpe_cache_t         *fpe_cache;
     gleshard_t          gleshard;
     glesblit_t          *blit;
 } glstate_t;
