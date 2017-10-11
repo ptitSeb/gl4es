@@ -41,7 +41,7 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             return;
     }
     #undef GO
-    LOAD_GLES2(glFogfv);
+    LOAD_GLES_FPE(glFogfv);
     gles_glFogfv(pname, params);
     errorGL();
 }
