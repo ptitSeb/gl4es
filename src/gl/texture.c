@@ -823,7 +823,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
         if (!(globals4es.texstream && bound && bound->streamed)) {
             if (bound && (target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto)))
-                gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+                if(hardext.esversion<2)
+                    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+                else {
+                    LOAD_GLES(glGenerateMipmap);
+                    gles_glGenerateMipmap(rtarget);
+                }
             else {
                 //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
                 if ((bound)  && (itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
@@ -1061,8 +1066,14 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         }
     }
 
-    if (bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
-        gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+    if (level==0 && bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
+        if(hardext.esversion<2) {
+            // ES2 doesn't have this
+        //    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE ); // not sure the usefullness of this call
+        } else {
+            LOAD_GLES(glGenerateMipmap);
+            gles_glGenerateMipmap(rtarget);
+        }
 
     if (bound && globals4es.texstream && bound->streamed) {
 /*	// copy the texture to the buffer
@@ -1295,7 +1306,10 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         k = kh_put(tex, list, texture, &ret);
         tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
         tex->texture = texture;
-        gles_glGenTextures(1, &tex->glname);
+        if (texture)
+            gles_glGenTextures(1, &tex->glname);
+        else
+            tex->glname = 0;    // special case for texture n# 0
         tex->target = target;
         tex->width = 0;
         tex->height = 0;
@@ -1459,8 +1473,9 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
                 default_tex_mipmap = texture->mipmap_auto;
         } else
             default_tex_mipmap = (param)?1:0;       // default?
-	    //return;         // We control the behavour later
-        break;
+        if(hardext.esversion<2)
+            gles_glTexParameteri(rtarget, pname, param);
+	    return;
     }
     gles_glTexParameteri(rtarget, pname, param);
     errorGL();
@@ -1874,7 +1889,7 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
     return;
  if (glstate->gl_batch || glstate->list.pending) flush();
  glstate->texture.client = texture - GL_TEXTURE0;
- LOAD_GLES(glClientActiveTexture);
+ LOAD_GLES_FPE(glClientActiveTexture);
  gles_glClientActiveTexture(texture);
  errorGL();
 }

@@ -20,7 +20,7 @@ typedef struct {
 
 const builtin_attrib_t builtin_attrib[] = {
     {"gl_Vertex", "_gl4es_Vertex", "vec4", "highp", ATT_VERTEX},
-    {"gl_Color", "_gl4es_Color", "vec4", "lowp", ATT_COLOR},
+    {"gl_Color", "_gl4es_Color", "vec4", "highp", ATT_COLOR},
     {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", "highp", ATT_MULTITEXCOORD0},
     {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", "highp", ATT_MULTITEXCOORD1},
     {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", "highp", ATT_MULTITEXCOORD2},

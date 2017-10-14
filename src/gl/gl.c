@@ -915,10 +915,10 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
-                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    // special case on GL2, Tex disable but CoordArray enabled...
                     TEXTURE(aa);
-                    glstate->clientstate.tex_coord_array[aa] = 0;
-                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                    if(!len) len = len_indices(sindices, count);
+                    tex_setup_texcoord(len, ENABLED_TEX2D);
                 }
             }
             if (glstate->texture.client!=old_tex)
@@ -1056,7 +1056,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
                 if(itarget>=0) {
-                    if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                    if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                         TEXTURE(aa);
                         gles_glEnable(GL_TEXTURE_2D);
                     }
@@ -1066,10 +1066,9 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 }  else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
-                    // special case, Tex disable but CoordArray enabled... disabling it temporarly
+                    // special case on GL2, Tex disable but CoordArray enabled...
                     TEXTURE(aa);
-                    glstate->clientstate.tex_coord_array[aa] = 0;
-                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                    tex_setup_texcoord(count+first, ENABLED_TEX2D);
                 }
             }
             if (glstate->texture.client!=old_tex)
@@ -1079,7 +1078,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			
             for (int aa=0; aa<hardext.maxtex; aa++) {
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
-                if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                     TEXTURE(aa);
                     gles_glDisable(GL_TEXTURE_2D);
                 }
