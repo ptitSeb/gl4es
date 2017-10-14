@@ -38,7 +38,7 @@ typedef struct {
     int fogmode:2;              // 22:23  fog mode
     int colorsum:1;             // 24:24  secondary color enabled
     int texture:16;             // 25:40  8 texture stored on 2 bits
-    int lightning:1;            // 41:41  global lightning enabled
+    int lighting:1;             // 41:41  global lighting enabled
     int normalize:1;            // 42:42  normalization
     int rescaling:1;            // 43:43  rescale normal
     int alphfunc:3;             // 44:46  alpha functions

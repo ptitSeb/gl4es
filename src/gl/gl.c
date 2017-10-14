@@ -370,7 +370,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GOFPE(GL_LIGHT5, light[5], fpe_changelight(5, enable));
         proxy_GOFPE(GL_LIGHT6, light[6], fpe_changelight(6, enable));
         proxy_GOFPE(GL_LIGHT7, light[7], fpe_changelight(7, enable));
-        proxy_GOFPE(GL_LIGHTING, lightning, glstate->fpe_state->lightning=enable);
+        proxy_GOFPE(GL_LIGHTING, lighting, glstate->fpe_state->lighting=enable);
         proxy_GOFPE(GL_NORMALIZE, normalize, glstate->fpe_state->normalize=enable);
         proxy_GOFPE(GL_RESCALE_NORMAL, normal_rescale, glstate->fpe_state->rescaling=enable);
 

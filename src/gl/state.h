@@ -24,7 +24,7 @@ typedef struct {
               auto_normal,
               normalize,
               normal_rescale,
-              lightning,
+              lighting,
               alpha_test,
               blend,
               cull_face,

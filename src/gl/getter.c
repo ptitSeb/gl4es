@@ -164,16 +164,7 @@ const GLubyte *glGetString(GLenum name) AliasExport("gl4es_glGetString");
 
 #define TOP(A) (glstate->A->stack+(glstate->A->top*16))
 
-// glGet
-void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
-    if (params==NULL) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
-    GLint dummy;
-    LOAD_GLES(glGetIntegerv);
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
-    noerrorShim();
+int gl4es_commonGet(GLenum pname, GLfloat *params) {
     switch (pname) {
         case GL_MAJOR_VERSION:
             *params = globals4es.gl/10;
@@ -298,10 +289,6 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_MAX_PIXEL_MAP_TABLE:
             *params = MAX_MAP_SIZE;
             break;
-        case GL_POINT_SIZE_RANGE:
-            gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
-            gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
-            break;
         case GL_RENDER_MODE:
             *params = (glstate->render_mode)?glstate->render_mode:GL_RENDER;
             break;
@@ -314,21 +301,7 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_MAX_TEXTURE_IMAGE_UNITS:
             *params = hardext.maxteximage;
             break;
-        case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
-            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
-            (*params)+=4;	// adding fake DXTc
-            break;
-        case GL_COMPRESSED_TEXTURE_FORMATS:
-            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
-            // get standard ones
-            gles_glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
-            // add fake DXTc
-            params[dummy++]=GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-            break;
-        case GL_MAX_MODELVIEW_STACK_DEPTH:
+            case GL_MAX_MODELVIEW_STACK_DEPTH:
             *params=MAX_STACK_MODELVIEW;
             break;
         case GL_MAX_PROJECTION_STACK_DEPTH:
@@ -367,10 +340,6 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             *params=glstate->light.two_side;
             break;
-        case GL_LIGHT_MODEL_AMBIENT:
-            for (dummy=0; dummy<4; dummy++)
-                    params[dummy]=glstate->light.ambient[dummy];
-            break;
         case GL_FOG_MODE:
             *params=glstate->fog.mode;
             break;
@@ -386,11 +355,7 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_FOG_INDEX:
             *params=glstate->fog.start;
             break;
-        case GL_FOG_COLOR:
-            for (dummy=0; dummy<4; dummy++)
-                params[dummy]=glstate->fog.color[dummy];
-            break;
-        case GL_FOG_COORD_SRC:
+            case GL_FOG_COORD_SRC:
             *params=glstate->fog.coord_src;
             break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
@@ -411,6 +376,34 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_MAX_CLIP_PLANES:
             *params=hardext.maxplanes;
             break;
+        case GL_MAX_LIGHTS:
+            *params=hardext.maxlights;
+            break;
+        case GL_LIGHTING:
+            *params=glstate->enable.lighting;
+            break;
+#define GO(n)        case GL_CLIP_PLANE##n: \
+            *params=glstate->enable.plane[n]; \
+            break
+        GO(0);
+        GO(1);
+        GO(2);
+        GO(3);
+        GO(4);
+        GO(5);
+#undef GO
+#define GO(n)        case GL_LIGHT##n: \
+            *params=glstate->enable.light[n]; \
+            break
+        GO(0);
+        GO(1);
+        GO(2);
+        GO(3);
+        GO(4);
+        GO(5);
+        GO(6);
+        GO(7);
+#undef GO
         case GL_DRAW_BUFFER:
             *params=GL_FRONT;
             break;
@@ -453,6 +446,54 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             *params=globals4es.avoid16bits;
             break;
         default:
+            return 0;
+    }
+    return 1;
+}
+
+// glGet
+void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
+    if (params==NULL) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    GLint dummy;
+    LOAD_GLES(glGetIntegerv);
+    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
+    noerrorShim();
+    GLfloat fparam;
+    if (gl4es_commonGet(pname, &fparam)) {
+        params[0] = fparam;
+        return;
+    }
+    switch (pname) {
+        case GL_POINT_SIZE_RANGE:
+            gles_glGetIntegerv(GL_POINT_SIZE_MIN, params);
+            gles_glGetIntegerv(GL_POINT_SIZE_MAX, params+1);
+            break;
+        case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
+            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
+            (*params)+=4;	// adding fake DXTc
+            break;
+        case GL_COMPRESSED_TEXTURE_FORMATS:
+            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
+            // get standard ones
+            gles_glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
+            // add fake DXTc
+            params[dummy++]=GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+            params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+            break;
+        case GL_LIGHT_MODEL_AMBIENT:
+            for (dummy=0; dummy<4; dummy++)
+                    params[dummy]=glstate->light.ambient[dummy];
+            break;
+        case GL_FOG_COLOR:
+            for (dummy=0; dummy<4; dummy++)
+                params[dummy]=glstate->fog.color[dummy];
+            break;
+        default:
             errorGL();
             gles_glGetIntegerv(pname, params);
     }
@@ -463,161 +504,14 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
+    if (gl4es_commonGet(pname, params)) {
+        return;
+    }
+
     switch (pname) {
-        case GL_MAJOR_VERSION:
-            *params = globals4es.gl/10;
-            break;
-        case GL_MINOR_VERSION:
-            *params = globals4es.gl%10;
-            break;
-        case GL_MAX_ELEMENTS_INDICES:
-            *params = 1024;
-            break;
-        case GL_MAX_ELEMENTS_VERTICES:
-            *params = 4096;
-            break;
-        case GL_AUX_BUFFERS:
-            *params = 0;
-            break;
-        case GL_PACK_ALIGNMENT:
-            *params = glstate->texture.pack_align;
-            break;
-        case GL_UNPACK_ALIGNMENT:
-            *params = glstate->texture.unpack_align;
-            break;
-        case GL_UNPACK_ROW_LENGTH:	
-            *params = glstate->texture.unpack_row_length;
-            break;
-        case GL_UNPACK_SKIP_PIXELS:
-            *params = glstate->texture.unpack_skip_pixels;
-            break;
-        case GL_UNPACK_SKIP_ROWS:
-            *params = glstate->texture.unpack_skip_rows;
-            break;
-        case GL_UNPACK_LSB_FIRST:
-            *params = glstate->texture.unpack_lsb_first;
-            break;
-        case GL_PACK_ROW_LENGTH:	
-            *params = glstate->texture.pack_row_length;
-            break;
-        case GL_PACK_SKIP_PIXELS:
-            *params = glstate->texture.pack_skip_pixels;
-            break;
-        case GL_PACK_SKIP_ROWS:
-            *params = glstate->texture.pack_skip_rows;
-            break;
-        case GL_PACK_LSB_FIRST:
-            *params = glstate->texture.pack_lsb_first;
-            break;
-        case GL_ZOOM_X:
-            *params = glstate->raster.raster_zoomx;
-            break;
-        case GL_ZOOM_Y:
-            *params = glstate->raster.raster_zoomy;
-            break;
-        case GL_RED_SCALE:
-            *params = glstate->raster.raster_scale[0];
-            break;
-        case GL_RED_BIAS:
-            *params = glstate->raster.raster_bias[0];
-            break;
-        case GL_GREEN_SCALE:
-        case GL_BLUE_SCALE:
-        case GL_ALPHA_SCALE:
-            *params = glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1];
-            break;
-        case GL_GREEN_BIAS:
-        case GL_BLUE_BIAS:
-        case GL_ALPHA_BIAS:
-            *params = glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1];
-            break;
-        case GL_MAP_COLOR:
-            *params = glstate->raster.map_color;
-            break;
-        case GL_INDEX_SHIFT:
-            *params = glstate->raster.index_shift;
-            break;
-        case GL_INDEX_OFFSET:
-            *params = glstate->raster.index_offset;
-            break;
-        case GL_PIXEL_MAP_S_TO_S_SIZE:
-            *params = 1;
-            break;
-        case GL_PIXEL_MAP_I_TO_I_SIZE:
-            *params = glstate->raster.map_i2i_size;
-            break;
-        case GL_PIXEL_MAP_I_TO_R_SIZE:
-            *params = glstate->raster.map_i2r_size;
-            break;
-        case GL_PIXEL_MAP_I_TO_G_SIZE:
-            *params = glstate->raster.map_i2g_size;
-            break;
-        case GL_PIXEL_MAP_I_TO_B_SIZE:
-            *params = glstate->raster.map_i2b_size;
-            break;
-        case GL_PIXEL_MAP_I_TO_A_SIZE:
-            *params = glstate->raster.map_i2a_size;
-            break;
-        case GL_PIXEL_MAP_R_TO_R_SIZE:
-            *params = 1;
-            break;
-        case GL_PIXEL_MAP_G_TO_G_SIZE:
-            *params = 1;
-            break;
-        case GL_PIXEL_MAP_B_TO_B_SIZE:
-            *params = 1;
-            break;
-        case GL_PIXEL_MAP_A_TO_A_SIZE:
-            *params = 1;
-            break;
-        case GL_MAX_PIXEL_MAP_TABLE:
-            *params = MAX_MAP_SIZE;
-            break;
         case GL_POINT_SIZE_RANGE:
             gles_glGetFloatv(GL_POINT_SIZE_MIN, params);
             gles_glGetFloatv(GL_POINT_SIZE_MAX, params+1);
-            break;
-        case GL_RENDER_MODE:
-            *params = (glstate->render_mode)?glstate->render_mode:GL_RENDER;
-            break;
-        case GL_NAME_STACK_DEPTH:
-            *params = glstate->namestack.top;
-            break;
-        case GL_MAX_NAME_STACK_DEPTH:
-            *params = 1024;
-            break;
-        case GL_MAX_MODELVIEW_STACK_DEPTH:
-            *params=MAX_STACK_MODELVIEW;
-            break;
-        case GL_MAX_PROJECTION_STACK_DEPTH:
-            *params=MAX_STACK_PROJECTION;
-            break;
-        case GL_MAX_TEXTURE_STACK_DEPTH:
-            *params=MAX_STACK_TEXTURE;
-            break;
-        case GL_MODELVIEW_STACK_DEPTH:
-            *params=(glstate->modelview_matrix)?(glstate->modelview_matrix->top+1):1;
-            break;
-        case GL_PROJECTION_STACK_DEPTH:
-            *params=(glstate->projection_matrix)?(glstate->projection_matrix->top+1):1;
-            break;
-        case GL_TEXTURE_STACK_DEPTH:
-            *params=(glstate->texture_matrix)?(glstate->texture_matrix[glstate->texture.active]->top+1):1;
-            break;
-        case GL_MAX_LIST_NESTING:
-            *params=64;	// fake, no limit in fact
-            break;
-        case  GL_ARRAY_BUFFER_BINDING:
-            *params=(glstate->vao->vertex)?glstate->vao->vertex->buffer:0;
-            break;
-        case  GL_ELEMENT_ARRAY_BUFFER_BINDING:
-            *params=(glstate->vao->elements)?glstate->vao->elements->buffer:0;
-            break;
-        case  GL_PIXEL_PACK_BUFFER_BINDING:
-            *params=(glstate->vao->pack)?glstate->vao->pack->buffer:0;
-            break;
-        case  GL_PIXEL_UNPACK_BUFFER_BINDING:
-            *params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
             break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
             matrix_transpose(TOP(projection_matrix), params);
@@ -628,9 +522,6 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_TRANSPOSE_TEXTURE_MATRIX:
             matrix_transpose(TOP(texture_matrix[glstate->texture.active]), params);
             break;
-        case GL_MATRIX_MODE:
-            *params=glstate->matrix_mode;
-            break;
         case GL_PROJECTION_MATRIX:
             memcpy(params, TOP(projection_matrix), 16*sizeof(GLfloat));
             break;
@@ -640,103 +531,11 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_TEXTURE_MATRIX:
             memcpy(params, TOP(texture_matrix[glstate->texture.active]), 16*sizeof(GLfloat));
             break;
-        case GL_LIGHT_MODEL_TWO_SIDE:
-            *params=glstate->light.two_side;
-            break;
         case GL_LIGHT_MODEL_AMBIENT:
             memcpy(params, glstate->light.ambient, 4*sizeof(GLfloat));
             break;
-        case GL_FOG_MODE:
-            *params=glstate->fog.mode;
-            break;
-        case GL_FOG_DENSITY:
-            *params=glstate->fog.density;
-            break;
-        case GL_FOG_START:
-            *params=glstate->fog.start;
-            break;
-        case GL_FOG_END:
-            *params=glstate->fog.end;
-            break;
-        case GL_FOG_INDEX:
-            *params=glstate->fog.start;
-            break;
         case GL_FOG_COLOR:
             memcpy(params, glstate->fog.color, 4*sizeof(GLfloat));
-            break;
-        case GL_FOG_COORD_SRC:
-            *params=glstate->fog.coord_src;
-            break;
-        case GL_SHADE_MODEL:
-            *params=glstate->shademodel;
-            break;
-        case GL_ALPHA_TEST_FUNC:
-            *params=glstate->alphafunc;
-            break;
-        case GL_ALPHA_TEST_REF:
-            *params=glstate->alpharef;
-            break;
-        case GL_LOGIC_OP_MODE:
-            *params=glstate->logicop;
-            break;
-        case GL_MAX_CLIP_PLANES:
-            *params=hardext.maxplanes;
-            break;
-        case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
-            *params=hardext.maxsize;
-            break;
-        case GL_MAX_TEXTURE_IMAGE_UNITS:
-            *params = hardext.maxteximage;
-            break;
-        case GL_SHRINK_HINT_GL4ES:
-            *params=globals4es.texshrink;
-            break;
-        case GL_DRAW_BUFFER:
-            *params=GL_FRONT;
-            break;
-        // shader stuff
-        case GL_CURRENT_PROGRAM:
-            *params=glstate->glsl.program;
-            break;
-        // GL4ES special hints
-        case GL_ALPHAHACK_HINT_GL4ES: 
-            *params=globals4es.alphahack;
-            break;
-        case GL_RECYCLEFBO_HINT_GL4ES: 
-            *params=globals4es.recyclefbo;
-            break;
-        case GL_MIPMAP_HINT_GL4ES: 
-            *params=globals4es.automipmap;
-            break;
-        case GL_TEXDUMP_HINT_GL4ES: 
-            *params=globals4es.texdump;
-            break;
-        case GL_COPY_HINT_GL4ES: 
-            *params=globals4es.copytex;
-            break;
-        case GL_NOLUMAPHA_HINT_GL4ES: 
-            *params=globals4es.nolumalpha;
-            break;
-        case GL_BLENDHACK_HINT_GL4ES: 
-            *params=globals4es.blendhack;
-            break;
-        case GL_BATCH_HINT_GL4ES: 
-            *params=globals4es.batch;
-            break;
-        case GL_NOERROR_HINT_GL4ES: 
-            *params=globals4es.noerror;
-            break;
-        case GL_NODOWNSAMPLING_HINT_GL4ES:
-            *params=globals4es.nodownsampling;
-            break;
-        case GL_NOVAOCACHE_HINT_GL4ES:
-            *params=globals4es.novaocache;
-            break;
-        case GL_BEGINEND_HINT_GL4ES:
-            *params=globals4es.beginend;
-            break;
-        case GL_AVOID16BITS_HINT_GL4ES:
-            *params=globals4es.avoid16bits;
             break;
         default:
             errorGL();
