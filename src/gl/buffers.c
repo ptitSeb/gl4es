@@ -155,8 +155,13 @@ DBG(printf("glBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size,
 
     if(target==GL_ARRAY_BUFFER)
         VaoSharedClear(glstate->vao);
+
+    if (offset<0 || size<0 || offset+size>buff->size) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
         
-    memcpy(buff->data + offset, data, size);    //TODO, some check maybe?
+    memcpy(buff->data + offset, data, size);
     noerrorShim();
 }
 
