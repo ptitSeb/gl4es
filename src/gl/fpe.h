@@ -31,22 +31,31 @@
 #define FPE_NOTEQUAL 6
 #define FPE_GEQUAL   7
 
-typedef struct {
-    int plane:6;                //  0: 5  the 6 planes packed
-    int light:8;                //  5:13  the 8 lights packed
-    int light_2sided:8;         // 14:21  the 8 two sided bits packed (equation is simpler when not 2-sided)
-    int fogmode:2;              // 22:23  fog mode
-    int colorsum:1;             // 24:24  secondary color enabled
-    int texture:16;             // 25:40  8 texture stored on 2 bits
-    int lighting:1;             // 41:41  global lighting enabled
-    int normalize:1;            // 42:42  normalization
-    int rescaling:1;            // 43:43  rescale normal
-    int alphfunc:3;             // 44:46  alpha functions
-    int alphatest:1;            // 47:47  alpha test
-    int twosided:1;             // 48:48  lightmodel: two sided
-    int color_material:1;       // 49:49
+#define FPE_CM_AMBIENTDIFFUSE 0
+#define FPE_CM_EMISSION       1
+#define FPE_CM_AMBIENT        2
+#define FPE_CM_DIFFUSE        3
+#define FPE_CM_SPECULAR       4
 
-    int dummy:14;               // 50:63  to be sure it's int32 aligned
+typedef struct {
+    uint8_t light;              //  0: 7  the 8 lights packed
+    uint8_t light_cutoff180;    //        the 8 lights cutoff!=180 flags
+    uint8_t light_direction;    //        the 8 lights position[3].w==0 flags
+    uint16_t texture;           // 17:32  8 texture stored on 2 bits
+    int plane:6;                //  8:13  the 6 planes packed
+    int fogmode:2;              // 14:15  fog mode
+    int colorsum:1;             // 16:16  secondary color enabled
+    int lighting:1;             // 33:33  global lighting enabled
+    int normalize:1;            // 34:34  normalization
+    int rescaling:1;            // 35:35  rescale normal
+    int alphfunc:3;             // 36:38  alpha functions
+    int alphatest:1;            // 39:39  alpha test
+    int twosided:1;             // 40:40  lightmodel: two sided
+    int color_material:1;       // 41:41  color material enabled
+    int cm_front_mode:3;        // 42:44  front color material mode
+    int cm_back_mode:3;         // 45:47  back color material mode
+    int light_separate:1;       // 48:48  light separate specular color
+    int light_localviewer:1;    // 49:49  light local viewer
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {

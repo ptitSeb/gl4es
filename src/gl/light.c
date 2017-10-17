@@ -21,6 +21,33 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
             if(glstate->fpe_state)
             glstate->fpe_state->twosided = param;
 			break;
+        case GL_LIGHT_MODEL_COLOR_CONTROL:
+            if(param!=GL_SINGLE_COLOR && param!=GL_SEPARATE_SPECULAR_COLOR ) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            } else {
+                GLboolean value = (param==GL_SEPARATE_SPECULAR_COLOR);
+                if(glstate->light.separate_specular == value) {
+                    noerrorShim();
+                    return;
+                }
+                glstate->light.separate_specular=value;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->light_separate=value;
+            }
+            return; // NOT Supported in GLES 1.1 anyway
+        case GL_LIGHT_MODEL_LOCAL_VIEWER:
+            {
+                GLboolean value = (param!=0.0);
+                if(glstate->light.local_viewer == value) {
+                    noerrorShim();
+                    return;
+                }
+                glstate->light.local_viewer=value;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->light_localviewer=value;
+            }
+            return; // NOT Supported in GLES 1.1 anyway
         case GL_LIGHT_MODEL_AMBIENT:
         default:
             errorShim(GL_INVALID_ENUM);
@@ -61,8 +88,35 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             errorGL();
             glstate->light.two_side = params[0];
             if(glstate->fpe_state)
-            glstate->fpe_state->twosided = params[0];
+                glstate->fpe_state->twosided = params[0];
         break;
+        case GL_LIGHT_MODEL_COLOR_CONTROL:
+            if(params[0]!=GL_SINGLE_COLOR && params[0]!=GL_SEPARATE_SPECULAR_COLOR ) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            } else {
+                GLboolean value = (params[0]==GL_SEPARATE_SPECULAR_COLOR);
+                if(glstate->light.separate_specular == value) {
+                    noerrorShim();
+                    return;
+                }
+                glstate->light.separate_specular=value;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->light_separate=value;
+            }
+            return; // NOT Supported in GLES 1.1 anyway
+        case GL_LIGHT_MODEL_LOCAL_VIEWER:
+            {
+                GLboolean value = (params[0]!=0.0);
+                if(glstate->light.local_viewer == value) {
+                    noerrorShim();
+                    return;
+                }
+                glstate->light.local_viewer=value;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->light_localviewer=value;
+            }
+            return; // NOT Supported in GLES 1.1 anyway
         default:
             errorShim(GL_INVALID_ENUM);
             return;
@@ -111,6 +165,14 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             if(memcmp(glstate->light.lights[nl].position, tmp, 4*sizeof(GLfloat))==0)
                 return;
             memcpy(glstate->light.lights[nl].position, tmp, 4*sizeof(GLfloat));
+            if(glstate->fpe_state) {
+                int dir = (tmp[3]==0.f);
+                if (dir) {
+                    glstate->fpe_state->light_direction |= (1<<nl);
+                } else {
+                    glstate->fpe_state->light_direction &= ~(1<<nl);
+                }
+            }
             break;
         case GL_SPOT_DIRECTION:
             matrix_inverse(getMVMat(), mtmp);
@@ -136,6 +198,14 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             if(glstate->light.lights[nl].spotCutoff == params[0])
                 return;
             glstate->light.lights[nl].spotCutoff = params[0];
+            if(glstate->fpe_state) {
+                int dir = (tmp[3]!=180.f);
+                if (dir) {
+                    glstate->fpe_state->light_cutoff180 |= (1<<nl);
+                } else {
+                    glstate->fpe_state->light_cutoff180 &= ~(1<<nl);
+                }
+            }
             break;
         case GL_CONSTANT_ATTENUATION:
             if(params[0]<0) {
@@ -321,6 +391,21 @@ void gl4es_glColorMaterial(GLenum face, GLenum mode) {
         glstate->material.front.colormat = mode;
     if(face==GL_FRONT_AND_BACK || face==GL_BACK)
         glstate->material.back.colormat = mode;
+    if(glstate->fpe_state) {
+        int value = FPE_CM_AMBIENTDIFFUSE;
+        switch(mode) {
+            case GL_EMISSION: value = FPE_CM_EMISSION; break;
+            case GL_AMBIENT: value=FPE_CM_AMBIENT; break;
+            case GL_DIFFUSE: value=FPE_CM_DIFFUSE; break;
+            case GL_SPECULAR: value=FPE_CM_SPECULAR; break;
+        }
+        if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
+            glstate->fpe_state->cm_front_mode = value;
+        }
+        if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
+            glstate->fpe_state->cm_back_mode = value;
+        }
+    }
     noerrorShim();
 }
 

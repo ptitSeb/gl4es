@@ -92,6 +92,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // fpe
     if(hardext.esversion>1) {
         glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
+        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
         glstate->glsl.es2 = es2only;
         fpe_Init(glstate);
     }
@@ -265,36 +266,28 @@ void gl_init() {
 
 static void fpe_changeplane(int n, bool enable)
 {
-    if((glstate->fpe_state->plane>>n)&1!=(enable?1:0))
-    {
-        glstate->fpe = NULL;
-        if(enable)
-            glstate->fpe_state->plane |= 1<<n;
-        else
-            glstate->fpe_state->plane &= ~(1<<n);
-    }
+    glstate->fpe = NULL;
+    if(enable)
+        glstate->fpe_state->plane |= 1<<n;
+    else
+        glstate->fpe_state->plane &= ~(1<<n);
 }
 static void fpe_changelight(int n, bool enable)
 {
-    if((glstate->fpe_state->light>>n)&1!=(enable?1:0))
-    {
-        glstate->fpe = NULL;
-        if(enable)
-            glstate->fpe_state->light |= 1<<n;
-        else
-            glstate->fpe_state->light &= ~(1<<n);
-    }
+    glstate->fpe = NULL;
+    if(enable)
+        glstate->fpe_state->light |= 1<<n;
+    else
+        glstate->fpe_state->light &= ~(1<<n);
 }
 static void fpe_changetex(int n, int state)
 {
     n<<=1;
-    if((glstate->fpe_state->texture>>n)&3!=state)
-    {
-        glstate->fpe = NULL;
-        glstate->fpe_state->light &= ~(3<<n);
-        if(state)
-            glstate->fpe_state->texture |= state<<n;
-    }
+
+    glstate->fpe = NULL;
+    glstate->fpe_state->light &= ~(3<<n);
+    if(state)
+        glstate->fpe_state->texture |= state<<n;
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  

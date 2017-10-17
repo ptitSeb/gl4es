@@ -18,6 +18,8 @@ typedef struct {
     light_t     lights[MAX_LIGHT];
     GLfloat     ambient[4];
     GLboolean   two_side;
+    GLboolean   separate_specular;
+    GLboolean   local_viewer;
 } light_state_t;
 
 typedef struct {

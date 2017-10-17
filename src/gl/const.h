@@ -241,6 +241,9 @@
 #define GL_COLOR_MATERIAL_PARAMETER 0x0B56
 #define GL_NORMALIZE            0x0BA1
 #define GL_DRAW_BUFFER          0x0C01
+#define GL_LIGHT_MODEL_COLOR_CONTROL	0x81F8
+#define GL_SINGLE_COLOR		    0x81F9
+#define GL_SEPARATE_SPECULAR_COLOR		0x81FA
 
 // pixel transfer
 #define GL_MAP_COLOR             0x0D10

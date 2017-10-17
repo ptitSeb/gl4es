@@ -131,6 +131,18 @@ if [ ! "$result" -lt "20" ];then
     exit 1
 fi
 
+echo "GLES2.0: glxgears"
+
+tar xf ../traces/glxgears.tgz
+apitrace dump-images --calls="8203" glxgears.trace
+result=$(compare -metric AE -fuzz 20% ../refs/glxgears.0000008203.png glxgears.0000008203.png diff.png 2>&1)
+# Because FlatShader mode is not supported, the image is more different.
+if [ ! "$result" -lt "700" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
+
 
 # cleanup
 clean_tests
