@@ -26,7 +26,7 @@ int uniformsize(GLenum type) {
     // GLES2 types
         GOV(GL_FLOAT, GLfloat);
         GOV(GL_INT, GLint);
-        GOV(GL_BOOL, GLboolean);
+        GOV(GL_BOOL, /*GLboolean*/GLint); //GLboolean is an unsigned char and is not suitable here
         GOM(GL_FLOAT, GLfloat);
         GO(GL_SAMPLER_2D, GLint, 1);
         GO(GL_SAMPLER_CUBE , GLint, 1);
@@ -231,6 +231,7 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
         noerrorShim();
         return; // nothing to do, same value already there
     }
+    DBG(printf("Uniform updated, cache=%p(%d/%d), offset=%p, size=%d\n", glprogram->cache.cache, glprogram->cache.size, glprogram->cache.cap, m->cache_offs, rsize);)
     // update uniform
     memcpy(glprogram->cache.cache + m->cache_offs, value, rsize);
     LOAD_GLES2(glUniform1iv);
