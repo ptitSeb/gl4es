@@ -42,8 +42,9 @@ typedef struct {
     int normalize:1;            // 42:42  normalization
     int rescaling:1;            // 43:43  rescale normal
     int alphfunc:3;             // 44:46  alpha functions
+    int alphatest:1;            // 47:47  alpha test
 
-    int dummy:17;               // 47:63  to be sure it's int32 aligned
+    int dummy:16;               // 48:63  to be sure it's int32 aligned
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {

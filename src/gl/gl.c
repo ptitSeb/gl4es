@@ -333,7 +333,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 #endif
     switch (cap) {
         GO(GL_AUTO_NORMAL, auto_normal);
-        proxy_GO(GL_ALPHA_TEST, alpha_test);
+        proxy_GOFPE(GL_ALPHA_TEST, alpha_test,glstate->fpe_state->alphatest=enable);
         proxy_GO(GL_BLEND, blend);
         case GL_TEXTURE_2D:
             if(enable)
