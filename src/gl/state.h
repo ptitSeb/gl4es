@@ -26,6 +26,7 @@ typedef struct {
               normal_rescale,
               lighting,
               alpha_test,
+              color_material,
               blend,
               cull_face,
               color_sum,

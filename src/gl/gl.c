@@ -373,6 +373,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GOFPE(GL_LIGHTING, lighting, glstate->fpe_state->lighting=enable);
         proxy_GOFPE(GL_NORMALIZE, normalize, glstate->fpe_state->normalize=enable);
         proxy_GOFPE(GL_RESCALE_NORMAL, normal_rescale, glstate->fpe_state->rescaling=enable);
+        proxy_GOFPE(GL_COLOR_MATERIAL, color_material, glstate->fpe_state->color_material=enable);
 
         // point sprite
         proxy_GO(GL_POINT_SPRITE, pointsprite); // TODO: plugin fpe stuffs
@@ -581,6 +582,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
+        isenabled(GL_COLOR_MATERIAL, color_material);
 		isenabled(GL_COLOR_SUM, color_sum);
         isenabled(GL_POINT_SPRITE, pointsprite);
         isenabled(GL_CLIP_PLANE0, plane[0]);
@@ -597,6 +599,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_LIGHT5, light[5]);
         isenabled(GL_LIGHT6, light[6]);
         isenabled(GL_LIGHT7, light[7]);
+        isenabled(GL_LIGHTING, lighting);
 		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);

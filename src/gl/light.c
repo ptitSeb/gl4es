@@ -18,6 +18,8 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
             glstate->light.two_side = param;
+            if(glstate->fpe_state)
+            glstate->fpe_state->twosided = param;
 			break;
         case GL_LIGHT_MODEL_AMBIENT:
         default:
@@ -58,7 +60,9 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             }
             errorGL();
             glstate->light.two_side = params[0];
-			break;
+            if(glstate->fpe_state)
+            glstate->fpe_state->twosided = params[0];
+        break;
         default:
             errorShim(GL_INVALID_ENUM);
             return;
