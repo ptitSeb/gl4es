@@ -25,6 +25,7 @@ LOCAL_SRC_FILES := \
 	src/gl/eval.c \
 	src/gl/fog.c \
 	src/gl/fpe.c \
+	src/gl/fpe_shader.c \
 	src/gl/framebuffers.c \
 	src/gl/getter.c \
 	src/gl/gl.c \

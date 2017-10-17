@@ -1,4 +1,5 @@
 #include "fpe.h"
+#include "fpe_shader.h"
 #include "gl.h"
 #include "../glx/hardext.h"
 #include "matrix.h"
@@ -84,19 +85,6 @@ fpe_fpe_t *fpe_GetCache() {
 
 
 // ********* Shader stuffs handling *********
-const char* dummy_vertex = \
-"varying vec4 Color; \n"
-"void main() {\n"
-"Color = gl_Color;\n"
-"gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
-"}";
-
-const char* dummy_frag = \
-"varying vec4 Color; \n"
-"void main() {\n"
-"gl_FragColor = Color;\n"
-"}\n";
-
 void fpe_program() {
     if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t))) {
         // get cached fpe (or new one)
@@ -105,10 +93,10 @@ void fpe_program() {
     if(glstate->fpe->glprogram==NULL) {
         // dummy program for now...
         glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
-        gl4es_glShaderSource(glstate->fpe->vert, 1, &dummy_vertex, NULL);
+        gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(), NULL);
         gl4es_glCompileShader(glstate->fpe->vert);
         glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
-        gl4es_glShaderSource(glstate->fpe->frag, 1, &dummy_frag, NULL);
+        gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(), NULL);
         gl4es_glCompileShader(glstate->fpe->frag);
         glstate->fpe->prog = gl4es_glCreateProgram();
         gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);

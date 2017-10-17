@@ -12,6 +12,7 @@ SET(GL_SRC
     gl/eval.c
     gl/fog.c
     gl/fpe.c
+    gl/fpe_shader.c
     gl/framebuffers.c
     gl/getter.c
     gl/gl.c
@@ -58,6 +59,7 @@ SET(GL_H
     gl/eval.h
     gl/fog.h
     gl/fpe.h
+    gl/fpe_shader.h
     gl/framebuffers.h
     gl/gles.h
     gl/gl.h
