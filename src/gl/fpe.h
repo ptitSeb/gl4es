@@ -48,7 +48,7 @@ typedef struct {
     int lighting:1;             // 33:33  global lighting enabled
     int normalize:1;            // 34:34  normalization
     int rescaling:1;            // 35:35  rescale normal
-    int alphfunc:3;             // 36:38  alpha functions
+    int alphafunc:3;            // 36:38  alpha functions
     int alphatest:1;            // 39:39  alpha test
     int twosided:1;             // 40:40  lightmodel: two sided
     int color_material:1;       // 41:41  color material enabled
@@ -90,6 +90,7 @@ void fpe_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
 void fpe_glClientActiveTexture(GLenum texture);
 void fpe_glFogfv(GLenum pname, const GLfloat* params);
+void fpe_glAlphaFunc(GLenum func, GLclampf ref);
 
 void fpe_glMatrixMode(GLenum mode);
 

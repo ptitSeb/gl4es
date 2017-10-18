@@ -277,6 +277,24 @@ void fpe_glPointSize(GLfloat size) {
     noerrorShim();
 }
 
+void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
+    noerrorShim();
+    int f = FPE_ALWAYS;
+    switch(func) {
+        case GL_NEVER: f=FPE_NEVER; break;
+        case GL_LESS: f=FPE_LESS; break;
+        case GL_EQUAL: f=FPE_EQUAL; break;
+        case GL_LEQUAL: f=FPE_LEQUAL; break;
+        case GL_GREATER: f=FPE_GREATER; break;
+        case GL_NOTEQUAL: f=FPE_NOTEQUAL; break;
+        case GL_GEQUAL: f=FPE_GEQUAL; break;
+    }
+    if(glstate->fpe_state->alphafunc != f) {
+        glstate->fpe = NULL;
+        glstate->fpe_state->alphafunc = f;
+    }
+}
+
 
 // ********* Realize GLES Environnements *********
 

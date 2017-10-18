@@ -164,6 +164,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
+    int alpha_test = state->alphatest;
+    int alpha_func = state->alphafunc;
     strcpy(shad, "varying vec4 Color;\n");
     headers++;
     if(twosided) {
@@ -178,6 +180,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             headers++;
         }
     }
+    if(alpha_test && alpha_func>FPE_NEVER) {
+        ShadAppend("uniform float _gl4es_AlphaRef;\n");
+        headers++;
+    }
 
     ShadAppend("void main() {\n");
     char buff[100];
@@ -188,7 +194,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     //*** apply textures
 
     //*** Alpha Test
-
+    if(alpha_test) {
+        if(alpha_func==GL_ALWAYS) {
+            // nothing here...
+        } else if (alpha_func==GL_NEVER) {
+            ShadAppend("discard;\n"); // Never pass...
+        } else {
+            const char* alpha_test_op[] = {"<","==","<=",">","!=",">="};
+            sprintf(buff, "if(fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_NEVER]);
+            ShadAppend(buff);
+        }
+    }
     //*** Fog
 
     //*** Add secondary colors

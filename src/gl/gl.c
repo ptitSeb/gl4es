@@ -2042,7 +2042,7 @@ void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
     }
     glstate->alphafunc = func;
     glstate->alpharef = ref;
-    LOAD_GLES2(glAlphaFunc);
+    LOAD_GLES_FPE(glAlphaFunc);
     if(gles_glAlphaFunc) {
         errorGL();
         gles_glAlphaFunc(func, ref);
