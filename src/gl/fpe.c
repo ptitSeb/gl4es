@@ -98,7 +98,6 @@ void fpe_program() {
     }   
     if(glstate->fpe->glprogram==NULL) {
         GLint status;
-        
         glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
         gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(glstate->fpe_state), NULL);
         gl4es_glCompileShader(glstate->fpe->vert);

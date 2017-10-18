@@ -285,7 +285,7 @@ static void fpe_changetex(int n, int state)
     n<<=1;
 
     glstate->fpe = NULL;
-    glstate->fpe_state->light &= ~(3<<n);
+    glstate->fpe_state->texture &= ~(3<<n);
     if(state)
         glstate->fpe_state->texture |= state<<n;
 }
@@ -307,7 +307,6 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         case constant: if (glstate->vao->name != enable) {glstate->vao->name = enable; next(cap);} break
     #define clientGO(constant, name) \
         case constant: glstate->vao->name = enable; break;
-
     // Alpha Hack
     if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
         if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
@@ -316,14 +315,16 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     }
 	noerrorShim();
 #ifdef TEXSTREAM
-    if (cap==GL_TEXTURE_STREAM_IMG)
+    if (cap==GL_TEXTURE_STREAM_IMG) {
         if(enable)
             glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
         else
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
         if(glstate->fpe_state)
             fpe_changetex(glstate->texture.active, FPE_TEX_STRM);
+    }
 #endif
+
     switch (cap) {
         GO(GL_AUTO_NORMAL, auto_normal);
         proxy_GOFPE(GL_ALPHA_TEST, alpha_test,glstate->fpe_state->alphatest=enable);

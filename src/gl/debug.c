@@ -165,6 +165,13 @@ const char* PrintEnum(GLenum what) {
         p(GL_CONSTANT_ATTENUATION);
         p(GL_LINEAR_ATTENUATION);
         p(GL_QUADRATIC_ATTENUATION);
+        // Misc enabled
+        p(GL_LIGHTING);
+        p(GL_NORMALIZE);
+        p(GL_CULL_FACE);
+        p(GL_DEPTH_TEST);
+        p(GL_RESCALE_NORMAL);
+        p(GL_ALPHA_TEST);
         // uniform type
         p(GL_FLOAT_VEC2);
         p(GL_FLOAT_VEC3);

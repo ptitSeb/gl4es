@@ -3,7 +3,8 @@ gl4es
 
 ![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status")
 
-This is a library providing OpenGL 1.x functionality for OpenGL ES accelerated hardware.
+This is a library providing OpenGL 1.x functionality for OpenGL ES 1.1 accelerated hardware.
+A new GLES2.0 backend also provide some limited OpenGL 2.x support
 
 This is a fork a glshim (https://github.com/lunixbochs/glshim). Go check this lib if you need things like RemoteGL or TinyGLES (for 100% software rendering).
 
@@ -25,10 +26,11 @@ Some know limitations:
 
 Status of the GLES2 backend
  * This backend is at its early stage of development, so do not expect much from it
- * The FPE (Fixed Pipeline Emulator) is not implemented yet, so no OpenGL 1.5 drawing call will work
- * The Shader Conversion is really crude, so only simple shaders will work
+ * The FPE (Fixed Pipeline Emulator) is its early stage of implementation, so most OpenGL 1.5 drawing call will not work
+ * The Shader Conversion is really crude, so only simple shaders will work (especialy, the implicit conversion float <-> int is not handled)
  * An ES2 context should be usable (usefull for SDL2)
  * Only OpenRA has been tested for now (and it does work fine in game)
+ * glxgears now works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
 
 ----
 
