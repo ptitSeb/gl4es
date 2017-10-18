@@ -286,8 +286,15 @@ static void fpe_changetex(int n, int state)
 
     glstate->fpe = NULL;
     glstate->fpe_state->texture &= ~(3<<n);
-    if(state)
-        glstate->fpe_state->texture |= state<<n;
+    int texmode = FPE_TEX_OFF;
+#ifdef TEXSTREAM
+    if(state==256) texmode = FPE_TEX_STRM;
+    else
+#endif
+    if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
+    else if(IS_TEXCUBE(state)) texmode = FPE_TEX_2D;
+    if(texmode)
+        glstate->fpe_state->texture |= texmode<<n;
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  
@@ -321,7 +328,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         else
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
         if(glstate->fpe_state)
-            fpe_changetex(glstate->texture.active, FPE_TEX_STRM);
+            fpe_changetex(glstate->texture.active, (enable)?256:glstate->enable.texture[glstate->texture.active]);
     }
 #endif
 
@@ -335,7 +342,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, FPE_TEX_2D);
+                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             else
                 next(cap);
             break;
@@ -409,7 +416,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX1D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, FPE_TEX_2D);
+                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             break;
         case GL_TEXTURE_3D:
             if(enable)
@@ -417,7 +424,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, FPE_TEX_2D);
+                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             break;
         case GL_TEXTURE_RECTANGLE_ARB:
             if(enable)
@@ -425,7 +432,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEXTURE_RECTANGLE);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, FPE_TEX_2D);
+                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             break;
         case GL_TEXTURE_CUBE_MAP:
             if(enable)
@@ -433,7 +440,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, FPE_TEX_CUBE);
+                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             next(cap);
             break;
 

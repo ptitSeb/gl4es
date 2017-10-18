@@ -579,6 +579,11 @@ void realize_glenv() {
     {
         GoUniformfv(glprogram, glprogram->fpe_alpharef, 1, 1, &glstate->alpharef);
     }
+    if(glprogram->has_builtin_texsampler)
+    {
+        for (int i=0; i<hardext.maxtex; i++)
+            GoUniformiv(glprogram, glprogram->builtin_texsampler[i], 1, 1, &i); // very basic stuff here, but sampler needs to be a uniform...
+    }
 
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) 
@@ -732,6 +737,7 @@ void builtin_Init(program_t *glprogram) {
             glprogram->builtin_eye[j][i] = -1;
             glprogram->builtin_obj[j][i] = -1;
         }
+        glprogram->builtin_texsampler[i] = -1;
     }
     // fpe uniform
     glprogram->fpe_alpharef = -1;
@@ -759,6 +765,7 @@ const char* texgenobj_code = "_gl4es_ObjectPlane%c[";
 const char* texgenobj_noa_code = "_gl4es_ObjectPlane%c";
 const char texgenCoords[4] = {'S', 'T', 'R', 'Q'};
 const char* alpharef_code = "_gl4es_AlphaRef";
+const char* fpetexSampler_code = "_gl4es_TexSampler_";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -901,9 +908,18 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         }
     }
     // fpe specials
+    // alpha ref
     if(strncmp(name, alpharef_code, strlen(alpharef_code))==0) {
         glprogram->fpe_alpharef = id;
         glprogram->has_fpe = 1;
+        return 1;
+    }
+    // texture sampler
+    if(strncmp(name, fpetexSampler_code, strlen(fpetexSampler_code))==0) {
+        // it a TexEnvColor! grab it's number
+        int n = name[strlen(fpetexSampler_code)]-'0';   // only 8 Textures max, so this works
+        glprogram->builtin_texsampler[n] = id;
+        glprogram->has_builtin_texsampler = 1;
         return 1;
     }
 

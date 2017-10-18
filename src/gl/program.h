@@ -164,19 +164,21 @@ typedef struct {
     builtin_material_t              builtin_material[2];
     builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
     builtin_lightproducts_t         builtin_lightprod[2][MAX_LIGHT];
-    GLuint                          builtin_normalrescale;
-    GLuint                          builtin_clipplanes[MAX_CLIP_PLANES];
+    GLint                           builtin_normalrescale;
+    GLint                           builtin_clipplanes[MAX_CLIP_PLANES];
     int                             has_builtin_clipplanes;
     builtin_pointsprite_t           builtin_pointsprite;
     int                             has_builtin_pointsprite;
-    GLuint                          builtin_texenvcolor[MAX_TEX];
+    GLint                           builtin_texenvcolor[MAX_TEX];
     int                             has_builtin_texenv;
-    GLuint                          builtin_eye[4][MAX_TEX];
-    GLuint                          builtin_obj[4][MAX_TEX];
+    GLint                           builtin_eye[4][MAX_TEX];
+    GLint                           builtin_obj[4][MAX_TEX];
     int                             has_builtin_texgen;
     // fpe uniform
-    GLuint                          fpe_alpharef;
+    GLint                           fpe_alpharef;
     int                             has_fpe;
+    GLint                           builtin_texsampler[MAX_TEX];
+    int                             has_builtin_texsampler;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)

@@ -23,14 +23,18 @@ int shad_cap = 0;
 
 #define ShadAppend(S) shad = Append(shad, &shad_cap, S)
 
+const char* texvecsize[] = {"vec2", "vec3", "vec2"};
+const char* texxyzsize[] = {"xy", "xyz", "xy"};
+const char* texsampler[] = {"texture2D", "textureCube", "textureStream"};
+
 const char* const* fpe_VertexShader(fpe_state_t *state) {
     // vertex is first called, so 1st time init is only here
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
-
     int twosided = state->twosided && state->lighting;
-
     int headers = 0;
+    char buff[1024];
+
     strcpy(shad, "varying vec4 Color;\n");  // might be unused...
     headers++;
     if(twosided) {
@@ -45,9 +49,22 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             headers++;
         }
     }
+    // textures coordinates
+    for (int i=0; i<hardext.maxtex; i++) {
+        int t = (state->texture>>(i*2))&0x3;
+        if(t) {
+            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
+            ShadAppend(buff);
+            headers++;
+            if(state->textmat&(1<<i)) {
+                sprintf(buff, "uniform mat4 _gl4es_TextureMatrix_%d;\n", i);
+                ShadAppend(buff);
+                headers++;
+            }
+        }
+    }
     // let's start
     ShadAppend("\nvoid main() {\n");
-    char buff[1024];
     // initial Color / lighting calculation
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
     if(!state->lighting) {
@@ -152,7 +169,18 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             }
         }
     }
-
+    // calculate texture coordinates
+    for (int i=0; i<hardext.maxtex; i++) {
+        int t = (state->texture>>(i*2))&0x3;
+        int mat = state->textmat&(1<<i)?1:0;
+        if(t) {
+            if(mat)
+                sprintf(buff, "_gl4es_TexCoord_%d = (gl_MultiTexCoord%d * _gl4es_TextureMatrix_%d).%s;\n", i, i, i, texxyzsize[t-1]);
+            else
+                sprintf(buff, "_gl4es_TexCoord_%d = gl_MultiTexCoord%d.%s;\n", i, i, texxyzsize[t-1]);
+            ShadAppend(buff);
+        }
+    }
 
     ShadAppend("}\n");
 
@@ -166,6 +194,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int light_separate = state->light_separate && lighting;
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
+    char buff[100];
+
     strcpy(shad, "varying vec4 Color;\n");
     headers++;
     if(twosided) {
@@ -184,15 +214,36 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend("uniform float _gl4es_AlphaRef;\n");
         headers++;
     }
+    // textures coordinates
+    for (int i=0; i<hardext.maxtex; i++) {
+        int t = (state->texture>>(i*2))&0x3;
+        if(t) {
+            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
+            ShadAppend(buff);
+            sprintf(buff, "uniform sampler2D _gl4es_TexSampler_%d;\n", i);
+            ShadAppend(buff);
+            headers++;
+        }
+    }
 
     ShadAppend("void main() {\n");
-    char buff[100];
     //*** initial color
     sprintf(buff, "vec4 fColor = %s;\n", twosided?"(gl_FrontFacing)?Color:BackColor":"Color");
     ShadAppend(buff);
 
     //*** apply textures
-
+    if(state->texture) {
+        ShadAppend("lowp vec4 texColor;\n");
+        for (int i=0; i<hardext.maxtex; i++) {
+            int t = (state->texture>>(i*2))&0x3;
+            if(t) {
+                sprintf(buff, "texColor = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", texsampler[t-1], i, i);
+                ShadAppend(buff);
+                // TODO: Implement TexEnv stuff
+                ShadAppend("fColor *= texColor;\n");
+            }
+        }
+    }
     //*** Alpha Test
     if(alpha_test) {
         if(alpha_func==GL_ALWAYS) {
@@ -201,7 +252,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             ShadAppend("discard;\n"); // Never pass...
         } else {
             const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; // need to have the !operation
-            sprintf(buff, "if(fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_NEVER]);
+            sprintf(buff, "if(fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
             ShadAppend(buff);
         }
     }
