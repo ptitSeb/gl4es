@@ -77,6 +77,13 @@ DBG(printf("init_matrix(%p)\n", glstate);)
     }
 }
 
+void set_fpe_textureidentity() {
+	if(glstate->texture_matrix[glstate->texture.active]->identity)	// inverted in fpe flags
+		glstate->fpe_state->textmat &= 1<<glstate->texture.active;
+	else
+		glstate->fpe_state->textmat |= 1<<glstate->texture.active;
+}
+
 void gl4es_glMatrixMode(GLenum mode) {
 DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active);)
 	noerrorShim();
@@ -155,6 +162,8 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 			break;
 		case GL_TEXTURE:
 			P(texture_matrix[glstate->texture.active]);
+			if(glstate->fpe_state)
+				set_fpe_textureidentity();
 			break;
 		#undef P
 			
@@ -189,6 +198,8 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
 	const int id = update_current_identity(0);
+	if(glstate->fpe_state && glstate->matrix_mode==GL_TEXTURE)
+		set_fpe_textureidentity();
     if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
 		LOAD_GLES(glLoadIdentity);
@@ -223,11 +234,13 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	}
 	GLfloat *current_mat = update_current_mat();
 	matrix_mul(current_mat, m, current_mat);
+	const int id = update_current_identity(0);
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
+	else if(glstate->fpe_state)
+		set_fpe_textureidentity();
 	DBG(printf(" => (%f, %f, %f, %f, %f, %f, %f...)\n", current_mat[0], current_mat[1], current_mat[2], current_mat[3], current_mat[4], current_mat[5], current_mat[6]);)
-	const int id = update_current_identity(0);
-    if(send_to_hardware()) {
+	if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
 		LOAD_GLES(glLoadIdentity);
 		if(id) gles_glLoadIdentity();	// in case the driver as some special optimisations
@@ -250,6 +263,8 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	update_current_identity(1);
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
+	else if(glstate->fpe_state)
+		set_fpe_textureidentity();
 	if(send_to_hardware()) {
 		LOAD_GLES(glLoadIdentity);
 		gles_glLoadIdentity();

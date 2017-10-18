@@ -62,9 +62,15 @@ void fpe_Dispose(glstate_t *glstate) {
 fpe_fpe_t *fpe_GetCache() {
     fpe_cache_t *cur = glstate->fpe_cache;
     // multi stage hash search    
-    for(int i=0; i<sizeof(fpe_state_t)/4; i++) {
-        uint32_t t;
-        memcpy(&t, ((void*)&glstate->fpe_state)+sizeof(t)*i, sizeof(t));
+    uint32_t t;
+    intptr_t s,p;
+    while(s<sizeof(fpe_state_t)) {
+        p = sizeof(t);
+        t=0;
+        if(s+p>sizeof(fpe_state_t))
+            p = sizeof(fpe_state_t) - s;
+        memcpy(&t, ((void*)&glstate->fpe_state)+s, p);
+        s+=p;
         fpe_cache_t *next = NULL;
         khint_t k_next;
         {

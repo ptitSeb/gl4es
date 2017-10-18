@@ -58,8 +58,17 @@ const builtin_matrix_t builtin_matrix[] = {
     {"gl_TextureMatrixInverse", "_gl4es_ITextureMatrix", "mat4", 1, MAT_T0_I},
     {"gl_TextureMatrixTranspose", "_gl4es_TTextureMatrix", "mat4", 1, MAT_T0_T},
     {"gl_TextureMatrix", "_gl4es_TextureMatrix", "mat4", 1, MAT_T0},
-    {"gl_NormalMatrix", "_gl4es_NormalMatrix", "mat3", 0, MAT_N}
-};
+    {"gl_NormalMatrix", "_gl4es_NormalMatrix", "mat3", 0, MAT_N},
+    // non standard version to avoid useless array of Matrix Uniform (in case the compiler as issue optimising this)
+    {"gl_TextureMatrix_0", "_gl4es_TextureMatrix_0", "mat4", 0, MAT_T0},
+    {"gl_TextureMatrix_1", "_gl4es_TextureMatrix_1", "mat4", 0, MAT_T1},
+    {"gl_TextureMatrix_2", "_gl4es_TextureMatrix_2", "mat4", 0, MAT_T2},
+    {"gl_TextureMatrix_3", "_gl4es_TextureMatrix_3", "mat4", 0, MAT_T3},
+    {"gl_TextureMatrix_4", "_gl4es_TextureMatrix_4", "mat4", 0, MAT_T4},
+    {"gl_TextureMatrix_5", "_gl4es_TextureMatrix_5", "mat4", 0, MAT_T5},
+    {"gl_TextureMatrix_6", "_gl4es_TextureMatrix_6", "mat4", 0, MAT_T6},
+    {"gl_TextureMatrix_7", "_gl4es_TextureMatrix_7", "mat4", 0, MAT_T7}
+  };
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)

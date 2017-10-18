@@ -38,24 +38,25 @@
 #define FPE_CM_SPECULAR       4
 
 typedef struct {
-    uint8_t light;              //  0: 7  the 8 lights packed
-    uint8_t light_cutoff180;    //        the 8 lights cutoff!=180 flags
-    uint8_t light_direction;    //        the 8 lights position[3].w==0 flags
-    uint16_t texture;           // 17:32  8 texture stored on 2 bits
-    int plane:6;                //  8:13  the 6 planes packed
-    int fogmode:2;              // 14:15  fog mode
-    int colorsum:1;             // 16:16  secondary color enabled
-    int lighting:1;             // 33:33  global lighting enabled
-    int normalize:1;            // 34:34  normalization
-    int rescaling:1;            // 35:35  rescale normal
-    int alphafunc:3;            // 36:38  alpha functions
-    int alphatest:1;            // 39:39  alpha test
-    int twosided:1;             // 40:40  lightmodel: two sided
-    int color_material:1;       // 41:41  color material enabled
-    int cm_front_mode:3;        // 42:44  front color material mode
-    int cm_back_mode:3;         // 45:47  back color material mode
-    int light_separate:1;       // 48:48  light separate specular color
-    int light_localviewer:1;    // 49:49  light local viewer
+    uint8_t light;              // 8 lights packed
+    uint8_t light_cutoff180;    // 8 lights cutoff!=180 flags
+    uint8_t light_direction;    // 8 lights position[3].w==0 flags
+    uint8_t textmat;            // 8 flags if texture matrix is not identity
+    uint16_t texture;           // 8 textures stored on 2 bits
+    int plane:6;                // 6 planes packed
+    int fogmode:2;              // fog mode
+    int colorsum:1;             // secondary color enabled
+    int lighting:1;             // global lighting enabled
+    int normalize:1;            // normalization
+    int rescaling:1;            // rescale normal
+    int alphafunc:3;            // alpha functions
+    int alphatest:1;            // alpha test
+    int twosided:1;             // lightmodel: two sided
+    int color_material:1;       // color material enabled
+    int cm_front_mode:3;        // front color material mode
+    int cm_back_mode:3;         // back color material mode
+    int light_separate:1;       // light separate specular color
+    int light_localviewer:1;    // light local viewer
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {
