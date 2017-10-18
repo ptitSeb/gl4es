@@ -200,7 +200,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         } else if (alpha_func==GL_NEVER) {
             ShadAppend("discard;\n"); // Never pass...
         } else {
-            const char* alpha_test_op[] = {"<","==","<=",">","!=",">="};
+            const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; // need to have the !operation
             sprintf(buff, "if(fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_NEVER]);
             ShadAppend(buff);
         }
