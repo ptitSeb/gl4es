@@ -37,12 +37,37 @@
 #define FPE_CM_DIFFUSE        3
 #define FPE_CM_SPECULAR       4
 
+#define FPE_MODULATE          0
+#define FPE_ADD               1
+#define FPE_DECAL             2
+#define FPE_BLEND             3
+#define FPE_REPLACE           4
+#define FPE_COMBINE           5
+
+#define FPE_CR_REPLACE        0
+#define FPE_CR_MODULATE       1
+#define FPE_CR_ADD            2
+#define FPE_CR_ADD_SIGNED     3
+#define FPE_CR_INTERPOLATE    4
+#define FPE_CR_SUBTRACT       5
+#define FPE_CR_DOT3_RGB       6
+#define FPE_CR_DOT3_RGBA      7
+
+#define FPE_CA_REPLACE        0
+#define FPE_CA_MODULATE       1
+#define FPE_CA_ADD            2
+#define FPE_CA_ADD_SIGNED     3
+#define FPE_CA_INTERPOLATE    4
+#define FPE_CA_SUBTRACT       5
+
 typedef struct {
     uint8_t light;                       // 8 lights packed
     uint8_t light_cutoff180;             // 8 lights cutoff!=180 flags
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
     uint16_t texture;                    // 8 textures stored on 2 bits
+    uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
+    unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode
     unsigned int colorsum:1;             // secondary color enabled

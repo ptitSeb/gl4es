@@ -90,12 +90,16 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
     // texturing
     if(!dest->texture) {
         dest->textmat = 0;
+        dest->texenv = 0;
+        memset(dest->texcombine, 0, sizeof(dest->texcombine));
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
             if(dest->texture>>(i<<1)&3==0) {
                 dest->textmat &= 1<<i;
             }
+            if(dest->texenv>>(i*3)&7 != FPE_COMBINE)
+                dest->texcombine[i] = 0;
         }
     }
 }

@@ -3,7 +3,7 @@
 #include "../glx/hardext.h"
 
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
-    LOAD_GLES(glTexEnvf);
+    LOAD_GLES2(glTexEnvf);
     PUSH_IF_COMPILING(glTexEnvf);
     // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
     if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
@@ -43,6 +43,18 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         return;
                     }
                     t->mode = param;
+                    if(glstate->fpe_state) {
+                        int state = FPE_MODULATE;
+                        switch(t->mode) {
+                            case GL_ADD: state=FPE_ADD; break;
+                            case GL_DECAL: state=FPE_DECAL; break;
+                            case GL_BLEND: state=FPE_BLEND; break;
+                            case GL_REPLACE: state=FPE_REPLACE; break;
+                            case GL_COMBINE: state=FPE_COMBINE; break;
+                        }
+                        glstate->fpe_state->texenv &= ~ (7<<(glstate->texture.active*3));
+                        glstate->fpe_state->texenv |= state<<(glstate->texture.active*3);
+                    }
                     break;
                 case GL_COMBINE_RGB:
                     if(t->combine_rgb == param)
@@ -53,6 +65,20 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             return;
                         }
                     t->combine_rgb = param;
+                    if(glstate->fpe_state) {
+                        int state = GL_REPLACE;
+                        switch(t->combine_rgb) {
+                            case GL_MODULATE: state=FPE_CR_MODULATE; break;
+                            case GL_ADD: state=FPE_CR_ADD; break;
+                            case GL_ADD_SIGNED: state=FPE_CR_ADD_SIGNED; break;
+                            case GL_INTERPOLATE: state=FPE_CR_INTERPOLATE; break;
+                            case GL_SUBTRACT: state=FPE_CR_SUBTRACT; break;
+                            case GL_DOT3_RGB: state=FPE_CR_DOT3_RGB; break;
+                            case GL_DOT3_RGBA: state=FPE_CR_DOT3_RGBA; break;
+                        }
+                        glstate->fpe_state->texcombine[glstate->texture.active] &= ~ 0xf;
+                        glstate->fpe_state->texcombine[glstate->texture.active] |= state;
+                    }
                     break;
                 case GL_COMBINE_ALPHA:
                     if(t->combine_alpha == param)
@@ -63,6 +89,18 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             return;
                         }
                     t->combine_alpha = param;
+                    if(glstate->fpe_state) {
+                        int state = GL_REPLACE;
+                        switch(t->combine_alpha) {
+                            case GL_MODULATE: state=FPE_CR_MODULATE; break;
+                            case GL_ADD: state=FPE_CR_ADD; break;
+                            case GL_ADD_SIGNED: state=FPE_CR_ADD_SIGNED; break;
+                            case GL_INTERPOLATE: state=FPE_CR_INTERPOLATE; break;
+                            case GL_SUBTRACT: state=FPE_CR_SUBTRACT; break;
+                        }
+                        glstate->fpe_state->texcombine[glstate->texture.active] &= ~ 0xf0;
+                        glstate->fpe_state->texcombine[glstate->texture.active] |= state;
+                    }
                     break;
                 case GL_SRC0_RGB:
                     if(t->src0_rgb == param)
@@ -153,7 +191,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             return;
     }
     errorGL();
-    gles_glTexEnvf(target, pname, param);
+    if(gles_glTexEnvf)
+        gles_glTexEnvf(target, pname, param);
 }
 
 void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -175,8 +214,9 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
         }
         memcpy(t->color, param, 4*sizeof(GLfloat));
         errorGL();
-        LOAD_GLES(glTexEnvfv);
-        gles_glTexEnvfv(target, pname, param);
+        LOAD_GLES2(glTexEnvfv);
+        if(gles_glTexEnvfv)
+            gles_glTexEnvfv(target, pname, param);
     } else
         gl4es_glTexEnvf(target, pname, *param);
 }
