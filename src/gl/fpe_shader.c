@@ -249,16 +249,21 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
                 int texenv = (state->texenv>>(i*3))&0x07;
-                int texformat = (state->texformat>>(i*2))&0x03;
+                int texformat = (state->texformat>>(i*3))&0x07;
                 switch (texenv) {
                     case FPE_MODULATE:
                         sprintf(buff, "fColor *= texColor%d;\n", i);
                         ShadAppend(buff);
                         break;
                     case FPE_ADD:
-                        sprintf(buff, "fColor.rgb += texColor%d.rgb;\n", i);
-                        ShadAppend(buff);
-                        sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                        if(texformat!=FPE_TEX_ALPHA) {
+                            sprintf(buff, "fColor.rgb += texColor%d.rgb;\n", i);
+                            ShadAppend(buff);
+                        }
+                        if(texformat==FPE_TEX_INTENSITY)
+                            sprintf(buff, "fColor.a += texColor%d.a;\n", i);
+                        else
+                            sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
                         ShadAppend(buff);
                         break;
                     case FPE_DECAL:
@@ -266,14 +271,24 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         ShadAppend(buff);
                         break;
                     case FPE_BLEND:
-                        sprintf(buff, "fColor.rgb = fColor.rgb*(vec3(1.)-texColor%d.rgb) + texColor%d.rgb*texColor%d.rgb;\n", i, i, i);
-                        ShadAppend(buff);
+                        if(texformat!=FPE_TEX_ALPHA) {
+                            sprintf(buff, "fColor.rgb = fColor.rgb*(vec3(1.)-texColor%d.rgb) + texColor%d.rgb*texColor%d.rgb;\n", i, i, i);
+                            ShadAppend(buff);
+                        }
                         sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
                         ShadAppend(buff);
                         break;
                     case FPE_REPLACE:   // false here, as format without some channel doesn't overwrite
-                        sprintf(buff, "fColor = texColor%d;\n", i);
-                        ShadAppend(buff);
+                        if(texformat==FPE_TEX_RGB || texformat!=FPE_TEX_LUM) {
+                            sprintf(buff, "fColor.rgb = texColor%d.rgb;\n", i);
+                            ShadAppend(buff);
+                        } else if(texformat==FPE_TEX_ALPHA) {
+                            sprintf(buff, "fColor.a = texColor%d.a;\n", i);
+                            ShadAppend(buff);
+                        } else {
+                            sprintf(buff, "fColor = texColor%d;\n", i);
+                            ShadAppend(buff);
+                        }
                         break;
                     case FPE_COMBINE:
                         {

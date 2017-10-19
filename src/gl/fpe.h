@@ -72,11 +72,11 @@
 #define FPE_OP_MINUSCOLOR      3
 
 #define FPE_TEX_RGBA           0
-//#define FPE_TEX_RGB       not usefull
-#define FPE_TEX_INTENSITY      1
-#define FPE_TEX_LUM_ALPHA      2
-//#define FPE_TEX_LUM       not usefull
-#define FPE_TEX_ALPHA          3
+#define FPE_TEX_RGB            1
+#define FPE_TEX_INTENSITY      2
+#define FPE_TEX_LUM_ALPHA      3
+#define FPE_TEX_LUM            4
+#define FPE_TEX_ALPHA          5
 
 typedef struct {
     uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
@@ -84,7 +84,6 @@ typedef struct {
     uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
     uint16_t texoprgb[3];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
     uint16_t texture;                    // 8 textures stored on 2 bits
-    uint16_t texformat;                  // 8 texture (simplied) format on bits
     uint8_t texopalpha[3];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
     uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
     uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0
@@ -92,6 +91,7 @@ typedef struct {
     uint8_t light_cutoff180;             // 8 lights cutoff!=180 flags
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
+    unsigned int texformat:24;           // 8 textures (simplified) internal format on 3 bits
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode

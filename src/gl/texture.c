@@ -668,6 +668,22 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
      }
+    // fpe internal format tracking
+    if(glstate->fpe) {
+        bound->fpe_format = FPE_TEX_RGBA; // most are RGB/RGBA
+        if (internalformat==GL_ALPHA4 || internalformat==GL_ALPHA8 || internalformat==GL_ALPHA16)
+            bound->fpe_format = FPE_TEX_ALPHA;
+        else if (internalformat==1 || internalformat==GL_LUMINANCE4 || internalformat==GL_LUMINANCE8 || internalformat==GL_LUMINANCE16)
+            bound->fpe_format = FPE_TEX_LUM;
+        else if (internalformat==2 || internalformat==GL_LUMINANCE4_ALPHA4 || internalformat==GL_LUMINANCE8_ALPHA8 || internalformat==GL_LUMINANCE16_ALPHA16)
+            bound->fpe_format = FPE_TEX_LUM_ALPHA;
+        else if (internalformat==GL_INTENSITY || internalformat==GL_INTENSITY8 || internalformat==GL_INTENSITY16)
+            bound->fpe_format = FPE_TEX_INTENSITY;
+        else if (internalformat==3 || internalformat==GL_RGB || internalformat==GL_RGB5 || internalformat==GL_RGB8
+                || internalformat==GL_RGB8 || internalformat==GL_RGB16 || internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT
+                || internalformat==GL_COMPRESSED_RGB)
+            bound->fpe_format = FPE_TEX_RGB;
+    }   
     // shrink checking
     int mipwidth = width << level;
     int mipheight = height << level;
@@ -1367,9 +1383,14 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 	
         LOAD_GLES(glDisable);
         LOAD_GLES(glEnable);
-tex_changed=1;  // seems buggy, temporary disabling that...
+//tex_changed=1;  // seems buggy, temporary disabling that...
 
         if (tex_changed) {
+
+            if(glstate->fpe_state) {
+                glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
+                glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
+            }
 
 			GLuint tmp = glstate->enable.texture[glstate->texture.active];
 #ifdef TEXSTREAM

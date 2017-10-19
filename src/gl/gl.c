@@ -284,8 +284,6 @@ static void fpe_changetex(int n, int state)
 {
     n<<=1;
 
-    glstate->fpe = NULL;
-    glstate->fpe_state->texture &= ~(3<<n);
     int texmode = FPE_TEX_OFF;
 #ifdef TEXSTREAM
     if(state==256) texmode = FPE_TEX_STRM;
@@ -294,7 +292,18 @@ static void fpe_changetex(int n, int state)
     if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
     else if(IS_TEXCUBE(state)) texmode = FPE_TEX_2D;
 
+    glstate->fpe = NULL;
+    glstate->fpe_state->texture &= ~(3<<n);
+
     glstate->fpe_state->texture |= texmode<<n;
+
+    /*
+    TODO: should update the fpe texture state
+    if(glstate->fpe_state) {
+        glstate->fpe_state->texformat &= 3<<(glstate->texture.active*2);
+        glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*2);
+    }
+    */
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  
