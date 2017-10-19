@@ -60,13 +60,37 @@
 #define FPE_CA_INTERPOLATE    4
 #define FPE_CA_SUBTRACT       5
 
+#define FPE_SRC_TEXTURE        0
+#define FPE_SRC_TEXTURE0       1
+#define FPE_SRC_TEXTURE1       2
+#define FPE_SRC_TEXTURE2       3
+#define FPE_SRC_TEXTURE3       4
+#define FPE_SRC_TEXTURE4       5
+#define FPE_SRC_TEXTURE5       6
+#define FPE_SRC_TEXTURE6       7
+#define FPE_SRC_TEXTURE7       8
+#define FPE_SRC_CONSTANT       9
+#define FPE_SRC_PRIMARY_COLOR  10
+#define FPE_SRC_PREVIOUS       11
+
+#define FPE_OP_ALPHA           0
+#define FPE_OP_MINUSALPHA      1
+#define FPE_OP_SRCCOLOR        2
+#define FPE_OP_MINUSCOLOR      3
+
 typedef struct {
+    uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
+    uint32_t texsrcalpha[3];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
+    uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
+    uint16_t texoprgb[3];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
+    uint16_t texture;                    // 8 textures stored on 2 bits
+    uint8_t texopalpha[3];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
+    uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
+    uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0
     uint8_t light;                       // 8 lights packed
     uint8_t light_cutoff180;             // 8 lights cutoff!=180 flags
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
-    uint16_t texture;                    // 8 textures stored on 2 bits
-    uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode

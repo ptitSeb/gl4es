@@ -16,6 +16,12 @@ typedef struct {
     GLenum          src0_alpha;
     GLenum          src1_alpha;
     GLenum          src2_alpha;
+    GLenum          op0_rgb;
+    GLenum          op1_rgb;
+    GLenum          op2_rgb;
+    GLenum          op0_alpha;
+    GLenum          op1_alpha;
+    GLenum          op2_alpha;
 } texenv_t;
 
 typedef struct {
