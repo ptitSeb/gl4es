@@ -59,18 +59,61 @@ void fpe_Dispose(glstate_t *glstate) {
     glstate->fpe_cache = NULL;
 }
 
+void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
+{
+    // filter out some non relevent state (like texture stuff if texture is disabled)
+    memcpy(dest, src, sizeof(fpe_state_t));
+    // alpha test
+    if(!dest->alphatest) {
+        dest->alphafunc = FPE_ALWAYS;
+    }
+    // lighting
+    if(!dest->lighting) {
+        dest->light = 0;
+        dest->light_cutoff180 = 0;
+        dest->light_direction = 0;
+        dest->twosided = 0;
+        dest->color_material = 0;
+        dest->cm_front_mode = 0;
+        dest->cm_back_mode = 0;
+        dest->light_separate = 0;
+        dest->light_localviewer = 0;
+    } else {
+        // indiviual lights
+        for (int i=0; i<8; i++) {
+            if((dest->light>>i)&1==0) {
+                dest->light_cutoff180 &= 1<<i;
+                dest->light_direction &= 1<<i;
+            }            
+        }
+    }
+    // texturing
+    if(!dest->texture) {
+        dest->textmat = 0;
+    } else {
+        // individual textures
+        for (int i=0; i<8; i++) {
+            if(dest->texture>>(i<<1)&3==0) {
+                dest->textmat &= 1<<i;
+            }
+        }
+    }
+}
+
 fpe_fpe_t *fpe_GetCache() {
     fpe_cache_t *cur = glstate->fpe_cache;
     // multi stage hash search    
     uint32_t t;
     intptr_t s,p;
     s=0;
+    fpe_state_t state;
+    fpe_ReleventState(&state, glstate->fpe_state);
     while(s<sizeof(fpe_state_t)) {
         p = sizeof(t);
         t=0;
         if(s+p>sizeof(fpe_state_t))
             p = sizeof(fpe_state_t) - s;
-        memcpy(&t, ((void*)glstate->fpe_state)+s, p);
+        memcpy(&t, ((void*)&state)+s, p);
         s+=p;
         fpe_cache_t *next = NULL;
         khint_t k_next;
