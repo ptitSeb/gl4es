@@ -71,12 +71,20 @@
 #define FPE_OP_SRCCOLOR        2
 #define FPE_OP_MINUSCOLOR      3
 
+#define FPE_TEX_RGBA           0
+//#define FPE_TEX_RGB       not usefull
+#define FPE_TEX_INTENSITY      1
+#define FPE_TEX_LUM_ALPHA      2
+//#define FPE_TEX_LUM       not usefull
+#define FPE_TEX_ALPHA          3
+
 typedef struct {
     uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
     uint32_t texsrcalpha[3];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
     uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
     uint16_t texoprgb[3];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
     uint16_t texture;                    // 8 textures stored on 2 bits
+    uint16_t texformat;                  // 8 texture (simplied) format on bits
     uint8_t texopalpha[3];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
     uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
     uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0

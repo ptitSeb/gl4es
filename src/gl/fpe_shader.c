@@ -248,7 +248,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
-                int texenv = state->texenv>>(i*3)&0x07;
+                int texenv = (state->texenv>>(i*3))&0x07;
+                int texformat = (state->texformat>>(i*2))&0x03;
                 switch (texenv) {
                     case FPE_MODULATE:
                         sprintf(buff, "fColor *= texColor%d;\n", i);

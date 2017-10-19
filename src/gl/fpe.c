@@ -96,11 +96,13 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         memset(dest->texsrcalpha, 0, sizeof(dest->texsrcalpha));
         memset(dest->texoprgb, 0, sizeof(dest->texoprgb));
         memset(dest->texopalpha, 0, sizeof(dest->texopalpha));
+        dest->texformat = 0;
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
             if(dest->texture>>(i<<1)&3==0) {
                 dest->textmat &= 1<<i;
+                dest->texformat &= 3<<(i*2);
             }
             if(dest->texenv>>(i*3)&7 != FPE_COMBINE) {
                 dest->texcombine[i] = 0;
