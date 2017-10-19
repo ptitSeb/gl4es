@@ -172,6 +172,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_DEPTH_TEST);
         p(GL_RESCALE_NORMAL);
         p(GL_ALPHA_TEST);
+        p(GL_BLEND);
         // uniform type
         p(GL_FLOAT_VEC2);
         p(GL_FLOAT_VEC3);

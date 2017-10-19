@@ -293,8 +293,8 @@ static void fpe_changetex(int n, int state)
 #endif
     if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
     else if(IS_TEXCUBE(state)) texmode = FPE_TEX_2D;
-    if(texmode)
-        glstate->fpe_state->texture |= texmode<<n;
+
+    glstate->fpe_state->texture |= texmode<<n;
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  
@@ -329,6 +329,9 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
         if(glstate->fpe_state)
             fpe_changetex(glstate->texture.active, (enable)?256:glstate->enable.texture[glstate->texture.active]);
+        else
+            next(cap);
+        return;
     }
 #endif
 

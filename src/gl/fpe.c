@@ -64,12 +64,13 @@ fpe_fpe_t *fpe_GetCache() {
     // multi stage hash search    
     uint32_t t;
     intptr_t s,p;
+    s=0;
     while(s<sizeof(fpe_state_t)) {
         p = sizeof(t);
         t=0;
         if(s+p>sizeof(fpe_state_t))
             p = sizeof(fpe_state_t) - s;
-        memcpy(&t, ((void*)&glstate->fpe_state)+s, p);
+        memcpy(&t, ((void*)glstate->fpe_state)+s, p);
         s+=p;
         fpe_cache_t *next = NULL;
         khint_t k_next;
@@ -85,7 +86,6 @@ fpe_fpe_t *fpe_GetCache() {
             }
         }
     }
-
     return cur->fpe;
 }
 
