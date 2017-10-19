@@ -249,10 +249,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         if(alpha_func==GL_ALWAYS) {
             // nothing here...
         } else if (alpha_func==GL_NEVER) {
-            ShadAppend("discard;\n"); // Never pass...
+            ShadAppend("bool todiscard = true;\n"); // Never pass...
         } else {
             const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; // need to have the !operation
-            sprintf(buff, "if(fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
+            sprintf(buff, "bool todiscard = (fColor.a %s _gl4es_AlphaRef);\n", alpha_test_op[alpha_func-FPE_LESS]);
             ShadAppend(buff);
         }
     }
@@ -265,6 +265,9 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     }
 
     //done
+    if(alpha_test)
+        if(alpha_func!=GL_ALWAYS)
+            ShadAppend("if(todiscard)\n\tdiscard;\nelse\n\t");
     ShadAppend("gl_FragColor = fColor;\n");
     ShadAppend("}");
 

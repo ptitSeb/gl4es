@@ -143,6 +143,16 @@ if [ ! "$result" -lt "700" ];then
     exit 1
 fi
 
+echo "GLES2.0: StuntCarRacer"
+
+tar xf ../traces/stuntcarracer.tgz
+apitrace dump-images --calls="118817" stuntcarracer.trace
+result=$(compare -metric AE -fuzz 20% -extract 638x478+1+1 ../refs/stuntcarracer.0000118817.png stuntcarracer.0000118817.png diff.png 2>&1)
+if [ ! "$result" -lt "20" ];then
+    popd >/dev/null
+    echo "error, $result pixels diff"
+    exit 1
+fi
 
 # cleanup
 clean_tests
