@@ -348,6 +348,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         GO(GL_AUTO_NORMAL, auto_normal);
         proxy_GOFPE(GL_ALPHA_TEST, alpha_test,glstate->fpe_state->alphatest=enable);
         proxy_GO(GL_BLEND, blend);
+        proxy_GO(GL_CULL_FACE, cull_face);
+        proxy_GO(GL_DEPTH_TEST, depth_test);
         case GL_TEXTURE_2D:
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
