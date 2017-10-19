@@ -233,14 +233,54 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
 
     //*** apply textures
     if(state->texture) {
-        ShadAppend("lowp vec4 texColor;\n");
+        // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
-                sprintf(buff, "texColor = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", texsampler[t-1], i, i);
+                sprintf(buff, "lowp vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texsampler[t-1], i, i);
                 ShadAppend(buff);
-                // TODO: Implement TexEnv stuff
-                ShadAppend("fColor *= texColor;\n");
+            }
+        }
+
+        // TexEnv stuff
+
+        // fetch textures first
+        for (int i=0; i<hardext.maxtex; i++) {
+            int t = (state->texture>>(i*2))&0x3;
+            if(t) {
+                int texenv = state->texenv>>(i*3)&0x07;
+                switch (texenv) {
+                    case FPE_MODULATE:
+                        sprintf(buff, "fColor *= texColor%d;\n", i);
+                        ShadAppend(buff);
+                        break;
+                    case FPE_ADD:
+                        sprintf(buff, "fColor.rgb += texColor%d.rgb;\n", i);
+                        ShadAppend(buff);
+                        sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                        ShadAppend(buff);
+                        break;
+                    case FPE_DECAL:
+                        sprintf(buff, "fColor.rgb = fColor.rgb*(1.-texColor%d.a) + texColor%d.rgb*texColor%d.a;\n", i, i, i);
+                        ShadAppend(buff);
+                        break;
+                    case FPE_BLEND:
+                        sprintf(buff, "fColor.rgb = fColor.rgb*(vec3(1.)-texColor%d.rgb) + texColor%d.rgb*texColor%d.rgb;\n", i, i, i);
+                        ShadAppend(buff);
+                        sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                        ShadAppend(buff);
+                        break;
+                    case FPE_REPLACE:   // false here, as format without some channel doesn't overwrite
+                        sprintf(buff, "fColor = texColor%d;\n", i);
+                        ShadAppend(buff);
+                        break;
+                    case FPE_COMBINE:
+                        {
+
+                        }
+                        break;
+                }
+                ShadAppend("fColor = clamp(fColor, 0., 1.);\n");
             }
         }
     }

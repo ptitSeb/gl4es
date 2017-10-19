@@ -53,13 +53,6 @@
 #define FPE_CR_DOT3_RGB       6
 #define FPE_CR_DOT3_RGBA      7
 
-#define FPE_CA_REPLACE        0
-#define FPE_CA_MODULATE       1
-#define FPE_CA_ADD            2
-#define FPE_CA_ADD_SIGNED     3
-#define FPE_CA_INTERPOLATE    4
-#define FPE_CA_SUBTRACT       5
-
 #define FPE_SRC_TEXTURE        0
 #define FPE_SRC_TEXTURE0       1
 #define FPE_SRC_TEXTURE1       2
