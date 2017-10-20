@@ -27,6 +27,35 @@ const char* texvecsize[] = {"vec2", "vec3", "vec2"};
 const char* texxyzsize[] = {"xy", "xyz", "xy"};
 const char* texsampler[] = {"texture2D", "textureCube", "textureStream"};
 
+const char* fpe_texenvSrc(int src, int tmu, int twosided) {
+    static char buff[200];
+    switch(src) {
+        case FPE_SRC_TEXTURE:
+            sprintf(buff, "texColor%d", tmu);
+            break;
+        case FPE_SRC_TEXTURE0:
+        case FPE_SRC_TEXTURE1:
+        case FPE_SRC_TEXTURE2:
+        case FPE_SRC_TEXTURE3:
+        case FPE_SRC_TEXTURE4:
+        case FPE_SRC_TEXTURE5:
+        case FPE_SRC_TEXTURE6:
+        case FPE_SRC_TEXTURE7:
+            sprintf(buff, "texColor%d", src-FPE_SRC_TEXTURE0);  // should check if texture is enabled
+            break;
+        case FPE_SRC_CONSTANT:
+            sprintf(buff, "_gl4es_TextureEnvColor_%d", tmu);
+            break;
+        case FPE_SRC_PRIMARY_COLOR:
+            sprintf(buff, "%s", twosided?"((gl_FrontFacing)?Color:BackColor)":"Color");
+            break;
+        case FPE_SRC_PREVIOUS:
+            sprintf(buff, "fColor");
+            break;
+    }
+    return buff;
+}
+
 const char* const* fpe_VertexShader(fpe_state_t *state) {
     // vertex is first called, so 1st time init is only here
     if(!shad_cap) shad_cap = 1024;
@@ -194,6 +223,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int light_separate = state->light_separate && lighting;
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
+    int texenv_combine = 0;
     char buff[100];
 
     strcpy(shad, "varying vec4 Color;\n");
@@ -223,6 +253,21 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             sprintf(buff, "uniform sampler2D _gl4es_TexSampler_%d;\n", i);
             ShadAppend(buff);
             headers++;
+
+            int texenv = (state->texenv>>(i*3))&0x07;
+            if (texenv==FPE_COMBINE) {
+                texenv_combine = 1;
+                if((state->texrgbscale>>i)&1) {
+                    sprintf(buff, "uniform float _gl4es_TexEnvRGBScale_%d;\n", i);
+                    ShadAppend(buff);
+                    headers++;
+                }
+                if((state->texalphascale>>i)&1) {
+                    sprintf(buff, "uniform float _gl4es_TexEnvAlphaScale_%d;\n", i);
+                    ShadAppend(buff);
+                    headers++;
+                }
+            }
         }
     }
 
@@ -243,7 +288,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         }
 
         // TexEnv stuff
-
+        if(texenv_combine)
+            ShadAppend("vec4 Arg0, Arg1, Arg2;\n");
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
@@ -278,7 +324,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
                         ShadAppend(buff);
                         break;
-                    case FPE_REPLACE:   // false here, as format without some channel doesn't overwrite
+                    case FPE_REPLACE:
                         if(texformat==FPE_TEX_RGB || texformat!=FPE_TEX_LUM) {
                             sprintf(buff, "fColor.rgb = texColor%d.rgb;\n", i);
                             ShadAppend(buff);
@@ -292,7 +338,123 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         break;
                     case FPE_COMBINE:
                         {
-
+                            int constant = 0;
+                            // parse the combine state
+                            int combine_rgb = state->texcombine[i]&0xf;
+                            int combine_alpha = (state->texcombine[i]>>4)&0xf;
+                            int src_r[3], op_r[3];
+                            int src_a[3], op_a[3];
+                            for (int j=0; j<3; j++) {
+                                src_a[j] = (state->texsrcalpha[j]>>(i*4))&0xf;
+                                op_a[j] = (state->texopalpha[j]>>i)&1;
+                                src_r[j] = (state->texsrcrgb[j]>>(i*4))&0xf;
+                                op_r[j] = (state->texoprgb[j]>>(i*2))&3;
+                            }
+                            if(combine_rgb==FPE_CR_DOT3_RGBA) {
+                                    src_a[0] = src_a[1] = src_a[2] = -1;
+                                    op_a[0] = op_a[1] = op_a[2] = -1;
+                                    src_r[2] = op_r[2] = -1;
+                            } else {
+                                if(combine_alpha==FPE_CR_REPLACE) {
+                                    src_a[1] = src_a[2] = -1;
+                                    op_a[1] = op_a[2] = -1;
+                                } else if (combine_alpha!=FPE_CR_INTERPOLATE) {
+                                    src_a[2] = op_a[2] = -1;
+                                }
+                                if(combine_rgb==FPE_CR_REPLACE) {
+                                    src_r[1] = src_r[2] = -1;
+                                    op_r[1] = op_r[2] = -1;
+                                } else if (combine_rgb!=FPE_CR_INTERPOLATE) {
+                                    src_r[2] = op_r[2] = -1;
+                                }
+                            }
+                            // is texture constants needed ?
+                            for (int j=0; j<3; j++) {
+                                if (src_a[j]==FPE_SRC_CONSTANT)
+                                    constant=1;
+                            }
+                            if(constant) {
+                                // yep, create the Uniform
+                                sprintf(buff, "uniform lowp vec4 _gl4es_TextureEnvColor_%d;\n", i);
+                                shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
+                                InplaceInsert(GetLine(buff, headers), buff);
+                                headers+=CountLine(buff);                            
+                            }
+                            for (int j=0; j<3; j++) {
+                                if(op_r[j]!=-1)
+                                switch(op_r[j]) {
+                                    case FPE_OP_SRCCOLOR:
+                                        sprintf(buff, "Arg%d.rgb = %s.rgb;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                    case FPE_OP_MINUSCOLOR:
+                                        sprintf(buff, "Arg%d.rgb = vec3(1.) - %s.rgb;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                    case FPE_OP_ALPHA:
+                                        sprintf(buff, "Arg%d.rgb = vec3(%s.a);\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                    case FPE_OP_MINUSALPHA:
+                                        sprintf(buff, "Arg%d.rgb = vec3(1. - %s.a);\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                }
+                                ShadAppend(buff);
+                                if(op_a[j]!=-1)
+                                switch(op_a[j]) {
+                                    case FPE_OP_ALPHA:
+                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                    case FPE_OP_MINUSALPHA:
+                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        break;
+                                }
+                                ShadAppend(buff);
+                            }
+                            switch(combine_rgb) {
+                                case FPE_CR_REPLACE:
+                                    ShadAppend("fColor.rgb = Arg0.rgb;\n");
+                                    break;
+                                case FPE_CR_MODULATE:
+                                    ShadAppend("fColor.rgb = Arg0.rgb * Arg1.rgb;\n");
+                                    break;
+                                case FPE_CR_ADD:
+                                    ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb;\n");
+                                    break;
+                                case FPE_CR_ADD_SIGNED:
+                                    ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb - vec3(0.5);\n");
+                                    break;
+                                case FPE_CR_INTERPOLATE:
+                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb*(vec3(1.)-Arg2.rgb);\n");
+                                    break;
+                                case FPE_CR_SUBTRACT:
+                                    ShadAppend("fColor.rgb = Arg0.rgb - Arg1.rgb;\n");
+                                    break;
+                                case FPE_CR_DOT3_RGB:
+                                    ShadAppend("fColor.rgb = vec3(4*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                    break;
+                                case FPE_CR_DOT3_RGBA:
+                                    ShadAppend("fColor = vec4(4*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                    break;
+                            }
+                            if(combine_rgb!=FPE_CR_DOT3_RGBA) 
+                            switch(combine_alpha) {
+                                case FPE_CR_REPLACE:
+                                    ShadAppend("fColor.a = Arg0.a;\n");
+                                    break;
+                                case FPE_CR_MODULATE:
+                                    ShadAppend("fColor.a = Arg0.a * Arg1.a;\n");
+                                    break;
+                                case FPE_CR_ADD:
+                                    ShadAppend("fColor.a = Arg0.a + Arg1.a;\n");
+                                    break;
+                                case FPE_CR_ADD_SIGNED:
+                                    ShadAppend("fColor.a = Arg0.a + Arg1.a - 0.5;\n");
+                                    break;
+                                case FPE_CR_INTERPOLATE:
+                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a*(1.-Arg2.a);\n");
+                                    break;
+                                case FPE_CR_SUBTRACT:
+                                    ShadAppend("fColor.a = Arg0.a - Arg1.a;\n");
+                                    break;
+                            }
                         }
                         break;
                 }
@@ -307,8 +469,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         } else if (alpha_func==GL_NEVER) {
             ShadAppend("discard;\n"); // Never pass...
         } else {
-            const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; // need to have the !operation
-            sprintf(buff, "if (fColor.a %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
+            // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
+            // but need to negate the operator
+            const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; 
+            sprintf(buff, "if (int(fColor.a*255.) %s int(_gl4es_AlphaRef*255.)) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
             ShadAppend(buff);
         }
     }

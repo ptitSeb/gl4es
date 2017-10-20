@@ -620,8 +620,12 @@ void realize_glenv() {
     // texenv
     if(glprogram->has_builtin_texenv)
     {
-        for (int i=0; i<hardext.maxtex; i++)
+        for (int i=0; i<hardext.maxtex; i++) {
             GoUniformfv(glprogram, glprogram->builtin_texenvcolor[i], 4, 1, glstate->texenv[i].env.color);
+            // specific FPE
+            GoUniformfv(glprogram, glprogram->builtin_texenvrgbscale[i], 1, 1, &glstate->texenv[i].env.rgb_scale);
+            GoUniformfv(glprogram, glprogram->builtin_texenvalphascale[i], 1, 1, &glstate->texenv[i].env.alpha_scale);
+        }
     }
     // texgen
     if(glprogram->has_builtin_texgen)
@@ -818,6 +822,7 @@ const char* normalrescale_code = "_gl4es_NormalScale";
 const char* clipplanes_code = "_gl4es_ClipPlane[";
 const char* point_code = "_gl4es_Point";
 const char* texenvcolor_code = "_gl4es_TextureEnvColor[";
+const char* texenvcolor_fpe_code = "_gl4es_TextureEnvColor_";
 const char* texenvcolor_noa_code = "_gl4es_TextureEnvColor";
 const char* texgeneye_code = "_gl4es_EyePlane%c[";
 const char* texgeneye_noa_code = "_gl4es_EyePlane%c";
@@ -826,6 +831,8 @@ const char* texgenobj_noa_code = "_gl4es_ObjectPlane%c";
 const char texgenCoords[4] = {'S', 'T', 'R', 'Q'};
 const char* alpharef_code = "_gl4es_AlphaRef";
 const char* fpetexSampler_code = "_gl4es_TexSampler_";
+const char* fpetexenvRGBScale_code = "_gl4es_TexEnvRGBScale_";
+const char* fpetexenvAlphaScale_code = "_gl4es_TexEnvAlphaScale_";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -840,20 +847,22 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, lightsource_code, strlen(lightsource_code))==0) {
         // it a light! grab it's number
         int n = name[strlen(lightsource_code)]-'0';   // only 8 light, so this works
-        if(strstr(name, ".ambient")) glprogram->builtin_lights[n].ambient = id;
-        else if(strstr(name, ".diffuse")) glprogram->builtin_lights[n].diffuse = id;
-        else if(strstr(name, ".specular")) glprogram->builtin_lights[n].specular = id;
-        else if(strstr(name, ".position")) glprogram->builtin_lights[n].position = id;
-        else if(strstr(name, ".halfVector")) glprogram->builtin_lights[n].halfVector = id;
-        else if(strstr(name, ".spotDirection")) glprogram->builtin_lights[n].spotDirection = id;
-        else if(strstr(name, ".spotExponent")) glprogram->builtin_lights[n].spotExponent = id;
-        else if(strstr(name, ".spotCutoff")) glprogram->builtin_lights[n].spotCutoff = id;
-        else if(strstr(name, ".spotCosCutoff")) glprogram->builtin_lights[n].spotCosCutoff = id;
-        else if(strstr(name, ".constantAttenuation")) glprogram->builtin_lights[n].constantAttenuation = id;
-        else if(strstr(name, ".linearAttenuation")) glprogram->builtin_lights[n].linearAttenuation = id;
-        else if(strstr(name, ".quadraticAttenuation")) glprogram->builtin_lights[n].quadraticAttenuation = id;
-        glprogram->has_builtin_light = 1;
-        return 1;
+        if(n>=0 && n<hardext.maxlights) {
+            if(strstr(name, ".ambient")) glprogram->builtin_lights[n].ambient = id;
+            else if(strstr(name, ".diffuse")) glprogram->builtin_lights[n].diffuse = id;
+            else if(strstr(name, ".specular")) glprogram->builtin_lights[n].specular = id;
+            else if(strstr(name, ".position")) glprogram->builtin_lights[n].position = id;
+            else if(strstr(name, ".halfVector")) glprogram->builtin_lights[n].halfVector = id;
+            else if(strstr(name, ".spotDirection")) glprogram->builtin_lights[n].spotDirection = id;
+            else if(strstr(name, ".spotExponent")) glprogram->builtin_lights[n].spotExponent = id;
+            else if(strstr(name, ".spotCutoff")) glprogram->builtin_lights[n].spotCutoff = id;
+            else if(strstr(name, ".spotCosCutoff")) glprogram->builtin_lights[n].spotCosCutoff = id;
+            else if(strstr(name, ".constantAttenuation")) glprogram->builtin_lights[n].constantAttenuation = id;
+            else if(strstr(name, ".linearAttenuation")) glprogram->builtin_lights[n].linearAttenuation = id;
+            else if(strstr(name, ".quadraticAttenuation")) glprogram->builtin_lights[n].quadraticAttenuation = id;
+            glprogram->has_builtin_light = 1;
+            return 1;
+        }
     }
     if(strncmp(name, frontmaterial_code, strlen(frontmaterial_code))==0 
         || strncmp(name, backmaterial_code, strlen(backmaterial_code))==0)
@@ -883,11 +892,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         // it's a material
         int i=(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0)?0:1;
         int n = name[strlen(i?backlightprod_code:frontlightprod_code)]-'0';   // only 8 light, so this works
-        if(strstr(name, ".ambient")) glprogram->builtin_lightprod[i][n].ambient = id;
-        else if(strstr(name, ".diffuse")) glprogram->builtin_lightprod[i][n].diffuse = id;
-        else if(strstr(name, ".specular")) glprogram->builtin_lightprod[i][n].specular = id;
-        glprogram->has_builtin_light = 1;
-        return 1;
+        if(n>=0 && n<hardext.maxlights) {
+            if(strstr(name, ".ambient")) glprogram->builtin_lightprod[i][n].ambient = id;
+            else if(strstr(name, ".diffuse")) glprogram->builtin_lightprod[i][n].diffuse = id;
+            else if(strstr(name, ".specular")) glprogram->builtin_lightprod[i][n].specular = id;
+            glprogram->has_builtin_light = 1;
+            return 1;
+        }
     }
     if(strncmp(name, normalrescale_code, strlen(normalrescale_code))==0)
     {
@@ -898,9 +909,11 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, clipplanes_code, strlen(clipplanes_code))==0) {
         // it a clip plane! grab it's number
         int n = name[strlen(clipplanes_code)]-'0';   // only 6 clip planes, so this works
-        glprogram->builtin_clipplanes[n] = id;
-        glprogram->has_builtin_clipplanes = 1;
-        return 1;
+        if(n>=0 && n<hardext.maxplanes) {
+            glprogram->builtin_clipplanes[n] = id;
+            glprogram->has_builtin_clipplanes = 1;
+            return 1;
+        }
     }
     if(strncmp(name, point_code, strlen(point_code))==0)
     {
@@ -918,11 +931,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, texenvcolor_code, strlen(texenvcolor_code))==0) {
         // it a TexEnvColor! grab it's number
         int n = name[strlen(texenvcolor_code)]-'0';   // only 8 Textures max, so this works
-        glprogram->builtin_texenvcolor[n] = id;
-        glprogram->has_builtin_texenv = 1;
-        return 1;
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texenvcolor[n] = id;
+            glprogram->has_builtin_texenv = 1;
+            return 1;
+        }
     }
-    if(strncmp(name, texenvcolor_noa_code, strlen(texenvcolor_noa_code))==0) {
+    if(strcmp(name, texenvcolor_noa_code)==0) {
         // it a TexEnvColor, without the array, so full size
         for (int n=0; n<size; n++)
             glprogram->builtin_texenvcolor[n] = id;
@@ -935,12 +950,14 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         if(strncmp(name, tmp, strlen(tmp))==0) {
             // it a TexGen Eye Plane! grab it's number
             int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
-            glprogram->builtin_eye[i][n] = id;
-            glprogram->has_builtin_texgen = 1;
-            return 1;
+            if(n>=0 && n<hardext.maxtex) {
+                glprogram->builtin_eye[i][n] = id;
+                glprogram->has_builtin_texgen = 1;
+                return 1;
+            }
         }
         sprintf(tmp, texgeneye_noa_code, texgenCoords[i]);
-        if(strncmp(name, tmp, strlen(tmp))==0) {
+        if(strcmp(name, tmp)) {
             // it a TexGen Eye Plane without the array
             for (int n=0; n<size; n++)
                 glprogram->builtin_eye[i][n] = id;
@@ -954,12 +971,14 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         if(strncmp(name, tmp, strlen(tmp))==0) {
             // it a TexGen Object Plane! grab it's number
             int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
-            glprogram->builtin_obj[i][n] = id;
-            glprogram->has_builtin_texgen = 1;
-            return 1;
+            if(n>=0 && n<hardext.maxtex) {
+                glprogram->builtin_obj[i][n] = id;
+                glprogram->has_builtin_texgen = 1;
+                return 1;
+            }
         }
         sprintf(tmp, texgenobj_noa_code, texgenCoords[i]);
-        if(strncmp(name, tmp, strlen(tmp))==0) {
+        if(strcmp(name, tmp)) {
             // it a TexGen Object Plane without the array
             for (int n=0; n<size; n++)
                 glprogram->builtin_obj[i][n] = id;
@@ -969,18 +988,49 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     }
     // fpe specials
     // alpha ref
-    if(strncmp(name, alpharef_code, strlen(alpharef_code))==0) {
+    if(strcmp(name, alpharef_code)==0) {
         glprogram->fpe_alpharef = id;
         glprogram->has_fpe = 1;
         return 1;
     }
     // texture sampler
     if(strncmp(name, fpetexSampler_code, strlen(fpetexSampler_code))==0) {
-        // it a TexEnvColor! grab it's number
+        // it a Texture Sampler! grab it's number
         int n = name[strlen(fpetexSampler_code)]-'0';   // only 8 Textures max, so this works
-        glprogram->builtin_texsampler[n] = id;
-        glprogram->has_builtin_texsampler = 1;
-        return 1;
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texsampler[n] = id;
+            glprogram->has_builtin_texsampler = 1;
+            return 1;
+        }
+    }
+    // texture env color
+    if(strncmp(name, texenvcolor_fpe_code, strlen(texenvcolor_fpe_code))==0) {
+        // it a Texture env color
+        int n = name[strlen(texenvcolor_fpe_code)]-'0';   // only 8 Textures max, so this works
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texenvcolor[n] = id;
+            glprogram->has_builtin_texenv = 1;
+            return 1;
+        }
+    }
+    // texture env rgb/alpha scale
+    if(strncmp(name, fpetexenvRGBScale_code, strlen(fpetexenvRGBScale_code))==0) {
+        // it a Texture env color
+        int n = name[strlen(fpetexenvRGBScale_code)]-'0';   // only 8 Textures max, so this works
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texenvrgbscale[n] = id;
+            glprogram->has_builtin_texenv = 1;
+            return 1;
+        }
+    }
+    if(strncmp(name, fpetexenvAlphaScale_code, strlen(fpetexenvAlphaScale_code))==0) {
+        // it a Texture env color
+        int n = name[strlen(fpetexenvAlphaScale_code)]-'0';   // only 8 Textures max, so this works
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texenvalphascale[n] = id;
+            glprogram->has_builtin_texenv = 1;
+            return 1;
+        }
     }
 
     return 0;

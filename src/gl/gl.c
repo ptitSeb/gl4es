@@ -282,20 +282,18 @@ static void fpe_changelight(int n, bool enable)
 }
 static void fpe_changetex(int n, int state)
 {
-    n<<=1;
-
     int texmode = FPE_TEX_OFF;
 #ifdef TEXSTREAM
-    if(state==256) texmode = FPE_TEX_STRM;
+    if(state==256) texmode = (IS_TEX2D(state))?FPE_TEX_STRM:FPE_TEX_OFF;
     else
 #endif
     if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
-    else if(IS_TEXCUBE(state)) texmode = FPE_TEX_2D;
+    else if(IS_TEXCUBE(state)) texmode = FPE_TEX_CUBE;
 
     glstate->fpe = NULL;
-    glstate->fpe_state->texture &= ~(3<<n);
+    glstate->fpe_state->texture &= ~(3<<(n*2));
 
-    glstate->fpe_state->texture |= texmode<<n;
+    glstate->fpe_state->texture |= texmode<<(n*2);
 
     /*
     TODO: should update the fpe texture state
