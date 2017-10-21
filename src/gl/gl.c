@@ -766,7 +766,7 @@ static inline bool should_intercept_render(GLenum mode) {
     // check bounded tex that will be used if one need some transformations
     for (int aa=0; aa<hardext.maxtex; aa++) {
         if (glstate->enable.texture[aa]) {
-            if ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa]))
+            if ((hardext.esversion==1) && ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa])))
                 return true;
             if ((!glstate->vao->tex_coord_array[aa]) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
                 return true;
@@ -776,9 +776,9 @@ static inline bool should_intercept_render(GLenum mode) {
     }
     if(glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
         return true;
-    if ((glstate->vao->secondary_array) && (glstate->vao->color_array))
+    if ((hardext.esversion==1) && ((glstate->vao->secondary_array) && (glstate->vao->color_array)))
         return true;
-    if (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4))
+    if ((hardext.esversion==1) && (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)))
         return true;
     return (
         (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
