@@ -19,6 +19,10 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             GO(&, mode, sizeof(GLfloat))
             break;
         case GL_FOG_DENSITY:
+            if(*params<0.f) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
             GO(&, density, sizeof(GLfloat))
             break;
         case GL_FOG_START:

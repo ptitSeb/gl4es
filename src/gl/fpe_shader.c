@@ -237,17 +237,17 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     // Fog color
     if(fog) {
-        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"length(vertex)":"gl_FogCoord");
+        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"abs(vertex.z)":"gl_FogCoord"); // either vertex.z of length(vertex), let's choose the faster here
         ShadAppend(buff);
         switch(fogmode) {
             case FPE_FOG_EXP:
-                ShadAppend("FogF = exp(-gl_Fog.density * fog_c);\n");
+                ShadAppend("FogF = clamp(exp(-gl_Fog.density * fog_c), 0., 1.);\n");
                 break;
             case FPE_FOG_EXP2:
-                ShadAppend("FogF = exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c));\n");
+                ShadAppend("FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n");
                 break;
             case FPE_FOG_LINEAR:
-                ShadAppend("FogF = (gl_Fog.end - fog_c) * gl_Fog.scale;\n");
+                ShadAppend("FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n");
                 break;
         }
         ShadAppend("FogColor = gl_Fog.color;\n");
@@ -391,7 +391,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         ShadAppend(buff);
                         break;
                     case FPE_REPLACE:
-                        if(texformat==FPE_TEX_RGB || texformat!=FPE_TEX_LUM) {
+                        if(texformat==FPE_TEX_RGB || texformat==FPE_TEX_LUM) {
                             sprintf(buff, "fColor.rgb = texColor%d.rgb;\n", i);
                             ShadAppend(buff);
                         } else if(texformat==FPE_TEX_ALPHA) {
