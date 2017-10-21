@@ -534,7 +534,7 @@ void gl4es_glLinkProgram(GLuint program) {
                         gluniform->cache_offs = uniform_cache+j*uniformsize(type);
                         gluniform->cache_size = uniformsize(type)*(size-j);
                         int builtin = builtin_CheckUniform(glprogram, name, id, size-j);
-                        DBG(printf(" uniform #%d : %s%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                        DBG(printf(" uniform #%d : \"%s\"%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
                         id++;
                     }
                     uniform_cache += uniformsize(type)*size;
