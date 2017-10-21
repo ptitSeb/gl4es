@@ -684,6 +684,13 @@ void realize_glenv() {
             GoUniformfv(glprogram, glprogram->builtin_fog.scale, 1, 1, &tmp);
         }
     }
+    // clip planes
+    if(glprogram->has_builtin_clipplanes)
+    {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            GoUniformfv(glprogram, glprogram->builtin_clipplanes[i], 4, 1, glstate->planes[i]);
+        }
+    }
     // check point sprite if needed
     if(glprogram->has_builtin_pointsprite)
     {
@@ -865,7 +872,7 @@ void builtin_Init(program_t *glprogram) {
     }
     glprogram->builtin_normalrescale = -1;
     for (int i=0; i<MAX_CLIP_PLANES; i++)
-        glprogram->builtin_clipplanes[i];
+        glprogram->builtin_clipplanes[i] = -1;
     glprogram->builtin_pointsprite.size = -1;
     glprogram->builtin_pointsprite.sizeMin = -1;
     glprogram->builtin_pointsprite.sizeMax = -1;

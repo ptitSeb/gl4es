@@ -68,6 +68,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int fogmode = state->fogmode;
     int fogsource = state->fogsource;
     int headers = 0;
+    int planes = state->plane;
     char buff[1024];
 
     strcpy(shad, "varying vec4 Color;\n");  // might be unused...
@@ -90,6 +91,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("varying float FogF;\n");
         headers++;
     }
+    if(planes) {
+        ShadAppend("varying vec4 vertex;\n");
+        headers++;
+    }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
@@ -109,8 +114,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     // initial Color / lighting calculation
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
     // lighting and some fog use this
-    if(lighting || (fog && fogsource==FPE_FOG_SRC_DEPTH)) {
-        ShadAppend("vec4 vertex = gl_ModelViewMatrix * gl_Vertex;\n");
+    if(lighting || (fog && fogsource==FPE_FOG_SRC_DEPTH) || planes) {
+        if(planes==0)
+            ShadAppend("vec4 ");
+        ShadAppend("vertex = gl_ModelViewMatrix * gl_Vertex;\n");
     }
     if(!lighting) {
         ShadAppend("Color = gl_Color;\n");
@@ -259,7 +266,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int secondary = state->colorsum && !(lighting && light_separate);
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
-    int fog = state->fog;    
+    int fog = state->fog;  
+    int planes = state->plane;  
     int texenv_combine = 0;
     char buff[100];
 
@@ -281,6 +289,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend("varying lowp vec4 FogColor;\n");
         headers++;
         ShadAppend("varying float FogF;\n");
+        headers++;
+    }
+    if(planes) {
+        ShadAppend("varying vec4 vertex;\n");
         headers++;
     }
     // textures coordinates
@@ -315,6 +327,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     } 
 
     ShadAppend("void main() {\n");
+
+    //*** Clip Planes (it's probably not the best idea to do that here...)
+    if(planes) {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if(planes>>i) {
+                sprintf(buff, "if(dot(vertex, gl_clipPlane[%d])<0) discard;\n");
+                ShadAppend(buff);
+            }
+        }
+    }
+
     //*** initial color
     sprintf(buff, "vec4 fColor = %s;\n", twosided?"(gl_FrontFacing)?Color:BackColor":"Color");
     ShadAppend(buff);
