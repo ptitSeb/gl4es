@@ -28,6 +28,7 @@ renderlist_t *alloc_renderlist() {
     memcpy(list->lastNormal, glstate->normal, 3*sizeof(GLfloat));
     memcpy(list->lastSecondaryColors, glstate->secondary, 3*sizeof(GLfloat));
     memcpy(list->lastColors, glstate->color, 4*sizeof(GLfloat));
+    memcpy(&list->lastFogCoord, &glstate->fogcoord, 1*sizeof(GLfloat));
 
     list->open = true;
     return list;
@@ -117,6 +118,8 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     if ((a->color==NULL) != (b->color==NULL))
         return false;
     if ((a->secondary==NULL) != (b->secondary==NULL))
+        return false;
+    if ((a->fogcoord==NULL) != (b->fogcoord==NULL))
         return false;
     // check the textures
     if(a->maxtex!=b->maxtex)
@@ -300,6 +303,11 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             a->secondary = alloc_sublist(4, cap);
             memcpy(a->secondary, tmp, 4*a->len*sizeof(GLfloat));
         }
+        tmp = a->fogcoord;
+        if (tmp) {
+            a->fogcoord = alloc_sublist(1, cap);
+            memcpy(a->fogcoord, tmp, 1*a->len*sizeof(GLfloat));
+        }
         for (int i=0; i<a->maxtex; i++) {
             tmp = a->tex[i];
             if (tmp) {
@@ -314,6 +322,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             realloc_sublist(a->normal, 3, cap);
             realloc_sublist(a->color, 4, cap);
             realloc_sublist(a->secondary, 4, cap);
+            realloc_sublist(a->fogcoord, 1, cap);
             for (int i=0; i<a->maxtex; i++)
                realloc_sublist(a->tex[i], 4, cap);
         }
@@ -334,6 +343,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
+    if (a->fogcoord) memcpy(a->fogcoord+a->len*4, b->fogcoord, b->len*1*sizeof(GLfloat));
     for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
@@ -619,6 +629,7 @@ void free_renderlist(renderlist_t *list) {
             if (list->normal) free(list->normal);
             if (list->color) free(list->color);
             if (list->secondary) free(list->secondary);
+            if (list->fogcoord) free(list->fogcoord);
             for (a=0; a<list->maxtex; a++)
                 if (list->tex[a]) free(list->tex[a]);
         }
@@ -677,6 +688,7 @@ void resize_renderlist(renderlist_t *list) {
         realloc_sublist(list->normal, 3, list->cap);
         realloc_sublist(list->color, 4, list->cap);
         realloc_sublist(list->secondary, 4, list->cap);
+        realloc_sublist(list->fogcoord, 1, list->cap);
         for (int a=0; a<list->maxtex; a++)
            realloc_sublist(list->tex[a], 4, list->cap);
     }
@@ -761,7 +773,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p\n", list, glstate->gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary);
+//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p fogcoord=%p\n", list, glstate->gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary, list->fogcoord);
     LOAD_GLES_FPE(glDrawArrays);
     LOAD_GLES_FPE(glDrawElements);
     LOAD_GLES_FPE(glVertexPointer);
@@ -935,7 +947,7 @@ void draw_renderlist(renderlist_t *list) {
         if (list->color) {
             gles_glEnableClientState(GL_COLOR_ARRAY);
             glstate->clientstate.color_array = 1;
-            if (glstate->enable.color_sum && (list->secondary)) {
+            if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1) {
                 final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
                 if (indices) {
                     for (int i=0; i<list->ilen; i++)
@@ -955,6 +967,20 @@ void draw_renderlist(renderlist_t *list) {
         } else {
             gles_glDisableClientState(GL_COLOR_ARRAY);
             glstate->clientstate.color_array = 0;
+        }
+        if(hardext.esversion > 1) {
+            // secondary color only on ES2+
+            if (glstate->enable.color_sum && (list->secondary)) {
+                gles_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
+                fpe_glSecondaryColorPointer(4, GL_FLOAT, 0, list->secondary);
+            } else
+                fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);                    
+            // fog coord only on ES2+
+            if ((glstate->fog.coord_src==GL_FOG_COORD) && (list->fogcoord)) {
+                gles_glEnableClientState(GL_FOG_COORD_ARRAY);
+                fpe_glFogCoordPointer(GL_FLOAT, 0, list->fogcoord);
+            } else
+                fpe_glDisableClientState(GL_FOG_COORD_ARRAY);                    
         }
         stipple = false;
         if (! list->tex[0]) {
@@ -1266,6 +1292,11 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
         memcpy(secondary, glstate->secondary, sizeof(GLfloat) * 4);
     }
 
+    if (list->fogcoord) {
+        GLfloat * const fog = list->fogcoord + (list->len * 1);
+        memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+    }
+
     for (int a=0; a<list->maxtex; a++) {
 		if (list->tex[a]) {
 			GLfloat * const tex = list->tex[a] + (list->len * 4);
@@ -1432,6 +1463,19 @@ void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, 
     GLfloat *tex = glstate->texcoord[tmu];
     tex[0] = s; tex[1] = t;
     tex[2] = r; tex[3] = q;
+}
+
+void rlFogCoordf(renderlist_t *list, GLfloat coord) {
+    if (list->fogcoord == NULL) {
+        list->fogcoord = alloc_sublist(1, list->cap);
+        // catch up
+        GLfloat *fog = list->fogcoord;
+        if (list->len) for (int i = 0; i < list->len; i++) {
+            memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+            fog++;
+        }
+    }
+    glstate->fogcoord = coord;
 }
 
 void rlActiveTexture(renderlist_t *list, GLenum texture ) {

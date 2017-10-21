@@ -44,13 +44,17 @@
 #define skip_glStencilMaskSeparate
 #define skip_glStencilOpSeparate
 
-#define skip_glFogfv
-#define skip_glFogf
-
 #define skip_glShadeModel
 
 #define skip_glAlphaFunc
 #define skip_glLogicOp
+
+// fog.c
+#define skip_glFogfv
+#define skip_glFogf
+#define skip_glFogCoordf
+#define skip_glFogCoordfv
+#define skip_glFogCoordPointer
 
 // getter.c
 #define skip_glGetError

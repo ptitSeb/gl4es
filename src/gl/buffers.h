@@ -62,7 +62,7 @@ typedef struct {
 } pointer_state_t;
 
 typedef struct {
-    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary, fog_coord;
+    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary, fog;
 } pointer_states_t;
 
 typedef struct {

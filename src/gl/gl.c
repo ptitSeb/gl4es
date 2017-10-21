@@ -345,6 +345,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     switch (cap) {
         GO(GL_AUTO_NORMAL, auto_normal);
         proxy_GOFPE(GL_ALPHA_TEST, alpha_test,glstate->fpe_state->alphatest=enable);
+        proxy_GOFPE(GL_FOG, fog, glstate->fpe_state->fog=enable);
         proxy_GO(GL_BLEND, blend);
         proxy_GO(GL_CULL_FACE, cull_face);
         proxy_GO(GL_DEPTH_TEST, depth_test);
@@ -588,6 +589,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
     switch (cap) {
         isenabled(GL_AUTO_NORMAL, auto_normal);
         isenabled(GL_ALPHA_TEST, alpha_test);
+        isenabled(GL_FOG, fog);
         isenabled(GL_BLEND, blend);
         isenabled(GL_CULL_FACE, cull_face);
         isenabled(GL_DEPTH_TEST, depth_test);
@@ -614,7 +616,8 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_LIGHT6, light[6]);
         isenabled(GL_LIGHT7, light[7]);
         isenabled(GL_LIGHTING, lighting);
-		clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        clientisenabled(GL_FOG_COORD_ARRAY, fog_array);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);
         case GL_TEXTURE_3D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX3D);
@@ -646,6 +649,7 @@ static GLboolean is_cache_compatible(GLsizei count) {
     TEST(vertex, vert)
     TEST(color, color)
     TEST(secondary, secondary)
+    TEST(fog, fog)
     TEST(normal, normal)
     for (int i=0; i<hardext.maxtex; i++) {
         TESTA(tex_coord,tex,i)
@@ -677,6 +681,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
         list->vert = OP(glstate->vao->vert.ptr,4);
         list->color = OP(glstate->vao->color.ptr,4);
         list->secondary = OP(glstate->vao->secondary.ptr,4);
+        list->fogcoord = OP(glstate->vao->fog.ptr, 1);
         list->normal = OP(glstate->vao->normal.ptr,3);
         for (int i=0; i<hardext.maxtex; i++) 
             list->tex[i] = OP(glstate->vao->tex[i].ptr,4);
@@ -697,6 +702,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             GO(vertex, vert)
             GO(color, color)
             GO(secondary, secondary)
+            GO(fog, fog)
             GO(normal, normal)
             for (int i=0; i<hardext.maxtex; i++) {
                 GOA(tex_coord,tex,i)
@@ -747,6 +753,13 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                 list->normal = glstate->vao->normal.ptr + 3*skip;
             } else
                 list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
+        }
+        if (glstate->vao->fog_array) {
+            if(glstate->vao->shared_arrays) {
+                glstate->vao->fog.ptr = copy_gl_pointer_raw(&glstate->vao->pointers.fog, 1, 0, count);
+                list->fogcoord = glstate->vao->fog.ptr + 1*skip;
+            } else
+                list->fogcoord = copy_gl_pointer_raw(&glstate->vao->pointers.fog, 1, skip, count);
         }
         for (int i=0; i<hardext.maxtex; i++) {
             if (glstate->vao->tex_coord_array[i]) {
@@ -1337,6 +1350,10 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
     clone_gl_pointer(glstate->vao->pointers.secondary, size);
     noerrorShim();
 }
+void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    clone_gl_pointer(glstate->vao->pointers.fog, 1);
+    noerrorShim();
+}
 
 #undef clone_gl_pointer
 
@@ -1345,6 +1362,7 @@ void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *point
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glNormalPointer");
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glTexCoordPointer");
 void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glSecondaryColorPointer");
+void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glFogCoordPointer");
 
 void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     uintptr_t ptr = (uintptr_t)pointer;

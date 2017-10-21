@@ -27,6 +27,8 @@ typedef enum {
     ATT_MULTITEXCOORD6,
     ATT_MULTITEXCOORD7,
     ATT_NORMAL,
+    ATT_SECONDARY,
+    ATT_FOGCOORD,
     //ATT_POINTSIZE,   //this one is supported by GLES hardware
     ATT_MAX
 } reserved_attrib_t;
@@ -142,6 +144,14 @@ typedef struct {
 } builtin_pointsprite_t;
 
 typedef struct {
+    GLint       color;
+    GLint       density;
+    GLint       start;
+    GLint       end;
+    GLint       scale;
+} builtin_fog_t;
+
+typedef struct {
     GLuint          id;     // internal id of the shader
     int             linked;
     int             validated;
@@ -174,6 +184,8 @@ typedef struct {
     GLint                           builtin_eye[4][MAX_TEX];
     GLint                           builtin_obj[4][MAX_TEX];
     int                             has_builtin_texgen;
+    builtin_fog_t                   builtin_fog;
+    int                             has_builtin_fog;
     // fpe uniform
     GLint                           fpe_alpharef;
     int                             has_fpe;

@@ -505,7 +505,15 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glPointParameteri);
     _EX(glPointParameteriv);
     
-    STUB(glFogCoordPointer);
+    _EX(glFogCoordPointer);
+    if(hardext.esversion>1) {
+        // EXT_fog_coord supported
+        _EXT(glFogCoordd);
+        _EXT(glFogCoorddv);
+        _EXT(glFogCoordf);
+        _EXT(glFogCoordfv);
+        _EXT(glFogCoordPointer);
+    }
     /*STUB(glEdgeFlagPointerEXT);
     STUB(glIndexPointerEXT);*/
     

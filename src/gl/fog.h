@@ -15,4 +15,8 @@ typedef struct {
 
 void gl4es_glFogfv(GLenum pname, const GLfloat* params);
 void gl4es_glFogf(GLenum pname, GLfloat param);
+
+void gl4es_glFogCoordf(GLfloat coord);
+void gl4es_glFogCoordfv(const GLfloat *coord);
+
 #endif

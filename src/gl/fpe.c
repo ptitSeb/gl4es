@@ -115,6 +115,10 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
             }
         }
     }
+    if(!dest->fog) {
+        dest->fogmode = 0;
+        dest->fogsource = 0;
+    }
 }
 
 fpe_fpe_t *fpe_GetCache() {
@@ -226,6 +230,9 @@ void fpe_EnableDisableClientState(GLenum cap, GLboolean val) {
         case GL_SECONDARY_COLOR_ARRAY:
             glstate->fpe_client.secondary_array = val;
             break;
+        case GL_FOG_COORD_ARRAY:
+            glstate->fpe_client.fog_array = val;
+            break;
     }
 }
 
@@ -282,6 +289,14 @@ void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
     glstate->fpe_client.tex[glstate->fpe_client.client].pointer = pointer;
 }
 
+void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("fpe_glFogPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
+    glstate->fpe_client.fog.size = 1;
+    glstate->fpe_client.fog.type = type;
+    glstate->fpe_client.fog.stride = stride;
+    glstate->fpe_client.fog.pointer = pointer;
+}
+
 void fpe_glEnable(GLenum cap) {
     gl4es_glEnable(cap);    // may reset fpe curent program
 }
@@ -333,6 +348,22 @@ void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 
 void fpe_glFogfv(GLenum pname, const GLfloat* params) {
     noerrorShim();
+    if(pname==GL_FOG_MODE) {
+        int p = *params;
+        switch(p) {
+            case GL_EXP: glstate->fpe_state->fogmode = FPE_FOG_EXP; break;
+            case GL_EXP2: glstate->fpe_state->fogmode = FPE_FOG_EXP2; break;
+            case GL_LINEAR: glstate->fpe_state->fogmode = FPE_FOG_LINEAR; break;
+            default: errorShim(GL_INVALID_ENUM);
+        }
+    } else if (pname==GL_FOG_COORDINATE_SOURCE) {
+        int p = *params;
+        switch(p) {
+            case GL_FRAGMENT_DEPTH: glstate->fpe_state->fogsource = FPE_FOG_SRC_DEPTH; break;
+            case GL_FOG_COORD: glstate->fpe_state->fogsource = FPE_FOG_SRC_COORD; break;
+            default: errorShim(GL_INVALID_ENUM);
+        }
+    }
 }
 
 void fpe_glPointParameterfv(GLenum pname, const GLfloat * params) {
@@ -391,7 +422,7 @@ void realize_glenv() {
     {
         int vaarray = 0;
         int id = -1;
-        // Vertex....
+        // Vertex
         id = glprogram->builtin_attrib[ATT_VERTEX];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard.wanted[id];
@@ -408,7 +439,7 @@ void realize_glenv() {
                 memcpy(w->current, glstate->vertex, 4*sizeof(GLfloat));
             }
         }
-        // Color....
+        // Color
         id = glprogram->builtin_attrib[ATT_COLOR];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard.wanted[id];
@@ -423,6 +454,41 @@ void realize_glenv() {
                 w->buffer = NULL;
             } else {
                 memcpy(w->current, glstate->color, 4*sizeof(GLfloat));
+            }
+        }
+        // Secondary Color
+        id = glprogram->builtin_attrib[ATT_SECONDARY];
+        if(id!=-1) {
+            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            pointer_state_t *p = &glstate->fpe_client.secondary;
+            w->vaarray = glstate->fpe_client.secondary_array;
+            if(w->vaarray) {
+                w->size = p->size;
+                w->type = p->type;
+                w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                w->stride = p->stride;
+                w->pointer = p->pointer;
+                w->buffer = NULL;
+            } else {
+                memcpy(w->current, glstate->secondary, 4*sizeof(GLfloat));
+            }
+        }
+        // Fog Coord
+        id = glprogram->builtin_attrib[ATT_FOGCOORD];
+        if(id!=-1) {
+            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            pointer_state_t *p = &glstate->fpe_client.fog;
+            w->vaarray = glstate->fpe_client.fog_array;
+            if(w->vaarray) {
+                w->size = p->size;
+                w->type = p->type;
+                w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                w->stride = p->stride;
+                w->pointer = p->pointer;
+                w->buffer = NULL;
+            } else {
+                memcpy(w->current, &glstate->fogcoord, 1*sizeof(GLfloat));
+                memset(w->current+1, 0, 3*sizeof(GLfloat));
             }
         }
         // TexCoordX
@@ -444,7 +510,7 @@ void realize_glenv() {
                 }
             }
         }
-        // Normal....
+        // Normal
         id = glprogram->builtin_attrib[ATT_NORMAL];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard.wanted[id];
@@ -604,6 +670,18 @@ void realize_glenv() {
             vector4_mult(glstate->material.back.ambient, glstate->light.ambient, tmp);  //TODO: check that
             vector4_add(tmp, glstate->material.back.emission, tmp);
             GoUniformfv(glprogram, glprogram->builtin_lightmodelprod[1].sceneColor, 4, 1, tmp);
+        }
+    }
+    // fog parameters
+    if(glprogram->has_builtin_fog)
+    {
+        GoUniformfv(glprogram, glprogram->builtin_fog.color, 4, 1, glstate->fog.color);
+        GoUniformfv(glprogram, glprogram->builtin_fog.density, 1, 1, &glstate->fog.density);
+        GoUniformfv(glprogram, glprogram->builtin_fog.start, 1, 1, &glstate->fog.start);
+        GoUniformfv(glprogram, glprogram->builtin_fog.end, 1, 1, &glstate->fog.end);
+        if(glprogram->builtin_fog.scale!=-1) {
+            GLfloat tmp = 1.f/(glstate->fog.end - glstate->fog.start);
+            GoUniformfv(glprogram, glprogram->builtin_fog.scale, 1, 1, &tmp);
         }
     }
     // check point sprite if needed
@@ -805,6 +883,11 @@ void builtin_Init(program_t *glprogram) {
         }
         glprogram->builtin_texsampler[i] = -1;
     }
+    glprogram->builtin_fog.color = -1;
+    glprogram->builtin_fog.density = -1;
+    glprogram->builtin_fog.start = -1;
+    glprogram->builtin_fog.end = -1;
+    glprogram->builtin_fog.scale = -1;
     // fpe uniform
     glprogram->fpe_alpharef = -1;
     // initialise emulated builtin attrib to -1
@@ -837,6 +920,7 @@ const char* alpharef_code = "_gl4es_AlphaRef";
 const char* fpetexSampler_code = "_gl4es_TexSampler_";
 const char* fpetexenvRGBScale_code = "_gl4es_TexEnvRGBScale_";
 const char* fpetexenvAlphaScale_code = "_gl4es_TexEnvAlphaScale_";
+const char* fog_code = "_gl4es_Fog.";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -918,6 +1002,17 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             glprogram->has_builtin_clipplanes = 1;
             return 1;
         }
+    }
+    if(strncmp(name, fog_code, strlen(fog_code))==0)
+    {
+        // it's a Fog parameter
+        if(strstr(name, "color")) glprogram->builtin_fog.color = id;
+        else if(strstr(name, "density")) glprogram->builtin_fog.density = id;
+        else if(strstr(name, "start")) glprogram->builtin_fog.start = id;
+        else if(strstr(name, "end")) glprogram->builtin_fog.end = id;
+        else if(strstr(name, "scale")) glprogram->builtin_fog.scale = id;
+        glprogram->has_builtin_fog = 1;
+        return 1;
     }
     if(strncmp(name, point_code, strlen(point_code))==0)
     {

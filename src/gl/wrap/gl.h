@@ -69,6 +69,10 @@ void gl4es_glMultMatrixd(const GLdouble *m);
 // normal
 void gl4es_glNormal3fv(GLfloat *v);
 
+// fog (defined in fog.c)
+void gl4es_glFogCoordd(GLdouble coord);
+void gl4es_glFogCoorddv(const GLdouble *coord);
+
 // rect
 #define GL_RECT(suffix, type)                                \
     void gl4es_glRect##suffix(type x1, type y1, type x2, type y2); \

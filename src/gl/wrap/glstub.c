@@ -8,10 +8,10 @@ ret gl4es_ ## def args {\
 } \
 ret def args __attribute((alias("gl4es_"#def))) __attribute__((visibility("default")));
 
-STUB(void,glFogCoordd,(GLdouble coord));
+/*STUB(void,glFogCoordd,(GLdouble coord));
 STUB(void,glFogCoordf,(GLfloat coord));
 STUB(void,glFogCoorddv,(const GLdouble *coord));
-STUB(void,glFogCoordfv,(const GLfloat *coord));
+STUB(void,glFogCoordfv,(const GLfloat *coord));*/
 #ifdef BCMHOST
 STUB(void,glDiscardFramebufferEXT,(GLenum target, GLsizei numAttachments, const GLenum *attachments));
 #endif

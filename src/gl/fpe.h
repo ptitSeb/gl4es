@@ -12,10 +12,12 @@
 
 */
 
-#define FPE_FOG_OFF 0
-#define FPE_FOG_LINEAR 1
-#define FPE_FOG_EXP 2
-#define FPE_FOG_EXP2 3
+#define FPE_FOG_EXP    0
+#define FPE_FOG_EXP2   1
+#define FPE_FOG_LINEAR 2
+
+#define FPE_FOG_SRC_DEPTH 0
+#define FPE_FOG_SRC_COORD 1
 
 #define FPE_TEX_OFF  0
 #define FPE_TEX_2D   1
@@ -95,6 +97,8 @@ typedef struct {
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode
+    unsigned int fogsource:1;            // fog source
+    unsigned int fog:1;                  // Fog enabled or not
     unsigned int colorsum:1;             // secondary color enabled
     unsigned int lighting:1;             // global lighting enabled
     unsigned int normalize:1;            // normalization
@@ -133,6 +137,7 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glEnable(GLenum cap);
 void fpe_glDisable(GLenum cap);
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count);

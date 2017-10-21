@@ -619,6 +619,36 @@ void gl4es_glFlush() {
 }
 void glFlush() __attribute__((alias("gl4es_glFlush"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glFogCoordPointer
+void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
+    LOAD_GLES(glFogCoordPointer);
+#ifndef direct_glFogCoordPointer
+    PUSH_IF_COMPILING(glFogCoordPointer)
+#endif
+    gles_glFogCoordPointer(type, stride, pointer);
+}
+void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) __attribute__((alias("gl4es_glFogCoordPointer"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glFogCoordf
+void gl4es_glFogCoordf(GLfloat coord) {
+    LOAD_GLES(glFogCoordf);
+#ifndef direct_glFogCoordf
+    PUSH_IF_COMPILING(glFogCoordf)
+#endif
+    gles_glFogCoordf(coord);
+}
+void glFogCoordf(GLfloat coord) __attribute__((alias("gl4es_glFogCoordf"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glFogCoordfv
+void gl4es_glFogCoordfv(const GLfloat * coord) {
+    LOAD_GLES(glFogCoordfv);
+#ifndef direct_glFogCoordfv
+    PUSH_IF_COMPILING(glFogCoordfv)
+#endif
+    gles_glFogCoordfv(coord);
+}
+void glFogCoordfv(const GLfloat * coord) __attribute__((alias("gl4es_glFogCoordfv"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glFogf
 void gl4es_glFogf(GLenum pname, GLfloat param) {
     LOAD_GLES(glFogf);
@@ -2595,6 +2625,24 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func();
             break;
         }
+        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *)packed;
+            ARGS_void_GLenum_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3);
+            break;
+        }
+        case FORMAT_void_GLfloat: {
+            PACKED_void_GLfloat *unpacked = (PACKED_void_GLfloat *)packed;
+            ARGS_void_GLfloat args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
+        case FORMAT_void_const_GLfloat___GENPT__: {
+            PACKED_void_const_GLfloat___GENPT__ *unpacked = (PACKED_void_const_GLfloat___GENPT__ *)packed;
+            ARGS_void_const_GLfloat___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1);
+            break;
+        }
         case FORMAT_void_GLenum_GLfloat: {
             PACKED_void_GLenum_GLfloat *unpacked = (PACKED_void_GLenum_GLfloat *)packed;
             ARGS_void_GLenum_GLfloat args = unpacked->args;
@@ -2792,21 +2840,9 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
-        case FORMAT_void_GLfloat: {
-            PACKED_void_GLfloat *unpacked = (PACKED_void_GLfloat *)packed;
-            ARGS_void_GLfloat args = unpacked->args;
-            unpacked->func(args.a1);
-            break;
-        }
         case FORMAT_void_GLfixed: {
             PACKED_void_GLfixed *unpacked = (PACKED_void_GLfixed *)packed;
             ARGS_void_GLfixed args = unpacked->args;
-            unpacked->func(args.a1);
-            break;
-        }
-        case FORMAT_void_const_GLfloat___GENPT__: {
-            PACKED_void_const_GLfloat___GENPT__ *unpacked = (PACKED_void_const_GLfloat___GENPT__ *)packed;
-            ARGS_void_const_GLfloat___GENPT__ args = unpacked->args;
             unpacked->func(args.a1);
             break;
         }
@@ -2849,12 +2885,6 @@ void glPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLfixed_GLfixed_GLfixed: {
             PACKED_void_GLfixed_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed_GLfixed *)packed;
             ARGS_void_GLfixed_GLfixed_GLfixed args = unpacked->args;
-            unpacked->func(args.a1, args.a2, args.a3);
-            break;
-        }
-        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
-            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *)packed;
-            ARGS_void_GLenum_GLsizei_const_GLvoid___GENPT__ args = unpacked->args;
             unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
@@ -3348,6 +3378,27 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
+        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__);
+            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLfloat: {
+            int sizeofpacked = sizeof(PACKED_void_GLfloat);
+            PACKED_void_GLfloat *newpacked = (PACKED_void_GLfloat*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_const_GLfloat___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_const_GLfloat___GENPT__);
+            PACKED_void_const_GLfloat___GENPT__ *newpacked = (PACKED_void_const_GLfloat___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
         case FORMAT_void_GLenum_GLfloat: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLfloat);
             PACKED_void_GLenum_GLfloat *newpacked = (PACKED_void_GLenum_GLfloat*)malloc(sizeofpacked);
@@ -3579,23 +3630,9 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
-        case FORMAT_void_GLfloat: {
-            int sizeofpacked = sizeof(PACKED_void_GLfloat);
-            PACKED_void_GLfloat *newpacked = (PACKED_void_GLfloat*)malloc(sizeofpacked);
-            memcpy(newpacked, packed, sizeofpacked);
-            return (packed_call_t*)newpacked;
-            break;
-        }
         case FORMAT_void_GLfixed: {
             int sizeofpacked = sizeof(PACKED_void_GLfixed);
             PACKED_void_GLfixed *newpacked = (PACKED_void_GLfixed*)malloc(sizeofpacked);
-            memcpy(newpacked, packed, sizeofpacked);
-            return (packed_call_t*)newpacked;
-            break;
-        }
-        case FORMAT_void_const_GLfloat___GENPT__: {
-            int sizeofpacked = sizeof(PACKED_void_const_GLfloat___GENPT__);
-            PACKED_void_const_GLfloat___GENPT__ *newpacked = (PACKED_void_const_GLfloat___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
@@ -3645,13 +3682,6 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLfixed_GLfixed_GLfixed: {
             int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed_GLfixed);
             PACKED_void_GLfixed_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed_GLfixed*)malloc(sizeofpacked);
-            memcpy(newpacked, packed, sizeofpacked);
-            return (packed_call_t*)newpacked;
-            break;
-        }
-        case FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__: {
-            int sizeofpacked = sizeof(PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__);
-            PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__ *newpacked = (PACKED_void_GLenum_GLsizei_const_GLvoid___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;

@@ -64,6 +64,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate;
     int secondary = state->colorsum && !(lighting && light_separate);
+    int fog = state->fog;
+    int fogmode = state->fogmode;
+    int fogsource = state->fogsource;
     int headers = 0;
     char buff[1024];
 
@@ -80,6 +83,12 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend("varying vec4 SecBackColor;\n");
             headers++;
         }
+    }
+    if(fog) {
+        ShadAppend("varying lowp vec4 FogColor;\n");
+        headers++;
+        ShadAppend("varying float FogF;\n");
+        headers++;
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
@@ -99,13 +108,16 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     ShadAppend("\nvoid main() {\n");
     // initial Color / lighting calculation
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
+    // lighting and some fog use this
+    if(lighting || (fog && fogsource==FPE_FOG_SRC_DEPTH)) {
+        ShadAppend("vec4 vertex = gl_ModelViewMatrix * gl_Vertex;\n");
+    }
     if(!lighting) {
         ShadAppend("Color = gl_Color;\n");
         if(secondary) {
             ShadAppend("SecColor = gl_SecondaryColor;\n");
         }
     } else {
-        ShadAppend("vec4 vertex = gl_ModelViewMatrix * gl_Vertex;\n");
         // material emission
         sprintf(buff, "Color = %s;\n", (state->cm_front_mode==FPE_CM_EMISSION)?"gl_Color":"gl_FrontMaterial.emission");
         ShadAppend(buff);
@@ -216,6 +228,23 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend(buff);
         }
     }
+    // Fog color
+    if(fog) {
+        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"length(vertex)":"gl_FogCoord");
+        ShadAppend(buff);
+        switch(fogmode) {
+            case FPE_FOG_EXP:
+                ShadAppend("FogF = exp(-gl_Fog.density * fog_c);\n");
+                break;
+            case FPE_FOG_EXP2:
+                ShadAppend("FogF = exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c));\n");
+                break;
+            case FPE_FOG_LINEAR:
+                ShadAppend("FogF = (gl_Fog.end - fog_c) * gl_Fog.scale;\n");
+                break;
+        }
+        ShadAppend("FogColor = gl_Fog.color;\n");
+    }
 
     ShadAppend("}\n");
 
@@ -230,6 +259,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int secondary = state->colorsum && !(lighting && light_separate);
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
+    int fog = state->fog;    
     int texenv_combine = 0;
     char buff[100];
 
@@ -247,8 +277,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if(alpha_test && alpha_func>FPE_NEVER) {
-        ShadAppend("uniform float _gl4es_AlphaRef;\n");
+    if(fog) {
+        ShadAppend("varying lowp vec4 FogColor;\n");
+        headers++;
+        ShadAppend("varying float FogF;\n");
         headers++;
     }
     // textures coordinates
@@ -277,6 +309,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             }
         }
     }
+    if(alpha_test && alpha_func>FPE_NEVER) {
+        ShadAppend("uniform float _gl4es_AlphaRef;\n");
+        headers++;
+    } 
 
     ShadAppend("void main() {\n");
     //*** initial color
@@ -289,7 +325,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
-                sprintf(buff, "lowp vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texsampler[t-1], i, i);
+                sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texsampler[t-1], i, i);
                 ShadAppend(buff);
             }
         }
@@ -492,12 +528,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             ShadAppend(buff);
         }
     }
-    //*** Fog
 
     //*** Add secondary color
     if(light_separate || secondary) {
         sprintf(buff, "fColor += vec4((%s).rgb, 0.);\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
         ShadAppend(buff);
+    }
+
+    //*** Fog
+    if(fog) {
+        ShadAppend("fColor.rgb = mix(FogColor.rgb, fColor.rgb, FogF);\n");
     }
 
     //done

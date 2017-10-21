@@ -117,6 +117,7 @@ typedef struct _renderlist_t {
     GLfloat lastNormal[3];
     GLfloat lastColors[4];
     GLfloat lastSecondaryColors[4];
+    GLfloat lastFogCoord;
 
     int lastColorsSet;
 
@@ -128,6 +129,7 @@ typedef struct _renderlist_t {
     GLfloat *normal;
     GLfloat *color;
     GLfloat *secondary;
+    GLfloat *fogcoord;
     GLfloat *tex[MAX_TEX];
     int *shared_indices;
     GLushort *indices;
@@ -222,4 +224,6 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) FASTMATH
 void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
 void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v);
+void rlFogCoordf(renderlist_t *list, GLfloat coord);
+
 #endif

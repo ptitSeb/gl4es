@@ -133,6 +133,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
         if(hardext.cubemap)
             strcat(extensions, "GL_ARB_texture_cube_map ");
         if(hardext.esversion>1) {
+            strcat(extensions, "GL_EXT_fog_coord ");
             strcat(extensions, "GL_ARB_ES2_compatibility ");
             /*strcat(extensions,
                 "GL_ARB_fragment_shader "
@@ -355,8 +356,11 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_FOG_INDEX:
             *params=glstate->fog.start;
             break;
-            case GL_FOG_COORD_SRC:
+        case GL_FOG_COORD_SRC:
             *params=glstate->fog.coord_src;
+            break;
+        case GL_CURRENT_FOG_COORD:
+            *params=glstate->fogcoord;
             break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
             *params=hardext.maxsize;

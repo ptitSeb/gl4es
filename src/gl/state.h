@@ -26,6 +26,7 @@ typedef struct {
               normal_rescale,
               lighting,
               alpha_test,
+              fog,
               color_material,
               blend,
               cull_face,
@@ -283,7 +284,7 @@ typedef struct {
     GLfloat             secondary[4];
     GLfloat             texcoord[MAX_TEX][4];
     GLfloat             normal[3];
-    GLfloat             fogcoord[4];
+    GLfloat             fogcoord;
     int	                render_mode;
     int                 polygon_mode;
     namestack_t         namestack;

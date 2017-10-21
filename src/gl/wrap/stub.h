@@ -9,10 +9,10 @@ void gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum
 void gl4es_glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);
 void gl4es_glDrawBuffer(GLenum mode);
 void gl4es_glEdgeFlag(GLboolean flag);
-void gl4es_glFogCoordd(GLdouble coord);
-void gl4es_glFogCoorddv(const GLdouble *coord);
-void gl4es_glFogCoordf(GLfloat coord);
-void gl4es_glFogCoordfv(const GLfloat *coord);
+//void gl4es_glFogCoordd(GLdouble coord);
+//void gl4es_glFogCoorddv(const GLdouble *coord);
+//void gl4es_glFogCoordf(GLfloat coord);
+//void gl4es_glFogCoordfv(const GLfloat *coord);
 //void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img);
 //void gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params);
 //void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params);

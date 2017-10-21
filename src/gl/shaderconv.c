@@ -30,7 +30,9 @@ const builtin_attrib_t builtin_attrib[] = {
     {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ATT_MULTITEXCOORD5},
     {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ATT_MULTITEXCOORD6},
     {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ATT_MULTITEXCOORD7},
-    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL}
+    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL},
+    {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", ATT_SECONDARY},
+    {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", ATT_FOGCOORD}
 };
 
 typedef struct {
@@ -138,6 +140,16 @@ const char* gl4es_PointSpriteSource =
 "};\n"
 "uniform gl_PointParameters gl_Point;\n";
 
+const char* gl4es_FogParametersSource =
+"struct gl_FogParameters {\n"
+"    vec4 color;\n"
+"    float density;\n"
+"    float start;\n"
+"    float end;\n"
+"    float scale;\n"   // Derived:   1.0 / (end - start) 
+"};\n"
+"uniform gl_FogParameters gl_Fog;\n";
+
 const char* gl4es_texenvcolorSource =
 "uniform vec4 gl_TextureEnvColor[gl_MaxTextureUnits];\n";
 
@@ -165,7 +177,7 @@ const char* gl4es_texcoordSource =
 "varying mediump vec4 _gl4es_TexCoord[%d];\n";
 
 const char* gl4es_fogcoordSource =
-"varying mediump vec4 _gl4es_FogFragCoord;\n";
+"varying mediump vec4 _gl4es_FogCoord;\n";
 
 const char* gl4es_ftransformSource = 
 "highp vec4 ftransform() {\n"
@@ -350,6 +362,15 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     }
   if(strstr(Tmp, "gl_Point"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Point", "_gl4es_Point");
+  if(strstr(Tmp, "gl_FogParameters") || strstr(Tmp, "gl_Fog"))
+    {
+      Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_FogParametersSource));
+      InplaceInsert(GetLine(Tmp, headline), gl4es_FogParametersSource);
+      headline+=CountLine(gl4es_FogParametersSource);
+      Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogParameters", "_gl4es_FogParameters");
+    }
+  if(strstr(Tmp, "gl_Fog"))
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Fog", "_gl4es_Fog");
   if(strstr(Tmp, "gl_TextureEnvColor")) {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_texenvcolorSource));
     InplaceInsert(GetLine(Tmp, headline), gl4es_texenvcolorSource);
