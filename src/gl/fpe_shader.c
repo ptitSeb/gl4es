@@ -408,6 +408,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 }
                                 ShadAppend(buff);
                             }
+                                
                             switch(combine_rgb) {
                                 case FPE_CR_REPLACE:
                                     ShadAppend("fColor.rgb = Arg0.rgb;\n");
@@ -454,6 +455,14 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 case FPE_CR_SUBTRACT:
                                     ShadAppend("fColor.a = Arg0.a - Arg1.a;\n");
                                     break;
+                            }
+                            if((state->texrgbscale>>i)&1) {
+                                sprintf(buff, "fColor.rgb *= _gl4es_TexEnvRGBScale_%d;\n", i);
+                                ShadAppend(buff);
+                            }
+                            if((state->texalphascale>>i)&1) {
+                                sprintf(buff, "fColor.a *= _gl4es_TexEnvAlphaScale_%d;\n", i);
+                                ShadAppend(buff);
                             }
                         }
                         break;
