@@ -547,6 +547,16 @@ void gl4es_glLinkProgram(GLuint program) {
                 glprogram->cache.cache = malloc(glprogram->cache.cap);
             }
             memset(glprogram->cache.cache, 0, glprogram->cache.cap);
+            //Maybe Sampler uniform should not be initialized to 0, but to -1, to be sure the value is initialized?
+            if(glprogram->uniform) {
+                uniform_t *m;
+                khint_t k;
+                kh_foreach(glprogram->uniform, k, m,
+                    if(m->type == GL_SAMPLER_2D || m->type == GL_SAMPLER_CUBE)
+                        memset(glprogram->cache.cache+m->cache_offs, 0xff, m->cache_size);
+                )
+            }
+        
             // Grab all Attrib
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_ATTRIBUTES, &n);
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxsize);
