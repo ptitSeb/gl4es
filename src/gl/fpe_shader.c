@@ -60,7 +60,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     // vertex is first called, so 1st time init is only here
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
-    int twosided = state->twosided && state->lighting;
+    int lighting = state->lighting;
+    int twosided = state->twosided && lighting;
+    int light_separate = state->light_separate;
+    int secondary = state->colorsum && !(lighting && light_separate);
     int headers = 0;
     char buff[1024];
 
@@ -70,7 +73,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("varying vec4 BackColor;\n");
         headers++;
     }
-    if(state->light_separate) {
+    if(light_separate || secondary) {
         ShadAppend("varying vec4 SecColor;\n");
         headers++;
         if(twosided) {
@@ -96,8 +99,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     ShadAppend("\nvoid main() {\n");
     // initial Color / lighting calculation
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
-    if(!state->lighting) {
+    if(!lighting) {
         ShadAppend("Color = gl_Color;\n");
+        if(secondary) {
+            ShadAppend("SecColor = gl_SecondaryColor;\n");
+        }
     } else {
         ShadAppend("vec4 vertex = gl_ModelViewMatrix * gl_Vertex;\n");
         // material emission
@@ -115,7 +121,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)?"gl_Color":"gl_BackMaterial.ambient");
             ShadAppend(buff);
         }
-        if(state->light_separate) {
+        if(light_separate) {
             ShadAppend("SecColor=vec4(0.);\n");
             if(twosided)
                 ShadAppend("SecBackColor=vec4(0.);\n");
@@ -221,6 +227,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
+    int secondary = state->colorsum && !(lighting && light_separate);
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
     int texenv_combine = 0;
@@ -232,7 +239,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend("varying vec4 BackColor;\n");
         headers++;
     }
-    if(light_separate) {
+    if(light_separate || secondary) {
         ShadAppend("varying vec4 SecColor;\n");
         headers++;
         if(twosided) {
@@ -487,8 +494,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     }
     //*** Fog
 
-    //*** Add secondary colors
-    if(light_separate) {
+    //*** Add secondary color
+    if(light_separate || secondary) {
         sprintf(buff, "fColor += vec4((%s).rgb, 0.);\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
         ShadAppend(buff);
     }

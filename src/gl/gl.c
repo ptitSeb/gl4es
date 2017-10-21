@@ -394,6 +394,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
         clientGO(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        clientGO(GL_FOG_COORD_ARRAY, fog_array);
 	
         // for glDrawArrays
         clientGO(GL_VERTEX_ARRAY, vertex_array);
@@ -904,10 +905,15 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
 			GLuint old_tex = glstate->texture.client;
-            // secondry color and color sizef != 4 are "intercepted" and draw using a list
+            // secondry color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
             client_state(color_array, GL_COLOR_ARRAY, );
             if (glstate->vao->color_array)
                 gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+            if(hardext.esversion>1) {
+                client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
+                if (glstate->vao->secondary_array)
+                    fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
+            }
             client_state(normal_array, GL_NORMAL_ARRAY, );
             if (glstate->vao->normal_array)
                 gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
@@ -1060,6 +1066,11 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             client_state(color_array, GL_COLOR_ARRAY, );    
             if (glstate->vao->color_array)
                 gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+            if(hardext.esversion>1) {
+                client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
+                if (glstate->vao->secondary_array)
+                    fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
+            }
             client_state(normal_array, GL_NORMAL_ARRAY, );
             if (glstate->vao->normal_array)
                 gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);

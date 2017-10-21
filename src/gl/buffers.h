@@ -62,7 +62,7 @@ typedef struct {
 } pointer_state_t;
 
 typedef struct {
-    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary;
+    pointer_state_t vertex, color, normal, tex_coord[MAX_TEX], secondary, fog_coord;
 } pointer_states_t;
 
 typedef struct {
@@ -98,6 +98,7 @@ typedef struct {
                color_array,
                normal_array,
                vertex_array,
+               fog_array,
                tex_coord_array[MAX_TEX];
     // VAO optimisation: keep a shared copy of the digested datas (unless the vao is the default one)
     int *shared_arrays;
@@ -105,6 +106,7 @@ typedef struct {
     pointer_cache_t normal;
     pointer_cache_t color;
     pointer_cache_t secondary;
+    pointer_cache_t fog;
     pointer_cache_t tex[MAX_TEX];
     int cache_count;
     // Vertex Attrib

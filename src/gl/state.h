@@ -216,7 +216,9 @@ typedef struct {
 typedef struct {
     GLboolean   vertex_array,
                 color_array,
+                secondary_array,
                 normal_array,
+                fog_array,
                 tex_coord_array[MAX_TEX];
 } clientstate_t;
 
@@ -250,6 +252,7 @@ typedef struct {
     color_array,
     normal_array,
     vertex_array,
+    fog_array,
     tex_coord_array[MAX_TEX];
 
     GLuint          client; //active client texture
@@ -258,6 +261,7 @@ typedef struct {
     pointer_state_t normal;
     pointer_state_t color;
     pointer_state_t secondary;
+    pointer_state_t fog;
     pointer_state_t tex[MAX_TEX];
 
     char*           shadersource; // scrach buffer for fpe shader construction
@@ -279,6 +283,7 @@ typedef struct {
     GLfloat             secondary[4];
     GLfloat             texcoord[MAX_TEX][4];
     GLfloat             normal[3];
+    GLfloat             fogcoord[4];
     int	                render_mode;
     int                 polygon_mode;
     namestack_t         namestack;

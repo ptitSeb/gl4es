@@ -218,6 +218,12 @@
 #define GL_FRAGMENT_DEPTH       0x8452
 #define GL_FOG_COORDINATE       0x8451
 #define GL_FOG_COORD            GL_FOG_COORDINATE
+#define GL_CURRENT_FOG_COORD              0x8453
+#define GL_FOG_COORD_ARRAY_TYPE           0x8454
+#define GL_FOG_COORD_ARRAY_STRIDE         0x8455
+#define GL_FOG_COORD_ARRAY_POINTER        0x8456
+#define GL_FOG_COORD_ARRAY                0x8457
+#define GL_FOG_COORD_ARRAY_BUFFER_BINDING 0x889D
 
 // lighting
 #define GL_LIGHTING             0x0B50
