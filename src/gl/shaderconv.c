@@ -76,6 +76,8 @@ const builtin_matrix_t builtin_matrix[] = {
 #define STR(x) STR_HELPER(x)
 const char* gl4es_MaxLightsSource =
 "#define _gl4es_MaxLights " STR(MAX_LIGHT) "\n";
+const char* gl4es_MaxClipPlanesSource =
+"#define _gl4es_MaxClipPlanes " STR(MAX_CLIP_PLANES) "\n";
 #undef STR
 #undef STR_HELPER
 
@@ -165,6 +167,12 @@ const char* gl4es_texgenobjSource[4] = {
 "uniform vec4 gl_ObjectPlaneR[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_ObjectPlaneQ[gl_MaxTextureCoords];\n" };
 
+const char* gl4es_clipplanesSource = 
+"uniform vec4  gl_ClipPlane[gl_MaxClipPlanes];\n";
+
+const char* gl4es_normalscaleSource =
+"uniform float gl_NormalScale;\n";
+
 const char* gl4es_colorSource =
 "varying lowp vec4 _gl4es_FrontColor;\n"
 "varying lowp vec4 _gl4es_BackColor;\n";
@@ -180,8 +188,9 @@ const char* gl4es_fogcoordSource =
 "varying mediump vec4 _gl4es_FogCoord;\n";
 
 const char* gl4es_ftransformSource = 
+"\n"
 "highp vec4 ftransform() {\n"
-" return _gl4es_ModelViewProjectionMatrix * _gl4es_Vertex;\n"
+" return gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "}\n";
 
 char* ConvertShader(const char* pBuffer, int isVertex)
@@ -263,6 +272,14 @@ char* ConvertShader(const char* pBuffer, int isVertex)
   }
   Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FragDepth", (hardext.fragdepth)?"gl_FragDepthEXT":"fakeFragDepth");
   {
+    // check for ftransform function
+    if(isVertex) {
+      if(strstr(Tmp, "ftransform(")) {
+        Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_ftransformSource));
+        InplaceInsert(GetLine(Tmp, headline), gl4es_ftransformSource);
+        // don't increment headline count, as all variying and attributes should be created before
+      }
+    }
     // check for builtin matrix uniform...
     int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
     for (int i=0; i<n; i++) {
@@ -348,10 +365,24 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     headline+=CountLine(gl4es_MaxLightsSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxLights", "_gl4es_MaxLights");
   }
-  if(strstr(Tmp, "gl_NormalScale"))
+  if(strstr(Tmp, "gl_NormalScale")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_normalscaleSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_normalscaleSource);
+    headline+=CountLine(gl4es_normalscaleSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_NormalScale", "_gl4es_NormalScale");
-  if(strstr(Tmp, "gl_ClipPlane"))
+  }
+  if(strstr(Tmp, "gl_ClipPlane")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_clipplanesSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_clipplanesSource);
+    headline+=CountLine(gl4es_clipplanesSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipPlane", "_gl4es_ClipPlane");
+  }
+  if(strstr(Tmp, "gl_MaxClipPlanes")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_MaxClipPlanesSource));
+    InplaceInsert(GetLine(Tmp, 2), gl4es_MaxClipPlanesSource);
+    headline+=CountLine(gl4es_MaxClipPlanesSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxClipPlanes", "_gl4es_MaxClipPlanes");
+  }
 
   if(strstr(Tmp, "gl_PointParameters") || strstr(Tmp, "gl_Point"))
     {
@@ -455,14 +486,6 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource);
     headline+=CountLine(gl4es_fogcoordSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
-  }
-  // check for ftransform function
-  if(isVertex) {
-    if(strstr(Tmp, "ftransform(")) {
-      Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_ftransformSource));
-      InplaceInsert(GetLine(Tmp, headline), gl4es_ftransformSource);
-      headline+=CountLine(gl4es_ftransformSource);
-    }
   }
 
   
