@@ -431,7 +431,7 @@ void realize_glenv() {
             if(w->vaarray) {
                 w->size = p->size;
                 w->type = p->type;
-                w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
@@ -501,7 +501,7 @@ void realize_glenv() {
                 if(w->vaarray) {
                     w->size = p->size;
                     w->type = p->type;
-                    w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                    w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
                     w->stride = p->stride;
                     w->pointer = p->pointer;
                     w->buffer = NULL;
@@ -519,7 +519,7 @@ void realize_glenv() {
             if(w->vaarray) {
                 w->size = p->size;
                 w->type = p->type;
-                w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
+                w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
