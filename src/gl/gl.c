@@ -298,8 +298,8 @@ static void fpe_changetex(int n, int state)
     /*
     TODO: should update the fpe texture state
     if(glstate->fpe_state) {
-        glstate->fpe_state->texformat &= 3<<(glstate->texture.active*2);
-        glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*2);
+        glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
+        glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
     }
     */
 }

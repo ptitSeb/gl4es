@@ -18,8 +18,10 @@ const char* dummy_frag = \
 "gl_FragColor = Color;\n"
 "}\n";
 
-char* shad = NULL;
-int shad_cap = 0;
+static char* shad = NULL;
+static int shad_cap = 0;
+
+const int comments = 1;
 
 #define ShadAppend(S) shad = Append(shad, &shad_cap, S)
 
@@ -56,6 +58,27 @@ const char* fpe_texenvSrc(int src, int tmu, int twosided) {
     return buff;
 }
 
+char* fpe_packed(int x, int s, int k) {
+    static char buff[8][30];
+    static int idx = 0;
+
+    idx&=7;
+    int mask = (1<<k)-1;
+
+    const char *hex = "0123456789ABCDEF";
+
+    buff[idx][s] = '\0';
+    for (int i; i<s; i++) {
+        buff[idx][(s-1)-i] = hex[(x&mask)];
+        x>>=k;
+    }
+    return buff[idx++];
+}
+char* fpe_binary(int x, int s) {
+    return fpe_packed(x, s, 1);
+}
+    
+
 const char* const* fpe_VertexShader(fpe_state_t *state) {
     // vertex is first called, so 1st time init is only here
     if(!shad_cap) shad_cap = 1024;
@@ -67,11 +90,20 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int fog = state->fog;
     int fogmode = state->fogmode;
     int fogsource = state->fogsource;
+    int color_material = state->color_material;
     int headers = 0;
     int planes = state->plane;
     char buff[1024];
 
-    strcpy(shad, "varying vec4 Color;\n");  // might be unused...
+    shad[0] = '\0';
+
+    if(comments) {
+        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, fog=%d(mode=%d source=%d), planes=%s\n// texture=%s\n",
+            lighting, twosided, light_separate, color_material, secondary, fog, fogmode, fogsource, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2));
+        ShadAppend(buff);
+        headers+=CountLine(buff);
+    }
+    ShadAppend("varying vec4 Color;\n");  // might be unused...
     headers++;
     if(twosided) {
         ShadAppend("varying vec4 BackColor;\n");
@@ -125,19 +157,34 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend("SecColor = gl_SecondaryColor;\n");
         }
     } else {
-        // material emission
-        sprintf(buff, "Color = %s;\n", (state->cm_front_mode==FPE_CM_EMISSION)?"gl_Color":"gl_FrontMaterial.emission");
-        ShadAppend(buff);
-        if(twosided) {
-            sprintf(buff, "vec4 BackColor = %s;\n", (state->cm_back_mode==FPE_CM_EMISSION)?"gl_Color":"gl_BackMaterial.emission");
+        if(comments) {
+            sprintf(buff, "// ColorMaterial On/Off=%d Front = %d Back = %d\n", color_material, state->cm_front_mode, state->cm_back_mode);
             ShadAppend(buff);
         }
-        sprintf(buff, "Color += %s*gl_FrontLightModelProduct.sceneColor;\n", 
-            (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE)?"gl_Color":"gl_FrontMaterial.ambient");
+        // material emission
+        char fm_emission[60], fm_ambient[60], fm_diffuse[60], fm_specular[60];
+        char bm_emission[60], bm_ambient[60], bm_diffuse[60], bm_specular[60];
+        sprintf(fm_emission, "%s", (color_material && state->cm_front_mode==FPE_CM_EMISSION)?"gl_Color":"gl_FrontMaterial.emission");
+        sprintf(fm_ambient, "%s", (color_material && (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_FrontMaterial.ambient");
+        sprintf(fm_diffuse, "%s", (color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_FrontMaterial.diffuse");
+        sprintf(fm_specular, "%s", (color_material && state->cm_front_mode==FPE_CM_SPECULAR)?"gl_Color":"gl_FrontMaterial.specular");
+        if(twosided) {
+            sprintf(bm_emission, "%s", (color_material && state->cm_back_mode==FPE_CM_EMISSION)?"gl_Color":"gl_BackMaterial.emission");
+            sprintf(bm_ambient, "%s", (color_material && (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_BackMaterial.ambient");
+            sprintf(bm_diffuse, "%s", (color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_BackMaterial.diffuse");
+            sprintf(bm_specular, "%s", (color_material && state->cm_back_mode==FPE_CM_SPECULAR)?"gl_Color":"gl_BackMaterial.specular");
+        }
+
+        sprintf(buff, "Color = %s;\n", fm_emission);
         ShadAppend(buff);
         if(twosided) {
-            sprintf(buff, "Color += %s*gl_BackLightModelProduct.sceneColor;\n", 
-                (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)?"gl_Color":"gl_BackMaterial.ambient");
+            sprintf(buff, "vec4 BackColor = %s;\n", bm_emission);
+            ShadAppend(buff);
+        }
+        sprintf(buff, "Color += %s*gl_FrontLightModelProduct.sceneColor;\n", fm_ambient);
+        ShadAppend(buff);
+        if(twosided) {
+            sprintf(buff, "Color += %s*gl_BackLightModelProduct.sceneColor;\n", bm_ambient);
             ShadAppend(buff);
         }
         if(light_separate) {
@@ -158,6 +205,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("vec3 normal = gl_NormalMatrix * gl_Normal;\n");
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
+                if(comments) {
+                    sprintf(buff, "// light %d on, light_direction=%d, light_cutoff180=%d\n", i, (state->light_direction>>i&1), (state->light_cutoff180>>i&1));
+                    ShadAppend(buff);
+                }
                 // enabled light i
                 sprintf(buff, "VP = gl_LightSource[%d].position - vertex;\n", i);
                 ShadAppend(buff);
@@ -182,16 +233,16 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
                 sprintf(buff, "nVP = max(dot(normal, VP.xyz), 0.);fi=(nVP!=0.)?1.:0.;\n");
                 ShadAppend(buff);
-                sprintf(buff, "aa = gl_FrontMaterial.ambient * gl_LightSource[%d].ambient;\n", i);
+                sprintf(buff, "aa = %s * gl_LightSource[%d].ambient;\n", fm_ambient, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "back_aa = gl_BackMaterial.ambient * gl_LightSource[%d].ambient;\n", i);
+                    sprintf(buff, "back_aa = %s * gl_LightSource[%d].ambient;\n", bm_ambient, i);
                     ShadAppend(buff);
                 }
-                sprintf(buff, "dd = nVP * gl_FrontMaterial.diffuse * gl_LightSource[%d].diffuse;\n", i);
+                sprintf(buff, "dd = nVP * %s * gl_LightSource[%d].diffuse;\n", fm_diffuse, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "back_dd = nVP * gl_BackMaterial.diffuse * gl_LightSource[%d].diffuse;\n", i);
+                    sprintf(buff, "back_dd = nVP * %s * gl_LightSource[%d].diffuse;\n", bm_diffuse, i);
                     ShadAppend(buff);
                 }
                 if(state->light_localviewer) {
@@ -199,10 +250,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 } else {
                     ShadAppend("hi = VP;\n");
                 }
-                sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_FrontMaterial.shininess)*gl_FrontMaterial.specular*gl_LightSource[%d].specular;\n", i);
+                sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_FrontMaterial.shininess)*%s*gl_LightSource[%d].specular;\n", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_BackMaterial.shininess)*gl_BackMaterial.specular*gl_LightSource[%d].specular;\n", i);
+                    sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_BackMaterial.shininess)*%s*gl_LightSource[%d].specular;\n", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
@@ -217,17 +268,30 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     if(twosided)
                         ShadAppend("BackColor += att*(back_aa+back_dd+back_ss);\n");
                 }
-                ShadAppend("Color.a = gl_FrontMaterial.diffuse.a;\n");
-                if(twosided)
-                    ShadAppend("BackColor.a = gl_BackMaterial.diffuse.a;\n");
+                if(comments) {
+                    sprintf(buff, "// end of light %d\n", i);
+                    ShadAppend(buff);
+                }
             }
+        }
+        sprintf(buff, "Color.a = %s.a;\n", fm_diffuse);
+        ShadAppend(buff);
+        if(twosided) {
+            sprintf(buff, "BackColor.a = %s.a;\n", bm_diffuse);
+            ShadAppend(buff);
         }
     }
     // calculate texture coordinates
+    if(comments)
+        ShadAppend("// texturing\n");
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
         int mat = state->textmat&(1<<i)?1:0;
         if(t) {
+            if(comments) {
+                sprintf(buff, "// texture %d active: %X %s\n", i, t, mat?"with matrix":"");
+                ShadAppend(buff);
+            }
             if(mat)
                 sprintf(buff, "_gl4es_TexCoord_%d = (gl_MultiTexCoord%d * _gl4es_TextureMatrix_%d).%s;\n", i, i, i, texxyzsize[t-1]);
             else
@@ -236,7 +300,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
     }
     // Fog color
+    if(comments)
+        ShadAppend("// Fog\n");
     if(fog) {
+        if(comments) {
+            sprintf(buff, "// Fog On: mode=%X, source=%X\n", fogmode, fogsource);
+            ShadAppend(buff);
+        }
         sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"abs(vertex.z)":"gl_FogCoord"); // either vertex.z of length(vertex), let's choose the faster here
         ShadAppend(buff);
         switch(fogmode) {
@@ -269,9 +339,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int fog = state->fog;  
     int planes = state->plane;  
     int texenv_combine = 0;
-    char buff[100];
+    char buff[1024];
 
-    strcpy(shad, "varying vec4 Color;\n");
+    shad[0] = '\0';
+
+    if(comments) {
+        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texture=%s, texformat=%s\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), fpe_packed(state->texformat, 24, 3));
+        ShadAppend(buff);
+        headers+=CountLine(buff);
+    }
+    ShadAppend("varying vec4 Color;\n");
     headers++;
     if(twosided) {
         ShadAppend("varying vec4 BackColor;\n");
@@ -362,10 +439,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             if(t) {
                 int texenv = (state->texenv>>(i*3))&0x07;
                 int texformat = (state->texformat>>(i*3))&0x07;
+                if(comments) {
+                    sprintf(buff, "// Texture %d active: %X, texenv=%X, format=%X\n", i, t, texenv, texformat);
+                    ShadAppend(buff);
+                }
+                int needclamp = 1;
                 switch (texenv) {
                     case FPE_MODULATE:
                         sprintf(buff, "fColor *= texColor%d;\n", i);
                         ShadAppend(buff);
+                        needclamp = 0;
                         break;
                     case FPE_ADD:
                         if(texformat!=FPE_TEX_ALPHA) {
@@ -379,15 +462,34 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         ShadAppend(buff);
                         break;
                     case FPE_DECAL:
-                        sprintf(buff, "fColor.rgb = fColor.rgb*(1.-texColor%d.a) + texColor%d.rgb*texColor%d.a;\n", i, i, i);
+                        sprintf(buff, "fColor.rgb = mix(fColor.rgb, texColor%d.rgb, texColor%d.a);\n", i, i);
                         ShadAppend(buff);
+                        needclamp = 0;
                         break;
                     case FPE_BLEND:
+                        // create the Uniform for TexEnv Constant color
+                        sprintf(buff, "uniform lowp vec4 _gl4es_TextureEnvColor_%d;\n", i);
+                        shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
+                        InplaceInsert(GetLine(buff, headers), buff);
+                        headers+=CountLine(buff);
+                        needclamp=0;
                         if(texformat!=FPE_TEX_ALPHA) {
-                            sprintf(buff, "fColor.rgb = fColor.rgb*(vec3(1.)-texColor%d.rgb) + texColor%d.rgb*texColor%d.rgb;\n", i, i, i);
+                            sprintf(buff, "fColor.rgb = mix(fColor.rgb, _gl4es_TextureEnvColor_%d.rgb, texColor%d.rgb);\n", i, i, i);
                             ShadAppend(buff);
                         }
-                        sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                        switch(texformat) {
+                            case FPE_TEX_LUM:
+                            case FPE_TEX_RGB:
+                                // no change in alpha channel
+                                break;
+                            case FPE_TEX_INTENSITY:
+                                sprintf(buff, "fColor.a = mix(fColor.a, _gl4es_TextureEnvColor_%d.a, texColor%d.a);\n", i, i, i);
+                                ShadAppend(buff);
+                                break;
+                            default:
+                                sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                                ShadAppend(buff);
+                        }
                         ShadAppend(buff);
                         break;
                     case FPE_REPLACE:
@@ -438,6 +540,12 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             for (int j=0; j<3; j++) {
                                 if (src_a[j]==FPE_SRC_CONSTANT)
                                     constant=1;
+                            }
+                            if(comments) {
+                                sprintf(buff, " //  Combine RGB: fct=%d, Src/Op: 0=%d/%d 1=%d/%d 2=%d/%d\n", combine_rgb, src_r[0], op_r[0], src_r[1], op_r[1], src_r[2], op_r[2]);
+                                ShadAppend(buff);
+                                sprintf(buff, " //  Combine Alpha: fct=%d, Src/Op: 0=%d/%d 1=%d/%d 2=%d/%d\n", combine_alpha, src_a[0], op_a[0], src_a[1], op_a[1], src_a[2], op_a[2]);
+                                ShadAppend(buff);
                             }
                             if(constant) {
                                 // yep, create the Uniform
@@ -533,12 +641,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         }
                         break;
                 }
-                ShadAppend("fColor = clamp(fColor, 0., 1.);\n");
+                if(needclamp)
+                    ShadAppend("fColor = clamp(fColor, 0., 1.);\n");
             }
         }
     }
     //*** Alpha Test
     if(alpha_test) {
+        if(comments) {
+            sprintf(buff, "// Alpha Test, fct=%X\n", alpha_func);
+            ShadAppend(buff);
+        }
         if(alpha_func==GL_ALWAYS) {
             // nothing here...
         } else if (alpha_func==GL_NEVER) {
@@ -554,12 +667,19 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
 
     //*** Add secondary color
     if(light_separate || secondary) {
+        if(comments) {
+            sprintf(buff, "// Add Secondary color (%s %s)\n", light_separate?"light":"", secondary?"secondary":"");
+            ShadAppend(buff);
+        }
         sprintf(buff, "fColor += vec4((%s).rgb, 0.);\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
         ShadAppend(buff);
     }
 
     //*** Fog
     if(fog) {
+        if(comments) {
+            ShadAppend("// Fog ebabled\n");
+        }
         ShadAppend("fColor.rgb = mix(FogColor.rgb, fColor.rgb, FogF);\n");
     }
 

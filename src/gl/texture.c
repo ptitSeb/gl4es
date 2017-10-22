@@ -656,7 +656,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if (bound) bound->alpha = pixel_hasalpha(format);
     // fpe internal format tracking
     if(glstate->fpe) {
-        bound->fpe_format = FPE_TEX_RGBA; // most are RGB/RGBA
+        bound->fpe_format = FPE_TEX_RGBA; // most are RGBA
         if (internalformat==GL_ALPHA4 || internalformat==GL_ALPHA8 || internalformat==GL_ALPHA16)
             bound->fpe_format = FPE_TEX_ALPHA;
         else if (internalformat==1 || internalformat==GL_LUMINANCE4 || internalformat==GL_LUMINANCE8 || internalformat==GL_LUMINANCE16)
@@ -1339,6 +1339,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->alpha = true;
         tex->compressed = false;
         tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+        tex->fpe_format = FPE_TEX_RGBA;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
         tex->inter_format = GL_RGBA;
@@ -1639,7 +1640,8 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 			tex->streamed = false;
             tex->alpha = true;
             tex->compressed = false;
-			tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+            tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+            tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
             tex->inter_format = GL_RGBA;
