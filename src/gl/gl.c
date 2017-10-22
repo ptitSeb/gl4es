@@ -297,13 +297,19 @@ static void fpe_changetex(int n, int state)
 
     glstate->fpe_state->texture |= texmode<<(n*2);
 
-    /*
-    TODO: should update the fpe texture state
-    if(glstate->fpe_state) {
-        glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
-        glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
+    if(texmode) {
+        int target = ENABLED_TEX1D; // lowest priority
+        int itarget = glstate->enable.texture[glstate->texture.active];
+        if(itarget && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
+        if(itarget && (1<<ENABLED_TEX2D)) target = ENABLED_TEX2D;
+        if(itarget && (1<<ENABLED_TEX3D)) target = ENABLED_TEX3D;
+        if(itarget && (1<<ENABLED_CUBE_MAP)) target = ENABLED_CUBE_MAP;
+        gltexture_t* tex = glstate->texture.bound[glstate->texture.active][target];
+        if(tex) {
+            glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
+            glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
+        }
     }
-    */
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  

@@ -67,9 +67,10 @@ char* fpe_packed(int x, int s, int k) {
 
     const char *hex = "0123456789ABCDEF";
 
-    buff[idx][s] = '\0';
+    int j=s/k;
+    buff[idx][j] = '\0';
     for (int i=0; i<s; i+=k) {
-        buff[idx][(s-1)-i] = hex[(x&mask)];
+        buff[idx][--j] = hex[(x&mask)];
         x>>=k;
     }
     return buff[idx++];
@@ -210,7 +211,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(buff, "VP = gl_LightSource[%d].position - vertex;\n", i);
                 ShadAppend(buff);
                 // att depend on light position w
-                if((state->light_direction>>i&1)==0) {
+                if((state->light_direction>>i&1)!=0) { // flag track if light is a directionnal light, so if w==0
                     ShadAppend("att = 1.0;\n");
                 } else {
                     ShadAppend("lVP = length(VP);\n");
@@ -264,6 +265,14 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend("Color += att*(aa+dd+ss);\n");
                     if(twosided)
                         ShadAppend("BackColor += att*(back_aa+back_dd+back_ss);\n");
+                }
+                ShadAppend("Color = clamp(Color, 0., 1.);\n");
+                if(twosided)
+                    ShadAppend("SecColor = clamp(SecColor, 0., 1.);\n");
+                if(state->light_separate) {
+                    ShadAppend("BackColor = clamp(BackColor, 0., 1.);\n");
+                    if(twosided)
+                        ShadAppend("SecBackColor = clamp(SecBackColor, 0., 1.);\n");
                 }
                 if(comments) {
                     sprintf(buff, "// end of light %d\n", i);
@@ -429,8 +438,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                 int needclamp = 1;
                 switch (texenv) {
                     case FPE_MODULATE:
-                        sprintf(buff, "fColor *= texColor%d;\n", i);
-                        ShadAppend(buff);
+                        if(texformat==FPE_TEX_RGB || texformat==FPE_TEX_LUM) {
+                            sprintf(buff, "fColor.rgb *= texColor%d.rgb;\n", i);
+                            ShadAppend(buff);
+                        } else if(texformat==FPE_TEX_ALPHA) {
+                            sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
+                            ShadAppend(buff);
+                        } else {
+                            sprintf(buff, "fColor *= texColor%d;\n", i);
+                            ShadAppend(buff);
+                        }
                         needclamp = 0;
                         break;
                     case FPE_ADD:
