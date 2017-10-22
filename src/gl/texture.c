@@ -1084,13 +1084,13 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         }
     }
 
+    int callgeneratemipmap = 0;
     if (level==0 && bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
         if(hardext.esversion<2) {
             // ES2 doesn't have this
         //    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE ); // not sure the usefullness of this call
         } else {
-            LOAD_GLES(glGenerateMipmap);
-            gles_glGenerateMipmap(rtarget);
+            callgeneratemipmap = 1;
         }
 
     if (bound && globals4es.texstream && bound->streamed) {
@@ -1148,8 +1148,10 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
             }
             if (ndata!=pixels)
                 free(ndata);
+        } else if(callgeneratemipmap) {
+            LOAD_GLES(glGenerateMipmap);
+            gles_glGenerateMipmap(rtarget);
         }
-
     }
 
     /*if (bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
