@@ -175,8 +175,8 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             }
             break;
         case GL_SPOT_DIRECTION:
-            //matrix_inverse(getMVMat(), mtmp);
-            vector3_matrix4(params, getMVMat(), tmp);
+            matrix_inverse(getMVMat(), mtmp);
+            vector3_matrix4(params,mtmp, tmp);
             if(memcmp(glstate->light.lights[nl].spotDirection, tmp, 3*sizeof(GLfloat))==0)
                 return;
             memcpy(glstate->light.lights[nl].spotDirection, tmp, 3*sizeof(GLfloat));
