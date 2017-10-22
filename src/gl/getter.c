@@ -377,6 +377,20 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_LOGIC_OP_MODE:
             *params=glstate->logicop;
             break;
+        case GL_BLEND_SRC:
+        case GL_BLEND_SRC_RGB:
+            *params=glstate->blendsfactorrgb;
+            break;
+        case GL_BLEND_DST:
+        case GL_BLEND_DST_RGB:
+            *params=glstate->blenddfactorrgb;
+            break;
+        case GL_BLEND_SRC_ALPHA:
+            *params=glstate->blendsfactoralpha;
+            break;
+        case GL_BLEND_DST_ALPHA:
+            *params=glstate->blenddfactoralpha;
+            break;
         case GL_MAX_CLIP_PLANES:
             *params=hardext.maxplanes;
             break;

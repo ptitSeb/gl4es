@@ -24,6 +24,10 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
 {
     PUSH_IF_COMPILING(glBlendFuncSeparate);
     LOAD_GLES_OR_OES(glBlendFuncSeparate);
+    if(sfactorRGB==glstate->blendsfactorrgb && dfactorRGB==glstate->blenddfactorrgb 
+        && sfactorAlpha==glstate->blendsfactoralpha && dfactorAlpha==glstate->blenddfactoralpha)
+        return; // no change...
+
 #ifndef PANDORA
     if(gles_glBlendFuncSeparate==NULL) {
         // some fallback function to have better rendering with SDL2, better then nothing...
@@ -38,6 +42,11 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
     } else
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+
+    glstate->blendsfactorrgb = sfactorRGB;
+    glstate->blenddfactorrgb = dfactorRGB;
+    glstate->blendsfactoralpha = sfactorAlpha;
+    glstate->blenddfactoralpha = dfactorAlpha;
 }
 void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("gl4es_glBlendFuncSeparate");
 void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("gl4es_glBlendFuncSeparate");
@@ -55,7 +64,7 @@ void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("gl4es
 
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if (glstate->list.active)
-        if (!glstate->list.compiling && glstate->gl_batch) {
+        /*if (!glstate->list.compiling && glstate->gl_batch) {
             if(glstate->blendsfactor == 0 && glstate->blenddfactor == 0) {
                 glstate->statebatch.blendfunc_s = glstate->blendsfactor;
                 glstate->statebatch.blendfunc_d = glstate->blenddfactor;
@@ -66,12 +75,22 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
                 glstate->statebatch.blendfunc_s = sfactor;
                 glstate->statebatch.blendfunc_d = dfactor;
             }
-        } 
+        }*/ //TODO: move to RGB/Alpha separate
 
     PUSH_IF_COMPILING(glBlendFunc)
+
+    if(sfactor==glstate->blendsfactorrgb && dfactor==glstate->blenddfactorrgb 
+        && sfactor==glstate->blendsfactoralpha && dfactor==glstate->blenddfactoralpha)
+        return; // already set
+
     LOAD_GLES(glBlendFunc);
     LOAD_GLES_OR_OES(glBlendFuncSeparate);
     errorGL();
+    
+    glstate->blendsfactorrgb = sfactor;
+    glstate->blenddfactorrgb = dfactor;
+    glstate->blendsfactoralpha = sfactor;
+    glstate->blenddfactoralpha = dfactor;
     // There are some limitations in GLES1.1 Blend functions
     switch(sfactor) {
         #if 0
@@ -133,10 +152,6 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         // special case, as seen in Xash3D, but it breaks torus_trooper, so behind a parameter
         sfactor = GL_ONE;
     }
-    if(glstate->blendsfactor==sfactor && glstate->blenddfactor==dfactor)
-        return; // already set
-    glstate->blendsfactor = sfactor;
-    glstate->blenddfactor = dfactor;
 #ifdef ODROID
     if(gles_glBlendFunc)
 #endif

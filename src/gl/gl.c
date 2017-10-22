@@ -137,8 +137,10 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->alphafunc = GL_ALWAYS;
     glstate->alpharef = 0.0f;
     // Blend
-    glstate->blendsfactor = GL_ONE;
-    glstate->blenddfactor = GL_ZERO;
+    glstate->blendsfactorrgb = GL_ONE;
+    glstate->blenddfactorrgb = GL_ZERO;
+    glstate->blendsfactoralpha = GL_ONE;
+    glstate->blenddfactoralpha = GL_ZERO;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
     glstate->pointsprite.sizeMax = 1.0f;

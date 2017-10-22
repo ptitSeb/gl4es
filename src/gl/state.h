@@ -323,8 +323,10 @@ typedef struct {
     GLenum              shademodel;
     GLenum              alphafunc;
     GLfloat             alpharef;
-    GLenum              blendsfactor;
-    GLenum              blenddfactor;
+    GLenum              blendsfactorrgb;
+    GLenum              blenddfactorrgb;
+    GLenum              blendsfactoralpha;
+    GLenum              blenddfactoralpha;
     GLenum              logicop;
     glsl_t              glsl;
     fpe_state_t         *fpe_state;

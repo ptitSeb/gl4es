@@ -338,6 +338,10 @@
 #define GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
 #define GL_DOT3_RGB_EXT         0x8740
 #define GL_DOT3_RGBA_EXT        0x8741
+#define GL_BLEND_DST_RGB        0x80C8
+#define GL_BLEND_SRC_RGB        0x80C9
+#define GL_BLEND_DST_ALPHA      0x80CA
+#define GL_BLEND_SRC_ALPHA      0x80CB
 
 // glGet
 #define GL_AUX_BUFFERS           0x0C00

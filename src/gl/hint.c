@@ -21,6 +21,11 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
                 return;
             gles_glHint(pname, mode);
             break;
+        case GL_LINE_SMOOTH_HINT:
+            if(hardext.esversion>1)
+                return;
+            gles_glHint(pname, mode);
+            break;
         // specifics GL4ES Hints
         case GL_SHRINK_HINT_GL4ES:
             if (mode<=10)
