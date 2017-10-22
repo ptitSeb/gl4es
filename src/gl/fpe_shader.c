@@ -246,7 +246,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend(buff);
                 }
                 if(state->light_localviewer) {
-                    ShadAppend("hi = VP + normalize(-V);\n");
+                    ShadAppend("hi = VP + normalize(-vertex);\n");
                 } else {
                     ShadAppend("hi = VP;\n");
                 }
@@ -293,7 +293,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 ShadAppend(buff);
             }
             if(mat)
-                sprintf(buff, "_gl4es_TexCoord_%d = (gl_MultiTexCoord%d * _gl4es_TextureMatrix_%d).%s;\n", i, i, i, texxyzsize[t-1]);
+                sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * gl_MultiTexCoord%d).%s;\n", i, i, i, texxyzsize[t-1]);
             else
                 sprintf(buff, "_gl4es_TexCoord_%d = gl_MultiTexCoord%d.%s;\n", i, i, texxyzsize[t-1]);
             ShadAppend(buff);
@@ -407,12 +407,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
 
     //*** Clip Planes (it's probably not the best idea to do that here...)
     if(planes) {
+        ShadAppend("if(");
+        int k=0;
         for (int i=0; i<hardext.maxplanes; i++) {
             if(planes>>i) {
-                sprintf(buff, "if(dot(vertex, gl_clipPlane[%d])<0) discard;\n");
+                sprintf(buff, "%s(dot(gl_ClipPlane[%d], vertex)<0.)", k?"||":"",  i);
                 ShadAppend(buff);
+                k=1;
             }
         }
+        ShadAppend(") discard;\n");
     }
 
     //*** initial color

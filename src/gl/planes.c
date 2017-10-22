@@ -17,18 +17,17 @@ void gl4es_glClipPlanef(GLenum plane, const GLfloat *equation)
         errorShim(GL_INVALID_ENUM);
         return;
     }
-    LOAD_GLES(glClipPlanef);
+    LOAD_GLES2(glClipPlanef);
     if(gles_glClipPlanef) {
         errorGL();
         gles_glClipPlanef(plane, equation);
-    } else {
+    } else {    // TODO: should fist compute the clipplane and compare to stored one before sending to hardware
         int p = plane-GL_CLIP_PLANE0;
-        GLfloat ModelviewMatrix[16], InvModelview[16];
-        // column major -> row major
-        matrix_transpose(getMVMat(), ModelviewMatrix);
-        // And get the inverse
-        matrix_inverse(ModelviewMatrix, InvModelview);
-        matrix_vector(InvModelview, equation, glstate->planes[p]);
+        GLfloat ModeView[16], InvModelview[16];
+        matrix_transpose(getMVMat(), ModeView);
+        // get the inverse
+        matrix_inverse(ModeView, InvModelview);
+        vector_matrix(equation, InvModelview, glstate->planes[p]); // tested, this seems correct
         noerrorShim();
     }
 }
