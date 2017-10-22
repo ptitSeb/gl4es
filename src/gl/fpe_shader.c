@@ -68,7 +68,7 @@ char* fpe_packed(int x, int s, int k) {
     const char *hex = "0123456789ABCDEF";
 
     buff[idx][s] = '\0';
-    for (int i; i<s; i++) {
+    for (int i; i<s; i+=k) {
         buff[idx][(s-1)-i] = hex[(x&mask)];
         x>>=k;
     }

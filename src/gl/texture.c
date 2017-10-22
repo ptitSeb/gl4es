@@ -836,14 +836,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         }
-
+        int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound && bound->streamed)) {
             if (bound && (target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto)))
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else {
-                    LOAD_GLES(glGenerateMipmap);
-                    gles_glGenerateMipmap(rtarget);
+                    callgeneratemipmap = 1;
                 }
             else {
                 //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
@@ -903,6 +902,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 if (ndata!=pixels)
                     free(ndata);
+            } else if(callgeneratemipmap) {
+                LOAD_GLES(glGenerateMipmap);
+                gles_glGenerateMipmap(rtarget);
             }
             // check if max_level is set... and calculate highr level mipmap
             if(bound->max_level == level) {
