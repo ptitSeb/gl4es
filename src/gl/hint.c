@@ -10,6 +10,18 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
     LOAD_GLES(glHint);
     noerrorShim();
     switch(pname) {
+        // some Hint are not supported in GLES2, so just ignoring them
+        case GL_FOG_HINT:
+            if(hardext.esversion>1)
+                return;
+            gles_glHint(pname, mode);
+            break;
+        case GL_PERSPECTIVE_CORRECTION_HINT:
+            if(hardext.esversion>1)
+                return;
+            gles_glHint(pname, mode);
+            break;
+        // specifics GL4ES Hints
         case GL_SHRINK_HINT_GL4ES:
             if (mode<=10)
                 globals4es.texshrink = mode;
