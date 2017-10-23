@@ -79,7 +79,7 @@ DBG(printf("init_matrix(%p)\n", glstate);)
 
 void set_fpe_textureidentity() {
 	if(glstate->texture_matrix[glstate->texture.active]->identity)	// inverted in fpe flags
-		glstate->fpe_state->textmat &= 1<<glstate->texture.active;
+		glstate->fpe_state->textmat &= ~(1<<glstate->texture.active);
 	else
 		glstate->fpe_state->textmat |= 1<<glstate->texture.active;
 }

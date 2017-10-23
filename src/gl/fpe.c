@@ -82,8 +82,8 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         // indiviual lights
         for (int i=0; i<8; i++) {
             if((dest->light>>i)&1==0) {
-                dest->light_cutoff180 &= 1<<i;
-                dest->light_direction &= 1<<i;
+                dest->light_cutoff180 &= ~(1<<i);
+                dest->light_direction &= ~(1<<i);
             }            
         }
     }
@@ -101,8 +101,8 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         // individual textures
         for (int i=0; i<8; i++) {
             if(dest->texture>>(i<<1)&3==0) {
-                dest->textmat &= 1<<i;
-                dest->texformat &= 7<<(i*3);
+                dest->textmat &= ~(1<<i);
+                dest->texformat &= ~(7<<(i*3));
             }
             if(dest->texenv>>(i*3)&7 != FPE_COMBINE) {
                 dest->texcombine[i] = 0;

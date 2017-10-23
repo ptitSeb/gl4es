@@ -1393,12 +1393,12 @@ tex_changed=1;  // seems buggy, temporary disabling that...
         if (tex_changed) {
 
             if(glstate->fpe_state) {
-                glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
+                glstate->fpe_state->texformat &= ~(7<<(glstate->texture.active*3));
                 glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
             }
 
-			GLuint tmp = glstate->enable.texture[glstate->texture.active];
 #ifdef TEXSTREAM
+			GLuint tmp = glstate->enable.texture[glstate->texture.active];
 	        if (globals4es.texstream) {  // unbind streaming texture if any...
 	            gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
 	            if (bound && bound->streamed) {

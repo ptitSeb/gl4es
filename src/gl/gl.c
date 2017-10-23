@@ -293,7 +293,8 @@ static void fpe_changetex(int n, int state)
 {
     int texmode = FPE_TEX_OFF;
 #ifdef TEXSTREAM
-    if(state==256) texmode = (IS_TEX2D(state))?FPE_TEX_STRM:FPE_TEX_OFF;
+    // This is just wrong and will not work... Anyway, shaders will not work either...
+    if(state==256) {state = glstate->enable.texture[n]; texmode = (IS_TEX2D(state))?FPE_TEX_STRM:FPE_TEX_OFF;}
     else
 #endif
     if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
@@ -306,15 +307,14 @@ static void fpe_changetex(int n, int state)
 
     if(texmode) {
         int target = ENABLED_TEX1D; // lowest priority
-        int itarget = glstate->enable.texture[glstate->texture.active];
-        if(itarget && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
-        if(itarget && (1<<ENABLED_TEX2D)) target = ENABLED_TEX2D;
-        if(itarget && (1<<ENABLED_TEX3D)) target = ENABLED_TEX3D;
-        if(itarget && (1<<ENABLED_CUBE_MAP)) target = ENABLED_CUBE_MAP;
-        gltexture_t* tex = glstate->texture.bound[glstate->texture.active][target];
+        if(state && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
+        if(state && (1<<ENABLED_TEX2D)) target = ENABLED_TEX2D;
+        if(state && (1<<ENABLED_TEX3D)) target = ENABLED_TEX3D;
+        if(state && (1<<ENABLED_CUBE_MAP)) target = ENABLED_CUBE_MAP;
+        gltexture_t* tex = glstate->texture.bound[n][target];
         if(tex) {
-            glstate->fpe_state->texformat &= 7<<(glstate->texture.active*3);
-            glstate->fpe_state->texformat |= tex->fpe_format<<(glstate->texture.active*3);
+            glstate->fpe_state->texformat &= ~(7<<(n*3));
+            glstate->fpe_state->texformat |= tex->fpe_format<<(n*3);
         }
     }
 }
