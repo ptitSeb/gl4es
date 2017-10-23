@@ -1388,7 +1388,7 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 	
         LOAD_GLES(glDisable);
         LOAD_GLES(glEnable);
-//tex_changed=1;  // seems buggy, temporary disabling that...
+tex_changed=1;  // seems buggy, temporary disabling that...
 
         if (tex_changed) {
 
