@@ -357,7 +357,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     if(face==GL_FRONT_AND_BACK || face==GL_BACK)
         glstate->material.back.shininess = param;
 
-    if(face==GL_BACK) { // lets ignore GL_BACK in GLES 1.1
+    if(face==GL_BACK && hardext.esversion==1) { // lets ignore GL_BACK in GLES 1.1
         noerrorShim();
         return;
     }

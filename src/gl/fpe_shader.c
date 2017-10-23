@@ -200,7 +200,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         if(twosided)
             ShadAppend("vec4 back_aa,back_dd,back_ss;\n");
         if(state->normalize)
-        ShadAppend("vec3 normal = gl_NormalMatrix * normalize(gl_Normal);\n");
+            ShadAppend("vec3 normal = gl_NormalMatrix * normalize(gl_Normal);\n");
         else
             ShadAppend("vec3 normal = gl_NormalMatrix * gl_Normal;\n");
         for(int i=0; i<hardext.maxlights; i++) {
@@ -210,36 +210,41 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend(buff);
                 }
                 // enabled light i
-                sprintf(buff, "VP = gl_LightSource[%d].position.xyz - vertex.xyz;\n", i);
-                ShadAppend(buff);
                 // att depend on light position w
                 if((state->light_direction>>i&1)==0) { // flag track if light is has w!=0
                     ShadAppend("att = 1.0;\n");
-                    ShadAppend("VP = normalize(VP);\n");
+                    sprintf(buff, "VP = normalize(gl_LightSource[%d].position.xyz);\n", i);
+                    ShadAppend(buff);
                 } else {
+                    sprintf(buff, "VP = gl_LightSource[%d].position.xyz - vertex.xyz;\n", i);
+                    ShadAppend(buff);
                     ShadAppend("lVP = length(VP);\n");
                     sprintf(buff, "att = 1.0/(gl_LightSource[%d].constantAttenuation + gl_LightSource[%d].linearAttenuation * lVP + gl_LightSource[%d].quadraticAttenuation * lVP*lVP);\n", i, i, i);
                     ShadAppend(buff);
-                    ShadAppend("VP = normalize(-vertex.xyz);\n");
+                    ShadAppend("VP = normalize(VP);\n");
                 }
                 // spot depend on spotlight cutoff angle
                 if((state->light_cutoff180>>i&1)==0) {
                     //ShadAppend("spot = 1.0;\n");
                 } else {
-                    printf(buff, "spot = max(dot(-VP, gl_LightSource[%d].spotDirection), 0.);\n", i);
+                    if((state->light_direction>>i&1)==0) {
+                        printf(buff, "spot = max(dot(-normalize(vertex.xyz), gl_LightSource[%d].spotDirection), 0.);\n", i);
+                    } else {
+                        printf(buff, "spot = max(dot(-VP, gl_LightSource[%d].spotDirection), 0.);\n", i);
+                    }
                     ShadAppend(buff);
                     sprintf(buff, "if(spot<gl_LightSource[%d].spotCosCutoff) spot=0.0; else spot=pow(spot, gl_LightSource[%d].spotExponent);", i, i);
                     ShadAppend(buff);
                     ShadAppend("att *= spot;\n");
                 }
-                sprintf(buff, "nVP = max(dot(normal, VP), 0.);");
-                ShadAppend(buff);
                 sprintf(buff, "aa = %s.xyz * gl_LightSource[%d].ambient.xyz;\n", fm_ambient, i);
                 ShadAppend(buff);
                 if(twosided) {
                     sprintf(buff, "back_aa = %s.xyz * gl_LightSource[%d].ambient.xyz;\n", bm_ambient, i);
                     ShadAppend(buff);
                 }
+                sprintf(buff, "nVP = max(dot(normal, VP), 0.);");
+                ShadAppend(buff);
                 sprintf(buff, "dd = nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz;\n", fm_diffuse, i);
                 ShadAppend(buff);
                 if(twosided) {
