@@ -192,15 +192,17 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
         ShadAppend("float att;\n");
         ShadAppend("float spot;\n");
-        ShadAppend("vec4 VP;\n");
+        ShadAppend("vec3 VP;\n");
         ShadAppend("float lVP;\n");
         ShadAppend("float nVP;\n");
-        ShadAppend("float fi;\n");
-        ShadAppend("vec4 aa,dd,ss;\n");
-        ShadAppend("vec4 hi;\n");
+        ShadAppend("vec3 aa,dd,ss;\n");
+        ShadAppend("vec3 hi;\n");
         if(twosided)
             ShadAppend("vec4 back_aa,back_dd,back_ss;\n");
-        ShadAppend("vec3 normal = gl_NormalMatrix * gl_Normal;\n");
+        if(state->normalize)
+        ShadAppend("vec3 normal = gl_NormalMatrix * normalize(gl_Normal);\n");
+        else
+            ShadAppend("vec3 normal = gl_NormalMatrix * gl_Normal;\n");
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
                 if(comments) {
@@ -208,71 +210,64 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend(buff);
                 }
                 // enabled light i
-                sprintf(buff, "VP = gl_LightSource[%d].position - vertex;\n", i);
+                sprintf(buff, "VP = gl_LightSource[%d].position.xyz - vertex.xyz;\n", i);
                 ShadAppend(buff);
                 // att depend on light position w
-                if((state->light_direction>>i&1)!=0) { // flag track if light is a directionnal light, so if w==0
+                if((state->light_direction>>i&1)==0) { // flag track if light is has w!=0
                     ShadAppend("att = 1.0;\n");
+                    ShadAppend("VP = normalize(VP);\n");
                 } else {
                     ShadAppend("lVP = length(VP);\n");
                     sprintf(buff, "att = 1.0/(gl_LightSource[%d].constantAttenuation + gl_LightSource[%d].linearAttenuation * lVP + gl_LightSource[%d].quadraticAttenuation * lVP*lVP);\n", i, i, i);
                     ShadAppend(buff);
+                    ShadAppend("VP = normalize(-vertex.xyz);\n");
                 }
-                ShadAppend("VP = normalize(VP);\n");
                 // spot depend on spotlight cutoff angle
                 if((state->light_cutoff180>>i&1)==0) {
                     //ShadAppend("spot = 1.0;\n");
                 } else {
-                    printf(buff, "spot = max(dot(VP.xyz, gl_LightSource[%d].spotDirection), 0.);\n", i);
+                    printf(buff, "spot = max(dot(-VP, gl_LightSource[%d].spotDirection), 0.);\n", i);
                     ShadAppend(buff);
                     sprintf(buff, "if(spot<gl_LightSource[%d].spotCosCutoff) spot=0.0; else spot=pow(spot, gl_LightSource[%d].spotExponent);", i, i);
                     ShadAppend(buff);
                     ShadAppend("att *= spot;\n");
                 }
-                sprintf(buff, "nVP = max(dot(normal, VP.xyz), 0.);fi=(nVP!=0.)?1.:0.;\n");
+                sprintf(buff, "nVP = max(dot(normal, VP), 0.);");
                 ShadAppend(buff);
-                sprintf(buff, "aa = %s * gl_LightSource[%d].ambient;\n", fm_ambient, i);
+                sprintf(buff, "aa = %s.xyz * gl_LightSource[%d].ambient.xyz;\n", fm_ambient, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "back_aa = %s * gl_LightSource[%d].ambient;\n", bm_ambient, i);
+                    sprintf(buff, "back_aa = %s.xyz * gl_LightSource[%d].ambient.xyz;\n", bm_ambient, i);
                     ShadAppend(buff);
                 }
-                sprintf(buff, "dd = nVP * %s * gl_LightSource[%d].diffuse;\n", fm_diffuse, i);
+                sprintf(buff, "dd = nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz;\n", fm_diffuse, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "back_dd = nVP * %s * gl_LightSource[%d].diffuse;\n", bm_diffuse, i);
+                    sprintf(buff, "back_dd = nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz;\n", bm_diffuse, i);
                     ShadAppend(buff);
                 }
                 if(state->light_localviewer) {
-                    ShadAppend("hi = VP + normalize(-vertex);\n");
+                    ShadAppend("hi = normalize(VP + normalize(-vertex.xyz));\n");
                 } else {
-                    ShadAppend("hi = VP;\n");
+                    ShadAppend("hi = normalize(VP + vec3(0., 0., 1.));\n");
                 }
-                sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_FrontMaterial.shininess)*%s*gl_LightSource[%d].specular;\n", fm_specular, i);
+                sprintf(buff, "ss = (nVP!=0.)?(pow(max(dot(normal, hi),0.), gl_FrontMaterial.shininess)*%s.xyz*gl_LightSource[%d].specular.xyz):vec3(0.);\n", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = fi*pow(max(dot(hi.xyz, normal),0.), gl_BackMaterial.shininess)*%s*gl_LightSource[%d].specular;\n", bm_specular, i);
+                    sprintf(buff, "ss = (nVP!=0.)?(pow(max(dot(normal, hi),0.), gl_BackMaterial.shininess)*%s*gl_LightSource[%d].specular.xyz):vec3(0.);\n", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
-                    ShadAppend("Color += att*(aa+dd);\n");
-                    ShadAppend("SecColor += att*(ss);\n");
+                    ShadAppend("Color.rgb += att*(aa+dd);\n");
+                    ShadAppend("SecColor.rgb += att*(ss);\n");
                     if(twosided) {
-                        ShadAppend("BackColor += att*(back_aa+back_dd);\n");
-                        ShadAppend("SecBackColor += att*(back_ss);\n");
+                        ShadAppend("BackColor.rgb += att*(back_aa+back_dd);\n");
+                        ShadAppend("SecBackColor.rgb += att*(back_ss);\n");
                     }
                 } else {
-                    ShadAppend("Color += att*(aa+dd+ss);\n");
+                    ShadAppend("Color.rgb += att*(aa+dd+ss);\n");
                     if(twosided)
-                        ShadAppend("BackColor += att*(back_aa+back_dd+back_ss);\n");
-                }
-                ShadAppend("Color = clamp(Color, 0., 1.);\n");
-                if(twosided)
-                    ShadAppend("SecColor = clamp(SecColor, 0., 1.);\n");
-                if(state->light_separate) {
-                    ShadAppend("BackColor = clamp(BackColor, 0., 1.);\n");
-                    if(twosided)
-                        ShadAppend("SecBackColor = clamp(SecBackColor, 0., 1.);\n");
+                        ShadAppend("BackColor.rgb += att*(back_aa+back_dd+back_ss);\n");
                 }
                 if(comments) {
                     sprintf(buff, "// end of light %d\n", i);
@@ -282,9 +277,17 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
         sprintf(buff, "Color.a = %s.a;\n", fm_diffuse);
         ShadAppend(buff);
+        ShadAppend("Color.rgb = clamp(Color.rgb, 0., 1.);\n");
         if(twosided) {
             sprintf(buff, "BackColor.a = %s.a;\n", bm_diffuse);
+            ShadAppend("BackColor.rgb = clamp(BackColor.rgb, 0., 1.);\n");
             ShadAppend(buff);
+        }
+        if(state->light_separate) {
+            ShadAppend("SecColor = clamp(SecColor, 0., 1.);\n");
+            if(twosided) {
+                ShadAppend("SecBackColor = clamp(SecBackColor, 0., 1.);\n");
+            }
         }
     }
     // calculate texture coordinates
@@ -474,7 +477,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                         headers+=CountLine(buff);
                         needclamp=0;
                         if(texformat!=FPE_TEX_ALPHA) {
-                            sprintf(buff, "fColor.rgb = mix(fColor.rgb, _gl4es_TextureEnvColor_%d.rgb, texColor%d.rgb);\n", i, i, i);
+                            sprintf(buff, "fColor.rgb = mix(fColor.rgb, _gl4es_TextureEnvColor_%d.rgb, texColor%d.rgb);\n", i, i);
                             ShadAppend(buff);
                         }
                         switch(texformat) {
@@ -483,7 +486,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 // no change in alpha channel
                                 break;
                             case FPE_TEX_INTENSITY:
-                                sprintf(buff, "fColor.a = mix(fColor.a, _gl4es_TextureEnvColor_%d.a, texColor%d.a);\n", i, i, i);
+                                sprintf(buff, "fColor.a = mix(fColor.a, _gl4es_TextureEnvColor_%d.a, texColor%d.a);\n", i, i);
                                 ShadAppend(buff);
                                 break;
                             default:
