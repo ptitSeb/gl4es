@@ -226,6 +226,24 @@ void matrix_inverse(const float *m, float *r) {
     for (int i = 0; i < 16; i++) r[i] *= det;
 }
 
+void matrix_inverse3_transpose(const float *m, float *r) {
+    
+    r[0] = m[4+1]*m[8+2] - m[4+2]*m[8+1];
+    r[1] = m[4+2]*m[8+0] - m[4+0]*m[8+2];
+    r[2] = m[4+0]*m[8+1] - m[4+1]*m[8+0];
+
+    r[3] = m[0+2]*m[8+1] - m[0+1]*m[8+2];
+    r[4] = m[0+0]*m[8+2] - m[0+2]*m[8+0];
+    r[5] = m[0+1]*m[8+0] - m[0+0]*m[8+1];
+
+    r[6] = m[0+1]*m[4+2] - m[0+2]*m[4+1];
+    r[7] = m[0+2]*m[4+0] - m[0+0]*m[4+2];
+    r[8] = m[0+0]*m[4+1] - m[0+1]*m[4+0];
+
+    float det = 1.0f/(m[0]*m[4+1]*m[8+2] + m[4+0]*m[8+1]*m[0+2] + m[8+0]*m[1]*m[4+2] - m[0]*m[8+1]*m[4+2] - m[8+0]*m[4+1]*m[0+2] - m[4+0]*m[0+1]*m[8+2]);
+    for (int i = 0; i < 9; i++) r[i] *= det;
+}
+    
 void matrix_mul(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
     const float* a1 = a+8;

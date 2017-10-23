@@ -577,14 +577,17 @@ void realize_glenv() {
                 float tmp = 1.0f;
                 GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);
             }
-            if((glprogram->builtin_normalrescale!=-1 && glstate->fpe_state->rescaling) || glprogram->builtin_matrix[MAT_N]!=-1)
+            if(glprogram->builtin_matrix[MAT_N]!=-1)
             {
-                GLfloat invmat[16], matn[9];
-                matrix_inverse(getMVMat(), invmat);
-                for(int i=0; i<3; i++)
-                    for(int j=0; j<3; j++)
-                        matn[i+j*3]=invmat[j+i*4];  // transpose and reduce to 3x3
+                GLfloat matn[9];
+                matrix_inverse3_transpose(getMVMat(), matn);
                 GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+            }
+            if((glprogram->builtin_normalrescale!=-1 && glstate->fpe_state->rescaling))
+            {
+                float tmp;
+                float invmat[16];
+                matrix_inverse(getMVMat(), invmat);
                 if(glprogram->builtin_normalrescale!=-1) {
                     float tmp = 1.0f/sqrtf(invmat[3*3+1]*invmat[3*3+1]+invmat[3*3+2]*invmat[3*3+2]+invmat[3*3+3]*invmat[3*3+3]);
                     GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);

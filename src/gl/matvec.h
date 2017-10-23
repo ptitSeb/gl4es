@@ -15,6 +15,7 @@ void vector4_mult(const float *a, const float *b, float *c);
 void vector4_add(const float *a, const float *b, float *c);
 void matrix_transpose(const float *a, float *b);
 void matrix_inverse(const float *m, float *r);
+void matrix_inverse3_transpose(const float *m, float *r); // upper3x3 of matrix4 -> inverse -> transposed mat3
 void matrix_mul(const float *a, const float *b, float *c);
 void set_identity(float* mat);
 int is_identity(const float* mat);
