@@ -209,8 +209,7 @@ void DeleteGLState(void* oldstate) {
     #define freemap(dims, name)                              \
     { map_statef_t *m = (map_statef_t *)state->map##dims.name; \
     if (m) {                                                \
-        if (m->free)                                        \
-            free((void *)m->points);                        \
+        free((void *)m->points);                            \
         free(m);                                            \
     } }
     freemap(1, vertex3); freemap(1, vertex4); freemap(1, index); freemap(1, color4); freemap(1, normal); 
@@ -1627,8 +1626,11 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
     if (glstate->list.active) {
         if(glstate->list.pending)
             flush();
-        else
-            rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
+        else {
+            // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
+            if(glstate->list.begin && glstate->enable.texture[target-GL_TEXTURE0])
+                rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
+        }
     }
     noerrorShim();
     glstate->texcoord[target-GL_TEXTURE0][0] = s; glstate->texcoord[target-GL_TEXTURE0][1] = t;
