@@ -273,7 +273,7 @@ typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t      enable;
-    map_state_t         *map_grid;
+    map_grid_t          map_grid[2];
     map_states_t        map1, map2;
     khash_t(gllisthead) *headlists;
     texgen_state_t      texgen[MAX_TEX];

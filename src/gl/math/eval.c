@@ -78,7 +78,6 @@ _math_horner_bezier_curve(const GLfloat * cp, GLfloat * out, GLfloat t,
     if (order >= 2) {
         bincoeff = (GLfloat) (order - 1);
         s = 1.0F - t;
-
         for (k = 0; k < dim; k++)
             out[k] = s * cp[k] + bincoeff * t * cp[dim + k];
 

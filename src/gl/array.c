@@ -284,32 +284,103 @@ GLfloat *gl_pointer_index(pointer_state_t *p, GLint index) {
 }
 
 
-GLfloat *copy_eval_double(GLenum target, GLint ustride, GLint uorder,
+GLfloat *copy_eval_double1(GLenum target, GLint ustride, GLint uorder,
+    const GLdouble *src) {
+ 
+    GLsizei width = get_map_width(target);
+    GLfloat* out;
+
+    if(!src || !width)
+        return NULL;
+
+    out = malloc(uorder*width*sizeof(GLfloat));
+
+    GLfloat *p = out;
+
+    for (int i=0; i<uorder; i++, src+=ustride)
+      for (int k=0; k<width; k++)
+        *p++ = src[k];
+    
+    return out;
+}
+
+GLfloat *copy_eval_float1(GLenum target, GLint ustride, GLint uorder,
+    const GLfloat *src) {
+ 
+    GLsizei width = get_map_width(target);
+    GLfloat* out;
+
+    if(!src || !width)
+        return NULL;
+
+    out = malloc(uorder*width*sizeof(GLfloat));
+
+    GLfloat *p = out;
+
+    for (int i=0; i<uorder; i++, src+=ustride)
+      for (int k=0; k<width; k++)
+        *p++ = src[k];
+    
+    return out;
+}
+
+GLfloat *copy_eval_double2(GLenum target, GLint ustride, GLint uorder,
                           GLint vstride, GLint vorder,
                           const GLdouble *src) {
-
+    /* Additional memory is allocated to be used by the horner and
+    * de Casteljau evaluation schemes.*/
     GLsizei width = get_map_width(target);
-    GLsizei dwidth = (uorder == 2 && vorder == 2) ? 0 : uorder * vorder;
-    GLsizei hwidth = (uorder > vorder ? uorder : vorder) * width;
-    GLsizei elements;
-    GLsizei uinc = ustride - vorder * vstride;
+    GLfloat* out;
 
-    if (hwidth > dwidth) {
-        elements = (uorder * vorder * width + hwidth);
-    } else {
-        elements = (uorder * vorder * width + dwidth);
-    }
-    GLfloat *points = malloc(elements * sizeof(GLfloat));
-    GLfloat *dst = points;
+    if(!src || !width)
+        return NULL;
 
-    for (int i = 0; i < uorder; i++, src += uinc) {
-        for (int j = 0; j < vorder; j++, src += vstride) {
-            for (int k = 0; k < width; k++) {
-                *dst++ = src[k];
-            }
-        }
-    }
-    return points;
+    int dsize = (uorder == 2 && vorder == 2)? 0 : uorder*vorder;
+    int hsize = (uorder > vorder ? uorder : vorder)*width;
+ 
+    if(hsize>dsize)
+      out = malloc((uorder*vorder*width+hsize)*sizeof(GLfloat));
+    else
+      out = malloc((uorder*vorder*width+dsize)*sizeof(GLfloat));
+ 
+    int uinc = ustride - vorder*vstride;
+    GLfloat* p = out;
+ 
+    for (int i=0; i<uorder; i++, src += uinc)
+      for (int j=0; j<vorder; j++, src += vstride)
+        for (int k=0; k<width; k++)
+          *p++ = src[k];
+ 
+    return out;
+}
+GLfloat *copy_eval_float2(GLenum target, GLint ustride, GLint uorder,
+    GLint vstride, GLint vorder,
+    const GLfloat *src) {
+    /* Additional memory is allocated to be used by the horner and
+    * de Casteljau evaluation schemes.*/
+    GLsizei width = get_map_width(target);
+    GLfloat* out;
+
+    if(!src || !width)
+        return NULL;
+    
+    int dsize = (uorder == 2 && vorder == 2)? 0 : uorder*vorder;
+    int hsize = (uorder > vorder ? uorder : vorder)*width;
+
+    if(hsize>dsize)
+        out = malloc((uorder*vorder*width+hsize)*sizeof(GLfloat));
+    else
+        out = malloc((uorder*vorder*width+dsize)*sizeof(GLfloat));
+
+    int uinc = ustride - vorder*vstride;
+    GLfloat* p = out;
+
+    for (int i=0; i<uorder; i++, src += uinc)
+      for (int j=0; j<vorder; j++, src += vstride)
+        for (int k=0; k<width; k++)
+          *p++ = src[k];
+
+    return out;
 }
 
 void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {

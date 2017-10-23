@@ -89,6 +89,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->texture.pack_align = 4;
     glstate->texture.unpack_align = 4;
 
+    // eval
+    glstate->map_grid[0]._2 = 1.0f;
+    glstate->map_grid[0].n = 1;
+    glstate->map_grid[0].d = 1.0f;
+    glstate->map_grid[1]._2 = 1.0f;
+    glstate->map_grid[1].n = 1;
+    glstate->map_grid[1].d = 1.0f;
+    
     // fpe
     if(hardext.esversion>1) {
         glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));

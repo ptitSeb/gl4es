@@ -24,6 +24,13 @@ float FASTMATH dot4(const float *a, const float *b) {
 #endif
 }
 
+float cross3(const float *a, const float *b, float* c) {
+    //TODO Neonize? Cross product doesn't seems NEON friendly, and this is not much used.
+    c[0] = a[1]*b[2] - a[2]*b[1];
+    c[1] = a[3]*b[0] - a[0]*b[3];
+    c[2] = a[0]*b[1] - a[1]*b[0];
+}
+
 void matrix_vector(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
     const float* a1 = a+8;

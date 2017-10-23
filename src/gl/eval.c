@@ -3,6 +3,7 @@
 
 #include "eval.h"
 #include "math/eval.h"
+#include "matvec.h"
 
 static inline map_state_t **get_map_pointer(GLenum target) {
     switch (target) {
@@ -32,7 +33,6 @@ static inline map_state_t **get_map_pointer(GLenum target) {
     map->n._1 = n##1;             \
     map->n._2 = n##2;             \
     map->n.d = 1.0/(n##2 - n##1); \
-    map->n.stride = n##stride;    \
     map->n.order = n##order;
 
 #define case_state(dims, magic, name)                           \
@@ -40,11 +40,10 @@ static inline map_state_t **get_map_pointer(GLenum target) {
         map->width = get_map_width(magic);                      \
         map_statef_t *m = (map_statef_t *)glstate->map##dims.name; \
         if (m) {                                                \
-            if (m->free)                                        \
-                free((void *)m->points);                        \
+            free((void *)m->points);                            \
             free(m);                                            \
         }                                                       \
-        glstate->map##dims.name = (map_state_t *)map;              \
+        glstate->map##dims.name = (map_state_t *)map;           \
         break;                                                  \
     }
 
@@ -65,20 +64,20 @@ void gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
-    map->type = GL_FLOAT; map->dims = 1; map->free = true;
+    map->type = GL_FLOAT; map->dims = 1;
     set_map_coords(u);
     map_switch(1);
-    map->points = copy_eval_double(target, ustride, uorder, 0, 1, points);
+    map->points = copy_eval_double1(target, ustride, uorder, points);
 }
 
 void gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
-    map->type = GL_FLOAT; map->dims = 1; map->free = false;
+    map->type = GL_FLOAT; map->dims = 1;
     set_map_coords(u);
     map_switch(1);
-    map->points = points;
+    map->points = copy_eval_float1(target, ustride, uorder, points);
 }
 
 void gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
@@ -86,11 +85,11 @@ void gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint vstride, GLint vorder, const GLdouble *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
-    map->type = GL_FLOAT; map->dims = 2; map->free = true;
+    map->type = GL_FLOAT; map->dims = 2;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
-    map->points = copy_eval_double(target, ustride, uorder, vstride, vorder, points);
+    map->points = copy_eval_double2(target, ustride, uorder, vstride, vorder, points);
 }
 
 void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
@@ -98,59 +97,82 @@ void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint vstride, GLint vorder, const GLfloat *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
-    map->type = GL_FLOAT; map->dims = 2; map->free = false;
+    map->type = GL_FLOAT; map->dims = 2;
     set_map_coords(u);
     set_map_coords(v);
     map_switch(2);
-    map->points = points;
+    map->points = copy_eval_float2(target, ustride, uorder, vstride, vorder, points);;
 }
 
 #undef set_map_coords
 #undef case_state
 #undef map_switch
 
-#define p_map(d, name, func, code) {                  \
-    map_state_t *_map = glstate->map##d.name;          \
-    if (_map && glstate->enable.map##d##_##name) {                                       \
+#define p_map(d, name, func, code)                    \
+    if (glstate->map##d.name && glstate->enable.map##d##_##name) {    \
+        map_state_t *_map = glstate->map##d.name;         \
         if (_map->type == GL_DOUBLE) {                \
             map_stated_t *map = (map_stated_t *)_map; \
             printf("double: not implemented\n");      \
         } else if (_map->type == GL_FLOAT) {          \
             map_statef_t *map = (map_statef_t *)_map; \
-            GLfloat out[4];                           \
             code                                      \
-            gl4es_##func##v(out);                    \
+            gl4es_##func##v(out);                     \
         }                                             \
-    }}
+    }
 
-#define iter_maps(d, code)                  \
-    p_map(d, color4, glColor4f, code);      \
-    p_map(d, index, glIndexf, code);        \
-    p_map(d, normal, glNormal3f, code);     \
-    p_map(d, texture1, glTexCoord1f, code); \
-    p_map(d, texture2, glTexCoord2f, code); \
-    p_map(d, texture3, glTexCoord3f, code); \
-    p_map(d, texture4, glTexCoord4f, code); \
-    p_map(d, vertex3, glVertex3f, code);    \
-    p_map(d, vertex4, glVertex4f, code);
+#define iter_maps(d, code)                             \
+    p_map(d, color4, glColor4f, code);                 \
+    p_map(d, index, glIndexf, code);                   \
+    if(!glstate->enable.auto_normal)                   \
+    p_map(d, normal, glNormal3f, code);                \
+    p_map(d, texture4, glTexCoord4f, code)             \
+    else                                               \
+    p_map(d, texture3, glTexCoord3f, code)             \
+    else                                               \
+    p_map(d, texture2, glTexCoord2f, code)             \
+    else                                               \
+    p_map(d, texture1, glTexCoord1f, code);            \
+    p_map(d, vertex4, glVertex4f, code)                \
+    else                                               \
+    p_map(d, vertex3, glVertex3f, code);
 
 void gl4es_glEvalCoord1f(GLfloat u) {
     noerrorShim();
+    GLfloat out[4];                           \
     iter_maps(1,
         GLfloat uu = (u - map->u._1) * map->u.d;
-        _math_horner_bezier_curve(map->points, out, uu, map->width, map->u.order);
+        _math_horner_bezier_curve((GLfloat*)map->points, out, uu, map->width, map->u.order);
     )
 }
 
 void gl4es_glEvalCoord2f(GLfloat u, GLfloat v) {
     noerrorShim();
+    GLfloat out[4];                           \
     iter_maps(2,
         GLfloat uu = (u - map->u._1) * map->u.d;
         GLfloat vv = (v - map->v._1) * map->v.d;
-        // TODO: GL_AUTONORMAL
-
-        _math_horner_bezier_surf((GLfloat *)map->points, out, uu, vv,
-                                 map->width, map->u.order, map->v.order);
+        if(glstate->enable.auto_normal && (map == (map_statef_t *)glstate->map2.vertex3 || map == (map_statef_t *)glstate->map2.vertex4)) {
+            GLfloat norm[3];
+            GLfloat du[4];
+            GLfloat dv[4];
+            memset(out, 0, 3*sizeof(GLfloat)); out[3] = 1.0f;
+            _math_de_casteljau_surf((GLfloat*)map->points, out, du, dv, uu, vv,
+                                    map->width, map->u.order, map->v.order);
+            if(map->width == 4) {
+                du[0] = du[0]*out[3] - du[3]*out[0];
+                du[1] = du[1]*out[3] - du[3]*out[1];
+                du[2] = du[2]*out[3] - du[3]*out[2];
+                dv[0] = dv[0]*out[3] - dv[3]*out[0];
+                dv[1] = dv[1]*out[3] - dv[3]*out[1];
+                dv[2] = dv[2]*out[3] - dv[3]*out[2];
+            }
+            cross3(du, dv, norm);
+            vector_normalize(norm);
+            gl4es_glNormal3fv(norm);
+        } else
+            _math_horner_bezier_surf((GLfloat*)map->points, out, uu, vv,
+                                     map->width, map->u.order, map->v.order);
     )
 }
 
@@ -158,48 +180,48 @@ void gl4es_glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef iter_maps
 
 void gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
-    noerrorShim();
-    // TODO: double support?
-    map_statef_t *map;
-    if (! glstate->map_grid)
-        glstate->map_grid = malloc(sizeof(map_statef_t));
+    if(un<1) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    if(glstate->list.begin) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
 
-    map = (map_statef_t *)glstate->map_grid;
-    map->dims = 1;
-    map->u.n = un;
-    map->u._1 = u1;
-    map->u._2 = u2;
+    noerrorShim();
+
+   glstate->map_grid[0].n = un;
+   glstate->map_grid[0]._1 = u1;
+   glstate->map_grid[0]._2 = u2;
 }
 
 void gl4es_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
                  GLint vn, GLfloat v1, GLfloat v2) {
-    noerrorShim();
-    // TODO: double support?
-    map_statef_t *map;
-    if (! glstate->map_grid)
-        glstate->map_grid = malloc(sizeof(map_statef_t));
 
-    map = (map_statef_t *)glstate->map_grid;
-    map->dims = 2;
-    map->u.n = un;
-    map->u._1 = u1;
-    map->u._2 = u2;
-    map->v.n = vn;
-    map->v._1 = v1;
-    map->v._2 = v2;
+     if((un<1) || (vn<1)) {
+         errorShim(GL_INVALID_VALUE);
+         return;
+     }
+     if(glstate->list.begin) {
+         errorShim(GL_INVALID_OPERATION);
+         return;
+     }
+
+     noerrorShim();
+
+    glstate->map_grid[0].n = un;
+    glstate->map_grid[0]._1 = u1;
+    glstate->map_grid[0]._2 = u2;
+    glstate->map_grid[0].d = (glstate->map_grid[0]._2 - glstate->map_grid[0]._1)/glstate->map_grid[0].n;
+    glstate->map_grid[1].n = vn;
+    glstate->map_grid[1]._1 = v1;
+    glstate->map_grid[1]._2 = v2;
+    glstate->map_grid[1].d = (glstate->map_grid[1]._2 - glstate->map_grid[1]._1)/glstate->map_grid[1].n;
 }
 
-static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
-    if (glstate->map2.vertex4) {
-        *map = (map_statef_t *)glstate->map2.vertex4;
-    } else if (glstate->map2.vertex3) {
-        *map = (map_statef_t *)glstate->map2.vertex3;
-    } else {
-        return 0;
-    }
-
-    if ((*map)->type == GL_DOUBLE) {
-        printf("libGL: GL_DOUBLE map not implemented\n");
+static inline GLenum eval_mesh_prep(GLenum mode) {
+    if ((!glstate->map2.vertex4) && (!glstate->map2.vertex3)) {
         return 0;
     }
 
@@ -215,14 +237,16 @@ static inline GLenum eval_mesh_prep(map_statef_t **map, GLenum mode) {
 }
 
 void gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
-    noerrorShim();
-    map_statef_t *map;
-    GLenum renderMode = eval_mesh_prep(&map, mode);
-    if (! renderMode)
+    GLenum renderMode = eval_mesh_prep(mode);
+    if (! renderMode) {
+        errorShim(GL_INVALID_ENUM);
         return;
-
+    }
+    
+    noerrorShim();
     GLfloat u, du, u1;
-    du = map->u.d;
+    du = glstate->map_grid[0].d;
+    u1 = glstate->map_grid[0]._1 + du*i1;
     GLint i;
     gl4es_glBegin(renderMode);
     for (u = u1, i = i1; i <= i2; i++, u += du) {
@@ -232,46 +256,54 @@ void gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
 }
 
 void gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
-    noerrorShim();
-    map_statef_t *map;
-    GLenum renderMode = eval_mesh_prep(&map, mode);
-    if (! renderMode)
+    GLenum renderMode = eval_mesh_prep(mode);
+    if (! renderMode) {
+        errorShim(GL_INVALID_ENUM);
         return;
-
-    GLfloat u, du, u1, v, dv, v1;
-    du = map->u.d;
-    dv = map->v.d;
-    GLint i, j;
-    gl4es_glBegin(renderMode);
-    for (v = v1, j = j1; j <= j2; j++, v += dv) {
-        for (u = u1, i = i1; i <= i2; i++, u += du) {
-            gl4es_glEvalCoord2f(u, v);
-            if (mode == GL_FILL)
-                gl4es_glEvalCoord2f(u, v + dv);
-        }
     }
-    gl4es_glEnd();
-    if (mode == GL_LINE) {
-        gl4es_glBegin(renderMode);
-        for (u = u1, i = i1; i <= i2; i++, u += du) {
-            for (v = v1, j = j1; j <= j2; j++, v += dv) {
+    
+    noerrorShim();
+    GLfloat u, du, u1, v, dv, v1;
+    du = glstate->map_grid[0].d;
+    dv = glstate->map_grid[1].d;
+    u1 = glstate->map_grid[0]._1 + du*i1;
+    v1 = glstate->map_grid[1]._1 + dv*j1;
+    GLint i, j;
+    if(mode==GL_FILL) {
+        for (v = v1, j = j1; j <= j2-1; j++, v += dv) {
+            gl4es_glBegin(renderMode);
+            for (u = u1, i = i1; i <= i2; i++, u += du) {
+                gl4es_glEvalCoord2f(u, v);
+                gl4es_glEvalCoord2f(u, v + dv);
+            }
+            gl4es_glEnd();
+        }
+    } else {
+        for (v = v1, j = j1; j <= j2; j++, v += dv) {
+            gl4es_glBegin(renderMode);
+            for (u = u1, i = i1; i <= i2; i++, u += du) {
                 gl4es_glEvalCoord2f(u, v);
             }
+            gl4es_glEnd();
         }
-        gl4es_glEnd();
+        if (mode == GL_LINE) {
+            gl4es_glBegin(renderMode);
+            for (u = u1, i = i1; i <= i2; i++, u += du) {
+                for (v = v1, j = j1; j <= j2; j++, v += dv) {
+                    gl4es_glEvalCoord2f(u, v);
+                }
+            }
+            gl4es_glEnd();
+        }
     }
 }
 
 void gl4es_glEvalPoint1(GLint i) {
-    map_statef_t *map;
-    if (eval_mesh_prep(&map, 0))
-        gl4es_glEvalCoord1f(i + map->u.d);
+    gl4es_glEvalCoord1f(glstate->map_grid[0]._1 + glstate->map_grid[0].d*i);
 }
 
 void gl4es_glEvalPoint2(GLint i, GLint j) {
-    map_statef_t *map;
-    if (eval_mesh_prep(&map, 0))
-        gl4es_glEvalCoord2f(i + map->u.d, j + map->v.d);
+    gl4es_glEvalCoord2f(glstate->map_grid[0]._1 + glstate->map_grid[0].d*i, glstate->map_grid[1]._1 + glstate->map_grid[1].d*j);
 }
 
 #define GL_GET_MAP(t, type)                                        \

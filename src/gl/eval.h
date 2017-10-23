@@ -30,20 +30,19 @@ typedef struct {
 } map_state_t;
 
 typedef struct {
-    GLdouble _1, _2, n, d;
-    GLint stride, order;
+    GLdouble _1, _2, d;
+    GLint order;
 } mapcoordd_t;
 
 typedef struct {
-    GLdouble _1, _2, n, d;
-    GLint stride, order;
+    GLfloat _1, _2, d;
+    GLint order;
 } mapcoordf_t;
 
 typedef struct {
     GLenum type;
     GLint dims, width;
     mapcoordd_t u, v;
-    GLboolean free;
     const GLdouble *points;
 } map_stated_t;
 
@@ -51,9 +50,14 @@ typedef struct {
     GLenum type;
     GLint dims, width;
     mapcoordf_t u, v;
-    GLboolean free;
     const GLfloat *points;
 } map_statef_t;
+
+typedef struct {
+    GLfloat _1, _2;
+    GLfloat d;
+    GLint n;
+} map_grid_t;
 
 static const GLsizei get_map_width(GLenum target) {
     switch (target) {
