@@ -1372,10 +1372,11 @@ void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat *
         map = list->material;
     }
 
-    // TODO: currently puts all faces in the same map
-    k = kh_get(material, map, pname);
+    int iface = (face==GL_FRONT)?0:((face==GL_BACK)?1:2);
+    int key = pname | (iface<<16);
+    k = kh_get(material, map, key);
     if (k == kh_end(map)) {
-        k = kh_put(material, map, pname, &ret);
+        k = kh_put(material, map, key, &ret);
         m = kh_value(map, k) = malloc(sizeof(rendermaterial_t));
     } else {
         m = kh_value(map, k);
@@ -1383,10 +1384,9 @@ void rlMaterialfv(renderlist_t *list, GLenum face, GLenum pname, const GLfloat *
 
     m->face = face;
     m->pname = pname;
-    m->color[0] = params[0];
-    m->color[1] = params[1];
-    m->color[2] = params[2];
-    m->color[3] = params[3];
+    int sz=4;
+    if(pname==GL_SHININESS || pname==GL_COLOR_INDEXES) sz=1;
+    memcpy(m->color, params, sz*sizeof(GLfloat));
 }
 
 void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * params) {
@@ -1414,10 +1414,12 @@ void rlLightfv(renderlist_t *list, GLenum which, GLenum pname, const GLfloat * p
 
     m->which = which;
     m->pname = pname;
-    m->color[0] = params[0];
-    m->color[1] = params[1];
-    m->color[2] = params[2];
-    m->color[3] = params[3];
+    int sz=4;
+    if(pname==GL_SPOT_DIRECTION) sz=3;
+    if(pname==GL_SPOT_EXPONENT || pname==GL_SPOT_CUTOFF 
+        || pname==GL_CONSTANT_ATTENUATION || pname==GL_LINEAR_ATTENUATION
+        || pname==GL_QUADRATIC_ATTENUATION) sz=1;
+    memcpy(m->color, params, sz*sizeof(GLfloat));
 }
 
 void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * params) {

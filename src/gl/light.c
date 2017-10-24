@@ -67,7 +67,10 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
                 glstate->list.active = extend_renderlist(glstate->list.active);*/
             glstate->list.active->lightmodelparam = pname;
             glstate->list.active->lightmodel = (GLfloat*)malloc(4*sizeof(GLfloat));
-            memcpy(glstate->list.active->lightmodel, params, 4*sizeof(GLfloat));
+            int sz = 4;
+            if(pname==GL_LIGHT_MODEL_TWO_SIDE || pname==GL_LIGHT_MODEL_COLOR_CONTROL || pname==GL_LIGHT_MODEL_LOCAL_VIEWER)
+                sz=1;
+            memcpy(glstate->list.active->lightmodel, params, sz*sizeof(GLfloat));
             noerrorShim();
             return;
         } else flush();
