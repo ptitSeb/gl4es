@@ -1554,7 +1554,6 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
         Window root;
         int x, y;
         XGetGeometry(dpy, draw, &root, &x, &y, &width, &height, &border, &depth);
-        DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, draw);)
     }
 #endif                
     switch(attribute) {
