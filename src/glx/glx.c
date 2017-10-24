@@ -1545,13 +1545,25 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
     DBG(printf("glXQueryDrawable(%p, %p", dpy, draw);)
     int pbuf=isPBuffer(draw);
     *value = 0;
+    int width = 800;
+    int height = 480;
+#ifndef ANDROID
+    if(!pbuf && (attribute==GLX_WIDTH || attribute==GLX_HEIGHT)) {
+        // Get Window size and all...
+        unsigned int border, depth;
+        Window root;
+        int x, y;
+        XGetGeometry(dpy, draw, &root, &x, &y, &width, &height, &border, &depth);
+        DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, draw);)
+    }
+#endif                
     switch(attribute) {
         case GLX_WIDTH:
-            *value = (pbuf)?pbuffersize[pbuf-1].Width:800;
+            *value = (pbuf)?pbuffersize[pbuf-1].Width:width;
             DBG(printf("(%d), GLX_WIDTH, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_HEIGHT:
-            *value = (pbuf)?pbuffersize[pbuf-1].Height:480;
+            *value = (pbuf)?pbuffersize[pbuf-1].Height:height;
             DBG(printf("(%d), GLX_HEIGHT, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_PRESERVED_CONTENTS:
