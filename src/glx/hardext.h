@@ -35,6 +35,7 @@ typedef struct _hardext {
     int maxteximage;    // GL_MAX_TEXTURE_IMAGE_UNITS for es2
     int highp;          // GL_OES_fragment_precision_high
     int fragdepth;      // GL_EXT_frag_depth
+    int derivatives;    // GL_OES_standard_derivatives
 } hardext_t;
 
 extern hardext_t hardext;

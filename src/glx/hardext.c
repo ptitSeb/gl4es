@@ -161,6 +161,7 @@ void GetHardwareExtensions(int notest)
         S("GL_EXT_frag_depth", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
+        S("GL_OES_standard_derivatives", derivatives, 1);
     }
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
