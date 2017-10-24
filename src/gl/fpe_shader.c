@@ -211,7 +211,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
                 // enabled light i
                 // att depend on light position w
-                if((state->light_direction>>i&1)==0) { // flag track if light is has w!=0
+                if((state->light_direction>>i&1)==0) { // flag is 1 if light is has w!=0
                     ShadAppend("att = 1.0;\n");
                     sprintf(buff, "VP = normalize(gl_LightSource[%d].position.xyz);\n", i);
                     ShadAppend(buff);
