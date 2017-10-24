@@ -195,8 +195,8 @@ Try to avoid 16bits textures
 
 ##### LIBGL_AVOID24BITS
 Try to avoid 24bits textures (i.e. GL_RGB)
- * 0 : Default on Pandora, use 24bits texture when it's possible
- * 1 : Default on other hardware, use 32bits texture (i.e. GL_RGBA) when GL_RGB is asked (as internal or not). Does not impact GL_UNSIGNED_SHORT_5_6_5 and friends.
+ * 0 : Default, use 24bits texture when it's possible
+ * 1 : Force 32bits textures when GL_RGB is asked (as internal or not). Not recommanded, as it may brake some blend functions (especialy on GLES 1.1 backend). Does not impact GL_UNSIGNED_SHORT_5_6_5 and friends.
 
 ##### LIBGL_NOBGRA
 Ignore BGRA Texture hardware extension

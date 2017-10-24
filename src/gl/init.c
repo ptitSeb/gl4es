@@ -317,13 +317,20 @@ void initialize_gl4es() {
         } 
     }
     env(LIBGL_AVOID16BITS, globals4es.avoid16bits, "Avoid 16bits textures");
-#ifdef PANDORA
+
     globals4es.avoid24bits = 0;
-#else
-    globals4es.avoid24bits = 1;
-#endif
-    env(LIBGL_AVOID24BITS, globals4es.avoid24bits, "Avoid 24bits textures");
-    
+    char *env_avoid24bits = getenv("LIBGL_AVOID24BITS");
+    if(env_avoid24bits) {
+        if (strcmp(env_avoid24bits, "0") == 0) {
+            globals4es.avoid24bits = 0;
+            SHUT(LOGD("LIBGL: Don't try to avoid 24bits textures\n"));
+        } 
+        if (strcmp(env_avoid24bits, "1") == 0) {
+            globals4es.avoid24bits = 2;
+            SHUT(LOGD("LIBGL: Avoid 24bits textures\n"));
+        } 
+    }
+
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
