@@ -1361,13 +1361,18 @@ void gl4es_glXSwapInterval(int interval) {
         LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
     swap_interval = interval;
 #else
-    LOAD_EGL(eglSwapInterval);
-    egl_eglSwapInterval(eglDisplay, swap_interval);
-    CheckEGLErrors();
-    if(interval<minswap || interval>maxswap) {
-        SHUT(printf("LIBGL: Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);)
-    } else
+    if(glxContext) {
+        LOAD_EGL(eglSwapInterval);
+        egl_eglSwapInterval(eglDisplay, swap_interval);
+        CheckEGLErrors();
+        if(interval<minswap || interval>maxswap) {
+            SHUT(printf("LIBGL: Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);)
+        } else
+            swapinterval = interval;
+    } else {
+        DBG(printf("LIBGL: glXSwapInterval called before Context is current.\n");)
         swapinterval = interval;
+    }
 #endif
 }
 
