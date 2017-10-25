@@ -305,10 +305,10 @@ static void fpe_changetex(int n, int state)
 
     glstate->fpe_state->texture |= texmode<<(n*2);
 
-    if(texmode) {
+    /*if(texmode) {
         int target = ENABLED_TEX1D; // lowest priority
-        if(state && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
         if(state && (1<<ENABLED_TEX2D)) target = ENABLED_TEX2D;
+        if(state && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
         if(state && (1<<ENABLED_TEX3D)) target = ENABLED_TEX3D;
         if(state && (1<<ENABLED_CUBE_MAP)) target = ENABLED_CUBE_MAP;
         gltexture_t* tex = glstate->texture.bound[n][target];
@@ -316,7 +316,7 @@ static void fpe_changetex(int n, int state)
             glstate->fpe_state->texformat &= ~(7<<(n*3));
             glstate->fpe_state->texformat |= tex->fpe_format<<(n*3);
         }
-    }
+    }*/
 }
 
 #ifndef GL_TEXTURE_STREAM_IMG  
@@ -932,7 +932,10 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 		if (glstate->render_mode == GL_SELECT) {
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
-			GLuint old_tex = glstate->texture.client;
+            GLuint old_tex = glstate->texture.client;
+            
+            realize_textures();
+
             // secondry color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
             client_state(color_array, GL_COLOR_ARRAY, );
             if (glstate->vao->color_array)
@@ -1088,7 +1091,9 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 		if (glstate->render_mode == GL_SELECT) {
 			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
 		} else {
-			GLuint old_tex = glstate->texture.client;
+            realize_textures();
+            
+            GLuint old_tex = glstate->texture.client;
 
             // setup the Array Pointers
             client_state(color_array, GL_COLOR_ARRAY, );    
@@ -1179,6 +1184,8 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *cou
         LOAD_GLES_FPE(glMultiTexCoord4f);
 
         GLuint old_tex = glstate->texture.client;
+
+        realize_textures();
         
         // setup the Array Pointers
         client_state(color_array, GL_COLOR_ARRAY, );    
@@ -1266,6 +1273,8 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
         LOAD_GLES_FPE(glMultiTexCoord4f);
 
         GLuint old_tex = glstate->texture.client;
+
+        realize_textures();
         
         // setup the Array Pointers
         client_state(color_array, GL_COLOR_ARRAY, );    

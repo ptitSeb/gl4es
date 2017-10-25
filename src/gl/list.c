@@ -1049,6 +1049,8 @@ void draw_renderlist(renderlist_t *list) {
         #undef RS
         #undef TEXTURE
 
+        realize_textures();
+        
         GLenum mode;
         mode = list->mode;
         if ((glstate->polygon_mode == GL_LINE) && (mode>=GL_TRIANGLES))

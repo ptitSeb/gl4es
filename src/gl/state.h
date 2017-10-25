@@ -311,6 +311,12 @@ typedef struct {
     glstack_t           *stack;
     glclientstack_t     *clientStack;
     raster_state_t      raster;
+    GLuint              actual_tex2d[MAX_TEX]; // store the texture actually boundon TEX2D unit, because it's shared...
+    int                 bound_changed; // 0 if not changed or max TMU if changed...
+    int                 fpe_bound_changed; // same but for fpe
+#ifdef TEXSTREAM
+    int                 bound_stream[MAX_TEX];
+#endif
     int                 emulatedPixmap;
     int                 emulatedWin;
     int                 shared_cnt;

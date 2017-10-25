@@ -397,6 +397,24 @@ void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
 void realize_glenv() {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
+    // update texture state
+    if(glstate->fpe_bound_changed) {
+        for(int i=0; i<glstate->fpe_bound_changed; i++) {
+            glstate->fpe_state->texformat &= ~(7<<(i*3));
+            int state=glstate->enable.texture[glstate->texture.active];
+            int target = ENABLED_TEX2D;
+            if(IS_TEXCUBE(state)) target = ENABLED_CUBE_MAP;
+            else if(IS_TEX3D(state)) target = ENABLED_TEX3D;
+            else if(IS_TEXRECT(state)) target = ENABLED_TEXTURE_RECTANGLE;
+            else if(IS_TEX2D(state)) target = ENABLED_TEX2D;
+            else if(IS_TEX1D(state)) target = ENABLED_TEX1D;
+            gltexture_t* tex = glstate->texture.bound[i][target];
+            if(tex) {
+                glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
+            }
+        }
+        glstate->fpe_bound_changed = 0;
+    }
     // activate program if needed
     if(glstate->glsl.program) {
         if(glstate->gleshard.program != glstate->glsl.program)

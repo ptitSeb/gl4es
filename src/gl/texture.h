@@ -180,7 +180,10 @@ static inline GLenum to_target(GLuint itarget) {
             return GL_TEXTURE_2D;
     }
 }
+#define IS_TEX1D(T) (T&(1<<ENABLED_TEX1D))
 #define IS_TEX2D(T) (T&(1<<ENABLED_TEX2D))
+#define IS_TEX3D(T) (T&(1<<ENABLED_TEX3D))
+#define IS_TEXRECT(T) (T&(1<<ENABLED_TEXTURE_RECTANGLE))
 #define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)|(1<<ENABLED_TEXTURE_RECTANGLE)))
 #define IS_TEXCUBE(T) (T&(1<<ENABLED_CUBE_MAP))
 
@@ -201,5 +204,8 @@ void gl4es_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
 GLboolean gl4es_glIsTexture( GLuint texture );
 
 void tex_setup_texcoord(GLuint len, GLuint texture);
+
+void realize_bound(int TMU, GLenum target);
+void realize_textures();
 
 #endif
