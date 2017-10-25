@@ -929,16 +929,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 if (ndata!=pixels)
                     free(ndata);
-            } else if(callgeneratemipmap) {
-                LOAD_GLES(glGenerateMipmap);
-                gles_glGenerateMipmap(rtarget);
             }
             // check if max_level is set... and calculate highr level mipmap
-            if(bound->max_level == level) {
+            if(bound->max_level == level || (callgeneratemipmap && level==0)) {
                 int leveln = level, nw = nwidth, nh = nheight, nww=width, nhh=height;
                 int pot = (nh==nhh && nw==nww);
                 void *ndata = pixels;
-                while(nw!=1 && nh!=1) {
+                while(nw!=1 || nh!=1) {
                     if(pixels) {
                         GLvoid *out = ndata;
                         pixel_halfscale(ndata, &out, nww, nhh, format, type);
@@ -1155,10 +1152,10 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 free(ndata);
         }
         // check if max_level is set... and calculate higher level mipmap
-        if((bound->max_level == level) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0)) {
+        if(((bound->max_level == level) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0)) || (callgeneratemipmap && level==0)) {
             int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
             void *ndata = pixels;
-            while(nw!=1 && nh!=1) {
+            while(nw!=1 || nh!=1) {
                 if(pixels) {
                     GLvoid *out = ndata;
                     pixel_halfscale(ndata, &out, nw, nh, format, type);
@@ -1176,9 +1173,6 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
             }
             if (ndata!=pixels)
                 free(ndata);
-        } else if(callgeneratemipmap) {
-            LOAD_GLES(glGenerateMipmap);
-            gles_glGenerateMipmap(rtarget);
         }
     }
 
