@@ -171,45 +171,47 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Texture copy enabled\n"));
     }
     char *env_shrink = getenv("LIBGL_SHRINK");
-    if (env_shrink && strcmp(env_shrink, "1") == 0) {
-        globals4es.texshrink = 1;
-        SHUT(LOGD("LIBGL: Texture shink, mode 1 selected (everything / 2)\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "2") == 0) {
-        globals4es.texshrink = 2;
-        SHUT(LOGD("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "3") == 0) {
-        globals4es.texshrink = 3;
-        SHUT(LOGD("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "4") == 0) {
-        globals4es.texshrink = 4;
-        SHUT(LOGD("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "5") == 0) {
-        globals4es.texshrink = 5;
-        SHUT(LOGD("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "6") == 0) {
-        globals4es.texshrink = 6;
-        SHUT(LOGD("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "7") == 0) {
-        globals4es.texshrink = 7;
-        SHUT(LOGD("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "8") == 0) {
-        globals4es.texshrink = 8;
-        SHUT(LOGD("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "9") == 0) {
-        globals4es.texshrink = 9;
-        SHUT(LOGD("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
-    }
-    if (env_shrink && strcmp(env_shrink, "10") == 0) {
-        globals4es.texshrink = 10;
-        SHUT(LOGD("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
+    if(env_shrink) {
+        if (env_shrink && strcmp(env_shrink, "10") == 0) {
+            globals4es.texshrink = 10;
+            SHUT(LOGD("LIBGL: Texture shink, mode 10 selected (advertise 8192 max texture size, but >2048 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "1") == 0) {
+            globals4es.texshrink = 1;
+            SHUT(LOGD("LIBGL: Texture shink, mode 1 selected (everything / 2)\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "2") == 0) {
+            globals4es.texshrink = 2;
+            SHUT(LOGD("LIBGL: Texture shink, mode 2 selected (only > 512 /2 )\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "3") == 0) {
+            globals4es.texshrink = 3;
+            SHUT(LOGD("LIBGL: Texture shink, mode 3 selected (only > 256 /2 )\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "4") == 0) {
+            globals4es.texshrink = 4;
+            SHUT(LOGD("LIBGL: Texture shink, mode 4 selected (only > 256 /2, >=1024 /4 )\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "5") == 0) {
+            globals4es.texshrink = 5;
+            SHUT(LOGD("LIBGL: Texture shink, mode 5 selected (every > 256 is downscaled to 256 ), but not for empty texture\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "6") == 0) {
+            globals4es.texshrink = 6;
+            SHUT(LOGD("LIBGL: Texture shink, mode 6 selected (only > 128 /2, >=512 is downscaled to 256 ), but not for empty texture\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "7") == 0) {
+            globals4es.texshrink = 7;
+            SHUT(LOGD("LIBGL: Texture shink, mode 7 selected (only > 512 /2 ), but not for empty texture\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "8") == 0) {
+            globals4es.texshrink = 8;
+            SHUT(LOGD("LIBGL: Texture shink, mode 8 selected (advertise 8192 max texture size, but >2048 are shrinked to 2048)\n"));
+        }
+        else if (env_shrink && strcmp(env_shrink, "9") == 0) {
+            globals4es.texshrink = 9;
+            SHUT(LOGD("LIBGL: Texture shink, mode 9 selected (advertise 8192 max texture size, but >4096 are quadshrinked and > 512 are shrinked), but not for empty texture\n"));
+        }
     }
     char *env_dump = getenv("LIBGL_TEXDUMP");
     if (env_dump && strcmp(env_dump, "1") == 0) {
