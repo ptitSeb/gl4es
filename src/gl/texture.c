@@ -930,8 +930,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 if (ndata!=pixels)
                     free(ndata);
             }
-            // check if max_level is set... and calculate highr level mipmap
-            if(bound->max_level == level || (callgeneratemipmap && level==0)) {
+            // check if max_level is set... and calculate higher level mipmap
+            if((bound->max_level == level && (level || bound->mipmap_need)) || (callgeneratemipmap && level==0)) {
                 int leveln = level, nw = nwidth, nh = nheight, nww=width, nhh=height;
                 int pot = (nh==nhh && nw==nww);
                 void *ndata = pixels;
@@ -1152,7 +1152,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 free(ndata);
         }
         // check if max_level is set... and calculate higher level mipmap
-        if(((bound->max_level == level) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0)) || (callgeneratemipmap && level==0)) {
+        if((((bound->max_level == level) && (level || bound->mipmap_need)) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0)) || (callgeneratemipmap && level==0)) {
             int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
             void *ndata = pixels;
             while(nw!=1 || nh!=1) {
