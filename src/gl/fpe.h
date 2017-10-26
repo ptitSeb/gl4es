@@ -80,6 +80,13 @@
 #define FPE_TEX_LUM            4
 #define FPE_TEX_ALPHA          5
 
+#define FPE_TG_OFF             0
+#define FPE_TG_OBJLINEAR       1
+#define FPE_TG_EYELINEAR       2
+#define FPE_TG_SPHEREMAP       3
+#define FPE_TG_NORMALMAP       4
+#define FPE_TG_REFLECMAP       5
+
 typedef struct {
     uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
     uint32_t texsrcalpha[3];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
@@ -95,6 +102,14 @@ typedef struct {
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
     unsigned int texformat:24;           // 8 textures (simplified) internal format on 3 bits
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
+    uint8_t      texgen_s;               // 8 texgen S enabled on 1 bit
+    unsigned int texgen_s_mode:24;       // 8 texgen S on 3 bits
+    uint8_t      texgen_t;               // 8 texgen S enabled on 1 bit
+    unsigned int texgen_t_mode:24;       // 8 texgen T on 3 bits
+    uint8_t      texgen_r;               // 8 texgen S enabled on 1 bit
+    unsigned int texgen_r_mode:24;       // 8 texgen R on 3 bits
+    uint8_t      texgen_q;               // 8 texgen S enabled on 1 bit
+    unsigned int texgen_q_mode:24;       // 8 texgen Q on 3 bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode
     unsigned int fogsource:1;            // fog source

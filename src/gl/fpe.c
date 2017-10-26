@@ -96,15 +96,40 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         memset(dest->texsrcalpha, 0, sizeof(dest->texsrcalpha));
         memset(dest->texoprgb, 0, sizeof(dest->texoprgb));
         memset(dest->texopalpha, 0, sizeof(dest->texopalpha));
+        dest->texgen_s = 0;
+        dest->texgen_s_mode = 0;
+        dest->texgen_t = 0;
+        dest->texgen_t_mode = 0;
+        dest->texgen_r = 0;
+        dest->texgen_r_mode = 0;
+        dest->texgen_q = 0;
+        dest->texgen_q_mode = 0;
         dest->texformat = 0;
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
-            if(dest->texture>>(i<<1)&3==0) {
+            if(dest->texture>>(i<<1)&3==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
+                dest->texgen_s &= ~(1<<i);
+                dest->texgen_s_mode &= ~(7<<(i*3));
+                dest->texgen_t &= ~(1<<i);
+                dest->texgen_t_mode &= ~(7<<(i*3));
+                dest->texgen_r &= ~(1<<i);
+                dest->texgen_r_mode &= ~(7<<(i*3));
+                dest->texgen_q &= ~(1<<i);
+                dest->texgen_q_mode &= ~(7<<(i*3));
+            } else {    // texture is on
+                if (dest->texgen_s&(1<<i)==0)
+                    dest->texgen_s_mode &= ~(7<<(i*3));
+                if (dest->texgen_t&(1<<i)==0)
+                    dest->texgen_t_mode &= ~(7<<(i*3));
+                if (dest->texgen_r&(1<<i)==0)
+                    dest->texgen_r_mode &= ~(7<<(i*3));
+                if (dest->texgen_q&(1<<i)==0)
+                    dest->texgen_q_mode &= ~(7<<(i*3));
             }
-            if(dest->texenv>>(i*3)&7 != FPE_COMBINE) {
+            if(dest->texenv>>(i*3)&7 != FPE_COMBINE || dest->texture>>(i<<1)&3==0) {
                 dest->texcombine[i] = 0;
                 for (int j=0; j<3; j++) {
                     dest->texsrcrgb[j] &= ~(0xf<<(i*4));

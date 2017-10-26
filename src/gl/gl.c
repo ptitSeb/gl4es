@@ -318,6 +318,20 @@ static void fpe_changetex(int n, int state)
         }
     }*/
 }
+#define generate_changetexgen(C) \
+static void fpe_changetexgen_##C(int n, bool enable) \
+{ \
+    glstate->fpe = NULL; \
+    if(enable) \
+        glstate->fpe_state->texgen_##C |= 1<<n; \
+    else \
+        glstate->fpe_state->texgen_##C &= ~(1<<n); \
+}
+generate_changetexgen(s)
+generate_changetexgen(t)
+generate_changetexgen(r)
+generate_changetexgen(q)
+#undef generate_changetexgen
 
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
@@ -376,10 +390,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             break;
 
         // texgen
-        GO(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]); //TODO: FPE stuffs
-        GO(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
-        GO(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active]);
-        GO(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active]);
+        GOFPE(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active], fpe_changetexgen_s(glstate->texture.active, enable)); //TODO: FPE stuffs
+        GOFPE(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active], fpe_changetexgen_t(glstate->texture.active, enable));
+        GOFPE(GL_TEXTURE_GEN_R, texgen_r[glstate->texture.active], fpe_changetexgen_r(glstate->texture.active, enable));
+        GOFPE(GL_TEXTURE_GEN_Q, texgen_q[glstate->texture.active], fpe_changetexgen_q(glstate->texture.active, enable));
         GO(GL_LINE_STIPPLE, line_stipple);
 
         // clip plane

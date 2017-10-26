@@ -35,16 +35,30 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
     noerrorShim();
     switch(pname) {
-        case GL_TEXTURE_GEN_MODE:
+        case GL_TEXTURE_GEN_MODE: {
+            int mode = -1;
+            int n;
+            if(glstate->fpe_state) {
+                int p = param[0];
+                switch (p) {
+                    case GL_OBJECT_LINEAR: mode = FPE_TG_OBJLINEAR; break;
+                    case GL_EYE_LINEAR: mode = FPE_TG_EYELINEAR; break;
+                    case GL_SPHERE_MAP: mode = FPE_TG_SPHEREMAP; break;
+                    case GL_NORMAL_MAP: mode = FPE_TG_NORMALMAP; break;
+                    case GL_REFLECTION_MAP: mode = FPE_TG_REFLECMAP; break;
+                }
+                n = glstate->texture.active*3;
+            }
             switch (coord) {
-                case GL_S: glstate->texgen[glstate->texture.active].S = param[0]; break;
-                case GL_T: glstate->texgen[glstate->texture.active].T = param[0]; break;
-                case GL_R: glstate->texgen[glstate->texture.active].R = param[0]; break;
-                case GL_Q: glstate->texgen[glstate->texture.active].Q = param[0]; break;
+                case GL_S: glstate->texgen[glstate->texture.active].S = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_s_mode&=~(7<<n); glstate->fpe_state->texgen_s_mode|=(mode<<n); } break;
+                case GL_T: glstate->texgen[glstate->texture.active].T = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_t_mode&=~(7<<n); glstate->fpe_state->texgen_t_mode|=(mode<<n); } break;
+                case GL_R: glstate->texgen[glstate->texture.active].R = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_r_mode&=~(7<<n); glstate->fpe_state->texgen_r_mode|=(mode<<n); } break;
+                case GL_Q: glstate->texgen[glstate->texture.active].Q = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_q_mode&=~(7<<n); glstate->fpe_state->texgen_q_mode|=(mode<<n); } break;
                 default:
                     errorShim(GL_INVALID_ENUM);
             }
             return;
+        }
         case GL_OBJECT_PLANE:
             switch (coord) {
                 case GL_S:
