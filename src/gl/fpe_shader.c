@@ -179,10 +179,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             sprintf(buff, "vec4 BackColor = %s;\n", bm_emission);
             ShadAppend(buff);
         }
-        sprintf(buff, "Color += %s*gl_FrontLightModelProduct.sceneColor;\n", fm_ambient);
+        sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", fm_ambient);
         ShadAppend(buff);
         if(twosided) {
-            sprintf(buff, "Color += %s*gl_BackLightModelProduct.sceneColor;\n", bm_ambient);
+            sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", bm_ambient);
             ShadAppend(buff);
         }
         if(light_separate) {
@@ -198,11 +198,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("vec3 aa,dd,ss;\n");
         ShadAppend("vec3 hi;\n");
         if(twosided)
-            ShadAppend("vec4 back_aa,back_dd,back_ss;\n");
-        if(state->normalize)
-            ShadAppend("vec3 normal = gl_NormalMatrix * normalize(gl_Normal);\n");
+            ShadAppend("vec3 back_aa,back_dd,back_ss;\n");
+        if(state->rescaling)
+            ShadAppend("vec3 normal = gl_NormalScale*(gl_NormalMatrix * gl_Normal);\n");
         else
             ShadAppend("vec3 normal = gl_NormalMatrix * gl_Normal;\n");
+        if(state->normalize)
+            ShadAppend("normal = normalize(normal);\n");
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
                 if(comments) {
@@ -243,12 +245,12 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     sprintf(buff, "back_aa = %s.xyz * gl_LightSource[%d].ambient.xyz;\n", bm_ambient, i);
                     ShadAppend(buff);
                 }
-                sprintf(buff, "nVP = max(dot(normal, VP), 0.);");
+                sprintf(buff, "nVP = dot(normal, VP);\n");
                 ShadAppend(buff);
-                sprintf(buff, "dd = nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz;\n", fm_diffuse, i);
+                sprintf(buff, "dd = (nVP>0.)?(nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz):vec3(0.);\n", fm_diffuse, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "back_dd = nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz;\n", bm_diffuse, i);
+                    sprintf(buff, "back_dd = (nVP<0.)(-nVP * %s.xyz * gl_LightSource[%d].diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
                     ShadAppend(buff);
                 }
                 if(state->light_localviewer) {
@@ -256,10 +258,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 } else {
                     ShadAppend("hi = normalize(VP + vec3(0., 0., 1.));\n");
                 }
-                sprintf(buff, "ss = (nVP!=0.)?(pow(max(dot(normal, hi),0.), gl_FrontMaterial.shininess)*%s.xyz*gl_LightSource[%d].specular.xyz):vec3(0.);\n", fm_specular, i);
+                ShadAppend("lVP = dot(normal, hi);\n");
+                sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, gl_FrontMaterial.shininess)*%s.xyz*gl_LightSource[%d].specular.xyz):vec3(0.);\n", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = (nVP!=0.)?(pow(max(dot(normal, hi),0.), gl_BackMaterial.shininess)*%s*gl_LightSource[%d].specular.xyz):vec3(0.);\n", bm_specular, i);
+                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP,0.), gl_BackMaterial.shininess)*%s*gl_LightSource[%d].specular.xyz):vec3(0.);\n", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {

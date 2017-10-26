@@ -99,6 +99,12 @@ const char* gl4es_LightSourceParametersSource =
 "};\n"
 "uniform gl_LightSourceParameters gl_LightSource[gl_MaxLights];\n";
 
+const char* gl4es_LightModelParametersSource =
+"struct gl_LightModelParameters {\n"
+"  vec4 ambient;\n"
+"};\n"
+"uniform gl_LightModelParameters gl_LightModel;\n";
+
 const char* gl4es_MaterialParametersSource =
 "struct gl_MaterialParameters\n"
 "{\n"
@@ -335,6 +341,13 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     headline+=CountLine(gl4es_LightSourceParametersSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightSourceParameters", "_gl4es_LightSourceParameters");
   }
+  if(strstr(Tmp, "gl_LightModelParameters") || strstr(Tmp, "gl_LightModel"))
+  {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_LightModelParametersSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_LightModelParametersSource);
+    headline+=CountLine(gl4es_LightModelParametersSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightModelParameters", "_gl4es_LightModelParameters");
+  }
   if(strstr(Tmp, "gl_LightModelProducts") || strstr(Tmp, "gl_FrontLightModelProduct") || strstr(Tmp, "gl_BackLightModelProduct"))
   {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_LightModelProductsSource));
@@ -358,6 +371,8 @@ char* ConvertShader(const char* pBuffer, int isVertex)
   }
   if(strstr(Tmp, "gl_LightSource"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightSource", "_gl4es_LightSource");
+  if(strstr(Tmp, "gl_LightModel"))
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightModel", "_gl4es_LightModel");
   if(strstr(Tmp, "gl_FrontLightModelProduct"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontLightModelProduct", "_gl4es_FrontLightModelProduct");
   if(strstr(Tmp, "gl_BackLightModelProduct"))

@@ -666,6 +666,9 @@ void realize_glenv() {
                 GoUniformfv(glprogram, glprogram->builtin_lightprod[1][i].specular, 4, 1, tmp);
             }
         }
+        if(glprogram->builtin_lightmodel.ambient!=-1) {
+            GoUniformfv(glprogram, glprogram->builtin_lightmodel.ambient, 4, 1, glstate->light.ambient);
+        }
         if(glprogram->builtin_material[0].ambient!=-1) {
             GoUniformfv(glprogram, glprogram->builtin_material[0].emission, 4, 1, glstate->material.front.emission);
             GoUniformfv(glprogram, glprogram->builtin_material[0].ambient, 4, 1, glstate->material.front.ambient);
@@ -876,6 +879,7 @@ void builtin_Init(program_t *glprogram) {
         glprogram->builtin_lights[i].linearAttenuation = -1;
         glprogram->builtin_lights[i].quadraticAttenuation = -1;
     }
+    glprogram->builtin_lightmodel.ambient = -1;
     for (int i=0; i<2; i++) { // 0:Front, 1:Back
         glprogram->builtin_material[i].emission = -1;
         glprogram->builtin_material[i].ambient = -1;
@@ -925,6 +929,7 @@ void builtin_Init(program_t *glprogram) {
 
 const char* gl4es_code = "_gl4es_";
 const char* lightsource_code = "_gl4es_LightSource[";
+const char* lightmodel_code = "_gl4es_LightModel.";
 const char* frontmaterial_code = "_gl4es_FrontMaterial";
 const char* backmaterial_code = "_gl4es_BackMaterial";
 const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
@@ -979,6 +984,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             glprogram->has_builtin_light = 1;
             return 1;
         }
+    }
+    if(strncmp(name, lightmodel_code, strlen(lightmodel_code))==0)
+    {
+        // it's a Light Model
+        if(strstr(name, "ambient")) glprogram->builtin_lightmodel.ambient = id;
+        glprogram->has_builtin_light = 1;
+        return 1;
     }
     if(strncmp(name, frontmaterial_code, strlen(frontmaterial_code))==0 
         || strncmp(name, backmaterial_code, strlen(backmaterial_code))==0)

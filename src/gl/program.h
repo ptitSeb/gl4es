@@ -116,6 +116,11 @@ typedef struct {
 } builtin_lightsource_t;
 
 typedef struct {
+    GLint       ambient;
+} builtin_lightmodel_t;
+   
+
+typedef struct {
     GLint       emission; //vec4
     GLint       ambient; //vec4
     GLint       diffuse; //vec4
@@ -171,6 +176,7 @@ typedef struct {
     GLint                           builtin_matrix[MAT_MAX];
     int                             has_builtin_light;
     builtin_lightsource_t           builtin_lights[MAX_LIGHT];
+    builtin_lightmodel_t            builtin_lightmodel;
     builtin_material_t              builtin_material[2];
     builtin_lightmodelproducts_t    builtin_lightmodelprod[2];
     builtin_lightproducts_t         builtin_lightprod[2][MAX_LIGHT];
