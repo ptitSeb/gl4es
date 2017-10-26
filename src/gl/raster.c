@@ -180,14 +180,6 @@ int raster_need_transform() {
 
 GLuint raster_to_texture()
 {
-    LOAD_GLES(glGenTextures);
-    LOAD_GLES(glBindTexture);
-    LOAD_GLES(glTexEnvf);
-    LOAD_GLES(glTexImage2D);
-    LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glTexParameteri);
-    LOAD_GLES(glTexParameterf);
-    
 	renderlist_t *old_list = glstate->list.active;
 	if (old_list) glstate->list.active = NULL;		// deactivate list...
 	GLboolean compiling = glstate->list.compiling;
@@ -203,8 +195,8 @@ GLuint raster_to_texture()
 		old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->texture;
 	GLuint raster_texture;
 	gl4es_glEnable(GL_TEXTURE_2D);
-	gles_glGenTextures(1, &raster_texture);
-	gles_glBindTexture(GL_TEXTURE_2D, raster_texture);
+	gl4es_glGenTextures(1, &raster_texture);
+	gl4es_glBindTexture(GL_TEXTURE_2D, raster_texture);
 
     gl4es_glPixelStorei(GL_PACK_ALIGNMENT, 1);
     gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -212,14 +204,14 @@ GLuint raster_to_texture()
     gl4es_glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
     gl4es_glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
     gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    gles_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_nwidth, raster_nheight,
+    gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_nwidth, raster_nheight,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, raster);
 
-	gles_glBindTexture(GL_TEXTURE_2D, old_tex);
+	gl4es_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=GL_TEXTURE0) 
 		gl4es_glActiveTexture(old_tex_unit);
 	gl4es_glPopAttrib();
@@ -235,7 +227,9 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	glstate->raster.rPos.x, glstate->raster.rPos.y, xorig, yorig, width, height, glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
-    noerrorShim();
+	noerrorShim();
+	if(glstate->list.active && glstate->list.pending)
+		flush();
     if ((!width && !height) || (bitmap==0)) {
 		if (glstate->list.active) {
 			if (glstate->list.active->raster)
@@ -316,10 +310,9 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->bitmap = true;
 	r->zoomx = glstate->raster.raster_zoomx;
 	r->zoomy = glstate->raster.raster_zoomy;
-    LOAD_GLES(glDeleteTextures);
 	if (!(glstate->list.active)) {
 		render_raster_list(r);
-		gles_glDeleteTextures(1, &r->texture);
+		gl4es_glDeleteTextures(1, &r->texture);
 		r->texture = 0;
 	}
 }
@@ -328,10 +321,11 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
-    LOAD_GLES(glDeleteTextures);
 
     noerrorShim();
-    
+	if(glstate->list.active && glstate->list.pending)
+		flush();
+
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%s, type=%s, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	glstate->raster.rPos.x, glstate->raster.rPos.y, width, height, PrintEnum(format), PrintEnum(type), glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
 	// check of unsuported format...
@@ -389,7 +383,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	} else {
 		r = &rast;
         if(r->texture)
-            gles_glDeleteTextures(1, &r->texture);
+            gl4es_glDeleteTextures(1, &r->texture);
 	}
 	r->texture = raster_to_texture(width, height);
 	r->xmove = 0;
