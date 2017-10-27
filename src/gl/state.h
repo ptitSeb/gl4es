@@ -290,6 +290,10 @@ typedef struct {
     namestack_t         namestack;
     GLfloat             mvp_matrix[16];
     int                 mvp_matrix_dirty;
+    GLfloat             inv_mv_matrix[16];
+    int                 inv_mv_matrix_dirty;
+    GLfloat             normal_matrix[9];
+    int                 normal_matrix_dirty;
     matrixstack_t       *modelview_matrix;
     matrixstack_t       *projection_matrix;
     matrixstack_t       **texture_matrix;

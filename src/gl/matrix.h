@@ -21,6 +21,21 @@ static inline GLfloat* getMVMat() {
 	return glstate->modelview_matrix->stack+glstate->modelview_matrix->top*16;
 }
 
+static inline GLfloat* getInvMVMat() {
+	if(glstate->inv_mv_matrix_dirty) {
+		matrix_inverse(glstate->modelview_matrix->stack+glstate->modelview_matrix->top*16, glstate->inv_mv_matrix);
+		glstate->inv_mv_matrix_dirty = 0;
+	}
+	return glstate->inv_mv_matrix;
+}
+static inline GLfloat* getNormalMat() {
+	if(glstate->normal_matrix_dirty) {
+		matrix_inverse3_transpose(glstate->modelview_matrix->stack+glstate->modelview_matrix->top*16, glstate->normal_matrix);
+		glstate->normal_matrix_dirty = 0;
+	}
+	return glstate->normal_matrix;
+}
+
 static inline GLfloat* getPMat() {
 	return glstate->projection_matrix->stack+glstate->projection_matrix->top*16;
 }

@@ -594,10 +594,8 @@ void realize_glenv() {
             GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV], 1, GL_FALSE, getMVMat());
             GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_T], 1, GL_TRUE, getMVMat());
             if(glprogram->builtin_matrix[MAT_MV_I]!=-1 || glprogram->builtin_matrix[MAT_MV_IT]!=-1) {
-                GLfloat invmat[16];
-                matrix_inverse(getMVMat(), invmat);
-                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_I], 1, GL_FALSE, invmat);
-                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_IT], 1, GL_TRUE, invmat);
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_I], 1, GL_FALSE, getInvMVMat());
+                GoUniformMatrix4fv(glprogram, glprogram->builtin_matrix[MAT_MV_IT], 1, GL_TRUE, getInvMVMat());
             }
         }
         if(glprogram->builtin_matrix[MAT_P]!=-1 || glprogram->builtin_matrix[MAT_P_I]!=-1
@@ -622,16 +620,12 @@ void realize_glenv() {
             }
             if(glprogram->builtin_matrix[MAT_N]!=-1)
             {
-                GLfloat matn[9];
-                matrix_inverse3_transpose(getMVMat(), matn);
-                GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, matn);
+                GoUniformMatrix3fv(glprogram, glprogram->builtin_matrix[MAT_N], 1, GL_FALSE, getNormalMat());
             }
             if((glprogram->builtin_normalrescale!=-1 && glstate->fpe_state->rescaling))
             {
-                float tmp;
-                float invmat[16];
-                matrix_inverse(getMVMat(), invmat);
                 if(glprogram->builtin_normalrescale!=-1) {
+                    const float *invmat = getInvMVMat();
                     float tmp = 1.0f/sqrtf(invmat[3*3+1]*invmat[3*3+1]+invmat[3*3+2]*invmat[3*3+2]+invmat[3*3+3]*invmat[3*3+3]);
                     GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);
                 }

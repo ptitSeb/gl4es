@@ -70,6 +70,12 @@ DBG(printf("init_matrix(%p)\n", glstate);)
 	glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
 	set_identity(glstate->mvp_matrix);
 	glstate->mvp_matrix_dirty = 0;
+	set_identity(glstate->inv_mv_matrix);
+	glstate->inv_mv_matrix_dirty = 0;
+	// no identity function for 3x3 matrix
+	memset(glstate->normal_matrix, 0, 9*sizeof(GLfloat));
+	glstate->normal_matrix[0] = glstate->normal_matrix[4] = glstate->normal_matrix[8] = 1.0f;
+	glstate->normal_matrix_dirty = 1;
     for (int i=0; i<MAX_TEX; i++) {
         alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
         set_identity(TOP(texture_matrix[i]));
@@ -159,6 +165,8 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 		case GL_MODELVIEW:
 			P(modelview_matrix);
 			glstate->mvp_matrix_dirty = 1;
+			glstate->inv_mv_matrix_dirty = 1;
+			glstate->normal_matrix_dirty = 1;
 			break;
 		case GL_TEXTURE:
 			P(texture_matrix[glstate->texture.active]);
@@ -195,6 +203,8 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		}
     }
 	memcpy(update_current_mat(), m, 16*sizeof(GLfloat));
+	if(glstate->matrix_mode==GL_MODELVIEW)
+		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
 	const int id = update_current_identity(0);
@@ -235,6 +245,8 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	GLfloat *current_mat = update_current_mat();
 	matrix_mul(current_mat, m, current_mat);
 	const int id = update_current_identity(0);
+	if(glstate->matrix_mode==GL_MODELVIEW)
+		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
 	else if(glstate->fpe_state)
@@ -261,6 +273,8 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	}
 	set_identity(update_current_mat());
 	update_current_identity(1);
+	if(glstate->matrix_mode==GL_MODELVIEW)
+		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
 	else if(glstate->fpe_state)
@@ -385,6 +399,8 @@ void gl4es_immediateMVEnd(renderlist_t *list) {
 			for (int i=glstate->immediateMV; i<list->len; i++, t+=4)
 				vector_matrix(t, getMVMat(), t);
 		}
+		glstate->inv_mv_matrix_dirty = 1;
+		glstate->normal_matrix_dirty = 1;
 		glstate->mvp_matrix_dirty = 1;
 		// send MV matrix back
 		LOAD_GLES2(glLoadMatrixf);

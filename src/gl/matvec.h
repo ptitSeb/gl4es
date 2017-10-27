@@ -9,6 +9,7 @@ float cross3(const float *a, const float *b, float* c) FASTMATH;
 void matrix_vector(const float *a, const float *b, float *c);
 void vector_matrix(const float *a, const float *b, float *c);
 void vector3_matrix(const float *a, const float *b, float *c);
+void vector3_matrix3(const float *a, const float *b, float *c);
 void vector3_matrix4(const float *a, const float *b, float *c);
 void vector_normalize(float *a);
 void vector4_normalize(float *a);

@@ -87,24 +87,28 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                     errorShim(GL_INVALID_ENUM);
             }
             return;
-        case GL_EYE_PLANE:
+        case GL_EYE_PLANE: {
+            // need to transform here
+            GLfloat pe[4];
+            matrix_vector(param, getInvMVMat(), pe);
             switch (coord) {
                 case GL_S:
-                    memcpy(glstate->texgen[glstate->texture.active].S_E, param, 4 * sizeof(GLfloat));
+                    memcpy(glstate->texgen[glstate->texture.active].S_E, pe, 4 * sizeof(GLfloat));
                     break;
                 case GL_T:
-                    memcpy(glstate->texgen[glstate->texture.active].T_E, param, 4 * sizeof(GLfloat));
+                    memcpy(glstate->texgen[glstate->texture.active].T_E, pe, 4 * sizeof(GLfloat));
                     break;
                 case GL_R:
-                    memcpy(glstate->texgen[glstate->texture.active].R_E, param, 4 * sizeof(GLfloat));
+                    memcpy(glstate->texgen[glstate->texture.active].R_E, pe, 4 * sizeof(GLfloat));
                     break;
                 case GL_Q:
-                    memcpy(glstate->texgen[glstate->texture.active].Q_E, param, 4 * sizeof(GLfloat));
+                    memcpy(glstate->texgen[glstate->texture.active].Q_E, pe, 4 * sizeof(GLfloat));
                     break;
                 default:
                     errorShim(GL_INVALID_ENUM);
-            }
+                }
             return;
+            }
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -179,16 +183,14 @@ void sphere_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GLint 
         return;
     }*/
     // First get the ModelviewMatrix
-    GLfloat ModelviewMatrix[16], InvModelview[16];
-    // column major -> row major
-    matrix_transpose(getMVMat(), ModelviewMatrix);
-    // And get the inverse
-    matrix_inverse(ModelviewMatrix, InvModelview);
+    GLfloat InvModelview[16];
+    matrix_transpose(getInvMVMat(), InvModelview);
+    const GLfloat *ModelviewMatrix = getMVMat();
     GLfloat eye[4], eye_norm[4], reflect[4];
     GLfloat a;
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
-        matrix_vector(ModelviewMatrix, verts+k*4, eye);
+        vector_matrix(verts+k*4, ModelviewMatrix, eye);
         vector4_normalize(eye);
         vector3_matrix((norm)?(norm+k*3):glstate->normal, InvModelview, eye_norm);
         vector_normalize(eye_norm);
@@ -211,18 +213,14 @@ void reflection_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GL
         printf("LIBGL: GL_REFLECTION_MAP without Normals\n");
         return;
     }*/
-    // First get the ModelviewMatrix
-    GLfloat ModelviewMatrix[16], InvModelview[16];
-    gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
-    // column major -> row major
-    matrix_transpose(InvModelview, ModelviewMatrix);
-    // And get the inverse
-    matrix_inverse(ModelviewMatrix, InvModelview);
+    GLfloat InvModelview[16];
+    matrix_transpose(InvModelview, getInvMVMat());
+    const GLfloat * ModelviewMatrix = getMVMat();
     GLfloat eye[4], eye_norm[4];
     GLfloat a;
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
-        matrix_vector(ModelviewMatrix, verts+k*4, eye);
+        vector_matrix(verts+k*4, ModelviewMatrix, eye);
         vector4_normalize(eye);
         vector3_matrix((norm)?(norm+k*3):glstate->normal, InvModelview, eye_norm);
         vector4_normalize(eye_norm);
@@ -238,18 +236,12 @@ void reflection_loop(const GLfloat *verts, const GLfloat *norm, GLfloat *out, GL
 void eye_loop(const GLfloat *verts, const GLfloat *param, GLfloat *out, GLint count, GLushort *indices) {
     // based on https://www.opengl.org/wiki/Mathematics_of_glTexGen
     // First get the ModelviewMatrix
-    GLfloat ModelviewMatrix[16], InvModelview[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, InvModelview);
-    // column major -> row major
-    matrix_transpose(InvModelview, ModelviewMatrix);
-    // And get the inverse
-    matrix_inverse(ModelviewMatrix, InvModelview);
-    GLfloat plane[4], tmp[4];
-    vector_matrix(param, InvModelview, plane);
+    const GLfloat *ModelviewMatrix = getMVMat();
+    GLfloat tmp[4];
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*4, tmp);
-        out[k*4]=dot4(plane, tmp);
+        out[k*4]=dot4(param, tmp);
     }
 }
 
@@ -262,14 +254,12 @@ void eye_loop_dual(const GLfloat *verts, const GLfloat *param1, const GLfloat* p
     matrix_transpose(InvModelview, ModelviewMatrix);
     // And get the inverse
     matrix_inverse(ModelviewMatrix, InvModelview);
-    GLfloat plane1[4], plane2[4], tmp[4];
-    vector_matrix(param1, InvModelview, plane1);
-    vector_matrix(param2, InvModelview, plane2);
+    GLfloat tmp[4];
     for (int i=0; i<count; i++) {
 	GLushort k = indices?indices[i]:i;
         matrix_vector(ModelviewMatrix, verts+k*4, tmp);
-        out[k*4+0]=dot4(plane1, tmp);
-        out[k*4+1]=dot4(plane2, tmp);
+        out[k*4+0]=dot4(param1, tmp);
+        out[k*4+1]=dot4(param2, tmp);
     }
 }
 
