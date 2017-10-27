@@ -166,6 +166,18 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
     }
+    // TexGen
+    for (int i=0; i<hardext.maxtex; i++) {
+        glstate->texgen[i].S = GL_EYE_LINEAR;
+        glstate->texgen[i].T = GL_EYE_LINEAR;
+        glstate->texgen[i].R = GL_EYE_LINEAR;
+        glstate->texgen[i].Q = GL_EYE_LINEAR;
+        glstate->texgen[i].S_E[0] = 1.0;
+        glstate->texgen[i].S_O[0] = 1.0;
+        glstate->texgen[i].T_E[1] = 1.0;
+        glstate->texgen[i].T_O[1] = 1.0;
+    }
+
     // GLSL stuff
     {
         khint_t k;

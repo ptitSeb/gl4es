@@ -80,12 +80,11 @@
 #define FPE_TEX_LUM            4
 #define FPE_TEX_ALPHA          5
 
-#define FPE_TG_OFF             0
+#define FPE_TG_EYELINEAR       0
 #define FPE_TG_OBJLINEAR       1
-#define FPE_TG_EYELINEAR       2
-#define FPE_TG_SPHEREMAP       3
-#define FPE_TG_NORMALMAP       4
-#define FPE_TG_REFLECMAP       5
+#define FPE_TG_SPHEREMAP       2
+#define FPE_TG_NORMALMAP       3
+#define FPE_TG_REFLECMAP       4
 
 typedef struct {
     uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
