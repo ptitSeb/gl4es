@@ -806,15 +806,16 @@ void realize_glenv() {
         if(v->vaarray) {
             // array case
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
-                || v->stride!=w->stride || v->pointer!=w->pointer || v->buffer!=w->buffer) {
+                || v->stride!=w->stride || v->buffer!=w->buffer
+                || v->pointer!=(void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0))) {
                 v->size = w->size;
                 v->type = w->type;
                 v->normalized = w->normalized;
                 v->stride = w->stride;
-                v->pointer = w->pointer;
-                v->buffer = w->buffer;
+                v->pointer = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
+                v->buffer = w->buffer; // buffer is unused here
                 LOAD_GLES2(glVertexAttribPointer);
-                gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));
+                gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                 DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
             }
         } else {
