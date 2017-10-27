@@ -30,6 +30,8 @@ const char* texxyzsize[] = {"xy", "xyz", "xy"};
 const char* texsampler[] = {"texture2D", "textureCube", "textureStream"};
 int texnsize[] = {2, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
+const char texcoordNAME[] = {'S', 'T', 'R', 'Q'};
+const char texcoordxy[] = {'x', 'y', 'z', 'w'};
 
 const char* fpe_texenvSrc(int src, int tmu, int twosided) {
     static char buff[200];
@@ -96,7 +98,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int headers = 0;
     int planes = state->plane;
     char buff[1024];
-
+    int need_vertex = 0;
+    int need_eyeplane[MAX_TEX][4] = {0};
+    int need_objplane[MAX_TEX][4] = {0};
+    
     shad[0] = '\0';
 
     if(comments) {
@@ -122,6 +127,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     if(planes || (fog && fogsource==FPE_FOG_SRC_DEPTH)) {
         ShadAppend("varying vec4 vertex;\n");
         headers++;
+        need_vertex = 2;
     }
     if(fog && fogsource==FPE_FOG_SRC_COORD) {
         ShadAppend("varying float FogCoord;\n");
@@ -145,12 +151,6 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     ShadAppend("\nvoid main() {\n");
     // initial Color / lighting calculation
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
-    // lighting and some fog use this
-    if(lighting || (fog && fogsource==FPE_FOG_SRC_DEPTH) || planes) {
-        if(planes==0 && !(fog && fogsource==FPE_FOG_SRC_DEPTH))
-            ShadAppend("vec4 ");
-        ShadAppend("vertex = gl_ModelViewMatrix * gl_Vertex;\n");
-    }
     int need_normal = 0;
     int normal_line = CountLine(shad) - headers;
     if(!lighting) {
@@ -223,6 +223,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     sprintf(buff, "att = 1.0/(gl_LightSource[%d].constantAttenuation + gl_LightSource[%d].linearAttenuation * lVP + gl_LightSource[%d].quadraticAttenuation * lVP*lVP);\n", i, i, i);
                     ShadAppend(buff);
                     ShadAppend("VP = normalize(VP);\n");
+                    if(!need_vertex) need_vertex=1;
                 }
                 // spot depend on spotlight cutoff angle
                 if((state->light_cutoff180>>i&1)==0) {
@@ -230,6 +231,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 } else {
                     if((state->light_direction>>i&1)==0) {
                         printf(buff, "spot = max(dot(-normalize(vertex.xyz), gl_LightSource[%d].spotDirection), 0.);\n", i);
+                        if(!need_vertex) need_vertex=1;
                     } else {
                         printf(buff, "spot = max(dot(-VP, gl_LightSource[%d].spotDirection), 0.);\n", i);
                     }
@@ -254,6 +256,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
                 if(state->light_localviewer) {
                     ShadAppend("hi = normalize(VP + normalize(-vertex.xyz));\n");
+                    if(!need_vertex) need_vertex=1;
                 } else {
                     ShadAppend("hi = normalize(VP + vec3(0., 0., 1.));\n");
                 }
@@ -301,7 +304,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     if(comments)
         ShadAppend("// texturing\n");
     if(state->texgen_s || state->texgen_t || state->texgen_r || state->texgen_q)
-        ShadAppend("vec4 tmp_tcoord;\n");
+        ShadAppend("vec4 tmp_tcoor;\n");
+    int spheremap = 0;
+    int reflectmap = 0;
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
         int mat = state->textmat&(1<<i)?1:0;
@@ -310,46 +315,63 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         tg[1] = state->texgen_t&(1<<i)?1:0;
         tg[2] = state->texgen_r&(1<<i)?1:0;
         tg[3] = state->texgen_q&(1<<i)?1:0;
+        int ntc = texnsize[t-1];
         if(t) {
             if(comments) {
                 sprintf(buff, "// texture %d active: %X %s\n", i, t, mat?"with matrix":"");
                 ShadAppend(buff);
             }
             char texcoord[50];
-            /*
             if (tg[0] || tg[1] || tg[2] || tg[3]) {
                 // One or more texgen is active
                 if(tg[0]) tg[0] = (state->texgen_s_mode>>(i*3)&7); else tg[0] = FPE_TG_NONE;
                 if(tg[1]) tg[1] = (state->texgen_t_mode>>(i*3)&7); else tg[1] = FPE_TG_NONE;
                 if(tg[2]) tg[2] = (state->texgen_r_mode>>(i*3)&7); else tg[2] = FPE_TG_NONE;
                 if(tg[3]) tg[3] = (state->texgen_q_mode>>(i*3)&7); else tg[3] = FPE_TG_NONE;
-                // special cases
-                if(tg[0]==FPE_TG_SPHEREMAP && tg[1]!=tg[0]) {
-                    tg[0] = FPE_TG_NONE;
-                    tg[1] = FPE_TG_NONE;
-                    tg[2] = FPE_TG_NONE;
-                    tg[3] = FPE_TG_NONE;
+                if(comments) {
+                    sprintf(buff, "//  texgen %d / %d / %d / %d\n", tg[0], tg[1], tg[2], tg[3]);
+                    ShadAppend(buff);
                 }
-                if((tg[0]==FPE_TG_REFLECMAP || tg[0]==FPE_TG_NORMALMAP) && (tg[1]!=tg[0] || tg[2]!=tg[0]) {
-                    tg[0] = FPE_TG_NONE;
-                    tg[1] = FPE_TG_NONE;
-                    tg[2] = FPE_TG_NONE;
-                    tg[3] = FPE_TG_NONE;
+                sprintf(texcoord, "tmp_tcoor");
+                if(mat) {
+                    ShadAppend("tmp_tcoor=vec4(0., 0., 0., 1.);\n");
+                    ntc = 4;
                 }
-                if(tg[0]==FPE_TG_NONE && tg[1]==tg[0] && tg[2]==tg[0])
-                    sprintf(texcoord, "gl_MultiTexCoord%d", i); // invalid texgen
-                else {
-                    sprintf(texcoord, "tmp_tcoord");
-                    if(mat)
-                        ShadAppend("tmp_tcoord=vec4(0., 0., 0., 1.);\n");
-                    if(tg[0]==FPE_TG_NORMALMAP) {
+                for (int j=0; j<ntc; j++) {
+                    if(tg[j]==FPE_TG_NORMALMAP) {
                         need_normal=1;
-                        ShadAppend("tmp_tcoor.xyz=normal;");
-                    } else if(tg[0]==FPE_TG_SPHEREMAP) {
-
+                        sprintf(buff, "tmp_tcoor.%c=normal.%c;\n", texcoordxy[j], texcoordxy[j]);
+                    } else if(tg[j]==FPE_TG_SPHEREMAP) {
+                        if(!spheremap) {
+                            spheremap = 1;
+                            if(!need_vertex) need_vertex=1;
+                            need_normal = 1;
+                            ShadAppend("vec3 tmpsphere = reflect(normalize(vertex.xyz), normal);\n");
+                            ShadAppend("tmpsphere.z+=1.0;\n");
+                            ShadAppend("tmpsphere.xy = tmpsphere.xy*(0.5*inversesqrt(dot(tmpsphere, tmpsphere))) + vec2(0.5);");
+                        }
+                        sprintf(buff, "tmp_tcoor.%c=tmpsphere.%c;\n", texcoordxy[j], texcoordxy[j]);
+                    } else if(tg[j]==FPE_TG_OBJLINEAR) {
+                        sprintf(buff, "tmp_tcoor.%c=dot(gl_Vertex, _gl4es_ObjectPlane%c_%d);\n", texcoordxy[j], texcoordNAME[j], i);
+                        need_objplane[i][j] = 1;
+                    } else if(tg[j]==FPE_TG_EYELINEAR) {
+                        sprintf(buff, "tmp_tcoor.%c=dot(vertex, _gl4es_EyePlane%c_%d);\n", texcoordxy[j], texcoordNAME[j], i);
+                        need_eyeplane[i][j] = 1;
+                        if(!need_vertex) need_vertex=1;
+                    } else if(tg[j]==FPE_TG_REFLECMAP) {
+                        if(!reflectmap) {
+                            reflectmap = 1;
+                            if(!need_vertex) need_vertex=1;
+                            need_normal = 1;
+                            ShadAppend("vec3 tmpreflect = reflect(normalize(vertex.xyz), normal);\n");
+                        }
+                        sprintf(buff, "tmp_tcoor.%c=tmpreflect.%c;\n", texcoordxy[j], texcoordxy[j]);
+                    } else if(tg[j]==FPE_TG_NONE) {
+                        sprintf(buff, "tmp_tcoor.%c=gl_MultiTexCoord%d.%c", texcoordxy[j], i, texcoordxy[j]);
                     }
+                    ShadAppend(buff);
                 }
-            } else*/ {
+            } else {
                 sprintf(texcoord, "gl_MultiTexCoord%d", i);
             }
             if(mat)
@@ -359,18 +381,46 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend(buff);
         }
     }
-    // insert normal if needed
-    if(need_normal) {
-        char addnormal[500];
-        if(state->rescaling)
-            strcpy(addnormal, "vec3 normal = gl_NormalScale*(gl_NormalMatrix * gl_Normal);\n");
-        else
-            strcpy(addnormal, "vec3 normal = gl_NormalMatrix * gl_Normal;\n");
-        if(state->normalize)
-            strcat(addnormal, "normal = normalize(normal);\n");
-        shad = ResizeIfNeeded(shad, &shad_cap, strlen(addnormal));
-        InplaceInsert(GetLine(shad, normal_line + headers), addnormal);
+    // insert normal, vertex and eye/obj planes if needed
+    if(need_vertex) {
+        buff[0] = '\0';
+        if(need_vertex==1) //planes==0 && !(fog && fogsource==FPE_FOG_SRC_DEPTH))
+            strcat(buff, "vec4 ");
+        strcat(buff, "vertex = gl_ModelViewMatrix * gl_Vertex;\n");
+        shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
+        InplaceInsert(GetLine(shad, normal_line + headers), buff);
+        normal_line += CountLine(buff);
     }
+    if(need_normal) {
+        if(state->rescaling)
+            strcpy(buff, "vec3 normal = gl_NormalScale*(gl_NormalMatrix * gl_Normal);\n");
+        else
+            strcpy(buff, "vec3 normal = gl_NormalMatrix * gl_Normal;\n");
+        if(state->normalize)
+            strcat(buff, "normal = normalize(normal);\n");
+        shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
+        InplaceInsert(GetLine(shad, normal_line + headers), buff);
+    }
+    buff[0] = '\0';
+    for (int i=0; i<MAX_TEX; i++) {
+        for (int j=0; j<4; j++) {
+            char tmp[100];
+            if(need_objplane[i][j]) {
+                sprintf(tmp, "uniform vec4 _gl4es_ObjectPlane%c_%d;\n", texcoordNAME[j], i);
+                strcat(buff, tmp);
+            }
+            if(need_eyeplane[i][j]) {
+                sprintf(tmp, "uniform vec4 _gl4es_EyePlane%c_%d;\n", texcoordNAME[j], i);
+                strcat(buff, tmp);
+            }
+        }
+    }
+    if(buff[0]!='\0') {
+        shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
+        InplaceInsert(GetLine(shad, headers), buff);
+        headers += CountLine(buff);
+    }
+
     // pass thru Fog coordinates
     if(fog && fogsource==FPE_FOG_SRC_COORD) {
         ShadAppend("FogCoord = gl_FogCoord;\n");

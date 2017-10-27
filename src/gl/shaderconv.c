@@ -78,6 +78,10 @@ const char* gl4es_MaxLightsSource =
 "#define _gl4es_MaxLights " STR(MAX_LIGHT) "\n";
 const char* gl4es_MaxClipPlanesSource =
 "#define _gl4es_MaxClipPlanes " STR(MAX_CLIP_PLANES) "\n";
+const char* gl4es_MaxTextureUnitsSource =
+"#define _gl4es_MaxTextureUnits " STR(MAX_TEX) "\n";
+const char* gl4es_MaxTextureCoordsSource =
+"#define _gl4es_MaxTextureCoords " STR(MAX_TEX) "\n";
 #undef STR
 #undef STR_HELPER
 
@@ -513,6 +517,18 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource);
     headline+=CountLine(gl4es_fogcoordSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
+  }
+  if(strstr(Tmp, "gl_MaxTextureUnits")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_MaxTextureUnitsSource));
+    InplaceInsert(GetLine(Tmp, 2), gl4es_MaxTextureUnitsSource);
+    headline+=CountLine(gl4es_MaxTextureUnitsSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureUnits", "_gl4es_MaxTextureUnits");
+  }
+  if(strstr(Tmp, "gl_MaxTextureCoords")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_MaxTextureCoordsSource));
+    InplaceInsert(GetLine(Tmp, 2), gl4es_MaxTextureCoordsSource);
+    headline+=CountLine(gl4es_MaxTextureCoordsSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureCoords", "_gl4es_MaxTextureCoords");
   }
 
   

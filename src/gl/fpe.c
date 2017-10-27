@@ -758,12 +758,15 @@ void realize_glenv() {
     // texgen
     if(glprogram->has_builtin_texgen)
     {
-        for (int i=0; i<hardext.maxtex; i++)
-            for (int j=0; j<4; j++) {
-                GoUniformfv(glprogram, glprogram->builtin_eye[j][i], 4, 1, 
-                    (j==0)?glstate->texgen[i].S_E:((j==1)?glstate->texgen[i].T_E:((j==2)?glstate->texgen[i].R_E:glstate->texgen[i].Q_E)));
-                GoUniformfv(glprogram, glprogram->builtin_obj[j][i], 4, 1, 
-                    (j==0)?glstate->texgen[i].S_O:((j==1)?glstate->texgen[i].T_O:((j==2)?glstate->texgen[i].R_O:glstate->texgen[i].Q_O)));
+        for (int i=0; i<hardext.maxtex; i++) {
+            GoUniformfv(glprogram, glprogram->builtin_eye[0][i], 4, 1, glstate->texgen[i].S_E);
+            GoUniformfv(glprogram, glprogram->builtin_eye[1][i], 4, 1, glstate->texgen[i].T_E);
+            GoUniformfv(glprogram, glprogram->builtin_eye[2][i], 4, 1, glstate->texgen[i].R_E);
+            GoUniformfv(glprogram, glprogram->builtin_eye[3][i], 4, 1, glstate->texgen[i].Q_E);
+            GoUniformfv(glprogram, glprogram->builtin_obj[0][i], 4, 1, glstate->texgen[i].S_O);
+            GoUniformfv(glprogram, glprogram->builtin_obj[1][i], 4, 1, glstate->texgen[i].T_O);
+            GoUniformfv(glprogram, glprogram->builtin_obj[2][i], 4, 1, glstate->texgen[i].R_O);
+            GoUniformfv(glprogram, glprogram->builtin_obj[3][i], 4, 1, glstate->texgen[i].Q_O);
         }
     }
     // fpe
@@ -964,9 +967,11 @@ const char* texenvcolor_fpe_code = "_gl4es_TextureEnvColor_";
 const char* texenvcolor_noa_code = "_gl4es_TextureEnvColor";
 const char* texgeneyestart_code = "_gl4es_EyePlane";
 const char* texgeneye_code = "_gl4es_EyePlane%c[";
+const char* texgeneye_fpe_code = "_gl4es_EyePlane%c_";
 const char* texgeneye_noa_code = "_gl4es_EyePlane%c";
 const char* texgenobjstart_code = "_gl4es_ObjectPlane";
 const char* texgenobj_code = "_gl4es_ObjectPlane%c[";
+const char* texgenobj_fpe_code = "_gl4es_ObjectPlane%c_";
 const char* texgenobj_noa_code = "_gl4es_ObjectPlane%c";
 const char texgenCoords[4] = {'S', 'T', 'R', 'Q'};
 const char* alpharef_code = "_gl4es_AlphaRef";
@@ -1096,13 +1101,13 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             return 1;
         }
     }
-    if(strcmp(name, texenvcolor_noa_code)==0) {
+    /*if(strcmp(name, texenvcolor_noa_code)==0) {
         // it a TexEnvColor, without the array, so full size
         for (int n=0; n<size; n++)
             glprogram->builtin_texenvcolor[n] = id;
         glprogram->has_builtin_texenv = 1;
         return 1;
-    }
+    }*/
     if(strncmp(name, texgeneyestart_code, strlen(texgeneyestart_code))==0) {
         for (int i=0; i<4; i++) {
             char tmp[100];
@@ -1116,14 +1121,24 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
                     return 1;
                 }
             }
-            sprintf(tmp, texgeneye_noa_code, texgenCoords[i]);
+            sprintf(tmp, texgeneye_fpe_code, texgenCoords[i]);
+            if(strncmp(name, tmp, strlen(tmp))==0) {
+                // it a TexGen Eye Plane! grab it's number
+                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                if(n>=0 && n<hardext.maxtex) {
+                    glprogram->builtin_eye[i][n] = id;
+                    glprogram->has_builtin_texgen = 1;
+                    return 1;
+                }
+            }
+            /*sprintf(tmp, texgeneye_noa_code, texgenCoords[i]);
             if(strcmp(name, tmp)==0) {
                 // it a TexGen Eye Plane without the array
                 for (int n=0; n<size; n++)
                     glprogram->builtin_eye[i][n] = id;
                 glprogram->has_builtin_texgen = 1;
                 return 1;
-            }
+            }*/
         }
     }
     if(strncmp(name, texgenobjstart_code, strlen(texgenobjstart_code))==0) {
@@ -1139,14 +1154,24 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
                     return 1;
                 }
             }
-            sprintf(tmp, texgenobj_noa_code, texgenCoords[i]);
+            sprintf(tmp, texgenobj_fpe_code, texgenCoords[i]);
+            if(strncmp(name, tmp, strlen(tmp))==0) {
+                // it a TexGen Object Plane! grab it's number
+                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                if(n>=0 && n<hardext.maxtex) {
+                    glprogram->builtin_obj[i][n] = id;
+                    glprogram->has_builtin_texgen = 1;
+                    return 1;
+                }
+            }
+            /*sprintf(tmp, texgenobj_noa_code, texgenCoords[i]);
             if(strcmp(name, tmp)==0) {
                 // it a TexGen Object Plane without the array
                 for (int n=0; n<size; n++)
                     glprogram->builtin_obj[i][n] = id;
                 glprogram->has_builtin_texgen = 1;
                 return 1;
-            }
+            }*/
         }
     }
     // fpe specials

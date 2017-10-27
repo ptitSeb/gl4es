@@ -116,7 +116,8 @@ void GetHardwareExtensions(int notest)
     const char* Exts = gles_glGetString(GL_EXTENSIONS);
     // Parse them!
     #define S(A, B, C) if(strstr(Exts, A)) { hardext.B = 1; SHUT(LOGD("LIBGL: Extension %s detected%s",A, C?" and used\n":"\n")); } 
-    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot")) hardext.npot = 1;
+    if(hardext.esversion>1) hardext.npot = 1;
+    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot") || strstr(Exts, "GL_IMG_texture_npot")) hardext.npot = 1;
     if(strstr(Exts, "GL_ARB_texture_non_power_of_two ")) hardext.npot = 2;
     if(hardext.npot>0) {
         SHUT(LOGD("LIBGL: Hardware %s NPOT detected and used\n", hardext.npot==2?"Full":"Limited"));

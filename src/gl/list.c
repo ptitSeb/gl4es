@@ -997,52 +997,79 @@ void draw_renderlist(renderlist_t *list) {
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
-        for (int a=0; a<hardext.maxtex; a++) {
-            if(glstate->enable.texture[a]) {
-                const GLint itarget = get_target(glstate->enable.texture[a]);
-                needclean[a]=0;
-                use_texgen[a]=0;
-                if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {
-                    TEXTURE(a);
-                    RS(a, list->len);
-                    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
-                } else if ((list->tex[a]==NULL) && !(list->mode==GL_POINT && glstate->texture.pscoordreplace[a])) {
-                    RS(a, list->len);
-                    gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+        if(hardext.esversion==1) {
+            for (int a=0; a<hardext.maxtex; a++) {
+                if(glstate->enable.texture[a]) {
+                    const GLint itarget = get_target(glstate->enable.texture[a]);
+                    needclean[a]=0;
+                    use_texgen[a]=0;
+                    if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {
+                        TEXTURE(a);
+                        RS(a, list->len);
+                        gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+                    } else if ((list->tex[a]==NULL) && !(list->mode==GL_POINT && glstate->texture.pscoordreplace[a])) {
+                        RS(a, list->len);
+                        gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+                    }
+                    // adjust the tex_coord now if needed, even on texgened ones
+                    gltexture_t *bound = glstate->texture.bound[a][itarget];
+                    if((list->tex[a] || (use_texgen[a] && !needclean[a])) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
+                        if(!use_texgen[a]) {
+                            RS(a, list->len);
+                            memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
+                        }
+                        if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
+                            tex_coord_matrix(texgened[a], list->len, getTexMat(a));
+                        if ((bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
+                            tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
+                        }
+                    }
                 }
-                // adjust the tex_coord now if needed, even on texgened ones
-                gltexture_t *bound = glstate->texture.bound[a][itarget];
-                if((list->tex[a] || (use_texgen[a] && !needclean[a])) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
-                    if(!use_texgen[a]) {
+                if ((list->tex[a] || (use_texgen[a] && !needclean[a]))/* && glstate->enable.texture[a]*/) {
+                    TEXTURE(a);
+                    if(!glstate->clientstate.tex_coord_array[a]) {
+                        gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glstate->clientstate.tex_coord_array[a] = 1;
+                    }
+                    gles_glTexCoordPointer(4, GL_FLOAT, 0, (use_texgen[a])?texgened[a]:list->tex[a]);
+                } else {
+                    if (glstate->clientstate.tex_coord_array[a]) {
+                        TEXTURE(a);
+                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glstate->clientstate.tex_coord_array[a] = 0;
+                    } 
+//else if (!glstate->enable.texgen_s[a] && glstate->enable.texture[a]) printf("LIBGL: texture[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
+                    
+                }
+                if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
+                    TEXTURE(a);
+                    gles_glEnable(GL_TEXTURE_2D);
+                }
+            }
+        } else {
+            // texture loop for ES2+ version
+            for (int a=0; a<hardext.maxtex; a++) {
+                if(list->tex[a]) {
+                    // TODO: this texture coord conversion can be done in a shader, using a uniform for resizing. Or the texture as to be resize to POT (stretch) so shader works as-is?
+                    const GLint itarget = get_target(glstate->enable.texture[a]);
+                    gltexture_t *bound = glstate->texture.bound[a][itarget];
+                    if ((bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
                         RS(a, list->len);
                         memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
-                    }
-                    if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
-                        tex_coord_matrix(texgened[a], list->len, getTexMat(a));
-                    if ((bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
                         tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
                     }
+                    if(!glstate->clientstate.tex_coord_array[a]) {
+                        gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glstate->clientstate.tex_coord_array[a] = 1;
+                    }
+                    gles_glTexCoordPointer(4, GL_FLOAT, 0, (use_texgen[a])?texgened[a]:list->tex[a]);
+                } else {
+                    if (glstate->clientstate.tex_coord_array[a]) {
+                        TEXTURE(a);
+                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glstate->clientstate.tex_coord_array[a] = 0;
+                    } 
                 }
-            }
-            if ((list->tex[a] || (use_texgen[a] && !needclean[a]))/* && glstate->enable.texture[a]*/) {
-                TEXTURE(a);
-                if(!glstate->clientstate.tex_coord_array[a]) {
-                    gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    glstate->clientstate.tex_coord_array[a] = 1;
-                }
-                gles_glTexCoordPointer(4, GL_FLOAT, 0, (use_texgen[a])?texgened[a]:list->tex[a]);
-            } else {
-                if (glstate->clientstate.tex_coord_array[a]) {
-                    TEXTURE(a);
-                    gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                    glstate->clientstate.tex_coord_array[a] = 0;
-                } 
-//else if (!glstate->enable.texgen_s[a] && glstate->enable.texture[a]) printf("LIBGL: texture[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
-                
-            }
-            if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
-                TEXTURE(a);
-                gles_glEnable(GL_TEXTURE_2D);
             }
         }
         if (glstate->texture.client != old_tex) TEXTURE(old_tex);
@@ -1246,10 +1273,11 @@ void draw_renderlist(renderlist_t *list) {
 
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         for (int a=0; a<hardext.maxtex; a++) {
-            if (needclean[a]) {
-                TEXTURE(a);
-                gen_tex_clean(needclean[a], a);
-            }
+            if(hardext.esversion==1)
+                if (needclean[a]) {
+                    TEXTURE(a);
+                    gen_tex_clean(needclean[a], a);
+                }
             if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
                 TEXTURE(a);
                 gles_glDisable(GL_TEXTURE_2D);
