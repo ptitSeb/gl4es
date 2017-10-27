@@ -85,6 +85,7 @@
 #define FPE_TG_SPHEREMAP       2
 #define FPE_TG_NORMALMAP       3
 #define FPE_TG_REFLECMAP       4
+#define FPE_TG_NONE            5  // dummy, to help fpe
 
 typedef struct {
     uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
