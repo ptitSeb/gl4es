@@ -905,7 +905,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 errorGL();
             }
             // check if base_level is set... and calculate lower level mipmap
-            if(bound->base_level == level) {
+            if(bound->base_level == level && !(bound->max_level==level && level==0)) {
                 int leveln = level, nw = width, nh = height, nww=nwidth, nhh=nheight;
                 int pot = (nh==nhh && nw==nww);
                 void *ndata = pixels;
@@ -1129,7 +1129,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 					 width, height, format, type, pixels);
 		errorGL();
         // check if base_level is set... and calculate lower level mipmap
-        if(bound->base_level == level) {
+        if(bound->base_level == level && !(bound->max_level==level && level==0)) {
             int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
             void *ndata = pixels;
             while(leveln) {
