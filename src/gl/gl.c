@@ -97,14 +97,6 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->map_grid[1].n = 1;
     glstate->map_grid[1].d = 1.0f;
     
-    // fpe
-    if(hardext.esversion>1) {
-        glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
-        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
-        glstate->glsl.es2 = es2only;
-        fpe_Init(glstate);
-    }
-
     // init the matrix tracking
     init_matrix(glstate);
 
@@ -168,6 +160,12 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->texenv[i].env.mode = GL_MODULATE;
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
+        glstate->texenv[i].env.src0_rgb = glstate->texenv[i].env.src0_alpha = GL_TEXTURE;
+        glstate->texenv[i].env.src1_rgb = glstate->texenv[i].env.src1_alpha = GL_PREVIOUS;
+        glstate->texenv[i].env.src2_rgb = glstate->texenv[i].env.src2_alpha = GL_CONSTANT;
+        glstate->texenv[i].env.op0_rgb = glstate->texenv[i].env.op1_rgb = GL_SRC_COLOR;
+        glstate->texenv[i].env.op2_rgb = glstate->texenv[i].env.op0_alpha = 
+        glstate->texenv[i].env.op1_alpha = glstate->texenv[i].env.op2_alpha = GL_SRC_ALPHA;
     }
     // TexGen
     for (int i=0; i<hardext.maxtex; i++) {
@@ -179,6 +177,24 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->texgen[i].S_O[0] = 1.0;
         glstate->texgen[i].T_E[1] = 1.0;
         glstate->texgen[i].T_O[1] = 1.0;
+    }
+
+    // fpe
+    if(hardext.esversion>1) {
+        glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
+        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
+        glstate->glsl.es2 = es2only;
+        fpe_Init(glstate);
+        // some default are not 0...
+        for (int i=0; i<hardext.maxtex; i++) {
+            //TexEnv Combine that are not 0
+            glstate->fpe_state->texsrcrgb[1] |= FPE_SRC_PREVIOUS<<(i*4);
+            glstate->fpe_state->texsrcalpha[1] |= FPE_SRC_PREVIOUS<<(i*4);
+            glstate->fpe_state->texsrcrgb[2] |= FPE_SRC_CONSTANT<<(i*4);
+            glstate->fpe_state->texsrcalpha[2] |= FPE_SRC_CONSTANT<<(i*4);
+            glstate->fpe_state->texoprgb[0] |= FPE_OP_SRCCOLOR<<(i*2);
+            glstate->fpe_state->texoprgb[1] |= FPE_OP_SRCCOLOR<<(i*2);
+        }            
     }
 
     // GLSL stuff
