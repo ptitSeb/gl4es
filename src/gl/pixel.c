@@ -1076,17 +1076,19 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
     const int dx = (width>1)?1:0;
+    const int mx = dx + 1;
     const int dy = (height>1)?1:0;
+    const int my = dy + 1;
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
-            pix0 = src + ((x * 2) +
-                          (y * 2) * width) * pixel_size;
-            pix1 = src + ((x * 2 + dx) +
-                          (y * 2) * width) * pixel_size;
-            pix2 = src + ((x * 2) +
-                          (y * 2 + dy) * width) * pixel_size;
-            pix3 = src + ((x * 2 + dx) +
-                          (y * 2 + dy) * width) * pixel_size;
+            pix0 = src + ((x * mx) +
+                          (y * my) * width) * pixel_size;
+            pix1 = src + ((x * mx + dx) +
+                          (y * my) * width) * pixel_size;
+            pix2 = src + ((x * mx) +
+                          (y * my + dy) * width) * pixel_size;
+            pix3 = src + ((x * mx + dx) +
+                          (y * my + dy) * width) * pixel_size;
             half_pixel((GLvoid *)pix0, (GLvoid *)pix1, (GLvoid *)pix2, (GLvoid *)pix3, (GLvoid *)pos, src_color, type);
             pos += pixel_size;
         }
@@ -1117,18 +1119,20 @@ bool pixel_thirdscale(const GLvoid *old, GLvoid **new,
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
     const int dx = (width>1)?1:0;
+    const int mx = dx + 1;
     const int dy = (height>1)?1:0;
+    const int my = dy + 1;
     GLubyte tmp[4];
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
-            pix0 = src + ((x * 2) +
-                          (y * 2) * width) * pixel_size;
-            pix1 = src + ((x * 2 + dx) +
-                          (y * 2) * width) * pixel_size;
-            pix2 = src + ((x * 2) +
-                          (y * 2 + dy) * width) * pixel_size;
-            pix3 = src + ((x * 2 + dx) +
-                          (y * 2 + dy) * width) * pixel_size;
+            pix0 = src + ((x * mx) +
+                          (y * my) * width) * pixel_size;
+            pix1 = src + ((x * mx + dx) +
+                          (y * my) * width) * pixel_size;
+            pix2 = src + ((x * mx) +
+                          (y * my + dy) * width) * pixel_size;
+            pix3 = src + ((x * mx + dx) +
+                          (y * my + dy) * width) * pixel_size;
             half_pixel((GLvoid *)pix0, (GLvoid *)pix1, (GLvoid *)pix2, (GLvoid *)pix3, (GLvoid *)tmp, src_color, type);
             *((GLushort*)pos) = (((GLushort)tmp[0])&0xf0)<<8 | (((GLushort)tmp[1])&0xf0)<<4 | (((GLushort)tmp[2])&0xf0) | (((GLushort)tmp[3])>>4);
             pos += dest_size;

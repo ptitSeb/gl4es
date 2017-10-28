@@ -871,13 +871,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         }
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
-            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto)))
+            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto))) {
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
-                else {
+                else
                     callgeneratemipmap = 1;
-                }
-            else {
+            } else {
                 //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
                 if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
                     // remove the need for mipmap...
@@ -1011,7 +1010,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-    //printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->texture);
+    //printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i(base=%i, max=%i), mipmap={need=%d, auto=%d}, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->base_level, glstate->texture.bound[glstate->texture.active][itarget]->max_level, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_need, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_auto, glstate->texture.bound[glstate->texture.active][itarget]->texture);
     if (width==0 || height==0) {
         glstate->gl_batch = old_glbatch;
         return;
@@ -1118,7 +1117,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     }
 
     int callgeneratemipmap = 0;
-    if (level==0 && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
+    if (level==0 && bound->mipmap_need && (!bound->mipmap_auto || hardext.esversion>1) && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
         if(hardext.esversion<2) {
             // ES2 doesn't have this
         //    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE ); // not sure the usefullness of this call
@@ -1173,8 +1172,8 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 }
                 nw = nlevel(nw, 1);
                 nh = nlevel(nh, 1);
-                xx = nlevel(xx, 1);
-                yy = nlevel(yy, 1);
+                xx = xx>>1;
+                yy = yy>>1;
                 ++leveln;
                 gles_glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
                                     format, type, ndata);
@@ -2034,7 +2033,8 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 
 void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
-    //printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->texture:0, PrintEnum((glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->format:0), PrintEnum((glstate->texture.bound[glstate->texture.active])?glstate->texture.bound[glstate->texture.active]->type:0));
+    const GLuint itarget = what_target(target);
+    //printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->texture:0, PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->format:0), PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->type:0));
     // PUSH_IF_COMPILING(glCopyTexSubImage2D);
     GLuint old_glbatch = glstate->gl_batch;
     if (glstate->gl_batch || glstate->list.pending) {
@@ -2052,8 +2052,6 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     glstate->vao->pack = NULL;
     glstate->vao->unpack = NULL;
 
-    const GLuint itarget = what_target(target);
- 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
     if (!bound) {
         errorShim(GL_INVALID_OPERATION);
