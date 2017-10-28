@@ -830,7 +830,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
     {
         GLsizei nheight = (hardext.npot==2)?height:npot(height), nwidth = (hardext.npot==2)?width:npot(width);
-        if(target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot==1) {
+        if(hardext.npot==1 && ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level==0 && bound->max_level==0))) {
             nheight = height;
             nwidth = width;
         }
