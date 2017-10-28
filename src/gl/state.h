@@ -285,6 +285,7 @@ typedef struct {
     GLfloat             texcoord[MAX_TEX][4];
     GLfloat             normal[3];
     GLfloat             fogcoord;
+    GLboolean           colormask[4];
     int	                render_mode;
     int                 polygon_mode;
     namestack_t         namestack;

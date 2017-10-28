@@ -155,6 +155,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->pointsprite.fadeThresholdSize = 1.0f;
     glstate->pointsprite.distance[0] = 1.0f;
     glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;
+    // Color Mask
+    for(int i=0; i<4; i++)
+        glstate->colormask[i] = 1;
     // Raster
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
@@ -496,7 +499,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
-            next(cap);
+            else
+                next(cap);
             break;
 
         
@@ -2166,3 +2170,18 @@ void gl4es_glLogicOp(GLenum opcode) {
     }
 }
 void glLogicOp(GLenum opcode) AliasExport("gl4es_glLogicOp");
+
+void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+    PUSH_IF_COMPILING(glColorMask);
+    if(glstate->colormask[0]==red && glstate->colormask[1]==green && glstate->colormask[2]==blue && glstate->colormask[3]==alpha) {
+        noerrorShim();
+        return;
+    }
+    glstate->colormask[0]=red;
+    glstate->colormask[1]=green;
+    glstate->colormask[2]=blue;
+    glstate->colormask[3]=alpha;
+    LOAD_GLES(glColorMask);
+    gles_glColorMask(red, green, blue, alpha);
+}
+void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) AliasExport("gl4es_glColorMask");

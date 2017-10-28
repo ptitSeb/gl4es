@@ -511,6 +511,9 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             for (dummy=0; dummy<4; dummy++)
                 params[dummy]=glstate->fog.color[dummy];
             break;
+        case GL_COLOR_WRITEMASK:
+            memcpy(params, glstate->colormask, 4*sizeof(GLboolean));
+            break;
         default:
             errorGL();
             gles_glGetIntegerv(pname, params);
@@ -554,6 +557,10 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_FOG_COLOR:
             memcpy(params, glstate->fog.color, 4*sizeof(GLfloat));
+            break;
+        case GL_COLOR_WRITEMASK:
+            for (int dummy=0; dummy<4; dummy++)
+                params[dummy] = glstate->colormask[dummy];
             break;
         default:
             errorGL();

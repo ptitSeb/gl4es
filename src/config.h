@@ -49,6 +49,8 @@
 #define skip_glAlphaFunc
 #define skip_glLogicOp
 
+#define skip_glColorMask
+
 // fog.c
 #define skip_glFogfv
 #define skip_glFogf
