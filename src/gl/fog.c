@@ -41,6 +41,7 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             GO(&, coord_src, sizeof(GLfloat))
             if(hardext.esversion==1)
                 return; // unsupported on GLES1.1
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
             return;
