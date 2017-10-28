@@ -105,12 +105,14 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         dest->texgen_q = 0;
         dest->texgen_q_mode = 0;
         dest->texformat = 0;
+        dest->texadjust = 0;
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
             if(dest->texture>>(i<<1)&3==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
+                dest->texadjust &= ~(1<<i);
                 dest->texgen_s &= ~(1<<i);
                 dest->texgen_s_mode &= ~(7<<(i*3));
                 dest->texgen_t &= ~(1<<i);
@@ -419,6 +421,17 @@ void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
 
 // ********* Realize GLES Environnements *********
 
+gltexture_t* fpe_gettexture(int TMU) {
+    int state=glstate->enable.texture[TMU];
+    int target = ENABLED_TEX2D;
+    if(IS_TEXCUBE(state)) target = ENABLED_CUBE_MAP;
+    else if(IS_TEX3D(state)) target = ENABLED_TEX3D;
+    else if(IS_TEXRECT(state)) target = ENABLED_TEXTURE_RECTANGLE;
+    else if(IS_TEX2D(state)) target = ENABLED_TEX2D;
+    else if(IS_TEX1D(state)) target = ENABLED_TEX1D;
+    return glstate->texture.bound[TMU][target];
+}
+
 void realize_glenv() {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
@@ -426,16 +439,11 @@ void realize_glenv() {
     if(glstate->fpe_bound_changed) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
             glstate->fpe_state->texformat &= ~(7<<(i*3));
-            int state=glstate->enable.texture[glstate->texture.active];
-            int target = ENABLED_TEX2D;
-            if(IS_TEXCUBE(state)) target = ENABLED_CUBE_MAP;
-            else if(IS_TEX3D(state)) target = ENABLED_TEX3D;
-            else if(IS_TEXRECT(state)) target = ENABLED_TEXTURE_RECTANGLE;
-            else if(IS_TEX2D(state)) target = ENABLED_TEX2D;
-            else if(IS_TEX1D(state)) target = ENABLED_TEX1D;
-            gltexture_t* tex = glstate->texture.bound[i][target];
+            glstate->fpe_state->texadjust &= ~(1<<i);
+            gltexture_t* tex = fpe_gettexture(i);
             if(tex) {
                 glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
+                glstate->fpe_state->texadjust |= tex->adjust<<i;
             }
         }
         glstate->fpe_bound_changed = 0;
@@ -779,6 +787,15 @@ void realize_glenv() {
         for (int i=0; i<hardext.maxtex; i++)
             GoUniformiv(glprogram, glprogram->builtin_texsampler[i], 1, 1, &i); // very basic stuff here, but sampler needs to be a uniform...
     }
+    if(glprogram->has_builtin_texadjust)
+    {
+        for (int i=0; i<hardext.maxtex; i++) {
+            gltexture_t* tex = fpe_gettexture(i);
+            if(tex)
+                GoUniformfv(glprogram, glprogram->builtin_texadjust[i], 2, 1, tex->adjustxy);
+        }
+    }
+    
 
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) 
@@ -937,6 +954,7 @@ void builtin_Init(program_t *glprogram) {
             glprogram->builtin_obj[j][i] = -1;
         }
         glprogram->builtin_texsampler[i] = -1;
+        glprogram->builtin_texadjust[i] = -1;
     }
     glprogram->builtin_fog.color = -1;
     glprogram->builtin_fog.density = -1;
@@ -978,6 +996,7 @@ const char* alpharef_code = "_gl4es_AlphaRef";
 const char* fpetexSampler_code = "_gl4es_TexSampler_";
 const char* fpetexenvRGBScale_code = "_gl4es_TexEnvRGBScale_";
 const char* fpetexenvAlphaScale_code = "_gl4es_TexEnvAlphaScale_";
+const char* fpetexAdjust_code = "_gl4es_TexAdjust_";
 const char* fog_code = "_gl4es_Fog.";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
@@ -1220,6 +1239,16 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             return 1;
         }
     }
+    if(strncmp(name, fpetexAdjust_code, strlen(fpetexAdjust_code))==0) {
+        // it a Texture env color
+        int n = name[strlen(fpetexAdjust_code)]-'0';   // only 8 Textures max, so this works
+        if(n>=0 && n<hardext.maxtex) {
+            glprogram->builtin_texadjust[n] = id;
+            glprogram->has_builtin_texadjust = 1;
+            return 1;
+        }
+    }
+    
 
     return 0;
 }

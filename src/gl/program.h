@@ -199,6 +199,8 @@ typedef struct {
     int                             has_builtin_texsampler;
     GLint                           builtin_texenvrgbscale[MAX_TEX];
     GLint                           builtin_texenvalphascale[MAX_TEX];
+    GLint                           builtin_texadjust[MAX_TEX];
+    int                             has_builtin_texadjust;
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)

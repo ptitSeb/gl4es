@@ -100,6 +100,7 @@ typedef struct {
     uint8_t light_cutoff180;             // 8 lights cutoff!=180 flags
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
+    uint8_t texadjust;                   // 8 flags if texture need adjustement
     unsigned int texformat:24;           // 8 textures (simplified) internal format on 3 bits
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     uint8_t      texgen_s;               // 8 texgen S enabled on 1 bit

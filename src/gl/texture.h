@@ -122,6 +122,8 @@ typedef struct {
     int base_level;
     int max_level;
     int fpe_format; // tracking simplified internal format for FPE
+    int adjust; // flag if width/height has to be adjusted
+    float adjustxy[2];  // adjust factor
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 

@@ -101,6 +101,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int need_vertex = 0;
     int need_eyeplane[MAX_TEX][4] = {0};
     int need_objplane[MAX_TEX][4] = {0};
+    int need_adjust[MAX_TEX];
     
     shad[0] = '\0';
 
@@ -310,6 +311,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
         int mat = state->textmat&(1<<i)?1:0;
+        int adjust = state->texadjust&(1<<i)?1:0;
         int tg[4];
         tg[0] = state->texgen_s&(1<<i)?1:0;
         tg[1] = state->texgen_t&(1<<i)?1:0;
@@ -318,7 +320,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         int ntc = texnsize[t-1];
         if(t) {
             if(comments) {
-                sprintf(buff, "// texture %d active: %X %s\n", i, t, mat?"with matrix":"");
+                sprintf(buff, "// texture %d active: %X %s %s\n", i, t, mat?"with matrix":"", adjust?"npot adjusted":"");
                 ShadAppend(buff);
             }
             char texcoord[50];
@@ -379,6 +381,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             else
                 sprintf(buff, "_gl4es_TexCoord_%d = %s.%s;\n", i, texcoord, texxyzsize[t-1]);
             ShadAppend(buff);
+            if(adjust) {
+                need_adjust[i] = 1;
+                sprintf(buff, "_gl4es_TexCoord_%d.xy *= _gl4es_TexAdjust_%d;\n", i, i);    // to avoid error on Cube map... but will that work anyway?
+                ShadAppend(buff);
+            }
         }
     }
     // insert normal, vertex and eye/obj planes if needed
@@ -403,8 +410,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     buff[0] = '\0';
     for (int i=0; i<MAX_TEX; i++) {
+        char tmp[100];
         for (int j=0; j<4; j++) {
-            char tmp[100];
             if(need_objplane[i][j]) {
                 sprintf(tmp, "uniform vec4 _gl4es_ObjectPlane%c_%d;\n", texcoordNAME[j], i);
                 strcat(buff, tmp);
@@ -413,6 +420,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(tmp, "uniform vec4 _gl4es_EyePlane%c_%d;\n", texcoordNAME[j], i);
                 strcat(buff, tmp);
             }
+        }
+        if(need_adjust[i]) {
+            sprintf(tmp, "uniform vec2 _gl4es_TexAdjust_%d;\n", i);
+            strcat(buff, tmp);
         }
     }
     if(buff[0]!='\0') {

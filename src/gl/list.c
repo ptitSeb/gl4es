@@ -1050,14 +1050,6 @@ void draw_renderlist(renderlist_t *list) {
             // texture loop for ES2+ version
             for (int a=0; a<hardext.maxtex; a++) {
                 if(list->tex[a]) {
-                    // TODO: this texture coord conversion can be done in a shader, using a uniform for resizing. Or the texture as to be resize to POT (stretch) so shader works as-is?
-                    const GLint itarget = get_target(glstate->enable.texture[a]);
-                    gltexture_t *bound = glstate->texture.bound[a][itarget];
-                    if ((bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight))) {
-                        RS(a, list->len);
-                        memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
-                        tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
-                    }
                     if(!glstate->clientstate.tex_coord_array[a]) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate.tex_coord_array[a] = 1;
@@ -1272,17 +1264,17 @@ void draw_renderlist(renderlist_t *list) {
         }
 
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
-        for (int a=0; a<hardext.maxtex; a++) {
-            if(hardext.esversion==1)
+        if(hardext.esversion==1)
+            for (int a=0; a<hardext.maxtex; a++) {
                 if (needclean[a]) {
                     TEXTURE(a);
                     gen_tex_clean(needclean[a], a);
                 }
-            if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
-                TEXTURE(a);
-                gles_glDisable(GL_TEXTURE_2D);
+                if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
+                    TEXTURE(a);
+                    gles_glDisable(GL_TEXTURE_2D);
+                }
             }
-        }
         if (glstate->texture.client!=old_tex)
             TEXTURE(old_tex);
         #undef TEXTURE

@@ -237,15 +237,23 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             tex = kh_value(list, k);
             texture = tex->glname;
             // check if texture is shrinked...
-            if (tex->shrink) {
-                LOGD("LIBGL: unshrinking shrinked texture for FBO\n");
-                tex->width *= 2*tex->shrink;
-                tex->height *= 2*tex->shrink;
-                tex->nwidth = hardext.npot==2?tex->width:npot(tex->width);
-                tex->nheight = hardext.npot==2?tex->height:npot(tex->height);
+            if (tex->shrink || (tex->adjust && hardext.npot==1)) {
+                LOGD("LIBGL: %s texture for FBO\n",(tex->shrink)?"unshrinking shrinked":"going back to npot size pot'ed");
+                if(tex->shrink) {
+                    tex->width *= 2*tex->shrink;
+                    tex->height *= 2*tex->shrink;
+                }
+                tex->nwidth = hardext.npot>0?tex->width:npot(tex->width);
+                tex->nheight = hardext.npot>0?tex->height:npot(tex->height);
                 tex->shrink = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
                 GLuint oldtex = (bound)?bound->glname:0;
+                if(hardext.npot==1 && tex->adjust) {
+                    LOAD_GLES(glTexParameteri);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    tex->adjust = 0;
+                }
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
