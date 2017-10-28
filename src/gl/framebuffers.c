@@ -408,8 +408,8 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     LOAD_GLES_OR_OES(glBindRenderbuffer);
     
     errorGL();
-    width = hardext.npot==2?width:npot(width);
-    height = hardext.npot==2?height:npot(height);
+    width = hardext.npot>0?width:npot(width);
+    height = hardext.npot>0?height:npot(height);
     // check if internal format is GL_DEPTH_STENCIL_EXT
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;
@@ -547,8 +547,8 @@ void createMainFBO(int width, int height) {
         
     mainfbo_width = width;
     mainfbo_height = height;
-    mainfbo_nwidth = width = hardext.npot==2?width:npot(width);
-    mainfbo_nheight = height = hardext.npot==2?width:npot(height);
+    mainfbo_nwidth = width = hardext.npot>0?width:npot(width);
+    mainfbo_nheight = height = hardext.npot>0?width:npot(height);
 
     // create the texture
 	gles_glGenTextures(1, &mainfbo_tex);
