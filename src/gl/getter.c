@@ -46,7 +46,13 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
         case GL_VERTEX_ARRAY_POINTER :
             *params = (void*)glstate->vao->pointers.vertex.pointer;
             break;
-        default:
+        case GL_FOG_COORD_ARRAY:
+            *params = (void*)glstate->vao->pointers.fog.pointer;
+            break;
+        case GL_SECONDARY_COLOR_ARRAY:
+            *params = (void*)glstate->vao->pointers.secondary.pointer;
+            break;
+    default:
             errorShim(GL_INVALID_ENUM);
     }
 }
@@ -138,7 +144,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
             /*strcat(extensions,
                 "GL_ARB_fragment_shader "
                 "GL_ARB_vertex_shader "
-                "GL_ARB_shader_objects ");*/
+                "GL_ARB_shader_objects "
+                "GL_ARB_shading_language_100 ");*/
         }
 	}
     switch (name) {
@@ -184,6 +191,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_DRAW_BUFFERS_ARB:   // fake...
             *params = 1;
+            break;
+        case GL_MAX_TEXTURE_UNITS:
+            *params = hardext.maxtex;
             break;
         case GL_PACK_ALIGNMENT:
             *params = glstate->texture.pack_align;
