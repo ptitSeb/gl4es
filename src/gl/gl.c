@@ -490,16 +490,12 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             break;
         case GL_TEXTURE_CUBE_MAP:
-printf("GL_TEXTURE_CUBE_MAP[%d]: %d\n", glstate->texture.active, enable);
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
-            if(glstate->fpe_state) {
-printf("fpe_state %X => ", glstate->texture.active, enable, glstate->fpe_state->texture);
+            if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
-printf("%X\n", glstate->fpe_state->texture);
-            }
             next(cap);
             break;
 
