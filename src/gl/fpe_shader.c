@@ -27,7 +27,8 @@ const int comments = 1;
 
 const char* texvecsize[] = {"vec2", "vec3", "vec2"};
 const char* texxyzsize[] = {"xy", "xyz", "xy"};
-const char* texsampler[] = {"texture2D", "textureCube", "textureStream"};
+const char* texname[] = {"texture2D", "textureCube", "textureStream"};
+const char* texsampler[] = {"sampler2D", "samplerCube", "samplerStream"};
 int texnsize[] = {2, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
 const char texcoordNAME[] = {'S', 'T', 'R', 'Q'};
@@ -369,7 +370,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                         }
                         sprintf(buff, "tmp_tcoor.%c=tmpreflect.%c;\n", texcoordxy[j], texcoordxy[j]);
                     } else if(tg[j]==FPE_TG_NONE) {
-                        sprintf(buff, "tmp_tcoor.%c=gl_MultiTexCoord%d.%c", texcoordxy[j], i, texcoordxy[j]);
+                        sprintf(buff, "tmp_tcoor.%c=gl_MultiTexCoord%d.%c;\n", texcoordxy[j], i, texcoordxy[j]);
                     }
                     ShadAppend(buff);
                 }
@@ -493,7 +494,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
-            sprintf(buff, "uniform sampler2D _gl4es_TexSampler_%d;\n", i);
+            sprintf(buff, "uniform %s _gl4es_TexSampler_%d;\n", texsampler[t-1], i);
             ShadAppend(buff);
             headers++;
 
@@ -544,7 +545,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
-                sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texsampler[t-1], i, i);
+                sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texname[t-1], i, i);
                 ShadAppend(buff);
             }
         }
@@ -685,29 +686,33 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 if(op_r[j]!=-1)
                                 switch(op_r[j]) {
                                     case FPE_OP_SRCCOLOR:
-                                        sprintf(buff, "Arg%d.rgb = %s.rgb;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.rgb = %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                     case FPE_OP_MINUSCOLOR:
-                                        sprintf(buff, "Arg%d.rgb = vec3(1.) - %s.rgb;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.rgb = vec3(1.) - %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                     case FPE_OP_ALPHA:
-                                        sprintf(buff, "Arg%d.rgb = vec3(%s.a);\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.rgb = vec3(%s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                     case FPE_OP_MINUSALPHA:
-                                        sprintf(buff, "Arg%d.rgb = vec3(1. - %s.a);\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.rgb = vec3(1. - %s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                 }
-                                ShadAppend(buff);
                                 if(op_a[j]!=-1)
                                 switch(op_a[j]) {
                                     case FPE_OP_ALPHA:
-                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                     case FPE_OP_MINUSALPHA:
-                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_r[0], i, twosided));
+                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        ShadAppend(buff);
                                         break;
                                 }
-                                ShadAppend(buff);
                             }
                                 
                             switch(combine_rgb) {

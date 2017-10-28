@@ -309,8 +309,8 @@ static void fpe_changetex(int n, int state)
     if(state==256) {state = glstate->enable.texture[n]; texmode = (IS_TEX2D(state))?FPE_TEX_STRM:FPE_TEX_OFF;}
     else
 #endif
-    if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
-    else if(IS_TEXCUBE(state)) texmode = FPE_TEX_CUBE;
+    if(IS_TEXCUBE(state)) texmode = FPE_TEX_CUBE;
+    else if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
 
     glstate->fpe = NULL;
     glstate->fpe_state->texture &= ~(3<<(n*2));
@@ -490,12 +490,16 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
             break;
         case GL_TEXTURE_CUBE_MAP:
+printf("GL_TEXTURE_CUBE_MAP[%d]: %d\n", glstate->texture.active, enable);
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
-            if(glstate->fpe_state)
+            if(glstate->fpe_state) {
+printf("fpe_state %X => ", glstate->texture.active, enable, glstate->fpe_state->texture);
                 fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+printf("%X\n", glstate->fpe_state->texture);
+            }
             next(cap);
             break;
 
