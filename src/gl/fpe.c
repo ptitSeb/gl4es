@@ -181,7 +181,7 @@ fpe_fpe_t *fpe_GetCache() {
         }
     }
     // save current state
-    memcpy(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
+    memcpy(&cur->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
     return cur->fpe;
 }
 
