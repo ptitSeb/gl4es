@@ -112,6 +112,21 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE5);
         p(GL_TEXTURE6);
         p(GL_TEXTURE7);
+        p(GL_TEXTURE_WRAP_S);
+        p(GL_TEXTURE_WRAP_T);
+        p(GL_LINEAR);
+        p(GL_NEAREST);
+        p(GL_NEAREST_MIPMAP_NEAREST);
+        p(GL_NEAREST_MIPMAP_LINEAR);
+        p(GL_LINEAR_MIPMAP_NEAREST);
+        p(GL_LINEAR_MIPMAP_LINEAR);
+        p(GL_TEXTURE_MAX_LEVEL);
+        p(GL_TEXTURE_BASE_LEVEL);
+        p(GL_TEXTURE_MIN_FILTER);
+        p(GL_TEXTURE_MAG_FILTER);
+        p(GL_CLAMP_TO_EDGE);
+        p(GL_REPEAT);
+        //p(GL_MIRRORED_REPEAT);
         // mode
         p(GL_POINTS);
         p(GL_LINES);
