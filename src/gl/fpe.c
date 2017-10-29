@@ -180,6 +180,8 @@ fpe_fpe_t *fpe_GetCache() {
             }
         }
     }
+    // save current state
+    memcpy(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
     return cur->fpe;
 }
 
@@ -230,8 +232,6 @@ void fpe_program(int ispoint) {
             if (k_program != kh_end(programs))
                 glstate->fpe->glprogram = kh_value(programs, k_program);
         }
-        // save relevent state
-        memcpy(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
         // all done
         DBG(printf("creating dummy FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
     }
