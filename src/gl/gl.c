@@ -352,7 +352,6 @@ static void fpe_changetex(int n, int state)
 #define generate_changetexgen(C) \
 static void fpe_changetexgen_##C(int n, bool enable) \
 { \
-    glstate->fpe = NULL; \
     if(enable) \
         glstate->fpe_state->texgen_##C |= 1<<n; \
     else \
@@ -689,6 +688,24 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         clientisenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
         isenabled(GL_NORMALIZE, normalize);
         isenabled(GL_RESCALE_NORMAL, normal_rescale);
+        isenabled(GL_MAP1_COLOR_4, map1_color4);
+        isenabled(GL_MAP1_INDEX, map1_index);
+        isenabled(GL_MAP1_NORMAL, map1_normal);
+        isenabled(GL_MAP1_TEXTURE_COORD_1, map1_texture1);
+        isenabled(GL_MAP1_TEXTURE_COORD_2, map1_texture2);
+        isenabled(GL_MAP1_TEXTURE_COORD_3, map1_texture3);
+        isenabled(GL_MAP1_TEXTURE_COORD_4, map1_texture4);
+        isenabled(GL_MAP1_VERTEX_3, map1_vertex3);
+        isenabled(GL_MAP1_VERTEX_4, map1_vertex4);
+        isenabled(GL_MAP2_COLOR_4, map2_color4);
+        isenabled(GL_MAP2_INDEX, map2_index);
+        isenabled(GL_MAP2_NORMAL, map2_normal);
+        isenabled(GL_MAP2_TEXTURE_COORD_1, map2_texture1);
+        isenabled(GL_MAP2_TEXTURE_COORD_2, map2_texture2);
+        isenabled(GL_MAP2_TEXTURE_COORD_3, map2_texture3);
+        isenabled(GL_MAP2_TEXTURE_COORD_4, map2_texture4);
+        isenabled(GL_MAP2_VERTEX_3, map2_vertex3);
+        isenabled(GL_MAP2_VERTEX_4, map2_vertex4);
         default:
 			errorGL();
             return gles_glIsEnabled(cap);
