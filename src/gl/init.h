@@ -36,6 +36,7 @@ typedef struct _globals4es {
  int nodownsampling;
  int vabgra;
  int nobgra;
+ int potframebuffer;
 #ifdef PANDORA
  float gamma;
 #endif

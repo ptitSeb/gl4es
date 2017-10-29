@@ -237,7 +237,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             tex = kh_value(list, k);
             texture = tex->glname;
             // check if texture is shrinked...
-            if (tex->shrink || (tex->adjust && hardext.npot==1)) {
+            if (tex->shrink || (tex->adjust && hardext.npot==1 && !globals4es.potframebuffer)) {
                 LOGD("LIBGL: %s texture for FBO\n",(tex->shrink)?"unshrinking shrinked":"going back to npot size pot'ed");
                 if(tex->shrink) {
                     tex->width *= 2*tex->shrink;
@@ -254,6 +254,17 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     tex->adjust = 0;
                 }
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+            }
+            if(globals4es.potframebuffer && (npot(twidth)!=twidth || npot(theight!=theight))) {
+                // check if POT size is asked
+                LOGD("LIBGL: Resize to POT dimension texture for FBO\n");
+                twidth = tex->nwidth = npot(tex->nwidth);
+                theight = tex->nheight = npot(tex->nheight);
+                gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
+                GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
@@ -408,8 +419,8 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     LOAD_GLES_OR_OES(glBindRenderbuffer);
     
     errorGL();
-    width = hardext.npot>0?width:npot(width);
-    height = hardext.npot>0?height:npot(height);
+    width = (hardext.npot>0 && !globals4es.potframebuffer)?width:npot(width);
+    height = (hardext.npot>0 && !globals4es.potframebuffer)?height:npot(height);
     // check if internal format is GL_DEPTH_STENCIL_EXT
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;

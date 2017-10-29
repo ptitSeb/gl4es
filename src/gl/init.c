@@ -332,7 +332,8 @@ void initialize_gl4es() {
             SHUT(LOGD("LIBGL: Avoid 24bits textures\n"));
         } 
     }
-
+    env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
+    
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
