@@ -663,7 +663,7 @@ void realize_glenv(int ispoint) {
     if(glprogram->has_builtin_light)
     {
         for (int i=0; i<MAX_LIGHT; i++) {
-            if(glprogram->builtin_lights[i].ambient!=-1) {
+            if(glprogram->builtin_lights[i].has) {
                GLfloat tmp[4];
                GoUniformfv(glprogram, glprogram->builtin_lights[i].ambient, 4, 1, glstate->light.lights[i].ambient);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].diffuse, 4, 1, glstate->light.lights[i].diffuse);
@@ -672,13 +672,17 @@ void realize_glenv(int ispoint) {
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotDirection, 3, 1, glstate->light.lights[i].spotDirection);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotExponent, 1, 1, &glstate->light.lights[i].spotExponent);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCutoff, 1, 1, &glstate->light.lights[i].spotCutoff);
-               tmp[0] = cosf(glstate->light.lights[i].spotCutoff*3.1415926535f/180.0f);
-               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCosCutoff, 1, 1, tmp);
+               if(!memcmp(&glprogram->builtin_lights[i].oldspotCutoff, &glstate->light.lights[i].spotCutoff, sizeof(GLfloat)))
+               {
+                    memcpy(&glprogram->builtin_lights[i].oldspotCutoff, &glstate->light.lights[i].spotCutoff, sizeof(GLfloat));
+                    glprogram->builtin_lights[i].oldspotCosCutoff = cosf(glstate->light.lights[i].spotCutoff*3.1415926535f/180.0f);
+               }
+               GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCosCutoff, 1, 1, &glprogram->builtin_lights[i].oldspotCosCutoff);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].constantAttenuation, 1, 1, &glstate->light.lights[i].constantAttenuation);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].linearAttenuation, 1, 1, &glstate->light.lights[i].linearAttenuation);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].quadraticAttenuation, 1, 1, &glstate->light.lights[i].quadraticAttenuation);
             }
-            if(glprogram->builtin_lightprod[0][i].ambient!=-1) {
+            if(glprogram->builtin_lightprod[0][i].has) {
                 GLfloat tmp[4];
                 vector4_mult(glstate->material.front.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
                 GoUniformfv(glprogram, glprogram->builtin_lightprod[0][i].ambient, 4, 1, tmp);
@@ -687,7 +691,7 @@ void realize_glenv(int ispoint) {
                 vector4_mult(glstate->material.front.specular, glstate->light.lights[i].specular, tmp);
                 GoUniformfv(glprogram, glprogram->builtin_lightprod[0][i].specular, 4, 1, tmp);
             }
-            if(glprogram->builtin_lightprod[1][i].ambient!=-1) {
+            if(glprogram->builtin_lightprod[1][i].has) {
                 GLfloat tmp[4];
                 vector4_mult(glstate->material.back.ambient, glstate->light.lights[i].ambient, tmp); //TODO: Check that
                 GoUniformfv(glprogram, glprogram->builtin_lightprod[1][i].ambient, 4, 1, tmp);
@@ -700,19 +704,21 @@ void realize_glenv(int ispoint) {
         if(glprogram->builtin_lightmodel.ambient!=-1) {
             GoUniformfv(glprogram, glprogram->builtin_lightmodel.ambient, 4, 1, glstate->light.ambient);
         }
-        if(glprogram->builtin_material[0].ambient!=-1) {
+        if(glprogram->builtin_material[0].has) {
             GoUniformfv(glprogram, glprogram->builtin_material[0].emission, 4, 1, glstate->material.front.emission);
             GoUniformfv(glprogram, glprogram->builtin_material[0].ambient, 4, 1, glstate->material.front.ambient);
             GoUniformfv(glprogram, glprogram->builtin_material[0].diffuse, 4, 1, glstate->material.front.diffuse);
             GoUniformfv(glprogram, glprogram->builtin_material[0].specular, 4, 1, glstate->material.front.specular);
             GoUniformfv(glprogram, glprogram->builtin_material[0].shininess, 1, 1, &glstate->material.front.shininess);
+            GoUniformfv(glprogram, glprogram->builtin_material[0].alpha, 1, 1, &glstate->material.front.diffuse[3]);
         }
-        if(glprogram->builtin_material[1].ambient!=-1) {
+        if(glprogram->builtin_material[1].has) {
             GoUniformfv(glprogram, glprogram->builtin_material[1].emission, 4, 1, glstate->material.back.emission);
             GoUniformfv(glprogram, glprogram->builtin_material[1].ambient, 4, 1, glstate->material.back.ambient);
             GoUniformfv(glprogram, glprogram->builtin_material[1].diffuse, 4, 1, glstate->material.back.diffuse);
             GoUniformfv(glprogram, glprogram->builtin_material[1].specular, 4, 1, glstate->material.back.specular);
             GoUniformfv(glprogram, glprogram->builtin_material[1].shininess, 1, 1, &glstate->material.back.shininess);
+            GoUniformfv(glprogram, glprogram->builtin_material[1].alpha, 1, 1, &glstate->material.back.diffuse[3]);
         }
         if(glprogram->builtin_lightmodelprod[0].sceneColor!=-1) {
             GLfloat tmp[4];
@@ -728,7 +734,7 @@ void realize_glenv(int ispoint) {
         }
     }
     // fog parameters
-    if(glprogram->has_builtin_fog)
+    if(glprogram->builtin_fog.has)
     {
         GoUniformfv(glprogram, glprogram->builtin_fog.color, 4, 1, glstate->fog.color);
         GoUniformfv(glprogram, glprogram->builtin_fog.density, 1, 1, &glstate->fog.density);
@@ -747,7 +753,7 @@ void realize_glenv(int ispoint) {
         }
     }
     // check point sprite if needed
-    if(glprogram->has_builtin_pointsprite)
+    if(glprogram->builtin_pointsprite.has)
     {
         GoUniformfv(glprogram, glprogram->builtin_pointsprite.size, 1, 1, &glstate->pointsprite.size);
         GoUniformfv(glprogram, glprogram->builtin_pointsprite.sizeMin, 1, 1, &glstate->pointsprite.sizeMin);
@@ -930,6 +936,7 @@ void builtin_Init(program_t *glprogram) {
         glprogram->builtin_material[i].diffuse = -1;
         glprogram->builtin_material[i].specular = -1;
         glprogram->builtin_material[i].shininess = -1;
+        glprogram->builtin_material[i].alpha = -1;
         
         glprogram->builtin_lightmodelprod[i].sceneColor = -1;
 
@@ -974,13 +981,18 @@ void builtin_Init(program_t *glprogram) {
 
 const char* gl4es_code = "_gl4es_";
 const char* lightsource_code = "_gl4es_LightSource[";
+const char* lightsource_fpe_code = "_gl4es_LightSource_";
 const char* lightmodel_code = "_gl4es_LightModel.";
 const char* frontmaterial_code = "_gl4es_FrontMaterial";
 const char* backmaterial_code = "_gl4es_BackMaterial";
+const char* frontmaterial_fpe_code = "_gl4es_FrontMaterial_shininess";
+const char* backmaterial_fpe_code = "_gl4es_BackMaterial_shininess";
 const char* frontlightmodelprod_code = "_gl4es_FrontLightModelProduct";
 const char* backlightmodelprod_code = "_gl4es_BackLightModelProduct";
 const char* frontlightprod_code = "_gl4es_FrontLightProduct[";
 const char* backlightprod_code = "_gl4es_BackLightProduct[";
+const char* frontlightprod_fpe_code = "_gl4es_FrontLightProduct_";
+const char* backlightprod_fpe_code = "_gl4es_BackLightProduct_";
 const char* normalrescale_code = "_gl4es_NormalScale";
 const char* clipplanes_code = "_gl4es_ClipPlane[";
 const char* point_code = "_gl4es_Point";
@@ -1013,8 +1025,8 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         return 1;
     }
     // lightsource
-    if(strncmp(name, lightsource_code, strlen(lightsource_code))==0) {
-        // it a light! grab it's number
+    if(strncmp(name, lightsource_code, strlen(lightsource_code))==0 || strncmp(name, lightsource_fpe_code, strlen(lightsource_fpe_code))==0) {
+        // it a light! grab it's number - also, fpe or not fpe is the same lenght. The fpe version avoid the array...
         int n = name[strlen(lightsource_code)]-'0';   // only 8 light, so this works
         if(n>=0 && n<hardext.maxlights) {
             if(strstr(name, ".ambient")) glprogram->builtin_lights[n].ambient = id;
@@ -1030,6 +1042,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             else if(strstr(name, ".linearAttenuation")) glprogram->builtin_lights[n].linearAttenuation = id;
             else if(strstr(name, ".quadraticAttenuation")) glprogram->builtin_lights[n].quadraticAttenuation = id;
             glprogram->has_builtin_light = 1;
+            glprogram->builtin_lights[n].has = 1;
             return 1;
         }
     }
@@ -1050,7 +1063,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         else if(strstr(name, ".diffuse")) glprogram->builtin_material[n].diffuse = id;
         else if(strstr(name, ".specular")) glprogram->builtin_material[n].specular = id;
         else if(strstr(name, ".shininess")) glprogram->builtin_material[n].shininess = id;
+        else if(strstr(name, "_shininess")) glprogram->builtin_material[n].shininess = id;
+        else if(strstr(name, "_alpha")) glprogram->builtin_material[n].alpha = id;
         glprogram->has_builtin_light = 1;
+        glprogram->builtin_material[n].has = 1;
         return 1;
     }
     if(strncmp(name, frontlightmodelprod_code, strlen(frontlightmodelprod_code))==0 
@@ -1063,16 +1079,20 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         return 1;
     }
     if(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0 
-    || strncmp(name, backlightprod_code, strlen(backlightprod_code))==0)
+    || strncmp(name, backlightprod_code, strlen(backlightprod_code))==0
+    || strncmp(name, frontlightprod_fpe_code, strlen(frontlightprod_fpe_code))==0 
+    || strncmp(name, backlightprod_fpe_code, strlen(backlightprod_fpe_code))==0
+    )
     {
         // it's a material
-        int i=(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0)?0:1;
+        int i=(strncmp(name, frontlightprod_code, strlen(frontlightprod_code))==0 || strncmp(name, frontlightprod_fpe_code, strlen(frontlightprod_fpe_code))==0)?0:1;
         int n = name[strlen(i?backlightprod_code:frontlightprod_code)]-'0';   // only 8 light, so this works
         if(n>=0 && n<hardext.maxlights) {
             if(strstr(name, ".ambient")) glprogram->builtin_lightprod[i][n].ambient = id;
             else if(strstr(name, ".diffuse")) glprogram->builtin_lightprod[i][n].diffuse = id;
             else if(strstr(name, ".specular")) glprogram->builtin_lightprod[i][n].specular = id;
             glprogram->has_builtin_light = 1;
+            glprogram->builtin_lightprod[i][n].has = 1;
             return 1;
         }
     }
@@ -1099,7 +1119,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         else if(strstr(name, "start")) glprogram->builtin_fog.start = id;
         else if(strstr(name, "end")) glprogram->builtin_fog.end = id;
         else if(strstr(name, "scale")) glprogram->builtin_fog.scale = id;
-        glprogram->has_builtin_fog = 1;
+        glprogram->builtin_fog.has = 1;
         return 1;
     }
     if(strncmp(name, point_code, strlen(point_code))==0)
@@ -1112,7 +1132,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         else if(strstr(name, ".distanceConstantAttenuation")) glprogram->builtin_pointsprite.distanceConstantAttenuation = id;
         else if(strstr(name, ".distanceLinearAttenuation")) glprogram->builtin_pointsprite.distanceLinearAttenuation = id;
         else if(strstr(name, ".distanceQuadraticAttenuation")) glprogram->builtin_pointsprite.distanceQuadraticAttenuation = id;
-        glprogram->has_builtin_pointsprite = 1;
+        glprogram->builtin_pointsprite.has = 1;
         return 1;
     }
     if(strncmp(name, texenvcolor_code, strlen(texenvcolor_code))==0) {

@@ -101,6 +101,7 @@ typedef struct {
 } uniformcache_t;
 
 typedef struct {
+    int         has;
     GLint       ambient; //vec4
     GLint       diffuse; //vec4
     GLint       specular; //vec4
@@ -110,6 +111,8 @@ typedef struct {
     GLint       spotExponent; //float
     GLint       spotCutoff; //float
     GLint       spotCosCutoff; //float
+    GLfloat     oldspotCutoff;  // cache to avoid recalc of spotCutoff
+    GLfloat     oldspotCosCutoff; //float
     GLint       constantAttenuation; //float
     GLint       linearAttenuation; //float
     GLint       quadraticAttenuation; //float
@@ -121,11 +124,13 @@ typedef struct {
    
 
 typedef struct {
+    int         has;
     GLint       emission; //vec4
     GLint       ambient; //vec4
     GLint       diffuse; //vec4
     GLint       specular; //vec4
     GLint       shininess; //float
+    GLint       alpha;  // float, fpe only, derived: diffuse[3]
 } builtin_material_t;
 
 typedef struct {
@@ -133,12 +138,14 @@ typedef struct {
 } builtin_lightmodelproducts_t;
 
 typedef struct {
+    int         has;
     GLint       ambient; //vec4
     GLint       diffuse; //vec4
     GLint       specular; //vec4
 } builtin_lightproducts_t;
 
 typedef struct {
+    int         has;
     GLint       size;
     GLint       sizeMin;
     GLint       sizeMax;
@@ -149,6 +156,7 @@ typedef struct {
 } builtin_pointsprite_t;
 
 typedef struct {
+    int         has;
     GLint       color;
     GLint       density;
     GLint       start;
@@ -184,14 +192,12 @@ typedef struct {
     GLint                           builtin_clipplanes[MAX_CLIP_PLANES];
     int                             has_builtin_clipplanes;
     builtin_pointsprite_t           builtin_pointsprite;
-    int                             has_builtin_pointsprite;
     GLint                           builtin_texenvcolor[MAX_TEX];
     int                             has_builtin_texenv;
     GLint                           builtin_eye[4][MAX_TEX];
     GLint                           builtin_obj[4][MAX_TEX];
     int                             has_builtin_texgen;
     builtin_fog_t                   builtin_fog;
-    int                             has_builtin_fog;
     // fpe uniform
     GLint                           fpe_alpharef;
     int                             has_fpe;
