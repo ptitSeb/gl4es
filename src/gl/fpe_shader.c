@@ -206,7 +206,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if(planes || (fog && fogsource==FPE_FOG_SRC_DEPTH)) {
+    if(planes) {
+        ShadAppend("varying vec4 clipvertex;\n");
+        headers++;
+    }
+    if((fog && fogsource==FPE_FOG_SRC_DEPTH)) {
         ShadAppend("varying vec4 vertex;\n");
         headers++;
         need_vertex = 2;
@@ -231,8 +235,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     // let's start
     ShadAppend("\nvoid main() {\n");
+    if(planes) {
+        ShadAppend("clipvertex = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
+        ShadAppend("gl_Position = clipvertex;\n");
+    } else {
+        ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
+    }
     // initial Color / lighting calculation
-    ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
     int need_normal = 0;
     int normal_line = CountLine(shad) - headers;
     if(!lighting) {
@@ -372,7 +381,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP,0.), %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP,%s), %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
@@ -506,7 +515,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     // insert normal, vertex and eye/obj planes if needed
     if(need_vertex) {
         buff[0] = '\0';
-        if(need_vertex==1) //planes==0 && !(fog && fogsource==FPE_FOG_SRC_DEPTH))
+        if(need_vertex==1)
             strcat(buff, "vec4 ");
         strcat(buff, "vertex = gl_ModelViewMatrix * gl_Vertex;\n");
         shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
@@ -597,8 +606,12 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if(planes || (fog && fogsource==FPE_FOG_SRC_DEPTH)) {
+    if(fog && fogsource==FPE_FOG_SRC_DEPTH) {
         ShadAppend("varying vec4 vertex;\n");
+        headers++;
+    }
+    if(planes) {
+        ShadAppend("varying vec4 clipvertex;\n");
         headers++;
     }
     if(fog && fogsource==FPE_FOG_SRC_COORD) {
@@ -645,7 +658,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         int k=0;
         for (int i=0; i<hardext.maxplanes; i++) {
             if(planes>>i) {
-                sprintf(buff, "%s(dot(gl_ClipPlane[%d], vertex)<0.)", k?"||":"",  i);
+                sprintf(buff, "%s(dot(gl_ClipPlane[%d], clipvertex)<0.)", k?"||":"",  i);
                 ShadAppend(buff);
                 k=1;
             }
@@ -859,10 +872,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                     ShadAppend("fColor.rgb = Arg0.rgb - Arg1.rgb;\n");
                                     break;
                                 case FPE_CR_DOT3_RGB:
-                                    ShadAppend("fColor.rgb = vec3(4*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                    ShadAppend("fColor.rgb = vec3(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
                                     break;
                                 case FPE_CR_DOT3_RGBA:
-                                    ShadAppend("fColor = vec4(4*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                    ShadAppend("fColor = vec4(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
                                     break;
                             }
                             if(combine_rgb!=FPE_CR_DOT3_RGBA) 
