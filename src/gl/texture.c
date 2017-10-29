@@ -90,7 +90,7 @@ void tex_setup_texcoord(GLuint len, GLuint itarget) {
     // check if some changes are needed
     int changes = 0;
     if ((itarget == ENABLED_TEXTURE_RECTANGLE) 
-        || (bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
+        || (hardext.esversion==1 && bound && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
         )) || (hardext.esversion==1 && !globals4es.texmat && !glstate->texture_matrix[texunit]->identity)
         )
         changes = 1;
