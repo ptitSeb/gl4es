@@ -43,6 +43,13 @@ function clean_tests {
     if [ -e glsl_lighting.trace ];then
         rm glsl_lighting.trace
     fi
+    #pointsprite
+    if [ -e pointsprite.0000248810.png ];then
+        rm pointsprite.0000248810.png
+    fi
+    if [ -e pointsprite.trace ];then
+        rm pointsprite.trace
+    fi
     #diff result
     if [ -e diff.png ];then
         rm diff.png
@@ -112,6 +119,12 @@ if [ $OK = 0 ];then
     exit 1
 fi
 
+banner "GLES1.1: Point Sprite"
+launch_test pointsprite 0000248810 20
+if [ $OK = 0 ];then
+    exit 1
+fi
+
 export LIBGL_ES=2
 
 banner "GLES2.0: OpenRA"
@@ -141,6 +154,12 @@ fi
 
 banner "GLES2.0: Foobillard Plus"
 launch_test foobillardplus 0000014748 20 798x478+1+1
+if [ $OK = 0 ];then
+    exit 1
+fi
+
+banner "GLES2.0: Point Sprite"
+launch_test pointsprite 0000248810 20
 if [ $OK = 0 ];then
     exit 1
 fi
