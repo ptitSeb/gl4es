@@ -91,6 +91,12 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
                 noerrorShim();
                 return;
             }
+            if(glstate->fpe_state) {
+                if(*params==GL_LOWER_LEFT)
+                    glstate->fpe_state->pointsprite_upper = 0;
+                else
+                    glstate->fpe_state->pointsprite_upper = 1;
+            }
             glstate->pointsprite.coordOrigin = *params;
             break;
     }

@@ -143,7 +143,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->blenddfactoralpha = GL_ZERO;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
-    glstate->pointsprite.sizeMax = 1.0f;
+    glstate->pointsprite.sizeMax = 32.0f;   // spec indicate 1., but it seems it's set to hardware limit, so puting 32...
     glstate->pointsprite.fadeThresholdSize = 1.0f;
     glstate->pointsprite.distance[0] = 1.0f;
     glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;
@@ -450,7 +450,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GOFPE(GL_COLOR_MATERIAL, color_material, glstate->fpe_state->color_material=enable);
 
         // point sprite
-        proxy_GO(GL_POINT_SPRITE, pointsprite); // TODO: plugin fpe stuffs
+        proxy_GOFPE(GL_POINT_SPRITE, pointsprite, glstate->fpe_state->pointsprite=enable); // TODO: plugin fpe stuffs
         
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);

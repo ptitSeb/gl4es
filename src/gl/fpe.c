@@ -146,6 +146,9 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         dest->fogmode = 0;
         dest->fogsource = 0;
     }
+    if(!dest->pointsprite) {
+        dest->pointsprite_upper = 0;
+    }
 }
 
 fpe_fpe_t *fpe_GetCache() {
@@ -182,7 +185,8 @@ fpe_fpe_t *fpe_GetCache() {
 
 
 // ********* Shader stuffs handling *********
-void fpe_program() {
+void fpe_program(int ispoint) {
+    glstate->fpe_state->point = ispoint;
     if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t))) {
         // get cached fpe (or new one)
         glstate->fpe = fpe_GetCache();
@@ -341,14 +345,14 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d)\n", PrintEnum(mode), first, count);)
-    realize_glenv();
+    realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p)\n", PrintEnum(mode), count, PrintEnum(type), indices);)
-    realize_glenv();
+    realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
 }
@@ -432,7 +436,7 @@ gltexture_t* fpe_gettexture(int TMU) {
     return glstate->texture.bound[TMU][target];
 }
 
-void realize_glenv() {
+void realize_glenv(int ispoint) {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // update texture state
@@ -458,7 +462,7 @@ void realize_glenv() {
             DBG(printf("Use GLSL program %d\n", glstate->gleshard.program);)
         }
     } else {
-        fpe_program();
+        fpe_program(ispoint);
         if(glstate->gleshard.program != glstate->fpe->prog)
         {
             glstate->gleshard.program = glstate->fpe->prog;
@@ -1101,9 +1105,9 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, point_code, strlen(point_code))==0)
     {
         // it's a Point parameter
-        if(strstr(name, ".size")) glprogram->builtin_pointsprite.size = id;
-        else if(strstr(name, ".sizeMin")) glprogram->builtin_pointsprite.sizeMin = id;
+        if(strstr(name, ".sizeMin")) glprogram->builtin_pointsprite.sizeMin = id;
         else if(strstr(name, ".sizeMax")) glprogram->builtin_pointsprite.sizeMax = id;
+        else if(strstr(name, ".size")) glprogram->builtin_pointsprite.size = id;
         else if(strstr(name, ".fadeThresholdSize")) glprogram->builtin_pointsprite.fadeThresholdSize = id;
         else if(strstr(name, ".distanceConstantAttenuation")) glprogram->builtin_pointsprite.distanceConstantAttenuation = id;
         else if(strstr(name, ".distanceLinearAttenuation")) glprogram->builtin_pointsprite.distanceLinearAttenuation = id;

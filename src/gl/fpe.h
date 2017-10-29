@@ -127,6 +127,10 @@ typedef struct {
     unsigned int cm_back_mode:3;         // back color material mode
     unsigned int light_separate:1;       // light separate specular color
     unsigned int light_localviewer:1;    // light local viewer
+    unsigned int point:1;                // point rendering
+    unsigned int pointsprite:1;          // point sprite rendering
+    unsigned int pointsprite_coord:1;    // point sprite coord replace
+    unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {
@@ -179,7 +183,7 @@ void builtin_Init(program_t *glprogram);
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
-void realize_glenv();
+void realize_glenv(int ispoint);
 void realize_blitenv(int alpha);
 
 #endif

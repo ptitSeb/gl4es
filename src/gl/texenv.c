@@ -16,6 +16,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                 if (glstate->texture.pscoordreplace[glstate->texture.active] == p)
                     return;
                 glstate->texture.pscoordreplace[glstate->texture.active] = p;
+                if (glstate->fpe_state)
+                    glstate->fpe_state->pointsprite_coord = p;
             } else {
                 errorShim(GL_INVALID_ENUM);
                 return;

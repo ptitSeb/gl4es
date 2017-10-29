@@ -96,19 +96,21 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int fog = state->fog;
     int fogsource = state->fogsource;
     int color_material = state->color_material;
+    int point = state->point;
+    int pointsprite = state->pointsprite;
     int headers = 0;
     int planes = state->plane;
     char buff[1024];
     int need_vertex = 0;
     int need_eyeplane[MAX_TEX][4] = {0};
     int need_objplane[MAX_TEX][4] = {0};
-    int need_adjust[MAX_TEX];
+    int need_adjust[MAX_TEX] = {0};
     
     shad[0] = '\0';
 
     if(comments) {
-        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s\n",
-            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2));
+        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",
+            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -389,6 +391,14 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             }
         }
     }
+    // point sprite special case
+    if(point) {
+        if(!need_vertex)
+            need_vertex = 1;
+        ShadAppend("float ps_d = length(vertex);\n");
+        sprintf(buff, "gl_PointSize = clamp(gl_Point.size*inversesqrt(gl_Point.distanceConstantAttenuation + ps_d*(gl_Point.distanceLinearAttenuation + ps_d*gl_Point.distanceQuadraticAttenuation)), gl_Point.sizeMin, gl_Point.sizeMax);\n");
+        ShadAppend(buff);
+    }
     // insert normal, vertex and eye/obj planes if needed
     if(need_vertex) {
         buff[0] = '\0';
@@ -455,14 +465,18 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int fog = state->fog;
     int fogsource = state->fogsource;
     int fogmode = state->fogmode;
-    int planes = state->plane;  
+    int planes = state->plane;
+    int point = state->point;
+    int pointsprite = state->pointsprite;
+    int pointsprite_coord = state->pointsprite_coord;
+    int pointsprite_upper = state->pointsprite_upper;
     int texenv_combine = 0;
     char buff[1024];
 
     shad[0] = '\0';
 
     if(comments) {
-        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texture=%s, texformat=%s\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), fpe_packed(state->texformat, 24, 3));
+        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texture=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), fpe_packed(state->texformat, 24, 3), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -491,6 +505,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
+        if(point && !pointsprite) t=0;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
@@ -540,12 +555,18 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     ShadAppend(buff);
 
     //*** apply textures
-    if(state->texture) {
+    if(state->texture && (!point || pointsprite) ) {
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
             int t = (state->texture>>(i*2))&0x3;
             if(t) {
-                sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texname[t-1], i, i);
+                if(point && pointsprite && pointsprite_coord) {
+                    if(pointsprite_upper)
+                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, vec2(gl_PointCoord.x, 1.-gl_PointCoord.y));\n", i, texname[t-1], i);
+                    else
+                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, gl_PointCoord);\n", i, texname[t-1], i);
+                } else
+                    sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texname[t-1], i, i);
                 ShadAppend(buff);
             }
         }
@@ -666,7 +687,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             }
                             // is texture constants needed ?
                             for (int j=0; j<3; j++) {
-                                if (src_a[j]==FPE_SRC_CONSTANT)
+                                if (src_a[j]==FPE_SRC_CONSTANT || src_r[j]==FPE_SRC_CONSTANT)
                                     constant=1;
                             }
                             if(comments) {
@@ -679,7 +700,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 // yep, create the Uniform
                                 sprintf(buff, "uniform lowp vec4 _gl4es_TextureEnvColor_%d;\n", i);
                                 shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
-                                InplaceInsert(GetLine(buff, headers), buff);
+                                InplaceInsert(GetLine(shad, headers), buff);
                                 headers+=CountLine(buff);                            
                             }
                             for (int j=0; j<3; j++) {
@@ -705,11 +726,11 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 if(op_a[j]!=-1)
                                 switch(op_a[j]) {
                                     case FPE_OP_ALPHA:
-                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
                                         ShadAppend(buff);
                                         break;
                                     case FPE_OP_MINUSALPHA:
-                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
                                         ShadAppend(buff);
                                         break;
                                 }

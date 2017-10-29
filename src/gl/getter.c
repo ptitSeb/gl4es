@@ -432,6 +432,18 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         GO(6);
         GO(7);
 #undef GO
+        case GL_POINT_SIZE_MIN:
+            *params=glstate->pointsprite.sizeMin;
+            break;
+        case GL_POINT_SIZE_MAX:
+            *params=glstate->pointsprite.sizeMax;
+            break;
+        case GL_POINT_FADE_THRESHOLD_SIZE:
+            *params=glstate->pointsprite.fadeThresholdSize;
+            break;
+        case GL_POINT_SPRITE_COORD_ORIGIN :
+            *params=glstate->pointsprite.coordOrigin;
+            break;
         case GL_DRAW_BUFFER:
             *params=GL_FRONT;
             break;
@@ -524,6 +536,10 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_COLOR_WRITEMASK:
             memcpy(params, glstate->colormask, 4*sizeof(GLboolean));
             break;
+        case GL_POINT_DISTANCE_ATTENUATION :
+            for (dummy=0; dummy<3; dummy++)
+                params[dummy]=glstate->pointsprite.distance[dummy];
+            break;
         default:
             errorGL();
             gles_glGetIntegerv(pname, params);
@@ -571,6 +587,9 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_COLOR_WRITEMASK:
             for (int dummy=0; dummy<4; dummy++)
                 params[dummy] = glstate->colormask[dummy];
+            break;
+        case GL_POINT_DISTANCE_ATTENUATION :
+            memcpy(params, glstate->pointsprite.distance, 3*sizeof(GLfloat));
             break;
         default:
             errorGL();
