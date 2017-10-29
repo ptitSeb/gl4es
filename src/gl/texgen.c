@@ -90,7 +90,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
         case GL_EYE_PLANE: {
             // need to transform here
             GLfloat pe[4];
-            matrix_vector(param, getInvMVMat(), pe);
+            vector_matrix(param, getInvMVMat(), pe);
             switch (coord) {
                 case GL_S:
                     memcpy(glstate->texgen[glstate->texture.active].S_E, pe, 4 * sizeof(GLfloat));
