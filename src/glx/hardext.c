@@ -135,15 +135,17 @@ void GetHardwareExtensions(int notest)
 	        SHUT(LOGD("LIBGL: Extension glBlendColor found and used\n"));
 	    }
     }
-    S("GL_OES_point_sprite", pointsprite, 1); 
-    S("GL_OES_point_size_array", pointsize, 0);
-    S("GL_OES_element_index_uint", elementuint, 0);
     if(hardext.esversion<2) {
         S("GL_OES_framebuffer_object", fbo, 1);
+        S("GL_OES_point_sprite", pointsprite, 1); 
     } else {
         hardext.fbo = 1; 
         SHUT(LOGD("LIBGL: FBO are in core, and so used\n"));
+        hardext.pointsprite = 1;
+        SHUT(LOGD("LIBGL: PointSprite are in core, and so used\n"));
     }
+    S("GL_OES_point_size_array", pointsize, 0);
+    S("GL_OES_element_index_uint", elementuint, 0);
     S("GL_OES_packed_depth_stencil", depthstencil, 1);
     S("GL_OES_depth24", depth24, 1);
     S("GL_OES_rgb8_rgba8", rgba8, 1);
