@@ -245,6 +245,9 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 }
                 tex->nwidth = hardext.npot>0?tex->width:npot(tex->width);
                 tex->nheight = hardext.npot>0?tex->height:npot(tex->height);
+                tex->adjustxy[0] = (float)tex->width / tex->nwidth;
+                tex->adjustxy[1] = (float)tex->height / tex->nheight;
+                tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 tex->shrink = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
                 GLuint oldtex = (bound)?bound->glname:0;
@@ -263,6 +266,9 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 LOGD("LIBGL: Resize to POT dimension texture for FBO\n");
                 twidth = tex->nwidth = npot(tex->nwidth);
                 theight = tex->nheight = npot(tex->nheight);
+                tex->adjustxy[0] = (float)tex->width / tex->nwidth;
+                tex->adjustxy[1] = (float)tex->height / tex->nheight;
+                tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
                 GLuint oldtex = (bound)?bound->glname:0;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
