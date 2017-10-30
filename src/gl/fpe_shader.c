@@ -921,9 +921,9 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             sprintf(buff, "// Alpha Test, fct=%X\n", alpha_func);
             ShadAppend(buff);
         }
-        if(alpha_func==GL_ALWAYS) {
+        if(alpha_func==FPE_ALWAYS) {
             // nothing here...
-        } else if (alpha_func==GL_NEVER) {
+        } else if (alpha_func==FPE_NEVER) {
             ShadAppend("discard;\n"); // Never pass...
         } else {
             // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
