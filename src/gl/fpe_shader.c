@@ -367,7 +367,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 ShadAppend(buff);
                 need_lightproduct[0][i] = 1;
                 if(twosided) {
-                    sprintf(buff, "back_dd = (nVP<0.)(-nVP * %s.diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
+                    sprintf(buff, "back_dd = (nVP<0.)(-nVP * %s%d.diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
                     ShadAppend(buff);
                     need_lightproduct[1][i] = 1;
                 }
@@ -381,7 +381,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP,%s), %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
