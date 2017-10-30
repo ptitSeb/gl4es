@@ -89,11 +89,11 @@ void *open_lib(const char **names, const char *override);
         LOAD_RAW(gles, name, egl_eglGetProcAddress(#name"EXT")); \
     }
 
-#define LOAD_GLES_OR_OES(name) \
+#define LOAD_GLES2_OR_OES(name) \
     DEFINE_RAW(gles, name); \
     { \
         LOAD_EGL(eglGetProcAddress); \
-        LOAD_RAW_SILENT(gles, name, (((void*)egl_eglGetProcAddress(#name"OES")!=NULL)?((void*)egl_eglGetProcAddress(#name"OES")):((void*)dlsym(gles, #name)))); \
+        LOAD_RAW_SILENT(gles, name, (hardext.esversion==1)?((void*)egl_eglGetProcAddress(#name"OES")):((void*)dlsym(gles, #name))); \
     }
 
 #endif

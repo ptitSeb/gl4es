@@ -5,7 +5,7 @@
 
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
-    LOAD_GLES_OR_OES(glBlendColor);
+    LOAD_GLES2_OR_OES(glBlendColor);
 	if  (gles_glBlendColor)
 		gles_glBlendColor(red, green, blue, alpha);
 	else {
@@ -23,7 +23,7 @@ void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha
 void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
     PUSH_IF_COMPILING(glBlendFuncSeparate);
-    LOAD_GLES_OR_OES(glBlendFuncSeparate);
+    LOAD_GLES2_OR_OES(glBlendFuncSeparate);
     if(sfactorRGB==glstate->blendsfactorrgb && dfactorRGB==glstate->blenddfactorrgb 
         && sfactorAlpha==glstate->blendsfactoralpha && dfactorAlpha==glstate->blenddfactoralpha)
         return; // no change...
@@ -53,7 +53,7 @@ void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfacto
 
 void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
-    LOAD_GLES_OR_OES(glBlendEquationSeparate);
+    LOAD_GLES2_OR_OES(glBlendEquationSeparate);
 #ifndef PANDORA
     if(gles_glBlendEquationSeparate)
 #endif
@@ -84,7 +84,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         return; // already set
 
     LOAD_GLES(glBlendFunc);
-    LOAD_GLES_OR_OES(glBlendFuncSeparate);
+    LOAD_GLES2_OR_OES(glBlendFuncSeparate);
     errorGL();
     
     glstate->blendsfactorrgb = sfactor;
@@ -161,7 +161,7 @@ void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("gl4es_glBlendFunc"
 
 void gl4es_glBlendEquation(GLenum mode) {
     PUSH_IF_COMPILING(glBlendEquation)
-    LOAD_GLES_OR_OES(glBlendEquation);
+    LOAD_GLES2_OR_OES(glBlendEquation);
     errorGL();
 #ifdef ODROID
     if(gles_glBlendEquation)

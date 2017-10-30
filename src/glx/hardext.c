@@ -127,14 +127,14 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_blend_equation_separate", blendeq, 1);
     S("GL_EXT_blend_minmax", blendminmax, 1);
     S("GL_EXT_blend_color", blendcolor, 1);
-    if(hardext.blendcolor==0) {
+    /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
         if(gles_glBlendColor != NULL) {
             hardext.blendcolor = 1;
 	        SHUT(LOGD("LIBGL: Extension glBlendColor found and used\n"));
 	    }
-    }
+    }*/ // I don't think this is correct
     if(hardext.esversion<2) {
         S("GL_OES_framebuffer_object", fbo, 1);
         S("GL_OES_point_sprite", pointsprite, 1); 
