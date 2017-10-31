@@ -460,7 +460,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         gles_glRenderbufferStorage(target, GL_STENCIL_INDEX8, width, height);
         gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
     }
-    else if (internalformat == GL_DEPTH_COMPONENT)    // Not much is supported on GLES...
+    else if (internalformat == GL_DEPTH_COMPONENT || internalformat == GL_DEPTH_COMPONENT32)    // Not much is supported on GLES...
         internalformat = GL_DEPTH_COMPONENT16;
     else if (internalformat == GL_RGB8 && hardext.rgba8==0)
         internalformat = GL_RGB565_OES;

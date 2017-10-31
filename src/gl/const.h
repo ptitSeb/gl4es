@@ -607,6 +607,7 @@
 #define GL_INDEX                          0x8222
 #define GL_TEXTURE_LUMINANCE_TYPE         0x8C14
 #define GL_TEXTURE_INTENSITY_TYPE         0x8C15
+#define GL_DEPTH_COMPONENT32              0x81A7
 #define GL_DEPTH_COMPONENT24              0x81A6
 #define GL_DEPTH_COMPONENT16              0x81A5
 #define GL_DEPTH_COMPONENT                0x1902
