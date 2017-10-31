@@ -628,7 +628,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
-    DBG(printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%08x, level=%i (mipmap_need=%i, mipmap_auto=%i, base_level=%i, max_level=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), (internalformat==3)?"3":(internalformat==4?"4":PrintEnum(internalformat)), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->base_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->max_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->texture:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed:0, glstate->list.compiling);)
+    DBG(printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%p, level=%i (mipmap_need=%i, mipmap_auto=%i, base_level=%i, max_level=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), (internalformat==3)?"3":(internalformat==4?"4":PrintEnum(internalformat)), PrintEnum(type), data, level, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->base_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->max_level:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->texture:0, (glstate->texture.bound[glstate->texture.active][what_target(target)])?glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed:0, glstate->list.compiling);)
     // proxy case
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
@@ -894,11 +894,15 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
             
             if (height != nheight || width != nwidth) {
+                errorGL();
                 gles_glTexImage2D(rtarget, level, format, nwidth, nheight, border,
                                 format, type, NULL);
-                if (pixels) gles_glTexSubImage2D(rtarget, level, 0, 0, width, height,
+                DBG(CheckGLError(1);)
+                if (pixels) {
+                    gles_glTexSubImage2D(rtarget, level, 0, 0, width, height,
                                         format, type, pixels);
-                errorGL();
+                                        DBG(CheckGLError(1);)
+                }
 #ifdef NO_1x1
                 if(level==0 && (width==1 || height==1 && pixels)) {
                     // complete the texture, juste in case it use GL_REPEAT
@@ -912,9 +916,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
 #endif
             } else {
+                errorGL();
                 gles_glTexImage2D(rtarget, level, format, width, height, border,
                                 format, type, pixels);
-                errorGL();
+                DBG(CheckGLError(1);)
             }
             // check if base_level is set... and calculate lower level mipmap
             if(bound->base_level == level && !(bound->max_level==level && level==0)) {
@@ -1139,9 +1144,10 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 		memcpy(tmp+((yy+yoffset)*bound->width+xoffset)*2, pixels+(yy*width)*2, width*2);
 	}*/
     } else {
+        errorGL();
         gles_glTexSubImage2D(rtarget, level, xoffset, yoffset,
-					 width, height, format, type, pixels);
-		errorGL();
+                     width, height, format, type, pixels);
+        DBG(CheckGLError(1);)
         // check if base_level is set... and calculate lower level mipmap
         if(bound->base_level == level && !(bound->max_level==level && level==0)) {
             int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;

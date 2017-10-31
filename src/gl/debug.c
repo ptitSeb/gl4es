@@ -7,6 +7,10 @@ const char* PrintEnum(GLenum what) {
     static char fallback[64];
     switch(what)
     {
+        // error
+        p(GL_INVALID_ENUM);
+        p(GL_INVALID_VALUE);
+        p(GL_INVALID_OPERATION);
         // target
         p(GL_TEXTURE_1D);
         p(GL_TEXTURE_2D);
