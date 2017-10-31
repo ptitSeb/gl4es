@@ -97,6 +97,21 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->map_grid[1].n = 1;
     glstate->map_grid[1].d = 1.0f;
     
+    // line stipple
+    glstate->linestipple.factor = 1;
+    glstate->linestipple.pattern = 0xFFFF;
+    glstate->linestipple.data = (GLubyte *)malloc(sizeof(GLubyte) * 16);
+        memset(glstate->linestipple.data, 0xff, sizeof(GLubyte) * 16);
+    glstate->linestipple.texture = 0;    
+    
+    // fpe
+    if(hardext.esversion>1) {
+        glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
+        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
+        glstate->glsl.es2 = es2only;
+        fpe_Init(glstate);
+    }
+
     // init the matrix tracking
     init_matrix(glstate);
 
@@ -271,6 +286,9 @@ void DeleteGLState(void* oldstate) {
 		free_matrix(texture_matrix[i]);
 	free(glstate->texture_matrix);
     #undef free_matrix
+    // linestipple
+    if(state->linestipple.data)
+        free(state->linestipple.data);
     // free blit GLES2 stuff
     if(state->blit) {
         //TODO: check if should delete GL object too

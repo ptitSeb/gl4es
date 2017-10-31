@@ -270,6 +270,13 @@ typedef struct {
 } fpestatus_t;
 
 typedef struct {
+    GLint factor;
+    GLushort pattern;
+    GLubyte *data;
+    GLuint texture;
+} linestipple_t;
+
+typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t      enable;
@@ -330,6 +337,7 @@ typedef struct {
     material_state_t    material;
     float               planes[MAX_CLIP_PLANES][4];
     pointsprite_t       pointsprite;
+    linestipple_t       linestipple;
     int                 immediateMV;
     GLenum              shademodel;
     GLenum              alphafunc;

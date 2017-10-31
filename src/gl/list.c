@@ -982,19 +982,21 @@ void draw_renderlist(renderlist_t *list) {
             } else
                 fpe_glDisableClientState(GL_FOG_COORD_ARRAY);                    
         }
+        #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         stipple = false;
         if (! list->tex[0]) {
             // TODO: do we need to support GL_LINE_STRIP?
             if (list->mode == GL_LINES && glstate->enable.line_stipple) {
                 stipple = true;
                 gl4es_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
+                TEXTURE(0);
                 gl4es_glEnable(GL_BLEND);
                 gl4es_glEnable(GL_TEXTURE_2D);
                 gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+                bind_stipple_tex();
                 list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
             } 
         }
-        #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
         if(hardext.esversion==1) {
