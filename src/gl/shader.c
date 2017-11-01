@@ -50,6 +50,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
         free(glshader->source);
         glshader->source = NULL;
     }
+    glshader->need.need_texcoord = -1;
 
     // all done
     return shader;
@@ -149,12 +150,54 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     if (gles_glShaderSource) {
         // adapt shader if needed (i.e. not an es2 context and shader is not #version 100)
         if(!glstate->glsl.es2 && strncmp(glshader->source, "#version 100", 12))
-            glshader->converted = ConvertShader(glshader->source, glshader->type==GL_VERTEX_SHADER?1:0);
+            glshader->converted = ConvertShader(glshader->source, glshader->type==GL_VERTEX_SHADER?1:0, &glshader->need);
         // send source to GLES2 hardware if any
         gles_glShaderSource(shader, 1, (const GLchar * const*)((glshader->converted)?(&glshader->converted):(&glshader->source)), NULL);
         errorGL();
     } else
         noerrorShim();
+}
+
+void accumShaderNeeds(GLuint shader, shaderconv_need_t *need) {
+    CHECK_SHADER(void, shader)
+    if(!glshader->converted) 
+        return;
+    #define GO(A) if(need->need_##A < glshader->need.need_##A) need->need_##A = glshader->need.need_##A
+    GO(color);
+    GO(secondary);
+    GO(fogcoord);
+    GO(texcoord);
+    #undef GO
+}
+int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
+    CHECK_SHADER(int, shader)
+    if(!glshader->converted)
+        return 0;
+    #define GO(A) if(need->need_##A > glshader->need.need_##A) return 0;
+    GO(color);
+    GO(secondary);
+    GO(fogcoord);
+    GO(texcoord);
+    #undef GO
+    return 1;
+}
+void redoShader(GLuint shader, shaderconv_need_t *need) {
+    LOAD_GLES2(glShaderSource);
+    if(!gles_glShaderSource)
+        return;
+    CHECK_SHADER(void, shader)
+    if(!glshader->converted)
+        return;
+    // test, if no changes, no need to reconvert & recompile...
+    if (memcmp(&glshader->need, need, sizeof(shaderconv_need_t))==0)
+        return;
+    free(glshader->converted);
+    memcpy(&glshader->need, need, sizeof(shaderconv_need_t));
+    glshader->converted = ConvertShader(glshader->source, glshader->type==GL_VERTEX_SHADER?1:0, &glshader->need);
+    // send source to GLES2 hardware if any
+    gles_glShaderSource(shader, 1, (const GLchar * const*)((glshader->converted)?(&glshader->converted):(&glshader->source)), NULL);
+    // recompile...
+    gl4es_glCompileShader(glshader->id);
 }
 
 void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) {

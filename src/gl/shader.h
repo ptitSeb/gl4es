@@ -4,6 +4,13 @@
 #define __SHADER_H_
 
 typedef struct {
+    int         need_color;      // front and back
+    int         need_secondary;  //  same
+    int         need_fogcoord;
+    int         need_texcoord;      // max texcoord needed (-1 for none)
+} shaderconv_need_t;
+
+typedef struct {
     GLuint          id;     // internal id of the shader
     GLenum          type;   // type of the shader (GL_VERTEX or GL_FRAGMENT)
     int             attached; // number of time the shader is attached
@@ -11,6 +18,8 @@ typedef struct {
     int             compiled;// flag if compiled
     char*           source; // original source of the shader
     char*           converted;  // converted source (or null if nothing)
+    // shaderconv
+    shaderconv_need_t  need;    // the varying need / provide of the shader
 } shader_t;
 
 KHASH_MAP_INIT_INT(shaderlist, shader_t *)
@@ -28,10 +37,14 @@ void gl4es_glGetShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, G
 void gl4es_glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
 void gl4es_glReleaseShaderCompiler(void);
 
+void accumShaderNeeds(GLuint shader, shaderconv_need_t *need);
+int isShaderCompatible(GLuint shader, shaderconv_need_t *need);
+void redoShader(GLuint shader, shaderconv_need_t *need);
+
 #define CHECK_SHADER(type, shader) \
     if(!shader) { \
         noerrorShim(); \
-        return; \
+        return (type)0; \
     } \
     shader_t *glshader = NULL; \
     khint_t k_##shader; \
@@ -44,7 +57,7 @@ void gl4es_glReleaseShaderCompiler(void);
     } \
     if (!glshader) { \
         errorShim(GL_INVALID_OPERATION); \
-        return; \
+        return (type)0; \
     }
 
 

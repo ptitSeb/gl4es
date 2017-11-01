@@ -483,6 +483,26 @@ void gl4es_glLinkProgram(GLuint program) {
     }
     glprogram->cache.size = 0;  // reset cache buffer
 
+    // check if attached shaders are compatible in term of varying...
+    shaderconv_need_t needs;
+    needs.need_color = -1;
+    // first get the compatible need
+    for (int i=0; i<glprogram->attach_size; i++) {
+        accumShaderNeeds(glprogram->attach[i], &needs);
+    }
+    int compatible = 1;
+    // now is everyone ok?
+    for (int i=0; i<glprogram->attach_size && compatible; i++) {
+        compatible = isShaderCompatible(glprogram->attach[i], &needs);
+    }
+    // someone is not compatible, redoing shaders...
+    if(!compatible) {
+        DBG(printf("Need to redo some shaders...\n");)
+        for (int i=0; i<glprogram->attach_size && compatible; i++) {
+            redoShader(glprogram->attach[i], &needs);
+        }
+    }
+    // ok, continue with linking
     LOAD_GLES2(glLinkProgram);
     if(gles_glLinkProgram) {
         LOAD_GLES(glGetError);

@@ -180,6 +180,8 @@ void GetHardwareExtensions(int notest)
         hardext.maxlights = 8;
         hardext.maxplanes = 6;
         gles_glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &hardext.maxteximage);
+        gles_glGetIntegerv(GL_MAX_VARYING_VECTORS, &hardext.maxvarying);
+        SHUT(LOGD("LIBGL: Max Varying Vector: %d\n", hardext.maxvarying));
         if(hardext.maxvattrib<16 && hardext.maxtex>4)
             hardext.maxtex = 4; // with less then 16 vertexattrib, more then 4 textures seems unreasonnable
     }

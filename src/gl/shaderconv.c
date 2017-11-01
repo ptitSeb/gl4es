@@ -183,12 +183,16 @@ const char* gl4es_clipplanesSource =
 const char* gl4es_normalscaleSource =
 "uniform float gl_NormalScale;\n";
 
-const char* gl4es_colorSource =
-"varying lowp vec4 _gl4es_FrontColor;\n"
+const char* gl4es_frontColorSource =
+"varying lowp vec4 _gl4es_FrontColor;\n";
+
+const char* gl4es_backColorSource =
 "varying lowp vec4 _gl4es_BackColor;\n";
 
-const char* gl4es_secondSource =
-"varying lowp vec4 _gl4es_FrontSecondaryColor;\n"
+const char* gl4es_frontSecondaryColorSource =
+"varying lowp vec4 _gl4es_FrontSecondaryColor;\n";
+
+const char* gl4es_backSecondaryColorSource =
 "varying lowp vec4 _gl4es_BackSecondaryColor;\n";
 
 const char* gl4es_texcoordSource =
@@ -203,9 +207,19 @@ const char* gl4es_ftransformSource =
 " return gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "}\n";
 
-char* ConvertShader(const char* pBuffer, int isVertex)
+const char* gl_TexCoordSource = "gl_TexCoord[";
+
+char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
 {
   DBG(printf("Shader source:\n%s\n", pBuffer);)
+  
+  static shaderconv_need_t dummy_need;
+  if(!need) {
+    need = &dummy_need;
+    memset(need, 0, sizeof(shaderconv_need_t));
+    need->need_texcoord = -1;
+  }
+  
   // first change the version header, and add default precision
   char* newptr;
   newptr=strstr(pBuffer, "#version");
@@ -336,6 +350,7 @@ char* ConvertShader(const char* pBuffer, int isVertex)
           }
       }
   }
+  
   // check for builtin OpenGL gl_LightSource & friends
   // TODO: Handling of gl_LightSource[x].halfVector => normalize(gl_LightSource[x].position - glVertex), but what if in the FragShader ?
   if(strstr(Tmp, "gl_LightSourceParameters") || strstr(Tmp, "gl_LightSource"))
@@ -488,35 +503,76 @@ char* ConvertShader(const char* pBuffer, int isVertex)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneQ", "_gl4es_ObjectPlaneQ");
   }
   // builtin varying
-  if(strstr(Tmp, "gl_FrontColor") || strstr(Tmp, "gl_BackColor") || strstr(Tmp, "gl_Color")) {
-    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_colorSource));
-    InplaceInsert(GetLine(Tmp, headline), gl4es_colorSource);
-    headline+=CountLine(gl4es_colorSource);
+  int nvarying = 0;
+  if(strstr(Tmp, "gl_Color") || need->need_color) {
+    if(need->need_color<1) need->need_color = 1;
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Color", (need->need_color==1)?"gl_FrontColor":"(gl_FrontFacing?gl_FrontColor:gl_BackColor)");
+  }
+  if(strstr(Tmp, "gl_FrontColor") || need->need_color) {
+    if(need->need_color<1) need->need_color = 1;
+    nvarying+=1;
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_frontColorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_frontColorSource);
+    headline+=CountLine(gl4es_frontColorSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontColor", "_gl4es_FrontColor");
+  }
+  if(strstr(Tmp, "gl_BackColor") || (need->need_color==2)) {
+    need->need_color = 2;
+    nvarying+=1;
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_backColorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_backColorSource);
+    headline+=CountLine(gl4es_backColorSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackColor", "_gl4es_BackColor");
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Color", "(gl_FrontFacing?_gl4es_FrontColor:_gl4es_BackColor)");
   }
-  if(strstr(Tmp, "gl_FrontSecondaryColor") || strstr(Tmp, "gl_BackSecondaryColor") || strstr(Tmp, "gl_SecondaryColor")) {
-    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_secondSource));
-    InplaceInsert(GetLine(Tmp, headline), gl4es_secondSource);
-    headline+=CountLine(gl4es_secondSource);
+  if(strstr(Tmp, "gl_SecondaryColor") || need->need_secondary) {
+    if(need->need_secondary<1) need->need_secondary = 1;
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_SecondaryColor", (need->need_secondary==1)?"gl_FrontSecondaryColor":"(gl_FrontFacing?gl_FrontSecondaryColor:gl_BackSecondaryColor)");
+  }
+  if(strstr(Tmp, "gl_FrontSecondaryColor") || need->need_secondary) {
+    if(need->need_secondary<1) need->need_secondary = 1;
+    nvarying+=1;
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_frontSecondaryColorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_frontSecondaryColorSource);
+    headline+=CountLine(gl4es_frontSecondaryColorSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontSecondaryColor", "_gl4es_FrontSecondaryColor");
+  }
+  if(strstr(Tmp, "gl_BackSecondaryColor") || (need->need_secondary==2)) {
+    need->need_secondary = 2;
+    nvarying+=1;
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_backSecondaryColorSource));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_backSecondaryColorSource);
+    headline+=CountLine(gl4es_backSecondaryColorSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackSecondaryColor", "_gl4es_BackSecondaryColor");
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_SecondaryColor", "(gl_FrontFacing?_gl4es_FrontSecondaryColor:_gl4es_BackSecondaryColor)");
   }
-  if(strstr(Tmp, "gl_TexCoord")) {
-    char d[100];
-    sprintf(d, gl4es_texcoordSource, hardext.maxtex);
-    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
-    InplaceInsert(GetLine(Tmp, headline), d);
-    headline+=CountLine(d);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
-  }
-  if(strstr(Tmp, "gl_FogFragCoord")) {
+  if(strstr(Tmp, "gl_FogFragCoord") || need->need_fogcoord) {
+    need->need_fogcoord = 1;
+    nvarying+=1;
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_fogcoordSource));
     InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource);
     headline+=CountLine(gl4es_fogcoordSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
+  }
+  if(strstr(Tmp, "gl_TexCoord") || need->need_texcoord!=-1) {
+    int ntex = need->need_texcoord;
+    // Try to determine max gl_TexCoord used
+    char* p = Tmp;
+    while((p=strstr(p, gl_TexCoordSource))) {
+      p+=strlen(gl_TexCoordSource);
+      if(*p>='0' && *p<='9') {
+        int n = (*p) - '0';
+        if (ntex<n) ntex = n;
+      }
+    }
+    // if failed to determine, take max...
+    if (ntex==-1) ntex = hardext.maxtex;
+    if (ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
+    need->need_texcoord = ntex;
+    char d[100];
+    sprintf(d, gl4es_texcoordSource, ntex+1);
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
+    InplaceInsert(GetLine(Tmp, headline), d);
+    headline+=CountLine(d);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
   }
   if(strstr(Tmp, "gl_MaxTextureUnits")) {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_MaxTextureUnitsSource));
