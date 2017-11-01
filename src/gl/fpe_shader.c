@@ -91,11 +91,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     if(!shad) shad = (char*)malloc(shad_cap);
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
-    int light_separate = state->light_separate;
+    int light_separate = state->light_separate && lighting;
     int secondary = state->colorsum && !(lighting && light_separate);
     int fog = state->fog;
     int fogsource = state->fogsource;
-    int color_material = state->color_material;
+    int color_material = state->color_material && lighting;
     int point = state->point;
     int pointsprite = state->pointsprite;
     int headers = 0;
