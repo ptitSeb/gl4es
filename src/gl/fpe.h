@@ -125,6 +125,8 @@ typedef struct {
     unsigned int color_material:1;       // color material enabled
     unsigned int cm_front_mode:3;        // front color material mode
     unsigned int cm_back_mode:3;         // back color material mode
+    unsigned int cm_front_nullexp:1;     // front material shininess is 0
+    unsigned int cm_back_nullexp:1;      // back material shininess is 0
     unsigned int light_separate:1;       // light separate specular color
     unsigned int light_localviewer:1;    // light local viewer
     unsigned int point:1;                // point rendering

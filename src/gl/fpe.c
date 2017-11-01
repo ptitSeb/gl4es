@@ -654,7 +654,7 @@ void realize_glenv(int ispoint) {
             {
                 if(glprogram->builtin_normalrescale!=-1) {
                     const float *invmat = getInvMVMat();
-                    float tmp = 1.0f/sqrtf(invmat[3*3+1]*invmat[3*3+1]+invmat[3*3+2]*invmat[3*3+2]+invmat[3*3+3]*invmat[3*3+3]);
+                    float tmp = 1.0f/sqrtf(invmat[3*4+1]*invmat[3*4+1]+invmat[3*4+2]*invmat[3*4+2]+invmat[3*4+3]*invmat[3*4+3]);
                     GoUniformfv(glprogram, glprogram->builtin_normalrescale, 1, 1, &tmp);
                 }
             }

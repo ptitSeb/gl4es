@@ -1057,7 +1057,7 @@ void draw_renderlist(renderlist_t *list) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate.tex_coord_array[a] = 1;
                     }
-                    gles_glTexCoordPointer(4, GL_FLOAT, 0, (use_texgen[a])?texgened[a]:list->tex[a]);
+                    gles_glTexCoordPointer(4, GL_FLOAT, 0, list->tex[a]);
                 } else {
                     if (glstate->clientstate.tex_coord_array[a]) {
                         TEXTURE(a);

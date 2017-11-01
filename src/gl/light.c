@@ -306,10 +306,16 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
             }
             break;
         case GL_SHININESS:
-            if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+            if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
                 glstate->material.front.shininess = *params;
-            if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+                if(glstate->fpe_state)
+                    glstate->fpe_state->cm_front_nullexp=(*params<=0.0)?0:1;
+            }
+            if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
                 glstate->material.back.shininess = *params;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->cm_back_nullexp=(*params<=0.0)?0:1;
+            }
             break;
         case GL_COLOR_INDEXES:
             if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {

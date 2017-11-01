@@ -106,6 +106,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int need_objplane[MAX_TEX][4] = {0};
     int need_adjust[MAX_TEX] = {0};
     int need_lightproduct[2][MAX_LIGHT] = {0};
+    int cm_front_nullexp = state->cm_front_nullexp;
+    int cm_back_nullexp = state->cm_back_nullexp;
+        
     
     shad[0] = '\0';
 
@@ -122,18 +125,18 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             "struct _gl4es_FPELightSourceParameters1\n"
             "{\n"
             "%s"
-            "   vec4 specular;\n"
-            "   vec4 position;\n"
-            "   vec3 spotDirection;\n"
-            "   float spotExponent;\n"
-            "   float spotCosCutoff;\n"
-            "   float constantAttenuation;\n"
-            "   float linearAttenuation;\n"
-            "   float quadraticAttenuation;\n"
+            "   highp vec4 specular;\n"
+            "   highp vec4 position;\n"
+            "   highp vec3 spotDirection;\n"
+            "   highp float spotExponent;\n"
+            "   highp float spotCosCutoff;\n"
+            "   highp float constantAttenuation;\n"
+            "   highp float linearAttenuation;\n"
+            "   highp float quadraticAttenuation;\n"
             "};\n", 
             (color_material)?
-            "   vec4 ambient;\n"
-            "   vec4 diffuse;\n"
+            "   highp vec4 ambient;\n"
+            "   highp vec4 diffuse;\n"
             : ""
             );
         ShadAppend(buff);
@@ -142,15 +145,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             "struct _gl4es_FPELightSourceParameters0\n"
             "{\n"
             "%s"
-            "   vec4 specular;\n"
-            "   vec4 position;\n"
-            "   vec3 spotDirection;\n"
-            "   float spotExponent;\n"
-            "   float spotCosCutoff;\n"
+            "   highp vec4 specular;\n"
+            "   highp vec4 position;\n"
+            "   highp vec3 spotDirection;\n"
+            "   highp float spotExponent;\n"
+            "   highp float spotCosCutoff;\n"
             "};\n", 
             (color_material)?
-            "   vec4 ambient;\n"
-            "   vec4 diffuse;\n"
+            "   highp vec4 ambient;\n"
+            "   highp vec4 diffuse;\n"
             : ""
             );
         ShadAppend(buff);
@@ -159,21 +162,21 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         sprintf(buff,
                 "struct _gl4es_LightProducts\n"
                 "{\n"
-                "   vec4 ambient;\n"
-                "   vec4 diffuse;\n"
-                "   vec4 specular;\n"
+                "   highp vec4 ambient;\n"
+                "   highp vec4 diffuse;\n"
+                "   highp vec4 specular;\n"
                 "};\n"                
         );
         ShadAppend(buff);
         headers += CountLine(buff);
 
         if(!color_material || !state->cm_front_mode==FPE_CM_SPECULAR || !state->cm_back_mode==FPE_CM_SPECULAR) {
-            ShadAppend("uniform float _gl4es_FrontMaterial_shininess;\n");
-            ShadAppend("uniform float _gl4es_FrontMaterial_alpha;\n");
+            ShadAppend("uniform highp float _gl4es_FrontMaterial_shininess;\n");
+            ShadAppend("uniform highp float _gl4es_FrontMaterial_alpha;\n");
             headers+=2;
             if(twosided)
-                ShadAppend("uniform float _gl4es_BackMaterial_shininess;\n");
-                ShadAppend("uniform float _gl4es_BackMaterial_alpha;\n");
+                ShadAppend("uniform highp float _gl4es_BackMaterial_shininess;\n");
+                ShadAppend("uniform highp float _gl4es_BackMaterial_alpha;\n");
                 headers+=2;
             }
         for(int i=0; i<hardext.maxlights; i++) {
@@ -227,7 +230,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend(buff);
             headers++;
             if(state->textmat&(1<<i)) {
-                sprintf(buff, "uniform mat4 _gl4es_TextureMatrix_%d;\n", i);
+                sprintf(buff, "uniform highp mat4 _gl4es_TextureMatrix_%d;\n", i);
                 ShadAppend(buff);
                 headers++;
             }
@@ -297,15 +300,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             if(twosided)
                 ShadAppend("SecBackColor=vec4(0.);\n");
         }
-        ShadAppend("float att;\n");
-        ShadAppend("float spot;\n");
-        ShadAppend("vec3 VP;\n");
-        ShadAppend("float lVP;\n");
-        ShadAppend("float nVP;\n");
-        ShadAppend("vec3 aa,dd,ss;\n");
-        ShadAppend("vec3 hi;\n");
+        ShadAppend("highp float att;\n");
+        ShadAppend("highp float spot;\n");
+        ShadAppend("highp vec3 VP;\n");
+        ShadAppend("highp float lVP;\n");
+        ShadAppend("highp float nVP;\n");
+        ShadAppend("highp vec3 aa,dd,ss;\n");
+        ShadAppend("highp vec3 hi;\n");
         if(twosided)
-            ShadAppend("vec3 back_aa,back_dd,back_ss;\n");
+            ShadAppend("highp vec3 back_aa,back_dd,back_ss;\n");
         need_normal = 1;
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
@@ -378,10 +381,16 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend("hi = normalize(VP + vec3(0., 0., 1.));\n");
                 }
                 ShadAppend("lVP = dot(normal, hi);\n");
-                sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
+                if(cm_front_nullexp)
+                    sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
+                else
+                    sprintf(buff, "ss = (nVP>0. && lVP>0.)?(%s%d.specular.xyz):vec3(0.);\n", fm_specular, i);
                 ShadAppend(buff);
                 if(twosided) {
-                    sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                    if(state->cm_back_nullexp)    // 1, exp is not null
+                        sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                    else
+                        sprintf(buff, "ss = (nVP<0. && lVP<0.)?(%s%d.specular.xyz):vec3(0.);\n", bm_specular, i);
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
@@ -523,12 +532,20 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         normal_line += CountLine(buff);
     }
     if(need_normal) {
+#if 0
         if(state->rescaling)
             strcpy(buff, "vec3 normal = gl_NormalScale*(gl_NormalMatrix * gl_Normal);\n");
         else
             strcpy(buff, "vec3 normal = gl_NormalMatrix * gl_Normal;\n");
         if(state->normalize)
             strcat(buff, "normal = normalize(normal);\n");
+#else
+// Implementions may choose to normalize for rescale...
+        if(state->rescaling || state->normalize)
+            strcpy(buff, "vec3 normal = normalize(gl_NormalMatrix * gl_Normal);\n");
+        else
+            strcpy(buff, "vec3 normal = gl_NormalMatrix * gl_Normal;\n");
+#endif
         shad = ResizeIfNeeded(shad, &shad_cap, strlen(buff));
         InplaceInsert(GetLine(shad, normal_line + headers), buff);
     }

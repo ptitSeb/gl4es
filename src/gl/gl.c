@@ -1688,8 +1688,11 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate->list.active) {
         if(glstate->list.pending)
             flush();
-        else
-            rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
+        else {
+            // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
+            if(glstate->list.begin && glstate->enable.texture[0])
+                rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
+        }
     }
     noerrorShim();
     glstate->texcoord[0][0] = s; glstate->texcoord[0][1] = t;
