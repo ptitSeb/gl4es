@@ -417,6 +417,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
     }
     int depthBits = glxfbconfig->depthBits;
 #ifdef PANDORA
+    if(depthBits==32)
+        depthBits = 16;
     if(depthBits==24 && glxfbconfig->stencilBits==8 && !(globals4es.usefbo || globals4es.usepbuffer))
         depthBits = 16;
 #endif    
