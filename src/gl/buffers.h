@@ -77,7 +77,7 @@ typedef struct {
     GLenum          type;
     GLboolean       normalized;
     GLsizei         stride;
-    const GLvoid*           pointer;
+    const GLvoid*   pointer;
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
     GLboolean       vaarray;
