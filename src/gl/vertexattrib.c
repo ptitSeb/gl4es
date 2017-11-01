@@ -2,7 +2,7 @@
 #include "buffers.h"
 #include "../glx/hardext.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
 #else
