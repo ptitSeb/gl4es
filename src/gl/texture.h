@@ -117,7 +117,8 @@ typedef struct {
     GLboolean uploaded;
     GLboolean alpha;
     GLboolean compressed;
-	GLboolean streamed;
+    GLboolean streamed;
+    int valid;
 	int	streamingID;
     int base_level;
     int max_level;
@@ -185,9 +186,9 @@ static inline GLenum to_target(GLuint itarget) {
 #define IS_TEX1D(T) (T&(1<<ENABLED_TEX1D))
 #define IS_TEX2D(T) (T&(1<<ENABLED_TEX2D))
 #define IS_TEX3D(T) (T&(1<<ENABLED_TEX3D))
-#define IS_TEXRECT(T) (T&(1<<ENABLED_TEXTURE_RECTANGLE))
+#define IS_TEXTURE_RECTANGLE(T) (T&(1<<ENABLED_TEXTURE_RECTANGLE))
 #define IS_ANYTEX(T) (T&((1<<ENABLED_TEX2D)|(1<<ENABLED_TEX1D)|(1<<ENABLED_TEX3D)|(1<<ENABLED_TEXTURE_RECTANGLE)))
-#define IS_TEXCUBE(T) (T&(1<<ENABLED_CUBE_MAP))
+#define IS_CUBE_MAP(T) (T&(1<<ENABLED_CUBE_MAP))
 
 static inline GLint get_target(GLuint enabled) {
     if(!enabled)

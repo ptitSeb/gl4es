@@ -340,32 +340,8 @@ static void fpe_changelight(int n, bool enable)
 }
 static void fpe_changetex(int n, int state)
 {
-    int texmode = FPE_TEX_OFF;
-#ifdef TEXSTREAM
-    // This is just wrong and will not work... Anyway, shaders will not work either...
-    if(state==256) {state = glstate->enable.texture[n]; texmode = (IS_TEX2D(state))?FPE_TEX_STRM:FPE_TEX_OFF;}
-    else
-#endif
-    if(IS_TEXCUBE(state)) texmode = FPE_TEX_CUBE;
-    else if(IS_ANYTEX(state)) texmode = FPE_TEX_2D;
-
-    glstate->fpe = NULL;
-    glstate->fpe_state->texture &= ~(3<<(n*2));
-
-    glstate->fpe_state->texture |= texmode<<(n*2);
-
-    /*if(texmode) {
-        int target = ENABLED_TEX1D; // lowest priority
-        if(state && (1<<ENABLED_TEX2D)) target = ENABLED_TEX2D;
-        if(state && (1<<ENABLED_TEXTURE_RECTANGLE)) target = ENABLED_TEXTURE_RECTANGLE;
-        if(state && (1<<ENABLED_TEX3D)) target = ENABLED_TEX3D;
-        if(state && (1<<ENABLED_CUBE_MAP)) target = ENABLED_CUBE_MAP;
-        gltexture_t* tex = glstate->texture.bound[n][target];
-        if(tex) {
-            glstate->fpe_state->texformat &= ~(7<<(n*3));
-            glstate->fpe_state->texformat |= tex->fpe_format<<(n*3);
-        }
-    }*/
+    if(glstate->fpe_bound_changed < n+1)
+        glstate->fpe_bound_changed = n+1;
 }
 #define generate_changetexgen(C) \
 static void fpe_changetexgen_##C(int n, bool enable) \
@@ -398,6 +374,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         case constant: if (glstate->vao->name != enable) {glstate->vao->name = enable; next(cap);} break
     #define clientGO(constant, name) \
         case constant: glstate->vao->name = enable; break;
+    #define clientGO_proxyFPE(constant, name) \
+        case constant: glstate->vao->name = enable; if(glstate->fpe_state) { next(cap);} break;
     // Alpha Hack
     if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
         if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
@@ -471,14 +449,14 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
-        clientGO(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        clientGO(GL_FOG_COORD_ARRAY, fog_array);
+        clientGO_proxyFPE(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        clientGO_proxyFPE(GL_FOG_COORD_ARRAY, fog_array);
 	
         // for glDrawArrays
-        clientGO(GL_VERTEX_ARRAY, vertex_array);
-        clientGO(GL_NORMAL_ARRAY, normal_array);
-        clientGO(GL_COLOR_ARRAY, color_array);
-        clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        clientGO_proxyFPE(GL_VERTEX_ARRAY, vertex_array);
+        clientGO_proxyFPE(GL_NORMAL_ARRAY, normal_array);
+        clientGO_proxyFPE(GL_COLOR_ARRAY, color_array);
+        clientGO_proxyFPE(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
 
         // map eval
         GO(GL_MAP1_COLOR_4 , map1_color4);

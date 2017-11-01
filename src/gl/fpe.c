@@ -425,29 +425,45 @@ void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
 
 // ********* Realize GLES Environnements *********
 
-gltexture_t* fpe_gettexture(int TMU) {
+int fpe_gettexture(int TMU) {
     int state=glstate->enable.texture[TMU];
     int target = ENABLED_TEX2D;
-    if(IS_TEXCUBE(state)) target = ENABLED_CUBE_MAP;
-    else if(IS_TEX3D(state)) target = ENABLED_TEX3D;
-    else if(IS_TEXRECT(state)) target = ENABLED_TEXTURE_RECTANGLE;
-    else if(IS_TEX2D(state)) target = ENABLED_TEX2D;
-    else if(IS_TEX1D(state)) target = ENABLED_TEX1D;
-    return glstate->texture.bound[TMU][target];
+    #define GO(A) if(IS_##A(state) && glstate->texture.bound[TMU][ENABLED_##A] && glstate->texture.bound[TMU][ENABLED_##A]->valid) target = ENABLED_##A
+    GO(CUBE_MAP);
+    else GO(TEX3D);
+    else GO(TEXTURE_RECTANGLE);
+    else GO(TEX2D);
+    else GO(TEX1D);
+    #undef GO
+    return target;
 }
 
 void realize_glenv(int ispoint) {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
-    // update texture state
-    if(glstate->fpe_bound_changed) {
+    // update texture state for fpe only
+    if(glstate->fpe_bound_changed && !glstate->glsl.program) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
             glstate->fpe_state->texformat &= ~(7<<(i*3));
             glstate->fpe_state->texadjust &= ~(1<<i);
-            gltexture_t* tex = fpe_gettexture(i);
-            if(tex) {
+            // disable texture unit, in that case (binded texture is not valid)
+            glstate->fpe_state->texture &= ~(3<<(i*2));
+            int texunit = fpe_gettexture(i);
+            gltexture_t* tex = glstate->texture.bound[i][texunit];
+            if(tex && tex->valid) {
+                int fmt;
+                if(texunit==ENABLED_CUBE_MAP) fmt = FPE_TEX_CUBE;
+                else {
+#ifdef TEXSTREAM
+                    if(tex->streamingID!=-1)
+                        fmt = FPE_TEX_STRM;
+                    else
+#endif
+                    fmt = FPE_TEX_2D;
+                }
                 glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
                 glstate->fpe_state->texadjust |= tex->adjust<<i;
+                glstate->fpe_state->texture |= fmt<<(i*2);
             }
         }
         glstate->fpe_bound_changed = 0;
@@ -800,8 +816,8 @@ void realize_glenv(int ispoint) {
     if(glprogram->has_builtin_texadjust)
     {
         for (int i=0; i<hardext.maxtex; i++) {
-            gltexture_t* tex = fpe_gettexture(i);
-            if(tex)
+            gltexture_t* tex = glstate->texture.bound[i][fpe_gettexture(i)];
+            if(tex && tex->valid)
                 GoUniformfv(glprogram, glprogram->builtin_texadjust[i], 2, 1, tex->adjustxy);
         }
     }

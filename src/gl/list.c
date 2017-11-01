@@ -1052,6 +1052,7 @@ void draw_renderlist(renderlist_t *list) {
             // texture loop for ES2+ version
             for (int a=0; a<hardext.maxtex; a++) {
                 if(list->tex[a]) {
+                    TEXTURE(a);
                     if(!glstate->clientstate.tex_coord_array[a]) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate.tex_coord_array[a] = 1;

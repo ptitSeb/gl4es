@@ -411,9 +411,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             ShadAppend(buff);
         }
         if(state->light_separate) {
-            ShadAppend("SecColor = clamp(SecColor, 0., 1.);\n");
+            ShadAppend("SecColor.rgb = clamp(SecColor.rgb, 0., 1.);\n");
             if(twosided) {
-                ShadAppend("SecBackColor = clamp(SecBackColor, 0., 1.);\n");
+                ShadAppend("SecBackColor.rgb = clamp(SecBackColor.rgb, 0., 1.);\n");
             }
         }
     }
@@ -940,8 +940,9 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             sprintf(buff, "// Add Secondary color (%s %s)\n", light_separate?"light":"", secondary?"secondary":"");
             ShadAppend(buff);
         }
-        sprintf(buff, "fColor += vec4((%s).rgb, 0.);\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
+        sprintf(buff, "fColor.rgb += (%s).rgb;\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
         ShadAppend(buff);
+        ShadAppend("fColor.rgb = clamp(fColor.rgb, 0., 1.);\n");
     }
 
     //*** Fog

@@ -868,6 +868,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->adjustxy[0] = (float)width / nwidth;
             bound->adjustxy[1] = (float)height / nheight;
             bound->compressed = false;
+            bound->valid = 1;
         }
         if ((globals4es.automipmap==4) && (nwidth!=nheight))
             bound->mipmap_auto = 0;
@@ -1399,6 +1400,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->inter_format = GL_RGBA;
         tex->inter_type = GL_UNSIGNED_BYTE;
         tex->shrink = 0;
+        tex->valid = 0;
         tex->data = NULL;
     } else {
         tex = kh_value(list, k);
@@ -1737,6 +1739,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->inter_format = GL_RGBA;
             tex->inter_type = GL_UNSIGNED_BYTE;
             tex->shrink = 0;
+            tex->valid = 0;
 			tex->data = NULL;
 		} else {
 			tex = kh_value(list, k);
@@ -2348,10 +2351,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         bound->type = GL_UNSIGNED_BYTE;
         bound->internalformat = internalformat;
         bound->compressed = true;
+        bound->valid = 1;
         realize_bound(glstate->texture.active, target);
         if (glstate->fpe_state && glstate->fpe_bound_changed < glstate->texture.active+1)
             glstate->fpe_bound_changed = glstate->texture.active+1;
-	    gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
+        gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
 	}
 	glstate->vao->unpack = unpack;
     glstate->gl_batch = old_glbatch;
@@ -2542,7 +2546,7 @@ void realize_textures() {
         int tgt = ENABLED_TEX2D; // default to TEX2D
         if(IS_TEX3D(tmp))
             tgt = ENABLED_TEX3D;
-        else if(IS_TEXRECT(tmp))
+        else if(IS_TEXTURE_RECTANGLE(tmp))
             tgt = ENABLED_TEXTURE_RECTANGLE;
         else if(IS_TEX2D(tmp))
             tgt = ENABLED_TEX2D;

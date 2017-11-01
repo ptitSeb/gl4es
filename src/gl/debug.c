@@ -238,6 +238,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_NORMAL_ARRAY);
         p(GL_TEXTURE_COORD_ARRAY);
         p(GL_SECONDARY_COLOR_ARRAY);
+        p(GL_FOG_COORD_ARRAY);
         default:
             sprintf(fallback, "0x%04X", what);
     }
