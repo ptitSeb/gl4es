@@ -320,15 +320,34 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
     int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
     for (int i=0; i<n; i++) {
         if(strstr(Tmp, builtin_matrix[i].glname)) {
-            // ok, this attribute is used
+            // ok, this matrix is used
             // replace gl_name by _gl4es_ one
             Tmp = InplaceReplace(Tmp, &tmpsize, builtin_matrix[i].glname, builtin_matrix[i].name);
             // insert a declaration of it
             char def[100];
+            int ishighp = (isVertex || hardext.highp)?1:0;
+            if(builtin_matrix[i].matrix == MAT_N) {
+              if(need->need_normalmatrix && !hardext.highp)
+                ishighp = 0;
+              if(!hardext.highp && !isVertex)
+                need->need_normalmatrix = 1;
+            }
+            if(builtin_matrix[i].matrix == MAT_MV) {
+              if(need->need_mvmatrix && !hardext.highp)
+                ishighp = 0;
+              if(!hardext.highp && !isVertex)
+                need->need_mvmatrix = 1;
+            }
+            if(builtin_matrix[i].matrix == MAT_MVP) {
+              if(need->need_mvpmatrix && !hardext.highp)
+                ishighp = 0;
+              if(!hardext.highp && !isVertex)
+                need->need_mvpmatrix = 1;
+            }
             if(builtin_matrix[i].texarray)
-                sprintf(def, "uniform %s%s %s[%d];\n", (isVertex)?"highp ":"", builtin_matrix[i].type, builtin_matrix[i].name, hardext.maxtex);
+                sprintf(def, "uniform %s%s %s[%d];\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name, hardext.maxtex);
             else
-                sprintf(def, "uniform %s%s %s;\n", (isVertex)?"highp ":"", builtin_matrix[i].type, builtin_matrix[i].name);
+                sprintf(def, "uniform %s%s %s;\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name);
             Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
             InplaceInsert(GetLine(Tmp, headline++), def);
         }

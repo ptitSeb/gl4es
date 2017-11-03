@@ -161,7 +161,7 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_texture_float", floattex, 0);
 
     if (hardext.esversion>1) {
-        S("GL_OES_fragment_precision_high", highp, 0);
+        S("GL_OES_fragment_precision_high", highp, 1);
         S("GL_EXT_frag_depth", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));

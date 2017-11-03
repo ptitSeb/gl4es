@@ -485,7 +485,8 @@ void gl4es_glLinkProgram(GLuint program) {
 
     // check if attached shaders are compatible in term of varying...
     shaderconv_need_t needs;
-    needs.need_color = -1;
+    memset(&needs, 0, sizeof(needs));
+    needs.need_texcoord = -1;
     // first get the compatible need
     for (int i=0; i<glprogram->attach_size; i++) {
         accumShaderNeeds(glprogram->attach[i], &needs);
@@ -498,7 +499,7 @@ void gl4es_glLinkProgram(GLuint program) {
     // someone is not compatible, redoing shaders...
     if(!compatible) {
         DBG(printf("Need to redo some shaders...\n");)
-        for (int i=0; i<glprogram->attach_size && compatible; i++) {
+        for (int i=0; i<glprogram->attach_size; i++) {
             redoShader(glprogram->attach[i], &needs);
         }
     }

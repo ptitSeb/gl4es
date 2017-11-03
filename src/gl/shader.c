@@ -167,6 +167,9 @@ void accumShaderNeeds(GLuint shader, shaderconv_need_t *need) {
     GO(secondary);
     GO(fogcoord);
     GO(texcoord);
+    GO(normalmatrix);
+    GO(mvmatrix);
+    GO(mvpmatrix);
     #undef GO
 }
 int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
@@ -178,6 +181,9 @@ int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
     GO(secondary);
     GO(fogcoord);
     GO(texcoord);
+    GO(normalmatrix);
+    GO(mvmatrix);
+    GO(mvpmatrix);
     #undef GO
     return 1;
 }

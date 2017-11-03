@@ -8,6 +8,9 @@ typedef struct {
     int         need_secondary;  //  same
     int         need_fogcoord;
     int         need_texcoord;      // max texcoord needed (-1 for none)
+    int         need_normalmatrix;  // if normal matrix is needed (for highp / mediump choosing)
+    int         need_mvmatrix;
+    int         need_mvpmatrix;
 } shaderconv_need_t;
 
 typedef struct {
