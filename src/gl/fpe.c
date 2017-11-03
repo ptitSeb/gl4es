@@ -427,7 +427,7 @@ void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
 
 int fpe_gettexture(int TMU) {
     int state=glstate->enable.texture[TMU];
-    int target = ENABLED_TEX2D;
+    int target = -1;
     #define GO(A) if(IS_##A(state) && glstate->texture.bound[TMU][ENABLED_##A] && glstate->texture.bound[TMU][ENABLED_##A]->valid) target = ENABLED_##A
     GO(CUBE_MAP);
     else GO(TEX3D);
@@ -449,7 +449,7 @@ void realize_glenv(int ispoint) {
             // disable texture unit, in that case (binded texture is not valid)
             glstate->fpe_state->texture &= ~(3<<(i*2));
             int texunit = fpe_gettexture(i);
-            gltexture_t* tex = glstate->texture.bound[i][texunit];
+            gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
             if(tex && tex->valid) {
                 int fmt;
                 if(texunit==ENABLED_CUBE_MAP) fmt = FPE_TEX_CUBE;
@@ -816,7 +816,8 @@ void realize_glenv(int ispoint) {
     if(glprogram->has_builtin_texadjust)
     {
         for (int i=0; i<hardext.maxtex; i++) {
-            gltexture_t* tex = glstate->texture.bound[i][fpe_gettexture(i)];
+            int tt = fpe_gettexture(i);
+            gltexture_t* tex = (tt==-1)?NULL:glstate->texture.bound[i][tt];
             if(tex && tex->valid)
                 GoUniformfv(glprogram, glprogram->builtin_texadjust[i], 2, 1, tex->adjustxy);
         }
