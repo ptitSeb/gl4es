@@ -338,7 +338,7 @@ static void fpe_changelight(int n, bool enable)
     else
         glstate->fpe_state->light &= ~(1<<n);
 }
-static void fpe_changetex(int n, int state)
+static void fpe_changetex(int n)
 {
     if(glstate->fpe_bound_changed < n+1)
         glstate->fpe_bound_changed = n+1;
@@ -390,7 +390,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         else
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
         if(glstate->fpe_state)
-            fpe_changetex(glstate->texture.active, (enable)?256:glstate->enable.texture[glstate->texture.active]);
+            fpe_changetex(glstate->texture.active);
         else
             next(cap);
         return;
@@ -410,7 +410,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+                fpe_changetex(glstate->texture.active);
             else
                 next(cap);
             break;
@@ -449,14 +449,15 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
-        clientGO_proxyFPE(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        clientGO_proxyFPE(GL_FOG_COORD_ARRAY, fog_array);
+        //cannot use clientGO_proxyFPE here, has the ClientArray are really enabled / disabled elsewhere in fact (inside glDraw or list_draw)
+        clientGO(GL_SECONDARY_COLOR_ARRAY, secondary_array);
+        clientGO(GL_FOG_COORD_ARRAY, fog_array);
 	
         // for glDrawArrays
-        clientGO_proxyFPE(GL_VERTEX_ARRAY, vertex_array);
-        clientGO_proxyFPE(GL_NORMAL_ARRAY, normal_array);
-        clientGO_proxyFPE(GL_COLOR_ARRAY, color_array);
-        clientGO_proxyFPE(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        clientGO(GL_VERTEX_ARRAY, vertex_array);
+        clientGO(GL_NORMAL_ARRAY, normal_array);
+        clientGO(GL_COLOR_ARRAY, color_array);
+        clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
 
         // map eval
         GO(GL_MAP1_COLOR_4 , map1_color4);
@@ -485,7 +486,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX1D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+                fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_3D:
             if(enable)
@@ -493,7 +494,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+                fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_RECTANGLE_ARB:
             if(enable)
@@ -501,7 +502,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEXTURE_RECTANGLE);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+                fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_CUBE_MAP:
             if(enable)
@@ -509,7 +510,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
             if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active, glstate->enable.texture[glstate->texture.active]);
+                fpe_changetex(glstate->texture.active);
             else
                 next(cap);
             break;
@@ -1690,7 +1691,7 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
             flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
-            if(hardext.esversion==1 || (glstate->list.begin && glstate->enable.texture[0]))
+            if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
                 rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
         }
     }
@@ -1707,7 +1708,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
             flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
-            if(hardext.esversion==1 || (glstate->list.begin && glstate->enable.texture[target-GL_TEXTURE0]))
+            if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
                 rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
         }
     }
