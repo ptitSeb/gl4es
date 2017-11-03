@@ -1564,7 +1564,7 @@ void gl4es_glEnd() {
     glstate->list.begin = 0;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
     for (int a=0; a<hardext.maxtex; a++)
-		if (glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
+		if ((hardext.esversion==1) && glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     // end immediateMV if needed
     if(glstate->immediateMV)
@@ -1690,7 +1690,7 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
             flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
-            if(glstate->list.begin && glstate->enable.texture[0])
+            if(hardext.esversion==1 || (glstate->list.begin && glstate->enable.texture[0]))
                 rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
         }
     }
@@ -1707,7 +1707,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
             flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
-            if(glstate->list.begin && glstate->enable.texture[target-GL_TEXTURE0])
+            if(hardext.esversion==1 || (glstate->list.begin && glstate->enable.texture[target-GL_TEXTURE0]))
                 rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
         }
     }
