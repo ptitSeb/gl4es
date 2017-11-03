@@ -121,7 +121,7 @@ void initialize_gl4es() {
 
     char *env_gl = getenv("LIBGL_GL");
     if (env_gl && strcmp(env_gl, "15") == 0) {
-            globals4es.es = 15;
+            globals4es.gl = 15;
     }
     if (env_gl && strcmp(env_gl, "20") == 0) {
             globals4es.gl = 20;

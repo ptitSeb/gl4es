@@ -701,3 +701,6 @@
 #define GL_FLOAT_MAT4                     0x8B5C
 #define GL_SAMPLER_2D                     0x8B5E
 #define GL_SAMPLER_CUBE                   0x8B60
+
+// Getter
+#define GL_NUM_EXTENSIONS                 0x821D

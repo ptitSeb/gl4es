@@ -231,10 +231,12 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = hardext.srgb;
             break;
         default:
+            DBG(printf(" => Unknown attrib\n");)
             LOGD("LIBGL: unknown attrib %i\n", attribute);
             *value = 0;
             return 1;
     }
+    DBG(printf(" => 0x%04X\n", *value);)
     return 0;
 }
 
@@ -1109,8 +1111,6 @@ const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
         "GLX_SGI_swap_control "
         "GLX_MESA_swap_control "
         "GLX_EXT_swap_control "
-        "GLX_ARB_create_context "
-        "GLX_ARB_create_context_profile "
         "GLX_EXT_create_context_es2_profile ";
     //TODO: make this string parametrable, to remo ES2 profile if not on ES2 Backend?
     return extensions;
@@ -1258,15 +1258,17 @@ GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     configs[0] = (GLXFBConfig)((char*)(&configs[0])+sizeof(GLXFBConfig));
     memset(configs[0], 0, sizeof(struct __GLXFBConfigRec));
     configs[0]->drawableType = GLX_WINDOW_BIT | GLX_PBUFFER_BIT;
-    configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 8;    
+    configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 8; 
+    configs[0]->depthBits = 24; configs[0]->stencilBits = 8;
     configs[0]->multiSampleSize = 0; configs[0]->nMultiSampleBuffers = 0;
     return configs;
 }
 
 int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribute, int *value) {
-    DBG(printf("glXGetFBConfigAttrib(%p, %p, 0x%04X, %p)\n", display, config, attribute, value);)
-    if(!config)
+    DBG(printf("glXGetFBConfigAttrib(%p, %p, 0x%04X, %p)", display, config, attribute, value);)
+    if(!config) {
         return get_config_default(display, attribute, value);
+    }
 
     switch (attribute) {
         case GLX_RGBA:
@@ -1299,7 +1301,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = GLX_NONE;
             break;
         case GLX_RENDER_TYPE:
-            *value = GLX_RGBA_TYPE;
+            *value = GLX_RGBA_BIT;
             break;
         case GLX_VISUAL_ID:
             *value = gl4es_glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
@@ -1324,9 +1326,13 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
         case GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB:
             *value = hardext.srgb;
             break;
+        case GLX_DOUBLEBUFFER:
+            *value = 1; // force double buffer info...
+            break;
         default:
             return get_config_default(display, attribute, value);
    }
+   DBG(printf(" => 0x%04X\n", *value);)
    return Success;
 }
 

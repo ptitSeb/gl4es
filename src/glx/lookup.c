@@ -488,7 +488,7 @@ EXPORT void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glGetPixelMapuiv);
     _EX(glGetPixelMapusv);
     STUB(glGetPolygonStipple);
-    STUB(glGetStringi);
+    _EX(glGetStringi);
     STUB(glPassThrough);
     _EX(glPixelMapfv);
     _EX(glPixelMapuiv);

@@ -4,6 +4,7 @@
 #include "../glx/hardext.h"
 #include "gl4eshint.h"
 #include "light.h"
+#include "debug.h"
 
 GLenum gl4es_glGetError() {
 	LOAD_GLES(glGetError);
@@ -58,11 +59,11 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
 }
 void glGetPointerv(GLenum pname, GLvoid* *params) AliasExport("gl4es_glGetPointerv");
 
-const GLubyte *gl4es_glGetString(GLenum name) {
-//    LOAD_GLES(glGetString);
-    const GLubyte *str;
-    errorShim(GL_NO_ERROR);
-	static GLubyte *extensions = NULL;
+static GLubyte *extensions = NULL;
+static int num_extensions = 0;
+static GLubyte **extensions_list = NULL;
+
+void BuildExtensionsList() {
 	if(!extensions) {
 		extensions = (GLubyte*)malloc(5000);	// arbitrary size...
 		strcpy(extensions,
@@ -147,11 +148,32 @@ const GLubyte *gl4es_glGetString(GLenum name) {
                 "GL_ARB_shader_objects "
                 "GL_ARB_shading_language_100 ");*/
         }
-	}
+        char* p = extensions;
+        num_extensions = 0;
+        // quickly count extensions. Each one is separated by space...
+        while ((p=strchr(p, ' '))) { p++; num_extensions++; }
+        // and now split in array of individual extensions
+        // TODO: is all this better be moved in glstate?
+        extensions_list = (GLubyte**)malloc(num_extensions * sizeof(GLubyte*));
+        p = extensions;
+        for (int i=0; i<num_extensions; i++) {
+            char* p2 = strchr(p, ' ');
+            int sz = p2 - p;
+            extensions_list[i] = (GLubyte*)malloc((sz+1)*sizeof(GLubyte));
+            strncpy(extensions_list[i], p, sz);
+            p = p2;
+        }
+    }
+}
+
+const GLubyte *gl4es_glGetString(GLenum name) {
+    const GLubyte *str;
+    errorShim(GL_NO_ERROR);
     switch (name) {
         case GL_VERSION:
             return (GLubyte *)globals4es.version;
         case GL_EXTENSIONS:
+            BuildExtensionsList();
             return extensions;
 		case GL_VENDOR:
 			return (GLubyte *)"ptitSeb";
@@ -185,7 +207,11 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_ELEMENTS_VERTICES:
 			*params = 4096;
-			break;
+            break;
+        case GL_NUM_EXTENSIONS:
+            BuildExtensionsList();
+            *params = num_extensions;
+            break;
         case GL_AUX_BUFFERS:
             *params = 0;
             break;
@@ -726,3 +752,18 @@ void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation)
     }
 }
 void glGetClipPlanef(GLenum plane, GLfloat * equation) AliasExport("gl4es_glGetClipPlanef");
+
+
+const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index) {
+    BuildExtensionsList();
+    if (name!=GL_EXTENSIONS) {
+        errorShim(GL_INVALID_ENUM);
+        return NULL;
+    }
+    if (index<0 || index>=num_extensions) {
+        errorShim(GL_INVALID_VALUE);
+        return NULL;
+    }
+    return extensions_list[index];
+}
+const GLubyte *glGetStringi(GLenum name, GLuint index) AliasExport("gl4es_glGetStringi");

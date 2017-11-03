@@ -91,6 +91,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_INTERNAL_FORMAT);
         // texture pack/unpack
         p(GL_UNPACK_ALIGNMENT);
+        p(GL_PACK_ALIGNMENT);
         // framebuffer
         p(GL_COLOR_ATTACHMENT0);
         p(GL_COLOR_ATTACHMENT1);
@@ -191,7 +192,11 @@ const char* PrintEnum(GLenum what) {
         p(GL_DEPTH_TEST);
         p(GL_RESCALE_NORMAL);
         p(GL_ALPHA_TEST);
+        p(GL_ALPHA_TEST_FUNC);
         p(GL_BLEND);
+        p(GL_BLEND_SRC);
+        p(GL_BLEND_DST);
+        p(GL_LOGIC_OP_MODE);
         // uniform type
         p(GL_FLOAT_VEC2);
         p(GL_FLOAT_VEC3);
@@ -239,6 +244,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_COORD_ARRAY);
         p(GL_SECONDARY_COLOR_ARRAY);
         p(GL_FOG_COORD_ARRAY);
+        // misc
+        p(GL_NUM_EXTENSIONS);
         default:
             sprintf(fallback, "0x%04X", what);
     }
