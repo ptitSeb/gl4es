@@ -161,7 +161,7 @@ void BuildExtensionsList() {
             int sz = p2 - p;
             extensions_list[i] = (GLubyte*)malloc((sz+1)*sizeof(GLubyte));
             strncpy(extensions_list[i], p, sz);
-            p = p2;
+            p = ++p2;
         }
     }
 }
