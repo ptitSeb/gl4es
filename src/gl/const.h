@@ -675,6 +675,7 @@
 #define GL_PROGRAM_BINARY_LENGTH            0x8741
 #define GL_NUM_PROGRAM_BINARY_FORMATS       0x87FE
 #define GL_PROGRAM_BINARY_FORMATS           0x87FF
+#define GL_PROGRAM_OBJECT_ARB               0x8B40
 
 // Vertex Arrays
 #define GL_VERTEX_ATTRIB_ARRAY_ENABLED        0x8622

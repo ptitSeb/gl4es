@@ -34,4 +34,25 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
 void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 
+// ========== GL_ARB_shader_objects ==============
+GLvoid glUniform1fARB(GLint location, GLfloat v0);
+GLvoid glUniform2fARB(GLint location, GLfloat v0, GLfloat v1);
+GLvoid glUniform3fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+GLvoid glUniform4fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+GLvoid glUniform1iARB(GLint location, GLint v0);
+GLvoid glUniform2iARB(GLint location, GLint v0, GLint v1);
+GLvoid glUniform3iARB(GLint location, GLint v0, GLint v1, GLint v2);
+GLvoid glUniform4iARB(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+GLvoid glUniform1fvARB(GLint location, GLsizei count, const GLfloat *value);
+GLvoid glUniform2fvARB(GLint location, GLsizei count, const GLfloat *value);
+GLvoid glUniform3fvARB(GLint location, GLsizei count, const GLfloat *value);
+GLvoid glUniform4fvARB(GLint location, GLsizei count, const GLfloat *value);
+GLvoid glUniform1ivARB(GLint location, GLsizei count, const GLint *value);
+GLvoid glUniform2ivARB(GLint location, GLsizei count, const GLint *value);
+GLvoid glUniform3ivARB(GLint location, GLsizei count, const GLint *value);
+GLvoid glUniform4ivARB(GLint location, GLsizei count, const GLint *value);
+GLvoid glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+GLvoid glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+GLvoid glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+
 #endif

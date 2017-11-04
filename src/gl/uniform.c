@@ -552,3 +552,32 @@ void glUniform4iv(GLint location, GLsizei count, const GLint *value) AliasExport
 void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix2fv");
 void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix3fv");
 void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix4fv");
+
+// ============ GL_ARB_shader_objects ================
+
+GLvoid glUniform1fARB(GLint location, GLfloat v0) AliasExport("gl4es_glUniform1f");
+GLvoid glUniform2fARB(GLint location, GLfloat v0, GLfloat v1) AliasExport("gl4es_glUniform2f");
+GLvoid glUniform3fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glUniform3f");
+GLvoid glUniform4fARB(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glUniform4f");
+
+GLvoid glUniform1iARB(GLint location, GLint v0) AliasExport("gl4es_glUniform1i");
+GLvoid glUniform2iARB(GLint location, GLint v0, GLint v1) AliasExport("gl4es_glUniform2i");
+GLvoid glUniform3iARB(GLint location, GLint v0, GLint v1, GLint v2) AliasExport("gl4es_glUniform3i");
+GLvoid glUniform4iARB(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) AliasExport("gl4es_glUniform4i");
+
+GLvoid glUniform1fvARB(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glUniform1fv");
+GLvoid glUniform2fvARB(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glUniform2fv");
+GLvoid glUniform3fvARB(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glUniform3fv");
+GLvoid glUniform4fvARB(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glUniform4fv");
+
+GLvoid glUniform1ivARB(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glUniform1iv");
+GLvoid glUniform2ivARB(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glUniform2iv");
+GLvoid glUniform3ivARB(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glUniform3iv");
+GLvoid glUniform4ivARB(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glUniform4iv");
+
+GLvoid glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix2fv");
+GLvoid glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix3fv");
+GLvoid glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glUniformMatrix4fv");
+
+GLvoid glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat *params) AliasExport("gl4es_glGetUniformfv");
+GLvoid glGetUniformivARB(GLhandleARB programObj, GLint location, GLint *params) AliasExport("gl4es_glGetUniformiv");

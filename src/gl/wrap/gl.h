@@ -230,5 +230,41 @@ THUNK(ui, GLuint);
 #undef THUNK
 void gl4es_glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3);
 
+// ============= GL_ARB_vertex_shader =================
+GLvoid glVertexAttrib1fARB(GLuint index, GLfloat v0);
+GLvoid glVertexAttrib1sARB(GLuint index, GLshort v0);
+GLvoid glVertexAttrib1dARB(GLuint index, GLdouble v0);
+GLvoid glVertexAttrib2fARB(GLuint index, GLfloat v0, GLfloat v1);
+GLvoid glVertexAttrib2sARB(GLuint index, GLshort v0, GLshort v1);
+GLvoid glVertexAttrib2dARB(GLuint index, GLdouble v0, GLdouble v1);
+GLvoid glVertexAttrib3fARB(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2);
+GLvoid glVertexAttrib3sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2);
+GLvoid glVertexAttrib3dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2);
+GLvoid glVertexAttrib4sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2, GLshort v3);
+GLvoid glVertexAttrib4dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3);
+GLvoid glVertexAttrib4NubARB(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w);
+GLvoid glVertexAttrib1fvARB(GLuint index, const GLfloat *v);
+GLvoid glVertexAttrib1svARB(GLuint index, const GLshort *v);
+GLvoid glVertexAttrib1dvARB(GLuint index, const GLdouble *v);
+GLvoid glVertexAttrib2fvARB(GLuint index, const GLfloat *v);
+GLvoid glVertexAttrib2svARB(GLuint index, const GLshort *v);
+GLvoid glVertexAttrib2dvARB(GLuint index, const GLdouble *v);
+GLvoid glVertexAttrib3fvARB(GLuint index, const GLfloat *v);
+GLvoid glVertexAttrib3svARB(GLuint index, const GLshort *v);
+GLvoid glVertexAttrib3dvARB(GLuint index, const GLdouble *v);
+GLvoid glVertexAttrib4svARB(GLuint index, const GLshort *v);
+GLvoid glVertexAttrib4dvARB(GLuint index, const GLdouble *v);
+GLvoid glVertexAttrib4ivARB(GLuint index, const GLint *v);
+GLvoid glVertexAttrib4bvARB(GLuint index, const GLbyte *v);
+GLvoid glVertexAttrib4ubvARB(GLuint index, const GLubyte *v);
+GLvoid glVertexAttrib4usvARB(GLuint index, const GLushort *v);
+GLvoid glVertexAttrib4uivARB(GLuint index, const GLuint *v);
+GLvoid glVertexAttrib4NbvARB(GLuint index, const GLbyte *v);
+GLvoid glVertexAttrib4NsvARB(GLuint index, const GLshort *v);
+GLvoid glVertexAttrib4NivARB(GLuint index, const GLint *v);
+GLvoid glVertexAttrib4NubvARB(GLuint index, const GLubyte *v);
+GLvoid glVertexAttrib4NusvARB(GLuint index, const GLushort *v);
+GLvoid glVertexAttrib4NuivARB(GLuint index, const GLuint *v);
+
 
 #endif

@@ -63,5 +63,8 @@ void redoShader(GLuint shader, shaderconv_need_t *need);
         return (type)0; \
     }
 
+// ========== GL_ARB_shader_objects ==============
 
+GLhandleARB gl4es_glCreateShaderObject(GLenum shaderType);
+    
 #endif

@@ -142,11 +142,11 @@ void BuildExtensionsList() {
         if(hardext.esversion>1) {
             strcat(extensions, "GL_EXT_fog_coord ");
             strcat(extensions, "GL_ARB_ES2_compatibility ");
-            /*strcat(extensions,
+            strcat(extensions,
                 "GL_ARB_fragment_shader "
                 "GL_ARB_vertex_shader "
                 "GL_ARB_shader_objects "
-                "GL_ARB_shading_language_100 ");*/
+                "GL_ARB_shading_language_100 ");
         }
         char* p = extensions;
         num_extensions = 0;

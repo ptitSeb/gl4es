@@ -265,3 +265,40 @@ void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLb
 void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 
 #endif
+
+GLvoid glBindAttribLocationARB(GLhandleARB programObj, GLuint index, const GLcharARB *name);
+GLvoid glGetActiveAttribARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name);
+GLint glGetAttribLocationARB(GLhandleARB programObj, const GLcharARB *name);
+
+// ============== GL_ARB_shader_objects ==================
+GLvoid gl4es_glDeleteObject(GLhandleARB obj);
+GLhandleARB gl4es_glGetHandle(GLenum pname);
+GLvoid gl4es_glDetachObject(GLhandleARB containerObj, GLhandleARB attachedObj);
+GLhandleARB gl4es_glCreateProgramObject(GLvoid);
+GLvoid gl4es_glAttachObject(GLhandleARB containerObj, GLhandleARB obj);
+GLvoid gl4es_glUseProgramObject(GLhandleARB programObj);
+GLvoid gl4es_glGetObjectParameterfv(GLhandleARB obj, GLenum pname, GLfloat *params);
+GLvoid gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname, GLint *params);
+GLvoid gl4es_glGetInfoLog(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog);
+GLvoid gl4es_glGetAttachedObjects(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj);
+
+GLvoid glDeleteObjectARB(GLhandleARB obj);
+GLhandleARB glGetHandleARB(GLenum pname);
+GLvoid glDetachObjectARB(GLhandleARB containerObj, GLhandleARB attachedObj);
+GLhandleARB glCreateShaderObjectARB(GLenum shaderType);
+GLvoid glShaderSourceARB(GLhandleARB shaderObj, GLsizei count, const GLcharARB **string, const GLint *length);
+GLvoid glCompileShaderARB(GLhandleARB shaderObj);
+GLhandleARB glCreateProgramObjectARB(GLvoid);
+GLvoid glAttachObjectARB(GLhandleARB containerObj, GLhandleARB obj);
+GLvoid glLinkProgramARB(GLhandleARB programObj);
+GLvoid glUseProgramObjectARB(GLhandleARB programObj);
+GLvoid glValidateProgramARB(GLhandleARB programObj);
+GLvoid glGetObjectParameterfvARB(GLhandleARB obj, GLenum pname, GLfloat *params);
+GLvoid glGetObjectParameterivARB(GLhandleARB obj, GLenum pname, GLint *params);
+GLvoid glGetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog);
+GLvoid glGetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj);
+GLint glGetUniformLocationARB(GLhandleARB programObj, const GLcharARB *name);
+GLvoid glGetActiveUniformARB(GLhandleARB programObj, uint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name);
+GLvoid glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat *params);
+GLvoid glGetUniformivARB(GLhandleARB programObj, GLint location, GLint *params);
+GLvoid glGetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *source);

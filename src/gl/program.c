@@ -467,10 +467,15 @@ void gl4es_glLinkProgram(GLuint program) {
     if(glprogram->attribloc) {
         attribloc_t *m;
         khint_t k;
+        khint_t ret;
         kh_foreach(glprogram->attribloc, k, m,
             free(m->name); free(m);
             kh_del(attribloclist, glprogram->attribloc, k);
         )
+        kh_destroy(attribloclist, glprogram->attribloc);
+        khash_t(attribloclist) *attribloc = glprogram->attribloc = kh_init(attribloclist);
+        kh_put(attribloclist, attribloc, 1, &ret);
+        kh_del(attribloclist, attribloc, 1);
     }
     // clear all Uniform cache
     if(glprogram->uniform) {
@@ -661,3 +666,140 @@ GLboolean glIsProgram(GLuint program) AliasExport("gl4es_glIsProgram");
 void glLinkProgram(GLuint program) AliasExport("gl4es_glLinkProgram");
 void glUseProgram(GLuint program) AliasExport("gl4es_glUseProgram");
 void glValidateProgram(GLuint program) AliasExport("gl4es_glValidateProgram");
+
+
+// ================ GL_ARB_vertex_shader =================
+GLvoid glBindAttribLocationARB(GLhandleARB programObj, GLuint index, const GLcharARB *name) AliasExport("gl4es_glBindAttribLocation");
+
+GLvoid glGetActiveAttribARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name) AliasExport("gl4es_glGetActiveAttrib");
+
+GLint glGetAttribLocationARB(GLhandleARB programObj, const GLcharARB *name) AliasExport("gl4es_glGetAttribLocation");
+
+// ============== GL_ARB_shader_objects ==================
+// some are not simple alias but wrappers
+GLvoid gl4es_glDeleteObject(GLhandleARB obj) {
+    if(!obj)
+        return;
+    // find type of obj (shader or program)
+    program_t *glprogram = NULL;
+    khint_t k_program;
+    {
+        int ret;
+        khash_t(programlist) *programs = glstate->glsl.programs;
+        k_program = kh_get(programlist, programs, obj);
+        if (k_program != kh_end(programs))
+            glprogram = kh_value(programs, k_program);
+    }
+    if(glprogram)
+        gl4es_glDeleteProgram(obj);
+    else
+        gl4es_glDeleteShader(obj);
+}
+
+GLhandleARB gl4es_glGetHandle(GLenum pname) {
+    if(pname!=GL_PROGRAM_OBJECT_ARB) {
+        errorShim(GL_INVALID_ENUM);
+        return 0;
+    }
+    return glstate->glsl.program;
+}
+
+GLvoid gl4es_glDetachObject(GLhandleARB containerObj, GLhandleARB attachedObj) {
+    gl4es_glDetachShader(containerObj, attachedObj);
+}
+
+GLhandleARB gl4es_glCreateProgramObject(GLvoid) {
+    return gl4es_glCreateProgram();
+}
+
+GLvoid gl4es_glAttachObject(GLhandleARB containerObj, GLhandleARB obj) {
+    gl4es_glAttachShader(containerObj, obj);
+}
+
+GLvoid gl4es_glUseProgramObject(GLhandleARB programObj) {
+    gl4es_glUseProgram(programObj);
+}
+
+GLvoid gl4es_glGetObjectParameterfv(GLhandleARB obj, GLenum pname, GLfloat *params) {
+    if(!obj)
+        return;
+    // find type of obj (shader or program)
+    program_t *glprogram = NULL;
+    khint_t k_program;
+    {
+        int ret;
+        khash_t(programlist) *programs = glstate->glsl.programs;
+        k_program = kh_get(programlist, programs, obj);
+        if (k_program != kh_end(programs))
+            glprogram = kh_value(programs, k_program);
+    }
+    // float, really?
+    GLint p[4];
+    if(glprogram)
+        gl4es_glGetProgramiv(obj, pname, p);
+    else
+        gl4es_glGetShaderiv(obj, pname, p);
+
+    params[0] = p[0];   // only 1-sized array here, right?
+}
+GLvoid gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname, GLint *params) {
+    if(!obj)
+        return;
+    // find type of obj (shader or program)
+    program_t *glprogram = NULL;
+    khint_t k_program;
+    {
+        int ret;
+        khash_t(programlist) *programs = glstate->glsl.programs;
+        k_program = kh_get(programlist, programs, obj);
+        if (k_program != kh_end(programs))
+            glprogram = kh_value(programs, k_program);
+    }
+    if(glprogram)
+        gl4es_glGetProgramiv(obj, pname, params);
+    else
+        gl4es_glGetShaderiv(obj, pname, params);
+    // hack, some program don't take into account that the lenght return by GL_OBJECT_INFO_LOG_LENGTH_ARB exclude the '\0'.. so adding it here
+    if(pname==GL_INFO_LOG_LENGTH)
+        (*params)++;
+}
+
+GLvoid gl4es_glGetInfoLog(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog) {
+    if(!obj)
+        return;
+    // find type of obj (shader or program)
+    program_t *glprogram = NULL;
+    khint_t k_program;
+    {
+        int ret;
+        khash_t(programlist) *programs = glstate->glsl.programs;
+        k_program = kh_get(programlist, programs, obj);
+        if (k_program != kh_end(programs))
+            glprogram = kh_value(programs, k_program);
+    }
+    
+    if(glprogram)
+        gl4es_glGetProgramInfoLog(obj, maxLength, length, infoLog);
+    else
+        gl4es_glGetShaderInfoLog(obj, maxLength, length, infoLog);
+}
+
+GLvoid gl4es_glGetAttachedObjects(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj) {
+    gl4es_glGetAttachedShaders(containerObj, maxCount, count, obj);
+}
+
+GLvoid glDeleteObjectARB(GLhandleARB obj) AliasExport("gl4es_glDeleteObject");
+GLhandleARB glGetHandleARB(GLenum pname) AliasExport("gl4es_glGetHandle");
+GLvoid glDetachObjectARB(GLhandleARB containerObj, GLhandleARB attachedObj) AliasExport("gl4es_glDetachObject");
+GLhandleARB glCreateProgramObjectARB(GLvoid) AliasExport("gl4es_glCreateProgramObject");
+GLvoid glAttachObjectARB(GLhandleARB containerObj, GLhandleARB obj) AliasExport("gl4es_glAttachObject");
+GLvoid glLinkProgramARB(GLhandleARB programObj) AliasExport("gl4es_glLinkProgram");
+GLvoid glUseProgramObjectARB(GLhandleARB programObj) AliasExport("gl4es_glUseProgramObject");
+GLvoid glValidateProgramARB(GLhandleARB programObj) AliasExport("gl4es_glValidateProgram");
+GLvoid glGetObjectParameterfvARB(GLhandleARB obj, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetObjectParameterfv");
+GLvoid glGetObjectParameterivARB(GLhandleARB obj, GLenum pname, GLint *params) AliasExport("gl4es_glGetObjectParameteriv");
+GLvoid glGetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog) AliasExport("gl4es_glGetInfoLog");
+GLvoid glGetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj) AliasExport("gl4es_glGetAttachedObjects");
+GLint glGetUniformLocationARB(GLhandleARB programObj, const GLcharARB *name) AliasExport("gl4es_glGetUniformLocation");
+GLvoid glGetActiveUniformARB(GLhandleARB programObj, uint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name) AliasExport("gl4es_glGetActiveUniform");
+

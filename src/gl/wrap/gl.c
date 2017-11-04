@@ -758,6 +758,46 @@ THUNK(ui, GLuint, 4294967295.0f);
 void gl4es_glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) {GLfloat f[4] = {0,0,0,1}; f[0] =v0/255.f; f[1]=v1/255.f; f[2]=v2/255.f; f[3]=v3/255.f; gl4es_glVertexAttrib4fv(index, f); };
 void glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) AliasExport("gl4es_glVertexAttrib4Nub");
 
+// ============= GL_ARB_vertex_shader =================
+GLvoid glVertexAttrib1fARB(GLuint index, GLfloat v0) AliasExport("gl4es_glVertexAttrib1f");
+GLvoid glVertexAttrib1sARB(GLuint index, GLshort v0) AliasExport("gl4es_glVertexAttrib1s");
+GLvoid glVertexAttrib1dARB(GLuint index, GLdouble v0) AliasExport("gl4es_glVertexAttrib1d");
+GLvoid glVertexAttrib2fARB(GLuint index, GLfloat v0, GLfloat v1) AliasExport("gl4es_glVertexAttrib2f");
+GLvoid glVertexAttrib2sARB(GLuint index, GLshort v0, GLshort v1) AliasExport("gl4es_glVertexAttrib2s");
+GLvoid glVertexAttrib2dARB(GLuint index, GLdouble v0, GLdouble v1) AliasExport("gl4es_glVertexAttrib2d");
+GLvoid glVertexAttrib3fARB(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glVertexAttrib3f");
+GLvoid glVertexAttrib3sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2) AliasExport("gl4es_glVertexAttrib3s");
+GLvoid glVertexAttrib3dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2) AliasExport("gl4es_glVertexAttrib3d");
+GLvoid glVertexAttrib4sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2, GLshort v3) AliasExport("gl4es_glVertexAttrib4s");
+GLvoid glVertexAttrib4dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3) AliasExport("gl4es_glVertexAttrib4d");
+GLvoid glVertexAttrib4NubARB(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) AliasExport("gl4es_glVertexAttrib4Nub");
+
+GLvoid glVertexAttrib1fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib1fv");
+GLvoid glVertexAttrib1svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib1sv");
+GLvoid glVertexAttrib1dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib1dv");
+GLvoid glVertexAttrib2fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib2fv");
+GLvoid glVertexAttrib2svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib2sv");
+GLvoid glVertexAttrib2dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib2dv");
+GLvoid glVertexAttrib3fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib3fv");
+GLvoid glVertexAttrib3svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib3sv");
+GLvoid glVertexAttrib3dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib3dv");
+GLvoid glVertexAttrib4svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib4sv");
+GLvoid glVertexAttrib4dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib4dv");
+GLvoid glVertexAttrib4ivARB(GLuint index, const GLint *v) AliasExport("gl4es_glVertexAttrib4iv");
+GLvoid glVertexAttrib4bvARB(GLuint index, const GLbyte *v) AliasExport("gl4es_glVertexAttrib4bv");
+
+GLvoid glVertexAttrib4ubvARB(GLuint index, const GLubyte *v) AliasExport("gl4es_glVertexAttrib4ubv");
+GLvoid glVertexAttrib4usvARB(GLuint index, const GLushort *v) AliasExport("gl4es_glVertexAttrib4usv");
+GLvoid glVertexAttrib4uivARB(GLuint index, const GLuint *v) AliasExport("gl4es_glVertexAttrib4uiv");
+
+GLvoid glVertexAttrib4NbvARB(GLuint index, const GLbyte *v) AliasExport("gl4es_glVertexAttrib4Nbv");
+GLvoid glVertexAttrib4NsvARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib4Nsv");
+GLvoid glVertexAttrib4NivARB(GLuint index, const GLint *v) AliasExport("gl4es_glVertexAttrib4Niv");
+GLvoid glVertexAttrib4NubvARB(GLuint index, const GLubyte *v) AliasExport("gl4es_glVertexAttrib4Nubv");
+GLvoid glVertexAttrib4NusvARB(GLuint index, const GLushort *v) AliasExport("gl4es_glVertexAttrib4Nusv");
+GLvoid glVertexAttrib4NuivARB(GLuint index, const GLuint *v) AliasExport("gl4es_glVertexAttrib4Nuiv");
+
+
 //Direct wrapper
 void glClearDepth(GLdouble depth) AliasExport("gl4es_glClearDepth");
 void glClipPlane(GLenum plane, const GLdouble *equation) AliasExport("gl4es_glClipPlane");

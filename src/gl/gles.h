@@ -24,6 +24,9 @@ typedef khronos_intptr_t GLintptr;
 typedef khronos_ssize_t  GLsizeiptr;
 
 typedef double           GLdouble;
+
+typedef unsigned int     GLhandleARB;
+typedef char             GLcharARB;
 /*************************************************************/
 
 /* OpenGL ES core versions */
