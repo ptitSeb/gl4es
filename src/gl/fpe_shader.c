@@ -273,9 +273,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
 
         if(color_material && 
             (state->cm_front_mode==FPE_CM_EMISSION 
-            || state->cm_front_mode==FPE_CM_EMISSION 
+            || state->cm_front_mode==FPE_CM_AMBIENT
+            || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE
             || (twosided && 
-                (state->cm_back_mode==FPE_CM_EMISSION || state->cm_back_mode==FPE_CM_AMBIENT)))) 
+                (state->cm_back_mode==FPE_CM_EMISSION || state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)))) 
         {
             sprintf(buff, "Color = %s;\n", fm_emission);
             ShadAppend(buff);
