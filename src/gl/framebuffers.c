@@ -356,6 +356,13 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     LOAD_GLES2_OR_OES(glGetFramebufferAttachmentParameteriv);
     LOAD_GLES(glGetError);
 
+    if (attachment == GL_DEPTH_STENCIL_ATTACHMENT) {
+        // doesn't seems to be supported "as-is" on GLES
+        gl4es_glFramebufferRenderbuffer(target, GL_DEPTH_ATTACHMENT, renderbuffertarget, renderbuffer);
+        gl4es_glFramebufferRenderbuffer(target, GL_STENCIL_ATTACHMENT, renderbuffertarget, renderbuffer);
+        return;
+    }
+    
     //TODO: handle target=READBUFFER or DRAWBUFFER...
     if (depthstencil && (attachment==GL_STENCIL_ATTACHMENT)) {
 		khint_t k = kh_get(dsr, depthstencil, renderbuffer);
@@ -364,7 +371,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
             renderbuffer = dsr->stencil;
 		}
     }
-    
+
     if ((current_fb!=0) && (renderbuffer==0)) {
         //Hack, avoid unbind a renderbuffer on a framebuffer...
         // TODO, avoid binding an already binded RB
