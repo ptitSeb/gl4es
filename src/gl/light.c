@@ -193,7 +193,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             glstate->light.lights[nl].spotExponent = params[0];
             break;
         case GL_SPOT_CUTOFF:
-            if(params[0]<0 || (params[0]>90 && params[0]!=180)) {
+            if(params[0]<0.f || (params[0]>90.0f && params[0]!=180.f)) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             }
@@ -201,7 +201,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
                 return;
             glstate->light.lights[nl].spotCutoff = params[0];
             if(glstate->fpe_state) {
-                int dir = (tmp[3]!=180.f);
+                int dir = (params[0]!=180.f);
                 if (dir) {
                     glstate->fpe_state->light_cutoff180 |= (1<<nl);
                 } else {

@@ -335,14 +335,14 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 if((state->light_cutoff180>>i&1)==0) {
                     //ShadAppend("spot = 1.0;\n");
                 } else {
-                    if((state->light_direction>>i&1)==0) {
-                        printf(buff, "spot = max(dot(-normalize(vertex.xyz), _gl4es_LightSource_%d.spotDirection), 0.);\n", i);
+                    /*if((state->light_direction>>i&1)==0) {
+                        sprintf(buff, "spot = max(dot(-normalize(vertex.xyz), _gl4es_LightSource_%d.spotDirection), 0.);\n", i);
                         if(!need_vertex) need_vertex=1;
-                    } else {
-                        printf(buff, "spot = max(dot(-VP, _gl4es_LightSource_%d.spotDirection), 0.);\n", i);
+                    } else*/ {
+                        sprintf(buff, "spot = max(dot(-VP, _gl4es_LightSource_%d.spotDirection), 0.);\n", i);
                     }
                     ShadAppend(buff);
-                    sprintf(buff, "if(spot<_gl4es_LightSource_%d.spotCosCutoff) spot=0.0; else spot=pow(spot, _gl4es_LightSource_%d.spotExponent);", i, i);
+                    sprintf(buff, "if(spot<_gl4es_LightSource_%d.spotCosCutoff) spot=0.0; else spot=pow(spot, _gl4es_LightSource_%d.spotExponent);\n", i, i);
                     ShadAppend(buff);
                     ShadAppend("att *= spot;\n");
                 }
