@@ -246,14 +246,15 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   const char* GLESUseDerivative = "#extension GL_OES_standard_derivatives : enable\n";
   // complete fake value... A better thing should be use....
   const char* GLESFakeDerivative = "float dFdx(float p) {return 0.0001;}\nvec2 dFdx(vec2 p) {return vec2(0.0001);}\nvec3 dFdx(vec3 p) {return vec3(0.0001);}\n"
-                                   "float dFdy(float p) {return 0.0001;}\nvec2 dFdy(vec2 p) {return vec2(0.0001);}\nvec3 dFdy(vec3 p) {return vec3(0.0001);}\n"
-                                   "float fwidth(float p) {return abs(dFdx(p))+abs(dFdy(p));}\nvec2 fwidth(vec2 p) {return abs(dFdx(p))+abs(dFdy(p));}\n"
-                                   "vec3 fwidth(vec3 p) {return abs(dFdx(p))+abs(dFdy(p));}\n";
+  "float dFdy(float p) {return 0.0001;}\nvec2 dFdy(vec2 p) {return vec2(0.0001);}\nvec3 dFdy(vec3 p) {return vec3(0.0001);}\n"
+  "float fwidth(float p) {return abs(dFdx(p))+abs(dFdy(p));}\nvec2 fwidth(vec2 p) {return abs(dFdx(p))+abs(dFdy(p));}\n"
+  "vec3 fwidth(vec3 p) {return abs(dFdx(p))+abs(dFdy(p));}\n";
   if (derivatives) {
     /* If #extension is used, it should be placed before the second line of the header. */
     InplaceInsert(GetLine(Tmp, headline-1), hardext.derivatives?GLESUseDerivative:GLESFakeDerivative);
     headline++;
   }
+  const char* GLESUseFragHighp = "#extension GL_OES_fragment_high_precision : enable\n"; // does this one is needed?
   strcat(Tmp, newptr);
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;

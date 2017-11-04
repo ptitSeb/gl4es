@@ -162,6 +162,19 @@ void GetHardwareExtensions(int notest)
 
     if (hardext.esversion>1) {
         S("GL_OES_fragment_precision_high", highp, 1);
+        if(!hardext.highp) {
+            // check if highp is supported anyway
+            LOAD_GLES2(glGetShaderPrecisionFormat);
+            if(gles_glGetShaderPrecisionFormat) {
+                GLint range[2] = {0};
+                GLint precision=0;
+                gles_glGetShaderPrecisionFormat(GL_FRAGMENT_SHADER, GL_HIGH_FLOAT, range, &precision);
+                if(!(range[0]==0 && range[1]==0 && precision==0)) {
+                    hardext.highp = 2;  // no need to declare #entension here
+                    SHUT(LOGD("LIBGL: high precision float in fragment shader available and used\n"));
+                }
+            }
+        }
         S("GL_EXT_frag_depth", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
