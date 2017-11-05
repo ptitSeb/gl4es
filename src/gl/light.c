@@ -19,7 +19,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
             errorGL();
             glstate->light.two_side = param;
             if(glstate->fpe_state)
-            glstate->fpe_state->twosided = param;
+                glstate->fpe_state->twosided = param;
 			break;
         case GL_LIGHT_MODEL_COLOR_CONTROL:
             if(param!=GL_SINGLE_COLOR && param!=GL_SEPARATE_SPECULAR_COLOR ) {
@@ -361,10 +361,16 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
         errorShim(GL_INVALID_ENUM);
         return;
     }
-    if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
+    if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
         glstate->material.front.shininess = param;
-    if(face==GL_FRONT_AND_BACK || face==GL_BACK)
+        if(glstate->fpe_state)
+            glstate->fpe_state->cm_front_nullexp=(param<=0.0)?0:1;
+    }
+    if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
         glstate->material.back.shininess = param;
+        if(glstate->fpe_state)
+            glstate->fpe_state->cm_back_nullexp=(param<=0.0)?0:1;
+    }
 
     if(face==GL_BACK && hardext.esversion==1) { // lets ignore GL_BACK in GLES 1.1
         noerrorShim();
