@@ -76,6 +76,8 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         dest->color_material = 0;
         dest->cm_front_mode = 0;
         dest->cm_back_mode = 0;
+        dest->cm_front_nullexp = 0;
+        dest->cm_back_nullexp = 0;
         dest->light_separate = 0;
         dest->light_localviewer = 0;
     } else {
@@ -109,7 +111,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
-            if(dest->texture>>(i<<1)&3==0) { // texture is off
+            if((dest->texture>>(i<<1))&3==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
                 dest->texadjust &= ~(1<<i);
@@ -146,8 +148,11 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         dest->fogmode = 0;
         dest->fogsource = 0;
     }
+    if(!dest->point)
+        dest->pointsprite = 0;
     if(!dest->pointsprite) {
         dest->pointsprite_upper = 0;
+        dest->pointsprite_coord = 0;
     }
 }
 
