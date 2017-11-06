@@ -434,6 +434,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("vec4 tmp_tcoor;\n");
     int spheremap = 0;
     int reflectmap = 0;
+    if(state->textmat)
+        ShadAppend("vec4 tmp_tex;\n");
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->texture>>(i*2))&0x3;
         int mat = state->textmat&(1<<i)?1:0;
@@ -502,9 +504,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             } else {
                 sprintf(texcoord, "gl_MultiTexCoord%d", i);
             }
-            if(mat)
-                sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * %s).%s;\n", i, i, texcoord, texxyzsize[t-1]);
-            else
+            if(mat) {
+                sprintf(buff, "tmp_tex = (_gl4es_TextureMatrix_%d * %s);\n", i, texcoord);
+                ShadAppend(buff);
+                sprintf(buff, "_gl4es_TexCoord_%d = tmp_tex.%s / tmp_tex.q;\n", i, texxyzsize[t-1]);
+                // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...
+                //sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * %s).%s;\n", i, i, texcoord, texxyzsize[t-1]);
+            } else
                 sprintf(buff, "_gl4es_TexCoord_%d = %s.%s;\n", i, texcoord, texxyzsize[t-1]);
             ShadAppend(buff);
             if(adjust) {
