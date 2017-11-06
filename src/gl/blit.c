@@ -355,9 +355,9 @@ void gl4es_blitTexture(GLuint texture,
     gl4es_glDisable(GL_DEPTH_TEST);
     gl4es_glDisable(GL_CULL_FACE);
 
-    gltexture_t *old_bind = glstate->texture.bound[0][ENABLED_TEX2D];
     gl4es_glEnable(GL_TEXTURE_2D);
-    gles_glBindTexture(GL_TEXTURE_2D, texture);
+    if(glstate->actual_tex2d[0] != texture);
+        gles_glBindTexture(GL_TEXTURE_2D, texture);
 
     if(hardext.esversion==1) {
         gl4es_blitTexture_gles1(texture, width, height, 
@@ -370,10 +370,8 @@ void gl4es_blitTexture(GLuint texture,
     }
 
     // All the previous states are Pushed / Poped anyway...
-    if (old_bind == NULL) 
-        gles_glBindTexture(GL_TEXTURE_2D, 0);
-    else
-        gles_glBindTexture(GL_TEXTURE_2D, old_bind->glname);
+    if (glstate->actual_tex2d[0] != texture) 
+        gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
 
     if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
     

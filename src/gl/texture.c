@@ -2517,7 +2517,7 @@ void realize_bound(int TMU, GLenum target) {
     LOAD_GLES(glBindTexture);
     gltexture_t *tex = glstate->texture.bound[TMU][what_target(target)];
     GLuint t = (tex?tex->glname:0);
-//printf("realize_bound(%d, %s), glsate->actual_tex2d[%d]=%ud / %ud\n", TMU, PrintEnum(target), TMU, glstate->actual_tex2d[TMU], t);
+//printf("realize_bound(%d, %s), glsate->actual_tex2d[%d]=%u / %u\n", TMU, PrintEnum(target), TMU, glstate->actual_tex2d[TMU], t);
     switch (target) {
         case GL_TEXTURE_1D:
         case GL_TEXTURE_2D:
