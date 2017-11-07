@@ -92,7 +92,7 @@ const char* gl4es_LightSourceParametersSource =
 "   vec4 diffuse;\n"
 "   vec4 specular;\n"
 "   vec4 position;\n"
-//"   vec4 halfVector;\n"   //halfVector = normalize(position - gl_Vertex), so just replace it when used
+"   vec4 halfVector;\n"   //halfVector = normalize(normalize(position) + vec3(0,0,1) if vbs==FALSE)
 "   vec3 spotDirection;\n"
 "   float spotExponent;\n"
 "   float spotCutoff;\n"
@@ -228,11 +228,11 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   else {
     while(*newptr!=0x0a) newptr++;
   }
-  const char* GLESHeader = "#version 100\nprecision mediump float;\n";
+  const char* GLESHeader = "#version 100\nprecision mediump float;\nprecision mediump int;\n";
   int tmpsize = strlen(newptr)*2+strlen(GLESHeader)+100;
   char* Tmp = (char*)malloc(tmpsize);
   strcpy(Tmp, GLESHeader);
-  int headline = 2;
+  int headline = 3;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
   const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable\n";
@@ -354,6 +354,25 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
         }
     }
   }
+  // Handling of gl_LightSource[x].halfVector => normalize(gl_LightSource[x].position - gl_Vertex), but what if in the FragShader ?
+/*  if(strstr(Tmp, "halfVector"))
+  {
+    char *p = Tmp;
+    while((p=strstr(p, "gl_LightSource["))) {
+      char *p2 = strchr(p, ']');
+      if (p2 && !strncmp(p2, "].halfVector", strlen("].halfVector"))) {
+        // found an occurence, lets change
+        char p3[500];
+        strncpy(p3,p, (p2-p)+1); p3[(p2-p)+1]='\0';
+        char p4[500], p5[500];
+        sprintf(p4, "%s.halfVector", p3);
+        sprintf(p5, "normalize(normalize(%s.position.xyz) + vec3(0., 0., 1.))", p3);
+        Tmp = InplaceReplace(Tmp, &tmpsize, p4, p5);
+        p = Tmp;
+      } else
+        ++p;
+    }
+  }*/
   if(isVertex) {
       // check for builtin OpenGL attributes...
       int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
@@ -372,7 +391,6 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   }
   
   // check for builtin OpenGL gl_LightSource & friends
-  // TODO: Handling of gl_LightSource[x].halfVector => normalize(gl_LightSource[x].position - glVertex), but what if in the FragShader ?
   if(strstr(Tmp, "gl_LightSourceParameters") || strstr(Tmp, "gl_LightSource"))
   {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_LightSourceParametersSource));
@@ -408,8 +426,9 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
     headline+=CountLine(gl4es_MaterialParametersSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaterialParameters", "_gl4es_MaterialParameters");
   }
-  if(strstr(Tmp, "gl_LightSource"))
+  if(strstr(Tmp, "gl_LightSource")) {
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightSource", "_gl4es_LightSource");
+  }
   if(strstr(Tmp, "gl_LightModel"))
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_LightModel", "_gl4es_LightModel");
   if(strstr(Tmp, "gl_FrontLightModelProduct"))

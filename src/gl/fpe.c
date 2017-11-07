@@ -690,6 +690,16 @@ void realize_glenv(int ispoint) {
                GoUniformfv(glprogram, glprogram->builtin_lights[i].diffuse, 4, 1, glstate->light.lights[i].diffuse);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].specular, 4, 1, glstate->light.lights[i].specular);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].position, 4, 1, glstate->light.lights[i].position);
+               if(glprogram->builtin_lights[i].halfVector!=-1) { // not sure of this, isn't gl_Vertex need to be used at some point?
+                GLfloat tmp[4];
+                memcpy(tmp, glstate->light.lights[i].position, 4*sizeof(GLfloat));
+                vector4_normalize(tmp);
+                if(!glstate->light.local_viewer) {
+                    tmp[2]+=1.f;
+                    vector4_normalize(tmp);
+                }
+                GoUniformfv(glprogram, glprogram->builtin_lights[i].halfVector, 1, 1, tmp);
+               }
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotDirection, 3, 1, glstate->light.lights[i].spotDirection);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotExponent, 1, 1, &glstate->light.lights[i].spotExponent);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].spotCutoff, 1, 1, &glstate->light.lights[i].spotCutoff);
