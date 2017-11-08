@@ -149,6 +149,13 @@ typedef struct {
     GLubyte map_b2b[MAX_MAP_SIZE];
     GLubyte map_a2a[MAX_MAP_SIZE];
     */
+    GLubyte *data;
+    rasterlist_t immediate;
+    GLsizei raster_width;
+    GLsizei raster_height;
+    GLsizei raster_nwidth;
+    GLsizei raster_nheight;
+    GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 } raster_state_t;
 
 

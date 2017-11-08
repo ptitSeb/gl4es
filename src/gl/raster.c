@@ -4,14 +4,6 @@
 #include "blit.h"
 #include "../glx/hardext.h"
 
-static GLubyte *raster = NULL;
-static rasterlist_t immediate_raster = {0};
-static GLsizei raster_width=0;
-static GLsizei raster_height=0;
-static GLsizei raster_nwidth=0;
-static GLsizei raster_nheight=0;
-
-static GLint	raster_x1, raster_x2, raster_y1, raster_y2;
 #define min(a, b)	((a)<b)?(a):(b)
 #define max(a, b)	((a)>(b))?(a):(b)
 
@@ -142,20 +134,19 @@ void init_raster(int width, int height) {
 	int w, h;
 	w=(hardext.npot>0)?width:npot(width);
 	h=(hardext.npot>0)?height:npot(height);
-	if (raster) {
-		if ((raster_width<width) || (raster_height<height)) {
-			free(raster);
-			raster = NULL;
-		} else 
-			memset(raster, 0, 4 * width * height * sizeof(GLubyte)); // is memset usefull?
+	if (glstate->raster.data) {
+		if ((glstate->raster.raster_nwidth<width) || (glstate->raster.raster_nheight<height)) {
+			free(glstate->raster.data);
+			glstate->raster.data = NULL;
+		}
 	}
-    if (!raster) {
-        raster = (GLubyte *)malloc(4 * width * height * sizeof(GLubyte));
-		memset(raster, 0, 4 * width * height * sizeof(GLubyte));	// same question here
-		raster_x1 = 0; raster_y1 = 0; raster_x2 = width; raster_y2 = height;
-		raster_nwidth = w; raster_nheight = h;
-		raster_width = width; raster_height = height;
+    if (!glstate->raster.data) {
+        glstate->raster.data = (GLubyte *)malloc(4 * w * h * sizeof(GLubyte)); // no need to memset to 0
+		glstate->raster.raster_nwidth = w; glstate->raster.raster_nheight = h;
 	}
+	glstate->raster.raster_x1 = 0; glstate->raster.raster_y1 = 0;
+	glstate->raster.raster_x2 = width; glstate->raster.raster_y2 = height;
+	glstate->raster.raster_width = width; glstate->raster.raster_height = height;
 }
 
 GLubyte raster_transform(GLubyte pix, GLubyte number) {
@@ -212,18 +203,18 @@ void raster_to_texture(rasterlist_t *r)
 		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0); // this is to be sure texture is not npot'ed ...
 		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);	// ... if not needed
-		gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, raster_nwidth, raster_nheight,
+		gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, glstate->raster.raster_nwidth, glstate->raster.raster_nheight,
 			0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	} else {
 		gl4es_glBindTexture(GL_TEXTURE_2D, r->texture);
 	}
-	gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, raster_width, raster_height,
-		GL_RGBA, GL_UNSIGNED_BYTE, raster);
+	gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, glstate->raster.raster_width, glstate->raster.raster_height,
+		GL_RGBA, GL_UNSIGNED_BYTE, glstate->raster.data);
 
-	r->width = raster_width;
-	r->height = raster_height;
-	r->nwidth = raster_nwidth;
-	r->nheight = raster_nheight;
+	r->width = glstate->raster.raster_width;
+	r->height = glstate->raster.raster_height;
+	r->nwidth = glstate->raster.raster_nwidth;
+	r->nheight = glstate->raster.raster_nheight;
 	gl4es_glBindTexture(GL_TEXTURE_2D, old_tex);
 	if (old_tex_unit!=0) 
 		gl4es_glActiveTexture(old_tex_unit+GL_TEXTURE0);
@@ -247,6 +238,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 			if (glstate->list.active->raster)
 				glstate->list.active = extend_renderlist(glstate->list.active);		// already a raster in the list, create a new one
 			rasterlist_t *r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
+			memset(r, 0, sizeof(rasterlist_t));
             r->shared = (int*)malloc(sizeof(int)); 
             *r->shared = 0;
 			r->texture = 0;
@@ -273,7 +265,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // copy to pixel data
 	if (pixtrans) {
         for (y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
             from = bitmap + (y * ((width+7)/8));
             for (x = 0; x < width; x++) {
                 GLubyte b = from[(x / 8)];
@@ -287,7 +279,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         }
 	} else {
         for (y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
             from = bitmap + (y * ((width+7)/8));
             for (x = 0; x < width; x++) {
                 GLubyte b = from[(x / 8)];
@@ -309,7 +301,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         r->shared = (int*)malloc(sizeof(int));
         *r->shared = 0;
 	} else {
-		r = &immediate_raster;
+		r = &glstate->raster.immediate;
 		if(r->texture && (width>r->nwidth || height>r->nheight)) {
 			gl4es_glDeleteTextures(1, &r->texture);
 			r->texture = 0;
@@ -362,7 +354,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 
     if (pixtrans) {
         for (int y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
             from = pixels + 4 * (glstate->texture.unpack_skip_pixels + (y + glstate->texture.unpack_skip_rows) * bmp_width);
             for (int x = 0; x < width; x++) {
 				*to++ = raster_transform(*from++, 0);
@@ -373,7 +365,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
         }
 	} else {
         for (int y = 0; y < height; y++) {
-            to = raster + 4 * (GLint)(y * raster_width);
+            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
             from = pixels + 4 * (glstate->texture.unpack_skip_pixels + (y + glstate->texture.unpack_skip_rows) * bmp_width);
             for (int x = 0; x < width; x++) {
 				*to++ = *from++;
@@ -394,7 +386,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
         r->shared = (int*)malloc(sizeof(int));
         *r->shared = 0;
 	} else {
-		r = &immediate_raster;
+		r = &glstate->raster.immediate;
 		if(r->texture && (width>r->nwidth || height>r->nheight)) {
 			gl4es_glDeleteTextures(1, &r->texture);
 			r->texture = 0;
