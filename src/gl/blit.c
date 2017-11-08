@@ -177,7 +177,7 @@ const char _blit_fsh_alpha[] = "#version 100            \n\t" \
 "varying lowp vec4 vColor;                              \n\t" \
 "void main(){                                           \n\t" \
 "lowp vec4 p = texture2D(uTex, vTexCoord);              \n\t" \
-"if (p.a>0.0) discard;                                  \n\t" \
+"if (p.a==0.0) discard;                                 \n\t" \
 "gl_FragColor = p*vColor;                               \n\t" \
 "}                                                      \n\t";
 
