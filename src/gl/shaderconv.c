@@ -239,7 +239,10 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   const char* GLESFakeFragDepth = "mediump float fakeFragDepth = 0.0;\n";
   if (fragdepth) {
     /* If #extension is used, it should be placed before the second line of the header. */
-    InplaceInsert(GetLine(Tmp, headline-1), hardext.fragdepth?GLESUseFragDepth:GLESFakeFragDepth);
+    if(hardext.fragdepth)
+      InplaceInsert(GetLine(Tmp, 1), GLESUseFragDepth);
+    else
+      InplaceInsert(GetLine(Tmp, headline-1), GLESFakeFragDepth);
     headline++;
   }
   int derivatives = (strstr(pBuffer, "dFdx(") || strstr(pBuffer, "dFdy(") || strstr(pBuffer, "fwidth("))?1:0;
@@ -251,7 +254,10 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   "vec3 fwidth(vec3 p) {return abs(dFdx(p))+abs(dFdy(p));}\n";
   if (derivatives) {
     /* If #extension is used, it should be placed before the second line of the header. */
-    InplaceInsert(GetLine(Tmp, headline-1), hardext.derivatives?GLESUseDerivative:GLESFakeDerivative);
+    if(hardext.derivatives)
+      InplaceInsert(GetLine(Tmp, 1), GLESUseDerivative);
+    else
+      InplaceInsert(GetLine(Tmp, headline-1), GLESFakeDerivative);
     headline++;
   }
   const char* GLESUseFragHighp = "#extension GL_OES_fragment_high_precision : enable\n"; // does this one is needed?
