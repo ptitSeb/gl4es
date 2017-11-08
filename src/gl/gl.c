@@ -1639,21 +1639,19 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
                 glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
                 glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
                 glstate->list.active->lastColorsSet = 1;
-                PUSH_IF_COMPILING(glColor4f);
             }
             else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
                 glstate->list.active->post_colors[0] = red; glstate->list.active->post_colors[1] = green;
                 glstate->list.active->post_colors[2] = blue; glstate->list.active->post_colors[3] = alpha;
                 glstate->list.active->post_color = 1;
-                return;                
+                return;
             }
             PUSH_IF_COMPILING(glColor4f);
         } else {
             rlColor4f(glstate->list.active, red, green, blue, alpha);
             noerrorShim();
         }
-    }
-    else {
+    } else {
         LOAD_GLES_FPE(glColor4f);
         errorGL();
         gles_glColor4f(red, green, blue, alpha);

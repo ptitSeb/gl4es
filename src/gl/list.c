@@ -17,7 +17,7 @@ renderlist_t *alloc_renderlist() {
     int a;
 
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
-    memset(list, 0, sizeof(*list));
+    memset(list, 0, sizeof(renderlist_t));
     list->cap = DEFAULT_RENDER_LIST_CAPACITY;
     list->matrix_val[0] = list->matrix_val[5] = list->matrix_val[10] = 
                           list->matrix_val[15] = 1.0f;
@@ -486,8 +486,8 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         // copy local state
         memcpy(new->lastNormal, list->lastNormal, 3*sizeof(GLfloat));
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
-        memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
-        new->lastColorsSet = list->lastColorsSet;
+        memcpy(new->lastColors, (list->post_color)?list->post_colors:list->lastColors, 4*sizeof(GLfloat));
+        new->lastColorsSet = (list->post_color || list->lastColorsSet)?1:0;
         return new;
     }
 }
