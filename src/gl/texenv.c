@@ -101,7 +101,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_SUBTRACT: state=FPE_CR_SUBTRACT; break;
                         }
                         glstate->fpe_state->texcombine[glstate->texture.active] &= ~ 0xf0;
-                        glstate->fpe_state->texcombine[glstate->texture.active] |= state;
+                        glstate->fpe_state->texcombine[glstate->texture.active] |= state<<4;
                     }
                     break;
                 case GL_SRC0_RGB:
