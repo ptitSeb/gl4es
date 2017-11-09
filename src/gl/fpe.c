@@ -238,7 +238,7 @@ void fpe_program(int ispoint) {
                 glstate->fpe->glprogram = kh_value(programs, k_program);
         }
         // all done
-        DBG(printf("creating dummy FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
+        DBG(printf("creating FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
     }
 }
 
@@ -349,14 +349,14 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 }
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    DBG(printf("fpe_glDrawArrays(%s, %d, %d)\n", PrintEnum(mode), first, count);)
+    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p)\n", PrintEnum(mode), count, PrintEnum(type), indices);)
+    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);

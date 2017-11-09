@@ -206,6 +206,8 @@ const char* PrintEnum(GLenum what);
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
+#define FLUSH_BEGINEND if(glstate->list.pending) flush()
+
 #define ERROR_IN_BEGIN if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return;}
 
 static const GLsizei gl_sizeof(GLenum type) {

@@ -12,6 +12,7 @@
 
 void gl4es_glAttachShader(GLuint program, GLuint shader) {
     DBG(printf("glAttachShader(%d, %d)\n", program, shader);)
+    FLUSH_BEGINEND;
     // sanity tests
     CHECK_PROGRAM(void, program)
     CHECK_SHADER(void, shader)
@@ -34,6 +35,7 @@ void gl4es_glAttachShader(GLuint program, GLuint shader) {
 
 void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar *name) {
     DBG(printf("glBindAttribLocation(%d, %d, %s)\n", program, index, name);)
+    FLUSH_BEGINEND;
     // sanity tests
     CHECK_PROGRAM(void, program)
     // look / create attribloc at index
@@ -67,6 +69,7 @@ void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar *name
 
 GLuint gl4es_glCreateProgram(void) {
     DBG(printf("glCreateProgram()\n");)
+    FLUSH_BEGINEND;
     static GLuint lastprogram = 0;
     GLuint program;
     // create the program
@@ -148,6 +151,7 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
 
 void gl4es_glDeleteProgram(GLuint program) {
     DBG(printf("glDeleteProgram(%d)\n", program);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
     // send to hardware
     LOAD_GLES2(glDeleteProgram);
@@ -167,6 +171,7 @@ void gl4es_glDeleteProgram(GLuint program) {
 
 void gl4es_glDetachShader(GLuint program, GLuint shader) {
     DBG(printf("glDetachShader(%d, %d)\n", program, shader);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
     CHECK_SHADER(void, shader)
     // is shader attached?
@@ -190,6 +195,7 @@ void gl4es_glDetachShader(GLuint program, GLuint shader) {
 
 void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) {
     DBG(printf("glGetActiveAttrib(%d, %d, %d, %p, %p, %p, %p)\n", program, index, bufSize, length, size, type, name);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
 
     if(glprogram->attribloc) {
@@ -213,6 +219,7 @@ void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsi
 
 void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders) {
     DBG(printf("glGetAttachedShaders(%d, %d, %p, %p)\n", program, maxCount, count, shaders);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
 
     int n = glprogram->attach_size;
@@ -228,6 +235,7 @@ void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *count
 
 GLint gl4es_glGetAttribLocation(GLuint program, const GLchar *name) {
     DBG(printf("glGetAttribLocation(%d, %s)\n", program, name));
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(GLint, program);
 
     if(!glprogram->linked) {
@@ -265,6 +273,7 @@ GLint gl4es_glGetAttribLocation(GLuint program, const GLchar *name) {
 
 void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) {
     DBG(printf("glGetActiveUniform(%d, %d, %d, %p, %p, %p, %p)\n", program, index, bufSize, length, size, type, name);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(GLvoid, program);
 
     if(!glprogram->linked) {
@@ -307,6 +316,7 @@ const char* getFakeProgramInfo(program_t* glprogram) {
 
 void gl4es_glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog) {
     DBG(printf("glGetProgramInfoLog(%d, %d, %p, %p)\n", program, maxLength, length, infoLog);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
 
     if(maxLength<0) {
@@ -334,6 +344,7 @@ void gl4es_glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *lengt
 
 void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint *params) {
     DBG(printf("glGetProgramiv(%d, %s, %p)\n", program, PrintEnum(pname), params);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
 
     LOAD_GLES2(glGetProgramiv);
@@ -405,6 +416,7 @@ void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint *params) {
 
 GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
     DBG(printf("glGetUniformLocation(%d, %s)\n", program, name);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(GLint, program)
 
     noerrorShim();
@@ -444,6 +456,7 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
 
 GLboolean gl4es_glIsProgram(GLuint program) {
     DBG(printf("glIsProgram(%d)\n", program);)
+    FLUSH_BEGINEND;
     noerrorShim();
     if(!program) {
         return GL_FALSE;
@@ -460,6 +473,7 @@ GLboolean gl4es_glIsProgram(GLuint program) {
 
 void gl4es_glLinkProgram(GLuint program) {
     DBG(printf("glLinkProgram(%d)\n", program);)
+    FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
     noerrorShim();
 
@@ -618,6 +632,7 @@ void gl4es_glLinkProgram(GLuint program) {
 
 void gl4es_glUseProgram(GLuint program) {
     DBG(printf("glUseProgram(%d) old=%d\n", program, glstate->glsl.program);)
+    PUSH_IF_COMPILING(glUseProgram);
     if(program==0) {
         glstate->glsl.program=0;
         glstate->glsl.glprogram=NULL;
@@ -633,6 +648,7 @@ void gl4es_glUseProgram(GLuint program) {
 
 void gl4es_glValidateProgram(GLuint program) {
     CHECK_PROGRAM(void, program)
+    FLUSH_BEGINEND;
     noerrorShim();
 
     LOAD_GLES2(glValidateProgram);
@@ -697,6 +713,7 @@ GLvoid gl4es_glDeleteObject(GLhandleARB obj) {
 }
 
 GLhandleARB gl4es_glGetHandle(GLenum pname) {
+    FLUSH_BEGINEND;
     if(pname!=GL_PROGRAM_OBJECT_ARB) {
         errorShim(GL_INVALID_ENUM);
         return 0;

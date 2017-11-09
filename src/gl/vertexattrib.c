@@ -11,6 +11,7 @@
 
 void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) {
     DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p), vertex buffer = %p\n", index, size, PrintEnum(type), normalized, stride, pointer, (glstate->vao->vertex)?glstate->vao->vertex->data:0);)
+    FLUSH_BEGINEND;
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -34,6 +35,7 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
+    FLUSH_BEGINEND;
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -44,6 +46,7 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
+    FLUSH_BEGINEND;
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -56,12 +59,14 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
 void gl4es_glVertexAttrib4f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
     DBG(printf("glVertexAttrib4f(%d, %f, %f, %f, %f)\n", index, v0, v1, v2, v3);)
+    FLUSH_BEGINEND;
     static GLfloat f[4];
     f[0] = v0; f[1] = v1; f[2] = v2; f[3] = v3;
     gl4es_glVertexAttrib4fv(index, f);
 }
 void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
     DBG(printf("glVertexAttrib4fv(%d, %p)\n", index, v);)
+    FLUSH_BEGINEND;
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
@@ -78,6 +83,7 @@ void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
 
 #define GetVertexAttrib(suffix, Type, factor) \
 void gl4es_glGetVertexAttrib##suffix##v(GLuint index, GLenum pname, Type *params) { \
+    FLUSH_BEGINEND; \
     if(index<0 || index>=hardext.maxvattrib) { \
         errorShim(GL_INVALID_VALUE); \
         return; \
@@ -116,6 +122,7 @@ GetVertexAttrib(i, GLint, 2147483647.0f);
 #undef GetVertexAttrib
 
 void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointer) {
+    FLUSH_BEGINEND;
     // sanity test
     if(index<0 || index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
