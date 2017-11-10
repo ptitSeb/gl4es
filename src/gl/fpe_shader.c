@@ -5,18 +5,7 @@
 #include "string_utils.h"
 #include "../glx/hardext.h"
 
-const char* dummy_vertex = \
-"varying vec4 Color; \n"
-"void main() {\n"
-"Color = gl_Color;\n"
-"gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
-"}";
-
-const char* dummy_frag = \
-"varying vec4 Color; \n"
-"void main() {\n"
-"gl_FragColor = Color;\n"
-"}\n";
+const char* fpeshader_signature = "// FPE_Shader generated\n";
 
 static char* shad = NULL;
 static int shad_cap = 0;
@@ -110,7 +99,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int cm_back_nullexp = state->cm_back_nullexp;
         
     
-    shad[0] = '\0';
+    strcpy(shad, fpeshader_signature);
 
     if(comments) {
         sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",
@@ -609,8 +598,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int texenv_combine = 0;
     char buff[1024];
 
-    shad[0] = '\0';
-
+    strcpy(shad, fpeshader_signature);
+    
     if(comments) {
         sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texture=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), fpe_packed(state->texformat, 24, 3), point);
         ShadAppend(buff);

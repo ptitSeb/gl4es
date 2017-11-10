@@ -3,6 +3,7 @@
 #include "string_utils.h"
 #include "../glx/hardext.h"
 #include "debug.h"
+#include "fpe_shader.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -211,7 +212,8 @@ const char* gl_TexCoordSource = "gl_TexCoord[";
 
 char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
 {
-  DBG(printf("Shader source:\n%s\n", pBuffer);)
+  int fpeShader = (strstr(pBuffer, fpeshader_signature)!=NULL)?1:0;
+  DBG(printf("Shader source%s:\n%s\n", pBuffer, fpeShader?" (FPEShader generated)":"");)
   
   static shaderconv_need_t dummy_need;
   if(!need) {
@@ -228,10 +230,15 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   else {
     while(*newptr!=0x0a) newptr++;
   }
-  const char* GLESHeader = "#version 100\nprecision mediump float;\nprecision mediump int;\n";
-  int tmpsize = strlen(newptr)*2+strlen(GLESHeader)+100;
+  const char* GLESUseFragHighp = "#extension GL_OES_fragment_high_precision : enable\n"; // does this one is needed?  
+  const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
+  char GLESFullHeader[512];
+  int wanthighp = !fpeShader;
+  if(wanthighp && !hardext.highp) wanthighp = 0;
+  sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
+  int tmpsize = strlen(newptr)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)malloc(tmpsize);
-  strcpy(Tmp, GLESHeader);
+  strcpy(Tmp, GLESFullHeader);
   int headline = 3;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
@@ -260,7 +267,6 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
       InplaceInsert(GetLine(Tmp, headline-1), GLESFakeDerivative);
     headline++;
   }
-  const char* GLESUseFragHighp = "#extension GL_OES_fragment_high_precision : enable\n"; // does this one is needed?
   strcat(Tmp, newptr);
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
