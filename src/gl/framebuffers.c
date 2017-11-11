@@ -572,13 +572,15 @@ void createMainFBO(int width, int height) {
     mainfbo_width = width;
     mainfbo_height = height;
     mainfbo_nwidth = width = hardext.npot>0?width:npot(width);
-    mainfbo_nheight = height = hardext.npot>0?width:npot(height);
+    mainfbo_nheight = height = hardext.npot>0?height:npot(height);
 
     // create the texture
 	gles_glGenTextures(1, &mainfbo_tex);
     gles_glBindTexture(GL_TEXTURE_2D, mainfbo_tex);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
 					0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	gles_glBindTexture(GL_TEXTURE_2D, 0);
