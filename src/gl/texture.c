@@ -896,8 +896,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->mipmap_auto = 0;
 
         if(forceclamp) {
-            gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
             // check MIN/MAG Filter also?
         }
         int callgeneratemipmap = 0;
@@ -912,8 +913,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
-                    gl4es_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
-                    gl4es_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, bound->mag_filter);
+                    gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
+                    gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, bound->mag_filter);
                 }
             }
             
