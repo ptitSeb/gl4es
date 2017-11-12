@@ -10,7 +10,8 @@
 void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void popViewport();
 
-void gl4es_blitTexture_gles1(GLuint texture, 
+void gl4es_blitTexture_gles1(GLuint texture,
+    float sx, float sy,
     float width, float height, 
     float nwidth, float nheight, 
     float zoomx, float zoomy, 
@@ -65,23 +66,25 @@ void gl4es_blitTexture_gles1(GLuint texture,
 
         float w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
         float h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
-        float blit_x1=x;
-        float blit_x2=x+width*zoomx;
-        float blit_y1=y;
-        float blit_y2=y+height*zoomy;
+        float blit_x1=roundf(x);
+        float blit_x2=roundf(x+width*zoomx);
+        float blit_y1=roundf(y);
+        float blit_y2=roundf(y+height*zoomy);
         GLfloat blit_vert[] = {
             blit_x1*w2-1.0f, blit_y1*h2-1.0f,
             blit_x2*w2-1.0f, blit_y1*h2-1.0f,
             blit_x2*w2-1.0f, blit_y2*h2-1.0f,
             blit_x1*w2-1.0f, blit_y2*h2-1.0f
         };
-        GLfloat rw = width/nwidth;
-        GLfloat rh = height/nheight;
+        GLfloat sw = sx/nwidth;
+        GLfloat sh = sy/nheight;
+        GLfloat rw = (sx+width)/nwidth;
+        GLfloat rh = (sy+height)/nheight;
         GLfloat blit_tex[] = {
-            0,  0,
-            rw, 0,
+            sw, sh,
+            rw, sh,
             rw, rh,
-            0,  rh
+            sw, rh
         };
 
         gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT | GL_CLIENT_PIXEL_STORE_BIT);
@@ -143,45 +146,46 @@ void gl4es_blitTexture_gles1(GLuint texture,
 
 }
 
-const char _blit_vsh[] = "#version 100                  \n\t" \
-"attribute highp vec2 aPosition;                        \n\t" \
-"attribute highp vec2 aTexCoord;                        \n\t" \
-"varying mediump vec2 vTexCoord;                        \n\t" \
-"void main(){                                           \n\t" \
-"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n\t" \
-"vTexCoord = aTexCoord;                                 \n\t" \
-"}                                                      \n\t";
+const char _blit_vsh[] = "#version 100                  \n" \
+"attribute highp vec2 aPosition;                        \n" \
+"attribute highp vec2 aTexCoord;                        \n" \
+"varying mediump vec2 vTexCoord;                        \n" \
+"void main(){                                           \n" \
+"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n" \
+"vTexCoord = aTexCoord;                                 \n" \
+"}                                                      \n";
 
-const char _blit_fsh[] = "#version 100                  \n\t" \
-"uniform sampler2D uTex;                                \n\t" \
-"varying mediump vec2 vTexCoord;                        \n\t" \
-"void main(){                                           \n\t" \
-"gl_FragColor = texture2D(uTex, vTexCoord);             \n\t" \
-"}                                                      \n\t";
+const char _blit_fsh[] = "#version 100                  \n" \
+"uniform sampler2D uTex;                                \n" \
+"varying mediump vec2 vTexCoord;                        \n" \
+"void main(){                                           \n" \
+"gl_FragColor = texture2D(uTex, vTexCoord);             \n" \
+"}                                                      \n";
 
-const char _blit_vsh_alpha[] = "#version 100            \n\t" \
-"attribute highp vec2 aPosition;                        \n\t" \
-"attribute highp vec2 aTexCoord;                        \n\t" \
-"attribute lowp vec4 aColor;                            \n\t" \
-"varying mediump vec2 vTexCoord;                        \n\t" \
-"varying lowp vec4 vColor;                              \n\t" \
-"void main(){                                           \n\t" \
-"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n\t" \
-"vTexCoord = aTexCoord;                                 \n\t" \
-"vColor = aColor;                                       \n\t" \
-"}                                                      \n\t";
+const char _blit_vsh_alpha[] = "#version 100            \n" \
+"attribute highp vec2 aPosition;                        \n" \
+"attribute highp vec2 aTexCoord;                        \n" \
+"attribute lowp vec4 aColor;                            \n" \
+"varying mediump vec2 vTexCoord;                        \n" \
+"varying lowp vec4 vColor;                              \n" \
+"void main(){                                           \n" \
+"gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n" \
+"vTexCoord = aTexCoord;                                 \n" \
+"vColor = aColor;                                       \n" \
+"}                                                      \n";
 
-const char _blit_fsh_alpha[] = "#version 100            \n\t" \
-"uniform sampler2D uTex;                                \n\t" \
-"varying mediump vec2 vTexCoord;                        \n\t" \
-"varying lowp vec4 vColor;                              \n\t" \
-"void main(){                                           \n\t" \
-"lowp vec4 p = texture2D(uTex, vTexCoord);              \n\t" \
-"if (p.a==0.0) discard;                                 \n\t" \
-"gl_FragColor = p*vColor;                               \n\t" \
-"}                                                      \n\t";
+const char _blit_fsh_alpha[] = "#version 100            \n" \
+"uniform sampler2D uTex;                                \n" \
+"varying mediump vec2 vTexCoord;                        \n" \
+"varying lowp vec4 vColor;                              \n" \
+"void main(){                                           \n" \
+"lowp vec4 p = texture2D(uTex, vTexCoord);              \n" \
+"if (p.a==0.0) discard;                                 \n" \
+"gl_FragColor = p*vColor;                               \n" \
+"}                                                      \n";
 
-void gl4es_blitTexture_gles2(GLuint texture, 
+void gl4es_blitTexture_gles2(GLuint texture,
+    float sx, float sy,
     float width, float height, 
     float nwidth, float nheight, 
     float zoomx, float zoomy, 
@@ -202,6 +206,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         LOAD_GLES2(glGetProgramiv);
         LOAD_GLES(glGetUniformLocation);
         LOAD_GLES2(glUniform1i);
+        LOAD_GLES2(glUseProgram);
 
         glstate->blit = (glesblit_t*)malloc(sizeof(glesblit_t));
         memset(glstate->blit, 0, sizeof(glesblit_t));
@@ -281,6 +286,8 @@ void gl4es_blitTexture_gles2(GLuint texture,
             free(glstate->blit);
             glstate->blit = NULL;
         }
+        GLuint oldprog = glstate->gleshard.program;
+        gles_glUseProgram(glstate->blit->program);
         gles_glUniform1i( gles_glGetUniformLocation( glstate->blit->program, "uTex" ), 0 );
 
         glstate->blit->program_alpha = gles_glCreateProgram();
@@ -297,29 +304,33 @@ void gl4es_blitTexture_gles2(GLuint texture,
             free(glstate->blit);
             glstate->blit = NULL;
         }
+        gles_glUseProgram(glstate->blit->program_alpha);
         gles_glUniform1i( gles_glGetUniformLocation( glstate->blit->program_alpha, "uTex" ), 0 );
+        gles_glUseProgram(oldprog);
     }
 
     int customvp = (vpwidth>0.0);
     float w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
     float h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
-    float blit_x1=x;
-    float blit_x2=x+width*zoomx;
-    float blit_y1=y;
-    float blit_y2=y+height*zoomy;
+    float blit_x1=roundf(x);
+    float blit_x2=roundf(x+width*zoomx);
+    float blit_y1=roundf(y);
+    float blit_y2=roundf(y+height*zoomy);
     GLfloat *vert = glstate->blit->vert;
     GLfloat *tex = glstate->blit->tex;
     vert[0] = blit_x1*w2-1.0f;  vert[1] = blit_y1*h2-1.0f;
     vert[2] = blit_x2*w2-1.0f;  vert[3] = vert[1];
     vert[4] = vert[2];          vert[5] = blit_y2*h2-1.0f;
     vert[6] = vert[0];          vert[7] = vert[5];
-    GLfloat rw = width/nwidth;
-    GLfloat rh = height/nheight;
-    tex[0] = 0.0f;  tex[1] = 0.0f;
-    tex[2] = rw;    tex[3] = 0.0f;
-    tex[4] = rw;    tex[5] = rh;
-    tex[6] = 0.0f;  tex[7] = rh;
-
+    GLfloat sw = sx/nwidth;
+    GLfloat sh = sy/nheight;
+    GLfloat rw = (sx+width)/nwidth;
+    GLfloat rh = (sy+height)/nheight;
+    tex[0] = sw;  tex[1] = sh;
+    tex[2] = rw;  tex[3] = sh;
+    tex[4] = rw;  tex[5] = rh;
+    tex[6] = sw;  tex[7] = rh;
+    gl4es_glDisable(GL_BLEND);
     int alpha = 0;
     switch (mode) {
         case BLIT_OPAQUE:
@@ -339,12 +350,13 @@ void gl4es_blitTexture_gles2(GLuint texture,
 }
 
 void gl4es_blitTexture(GLuint texture, 
+    float sx, float sy, 
     float width, float height, 
     float nwidth, float nheight, 
     float zoomx, float zoomy, 
     float vpwidth, float vpheight, 
     float x, float y, int mode) {
-//printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, width, height, nwidth, nheight, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
+//printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, sx, sy, width, height, nwidth, nheight, zoomx, zoomy, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
     gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
@@ -352,19 +364,25 @@ void gl4es_blitTexture(GLuint texture,
     GLuint old_tex = glstate->texture.active;
     if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
 
+    GLint depthwrite;
+    gl4es_glGetIntegerv(GL_DEPTH_WRITEMASK, &depthwrite);
+
     gl4es_glDisable(GL_DEPTH_TEST);
     gl4es_glDisable(GL_CULL_FACE);
+
+    if(depthwrite)
+        gl4es_glDepthMask(GL_FALSE);
 
     gl4es_glEnable(GL_TEXTURE_2D);
     if(glstate->actual_tex2d[0] != texture);
         gles_glBindTexture(GL_TEXTURE_2D, texture);
 
     if(hardext.esversion==1) {
-        gl4es_blitTexture_gles1(texture, width, height, 
+        gl4es_blitTexture_gles1(texture, sx, sy, width, height, 
                                 nwidth, nheight, zoomx, zoomy, 
                                 vpwidth, vpheight, x, y, mode);
     } else {
-        gl4es_blitTexture_gles2(texture, width, height, 
+        gl4es_blitTexture_gles2(texture, sx, sy, width, height, 
             nwidth, nheight, zoomx, zoomy, 
             vpwidth, vpheight, x, y, mode);
     }
@@ -374,6 +392,9 @@ void gl4es_blitTexture(GLuint texture,
         gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
 
     if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
-    
+
+    if(depthwrite)
+        gl4es_glDepthMask(GL_TRUE);
+
     gl4es_glPopAttrib();
 }

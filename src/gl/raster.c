@@ -412,6 +412,7 @@ void render_raster_list(rasterlist_t* rast) {
 	if (rast->texture)
 		gl4es_blitTexture(
 			rast->texture, 
+			0.f, 0.f,
 			rast->width , rast->height,
 			rast->nwidth, rast->nheight,
 			rast->zoomx, rast->zoomy, 

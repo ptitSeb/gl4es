@@ -26,14 +26,6 @@ void gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLen
 void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);    // naive Wrap
 void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 
-// Need  to keep track of Renderbuffer that are created as DEPTH_STENCIL, to create 2 seperate buffers...
-typedef struct {
-    GLuint      renderbuffer;   // This is the Depth buffer...
-    GLuint      stencil;        // this will be the secondary Stencil buffer
-} gldepthstencil_t;
-
-KHASH_MAP_INIT_INT(dsr, gldepthstencil_t *)
-
 // In case of LIBGL_FB=2, let's create an FBO for everything, that is than blitted just before the SwapBuffer
 void createMainFBO(int width, int height);
 void blitMainFBO();

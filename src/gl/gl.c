@@ -225,8 +225,13 @@ void* NewGLState(void* shared_glstate, int es2only) {
     }
 
     // Grab ViewPort
-    LOAD_GLES(glGetFloatv);
-    gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
+    LOAD_GLES(glGetIntegerv);
+    gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
+    // FBO
+    glstate->fbo.mainfbo_width = glstate->raster.viewport.width;    //main_fbo get the initial dimension of the framebuffer
+    glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
+    glstate->fbo.mainfbo_nwidth = (hardext.npot)?glstate->fbo.mainfbo_width:npot(glstate->fbo.mainfbo_width);
+    glstate->fbo.mainfbo_nheight = (hardext.npot)?glstate->fbo.mainfbo_height:npot(glstate->fbo.mainfbo_height);
     // All done
     return (void*)glstate;
 }
@@ -289,6 +294,9 @@ void DeleteGLState(void* oldstate) {
     // linestipple
     if(state->linestipple.data)
         free(state->linestipple.data);
+    // fbo
+    if(state->fbo.tex_fbo)
+        free(state->fbo.tex_fbo);
     // free blit GLES2 stuff
     if(state->blit) {
         //TODO: check if should delete GL object too
@@ -446,6 +454,17 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
         // point sprite
         proxy_GOFPE(GL_POINT_SPRITE, pointsprite, glstate->fpe_state->pointsprite=enable); // TODO: plugin fpe stuffs
+
+        // Smooth and multisample (todo: do somthing with fpe?)
+        proxy_GOFPE(GL_MULTISAMPLE, multisample, );
+        proxy_GOFPE(GL_SAMPLE_COVERAGE, sample_coverage, );
+        proxy_GOFPE(GL_SAMPLE_ALPHA_TO_COVERAGE, sample_alpha_to_coverage, );
+        proxy_GOFPE(GL_SAMPLE_ALPHA_TO_ONE, sample_alpha_to_one, );
+        proxy_GOFPE(GL_POINT_SMOOTH, point_smooth, );
+        proxy_GOFPE(GL_LINE_SMOOTH, line_smooth, );
+
+        // color logic op
+        proxy_GOFPE(GL_COLOR_LOGIC_OP, color_logic_op, );
         
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
@@ -673,6 +692,13 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_LIGHT6, light[6]);
         isenabled(GL_LIGHT7, light[7]);
         isenabled(GL_LIGHTING, lighting);
+        isenabled(GL_MULTISAMPLE, multisample);
+        isenabled(GL_SAMPLE_COVERAGE, sample_coverage);
+        isenabled(GL_SAMPLE_ALPHA_TO_COVERAGE, sample_alpha_to_coverage);
+        isenabled(GL_SAMPLE_ALPHA_TO_ONE, sample_alpha_to_one);
+        isenabled(GL_POINT_SMOOTH, point_smooth);
+        isenabled(GL_LINE_SMOOTH, line_smooth);
+        isenabled(GL_COLOR_LOGIC_OP, color_logic_op);
         clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
         clientisenabled(GL_FOG_COORD_ARRAY, fog_array);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);

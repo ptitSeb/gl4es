@@ -896,6 +896,7 @@ void realize_glenv(int ispoint) {
 }
 
 void realize_blitenv(int alpha) {
+    DBG(printf("realize_blitenv(%d)\n", alpha);)
     LOAD_GLES2(glUseProgram);
     if(glstate->gleshard.program != ((alpha)?glstate->blit->program_alpha:glstate->blit->program)) {
         glstate->gleshard.program = ((alpha)?glstate->blit->program_alpha:glstate->blit->program);
@@ -938,7 +939,6 @@ void realize_blitenv(int alpha) {
             }
         }
     }
-
 }
 
 // ********* Builtin GL Uniform, VertexAttrib and co *********

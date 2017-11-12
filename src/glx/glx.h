@@ -159,6 +159,7 @@ struct __GLXContextRec {
     int rbits, gbits, bbits, abits;
     int es2only;
     void* glstate;
+    void* shared;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };
 typedef struct __GLXContextRec *GLXContext;

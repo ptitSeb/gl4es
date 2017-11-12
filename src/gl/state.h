@@ -56,7 +56,14 @@ typedef struct {
               map2_texture3,
               map2_texture4,
               map2_vertex3,
-              map2_vertex4;
+              map2_vertex4,
+              color_logic_op,
+              line_smooth,
+              point_smooth,
+              multisample,
+              sample_coverage,
+              sample_alpha_to_one,
+              sample_alpha_to_coverage;
     GLuint    texture[MAX_TEX]; // flag
 } enable_state_t;
 
@@ -283,6 +290,46 @@ typedef struct {
     GLuint texture;
 } linestipple_t;
 
+// FBO structures
+// Need  to keep track of Renderbuffer that are created as DEPTH_STENCIL, to create 2 seperate buffers...
+typedef struct {
+    GLuint      renderbuffer;   // This is the Depth buffer...
+    GLuint      stencil;        // this will be the secondary Stencil buffer
+} gldepthstencil_t;
+
+KHASH_MAP_INIT_INT(dsr, gldepthstencil_t *)
+
+typedef struct {
+    GLuint      framebuffer;
+    GLuint      texture;
+    int         width;
+    int         height;
+} gltexframebuffer_t;
+
+typedef struct {
+    khash_t(dsr) *depthstencil;
+    GLuint current_rb;
+    GLuint current_fb;
+    
+    GLuint mainfbo_fbo; // The MainFBO
+    GLuint mainfbo_tex; // Texture Attachment
+    GLuint mainfbo_dep; // Depth attachment
+    GLuint mainfbo_ste; // Stencil attachement
+    int mainfbo_width;
+    int mainfbo_height;
+    int mainfbo_nwidth;
+    int mainfbo_nheight;
+    GLuint fbo_read;    // if not 0, that's the READ only Framebuffer attached
+    GLuint fbo_draw;     // if not 0, that's the DRAW only Framebuffer attached
+    GLuint *old_fbos;
+    int nbr_fbos;
+    int cap_fbos;
+    gltexframebuffer_t *tex_fbo;   // (1st) texture attached to fbos
+    int nbr_fbot;
+    int cap_fbot;
+    GLenum fb_status;
+} fbo_t;
+
 typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
@@ -361,6 +408,8 @@ typedef struct {
     fpe_cache_t         *fpe_cache;
     gleshard_t          gleshard;
     glesblit_t          *blit;
+    fbo_t               fbo;
+    int                 filterpostupload;   // does the program seems to set filter after uploading texture?
 } glstate_t;
 
 #endif

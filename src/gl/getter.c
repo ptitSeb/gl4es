@@ -563,6 +563,18 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             for (dummy=0; dummy<4; dummy++)
                 params[dummy]=glstate->color[dummy];
             break;
+        case GL_CURRENT_SECONDARY_COLOR:
+            for (dummy=0; dummy<4; dummy++)
+                params[dummy]=glstate->secondary[dummy];
+            break;
+        case GL_CURRENT_NORMAL:
+            for (dummy=0; dummy<3; dummy++)
+                params[dummy]=glstate->normal[dummy];
+            break;
+        case GL_CURRENT_TEXTURE_COORDS:
+            for (dummy=0; dummy<4; dummy++)
+                params[dummy]=glstate->texcoord[glstate->texture.active][dummy];
+            break;
         case GL_COLOR_WRITEMASK:
             memcpy(params, glstate->colormask, 4*sizeof(GLboolean));
             break;
@@ -616,8 +628,17 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_CURRENT_COLOR:
             memcpy(params, glstate->color, 4*sizeof(GLfloat));
-             break;
-        case GL_COLOR_WRITEMASK:
+            break;
+        case GL_CURRENT_SECONDARY_COLOR:
+            memcpy(params, glstate->secondary, 4*sizeof(GLfloat));
+            break;
+         case GL_CURRENT_NORMAL:
+            memcpy(params, glstate->normal, 3*sizeof(GLfloat));
+            break;
+         case GL_CURRENT_TEXTURE_COORDS:
+            memcpy(params, glstate->texcoord[glstate->texture.active], 4*sizeof(GLfloat));
+            break;
+         case GL_COLOR_WRITEMASK:
             for (int dummy=0; dummy<4; dummy++)
                 params[dummy] = glstate->colormask[dummy];
             break;

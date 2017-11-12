@@ -624,6 +624,26 @@ static int proxy_width = 0;
 static int proxy_height = 0;
 static GLint proxy_intformat = 0;
 
+int wrap_npot(GLenum wrap) {
+    switch(wrap) {
+        case 0: return 1;
+        case GL_CLAMP:
+        case GL_CLAMP_TO_EDGE:
+        case GL_CLAMP_TO_BORDER:
+            return 1;
+    }
+    return 0;
+}
+int minmag_npot(GLenum mag) {
+    switch(mag) {
+        case 0: return 1;
+        case GL_NEAREST:
+        case GL_LINEAR:
+            return 1;
+    }
+    return 0;
+}
+
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
@@ -839,7 +859,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     int forceclamp = 0;
     {
         GLsizei nheight = (hardext.npot==2)?height:npot(height), nwidth = (hardext.npot==2)?width:npot(width);
-        if(hardext.npot==1 && ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level<=0 && bound->max_level==0))) {
+        if((hardext.npot==1 && ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level<=0 && bound->max_level==0)))
+            || (glstate->filterpostupload==0 && hardext.esversion>1 && hardext.npot==1 && !bound->mipmap_auto && wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t) && minmag_npot(bound->min_filter) && minmag_npot(bound->mag_filter)) )
+        {
             nheight = height;
             nwidth = width;
             forceclamp = 1;
@@ -876,6 +898,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if(forceclamp) {
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gl4es_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            // check MIN/MAG Filter also?
         }
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
@@ -1543,7 +1566,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				break;
 			}
 			if (pname==GL_TEXTURE_MIN_FILTER) if (texture) texture->min_filter = param;
-			if (pname==GL_TEXTURE_MAG_FILTER) if (texture) texture->mag_filter = param;
+            if (pname==GL_TEXTURE_MAG_FILTER) if (texture) texture->mag_filter = param;
+            if(texture && !texture->valid) glstate->filterpostupload = 1;
 		    break;
 	    }
 	case GL_TEXTURE_WRAP_S:
@@ -1863,9 +1887,6 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 	}
 }
 
-extern GLuint current_fb;   // from framebuffers.c
-
-
 void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img) {
     DBG(printf("glGetTexImage(%s, %i, %s, %s, %p)\n", PrintEnum(target), level, PrintEnum(format), PrintEnum(type), img);)
     GLuint old_glbatch = glstate->gl_batch;
@@ -1933,7 +1954,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
 	} else {
 		// Setup an FBO the same size of the texture
         GLuint oldBind = bound->glname;
-        GLuint old_fbo = current_fb;
+        GLuint old_fbo = glstate->fbo.current_fb;
         GLuint fbo;
 	
         // if the texture is not RGBA or RGB or ALPHA, the "just attach texture to the fbo" trick will not work, and a full Blit has to be done
@@ -1958,7 +1979,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
             // blit the texture
             gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             gl4es_glClear(GL_COLOR_BUFFER_BIT);
-            gl4es_blitTexture(oldBind, width, height, nwidth, nheight, 1.0f, 1.0f, nwidth<<shrink, nheight<<shrink, 0, 0, BLIT_OPAQUE);
+            gl4es_blitTexture(oldBind, 0.f, 0.f, width, height, nwidth, nheight, 1.0f, 1.0f, nwidth<<shrink, nheight<<shrink, 0, 0, BLIT_OPAQUE);
             // Read the pixels!
             gl4es_glReadPixels(0, (nheight-height)<<shrink, width<<shrink, height<<shrink, format, type, img);	// using "full" version with conversion of format/type
             gl4es_glBindFramebuffer(GL_FRAMEBUFFER_OES, old_fbo);
@@ -2125,7 +2146,7 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 
 void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
 								GLsizei width,  GLsizei height,  GLint border) {
-     DBG(printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), current_fb=%u\n", target, level, internalformat, x, y, width, height, border, current_fb);)
+     DBG(printf("glCopyTexImage2D(0x%04X, %i, 0x%04X, %i, %i, %i, %i, %i), glstate->fbo.current_fb=%u\n", target, level, internalformat, x, y, width, height, border, glstate->fbo.current_fb);)
      //PUSH_IF_COMPILING(glCopyTexImage2D);
      GLuint old_glbatch = glstate->gl_batch;
      if (glstate->gl_batch || glstate->list.pending) {

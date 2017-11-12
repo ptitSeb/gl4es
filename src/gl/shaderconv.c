@@ -230,12 +230,13 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   else {
     while(*newptr!=0x0a) newptr++;
   }
-  const char* GLESUseFragHighp = "#extension GL_OES_fragment_high_precision : enable\n"; // does this one is needed?  
+  //const char* GLESUseFragHighp = "#extension GL_OES_fragment_precision_high : enable\n"; // does this one is needed?  
   const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
   char GLESFullHeader[512];
   int wanthighp = !fpeShader;
   if(wanthighp && !hardext.highp) wanthighp = 0;
-  sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
+  //sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
+  sprintf(GLESFullHeader, GLESHeader, "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
   int tmpsize = strlen(newptr)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)malloc(tmpsize);
   strcpy(Tmp, GLESFullHeader);

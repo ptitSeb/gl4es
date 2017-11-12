@@ -450,8 +450,9 @@ GLXContext gl4es_glXCreateContext(Display *display,
     if (globals4es.usefb && fbcontext_count++>0) {
         // don't create a new context, one FB is enough...
         GLXContext fake = malloc(sizeof(struct __GLXContextRec));
-    	memcpy(fake, fbContext, sizeof(struct __GLXContextRec));
-        fake->glstate = NewGLState(fbContext->glstate, fake->es2only); // let's create a new shared glsate
+        memcpy(fake, fbContext, sizeof(struct __GLXContextRec));
+        fake->shared = fbContext->glstate;
+        //fake->glstate = NewGLState(fbContext->glstate, fake->es2only); // let's create a new shared glsate
 
         DBG(printf(" => %p\n", fake);)
         return fake;
@@ -536,8 +537,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
     fake->abits= (visual==0)?8:(visual->depth!=32)?0:8,
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
-
-    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
+    fake->shared = (shareList)?shareList->glstate:NULL;
+    //fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
 
     /*
     // why unassign the context, it's not assigned yet
@@ -616,7 +617,8 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     GLXContext fake = malloc(sizeof(struct __GLXContextRec));
 	memset(fake, 0, sizeof(struct __GLXContextRec));
     fake->es2only = globales2;
-    fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
+    fake->shared = (shareList)?shareList->glstate:NULL;
+    //fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
 
 	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
@@ -694,7 +696,9 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         memset(fake, 0, sizeof(struct __GLXContextRec));
         fake->es2only = globales2;
 
-        fake->glstate = NewGLState((share_context)?share_context->glstate:NULL, fake->es2only);
+        fake->shared = (share_context)?share_context->glstate:NULL;
+
+        //fake->glstate = NewGLState((share_context)?share_context->glstate:NULL, fake->es2only);
         if(globals4es.usefb)
             fbContext = fake;
         // make an egl context here...
@@ -888,8 +892,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
                 if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
-                    DeleteGLState(context->glstate);
-                    context->glstate = NewGLState(NULL, context->es2only);
+                    if(context->glstate)
+                        DeleteGLState(context->glstate);
+                    context->glstate = NULL;
+                    context->shared = NULL;
                 }
 #endif
             } else {
@@ -966,6 +972,9 @@ Bool gl4es_glXMakeCurrent(Display *display,
     }
     
     if (context) {
+        if(!context->glstate) {
+            context->glstate = NewGLState(context->shared, context->es2only);
+        }
         context->drawable = drawable;
 
         ActivateGLState(context->glstate);

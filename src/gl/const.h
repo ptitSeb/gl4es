@@ -125,6 +125,7 @@
 #define GL_SECONDARY_COLOR_ARRAY          0x845E
 #define GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING 0x889C
 #define GL_COLOR_SUM                      0x8458
+#define GL_CURRENT_SECONDARY_COLOR        0x8459
 
 
 // pixel formats

@@ -8,6 +8,7 @@
 #define BLIT_COLOR      2
 
 void gl4es_blitTexture(GLuint texture, 
+    float sx, float sy,
     float width, float height, 
     float nwidth, float nheight, 
     float zoomx, float zoomy, 
