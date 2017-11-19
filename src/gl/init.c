@@ -28,6 +28,12 @@ static void fast_math() {
 }
 #endif
 
+#ifndef DEFAULT_ES
+// forcing GLES 1.1 for now
+#define DEFAULT_ES 1
+#endif
+
+
 void load_libs();
 void glx_init();
 
@@ -117,7 +123,7 @@ void initialize_gl4es() {
     }
     // automatic ES backend selection
     if(globals4es.es==0)
-        globals4es.es = 1;  // forcing GLES 1.1 for now
+        globals4es.es = DEFAULT_ES;
 
     char *env_gl = getenv("LIBGL_GL");
     if (env_gl && strcmp(env_gl, "15") == 0) {

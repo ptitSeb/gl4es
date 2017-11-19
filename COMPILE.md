@@ -70,4 +70,5 @@ If you are targeting a wide range of device, you should probably activate the wo
 1. Modify [Android.mk](Android.mk) to uncomment `#LOCAL_CFLAGS += -DNO_NO_INIT_CONSTRUCTOR` near the end of the file, to prevent the use of the library constructor.
 2. In your code, call `void initialize_gl4es()` as soon as possible after loading GL4ES, and before using any GL function.
 
+To try the GLES2 backend, you can compile gl4es with ES2 by default (so you don't have to mess with env. variable). Simply uncomment `#LOCAL_CFLAGS += -DDEFAULT_ES=2`, and create the GL Context as GLES2.
 
