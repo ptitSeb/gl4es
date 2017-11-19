@@ -13,7 +13,7 @@ Controls the Framebuffer output
 
 ##### LIBGL_ES
 Controls tje version of GLES to use
- * 0 : Default, using GLES 1.1 backend
+ * 0 : Default, using GLES 1.1 backend (unless built with DEFAULT_ES 2)
  * 1 : Use GLES 1.1 backend
  * 2 : Use GLES 2.0 backend (not finished, don't use for now)
 

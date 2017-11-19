@@ -1,6 +1,11 @@
 Version history
 ----
-##### Current version
+##### v1.0.4
+ * FPE is now usable. Most function are implemented
+ * ShaderConv in now usable. Basic GL 2 shader are supported
+ * Refactored Texture cache and handling, for better Tex1D/Tex3D/TexRectangle handling
+
+##### v1.0.2
  * Added GLES2 backend infrastructure
  * Begin GLES2 backend
  * Infrastructure for FPE (Fixed Pipeline Emulator)

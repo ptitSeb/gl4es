@@ -4,7 +4,7 @@ gl4es
 ![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status")
 
 This is a library providing OpenGL 1.x functionality for OpenGL ES 1.1 accelerated hardware.
-A new GLES2.0 backend also provide some limited OpenGL 2.x support
+A new GLES2.0 backend also provide some OpenGL 2.x support (and also support OpenGL 1.5 function, somtimes better then when using GLES 1.1 backend)
 
 This is a fork a glshim (https://github.com/lunixbochs/glshim). Go check this lib if you need things like RemoteGL or TinyGLES (for 100% software rendering).
 
@@ -25,12 +25,16 @@ Some know limitations:
  * Probably many other things
 
 Status of the GLES2 backend
- * This backend is at its early stage of development, so do not expect much from it
- * The FPE (Fixed Pipeline Emulator) is its early stage of implementation, so most OpenGL 1.5 drawing call will not work
+ * This backend is at its early stage of development, but is now usable
+ * The FPE (Fixed Pipeline Emulator) has most OpenGL 1.5 drawing call implemented
  * The Shader Conversion is really crude, so only simple shaders will work (especialy, the implicit conversion float <-> int is not handled)
+ * Lighting support double-side and color separation using GLES2
+ * FogCoord are supported, along with secondary color
  * An ES2 context should be usable (usefull for SDL2)
- * Only OpenRA has been tested for now (and it does work fine in game)
- * glxgears now works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
+ * A few OpenGL 2.x games have been tested, like OpenRA or GZDoom.
+ * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
+ * GL_TEXTURE_1D, GL_TEXTURE_3D and _GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions)
+ * Program that link only a GL_FRAGMENT or GL_VERTEX shader are not supported yet.
 
 ----
 
