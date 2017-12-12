@@ -298,7 +298,7 @@ GLvoid glGetObjectParameterivARB(GLhandleARB obj, GLenum pname, GLint *params);
 GLvoid glGetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog);
 GLvoid glGetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj);
 GLint glGetUniformLocationARB(GLhandleARB programObj, const GLcharARB *name);
-GLvoid glGetActiveUniformARB(GLhandleARB programObj, uint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name);
+GLvoid glGetActiveUniformARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name);
 GLvoid glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat *params);
 GLvoid glGetUniformivARB(GLhandleARB programObj, GLint location, GLint *params);
 GLvoid glGetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *source);
