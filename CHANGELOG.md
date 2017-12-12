@@ -1,5 +1,8 @@
 Version history
 ----
+##### Current version
+* Small optimisation on when using glDrawArray with GL_QUADS
+ 
 ##### v1.0.4
  * FPE is now usable. Most function are implemented
  * ShaderConv in now usable. Basic GL 2 shader are supported

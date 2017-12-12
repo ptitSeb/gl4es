@@ -1138,30 +1138,34 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         free_renderlist(list);
     } else {
         if (mode==GL_QUADS) {
+            // TODO: move those static in glstate
             static GLushort *indices = NULL;
             static int indcnt = 0;
             static int indfirst = 0;
-            if((indcnt < count) || (indfirst!=first)) {
-                if(indcnt < count) {
-                    indcnt = count;
+            int realfirst = ((first%4)==0)?0:first;
+            int realcount = count + (first-realfirst);
+            if((indcnt < realcount) || (indfirst!=realfirst)) {
+                if(indcnt < realcount) {
+                    indcnt = realcount;
                     if (indices) free(indices);
                     indices = (GLushort*)malloc(sizeof(GLushort)*(indcnt*3/2));
                 }
-                indfirst = first;
-                for (int i=0, j=0; i+3<indcnt; i+=4, j+=6) {
-                        indices[j+0] = indfirst + i+0;
-                        indices[j+1] = indfirst + i+1;
-                        indices[j+2] = indfirst + i+2;
+                indfirst = realfirst;
+                GLushort *p = indices;
+                for (int i=0, j=indfirst; i+3<indcnt; i+=4, j+=4) {
+                        *(p++) = j + 0;
+                        *(p++) = j + 1;
+                        *(p++) = j + 2;
 
-                        indices[j+3] = indfirst + i+0;
-                        indices[j+4] = indfirst + i+2;
-                        indices[j+5] = indfirst + i+3;
+                        *(p++) = j + 0;
+                        *(p++) = j + 2;
+                        *(p++) = j + 3;
                 }
             }
             // take care of vao elements, just in case
             glbuffer_t *old_vao_elements = glstate->vao->elements;
             glstate->vao->elements = NULL;
-            gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices);
+            gl4es_glDrawElements(GL_TRIANGLES, count*3/2, GL_UNSIGNED_SHORT, indices+(first-indfirst)*3/2);
             glstate->vao->elements = old_vao_elements;
             return;
         }
