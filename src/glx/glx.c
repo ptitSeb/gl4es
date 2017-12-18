@@ -1373,7 +1373,10 @@ GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config,
 
 void gl4es_glXSwapInterval(int interval) {
     DBG(printf("glXSwapInterval(%i)\n", interval);)
-#ifdef USE_FBIO
+#ifdef ANDROID
+    LOAD_EGL(eglSwapInterval);
+    egl_eglSwapInterval(eglDisplay, swap_interval);
+#elif defined(USE_FBIO)
     if (! globals4es.vsync)
         LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
     swap_interval = interval;
