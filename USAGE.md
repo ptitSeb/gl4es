@@ -220,3 +220,8 @@ Choose OpenGL version target for emulation
  * 15: Target OpenGL 1.5
  * 20: Target OpenGL 2.0 (with GLSL 1.10)
  * 21: Target OpenGL 2.1 (with GLSL 1.20)
+
+##### LIBGL_NOHIGHP
+Usage of highp precision in fragment shader (ES2 backend only)
+ * 0 : Default, use highp if available
+ * 1 : Disable usage of highp in Fragment shaders

@@ -161,17 +161,19 @@ void GetHardwareExtensions(int notest)
     S("GL_OES_texture_float", floattex, 0);
 
     if (hardext.esversion>1) {
-        S("GL_OES_fragment_precision_high", highp, 1);
-        if(!hardext.highp) {
-            // check if highp is supported anyway
-            LOAD_GLES2(glGetShaderPrecisionFormat);
-            if(gles_glGetShaderPrecisionFormat) {
-                GLint range[2] = {0};
-                GLint precision=0;
-                gles_glGetShaderPrecisionFormat(GL_FRAGMENT_SHADER, GL_HIGH_FLOAT, range, &precision);
-                if(!(range[0]==0 && range[1]==0 && precision==0)) {
-                    hardext.highp = 2;  // no need to declare #entension here
-                    SHUT(LOGD("LIBGL: high precision float in fragment shader available and used\n"));
+        if(!globals4es.nohighp) {
+            S("GL_OES_fragment_precision_high", highp, 1);
+            if(!hardext.highp) {
+                // check if highp is supported anyway
+                LOAD_GLES2(glGetShaderPrecisionFormat);
+                if(gles_glGetShaderPrecisionFormat) {
+                    GLint range[2] = {0};
+                    GLint precision=0;
+                    gles_glGetShaderPrecisionFormat(GL_FRAGMENT_SHADER, GL_HIGH_FLOAT, range, &precision);
+                    if(!(range[0]==0 && range[1]==0 && precision==0)) {
+                        hardext.highp = 2;  // no need to declare #entension here
+                        SHUT(LOGD("LIBGL: high precision float in fragment shader available and used\n"));
+                    }
                 }
             }
         }

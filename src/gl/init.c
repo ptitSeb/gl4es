@@ -150,6 +150,8 @@ void initialize_gl4es() {
     if (env_notest && strcmp(env_notest, "1") == 0) {
 		gl4es_notest = 1;
     }
+    env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
+
     GetHardwareExtensions(gl4es_notest);
 
     env(LIBGL_RECYCLEFBO, globals4es.recyclefbo, "Recycling of FBO enabled");
@@ -258,7 +260,7 @@ void initialize_gl4es() {
     env(LIBGL_NOERROR, globals4es.noerror, "glGetError() always return GL_NOERROR");
     env(LIBGL_SILENTSTUB, globals4es.silentstub, "Stub/non present functions are not printed");
     env(LIBGL_VABGRA, globals4es.vabgra, "Export GL_ARB_vertex_array_bgra extension");
-    
+
     char *env_version = getenv("LIBGL_VERSION");
     if (env_version) {
         SHUT(LOGD("LIBGL: Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version));
