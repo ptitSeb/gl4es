@@ -25,17 +25,20 @@ static const char *lib_ext[] = {
 static const char *gles2_lib[] = {
     "libGLESv2_CM",
     "libGLESv2",
+    "libbrcmGLESv2",
     NULL
 };
 
 static const char *gles_lib[] = {
     "libGLESv1_CM",
     "libGLES_CM",
+    "libbrcmGLESv1_CM",
     NULL
 };
 
 static const char *egl_lib[] = {
     "libEGL",
+    "libbrcmEGL",
     NULL
 };
 
