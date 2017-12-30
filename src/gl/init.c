@@ -15,7 +15,7 @@ globals4es_t globals4es;
 
 #define SHUT(a) if(!globals4es.nobanner) a
 
-#ifdef PANDORA
+#if defined(PANDORA) || defined(CHIP)
 static void fast_math() {
   // enable Cortex A8 RunFast
    int v = 0;
@@ -280,7 +280,7 @@ void initialize_gl4es() {
     }
     char *env_fastmath = getenv("LIBGL_FASTMATH");
     if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
-#ifdef PANDORA
+#if defined(PANDORA) || defined(CHIP)
         SHUT(LOGD("LIBGL: Enable FastMath for cortex-a8\n"));
         fast_math();
 #else
