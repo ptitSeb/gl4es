@@ -233,26 +233,33 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	noerrorShim();
 	if(glstate->list.active && glstate->list.pending)
 		flush();
-    if ((!width && !height) || (bitmap==0)) {
-		if (glstate->list.active) {
-			if (glstate->list.active->raster)
-				glstate->list.active = extend_renderlist(glstate->list.active);		// already a raster in the list, create a new one
-			rasterlist_t *r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
-			memset(r, 0, sizeof(rasterlist_t));
-            r->shared = (int*)malloc(sizeof(int)); 
-            *r->shared = 0;
-			r->texture = 0;
-			r->xorig = 0;
-			r->yorig = 0;
-			r->zoomx = 1.0f;
-			r->zoomy = 1.0f;
-			r->xmove = xmove;
-			r->ymove = ymove;
-			
-		} else {
-			glstate->raster.rPos.x += xmove;
-			glstate->raster.rPos.y += ymove;
+	if(glstate->list.active) {
+		renderlist_t* list = glstate->list.active;
+		if (!list->bitmaps) {
+			list->bitmaps = (bitmaps_t*)malloc(sizeof(bitmaps_t));
+			memset(list->bitmaps, 0, sizeof(bitmaps_t));
+			list->bitmaps->shared = (int*)malloc(sizeof(int)); 
+            *list->bitmaps->shared = 0;
 		}
+		if(list->bitmaps->count == list->bitmaps->cap) {
+			list->bitmaps->cap += 8;
+			list->bitmaps->list = (bitmap_list_t*)realloc(list->bitmaps->list, list->bitmaps->cap*sizeof(bitmap_list_t));
+		}
+		bitmap_list_t *l = &list->bitmaps->list[list->bitmaps->count++];
+		l->width = width;
+		l->height = height;
+		l->xorig = xorig;
+		l->yorig = yorig;
+		l->xmove = xmove;
+		l->ymove = ymove;
+		int sz = ((height+7)/8)*width;
+		l->bitmap = (GLubyte*)malloc(sz);
+		memcpy(l->bitmap, bitmap, sz);
+		return;
+	}
+    if ((!width && !height) || (bitmap==0)) {
+		glstate->raster.rPos.x += xmove;
+		glstate->raster.rPos.y += ymove;
         return;
     }
 
@@ -294,19 +301,12 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 
 	rasterlist_t *r;
 	int create = 0;
-	if (glstate->list.active) {
-		NewStage(glstate->list.active, STAGE_RASTER);
-		r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
-		memset(r, 0, sizeof(rasterlist_t));
-        r->shared = (int*)malloc(sizeof(int));
-        *r->shared = 0;
-	} else {
-		r = &glstate->raster.immediate;
-		if(r->texture && (width>r->nwidth || height>r->nheight)) {
-			gl4es_glDeleteTextures(1, &r->texture);
-			r->texture = 0;
+	r = &glstate->raster.immediate;
+	if(r->texture && (width>r->nwidth || height>r->nheight)) {
+		gl4es_glDeleteTextures(1, &r->texture);
+		r->texture = 0;
 		}
-	}
+
 	raster_to_texture(r);
 	r->xmove = xmove;
 	r->ymove = ymove;
@@ -315,17 +315,18 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 	r->bitmap = true;
 	r->zoomx = glstate->raster.raster_zoomx;
 	r->zoomy = glstate->raster.raster_zoomy;
-	if (!(glstate->list.active)) {
-		render_raster_list(r);
-		/*gl4es_glDeleteTextures(1, &r->texture);
-		r->texture = 0;*/
-	}
+	render_raster_list(r);
 }
 
 void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
                   GLenum type, const GLvoid *data) {
     GLubyte *pixels, *from, *to;
     GLvoid *dst = NULL;
+
+	if(type==GL_BITMAP) {
+		gl4es_glBitmap(width, height, 0, 0, 0, 0, data);
+		return;
+	}
 
     noerrorShim();
 	if(glstate->list.active && glstate->list.pending)

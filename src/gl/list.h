@@ -15,6 +15,7 @@ typedef enum {
     STAGE_ACTIVETEX,
 	STAGE_BINDTEX,
 	STAGE_RASTER,
+    STAGE_BITMAP,
 	STAGE_MATERIAL,
     STAGE_COLOR_MATERIAL,
 	STAGE_LIGHT,
@@ -40,6 +41,7 @@ static int StageExclusive[] = {
     1,  // STAGE_ACTIVETEX
 	1,  // STAGE_BINDTEX
 	1,  // STAGE_RASTER
+    0,  // STAGE_BITMAP
 	0,  // STAGE_MATERIAL
     1,  // STAGE_COLOR_MATERIAL
 	0,  // STAGE_LIGHT
@@ -108,6 +110,23 @@ typedef struct _call_list_t {
     packed_call_t **calls;
 } call_list_t;
 
+typedef struct {
+	GLsizei width;
+	GLsizei height;
+	GLfloat xorig;
+	GLfloat yorig;
+	GLfloat	xmove;
+	GLfloat ymove;
+    GLubyte *bitmap;
+} bitmap_list_t;
+
+typedef struct {
+    int         count;
+    int         cap;
+    bitmap_list_t *list;
+    int     *shared;
+} bitmaps_t;
+
 typedef struct _renderlist_t {
     unsigned long len;
     unsigned long ilen;
@@ -137,6 +156,8 @@ typedef struct _renderlist_t {
     int maxtex;
 	
 	rasterlist_t *raster;
+
+    bitmaps_t *bitmaps;
 	
 	liststage_t	stage;
 	

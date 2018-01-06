@@ -44,6 +44,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->raster)
         return false;
+    if (list->bitmaps)
+        return false;
     if (list->pushattribute)
         return false;
     if (list->popattribute)
@@ -587,6 +589,9 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             if (list->raster) {
                 (*list->raster->shared)++;
             }
+            if (list->bitmaps) {
+                (*list->bitmaps->shared)++;
+            }
             // Update other batchstate states
             if(glstate->gl_batch) {
                 if (list->set_tmu) {
@@ -673,8 +678,18 @@ void free_renderlist(renderlist_t *list) {
         if (list->raster && !(*(list->raster->shared)--)) {
 			if (list->raster->texture)
 				gl4es_glDeleteTextures(1, &list->raster->texture);
+            free(list->raster->shared);
 			free(list->raster);
 		}
+
+        if(list->bitmaps && !(*(list->bitmaps->shared)--)) {
+            for(int i=0; i<list->bitmaps->count; i++)
+                if(list->bitmaps->list[i].bitmap)
+                    free(list->bitmaps->list[i].bitmap);
+            free(list->bitmaps->list);
+            free(list->bitmaps->shared);
+            free(list->bitmaps);
+        }
 
         next = list->next;
         free(list);
@@ -865,7 +880,13 @@ void draw_renderlist(renderlist_t *list) {
             //glBitmap(r->width, r->height, r->xorig, r->yorig, r->xmove, r->ymove, r->raster);
             render_raster_list(list->raster);
         }
-			
+		// bitmaps
+        if (list->bitmaps) {
+            for (int i=0; i<list->bitmaps->count; i++) {
+                bitmap_list_t *l = &list->bitmaps->list[i];
+                gl4es_glBitmap(l->width, l->height, l->xorig, l->yorig, l->xmove, l->ymove, l->bitmap);
+            }
+        }
 
         if (list->material) {
             khash_t(material) *map = list->material;

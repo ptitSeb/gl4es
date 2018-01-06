@@ -199,6 +199,7 @@
 #define GL_3_BYTES              0x1408
 #define GL_4_BYTES              0x1409
 #define GL_DOUBLE               0x140A
+#define GL_BITMAP               0x1A00
 
 #define GL_COMPILE              0x1300
 #define GL_COMPILE_AND_EXECUTE  0x1301
