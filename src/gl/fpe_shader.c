@@ -360,7 +360,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 ShadAppend(buff);
                 need_lightproduct[0][i] = 1;
                 if(twosided) {
-                    sprintf(buff, "back_dd = (nVP<0.)(-nVP * %s%d.diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
+                    sprintf(buff, "back_dd = (nVP<0.)?(-nVP * %s%d.diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
                     ShadAppend(buff);
                     need_lightproduct[1][i] = 1;
                 }
