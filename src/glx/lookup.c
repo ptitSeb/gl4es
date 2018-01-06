@@ -43,7 +43,7 @@ void glXStub(void *x, ...) {
     return;
 }
 
-EXPORT void *gl4es_glXGetProcAddress(const char *name) {
+void *gl4es_glXGetProcAddress(const char *name) {
     LOAD_EGL(eglGetProcAddress);
 #ifdef DEBUG_ADDRESS
     static int cnt = 0;
