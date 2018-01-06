@@ -1025,6 +1025,8 @@ void gl4es_glXSwapBuffers(Display *display,
     if (glstate->gl_batch || glstate->list.active){
         flush();
     }
+    if (glstate->raster.bm_drawing)
+        bitmap_flush();
     EGLSurface surface = eglSurface;
     int PBuffer = 0;
     {

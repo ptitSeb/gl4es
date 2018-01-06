@@ -45,5 +45,7 @@ void gl4es_glGetPixelMapuiv(GLenum map, GLuint *data);
 void gl4es_glGetPixelMapusv(GLenum map, GLushort *data);
 
 void render_raster_list(rasterlist_t* raster);
+
+void bitmap_flush();
 	
 #endif

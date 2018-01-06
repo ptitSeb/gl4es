@@ -54,6 +54,8 @@ void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     PUSH_IF_COMPILING(glViewport);
     LOAD_GLES(glViewport);
 	if(glstate->raster.viewport.x!=x || glstate->raster.viewport.y!=y || glstate->raster.viewport.width!=width || glstate->raster.viewport.height!=height) {
+		if (glstate->raster.bm_drawing)
+			bitmap_flush();
 		gles_glViewport(x, y, width, height);
 		glstate->raster.viewport.x = x;
 		glstate->raster.viewport.y = y;
@@ -224,6 +226,83 @@ void raster_to_texture(rasterlist_t *r)
     glstate->gl_batch = state_batch;
 }
 
+void bitmap_flush() {
+	if(!glstate->raster.bm_drawing)
+		return;
+	// draw actual bitmap
+	int old_tex_unit = glstate->texture.active;
+	if(old_tex_unit)
+		gl4es_glActiveTexture(GL_TEXTURE0);
+
+	gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
+	GLuint old_tex = (bound)?bound->glname:0;
+	GLuint old_active = glstate->enable.texture[0];
+
+	if(IS_TEX1D(old_active)) gl4es_glDisable(GL_TEXTURE_1D);
+	if(!IS_TEX2D(old_active)) gl4es_glEnable(GL_TEXTURE_2D);
+	if(IS_TEX3D(old_active)) gl4es_glDisable(GL_TEXTURE_3D);
+	if(IS_TEXTURE_RECTANGLE(old_active)) gl4es_glDisable(GL_TEXTURE_RECTANGLE_ARB);
+	if(IS_CUBE_MAP(old_active)) gl4es_glDisable(GL_TEXTURE_CUBE_MAP);
+
+	if(!glstate->raster.bm_texture) {
+		gl4es_glGenTextures(1, &glstate->raster.bm_texture);
+		gl4es_glBindTexture(GL_TEXTURE_2D, glstate->raster.bm_texture);
+
+		gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0); // this is to be sure texture is not npot'ed ...
+		gl4es_glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);	// ... if not needed
+	} else {
+		gl4es_glBindTexture(GL_TEXTURE_2D, glstate->raster.bm_texture);
+	}
+	if (glstate->raster.bm_tnwidth < glstate->raster.bm_width || glstate->raster.bm_tnheight < glstate->raster.bm_height) {
+		glstate->raster.bm_tnwidth = (hardext.npot)?glstate->raster.bm_width:npot(glstate->raster.bm_width);
+		glstate->raster.bm_tnheight = (hardext.npot)?glstate->raster.bm_height:npot(glstate->raster.bm_height);
+		gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, glstate->raster.bm_tnwidth, glstate->raster.bm_tnheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	}
+	int sx = glstate->raster.bm_x1;
+	int ex = glstate->raster.bm_x2-glstate->raster.bm_x1;
+	int sy = glstate->raster.bm_y1;
+	int ey = glstate->raster.bm_y2-glstate->raster.bm_y1;
+	if(sx==0 && sy==0 && ex==glstate->raster.bm_width && ey==glstate->raster.bm_height) {
+		gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, glstate->raster.bm_width, glstate->raster.bm_height, GL_RGBA, GL_UNSIGNED_BYTE, glstate->raster.bitmap);
+	} else {
+		int alloc = 4*ex*ey;
+		gl4es_scratch(alloc);
+		for (int i=0; i<ey; i++)
+			memcpy(glstate->scratch+4*i*ex, glstate->raster.bitmap+4*(sx+(sy+i)*glstate->raster.bm_width), ex*4);
+		gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, sx, sy, ex, ey, GL_RGBA, GL_UNSIGNED_BYTE, glstate->scratch);
+	}
+
+	gl4es_blitTexture(
+		glstate->raster.bm_texture, 
+		sx, sy,
+		ex, ey,
+		glstate->raster.bm_tnwidth , glstate->raster.bm_tnheight,
+		1.f, 1.f, 
+		0, 0,	//vp is default here
+		sx, sy,
+		BLIT_ALPHA
+	);
+
+	glstate->raster.bm_drawing = 0;
+
+	if(IS_TEX1D(old_active)) gl4es_glEnable(GL_TEXTURE_1D);
+	if(!IS_TEX2D(old_active)) gl4es_glDisable(GL_TEXTURE_2D);
+	if(IS_TEX3D(old_active)) gl4es_glEnable(GL_TEXTURE_3D);
+	if(IS_TEXTURE_RECTANGLE(old_active)) gl4es_glEnable(GL_TEXTURE_RECTANGLE_ARB);
+	if(IS_CUBE_MAP(old_active)) gl4es_glEnable(GL_TEXTURE_CUBE_MAP);
+
+	if (old_tex!=glstate->raster.bm_texture)
+		gl4es_glBindTexture(GL_TEXTURE_2D, old_tex);
+
+	if(old_tex_unit)
+		gl4es_glActiveTexture(GL_TEXTURE0 + old_tex_unit);
+}
+
+
 void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
@@ -263,59 +342,101 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
         return;
     }
 
-    init_raster(width, height);
+	// get start/end of drawed pixel
+	float zoomx = glstate->raster.raster_zoomx;
+	float zoomy = glstate->raster.raster_zoomy;
+	int sx, sy, ex, ey;
+	sx = 0;
+	sy = 0;
+	ex = width*zoomx;
+	ey = height*zoomy;
+
+	int rx = glstate->raster.rPos.x-xorig;
+	int ry = glstate->raster.rPos.y-yorig;
+
+	if (rx+sx<0) sx = -rx;
+	if (ry+sy<0) sy = -ry;
+	if (rx+ex>glstate->raster.viewport.width) ex = glstate->raster.viewport.width-rx;
+	if (ry+ey>glstate->raster.viewport.height) ey = glstate->raster.viewport.height-ry;
+	if( ex<sx) {
+		int tmp =ex;
+		ex = sx;
+		sx = tmp;
+	}
+	if( ey<sy) {
+		int tmp =ey;
+		ey = sy;
+		sy = tmp;
+	}
+	if (ex<0 || ey<0 || sx<0 || sy<0 || sx==ex || sy==ey)	// nothing to draw, no changes
+		return;
+	// create/realloc buffer if needed
+	if(glstate->raster.bm_alloc < glstate->raster.viewport.width*glstate->raster.viewport.height*4) {
+		if(glstate->raster.bitmap)
+			free(glstate->raster.bitmap);
+		glstate->raster.bm_alloc = glstate->raster.viewport.width*glstate->raster.viewport.height*4;
+		glstate->raster.bitmap = (GLubyte*)malloc(glstate->raster.bm_alloc);
+	}
+	// clear buffer if needed
+	if(!glstate->raster.bm_drawing) {
+		memset(glstate->raster.bitmap, 0, glstate->raster.viewport.width*glstate->raster.viewport.height*4);
+		glstate->raster.bm_width = glstate->raster.viewport.width;
+		glstate->raster.bm_height = glstate->raster.viewport.height;
+		glstate->raster.bm_x1 = glstate->raster.bm_width;
+		glstate->raster.bm_y1 = glstate->raster.bm_height;
+		glstate->raster.bm_x2 = 0;
+		glstate->raster.bm_y2 = 0;
+	}
+	glstate->raster.bm_x1 = min(glstate->raster.bm_x1, rx+sx);
+	glstate->raster.bm_y1 = min(glstate->raster.bm_y1, ry+sy);
+	glstate->raster.bm_x2 = max(glstate->raster.bm_x2, rx+ex);
+	glstate->raster.bm_y2 = max(glstate->raster.bm_y2, ry+ey);
+	// draw the scaled bitmap
+	int pixtrans=raster_need_transform();
     const GLubyte *from;
     GLubyte *to;
-    int x, y;
-	int pixtrans=raster_need_transform();
-	
+	GLubyte col[4];
+	for (int i=0; i<4; i++)
+		col[i] = glstate->color[i]*255.f;
     // copy to pixel data
 	if (pixtrans) {
-        for (y = 0; y < height; y++) {
-            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
-            from = bitmap + (y * ((width+7)/8));
-            for (x = 0; x < width; x++) {
-                GLubyte b = from[(x / 8)];
-                int p = (b & (1 << (7 - (x % 8)))) ? 255 : 0;
+        for (int y = sy; y < ey; ++y) {
+			int by = floor(y/zoomy);
+            from = bitmap + (by * ((width+7)/8));
+			to = glstate->raster.bitmap + 4 * (GLint)(rx+((ry+y) * glstate->raster.bm_width));
+            for (int x = sx; x < ex; ++x) {
+				int bx = floor(x/zoomx);
+                GLubyte b = from[(bx / 8)];
+                int p = (b & (1 << (7 - (bx % 8)))) ? 1 : 0;
                 // r, g, b, a
-				*to++ = raster_transform(p, 0);
-				*to++ = raster_transform(p, 1);
-				*to++ = raster_transform(p, 2);
-				*to++ = raster_transform(p, 3);
+				*to++ = raster_transform(col[0]*p, 0);
+				*to++ = raster_transform(col[1]*p, 1);
+				*to++ = raster_transform(col[2]*p, 2);
+				*to++ = raster_transform(col[3]*p, 3);
 			}
         }
 	} else {
-        for (y = 0; y < height; y++) {
-            to = glstate->raster.data + 4 * (GLint)(y * glstate->raster.raster_width);
-            from = bitmap + (y * ((width+7)/8));
-            for (x = 0; x < width; x++) {
-                GLubyte b = from[(x / 8)];
-                int p = (b & (1 << (7 - (x % 8)))) ? 255 : 0;
-				*to++ = p;
-				*to++ = p;
-				*to++ = p;
-				*to++ = p;
+        for (int y = sy; y < ey; ++y) {
+			int by = floor(y/zoomy);
+            from = bitmap + (by * ((width+7)/8));
+			to = glstate->raster.bitmap + 4 * (GLint)(rx+((ry+y) * glstate->raster.bm_width));
+            for (int x = sx; x < ex; ++x) {
+				int bx = floor(x/zoomx);
+                GLubyte b = from[(bx / 8)];
+                int p = (b & (1 << (7 - (bx % 8)))) ? 1 : 0;
+				*to++ = col[0]*p;
+				*to++ = col[1]*p;
+				*to++ = col[2]*p;
+				*to++ = col[3]*p;
 			}
         }
     }
 
-	rasterlist_t *r;
-	int create = 0;
-	r = &glstate->raster.immediate;
-	if(r->texture && (width>r->nwidth || height>r->nheight)) {
-		gl4es_glDeleteTextures(1, &r->texture);
-		r->texture = 0;
-		}
-
-	raster_to_texture(r);
-	r->xmove = xmove;
-	r->ymove = ymove;
-	r->xorig = xorig;
-	r->yorig = yorig;
-	r->bitmap = true;
-	r->zoomx = glstate->raster.raster_zoomx;
-	r->zoomy = glstate->raster.raster_zoomy;
-	render_raster_list(r);
+	// finished, move...
+	glstate->raster.rPos.x += xmove;
+	glstate->raster.rPos.y += ymove;
+	// draw in buffer...
+	glstate->raster.bm_drawing = 1;
 }
 
 void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
@@ -331,6 +452,9 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     noerrorShim();
 	if(glstate->list.active && glstate->list.pending)
 		flush();
+
+    if (glstate->raster.bm_drawing)
+        bitmap_flush();
 
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%s, type=%s, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	glstate->raster.rPos.x, glstate->raster.rPos.y, width, height, PrintEnum(format), PrintEnum(type), glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/

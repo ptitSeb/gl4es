@@ -30,18 +30,17 @@ void gl4es_blitTexture_gles1(GLuint texture,
 
     gl4es_glDisable(GL_LIGHTING);
     gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     switch (mode) {
         case BLIT_OPAQUE:
             gl4es_glDisable(GL_ALPHA_TEST);
             gl4es_glDisable(GL_BLEND);
-            gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             break;
         case BLIT_ALPHA:
 			gl4es_glEnable(GL_ALPHA_TEST);
 			gl4es_glAlphaFunc(GL_GREATER, 0.0f);
             break;
         case BLIT_COLOR:
-            gl4es_glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             break;
     }
 
@@ -49,7 +48,7 @@ void gl4es_blitTexture_gles1(GLuint texture,
         LOAD_GLES_OES(glDrawTexf);
         LOAD_GLES(glTexParameteriv);
         // setup texture first
-        int sourceRect[4] = {0, 0, width, height};
+        int sourceRect[4] = {sx, sy, width, height};
         gles_glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, sourceRect);
         // take x/y of ViewPort into account
         float dx = (customvp)?0.0f:glstate->raster.viewport.x;
@@ -165,23 +164,19 @@ const char _blit_fsh[] = "#version 100                  \n" \
 const char _blit_vsh_alpha[] = "#version 100            \n" \
 "attribute highp vec2 aPosition;                        \n" \
 "attribute highp vec2 aTexCoord;                        \n" \
-"attribute lowp vec4 aColor;                            \n" \
 "varying mediump vec2 vTexCoord;                        \n" \
-"varying lowp vec4 vColor;                              \n" \
 "void main(){                                           \n" \
 "gl_Position = vec4(aPosition.x, aPosition.y, 0.0, 1.0);\n" \
 "vTexCoord = aTexCoord;                                 \n" \
-"vColor = aColor;                                       \n" \
 "}                                                      \n";
 
 const char _blit_fsh_alpha[] = "#version 100            \n" \
 "uniform sampler2D uTex;                                \n" \
 "varying mediump vec2 vTexCoord;                        \n" \
-"varying lowp vec4 vColor;                              \n" \
 "void main(){                                           \n" \
 "lowp vec4 p = texture2D(uTex, vTexCoord);              \n" \
 "if (p.a==0.0) discard;                                 \n" \
-"gl_FragColor = p*vColor;                               \n" \
+"gl_FragColor = p;                                      \n" \
 "}                                                      \n";
 
 void gl4es_blitTexture_gles2(GLuint texture,
@@ -293,7 +288,6 @@ void gl4es_blitTexture_gles2(GLuint texture,
         glstate->blit->program_alpha = gles_glCreateProgram();
         gles_glBindAttribLocation( glstate->blit->program_alpha, 0, "aPosition" );
         gles_glBindAttribLocation( glstate->blit->program_alpha, 1, "aTexCoord" );
-        gles_glBindAttribLocation( glstate->blit->program_alpha, 2, "aColor" );
         gles_glAttachShader( glstate->blit->program_alpha, glstate->blit->pixelshader_alpha );
         gles_glAttachShader( glstate->blit->program_alpha, glstate->blit->vertexshader_alpha );
         gles_glLinkProgram( glstate->blit->program_alpha );

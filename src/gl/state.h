@@ -163,6 +163,16 @@ typedef struct {
     GLsizei raster_nwidth;
     GLsizei raster_nheight;
     GLint	raster_x1, raster_x2, raster_y1, raster_y2;
+    // bitmap specific datas
+    int     bm_drawing; // flag if some bitmap are there
+    int     bm_x1, bm_y1;
+    int     bm_x2, bm_y2;
+    GLubyte *bitmap;
+    GLsizei bm_alloc;
+    GLsizei bm_width, bm_height;
+    GLuint  bm_texture;
+    int     bm_tnwidth, bm_tnheight;
+
 } raster_state_t;
 
 
@@ -410,6 +420,8 @@ typedef struct {
     glesblit_t          *blit;
     fbo_t               fbo;
     int                 filterpostupload;   // does the program seems to set filter after uploading texture?
+    int                 scratch_alloc;
+    void*               scratch;
 } glstate_t;
 
 #endif

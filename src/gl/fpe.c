@@ -931,13 +931,6 @@ void realize_blitenv(int alpha) {
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
             }
         }
-        if(i==2 && alpha) {
-            if(memcmp(v->current, glstate->color, 4*sizeof(GLfloat))) {
-                memcpy(glstate->gleshard.vertexattrib[i].current, glstate->color, 4*sizeof(GLfloat));
-                LOAD_GLES2(glVertexAttrib4fv);
-                gles_glVertexAttrib4fv(i, glstate->gleshard.vertexattrib[i].current);
-            }
-        }
     }
 }
 

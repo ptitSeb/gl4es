@@ -446,6 +446,8 @@ static inline void noerrorShim() {
 	errorShim(GL_NO_ERROR);
 }
 
+void gl4es_scratch(int alloc);
+
 #include "defines.h"
 
 #include "render.h"

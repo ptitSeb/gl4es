@@ -297,6 +297,15 @@ void DeleteGLState(void* oldstate) {
     // fbo
     if(state->fbo.tex_fbo)
         free(state->fbo.tex_fbo);
+    // raster / bitmap
+    if(state->raster.data)
+        free(state->raster.data);
+    if(state->raster.bitmap)
+        free(state->raster.bitmap);
+    // TODO: delete the "immediate" stuff and bitmap texture?
+    // scratch buffer
+    if(state->scratch)
+        free(state->scratch);
     // free blit GLES2 stuff
     if(state->blit) {
         //TODO: check if should delete GL object too
@@ -984,6 +993,9 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         
         return;
      } else {
+        if (glstate->raster.bm_drawing)
+            bitmap_flush();
+
 		LOAD_GLES_FPE(glDrawElements);
 		LOAD_GLES_FPE(glNormalPointer);
 		LOAD_GLES_FPE(glVertexPointer);
@@ -1097,6 +1109,10 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         noerrorShim();
         return;
     }
+
+    if (glstate->raster.bm_drawing)
+        bitmap_flush();
+
     // special case for (very) large GL_QUADS array
     if ((mode==GL_QUADS) && (count>4*8000)) {
         // split the array in manageable slice
@@ -1263,6 +1279,9 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *cou
         if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
         else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
 
+        if (glstate->raster.bm_drawing)
+            bitmap_flush();
+
         LOAD_GLES_FPE(glNormalPointer);
         LOAD_GLES_FPE(glVertexPointer);
         LOAD_GLES_FPE(glColorPointer);
@@ -1351,6 +1370,9 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
     {
         if(mode==GL_QUAD_STRIP) mode=GL_TRIANGLE_STRIP;
         else if(mode==GL_POLYGON) mode=GL_TRIANGLE_FAN;
+
+        if (glstate->raster.bm_drawing)
+            bitmap_flush();
 
         LOAD_GLES_FPE(glNormalPointer);
         LOAD_GLES_FPE(glVertexPointer);
@@ -2246,3 +2268,12 @@ void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean
     gles_glColorMask(red, green, blue, alpha);
 }
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) AliasExport("gl4es_glColorMask");
+
+void gl4es_scratch(int alloc) {
+    if(glstate->scratch_alloc<alloc) {
+        if(glstate->scratch)
+            free(glstate->scratch);
+        glstate->scratch = malloc(alloc);
+        glstate->scratch_alloc = alloc;
+    }
+}

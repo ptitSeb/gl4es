@@ -965,6 +965,9 @@ void draw_renderlist(renderlist_t *list) {
         
         final_colors = NULL;
 
+        if(glstate->raster.bm_drawing)
+            bitmap_flush();
+
         if (list->color) {
             gles_glEnableClientState(GL_COLOR_ARRAY);
             glstate->clientstate.color_array = 1;
