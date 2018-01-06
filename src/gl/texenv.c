@@ -517,7 +517,7 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     return;
 }
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
-    LOAD_GLES(glGetTexEnviv);
+ //   LOAD_GLES(glGetTexEnviv);
     if (glstate->list.pending) flush();
     if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
