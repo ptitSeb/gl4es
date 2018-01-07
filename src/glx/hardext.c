@@ -34,8 +34,6 @@ void GetHardwareExtensions(int notest)
     memset(&hardext, 0, sizeof(hardext));
     hardext.maxtex = 2;
     hardext.maxsize = 2048;
-    hardext.readf = GL_RGBA;
-    hardext.readt = GL_UNSIGNED_BYTE;
 
     hardext.esversion = globals4es.es;
     
@@ -205,12 +203,6 @@ void GetHardwareExtensions(int notest)
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
     SHUT(LOGD("LIBGL: Texture Units: %d(%d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardext.maxlights, hardext.maxplanes));
-#ifndef PANDORA
-// The IMPLEMENTATION_COLOR_READ is pretty buggy on the Pandora, so disabling it (it's just use to blit PBuffer to Drawable in glx.c)
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &hardext.readf);
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &hardext.readt);
-    SHUT(LOGD("LIBGL: Implementation Read is %s/%s\n", PrintEnum(hardext.readf), PrintEnum(hardext.readt)));
-#endif
 
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));

@@ -2056,7 +2056,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 		
 	readfboBegin();
     if ((format == GL_RGBA && type == GL_UNSIGNED_BYTE)     // should not use default GL_RGBA on Pandora as it's very slow...
-       || (format == hardext.readf && type == hardext.readt)    // use the IMPLEMENTATION_READ too...
+       || (format == glstate->readf && type == glstate->readt)    // use the IMPLEMENTATION_READ too...
        || (format == GL_DEPTH_COMPONENT && type == GL_FLOAT))   // this one will probably fail, as DEPTH is not readable on most GLES hardware 
     {
         // easy passthru
@@ -2067,7 +2067,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
     }
     // grab data in GL_RGBA format
     int use_bgra = 0;
-    if(hardext.readf==GL_BGRA && hardext.readt==GL_UNSIGNED_BYTE)
+    if(glstate->readf==GL_BGRA && glstate->readt==GL_UNSIGNED_BYTE)
         use_bgra = 1;   // if IMPLEMENTATION_READ is BGRA, then use it as it's probably faster then RGBA.
     GLvoid *pixels = malloc(width*height*4);
     gles_glReadPixels(x, y, width, height, use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, pixels);

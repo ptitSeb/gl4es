@@ -422,6 +422,8 @@ typedef struct {
     int                 filterpostupload;   // does the program seems to set filter after uploading texture?
     int                 scratch_alloc;
     void*               scratch;
+    GLenum              readf; // implementation Read Format
+    GLenum              readt; // implementation Read Type
 } glstate_t;
 
 #endif
