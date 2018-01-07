@@ -1983,7 +1983,6 @@ const int sbuf = Width * Height * (Depth==16?2:4);
             }
         } else
             pixel_convert(tmp, (void**)&pix, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 0, glstate->texture.unpack_align);
-        free(tmp);
     } else
 #endif
         if(reverse) {
@@ -2082,7 +2081,13 @@ void BlitEmulatedPixmap() {
 
     // create things if needed
     if(!buff->frame) {
-        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(Width*(Height+reverse)*(Depth==16?2:4)), Width, Height, (Depth==16)?16:32, 0);
+        int sz = Width*(Height+reverse)*(Depth==16?2:4);
+#ifdef PANDORA
+        if(hardext.esversion==1 && Depth==16) {
+            sz += Width*Height*4;
+        }
+#endif
+        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(sz), Width, Height, (Depth==16)?16:32, 0);
     }
 
     if (!frame) {
@@ -2093,15 +2098,18 @@ void BlitEmulatedPixmap() {
     // grab framebuffer
     void* tmp = NULL;
 #ifdef PANDORA
+    LOAD_GLES(glReadPixels);
     if(hardext.esversion==1) {
-        LOAD_GLES(glReadPixels);
         if(Depth==16) {
-            tmp = malloc(Width*Height*4);
+            tmp = (void*)(pix + Width*Height*2);
             gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
         } else {
             gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
         }
-    } else
+    } else 
+    if(Depth==16)
+        gles_glReadPixels(0, 0, Width, Height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, (void*)pix);
+    else
 #endif
     gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);
 
