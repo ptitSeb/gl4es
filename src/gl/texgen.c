@@ -408,7 +408,7 @@ void gen_tex_clean(GLint cleancode, int texture) {
 		LOAD_GLES(glDisable);
 		gles_glDisable(GL_TEXTURE_GEN_STR);
         // check Texture Matrix
-        if (!(globals4es.texmat || glstate->texture_matrix[texture]->identity)) {
+        if ((hardext.esversion==1) && !(globals4es.texmat || glstate->texture_matrix[texture]->identity)) {
             LOAD_GLES(glLoadIdentity);
             GLenum old_mat = glstate->matrix_mode;
             if(old_mat!=GL_TEXTURE) gl4es_glMatrixMode(GL_TEXTURE);
