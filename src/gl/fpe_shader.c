@@ -159,7 +159,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers += CountLine(buff);
 
-        if(!color_material || !state->cm_front_mode==FPE_CM_SPECULAR || !state->cm_back_mode==FPE_CM_SPECULAR) {
+        if(!color_material || !state->cm_front_mode==FPE_CM_DIFFUSE || !state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE) {
             ShadAppend("uniform highp float _gl4es_FrontMaterial_shininess;\n");
             ShadAppend("uniform highp float _gl4es_FrontMaterial_alpha;\n");
             headers+=2;
