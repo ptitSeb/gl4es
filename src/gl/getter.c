@@ -167,7 +167,6 @@ void BuildExtensionsList() {
 }
 
 const GLubyte *gl4es_glGetString(GLenum name) {
-    const GLubyte *str;
     errorShim(GL_NO_ERROR);
     switch (name) {
         case GL_VERSION:
@@ -187,7 +186,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
 			return (GLubyte *)"";
         default:
 			errorShim(GL_INVALID_ENUM);
-            return (str)?str:(GLubyte*)"";
+            return (GLubyte*)"";
     }
 }
 const GLubyte *glGetString(GLenum name) AliasExport("gl4es_glGetString");
