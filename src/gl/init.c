@@ -142,7 +142,6 @@ void initialize_gl4es() {
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
     load_libs();
-    gl_init();
     glx_init();
 
     int gl4es_notest = 0;
@@ -153,6 +152,7 @@ void initialize_gl4es() {
     env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
 
     GetHardwareExtensions(gl4es_notest);
+    gl_init();
 
     env(LIBGL_RECYCLEFBO, globals4es.recyclefbo, "Recycling of FBO enabled");
     // Texture hacks
