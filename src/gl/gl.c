@@ -344,6 +344,12 @@ void gl_init() {
     ActivateGLState(default_glstate);
 }
 
+static void gl_changetex(int n)
+{
+    if(glstate->bound_changed < n+1)
+        glstate->bound_changed = n+1;
+}
+
 static void fpe_changeplane(int n, bool enable)
 {
     glstate->fpe = NULL;
@@ -411,6 +417,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
         else
             glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
+        gl_changetex(glstate->texture.active);
         if(glstate->fpe_state)
             fpe_changetex(glstate->texture.active);
         else
@@ -431,6 +438,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
+            gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             else
@@ -518,6 +526,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX1D);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX1D);
+            gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             break;
@@ -526,6 +535,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX3D);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX3D);
+            gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             break;
@@ -534,6 +544,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEXTURE_RECTANGLE);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEXTURE_RECTANGLE);
+            gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             break;
@@ -542,6 +553,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
             else
                 glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_CUBE_MAP);
+            gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             else
@@ -593,7 +605,7 @@ void gl4es_glEnable(GLenum cap) {
         }
     }
 	PUSH_IF_COMPILING(glEnable)
-#ifdef TEXSTREAM
+#ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
 			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
@@ -625,7 +637,7 @@ void gl4es_glDisable(GLenum cap) {
     }
 	PUSH_IF_COMPILING(glDisable)
         
-#ifdef TEXSTREAM
+#ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
 		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
 			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
@@ -963,7 +975,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices(sindices, &max, &min, count);
+            getminmax_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
             if(min) normalize_indices(list->indices, &max, &min, count);
@@ -985,7 +997,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices(sindices, &max, &min, count);
+            getminmax_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
             if(min) normalize_indices(list->indices, &max, &min, count);

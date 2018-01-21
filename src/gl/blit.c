@@ -3,6 +3,12 @@
 #include "blit.h"
 #include "../glx/hardext.h"
 #include "init.h"
+#ifdef TEXSTREAM
+# ifndef GL_TEXTURE_STREAM_IMG
+# define GL_TEXTURE_STREAM_IMG                                   0x8C0D
+# endif
+#include "../glx/streaming.h"
+#endif
 
 #define SHUT(a) if(!globals4es.nobanner) a
 
@@ -353,6 +359,10 @@ void gl4es_blitTexture(GLuint texture,
 //printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, sx, sy, width, height, nwidth, nheight, zoomx, zoomy, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
+#ifdef TEXSTREAM
+    LOAD_GLES(glEnable);
+    LOAD_GLES(glDisable);
+#endif
     gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 
     GLuint old_tex = glstate->texture.active;
@@ -367,6 +377,13 @@ void gl4es_blitTexture(GLuint texture,
     if(depthwrite)
         gl4es_glDepthMask(GL_FALSE);
 
+#ifdef TEXSTREAM
+    if(glstate->bound_stream[0]) {
+printf("TMU%d, turning off Streaming (blit)\n", 0);
+        gles_glDisable(GL_TEXTURE_STREAM_IMG);
+        DeactivateStreaming();
+    }
+#endif
     gl4es_glEnable(GL_TEXTURE_2D);
     if(glstate->actual_tex2d[0] != texture);
         gles_glBindTexture(GL_TEXTURE_2D, texture);
@@ -382,6 +399,14 @@ void gl4es_blitTexture(GLuint texture,
     }
 
     // All the previous states are Pushed / Poped anyway...
+#ifdef TEXSTREAM
+    if(glstate->bound_stream[0]) {
+printf("TMU%d, turning ON  Streaming (blit)\n", 0);
+        gltexture_t *tex = glstate->texture.bound[0][ENABLED_TEX2D];
+        ActivateStreaming(tex?tex->streamingID:-1);
+        gles_glEnable(GL_TEXTURE_STREAM_IMG);
+    } else
+#endif
     if (glstate->actual_tex2d[0] != texture) 
         gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
 
