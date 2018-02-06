@@ -975,7 +975,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices_us(sindices, &max, &min, count);
+            getminmax_indices(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
             if(min) normalize_indices(list->indices, &max, &min, count);
@@ -997,7 +997,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices_us(sindices, &max, &min, count);
+            getminmax_indices(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
             if(min) normalize_indices(list->indices, &max, &min, count);
