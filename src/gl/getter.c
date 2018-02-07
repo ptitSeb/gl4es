@@ -201,6 +201,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MINOR_VERSION:
             *params = globals4es.gl%10;
             break;
+        case GL_DOUBLEBUFFER:
+            *params = 1;    // Fake double buffering...
+            break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
