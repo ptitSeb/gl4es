@@ -21,8 +21,10 @@ GLvoid *copy_gl_pointer_raw(pointer_state_t *ptr, GLsizei width, GLsizei skip, G
 GLvoid *copy_gl_pointer_tex(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count);
 void copy_gl_pointer_tex_noalloc(void* dest, pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count);
 GLfloat *gl_pointer_index(pointer_state_t *ptr, GLint index);
-void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
-void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
+void normalize_indices_us(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
+void getminmax_indices_us(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count);
+void normalize_indices_ui(GLuint *indices, GLsizei *max, GLsizei *min, GLsizei count);
+void getminmax_indices_ui(const GLuint *indices, GLsizei *max, GLsizei *min, GLsizei count);
 
 GLfloat *copy_eval_double1(GLenum target, GLint ustride, GLint uorder, const GLdouble *points);
 GLfloat *copy_eval_float1(GLenum target, GLint ustride, GLint uorder, const GLfloat *points);

@@ -383,7 +383,7 @@ GLfloat *copy_eval_float2(GLenum target, GLint ustride, GLint uorder,
     return out;
 }
 
-void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+void getminmax_indices_us(const GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
     if (!count) return;
     *max = indices[0];
     *min = indices[0];
@@ -393,8 +393,25 @@ void getminmax_indices(const GLushort *indices, GLsizei *max, GLsizei *min, GLsi
         if (n > *max) *max = n;
     }
 }
-void normalize_indices(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
-    getminmax_indices(indices, max, min, count);
+void normalize_indices_us(GLushort *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+    getminmax_indices_us(indices, max, min, count);
+    for (int i = 0; i < count; i++) {
+        indices[i] -= *min;
+    }
+}
+
+void getminmax_indices_ui(const GLuint *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+    if (!count) return;
+    *max = indices[0];
+    *min = indices[0];
+    for (int i = 1; i < count; i++) {
+        GLsizei n = indices[i];
+        if( n < *min) *min = n;
+        if (n > *max) *max = n;
+    }
+}
+void normalize_indices_ui(GLuint *indices, GLsizei *max, GLsizei *min, GLsizei count) {
+    getminmax_indices_ui(indices, max, min, count);
     for (int i = 0; i < count; i++) {
         indices[i] -= *min;
     }

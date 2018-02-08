@@ -928,10 +928,15 @@ static inline bool should_intercept_render(GLenum mode) {
     );
 }
 
-GLuint len_indices(GLushort *sindices, GLsizei count) {
+GLuint len_indices(GLushort *sindices, GLuint *iindices, GLsizei count) {
     GLuint len = 0;
-    for (int i=0; i<count; i++)
-        if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
+    if (sindices) {
+        for (int i=0; i<count; i++)
+            if (len<sindices[i]) len = sindices[i]; // get the len of the arrays
+    } else {
+        for (int i=0; i<count; i++)
+            if (len<iindices[i]) len = iindices[i]; // get the len of the arrays
+    }
     return len+1;  // lenght is max(indices) + 1 !
 }
 
@@ -953,17 +958,27 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         return;
     }
 
+    bool compiling = (glstate->list.active);
+    bool intercept = should_intercept_render(mode);
 	noerrorShim();
-    GLushort *sindices;
-    bool need_free = (type!=GL_UNSIGNED_SHORT);
-    if(need_free)
+    GLushort *sindices = NULL;
+    GLuint *iindices = NULL;
+    bool need_free = !(
+        (type==GL_UNSIGNED_SHORT) || 
+        (!compiling && !intercept && (mode!=GL_QUADS) && (glstate->render_mode!=GL_SELECT) && type==GL_UNSIGNED_INT && hardext.elementuint)
+        );
+    if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-    else
-        sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
-    bool compiling = (glstate->list.active);
+    } else {
+        if(type==GL_UNSIGNED_INT)
+            iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+        else
+            sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+    }
 
     if (compiling) {
+        // TODO, handle uint indices
         renderlist_t *list = NULL;
         GLsizei min, max;
 
@@ -971,14 +986,14 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         list = glstate->list.active;
 
         if(need_free) {
-            normalize_indices(sindices, &max, &min, count);
+            normalize_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices(sindices, &max, &min, count);
+            getminmax_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-            if(min) normalize_indices(list->indices, &max, &min, count);
+            if(min) normalize_indices_us(list->indices, &max, &min, count);
         }
         list->ilen = count;
         list->indice_cap = count;
@@ -988,19 +1003,20 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         return;
      }
 
-     if (should_intercept_render(mode) || (mode==GL_QUADS)) {
+     if (intercept || (mode==GL_QUADS)) {
+         //TODO handling uint indices
         renderlist_t *list = NULL;
         GLsizei min, max;
 
         if(need_free) {
-            normalize_indices(sindices, &max, &min, count);
+            normalize_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = sindices;
         } else {
-            getminmax_indices(sindices, &max, &min, count);
+            getminmax_indices_us(sindices, &max, &min, count);
             list = arrays_to_renderlist(list, mode, min, max + 1);
             list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-            if(min) normalize_indices(list->indices, &max, &min, count);
+            if(min) normalize_indices_us(list->indices, &max, &min, count);
         }
         list->ilen = count;
         list->indice_cap = count;
@@ -1045,6 +1061,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 		if (mode == GL_POLYGON)
 			mode = GL_TRIANGLE_FAN;
 		if (glstate->render_mode == GL_SELECT) {
+            // TODO handling uint indices
 			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
 		} else {
             GLuint old_tex = glstate->texture.client;
@@ -1078,14 +1095,14 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                     }
                     if (glstate->vao->tex_coord_array[aa]) {
                         TEXTURE(aa);
-                        if(!len) len = len_indices(sindices, count);
+                        if(!len) len = len_indices(sindices, iindices, count);
                         tex_setup_texcoord(len, itarget);
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
                     // special case on GL2, Tex disable but CoordArray enabled...
                     TEXTURE(aa);
-                    if(!len) len = len_indices(sindices, count);
+                    if(!len) len = len_indices(sindices, iindices, count);
                     tex_setup_texcoord(len, ENABLED_TEX2D);
                 }
             }
@@ -1093,7 +1110,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
                 TEXTURE(old_tex);
 
             // POLYGON mode as LINE is "intercepted" and drawn using list
-			gles_glDrawElements(mode, count, GL_UNSIGNED_SHORT, sindices);
+			gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
 
             for (int aa=0; aa<hardext.maxtex; aa++) {
                 if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {

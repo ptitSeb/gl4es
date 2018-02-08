@@ -360,7 +360,7 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 	GLushort *ind = (GLushort*)indices;
 
 	GLsizei min, max;
-	getminmax_indices(indices, &max, &min, count);
+	getminmax_indices_us(indices, &max, &min, count);
     max++;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
