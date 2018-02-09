@@ -965,7 +965,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     GLuint *iindices = NULL;
     bool need_free = !(
         (type==GL_UNSIGNED_SHORT) || 
-        (!compiling && !intercept && (mode!=GL_QUADS) && (glstate->render_mode!=GL_SELECT) && type==GL_UNSIGNED_INT && hardext.elementuint)
+        (!compiling && !intercept && (mode!=GL_QUADS) && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
@@ -1062,7 +1062,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 			mode = GL_TRIANGLE_FAN;
 		if (glstate->render_mode == GL_SELECT) {
             // TODO handling uint indices
-			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, GL_UNSIGNED_SHORT, sindices);
+			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
 		} else {
             GLuint old_tex = glstate->texture.client;
             
