@@ -436,9 +436,9 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_BLUE_SIZE, glxfbconfig->blueBits,
         EGL_ALPHA_SIZE, glxfbconfig->alphaBits,
 #endif
-        EGL_DEPTH_SIZE, 16,
+        EGL_DEPTH_SIZE, depthBits,
         EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-        EGL_BUFFER_SIZE, depthBits,
+        //EGL_BUFFER_SIZE, depthBits,
         EGL_STENCIL_SIZE, glxfbconfig->stencilBits,
 
         EGL_SAMPLE_BUFFERS, glxfbconfig->nMultiSampleBuffers,
