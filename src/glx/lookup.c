@@ -641,10 +641,10 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glVertexAttrib2##suffix); \
     _EX(glVertexAttrib3##suffix); \
     _EX(glVertexAttrib4##suffix); \
-    /*_ARB(glVertexAttrib1##suffix); \
-    _ARB(glVertexAttrib2##suffix); \
-    _ARB(glVertexAttrib3##suffix); \
-    _ARB(glVertexAttrib4##suffix)*/
+    _EXT(glVertexAttrib1##suffix); \
+    _EXT(glVertexAttrib2##suffix); \
+    _EXT(glVertexAttrib3##suffix); \
+    _EXT(glVertexAttrib4##suffix);
     THUNK(s);
     THUNK(d);
     THUNK(sv);
@@ -655,17 +655,19 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glVertexAttrib4u##suffix##v); \
     _EX(glVertexAttrib4N##suffix##v); \
     _EX(glVertexAttrib4Nu##suffix##v);\
-    /*_ARB(glVertexAttrib4##suffix##v); \
-    _ARB(glVertexAttrib4u##suffix##v); \
-    _ARB(glVertexAttrib4N##suffix##v); \
-    _ARB(glVertexAttrib4Nu##suffix##v)*/
+    _EXT(glVertexAttrib4##suffix##v); \
+    _EXT(glVertexAttrib4u##suffix##v); \
+    _EXT(glVertexAttrib4N##suffix##v); \
+    _EXT(glVertexAttrib4Nu##suffix##v);
     THUNK(b);
     THUNK(s);
     THUNK(i);
     #undef THUNK
     _EX(glGetVertexAttribdv);
+    _EXT(glGetVertexAttribdv);
     _ARB(glGetVertexAttribdv);
     _EX(glVertexAttrib4Nub);
+    _EXT(glVertexAttrib4Nub);
     _ARB(glVertexAttrib4Nub);
     // arb version of shader stuffs
     //  GL_ARB_vertex_shader
@@ -756,66 +758,67 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _ARB(glGetUniformfv);
     _ARB(glGetUniformiv);
     _ARB(glGetShaderSource);
-    /*_ARB(glAttachShader);
-    _ARB(glBindAttribLocation);
-    _ARB(glCompileShader);
-    _ARB(glCreateProgram);
-    _ARB(glCreateShader);
-    _ARB(glDeleteProgram);
-    _ARB(glDeleteShader);
-    _ARB(glDetachShader);
-    _ARB(glGetActiveAttrib);
-    _ARB(glGetActiveUniform);
-    _ARB(glGetAttachedShaders);
-    _ARB(glGetAttribLocation);
-    _ARB(glGetProgramInfoLog);
-    _ARB(glGetProgramiv);
-    _ARB(glGetShaderInfoLog);
-    _ARB(glGetShaderPrecisionFormat);
-    _ARB(glGetShaderSource);
-    _ARB(glGetShaderiv);
-    _ARB(glGetUniformLocation);
-    _ARB(glGetUniformfv);
-    _ARB(glGetUniformiv);
-    _ARB(glGetVertexAttribPointerv);
-    _ARB(glGetVertexAttribfv);
-    _ARB(glGetVertexAttribiv);
-    _ARB(glIsProgram);
-    _ARB(glIsShader);
-    _ARB(glReleaseShaderCompiler);
-    _ARB(glShaderBinary);
-    _ARB(glShaderSource);
-    _ARB(glUniform1f);
-    _ARB(glUniform1fv);
-    _ARB(glUniform1i);
-    _ARB(glUniform1iv);
-    _ARB(glUniform2f);
-    _ARB(glUniform2fv);
-    _ARB(glUniform2i);
-    _ARB(glUniform2iv);
-    _ARB(glUniform3f);
-    _ARB(glUniform3fv);
-    _ARB(glUniform3i);
-    _ARB(glUniform3iv);
-    _ARB(glUniform4f);
-    _ARB(glUniform4fv);
-    _ARB(glUniform4i);
-    _ARB(glUniform4iv);
-    _ARB(glUniformMatrix2fv);
-    _ARB(glUniformMatrix3fv);
-    _ARB(glUniformMatrix4fv);
-    _ARB(glUseProgram);
-    _ARB(glValidateProgram);
-    _ARB(glVertexAttrib1f);
-    _ARB(glVertexAttrib1fv);
-    _ARB(glVertexAttrib2f);
-    _ARB(glVertexAttrib2fv);
-    _ARB(glVertexAttrib3f);
-    _ARB(glVertexAttrib3fv);
-    _ARB(glVertexAttrib4f);
-    _ARB(glVertexAttrib4fv);
-    _ARB(glVertexAttribPointer);
-    _ARB(glVertexPointer);*/
+    // EXT version of Shaders functions
+    _EXT(glAttachShader);
+    _EXT(glBindAttribLocation);
+    _EXT(glCompileShader);
+    _EXT(glCreateProgram);
+    _EXT(glCreateShader);
+    _EXT(glDeleteProgram);
+    _EXT(glDeleteShader);
+    _EXT(glDetachShader);
+    _EXT(glGetActiveAttrib);
+    _EXT(glGetActiveUniform);
+    _EXT(glGetAttachedShaders);
+    _EXT(glGetAttribLocation);
+    _EXT(glGetProgramInfoLog);
+    _EXT(glGetProgramiv);
+    _EXT(glGetShaderInfoLog);
+    _EXT(glGetShaderPrecisionFormat);
+    _EXT(glGetShaderSource);
+    _EXT(glGetShaderiv);
+    _EXT(glGetUniformLocation);
+    _EXT(glGetUniformfv);
+    _EXT(glGetUniformiv);
+    _EXT(glGetVertexAttribPointerv);
+    _EXT(glGetVertexAttribfv);
+    _EXT(glGetVertexAttribiv);
+    _EXT(glIsProgram);
+    _EXT(glIsShader);
+    _EXT(glReleaseShaderCompiler);
+    _EXT(glShaderBinary);
+    _EXT(glShaderSource);
+    _EXT(glUniform1f);
+    _EXT(glUniform1fv);
+    _EXT(glUniform1i);
+    _EXT(glUniform1iv);
+    _EXT(glUniform2f);
+    _EXT(glUniform2fv);
+    _EXT(glUniform2i);
+    _EXT(glUniform2iv);
+    _EXT(glUniform3f);
+    _EXT(glUniform3fv);
+    _EXT(glUniform3i);
+    _EXT(glUniform3iv);
+    _EXT(glUniform4f);
+    _EXT(glUniform4fv);
+    _EXT(glUniform4i);
+    _EXT(glUniform4iv);
+    _EXT(glUniformMatrix2fv);
+    _EXT(glUniformMatrix3fv);
+    _EXT(glUniformMatrix4fv);
+    _EXT(glUseProgram);
+    _EXT(glValidateProgram);
+    _EXT(glVertexAttrib1f);
+    _EXT(glVertexAttrib1fv);
+    _EXT(glVertexAttrib2f);
+    _EXT(glVertexAttrib2fv);
+    _EXT(glVertexAttrib3f);
+    _EXT(glVertexAttrib3fv);
+    _EXT(glVertexAttrib4f);
+    _EXT(glVertexAttrib4fv);
+    _EXT(glVertexAttribPointer);
+    _EXT(glVertexPointer);
 
     // stub non-squared matrix access
     STUB(glUniformMatrix2x3fv);
