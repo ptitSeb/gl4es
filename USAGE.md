@@ -51,6 +51,12 @@ Handling of Manual and Automatic MIPMAP
  * 2 : guess AutoMipMap (based on manual mipmaping on textures)
  * 3 : ignore MipMap (mipmap creation / use entirely disabled)
  * 4 : ignore AutoMipMap on non-squared textures
+
+##### LIBGL_FORCENPOT
+Forcing NPOT (Non-Power of Two) Texture size.
+ * 0 : Default, nothing special
+ * 1 : If hardware only support Limited NPOT, then disabling MIPMAP (i.e. LIBGL_MIPMAP=3), so all texture can be NPOT.
+       If Hardware support full NPOT, do nothing special. Usefull for GLES2 backend where limited NPOT is always supported.
  
 ##### LIBGL_TEXCOPY
 Make a local copy of every texture for easy glGetTexImage2D
