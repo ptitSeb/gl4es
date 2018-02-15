@@ -52,7 +52,7 @@ void *gl4es_glXGetProcAddress(const char *name) {
     // generated gles wrappers
     #include "glesfuncs.inc"
 
-#ifndef ANDROID
+#ifndef NOX11
     // glX calls
     _EX(glXChooseVisual);
     _EX(glXCopyContext);
@@ -70,10 +70,10 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glXQueryServerString);
     _EX(glXSwapBuffers);
     _EX(glXSwapIntervalEXT);
-#endif //ANDROID
+#endif //NOX11
     MAP("glXSwapIntervalMESA", gl4es_glXSwapInterval);
     MAP("glXSwapIntervalSGI", gl4es_glXSwapInterval);
-#ifndef ANDROID
+#ifndef NOX11
     _EX(glXUseXFont);
     _EX(glXWaitGL);
     _EX(glXWaitX);
@@ -103,7 +103,7 @@ void *gl4es_glXGetProcAddress(const char *name) {
 
     _EX(glXCreateContextAttribs);
     _ARB(glXCreateContextAttribs);
-#endif //ANDROID
+#endif //NOX11
     _EX(glXGetProcAddress);
     _ARB(glXGetProcAddress);
     // GL_EXT_texture_object (yeah, super old!)

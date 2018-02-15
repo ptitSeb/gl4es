@@ -1,15 +1,15 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#ifndef ANDROID
+#ifndef NOX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#endif //ANDROID
+#endif //NOX11
 #include <stdio.h>
 #include <string.h>
 
 #include "../gl/gl.h"
-#ifndef ANDROID
+#ifndef NOX11
 void
 fill_bitmap(Display * dpy, Window win, GC gc,
             unsigned int width, unsigned int height,
@@ -17,5 +17,5 @@ fill_bitmap(Display * dpy, Window win, GC gc,
 
 XCharStruct *
 isvalid(XFontStruct * fs, int which);
-#endif //ANDROID
+#endif //NOX11
 #endif

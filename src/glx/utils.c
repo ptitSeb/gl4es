@@ -3,6 +3,7 @@
  * Generate OpenGL-compatible bitmap.
  * From Mesa-9.0.1
  */
+#ifndef NOX11
 
 void
 fill_bitmap(Display * dpy, Window win, GC gc,
@@ -87,3 +88,4 @@ isvalid(XFontStruct * fs, int which)
    return (NULL);
 }
 
+#endif //NOX11

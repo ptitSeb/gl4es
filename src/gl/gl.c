@@ -2182,7 +2182,7 @@ void init_batch() {
     glstate->gl_batch = 1;
     glstate->init_batch = 1;
 }
-#ifndef ANDROID
+#ifndef NOX11
 extern void BlitEmulatedPixmap();
 #endif
 void gl4es_glFlush() {
@@ -2194,7 +2194,7 @@ void gl4es_glFlush() {
     gles_glFlush();
     errorGL();
 
-#ifndef ANDROID
+#ifndef NOX11
     if(glstate->emulatedPixmap && !glstate->emulatedWin)
         BlitEmulatedPixmap();
 #endif

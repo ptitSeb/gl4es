@@ -55,7 +55,7 @@ static struct sockaddr_un sun;
 static int sock = -2;
 #endif
 
-#ifndef ANDROID
+#ifndef NOX11
 typedef struct {
     int Width; 
     int Height; 
@@ -67,7 +67,7 @@ typedef struct {
     XImage* frame; 
 } glx_buffSize;
 
-//PBuffer should work under ANDROID
+//PBuffer should work under ANDROID / NOX11
 static GLXPbuffer *pbufferlist = NULL;
 static glx_buffSize *pbuffersize = NULL;
 static int pbufferlist_cap = 0;
@@ -85,7 +85,7 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
-#endif //ANDROID
+#endif //NOX11
 
 // hmm...
 static EGLContext eglContext  = EGL_NO_CONTEXT;
@@ -163,7 +163,7 @@ int8_t CheckEGLErrors() {
 
     return 0;
 }
-#ifndef ANDROID
+#ifndef NOX11
 static int get_config_default(Display *display, int attribute, int *value) {
     switch (attribute) {
         case GLX_USE_GL:
@@ -252,7 +252,7 @@ static void init_display(Display *display) {
 		eglDisplay = egl_eglGetDisplay(display);
     }
 }
-#endif //ANDROID
+#endif //NOX11
 static void init_vsync() {
 #ifdef USE_FBIO
     fbdev = open("/dev/fb0", O_RDONLY);
@@ -392,7 +392,7 @@ void glx_init() {
 #endif
 }
 
-#ifndef ANDROID
+#ifndef NOX11
 static XVisualInfo *latest_visual = NULL;
 static GLXFBConfig latest_glxfbconfig = NULL;
 
@@ -867,7 +867,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
     LOAD_EGL(eglQuerySurface);
-#ifdef ANDROID
+#ifdef NOX11
     int created = 0;
 #else
     int created = (context)?isPBuffer(drawable):0;
@@ -890,7 +890,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
         else {
             // new one
             if(created) {
-#ifndef ANDROID
+#ifndef NOX11
                 eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
                 context->eglContext = eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
                 if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
@@ -902,7 +902,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #endif
             } else {
                 unsigned int width = 0, height = 0, depth = 0;
-#ifndef ANDROID
+#ifndef NOX11
                 if(globals4es.usefb && (bcm_host || globals4es.usepbuffer)) {
                     // Get Window size and all...
                     unsigned int border;
@@ -1373,11 +1373,11 @@ GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config,
         return gl4es_glXCreateContextAttribsARB(display, config, share_list, is_direct, NULL);
         //return glXCreateContext(display, 0, share_list, is_direct);
 }
-#endif //ANDROID
+#endif //NOX11
 
 void gl4es_glXSwapInterval(int interval) {
     DBG(printf("glXSwapInterval(%i)\n", interval);)
-#ifdef ANDROID
+#ifdef NOX11
     LOAD_EGL(eglSwapInterval);
     egl_eglSwapInterval(eglDisplay, swap_interval);
 #elif defined(USE_FBIO)
@@ -1400,7 +1400,7 @@ void gl4es_glXSwapInterval(int interval) {
 #endif
 }
 
-#ifndef ANDROID
+#ifndef NOX11
 void gl4es_glXSwapIntervalEXT(Display *display, int drawable, int interval) {
     gl4es_glXSwapInterval(interval);
 }
@@ -1563,12 +1563,12 @@ void gl4es_glXUseXFont(Font font, int first, int count, int listBase) {
     gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
 	// All done
 }
-#endif //ANDROID
+#endif //NOX11
 void gl4es_glXWaitGL() {}
 void gl4es_glXWaitX() {}
 void gl4es_glXReleaseBuffersMESA() {}
 
-#ifndef ANDROID
+#ifndef NOX11
 /* TODO proper implementation */
 int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsigned int *value) {
     DBG(printf("glXQueryDrawable(%p, %p", dpy, draw);)
@@ -1576,7 +1576,7 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
     *value = 0;
     int width = 800;
     int height = 480;
-#ifndef ANDROID
+#ifndef NOX11
     if(!pbuf && (attribute==GLX_WIDTH || attribute==GLX_HEIGHT)) {
         // Get Window size and all...
         unsigned int border, depth;
@@ -2170,10 +2170,10 @@ GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXCo
     return context;
 }
 
-#endif //ANDROID
+#endif //NOX11
 
 // New export the Alias
-#ifndef ANDROID
+#ifndef NOX11
 GLXContext glXCreateContext(Display *display, XVisualInfo *visual, GLXContext shareList, Bool isDirect) AliasExport("gl4es_glXCreateContext");
 GLXContext glXCreateContextAttribsARB(Display *display, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) AliasExport("gl4es_glXCreateContextAttribsARB");
 void glXDestroyContext(Display *display, GLXContext ctx) AliasExport("gl4es_glXDestroyContext");

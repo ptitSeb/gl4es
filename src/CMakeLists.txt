@@ -123,7 +123,11 @@ endif()
 add_library(GL SHARED ${GL_SRC})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    target_link_libraries(GL X11 m dl)
+    if(NOX11)
+        target_link_libraries(GL m dl)
+    else()
+        target_link_libraries(GL X11 m dl)
+    endif()
 endif()
 
 if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
