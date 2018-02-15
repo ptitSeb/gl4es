@@ -1020,6 +1020,7 @@ const char* frontlightprod_fpe_code = "_gl4es_FrontLightProduct_";
 const char* backlightprod_fpe_code = "_gl4es_BackLightProduct_";
 const char* normalrescale_code = "_gl4es_NormalScale";
 const char* clipplanes_code = "_gl4es_ClipPlane[";
+const char* clipplanes_fpe_code = "_gl4es_ClipPlane_";
 const char* point_code = "_gl4es_Point";
 const char* texenvcolor_code = "_gl4es_TextureEnvColor[";
 const char* texenvcolor_fpe_code = "_gl4es_TextureEnvColor_";
@@ -1130,6 +1131,15 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, clipplanes_code, strlen(clipplanes_code))==0) {
         // it a clip plane! grab it's number
         int n = name[strlen(clipplanes_code)]-'0';   // only 6 clip planes, so this works
+        if(n>=0 && n<hardext.maxplanes) {
+            glprogram->builtin_clipplanes[n] = id;
+            glprogram->has_builtin_clipplanes = 1;
+            return 1;
+        }
+    }
+    if(strncmp(name, clipplanes_fpe_code, strlen(clipplanes_fpe_code))==0) {
+        // it an fpe clip plane! grab it's number
+        int n = name[strlen(clipplanes_fpe_code)]-'0';   // only 6 clip planes, so this works
         if(n>=0 && n<hardext.maxplanes) {
             glprogram->builtin_clipplanes[n] = id;
             glprogram->has_builtin_clipplanes = 1;

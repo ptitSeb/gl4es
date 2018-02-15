@@ -17,17 +17,13 @@ void gl4es_glClipPlanef(GLenum plane, const GLfloat *equation)
         errorShim(GL_INVALID_ENUM);
         return;
     }
-    LOAD_GLES2(glClipPlanef);
-    if(gles_glClipPlanef) {
+    if(hardext.esversion==1) {
+        LOAD_GLES2(glClipPlanef);
         errorGL();
         gles_glClipPlanef(plane, equation);
     } else {    // TODO: should fist compute the clipplane and compare to stored one before sending to hardware
         int p = plane-GL_CLIP_PLANE0;
-        GLfloat ModeView[16], InvModelview[16];
-        matrix_transpose(getMVMat(), ModeView);
-        // get the inverse
-        matrix_inverse(ModeView, InvModelview);
-        vector_matrix(equation, InvModelview, glstate->planes[p]); // tested, this seems correct
+        matrix_vector(getInvMVMat(), equation, glstate->planes[p]); //Tested, seems ok
         noerrorShim();
     }
 }

@@ -109,6 +109,18 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     ShadAppend("varying vec4 Color;\n");  // might be unused...
     headers++;
+    if(planes) {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if((planes>>i)&1) {
+                sprintf(buff, "uniform highp vec4 _gl4es_ClipPlane_%d;\n", i);
+                ShadAppend(buff);
+                ++headers;
+                sprintf(buff, "varying mediump float clippedvertex_%d;\n", i);
+                ShadAppend(buff);
+                ++headers;
+            }
+        }
+    }
     if(lighting) {
         sprintf(buff, 
             "struct _gl4es_FPELightSourceParameters1\n"
@@ -198,10 +210,6 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if(planes) {
-        ShadAppend("varying vec4 clipvertex;\n");
-        headers++;
-    }
     if((fog && fogsource==FPE_FOG_SRC_DEPTH)) {
         ShadAppend("varying vec4 vertex;\n");
         headers++;
@@ -227,15 +235,21 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     // let's start
     ShadAppend("\nvoid main() {\n");
-    if(planes) {
-        ShadAppend("clipvertex = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
-        ShadAppend("gl_Position = clipvertex;\n");
-    } else {
-        ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
-    }
-    // initial Color / lighting calculation
     int need_normal = 0;
     int normal_line = CountLine(shad) - headers;
+    if(planes) {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if((planes>>i)&1) {
+                sprintf(buff, "clippedvertex_%d = dot(vertex, _gl4es_ClipPlane_%d);\n", i, i);
+                ShadAppend(buff);
+            }
+        }
+        if(!need_vertex)
+            need_vertex  = 1;
+        //ShadAppend("gl_Position = clipvertex;\n");
+    }
+    ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
+    // initial Color / lighting calculation
     if(!lighting) {
         ShadAppend("Color = gl_Color;\n");
         if(secondary) {
@@ -624,8 +638,14 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         headers++;
     }
     if(planes) {
-        ShadAppend("varying vec4 clipvertex;\n");
-        headers++;
+        //ShadAppend("varying vec4 clipvertex;\n");
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if((planes>>i)&1) {
+                sprintf(buff, "varying mediump float clippedvertex_%d;\n", i);
+                ShadAppend(buff);
+                headers++;
+            }
+        }
     }
     if(fog && fogsource==FPE_FOG_SRC_COORD) {
         ShadAppend("varying float FogCoord;\n");
@@ -667,16 +687,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
 
     //*** Clip Planes (it's probably not the best idea to do that here...)
     if(planes) {
-        ShadAppend("if(");
+        ShadAppend("if((");
         int k=0;
         for (int i=0; i<hardext.maxplanes; i++) {
-            if(planes>>i) {
-                sprintf(buff, "%s(dot(gl_ClipPlane[%d], clipvertex)<0.)", k?"||":"",  i);
+            if((planes>>i)&1) {
+                //sprintf(buff, "%smin(0., dot(clipvertex, gl_ClipPlane[%d]))", k?"+":"",  i);
+                sprintf(buff, "%smin(0., clippedvertex_%d)", k?"+":"",  i);
                 ShadAppend(buff);
                 k=1;
             }
         }
-        ShadAppend(") discard;\n");
+        ShadAppend(")<0.) discard;\n");
     }
 
     //*** initial color
