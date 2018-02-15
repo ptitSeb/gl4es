@@ -420,9 +420,11 @@ GLXContext gl4es_glXCreateContext(Display *display,
     int depthBits = glxfbconfig->depthBits;
 #ifdef PANDORA
     if(depthBits==32)
+        depthBits = (glxfbconfig->stencilBits==8 && hardext.esversion==2)?24:16;
+    if(depthBits==24 && glxfbconfig->stencilBits==8 && !(globals4es.usefbo || globals4es.usepbuffer || hardext.esversion==2))
         depthBits = 16;
-    if(depthBits==24 && glxfbconfig->stencilBits==8 && !(globals4es.usefbo || globals4es.usepbuffer))
-        depthBits = 16;
+    else if(depthBits==16 && glxfbconfig->stencilBits==8 && hardext.esversion==2)
+        depthBits = 24;
 #endif    
 
     EGLint configAttribs[] = {
