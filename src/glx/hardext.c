@@ -11,6 +11,27 @@ hardext_t hardext;
 
 void GetHardwareExtensions(int notest)
 {
+    if(tested) return;
+    // put some default values
+    memset(&hardext, 0, sizeof(hardext));
+    hardext.maxtex = 2;
+    hardext.maxsize = 2048;
+
+    hardext.esversion = globals4es.es;
+    
+    if(notest) {
+        SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
+        if(hardext.esversion==2) {
+            hardext.maxlights = 8;
+            hardext.maxplanes = 6;
+            hardext.maxteximage = 4;
+            hardext.maxvarying = 8;
+            hardext.maxtex = 4;
+            hardext.maxvattrib = 8;
+        }
+        return;
+    }
+
     // used EGL & GLES functions
     LOAD_EGL(eglBindAPI);
     LOAD_EGL(eglInitialize);
@@ -28,19 +49,6 @@ void GetHardwareExtensions(int notest)
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
     EGLContext eglContext;
-
-    if(tested) return;
-    // put some default values
-    memset(&hardext, 0, sizeof(hardext));
-    hardext.maxtex = 2;
-    hardext.maxsize = 2048;
-
-    hardext.esversion = globals4es.es;
-    
-    if(notest) {
-        SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
-        return;
-    }
 
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (hardext.esversion==1)?"1.1":"2.0"));
 
