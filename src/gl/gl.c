@@ -2205,7 +2205,6 @@ void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
     if (glstate->gl_batch || glstate->list.pending) flush();
-    PUSH_IF_COMPILING(glFinish);
     
     gles_glFinish();
     errorGL();

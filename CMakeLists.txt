@@ -13,6 +13,7 @@ option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 option(NOX11 "Set to ON to not use X11 (creation of context has to be done outside gl4es)" ${NOX11})
+option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
 
 # Raspberry PI
 if(BCMHOST)
@@ -42,6 +43,12 @@ endif()
 #NOX11
 if(NOX11)
 	add_definitions(-DNOX11)
+endif()
+
+#NOEGL
+if(NOEGL)
+    add_definitions(-DNOEGL)
+    add_definitions(-DNOX11)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)

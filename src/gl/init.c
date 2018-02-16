@@ -144,11 +144,15 @@ void initialize_gl4es() {
     load_libs();
     glx_init();
 
+#ifdef NOEGL
+    int gl4es_notest = 1;
+#else
     int gl4es_notest = 0;
     char *env_notest = getenv("LIBGL_NOTEST");
     if (env_notest && strcmp(env_notest, "1") == 0) {
 		gl4es_notest = 1;
     }
+#endif
     env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
 
     GetHardwareExtensions(gl4es_notest);

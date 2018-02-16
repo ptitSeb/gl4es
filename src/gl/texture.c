@@ -3,8 +3,6 @@
 #include "decompress.h"
 #include "debug.h"
 #include "stb_dxt_104.h"
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
 #include "gles.h"
 #include "../glx/streaming.h"
 #include "../glx/hardext.h"
@@ -21,6 +19,10 @@
 
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
+#endif
+#ifdef TEXSTREAM
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
 #endif
 
 // expand non-power-of-two sizes

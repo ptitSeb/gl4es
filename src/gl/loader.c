@@ -88,7 +88,11 @@ void load_libs() {
     gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
     WARN_NULL(gles);
 
+#ifdef NOEGL
+    egl = gles;
+#else
     char *egl_override = getenv("LIBGL_EGL");
     egl = open_lib(egl_lib, egl_override);
+#endif
     WARN_NULL(egl);
 }
