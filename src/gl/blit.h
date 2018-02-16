@@ -1,7 +1,7 @@
 #ifndef _BLIT_H_
 #define _BLIT_H_
 
-#include "gl.h"
+#include "gles.h"
 
 #define BLIT_ALPHA      0
 #define BLIT_OPAQUE     1

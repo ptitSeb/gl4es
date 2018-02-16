@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "const.h"
 #include "../glx/hardext.h"
 
 // will become references to dlopen'd gles and egl

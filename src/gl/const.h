@@ -1,3 +1,6 @@
+#ifndef CONST_H
+#define CONST_H
+
 #define GL_QUADS      7
 #define GL_QUAD_STRIP 8
 #define GL_POLYGON    9
@@ -708,3 +711,5 @@
 
 // Getter
 #define GL_NUM_EXTENSIONS                 0x821D
+
+#endif
