@@ -300,7 +300,7 @@ static void signal_handler(int sig) {
         bcm_host_deinit();
     }
 #endif
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
     if (globals4es.stacktrace) {
         switch (sig) {
             case SIGBUS:
@@ -359,7 +359,7 @@ void glx_init() {
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit) {
             g_bcmhost = true;
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
             rpi_init();
 #endif
         }
@@ -377,11 +377,11 @@ void glx_init() {
         }
         if (globals4es.xrefresh)
             atexit(xrefresh);
-#ifndef ANDROID	
+#if !defined(ANDROID) && !defined(AMIGAOS4)
 #ifdef BCMHOST
             atexit(bcm_host_deinit);
 #endif
-#endif //ANDROID
+#endif //!ANDROID && !AMIGAOS4
     }
     //V-Sync
     if (globals4es.vsync) {
