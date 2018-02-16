@@ -233,9 +233,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->fbo.mainfbo_nwidth = (hardext.npot)?glstate->fbo.mainfbo_width:npot(glstate->fbo.mainfbo_width);
     glstate->fbo.mainfbo_nheight = (hardext.npot)?glstate->fbo.mainfbo_height:npot(glstate->fbo.mainfbo_height);
     // Get the per/context hardware values
+    glstate->readf = GL_RGBA;
+    glstate->readt = GL_UNSIGNED_BYTE;
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->readt);
-    //printf("LIBGL: Implementation Read is %s/%s\n", PrintEnum(hardext.readf), PrintEnum(hardext.readt));
+    //printf("LIBGL: Implementation Read is %s/%s\n", PrintEnum(glstate->readf), PrintEnum(glstate->readt));
 
     // All done
     return (void*)glstate;
