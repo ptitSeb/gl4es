@@ -4,6 +4,7 @@
 #include "init.h"
 #include "matrix.h"
 #include "fpe.h"
+#include "glstate.h"
 
 glstate_t *glstate = NULL;
 

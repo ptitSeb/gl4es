@@ -18,8 +18,12 @@
     if (strcmp(name, func_name) == 0) return (void *)func;
 #endif
 
-#define MAP_EGL(func_name, egl_func) \
+#ifdef NOEGL
+ #define MAP_EGL(func_name, egl_func)
+#else
+ #define MAP_EGL(func_name, egl_func) \
     MAP(#func_name, egl_eglGetProcAddress(#egl_func))
+#endif
 
 #define EX(func_name) MAP(#func_name, func_name)
 
@@ -44,7 +48,9 @@ void glXStub(void *x, ...) {
 }
 
 void *gl4es_glXGetProcAddress(const char *name) {
+#ifndef NOEGL
     LOAD_EGL(eglGetProcAddress);
+#endif
 #ifdef DEBUG_ADDRESS
     static int cnt = 0;
     cnt++;

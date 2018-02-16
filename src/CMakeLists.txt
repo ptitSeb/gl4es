@@ -64,6 +64,7 @@ SET(GL_H
     gl/framebuffers.h
     gl/gles.h
     gl/gl.h
+    gl/glstate.h
     gl/hint.h
     gl/init.h
     gl/light.h

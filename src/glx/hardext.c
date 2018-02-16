@@ -20,8 +20,10 @@ void GetHardwareExtensions(int notest)
     hardext.maxplanes = 6;
 
     hardext.esversion = globals4es.es;
-    
-    if(notest) {
+#ifndef NOEGL    
+    if(notest) 
+#endif
+    {
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
         if(hardext.esversion==2) {
             hardext.maxteximage = 4;
@@ -35,7 +37,7 @@ void GetHardwareExtensions(int notest)
         }
         return;
     }
-
+#ifndef NOEGL
     // used EGL & GLES functions
     LOAD_EGL(eglBindAPI);
     LOAD_EGL(eglInitialize);
@@ -225,4 +227,5 @@ void GetHardwareExtensions(int notest)
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
     egl_eglDestroySurface(eglDisplay, eglSurface);
     egl_eglDestroyContext(eglDisplay, eglContext);
+#endif
 }

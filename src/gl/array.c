@@ -1,5 +1,7 @@
 #include "array.h"
 #include "debug.h"
+#include "gl.h"
+#include "state.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,

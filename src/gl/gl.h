@@ -1,8 +1,8 @@
 #include <dlfcn.h>
 //#include <GLES/gl.h>
 #include "gles.h"
-#include <EGL/egl.h>
 #ifdef TEXSTREAM
+#include <EGL/egl.h>
 #include <EGL/eglext.h>
 #endif
 #include <inttypes.h>
@@ -53,7 +53,7 @@
 #include "const.h"
 
 //Typedef for egl to be abble to call LOAD_EGL...
-
+#ifndef NOEGL
 typedef EGLBoolean (*eglBindAPI_PTR)(EGLenum api);
 typedef EGLBoolean (*eglBindTexImage_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
 typedef EGLBoolean (*eglChooseConfig_PTR)(EGLDisplay dpy, const EGLint * attrib_list, EGLConfig * configs, EGLint config_size, EGLint * num_config);
@@ -111,6 +111,7 @@ typedef EGLBoolean (*eglQueryStreamKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream,
 typedef EGLBoolean (*eglQueryStreamTimeKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLTimeKHR * value);
 typedef EGLint (*eglWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
 typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLConfig config, EGLStreamKHR stream, const EGLint * attrib_list);
+#endif
 #endif
 
 #include "loader.h"
@@ -429,7 +430,7 @@ const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index);
 void flush();
 void init_batch();
 
-#include "state.h"
+#include "glstate.h"
 extern glstate_t *glstate;
 
 void fpe_Init(glstate_t *glstate);       // defined in fpe.c

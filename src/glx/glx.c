@@ -45,10 +45,12 @@
 #define EGL_GL_COLORSPACE_LINEAR_KHR            0x308A
 #endif
 
+#ifndef NOEGL
 static bool eglInitialized = false;
 static EGLDisplay eglDisplay;
 static EGLSurface eglSurface;
 static EGLConfig eglConfigs[1];
+#endif
 static int glx_default_depth=0;
 #ifdef PANDORA
 static struct sockaddr_un sun;
@@ -87,8 +89,10 @@ static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
 #endif //NOX11
 
+#ifndef NOEGL
 // hmm...
 static EGLContext eglContext  = EGL_NO_CONTEXT;
+#endif
 
 static int fbcontext_count = 0;
 
@@ -125,7 +129,7 @@ static void* create_native_window(int w, int h) {
 #define SHUT(a) if(!globals4es.nobanner) a
 
 static int swap_interval = 1;
-
+#ifndef NOEGL
 static EGLint egl_context_attrib_es2[] = {
     EGL_CONTEXT_CLIENT_VERSION, 2,
     EGL_NONE
@@ -134,7 +138,7 @@ static EGLint egl_context_attrib_es2[] = {
 static EGLint egl_context_attrib[] = {
     EGL_NONE
 };
-
+#endif
 
 
 extern void* egl;
@@ -146,13 +150,16 @@ void ActivateGLState(void* new_glstate);
 
 typedef struct {
     int drawable;
+#ifndef NOEGL
     EGLSurface surface;
+#endif
     int PBuffer;
 } map_drawable_t;
 KHASH_MAP_INIT_INT(mapdrawable, map_drawable_t*)
 khash_t(mapdrawable) *MapDrawable = NULL;
 
 int8_t CheckEGLErrors() {
+#ifndef NOEGL
     EGLenum error;
     const char *errortext = PrintEGLError(1);
     
@@ -160,7 +167,7 @@ int8_t CheckEGLErrors() {
         LOGE("LIBGL: ERROR: EGL Error detected: %s (0x%X)\n", errortext, error);
         return 1;
     }
-
+#endif
     return 0;
 }
 #ifndef NOX11
@@ -1377,7 +1384,9 @@ GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config,
 
 void gl4es_glXSwapInterval(int interval) {
     DBG(printf("glXSwapInterval(%i)\n", interval);)
-#ifdef NOX11
+#ifdef NOEGL
+    // nothing
+#elif defined(NOX11)
     LOAD_EGL(eglSwapInterval);
     egl_eglSwapInterval(eglDisplay, swap_interval);
 #elif defined(USE_FBIO)

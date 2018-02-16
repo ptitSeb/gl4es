@@ -1,9 +1,9 @@
-#include "gl.h"
-
 #ifndef GL_ARRAY_H
 #define GL_ARRAY_H
 
-#include "state.h"
+#include "gles.h"
+
+#include "buffers.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,

@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "gl.h"
 
 #define p(a) \
     case a: return #a
@@ -253,6 +254,9 @@ const char* PrintEnum(GLenum what) {
 }
 
 const char* PrintEGLError(int onlyerror) {
+#ifdef NOEGL
+    return "";
+#else
     LOAD_EGL(eglGetError);
     static char fallback[64];
     GLenum what = egl_eglGetError();
@@ -279,6 +283,7 @@ const char* PrintEGLError(int onlyerror) {
             sprintf(fallback, "0x%04X", what);
     }
     return fallback;
+#endif
 }
 
 void CheckGLError(int fwd) {
