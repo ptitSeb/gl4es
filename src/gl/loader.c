@@ -12,7 +12,7 @@ void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL;
 static const char *path_prefix[] = {
     "",
 #ifdef AMIGAOS4
-    "/LIBS",
+    "LIBS:",
 #else
     "/opt/vc/lib/",
     "/usr/local/lib/",
