@@ -1,7 +1,7 @@
 #include <dlfcn.h>
 //#include <GLES/gl.h>
 #include "gles.h"
-#ifdef TEXSTREAM
+#ifndef NOEGL
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #endif
