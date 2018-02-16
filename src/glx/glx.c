@@ -1,4 +1,4 @@
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
 #include <fcntl.h>
