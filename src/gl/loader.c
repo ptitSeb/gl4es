@@ -1,7 +1,11 @@
 #include "loader.h"
 #include "logs.h"
 #include "init.h"
+#ifdef AMIGAOS4
+#include <limits.h>
+#else
 #include <linux/limits.h>
+#endif
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL;
 

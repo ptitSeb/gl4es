@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "init.h"
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
 #include "blit.h"

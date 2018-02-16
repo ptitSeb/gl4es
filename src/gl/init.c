@@ -5,7 +5,7 @@
 #include "../glx/hardext.h"
 #include "../../version.h"
 #include "../glx/streaming.h"
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
 

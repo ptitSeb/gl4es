@@ -12,6 +12,7 @@ option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
+option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NOEGL and NOX11)" ${AMIGAOS4})
 option(NOX11 "Set to ON to not use X11 (creation of context has to be done outside gl4es)" ${NOX11})
 option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
 
@@ -38,6 +39,13 @@ endif()
 if(CHIP)
     add_definitions(-DCHIP)
     add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
+endif()
+
+# AmigaOS4
+if(AMIGAOS4)
+    add_definitions(-DAMIGAOS4)
+    set(NOX11 ON)
+    set(NOEGL ON)
 endif()
 
 #NOX11
