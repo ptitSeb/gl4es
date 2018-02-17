@@ -121,6 +121,16 @@ else()
     message(STATUS "Not on Linux: building without GLX support.")
 endif()
 
+if(AMIGAOS4)
+    include_directories(agl)
+    list(APPEND GL_SRC
+        agl/amigaos.c
+    )
+    list(APPEND GL_H
+        agl/amigaos.h
+    )
+endif()
+
 add_library(GL SHARED ${GL_SRC})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")

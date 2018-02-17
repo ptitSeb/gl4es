@@ -33,8 +33,9 @@ static void fast_math() {
 #define DEFAULT_ES 1
 #endif
 
-
+#ifndef AMIGAOS4
 void load_libs();
+#endif
 void glx_init();
 
 #ifdef NO_INIT_CONSTRUCTOR

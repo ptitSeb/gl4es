@@ -2,46 +2,35 @@
 #include "logs.h"
 #include "init.h"
 #ifdef AMIGAOS4
+#include "../agl/amigaos.h"
 #include <limits.h>
 #else
 #include <linux/limits.h>
 #endif
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL;
-
+#ifndef AMIGAOS4
 static const char *path_prefix[] = {
     "",
-#ifdef AMIGAOS4
-    "LIBS:",
-#else
     "/opt/vc/lib/",
     "/usr/local/lib/",
     "/usr/lib/",
-#endif
     NULL,
 };
 
 static const char *lib_ext[] = {
-#ifdef AMIGAOS4
-    "library",
-#else
     "so",
     "so.1",
     "so.2",
     "dylib",
     "dll",
-#endif
     NULL,
 };
 
 static const char *gles2_lib[] = {
-#ifdef AMIGAOS4
-    "ogles2",
-#else
     "libGLESv2_CM",
     "libGLESv2",
     "libbrcmGLESv2",
-#endif
     NULL
 };
 
@@ -94,7 +83,6 @@ void load_libs() {
     if (! first) return;
     first = 0;
     char *gles_override = getenv("LIBGL_GLES");
-#ifndef AMIGAOS4
     // optimistically try to load the raspberry pi libs
     if (! gles_override) {
         const char *bcm_host_name[] = {"libbcm_host", NULL};
@@ -102,7 +90,6 @@ void load_libs() {
         bcm_host = open_lib(bcm_host_name, NULL);
         vcos = open_lib(vcos_name, NULL);
     }
-#endif
     gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
     WARN_NULL(gles);
 
@@ -114,3 +101,8 @@ void load_libs() {
 #endif
     WARN_NULL(egl);
 }
+#else
+void load_libs() {
+    os4OpenLib();
+}
+#endif //AMIGAOS4

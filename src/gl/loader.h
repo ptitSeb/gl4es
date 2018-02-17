@@ -1,7 +1,11 @@
 #ifndef LOADER_H
 #define LOADER_H
 
+#ifdef AMIGAOS4
+#include "../agl/amigaos.h"
+#else
 #include <dlfcn.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +14,9 @@
 
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos;
-
+#ifndef AMIGAOS4
 void *open_lib(const char **names, const char *override);
+#endif
 
 #define WARN_NULL(name) if (name == NULL) LOGD("LIBGL: warning, " #name " is NULL\n");
 
@@ -75,7 +80,26 @@ void *open_lib(const char **names, const char *override);
     
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
 
-#ifdef NOEGL
+#ifdef AMIGAOS4
+#define LOAD_GLES_OES(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_RAW(gles, name, os4GetProcAddress(#name"OES")); \
+    }
+
+#define LOAD_GLES_EXT(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_RAW(gles, name, os4GetProcAddress(#name"EXT")); \
+    }
+
+#define LOAD_GLES2_OR_OES(name) \
+    DEFINE_RAW(gles, name); \
+    { \
+        LOAD_RAW_SILENT(gles, name, os4GetProcAddress(#name)); \
+    }
+
+#elif defined(NOEGL)
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
     { \

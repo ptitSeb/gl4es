@@ -24,6 +24,9 @@
 #include "khash.h"
 #include "hardext.h"
 #include "../gl/debug.h"
+#ifdef AMIGAOS4
+#include "../agl/amigaos.h"
+#endif
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
@@ -383,6 +386,9 @@ void glx_init() {
 #endif
 #endif //!ANDROID && !AMIGAOS4
     }
+#ifdef AMIGAOS4
+    atexit(os4CloseLib);
+#endif
     //V-Sync
     if (globals4es.vsync) {
         init_vsync();
