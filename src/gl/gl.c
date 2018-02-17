@@ -2205,7 +2205,7 @@ void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
     if (glstate->gl_batch || glstate->list.pending) flush();
-    PUSH_IF_COMPILING(glFlush);
+    if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFlush();
     errorGL();
@@ -2221,6 +2221,7 @@ void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
     if (glstate->gl_batch || glstate->list.pending) flush();
+    if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFinish();
     errorGL();
