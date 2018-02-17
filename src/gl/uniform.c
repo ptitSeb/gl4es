@@ -506,7 +506,7 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
     GoUniformMatrix4fv(glprogram, location, count, transpose, value);
 }
 void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
-    DBG(printf("GoUniformMatrix4fv(%p[%d], %d, %d, %d, %p)\n", glprogram, glprogram->id, location, count, transpose, value);)
+    DBG(printf("GoUniformMatrix4fv(%p[%d], %d, %d, %d, %p) p=>(%f, %f, %f, %f, %f...)\n", glprogram, glprogram->id, location, count, transpose, value, value[0], value[1], value[2], value[3], value[4]);)
     if(location==-1) {
         noerrorShim();
         return;
