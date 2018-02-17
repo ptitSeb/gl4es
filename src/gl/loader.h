@@ -76,14 +76,24 @@ void *open_lib(const char **names, const char *override);
 #define LOAD_GLES_OR_FPE(name) \
     LOAD_LIB_ALT(gles, fpe, name)
 
-#define LOAD_GLES_FPE(name) \
+#ifdef AMIGAOS4
+ #define LOAD_GLES_FPE(name) \
+    DEFINE_RAW(gles, name); \
+    if(hardext.esversion==1) { \
+        LOAD_RAW(gles, name, os4GetProcAddress(#name)); \
+    } else { \
+        gles_##name = fpe_##name; \
+    }
+#else
+ #define LOAD_GLES_FPE(name) \
     DEFINE_RAW(gles, name); \
     if(hardext.esversion==1) { \
         LOAD_RAW(gles, name, dlsym(gles, #name)); \
     } else { \
         gles_##name = fpe_##name; \
     }
-    
+#endif
+
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
 
 #ifdef AMIGAOS4
