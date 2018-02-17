@@ -556,6 +556,18 @@ void gl4es_glLinkProgram(GLuint program) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
                 // remove any ending "[]" that could be present
                 if(name[strlen(name)-1]==']' && strrchr(name, '[')) (*strrchr(name, '['))='\0';
+#ifdef AMIGAOS4
+                // workaround for a bug in ogles2 driver, where mat4 uniform are not correctly queryed
+                if(type==0x0000 && (size==64 || size==36 || size==16) {
+                    if(size==64)
+                        type = GL_FLOAT_MAT4;
+                    else if (size==36)
+                        type = GL_FLOAT_MAT3;
+                    else
+                        type = GL_FLOAT_MAT2;
+                    size = 1;
+                }
+#endif
                 GLint id = gles_glGetUniformLocation(glprogram->id, name);
                 if(id!=-1) {
                     for (int j = 0; j<size; j++) {
