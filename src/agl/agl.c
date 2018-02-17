@@ -6,8 +6,6 @@
 #undef __USE_INLINE__
 #include <proto/exec.h>
 
-#include "../gl/gl.h"
-
 extern struct OGLES2IFace *IOGLES2;
 
 void* NewGLState(void* shared_glstate, int es2only);
@@ -136,6 +134,7 @@ void aglSwapBuffers() {
     }
 }
 
+// what is the use of this function?
 void aglSetBitmap(struct BitMap *bitmap) {
     if(IOGLES2) {
         IOGLES2->aglSetBitmap(bitmap);
