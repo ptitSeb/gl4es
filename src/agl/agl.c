@@ -3,7 +3,7 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
-#undef _USE_INLINE_
+#undef __USE_INLINE__
 #include <proto/exec.h>
 
 #include "../gl/gl.h"
