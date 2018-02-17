@@ -227,6 +227,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
     // Grab ViewPort
     LOAD_GLES(glGetIntegerv);
+#ifdef AMIGAOS4
+    if(default_glstate) // if default_glstate is null, then there is probably no glcontext...
+#endif
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     // FBO
     glstate->fbo.mainfbo_width = glstate->raster.viewport.width;    //main_fbo get the initial dimension of the framebuffer
@@ -236,8 +239,15 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Get the per/context hardware values
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
+#ifdef AMIGAOS4
+    if(default_glstate) // if default_glstate is null, then there is probably no glcontext...
+    {
+#endif
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->readt);
+#ifdef AMIGAOS4
+    }
+#endif
     //printf("LIBGL: Implementation Read is %s/%s\n", PrintEnum(glstate->readf), PrintEnum(glstate->readt));
 
     // All done
@@ -333,12 +343,15 @@ void DeleteGLState(void* oldstate) {
 void ActivateGLState(void* new_glstate) {
     if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
     if (glstate && glstate->gl_batch) flush();
-    glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
     // check if viewport is correct
-    if(glstate->raster.viewport.width==0.0f || glstate->raster.viewport.height==0.0f) {
+#ifdef AMIGAOS4
+    if(glstate || new_glstate!=default_glstate) // avoid getting gles info with no context
+#endif
+    if(new_glstate->raster.viewport.width==0.0f || new_glstate->raster.viewport.height==0.0f) {
         LOAD_GLES(glGetFloatv);
-        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&glstate->raster.viewport);
+        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&new_glstate->raster.viewport);
     }
+    glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
     if (globals4es.batch && glstate->init_batch==0) init_batch();
 }
 
