@@ -57,9 +57,15 @@ void *open_lib(const char **names, const char *override);
         } \
     }
 
-#define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, dlsym(lib, #name))
-#define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, dlsym(lib, #name))
-#define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, dlsym(lib, #name))
+#ifdef AMIGAOS4
+ #define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, os4GetProcAddress(#name))
+ #define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, os4GetProcAddress(#name))
+ #define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, os4GetProcAddress(#name))
+#else
+ #define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, dlsym(lib, #name))
+ #define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, dlsym(lib, #name))
+ #define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, dlsym(lib, #name))
+#endif
 
 #define LOAD_GLES(name) \
     LOAD_LIB(gles, name)
