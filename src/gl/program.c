@@ -567,6 +567,12 @@ void gl4es_glLinkProgram(GLuint program) {
                         type = GL_FLOAT_MAT2;
                     size = 1;
                 }
+                if((type==GL_FLOAT_VEC4 || type==GL_INT_VEC4) && (size/16)*16==size)
+                    size /= 16;
+                if((type==GL_FLOAT_VEC3 || type==GL_INT_VEC3) && (size/12)*12==size)
+                    size /= 12;
+                if((type==GL_FLOAT_VEC2 || type==GL_INT_VEC2) && (size/8)*8==size)
+                    size /= 8;
 #endif
                 GLint id = gles_glGetUniformLocation(glprogram->id, name);
                 if(id!=-1) {
@@ -617,6 +623,24 @@ void gl4es_glLinkProgram(GLuint program) {
             name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
                 gles_glGetActiveAttrib(glprogram->id, i, maxsize, NULL, &size, &type, name);
+#ifdef AMIGAOS4
+                // workaround for a bug in ogles2 driver, where mat4 uniform are not correctly queryed
+                if(type==0x0000 && (size==64 || size==36 || size==16)) {
+                    if(size==64)
+                        type = GL_FLOAT_MAT4;
+                    else if (size==36)
+                        type = GL_FLOAT_MAT3;
+                    else
+                        type = GL_FLOAT_MAT2;
+                    size = 1;
+                }
+                if((type==GL_FLOAT_VEC4 || type==GL_INT_VEC4) && (size/16)*16==size)
+                    size /= 16;
+                if((type==GL_FLOAT_VEC3 || type==GL_INT_VEC3) && (size/12)*12==size)
+                    size /= 12;
+                if((type==GL_FLOAT_VEC2 || type==GL_INT_VEC2) && (size/8)*8==size)
+                    size /= 8;
+#endif
                 GLint id = gles_glGetAttribLocation(glprogram->id, name);
                 if(id!=-1) {
                     k = kh_put(attribloclist, attriblocs, id, &ret);
