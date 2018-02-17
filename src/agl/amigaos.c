@@ -25,6 +25,8 @@ void os4OpenLib()
         IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
     }
+    // small debug message, always helpfull at beggining
+    printf("LIBGL: OGLES2 Library and Interface open successfuly\n");
 }
 
 // Close OGLES2 lib and interface
@@ -38,6 +40,7 @@ void os4CloseLib()
         IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
     }
+    printf("LIBGL: OGLES2 Library and Interface closed\n");
 }
 
 
