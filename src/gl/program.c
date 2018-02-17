@@ -558,7 +558,7 @@ void gl4es_glLinkProgram(GLuint program) {
                 if(name[strlen(name)-1]==']' && strrchr(name, '[')) (*strrchr(name, '['))='\0';
 #ifdef AMIGAOS4
                 // workaround for a bug in ogles2 driver, where mat4 uniform are not correctly queryed
-                if(type==0x0000 && (size==64 || size==36 || size==16) {
+                if(type==0x0000 && (size==64 || size==36 || size==16)) {
                     if(size==64)
                         type = GL_FLOAT_MAT4;
                     else if (size==36)
