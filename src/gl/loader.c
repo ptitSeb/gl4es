@@ -103,6 +103,6 @@ void load_libs() {
 }
 #else
 void load_libs() {
-    os4OpenLib();
+    os4OpenLib(&gles);
 }
 #endif //AMIGAOS4

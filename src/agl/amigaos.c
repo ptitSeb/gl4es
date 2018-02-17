@@ -12,7 +12,7 @@ struct Library *LOGLES2 = NULL;
 struct OGLES2IFace *IOGLES2 = NULL;
 
 // Open OGLES2 library and interface
-void os4OpenLib()
+void os4OpenLib(void** lib)
 {
     LOGLES2 = IExec->OpenLibrary("ogles2.library", 0);
     if(!LOGLES2) {
@@ -25,6 +25,7 @@ void os4OpenLib()
         IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
     }
+    *lib = LOGLES2;
     // small debug message, always helpfull at beggining
     printf("LIBGL: OGLES2 Library and Interface open successfuly\n");
 }
