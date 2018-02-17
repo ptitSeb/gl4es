@@ -347,9 +347,9 @@ void ActivateGLState(void* new_glstate) {
 #ifdef AMIGAOS4
     if(glstate || new_glstate!=default_glstate) // avoid getting gles info with no context
 #endif
-    if(new_glstate->raster.viewport.width==0.0f || new_glstate->raster.viewport.height==0.0f) {
+    if(((glstate_t*)new_glstate)->raster.viewport.width==0.0f || ((glstate_t*)new_glstate)->raster.viewport.height==0.0f) {
         LOAD_GLES(glGetFloatv);
-        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&new_glstate->raster.viewport);
+        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&((glstate_t*)new_glstate)->raster.viewport);
     }
     glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
     if (globals4es.batch && glstate->init_batch==0) init_batch();
