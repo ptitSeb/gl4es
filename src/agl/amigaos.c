@@ -2,7 +2,10 @@
 
 #include <stdlib.h> 
 #include <stdio.h>
-#include <proto/exec.h> 
+#include <string.h>
+#include <proto/exec.h>
+// make sure we don't use inline version here
+#undef __USE_INLINE__
 #include <proto/ogles2.h>
 
 struct Library *LOGLES2 = NULL; 
@@ -16,7 +19,7 @@ void os4OpenLib()
         printf("LIBGL: Warning, cannot open ogles2 Library!\n");
         return;
     }
-    IOGLES2 = (struct OGLES2IFace *)getInterface("ogles2.library"); 
+    IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface("ogles2.library", "main", 1, NULL); 
     if(!IOGLES2) {
         printf("LIBGL: Warning, cannot openogles2 Interface!\n");
         IExec->CloseLibrary(LOGLES2);
@@ -36,6 +39,8 @@ void os4CloseLib()
         LOGLES2 = NULL;
     }
 }
+
+
 
 // Using glXXX name, return the function pointer of that function in ogles2 library
 #define MAP(func_name, func) \
