@@ -356,17 +356,19 @@ void glx_init() {
     MapDrawable = kh_init(mapdrawable);
     kh_put(mapdrawable, MapDrawable, 1, &ret);
     kh_del(mapdrawable, MapDrawable, 1);
+#ifndef AMIGAOS4
     // if ok, grab the init/deinit functions
     if (bcm_host) {
         bcm_host_init = dlsym(bcm_host, "bcm_host_init");
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit) {
             g_bcmhost = true;
-#if !defined(ANDROID) && !defined(AMIGAOS4)
+#ifndef ANDROID
             rpi_init();
 #endif
         }
     }
+#endif
     if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
