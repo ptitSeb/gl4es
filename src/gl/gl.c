@@ -2204,6 +2204,7 @@ extern void BlitEmulatedPixmap();
 void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
+    realize_textures();
     if (glstate->gl_batch || glstate->list.pending) flush();
     if (glstate->raster.bm_drawing) bitmap_flush();
     
@@ -2220,6 +2221,7 @@ void glFlush() AliasExport("gl4es_glFlush");
 void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
+    realize_textures();
     if (glstate->gl_batch || glstate->list.pending) flush();
     if (glstate->raster.bm_drawing) bitmap_flush();
     
