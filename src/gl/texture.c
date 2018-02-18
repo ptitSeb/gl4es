@@ -2515,7 +2515,11 @@ void realize_textures() {
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
     LOAD_GLES(glBindTexture);
+#ifdef TEXSTREAM
     DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0], glstate->bound_stream[0]);)
+#else
+    DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0]);)
+#endif
     int old = glstate->texture.active;
     for (int i=0; i<glstate->bound_changed; i++) {
         // get highest priority texture unit
