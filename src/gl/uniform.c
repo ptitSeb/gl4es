@@ -408,6 +408,7 @@ void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLb
     k = kh_get(uniformlist, glprogram->uniform, location);
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
+        return;
     }
     m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT2  || count>m->size) {
@@ -465,6 +466,7 @@ void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLb
     k = kh_get(uniformlist, glprogram->uniform, location);
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
+        return;
     }
     m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT3  || count>m->size) {
@@ -520,6 +522,7 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
     k = kh_get(uniformlist, glprogram->uniform, location);
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
+        return;
     }
     m = kh_value(glprogram->uniform, k);
     if(m->type!=GL_FLOAT_MAT4  || count>m->size) {
