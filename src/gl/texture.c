@@ -1406,6 +1406,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
             gles_glGenTextures(1, &tex->glname);
         else
             tex->glname = 0;    // special case for texture n# 0
+        DBG(printf("getTexture(%s, %u), failed, creating texture %u\n", PrintEnum(target), texture, tex->glname);)
         tex->target = target;
         tex->width = 0;
         tex->height = 0;
@@ -1690,6 +1691,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 	
 	for (int i=0; i<n; i++) {
 		k = kh_get(tex, list, textures[i]);
+        DBG(printf(" -> textures[%d] = %u\n", i, textures[i]);)
 		gltexture_t *tex = NULL;
 		if (k == kh_end(list)){
 			k = kh_put(tex, list, textures[i], &ret);
@@ -2491,7 +2493,7 @@ void realize_bound(int TMU, GLenum target) {
     LOAD_GLES(glBindTexture);
     gltexture_t *tex = glstate->texture.bound[TMU][what_target(target)];
     GLuint t = (tex?tex->glname:0);
-//printf("realize_bound(%d, %s), glsate->actual_tex2d[%d]=%u / %u\n", TMU, PrintEnum(target), TMU, glstate->actual_tex2d[TMU], t);
+    DBG(printf("realize_bound(%d, %s), glsate->actual_tex2d[%d]=%u / %u\n", TMU, PrintEnum(target), TMU, glstate->actual_tex2d[TMU], t);)
     switch (target) {
         case GL_TEXTURE_1D:
         case GL_TEXTURE_2D:
@@ -2513,7 +2515,7 @@ void realize_textures() {
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
     LOAD_GLES(glBindTexture);
-//printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0], glstate->bound_stream[0]);
+    DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0], glstate->bound_stream[0]);)
     int old = glstate->texture.active;
     for (int i=0; i<glstate->bound_changed; i++) {
         // get highest priority texture unit
