@@ -15,6 +15,7 @@ option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NOEGL and NOX11)" ${AMIGAOS4})
 option(NOX11 "Set to ON to not use X11 (creation of context has to be done outside gl4es)" ${NOX11})
 option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
+option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
 
 # Raspberry PI
 if(BCMHOST)
@@ -43,6 +44,11 @@ endif()
 
 # AmigaOS4
 if(AMIGAOS4)
+    set(CMAKE_C_COMPILER "ppc-amigaos-gcc")
+    set(CMAKE_CXX_COMPILER "ppc-amigaos-g++")
+    set(CMAKE_LINKER "ppc-amigaos-ld")
+    set(CMAKE_AR "ppc-amigaos-ar")
+    set(CMAKE_RANLIB "ppc-amigaos-ranlib")
     add_definitions(-DAMIGAOS4)
     set(NOX11 ON)
     set(NOEGL ON)
