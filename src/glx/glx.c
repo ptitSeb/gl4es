@@ -654,7 +654,8 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_STENCIL_SIZE, &fake->stencil);
     egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLES, &fake->samples);
     egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
-        
+
+    DBG(printf(" => return PBufferContext %p (context->shared=%p)\n", fake, fake->shared);)
     return fake;
 }
 
@@ -689,7 +690,13 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         if (globals4es.usefb && fbcontext_count>0) {
             // don't create a new context, one FB is enough...
             fbcontext_count++;
-            return fbContext;
+
+            GLXContext fake = malloc(sizeof(struct __GLXContextRec));
+            memcpy(fake, fbContext, sizeof(struct __GLXContextRec));
+            fake->shared = (share_context)?share_context->glstate:fbContext->glstate;
+
+            DBG(printf(" => return %p (context->shared=%p)\n", fake, fake->shared);)
+            return fake;
         }
 
 #ifdef BCMHOST
@@ -773,6 +780,11 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MIN_SWAP_INTERVAL, &minswap);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MAX_SWAP_INTERVAL, &maxswap);
+        if(globals4es.usefb) {
+            fbContext = malloc(sizeof(struct __GLXContextRec));
+            memcpy(fbContext, fake, sizeof(struct __GLXContextRec));
+        }
+        DBG(printf(" => return %p (context->shared=%p)\n", fake, fake->shared);)
         return fake;
     }
 }
@@ -877,7 +889,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0);)                        
+    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0);)                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -891,6 +903,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
     EGLContext eglContext = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
     EGLConfig eglConfig = 0;
+    // flush current context if exist...
+    if(glxContext && glxContext->glstate) {
+        gl4es_glFlush();
+    }
     if(context && glxContext==context && context->drawable==drawable) {
         DBG(printf(" => True\n");)
         //same context, all is done bye
@@ -1039,6 +1055,7 @@ void gl4es_glXSwapBuffers(Display *display,
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
     int old_batch = glstate->gl_batch;
+    realize_textures();
     if (glstate->gl_batch || glstate->list.active){
         flush();
     }
