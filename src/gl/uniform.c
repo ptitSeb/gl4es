@@ -540,10 +540,10 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLfloat)*4*4*count;
-    /*if (memcmp(glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
+    if (memcmp(glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
-    }*/
+    }
     // update uniform
     memcpy(glprogram->cache.cache + m->cache_offs, v, rsize);
     LOAD_GLES2(glUniformMatrix4fv);
