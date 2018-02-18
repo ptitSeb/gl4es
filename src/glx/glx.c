@@ -122,7 +122,7 @@ void (*bcm_host_deinit)();
 
 // Generic create native window to use with "LIBGL_FB=1" (so with EGL_DEFAULT_DISPLAY and without X11)
 static void* create_native_window(int w, int h) {
-#ifndef ANDROID
+#if !defined(ANDROID) && !defined(AMIGAOS4)
     if(bcm_host) return create_rpi_window(w, h);
 #endif
 
