@@ -97,6 +97,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int need_lightproduct[2][MAX_LIGHT] = {0};
     int cm_front_nullexp = state->cm_front_nullexp;
     int cm_back_nullexp = state->cm_back_nullexp;
+
+// if TERNARY is defined, the shaders generated will limit the use of ternary operators
+//#define TERNARY
+#ifdef AMIGAOS4
+#define TERNARY
+#endif
+
         
     
     strcpy(shad, fpeshader_signature);
@@ -370,11 +377,19 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
                 sprintf(buff, "nVP = dot(normal, VP);\n");
                 ShadAppend(buff);
+                #ifdef TERNARY
+                sprintf(buff, "dd = nVP * %s%d.diffuse.xyz*step(0.0, nVP);\n", fm_diffuse, i);
+                #else
                 sprintf(buff, "dd = (nVP>0.)?(nVP * %s%d.diffuse.xyz):vec3(0.);\n", fm_diffuse, i);
+                #endif
                 ShadAppend(buff);
                 need_lightproduct[0][i] = 1;
                 if(twosided) {
+                    #ifdef TERNARY
+                    sprintf(buff, "back_dd = -nVP * %s%d.diffuse.xyz * step(0.0, -nVP);\n", bm_diffuse, i);
+                    #else
                     sprintf(buff, "back_dd = (nVP<0.)?(-nVP * %s%d.diffuse.xyz):vec3(0.);\n", bm_diffuse, i);
+                    #endif
                     ShadAppend(buff);
                     need_lightproduct[1][i] = 1;
                 }
@@ -386,15 +401,31 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
                 ShadAppend("lVP = dot(normal, hi);\n");
                 if(cm_front_nullexp)
+                    #ifdef TERNARY
+                    sprintf(buff, "ss = (pow(lVP, %s)*%s%d.specular.xyz)*step(0.0, nVP)*step(0.0, lVP);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
+                    #else
                     sprintf(buff, "ss = (nVP>0. && lVP>0.)?(pow(lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_FrontMaterial.shininess":"_gl4es_FrontMaterial_shininess", fm_specular, i);
+                    #endif
                 else
+                    #ifdef TERNARY
+                    sprintf(buff, "ss = %s%d.specular.xyz*step(0.0, nVP)*step(0.0, lVP);\n", fm_specular, i);
+                    #else
                     sprintf(buff, "ss = (nVP>0. && lVP>0.)?(%s%d.specular.xyz):vec3(0.);\n", fm_specular, i);
+                    #endif
                 ShadAppend(buff);
                 if(twosided) {
                     if(state->cm_back_nullexp)    // 1, exp is not null
+                        #ifdef TERNARY
+                        sprintf(buff, "ss = (pow(-lVP, %s)*%s%d.specular.xyz)*step(0.0, -nVP)*step(0.0, -lVP);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                        #else
                         sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                        #endif
                     else
+                        #ifdef TERNARY
+                        sprintf(buff, "ss = %s%d.specular.xyz*step(0.0, -nVP)*step(0.0, -lVP);\n", bm_specular, i);
+                        #else
                         sprintf(buff, "ss = (nVP<0. && lVP<0.)?(%s%d.specular.xyz):vec3(0.);\n", bm_specular, i);
+                        #endif
                     ShadAppend(buff);
                 }
                 if(state->light_separate) {
