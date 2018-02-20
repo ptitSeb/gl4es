@@ -688,8 +688,11 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         gl4es_glBindTexture(target, 0);
         realize_bound(glstate->texture.active, target);
         bound = glstate->texture.bound[glstate->texture.active][itarget];
-        printf("LIBGL: No texture bound on unit %d for itarget=%d\n", glstate->texture.active, itarget);
-        return;
+        if(!bound) {
+            printf("LIBGL: No texture bound on unit %d for itarget=%d\n", glstate->texture.active, itarget);
+            return;
+        }
+        // let's continue with texture 0...
     }
     bound->alpha = pixel_hasalpha(format);
     // fpe internal format tracking
