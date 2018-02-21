@@ -537,6 +537,7 @@ void gl4es_glLinkProgram(GLuint program) {
         int maxsize=0;
         khint_t k;
         int ret;
+        DBG(GLenum e2;)
         // Get Link Status
         gles_glGetProgramiv(glprogram->id, GL_LINK_STATUS, &glprogram->linked);
         DBG(printf(" link status = %d\n", glprogram->linked);)
@@ -554,31 +555,36 @@ void gl4es_glLinkProgram(GLuint program) {
             GLchar *name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
-                // remove any ending "[]" that could be present
-                if(name[strlen(name)-1]==']' && strrchr(name, '[')) (*strrchr(name, '['))='\0';
-                GLint id = gles_glGetUniformLocation(glprogram->id, name);
-                if(id!=-1) {
-                    for (int j = 0; j<size; j++) {
-                        k = kh_put(uniformlist, uniforms, id, &ret);
-                        gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
-                        memset(gluniform, 0, sizeof(uniform_t));
-                        if(j) {
-                            gluniform->name = malloc(strlen(name)+1+5);
-                            sprintf(gluniform->name, "%s[%d]", name, j);
-                        } else
-                            gluniform->name = strdup(name);
-                        gluniform->id = id;
-                        gluniform->internal_id = i;
-                        gluniform->size = size-j;
-                        gluniform->type = type;
-                        gluniform->cache_offs = uniform_cache+j*uniformsize(type);
-                        gluniform->cache_size = uniformsize(type)*(size-j);
-                        int builtin = builtin_CheckUniform(glprogram, name, id, size-j);
-                        DBG(printf(" uniform #%d : \"%s\"%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
-                        id++;
+                DBG(e2=gles_glGetError();)
+                DBG(if(e2==GL_NO_ERROR))
+                {
+                    // remove any ending "[]" that could be present
+                    if(name[strlen(name)-1]==']' && strrchr(name, '[')) (*strrchr(name, '['))='\0';
+                    GLint id = gles_glGetUniformLocation(glprogram->id, name);
+                    if(id!=-1) {
+                        for (int j = 0; j<size; j++) {
+                            k = kh_put(uniformlist, uniforms, id, &ret);
+                            gluniform = kh_value(uniforms, k) = malloc(sizeof(uniform_t));
+                            memset(gluniform, 0, sizeof(uniform_t));
+                            if(j) {
+                                gluniform->name = malloc(strlen(name)+1+5);
+                                sprintf(gluniform->name, "%s[%d]", name, j);
+                            } else
+                                gluniform->name = strdup(name);
+                            gluniform->id = id;
+                            gluniform->internal_id = i;
+                            gluniform->size = size-j;
+                            gluniform->type = type;
+                            gluniform->cache_offs = uniform_cache+j*uniformsize(type);
+                            gluniform->cache_size = uniformsize(type)*(size-j);
+                            int builtin = builtin_CheckUniform(glprogram, name, id, size-j);
+                            DBG(printf(" uniform #%d : \"%s\"%s type=%s size=%d\n", id, gluniform->name, builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                            id++;
+                        }
+                        uniform_cache += uniformsize(type)*size;
                     }
-                    uniform_cache += uniformsize(type)*size;
                 }
+                DBG(else printf("LIBGL: Warning, getting Uniform #%d info failed with %s\n", i, PrintEnum(e2));)
             }
             free(name);
             // reset uniform cache
@@ -604,21 +610,26 @@ void gl4es_glLinkProgram(GLuint program) {
             attribloc_t *glattribloc = NULL;
             name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
-                gles_glGetActiveAttrib(glprogram->id, i, maxsize, NULL, &size, &type, name);
-                GLint id = gles_glGetAttribLocation(glprogram->id, name);
-                if(id!=-1) {
-                    k = kh_put(attribloclist, attriblocs, id, &ret);
-                    glattribloc = kh_value(attriblocs, k) = malloc(sizeof(uniform_t));
-                    memset(glattribloc, 0, sizeof(attribloc_t));
-                    glattribloc->name = strdup(name);
-                    glattribloc->size = size;
-                    glattribloc->type = type;
-                    glattribloc->index = id;
-                    glattribloc->real_index = i;
-                    int builtin = builtin_CheckVertexAttrib(glprogram, name, id);
-                    glprogram->va_size[id] = n_uniform(type); // same as uniform
-                    DBG(printf(" attrib #%d : %s%stype=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
+                DBG(e2=gles_glGetError();)
+                DBG(if(e2==GL_NO_ERROR))
+                {
+                    gles_glGetActiveAttrib(glprogram->id, i, maxsize, NULL, &size, &type, name);
+                    GLint id = gles_glGetAttribLocation(glprogram->id, name);
+                    if(id!=-1) {
+                        k = kh_put(attribloclist, attriblocs, id, &ret);
+                        glattribloc = kh_value(attriblocs, k) = malloc(sizeof(uniform_t));
+                        memset(glattribloc, 0, sizeof(attribloc_t));
+                        glattribloc->name = strdup(name);
+                        glattribloc->size = size;
+                        glattribloc->type = type;
+                        glattribloc->index = id;
+                        glattribloc->real_index = i;
+                        int builtin = builtin_CheckVertexAttrib(glprogram, name, id);
+                        glprogram->va_size[id] = n_uniform(type); // same as uniform
+                        DBG(printf(" attrib #%d : %s%stype=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
+                    }
                 }
+                DBG(else printf("LIBGL: Warning, getting Attrib #%d info failed with %s\n", i, PrintEnum(e2));)
             }
             free(name);
         }
