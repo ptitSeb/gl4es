@@ -3,10 +3,13 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 #undef __USE_INLINE__
 #include <proto/exec.h>
 
 extern struct OGLES2IFace *IOGLES2;
+
+typedef unsigned long ULONG;
 
 void* NewGLState(void* shared_glstate, int es2only);
 void DeleteGLState(void* oldstate);
@@ -45,8 +48,6 @@ void agl_context_find(void* ctx) {
         agl_context[idx].glstate = NewGLState(NULL, 0);
     }
     ActivateGLState(agl_context[idx].glstate);
-
-    return &agl_context[idx];
 }
 
 // remove a context (delete array if size is null)
@@ -108,30 +109,15 @@ void aglMakeCurrent(void* context) {
     }
 }
 
+void amiga_pre_swap();
+void amiga_post_swap();
 void aglSwapBuffers() {
-    // make sure everything is flushed before swapping buffers
-    int old_batch = glstate->gl_batch;
-    if (glstate->gl_batch || glstate->list.active){
-        flush();
-    }
-    if (glstate->raster.bm_drawing)
-        bitmap_flush();
-
-    if (globals4es.usefbo) {
-        glstate->gl_batch = 0;
-        unbindMainFBO();
-        blitMainFBO();
-        // blit the main_fbo before swap
-    }
+    amiga_pre_swap();
     // Swap the Buffers!
     if(IOGLES2) {
         IOGLES2->aglSwapBuffers();
     }
-    // If drawing in fbo, rebind it...
-    if (globals4es.usefbo) {
-        glstate->gl_batch = old_batch;
-        bindMainFBO();
-    }
+    amiga_post_swap();
 }
 
 // what is the use of this function?

@@ -2329,3 +2329,31 @@ void gl4es_scratch(int alloc) {
         glstate->scratch_alloc = alloc;
     }
 }
+
+#ifdef AMIGAOS4
+static int amiga_old_batch
+void amiga_pre_swap() {
+    amiga_old_batch = glstate->gl_batch;
+    if (glstate->gl_batch || glstate->list.active){
+        flush();
+    }
+    if (glstate->raster.bm_drawing)
+        bitmap_flush();
+
+    if (globals4es.usefbo) {
+        glstate->gl_batch = 0;
+        unbindMainFBO();
+        blitMainFBO();
+        // blit the main_fbo before swap
+    }
+}
+
+void amiga_post_swap() {
+    // If drawing in fbo, rebind it...
+    if (globals4es.usefbo) {
+        glstate->gl_batch = amiga_old_batch;
+        bindMainFBO();
+    }
+
+}
+#endif
