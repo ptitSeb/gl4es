@@ -6,10 +6,9 @@
 #include <stdarg.h>
 #undef __USE_INLINE__
 #include <proto/exec.h>
+#include <interfaces/ogles2.h>
 
 extern struct OGLES2IFace *IOGLES2;
-
-typedef unsigned long ULONG;
 
 void* NewGLState(void* shared_glstate, int es2only);
 void DeleteGLState(void* oldstate);
