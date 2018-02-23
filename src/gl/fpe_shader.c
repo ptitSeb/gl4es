@@ -422,9 +422,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                         #endif
                     else
                         #ifdef TERNARY
-                        sprintf(buff, "ss = %s%d.specular.xyz*step(0.0, -nVP)*step(0.0, -lVP);\n", bm_specular, i);
+                        sprintf(buff, "back_ss = %s%d.specular.xyz*step(0.0, -nVP)*step(0.0, -lVP);\n", bm_specular, i);
                         #else
-                        sprintf(buff, "ss = (nVP<0. && lVP<0.)?(%s%d.specular.xyz):vec3(0.);\n", bm_specular, i);
+                        sprintf(buff, "back_ss = (nVP<0. && lVP<0.)?(%s%d.specular.xyz):vec3(0.);\n", bm_specular, i);
                         #endif
                     ShadAppend(buff);
                 }
