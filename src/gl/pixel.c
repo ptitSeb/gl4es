@@ -705,7 +705,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				tmp = *(const GLuint*)src_pos;
+                #ifdef __BIG_ENDIAN__
+                *(GLuint*)dst_pos = (tmp&0x00ff00ff) | ((tmp&0x0000ff00)<<16) | ((tmp&0xff0000)>>16);
+                #else
 				*(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
+                #endif
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
