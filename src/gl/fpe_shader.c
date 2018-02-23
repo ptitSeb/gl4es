@@ -408,17 +408,17 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     #endif
                 else
                     #ifdef TERNARY
-                    sprintf(buff, "back_ss = %s%d.specular.xyz*step(0.0, nVP)*step(0.0, lVP);\n", fm_specular, i);
+                    sprintf(buff, "ss = %s%d.specular.xyz*step(0.0, nVP)*step(0.0, lVP);\n", fm_specular, i);
                     #else
-                    sprintf(buff, "back_ss = (nVP>0. && lVP>0.)?(%s%d.specular.xyz):vec3(0.);\n", fm_specular, i);
+                    sprintf(buff, "ss = (nVP>0. && lVP>0.)?(%s%d.specular.xyz):vec3(0.);\n", fm_specular, i);
                     #endif
                 ShadAppend(buff);
                 if(twosided) {
                     if(state->cm_back_nullexp)    // 1, exp is not null
                         #ifdef TERNARY
-                        sprintf(buff, "ss = (pow(-lVP, %s)*%s%d.specular.xyz)*step(0.0, -nVP)*step(0.0, -lVP);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                        sprintf(buff, "back_ss = (pow(-lVP, %s)*%s%d.specular.xyz)*step(0.0, -nVP)*step(0.0, -lVP);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
                         #else
-                        sprintf(buff, "ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
+                        sprintf(buff, "back_ss = (nVP<0. && lVP<0.)?(pow(-lVP, %s)*%s%d.specular.xyz):vec3(0.);\n", (color_material)?"gl_BackMaterial.shininess":"_gl4es_BackMaterial_shininess", bm_specular, i);
                         #endif
                     else
                         #ifdef TERNARY
