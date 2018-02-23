@@ -297,13 +297,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", fm_ambient);
             ShadAppend(buff);
             if(twosided) {
-                sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", bm_ambient);
+                sprintf(buff, "BackColor += %s*gl_LightModel.ambient;\n", bm_ambient);
                 ShadAppend(buff);
             }
         } else {
             ShadAppend("Color = gl_FrontLightModelProduct.sceneColor;\n");
             if(twosided) {
-                ShadAppend("Color = gl_BackLightModelProduct.sceneColor;\n");
+                ShadAppend("BackColor = gl_BackLightModelProduct.sceneColor;\n");
             }
         }
         if(light_separate) {
