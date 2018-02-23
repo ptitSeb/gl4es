@@ -2331,7 +2331,7 @@ void gl4es_scratch(int alloc) {
 }
 
 #ifdef AMIGAOS4
-static int amiga_old_batch
+static int amiga_old_batch;
 void amiga_pre_swap() {
     amiga_old_batch = glstate->gl_batch;
     if (glstate->gl_batch || glstate->list.active){
