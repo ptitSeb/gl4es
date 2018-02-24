@@ -200,13 +200,16 @@ const char* gl4es_texcoordSource =
 "varying mediump vec4 _gl4es_TexCoord[%d];\n";
 
 const char* gl4es_fogcoordSource =
-"varying mediump vec4 _gl4es_FogCoord;\n";
+"varying mediump float _gl4es_FogFragCoord;\n";
 
 const char* gl4es_ftransformSource = 
 "\n"
 "highp vec4 ftransform() {\n"
 " return gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "}\n";
+
+const char* gl4es_dummyClipVertex = 
+"vec4 dummyClipVertex_%d";
 
 const char* gl_TexCoordSource = "gl_TexCoord[";
 
@@ -637,6 +640,15 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
     InplaceInsert(GetLine(Tmp, 2), gl4es_MaxTextureCoordsSource);
     headline+=CountLine(gl4es_MaxTextureCoordsSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureCoords", "_gl4es_MaxTextureCoords");
+  }
+  if(strstr(Tmp, "gl_ClipVertex")) {
+    // gl_ClipVertex is not handled for now
+    // Proper way would be to copy handling from fpe_shader, but then, need to use gl_ClipPlane...
+    static int ncv = 0;
+    char CV[60];
+    sprintf(CV, gl4es_dummyClipVertex, ncv);
+    ++ncv;
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", CV);
   }
 
   
