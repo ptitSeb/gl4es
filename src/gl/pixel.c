@@ -714,7 +714,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				tmp = *(const GLuint*)src_pos;
                 #ifdef __BIG_ENDIAN__
-                *(GLuint*)dst_pos = (tmp&0x00ff00ff) | ((tmp&0x0000ff00)<<16) | ((tmp&0xff0000)>>16);
+                *(GLuint*)dst_pos = (tmp&0x00ff00ff) | ((tmp&0x0000ff00)<<16) | ((tmp&0xff000000)>>16);
                 #else
 				*(GLuint*)dst_pos = (tmp&0xff00ff00) | ((tmp&0x00ff0000)>>16) | ((tmp&0x000000ff)<<16);
                 #endif
@@ -751,7 +751,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
                 unsigned char* byte_src = (unsigned char*)src_pos;
+                #ifdef __BIG_ENDIAN__
+                *(GLushort*)dst_pos = ((((int)byte_src[3])*77 + ((int)byte_src[2])*151 + ((int)byte_src[1])*28)&0xff00)>>8 | (byte_src[0]<<8);
+                #else
                 *(GLushort*)dst_pos = ((((int)byte_src[0])*77 + ((int)byte_src[1])*151 + ((int)byte_src[2])*28)&0xff00)>>8 | (byte_src[3]<<8);
+                #endif
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -767,7 +771,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
                 unsigned char* byte_src = (unsigned char*)src_pos;
+                #ifdef __BIG_ENDIAN__
+                *(GLushort*)dst_pos = ((((int)byte_src[1])*77 + ((int)byte_src[2])*151 + ((int)byte_src[3])*28)&0xff00)>>8 | (byte_src[0]<<8);
+                #else
                 *(GLushort*)dst_pos = ((((int)byte_src[2])*77 + ((int)byte_src[1])*151 + ((int)byte_src[0])*28)&0xff00)>>8 | (byte_src[3]<<8);
+                #endif
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -783,7 +791,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
                 unsigned char* byte_src = (unsigned char*)src_pos;
+                #ifdef __BIG_ENDIAN__
+                *(unsigned char*)dst_pos = (((int)byte_src[3])*77 + ((int)byte_src[2])*151 + ((int)byte_src[1])*28)>>8;
+                #else
                 *(unsigned char*)dst_pos = (((int)byte_src[0])*77 + ((int)byte_src[1])*151 + ((int)byte_src[2])*28)>>8;
+                #endif
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -799,7 +811,11 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
                 unsigned char* byte_src = (unsigned char*)src_pos;
+                #ifdef __BIG_ENDIAN__
+                *(unsigned char*)dst_pos = (((int)byte_src[1])*77 + ((int)byte_src[2])*151 + ((int)byte_src[3])*28)>>8;
+                #else
                 *(unsigned char*)dst_pos = (((int)byte_src[2])*77 + ((int)byte_src[1])*151 + ((int)byte_src[0])*28)>>8;
+                #endif
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
