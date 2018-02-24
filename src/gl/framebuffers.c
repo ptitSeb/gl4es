@@ -372,7 +372,10 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     }
     
     errorGL();
-    gles_glFramebufferTexture2D(ntarget, attachment, /*textarget*/GL_TEXTURE_2D, texture, 0);
+    GLenum realtarget = GL_TEXTURE_2D;
+    if(textarget>=GL_TEXTURE_CUBE_MAP_POSITIVE_X && textarget<GL_TEXTURE_CUBE_MAP_POSITIVE_X+6)
+        realtarget = textarget;
+    gles_glFramebufferTexture2D(ntarget, attachment, textarget, texture, 0);
     DBG(CheckGLError(1);)
     ReadDraw_Pop(target);
 }
