@@ -673,6 +673,11 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     } else {
         PUSH_IF_COMPILING(glTexImage2D);
     }
+
+#ifndef __BIG_ENDIAN__
+    if(type==GL_UNSIGNED_INT_8_8_8_8_REV)
+        type = GL_UNSIGNED_BYTE;
+#endif
     
     GLvoid *datab = (GLvoid*)data;
     
@@ -1041,6 +1046,12 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         PUSH_IF_COMPILING(glTexSubImage2D);
     }
     realize_bound(glstate->texture.active, target);
+
+#ifndef __BIG_ENDIAN__
+    if(type==GL_UNSIGNED_INT_8_8_8_8_REV)
+        type = GL_UNSIGNED_BYTE;
+#endif
+
     
     GLvoid *datab = (GLvoid*)data;
 	if (glstate->vao->unpack)

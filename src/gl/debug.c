@@ -82,6 +82,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_UNSIGNED_SHORT_4_4_4_4_REV);
         p(GL_UNSIGNED_SHORT_5_6_5);
         p(GL_UNSIGNED_SHORT_5_6_5_REV);
+        p(GL_UNSIGNED_INT_8_8_8_8_REV);
         p(GL_FLOAT);
         p(GL_DOUBLE);
         // texture infos
