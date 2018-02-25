@@ -177,7 +177,7 @@ const GLubyte *gl4es_glGetString(GLenum name) {
 		case GL_VENDOR:
 			return (GLubyte *)"ptitSeb";
 		case GL_RENDERER:
-			return (GLubyte *)"GLES_CM wrapper";
+			return (GLubyte *)"GL4ES wrapper";
 		case GL_SHADING_LANGUAGE_VERSION:
             if(globals4es.gl==21)
             return (GLubyte *)"1.20 via gl4es";
