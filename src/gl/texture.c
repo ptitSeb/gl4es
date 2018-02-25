@@ -901,7 +901,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if ((globals4es.automipmap==4) && (nwidth!=nheight))
             bound->mipmap_auto = 0;
 
-        if(forceclamp) {
+        if(forceclamp && rtarget==GL_TEXTURE_2D) {
             gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
@@ -916,7 +916,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     callgeneratemipmap = 1;
             } else {
                 //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
-                if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need)) {
+                if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || globals4es.automipmap==3)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
                     gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
@@ -1424,7 +1424,8 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->streamed = false;
         tex->alpha = true;
         tex->compressed = false;
-        tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+        tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+        tex->mag_filter = GL_LINEAR;
         tex->fpe_format = FPE_TEX_RGBA;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
@@ -1522,11 +1523,11 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				param = GL_LINEAR;
 				break;
 			}
-			if (pname==GL_TEXTURE_MIN_FILTER) if (texture) texture->min_filter = param;
-            if (pname==GL_TEXTURE_MAG_FILTER) if (texture) texture->mag_filter = param;
-            if(texture && !texture->valid) glstate->filterpostupload = 1;
-		    break;
-	    }
+        }
+        if (pname==GL_TEXTURE_MIN_FILTER) if (texture) texture->min_filter = param;
+        if (pname==GL_TEXTURE_MAG_FILTER) if (texture) texture->mag_filter = param;
+        if(texture && !texture->valid) glstate->filterpostupload = 1;
+        break;
 	case GL_TEXTURE_WRAP_S:
 	case GL_TEXTURE_WRAP_T:
 	    switch (param) {
