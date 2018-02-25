@@ -909,7 +909,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         }
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
-            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && ((bound->mipmap_need && (globals4es.automipmap!=3)) || (bound->mipmap_auto))) {
+            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto)) {
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else
@@ -1495,7 +1495,7 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 
 // TODO: also glTexParameterf(v)?
 void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
-    DBG(printf("glTexParameteri(%s, %s, %d)\n", PrintEnum(target), PrintEnum(pname), param);)
+    DBG(printf("glTexParameteri(%s, %s, %d(%s))\n", PrintEnum(target), PrintEnum(pname), param, PrintEnum(param));)
     PUSH_IF_COMPILING(glTexParameteri);
     LOAD_GLES(glTexParameteri);
     realize_bound(glstate->texture.active, target);
@@ -1516,12 +1516,12 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 			switch (param) {
 			    case GL_NEAREST_MIPMAP_NEAREST:
 			    case GL_NEAREST_MIPMAP_LINEAR:
-				param = GL_NEAREST;
-				break;
+				    param = GL_NEAREST;
+				    break;
 			    case GL_LINEAR_MIPMAP_NEAREST:
 			    case GL_LINEAR_MIPMAP_LINEAR:
-				param = GL_LINEAR;
-				break;
+				    param = GL_LINEAR;
+				    break;
 			}
         }
         if (pname==GL_TEXTURE_MIN_FILTER) if (texture) texture->min_filter = param;
@@ -1555,6 +1555,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 	case GL_TEXTURE_LOD_BIAS:
 	    return;			// not on GLES
 	case GL_GENERATE_MIPMAP:
+        if(globals4es.automipmap==3)
+            return; // no mipmap, so no need to generate any
 	    if (texture) {
             texture->mipmap_auto = (param)?1:0;
             if (texture->glname == 0)
