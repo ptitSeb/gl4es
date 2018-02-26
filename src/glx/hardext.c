@@ -126,6 +126,7 @@ void GetHardwareExtensions(int notest)
     }
     egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 #endif
+    tested = 1;
     LOAD_GLES(glGetString);
     LOAD_GLES(glGetIntegerv);
     // Now get extensions
