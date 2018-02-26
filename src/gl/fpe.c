@@ -23,7 +23,11 @@
 #endif
 #ifdef WORKAROUNDV4F
 static void *vertex4f = NULL;
-static int cursize = 0;
+static int v4fsize = 0;
+static void *color4f = NULL;
+static int c4fsize = 0;
+static void *tex4f[8] = {0};
+static int t4fsize[8] = {0};
 #endif
 
 // ********* Cache handling *********
@@ -357,22 +361,21 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     noerrorShim();
 }
 
-void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
 #ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
-        DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
-        // force vertex to be 4
-        if(cursize<count) {
-            cursize = count;
-            if(vertex4f) free(vertex4f);
-            vertex4f = malloc(sizeof(GLfloat)*4*cursize);
+static void workaround(pointer_state_t* p, void** d, int* s, int first, int count) {
+    // work around on 1 pointer state
+    if(p->size!=4 && p->type==GL_FLOAT) {
+        DBG(printf("  convert a vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", p->size, p->stride, PrintEnum(p->type));)
+        if((*s)<count) {
+            (*s) = count;
+            if((*d)) free((*d));
+            (*d) = malloc(sizeof(GLfloat)*4*(*s));
         }
-        int stride = glstate->fpe_client.vert.stride;
-        int sz = glstate->fpe_client.vert.size;
+        int stride = p->stride;
+        int sz = p->size;
         if(!stride) stride = sz;
-        GLfloat* dst = (GLfloat*)vertex4f;
-        void* src = (void*)glstate->fpe_client.vert.pointer;
+        GLfloat* dst = (GLfloat*)(*d);
+        void* src = (void*)p->pointer;
 
         dst+=first*4;
         src+=first*stride;
@@ -384,11 +387,31 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             src+=stride;
         }
         
-        glstate->fpe_client.vert.size = 4;
-        glstate->fpe_client.vert.type = GL_FLOAT;
-        glstate->fpe_client.vert.stride = 0;
-        glstate->fpe_client.vert.pointer = vertex4f;
+        p->size = 4;
+        p->type = GL_FLOAT;
+        p->stride = 0;
+        p->pointer = (*d);
     }
+}
+
+static void workaroundAll(int first, int count) {
+    if (glstate->fpe_client.vertex_array) {
+        workaround(&glstate->fpe_client.vert, &vertex4f, &v4fsize, first, count);
+    }
+    if (glstate->fpe_client.color_array) {
+        workaround(&glstate->fpe_client.color, &color4f, &c4fsize, first, count);
+    }
+    for (int i=0; i<hardext.maxtex; i++)
+        if (glstate->fpe_client.tex_coord_array[i]) {
+            workaround(&glstate->fpe_client.tex[i], &tex4f[i], &t4fsize[i], first, count);
+    }
+}
+#endif
+
+void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
+#ifdef WORKAROUNDV4F
+    workaroundAll(first, count);
 #endif
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
@@ -398,40 +421,12 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
 #ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
-        DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
-        GLsizei first, vmax;
-        if(type==GL_UNSIGNED_SHORT)
-            getminmax_indices_us(indices, &vmax, &first, count);
-        else
-            getminmax_indices_ui(indices, &vmax, &first, count);
-        // force vertex to be 4
-        if(cursize<vmax) {
-            cursize = vmax;
-            if(vertex4f) free(vertex4f);
-            vertex4f = malloc(sizeof(GLfloat)*4*cursize);
-        }
-        int stride = glstate->fpe_client.vert.stride;
-        int sz = glstate->fpe_client.vert.size;
-        if(!stride) stride = sz;
-        GLfloat* dst = (GLfloat*)vertex4f;
-        void* src = (void*)glstate->fpe_client.vert.pointer;
-
-        dst+=first*4;
-        src+=first*stride;
-        for (int i=first; i<vmax; i++) {
-            memcpy(dst, src, sz*sizeof(GLfloat));
-            if(sz<3) dst[2] = 0.0f;
-            dst[3] = 1.0f;
-            dst+=4;
-            src+=stride;
-        }
-        
-        glstate->fpe_client.vert.size = 4;
-        glstate->fpe_client.vert.type = GL_FLOAT;
-        glstate->fpe_client.vert.stride = 0;
-        glstate->fpe_client.vert.pointer = vertex4f;
-    }
+    GLsizei first, vmax;
+    if(type==GL_UNSIGNED_SHORT)
+        getminmax_indices_us(indices, &vmax, &first, count);
+    else
+        getminmax_indices_ui(indices, &vmax, &first, count);
+    workaroundAll(first, vmax);
 #endif
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
