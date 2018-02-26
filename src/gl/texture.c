@@ -674,10 +674,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         PUSH_IF_COMPILING(glTexImage2D);
     }
 
-#ifndef __BIG_ENDIAN__
+#ifdef __BIG_ENDIAN__
+    if(type==GL_UNSIGNED_INT_8_8_8_8)
+#else
     if(type==GL_UNSIGNED_INT_8_8_8_8_REV)
-        type = GL_UNSIGNED_BYTE;
 #endif
+        type = GL_UNSIGNED_BYTE;
     
     GLvoid *datab = (GLvoid*)data;
     

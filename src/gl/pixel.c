@@ -668,9 +668,13 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLenum dst_format, GLenum dst_type, GLuint stride, GLuint align) {
     const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
+#ifdef __BIG_ENDIAN__
+    if(src_type==GL_UNSIGNED_INT_8_8_8_8) src_type=GL_UNSIGNED_BYTE;
+    if(dst_type==GL_UNSIGNED_INT_8_8_8_8) dst_type=GL_UNSIGNED_BYTE;
+#else
     if(src_type==GL_UNSIGNED_INT_8_8_8_8_REV) src_type=GL_UNSIGNED_BYTE;
     if(dst_type==GL_UNSIGNED_INT_8_8_8_8_REV) dst_type=GL_UNSIGNED_BYTE;
-
+#endif
     GLuint dst_size = height * widthalign(width * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width2 = widthalign((stride?stride:width) * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width = dst_width2 - (width * pixel_sizeof(dst_format, dst_type));
