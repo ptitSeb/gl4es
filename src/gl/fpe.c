@@ -359,7 +359,6 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
-    realize_glenv(mode==GL_POINTS);
 #ifdef WORKAROUNDV4F
     if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
         DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
@@ -391,14 +390,13 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         glstate->fpe_client.vert.pointer = vertex4f;
     }
 #endif
+    realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
-    realize_glenv(mode==GL_POINTS);
-    LOAD_GLES(glDrawElements);
 #ifdef WORKAROUNDV4F
     if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
         DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
@@ -435,6 +433,8 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
         glstate->fpe_client.vert.pointer = vertex4f;
     }
 #endif
+    realize_glenv(mode==GL_POINTS);
+    LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
 }
 
