@@ -1047,10 +1047,12 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     }
     realize_bound(glstate->texture.active, target);
 
-#ifndef __BIG_ENDIAN__
+#ifdef __BIG_ENDIAN__
+    if(type==GL_UNSIGNED_INT_8_8_8_8)
+#else
     if(type==GL_UNSIGNED_INT_8_8_8_8_REV)
-        type = GL_UNSIGNED_BYTE;
 #endif
+        type = GL_UNSIGNED_BYTE;
 
     
     GLvoid *datab = (GLvoid*)data;
