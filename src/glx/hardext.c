@@ -11,7 +11,7 @@ hardext_t hardext;
 
 void GetHardwareExtensions(int notest)
 {
-    if(tested) return;
+    if(tested && notest!=-1) return;
     // put some default values
     memset(&hardext, 0, sizeof(hardext));
     hardext.maxtex = 2;
@@ -20,7 +20,9 @@ void GetHardwareExtensions(int notest)
     hardext.maxplanes = 6;
 
     hardext.esversion = globals4es.es;
-#ifndef NOEGL    
+#ifdef NOEGL
+    if(notest!=-1)
+#else
     if(notest) 
 #endif
     {
@@ -37,7 +39,9 @@ void GetHardwareExtensions(int notest)
         }
         return;
     }
-#ifndef NOEGL
+#ifdef NOEGL
+    SHUT(LOGD("LIBGL: Hardware test on current Context...\n"));
+#else
     // used EGL & GLES functions
     LOAD_EGL(eglBindAPI);
     LOAD_EGL(eglInitialize);
@@ -123,7 +127,7 @@ void GetHardwareExtensions(int notest)
         return;
     }
     egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
-
+#endif
     // Now get extensions
     const char* Exts = gles_glGetString(GL_EXTENSIONS);
     // Parse them!
@@ -222,7 +226,7 @@ void GetHardwareExtensions(int notest)
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
     }
-
+#ifndef NOEGL
     // End, cleanup
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
     egl_eglDestroySurface(eglDisplay, eglSurface);

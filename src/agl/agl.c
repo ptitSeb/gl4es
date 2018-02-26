@@ -13,6 +13,7 @@ extern struct OGLES2IFace *IOGLES2;
 void* NewGLState(void* shared_glstate, int es2only);
 void DeleteGLState(void* oldstate);
 void ActivateGLState(void* new_glstate);
+void GetHardwareExtensions(int notest);
 
 typedef struct _agl_ctx_glstate {
     void* context;
@@ -45,6 +46,8 @@ void agl_context_find(void* ctx) {
     // create glstate if needed
     if(!agl_context[idx].glstate) {
         agl_context[idx].glstate = NewGLState(NULL, 0);
+        // Hardware testing
+        GetHardwareExtensions(-1);
     }
     ActivateGLState(agl_context[idx].glstate);
 }
@@ -104,7 +107,8 @@ void aglMakeCurrent(void* context) {
     if(IOGLES2) {
         IOGLES2->aglMakeCurrent(context);
 
-        agl_context_find(context);  // activate (and create if needed) the correct glstate
+        if (context)
+            agl_context_find(context);  // activate (and create if needed) the correct glstate
     }
 }
 
