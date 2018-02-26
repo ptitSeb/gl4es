@@ -362,6 +362,7 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     realize_glenv(mode==GL_POINTS);
 #ifdef WORKAROUNDV4F
     if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
+        DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
         // force vertex to be 4
         if(cursize<count) {
             cursize = count;
@@ -400,6 +401,7 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
     LOAD_GLES(glDrawElements);
 #ifdef WORKAROUNDV4F
     if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
+        DBG(printf("  convert vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", glstate->fpe_client.vert.size, glstate->fpe_client.vert.stride, PrintEnum(glstate->fpe_client.vert.type));)
         GLsizei first, vmax;
         if(type==GL_UNSIGNED_SHORT)
             getminmax_indices_us(indices, &vmax, &first, count);
