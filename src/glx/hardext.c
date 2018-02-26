@@ -53,8 +53,6 @@ void GetHardwareExtensions(int notest)
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglCreateContext);
     LOAD_EGL(eglQueryString);
-    LOAD_GLES(glGetString);
-    LOAD_GLES(glGetIntegerv);
 
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
@@ -128,6 +126,8 @@ void GetHardwareExtensions(int notest)
     }
     egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 #endif
+    LOAD_GLES(glGetString);
+    LOAD_GLES(glGetIntegerv);
     // Now get extensions
     const char* Exts = gles_glGetString(GL_EXTENSIONS);
     // Parse them!
@@ -222,11 +222,11 @@ void GetHardwareExtensions(int notest)
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
     SHUT(LOGD("LIBGL: Texture Units: %d(%d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardext.maxlights, hardext.maxplanes));
 
+#ifndef NOEGL
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
     }
-#ifndef NOEGL
     // End, cleanup
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
     egl_eglDestroySurface(eglDisplay, eglSurface);
