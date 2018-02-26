@@ -17,6 +17,15 @@
 #define DBG(a)
 #endif
 
+//#define WORKAROUNDV4F
+#ifdef AMIGAOS4
+#define WORKAROUNDV4F
+#endif
+#ifdef WORKAROUNDV4F
+static void *vertex4f = NULL;
+static int cursize = 0;
+#endif
+
 // ********* Cache handling *********
 
 fpe_cache_t* fpe_NewCache() {
@@ -351,6 +360,36 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
     realize_glenv(mode==GL_POINTS);
+#ifdef WORKAROUNDV4F
+    if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
+        // force vertex to be 4
+        if(cursize<count) {
+            cursize = count;
+            if(vertex4f) free(vertex4f);
+            vertex4f = malloc(sizeof(GLfloat)*4*cursize);
+        }
+        int stride = glstate->fpe_client.vert.stride;
+        int sz = glstate->fpe_client.vert.size;
+        if(!stride) stride = sz;
+        GLfloat* dst = (GLfloat*)vertex4f;
+        void* src = (void*)glstate->fpe_client.vert.pointer;
+
+        dst+=first*4;
+        src+=first*stride;
+        for (int i=first; i<count; i++) {
+            memcpy(dst, src, sz*sizeof(GLfloat));
+            if(sz<3) dst[2] = 0.0f;
+            dst[3] = 1.0f;
+            dst+=4;
+            src+=stride;
+        }
+        
+        glstate->fpe_client.vert.size = 4;
+        glstate->fpe_client.vert.type = GL_FLOAT;
+        glstate->fpe_client.vert.stride = 0;
+        glstate->fpe_client.vert.pointer = vertex4f;
+    }
+#endif
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
@@ -359,6 +398,41 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
+#ifdef WORKAROUNDV4F
+    if(glstate->fpe_client.vert.size!=4 && glstate->fpe_client.vert.type==GL_FLOAT) {
+        GLsizei first, vmax;
+        if(type==GL_UNSIGNED_SHORT)
+            getminmax_indices_us(indices, &vmax, &first, count);
+        else
+            getminmax_indices_ui(indices, &vmax, &first, count);
+        // force vertex to be 4
+        if(cursize<vmax) {
+            cursize = vmax;
+            if(vertex4f) free(vertex4f);
+            vertex4f = malloc(sizeof(GLfloat)*4*cursize);
+        }
+        int stride = glstate->fpe_client.vert.stride;
+        int sz = glstate->fpe_client.vert.size;
+        if(!stride) stride = sz;
+        GLfloat* dst = (GLfloat*)vertex4f;
+        void* src = (void*)glstate->fpe_client.vert.pointer;
+
+        dst+=first*4;
+        src+=first*stride;
+        for (int i=first; i<vmax; i++) {
+            memcpy(dst, src, sz*sizeof(GLfloat));
+            if(sz<3) dst[2] = 0.0f;
+            dst[3] = 1.0f;
+            dst+=4;
+            src+=stride;
+        }
+        
+        glstate->fpe_client.vert.size = 4;
+        glstate->fpe_client.vert.type = GL_FLOAT;
+        glstate->fpe_client.vert.stride = 0;
+        glstate->fpe_client.vert.pointer = vertex4f;
+    }
+#endif
     gles_glDrawElements(mode, count, type, indices);
 }
 
