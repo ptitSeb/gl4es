@@ -4,6 +4,7 @@
 #include "../glx/hardext.h"
 #include "debug.h"
 #include "fpe_shader.h"
+#include "preproc.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -213,10 +214,12 @@ const char* gl4es_dummyClipVertex =
 
 const char* gl_TexCoordSource = "gl_TexCoord[";
 
-char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
+char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
-  int fpeShader = (strstr(pBuffer, fpeshader_signature)!=NULL)?1:0;
+  int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
   DBG(printf("Shader source%s:\n%s\n", pBuffer, fpeShader?" (FPEShader generated)":"");)
+
+  char* pBuffer = preproc(pEntry, fpeShader);
   
   static shaderconv_need_t dummy_need;
   if(!need) {
@@ -654,6 +657,9 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
   
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)
+  // clean preproc'd source
+  if(pEntry!=pBuffer)
+    free(pBuffer);
   return Tmp;
 }
 
