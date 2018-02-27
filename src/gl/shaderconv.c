@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "fpe_shader.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
 #else
