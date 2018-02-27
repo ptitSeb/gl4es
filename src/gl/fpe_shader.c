@@ -101,7 +101,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
 // if TERNARY is defined, the shaders generated will limit the use of ternary operators
 //#define TERNARY
 #ifdef AMIGAOS4
-#define TERNARY
+//#define TERNARY
 #endif
 
         
@@ -113,6 +113,12 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
+#ifdef WORKAROUNDV4F
+        sprintf(buff, "//    Vertex Attrib size: vertex=%d color=%d secondary=%d textures=%s\n",
+            glstate->fpe_state->vertexsz+1, glstate->fpe_state->colorsz+1, glstate->fpe_state->seccolorsz+1, fpe_packed(glstate->fpe_state->texsz, 16, 2));
+        ShadAppend(buff);
+        headers+=CountLine(buff);
+#endif
     }
     ShadAppend("varying vec4 Color;\n");  // might be unused...
     headers++;
@@ -255,12 +261,55 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             need_vertex  = 1;
         //ShadAppend("gl_Position = clipvertex;\n");
     }
+#ifdef WORKAROUNDV4F
+    char vertex4f[50], color4f[50], seccolor4f[50];
+    {
+        int sz;
+        // vertex
+        sz = glstate->fpe_state->vertexsz;
+        ++sz;
+        if(sz==4)
+            strcpy(vertex4f, "gl_Vertex");
+        else if (sz==3)
+            sprintf(vertex4f, "vec4(gl_Vertex, 1.0)");
+        else sprintf(vertex4f, "vec4(gl_Vertex, 0.0, 1.0)");
+        // color
+        sz = glstate->fpe_state->colorsz;
+        ++sz;
+        if(sz==4)
+            strcpy(color4f, "gl_Color");
+        else
+            sprintf(color4f, "vec4(gl_Color, 1.0)");
+        // secondary
+        sz = glstate->fpe_state->colorsz;
+        ++sz;
+        if(sz==4)
+            strcpy(seccolor4f, "gl_SecondaryColor");
+        else
+            sprintf(seccolor4f, "vec4(gl_SecondaryColor, 1.0)");
+    }
+#endif
+#ifdef WORKAROUNDV4F
+    sprintf(buff, "gl_Position = gl_ModelViewProjectionMatrix * %s;\n", vertex4f);
+    ShadAppend(buff);
+#else
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
+#endif
     // initial Color / lighting calculation
     if(!lighting) {
+#ifdef WORKAROUNDV4F
+        sprintf(buff, "Color =  %s;\n", color4f);
+        ShadAppend(buff);
+#else
         ShadAppend("Color = gl_Color;\n");
+#endif
         if(secondary) {
+#ifdef WORKAROUNDV4F
+            sprintf(buff, "SecColor =  %s;\n", seccolor4f);
+            ShadAppend(buff);
+#else
             ShadAppend("SecColor = gl_SecondaryColor;\n");
+#endif
         }
     } else {
         if(comments) {
@@ -446,11 +495,25 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
             }
         }
+        #ifdef WORKAROUNDV4F
+        if(color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))
+            sprintf(buff, "Color.a = %s.a;\n", color4f);
+        else
+            sprintf(buff, "Color.a = %s;\n", "_gl4es_FrontMaterial_alpha");
+        #else
         sprintf(buff, "Color.a = %s;\n", (color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_FrontMaterial_alpha");
+        #endif
         ShadAppend(buff);
         ShadAppend("Color.rgb = clamp(Color.rgb, 0., 1.);\n");
         if(twosided) {
+        #ifdef WORKAROUNDV4F
+            if(color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))
+                sprintf(buff, "BackColor.a = %s.a;\n", color4f);
+            else
+                sprintf(buff, "BackColor.a = %s;\n", "_gl4es_BackMaterial_alpha");
+        #else
             sprintf(buff, "BackColor.a = %s;\n", (color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_BackMaterial_alpha");
+        #endif
             ShadAppend("BackColor.rgb = clamp(BackColor.rgb, 0., 1.);\n");
             ShadAppend(buff);
         }
@@ -539,7 +602,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(texcoord, "gl_MultiTexCoord%d", i);
             }
             if(mat) {
+                #ifdef WORKAROUNDV4F
+                int sz = (glstate->fpe_state->texsz>>(i*3))&3;
+                ++sz;
+                char cmp[10];
+                if (sz==4) strcpy(cmp, ""); else if (sz==3) strcpy(cmp, ",1.0"); else strcpy(cmp, ",0.0, 1.0");
+                sprintf(buff, "tmp_tex = (vec4(_gl4es_TextureMatrix_%d%s) * %s);\n", i, cmp, texcoord);
+                #else
                 sprintf(buff, "tmp_tex = (_gl4es_TextureMatrix_%d * %s);\n", i, texcoord);
+                #endif
                 ShadAppend(buff);
                 sprintf(buff, "_gl4es_TexCoord_%d = tmp_tex.%s / tmp_tex.q;\n", i, texxyzsize[t-1]);
                 // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...

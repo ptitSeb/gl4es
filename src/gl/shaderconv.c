@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "fpe_shader.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
 #else
@@ -31,8 +31,8 @@ const builtin_attrib_t builtin_attrib[] = {
     {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ATT_MULTITEXCOORD5},
     {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ATT_MULTITEXCOORD6},
     {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ATT_MULTITEXCOORD7},
-    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL},
     {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", ATT_SECONDARY},
+    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL},
     {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", ATT_FOGCOORD}
 };
 
@@ -399,7 +399,25 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
               Tmp = InplaceReplace(Tmp, &tmpsize, builtin_attrib[i].glname, builtin_attrib[i].name);
               // insert a declaration of it
               char def[100];
+#ifdef WORKAROUNDV4F
+              char fpetype[10];
+              if(fpeShader && builtin_attrib[i].attrib<=ATT_SECONDARY) {
+                int sz = 3;
+                switch(builtin_attrib[i].attrib) {
+                  case ATT_VERTEX: sz = glstate->fpe_state->vertexsz; break;
+                  case ATT_COLOR: sz = glstate->fpe_state->colorsz; break;
+                  case ATT_SECONDARY: sz = glstate->fpe_state->seccolorsz; break;
+                  default: // ATT_MULTICOORD0..7
+                    sz = (glstate->fpe_state->texsz>>(2*(builtin_attrib[i].attrib-ATT_MULTITEXCOORD0))&3);
+
+                }
+                ++sz;
+                sprintf(fpetype, "vec%d", sz);
+              } else strcpy(fpetype, builtin_attrib[i].type);
+              sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, fpetype, builtin_attrib[i].name);
+#else
               sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
+#endif
               Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
               InplaceInsert(GetLine(Tmp, headline++), def);
           }

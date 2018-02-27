@@ -17,19 +17,6 @@
 #define DBG(a)
 #endif
 
-//#define WORKAROUNDV4F
-#ifdef AMIGAOS4
-#define WORKAROUNDV4F
-#endif
-#ifdef WORKAROUNDV4F
-static void *vertex4f = NULL;
-static int v4fsize = 0;
-static void *color4f = NULL;
-static int c4fsize = 0;
-static void *tex4f[8] = {0};
-static int t4fsize[8] = {0};
-#endif
-
 // ********* Cache handling *********
 
 fpe_cache_t* fpe_NewCache() {
@@ -266,18 +253,30 @@ void fpe_EnableDisableClientState(GLenum cap, GLboolean val) {
     switch(cap) {
         case GL_VERTEX_ARRAY:
             glstate->fpe_client.vertex_array = val;
+#ifdef WORKAROUNDV4F
+            if(!val) glstate->fpe_state->vertexsz = 3;
+#endif
             break;
         case GL_COLOR_ARRAY:
             glstate->fpe_client.color_array = val;
+#ifdef WORKAROUNDV4F
+            if(!val) glstate->fpe_state->colorsz = 3;
+#endif
             break;
         case GL_NORMAL_ARRAY:
             glstate->fpe_client.normal_array = val;
             break;
         case GL_TEXTURE_COORD_ARRAY:
             glstate->fpe_client.tex_coord_array[glstate->fpe_client.client] = val;
+#ifdef WORKAROUNDV4F
+            if(!val) glstate->fpe_state->texsz |= 3<<(glstate->fpe_client.client*2);
+#endif
             break;
         case GL_SECONDARY_COLOR_ARRAY:
             glstate->fpe_client.secondary_array = val;
+#ifdef WORKAROUNDV4F
+            if(!val) glstate->fpe_state->seccolorsz = 3;
+#endif
             break;
         case GL_FOG_COORD_ARRAY:
             glstate->fpe_client.fog_array = val;
@@ -304,6 +303,9 @@ void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const 
     glstate->fpe_client.secondary.type = type;
     glstate->fpe_client.secondary.stride = stride;
     glstate->fpe_client.secondary.pointer = pointer;
+#ifdef WORKAROUNDV4F
+    glstate->fpe_state->seccolorsz = size-1;
+#endif
 }
 
 void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -312,6 +314,9 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
     glstate->fpe_client.vert.type = type;
     glstate->fpe_client.vert.stride = stride;
     glstate->fpe_client.vert.pointer = pointer;
+#ifdef WORKAROUNDV4F
+    glstate->fpe_state->vertexsz = size-1;
+#endif
 }
 
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -320,6 +325,9 @@ void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *p
     glstate->fpe_client.color.type = type;
     glstate->fpe_client.color.stride = stride;
     glstate->fpe_client.color.pointer = pointer;
+#ifdef WORKAROUNDV4F
+    glstate->fpe_state->colorsz = size-1;
+#endif
 }
 
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -336,6 +344,10 @@ void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
     glstate->fpe_client.tex[glstate->fpe_client.client].type = type;
     glstate->fpe_client.tex[glstate->fpe_client.client].stride = stride;
     glstate->fpe_client.tex[glstate->fpe_client.client].pointer = pointer;
+#ifdef WORKAROUNDV4F
+    glstate->fpe_state->texsz &= ~(3<<(2*glstate->fpe_client.client));
+    glstate->fpe_state->texsz |= (size-1)<<(2*glstate->fpe_client.client);
+#endif
 }
 
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -361,58 +373,8 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     noerrorShim();
 }
 
-#ifdef WORKAROUNDV4F
-static void workaround(pointer_state_t* p, void** d, int* s, int first, int count) {
-    // work around on 1 pointer state
-    if(p->size!=4 && p->type==GL_FLOAT) {
-        DBG(printf("  convert a vertexpointer from size=%d stride=%d type=%s => 4/0/GL_FLOAT\n", p->size, p->stride, PrintEnum(p->type));)
-        if((*s)<count) {
-            (*s) = count;
-            if((*d)) free((*d));
-            (*d) = malloc(sizeof(GLfloat)*4*(*s));
-        }
-        int stride = p->stride;
-        int sz = p->size;
-        if(!stride) stride = sz;
-        GLfloat* dst = (GLfloat*)(*d);
-        void* src = (void*)p->pointer;
-
-        dst+=first*4;
-        src+=first*stride;
-        for (int i=first; i<count; i++) {
-            memcpy(dst, src, sz*sizeof(GLfloat));
-            if(sz<3) dst[2] = 0.0f;
-            dst[3] = 1.0f;
-            dst+=4;
-            src+=stride;
-        }
-        
-        p->size = 4;
-        p->type = GL_FLOAT;
-        p->stride = 0;
-        p->pointer = (*d);
-    }
-}
-
-static void workaroundAll(int first, int count) {
-    if (glstate->fpe_client.vertex_array) {
-        workaround(&glstate->fpe_client.vert, &vertex4f, &v4fsize, first, count);
-    }
-    if (glstate->fpe_client.color_array) {
-        workaround(&glstate->fpe_client.color, &color4f, &c4fsize, first, count);
-    }
-    for (int i=0; i<hardext.maxtex; i++)
-        if (glstate->fpe_client.tex_coord_array[i]) {
-            workaround(&glstate->fpe_client.tex[i], &tex4f[i], &t4fsize[i], first, count);
-    }
-}
-#endif
-
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
-#ifdef WORKAROUNDV4F
-    workaroundAll(first, count);
-#endif
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
@@ -420,14 +382,6 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
-#ifdef WORKAROUNDV4F
-    GLsizei first, vmax;
-    if(type==GL_UNSIGNED_SHORT)
-        getminmax_indices_us(indices, &vmax, &first, count);
-    else
-        getminmax_indices_ui(indices, &vmax, &first, count);
-    workaroundAll(first, vmax);
-#endif
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
