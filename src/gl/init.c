@@ -33,9 +33,7 @@ static void fast_math() {
 #define DEFAULT_ES 1
 #endif
 
-#ifndef AMIGAOS4
 void load_libs();
-#endif
 void glx_init();
 
 #ifdef NO_INIT_CONSTRUCTOR
@@ -142,9 +140,7 @@ void initialize_gl4es() {
 
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
-#ifndef AMIGAOS4
     load_libs();
-#endif
     glx_init();
 
 #ifdef NOEGL
