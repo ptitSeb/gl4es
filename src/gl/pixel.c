@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "pixel.h"
 #include "debug.h"
 
@@ -1272,7 +1273,7 @@ bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height,
         }
     }
 
-    snprintf(filename, 64, "/tmp/tex.%d.ppm", name);
+    sprintf(filename, "/tmp/tex.%d.ppm", name);
     FILE *fd = fopen(filename, "w");
     fprintf(fd, "P6 %d %d %d\n", width, height, 255);
     fwrite(src, 1, size, fd);

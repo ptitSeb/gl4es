@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "program.h"
 #include "../glx/hardext.h"
 #include "debug.h"
