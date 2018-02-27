@@ -36,6 +36,7 @@ void GetHardwareExtensions(int notest)
             hardext.fbo = 1; 
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
+            hardext.cubemap = 1;
         }
         return;
     }
@@ -139,11 +140,7 @@ void GetHardwareExtensions(int notest)
     if(hardext.npot>0) {
         SHUT(LOGD("LIBGL: Hardware %s NPOT detected and used\n", hardext.npot==2?"Full":"Limited"));
     }
-    S("GL_OES_blend_subtract", blendsub, 1);
-    S("GL_OES_blend_func_separate", blendfunc, 1);
-    S("GL_OES_blend_equation_separate", blendeq, 1);
     S("GL_EXT_blend_minmax", blendminmax, 1);
-    S("GL_EXT_blend_color", blendcolor, 1);
     /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
@@ -156,12 +153,26 @@ void GetHardwareExtensions(int notest)
         S("GL_OES_framebuffer_object", fbo, 1);
         S("GL_OES_point_sprite", pointsprite, 1); 
         S("GL_OES_point_size_array", pointsize, 0);
+        S("GL_OES_texture_cube_map", cubemap, 1);
+        S("GL_EXT_blend_color", blendcolor, 1);
+        S("GL_OES_blend_subtract", blendsub, 1);
+        S("GL_OES_blend_func_separate", blendfunc, 1);
+        S("GL_OES_blend_equation_separate", blendeq, 1);
     } else {
         hardext.fbo = 1; 
         SHUT(LOGD("LIBGL: FBO are in core, and so used\n"));
         hardext.pointsprite = 1;
         SHUT(LOGD("LIBGL: PointSprite are in core, and so used\n"));
         hardext.pointsize = 1;
+        SHUT(LOGD("LIBGL: CubeMap are in core, and so used\n"));
+        hardext.cubemap = 1;
+        SHUT(LOGD("LIBGL: BlendColor is in core, and so used\n"));
+        hardext.blendcolor = 1;
+        SHUT(LOGD("LIBGL: Blend Substract is in core, and so used\n"));
+        hardext.blendsub = 1;
+        SHUT(LOGD("LIBGL: Blend Function and Equation Separation is in core, and so used\n"));
+        hardext.blendfunc = 1;
+        hardext.blendeq = 1;
     }
     S("GL_OES_element_index_uint", elementuint, 0);
     S("GL_OES_packed_depth_stencil", depthstencil, 1);
@@ -172,7 +183,6 @@ void GetHardwareExtensions(int notest)
         S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
     }
     S("GL_OES_depth_texture", depthtex, 1);
-    S("GL_OES_texture_cube_map", cubemap, 1);
     S("GL_OES_draw_texture", drawtex, 1);
     S("GL_EXT_texture_rg", rgtex, 0);
     S("GL_OES_texture_float", floattex, 0);
