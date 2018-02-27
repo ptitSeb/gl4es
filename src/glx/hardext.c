@@ -11,7 +11,7 @@ hardext_t hardext;
 
 void GetHardwareExtensions(int notest)
 {
-    if(tested && notest!=-1) return;
+    if(tested) return;
     // put some default values
     memset(&hardext, 0, sizeof(hardext));
     hardext.maxtex = 2;
@@ -20,11 +20,7 @@ void GetHardwareExtensions(int notest)
     hardext.maxplanes = 6;
 
     hardext.esversion = globals4es.es;
-#ifdef NOEGL
-    if(notest!=-1)
-#else
     if(notest) 
-#endif
     {
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
         if(hardext.esversion==2) {

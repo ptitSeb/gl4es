@@ -47,7 +47,7 @@ void agl_context_find(void* ctx) {
     if(!agl_context[idx].glstate) {
         agl_context[idx].glstate = NewGLState(NULL, 0);
         // Hardware testing
-        GetHardwareExtensions(-1);
+        GetHardwareExtensions(0);
     }
     ActivateGLState(agl_context[idx].glstate);
 }
