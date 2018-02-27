@@ -12,11 +12,6 @@
 
 */
 
-//#define WORKAROUNDV4F
-#ifdef AMIGAOS4
-#define WORKAROUNDV4F
-#endif
-
 #define FPE_FOG_EXP    0
 #define FPE_FOG_EXP2   1
 #define FPE_FOG_LINEAR 2
@@ -138,12 +133,6 @@ typedef struct {
     unsigned int pointsprite:1;          // point sprite rendering
     unsigned int pointsprite_coord:1;    // point sprite coord replace
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
-#ifdef WORKAROUNDV4F
-    unsigned int vertexsz:2;             // size of the gl_Vertex attrib
-    unsigned int colorsz:2;
-    unsigned int seccolorsz:2;
-    uint16_t texsz;                       // size of 8 textures, 2 bits per textures, packed
-#endif
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct {

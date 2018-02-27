@@ -211,12 +211,6 @@ void* NewGLState(void* shared_glstate, int es2only) {
             glstate->fpe_state->texoprgb[0] |= FPE_OP_SRCCOLOR<<(i*2);
             glstate->fpe_state->texoprgb[1] |= FPE_OP_SRCCOLOR<<(i*2);
         }            
-#ifdef WORKAROUNDV4F
-        glstate->fpe_state->vertexsz = 3;
-        glstate->fpe_state->colorsz = 3;
-        glstate->fpe_state->seccolorsz = 3;
-        glstate->fpe_state->texsz = 0xffff;
-#endif
     }
 
     // GLSL stuff

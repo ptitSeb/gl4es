@@ -253,31 +253,18 @@ void fpe_EnableDisableClientState(GLenum cap, GLboolean val) {
     switch(cap) {
         case GL_VERTEX_ARRAY:
             glstate->fpe_client.vertex_array = val;
-#ifdef WORKAROUNDV4F
-            glstate->fpe_state->vertexsz = (val)?(glstate->fpe_client.vert.size-1):3;
-#endif
             break;
         case GL_COLOR_ARRAY:
             glstate->fpe_client.color_array = val;
-#ifdef WORKAROUNDV4F
-            glstate->fpe_state->colorsz = (val)?(glstate->fpe_client.color.size-1):3;
-#endif
             break;
         case GL_NORMAL_ARRAY:
             glstate->fpe_client.normal_array = val;
             break;
         case GL_TEXTURE_COORD_ARRAY:
             glstate->fpe_client.tex_coord_array[glstate->fpe_client.client] = val;
-#ifdef WORKAROUNDV4F
-            glstate->fpe_state->texsz &= ~(3<<(glstate->fpe_client.client*2));
-            glstate->fpe_state->texsz |= ((val)?(glstate->fpe_client.tex[glstate->fpe_client.client].size-1):3)<<(glstate->fpe_client.client*2);
-#endif
             break;
         case GL_SECONDARY_COLOR_ARRAY:
             glstate->fpe_client.secondary_array = val;
-#ifdef WORKAROUNDV4F
-            glstate->fpe_state->seccolorsz = (val)?(glstate->fpe_client.secondary.size-1):3;
-#endif
             break;
         case GL_FOG_COORD_ARRAY:
             glstate->fpe_client.fog_array = val;
@@ -304,10 +291,6 @@ void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const 
     glstate->fpe_client.secondary.type = type;
     glstate->fpe_client.secondary.stride = stride;
     glstate->fpe_client.secondary.pointer = pointer;
-#ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.secondary_array)
-        glstate->fpe_state->seccolorsz = size-1;
-#endif
 }
 
 void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -316,10 +299,6 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
     glstate->fpe_client.vert.type = type;
     glstate->fpe_client.vert.stride = stride;
     glstate->fpe_client.vert.pointer = pointer;
-#ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.vertex_array)
-        glstate->fpe_state->vertexsz = size-1;
-#endif
 }
 
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -328,10 +307,6 @@ void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *p
     glstate->fpe_client.color.type = type;
     glstate->fpe_client.color.stride = stride;
     glstate->fpe_client.color.pointer = pointer;
-#ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.color_array)
-        glstate->fpe_state->colorsz = size-1;
-#endif
 }
 
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -348,12 +323,6 @@ void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
     glstate->fpe_client.tex[glstate->fpe_client.client].type = type;
     glstate->fpe_client.tex[glstate->fpe_client.client].stride = stride;
     glstate->fpe_client.tex[glstate->fpe_client.client].pointer = pointer;
-#ifdef WORKAROUNDV4F
-    if(glstate->fpe_client.tex_coord_array[glstate->fpe_client.client]) {
-        glstate->fpe_state->texsz &= ~(3<<(2*glstate->fpe_client.client));
-        glstate->fpe_state->texsz |= (size-1)<<(2*glstate->fpe_client.client);
-    }
-#endif
 }
 
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {

@@ -399,25 +399,7 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need)
               Tmp = InplaceReplace(Tmp, &tmpsize, builtin_attrib[i].glname, builtin_attrib[i].name);
               // insert a declaration of it
               char def[100];
-#ifdef WORKAROUNDV4F
-              char fpetype[10];
-              if(fpeShader && builtin_attrib[i].attrib<=ATT_SECONDARY) {
-                int sz = 3;
-                switch(builtin_attrib[i].attrib) {
-                  case ATT_VERTEX: sz = glstate->fpe_state->vertexsz; break;
-                  case ATT_COLOR: sz = glstate->fpe_state->colorsz; break;
-                  case ATT_SECONDARY: sz = glstate->fpe_state->seccolorsz; break;
-                  default: // ATT_MULTICOORD0..7
-                    sz = (glstate->fpe_state->texsz>>(2*(builtin_attrib[i].attrib-ATT_MULTITEXCOORD0))&3);
-
-                }
-                ++sz;
-                sprintf(fpetype, "vec%d", sz);
-              } else strcpy(fpetype, builtin_attrib[i].type);
-              sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, fpetype, builtin_attrib[i].name);
-#else
               sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
-#endif
               Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
               InplaceInsert(GetLine(Tmp, headline++), def);
           }
