@@ -217,7 +217,7 @@ const char* gl_TexCoordSource = "gl_TexCoord[";
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
-  DBG(printf("Shader source%s:\n%s\n", pBuffer, fpeShader?" (FPEShader generated)":"");)
+  DBG(printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");)
 
   char* pBuffer = preproc(pEntry, fpeShader);
   
