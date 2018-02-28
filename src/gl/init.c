@@ -356,6 +356,8 @@ void initialize_gl4es() {
             SHUT(LOGD("LIBGL: WARNIN, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
         }
     }
+
+    env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

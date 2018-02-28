@@ -153,7 +153,7 @@ if [ $OK = 0 ];then
 fi
 
 banner "GLES2.0: Neverball"
-launch_test neverball 0000078750 20 798x478+1+1
+launch_test neverball 0000078750 200 798x478+1+1
 if [ $OK = 0 ];then
     exit 1
 fi

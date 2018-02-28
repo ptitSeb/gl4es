@@ -3,14 +3,22 @@
 
 #include "fpe_shader.h"
 #include "string_utils.h"
+#include "init.h"
 #include "../glx/hardext.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
 
 const char* fpeshader_signature = "// FPE_Shader generated\n";
 
 static char* shad = NULL;
 static int shad_cap = 0;
 
-const int comments = 1;
+static int comments = 1;
 
 #define ShadAppend(S) shad = Append(shad, &shad_cap, S)
 
@@ -99,6 +107,9 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int cm_back_nullexp = state->cm_back_nullexp;
 
     strcpy(shad, fpeshader_signature);
+
+    comments = globals4es.comments;
+    DBG(comments=1-comments;)   // When DEBUG is activated, the effect of LIBGL_COMMENTS is reversed
 
     if(comments) {
         sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",

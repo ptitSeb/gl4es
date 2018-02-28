@@ -48,6 +48,7 @@ typedef struct _globals4es {
  int nohighp;
  int es;
  int gl;
+ int comments;
  char version[50];
 } globals4es_t;
 

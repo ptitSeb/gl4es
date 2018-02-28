@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "fpe_shader.h"
 #include "preproc.h"
+#include "init.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -219,7 +220,13 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
   DBG(printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");)
 
-  char* pBuffer = preproc(pEntry, fpeShader);
+  int comments = globals4es.comments;
+  DBG(comments=1-comments;)   // When DBG is activated, the effect of LIBGL_COMMENTS is reversed
+  
+  char* pBuffer = (char*)pEntry;
+  
+  if(!fpeShader)
+    pBuffer = preproc(pEntry, comments);
   
   static shaderconv_need_t dummy_need;
   if(!need) {

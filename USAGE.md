@@ -231,3 +231,8 @@ Choose OpenGL version target for emulation
 Usage of highp precision in fragment shader (ES2 backend only)
  * 0 : Default, use highp if available
  * 1 : Disable usage of highp in Fragment shaders
+
+##### LIBGL_COMMENTS
+Comments in shaders are kept (also for generated shaders by fpe_shaders)
+ * 0 : Default, no comments in shaders sent to GLES Hardware
+ * 1 : Comments are left in Shaders sent to GLES Hardware
