@@ -45,8 +45,7 @@ typedef enum _eTokenType {
     TK_DOUBLEEQUAL,
     TK_TILDE,
     TK_TEXT,
-    TK_STRING,  // not sure if usefull in shader...
-    TK_CHAR,    // same
+    TK_TEXTCOMMENT
 } eTokenType;
 
 #define MAXSTR 500
@@ -57,6 +56,78 @@ typedef struct _uToken {
     int     integer;
     float   real;
 } uToken;
+
+eTokenType NextTokenComment(char **p, uToken *tok) {
+    tok->type = TK_NULL;
+    tok->str[0] = 0;
+    if(!**p) return tok->type;
+
+    char c = **p;
+    (*p)++;
+    char nextc = **p;
+    int nb = 0;
+    int isfloat = 0;
+    int isneg = 1;  // multiply by it...
+    float fnb = 0.f;
+    int cnt = 0;
+    float fcnt = 0.f;
+
+    tok->str[0]=c; tok->str[1]=0;
+
+    switch (c) {
+        case 10:
+            if(nextc==13)
+                (*p)++;
+            strcpy(tok->str, "\n");
+            tok->type = TK_NEWLINE;
+            break;
+        case 13:
+            if(nextc==10)
+                (*p)++;
+            strcpy(tok->str, "\n");
+            tok->type = TK_NEWLINE;
+            break;
+        case ' ':
+        case '\t':
+            while(nextc==' ' || nextc=='\t') { int l=strlen(tok->str); tok->str[l]=nextc; tok->str[l+1]=0; (*p)++; nextc=**p; }
+            tok->type = TK_SPACE;
+            break;
+        case '/':
+            if(nextc=='/') {
+                (*p)++;
+                tok->type=TK_DOUBLESLASH;
+                strcpy(tok->str, "//");
+            } else if(nextc=='*') {
+                (*p)++;
+                tok->type=TK_OPENCOMMENT;
+                strcpy(tok->str, "/*");
+            } else {
+                tok->type=TK_SLASH;
+            }
+            break;
+        case '*':
+            if(nextc=='/') {
+                (*p)++;
+                tok->type=TK_CLOSECOMMENT;
+                strcpy(tok->str, "*/");
+            } else {
+                tok->type=TK_MULTIPLY;
+            }
+            break;
+        default:
+            // all other are plain Ids...
+            cnt=1;
+            tok->type=TK_TEXTCOMMENT;
+            while(cnt!=(MAXSTR-1) && (nextc=='_' || (nextc>='0' && nextc<='9') || (nextc>='A' && nextc<='Z') || (nextc>='a' && nextc<='z'))) {
+                tok->str[cnt]=nextc;
+                (*p)++; nextc=**p;
+                ++cnt;
+            }
+            tok->str[cnt]=0;
+    }
+
+    return tok->type;
+}
 
 eTokenType NextToken(char **p, uToken *tok) {
     tok->type = TK_NULL;
@@ -77,16 +148,21 @@ eTokenType NextToken(char **p, uToken *tok) {
 
     switch (c) {
         case 10:
+            if(nextc==13)
+                (*p)++;
+            tok->type = TK_NEWLINE;
+            strcpy(tok->str, "\n");
+            break;
         case 13:
-            while(nextc==10 || nextc==13) { (*p)++; nextc=**p; }
+            if(nextc==10)
+                (*p)++;
             tok->type = TK_NEWLINE;
             strcpy(tok->str, "\n");
             break;
         case ' ':
         case '\t':
-            while(nextc==' ' || nextc=='\t') { (*p)++; nextc=**p; }
+            while(nextc==' ' || nextc=='\t') { int l=strlen(tok->str); tok->str[l]=nextc; tok->str[l+1]=0; (*p)++; nextc=**p; }
             tok->type = TK_SPACE;
-            strcpy(tok->str, " "); // breaking indentation, I know, but compiler doesn't need it
             break;
         case '0':
         case '1':
@@ -211,6 +287,15 @@ eTokenType NextToken(char **p, uToken *tok) {
     return tok->type;
 }
 
+eTokenType GetToken(char **p, uToken *tok, int incomment) {
+    eTokenType ret;
+    if (incomment)
+        ret = NextTokenComment(p, tok);
+    else
+        ret = NextToken(p, tok);
+    return ret;
+}
+
 char* preproc(const char* code, int keepcomments) {
     DBG(printf("Preproc on: =========\n%s\n=================\n", code);)
 
@@ -222,18 +307,22 @@ char* preproc(const char* code, int keepcomments) {
     int sz=1;
     int status=0;
     int write=1;
-    while(NextToken(&p, &tok)!=TK_NULL) {
+    int incomment=0;
+    while(GetToken(&p, &tok, incomment)!=TK_NULL) {
         switch(status) {
             case 210:   // block comment done
             case 110:   // line comment done...
                 write = 1;
                 status = 0;
+                incomment=0;
             case 0: // regular...
                 if(tok.type==TK_DOUBLESLASH) {
                     status = 100; // line comment
+                    incomment = 1;
                     if(!keepcomments) write=0;
                 } else if(tok.type==TK_OPENCOMMENT) {
                     status = 200; // multi-line comment
+                    incomment = 1;
                     if(!keepcomments) write=0;
                 }
                 break;
