@@ -2175,7 +2175,7 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-    renderlist_t *mylist = glstate->list.active;
+    renderlist_t *mylist = extend_renderlist(glstate->list.active);
     if (mylist) {
         GLuint old = glstate->gl_batch;
         glstate->list.active = NULL;
