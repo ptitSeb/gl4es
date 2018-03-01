@@ -93,7 +93,7 @@ int rendermode_dimensions(GLenum mode) {
 bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     if (!globals4es.mergelist || !a)
         return false;
-        
+
     // check if 2 "pure rendering" list are compatible for merge
     if (a->mode_init != b->mode_init) {
         int a_mode = rendermode_dimensions(a->mode_init);
@@ -133,10 +133,11 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         return false;
     if (!a->set_texture && b->set_texture)
         return false;
-    // polygon mode
-    if(a->polygon_mode!=b->polygon_mode)
+    // post color is only important if b as no color pointer...
+    if(a->post_color && b->color==NULL)
         return false;
-    if(a->post_color || b->post_color || a->post_normal || b->post_normal)
+    // same for post_normal
+    if(a->post_normal && b->normal==NULL)
         return false;
         
     // Check the size of a list, if it"s too big, don't merge...
@@ -456,6 +457,14 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if(b->lastColorsSet) {
         a->lastColorsSet = 1;
         memcpy(a->lastColors, b->lastColors, 4*sizeof(GLfloat));
+    }
+    if(b->post_color) {
+        a->post_color = 1;
+        memcpy(a->post_colors, b->post_colors, 4*sizeof(GLfloat));
+    }
+    if(b->post_normal) {
+        a->post_normal = 1;
+        memcpy(a->post_normals, b->post_normals, 3*sizeof(GLfloat));
     }
     //all done
     a->stage = STAGE_DRAW;  // just in case
