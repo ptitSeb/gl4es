@@ -215,8 +215,7 @@ renderlist_t* recycle_renderlist(renderlist_t* list);
 #define NewDrawStage(l, m) if(globals4es.mergelist \
             && ((l->prev && isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
             || (l->stage==STAGE_POSTDRAW && l->open && l->mode==mode && l->mode_init==mode))  && \
-            mode!=GL_POLYGON && mode!=GL_LINE_STRIP && mode!=GL_LINE_LOOP && \
-            mode!=GL_TRIANGLE_FAN && mode!=GL_TRIANGLE_STRIP && mode!=GL_QUAD_STRIP) \
+            (mode==GL_POINTS || mode==GL_LINES || mode==GL_TRIANGLES || mode==GL_QUADS)) \
                 l=recycle_renderlist(l); else NewStage(l, STAGE_DRAW)
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 

@@ -707,7 +707,7 @@ void free_renderlist(renderlist_t *list) {
 
 void resize_renderlist(renderlist_t *list) {
     if (list->len >= list->cap) {
-        list->cap += DEFAULT_RENDER_LIST_CAPACITY*4;
+        list->cap += DEFAULT_RENDER_LIST_CAPACITY*8;
         realloc_sublist(list->vert, 4, list->cap);
         realloc_sublist(list->normal, 3, list->cap);
         realloc_sublist(list->color, 4, list->cap);
@@ -1366,7 +1366,7 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
     vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
 }
 
-void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
+void FASTMATH rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     if (list->normal == NULL) {
         list->normal = alloc_sublist(3, list->cap);
         // catch up
@@ -1381,7 +1381,7 @@ void rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     normal[0] = x; normal[1] = y; normal[2] = z;
 }
 
-void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void FASTMATH rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (list->color == NULL) {
         list->lastColorsSet = 1;
         list->color = alloc_sublist(4, list->cap);
@@ -1401,7 +1401,7 @@ void rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     memcpy(list->lastColors, color, 4*sizeof(GLfloat));
 }
 
-void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
+void FASTMATH rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
     if (list->secondary == NULL) {
         list->secondary = alloc_sublist(4, list->cap);
         // catch up
@@ -1508,7 +1508,7 @@ void rlTexGenfv(renderlist_t *list, GLenum coord, GLenum pname, const GLfloat * 
     memcpy(m->color, params, 4*sizeof(GLfloat));
 }
 
-void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+void FASTMATH rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     const int tmu = target - GL_TEXTURE0;
     if (list->tex[tmu] == NULL) {
         if (list->maxtex<tmu+1) list->maxtex = tmu+1;
@@ -1525,7 +1525,7 @@ void rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GLfloat t, 
     tex[2] = r; tex[3] = q;
 }
 
-void rlFogCoordf(renderlist_t *list, GLfloat coord) {
+void FASTMATH rlFogCoordf(renderlist_t *list, GLfloat coord) {
     if (list->fogcoord == NULL) {
         list->fogcoord = alloc_sublist(1, list->cap);
         // catch up
