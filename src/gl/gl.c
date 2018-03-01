@@ -1822,22 +1822,44 @@ void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloa
 void gl4es_glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
-    p = &glstate->vao->pointers.color;
     if (glstate->vao->color_array) {
-        v = gl_pointer_index(p, i);
-        GLfloat scale = 1.0f/gl_max_value(p->type);
-        // color[3] defaults to 1.0f
-        if (p->size < 4)
-            v[3] = 1.0f;
+        p = &glstate->vao->pointers.color;
+        // special fast case for easy stuff...
+        if(p->type==GL_FLOAT) {
+            if(p->stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                v = ((GLfloat*)p->pointer)+i*p->size;
+            if(p->size==3)
+                gl4es_glColor3fv(v);
+            else
+                gl4es_glColor4fv(v);
+        } else if(p->type==GL_UNSIGNED_BYTE) {
+            GLubyte *b;
+            if(p->stride)
+                b = (GLubyte*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                b = ((GLubyte*)p->pointer)+i*p->size;
+            if(p->size==3)
+                gl4es_glColor3ubv(b);
+            else
+                gl4es_glColor4ubv(b);
+        } else {
+            v = gl_pointer_index(p, i);
+            GLfloat scale = 1.0f/gl_max_value(p->type);
+            // color[3] defaults to 1.0f
+            if (p->size < 4)
+                v[3] = 1.0f;
 
-        // scale color coordinates to a 0 - 1.0 range
-        for (int i = 0; i < p->size; i++) {
-            v[i] *= scale;
+            // scale color coordinates to a 0 - 1.0 range
+            for (int i = 0; i < p->size; i++) {
+                v[i] *= scale;
+            }
+            gl4es_glColor4fv(v);
         }
-        gl4es_glColor4fv(v);
     }
-    p = &glstate->vao->pointers.secondary;
     if (glstate->vao->secondary_array) {
+        p = &glstate->vao->pointers.secondary;
         v = gl_pointer_index(p, i);
         GLfloat scale = 1.0f/gl_max_value(p->type);
 
@@ -1847,33 +1869,64 @@ void gl4es_glArrayElement(GLint i) {
         }
         gl4es_glSecondaryColor3fv(v);
     }
-    p = &glstate->vao->pointers.normal;
     if (glstate->vao->normal_array) {
-        v = gl_pointer_index(p, i);
+        p = &glstate->vao->pointers.normal;
+        // special fast case for easy stuff...
+        if(p->type==GL_FLOAT) {
+            if(p->stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                v = ((GLfloat*)p->pointer)+i*p->size;
+        } else {
+            v = gl_pointer_index(p, i);
+        }
         gl4es_glNormal3fv(v);
     }
-    p = &glstate->vao->pointers.tex_coord[0];
     if (glstate->vao->tex_coord_array[0]) {
-        v = gl_pointer_index(p, i);
+        p = &glstate->vao->pointers.tex_coord[0];
+        // special fast case for easy stuff...
+        if(p->type==GL_FLOAT) {
+            if(p->stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                v = ((GLfloat*)p->pointer)+i*p->size;
+        } else {
+            v = gl_pointer_index(p, i);
+        }
         if (p->size<4)
             gl4es_glTexCoord2fv(v);
         else
             gl4es_glTexCoord4fv(v);
     }
-    int a;
-    for (a=1; a<MAX_TEX; a++) {
-	    p = &glstate->vao->pointers.tex_coord[a];
+    for (int a=1; a<MAX_TEX; a++) {
 	    if (glstate->vao->tex_coord_array[a]) {
-			v = gl_pointer_index(p, i);
+	        p = &glstate->vao->pointers.tex_coord[a];
+            // special fast case for easy stuff...
+            if(p->type==GL_FLOAT) {
+            if(p->stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                v = ((GLfloat*)p->pointer)+i*p->size;
+            } else {
+                v = gl_pointer_index(p, i);
+            }
             if (p->size<4)
                 gl4es_glMultiTexCoord2fv(GL_TEXTURE0+a, v);
             else
                 gl4es_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
-    p = &glstate->vao->pointers.vertex;
     if (glstate->vao->vertex_array) {
-        v = gl_pointer_index(p, i);
+        p = &glstate->vao->pointers.vertex;
+        // special fast case for easy stuff...
+        if(p->type==GL_FLOAT) {
+            if(p->stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            else
+                v = ((GLfloat*)p->pointer)+i*p->size;
+        } else {
+            v = gl_pointer_index(p, i);
+        }
         if (p->size == 4) {
             gl4es_glVertex4fv(v);
         } else if (p->size == 3) {
