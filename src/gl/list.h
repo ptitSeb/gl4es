@@ -133,6 +133,7 @@ typedef struct _renderlist_t {
     unsigned long cap;
     GLenum mode;
     GLenum mode_init;		// initial requested mode
+    int    mode_dimension;
     GLfloat lastNormal[3];
     GLfloat lastColors[4];
     GLfloat lastSecondaryColors[4];
@@ -154,6 +155,9 @@ typedef struct _renderlist_t {
     GLushort *indices;
     unsigned int indice_cap;
     int maxtex;
+    GLenum  merger_mode;
+    int     cur_ivert;          // used by glBegin/glEnd merger.
+    int     cur_istart;
 	
 	rasterlist_t *raster;
 
@@ -211,12 +215,21 @@ KHASH_MAP_INIT_INT(gllisthead, renderlist_t*)
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 64
 
-renderlist_t* recycle_renderlist(renderlist_t* list);
-#define NewDrawStage(l, m) if(globals4es.mergelist \
-            && ((l->prev && isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
-            || (l->stage==STAGE_POSTDRAW && l->open && l->mode==mode && l->mode_init==mode))  && \
-            (mode==GL_POINTS || mode==GL_LINES || mode==GL_TRIANGLES || mode==GL_QUADS)) \
-                l=recycle_renderlist(l); else NewStage(l, STAGE_DRAW)
+int rendermode_dimensions(GLenum mode);
+renderlist_t* recycle_renderlist(renderlist_t* list, GLenum mode);
+#define NewDrawStage(l, m) if(globals4es.mergelist && l->prev \
+            && ((isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
+            || (l->stage==STAGE_POSTDRAW && l->open))  && \
+            ((l->mode==mode && l->mode_init==mode && (mode==GL_POINTS || mode==GL_LINES || mode==GL_TRIANGLES || mode==GL_QUADS)) ||  \
+             ((l->prev->mode_dimension==rendermode_dimensions(mode) && l->prev->mode_dimension>1 && l->prev->mode_dimension<4)))) \
+                l=recycle_renderlist(l, m); else {\
+                NewStage(l, STAGE_DRAW);\
+                l->mode=m;\
+                l->mode_init=m;\
+                l->mode_dimension = rendermode_dimensions(mode); \
+                if(l->mode_dimension==4) l->mode_dimension=3;\
+                }
+                
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
 renderlist_t* GetFirst(renderlist_t* list);

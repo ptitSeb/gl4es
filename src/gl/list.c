@@ -96,8 +96,8 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
 
     // check if 2 "pure rendering" list are compatible for merge
     if (a->mode_init != b->mode_init) {
-        int a_mode = rendermode_dimensions(a->mode_init);
-        int b_mode = rendermode_dimensions(b->mode_init);
+        int a_mode = a->mode_dimension;
+        int b_mode = b->mode_dimension;
         if ((a_mode == 5) || (b_mode == 5))
             return false;       // Let's not merge polygons
         if ((a_mode == 0) || (b_mode == 0))
@@ -335,7 +335,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         if (a->indices) {
             GLushort* tmpi = a->indices;
             a->indice_cap = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
-            if (a->indice_cap > 48) a->indice_cap = (a->indice_cap+511)&~511;
+            if (a->indice_cap > 48) a->indice_cap = (a->indice_cap+512)&~511;
             a->indices = (GLushort*)malloc(a->indice_cap*sizeof(GLushort));
             memcpy(a->indices, tmpi, a->ilen*sizeof(GLushort));
         }
@@ -354,7 +354,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     {
         // alloc or realloc a->indices first...
         int capindices = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
-        if (capindices > 48) capindices = (capindices+511)&~511;
+        if (capindices > 48) capindices = (capindices+512)&~511;
         #define alloc_a_indices                                      \
         newind=(GLushort*)malloc(capindices*sizeof(GLushort))
         #define copy_a_indices                                       \
@@ -718,6 +718,15 @@ void resize_renderlist(renderlist_t *list) {
     }
 }
 
+void resize_indices_renderlist(renderlist_t *list) {
+    if (!list->indices || list->shared_indices)
+        return;
+    if(list->ilen+3<list->indice_cap)
+        return;
+    list->indice_cap = (list->indice_cap+512)&~511;
+    list->indices = (GLushort*)realloc(list->indices, list->indice_cap*sizeof(GLushort));
+}
+
 void adjust_renderlist(renderlist_t *list) {
     if (! list->open)
         return;
@@ -769,7 +778,7 @@ renderlist_t* end_renderlist(renderlist_t *list) {
     return list;
 }
 
-renderlist_t* recycle_renderlist(renderlist_t *list) {
+renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
     if(isempty_renderlist(list)) {
         renderlist_t* old=list;
         list = list->prev;
@@ -786,6 +795,59 @@ renderlist_t* recycle_renderlist(renderlist_t *list) {
         list->post_normal = 0;
         rlNormal3f(list, list->post_normals[0], list->post_normals[1], list->post_normals[2]);
     }
+    // check if list needs to be converted to triangles / lines...
+    GLushort *indices = NULL;
+    int indice_cap = 0;
+
+#define pre_expand   indice_cap=(renderlist_getindicesize(list)+511)&~511; indices=(GLushort*)malloc(indice_cap*sizeof(GLushort))
+#define post_expand  \
+            if (!list->shared_indices || ((*list->shared_indices)--)==0) { \
+                if (list->shared_indices) free(list->shared_indices); \
+                if (list->indices)        \
+                    free(list->indices);  \
+            } \
+            list->ilen = renderlist_getindicesize(list);\
+            list->indice_cap = indice_cap; \
+            list->indices = indices
+
+    list->merger_mode = mode;
+    switch(list->mode) {
+        case GL_LINE_LOOP:
+            pre_expand;
+            renderlist_lineloop_lines(list, indices, 0);
+            post_expand;
+            list->mode=GL_LINES;
+            break;
+        case GL_LINE_STRIP:
+            pre_expand;
+            renderlist_linestrip_lines(list, indices, 0);
+            post_expand;
+            list->mode=GL_LINES;
+            break;
+        case GL_TRIANGLE_FAN:
+            pre_expand;
+            renderlist_trianglefan_triangles(list, indices, 0);
+            post_expand;
+            list->mode=GL_TRIANGLES;
+            break;
+        case GL_QUAD_STRIP:
+        case GL_TRIANGLE_STRIP:
+            pre_expand;
+            renderlist_trianglestrip_triangles(list, indices, 0);
+            post_expand;
+            list->mode=GL_TRIANGLES;
+            break;
+        case GL_QUADS:
+            pre_expand;
+            renderlist_quads_triangles(list, indices, 0);
+            post_expand;
+            list->mode=GL_TRIANGLES;
+            break;
+    }
+#undef pre_expand
+#undef post_expand
+    list->cur_ivert = 0;
+    list->cur_istart = list->len;
     // All done
     list->stage=STAGE_DRAW;
 
@@ -971,7 +1033,7 @@ void draw_renderlist(renderlist_t *list) {
         }
     
         indices = list->indices;
-        
+
         final_colors = NULL;
 
         if(glstate->raster.bm_drawing)
@@ -1360,6 +1422,67 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
 			GLfloat * const tex = list->tex[a] + (list->len * 4);
 			memcpy(tex, glstate->texcoord[a], sizeof(GLfloat) * 4);
 		}
+    }
+
+    if(list->indices && list->merger_mode) {
+        // also feed the indices...
+        resize_indices_renderlist(list);
+        switch (list->merger_mode) {
+            case GL_POINT:
+            case GL_LINE:
+            case GL_TRIANGLES:
+                list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                break;
+            case GL_LINE_STRIP:
+                if(list->cur_ivert) {
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
+                }
+                list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                break;
+            case GL_LINE_LOOP:
+                if(!list->cur_ivert) {
+                    // put the start indice 2 times
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert);
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                } else {
+                    list->indices[list->ilen-1]=list->cur_istart+(list->cur_ivert++);
+                    // move ending point along...
+                    list->indices[list->ilen++]=list->cur_istart;
+                }
+                break;
+            case GL_TRIANGLE_FAN:
+                if(list->cur_ivert<3) {
+                    // first triangle is easy
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                } else {
+                    // add a new triangle for each new point
+                    list->indices[list->ilen++]=list->cur_istart;
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                }
+                break;
+            case GL_QUAD_STRIP:
+            case GL_TRIANGLE_STRIP:
+                if(list->cur_ivert<3) {
+                    // first triangle is easy
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                } else {
+                    // add a new triangle for each new point
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-((list->cur_ivert%2)?1:2));
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-((list->cur_ivert%2)?2:1));
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                }
+                break;
+            case GL_QUADS:
+                if(list->cur_ivert%4==3) {
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-2);
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                } else {
+                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                }
+                break;
+        }
     }
 
     GLfloat * const vert = list->vert + (list->len++ * 4);

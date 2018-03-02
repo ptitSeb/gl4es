@@ -810,6 +810,8 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 //if (glstate->list.compiling) LOGD("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
     list->mode = mode;
     list->mode_init = mode;
+    list->mode_dimension = rendermode_dimensions(mode);
+    if(list->mode_dimension==4) list->mode_dimension=3;
     list->len = count-skip;
     list->cap = count-skip;
 
@@ -1656,8 +1658,6 @@ void gl4es_glBegin(GLenum mode) {
         glstate->list.active = alloc_renderlist();
     // small optim... continue a render command if possible
     NewDrawStage(glstate->list.active, mode);
-    glstate->list.active->mode = mode;
-    glstate->list.active->mode_init = mode;
     noerrorShim();	// TODO, check Enum validity
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
