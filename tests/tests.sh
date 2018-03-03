@@ -59,31 +59,50 @@ function clean_tests {
 export OK=1
 function launch_test {
     tar xf ../traces/$1.tgz
-    apitrace dump-images --calls="$2" $1.trace
-    EXTRACT=""
-    if [ ! -z "$4" ];then
-     EXTRACT="-extract $4"
-    fi
-    result=$(compare -metric AE -fuzz 20% $EXTRACT ../refs/$1.$2.png $1.$2.png diff.png 2>&1)
-    if [ ! "$result" -lt "$3" ];then
-        popd >/dev/null
-        echo "error, $result pixels diff"
-        export OK=0
+    if [ "$BENCH" = "1" ];then
+        glretrace -b $1.trace    
+    else
+        apitrace dump-images --calls="$2" $1.trace
+        EXTRACT=""
+        if [ ! -z "$4" ];then
+        EXTRACT="-extract $4"
+        fi
+        result=$(compare -metric AE -fuzz 20% $EXTRACT ../refs/$1.$2.png $1.$2.png diff.png 2>&1)
+        if [ ! "$result" -lt "$3" ];then
+            popd >/dev/null
+            echo "error, $result pixels diff"
+            export OK=0
+        fi
     fi
 }
 
 function banner {
     echo
     echo " ******************* "
+    if [ "$BENCH" = "1" ];then
+    echo "    Bench $1 "
+    else
     echo "    $1 "
+    fi
     echo " ------------------- "
 }
+
+export BENCH=0
+if [ "$1" = "-b" ];then
+ BENCH=1
+ shift
+fi
+if [ "$2" = "-b" ];then
+ BENCH=1
+fi
 
 if [ ! -z "$1" ];then
  export LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH
 fi
 
-export LIBGL_FB=3
+if [ ! "$BENCH" = "1" ];then
+    export LIBGL_FB=3
+fi
 export LIBGL_SILENTSTUB=1
 export LIBGL_NOBANNER=1
 
