@@ -42,7 +42,7 @@ static int inline nlevel(int size, int level) {
 }
 
 // conversions for GL_ARB_texture_rectangle
-void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
+void tex_coord_rect_arb(GLfloat *tex, int stride, GLsizei len,
                         GLsizei width, GLsizei height) {
     if (!tex || !width || !height)
         return;
@@ -50,11 +50,12 @@ void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
     GLfloat iwidth, iheight;
     iwidth = 1.0f/width;
     iheight = 1.0f/height;
+    if(!stride) stride=4;
 
     for (int i = 0; i < len; i++) {
         tex[0] *= iwidth;
         tex[1] *= iheight;
-        tex += 4;
+        tex += stride;
     }
 }
 
@@ -113,7 +114,7 @@ void tex_setup_texcoord(GLuint len, GLuint itarget) {
         copy_gl_pointer_tex_noalloc(tex[texunit], &glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
         // Normalize if needed
         if (itarget == ENABLED_TEXTURE_RECTANGLE)
-            tex_coord_rect_arb(tex[texunit], len, bound->width, bound->height);
+            tex_coord_rect_arb(tex[texunit], 4, len, bound->width, bound->height);
         // Apply transformation matrix if any
         if (!(globals4es.texmat || glstate->texture_matrix[texunit]->identity))
             tex_coord_matrix(tex[texunit], len, getTexMat(texunit));

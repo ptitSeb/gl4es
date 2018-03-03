@@ -787,7 +787,7 @@ void adjust_renderlist(renderlist_t *list) {
             bound = gl4es_getTexture(list->target_texture, list->texture);
 	    // GL_ARB_texture_rectangle
 	    if ((list->tex[a]) && (itarget == ENABLED_TEXTURE_RECTANGLE) && (bound)) {
-		    tex_coord_rect_arb(list->tex[a], list->len, bound->width, bound->height);
+		    tex_coord_rect_arb(list->tex[a], list->tex_stride[a]>>2, list->len, bound->width, bound->height);
 	    }
     }
 }
@@ -1157,7 +1157,17 @@ void draw_renderlist(renderlist_t *list) {
                     if((list->tex[a] || (use_texgen[a] && !needclean[a])) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || (bound) && ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
                         if(!use_texgen[a]) {
                             RS(a, list->len);
-                            memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
+                            if(list->tex_stride[a]) {
+                                GLfloat *src = list->tex[a];
+                                GLfloat *dst = texgened[a];
+                                int stride = list->tex_stride[a]>>2;    // stride need to be a multiple of 4 (i.e. sizeof(GLfloat))
+                                for (int ii=0; ii<list->len; ii++) {
+                                    memcpy(dst, src, 4*sizeof(GLfloat));
+                                    src+=stride;
+                                    dst+=4;
+                                }
+                            } else
+                                memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
                         }
                         if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
                             tex_coord_matrix(texgened[a], list->len, getTexMat(a));

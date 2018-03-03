@@ -75,7 +75,7 @@ void gl4es_glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint 
 void gl4es_glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height);
 
-void tex_coord_rect_arb(GLfloat *tex, GLsizei len,
+void tex_coord_rect_arb(GLfloat *tex, int stride, GLsizei len,
                         GLsizei width, GLsizei height);
 void tex_coord_npot(GLfloat *tex, GLsizei len,
                     GLsizei width, GLsizei height,
