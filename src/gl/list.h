@@ -138,6 +138,7 @@ typedef struct _renderlist_t {
     GLfloat lastColors[4];
     GLfloat lastSecondaryColors[4];
     GLfloat lastFogCoord;
+    int use_glstate;
 
     int lastColorsSet;
 
@@ -151,6 +152,12 @@ typedef struct _renderlist_t {
     GLfloat *secondary;
     GLfloat *fogcoord;
     GLfloat *tex[MAX_TEX];
+    int      vert_stride;
+    int      normal_stride;
+    int      color_stride;
+    int      secondary_stride;
+    int      fogcoord_stride;
+    int      tex_stride[MAX_TEX];
     int *shared_indices;
     GLushort *indices;
     unsigned int indice_cap;
@@ -217,18 +224,7 @@ KHASH_MAP_INIT_INT(gllisthead, renderlist_t*)
 
 int rendermode_dimensions(GLenum mode);
 renderlist_t* recycle_renderlist(renderlist_t* list, GLenum mode);
-#define NewDrawStage(l, m) if(globals4es.mergelist && l->prev \
-            && ((isempty_renderlist(l) && l->prev->open && l->prev->mode==mode && l->prev->mode_init==mode)  \
-            || (l->stage==STAGE_POSTDRAW && l->open))  && \
-            ((l->mode==mode && l->mode_init==mode && (mode==GL_POINTS || mode==GL_LINES || mode==GL_TRIANGLES || mode==GL_QUADS)) ||  \
-             ((l->prev->mode_dimension==rendermode_dimensions(mode) && l->prev->mode_dimension>1 && l->prev->mode_dimension<4)))) \
-                l=recycle_renderlist(l, m); else {\
-                NewStage(l, STAGE_DRAW);\
-                l->mode=m;\
-                l->mode_init=m;\
-                l->mode_dimension = rendermode_dimensions(mode); \
-                if(l->mode_dimension==4) l->mode_dimension=3;\
-                }
+renderlist_t* NewDrawStage(renderlist_t* l, GLenum m);
                 
 #define NewStage(l, s) if (l->stage+StageExclusive[l->stage] > s) {l = extend_renderlist(l);} l->stage = s
 
@@ -258,5 +254,6 @@ void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) FAS
 void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v);
 void rlFogCoordf(renderlist_t *list, GLfloat coord);
+void rlEnd(renderlist_t *list);
 
 #endif

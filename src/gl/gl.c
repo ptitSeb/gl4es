@@ -324,6 +324,14 @@ void DeleteGLState(void* oldstate) {
     // scratch buffer
     if(state->scratch)
         free(state->scratch);
+    // merger buffers
+    if(state->merger_master)
+        free(state->merger_master);
+    if(state->merger_secondary)
+        free(state->merger_secondary);
+    for(int a=0; a<MAX_TEX-2; ++a)
+        if(state->merger_tex[a])
+            free(state->merger_tex[a]);
     // free blit GLES2 stuff
     if(state->blit) {
         //TODO: check if should delete GL object too
@@ -811,7 +819,6 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     list->mode = mode;
     list->mode_init = mode;
     list->mode_dimension = rendermode_dimensions(mode);
-    if(list->mode_dimension==4) list->mode_dimension=3;
     list->len = count-skip;
     list->cap = count-skip;
 
@@ -1657,7 +1664,7 @@ void gl4es_glBegin(GLenum mode) {
     if (!glstate->list.active)
         glstate->list.active = alloc_renderlist();
     // small optim... continue a render command if possible
-    NewDrawStage(glstate->list.active, mode);
+    glstate->list.active = NewDrawStage(glstate->list.active, mode);
     noerrorShim();	// TODO, check Enum validity
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
@@ -1669,6 +1676,7 @@ void gl4es_glEnd() {
     for (int a=0; a<hardext.maxtex; a++)
 		if ((hardext.esversion==1) && glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
+    rlEnd(glstate->list.active); // end the list now
     // end immediateMV if needed
     if(glstate->immediateMV)
         gl4es_immediateMVEnd(glstate->list.active);
@@ -1822,25 +1830,28 @@ void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloa
 void gl4es_glArrayElement(GLint i) {
     GLfloat *v;
     pointer_state_t *p;
-    if (glstate->vao->color_array) {
-        p = &glstate->vao->pointers.color;
+    glvao_t* vao = glstate->vao;
+    int stride, size;
+    if (vao->color_array) {
+        p = &vao->pointers.color;
+        size = p->size; stride = p->stride;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
-            if(p->stride)
-                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            if(stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*stride);
             else
-                v = ((GLfloat*)p->pointer)+i*p->size;
-            if(p->size==3)
+                v = ((GLfloat*)p->pointer)+i*size;
+            if(size==3)
                 gl4es_glColor3fv(v);
             else
                 gl4es_glColor4fv(v);
         } else if(p->type==GL_UNSIGNED_BYTE) {
             GLubyte *b;
-            if(p->stride)
-                b = (GLubyte*)(((uintptr_t)p->pointer)+i*p->stride);
+            if(stride)
+                b = (GLubyte*)(((uintptr_t)p->pointer)+i*stride);
             else
-                b = ((GLubyte*)p->pointer)+i*p->size;
-            if(p->size==3)
+                b = ((GLubyte*)p->pointer)+i*size;
+            if(size==3)
                 gl4es_glColor3ubv(b);
             else
                 gl4es_glColor4ubv(b);
@@ -1848,18 +1859,18 @@ void gl4es_glArrayElement(GLint i) {
             v = gl_pointer_index(p, i);
             GLfloat scale = 1.0f/gl_max_value(p->type);
             // color[3] defaults to 1.0f
-            if (p->size < 4)
+            if (size < 4)
                 v[3] = 1.0f;
 
             // scale color coordinates to a 0 - 1.0 range
-            for (int i = 0; i < p->size; i++) {
+            for (int i = 0; i < size; i++) {
                 v[i] *= scale;
             }
             gl4es_glColor4fv(v);
         }
     }
-    if (glstate->vao->secondary_array) {
-        p = &glstate->vao->pointers.secondary;
+    if (vao->secondary_array) {
+        p = &vao->pointers.secondary;
         v = gl_pointer_index(p, i);
         GLfloat scale = 1.0f/gl_max_value(p->type);
 
@@ -1869,38 +1880,41 @@ void gl4es_glArrayElement(GLint i) {
         }
         gl4es_glSecondaryColor3fv(v);
     }
-    if (glstate->vao->normal_array) {
-        p = &glstate->vao->pointers.normal;
+    if (vao->normal_array) {
+        p = &vao->pointers.normal;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
-            if(p->stride)
-                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            size = p->size; stride = p->stride;
+            if(stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*stride);
             else
-                v = ((GLfloat*)p->pointer)+i*p->size;
+                v = ((GLfloat*)p->pointer)+i*size;
         } else {
             v = gl_pointer_index(p, i);
         }
         gl4es_glNormal3fv(v);
     }
-    if (glstate->vao->tex_coord_array[0]) {
-        p = &glstate->vao->pointers.tex_coord[0];
+    if (vao->tex_coord_array[0]) {
+        p = &vao->pointers.tex_coord[0];
+        size = p->size; stride = p->stride;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
-            if(p->stride)
-                v = (GLfloat*)(((uintptr_t)p->pointer)+i*p->stride);
+            if(stride)
+                v = (GLfloat*)(((uintptr_t)p->pointer)+i*stride);
             else
-                v = ((GLfloat*)p->pointer)+i*p->size;
+                v = ((GLfloat*)p->pointer)+i*size;
         } else {
             v = gl_pointer_index(p, i);
         }
-        if (p->size<4)
+        if (size<4)
             gl4es_glTexCoord2fv(v);
         else
             gl4es_glTexCoord4fv(v);
     }
     for (int a=1; a<MAX_TEX; a++) {
-	    if (glstate->vao->tex_coord_array[a]) {
-	        p = &glstate->vao->pointers.tex_coord[a];
+	    if (vao->tex_coord_array[a]) {
+	        p = &vao->pointers.tex_coord[a];
+            size = p->size; stride = p->stride;
             // special fast case for easy stuff...
             if(p->type==GL_FLOAT) {
             if(p->stride)
@@ -1916,8 +1930,8 @@ void gl4es_glArrayElement(GLint i) {
                 gl4es_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
-    if (glstate->vao->vertex_array) {
-        p = &glstate->vao->pointers.vertex;
+    if (vao->vertex_array) {
+        p = &vao->pointers.vertex;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
             if(p->stride)
@@ -2228,7 +2242,7 @@ void init_statebatch() {
 
 void flush() {
     // flush internal list
-    renderlist_t *mylist = extend_renderlist(glstate->list.active);
+    renderlist_t *mylist = glstate->list.active?extend_renderlist(glstate->list.active):NULL;
     if (mylist) {
         GLuint old = glstate->gl_batch;
         glstate->list.active = NULL;

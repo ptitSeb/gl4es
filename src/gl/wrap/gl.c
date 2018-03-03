@@ -292,25 +292,25 @@ GL_RECT(s, GLshort)
 
 // basic thunking
 
-#define THUNK(suffix, type, max)                            \
+#define THUNK(suffix, type, invmax)                            \
 /* colors */                                                \
 void gl4es_glColor3##suffix(type r, type g, type b) {             \
-    gl4es_glColor4f(r/max, g/max, b/max, 1.0f);                   \
+    gl4es_glColor4f(r*invmax, g*invmax, b*invmax, 1.0f);                   \
 }                                                           \
 void gl4es_glColor4##suffix(type r, type g, type b, type a) {     \
-    gl4es_glColor4f(r/max, g/max, b/max, a/max);                  \
+    gl4es_glColor4f(r*invmax, g*invmax, b*invmax, a*invmax);                  \
 }                                                           \
 void gl4es_glColor3##suffix##v(const type *v) {                   \
-    gl4es_glColor4f(v[0]/max, v[1]/max, v[2]/max, 1.0f);          \
+    gl4es_glColor4f(v[0]*invmax, v[1]*invmax, v[2]*invmax, 1.0f);          \
 }                                                           \
 void gl4es_glColor4##suffix##v(const type *v) {                   \
-    gl4es_glColor4f(v[0]/max, v[1]/max, v[2]/max, v[3]/max);      \
+    gl4es_glColor4f(v[0]*invmax, v[1]*invmax, v[2]*invmax, v[3]*invmax);      \
 }                                                           \
 void gl4es_glSecondaryColor3##suffix(type r, type g, type b) {    \
-    gl4es_glSecondaryColor3f(r/max, g/max, b/max);                \
+    gl4es_glSecondaryColor3f(r*invmax, g*invmax, b*invmax);                \
 }                                                           \
 void gl4es_glSecondaryColor3##suffix##v(const type *v) {          \
-    gl4es_glSecondaryColor3f(v[0]/max, v[1]/max, v[2]/max);       \
+    gl4es_glSecondaryColor3f(v[0]*invmax, v[1]*invmax, v[2]*invmax);       \
 }                                                           \
 /* index */                                                 \
 void gl4es_glIndex##suffix(type c) {                              \
@@ -428,13 +428,13 @@ void gl4es_glMultiTexCoord4##suffix##v(GLenum target, type *t) {               \
 }
 
 
-THUNK(b, GLbyte, (float)CHAR_MAX)
+THUNK(b, GLbyte, (1.0f/(float)CHAR_MAX))
 THUNK(d, GLdouble, 1.0f)
-THUNK(i, GLint, (float)INT_MAX)
-THUNK(s, GLshort, (float)SHRT_MAX)
-THUNK(ub, GLubyte, (float)UCHAR_MAX)
-THUNK(ui, GLuint, (float)UINT_MAX)
-THUNK(us, GLushort, (float)USHRT_MAX)
+THUNK(i, GLint, (1.0f/(float)INT_MAX))
+THUNK(s, GLshort, (1.0f/(float)SHRT_MAX))
+THUNK(ub, GLubyte, (1.0f/(float)UCHAR_MAX))
+THUNK(ui, GLuint, (1.0f/(float)UINT_MAX))
+THUNK(us, GLushort, (1.0f/(float)USHRT_MAX))
 
 #undef THUNK
 

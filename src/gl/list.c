@@ -13,6 +13,9 @@
     if (ref)                         \
         ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
 
+#define realloc_merger_sublist(ref, n, cap) \
+        ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
+
 renderlist_t *alloc_renderlist() {
     int a;
 
@@ -83,7 +86,7 @@ int rendermode_dimensions(GLenum mode) {
             return 3;
         case GL_QUADS:
         case GL_QUAD_STRIP:
-            return 4;
+            return 3;   // It's 4, but we use only triangle...
         case GL_POLYGON:
             return 5;
     }
@@ -109,6 +112,8 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     }
     if(!a->open || !b->open)
         return false;
+    if(a->use_glstate)
+        return false;   //TODO: Handle this case
 /*    if ((a->indices==NULL) != (b->indices==NULL))
         return false;*/
     if (a->polygon_mode != b->polygon_mode)
@@ -243,34 +248,38 @@ void renderlist_quads2triangles(renderlist_t *a) {
 }
 #undef vind
 
-int renderlist_getindicesize(renderlist_t *a) {
+int indices_getindicesize(GLenum mode, int len) {
     int ilen_a;
-    switch (a->mode) {
+    switch (mode) {
         case GL_LINE_LOOP:
-            ilen_a = ((a->indices)? a->ilen:a->len)*2;
+            ilen_a = len*2;
             if (ilen_a<0) ilen_a=1; // special borked case...
             break;
         case GL_LINE_STRIP:
-            ilen_a = (((a->indices)? a->ilen:a->len)*2)-2;
+            ilen_a = (len*2)-2;
             if (ilen_a<0) ilen_a=1; // special borked case...
             break;
         case GL_QUAD_STRIP:
         case GL_TRIANGLE_STRIP:
-            ilen_a = (((a->indices)? a->ilen:a->len)-2)*3;
+            ilen_a = (len-2)*3;
             if (ilen_a<0) ilen_a=1; // special borked case...
             break;
         case GL_TRIANGLE_FAN:
         case GL_POLYGON:
-            ilen_a = (((a->indices)? a->ilen:a->len)-2)*3;
+            ilen_a = (len-2)*3;
             if (ilen_a<0) ilen_a=1; // special borked case...
             break;
         case GL_QUADS:
-            ilen_a = ((((a->indices)? a->ilen:a->len)&~3)*3)/2;
+            ilen_a = ((len&~3)*3)/2;
             break;
         default:
-            ilen_a = a->ilen;
+            ilen_a = len;
             break;
     }
+    return ilen_a;
+}
+int renderlist_getindicesize(renderlist_t *a) {
+    int ilen_a = indices_getindicesize(a->mode, ((a->indices)? a->ilen:a->len));
     return ilen_a;
 }
 void append_renderlist(renderlist_t *a, renderlist_t *b) {
@@ -637,21 +646,24 @@ void free_renderlist(renderlist_t *list) {
             free(list->calls.calls);
         }
         int a;
-        if (!list->shared_arrays || ((*list->shared_arrays)--)==0) {
-            if (list->shared_arrays) free(list->shared_arrays);
-            if (list->vert) free(list->vert);
-            if (list->normal) free(list->normal);
-            if (list->color) free(list->color);
-            if (list->secondary) free(list->secondary);
-            if (list->fogcoord) free(list->fogcoord);
-            for (a=0; a<list->maxtex; a++)
-                if (list->tex[a]) free(list->tex[a]);
-        }
-        if (!list->shared_indices || ((*list->shared_indices)--)==0) {
-            if (list->shared_indices) free(list->shared_indices);
-            if (list->indices)
-                free(list->indices);
-        }
+        if(!list->use_glstate) {
+            if (!list->shared_arrays || ((*list->shared_arrays)--)==0) {
+                if (list->shared_arrays) free(list->shared_arrays);
+                if (list->vert) free(list->vert);
+                if (list->normal) free(list->normal);
+                if (list->color) free(list->color);
+                if (list->secondary) free(list->secondary);
+                if (list->fogcoord) free(list->fogcoord);
+                for (a=0; a<list->maxtex; a++)
+                    if (list->tex[a]) free(list->tex[a]);
+            }
+            if (!list->shared_indices || ((*list->shared_indices)--)==0) {
+                if (list->shared_indices) free(list->shared_indices);
+                if (list->indices)
+                    free(list->indices);
+            }
+        } else
+            glstate->merger_used = 0;
 
         if (list->material) {
             rendermaterial_t *m;
@@ -706,25 +718,59 @@ void free_renderlist(renderlist_t *list) {
 }
 
 void resize_renderlist(renderlist_t *list) {
-    if (list->len >= list->cap) {
-        list->cap += DEFAULT_RENDER_LIST_CAPACITY*8;
-        realloc_sublist(list->vert, 4, list->cap);
-        realloc_sublist(list->normal, 3, list->cap);
-        realloc_sublist(list->color, 4, list->cap);
-        realloc_sublist(list->secondary, 4, list->cap);
-        realloc_sublist(list->fogcoord, 1, list->cap);
-        for (int a=0; a<list->maxtex; a++)
-           realloc_sublist(list->tex[a], 4, list->cap);
+    if (list->use_glstate) {
+        if (list->len >= glstate->merger_cap) {
+            glstate->merger_cap += DEFAULT_RENDER_LIST_CAPACITY*8;
+            realloc_merger_sublist(glstate->merger_master, 4*5, glstate->merger_cap);
+            realloc_sublist(glstate->merger_secondary, 4, glstate->merger_cap);
+            for (int a=2; a<list->maxtex; a++)
+                realloc_sublist(glstate->merger_tex[a-2], 4, glstate->merger_cap);
+            if(list->vert) list->vert = glstate->merger_master;
+            if(list->normal) list->normal = glstate->merger_master+4+4+2*4;
+            if(list->color) list->color = glstate->merger_master+4;
+            if(list->tex[0]) list->tex[0] = glstate->merger_master+4+4;
+            if(list->tex[1]) list->tex[1] = glstate->merger_master+4+4+4;
+            if(list->fogcoord) list->fogcoord = glstate->merger_master+4+4+2*4+3;
+            if(list->secondary) list->secondary = glstate->merger_secondary;
+            for (int a=2; a<list->maxtex; a++)
+                if(list->tex[a]) list->tex[a] = glstate->merger_tex[a-2];
+        }
+    } else {
+        if (list->len >= list->cap) {
+            list->cap += DEFAULT_RENDER_LIST_CAPACITY*8;
+            realloc_sublist(list->vert, 4, list->cap);
+            realloc_sublist(list->normal, 3, list->cap);
+            realloc_sublist(list->color, 4, list->cap);
+            realloc_sublist(list->secondary, 4, list->cap);
+            realloc_sublist(list->fogcoord, 1, list->cap);
+            for (int a=0; a<list->maxtex; a++)
+            realloc_sublist(list->tex[a], 4, list->cap);
+        }
     }
 }
 
-void resize_indices_renderlist(renderlist_t *list) {
+void resize_merger_indices(int cap) {
+    if(cap<glstate->merger_indice_cap)
+        return;
+    glstate->merger_indice_cap = (cap+512)&~511;
+    glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
+}
+
+void resize_indices_renderlist(renderlist_t *list, int n) {
     if (!list->indices || list->shared_indices)
         return;
-    if(list->ilen+3<list->indice_cap)
-        return;
-    list->indice_cap = (list->indice_cap+512)&~511;
-    list->indices = (GLushort*)realloc(list->indices, list->indice_cap*sizeof(GLushort));
+    if (list->use_glstate) {
+        if(list->ilen+n<glstate->merger_indice_cap)
+            return;
+        glstate->merger_indice_cap = (glstate->merger_indice_cap+n+511)&~511;
+        glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
+        list->indices = glstate->merger_indices;
+    } else {
+        if(list->ilen+3<list->indice_cap)
+            return;
+        list->indice_cap = (list->indice_cap+512)&~511;
+        list->indices = (GLushort*)realloc(list->indices, list->indice_cap*sizeof(GLushort));
+    }
 }
 
 void adjust_renderlist(renderlist_t *list) {
@@ -797,17 +843,16 @@ renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
     }
     // check if list needs to be converted to triangles / lines...
     GLushort *indices = NULL;
-    int indice_cap = 0;
 
-#define pre_expand   indice_cap=(renderlist_getindicesize(list)+511)&~511; indices=(GLushort*)malloc(indice_cap*sizeof(GLushort))
+#define pre_expand   \
+            if(list->use_glstate) {\
+                resize_merger_indices(renderlist_getindicesize(list)); indices = glstate->merger_indices;\
+            } else {\
+                list->indice_cap = renderlist_getindicesize(list);\
+                indices = (GLushort*)malloc(sizeof(GLushort)*list->indice_cap);\
+            }
 #define post_expand  \
-            if (!list->shared_indices || ((*list->shared_indices)--)==0) { \
-                if (list->shared_indices) free(list->shared_indices); \
-                if (list->indices)        \
-                    free(list->indices);  \
-            } \
             list->ilen = renderlist_getindicesize(list);\
-            list->indice_cap = indice_cap; \
             list->indices = indices
 
     list->merger_mode = mode;
@@ -1016,7 +1061,7 @@ void draw_renderlist(renderlist_t *list) {
 
         if (list->vert) {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
-            gles_glVertexPointer(4, GL_FLOAT, 0, list->vert);
+            gles_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
             glstate->clientstate.vertex_array = 1;
         } else {
             gles_glDisableClientState(GL_VERTEX_ARRAY);
@@ -1025,7 +1070,7 @@ void draw_renderlist(renderlist_t *list) {
 
         if (list->normal) {
             gles_glEnableClientState(GL_NORMAL_ARRAY);
-            gles_glNormalPointer(GL_FLOAT, 0, list->normal);
+            gles_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
             glstate->clientstate.normal_array = 1;
         } else {
             gles_glDisableClientState(GL_NORMAL_ARRAY);
@@ -1038,11 +1083,10 @@ void draw_renderlist(renderlist_t *list) {
 
         if(glstate->raster.bm_drawing)
             bitmap_flush();
-
         if (list->color) {
             gles_glEnableClientState(GL_COLOR_ARRAY);
             glstate->clientstate.color_array = 1;
-            if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1) {
+            if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1 && !list->use_glstate) {
                 final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
                 if (indices) {
                     for (int i=0; i<list->ilen; i++)
@@ -1057,7 +1101,7 @@ void draw_renderlist(renderlist_t *list) {
                 gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
             } else {
 //printf("colors=%f, %f, %f, %f / %f, %f, %f, %f\n", list->color[0],list->color[1],list->color[2],list->color[3], list->color[4],list->color[5],list->color[6],list->color[7]);
-                gles_glColorPointer(4, GL_FLOAT, 0, list->color);
+                gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
             }
         } else {
             gles_glDisableClientState(GL_COLOR_ARRAY);
@@ -1067,13 +1111,13 @@ void draw_renderlist(renderlist_t *list) {
             // secondary color only on ES2+
             if (glstate->enable.color_sum && (list->secondary)) {
                 gles_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-                fpe_glSecondaryColorPointer(4, GL_FLOAT, 0, list->secondary);
+                fpe_glSecondaryColorPointer(4, GL_FLOAT, list->secondary_stride, list->secondary);
             } else
                 fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);                    
             // fog coord only on ES2+
             if ((glstate->fog.coord_src==GL_FOG_COORD) && (list->fogcoord)) {
                 gles_glEnableClientState(GL_FOG_COORD_ARRAY);
-                fpe_glFogCoordPointer(GL_FLOAT, 0, list->fogcoord);
+                fpe_glFogCoordPointer(GL_FLOAT, list->fogcoord_stride, list->fogcoord);
             } else
                 fpe_glDisableClientState(GL_FOG_COORD_ARRAY);                    
         }
@@ -1128,7 +1172,7 @@ void draw_renderlist(renderlist_t *list) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate.tex_coord_array[a] = 1;
                     }
-                    gles_glTexCoordPointer(4, GL_FLOAT, 0, (use_texgen[a])?texgened[a]:list->tex[a]);
+                    gles_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?texgened[a]:list->tex[a]);
                 } else {
                     if (glstate->clientstate.tex_coord_array[a]) {
                         TEXTURE(a);
@@ -1152,7 +1196,7 @@ void draw_renderlist(renderlist_t *list) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate.tex_coord_array[a] = 1;
                     }
-                    gles_glTexCoordPointer(4, GL_FLOAT, 0, list->tex[a]);
+                    gles_glTexCoordPointer(4, GL_FLOAT, list->tex_stride[a], list->tex[a]);
                 } else {
                     if (glstate->clientstate.tex_coord_array[a]) {
                         TEXTURE(a);
@@ -1391,111 +1435,160 @@ void draw_renderlist(renderlist_t *list) {
 // gl function wrappers
 
 void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-    if (list->vert == NULL) {
-        list->vert = alloc_sublist(4, list->cap);
-    } else {
+    const int idx = (list->use_glstate)?(list->len * 5*4):(list->len * 4);
+    if(list->use_glstate) {
         resize_renderlist(list);
+        if (list->vert == NULL)
+            list->vert = glstate->merger_master;
+        if (list->normal) {
+            GLfloat * const normal = list->normal + idx;
+            memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
+        }
+        if (list->color) {
+            GLfloat * const color = list->color + idx;
+            memcpy(color, glstate->color, sizeof(GLfloat) * 4);
+        }
+        if (list->fogcoord) {
+            GLfloat * const fog = list->fogcoord + idx;
+            memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+        }
+        if (list->tex[0]) {
+            GLfloat * const tex = list->tex[0] + idx;
+            memcpy(tex, glstate->texcoord[0], sizeof(GLfloat) * 4);
+        }
+        if (list->tex[1]) {
+            GLfloat * const tex = list->tex[1] + idx;
+            memcpy(tex, glstate->texcoord[1], sizeof(GLfloat) * 4);
+        }
+    } else {
+        if (list->vert == NULL) {
+            list->vert = alloc_sublist(4, list->cap);
+        } else {
+            resize_renderlist(list);
+        }
+        if (list->normal) {
+            GLfloat * const normal = list->normal + (list->len * 3);
+            memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
+        }
+        if (list->color) {
+            GLfloat * const color = list->color + idx;
+            memcpy(color, glstate->color, sizeof(GLfloat) * 4);
+        }
+        if (list->fogcoord) {
+            GLfloat * const fog = list->fogcoord + (list->len * 1);
+            memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+        }
+        if (list->tex[0]) {
+            GLfloat * const tex = list->tex[0] + idx;
+            memcpy(tex, glstate->texcoord[0], sizeof(GLfloat) * 4);
+        }
+        if (list->tex[1]) {
+            GLfloat * const tex = list->tex[1] + idx;
+            memcpy(tex, glstate->texcoord[1], sizeof(GLfloat) * 4);
+        }
     }
-
-    if (list->normal) {
-        GLfloat * const normal = list->normal + (list->len * 3);
-        memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
-    }
-
-    if (list->color) {
-        GLfloat * const color = list->color + (list->len * 4);
-        memcpy(color, glstate->color, sizeof(GLfloat) * 4);
-    }
-
+    // common part
     if (list->secondary) {
-        GLfloat * const secondary = list->secondary + (list->len * 4);
+        GLfloat * const secondary = list->secondary + idx;
         memcpy(secondary, glstate->secondary, sizeof(GLfloat) * 4);
     }
-
-    if (list->fogcoord) {
-        GLfloat * const fog = list->fogcoord + (list->len * 1);
-        memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+    for (int a=2; a<list->maxtex; a++) {
+        if (list->tex[a]) {
+            GLfloat * const tex = list->tex[a] + idx;
+            memcpy(tex, glstate->texcoord[a], sizeof(GLfloat) * 4);
+        }
     }
 
-    for (int a=0; a<list->maxtex; a++) {
-		if (list->tex[a]) {
-			GLfloat * const tex = list->tex[a] + (list->len * 4);
-			memcpy(tex, glstate->texcoord[a], sizeof(GLfloat) * 4);
-		}
-    }
+    GLfloat * const vert = list->vert + idx;
+    vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
+    ++list->len;
+}
 
+void rlEnd(renderlist_t *list) {
     if(list->indices && list->merger_mode) {
         // also feed the indices...
-        resize_indices_renderlist(list);
+        int istart = list->cur_istart;
+        int ivert = list->cur_ivert;
+        resize_indices_renderlist(list, indices_getindicesize(list->merger_mode, list->len-istart));
         switch (list->merger_mode) {
-            case GL_POINT:
-            case GL_LINE:
-            case GL_TRIANGLES:
-                list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
-                break;
             case GL_LINE_STRIP:
-                if(list->cur_ivert) {
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
+                for (int i=istart; i<list->len; i++) {
+                    if(ivert) {
+                        list->indices[list->ilen++]=istart+(ivert-1);
+                    }
+                    list->indices[list->ilen++]=istart+(ivert++);
                 }
-                list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
                 break;
             case GL_LINE_LOOP:
-                if(!list->cur_ivert) {
-                    // put the start indice 2 times
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert);
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
-                } else {
-                    list->indices[list->ilen-1]=list->cur_istart+(list->cur_ivert++);
-                    // move ending point along...
-                    list->indices[list->ilen++]=list->cur_istart;
+                for (int i=istart; i<list->len; i++) {
+                    if(!ivert) {
+                        // put the start indice 2 times
+                        list->indices[list->ilen++]=istart+(ivert);
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    } else {
+                        list->indices[list->ilen-1]=istart+(ivert++);
+                        // move ending point along...
+                        list->indices[list->ilen++]=istart;
+                    }
                 }
                 break;
             case GL_TRIANGLE_FAN:
-                if(list->cur_ivert<3) {
-                    // first triangle is easy
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
-                } else {
-                    // add a new triangle for each new point
-                    list->indices[list->ilen++]=list->cur_istart;
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                for (int i=istart; i<list->len; i++) {
+                    if(ivert<3) {
+                        // first triangle is easy
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    } else {
+                        // add a new triangle for each new point
+                        list->indices[list->ilen++]=istart;
+                        list->indices[list->ilen++]=istart+(ivert-1);
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    }
                 }
                 break;
             case GL_QUAD_STRIP:
             case GL_TRIANGLE_STRIP:
-                if(list->cur_ivert<3) {
-                    // first triangle is easy
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
-                } else {
-                    // add a new triangle for each new point
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-((list->cur_ivert%2)?1:2));
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-((list->cur_ivert%2)?2:1));
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                for (int i=istart; i<list->len; i++) {
+                    if(ivert<3) {
+                        // first triangle is easy
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    } else {
+                        // add a new triangle for each new point
+                        list->indices[list->ilen++]=istart+(ivert-((ivert%2)?1:2));
+                        list->indices[list->ilen++]=istart+(ivert-((ivert%2)?2:1));
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    }
                 }
                 break;
             case GL_QUADS:
-                if(list->cur_ivert%4==3) {
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-2);
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert-1);
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
-                } else {
-                    list->indices[list->ilen++]=list->cur_istart+(list->cur_ivert++);
+                for (int i=istart; i<list->len; i++) {
+                    if(ivert%4==3) {
+                        list->indices[list->ilen++]=istart+(ivert-2);
+                        list->indices[list->ilen++]=istart+(ivert-1);
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    } else {
+                        list->indices[list->ilen++]=istart+(ivert++);
+                    }
                 }
+                break;
+            default:
+                for (int i=istart; i<list->len; i++)
+                    list->indices[list->ilen++]=istart+(ivert++);
                 break;
         }
     }
-
-    GLfloat * const vert = list->vert + (list->len++ * 4);
-    vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
 }
 
 void FASTMATH rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
     if (list->normal == NULL) {
-        list->normal = alloc_sublist(3, list->cap);
+        const int stride = (list->use_glstate)?(5*4):3;
+        if(list->use_glstate) {
+            list->normal = glstate->merger_master+4+4+2*4;
+        } else {
+            list->normal = alloc_sublist(3, list->cap);
+        }
         // catch up
-        int i;
-        if (list->len) for (i = 0; i < list->len; i++) {
-            GLfloat *normal = (list->normal + (i * 3));
+        for (int i = 0; i < list->len; i++) {
+            GLfloat *normal = (list->normal + (i * stride));
             memcpy(normal, list->lastNormal, sizeof(GLfloat) * 3);
         }
     }
@@ -1507,11 +1600,15 @@ void FASTMATH rlNormal3f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z) {
 void FASTMATH rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
     if (list->color == NULL) {
         list->lastColorsSet = 1;
-        list->color = alloc_sublist(4, list->cap);
+        const int stride = (list->use_glstate)?(5*4):4;
+        if(list->use_glstate) {
+            list->color = glstate->merger_master+4;
+        } else {
+            list->color = alloc_sublist(4, list->cap);
+        }
         // catch up
-        int i;
-        if (list->len) for (i = 0; i < list->len; i++) {
-            GLfloat *color = (list->color + (i * 4));
+        for (int i = 0; i < list->len; i++) {
+            GLfloat *color = (list->color + (i * stride));
             memcpy(color,list->lastColors, sizeof(GLfloat) * 4);
         }/* else {
             GLfloat *color = list->color;
@@ -1526,10 +1623,15 @@ void FASTMATH rlColor4f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b, GLf
 
 void FASTMATH rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) {
     if (list->secondary == NULL) {
-        list->secondary = alloc_sublist(4, list->cap);
+        if(list->use_glstate) {
+            if(!glstate->merger_secondary)
+                glstate->merger_secondary = (GLfloat*)malloc(sizeof(GLfloat)*4*glstate->merger_cap);
+            list->secondary = glstate->merger_secondary;
+        } else {
+            list->secondary = alloc_sublist(4, list->cap);
+        }
         // catch up
-        int i;
-        if (list->len) for (i = 0; i < list->len; i++) {
+        for (int i = 0; i < list->len; i++) {
             GLfloat *secondary = (list->secondary + (i * 4));
             memcpy(secondary, list->lastSecondaryColors, sizeof(GLfloat) * 4);
         }
@@ -1635,12 +1737,23 @@ void FASTMATH rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GL
     const int tmu = target - GL_TEXTURE0;
     if (list->tex[tmu] == NULL) {
         if (list->maxtex<tmu+1) list->maxtex = tmu+1;
-        list->tex[tmu] = alloc_sublist(4, list->cap);
+        const int stride = (list->use_glstate && tmu<2)?(5*4):4;
+        if(list->use_glstate) {
+            if(tmu<2)
+                list->tex[tmu] = glstate->merger_master+4+4+tmu*4;
+            else {
+                if(!glstate->merger_tex[tmu-2])
+                    glstate->merger_tex[tmu-2] = (GLfloat*)malloc(sizeof(GLfloat)*4*glstate->merger_cap);
+                list->tex[tmu] = glstate->merger_tex[tmu-2];
+            }
+        } else {
+            list->tex[tmu] = alloc_sublist(4, list->cap);
+        }
         // catch up
         GLfloat *tex = list->tex[tmu];
-        if (list->len) for (int i = 0; i < list->len; i++) {
+        for (int i = 0; i < list->len; i++) {
             memcpy(tex, glstate->texcoord[tmu], sizeof(GLfloat) * 4);
-            tex += 4;
+            tex += stride;
         }
     }
     GLfloat *tex = glstate->texcoord[tmu];
@@ -1650,12 +1763,17 @@ void FASTMATH rlMultiTexCoord4f(renderlist_t *list, GLenum target, GLfloat s, GL
 
 void FASTMATH rlFogCoordf(renderlist_t *list, GLfloat coord) {
     if (list->fogcoord == NULL) {
-        list->fogcoord = alloc_sublist(1, list->cap);
+        const int stride = (list->use_glstate)?(5*4):4;
+        if(list->use_glstate) {
+            list->color = glstate->merger_master+4+4+2*4+3;
+        } else {
+            list->fogcoord = alloc_sublist(1, list->cap);
+        }
         // catch up
         GLfloat *fog = list->fogcoord;
-        if (list->len) for (int i = 0; i < list->len; i++) {
+        for (int i = 0; i < list->len; i++) {
             memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
-            fog++;
+            fog+=stride;
         }
     }
     glstate->fogcoord = coord;
@@ -1769,6 +1887,34 @@ void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * p
     rlTexEnvfv(list, target, pname, fparams);
 }
 
-
 #undef alloc_sublist
 #undef realloc_sublist
+
+renderlist_t* NewDrawStage(renderlist_t* l, GLenum m) {
+    if(globals4es.mergelist
+        && ((isempty_renderlist(l) && l->prev && l->prev->open && l->prev->mode==m && l->prev->mode_init==m)
+            || (l->stage==STAGE_POSTDRAW && l->open && l->use_glstate))
+        && ((l->mode==m && l->mode_init==m && (m==GL_POINTS || m==GL_LINES || m==GL_TRIANGLES || m==GL_QUADS))
+            || ((l->mode_dimension==rendermode_dimensions(m) && l->mode_dimension>1 && l->mode_dimension<4)))) 
+    {
+        return recycle_renderlist(l, m);
+    } else {
+        NewStage(l, STAGE_DRAW);
+        l->mode=m;
+        l->mode_init=m;
+        l->mode_dimension = rendermode_dimensions(m);
+        if(!glstate->merger_used && !glstate->list.compiling
+            && !(glstate->render_mode==GL_SELECT || glstate->polygon_mode==GL_LINE || glstate->polygon_mode == GL_POINT)) 
+        {
+            l->vert_stride=sizeof(GLfloat)*4*5;
+            l->color_stride=sizeof(GLfloat)*4*5;
+            l->tex_stride[0]=sizeof(GLfloat)*4*5;
+            l->tex_stride[1]=sizeof(GLfloat)*4*5;
+            l->normal_stride=sizeof(GLfloat)*4*5;
+            l->fogcoord_stride=sizeof(GLfloat)*4*5;
+            l->use_glstate=1;
+            glstate->merger_used=1;
+        }
+        return l;
+    }
+}
