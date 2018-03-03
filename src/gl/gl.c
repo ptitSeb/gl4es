@@ -416,7 +416,7 @@ void change_vao_texcoord(int tmu, bool enable)
         if(glstate->vao->maxtex<tmu+1) glstate->vao->maxtex=tmu+1;
     } else {
         if(glstate->vao->maxtex==tmu+1) {
-            while(tmu && !glstate->vao->tex_coord_array[tmu]) --tmu;
+            //while(tmu && !glstate->vao->tex_coord_array[tmu]) --tmu;
             glstate->vao->maxtex=tmu;
         }
     }
