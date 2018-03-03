@@ -409,6 +409,19 @@ generate_changetexgen(r)
 generate_changetexgen(q)
 #undef generate_changetexgen
 
+void change_vao_texcoord(int tmu, bool enable) 
+{
+    glstate->vao->tex_coord_array[tmu] = enable;
+    if(enable) {
+        if(glstate->vao->maxtex<tmu+1) glstate->vao->maxtex=tmu+1;
+    } else {
+        if(glstate->vao->maxtex==tmu+1) {
+            while(tmu && !glstate->vao->tex_coord_array[tmu]) --tmu;
+            glstate->vao->maxtex=tmu;
+        }
+    }
+}
+
 #ifndef GL_TEXTURE_STREAM_IMG  
 #define GL_TEXTURE_STREAM_IMG                                   0x8C0D     
 #endif
@@ -522,7 +535,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         clientGO(GL_VERTEX_ARRAY, vertex_array);
         clientGO(GL_NORMAL_ARRAY, normal_array);
         clientGO(GL_COLOR_ARRAY, color_array);
-        clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        case GL_TEXTURE_COORD_ARRAY: change_vao_texcoord(glstate->texture.client, enable);
+        //clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
 
         // map eval
         GO(GL_MAP1_COLOR_4 , map1_color4);
@@ -913,7 +927,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             } else
                 list->fogcoord = copy_gl_pointer_raw(&glstate->vao->pointers.fog, 1, skip, count);
         }
-        for (int i=0; i<hardext.maxtex; i++) {
+        for (int i=0; i<glstate->vao->maxtex; i++) {
             if (glstate->vao->tex_coord_array[i]) {
                 if(glstate->vao->shared_arrays) {
                     glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, 0, count);
@@ -1911,7 +1925,7 @@ void gl4es_glArrayElement(GLint i) {
         else
             gl4es_glTexCoord4fv(v);
     }
-    for (int a=1; a<MAX_TEX; a++) {
+    for (int a=1; a<vao->maxtex; a++) {
 	    if (vao->tex_coord_array[a]) {
 	        p = &vao->pointers.tex_coord[a];
             size = p->size; stride = p->stride;

@@ -100,6 +100,7 @@ typedef struct {
                vertex_array,
                fog_array,
                tex_coord_array[MAX_TEX];
+    int maxtex; // upper limit enabled tex_coord
     // VAO optimisation: keep a shared copy of the digested datas (unless the vao is the default one)
     int *shared_arrays;
     pointer_cache_t vert;
