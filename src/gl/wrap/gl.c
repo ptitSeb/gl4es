@@ -175,7 +175,7 @@ void gl4es_glMateriali(GLenum face, GLenum pname, GLint param) {
     gl4es_glMaterialf(face, pname, param);
 }
 void gl4es_glMaterialiv(GLenum face, GLenum pname, GLint *iparams) {
-printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
+    //printf("glMaterialiv(%04X, %04X, [%i,...]\n", face, pname, iparams[0]);
     switch (pname) {
         case GL_AMBIENT: 
 		case GL_DIFFUSE:
@@ -273,7 +273,7 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
 
 #define GL_RECT(suffix, type)                                 \
     void gl4es_glRect##suffix(type x1, type y1, type x2, type y2) { \
-        gl4es_glBegin(GL_POLYGON);                                  \
+        gl4es_glBegin(GL_QUADS);                                  \
         gl4es_glVertex2##suffix(x1, y1);                            \
         gl4es_glVertex2##suffix(x2, y1);                            \
         gl4es_glVertex2##suffix(x2, y2);                            \
@@ -435,62 +435,6 @@ THUNK(s, GLshort, (1.0f/(float)SHRT_MAX))
 THUNK(ub, GLubyte, (1.0f/(float)UCHAR_MAX))
 THUNK(ui, GLuint, (1.0f/(float)UINT_MAX))
 THUNK(us, GLushort, (1.0f/(float)USHRT_MAX))
-
-#undef THUNK
-
-// glGet
-
-#define THUNK(suffix, type)                              \
-void gl4es_glGet##suffix##v(GLenum pname, type *params) {      \
-    int i, n = 1;                                        \
-    switch (pname) {                                     \
-        /* two values */                                 \
-        case GL_ALIASED_POINT_SIZE_RANGE:                \
-        case GL_ALIASED_LINE_WIDTH_RANGE:                \
-        case GL_MAX_VIEWPORT_DIMS:                       \
-            n = 2;                                       \
-            break;                                       \
-        /* three values */                               \
-        case GL_CURRENT_NORMAL:                          \
-        case GL_POINT_DISTANCE_ATTENUATION:              \
-            n = 3;                                       \
-            break;                                       \
-        /* four values */                                \
-        case GL_COLOR_CLEAR_VALUE:                       \
-        case GL_COLOR_WRITEMASK:                         \
-        case GL_CURRENT_COLOR:                           \
-        case GL_CURRENT_TEXTURE_COORDS:                  \
-        case GL_DEPTH_RANGE:                             \
-        case GL_FOG_COLOR:                               \
-        case GL_LIGHT_MODEL_AMBIENT:                     \
-        case GL_SCISSOR_BOX:                             \
-        case GL_SMOOTH_LINE_WIDTH_RANGE:                 \
-        case GL_SMOOTH_POINT_SIZE_RANGE:                 \
-        case GL_VIEWPORT:                                \
-            n = 4;                                       \
-            break;                                       \
-        /* GL_NUM_COMPRESSED_TEXTURE_FORMATS values */   \
-        case GL_COMPRESSED_TEXTURE_FORMATS:              \
-            n = GL_NUM_COMPRESSED_TEXTURE_FORMATS;       \
-            break;                                       \
-        /* sixteen values */                             \
-        case GL_MODELVIEW_MATRIX:                        \
-        case GL_PROJECTION_MATRIX:                       \
-        case GL_TEXTURE_MATRIX:                          \
-            n = 16;                                      \
-            break;                                       \
-    }                                                    \
-    GLfloat *p = (GLfloat *)malloc(sizeof(GLfloat) * n); \
-    gl4es_glGetFloatv(pname, p);		                         \
-    for (i = 0; i < n; i++) {                            \
-        params[i] = (type)p[i];                          \
-    }                                                    \
-    free(p);                                             \
-}
-
-THUNK(Double, GLdouble)
-//THUNK(Integer, GLint)
-//THUNK(Float, GLfloat)
 
 #undef THUNK
 
@@ -710,6 +654,15 @@ void gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum
 
 #undef constDoubleToFloat
 
+void gl4es_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
+    gl4es_glGetTexLevelParameterfv(target, 0, pname, params);
+}
+ 
+void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
+    gl4es_glGetTexLevelParameteriv(target, 0, pname, params);
+}
+
+
 // VertexArray stuff
 void gl4es_glVertexAttrib1f (GLuint index, GLfloat v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); };
 void gl4es_glVertexAttrib2f (GLuint index, GLfloat v0, GLfloat v1) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; gl4es_glVertexAttrib4fv(index, f); };
@@ -806,7 +759,6 @@ void glDepthRange(GLdouble nearVal, GLdouble farVal) AliasExport("gl4es_glDepthR
 void glFogi(GLenum pname, GLint param) AliasExport("gl4es_glFogi");
 void glFogiv(GLenum pname, GLint *params) AliasExport("gl4es_glFogiv");
 void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far) AliasExport("gl4es_glFrustum");
-void glGetDoublev(GLenum pname, GLdouble *params) AliasExport("gl4es_glGetDoublev");
 void glLighti(GLenum light, GLenum pname, GLint param) AliasExport("gl4es_glLighti");
 void glLightiv(GLenum light, GLenum pname, GLint *iparams) AliasExport("gl4es_glLightiv");
 void glLightModeli(GLenum pname, GLint param) AliasExport("gl4es_glLightModeli");
@@ -949,17 +901,12 @@ THUNK(ui, GLuint)
 THUNK(us, GLushort)
 #undef THUNK
 
-#define THUNK(suffix, type) \
-    extern void glGet##suffix##v(GLenum pname, type *params);
-
-THUNK(Double, GLdouble)
-THUNK(Integer, GLint)
-THUNK(Float, GLfloat)
-#undef THUNK
-
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
 void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
 //void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
 void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
 //void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
 void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+
+void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexParameterfv");
+void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexParameteriv");

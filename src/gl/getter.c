@@ -128,6 +128,8 @@ void BuildExtensionsList() {
             strcat(extensions, "GL_EXT_blend_func_separate ");
         if(hardext.blendsub)
             strcat(extensions, "GL_EXT_blend_subtract ");
+        if(hardext.aniso)
+            strcat(extensions, "GL_EXT_texture_filter_anisotropic ");
         if(hardext.fbo)
             strcat(extensions,                 
                 "GL_ARB_framebuffer_object "
@@ -371,6 +373,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case  GL_PIXEL_UNPACK_BUFFER_BINDING:
             *params=(glstate->vao->unpack)?glstate->vao->unpack->buffer:0;
+            break;
+        case GL_MAX_TEXTURE_MAX_ANISOTROPY:
+            if(hardext.aniso)
+                *params=hardext.aniso;
+            else
+                errorShim(GL_INVALID_ENUM);
             break;
         case GL_MATRIX_MODE:
             *params=glstate->matrix_mode;
@@ -673,6 +681,84 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     }
 }
 void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv");
+
+void gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
+    GLfloat tmp[4*4];
+    LOAD_GLES(glGetFloatv);
+    noerrorShim();
+    if (gl4es_commonGet(pname, tmp)) {
+        *params = *tmp;
+        return;
+    }
+    switch (pname) {
+        case GL_POINT_SIZE_RANGE:
+            gles_glGetFloatv(GL_POINT_SIZE_MIN, tmp);
+            gles_glGetFloatv(GL_POINT_SIZE_MAX, tmp+1);
+            params[0] = tmp[0]; params[1] = tmp[1];
+            break;
+        case GL_TRANSPOSE_PROJECTION_MATRIX:
+            matrix_transpose(TOP(projection_matrix), tmp);
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_TRANSPOSE_MODELVIEW_MATRIX:
+            matrix_transpose(TOP(modelview_matrix), tmp);
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_TRANSPOSE_TEXTURE_MATRIX:
+            matrix_transpose(TOP(texture_matrix[glstate->texture.active]), tmp);
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_PROJECTION_MATRIX:
+            memcpy(tmp, TOP(projection_matrix), 16*sizeof(GLfloat));
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_MODELVIEW_MATRIX:
+            memcpy(tmp, TOP(modelview_matrix), 16*sizeof(GLfloat));
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_TEXTURE_MATRIX:
+            memcpy(tmp, TOP(texture_matrix[glstate->texture.active]), 16*sizeof(GLfloat));
+            for(int i=0; i<16; i++) params[i] = tmp[i];
+            break;
+        case GL_LIGHT_MODEL_AMBIENT:
+            memcpy(tmp, glstate->light.ambient, 4*sizeof(GLfloat));
+            for(int i=0; i<4; i++) params[i] = tmp[i];
+            break;
+        case GL_FOG_COLOR:
+            memcpy(tmp, glstate->fog.color, 4*sizeof(GLfloat));
+            for(int i=0; i<4; i++) params[i] = tmp[i];
+            break;
+        case GL_CURRENT_COLOR:
+            memcpy(tmp, glstate->color, 4*sizeof(GLfloat));
+            for(int i=0; i<4; i++) params[i] = tmp[i];
+            break;
+        case GL_CURRENT_SECONDARY_COLOR:
+            memcpy(tmp, glstate->secondary, 4*sizeof(GLfloat));
+            for(int i=0; i<4; i++) params[i] = tmp[i];
+            break;
+         case GL_CURRENT_NORMAL:
+            memcpy(tmp, glstate->normal, 3*sizeof(GLfloat));
+            for(int i=0; i<3; i++) params[i] = tmp[i];
+            break;
+         case GL_CURRENT_TEXTURE_COORDS:
+            memcpy(tmp, glstate->texcoord[glstate->texture.active], 4*sizeof(GLfloat));
+            for(int i=0; i<4; i++) params[i] = tmp[i];
+            break;
+         case GL_COLOR_WRITEMASK:
+            for (int dummy=0; dummy<4; dummy++)
+                params[dummy] = glstate->colormask[dummy];
+            break;
+        case GL_POINT_DISTANCE_ATTENUATION :
+            memcpy(tmp, glstate->pointsprite.distance, 3*sizeof(GLfloat));
+            for(int i=0; i<3; i++) params[i] = tmp[i];
+            break;
+        default:
+            errorGL();
+            gles_glGetFloatv(pname, tmp);
+            params[0] = tmp[0];
+    }
+}
+void glGetDoublev(GLenum pname, GLdouble *params) AliasExport("gl4es_glGetDoublev");
 
 void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     const int nl = light-GL_LIGHT0;

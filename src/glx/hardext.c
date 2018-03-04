@@ -33,6 +33,7 @@ void GetHardwareExtensions(int notest)
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
             hardext.cubemap = 1;
+            hardext.aniso = 2;  // no ideas here...
         }
         return;
     }
@@ -126,6 +127,7 @@ void GetHardwareExtensions(int notest)
     tested = 1;
     LOAD_GLES(glGetString);
     LOAD_GLES(glGetIntegerv);
+    LOAD_GLES(glGetError);
     // Now get extensions
     const char* Exts = gles_glGetString(GL_EXTENSIONS);
     // Parse them!
@@ -228,6 +230,11 @@ void GetHardwareExtensions(int notest)
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
     SHUT(LOGD("LIBGL: Texture Units: %d(%d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardext.maxlights, hardext.maxplanes));
+    gles_glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &hardext.aniso);
+    if(gles_glGetError()!=GL_NO_ERROR)
+        hardext.aniso = 0;
+    if(hardext.aniso)
+        SHUT(LOGD("LIBGL: Max Anisotropic filtering: %d\n", hardext.aniso));
 
 #ifndef NOEGL
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {

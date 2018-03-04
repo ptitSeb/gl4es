@@ -111,6 +111,8 @@
 #define skip_glReadPixels
 #define skip_glCompressedTexImage2D
 #define skip_glCompressedTexSubImage2D
+#define skip_glGetTexParameterfv
+#define skip_glGetTexParameteriv
 
 // glDrawArrays
 #define skip_glDrawArrays

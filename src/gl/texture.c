@@ -1560,6 +1560,19 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         if(hardext.esversion<2)
             gles_glTexParameteri(rtarget, pname, param);
 	    return;
+    case GL_TEXTURE_MAX_ANISOTROPY:
+        if(!hardext.aniso) {
+            errorShim(GL_INVALID_ENUM);
+            return;
+        }
+        if(param<0){
+            errorShim(GL_INVALID_VALUE);
+            return;
+        }
+        if(param>hardext.aniso) param=hardext.aniso;
+        if(texture)
+            texture->aniso = param;
+        break;
     }
     gles_glTexParameteri(rtarget, pname, param);
     errorGL();
@@ -1583,6 +1596,7 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params)
 	case GL_TEXTURE_MAX_LOD:
 	case GL_TEXTURE_LOD_BIAS:
 	case GL_GENERATE_MIPMAP:
+    case GL_TEXTURE_MAX_ANISOTROPY:
         gl4es_glTexParameteri(target, pname, params[0]);
         return;
     case GL_TEXTURE_BORDER_COLOR:
@@ -1613,6 +1627,7 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 	case GL_TEXTURE_MAX_LOD:
 	case GL_TEXTURE_LOD_BIAS:
 	case GL_GENERATE_MIPMAP:
+    case GL_TEXTURE_MAX_ANISOTROPY:
         gl4es_glTexParameteri(target, pname, params[0]);
         return;
     case GL_TEXTURE_BORDER_COLOR:
@@ -1835,6 +1850,12 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
             else
                 (*params) = 0;
             break;
+            break;
+        case GL_TEXTURE_MAX_ANISOTROPY:
+            if(!hardext.aniso)
+                errorShim(GL_INVALID_ENUM);
+            else
+                (*params) = bound?bound->aniso:0;
             break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...

@@ -26,6 +26,7 @@ typedef struct _hardext {
     int drawtex;        // GL_OES_draw_texture
     int rgtex;          // GL_EXT_texture_rg
     int floattex;       // GL_OES_texture_float
+    int aniso;          // Max ANISOTROPIC filter available (0 if not)
     int srgb;           // EGL_KHR_gl_colorspace
     // es2 stuffs
     int esversion;      // 1 is ES1.1 backend, 2 is ES2
