@@ -1746,6 +1746,34 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 }
 void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("gl4es_glNormal3f");
 
+void gl4es_glNormal3fv(GLfloat* v) {
+    if (glstate->list.active) {
+        if (glstate->list.active->stage != STAGE_DRAW) {
+            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+                memcpy(glstate->list.active->lastNormal, v, 3*sizeof(GLfloat));
+            } else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
+                memcpy(glstate->list.active->post_normals, v, 3*sizeof(GLfloat));
+                glstate->list.active->post_normal = 1;
+                return;                
+            }
+
+            if (!glstate->list.pending)
+                return gl4es_glNormal3f(v[0], v[1], v[2]);  // this will put the call on the stack in the current list
+        } else {
+            rlNormal3fv(glstate->list.active, v);
+            memcpy(glstate->list.active->lastNormal, v, 3*sizeof(GLfloat));
+            noerrorShim();
+        }
+    }
+    else {
+        LOAD_GLES_FPE(glNormal3f);
+        errorGL();
+        gles_glNormal3f(v[0], v[1], v[2]);
+    }
+    memcpy(glstate->normal, v, 3*sizeof(GLfloat));
+}
+void glNormal3fv(GLfloat* v) AliasExport("gl4es_glNormal3fv");
+
 void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate->list.active) {
         rlVertex4f(glstate->list.active, x, y, z, w);
@@ -1755,6 +1783,28 @@ void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     }
 }
 void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glVertex4f");
+
+void gl4es_glVertex3fv(GLfloat* v) {
+    if (glstate->list.active) {
+        rlVertex3fv(glstate->list.active, v);
+        noerrorShim();
+    } else {
+        memcpy(glstate->vertex, v, 3*sizeof(GLfloat));
+        glstate->vertex[3]=1.f;
+    }
+}
+void glVertex3fv(GLfloat* v) AliasExport("gl4es_glVertex3fv");
+
+void gl4es_glVertex4fv(GLfloat* v) {
+    if (glstate->list.active) {
+        rlVertex4fv(glstate->list.active, v);
+        noerrorShim();
+    } else {
+        memcpy(glstate->vertex, v, 3*sizeof(GLfloat));
+        glstate->vertex[3]=1.f;
+    }
+}
+void glVertex4fv(GLfloat* v) AliasExport("gl4es_glVertex4fv");
 
 void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
@@ -1785,6 +1835,34 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     glstate->color[2] = blue; glstate->color[3] = alpha;
 }
 void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("gl4es_glColor4f");
+
+void gl4es_glColor4fv(GLfloat* v) {
+    if (glstate->list.active) {
+        if (glstate->list.active->stage != STAGE_DRAW) {
+            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage<STAGE_DRAW) {
+                memcpy(glstate->list.active->lastColors, v, 4*sizeof(GLfloat));
+                glstate->list.active->lastColorsSet = 1;
+            }
+            else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
+                memcpy(glstate->list.active->post_colors, v, 4*sizeof(GLfloat));
+                glstate->list.active->post_color = 1;
+                return;
+            }
+            if (!glstate->list.pending)
+                return gl4es_glColor4f(v[0], v[1], v[2], v[3]);
+        } else {
+            rlColor4fv(glstate->list.active, v);
+            noerrorShim();
+        }
+    } else {
+        LOAD_GLES_FPE(glColor4f);
+        errorGL();
+        gles_glColor4f(v[0], v[1], v[2], v[3]);
+    }
+    // change the state last thing
+    memcpy(glstate->color, v, 4*sizeof(GLfloat));
+}
+void glColor4fv(GLfloat* v) AliasExport("gl4es_glColor4fv");
 
 void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate->list.active) {
@@ -1840,6 +1918,41 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
 }
 void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glMultiTexCoord4f");
 void glMultiTexCoord4fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glMultiTexCoord4f");
+
+void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
+	// TODO, error if target is unsuported texture....
+    if (glstate->list.active) {
+        if(glstate->list.pending)
+            flush();
+        else {
+            // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
+            if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
+                rlMultiTexCoord2fv(glstate->list.active, target, v);
+        }
+    }
+    noerrorShim();
+    memcpy(glstate->texcoord[target-GL_TEXTURE0], v, 2*sizeof(GLfloat));
+    glstate->texcoord[target-GL_TEXTURE0][2] = 0.f; glstate->texcoord[target-GL_TEXTURE0][3] = 1.f;
+}
+void glMultiTexCoord2fv(GLenum target, GLfloat* v) AliasExport("gl4es_glMultiTexCoord2fv");
+void glMultiTexCoord2fvARB(GLenum target, GLfloat* v) AliasExport("gl4es_glMultiTexCoord2fv");
+
+void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
+	// TODO, error if target is unsuported texture....
+    if (glstate->list.active) {
+        if(glstate->list.pending)
+            flush();
+        else {
+            // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
+            if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
+                rlMultiTexCoord4fv(glstate->list.active, target, v);
+        }
+    }
+    noerrorShim();
+    memcpy(glstate->texcoord[target-GL_TEXTURE0], v, 4*sizeof(GLfloat));
+}
+void glMultiTexCoord4fv(GLenum target, GLfloat* v) AliasExport("gl4es_glMultiTexCoord4fv");
+void glMultiTexCoord4fvARB(GLenum target, GLfloat* v) AliasExport("gl4es_glMultiTexCoord4fv");
 
 void gl4es_glArrayElement(GLint i) {
     GLfloat *v;

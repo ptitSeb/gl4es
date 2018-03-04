@@ -227,15 +227,15 @@ void gl4es_glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) {
 /*void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
      glMultiTexCoord2f(target, s, t);
 }*/
-void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat *t) {
+/*void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat *t) {
      gl4es_glMultiTexCoord4f(target, t[0], t[1], 0, 1);
-}
+}*/
 void gl4es_glMultiTexCoord3fv(GLenum target, GLfloat *t) {
      gl4es_glMultiTexCoord4f(target, t[0], t[1], t[2], 1);
 }
-void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat *t) {
+/*void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat *t) {
      gl4es_glMultiTexCoord4f(target, t[0], t[1], t[2], t[3]);
-}
+}*/
 /*
 void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
 	glBlendFuncSeparate (sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
@@ -503,9 +503,9 @@ void gl4es_glColor3f(GLfloat r, GLfloat g, GLfloat b) {
 void gl4es_glColor3fv(GLfloat *c) {
     gl4es_glColor4f(c[0], c[1], c[2], 1.0f);
 }
-void gl4es_glColor4fv(GLfloat *c) {
+/*void gl4es_glColor4fv(GLfloat *c) {
     gl4es_glColor4f(c[0], c[1], c[2], c[3]);
-}
+}*/
 void gl4es_glIndexfv(const GLfloat *c) {
     gl4es_glIndexf(*c);
 }
@@ -584,9 +584,9 @@ void gl4es_glMultMatrixd(const GLdouble *m) {
 }
 
 // normal
-void gl4es_glNormal3fv(GLfloat *v) {
+/*void gl4es_glNormal3fv(GLfloat *v) {
     gl4es_glNormal3f(v[0], v[1], v[2]);
-}
+}*/
 
 // textures
 void gl4es_glTexCoord1f(GLfloat s) {
@@ -599,7 +599,8 @@ void gl4es_glTexCoord2f(GLfloat s, GLfloat t) {
     gl4es_glTexCoord4f(s, t, 0, 1);
 }
 void gl4es_glTexCoord2fv(GLfloat *t) {
-    gl4es_glTexCoord4f(t[0], t[1], 0, 1);
+//    gl4es_glTexCoord4f(t[0], t[1], 0, 1);
+    gl4es_glMultiTexCoord2fv(GL_TEXTURE0, t);
 }
 void gl4es_glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) {
     gl4es_glTexCoord4f(s, t, r, 1);
@@ -658,15 +659,15 @@ void gl4es_glVertex2f(GLfloat x, GLfloat y) {
 void gl4es_glVertex2fv(GLfloat *v) {
     gl4es_glVertex4f(v[0], v[1], 0, 1);
 }
-void gl4es_glVertex3fv(GLfloat *v) {
+/*void gl4es_glVertex3fv(GLfloat *v) {
     gl4es_glVertex4f(v[0], v[1], v[2], 1);
-}
+}*/
 void gl4es_glVertex3f(GLfloat r, GLfloat g, GLfloat b) {
     gl4es_glVertex4f(r, g, b, 1);
 }
-void gl4es_glVertex4fv(GLfloat *v) {
+/*void gl4es_glVertex4fv(GLfloat *v) {
     gl4es_glVertex4f(v[0], v[1], v[2], v[3]);
-}
+}*/
 
 void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
 //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (state.list.active)?1:0);
@@ -819,7 +820,7 @@ void glGetClipPlane(GLenum plane, GLdouble *equation) AliasExport("gl4es_glGetCl
 void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
 void glColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glColor3f");
 void glColor3fv(GLfloat *c) AliasExport("gl4es_glColor3fv");
-void glColor4fv(GLfloat *c) AliasExport("gl4es_glColor4fv");
+//void glColor4fv(GLfloat *c) AliasExport("gl4es_glColor4fv");
 void glIndexfv(const GLfloat *c) AliasExport("gl4es_glIndexfv");
 void glSecondaryColor3fv(const GLfloat *v) AliasExport("gl4es_glSecondaryColor3fv");
 void glRasterPos2f(GLfloat x, GLfloat y) AliasExport("gl4es_glRasterPos2f");
@@ -844,7 +845,7 @@ void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) AliasExport("gl4es_glMapGri
 void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) AliasExport("gl4es_glMapGrid2d");
 void glLoadMatrixd(const GLdouble *m) AliasExport("gl4es_glLoadMatrixd");
 void glMultMatrixd(const GLdouble *m) AliasExport("gl4es_glMultMatrixd");
-void glNormal3fv(GLfloat *v) AliasExport("gl4es_glNormal3fv");
+//void glNormal3fv(GLfloat *v) AliasExport("gl4es_glNormal3fv");
 
 // rect
 #define GL_RECT(suffix, type)                                \
@@ -867,10 +868,10 @@ void glTexCoord4fv(GLfloat *t) AliasExport("gl4es_glTexCoord4fv");
 void glMultiTexCoord1f(GLenum target, GLfloat s) AliasExport("gl4es_glMultiTexCoord1f");
 void glMultiTexCoord1fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord1fv");
 void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
-void glMultiTexCoord2fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
+//void glMultiTexCoord2fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
 void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
 void glMultiTexCoord3fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
-void glMultiTexCoord4fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
+//void glMultiTexCoord4fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
 void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetTexLevelParameterfv");
 void glTexGend(GLenum coord, GLenum pname, GLdouble param) AliasExport("gl4es_glTexGend");
 void glTexGenf(GLenum coord, GLenum pname, GLfloat param) AliasExport("gl4es_glTexGenf");
@@ -882,8 +883,8 @@ void glTranslated(GLdouble x, GLdouble y, GLdouble z) AliasExport("gl4es_glTrans
 void glVertex2f(GLfloat x, GLfloat y) AliasExport("gl4es_glVertex2f");
 void glVertex2fv(GLfloat *v) AliasExport("gl4es_glVertex2fv");
 void glVertex3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glVertex3f");
-void glVertex3fv(GLfloat *v) AliasExport("gl4es_glVertex3fv");
-void glVertex4fv(GLfloat *v) AliasExport("gl4es_glVertex4fv");
+/*void glVertex3fv(GLfloat *v) AliasExport("gl4es_glVertex3fv");
+void glVertex4fv(GLfloat *v) AliasExport("gl4es_glVertex4fv");*/
 
 // basic thunking
 
@@ -958,7 +959,7 @@ THUNK(Float, GLfloat)
 
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
 void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
-void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
+//void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
 void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
-void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
+//void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
 void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
