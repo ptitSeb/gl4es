@@ -25,7 +25,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     //printf("glTexGenf(%s, %s, %s/%f), texture=%i\n", PrintEnum(coord), PrintEnum(pname), PrintEnum(param[0]), param[0], glstate->texture.active);
     ERROR_IN_BEGIN
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_TEXGEN);
             rlTexGenfv(glstate->list.active, coord, pname, param);
             noerrorShim();
@@ -114,7 +114,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     }
 }
 void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
         flush();
     noerrorShim();
 	switch(pname) {

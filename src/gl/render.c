@@ -66,15 +66,6 @@ GLint gl4es_glRenderMode(GLenum mode) {
         glstate->selectbuf.hit = 0;
 	}
     
-    if((mode==GL_SELECT) && (glstate->gl_batch)) {
-        glstate->gl_batch = 0;
-        flush();
-    }
-    if((mode==GL_RENDER) && (glstate->gl_batch==0) && (globals4es.batch==1)) {
-        glstate->gl_batch = 1;
-        flush();
-    }
-    
 	glstate->render_mode = mode;
 	return ret;
 }
@@ -146,7 +137,7 @@ void gl4es_glLoadName(GLuint name) {
 }
 
 void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
 		flush();
 		
     noerrorShim();

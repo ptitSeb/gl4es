@@ -428,7 +428,6 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
 const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index);
 
 void flush();
-void init_batch();
 
 #include "glstate.h"
 extern glstate_t *glstate;

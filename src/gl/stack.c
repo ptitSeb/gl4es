@@ -6,7 +6,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
     noerrorShim();
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_PUSH);
             glstate->list.active->pushattribute = mask;
             return;
@@ -278,10 +278,8 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 
 void gl4es_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
-     GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->gl_batch || glstate->list.pending) {
+     if (glstate->list.pending) {
          flush();
-         glstate->gl_batch = 0;
      }
     if (glstate->clientStack == NULL) {
         glstate->clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
@@ -320,7 +318,6 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
     }
 
     glstate->clientStack->len++;
-    glstate->gl_batch=old_glbatch;
 }
 
 #define maybe_free(x) \
@@ -338,7 +335,7 @@ void gl4es_glPopAttrib() {
 //printf("glPopAttrib()\n");
     noerrorShim();
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_POP);
 		    glstate->list.active->popattribute = true;
 		    return;
@@ -615,10 +612,8 @@ void gl4es_glPopAttrib() {
 
 void gl4es_glPopClientAttrib() {
     noerrorShim();
-     GLuint old_glbatch = glstate->gl_batch;
-     if (glstate->gl_batch || glstate->list.pending) {
+     if (glstate->list.pending) {
          flush();
-         glstate->gl_batch = 0;
      }
 	//LOAD_GLES(glVertexPointer);
 	//LOAD_GLES(glColorPointer);
@@ -663,7 +658,6 @@ void gl4es_glPopClientAttrib() {
     }
 
     glstate->clientStack->len--;
-    glstate->gl_batch = old_glbatch;
 }
 
 #undef maybe_free

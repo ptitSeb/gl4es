@@ -4,7 +4,7 @@
 
 void gl4es_glHint(GLenum pname, GLenum mode) {
     
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
         flush();
 
     LOAD_GLES(glHint);
@@ -75,14 +75,8 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             else
                 errorShim(GL_INVALID_ENUM); 
             break;
-        case GL_BATCH_HINT_GL4ES: 
-            if (mode<=1) {
-                globals4es.batch = 0; flush();
-                globals4es.batch = mode;
-                if (mode) init_batch();
-            } else
-                errorShim(GL_INVALID_ENUM); 
-            break;
+        case GL_BATCH_HINT_GL4ES:
+            break;  // nothing now, but no error if used
         case GL_NOERROR_HINT_GL4ES: 
             if (mode<=1)
                 globals4es.noerror = mode;

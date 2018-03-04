@@ -12,7 +12,7 @@ void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
 void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
 			NewStage(glstate->list.active, STAGE_RASTER);
 			rlRasterOp(glstate->list.active, 1, x, y, z);
 			noerrorShim();
@@ -38,7 +38,7 @@ void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 
 void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
 			NewStage(glstate->list.active, STAGE_RASTER);
 			rlRasterOp(glstate->list.active, 2, x, y, z);
 			noerrorShim();
@@ -77,7 +77,7 @@ void popViewport() {
 
 void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
 			NewStage(glstate->list.active, STAGE_RASTER);
 			rlRasterOp(glstate->list.active, 3, xfactor, yfactor, 0.0f);
 			noerrorShim();
@@ -91,7 +91,7 @@ void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 
 void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
 			NewStage(glstate->list.active, STAGE_RASTER);
 			rlRasterOp(glstate->list.active, pname|0x10000, param, 0.0f, 0.0f);
 			noerrorShim();
@@ -176,9 +176,7 @@ void raster_to_texture(rasterlist_t *r)
 	renderlist_t *old_list = glstate->list.active;
 	if (old_list) glstate->list.active = NULL;		// deactivate list...
 	GLboolean compiling = glstate->list.compiling;
-    GLuint state_batch = glstate->gl_batch;
 	glstate->list.compiling = false;
-    glstate->gl_batch = 0;
     gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT );
 	GLuint old_tex_unit, old_tex;
 	old_tex_unit = glstate->texture.active;
@@ -223,7 +221,6 @@ void raster_to_texture(rasterlist_t *r)
 	gl4es_glPopAttrib();
 	if (old_list) glstate->list.active = old_list;
 	glstate->list.compiling = compiling;
-    glstate->gl_batch = state_batch;
 }
 
 void bitmap_flush() {

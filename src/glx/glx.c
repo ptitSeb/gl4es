@@ -1054,9 +1054,8 @@ void gl4es_glXSwapBuffers(Display *display,
     
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
-    int old_batch = glstate->gl_batch;
     realize_textures();
-    if (glstate->gl_batch || glstate->list.active){
+    if (glstate->list.active){
         flush();
     }
     if (glstate->raster.bm_drawing)
@@ -1084,7 +1083,6 @@ void gl4es_glXSwapBuffers(Display *display,
     }
 #endif
     if (globals4es.usefbo && PBuffer==0) {
-        glstate->gl_batch = 0;
         unbindMainFBO();
         blitMainFBO();
         // blit the main_fbo before swap
@@ -1134,7 +1132,6 @@ void gl4es_glXSwapBuffers(Display *display,
     }
 #endif
     if (globals4es.usefbo && PBuffer==0) {
-        glstate->gl_batch = old_batch;
         bindMainFBO();
     }
 }

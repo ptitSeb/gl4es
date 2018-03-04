@@ -22,7 +22,6 @@ GLenum glGetError() AliasExport("gl4es_glGetError");
 
 void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     switch(pname) {
         case GL_COLOR_ARRAY_POINTER:
             *params = (void*)glstate->vao->pointers.color.pointer;
@@ -505,7 +504,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             *params=globals4es.blendhack;
             break;
         case GL_BATCH_HINT_GL4ES:
-            *params=globals4es.batch;
+            *params=0;  // not available anymore
             break;
         case GL_NOERROR_HINT_GL4ES:
             *params=globals4es.noerror;
@@ -527,7 +526,6 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     }
     GLint dummy;
     LOAD_GLES(glGetIntegerv);
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     GLfloat fparam;
     if (gl4es_commonGet(pname, &fparam)) {
@@ -616,7 +614,6 @@ void glGetIntegerv(GLenum pname, GLint *params) AliasExport("gl4es_glGetIntegerv
 
 void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     LOAD_GLES(glGetFloatv);
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     if (gl4es_commonGet(pname, params)) {
         return;
@@ -679,7 +676,6 @@ void glGetFloatv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetFloatv")
 
 void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     const int nl = light-GL_LIGHT0;
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(nl<0 || nl>=hardext.maxlights) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -724,7 +720,6 @@ void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
 void glGetLightfv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetLightfv");
 
 void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -781,7 +776,6 @@ void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) AliasExport("g
 
 void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation)
 {
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     if(plane<GL_CLIP_PLANE0 || plane>=GL_CLIP_PLANE0+hardext.maxplanes) {
         errorShim(GL_INVALID_ENUM);
         return;

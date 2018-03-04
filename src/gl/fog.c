@@ -6,7 +6,7 @@
 void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
 
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
                 NewStage(glstate->list.active, STAGE_FOG);
                 rlFogOp(glstate->list.active, pname, params);
                 return;

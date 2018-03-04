@@ -7,7 +7,6 @@
 
 typedef struct _globals4es {
  int nobanner;
- int batch;
  int mergelist;
  int xrefresh;
  int stacktrace;

@@ -41,10 +41,7 @@ typedef struct {
     glvao_t             *defaultvao;
     int                 shim_error;
     GLenum              last_error;
-    GLuint              gl_batch;
-    int                 init_batch;
     GLint               vp[4];
-    statebatch_t        statebatch;
     clientstate_t       clientstate;
     khash_t(queries)    *queries;
     glstack_t           *stack;

@@ -122,11 +122,10 @@ Hack: Export a (faked) glBlendColor
 Hack: Control the glGetString version. Overide version string (should be in the form of "1.x")
 
 ##### LIBGL_BATCH
-Experimental: Batch mode (fuse of contigous Display list, to limit Draw calls)
- * 0 : Default, only Draw list created during a glList are fused (i.e. contigous glBegin / glEnd inside a List)
- * 1 : Force a maximum of call to be batched (like if all was inside a big glList)
- * 2 : Disable Batch mode completly, no fuse of draw list
- 
+This has been removed with v1.0.5. `LIBGL_BEGINEND` is a better alternative. 
+Also use `LIBGL_BEGINEND=0` to acheive the same result as `LIBGL_BATCH=2` (i.e. no merging of renderlist at all).
+The Hint are still i place, but will always return 0 if queried, and do nothing if set.
+
 ##### LIBGL_NOERROR
 Hack: glGetError() always return GL_NOERROR
  * 0 : Default, glGetError behave as it should

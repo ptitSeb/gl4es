@@ -520,7 +520,6 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         return new;
     }
 }
-int Cap2BatchState(GLenum cap);
 
 renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
 {
@@ -553,18 +552,6 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             // ok, now on new list
             list = new;
             // copy the many list arrays
-            if(glstate->gl_batch) {
-                if (list->popattribute) {
-                    // invalidate all batchstate
-                    for (int i=0; i<hardext.maxtex; i++) {
-                        glstate->statebatch.bound_targ[i] = 0xffff;
-                        glstate->statebatch.bound_tex[i] = 0xffffffff;
-                    }
-                    for (int i=0; i<ENABLED_LAST; i++) {
-                        glstate->statebatch.enabled[i] = 3;   //undefined
-                    }
-                }
-            }
             if (list->calls.len > 0) {
                 ++(*list->shared_calls);
                 /*
@@ -572,20 +559,6 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
                 for (int i = 0; i < list->calls.len; i++) {
                     list->calls.calls[i] = glCopyPackedCall(a->calls.calls[i]);
                 }*/
-                // in case of batch mode, need to update the batchstate...
-                if(glstate->gl_batch) {
-                    for (int i = 0; i < list->calls.len; i++) {
-                        packed_call_t *p = list->calls.calls[i];
-                        if(p->func == &gl4es_glEnable) {
-                            int wich_cap = Cap2BatchState(((glEnable_PACKED*)p)->args.a1);
-                            if(wich_cap!=ENABLED_LAST) glstate->statebatch.enabled[wich_cap] = 1;
-                        }
-                        if(p->func == &gl4es_glDisable) {
-                            int wich_cap = Cap2BatchState(((glDisable_PACKED*)p)->args.a1);
-                            if(wich_cap!=ENABLED_LAST) glstate->statebatch.enabled[wich_cap] = 0;
-                        }
-                    }
-                }
             }
             if(list->len) {
                 ++(*list->shared_arrays);
@@ -618,18 +591,6 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             }
             if (list->bitmaps) {
                 (*list->bitmaps->shared)++;
-            }
-            // Update other batchstate states
-            if(glstate->gl_batch) {
-                if (list->set_tmu) {
-                    glstate->statebatch.active_tex = GL_TEXTURE0 + list->tmu;
-                    glstate->statebatch.active_tex_changed = 1;
-                }
-                if (list->set_texture) {
-                    const int batch_activetex = glstate->statebatch.active_tex_changed?(glstate->statebatch.active_tex-GL_TEXTURE0):glstate->texture.active;
-                    glstate->statebatch.bound_targ[batch_activetex] = list->target_texture;
-                    glstate->statebatch.bound_tex[batch_activetex] = list->texture;
-                }
             }
         }
         a = a->next;
@@ -926,7 +887,7 @@ void draw_renderlist(renderlist_t *list) {
     // go to 1st...
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
-//printf("draw_renderlist %p, gl_batch=%i, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p fogcoord=%p\n", list, glstate->gl_batch, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary, list->fogcoord);
+//printf("draw_renderlist %p, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p fogcoord=%p\n", list, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary, list->fogcoord);
     LOAD_GLES_FPE(glDrawArrays);
     LOAD_GLES_FPE(glDrawElements);
     LOAD_GLES_FPE(glVertexPointer);

@@ -58,21 +58,6 @@ void initialize_gl4es() {
 
 	SHUT(LOGD("LIBGL: Initialising gl4es\n"));
 	
-    char *env_batch = getenv("LIBGL_BATCH");
-    if (env_batch && strcmp(env_batch, "1") == 0) {
-        globals4es.batch = 1;
-        SHUT(LOGD("LIBGL: Batch mode enabled\n"));
-    }
-    if (env_batch && strcmp(env_batch, "0") == 0) {
-        globals4es.batch = 0;
-        SHUT(LOGD("LIBGL: Batch mode disabled\n"));
-    }
-    if (env_batch && strcmp(env_batch, "2") == 0) {
-        globals4es.batch = 0;
-        globals4es.mergelist = 0;
-        SHUT(LOGD("LIBGL: Batch mode disabled, merging of list disabled too\n"));
-    }
-    
     SHUT(LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__));
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \
@@ -318,6 +303,7 @@ void initialize_gl4es() {
     if(env_beginend) {
         if (strcmp(env_beginend, "0") == 0) {
                 globals4es.beginend = 0;
+                globals4es.mergelist = 0;
                 SHUT(LOGD("LIBGL: Don't try to merge subsequent glBegin/glEnd blocks\n"));
         } 
         if (strcmp(env_beginend, "1") == 0) {

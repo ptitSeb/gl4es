@@ -68,8 +68,6 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
     glstate->shared_cnt = 0;
 
-    glstate->gl_batch = globals4es.batch;
-
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
@@ -350,7 +348,6 @@ void DeleteGLState(void* oldstate) {
 
 void ActivateGLState(void* new_glstate) {
     if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
-    if (glstate && glstate->gl_batch) flush();
     // check if viewport is correct
 #ifdef AMIGAOS4
     if(glstate || new_glstate!=default_glstate) // avoid getting gles info with no context
@@ -360,7 +357,6 @@ void ActivateGLState(void* new_glstate) {
         gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&((glstate_t*)new_glstate)->raster.viewport);
     }
     glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
-    if (globals4es.batch && glstate->init_batch==0) init_batch();
 }
 
 void gl_init() {
@@ -607,41 +603,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #undef clientGO
 }
 
-int Cap2BatchState(GLenum cap) {
-        switch (cap) {
-            case GL_ALPHA_TEST: return ENABLED_ALPHA;
-            case GL_BLEND: return ENABLED_BLEND;
-            case GL_CULL_FACE: return ENABLED_CULL;
-            case GL_DEPTH_TEST: return ENABLED_DEPTH;
-            case GL_TEXTURE_2D: return  ENABLED_TEX2D_TEX0
-                +(glstate->statebatch.active_tex_changed?glstate->statebatch.active_tex-GL_TEXTURE0:glstate->texture.active); 
-        }
-        return ENABLED_LAST;
-}
-int Enabled2BatchState(int cap) {
-    switch(cap) {
-        case ENABLED_ALPHA: return 2-glstate->enable.alpha_test;
-        case ENABLED_BLEND: return 2-glstate->enable.blend;
-        case GL_CULL_FACE: return 2-glstate->enable.cull_face;
-        case GL_DEPTH_TEST: return 2-glstate->enable.depth_test;
-        default:
-            return (IS_TEX2D(glstate->enable.texture[cap-ENABLED_TEX2D_TEX0]))?1:2;
-    }
-}
-
 void gl4es_glEnable(GLenum cap) {
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
-        int which_cap = Cap2BatchState(cap);
-        if (which_cap<ENABLED_LAST) {
-            if(glstate->statebatch.enabled[which_cap]==0)
-                glstate->statebatch.enabled[which_cap] = Enabled2BatchState(which_cap);
-            if ((glstate->statebatch.enabled[which_cap] == 1))
-                return; // nothing to do...
-            flush();
-            if (glstate->list.active)   // change value only if still in list
-                glstate->statebatch.enabled[which_cap] = 1;
-        }
-    }
 	PUSH_IF_COMPILING(glEnable)
 #ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
@@ -661,18 +623,6 @@ void gl4es_glEnable(GLenum cap) {
 void glEnable(GLenum cap) AliasExport("gl4es_glEnable");
 
 void gl4es_glDisable(GLenum cap) {
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling))  {
-        int which_cap = Cap2BatchState(cap);
-        if (which_cap<ENABLED_LAST) {
-            if(glstate->statebatch.enabled[which_cap]==0)
-                glstate->statebatch.enabled[which_cap] = Enabled2BatchState(which_cap);
-            if ((glstate->statebatch.enabled[which_cap] == 2))
-                return; // nothing to do...
-            flush();
-            if (glstate->list.active)   // change value only if still in list
-                glstate->statebatch.enabled[which_cap] = 2;
-        }
-    }
 	PUSH_IF_COMPILING(glDisable)
         
 #ifdef TEXSTREAM00
@@ -983,8 +933,6 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
-    if(glstate->list.active && !glstate->list.compiling && glstate->gl_batch) 
-        flush();
     if (mode == GL_QUADS) while(count%4) count--;
     else if (mode == GL_TRIANGLES) while(count%3) count--;
     
@@ -1168,8 +1116,6 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
 
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    if(glstate->list.active && !glstate->list.compiling && glstate->gl_batch) 
-        flush();
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     if (mode == GL_QUADS) while(count%4) count--;
     else if (mode == GL_TRIANGLES) while(count%3) count--;
@@ -1336,13 +1282,12 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *cou
     #ifdef ACTIVE_MULTIDRAW
     LOAD_GLES_EXT(glMultiDrawArrays);
     if(glstate->list.pending) flush();
-    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+    if((!gles_glMultiDrawArrays) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling)) 
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) )
     #endif
     {
         // GL_QUADS special case can probably by improved
         // divide the call
-        // TODO optimize with forcing Batch mode
         for (int i=0; i<primcount; i++)
             gl4es_glDrawArrays(mode, first[i], count[i]);
     }
@@ -1429,12 +1374,11 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
     #ifdef ACTIVE_MULTIDRAW
     LOAD_GLES_EXT(glMultiDrawElements);
     if(glstate->list.pending) flush();
-    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling || glstate->gl_batch)) 
+    if((!gles_glMultiDrawElements) || should_intercept_render(mode) || (mode==GL_QUADS) || (glstate->list.active && (glstate->list.compiling))
         || (glstate->render_mode == GL_SELECT) || ((glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT)) || (type != GL_UNSIGNED_SHORT) )
     #endif
     {
         // divide the call
-        // TODO optimize with forcing Batch mode
         for (int i=0; i<primcount; i++)
             gl4es_glDrawElements(mode, count[i], type, indices[i]);
     }
@@ -1696,7 +1640,7 @@ void gl4es_glEnd() {
         gl4es_immediateMVEnd(glstate->list.active);
     // render if we're not in a display list
     int withColor = 0;
-    if(glstate->list.compiling || glstate->gl_batch) {
+    if(glstate->list.compiling) {
         glstate->list.active = extend_renderlist(glstate->list.active);
     } else {
         if (!globals4es.beginend /*|| (glstate->polygon_mode==GL_LINE)*/) {
@@ -1721,7 +1665,7 @@ void glEnd() AliasExport("gl4es_glEnd");
 void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+            if (glstate->list.compiling && glstate->list.active) {
                 glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
             } else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
                 glstate->list.active->post_normals[0] = nx; glstate->list.active->post_normals[1] = ny;
@@ -1749,7 +1693,7 @@ void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("gl4es_glNormal3
 void gl4es_glNormal3fv(GLfloat* v) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+            if (glstate->list.compiling && glstate->list.active) {
                 memcpy(glstate->list.active->lastNormal, v, 3*sizeof(GLfloat));
             } else if (glstate->list.pending && glstate->list.active->stage==STAGE_POSTDRAW) {
                 memcpy(glstate->list.active->post_normals, v, 3*sizeof(GLfloat));
@@ -1809,7 +1753,7 @@ void glVertex4fv(GLfloat* v) AliasExport("gl4es_glVertex4fv");
 void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage<STAGE_DRAW) {
+            if (glstate->list.compiling || glstate->list.active->stage<STAGE_DRAW) {
                 glstate->list.active->lastColors[0] = red; glstate->list.active->lastColors[1] = green;
                 glstate->list.active->lastColors[2] = blue; glstate->list.active->lastColors[3] = alpha;
                 glstate->list.active->lastColorsSet = 1;
@@ -1839,7 +1783,7 @@ void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExp
 void gl4es_glColor4fv(GLfloat* v) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
-            if (glstate->list.compiling || glstate->gl_batch || glstate->list.active->stage<STAGE_DRAW) {
+            if (glstate->list.compiling || glstate->list.active->stage<STAGE_DRAW) {
                 memcpy(glstate->list.active->lastColors, v, 4*sizeof(GLfloat));
                 glstate->list.active->lastColorsSet = 1;
             }
@@ -2143,10 +2087,7 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
         }
     }
     noerrorShim();
-    if (glstate->gl_batch) {
-        glstate->gl_batch = 0;
-        flush();
-    }
+
     glstate->list.name = list;
     glstate->list.mode = mode;
     // TODO: if glstate->list.active is already defined, we probably need to clean up here
@@ -2175,9 +2116,7 @@ void gl4es_glEndList() {
         glstate->list.compiling = false;
         end_renderlist(glstate->list.active);
         glstate->list.active = NULL;
-        if (globals4es.batch==1) {
-            init_batch();
-        } 
+
         if (glstate->list.mode == GL_COMPILE_AND_EXECUTE) {
             glCallList(list);
         }
@@ -2244,9 +2183,7 @@ void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 void glCallLists(GLsizei n, GLenum type, const GLvoid *lists) AliasExport("gl4es_glCallLists");
 
 void gl4es_glDeleteList(GLuint list) {
-    if(glstate->gl_batch) {
-        flush();
-    }
+
     renderlist_t *gllist = NULL;
     {
         khint_t k;
@@ -2296,7 +2233,7 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
 	if (face == GL_BACK)
 		return;		//TODO, handle face enum for polygon mode != GL_FILL
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_POLYGON);
             glstate->list.active->polygon_mode = mode;
             return;
@@ -2362,36 +2299,21 @@ void gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum 
 }
 void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) AliasExport("gl4es_glStencilOpSeparate");
 
-
-void init_statebatch() {
-    memset(&glstate->statebatch, 0, sizeof(statebatch_t));
-}
-
 void flush() {
     // flush internal list
     renderlist_t *mylist = glstate->list.active?extend_renderlist(glstate->list.active):NULL;
     if (mylist) {
-        GLuint old = glstate->gl_batch;
         glstate->list.active = NULL;
         glstate->list.pending = 0;
-        glstate->gl_batch = 0;
         mylist = end_renderlist(mylist);
         draw_renderlist(mylist);
         free_renderlist(mylist);
-        glstate->gl_batch = old;
     }
     if(glstate->immediateMV)
         gl4es_immediateMVEnd(glstate->list.active);
-    init_statebatch();
-    glstate->list.active = (glstate->gl_batch)?alloc_renderlist():NULL;
+    glstate->list.active = NULL;
 }
 
-void init_batch() {
-    glstate->list.active = alloc_renderlist();
-    init_statebatch();
-    glstate->gl_batch = 1;
-    glstate->init_batch = 1;
-}
 #ifndef NOX11
 extern void BlitEmulatedPixmap();
 #endif
@@ -2399,7 +2321,7 @@ void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
     realize_textures();
-    if (glstate->gl_batch || glstate->list.pending) flush();
+    if (glstate->list.pending) flush();
     if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFlush();
@@ -2416,7 +2338,7 @@ void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
     realize_textures();
-    if (glstate->gl_batch || glstate->list.pending) flush();
+    if (glstate->list.pending) flush();
     if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFinish();
@@ -2525,17 +2447,14 @@ void gl4es_scratch(int alloc) {
 }
 
 #ifdef AMIGAOS4
-static int amiga_old_batch;
 void amiga_pre_swap() {
-    amiga_old_batch = glstate->gl_batch;
-    if (glstate->gl_batch || glstate->list.active){
+    if (glstate->list.active){
         flush();
     }
     if (glstate->raster.bm_drawing)
         bitmap_flush();
 
     if (globals4es.usefbo) {
-        glstate->gl_batch = 0;
         unbindMainFBO();
         blitMainFBO();
         // blit the main_fbo before swap
@@ -2545,7 +2464,6 @@ void amiga_pre_swap() {
 void amiga_post_swap() {
     // If drawing in fbo, rebind it...
     if (globals4es.usefbo) {
-        glstate->gl_batch = amiga_old_batch;
         bindMainFBO();
     }
 

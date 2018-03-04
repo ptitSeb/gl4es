@@ -400,7 +400,7 @@ void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
 }
 
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+    if ((glstate->list.compiling) && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnvfv(glstate->list.active, target, pname, param);
         noerrorShim();
@@ -422,7 +422,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
 }
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     if (glstate->list.pending) flush();
-    if ((glstate->list.compiling || glstate->gl_batch) && glstate->list.active) {
+    if ((glstate->list.compiling) && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnviv(glstate->list.active, target, pname, param);
         noerrorShim();
@@ -437,7 +437,6 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
 }
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     if (glstate->list.pending) flush();
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:
@@ -519,7 +518,6 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
  //   LOAD_GLES(glGetTexEnviv);
     if (glstate->list.pending) flush();
-    if (glstate->list.active && (glstate->gl_batch && !glstate->list.compiling)) flush();
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:

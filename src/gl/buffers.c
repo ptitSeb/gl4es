@@ -76,7 +76,7 @@ DBG(printf("glGenBuffers(%i, %p)\n", n, buffers);)
 
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
 DBG(printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);)
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
          flush();
 
    	khint_t k;
@@ -167,7 +167,7 @@ DBG(printf("glBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size,
 
 void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
 DBG(printf("glDeleteBuffers(%i, %p)\n", n, buffers);)
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
          flush();
 
     VaoSharedClear(glstate->vao);
@@ -379,7 +379,7 @@ DBG(printf("glGenVertexArrays(%i, %p)\n", n, arrays);)
 }
 void gl4es_glBindVertexArray(GLuint array) {
 DBG(printf("glBindVertexArray(%u)\n", array);)
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
          flush();
 
    	khint_t k;
@@ -415,7 +415,7 @@ DBG(printf("glBindVertexArray(%u)\n", array);)
 }
 void gl4es_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 DBG(printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);)
-    if (glstate->gl_batch || glstate->list.pending)
+    if (glstate->list.pending)
          flush();
 
 	khash_t(glvao) *list = glstate->vaos;

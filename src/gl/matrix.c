@@ -187,7 +187,7 @@ void gl4es_glLoadMatrixf(const GLfloat * m) {
 DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
 	// check if beginend+matrix optim should trigger...
 	if (glstate->list.active 
-	 && !(glstate->list.compiling || glstate->gl_batch)
+	 && !(glstate->list.compiling)
 	 && (globals4es.beginend==2) 
 	 && !(glstate->polygon_mode==GL_LINE) 
 	 && glstate->list.pending) { //TODO: check TexGen?
@@ -222,7 +222,7 @@ void gl4es_glMultMatrixf(const GLfloat * m) {
 DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
 	// check if beginend+matrix optim should trigger...
 	if (glstate->list.active 
-	 && !(glstate->list.compiling || glstate->gl_batch)
+	 && !(glstate->list.compiling)
 	 && (globals4es.beginend==2) 
 	 && !(glstate->polygon_mode==GL_LINE) 
 	 && glstate->list.pending) { //TODO: check TexGen?

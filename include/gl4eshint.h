@@ -19,7 +19,7 @@
 #define GL_NOLUMAPHA_HINT_GL4ES         0xA107
 // same as using LIBGL_BLENDHACK=x
 #define GL_BLENDHACK_HINT_GL4ES         0xA108
-// same as using LIBGL_BATCH=x
+// REMOVED same as using LIBGL_BATCH=x 
 #define GL_BATCH_HINT_GL4ES             0xA109
 // same as using LIBGL_NOERROR=x
 #define GL_NOERROR_HINT_GL4ES           0xA10A

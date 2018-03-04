@@ -121,7 +121,6 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
 
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     DBG(printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);)
-    if (glstate->gl_batch) flush();
     for (int i=0; i<n; i++)
         detach_fbotexture(framebuffers[i]);
 
@@ -147,7 +146,6 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
 
 GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
     DBG(printf("glIsFramebuffer(%u)\n", framebuffer);)
-    if (glstate->gl_batch) flush();
     LOAD_GLES2_OR_OES(glIsFramebuffer);
     
     errorGL();
@@ -156,7 +154,6 @@ GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
 
 //#define BEFORE 1
 GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
-    if (glstate->gl_batch) flush();
 #ifdef BEFORE
     GLenum result = glstate->fbo.fb_status;
     noerrorShim();
@@ -172,7 +169,6 @@ DBG(printf("glCheckFramebufferStatus(0x%04X)=0x%04X\n", target, result);)
 
 void gl4es_glBindFramebuffer(GLenum target, GLuint framebuffer) {
     DBG(printf("glBindFramebuffer(%s, %u), list=%s, glstate->fbo.current_fb=%d (draw=%d, read=%d)\n", PrintEnum(target), framebuffer, glstate->list.active?"active":"none", glstate->fbo.current_fb, glstate->fbo.fbo_draw, glstate->fbo.fbo_read);)
-    if (glstate->gl_batch) flush();
 	PUSH_IF_COMPILING(glBindFramebuffer);
     LOAD_GLES2_OR_OES(glBindFramebuffer);
 //    LOAD_GLES2_OR_OES(glCheckFramebufferStatus);
@@ -247,7 +243,6 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     static int scrap_width = 0;
     static int scrap_height = 0;
     
-    if (glstate->gl_batch) flush();
     LOAD_GLES2_OR_OES(glFramebufferTexture2D);
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glBindTexture);
@@ -450,7 +445,6 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
 
 void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     DBG(printf("glDeleteRenderbuffer(%d, %p)\n", n, renderbuffers);)
-    if (glstate->gl_batch) flush();
     LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
     
     // check if we delete a depthstencil
@@ -534,7 +528,6 @@ void gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLen
 
 void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     DBG(printf("glBindRenderbuffer(%s, %u), binded Fbo=%u\n", PrintEnum(target), renderbuffer, glstate->fbo.current_fb);)
-    if (glstate->gl_batch) flush();
     LOAD_GLES2_OR_OES(glBindRenderbuffer);
     
     glstate->fbo.current_rb = renderbuffer;
@@ -545,7 +538,6 @@ void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 
 GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
     DBG(printf("glIsRenderbuffer(%u)\n", renderbuffer);)
-    if (glstate->gl_batch) flush();
     LOAD_GLES2_OR_OES(glIsRenderbuffer);
     
     errorGL();

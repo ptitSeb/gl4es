@@ -26,7 +26,7 @@ void glPointParameterf(GLenum pname, GLfloat param) AliasExport("gl4es_glPointPa
 void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
 {
     if (glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             if (pname == GL_POINT_DISTANCE_ATTENUATION) {
                 NewStage(glstate->list.active, STAGE_POINTPARAM);
                 rlPointParamOp(glstate->list.active, 1, params);

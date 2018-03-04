@@ -64,20 +64,6 @@ void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_gl
 void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_glBlendEquationSeparate");
 
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
-    /*if (glstate->list.active)
-        if (!glstate->list.compiling && glstate->gl_batch) {
-            if(glstate->blendsfactor == 0 && glstate->blenddfactor == 0) {
-                glstate->statebatch.blendfunc_s = glstate->blendsfactor;
-                glstate->statebatch.blendfunc_d = glstate->blenddfactor;
-            }
-            if ((glstate->statebatch.blendfunc_s == sfactor) && (glstate->statebatch.blendfunc_d == dfactor))
-                return; // nothing to do...
-            if (!glstate->statebatch.blendfunc_s) {
-                glstate->statebatch.blendfunc_s = sfactor;
-                glstate->statebatch.blendfunc_d = dfactor;
-            }
-        }*/ //TODO: move to RGB/Alpha separate
-
     PUSH_IF_COMPILING(glBlendFunc)
 
     if(sfactor==glstate->blendsfactorrgb && dfactor==glstate->blenddfactorrgb 

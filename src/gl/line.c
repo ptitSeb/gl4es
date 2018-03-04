@@ -2,7 +2,7 @@
 
 void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
     if(glstate->list.active) {
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_LINESTIPPLE);
             glstate->list.active->linestipple_op = 1;
             glstate->list.active->linestipple_factor = factor;

@@ -8,7 +8,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
     ERROR_IN_BEGIN
     if(glstate->list.active) 
-        if ((glstate->list.compiling || glstate->gl_batch)) {
+        if ((glstate->list.compiling)) {
             GLfloat dummy[4];
             dummy[0]=param;
             gl4es_glLightModelfv(pname, dummy);
@@ -61,7 +61,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 //printf("%sglLightModelfv(%04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", pname, params[0], params[1], params[2], params[3]);
     ERROR_IN_BEGIN
     if(glstate->list.active)
-        if ((glstate->list.compiling || glstate->gl_batch)) {
+        if ((glstate->list.compiling)) {
             NewStage(glstate->list.active, STAGE_LIGHTMODEL);
     /*		if (glstate->list.active->lightmodel)
                 glstate->list.active = extend_renderlist(glstate->list.active);*/
@@ -137,7 +137,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     }
     ERROR_IN_BEGIN
     if(glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_LIGHT);
             rlLightfv(glstate->list.active, light, pname, params);
             noerrorShim();
@@ -259,7 +259,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
                 noerrorShim();
                 return;
         } else {
-            if (glstate->list.compiling || glstate->gl_batch) {
+            if (glstate->list.compiling) {
                 NewStage(glstate->list.active, STAGE_MATERIAL);
                 rlMaterialfv(glstate->list.active, face, pname, params);
                 noerrorShim();
@@ -343,7 +343,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
 void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             GLfloat params[4];
             memset(params, 0, 4*sizeof(GLfloat));
             params[0] = param;
@@ -385,7 +385,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
 void gl4es_glColorMaterial(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
-        if (glstate->list.compiling || glstate->gl_batch) {
+        if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_COLOR_MATERIAL);
             glstate->list.active->colormat_face = face;
             glstate->list.active->colormat_mode = mode;
