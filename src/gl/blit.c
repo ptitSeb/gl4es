@@ -380,7 +380,7 @@ void gl4es_blitTexture(GLuint texture,
 
 #ifdef TEXSTREAM
     if(glstate->bound_stream[0]) {
-printf("TMU%d, turning off Streaming (blit)\n", 0);
+//printf("TMU%d, turning off Streaming (blit)\n", 0);
         gles_glDisable(GL_TEXTURE_STREAM_IMG);
         DeactivateStreaming();
     }
@@ -402,9 +402,9 @@ printf("TMU%d, turning off Streaming (blit)\n", 0);
     // All the previous states are Pushed / Poped anyway...
 #ifdef TEXSTREAM
     if(glstate->bound_stream[0]) {
-printf("TMU%d, turning ON  Streaming (blit)\n", 0);
+//printf("TMU%d, turning ON  Streaming (blit)\n", 0);
         gltexture_t *tex = glstate->texture.bound[0][ENABLED_TEX2D];
-        ActivateStreaming(tex?tex->streamingID:-1);
+        ActivateStreaming(tex->streamingID);
         gles_glEnable(GL_TEXTURE_STREAM_IMG);
     } else
 #endif

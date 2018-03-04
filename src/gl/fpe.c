@@ -433,7 +433,7 @@ void fpe_glAlphaFunc(GLenum func, GLclampf ref) {
 int fpe_gettexture(int TMU) {
     int state=glstate->enable.texture[TMU];
     int target = -1;
-    #define GO(A) if(IS_##A(state) && glstate->texture.bound[TMU][ENABLED_##A] && glstate->texture.bound[TMU][ENABLED_##A]->valid) target = ENABLED_##A
+    #define GO(A) if(IS_##A(state) && glstate->texture.bound[TMU][ENABLED_##A]->valid) target = ENABLED_##A
     GO(CUBE_MAP);
     else GO(TEX3D);
     else GO(TEXTURE_RECTANGLE);

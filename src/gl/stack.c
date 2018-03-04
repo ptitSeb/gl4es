@@ -249,7 +249,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
             cur->texgen[a] = glstate->texgen[a];   // all mode and planes per texture in 1 line
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
-	            cur->texture[a][j] = (glstate->texture.bound[a][j])?glstate->texture.bound[a][j]->texture:0;
+	            cur->texture[a][j] = glstate->texture.bound[a][j]->texture;
         }
         //glActiveTexture(GL_TEXTURE0+cur->active);
     }
@@ -561,9 +561,9 @@ void gl4es_glPopAttrib() {
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
-                if ((cur->texture[a][j]==0 && glstate->texture.bound[a][j] != 0) || (cur->texture[a][j]!=0 && glstate->texture.bound[a][j]==0)) {
-                gl4es_glActiveTexture(GL_TEXTURE0+a);
-                gl4es_glBindTexture(to_target(j), cur->texture[a][j]);
+                if (cur->texture[a][j] != glstate->texture.bound[a][j]->texture) {
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                    gl4es_glBindTexture(to_target(j), cur->texture[a][j]);
                 }
         }
         if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);

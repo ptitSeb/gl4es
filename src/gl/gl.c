@@ -114,6 +114,41 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // init the matrix tracking
     init_matrix(glstate);
 
+    // init the textures
+    {
+        int ret;
+        khint_t k;
+        gltexture_t* tex;
+        khash_t(tex) *list = glstate->texture.list;
+        list = glstate->texture.list = kh_init(tex);
+        // segfaults if we don't do a single put
+        kh_put(tex, list, 1, &ret);
+        kh_del(tex, list, 1);
+        // now add default "0" texture
+        k = kh_put(tex, list, 0, &ret);
+        glstate->texture.zero = tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
+        memset(tex, 0, sizeof(gltexture_t));
+        tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
+        tex->mipmap_auto = (globals4es.automipmap==1);
+        tex->mipmap_need = (globals4es.automipmap==1)?1:0;
+        tex->streamingID = -1;
+        tex->base_level = -1;
+        tex->max_level = -1;
+        tex->alpha = true;
+        tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+        tex->mag_filter = GL_LINEAR;
+        tex->fpe_format = FPE_TEX_RGBA;
+        tex->format = GL_RGBA;
+        tex->type = GL_UNSIGNED_BYTE;
+        tex->inter_format = GL_RGBA;
+        tex->inter_type = GL_UNSIGNED_BYTE;
+        // now bind that texture on all unit
+        for (int itarget=0; itarget<ENABLED_TEXTURE_LAST; ++itarget)
+            for (int i=0; i<MAX_TEX; ++i)
+                glstate->texture.bound[i][itarget] = tex;
+    }
+
+
     // init the light tracking
     glstate->light.ambient[0]=glstate->light.ambient[1]=glstate->light.ambient[2]=0.2f;
     glstate->light.ambient[3]=1.0f;
@@ -439,9 +474,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         case constant: glstate->vao->name = enable; if(glstate->fpe_state) { next(cap);} break;
     // Alpha Hack
     if (globals4es.alphahack && (cap==GL_ALPHA_TEST) && enable) {
-        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
-            if (!glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->alpha)
-                enable = false;
+        if (!glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->alpha)
+            enable = false;
     }
 	noerrorShim();
 #ifdef TEXSTREAM
@@ -607,14 +641,12 @@ void gl4es_glEnable(GLenum cap) {
 	PUSH_IF_COMPILING(glEnable)
 #ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
-			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
-				cap = GL_TEXTURE_STREAM_IMG;
+        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
+            cap = GL_TEXTURE_STREAM_IMG;
 	}
 	if (globals4es.texstream && (cap==GL_TEXTURE_RECTANGLE_ARB)) {
-		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE])
-			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
-				cap = GL_TEXTURE_STREAM_IMG;
+        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
+            cap = GL_TEXTURE_STREAM_IMG;
 	}
 #endif
     LOAD_GLES(glEnable);
@@ -627,14 +659,12 @@ void gl4es_glDisable(GLenum cap) {
         
 #ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
-		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D])
-			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
-				cap = GL_TEXTURE_STREAM_IMG;
+        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
+            cap = GL_TEXTURE_STREAM_IMG;
 	}
 	if (globals4es.texstream && (cap==GL_TEXTURE_RECTANGLE_ARB)) {
-		if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE])
-			if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
-				cap = GL_TEXTURE_STREAM_IMG;
+        if (glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->streamed)
+            cap = GL_TEXTURE_STREAM_IMG;
 	}
 #endif
     LOAD_GLES(glDisable);

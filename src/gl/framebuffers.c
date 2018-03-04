@@ -287,7 +287,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 tex->shrink = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
-                GLuint oldtex = (bound)?bound->glname:0;
+                GLuint oldtex = bound->glname;
                 if(hardext.npot==1 && tex->adjust) {
                     LOAD_GLES(glTexParameteri);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -307,7 +307,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->adjustxy[1] = (float)tex->height / tex->nheight;
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
-                GLuint oldtex = (bound)?bound->glname:0;
+                GLuint oldtex = bound->glname;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
@@ -320,7 +320,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->nheight = (tex->nheight<32)?32:tex->nheight;
                 tex->shrink = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
-                GLuint oldtex = (bound)?bound->glname:0;
+                GLuint oldtex = bound->glname;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
@@ -358,7 +358,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 scrap_width = twidth;
                 scrap_height = theight;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
-                GLuint oldtex = (bound)?bound->glname:0;
+                GLuint oldtex = bound->glname;
                 if (oldtex!=scrap_tex) gles_glBindTexture(GL_TEXTURE_2D, scrap_tex);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scrap_width, scrap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
                 if (oldtex!=scrap_tex) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
@@ -663,8 +663,7 @@ void createMainFBO(int width, int height) {
             gles_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
     // Put everything back, and active the MainFBO
-    if (glstate->texture.bound[0][ENABLED_TEX2D]) 
-        gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0][ENABLED_TEX2D]->glname);
+    gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0][ENABLED_TEX2D]->glname);
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0 + glstate->texture.active);
     if (glstate->texture.client != 0 && gles_glClientActiveTexture)
@@ -773,7 +772,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
         gl4es_glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, srcX0, srcY0, srcX1-srcX0, srcY1-srcY0, 0);
         srcX1-=srcX0; srcX0=0.f;
         srcY1-=srcY0; srcY0=0.f;
-        gl4es_glBindTexture(GL_TEXTURE_2D, (old)?old->texture:0);
+        gl4es_glBindTexture(GL_TEXTURE_2D, old->texture);
     }
     if(texture==glstate->fbo.mainfbo_tex) {
         nwidth = glstate->fbo.mainfbo_nwidth;

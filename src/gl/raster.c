@@ -181,9 +181,7 @@ void raster_to_texture(rasterlist_t *r)
 	GLuint old_tex_unit, old_tex;
 	old_tex_unit = glstate->texture.active;
 	if (old_tex_unit!=0) gl4es_glActiveTexture(GL_TEXTURE0);
-	old_tex = 0;
-	if (glstate->texture.bound[0][ENABLED_TEX2D])
-		old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->glname;
+	old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->glname;
 
 	gl4es_glPixelStorei(GL_PACK_ALIGNMENT, 1);
     gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -231,8 +229,7 @@ void bitmap_flush() {
 	if(old_tex_unit)
 		gl4es_glActiveTexture(GL_TEXTURE0);
 
-	gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
-	GLuint old_tex = (bound)?bound->glname:0;
+	GLuint old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->glname;
 	GLuint old_active = glstate->enable.texture[0];
 
 	if(IS_TEX1D(old_active)) gl4es_glDisable(GL_TEXTURE_1D);

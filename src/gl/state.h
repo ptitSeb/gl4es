@@ -99,6 +99,7 @@ typedef struct {
             unpack_align;            
     GLboolean pack_lsb_first;
     gltexture_t *bound[MAX_TEX][ENABLED_TEXTURE_LAST];
+    gltexture_t *zero;  // this is texture 0...
     GLboolean pscoordreplace[MAX_TEX];
     khash_t(tex) *list;
     GLuint active;	// active texture

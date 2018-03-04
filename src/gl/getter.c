@@ -545,23 +545,23 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         // texture binding only make sense with int
         case GL_TEXTURE_BINDING_1D:
             tex=glstate->texture.bound[glstate->texture.active][ENABLED_TEX1D];
-            *params=tex?tex->texture:0;
+            *params=tex->texture;
             break;
         case GL_TEXTURE_BINDING_2D:
             tex=glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
-            *params=tex?tex->texture:0;
+            *params=tex->texture;
             break;
         case GL_TEXTURE_BINDING_3D:
             tex=glstate->texture.bound[glstate->texture.active][ENABLED_TEX3D];
-            *params=tex?tex->texture:0;
+            *params=tex->texture;
             break;
         case GL_TEXTURE_BINDING_CUBE_MAP:
             tex=glstate->texture.bound[glstate->texture.active][ENABLED_CUBE_MAP];
-            *params=tex?tex->texture:0;
+            *params=tex->texture;
             break;
         case GL_TEXTURE_BINDING_RECTANGLE_ARB:
             tex=glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE];
-            *params=tex?tex->texture:0;
+            *params=tex->texture;
             break;
         // arrays...
         case GL_POINT_SIZE_RANGE:
