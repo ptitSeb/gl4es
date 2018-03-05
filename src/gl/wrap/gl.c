@@ -613,33 +613,6 @@ void gl4es_glVertex3f(GLfloat r, GLfloat g, GLfloat b) {
     gl4es_glVertex4f(v[0], v[1], v[2], v[3]);
 }*/
 
-void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
-//printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (state.list.active)?1:0);
-    #if 1
-    gl4es_glDrawElements(mode, count, type, indices);
-    #else
-	GLushort *newinds = (GLushort*)malloc(sizeof(GLushort)*count);
-	int newcount=0;
-    glbuffer_t *elements = state.vao->elements;
-    state.vao->elements = NULL;
-    
-	uintptr_t ptr = (uintptr_t)indices;
-    if (elements)
-        ptr+=(uintptr_t)elements->data;
-    
-	for (int i=0; i<count; i++) {
-		GL_TYPE_SWITCH(indice, ptr, type,
-		if ((indice[i]>=start) && (indice[i]<=end))
-			newinds[newcount++]=indice[i];
-		, );
-	}
-	gl4es_glDrawElements(mode, newcount, GL_UNSIGNED_SHORT, newinds);
-	free(newinds);
-    
-    state.vao->elements = elements;
-    #endif
-}
-
 void gl4es_glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha) {
 	// ignore buf is better than nothing...
 	// TODO: handle buf
@@ -769,7 +742,7 @@ void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdou
 void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) AliasExport("gl4es_glGetMaterialiv");
 void glGetLightiv(GLenum light, GLenum pname, GLint * params) AliasExport("gl4es_glGetLightiv");
 void glGetClipPlane(GLenum plane, GLdouble *equation) AliasExport("gl4es_glGetClipPlane");
-void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+//void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
 void glColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glColor3f");
 void glColor3fv(GLfloat *c) AliasExport("gl4es_glColor3fv");
 //void glColor4fv(GLfloat *c) AliasExport("gl4es_glColor4fv");
@@ -906,7 +879,7 @@ void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasE
 //void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
 void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
 //void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
-void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+//void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
 
 void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexParameterfv");
 void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexParameteriv");

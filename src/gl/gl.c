@@ -809,7 +809,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-//if (glstate->list.compiling) LOGD("arrary_to_renderlist while compiling list, skip=%d, count=%d\n", skip, count);
+//LOGD("arrary_to_renderlist, compiling=%d, skip=%d, count=%d\n", glstate->list.compiling, skip, count);
     list->mode = mode;
     list->mode_init = mode;
     list->mode_dimension = rendermode_dimensions(mode);
@@ -947,7 +947,7 @@ static inline bool should_intercept_render(GLenum mode) {
     );
 }
 
-GLuint len_indices(GLushort *sindices, GLuint *iindices, GLsizei count) {
+GLuint len_indices(const GLushort *sindices, const GLuint *iindices, GLsizei count) {
     GLuint len = 0;
     if (sindices) {
         for (int i=0; i<count; i++)
@@ -958,6 +958,189 @@ GLuint len_indices(GLushort *sindices, GLuint *iindices, GLsizei count) {
     }
     return len+1;  // lenght is max(indices) + 1 !
 }
+
+static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const GLushort *sindices, const GLuint *iindices) {
+    if (glstate->raster.bm_drawing)
+        bitmap_flush();
+
+    LOAD_GLES_FPE(glDrawElements);
+    LOAD_GLES_FPE(glNormalPointer);
+    LOAD_GLES_FPE(glVertexPointer);
+    LOAD_GLES_FPE(glColorPointer);
+    LOAD_GLES_FPE(glTexCoordPointer);
+    LOAD_GLES_FPE(glEnable);
+    LOAD_GLES_FPE(glDisable);
+    LOAD_GLES_FPE(glEnableClientState);
+    LOAD_GLES_FPE(glDisableClientState);
+    LOAD_GLES_FPE(glMultiTexCoord4f);
+#define client_state(A, B, C) \
+        if(glstate->vao->A != glstate->clientstate.A) {           \
+            C                                              \
+            if((glstate->clientstate.A = glstate->vao->A)==true)  \
+                gles_glEnableClientState(B);                \
+            else                                            \
+                gles_glDisableClientState(B);               \
+        }
+
+
+    GLenum mode_init = mode;
+    /*if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
+        mode = GL_LINE_LOOP;*/
+    if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
+        mode = GL_POINTS;
+
+    if (mode == GL_QUAD_STRIP)
+        mode = GL_TRIANGLE_STRIP;
+    if (mode == GL_POLYGON)
+        mode = GL_TRIANGLE_FAN;
+    if (glstate->render_mode == GL_SELECT) {
+        // TODO handling uint indices
+        select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
+    } else {
+        GLuint old_tex = glstate->texture.client;
+        
+        realize_textures();
+
+        // secondry color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
+        client_state(color_array, GL_COLOR_ARRAY, );
+        if (glstate->vao->color_array)
+            gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
+        if(hardext.esversion>1) {
+            client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
+            if (glstate->vao->secondary_array)
+                fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
+        }
+        client_state(normal_array, GL_NORMAL_ARRAY, );
+        if (glstate->vao->normal_array)
+            gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
+        client_state(vertex_array, GL_VERTEX_ARRAY, );
+        if (glstate->vao->vertex_array)
+            gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
+        #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+            // get 1st enabled target
+            const GLint itarget = get_target(glstate->enable.texture[aa]);
+            if (itarget>=0) {
+                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                    TEXTURE(aa);
+                    gles_glEnable(GL_TEXTURE_2D);
+                }
+                if (glstate->vao->tex_coord_array[aa]) {
+                    TEXTURE(aa);
+                    if(!len) len = len_indices(sindices, iindices, count);
+                    tex_setup_texcoord(len, itarget);
+                } else
+                    gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+            } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
+                // special case on GL2, Tex disable but CoordArray enabled...
+                TEXTURE(aa);
+                if(!len) len = len_indices(sindices, iindices, count);
+                tex_setup_texcoord(len, ENABLED_TEX2D);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+
+        // POLYGON mode as LINE is "intercepted" and drawn using list
+        gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
+
+        for (int aa=0; aa<hardext.maxtex; aa++) {
+            if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                TEXTURE(aa);
+                gles_glDisable(GL_TEXTURE_2D);
+            }
+        }
+        if (glstate->texture.client!=old_tex)
+            TEXTURE(old_tex);
+        #undef TEXTURE
+    }
+}
+
+void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
+//printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0);
+    if (mode == GL_QUADS) while(count%4) count--;
+    else if (mode == GL_TRIANGLES) while(count%3) count--;
+    
+    if (count<0) {
+		errorShim(GL_INVALID_VALUE);
+		return;
+	}
+    if (count==0) {
+        noerrorShim();
+        return;
+    }
+
+    bool compiling = (glstate->list.active);
+    bool intercept = should_intercept_render(mode);
+	noerrorShim();
+    GLushort *sindices = NULL;
+    GLuint *iindices = NULL;
+    bool need_free = !(
+        (type==GL_UNSIGNED_SHORT) || 
+        (!compiling && !intercept && (mode!=GL_QUADS) && type==GL_UNSIGNED_INT && hardext.elementuint)
+        );
+    if(need_free) {
+        sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
+    } else {
+        if(type==GL_UNSIGNED_INT)
+            iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+        else
+            sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+    }
+
+    if (compiling) {
+        // TODO, handle uint indices
+        renderlist_t *list = NULL;
+
+		NewStage(glstate->list.active, STAGE_DRAW);
+        list = glstate->list.active;
+
+        if(!need_free) {
+            GLushort *tmp = sindices;
+            sindices = (GLushort*)malloc(count*sizeof(GLushort));
+            memcpy(sindices, tmp, count*sizeof(GLushort));
+        }
+        for (int i=0; i<count; i++) sindices[i]-=start;
+        list = arrays_to_renderlist(list, mode, start, end + 1);
+        list->indices = sindices;
+        list->ilen = count;
+        list->indice_cap = count;
+        //end_renderlist(list);
+        
+        glstate->list.active = extend_renderlist(list);
+        return;
+    }
+
+    if (intercept || (mode==GL_QUADS)) {
+         //TODO handling uint indices
+        renderlist_t *list = NULL;
+
+        if(!need_free) {
+            GLushort *tmp = sindices;
+            sindices = (GLushort*)malloc(count*sizeof(GLushort));
+            memcpy(sindices, tmp, count*sizeof(GLushort));
+        }
+        for (int i=0; i<count; i++) sindices[i]-=start;
+        list = arrays_to_renderlist(list, mode, start, end + 1);
+        list->indices = sindices;
+        list->ilen = count;
+        list->indice_cap = count;
+        list = end_renderlist(list);
+        draw_renderlist(list);
+        free_renderlist(list);
+        
+        return;
+    } else {
+        glDrawElementsCommon(mode, count, end+1, sindices, iindices);
+        if(need_free)
+            free(sindices);
+    }
+}
+void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+
 
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
@@ -1002,143 +1185,44 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 		NewStage(glstate->list.active, STAGE_DRAW);
         list = glstate->list.active;
 
-        if(need_free) {
-            normalize_indices_us(sindices, &max, &min, count);
-            list = arrays_to_renderlist(list, mode, min, max + 1);
-            list->indices = sindices;
-        } else {
-            getminmax_indices_us(sindices, &max, &min, count);
-            list = arrays_to_renderlist(list, mode, min, max + 1);
-            list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-            if(min) normalize_indices_us(list->indices, &max, &min, count);
+        if(!need_free) {
+            GLushort *tmp = sindices;
+            sindices = (GLushort*)malloc(count*sizeof(GLushort));
+            memcpy(sindices, tmp, count*sizeof(GLushort));
         }
+        normalize_indices_us(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, min, max + 1);
+        list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
         //end_renderlist(list);
         
         glstate->list.active = extend_renderlist(list);
         return;
-     }
+    }
 
-     if (intercept || (mode==GL_QUADS)) {
+    if (intercept || (mode==GL_QUADS)) {
          //TODO handling uint indices
         renderlist_t *list = NULL;
         GLsizei min, max;
 
-        if(need_free) {
-            normalize_indices_us(sindices, &max, &min, count);
-            list = arrays_to_renderlist(list, mode, min, max + 1);
-            list->indices = sindices;
-        } else {
-            getminmax_indices_us(sindices, &max, &min, count);
-            list = arrays_to_renderlist(list, mode, min, max + 1);
-            list->indices = copy_gl_array(sindices, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
-            if(min) normalize_indices_us(list->indices, &max, &min, count);
+        if(!need_free) {
+            GLushort *tmp = sindices;
+            sindices = (GLushort*)malloc(count*sizeof(GLushort));
+            memcpy(sindices, tmp, count*sizeof(GLushort));
         }
+        normalize_indices_us(sindices, &max, &min, count);
+        list = arrays_to_renderlist(list, mode, min, max + 1);
+        list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
         list = end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
-        
+printf("Intercept, min=%d, max=%d, count=%d, type=%s, mode=%s\n", min, max, count, PrintEnum(type), PrintEnum(mode));
         return;
-     } else {
-        if (glstate->raster.bm_drawing)
-            bitmap_flush();
-
-		LOAD_GLES_FPE(glDrawElements);
-		LOAD_GLES_FPE(glNormalPointer);
-		LOAD_GLES_FPE(glVertexPointer);
-		LOAD_GLES_FPE(glColorPointer);
-		LOAD_GLES_FPE(glTexCoordPointer);
-        LOAD_GLES_FPE(glEnable);
-        LOAD_GLES_FPE(glDisable);
-        LOAD_GLES_FPE(glEnableClientState);
-        LOAD_GLES_FPE(glDisableClientState);
-        LOAD_GLES_FPE(glMultiTexCoord4f);
-        GLuint len = 0;
-#define client_state(A, B, C) \
-            if(glstate->vao->A != glstate->clientstate.A) {           \
-                C                                              \
-                if((glstate->clientstate.A = glstate->vao->A)==true)  \
-                    gles_glEnableClientState(B);                \
-                else                                            \
-                    gles_glDisableClientState(B);               \
-            }
-
-
-		GLenum mode_init = mode;
-		/*if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
-			mode = GL_LINE_LOOP;*/
-		if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
-			mode = GL_POINTS;
-
-		if (mode == GL_QUAD_STRIP)
-			mode = GL_TRIANGLE_STRIP;
-		if (mode == GL_POLYGON)
-			mode = GL_TRIANGLE_FAN;
-		if (glstate->render_mode == GL_SELECT) {
-            // TODO handling uint indices
-			select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
-		} else {
-            GLuint old_tex = glstate->texture.client;
-            
-            realize_textures();
-
-            // secondry color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
-            client_state(color_array, GL_COLOR_ARRAY, );
-            if (glstate->vao->color_array)
-                gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
-            if(hardext.esversion>1) {
-                client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
-                if (glstate->vao->secondary_array)
-                    fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
-            }
-            client_state(normal_array, GL_NORMAL_ARRAY, );
-            if (glstate->vao->normal_array)
-                gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
-            client_state(vertex_array, GL_VERTEX_ARRAY, );
-            if (glstate->vao->vertex_array)
-                gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
-            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
-            for (int aa=0; aa<hardext.maxtex; aa++) {
-                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                // get 1st enabled target
-                const GLint itarget = get_target(glstate->enable.texture[aa]);
-                if (itarget>=0) {
-                    if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                        TEXTURE(aa);
-                        gles_glEnable(GL_TEXTURE_2D);
-                    }
-                    if (glstate->vao->tex_coord_array[aa]) {
-                        TEXTURE(aa);
-                        if(!len) len = len_indices(sindices, iindices, count);
-                        tex_setup_texcoord(len, itarget);
-                    } else
-                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-                } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
-                    // special case on GL2, Tex disable but CoordArray enabled...
-                    TEXTURE(aa);
-                    if(!len) len = len_indices(sindices, iindices, count);
-                    tex_setup_texcoord(len, ENABLED_TEX2D);
-                }
-            }
-            if (glstate->texture.client!=old_tex)
-                TEXTURE(old_tex);
-
-            // POLYGON mode as LINE is "intercepted" and drawn using list
-			gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
-
-            for (int aa=0; aa<hardext.maxtex; aa++) {
-                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                    TEXTURE(aa);
-                    gles_glDisable(GL_TEXTURE_2D);
-                }
-            }
-            if (glstate->texture.client!=old_tex)
-                TEXTURE(old_tex);
-            #undef TEXTURE
-		}
+    } else {
+        glDrawElementsCommon(mode, count, 0, sindices, iindices);
         if(need_free)
             free(sindices);
     }
