@@ -207,7 +207,8 @@ void gl4es_glClientActiveTexture( GLenum texture );
 void gl4es_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
 GLboolean gl4es_glIsTexture( GLuint texture );
 
-void tex_setup_texcoord(GLuint len, GLuint texture);
+int  tex_setup_needchange(GLuint itarget);
+void tex_setup_texcoord(GLuint len, int changes, GLuint texture);
 
 void realize_bound(int TMU, GLenum target);
 void realize_textures();

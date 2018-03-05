@@ -1137,7 +1137,7 @@ void draw_renderlist(renderlist_t *list) {
                     }
                     // adjust the tex_coord now if needed, even on texgened ones
                     gltexture_t *bound = glstate->texture.bound[a][itarget];
-                    if((list->tex[a] || (use_texgen[a] && !needclean[a])) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || ((bound->width != bound->nwidth) || (bound->height != bound->nheight)))) {
+                    if((list->tex[a] || (use_texgen[a] && !needclean[a])) && ((!(globals4es.texmat || glstate->texture_matrix[a]->identity)) || (bound->adjust))) {
                         if(!use_texgen[a]) {
                             RS(a, list->len);
                             if(list->tex_stride[a]) {
@@ -1154,7 +1154,7 @@ void draw_renderlist(renderlist_t *list) {
                         }
                         if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
                             tex_coord_matrix(texgened[a], list->len, getTexMat(a));
-                        if ((bound->width != bound->nwidth) || (bound->height != bound->nheight)) {
+                        if (bound->adjust) {
                             tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
                         }
                     }

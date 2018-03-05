@@ -88,7 +88,19 @@ void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat) {
  * Apply texture matrix if not identity 
  * Or some NPOT texture used
  */
-void tex_setup_texcoord(GLuint len, GLuint itarget) {
+int inline tex_setup_needchange(GLuint itarget) {
+    GLuint texunit = glstate->texture.client;
+    gltexture_t *bound = glstate->texture.bound[texunit][itarget];
+    
+    // check if some changes are needed
+    if ((itarget == ENABLED_TEXTURE_RECTANGLE) 
+        || (hardext.esversion==1 && bound->adjust) // TODO: check that
+        || (hardext.esversion==1 && !globals4es.texmat && !glstate->texture_matrix[texunit]->identity)
+        )
+        return 1;
+    return 0;
+}
+void tex_setup_texcoord(GLuint len, int changes, GLuint itarget) {
     LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
@@ -97,13 +109,6 @@ void tex_setup_texcoord(GLuint len, GLuint itarget) {
     
     gltexture_t *bound = glstate->texture.bound[texunit][itarget];
     
-    // check if some changes are needed
-    int changes = 0;
-    if ((itarget == ENABLED_TEXTURE_RECTANGLE) 
-        || (hardext.esversion==1 && ((bound->width!=bound->nwidth)||(bound->height!=bound->nheight)
-        )) || (hardext.esversion==1 && !globals4es.texmat && !glstate->texture_matrix[texunit]->identity)
-        )
-        changes = 1;
     if (changes) {
         // first convert to GLfloat, without normalization
         if(texlen[texunit]<len) {

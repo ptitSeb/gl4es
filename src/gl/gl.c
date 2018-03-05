@@ -993,6 +993,38 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
         mode = GL_TRIANGLE_STRIP;
     if (mode == GL_POLYGON)
         mode = GL_TRIANGLE_FAN;
+    if (mode == GL_QUADS) {
+        mode = GL_TRIANGLES;
+        int ilen = (count*3)/2;
+        if (iindices) {
+            gl4es_scratch(ilen*sizeof(GLuint));
+            GLuint *tmp = (GLuint*)glstate->scratch;
+            for (int i=0, j=0; i+3<count; i+=4, j+=6) {
+                tmp[j+0] = iindices[i+0];
+                tmp[j+1] = iindices[i+1];
+                tmp[j+2] = iindices[i+2];
+
+                tmp[j+3] = iindices[i+0];
+                tmp[j+4] = iindices[i+2];
+                tmp[j+5] = iindices[i+3];
+            }
+            iindices = tmp;
+        } else {
+            gl4es_scratch(ilen*sizeof(GLushort));
+            GLushort *tmp = (GLushort*)glstate->scratch;
+            for (int i=0, j=0; i+3<count; i+=4, j+=6) {
+                tmp[j+0] = sindices[i+0];
+                tmp[j+1] = sindices[i+1];
+                tmp[j+2] = sindices[i+2];
+
+                tmp[j+3] = sindices[i+0];
+                tmp[j+4] = sindices[i+2];
+                tmp[j+5] = sindices[i+3];
+            }
+            sindices = tmp;
+        }
+        count = ilen;
+    }
     if (glstate->render_mode == GL_SELECT) {
         // TODO handling uint indices
         select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
@@ -1028,15 +1060,17 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
                 }
                 if (glstate->vao->tex_coord_array[aa]) {
                     TEXTURE(aa);
-                    if(!len) len = len_indices(sindices, iindices, count);
-                    tex_setup_texcoord(len, itarget);
+                    int changes = tex_setup_needchange(itarget);
+                    if(changes && !len) len = len_indices(sindices, iindices, count);
+                    tex_setup_texcoord(len, changes, itarget);
                 } else
                     gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
             } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
                 // special case on GL2, Tex disable but CoordArray enabled...
                 TEXTURE(aa);
-                if(!len) len = len_indices(sindices, iindices, count);
-                tex_setup_texcoord(len, ENABLED_TEX2D);
+                int changes = tex_setup_needchange(ENABLED_TEX2D);
+                if(changes && !len) len = len_indices(sindices, iindices, count);
+                tex_setup_texcoord(len, changes, ENABLED_TEX2D);
             }
         }
         if (glstate->texture.client!=old_tex)
@@ -1078,7 +1112,7 @@ void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count
     GLuint *iindices = NULL;
     bool need_free = !(
         (type==GL_UNSIGNED_SHORT) || 
-        (!compiling && !intercept && (mode!=GL_QUADS) && type==GL_UNSIGNED_INT && hardext.elementuint)
+        (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
@@ -1113,7 +1147,7 @@ void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count
         return;
     }
 
-    if (intercept || (mode==GL_QUADS)) {
+    if (intercept) {
          //TODO handling uint indices
         renderlist_t *list = NULL;
 
@@ -1165,7 +1199,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     GLuint *iindices = NULL;
     bool need_free = !(
         (type==GL_UNSIGNED_SHORT) || 
-        (!compiling && !intercept && (mode!=GL_QUADS) && type==GL_UNSIGNED_INT && hardext.elementuint)
+        (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
@@ -1201,7 +1235,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         return;
     }
 
-    if (intercept || (mode==GL_QUADS)) {
+    if (intercept) {
          //TODO handling uint indices
         renderlist_t *list = NULL;
         GLsizei min, max;
@@ -1219,7 +1253,6 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         list = end_renderlist(list);
         draw_renderlist(list);
         free_renderlist(list);
-printf("Intercept, min=%d, max=%d, count=%d, type=%s, mode=%s\n", min, max, count, PrintEnum(type), PrintEnum(mode));
         return;
     } else {
         glDrawElementsCommon(mode, count, 0, sindices, iindices);
@@ -1361,13 +1394,15 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                     }
                     if (glstate->vao->tex_coord_array[aa]) {
                         TEXTURE(aa);
-                        tex_setup_texcoord(count+first, itarget);
+                        int changes = tex_setup_needchange(itarget);
+                        tex_setup_texcoord(count+first, changes, itarget);
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 }  else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
                     // special case on GL2, Tex disable but CoordArray enabled...
                     TEXTURE(aa);
-                    tex_setup_texcoord(count+first, ENABLED_TEX2D);
+                    int changes = tex_setup_needchange(itarget);
+                    tex_setup_texcoord(count+first, changes, ENABLED_TEX2D);
                 }
             }
             if (glstate->texture.client!=old_tex)
