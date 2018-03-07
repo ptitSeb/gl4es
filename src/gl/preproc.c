@@ -180,18 +180,18 @@ eTokenType NextToken(char **p, uToken *tok) {
                 // hex number, so int...
                 (*p)++; nextc=**p;
                 while((nextc>='0' && nextc<='9') || (nextc>='a' && nextc<='f') || (nextc>='A' && nextc<='F')) { 
-                    nb=nb*10;
+                    nb=nb*16;
                     if(nextc>='0' && nextc<='9')
                         nb+=nextc-'0';
                     else if(nextc>='a' && nextc<='f')
                         nb+=nextc-'a'+10;
                     else if(nextc>='A' && nextc<='F')
-                        nb+=nextc-'a'+10;
+                        nb+=nextc-'A'+10;
                     (*p)++; nextc=**p;
                 }
                 tok->type = TK_INT;
                 tok->integer = nb;
-                sprintf(tok->str, "%x", nb);
+                sprintf(tok->str, "0x%x", nb);
             } else {
                 while(nextc>='0' && nextc<='9') { nb=nb*10+nextc-'0'; (*p)++; nextc=**p;}
                 if(nextc=='.' || nextc=='f' || nextc=='e') {
