@@ -28,6 +28,7 @@ typedef struct _hardext {
     int floattex;       // GL_OES_texture_float
     int aniso;          // Max ANISOTROPIC filter available (0 if not)
     int srgb;           // EGL_KHR_gl_colorspace
+    int mapbuffer;      // GL_OES_mapbuffer
     // es2 stuffs
     int esversion;      // 1 is ES1.1 backend, 2 is ES2
     int maxvattrib;     // GL_MAX_VERTEX_ATTRIBS (or 0 if not using es2)

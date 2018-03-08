@@ -339,8 +339,20 @@ void initialize_gl4es() {
             globals4es.automipmap = 3;
             SHUT(LOGD("LIBGL: Forcing NPOT support by disabling all MIPMAP support\n"));
         } else {
-            SHUT(LOGD("LIBGL: WARNIN, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
+            SHUT(LOGD("LIBGL: WARNING, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
         }
+    }
+
+    globals4es.usevbo = 0;
+    char *env_usevbo = getenv("LIBGL_USEVBO");
+    /*if(env_usevbo && strcmp(env_usevbo,"0") == 0) {
+        SHUT(LOGD("LIBGL: Use of VBO disabled\n"));
+        globals4es.usevbo = 0;
+    } else*/ if(env_usevbo && strcmp(env_usevbo,"1") == 0) {
+        globals4es.usevbo = 1;
+    }
+    if(globals4es.usevbo) {
+        SHUT(LOGD("LIBGL: VBO used (in a few cases)\n"));
     }
 
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");

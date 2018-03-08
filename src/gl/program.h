@@ -16,24 +16,6 @@ typedef struct {
 KHASH_MAP_INIT_INT(attribloclist, attribloc_t *)
 
 typedef enum {
-    ATT_VERTEX = 0,
-    ATT_COLOR,
-    ATT_MULTITEXCOORD0,
-    ATT_MULTITEXCOORD1,
-    ATT_MULTITEXCOORD2,
-    ATT_MULTITEXCOORD3,
-    ATT_MULTITEXCOORD4,
-    ATT_MULTITEXCOORD5,
-    ATT_MULTITEXCOORD6,
-    ATT_MULTITEXCOORD7,
-    ATT_NORMAL,
-    ATT_SECONDARY,
-    ATT_FOGCOORD,
-    //ATT_POINTSIZE,   //this one is supported by GLES hardware
-    ATT_MAX
-} reserved_attrib_t;
-
-typedef enum {
     MAT_MV = 0,
     MAT_MV_I,
     MAT_MV_T,

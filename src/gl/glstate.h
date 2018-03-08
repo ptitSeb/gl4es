@@ -42,7 +42,7 @@ typedef struct {
     int                 shim_error;
     GLenum              last_error;
     GLint               vp[4];
-    clientstate_t       clientstate;
+    GLboolean           clientstate[NB_VA];
     khash_t(queries)    *queries;
     glstack_t           *stack;
     glclientstack_t     *clientStack;
@@ -80,8 +80,10 @@ typedef struct {
     glesblit_t          *blit;
     fbo_t               fbo;
     int                 filterpostupload;   // does the program seems to set filter after uploading texture?
+    // scratch array
     int                 scratch_alloc;
     void*               scratch;
+    // glBegin/glEnd merger
     int                 merger_cap;
     GLfloat*            merger_master;
     GLfloat*            merger_secondary;
@@ -89,6 +91,12 @@ typedef struct {
     int                 merger_indice_cap;
     GLushort*           merger_indices;
     int                 merger_used;
+    // scratch VBO
+    GLuint              scratch_vertex;
+    GLsizei             scratch_vertex_size;
+    GLuint              scratch_indices;
+    GLsizei             scratch_indices_size;
+    // Implementatio read
     GLenum              readf; // implementation Read Format
     GLenum              readt; // implementation Read Type
 } glstate_t;

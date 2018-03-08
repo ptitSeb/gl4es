@@ -100,7 +100,7 @@ int inline tex_setup_needchange(GLuint itarget) {
         return 1;
     return 0;
 }
-void tex_setup_texcoord(GLuint len, int changes, GLuint itarget) {
+void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, pointer_state_t* ptr) {
     LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
@@ -116,7 +116,7 @@ void tex_setup_texcoord(GLuint len, int changes, GLuint itarget) {
             tex[texunit] = malloc(4*sizeof(GLfloat)*len);
             texlen[texunit] = len;
         }
-        copy_gl_pointer_tex_noalloc(tex[texunit], &glstate->vao->pointers.tex_coord[texunit], 4, 0, len);
+        copy_gl_pointer_tex_noalloc(tex[texunit], ptr, 4, 0, len);
         // Normalize if needed
         if (itarget == ENABLED_TEXTURE_RECTANGLE)
             tex_coord_rect_arb(tex[texunit], 4, len, bound->width, bound->height);
@@ -129,7 +129,7 @@ void tex_setup_texcoord(GLuint len, int changes, GLuint itarget) {
         // All done, setup the texcoord array now
         gles_glTexCoordPointer(4, GL_FLOAT, 0, tex[texunit]);
     } else {
-        gles_glTexCoordPointer(glstate->vao->pointers.tex_coord[texunit].size, glstate->vao->pointers.tex_coord[texunit].type, glstate->vao->pointers.tex_coord[texunit].stride, glstate->vao->pointers.tex_coord[texunit].pointer);
+        gles_glTexCoordPointer(ptr->size, ptr->type, ptr->stride, ptr->pointer);
     }
 }
 

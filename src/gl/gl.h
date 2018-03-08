@@ -449,7 +449,12 @@ static inline void noerrorShim() {
 }
 
 void gl4es_scratch(int alloc);
+void gl4es_scratch_vertex(int alloc);
+void gl4es_scratch_indices(int alloc);
+void gl4es_use_scratch_vertex(int use);
+void gl4es_use_scratch_indices(int use);
 
+void ToBuffer(int first, int count);
 #include "defines.h"
 
 #include "render.h"

@@ -111,7 +111,6 @@ typedef struct {
     GLboolean compiling;
     GLboolean pending;
     GLboolean begin;
-    GLboolean locked;
     GLuint base;
     GLuint name;
     GLenum mode;
@@ -209,15 +208,6 @@ typedef struct {
     int     identity;
 	GLfloat	*stack;
 } matrixstack_t;
-
-typedef struct {
-    GLboolean   vertex_array,
-                color_array,
-                secondary_array,
-                normal_array,
-                fog_array,
-                tex_coord_array[MAX_TEX];
-} clientstate_t;
 
 typedef struct {
     khash_t(shaderlist)    *shaders;

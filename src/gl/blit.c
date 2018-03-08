@@ -107,32 +107,32 @@ void gl4es_blitTexture_gles1(GLuint texture,
         if(customvp)
             pushViewport(0,0,vpwidth, vpheight);
         
-        if(!glstate->clientstate.vertex_array) 
+        if(!glstate->clientstate[ATT_VERTEX]) 
         {
             gles_glEnableClientState(GL_VERTEX_ARRAY);
-            glstate->clientstate.vertex_array = 1;
+            glstate->clientstate[ATT_VERTEX] = 1;
         }
         gles_glVertexPointer(2, GL_FLOAT, 0, blit_vert);
-        if(!glstate->clientstate.tex_coord_array[0]) 
+        if(!glstate->clientstate[ATT_MULTITEXCOORD0]) 
         {
             gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glstate->clientstate.tex_coord_array[0] = 1;
+            glstate->clientstate[ATT_MULTITEXCOORD0] = 1;
         }
         gles_glTexCoordPointer(2, GL_FLOAT, 0, blit_tex);
         for (int a=1; a <hardext.maxtex; a++)
-            if(glstate->clientstate.tex_coord_array[a]) {
+            if(glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
                 gles_glClientActiveTexture(GL_TEXTURE0 + a);
                 gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate->clientstate.tex_coord_array[a] = 0;
+                glstate->clientstate[ATT_MULTITEXCOORD0+a] = 0;
                 gles_glClientActiveTexture(GL_TEXTURE0);
             }
-        if(glstate->clientstate.color_array) {
+        if(glstate->clientstate[ATT_COLOR]) {
             gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate.color_array = 0;
+            glstate->clientstate[ATT_COLOR] = 0;
         }
-        if(glstate->clientstate.normal_array) {
+        if(glstate->clientstate[ATT_NORMAL]) {
             gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate->clientstate.normal_array = 0;
+            glstate->clientstate[ATT_NORMAL] = 0;
         }
         gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 

@@ -33,7 +33,6 @@ void GetHardwareExtensions(int notest)
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
             hardext.cubemap = 1;
-            hardext.aniso = 2;  // no ideas here...
         }
         return;
     }
@@ -171,7 +170,9 @@ void GetHardwareExtensions(int notest)
         SHUT(LOGD("LIBGL: Blend Function and Equation Separation is in core, and so used\n"));
         hardext.blendfunc = 1;
         hardext.blendeq = 1;
+        SHUT(LOGD("LIBGL: MapBuffer is in core, and so used\n"));
     }
+    S("GL_OES_mapbuffer", mapbuffer, 0);
     S("GL_OES_element_index_uint", elementuint, 0);
     S("GL_OES_packed_depth_stencil", depthstencil, 1);
     S("GL_OES_depth24", depth24, 1);

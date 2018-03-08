@@ -169,7 +169,8 @@ typedef struct _glclientstack_t {
     GLboolean tex_enable[MAX_TEX];
     GLboolean normal_enable;
     GLboolean secondary_enable;
-    pointer_states_t pointers;
+    GLboolean fog_enable;
+    pointer_state_t pointers[NB_VA];
     unsigned int len;
     unsigned int cap;
 } glclientstack_t;

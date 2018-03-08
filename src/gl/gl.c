@@ -467,12 +467,11 @@ generate_changetexgen(q)
 
 void change_vao_texcoord(int tmu, bool enable) 
 {
-    glstate->vao->tex_coord_array[tmu] = enable;
+    glstate->vao->pointers[ATT_MULTITEXCOORD0+tmu].enabled = enable;
     if(enable) {
         if(glstate->vao->maxtex<tmu+1) glstate->vao->maxtex=tmu+1;
     } else {
         if(glstate->vao->maxtex==tmu+1) {
-            //while(tmu && !glstate->vao->tex_coord_array[tmu]) --tmu;
             glstate->vao->maxtex=tmu;
         }
     }
@@ -583,15 +582,14 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
         //cannot use clientGO_proxyFPE here, has the ClientArray are really enabled / disabled elsewhere in fact (inside glDraw or list_draw)
-        clientGO(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        clientGO(GL_FOG_COORD_ARRAY, fog_array);
+        clientGO(GL_SECONDARY_COLOR_ARRAY, pointers[ATT_SECONDARY].enabled);
+        clientGO(GL_FOG_COORD_ARRAY, pointers[ATT_FOGCOORD].enabled);
 	
         // for glDrawArrays
-        clientGO(GL_VERTEX_ARRAY, vertex_array);
-        clientGO(GL_NORMAL_ARRAY, normal_array);
-        clientGO(GL_COLOR_ARRAY, color_array);
+        clientGO(GL_VERTEX_ARRAY, pointers[ATT_VERTEX].enabled);
+        clientGO(GL_NORMAL_ARRAY, pointers[ATT_NORMAL].enabled);
+        clientGO(GL_COLOR_ARRAY, pointers[ATT_COLOR].enabled);
         case GL_TEXTURE_COORD_ARRAY: change_vao_texcoord(glstate->texture.client, enable);
-        //clientGO(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
 
         // map eval
         GO(GL_MAP1_COLOR_4 , map1_color4);
@@ -768,16 +766,16 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_POINT_SMOOTH, point_smooth);
         isenabled(GL_LINE_SMOOTH, line_smooth);
         isenabled(GL_COLOR_LOGIC_OP, color_logic_op);
-        clientisenabled(GL_SECONDARY_COLOR_ARRAY, secondary_array);
-        clientisenabled(GL_FOG_COORD_ARRAY, fog_array);
+        clientisenabled(GL_SECONDARY_COLOR_ARRAY, pointers[ATT_SECONDARY].enabled);
+        clientisenabled(GL_FOG_COORD_ARRAY, pointers[ATT_FOGCOORD].enabled);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);
         case GL_TEXTURE_3D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX3D);
         case GL_TEXTURE_CUBE_MAP: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_CUBE_MAP);
-        clientisenabled(GL_VERTEX_ARRAY, vertex_array);
-        clientisenabled(GL_NORMAL_ARRAY, normal_array);
-        clientisenabled(GL_COLOR_ARRAY, color_array);
-        clientisenabled(GL_TEXTURE_COORD_ARRAY, tex_coord_array[glstate->texture.client]);
+        clientisenabled(GL_VERTEX_ARRAY, pointers[ATT_VERTEX].enabled);
+        clientisenabled(GL_NORMAL_ARRAY, pointers[ATT_NORMAL].enabled);
+        clientisenabled(GL_COLOR_ARRAY, pointers[ATT_COLOR].enabled);
+        clientisenabled(GL_TEXTURE_COORD_ARRAY, pointers[ATT_MULTITEXCOORD0+glstate->texture.client].enabled);
         isenabled(GL_NORMALIZE, normalize);
         isenabled(GL_RESCALE_NORMAL, normal_rescale);
         isenabled(GL_MAP1_COLOR_4, map1_color4);
@@ -810,19 +808,19 @@ GLboolean glIsEnabled(GLenum cap) AliasExport("gl4es_glIsEnabled");
 static GLboolean is_cache_compatible(GLsizei count) {
     #define T2(AA, A, B) \
     if(glstate->vao->AA!=glstate->vao->B.enabled) return GL_FALSE; \
-    if(glstate->vao->B.enabled && memcmp(&glstate->vao->pointers.A, &glstate->vao->B.state, sizeof(pointer_state_t))) return GL_FALSE;
-    #define TEST(A,B) T2(A##_array, A, B)
-    #define TESTA(A,B,I) T2(A##_array[i], A[i], B[i])
+    if(glstate->vao->B.enabled && memcmp(&glstate->vao->pointers[A], &glstate->vao->B.state, sizeof(pointer_state_t))) return GL_FALSE;
+    #define TEST(A,B) T2(pointers[A].enabled, A, B)
+    #define TESTA(A,B,I) T2(pointers[A+i].enabled, A+i, B[i])
 
     if(glstate->vao == glstate->defaultvao) return GL_FALSE;
     if(count > glstate->vao->cache_count) return GL_FALSE;
-    TEST(vertex, vert)
-    TEST(color, color)
-    TEST(secondary, secondary)
-    TEST(fog, fog)
-    TEST(normal, normal)
+    TEST(ATT_VERTEX, vert)
+    TEST(ATT_COLOR, color)
+    TEST(ATT_SECONDARY, secondary)
+    TEST(ATT_FOGCOORD, fog)
+    TEST(ATT_NORMAL, normal)
     for (int i=0; i<hardext.maxtex; i++) {
-        TESTA(tex_coord,tex,i)
+        TESTA(ATT_MULTITEXCOORD0,tex,i)
     }
     #undef TESTA
     #undef TEST
@@ -866,79 +864,79 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             list->shared_arrays = glstate->vao->shared_arrays = (int*)malloc(sizeof(int));
             *glstate->vao->shared_arrays = 1;
             #define G2(AA, A, B) \
-            glstate->vao->B.enabled = glstate->vao->AA; \
-            if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->pointers.A, sizeof(pointer_state_t));
-            #define GO(A,B) G2(A##_array, A, B)
-            #define GOA(A,B,I) G2(A##_array[i], A[i], B[i])
-            GO(vertex, vert)
-            GO(color, color)
-            GO(secondary, secondary)
-            GO(fog, fog)
-            GO(normal, normal)
+            glstate->vao->B.enabled = glstate->vao->pointers[AA].enabled; \
+            if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->pointers[A], sizeof(pointer_state_t));
+            #define GO(A,B) G2(A, A, B)
+            #define GOA(A,B,I) G2(A+i, A+i, B[i])
+            GO(ATT_VERTEX, vert)
+            GO(ATT_COLOR, color)
+            GO(ATT_SECONDARY, secondary)
+            GO(ATT_FOGCOORD, fog)
+            GO(ATT_NORMAL, normal)
             for (int i=0; i<hardext.maxtex; i++) {
-                GOA(tex_coord,tex,i)
+                GOA(ATT_MULTITEXCOORD0,tex,i)
             }
             glstate->vao->cache_count = count;
             #undef GOA
             #undef GO
             #undef G2
         }
-        if (glstate->vao->vertex_array) {
+        if (glstate->vao->pointers[ATT_VERTEX].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->vert.ptr = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, 0, count);
+                glstate->vao->vert.ptr = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_VERTEX], 4, 0, count);
                 list->vert = glstate->vao->vert.ptr + 4*skip;
             } else
-                list->vert = copy_gl_pointer_tex(&glstate->vao->pointers.vertex, 4, skip, count);
+                list->vert = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_VERTEX], 4, skip, count);
         }
-        if (glstate->vao->color_array) {
+        if (glstate->vao->pointers[ATT_COLOR].enabled) {
             if(glstate->vao->shared_arrays) {
-                if(glstate->vao->pointers.color.size==GL_BGRA)
-                    glstate->vao->color.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, 0, count);
+                if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
+                    glstate->vao->color.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers[ATT_COLOR], 4, 0, count);
                 else
-                    glstate->vao->color.ptr = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, 0, count);
+                    glstate->vao->color.ptr = copy_gl_pointer_color(&glstate->vao->pointers[ATT_COLOR], 4, 0, count);
                 list->color = glstate->vao->color.ptr + 4*skip;
             } else {
-                if(glstate->vao->pointers.color.size==GL_BGRA)
-                    list->color = copy_gl_pointer_color_bgra(&glstate->vao->pointers.color, 4, skip, count);
+                if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
+                    list->color = copy_gl_pointer_color_bgra(&glstate->vao->pointers[ATT_COLOR], 4, skip, count);
                 else
-                    list->color = copy_gl_pointer_color(&glstate->vao->pointers.color, 4, skip, count);
+                    list->color = copy_gl_pointer_color(&glstate->vao->pointers[ATT_COLOR], 4, skip, count);
             }
         }
-        if (glstate->vao->secondary_array/* && glstate->enable.color_array*/) {
+        if (glstate->vao->pointers[ATT_SECONDARY].enabled/* && glstate->enable.color_array*/) {
             if(glstate->vao->shared_arrays) {
-                if(glstate->vao->pointers.secondary.size==GL_BGRA)
-                    glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, 0, count);
+                if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
+                    glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(&glstate->vao->pointers[ATT_SECONDARY], 4, 0, count);
                 else
-                    glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, 0, count);		// alpha chanel is always 0 for secondary...
+                    glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->pointers[ATT_SECONDARY], 4, 0, count);		// alpha chanel is always 0 for secondary...
                     list->secondary = glstate->vao->secondary.ptr + 4*skip;
             } else {
-                if(glstate->vao->pointers.secondary.size==GL_BGRA)
-                    list->secondary = copy_gl_pointer_color_bgra(&glstate->vao->pointers.secondary, 4, skip, count);
+                if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
+                    list->secondary = copy_gl_pointer_color_bgra(&glstate->vao->pointers[ATT_SECONDARY], 4, skip, count);
                 else
-                    list->secondary = copy_gl_pointer(&glstate->vao->pointers.secondary, 4, skip, count);		// alpha chanel is always 0 for secondary...
+                    list->secondary = copy_gl_pointer(&glstate->vao->pointers[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
             }
         }
-        if (glstate->vao->normal_array) {
+        if (glstate->vao->pointers[ATT_NORMAL].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->normal.ptr = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, 0, count);
+                glstate->vao->normal.ptr = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_NORMAL], 3, 0, count);
                 list->normal = glstate->vao->normal.ptr + 3*skip;
             } else
-                list->normal = copy_gl_pointer_raw(&glstate->vao->pointers.normal, 3, skip, count);
+                list->normal = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_NORMAL], 3, skip, count);
         }
-        if (glstate->vao->fog_array) {
+        if (glstate->vao->pointers[ATT_FOGCOORD].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->fog.ptr = copy_gl_pointer_raw(&glstate->vao->pointers.fog, 1, 0, count);
+                glstate->vao->fog.ptr = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_FOGCOORD], 1, 0, count);
                 list->fogcoord = glstate->vao->fog.ptr + 1*skip;
             } else
-                list->fogcoord = copy_gl_pointer_raw(&glstate->vao->pointers.fog, 1, skip, count);
+                list->fogcoord = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_FOGCOORD], 1, skip, count);
         }
         for (int i=0; i<glstate->vao->maxtex; i++) {
-            if (glstate->vao->tex_coord_array[i]) {
+            if (glstate->vao->pointers[ATT_MULTITEXCOORD0+i].enabled) {
                 if(glstate->vao->shared_arrays) {
-                    glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, 0, count);
+                    glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, 0, count);
                     list->tex[i] = glstate->vao->tex[i].ptr + 4*skip;
                 } else
-                    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers.tex_coord[i], 4, skip, count);
+                    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, skip, count);
             }
         }
     }
@@ -953,20 +951,20 @@ static inline bool should_intercept_render(GLenum mode) {
         if (glstate->enable.texture[aa]) {
             if ((hardext.esversion==1) && ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa])))
                 return true;
-            if ((!glstate->vao->tex_coord_array[aa]) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
+            if ((!glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
                 return true;
-            if ((glstate->vao->tex_coord_array[aa]) && (glstate->vao->pointers.tex_coord[aa].size == 1))
+            if ((glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) && (glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].size == 1))
                 return true;
         }
     }
     if(glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
         return true;
-    if ((hardext.esversion==1) && ((glstate->vao->secondary_array) && (glstate->vao->color_array)))
+    if ((hardext.esversion==1) && ((glstate->vao->pointers[ATT_SECONDARY].enabled) && (glstate->vao->pointers[ATT_COLOR].enabled)))
         return true;
-    if ((hardext.esversion==1) && (glstate->vao->color_array && (glstate->vao->pointers.color.size != 4)))
+    if ((hardext.esversion==1) && (glstate->vao->pointers[ATT_COLOR].enabled && (glstate->vao->pointers[ATT_COLOR].size != 4)))
         return true;
     return (
-        (glstate->vao->vertex_array && ! valid_vertex_type(glstate->vao->pointers.vertex.type)) ||
+        (glstate->vao->pointers[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->pointers[ATT_VERTEX].type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
         /*(mode == GL_QUADS) ||*/ (glstate->list.active)
     );
@@ -999,9 +997,9 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
     LOAD_GLES_FPE(glDisableClientState);
     LOAD_GLES_FPE(glMultiTexCoord4f);
 #define client_state(A, B, C) \
-        if(glstate->vao->A != glstate->clientstate.A) {           \
+        if(glstate->vao->pointers[A].enabled != glstate->clientstate[A]) {           \
             C                                              \
-            if((glstate->clientstate.A = glstate->vao->A)==true)  \
+            if((glstate->clientstate[A] = glstate->vao->pointers[A].enabled)==true)  \
                 gles_glEnableClientState(B);                \
             else                                            \
                 gles_glDisableClientState(B);               \
@@ -1052,30 +1050,61 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
     }
     if (glstate->render_mode == GL_SELECT) {
         // TODO handling uint indices
-        select_glDrawElements(&glstate->vao->pointers.vertex, mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
+        select_glDrawElements(&glstate->vao->pointers[ATT_VERTEX], mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
     } else {
         GLuint old_tex = glstate->texture.client;
         
         realize_textures();
 
-        // secondry color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
-        client_state(color_array, GL_COLOR_ARRAY, );
-        if (glstate->vao->color_array)
-            gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
-        if(hardext.esversion>1) {
-            client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
-            if (glstate->vao->secondary_array)
-                fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
-        }
-        client_state(normal_array, GL_NORMAL_ARRAY, );
-        if (glstate->vao->normal_array)
-            gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
-        client_state(vertex_array, GL_VERTEX_ARRAY, );
-        if (glstate->vao->vertex_array)
-            gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
         #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+
+        if(globals4es.usevbo) ToBuffer(0, count);
+        int buffered = glstate->vao->locked_mapped;
+        if (buffered) {
+            // new check to see if texture are ok...
+            for (int aa=0; aa<hardext.maxtex && buffered; aa++) {
+                client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                if(glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) {
+                    TEXTURE(aa);
+                    const GLint itarget = get_target(glstate->enable.texture[aa]);
+                    if(itarget>=0)
+                        if(tex_setup_needchange(itarget))
+                            buffered = 0;
+                }
+            }
+        }
+        if(buffered) {
+            gl4es_use_scratch_vertex(1);
+            // and move indices too
+            int size = ((iindices)?4:2)*count;
+            gl4es_scratch_indices(size);
+            LOAD_GLES(glBufferSubData);
+            gles_glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, (iindices)?(void*)iindices:(void*)sindices);
+        }
+        pointer_state_t *p;
+        #define GetP(A) (buffered)?(&glstate->vao->locked_pointers[A]):(&glstate->vao->pointers[A])
+        // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
+        client_state(ATT_COLOR, GL_COLOR_ARRAY, );
+        p = GetP(ATT_COLOR);
+        if (p->enabled)
+            gles_glColorPointer(p->size, p->type, p->stride, p->pointer);
+        if(hardext.esversion>1) {
+            client_state(ATT_SECONDARY, GL_SECONDARY_COLOR_ARRAY, );
+            p = GetP(ATT_SECONDARY);
+            if (p->enabled)
+                fpe_glSecondaryColorPointer(p->size, p->type, p->stride, p->pointer);
+        }
+        client_state(ATT_NORMAL, GL_NORMAL_ARRAY, );
+        p = GetP(ATT_NORMAL);
+        if (p->enabled)
+            gles_glNormalPointer(p->type, p->stride, p->pointer);
+        client_state(ATT_VERTEX, GL_VERTEX_ARRAY, );
+        p = GetP(ATT_VERTEX);
+        if (p->enabled)
+            gles_glVertexPointer(p->size, p->type, p->stride, p->pointer);
         for (int aa=0; aa<hardext.maxtex; aa++) {
-            client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+            client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+            p = GetP(ATT_MULTITEXCOORD0+aa);
             // get 1st enabled target
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if (itarget>=0) {
@@ -1083,26 +1112,32 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
                     TEXTURE(aa);
                     gles_glEnable(GL_TEXTURE_2D);
                 }
-                if (glstate->vao->tex_coord_array[aa]) {
+                if (p->enabled) {
                     TEXTURE(aa);
                     int changes = tex_setup_needchange(itarget);
                     if(changes && !len) len = len_indices(sindices, iindices, count);
-                    tex_setup_texcoord(len, changes, itarget);
+                    tex_setup_texcoord(len, changes, itarget, p);
                 } else
                     gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-            } else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
+            } else if (glstate->clientstate[ATT_MULTITEXCOORD0+aa] && hardext.esversion!=1) {
                 // special case on GL2, Tex disable but CoordArray enabled...
                 TEXTURE(aa);
                 int changes = tex_setup_needchange(ENABLED_TEX2D);
                 if(changes && !len) len = len_indices(sindices, iindices, count);
-                tex_setup_texcoord(len, changes, ENABLED_TEX2D);
+                tex_setup_texcoord(len, changes, ENABLED_TEX2D, p);
             }
         }
+        #undef GetP
         if (glstate->texture.client!=old_tex)
             TEXTURE(old_tex);
 
         // POLYGON mode as LINE is "intercepted" and drawn using list
-        gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
+        gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, buffered?0:(sindices?((void*)sindices):((void*)iindices)));
+
+        if(buffered) {
+            gl4es_use_scratch_vertex(0);
+            gl4es_use_scratch_indices(0);
+        }
 
         for (int aa=0; aa<hardext.maxtex; aa++) {
             if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
@@ -1383,54 +1418,84 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 			mode = GL_TRIANGLE_FAN;
 			
 		if (glstate->render_mode == GL_SELECT) {
-			select_glDrawArrays(&glstate->vao->pointers.vertex, mode, first, count);
+			select_glDrawArrays(&glstate->vao->pointers[ATT_VERTEX], mode, first, count);
 		} else {
             realize_textures();
             
             GLuint old_tex = glstate->texture.client;
 
-            // setup the Array Pointers
-            client_state(color_array, GL_COLOR_ARRAY, );    
-            if (glstate->vao->color_array)
-                gles_glColorPointer(glstate->vao->pointers.color.size, glstate->vao->pointers.color.type, glstate->vao->pointers.color.stride, glstate->vao->pointers.color.pointer);
-            if(hardext.esversion>1) {
-                client_state(secondary_array, GL_SECONDARY_COLOR_ARRAY, );
-                if (glstate->vao->secondary_array)
-                    fpe_glSecondaryColorPointer(glstate->vao->pointers.secondary.size, glstate->vao->pointers.secondary.type, glstate->vao->pointers.secondary.stride, glstate->vao->pointers.secondary.pointer);
-            }
-            client_state(normal_array, GL_NORMAL_ARRAY, );
-            if (glstate->vao->normal_array)
-                gles_glNormalPointer(glstate->vao->pointers.normal.type, glstate->vao->pointers.normal.stride, glstate->vao->pointers.normal.pointer);
-            client_state(vertex_array, GL_VERTEX_ARRAY, );
-            if (glstate->vao->vertex_array)
-                gles_glVertexPointer(glstate->vao->pointers.vertex.size, glstate->vao->pointers.vertex.type, glstate->vao->pointers.vertex.stride, glstate->vao->pointers.vertex.pointer);
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+            int buffered = glstate->vao->locked_mapped;
+            if (buffered) {
+                // new check to see if texture are ok...
+                for (int aa=0; aa<hardext.maxtex && buffered; aa++) {
+                    client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                    if(glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) {
+                        TEXTURE(aa);
+                        const GLint itarget = get_target(glstate->enable.texture[aa]);
+                        if(itarget>=0)
+                            if(tex_setup_needchange(itarget))
+                                buffered = 0;
+                    }
+                }
+            }
+            if(buffered)
+                gl4es_use_scratch_vertex(1);
+            pointer_state_t *p;
+            #define GetP(A) (buffered)?(&glstate->vao->locked_pointers[A]):(&glstate->vao->pointers[A])
+
+            // setup the Array Pointers
+            client_state(ATT_COLOR, GL_COLOR_ARRAY, ); 
+            p = GetP(ATT_COLOR);
+            if (p->enabled)
+                gles_glColorPointer(p->size, p->type, p->stride, p->pointer);
+            if(hardext.esversion>1) {
+                client_state(ATT_SECONDARY, GL_SECONDARY_COLOR_ARRAY, );
+                p = GetP(ATT_SECONDARY);
+                if (p->enabled)
+                    fpe_glSecondaryColorPointer(p->size, p->type, p->stride, p->pointer);
+            }
+            client_state(ATT_NORMAL, GL_NORMAL_ARRAY, );
+            GetP(ATT_NORMAL);
+            if (p->enabled)
+                gles_glNormalPointer(p->type, p->stride, p->pointer);
+            client_state(ATT_VERTEX, GL_VERTEX_ARRAY, );
+            GetP(ATT_VERTEX);
+            if (p->enabled)
+                gles_glVertexPointer(p->size, p->type, p->stride, p->pointer);
+
             for (int aa=0; aa<hardext.maxtex; aa++) {
-                client_state(tex_coord_array[aa], GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 // get 1st enabled target
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
                 if(itarget>=0) {
+                    p = GetP(ATT_MULTITEXCOORD0+aa);
                     if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                         TEXTURE(aa);
                         gles_glEnable(GL_TEXTURE_2D);
                     }
-                    if (glstate->vao->tex_coord_array[aa]) {
+                    if (p->enabled) {
                         TEXTURE(aa);
                         int changes = tex_setup_needchange(itarget);
-                        tex_setup_texcoord(count+first, changes, itarget);
+                        tex_setup_texcoord(count+first, changes, itarget, p);
                     } else
                         gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-                }  else if (glstate->clientstate.tex_coord_array[aa] && hardext.esversion!=1) {
+                }  else if (glstate->clientstate[ATT_MULTITEXCOORD0+aa] && hardext.esversion!=1) {
+                    p = GetP(ATT_MULTITEXCOORD0+aa);
                     // special case on GL2, Tex disable but CoordArray enabled...
                     TEXTURE(aa);
                     int changes = tex_setup_needchange(itarget);
-                    tex_setup_texcoord(count+first, changes, ENABLED_TEX2D);
+                    tex_setup_texcoord(count+first, changes, ENABLED_TEX2D, p);
                 }
             }
+            #undef GetP
             if (glstate->texture.client!=old_tex)
                 TEXTURE(old_tex);
 
 			gles_glDrawArrays(mode, first, count);
+
+            if(buffered)
+                gl4es_use_scratch_vertex(0);
 			
             for (int aa=0; aa<hardext.maxtex; aa++) {
                 const GLint itarget = get_target(glstate->enable.texture[aa]);
@@ -1641,7 +1706,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShim();
-    clone_gl_pointer(glstate->vao->pointers.vertex, size);
+    clone_gl_pointer(glstate->vao->pointers[ATT_VERTEX], size);
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
@@ -1650,11 +1715,11 @@ void gl4es_glColorPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShim();
-    clone_gl_pointer(glstate->vao->pointers.color, size);
+    clone_gl_pointer(glstate->vao->pointers[ATT_COLOR], size);
 }
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     noerrorShim();
-    clone_gl_pointer(glstate->vao->pointers.normal, 3);
+    clone_gl_pointer(glstate->vao->pointers[ATT_NORMAL], 3);
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
@@ -1663,7 +1728,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShim();
-    clone_gl_pointer(glstate->vao->pointers.tex_coord[glstate->texture.client], size);
+    clone_gl_pointer(glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client], size);
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
@@ -1671,11 +1736,11 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
         errorShim(GL_INVALID_VALUE);
 		return;		// Size must be 3...
     }
-    clone_gl_pointer(glstate->vao->pointers.secondary, size);
+    clone_gl_pointer(glstate->vao->pointers[ATT_SECONDARY], size);
     noerrorShim();
 }
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
-    clone_gl_pointer(glstate->vao->pointers.fog, 1);
+    clone_gl_pointer(glstate->vao->pointers[ATT_FOGCOORD], 1);
     noerrorShim();
 }
 
@@ -2074,8 +2139,8 @@ void gl4es_glArrayElement(GLint i) {
     pointer_state_t *p;
     glvao_t* vao = glstate->vao;
     int stride, size;
-    if (vao->color_array) {
-        p = &vao->pointers.color;
+    p = &vao->pointers[ATT_COLOR];
+    if (p->enabled) {
         size = p->size; stride = p->stride;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
@@ -2111,8 +2176,8 @@ void gl4es_glArrayElement(GLint i) {
             gl4es_glColor4fv(v);
         }
     }
-    if (vao->secondary_array) {
-        p = &vao->pointers.secondary;
+    p = &vao->pointers[ATT_SECONDARY];
+    if (p->enabled) {
         v = gl_pointer_index(p, i);
         GLfloat scale = 1.0f/gl_max_value(p->type);
 
@@ -2122,8 +2187,8 @@ void gl4es_glArrayElement(GLint i) {
         }
         gl4es_glSecondaryColor3fv(v);
     }
-    if (vao->normal_array) {
-        p = &vao->pointers.normal;
+    p = &vao->pointers[ATT_NORMAL];
+    if (p->enabled) {
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
             size = p->size; stride = p->stride;
@@ -2136,8 +2201,8 @@ void gl4es_glArrayElement(GLint i) {
         }
         gl4es_glNormal3fv(v);
     }
-    if (vao->tex_coord_array[0]) {
-        p = &vao->pointers.tex_coord[0];
+    p = &vao->pointers[ATT_MULTITEXCOORD0];
+    if (p->enabled) {
         size = p->size; stride = p->stride;
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
@@ -2154,8 +2219,8 @@ void gl4es_glArrayElement(GLint i) {
             gl4es_glTexCoord4fv(v);
     }
     for (int a=1; a<vao->maxtex; a++) {
-	    if (vao->tex_coord_array[a]) {
-	        p = &vao->pointers.tex_coord[a];
+        p = &vao->pointers[ATT_MULTITEXCOORD0+a];
+	    if (p->enabled) {
             size = p->size; stride = p->stride;
             // special fast case for easy stuff...
             if(p->type==GL_FLOAT) {
@@ -2172,8 +2237,8 @@ void gl4es_glArrayElement(GLint i) {
                 gl4es_glMultiTexCoord4fv(GL_TEXTURE0+a, v);
 	    }
     }
-    if (vao->vertex_array) {
-        p = &vao->pointers.vertex;
+    p = &vao->pointers[ATT_VERTEX];
+    if (p->enabled) {
         // special fast case for easy stuff...
         if(p->type==GL_FLOAT) {
             if(p->stride)
@@ -2198,12 +2263,15 @@ void glArrayElement(GLint i) AliasExport("gl4es_glArrayElement");
 // so I can build a renderlist_t on the first call and hold onto it
 // maybe I need a way to call a renderlist_t with (first, count)
 void gl4es_glLockArrays(GLint first, GLsizei count) {
-    glstate->list.locked = true;
+    glstate->vao->locked = true;
+    glstate->vao->first = first;
+    glstate->vao->count = count;
     noerrorShim();
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
 void gl4es_glUnlockArrays() {
-    glstate->list.locked = false;
+    glstate->vao->locked = false;
+
     noerrorShim();
 }
 void glUnlockArraysEXT() AliasExport("gl4es_glUnlockArrays");
@@ -2617,6 +2685,44 @@ void gl4es_scratch(int alloc) {
     }
 }
 
+void gl4es_scratch_vertex(int alloc) {
+    LOAD_GLES(glBufferData);
+    LOAD_GLES(glBindBuffer);
+    LOAD_GLES(glGenBuffers);
+    if(!glstate->scratch_vertex) {
+        glGenBuffers(1, &glstate->scratch_vertex);
+    }
+    gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
+    if(glstate->scratch_vertex_size < alloc) {
+        gles_glBufferData(GL_ARRAY_BUFFER, alloc, NULL, GL_DYNAMIC_DRAW);
+        glstate->scratch_vertex_size = alloc;
+    }
+}
+
+void gl4es_use_scratch_vertex(int use) {
+    LOAD_GLES(glBindBuffer);
+    gles_glBindBuffer(GL_ARRAY_BUFFER, use?glstate->scratch_vertex:0);
+}
+
+void gl4es_scratch_indices(int alloc) {
+    LOAD_GLES(glBufferData);
+    LOAD_GLES(glBindBuffer);
+    LOAD_GLES(glGenBuffers);
+    if(!glstate->scratch_indices) {
+        glGenBuffers(1, &glstate->scratch_indices);
+    }
+    gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->scratch_indices);
+    if(glstate->scratch_indices_size < alloc) {
+        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, alloc, NULL, GL_DYNAMIC_DRAW);
+        glstate->scratch_indices_size = alloc;
+    }
+}
+
+void gl4es_use_scratch_indices(int use) {
+    LOAD_GLES(glBindBuffer);
+    gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, use?glstate->scratch_indices:0);
+}
+
 #ifdef AMIGAOS4
 void amiga_pre_swap() {
     if (glstate->list.active){
@@ -2640,3 +2746,80 @@ void amiga_post_swap() {
 
 }
 #endif
+
+void ToBuffer(int first, int count) {
+    if(globals4es.usevbo) {
+        int ok = 1;
+        int tcount = count+first;
+        if (!should_intercept_render(GL_TRIANGLES)) ok = 0;
+        if(ok)
+        for (int i=0; i<NB_VA; i++)
+            for (int i=0; i<NB_VA && ok; i++)
+                if(glstate->vao->pointers[i].enabled && !valid_vertex_type(glstate->vao->pointers[i].type))
+                    ok = 0;
+        if (ok) {
+            // try to see if there is a master index....
+            uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
+            int stride = glstate->vao->pointers[ATT_VERTEX].stride;
+            if(stride<16) stride = 0;
+            for (int i=0; i<NB_VA; i++) {
+                if(glstate->vao->pointers[i].enabled) {
+                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                    int nstride = glstate->vao->pointers[i].stride;
+                    if(nstride<16) nstride=0;
+                    if(!stride && nstride) {
+                        stride = nstride;
+                        master = p;
+                    } else if(stride && stride==nstride) {
+                        if ((p>master-stride) && (p<master+stride)) {
+                            if(p<master) master = p;
+                        }
+                    }
+                }
+            }
+            // ok, now we have a "master", let's count the required size
+            int total = stride * tcount;
+            for (int i=0; i<NB_VA; i++) {
+                if(glstate->vao->pointers[i].enabled) {
+                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                    if(!(p>=master && p<master+stride)) {
+                        total += gl_sizeof(glstate->vao->pointers[i].type)*(glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:glstate->vao->pointers[i].size)*tcount;
+                    }
+                }
+            }
+            // now allocate (if needed) the buffer and bind it
+            gl4es_scratch_vertex(total);
+            uintptr_t ptr = 0;
+            // move "master" data if there
+            LOAD_GLES(glBufferSubData);
+            LOAD_GLES(glBindBuffer);
+            if(stride) {
+                gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+first*stride, stride*count, (void*)master);
+                ptr += stride*tcount;
+            }
+            for (int i=0; i<NB_VA; i++) {
+                if(glstate->vao->pointers[i].enabled) {
+                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                    if(!(p>=master && p<master+stride)) {
+                        int size = gl_sizeof(glstate->vao->pointers[i].type)*(glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:glstate->vao->pointers[i].size);
+                        gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+size*first, size*count, glstate->vao->pointers[i].pointer);
+                        glstate->vao->locked_pointers[i].pointer = (void*)ptr;
+                        ptr+=size*tcount;
+                    } else {
+                        glstate->vao->locked_pointers[i].pointer = (void*)(((uintptr_t)glstate->vao->pointers[i].pointer)-master);
+                    }
+                    glstate->vao->locked_pointers[i].type = glstate->vao->pointers[i].type;
+                    glstate->vao->locked_pointers[i].size = glstate->vao->pointers[i].size;
+                    glstate->vao->locked_pointers[i].stride = glstate->vao->pointers[i].stride;
+//printf("BindBuffers %d = %p %sx%d (%d)\n", i, glstate->vao->locked_pointers[i].pointer, PrintEnum(glstate->vao->locked_pointers[i].type), glstate->vao->locked_pointers[i].size, glstate->vao->locked_pointers[i].stride);
+                }
+                glstate->vao->locked_pointers[i].enabled = glstate->vao->pointers[i].enabled;
+            }
+//printf("BindBuffers (fist=%d, count=%d) vertex = %p %sx%d (%d)\n", first, count, glstate->vao->locked_pointers[ATT_VERTEX].pointer, PrintEnum(glstate->vao->locked_pointers[ATT_VERTEX].type), glstate->vao->locked_pointers[ATT_VERTEX].size, glstate->vao->locked_pointers[ATT_VERTEX].stride);
+            // unbind the buffer
+            gl4es_use_scratch_vertex(0);
+            // All done!
+            glstate->vao->locked_mapped = true;
+        }
+    }
+}
