@@ -399,6 +399,31 @@ void gl_init() {
     ActivateGLState(default_glstate);
 }
 
+int adjust_vertices(GLenum mode, int nb) {
+    switch (mode) {
+        case GL_POINTS:
+            return nb;
+        case GL_LINES: // 2 points per elements
+            return nb-(nb%2);
+        case GL_LINE_STRIP: // at least 2 points
+        case GL_LINE_LOOP:
+            return (nb>1)?nb:0;
+        case GL_TRIANGLES:  // 3 points per elements
+            return nb-(nb%3);
+        case GL_TRIANGLE_FAN:
+        case GL_TRIANGLE_STRIP: // at least 3 points
+            return (nb>2)?nb:0;
+        case GL_QUADS:  // 4 points per elements
+            return nb-(nb%4);
+        case GL_QUAD_STRIP: // at least 4, the 2 per elements
+            return (nb>4)?(nb-(nb%2)):0;
+        case GL_POLYGON:   // at least 3
+            return (nb>2)?nb:0;
+        default:
+            return nb;  // meh?
+    }
+}
+
 static void gl_changetex(int n)
 {
     if(glstate->bound_changed < n+1)
@@ -1093,8 +1118,7 @@ static void glDrawElementsCommon(GLenum mode, GLsizei count, GLuint len, const G
 
 void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
 //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0);
-    if (mode == GL_QUADS) while(count%4) count--;
-    else if (mode == GL_TRIANGLES) while(count%3) count--;
+    count = adjust_vertices(mode, count);
     
     if (count<0) {
 		errorShim(GL_INVALID_VALUE);
@@ -1180,8 +1204,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
-    if (mode == GL_QUADS) while(count%4) count--;
-    else if (mode == GL_TRIANGLES) while(count%3) count--;
+    count = adjust_vertices(mode, count);
     
     if (count<0) {
 		errorShim(GL_INVALID_VALUE);
@@ -1264,8 +1287,7 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
 
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
-    if (mode == GL_QUADS) while(count%4) count--;
-    else if (mode == GL_TRIANGLES) while(count%3) count--;
+    count = adjust_vertices(mode, count);
 
 	if (count<0) {
 		errorShim(GL_INVALID_VALUE);

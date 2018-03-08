@@ -1475,6 +1475,11 @@ void FASTMATH rlVertex4fv(renderlist_t *list, GLfloat* v) {
 }
 
 void rlEnd(renderlist_t *list) {
+    // adjust number of vertex, to remove extra vertex
+    int adj = list->len - list->cur_istart;
+    adj -= adjust_vertices(list->merger_mode?list->merger_mode:list->mode_init, adj);
+    list->len -= adj;
+
     if(list->indices && list->merger_mode) {
         // also feed the indices...
         int istart = list->cur_istart;

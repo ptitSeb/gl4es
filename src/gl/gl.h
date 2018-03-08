@@ -429,6 +429,8 @@ const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index);
 
 void flush();
 
+int adjust_vertices(GLenum mode, int nb);
+
 #include "glstate.h"
 extern glstate_t *glstate;
 
