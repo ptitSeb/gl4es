@@ -1693,6 +1693,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->alpha = true;
             tex->compressed = false;
             tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+            tex->wrap_s = tex->wrap_t = GL_REPEAT;
             tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;

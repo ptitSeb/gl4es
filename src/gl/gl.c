@@ -137,6 +137,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         tex->alpha = true;
         tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
         tex->mag_filter = GL_LINEAR;
+        tex->wrap_s = tex->wrap_t = GL_REPEAT;
         tex->fpe_format = FPE_TEX_RGBA;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
