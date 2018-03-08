@@ -854,14 +854,17 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     LOAD_GLES(glTexParameteri);
     int forceclamp = 0;
     {
-        GLsizei nheight = (hardext.npot==2)?height:npot(height), nwidth = (hardext.npot==2)?width:npot(width);
-        if((hardext.npot==1 && ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3)))
+        GLsizei nheight = (hardext.npot==2)?height:npot(height);
+        GLsizei nwidth = (hardext.npot==2)?width:npot(width);
+        if(nheight!=height || nwidth!=width)
+            if( (hardext.npot==1 && 
+                ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3)))
             || (glstate->filterpostupload==0 && hardext.esversion>1 && hardext.npot==1 && !bound->mipmap_auto && wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t) && minmag_npot(bound->min_filter) && minmag_npot(bound->mag_filter)) )
-        {
-            nheight = height;
-            nwidth = width;
-            forceclamp = 1;
-        }
+            {
+                nheight = height;
+                nwidth = width;
+                forceclamp = 1;
+            }
 #ifdef PANDORA
 #define NO_1x1
 #endif
