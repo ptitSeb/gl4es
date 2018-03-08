@@ -2573,6 +2573,14 @@ void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean
 }
 void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) AliasExport("gl4es_glColorMask");
 
+void gl4es_glClear(GLbitfield mask) {
+    PUSH_IF_COMPILING(glClear);
+
+    mask &= GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
+    LOAD_GLES(glClear);
+    gles_glClear(mask);
+}
+
 void gl4es_scratch(int alloc) {
     if(glstate->scratch_alloc<alloc) {
         if(glstate->scratch)

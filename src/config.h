@@ -50,6 +50,7 @@
 #define skip_glLogicOp
 
 #define skip_glColorMask
+#define skip_glClear
 
 // fog.c
 #define skip_glFogfv
