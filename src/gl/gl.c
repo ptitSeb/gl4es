@@ -2580,6 +2580,7 @@ void gl4es_glClear(GLbitfield mask) {
     LOAD_GLES(glClear);
     gles_glClear(mask);
 }
+void glClear(GLbitfield mask) AliasExport("gl4es_glClear");
 
 void gl4es_scratch(int alloc) {
     if(glstate->scratch_alloc<alloc) {
