@@ -2,6 +2,14 @@
 #include "pixel.h"
 #include "debug.h"
 
+#ifdef __BIG_ENDIAN__
+#define GL_INT8_REV     GL_UNSIGNED_INT_8_8_8_8
+#define GL_INT8         GL_UNSIGNED_INT_8_8_8_8_REV
+#else
+#define GL_INT8_REV     GL_UNSIGNED_INT_8_8_8_8_REV
+#define GL_INT8         GL_UNSIGNED_INT_8_8_8_8
+#endif
+
 static const colorlayout_t *get_color_map(GLenum format) {
     #define map(fmt, ...)                               \
         case fmt: {                                     \
@@ -72,10 +80,10 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
         type_case(GL_BYTE, GLbyte, read_each(, / 128.0f))
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_INT8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_SHORT, GLubyte, read_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
+        type_case(GL_INT8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_5_6_5_REV, GLushort,
             s = (const GLushort[]) {
                 ((v      ) & 0x1f)<<1,
@@ -148,8 +156,8 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_BYTE, GLbyte, write_each(, * 127.0f))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
+        type_case(GL_INT8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_INT8, GLubyte, write_each(max_a - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -244,10 +252,10 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_INT8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_SHORT, GLushort, read_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
+        type_case(GL_INT8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             s = (const GLushort[]) {
                 ((v >> 11) & 0x1f)<<1,
@@ -289,8 +297,8 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
+        type_case(GL_INT8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_INT8, GLubyte, write_each(max_a - , * 255.0))
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -396,10 +404,10 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_INT8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_SHORT, GLushort, read_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
+        type_case(GL_INT8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             for (int ii=0; ii<4; ii++) {
                 s[ii] = (const GLushort[]) {
@@ -447,8 +455,8 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
+        type_case(GL_INT8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_INT8, GLubyte, write_each(max_a - , * 255.0))
        // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -562,10 +570,10 @@ bool quarter_pixel(const GLvoid *src[16],
     switch (src_type) {
         type_case(GL_DOUBLE, GLdouble, read_each(,))
         type_case(GL_FLOAT, GLfloat, read_each(,))
-        case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_INT8_REV:
         type_case(GL_UNSIGNED_BYTE, GLubyte, read_each(, / 255.0f))
         type_case(GL_UNSIGNED_SHORT, GLushort, read_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, read_each(max_a - , / 255.0f))
+        type_case(GL_INT8, GLubyte, read_each(max_a - , / 255.0f))
         type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
             for (int ii=0; ii<4; ii++) {
                 s[ii] = (GLushort[]) {
@@ -613,8 +621,8 @@ bool quarter_pixel(const GLvoid *src[16],
         type_case(GL_FLOAT, GLfloat, write_each(,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0))
         type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, / 65535.0f))
-        type_case(GL_UNSIGNED_INT_8_8_8_8_REV, GLubyte, write_each(, * 255.0))
-        type_case(GL_UNSIGNED_INT_8_8_8_8, GLubyte, write_each(max_a - , * 255.0))
+        type_case(GL_INT8_REV, GLubyte, write_each(, * 255.0))
+        type_case(GL_INT8, GLubyte, write_each(max_a - , * 255.0))
        // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
@@ -669,13 +677,8 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
                    GLenum dst_format, GLenum dst_type, GLuint stride, GLuint align) {
     const colorlayout_t *src_color, *dst_color;
     GLuint pixels = width * height;
-#ifdef __BIG_ENDIAN__
-    if(src_type==GL_UNSIGNED_INT_8_8_8_8) src_type=GL_UNSIGNED_BYTE;
-    if(dst_type==GL_UNSIGNED_INT_8_8_8_8) dst_type=GL_UNSIGNED_BYTE;
-#else
-    if(src_type==GL_UNSIGNED_INT_8_8_8_8_REV) src_type=GL_UNSIGNED_BYTE;
-    if(dst_type==GL_UNSIGNED_INT_8_8_8_8_REV) dst_type=GL_UNSIGNED_BYTE;
-#endif
+    if(src_type==GL_INT8_REV) src_type=GL_UNSIGNED_BYTE;
+    if(dst_type==GL_INT8_REV) dst_type=GL_UNSIGNED_BYTE;
     GLuint dst_size = height * widthalign(width * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width2 = widthalign((stride?stride:width) * pixel_sizeof(dst_format, dst_type), align);
     GLuint dst_width = dst_width2 - (width * pixel_sizeof(dst_format, dst_type));
